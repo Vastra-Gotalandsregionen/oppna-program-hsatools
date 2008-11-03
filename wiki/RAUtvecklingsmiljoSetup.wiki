@@ -8,14 +8,14 @@ Här beskrivs hur man praktiskt kommer igång med ett referensarkitekturprojekt,
 Det här dokumentet beskriver främst sådant som är specifikt för referensarkitekturen och dess källkodsstruktur. Det är inte en generell introduktion till [http://maven.apache.org Maven2] eller [http://www.eclipse.org Eclipse].
 
 == Referenser ==
-  * [0]  Maven2: http://maven.apache.org
-  * [1]  Anvisningar_Källkodsstruktur_Byggsystem.doc
-  * [2]  Anvisningar_Kontinuerlig_Integration.doc
-  * [3]  Anvisningar_Konfigurationshantering.doc
-  * [4]  Anvisningar_Verktyg_Subversion.doc
-  * [5]  JAXB: http://java.sun.com/webservices/jaxb
-  * [6] Eclipse: http://www.eclipse.org
-  * [7] Maven2 Eclipse-plug-in: maven.apache.org/plugins/maven-eclipse-plugin/
+  * Maven2: http://maven.apache.org
+  * Anvisningar_Källkodsstruktur_Byggsystem.doc
+  * Anvisningar_Kontinuerlig_Integration.doc
+  * Anvisningar_Konfigurationshantering.doc
+  * Anvisningar_Verktyg_Subversion.doc
+  * JAXB: http://java.sun.com/webservices/jaxb
+  * Eclipse: http://www.eclipse.org
+  * Maven2 Eclipse-plug-in: maven.apache.org/plugins/maven-eclipse-plugin/
 
 == Versionshantering av artefakter ==
 Beskrivs i `Anvisningar_Konfigurationshantering.doc`.
