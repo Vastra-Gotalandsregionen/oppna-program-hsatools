@@ -1,5 +1,5 @@
 #labels RA,Featured
-= Introduktion =
+= Introduktion till referensarkitekturen =
 
 Denna sida ska ge en snabb introduktion till referensarkitekturen (förkortad RA) och den dokumentation och exempel som finns.
 Främst görs det i form av läsanvisningar och hänvisning till kodexempel.
