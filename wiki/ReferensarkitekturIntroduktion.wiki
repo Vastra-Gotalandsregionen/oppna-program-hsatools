@@ -1,4 +1,5 @@
-#Introduktion till subprojektet Referensarkitektur.
+#labels Referensarkitektur,Featured
+Introduktion till subprojektet Referensarkitektur.
 
 = Introduktion =
 
