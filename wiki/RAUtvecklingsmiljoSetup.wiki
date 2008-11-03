@@ -21,7 +21,10 @@ Det här dokumentet beskriver främst sådant som är specifikt för referensark
 Beskrivs i `Anvisningar_Konfigurationshantering.doc`.
 == Generering av SNAPSHOT-artefakter ==
 Beskrivs i `Anvisningar_Källkodsstruktur_Byggsystem.doc` och `Anvisningar_Kontinuerlig_Integration.doc`.
-= Installation =
+
+= Uppsättning av byggsystem =
+
+== Installation av Maven2 ==
 Gör en standardinstallation enligt [http://maven.apache.org Maven2 dokumentationen]. I korthet innebär det:
   #	ladda ned en distribution från [http://maven.apache.org Maven2] (t.ex. maven-2.0.4-bin.zip)
   #	packa upp den (i t ex ”C:\program”, packa inte upp den i en sökväg som innehåller mellanslag som t ex ”C:\Program Files”)
@@ -74,59 +77,8 @@ mvn deploy
 
 
 
-= Uppladdning av filer till VGR-repot (mvn deploy) =
-== Konfigurationsfiler ==
-Inställningar för Mavens deploy-plugin bestäms av <distributionManagement> elementet i top-nivå pom.xml (direkt under system-nivån i strukturen), t ex:
-{{{
-  <repository>
-    <id>RELEASE_REPO</id>
-    <name>VGR release repo</name>
-    <url>ftp://portalutv/release</url>
-  </repository>
-}}}
-(samt <extensions> för FTP-transporten)
-tillsammans med <servers> elementet i $USER_HOME/.m2/settings.xml, t ex:
-{{{ 
- <servers>
-    <server>
-      <id>RELEASE_REPO</id>
-      <username>vgr_mvn</username>
-      <password>A_SECRET_PASSWORD</password>
-    </server>
-  </servers>
-}}}
-Ref: http://maven.apache.org/plugins/maven-deploy-plugin/
 
-TODO: change this! 
-== Manuell uppladdning av stabil release från projekt ==
-Konfigurera följande username / password i settings.xml enligt _Konfigurationsfiler_ och exekvera följande (antingen på system-nivån eller på verksamhetskomponentnivån, beroende av vilken nivå versionering sker på):
-
-
-TODO: infoga bild
-
-== Manuell uppladdning av tredjepartsbibliotek ==
-  * öppna ett kommandofönster (i vilken fil-katalog som helst)
-  * skriv (på en rad) och kör kommandot:
-
-TODO: bild
-
-där parametrarna {groupId, artifactId, version, file} anpassas efter Maven-konventioner för den fil som ska laddas upp.
-  * verifiera genom att i en web-läsare öppna:
-
-http://portalutv.vgregion.se/maven-proxy/repository/
-
-och se att artefakten finns där den förväntas i repot.
-  * ett beroende till artefakten deklareras sedan som:
-{{{
-<dependencies>
-  <dependency>
-    <groupId>org.codehaus.groovy</groupId>
-    <artifactId>groovy-all</artifactId>
-    <version>1.5.6</version>
-  </dependency>
-</dependencies>
-}}}
-= Verktygsintegrationer =
+= Verktygsintegration Maven2 + Eclipse =
 == Eclipse – Uppsättning per Workspace ==
 Det finns en maven-plugin för att generera J2EE (WTP)-projektfiler för Eclipse, som används enligt nedan (se [7] för mer detaljer kring denna plug-in).
 === Uppgradera installeras maven eclipse-plugin ===
@@ -152,35 +104,11 @@ Skapa en ny variabel på samma sätt som för ”Lägg upp en variabel för Mave
 Name: namn på systemet
 Value: Sökvägen till systemets ”components”-katalog
  
-=== Skapa ett Eclipse-projekt för "CommonPom"-projektet ===
-2008-09-15: Notera att ”CommonPom” inte längre existerar – det räcker att sätta upp en byggkonfiguration enligt nedan för systemnivån (motsvarande den översta pom.xml som finns direkt under system-katalogen).
-TODO: detta ska revideras men står kvar i väntan på en större revision där det beskrivna tillvägagångssättet helt ersätts med m2eclipse-pluginen som erbjuder en bättre integration med eclipse – har dock fortfarande en svaghet/instabilitet vad gäller att få med beroenden för ett web-projekt vid körning med WTP:n i eclipse.
-Skapa ett Eclipse-projekt för "CommonPom"-projektet genom att välja "File">"New Project..." och sedan "General">"Project". Ändra "Location" till katalogen "CommonPom" och döp projektet till "<namn på systemet>CommonPom".
-Håkan: ger felmeddelande eftersom builders är incheckade
-Dessutom gärna någon förklaring till varför man gör det nedan
- 
-=== Lägg upp ett External Tool för att bygga CommonPom ===
-Välj ”Run”>"External Tools">"External Tools Dialog…" och välj ”Program”. Klicka på "New".
- 
-Döp konfigurationen till "Build <namn på systemet> CommonPom". Ange "Location" genom att klicka på knappen "Variables..." och välja "maven_exec". Ange "Working Directory" genom att klicka på "Browse Workspace..." och välja "CommonPom". Ange värdet "clean install" för fältet "Arguments". Spara genom att klicka på "Apply" och "Run".
-
- 
-=== Skapa en bygg-konfiguration för CommonPom-projektet ===
-Skapa en bygg-konfiguration för CommonPom-projektet i Eclipse, genom att öppna projektets "Properties", välja "Builders" och trycka på "Import...". Välj "Build <namn på systemet> CommonPom" i listan som kommer upp och klicka på "Ok". Markera sedan den nya byggkonfigurationen och klicka på "Edit...".
- 
-Gå till fliken "Build Options" och kryssa för "During auto builds".
- 
-Avsluta med ”Ok”.
-Bilden ovan skall bytas ut mot anders bild eftersom vi endast vill bygga systemet när vi ändrat i pomfilen.
 === Lägg upp ett External Tool för att bygga hela systemet ===
-Följ instruktionerna för ”Lägg upp ett External Tool för att bygga CommonPom”, men istället för att skapa en ny konfiguration, kopiera "Build <namn på systemet> CommonPom", som utgångspunkt. 
 
- 
-Byt namn till "Build <namn på systemet> System". Radera innehållet i fältet "Working Directory" och ange nytt genom att klicka på "Variables" och välja variablen för system-roten. 
- 
-Avsluta med "Apply" och "Close".
 === Lägg upp External Tool för att generera Eclipse-artifakter ===
-Generar de filer som krävs för att man skall kunna importera ett befintligt projekt i eclipse. 
+Generar de filer som krävs för att man skall kunna importera ett befintligt projekt i eclipse.
+ 
 Lägg upp ett External Tool för att generera Eclipse-filer för alla projekt i hela systemet. Kopiera denna gång "Build System"-konfigurationen, byt namn till "Generate Eclipse Artifacts for <namn på systemet>" och ändra "Arguments" till "-Dwtpversion=1.5 eclipse:eclipse". 
  
 Växla sedan till fliken ”Refresh” och markera kryssrutan ”Refresh resources upon completion”. Markera därefter alternativet ”The folder containing the selected resource”. Försäkra dig om att kryssrutan ”Recursively include sub-folders” är markerad.
