@@ -81,8 +81,8 @@ mvn deploy
 
 = Verktygsintegration Maven2 + Eclipse =
 == Eclipse – Uppsättning per Workspace ==
-Det finns en maven-plugin för att generera J2EE (WTP)-projektfiler för Eclipse, som används enligt nedan (se [7] för mer detaljer kring denna plug-in).
-=== Uppgradera installeras maven eclipse-plugin ===
+Det finns en [maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera J2EE (WTP)-projektfiler för Eclipse, som används enligt nedan.
+=== Uppgradera installerad maven eclipse-plugin ===
 Kör följande kommando för att säkra att senaste versionen av Mavens eclipse-plugin används framgent. Det är viktigt att göra detta i en tom katalog, exempelvis temp, annars kan projektfiler skrivas över.
 mvn –U eclipse:clean
 === Definiera classpath-variabel för maven-repo ===
