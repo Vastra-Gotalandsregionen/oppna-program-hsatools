@@ -3,7 +3,7 @@
 
 
 = Introduktion =
-Här beskrivs hur man sätter upp sin utvecklingsmiljö för att komma igång med ett nytt eller befintligt referensarkitekturprojekt.
+Här beskrivs hur man praktiskt kommer igång med ett referensarkitekturprojekt, inklusive hur man sätter upp sin utvecklingsmiljö för att kunna utveckla/bygga ett nytt eller befintligt referensarkitekturprojekt och hur maven-pluginen kan användas för att generera nya projekt.
 
 Det här dokumentet beskriver främst sådant som är specifikt för referensarkitekturen och dess källkodsstruktur. Det är inte en generell introduktion till [http://maven.apache.org Maven2] eller [http://www.eclipse.org Eclipse].
 
