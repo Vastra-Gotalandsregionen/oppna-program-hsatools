@@ -5,7 +5,7 @@
 = Introduktion =
 Här beskrivs hur man sätter upp sin utvecklingsmiljö för att komma igång med ett nytt eller befintligt referensarkitekturprojekt.
 
-Det här dokumentet beskriver främst sådant som är specifikt för referensarktikturen och dess källkodsstruktur. Det är inte en generell introduktion till [http://maven.apache.org Maven2] eller [http://www.eclipse.org Eclipse].
+Det här dokumentet beskriver främst sådant som är specifikt för referensarkitekturen och dess källkodsstruktur. Det är inte en generell introduktion till [http://maven.apache.org Maven2] eller [http://www.eclipse.org Eclipse].
 
 == Referenser ==
   * [0]  Maven2: http://maven.apache.org
