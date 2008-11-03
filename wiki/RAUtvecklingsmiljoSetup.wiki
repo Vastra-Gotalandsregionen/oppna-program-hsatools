@@ -6,14 +6,14 @@
 Dokumentet beskriver installation, konfiguration och plugins för byggverktyget Maven2.
 
 == Referenser ==
-[0]  Maven2: http://maven.apache.org
-[1]  Anvisningar_Källkodsstruktur_Byggsystem.doc
-[2]  Anvisningar_Kontinuerlig_Integration.doc
-[3]  Anvisningar_Konfigurationshantering.doc
-[4]  Anvisningar_Verktyg_Subversion.doc
-[5]  JAXB: http://java.sun.com/webservices/jaxb
-[6] Eclipse: http://www.eclipse.org
-[7] Maven2 Eclipse-plug-in: maven.apache.org/plugins/maven-eclipse-plugin/
+  * [0]  Maven2: http://maven.apache.org
+  * [1]  Anvisningar_Källkodsstruktur_Byggsystem.doc
+  * [2]  Anvisningar_Kontinuerlig_Integration.doc
+  * [3]  Anvisningar_Konfigurationshantering.doc
+  * [4]  Anvisningar_Verktyg_Subversion.doc
+  * [5]  JAXB: http://java.sun.com/webservices/jaxb
+  * [6] Eclipse: http://www.eclipse.org
+  * [7] Maven2 Eclipse-plug-in: maven.apache.org/plugins/maven-eclipse-plugin/
 
 
 
@@ -39,10 +39,11 @@ i:
 vilket under WindowsXP blir:
 `C:\Documents and Settings\<USERNAME>\.m2`
 I filen bestämmer du ifall den VGR-interna Maven-proxyn skall användas eller om du vill använda publika Maven-repon direkt genom att välja vilken profil som skall aktiveras:
-  <activeProfiles>
+
+{{{  <activeProfiles>
     <!-- Use either: vgr_onsite OR vgr_offsite -->
     <activeProfile>vgr_offsite</activeProfile>
-
+}}}
 = Maven2 snabbstart =
 == Baskommandon ==
 Här är en kort beskrivning av de vanligaste kommandon som ges till Maven2 (utföras i samma bibliotek som den pom.xml fil som ska användas):
@@ -230,4 +231,3 @@ Skall exekveras i system-nivå katalogen för det befintliga systemet. Den nya v
 
 
 Not: efter skapandet av en ny verksamhetskomponent, kontrollera att versionen på den nya komponenten (default: 1.0-SNAPSHOT) och dess pom.xml parent-relation överensstämmer med det befintliga systemet.
-
