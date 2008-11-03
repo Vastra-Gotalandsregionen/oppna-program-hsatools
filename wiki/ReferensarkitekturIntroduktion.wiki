@@ -1,12 +1,12 @@
 #labels Referensarkitektur,Featured
 = Introduktion =
 
-Denna sida ska ge en snabb introduktion till ReferensArkitekturen (härefter förkortad RA) och den dokumentation och exempel som finns.
+Denna sida ska ge en snabb introduktion till referensarkitekturen (härefter förkortad RA) och den dokumentation och exempel som finns.
 Främst görs det i form av läsanvisningar och hänvisning till kodexempel.
 
 
 = Dokumentationsstruktur = 
-ReferensArkitekturen består av den överordnade logiska modellen (ReferensModellen) samt den implementationsnära Tekniska Arkitekturen.
+ReferensArkitekturen består av den överordnade logiska modellen (_referensmodellen_) samt den implementationsnära _tekniska arkitekturen_.
 Under den tekniska arkitekturen återfinns även dokumentation för systemutvecklingsstöd som inte direkt har med arkitektur att göra men som stödjer den. Här ingår även referensapplikationer och andra kodexempel.
 
 = Läsanvisning = 
