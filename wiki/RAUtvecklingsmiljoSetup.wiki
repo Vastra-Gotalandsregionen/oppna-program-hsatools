@@ -3,7 +3,9 @@
 
 
 = Introduktion =
-Dokumentet beskriver installation, konfiguration och plugins för byggverktyget Maven2.
+Här beskrivs hur man sätter upp sin utvecklingsmiljö för att komma igång med ett nytt eller befintligt referensarkitekturprojekt.
+
+Det här dokumentet beskriver främst sådant som är specifikt för referensarktikturen och dess källkodsstruktur. Det är inte en generell introduktion till [http://maven.apache.org Maven2] eller [http://www.eclipse.org Eclipse].
 
 == Referenser ==
   * [0]  Maven2: http://maven.apache.org
@@ -15,10 +17,6 @@ Dokumentet beskriver installation, konfiguration och plugins för byggverktyget 
   * [6] Eclipse: http://www.eclipse.org
   * [7] Maven2 Eclipse-plug-in: maven.apache.org/plugins/maven-eclipse-plugin/
 
-
-
-= Inledning = 
-Det här dokumentet beskriver främst sådant som är specifikt för den tillämpning av Maven2 som beskrivs i [1]. Det är inte en generell introduktion till Maven2, för en sådan hänvisas till [0].
 == Versionshantering av artefakter ==
 Beskrivs i [3].
 == Generering av SNAPSHOT-artefakter ==
