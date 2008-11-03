@@ -40,7 +40,8 @@ vilket under WindowsXP blir:
 `C:\Documents and Settings\<USERNAME>\.m2`
 I filen bestämmer du ifall den VGR-interna Maven-proxyn skall användas eller om du vill använda publika Maven-repon direkt genom att välja vilken profil som skall aktiveras:
 
-{{{  <activeProfiles>
+{{{  
+<activeProfiles>
     <!-- Use either: vgr_onsite OR vgr_offsite -->
     <activeProfile>vgr_offsite</activeProfile>
 }}}
@@ -50,13 +51,13 @@ Här är en kort beskrivning av de vanligaste kommandon som ges till Maven2 (utf
 Vanligaste användningen är att kombinera dessa argument (”goal” i Maven terminologi):
 
 
-clean: tar bort gamla byggartefakter.
+`clean`: tar bort gamla byggartefakter.
 
 
-install: bygg artefakter och installera i det lokala Maven-repositoriet.
+`install`: bygg artefakter och installera i det lokala Maven-repositoriet.
 
 
-deploy: publicera artefakter (med stabil version, inte med SNAPSHOT-version) till det uppsatta Maven remote-repositoryt. CI-servern ansvarar för att göra deploy av snapshot-versioner så snart källkodsändringarna checkats in. Det kan därmed dröja några minuter innan senaste versionen blir synlig för andra utvecklare. Om detta i ett enskilt fall skulle utgöra ett kritiskt problem, kan kommandot köras direkt från klienten. Detta utgör dock ALLTID en risk, eftersom garanti saknas mot att all källkod är incheckad.
+`deploy`: publicera artefakter (med stabil version, inte med SNAPSHOT-version) till det uppsatta Maven remote-repositoryt. CI-servern ansvarar för att göra deploy av snapshot-versioner så snart källkodsändringarna checkats in. Det kan därmed dröja några minuter innan senaste versionen blir synlig för andra utvecklare. Om detta i ett enskilt fall skulle utgöra ett kritiskt problem, kan kommandot köras direkt från klienten. Detta utgör dock ALLTID en risk, eftersom garanti saknas mot att all källkod är incheckad.
 
 
 
