@@ -18,7 +18,7 @@ Det är lämpligt att först läsa igenom den logiska modellen för att få en k
 == Teknisk arkitektur ==
 För kodexempel hänvisas till referensapplikation(erna) samt övriga kodexempel för specifika aspekter (t ex versionering av WSDL).
 En översikt över kodexempel ges i:
-\ref-systems\readme.txt
+{{{\ref-systems\readme.txt}}}
 
 En översikt med motivationsfaktorer ges i:
   * Teknisk presentation på Callista Developer Conference 2008
