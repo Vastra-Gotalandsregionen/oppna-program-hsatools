@@ -33,7 +33,8 @@ Gör en standardinstallation enligt [http://maven.apache.org Maven2 dokumentatio
   #	testa installationen med 
 {{{
 mvn -verify
-}}} Om allt gått väl, blir resultatet blir en utskriven lista med versionsnummer för Maven, Java VM och operativsystem.
+}}} 
+Om allt gått väl, blir resultatet blir en utskriven lista med versionsnummer för Maven, Java VM och operativsystem.
 
 == Konfiguration ==
 Det behövs bara en konfiguration och det är att placera filen:
