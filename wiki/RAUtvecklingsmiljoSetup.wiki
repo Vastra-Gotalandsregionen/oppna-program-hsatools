@@ -18,16 +18,19 @@ Det här dokumentet beskriver främst sådant som är specifikt för referensark
   * [7] Maven2 Eclipse-plug-in: maven.apache.org/plugins/maven-eclipse-plugin/
 
 == Versionshantering av artefakter ==
-Beskrivs i [3].
+Beskrivs i `Anvisningar_Konfigurationshantering.doc`.
 == Generering av SNAPSHOT-artefakter ==
-Beskrivs i [1] och [2].
+Beskrivs i `Anvisningar_Källkodsstruktur_Byggsystem.doc` och `Anvisningar_Kontinuerlig_Integration.doc`.
 = Installation =
-Gör en standardinstallation enligt [0]. I korthet innebär det:
-  #	ladda ned en distribution från [0] (t.ex. maven-2.0.4-bin.zip)
+Gör en standardinstallation enligt [http://maven.apache.org Maven2 dokumentationen]. I korthet innebär det:
+  #	ladda ned en distribution från [http://maven.apache.org Maven2] (t.ex. maven-2.0.4-bin.zip)
   #	packa upp den (i t ex ”C:\program”, packa inte upp den i en sökväg som innehåller mellanslag som t ex ”C:\Program Files”)
   #	lägg till bin-biblioteket till operativsystemets path-variabel
   #	verifiera att variabeln JAVA_HOME är satt (Maven2 kräver ett installerat JDK)  t ex C:\program\jdk1.5.0_08 eller senare.
-  #	testa installationen med  Om allt gått väl, blir resultatet blir en utskriven lista med versionsnummer för Maven, Java VM och operativsystem.
+  #	testa installationen med 
+{{{
+mvn -verify
+}}} Om allt gått väl, blir resultatet blir en utskriven lista med versionsnummer för Maven, Java VM och operativsystem.
 
 == Konfiguration ==
 Det behövs bara en konfiguration och det är att placera filen:
@@ -48,15 +51,25 @@ I filen bestämmer du ifall den VGR-interna Maven-proxyn skall användas eller o
 Här är en kort beskrivning av de vanligaste kommandon som ges till Maven2 (utföras i samma bibliotek som den pom.xml fil som ska användas):
 Vanligaste användningen är att kombinera dessa argument (”goal” i Maven terminologi):
 
-
-`clean`: tar bort gamla byggartefakter.
-
-
-`install`: bygg artefakter och installera i det lokala Maven-repositoriet.
+{{{
+mvn clean install
+}}}
 
 
-`deploy`: publicera artefakter (med stabil version, inte med SNAPSHOT-version) till det uppsatta Maven remote-repositoryt. CI-servern ansvarar för att göra deploy av snapshot-versioner så snart källkodsändringarna checkats in. Det kan därmed dröja några minuter innan senaste versionen blir synlig för andra utvecklare. Om detta i ett enskilt fall skulle utgöra ett kritiskt problem, kan kommandot köras direkt från klienten. Detta utgör dock ALLTID en risk, eftersom garanti saknas mot att all källkod är incheckad.
+*clean*: tar bort gamla byggartefakter.
+{{{
+mvn clean
+}}}
 
+*install*: bygg artefakter och installera i det lokala Maven-repositoriet.
+{{{
+mvn install
+}}}
+
+*deploy*: publicera artefakter (med stabil version, inte med SNAPSHOT-version) till det uppsatta Maven remote-repositoryt. CI-servern ansvarar för att göra deploy av snapshot-versioner så snart källkodsändringarna checkats in. Det kan därmed dröja några minuter innan senaste versionen blir synlig för andra utvecklare. Om detta i ett enskilt fall skulle utgöra ett kritiskt problem, kan kommandot köras direkt från klienten. Detta utgör dock ALLTID en risk, eftersom garanti saknas mot att all källkod är incheckad.
+{{{
+mvn deploy
+}}}
 
 
 
