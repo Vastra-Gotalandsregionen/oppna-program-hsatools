@@ -12,17 +12,16 @@ Under den tekniska arkitekturen återfinns även dokumentation för systemutveck
 = Läsanvisning = 
 Det är lämpligt att först läsa igenom den logiska modellen för att få en konceptuell förståelse.
 == Logisk RA ==
-  * Snabb översikt: 'Referensarkitektur_översikt.ppt'
-  * Mer ingående beskrivning: '3R-0009 Anvisning 3R referensarkitekturv2.doc'
+  * Snabb översikt: `Referensarkitektur_översikt.ppt`
+  * Mer ingående beskrivning: `3R-0009 Anvisning 3R referensarkitekturv2.doc`
 
 == Teknisk arkitektur ==
 För kodexempel hänvisas till referensapplikation(erna) samt övriga kodexempel för specifika aspekter (t ex versionering av WSDL).
 En översikt över kodexempel ges i:
-'\ref-systems\readme.txt'
+`\ref-systems\readme.txt`
 
-En översikt med motivationsfaktorer ges i:
-  * 'Teknisk presentation på Callista Developer Conference 2008'
+En översikt med motivationsfaktorer ges i: `Teknisk presentation på Callista Developer Conference 2008`
  
 = Dokumentationsöversikt= 
 Se Excel-ark:
-'RefArk-Introduktion-DokumentLista.xls'
+`RefArk-Introduktion-DokumentLista.xls`
