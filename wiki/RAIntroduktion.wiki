@@ -9,7 +9,9 @@ Främst görs det i form av läsanvisningar och hänvisning till kodexempel.
 
 En referensarkitektur är en abstrakt arkitektur som används som en mall för att skapa konkreta arkitekturer. Referensarkitekturen innehåller principer och guidelines som bestämmer hur system skall designas.
 
-Referensarkitekturen utgår ifrån en vision och ett antal krav som utgör motivet för arkitekturen. Den består av en logisk _referensmodell_ som tillför ett gemensamt vokabulär för att prata om arkitektur. Referensmodellen definierar de begrepp vi använder när vi pratar om konkreta arkitekturer, samt hur dessa begrepp får relatera till varandra. T ex vad innebär begreppet "system" och "komponent". 
+Referensarkitekturen utgår ifrån en vision och ett antal krav som utgör motivet för arkitekturen. Den består av en logisk _referensmodell_ och en _teknisk _arkitektur_. 
+
+Referensmodellen definierar ett gemensamt vokabulär för att prata om arkitektur, t ex vad innebär begreppet "system" och "komponent". Referensmodellen definierar de begrepp vi använder när vi pratar om konkreta arkitekturer, samt hur dessa begrepp får relatera till varandra.  
 
 Den _tekniska arkitekturen_ innehåller riktlinjer för hur den logiska referesmodellen konkret skall implementeras. 
 
