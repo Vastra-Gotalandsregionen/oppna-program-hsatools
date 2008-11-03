@@ -1,6 +1,4 @@
 #labels Referensarkitektur,Featured
-Introduktion till subprojektet Referensarkitektur.
-
 = Introduktion =
 
 Add your content here.
