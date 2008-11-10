@@ -110,6 +110,8 @@ Name: ”maven_exec”
 Value: Leta upp mvn.bat. Exempelvis under: C:\Program\maven\maven-2.0.7\bin\mvn.bat
 Description: ”Maven 2 executable”
 
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_newStringSubstitution.png
+
 
 === Definiera variabel för system-roten ===
 Skapa en ny variabel på samma sätt som för ”Lägg upp en variabel för Maven-programmet”, men denna gång med följande värden:
