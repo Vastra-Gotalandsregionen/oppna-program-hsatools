@@ -83,24 +83,26 @@ mvn –U eclipse:clean
 
 TODO: Ovanstående ger felmeddelande. 
 === Definiera classpath-variabel för maven-repo ===
-Starta Eclipse mot det workspace som kommer att användas för systemet och välj ”Window”>”Preferences” och välj ”Java”>”Builpath”>”Classpath Variables”. Klicka på ”New…” och lägg till variabeln ”M2_REPO”. Den ska peka ut katalogen ”<min hemkatalog>/.m2/repository”
+Starta Eclipse mot det workspace som kommer att användas för systemet och öppna ”Window”>”Preferences”. Välj ”Java”>”Build Path”>”Classpath Variables”. Klicka på ”New…” och lägg till variabeln ”M2_REPO”. Den ska peka ut katalogen ”<min hemkatalog>/.m2/repository”
  
 === Lägg upp en variabel för Maven-programmet ===
- I ”Window” > ”Preferences”. Välj sedan ”Run/Debug”>”String Substitution”:
+ Öppna ”Window” > ”Preferences”. Välj sedan ”Run/Debug”>”String Substitution”:
  
 Klicka på ”New…” och ange följande information i fälten:
  
 Name: ”maven_exec”
 Value: Leta upp mvn.bat. Exempelvis under: C:\Program\maven\maven-2.0.7\bin\mvn.bat
 Description: ”Maven 2 executable”
-== Eclipse – uppsättning av nytt System ==
-Vi utgår här från en existerande maven-baserad projektstruktur för ett System, med minst en Verksamhetskomponent, enligt [1]. Ett skelett för en dylik struktur, kan skapas m. h. a. den mall-generereringsplug-in som beskrivs i avsnittet om javg-template-plugin.
 
-Checka ut koden i d:/svn/[projektnamn]/trunk
+== Importera ett befintligt system i Eclipse ==
+Vi utgår här från en existerande maven-baserad projektstruktur för ett System, med minst en Verksamhetskomponent. Ett skelett för en dylik struktur, kan skapas m. h. a. den mall-generereringsplug-in som beskrivs i avsnittet om javg-template-plugin.
+
+Checka ut källkoden, t ex till d:/svn/[projektnamn]/trunk
 === Definiera variabel för system-roten ===
 Skapa en ny variabel på samma sätt som för ”Lägg upp en variabel för Maven-programmet”, men denna gång med följande värden:
 Name: namn på systemet
-Value: Sökvägen till systemets ”components”-katalog
+~~Value: Sökvägen till systemets ”components”-katalog~~
+Value: Sökvägen till trunk.
  
 === Lägg upp ett External Tool för att bygga hela systemet ===
 
