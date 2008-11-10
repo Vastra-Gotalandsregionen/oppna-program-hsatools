@@ -78,9 +78,9 @@ Målet är att etablera en Eclipse-integration så att Mavens pom-xml-filer kan 
 
 Efter att integrationen för ett system är genomförd, gäller dock några regler:
 
-* Projekt-inställningarna (Project Properties) får inte användas för att upprätta beroenden mellan projekt eller till externa bibliotek. Det gäller även WTP-specifika beroendeinställningar. Detta görs uteslutande genom editering av Mavens pom.xml-filer.
+  * Projekt-inställningarna (Project Properties) får inte användas för att upprätta beroenden mellan projekt eller till externa bibliotek. Det gäller även WTP-specifika beroendeinställningar. Detta görs uteslutande genom editering av Mavens pom.xml-filer.
  
-* Maven-bygge måste köras innan något checkas in i versionshanteringssystemet. Det görs enklast genom att köra det ”External Tool” i Eclipse som satts upp för just detta ändamål; _Build <Namn på systemet>System_. 
+  * Maven-bygge måste köras innan något checkas in i versionshanteringssystemet. Det görs enklast genom att köra det ”External Tool” i Eclipse som satts upp för just detta ändamål; _Build <Namn på systemet>System_. 
 
 Följ instruktionerna nedan för att integrera ett system i Eclipse. 
 
