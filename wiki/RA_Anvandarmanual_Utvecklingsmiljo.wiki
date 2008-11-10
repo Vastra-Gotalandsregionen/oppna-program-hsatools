@@ -105,6 +105,9 @@ Name: namn på systemet
 Value: Sökvägen till trunk.
  
 === Lägg upp ett External Tool för att bygga hela systemet ===
+Välj "Run"->"External Tools"->"External Tools Configurations...".
+
+
 
 === Lägg upp External Tool för att generera Eclipse-artifakter ===
 Generar de filer som krävs för att man skall kunna importera ett befintligt projekt i eclipse.
