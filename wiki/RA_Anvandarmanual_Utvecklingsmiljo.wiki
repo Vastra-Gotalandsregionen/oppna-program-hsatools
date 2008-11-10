@@ -2,7 +2,7 @@
 #labels RA
 
 = Introduktion =
-Här beskrivs hur man praktiskt kommer igång med ett referensarkitekturprojekt, inklusive hur man sätter upp sin utvecklingsmiljö för att kunna utveckla/bygga ett nytt eller befintligt referensarkitektur-system eller komponent och hur maven-pluginen kan användas för att generera nya system och komponenter.
+Här beskrivs hur man praktiskt kommer igång med ett referensarkitekturprojekt, inklusive hur man sätter upp sin utvecklingsmiljö för att kunna utveckla och bygga ett referensarkitektur-system med en eller flera verksamhetskomponenter samt hur den RA-specifika maven-pluginen kan användas för att generera nya system och verksamhetskomponenter.
 
 Det här dokumentet beskriver främst sådant som är specifikt för referensarkitekturen och dess källkodsstruktur. Det är inte en generell introduktion till [http://maven.apache.org Maven2] eller [http://www.eclipse.org Eclipse].
 
@@ -18,7 +18,7 @@ Det här dokumentet beskriver främst sådant som är specifikt för referensark
 
 = Steg 1 - Installation och uppsättning av byggsystem =
 
-Som byggsystem för RA-projekt används Maven2 (maven-2.0.4 eller senare). Följande sektion beskriver kort hur man installerar och kommer igång med Maven2. Har du redan Maven2 installerat kan du hoppa till _Steg 2 - Verktygsintegration Maven2 + Eclipse_. 
+Som byggsystem för RA-projekt används Maven2 (maven-2.0.4 eller senare). Följande sektion beskriver kort hur man installerar och kommer igång med Maven2. Har du redan Maven2 installerat kan du hoppa till _Steg 2_. 
 
 == Installation av Maven2 ==
 Gör en standardinstallation enligt [http://maven.apache.org Maven2 dokumentationen]. I korthet innebär det:
@@ -74,7 +74,13 @@ mvn deploy
 
 
 = Steg 2 - Sätta upp projekten i Eclipse =
-Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera Java EE (WTP)-projektfiler för Eclipse, som används för att integrera maven med Eclipse enligt nedan (i avvaktan på att Eclipse-pluginen m2clipse skall bli tillräckligt stabil för att kunna användas). 
+Målet är att etablera en Eclipse-integration så att Mavens pom-xml-filer kan vara ”master” för alla beroenden, men att vi ändå kan använda Eclipse fullt ut, med de handgrepp vi är vana vid. Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera Java EE (WTP)-projektfiler för Eclipse, som används för att integrera maven med Eclipse enligt nedan (i avvaktan på att Eclipse-pluginen m2clipse skall bli tillräckligt stabil för att kunna användas). 
+
+Efter att integrationen för ett system är genomförd, gäller dock några regler:
+* Projekt-inställningarna (Project Properties) får inte användas för att upprätta beroenden mellan projekt eller till externa bibliotek. Det gäller även WTP-specifika beroendeinställningar. Detta görs uteslutande genom editering av Mavens pom.xml-filer. 
+* Maven-bygge måste köras innan något checkas in i versionshanteringssystemet. Det görs enklast genom att köra det ”External Tool” i Eclipse som satts upp för just detta ändamål; _Build <Namn på systemet>System_. 
+
+Följ instruktionerna nedan för att integrera ett system i Eclipse. 
 
 == Importera ett system till Eclipse ==
 
@@ -87,6 +93,32 @@ Kör följande kommando för att säkra att senaste versionen av Mavens eclipse-
 mvn –U eclipse:clean
 
 TODO: Ovanstående ger felmeddelande. Kan man inte göra detta då man kör eclipse:eclipse första gången istället? 
+
+=== Bygg projekten med Maven 2 ===
+=== Skapa projektstrukturen i filsystemet ===
+Lägg upp de nya projekten och deras respektive pom.xml i filsystemet, i enlighet med [1] . Använd med fördel template-plugin:en (se nedan) om det är en hel verksamhetskomponent som ska skapas.
+=== Generera Eclipse-artifakter ===
+I Eclipse, klicka på pilen tillhöger om ikonen för externa verktyg (ikonen är en grön pil med väska). Välj "Build <namn på systemet> System". 
+ 
+Kontrollera i konsolen att allt gått bra. Kör sedan - på samma sätt - "Generate Eclipse Artifacts For <namn på systemet>".
+=== Importera projekt till Eclipse ===
+Importera de nya projekten till ditt Eclipse workspace, genom att välja "File">"Import..." och sedan "General">"Existing Projects into Workspace". Efter importen – byt perspektiv till ”J2EE”, om det inte redan gjorts.  
+Projekten finns under components. Så markera componentskatalogen och välj den så får man upp alla projekt:
+D:\svn\[projektnamn]\trunk\components
+Förändra inga projektberoenden, utan tryck ”Finish” direkt, istället för ”Next”.
+
+=== Skapa byggkonfigurationer för importerade projekt ===
+Följ info från Anders bilder istället. 
+Detta är samma procedur som för momentet Skapa en bygg-konfiguration för CommonPom-projektet, så när som på att det är "Generate Eclipse Artifacts For <namn på systemet>" som ska importeras, istället för "Build <namn på systemet> CommonPom", samt att nya byggkonfigurationen flyttas överst i listan, genom upprepade klickningar på knappen "Up".
+ 
+Avsluta med ”Ok”.
+
+
+
+
+
+
+
 
 === Definiera classpath-variabel för maven-repo ===
 Starta Eclipse mot det workspace som kommer att användas för systemet och öppna ”Window”>”Preferences”. Välj ”Java”>”Build Path”>”Classpath Variables”. Klicka på ”New…” och lägg till variabeln ”M2_REPO”. Den ska peka ut katalogen ”<min hemkatalog>/.m2/repository”
@@ -121,33 +153,6 @@ Växla sedan till fliken ”Refresh” och markera kryssrutan ”Refresh resourc
  
 Avsluta med "Apply" och "Close".
 == Eclipse – Uppsättning för nya projekt ==
-Målet är att etablera en Eclipse-integration så att Mavens pom-xml-filer kan vara ”master” för alla beroenden, men att vi ändå kan använda Eclipse fullt ut, med de handgrepp vi är vana vid. 
-Efter att integrationen för ett projekt är genomförd, gäller dock några regler:
--	Projekt-inställningarna (Project Properties) får inte användas för att upprätta beroenden mellan projekt eller till externa bibliotek. Det gäller även WTP-specifika beroendeinställningar. Detta görs uteslutande genom editering av Mavens pom.xml-filer. 
--	Maven-bygge måste köras innan något checkas in i versionshanteringssystemet. Det görs enklast genom att köra det ”External Tool” i Eclipse som satts upp för just detta ändamål. Build <Namn på systemet>System.
-=== Skapa projektstrukturen i filsystemet ===
-Lägg upp de nya projekten och deras respektive pom.xml i filsystemet, i enlighet med [1] . Använd med fördel template-plugin:en (se nedan) om det är en hel verksamhetskomponent som ska skapas.
-=== Generera Eclipse-artifakter ===
-I Eclipse, klicka på pilen tillhöger om ikonen för externa verktyg (ikonen är en grön pil med väska). Välj "Build <namn på systemet> System". 
- 
-Kontrollera i konsolen att allt gått bra. Kör sedan - på samma sätt - "Generate Eclipse Artifacts For <namn på systemet>".
-=== Importera projekt till Eclipse ===
-Importera de nya projekten till ditt Eclipse workspace, genom att välja "File">"Import..." och sedan "General">"Existing Projects into Workspace". Efter importen – byt perspektiv till ”J2EE”, om det inte redan gjorts.  
-Projekten finns under components. Så markera componentskatalogen och välj den så får man upp alla projekt:
-D:\svn\[projektnamn]\trunk\components
-Förändra inga projektberoenden, utan tryck ”Finish” direkt, istället för ”Next”.
-
-=== Skapa byggkonfigurationer för importerade projekt ===
-Följ info från Anders bilder istället. 
-Detta är samma procedur som för momentet Skapa en bygg-konfiguration för CommonPom-projektet, så när som på att det är "Generate Eclipse Artifacts For <namn på systemet>" som ska importeras, istället för "Build <namn på systemet> CommonPom", samt att nya byggkonfigurationen flyttas överst i listan, genom upprepade klickningar på knappen "Up".
- 
-Avsluta med ”Ok”.
-
-
-
-
-
-
 
 
 
