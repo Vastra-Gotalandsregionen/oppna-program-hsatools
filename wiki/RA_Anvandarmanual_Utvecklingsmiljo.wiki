@@ -110,27 +110,30 @@ http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_
 
 Klicka på ”New…” och ange följande information i fälten:
 
-Name: ”maven_exec”
+*Name:* ”maven_exec”
 
-Value: Leta upp mvn.bat. Exempelvis under: C:\Program\maven\maven-2.0.7\bin\mvn.bat
+*Value:* Leta upp mvn.bat. Exempelvis under: C:\Program\maven\maven-2.0.7\bin\mvn.bat
 
-Description: ”Maven 2 executable”
+*Description:* ”Maven 2 executable”
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_NewStringSubstitution.png
 
 
 === Definiera variabel för system-roten ===
 Skapa en ny variabel på samma sätt som för ”Lägg upp en variabel för Maven-programmet”, men denna gång med följande värden:
-Name: namn på systemet
+
+*Name:* namn på systemet
+
 ~~Value: Sökvägen till systemets ”components”-katalog~~
-Value: Sökvägen till trunk-katalogen.
+
+*Value:* Sökvägen till trunk-katalogen.
  
 === Lägg upp ett External Tool för att bygga hela systemet ===
 Välj "Run"->"External Tools"->"External Tools Configurations...". Välj "Program" och klicka på "New":
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_ExternalToolsConfigurations.png
 
-Döp konfigurationen till "Build <namn på systemet> System". Ange "Location" genom att klicka på knappen "Variables..." och välja "maven_exec". Ange "Working Directory" genom att klicka på "BVariables" och välja variabeln för system-roten. 
+Döp konfigurationen till "Build <namn på systemet> System". Ange "Location" genom att klicka på knappen "Variables..." och välja "maven_exec". Ange "Working Directory" genom att klicka på "Variables" och välja variabeln för system-roten. 
 
 === Lägg upp External Tool för att generera Eclipse-artifakter ===
 Generar de filer som krävs för att man skall kunna importera ett befintligt projekt i eclipse.
