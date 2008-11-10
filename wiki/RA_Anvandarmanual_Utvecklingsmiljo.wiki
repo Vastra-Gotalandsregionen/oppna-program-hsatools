@@ -77,7 +77,9 @@ mvn deploy
 Målet är att etablera en Eclipse-integration så att Mavens pom-xml-filer kan vara ”master” för alla beroenden, men att vi ändå kan använda Eclipse fullt ut, med de handgrepp vi är vana vid. Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera Java EE (WTP)-projektfiler för Eclipse, som används för att integrera maven med Eclipse enligt nedan (i avvaktan på att Eclipse-pluginen m2clipse skall bli tillräckligt stabil för att kunna användas). 
 
 Efter att integrationen för ett system är genomförd, gäller dock några regler:
-* Projekt-inställningarna (Project Properties) får inte användas för att upprätta beroenden mellan projekt eller till externa bibliotek. Det gäller även WTP-specifika beroendeinställningar. Detta görs uteslutande genom editering av Mavens pom.xml-filer. 
+
+* Projekt-inställningarna (Project Properties) får inte användas för att upprätta beroenden mellan projekt eller till externa bibliotek. Det gäller även WTP-specifika beroendeinställningar. Detta görs uteslutande genom editering av Mavens pom.xml-filer.
+ 
 * Maven-bygge måste köras innan något checkas in i versionshanteringssystemet. Det görs enklast genom att köra det ”External Tool” i Eclipse som satts upp för just detta ändamål; _Build <Namn på systemet>System_. 
 
 Följ instruktionerna nedan för att integrera ett system i Eclipse. 
