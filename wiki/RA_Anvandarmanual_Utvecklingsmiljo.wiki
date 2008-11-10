@@ -1,7 +1,6 @@
 #summary Sätta upp sin utvecklingsmiljö för RA-projekt.
 #labels RA
 
-
 = Introduktion =
 Här beskrivs hur man praktiskt kommer igång med ett referensarkitekturprojekt, inklusive hur man sätter upp sin utvecklingsmiljö för att kunna utveckla/bygga ett nytt eller befintligt referensarkitektur-system eller komponent och hur maven-pluginen kan användas för att generera nya system och komponenter.
 
@@ -17,12 +16,9 @@ Det här dokumentet beskriver främst sådant som är specifikt för referensark
   * Eclipse: http://www.eclipse.org
   * Maven2 Eclipse-plug-in: maven.apache.org/plugins/maven-eclipse-plugin/
 
-== Versionshantering av artefakter ==
-Beskrivs i `Anvisningar_Konfigurationshantering.doc`.
-== Generering av SNAPSHOT-artefakter ==
-Beskrivs i `Anvisningar_Källkodsstruktur_Byggsystem.doc` och `Anvisningar_Kontinuerlig_Integration.doc`.
+= Steg 1 - Installation och uppsättning av byggsystem =
 
-= Uppsättning av byggsystem =
+Som byggsystem för RA-projekt används Maven2 (maven-2.0.4 eller senare). Följande sektion beskriver kort hur man installerar och kommer igång med Maven2. Har du redan Maven2 installerat kan du hoppa till _Steg 2 - Verktygsintegration Maven2 + Eclipse_. 
 
 == Installation av Maven2 ==
 Gör en standardinstallation enligt [http://maven.apache.org Maven2 dokumentationen]. I korthet innebär det:
@@ -37,13 +33,14 @@ mvn -verify
 Om allt gått väl, blir resultatet blir en utskriven lista med versionsnummer för Maven, Java VM och operativsystem.
 
 == Konfiguration ==
-Det behövs bara en konfiguration och det är att placera filen:
+
+~~Det behövs bara en konfiguration och det är att placera filen:
 `<subversion-repo>\javg\trunk\tools\maven-settings\settings.xml`
 i:
 `$USER_HOME/.m2/`
 vilket under WindowsXP blir:
 `C:\Documents and Settings\<USERNAME>\.m2`
-I filen bestämmer du ifall den VGR-interna Maven-proxyn skall användas eller om du vill använda publika Maven-repon direkt genom att välja vilken profil som skall aktiveras:
+I filen bestämmer du ifall den VGR-interna Maven-proxyn skall användas eller om du vill använda publika Maven-repon direkt genom att välja vilken profil som skall aktiveras:~~
 
 {{{  
 <activeProfiles>
@@ -77,11 +74,9 @@ mvn deploy
 
 
 
-
-
-= Verktygsintegration Maven2 + Eclipse =
+= Steg 2 - Verktygsintegration Maven2 + Eclipse =
 == Eclipse – Uppsättning per Workspace ==
-Det finns en [maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera J2EE (WTP)-projektfiler för Eclipse, som används enligt nedan.
+Det finns en [maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera Java EE (WTP)-projektfiler för Eclipse, som används enligt nedan.
 === Uppgradera installerad maven eclipse-plugin ===
 Kör följande kommando för att säkra att senaste versionen av Mavens eclipse-plugin används framgent. Det är viktigt att göra detta i en tom katalog, exempelvis temp, annars kan projektfiler skrivas över.
 mvn –U eclipse:clean
@@ -172,3 +167,9 @@ Skall exekveras i system-nivå katalogen för det befintliga systemet. Den nya v
 
 
 Not: efter skapandet av en ny verksamhetskomponent, kontrollera att versionen på den nya komponenten (default: 1.0-SNAPSHOT) och dess pom.xml parent-relation överensstämmer med det befintliga systemet.
+
+=Vidare läsning=
+== Versionshantering av artefakter ==
+Beskrivs i `Anvisningar_Konfigurationshantering.doc`.
+== Generering av SNAPSHOT-artefakter ==
+Beskrivs i `Anvisningar_Källkodsstruktur_Byggsystem.doc` och `Anvisningar_Kontinuerlig_Integration.doc`.
