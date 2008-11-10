@@ -80,6 +80,8 @@ Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin
 === Uppgradera installerad maven eclipse-plugin ===
 Kör följande kommando för att säkra att senaste versionen av Mavens eclipse-plugin används framgent. Det är viktigt att göra detta i en tom katalog, exempelvis temp, annars kan projektfiler skrivas över.
 mvn –U eclipse:clean
+
+TODO: Ovanstående ger felmeddelande. 
 === Definiera classpath-variabel för maven-repo ===
 Starta Eclipse mot det workspace som kommer att användas för systemet och välj ”Window”>”Preferences” och välj ”Java”>”Builpath”>”Classpath Variables”. Klicka på ”New…” och lägg till variabeln ”M2_REPO”. Den ska peka ut katalogen ”<min hemkatalog>/.m2/repository”
  
