@@ -1,4 +1,5 @@
 #summary Sätta upp sin utvecklingsmiljö för RA-projekt.
+#labels RA
 
 
 = Introduktion =
