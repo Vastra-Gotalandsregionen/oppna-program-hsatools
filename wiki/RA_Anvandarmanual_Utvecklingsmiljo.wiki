@@ -67,21 +67,27 @@ mvn clean
 mvn install
 }}}
 
-*deploy*: publicera artefakter (med stabil version, inte med SNAPSHOT-version) till det uppsatta Maven remote-repositoryt. CI-servern ansvarar för att göra deploy av snapshot-versioner så snart källkodsändringarna checkats in. Det kan därmed dröja några minuter innan senaste versionen blir synlig för andra utvecklare. Om detta i ett enskilt fall skulle utgöra ett kritiskt problem, kan kommandot köras direkt från klienten. Detta utgör dock ALLTID en risk, eftersom garanti saknas mot att all källkod är incheckad.
+*deploy*: publicera artefakter ~~(med stabil version, inte med SNAPSHOT-version) till det uppsatta Maven remote-repositoryt. CI-servern ansvarar för att göra deploy av snapshot-versioner så snart källkodsändringarna checkats in. Det kan därmed dröja några minuter innan senaste versionen blir synlig för andra utvecklare. Om detta i ett enskilt fall skulle utgöra ett kritiskt problem, kan kommandot köras direkt från klienten. Detta utgör dock ALLTID en risk, eftersom garanti saknas mot att all källkod är incheckad.~~
 {{{
 mvn deploy
 }}}
 
 
+= Steg 2 - Sätta upp projekten i Eclipse =
+Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera Java EE (WTP)-projektfiler för Eclipse, som används för att integrera maven med Eclipse enligt nedan (i avvaktan på att Eclipse-pluginen m2clipse skall bli tillräckligt stabil för att kunna användas). 
 
-= Steg 2 - Verktygsintegration Maven2 + Eclipse =
-== Eclipse – Uppsättning per Workspace ==
-Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera Java EE (WTP)-projektfiler för Eclipse, som används enligt nedan.
+== Importera ett system till Eclipse ==
+
+=== Checka ut källkoden från subversion ===
+Checka ut källkoden från subversion, t ex till d:/svn/[projektnamn]/trunk.
+Not: Vi utgår här från att det finns en existerande maven-baserad projektstruktur för systemet, med minst en verksamhetskomponent. Finns inte detta, dvs om systemet är helt nytt, kan ett skelett för en dylik struktur, skapas m. h. a. den mall-generereringsplug-in som beskrivs i avsnittet om javg-template-plugin.
+
 === Uppgradera installerad maven eclipse-plugin ===
 Kör följande kommando för att säkra att senaste versionen av Mavens eclipse-plugin används framgent. Det är viktigt att göra detta i en tom katalog, exempelvis temp, annars kan projektfiler skrivas över.
 mvn –U eclipse:clean
 
-TODO: Ovanstående ger felmeddelande. 
+TODO: Ovanstående ger felmeddelande. Kan man inte göra detta då man kör eclipse:eclipse första gången istället? 
+
 === Definiera classpath-variabel för maven-repo ===
 Starta Eclipse mot det workspace som kommer att användas för systemet och öppna ”Window”>”Preferences”. Välj ”Java”>”Build Path”>”Classpath Variables”. Klicka på ”New…” och lägg till variabeln ”M2_REPO”. Den ska peka ut katalogen ”<min hemkatalog>/.m2/repository”
  
@@ -94,10 +100,7 @@ Name: ”maven_exec”
 Value: Leta upp mvn.bat. Exempelvis under: C:\Program\maven\maven-2.0.7\bin\mvn.bat
 Description: ”Maven 2 executable”
 
-== Importera ett befintligt system i Eclipse ==
-Vi utgår här från en existerande maven-baserad projektstruktur för ett System, med minst en Verksamhetskomponent. Ett skelett för en dylik struktur, kan skapas m. h. a. den mall-generereringsplug-in som beskrivs i avsnittet om javg-template-plugin.
 
-Checka ut källkoden, t ex till d:/svn/[projektnamn]/trunk
 === Definiera variabel för system-roten ===
 Skapa en ny variabel på samma sätt som för ”Lägg upp en variabel för Maven-programmet”, men denna gång med följande värden:
 Name: namn på systemet
