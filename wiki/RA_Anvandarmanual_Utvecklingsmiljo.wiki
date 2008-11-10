@@ -16,9 +16,9 @@ Det här dokumentet beskriver främst sådant som är specifikt för referensark
   * Eclipse: http://www.eclipse.org
   * Maven2 Eclipse-plug-in: maven.apache.org/plugins/maven-eclipse-plugin/
 
-= Steg 1 - Installation och uppsättning av Maven 2 =
+= Installation och uppsättning av Maven2 =
 
-Som byggsystem för RA-system används Maven2 (maven-2.0.4 eller senare). Följande sektion beskriver kort hur man installerar och kommer igång med Maven2. Har du redan Maven2 installerat kan du hoppa till _Steg 2_. 
+Som byggsystem för RA-system används Maven2 (maven-2.0.4 eller senare). Följande sektion beskriver kort hur man installerar och kommer igång med Maven2. Har du redan Maven2 installerat kan du hoppa till nästa stycke, _Sätta upp systemet i Eclipse_. 
 
 == Installation av Maven2 ==
 Gör en standardinstallation enligt [http://maven.apache.org Maven2 dokumentationen]. I korthet innebär det:
@@ -73,7 +73,7 @@ mvn deploy
 }}}
 
 
-= Steg 2 - Sätta upp systemet i Eclipse =
+= Sätta upp systemet i Eclipse =
 Målet är att etablera en Eclipse-integration så att Mavens pom-xml-filer kan vara ”master” för alla beroenden, men att vi ändå kan använda Eclipse fullt ut, med de handgrepp vi är vana vid. Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera projektfiler för Eclipse, som används för att integrera maven med Eclipse enligt nedan (i avvaktan på att Eclipse-pluginen m2clipse skall bli tillräckligt stabil för att kunna användas). 
 
 Efter att integrationen för ett system är genomförd, gäller dock några regler:
