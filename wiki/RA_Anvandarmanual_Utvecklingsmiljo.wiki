@@ -74,7 +74,7 @@ mvn deploy
 
 
 = Sätta upp systemet i Eclipse =
-Målet är att etablera en Eclipse-integration så att Mavens pom-xml-filer kan vara ”master” för alla beroenden, men att vi ändå kan använda Eclipse fullt ut, med de handgrepp vi är vana vid. Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera projektfiler för Eclipse, som används för att integrera maven med Eclipse enligt nedan (i avvaktan på att Eclipse-pluginen [http://m2eclipse.codehaus.org/ m2eclipse] skall bli tillräckligt stabil för att kunna användas). 
+Målet är att etablera en Eclipse-integration så att Mavens pom-xml-filer kan vara ”master” för alla beroenden, men att vi ändå kan använda Eclipse fullt ut, med de handgrepp vi är vana vid. Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera projektfiler för Eclipse, som används för att integrera maven med Eclipse enligt nedan (i avvaktan på att Eclipse-pluginen [http://m2eclipse.codehaus.org/ m2eclipse] skall bli tillräckligt stabil för att kunna användas). Detta innbär att det bara är källkoden plus mavens pom.xml-filer som behöver checkas in i versionshanteringssystemet. 
 
 Efter att integrationen för ett system är genomförd, gäller dock några regler:
 
@@ -142,6 +142,10 @@ http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_
 
 Döp konfigurationen till "Build <namn på systemet> System". Ange "Location" genom att klicka på knappen "Variables..." och välja "maven_exec". Ange "Working Directory" genom att klicka på "Variables" och välja variabeln för system-roten. Ange "clean install" under "Arguments". Tryck på "Apply" för att spara. 
 
+Not: vanligtvis låter vi Eclipse bygga respektive projekt (inkl beroenden) men vill vi bygga artefakter till det lokala maven-repositoriet behöver Mavens bygge köras.
+
+TODO: Kolla om denna behövs och när? Är det bara initialt så kanske det är lika bra att köra det ifrån prompten? 
+
 == Lägg upp ett External Tool för att generera Eclipse-filer ==
 Syftet med detta External Tool är att det skall genera de eclipse-specifika filer som krävs för att man skall kunna importera ett befintligt system som projekt i eclipse. Det används också när man har uppdaterat i pom.xml-filen för ett befintligt projekt och vill uppdatera eclipse-filerna. 
  
@@ -164,9 +168,18 @@ Förändra inga projektberoenden, utan tryck ”Finish” direkt, istället för
 Efter importen – byt perspektiv till ”J2EE”, om det inte redan gjorts. 
 
 == Skapa en byggkonfigurationer för de importerade projekten ==
-För att de definierade External Tools ska anropas av Eclipse vid automatiska byggen skapar man en byggkonfiguration. Detta görs på respektive projekt i Eclipse. 
+När någon av pom.xml-filer ändras vill vi att Eclipse-filerna automatiskt skall genereras om och projekten refreshas.  
 
-TODO: kolla med Håkan. 
+Detta åstakommer vi genom att skapa en byggkonfiguration som anropar den definierade External Tool-konfigurationen vid automatiska byggen. Följande behöver göras på respektive projekt i Eclipse:
+
+  # Öppna projektets "Properties", välj "Builders". Klicka på "Import..." och välj "Generate Eclipse Artifacts for <System>". Klicka på "Ok". 
+  # Markera den nyligen skapade buildern och flytta den överst genom att upprepade gånger klicka på "Up". Detta för att builderna ska köras före kompilering. 
+  # Markera buildern och klicka på "Edit...". Klicka på "Refresh"-fliken. Markera "Refresh resources upon completion". Kryss i "The entire workspace" samt "Recursively include subfolders". 
+  # Klicka på "Build Options"-fliken. Markera "After a Clean", "During Manual Builds" samt "During auto builds".  
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Builder_BuildOptions.png
+  # Kryssa även i "Specify working set of relevant resources". Klicka på "Specify Resources" och välj projektets pom.xml-fil. Klicka på "Finish".
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Builder_Resources.png
+  # Klicka på "Apply" för att spara konfigurationen av buildern. 
 
 == Uppsättning av Tomcat ==
 
