@@ -74,7 +74,7 @@ mvn deploy
 
 
 = Sätta upp systemet i Eclipse =
-Målet är att etablera en Eclipse-integration så att Mavens pom-xml-filer kan vara ”master” för alla beroenden, men att vi ändå kan använda Eclipse fullt ut, med de handgrepp vi är vana vid. Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera projektfiler för Eclipse, som används för att integrera maven med Eclipse enligt nedan (i avvaktan på att Eclipse-pluginen m2clipse skall bli tillräckligt stabil för att kunna användas). 
+Målet är att etablera en Eclipse-integration så att Mavens pom-xml-filer kan vara ”master” för alla beroenden, men att vi ändå kan använda Eclipse fullt ut, med de handgrepp vi är vana vid. Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera projektfiler för Eclipse, som används för att integrera maven med Eclipse enligt nedan (i avvaktan på att Eclipse-pluginen [http://m2eclipse.codehaus.org/ m2eclipse] skall bli tillräckligt stabil för att kunna användas). 
 
 Efter att integrationen för ett system är genomförd, gäller dock några regler:
 
@@ -85,10 +85,10 @@ Efter att integrationen för ett system är genomförd, gäller dock några regl
 Följ instruktionerna nedan för att integrera ett system i Eclipse. 
 
 == Checka ut källkoden från subversion ==
-Checka ut källkoden från subversion till en lokal katalog, t ex d:/svn/[projektnamn]/trunk.
-Not: Vi utgår här från att det finns en existerande maven-baserad projektstruktur för systemet, med minst en verksamhetskomponent. Finns inte detta, dvs om systemet är helt nytt, kan ett skelett för en dylik struktur, skapas m. h. a. den mall-generereringsplug-in som beskrivs i avsnittet om javg-template-plugin.
+Checka ut källkoden från subversion till en lokal katalog, t ex `d:/svn/<projektnamn>/trunk`.
+Not: Vi utgår här från att det finns en existerande maven-baserad projektstruktur för systemet, med minst en verksamhetskomponent. Finns inte detta, dvs om systemet är helt nytt, kan ett skelett för en dylik struktur, skapas m. h. a. den mall-generereringsplug-in som beskrivs i avsnittet om _javg-template-plugin_ nedan.
 
-== Uppgradera installerad maven eclipse-plugin ==
+== Uppgradera installerad Maven eclipse-plugin ==
 Kör följande kommando för att säkra att senaste versionen av Mavens eclipse-plugin används framgent. Det är viktigt att göra detta i en tom katalog, exempelvis temp, annars kan projektfiler skrivas över.
 
 {{{
@@ -96,36 +96,40 @@ mvn –U eclipse:clean
 }}}
 
 
-Not: Ovanstående ger felmeddelande eftersom den tomma katalogen saknar pom.xml-fil men det är bara att ignorera eftersom -U flaggan har tvingat den senaste versionen av Mavens eclipse-plugin att laddas hem. 
+Not: Ovanstående ger felmeddelande eftersom den tomma katalogen saknar pom.xml-fil men det är bara att ignorera eftersom -U flaggan redan har tvingat den senaste versionen av Mavens eclipse-plugin att laddas hem. 
 
 == Definiera en classpath-variabel för maven-repot ==
-För att eclipse skall hitta alla dependencies som pekas ut i maven-filerna måste man sätta upp en variabel som pekar ut ens lokala maven-repo. 
+För att eclipse skall hitta alla dependencies som pekas ut i pom.xml-filerna måste man sätta upp en variabel som pekar ut ens lokala maven-repo. Detta behöver göras en gång per workspace. 
 
-Starta Eclipse mot det workspace som kommer att användas för systemet och öppna ”Window”>”Preferences”. Välj ”Java”>”Build Path”>”Classpath Variables”. Klicka på ”New…” och lägg till variabeln ”M2_REPO”. Den ska peka ut katalogen ”<min hemkatalog>/.m2/repository”
+Starta Eclipse mot det workspace som kommer att användas för systemet och öppna ”Window”>”Preferences”. Välj ”Java”>”Build Path”>”Classpath Variables”. Klicka på ”New…” och lägg till variabeln ”M2_REPO”. Den ska peka ut katalogen `<min hemkatalog>/.m2/repository`
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_ClasspathVariables.png
  
-== Lägg upp en variabel för Maven-programmet ==
+== Definiera en variabel för Maven-programmet ==
+Denna variabel pekar ut mvn.bat och används längre ned när man skapar en så kallad External Tool för att bygga systemet med hjälp av Maven. 
+
 Öppna ”Window” > ”Preferences”. Välj sedan ”Run/Debug”>”String Substitution”.
 
 Klicka på ”New…” och ange följande information i fälten:
 
 *Name:* ”maven_exec”
 
-*Value:* Leta upp mvn.bat. Exempelvis under: C:\Program\maven\maven-2.0.7\bin\mvn.bat
+*Value:* Leta upp mvn.bat. Exempelvis under: `C:\Program\maven\maven-2.0.7\bin\mvn.bat` Not: I Eclipse 3.4 på Mac kan man bara peka ut kataloger mha Browse-knappen, det enklaste då är att peka ut bin-katalogen och sedan manuellt lägga till "\bin" på slutet.
 
 *Description:* ”Maven 2 executable”
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_NewStringSubstitution.png
 
 == Definiera variabel för system-roten ==
-Skapa en ny variabel på samma sätt som för ”Lägg upp en variabel för Maven-programmet”, men denna gång med följande värden:
+Skapa en ny variabel på samma sätt som för _Definiera en variabel för Maven-programmet_, men denna gång med följande värden:
 
 *Name:* namn på systemet
 
 ~~Value: Sökvägen till systemets ”components”-katalog~~
 
 *Value:* Sökvägen till trunk-katalogen.
+
+Denna variabel används också längre fram. 
  
 == Lägg upp ett External Tool för att bygga hela systemet ==
 Välj "Run"->"External Tools"->"External Tools Configurations...". Välj "Program" och klicka på "New":
@@ -134,17 +138,17 @@ http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_
 
 Döp konfigurationen till "Build <namn på systemet> System". Ange "Location" genom att klicka på knappen "Variables..." och välja "maven_exec". Ange "Working Directory" genom att klicka på "Variables" och välja variabeln för system-roten. 
 
-== Lägg upp External Tool för att generera Eclipse-artifakter ==
-Generar de filer som krävs för att man skall kunna importera ett befintligt projekt i eclipse.
+== Lägg upp ett External Tool för att generera Eclipse-filer ==
+Syftet med detta External Tool är att det skall genera de eclipse-specifika filer som krävs för att man skall kunna importera ett befintligt system som projekt i eclipse. Det används också när man har uppdaterat i pom.xml-filen för ett befintligt projekt och vill uppdatera eclipse-filerna. 
  
-Lägg upp ett External Tool för att generera Eclipse-filer för alla projekt i hela systemet. Kopiera "Build <namn på systemet> System"-konfigurationen, byt namn till "Generate Eclipse Artifacts for <namn på systemet>" och ändra "Arguments" till "-Dwtpversion=1.5 eclipse:eclipse". 
+Kopiera "Build <namn på systemet> System"-konfigurationen, byt namn till "Generate Eclipse Artifacts for <namn på systemet>" och ändra "Arguments" till "-Dwtpversion=1.5 eclipse:eclipse". 
  
 Växla sedan till fliken ”Refresh” och markera kryssrutan ”Refresh resources upon completion”. Markera därefter alternativet ”The folder containing the selected resource”. Försäkra dig om att kryssrutan ”Recursively include sub-folders” är markerad.
  
 Avsluta med "Apply" och "Close".
 == Bygg och skapa eclipse-projektfiler för systemet == 
 
-I Eclipse, klicka på pilen tillhöger om ikonen för externa verktyg (ikonen är en grön pil med väska). Välj "Build <namn på systemet> System". 
+I Eclipse, klicka på pilen till höger om ikonen för externa verktyg (ikonen är en grön pil med väska). Välj "Build <namn på systemet> System". 
  
 Kontrollera i konsolen att allt gått bra. Kör sedan - på samma sätt - "Generate Eclipse Artifacts For <namn på systemet>".
 
