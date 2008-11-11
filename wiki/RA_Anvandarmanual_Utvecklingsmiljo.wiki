@@ -140,7 +140,7 @@ Välj "Run"->"External Tools"->"External Tools Configurations...". Välj "Progra
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_ExternalToolsConfigurations.png
 
-Döp konfigurationen till "Build <namn på systemet> System". Ange "Location" genom att klicka på knappen "Variables..." och välja "maven_exec". Ange "Working Directory" genom att klicka på "Variables" och välja variabeln för system-roten. Ange "install" under "Arguments". Tryck på "Apply" för att spara. 
+Döp konfigurationen till "Build <namn på systemet> System". Ange "Location" genom att klicka på knappen "Variables..." och välja "maven_exec". Ange "Working Directory" genom att klicka på "Variables" och välja variabeln för system-roten. Ange "clean install" under "Arguments". Tryck på "Apply" för att spara. 
 
 == Lägg upp ett External Tool för att generera Eclipse-filer ==
 Syftet med detta External Tool är att det skall genera de eclipse-specifika filer som krävs för att man skall kunna importera ett befintligt system som projekt i eclipse. Det används också när man har uppdaterat i pom.xml-filen för ett befintligt projekt och vill uppdatera eclipse-filerna. 
@@ -162,6 +162,11 @@ Importera de nya projekten till ditt Eclipse workspace, genom att välja "File"-
 Förändra inga projektberoenden, utan tryck ”Finish” direkt, istället för ”Next”.
 
 Efter importen – byt perspektiv till ”J2EE”, om det inte redan gjorts. 
+
+== Skapa en byggkonfigurationer för de importerade projekten ==
+För att de definierade External Tools ska anropas av Eclipse vid automatiska byggen skapar man en byggkonfiguration. Detta görs på respektive projekt i Eclipse. 
+
+TODO: kolla med Håkan. 
 
 == Uppsättning av Tomcat ==
 
