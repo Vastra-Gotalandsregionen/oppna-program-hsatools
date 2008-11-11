@@ -120,6 +120,10 @@ Klicka på ”New…” och ange följande information i fälten:
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_NewStringSubstitution.png
 
+Tryck på "Ok" för att spara.
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_StringSubstitution.png
+
 == Definiera variabel för system-roten ==
 Skapa en ny variabel på samma sätt som för _Definiera en variabel för Maven-programmet_, men denna gång med följande värden:
 
