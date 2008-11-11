@@ -114,7 +114,7 @@ Klicka på ”New…” och ange följande information i fälten:
 
 *Name:* ”maven_exec”
 
-*Value:* Leta upp mvn.bat. Exempelvis under: `C:\Program\maven\maven-2.0.7\bin\mvn.bat` Not: I Eclipse 3.4 på Mac kan man bara peka ut kataloger mha Browse-knappen, det enklaste då är att peka ut bin-katalogen och sedan manuellt lägga till "\bin" på slutet.
+*Value:* Leta upp mvn.bat (Windows) eller mvn (Unix/Linux/Mac). Exempelvis under: `C:\Program\maven\maven-2.0.7\bin\mvn.bat` Not: I Eclipse 3.4 på Mac kan man bara peka ut kataloger mha Browse-knappen, det enklaste då är att peka ut bin-katalogen och sedan manuellt lägga till "\mvn" på slutet.
 
 *Description:* ”Maven 2 executable”
 
@@ -140,12 +140,12 @@ Välj "Run"->"External Tools"->"External Tools Configurations...". Välj "Progra
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_ExternalToolsConfigurations.png
 
-Döp konfigurationen till "Build <namn på systemet> System". Ange "Location" genom att klicka på knappen "Variables..." och välja "maven_exec". Ange "Working Directory" genom att klicka på "Variables" och välja variabeln för system-roten. 
+Döp konfigurationen till "Build <namn på systemet> System". Ange "Location" genom att klicka på knappen "Variables..." och välja "maven_exec". Ange "Working Directory" genom att klicka på "Variables" och välja variabeln för system-roten. Ange "install" under "Arguments". Tryck på "Apply" för att spara. 
 
 == Lägg upp ett External Tool för att generera Eclipse-filer ==
 Syftet med detta External Tool är att det skall genera de eclipse-specifika filer som krävs för att man skall kunna importera ett befintligt system som projekt i eclipse. Det används också när man har uppdaterat i pom.xml-filen för ett befintligt projekt och vill uppdatera eclipse-filerna. 
  
-Kopiera "Build <namn på systemet> System"-konfigurationen, byt namn till "Generate Eclipse Artifacts for <namn på systemet>" och ändra "Arguments" till "-Dwtpversion=1.5 eclipse:eclipse". 
+Kopiera "Build <namn på systemet> System"-konfigurationen (högerklicka och välj "Duplicate"), byt namn till "Generate Eclipse Artifacts for <namn på systemet>" och ändra "Arguments" till "-Dwtpversion=1.5 eclipse:eclipse". 
  
 Växla sedan till fliken ”Refresh” och markera kryssrutan ”Refresh resources upon completion”. Markera därefter alternativet ”The folder containing the selected resource”. Försäkra dig om att kryssrutan ”Recursively include sub-folders” är markerad.
  
