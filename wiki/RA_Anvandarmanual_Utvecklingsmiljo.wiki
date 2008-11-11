@@ -175,10 +175,8 @@ Detta åstakommer vi genom att skapa en byggkonfiguration som anropar den defini
   # Öppna projektets "Properties", välj "Builders". Klicka på "Import..." och välj "Generate Eclipse Artifacts for <System>". Klicka på "Ok". 
   # Markera den nyligen skapade buildern och flytta den överst genom att upprepade gånger klicka på "Up". Detta för att builderna ska köras före kompilering. 
   # Markera buildern och klicka på "Edit...". Klicka på "Refresh"-fliken. Markera "Refresh resources upon completion". Kryss i "The entire workspace" samt "Recursively include subfolders". 
-  # Klicka på "Build Options"-fliken. Markera "After a Clean", "During Manual Builds" samt "During auto builds".  
-http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Builder_BuildOptions.png
-  # Kryssa även i "Specify working set of relevant resources". Klicka på "Specify Resources" och välj projektets pom.xml-fil. Klicka på "Finish".
-http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Builder_Resources.png
+  # Klicka på "Build Options"-fliken. Markera "After a Clean", "During Manual Builds" samt "During auto builds". http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Builder_BuildOptions.png
+  # Kryssa även i "Specify working set of relevant resources". Klicka på "Specify Resources" och välj projektets pom.xml-fil. Klicka på "Finish". http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Builder_Resources.png
   # Klicka på "Apply" för att spara konfigurationen av buildern. 
 
 == Uppsättning av Tomcat ==
