@@ -188,18 +188,29 @@ Se Anvisningar_Verktyg_Subversion.doc för information om subversion och dess Ec
 
 Nu är det dags att koppla alla projekt till subversion. Markera samtliga projekt och högerklicka, välj Team->Share Projects och anslut. Nu får varje projekt som listas under project explorer en repository ikon på sig. 
 
-= Maven2 plugins =
-De plugins som beskrivs här är speciellt framtagna för referensarkitekturen och specifikt för den miljö som beskrivs i Anvisningar_Källkodsstruktur_Byggsystem.doc.
+= Skapa nya system och verksamhetskomponenter =
+För att man snabbt ska komma igång med referensarkitekturen finns Maven2-pluginen _javg-template-plugin_. 
 
-== javg-template-plugin ==
-Används för att skapa projektstruktur för samtliga projekt i en typisk verksamhetskomponent bestående av en (beskrivs i detalj i Anvisningar_Källkodsstruktur_Byggsystem.doc) eller Subversion-repositoriestruktur enligt Anvisningar_Verktyg_Subversion.doc.
-Användning: Subversion-struktur (System-nivå)
-Skapar den översta nivån (system) i strukturen samt en verksamhetskomponent. Även Subversion-kataloger (trunk etc) skapas.
+Den har goals för att generera upp en skelett-struktur för ett helt nytt system samt för att lägga till en verksamhetskomponent i ett befintligt system. 
 
+Not: javg-template-plugin är speciellt framtagen för referensarkitekturen och specifikt för den miljö och källkodsstruktur som beskrivs i Anvisningar_Källkodsstruktur_Byggsystem.doc.
 
-Användning: projektstruktur för en ny verksamhetskomponent
-Skapar en ny verksamhetskomponent för ett befintligt system.
+== Skapa ett nytt system ==
+
+Följande maven-kommando genererar den översta nivån (system-nivån) i strukturen samt en verksamhetskomponent. Även Subversion-kataloger (trunk etc) skapas.
+
+{{{
+mvn javg-util:javg-template-plugin:svn
+}}}
+
+== Skapa en verksamhetskomponent i ett befintligt system ==
+
+Följande maven-kommando skapar en ny verksamhetskomponent för ett befintligt system.
 Skall exekveras i system-nivå katalogen för det befintliga systemet. Den nya verksamhetskomponenten införlivas i byggfilen för det befintliga systemet.
+
+{{{
+mvn javg-util:javg-template-plugin:bc
+}}}
 
 
 Not: efter skapandet av en ny verksamhetskomponent, kontrollera att versionen på den nya komponenten (default: 1.0-SNAPSHOT) och dess pom.xml parent-relation överensstämmer med det befintliga systemet.
