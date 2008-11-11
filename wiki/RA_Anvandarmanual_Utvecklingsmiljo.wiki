@@ -157,12 +157,14 @@ I Eclipse, klicka på pilen till höger om ikonen för externa verktyg (ikonen �
 Kontrollera i konsolen att allt gått bra. Kör sedan - på samma sätt - "Generate Eclipse Artifacts For <namn på systemet>".
 
 == Importera projekten till Eclipse ==
-Importera de nya projekten till ditt Eclipse workspace, genom att välja "File">"Import..." och sedan "General">"Existing Projects into Workspace". Efter importen – byt perspektiv till ”J2EE”, om det inte redan gjorts.  
-Projekten finns under components. Så markera componentskatalogen och välj den så får man upp alla projekt:
-`d:\svn\<projektnamn>\trunk\components`
+Importera de nya projekten till ditt Eclipse workspace, genom att välja "File"->"Import..." och sedan "General"->"Existing Projects into Workspace". Peka ut "trunk"-katalogen som root directory: `d:\svn\<projektnamn>\trunk`. 
+ 
 Förändra inga projektberoenden, utan tryck ”Finish” direkt, istället för ”Next”.
 
+Efter importen – byt perspektiv till ”J2EE”, om det inte redan gjorts. 
+
 == Uppsättning av Tomcat ==
+
 File->Other…->Server och välj Next. Välj Tomcat v5.5. Välj Next för att komma till ”Add and Remove objects”, markera <projektnamn>module-web och välj Add. Tryck Finish.
 Verifiera att det fungerar genom att högerklicka på <System>-module-web och välj Run As -> Run on Server->
 
