@@ -172,7 +172,8 @@ Verifiera att det fungerar genom att högerklicka på <System>-module-web och v�
 Nu är det dags att koppla alla projekt till subversion. Markera samtliga projekt och högerklicka, välj Team->Share Projects och anslut. Nu får varje projekt som listas under project explorer en repository ikon på sig. 
 
 = Maven2 plugins =
-De plugins som beskrivs här är speciellt framtagna för användning i den miljö som beskrivs i Anvisningar_Källkodsstruktur_Byggsystem.doc.
+De plugins som beskrivs här är speciellt framtagna för referensarkitekturen och specifikt för den miljö som beskrivs i Anvisningar_Källkodsstruktur_Byggsystem.doc.
+
 == javg-template-plugin ==
 Används för att skapa projektstruktur för samtliga projekt i en typisk verksamhetskomponent bestående av en (beskrivs i detalj i Anvisningar_Källkodsstruktur_Byggsystem.doc) eller Subversion-repositoriestruktur enligt Anvisningar_Verktyg_Subversion.doc.
 Användning: Subversion-struktur (System-nivå)
