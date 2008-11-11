@@ -8,7 +8,7 @@ Det här dokumentet beskriver främst sådant som är specifikt för referensark
 
 == Referenser ==
   * Maven2: http://maven.apache.org
-  * !Anvisningar_Källkodsstruktur_Byggsystem.doc
+  * Anvisningar_Källkodsstruktur_Byggsystem.doc
   * !Anvisningar_Kontinuerlig_Integration.doc
   * !Anvisningar_Konfigurationshantering.doc
   * !Anvisningar_Verktyg_Subversion.doc
