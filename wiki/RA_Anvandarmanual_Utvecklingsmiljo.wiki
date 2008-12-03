@@ -213,6 +213,19 @@ Skall exekveras i system-nivå katalogen för det befintliga systemet. Den nya v
 mvn javg-util:javg-template-plugin:bc
 }}}
 
+Pluginen kommer att efterfråga ett base-package name:
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_BasePackagePrompt.png
+
+Sedan namnet på systemet, vilket måste anges exakt så som det befintliga systemet: 
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_SystemNamePrompt.png
+
+Till slut efterfrågas namnet på den nya verksamhetskomponenten: 
+
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_BCNamePrompt.png
+
 
 Not: efter skapandet av en ny verksamhetskomponent, kontrollera att versionen på den nya komponenten (default: 1.0-SNAPSHOT) och dess pom.xml parent-relation överensstämmer med det befintliga systemet.
 
