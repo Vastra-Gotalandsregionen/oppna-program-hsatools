@@ -86,7 +86,7 @@ Följ instruktionerna nedan för att integrera ett system i Eclipse.
 
 == Checka ut källkoden från subversion ==
 Checka ut källkoden från subversion till en lokal katalog, t ex `d:/svn/<projektnamn>/trunk`.
-Not: Vi utgår här från att det finns en existerande maven-baserad projektstruktur för systemet, med minst en verksamhetskomponent. Finns inte detta, dvs om systemet är helt nytt, kan ett skelett för en dylik struktur, skapas m. h. a. den mall-generereringsplug-in som beskrivs i avsnittet om _javg-template-plugin_ nedan.
+Not: Vi utgår här från att det finns en existerande maven-baserad projektstruktur för systemet, med minst en verksamhetskomponent. Finns inte detta, dvs om systemet är helt nytt, kan ett skelett för en dylik struktur, skapas m. h. a. den mall-generereringsplug-in som beskrivs i avsnittet _Skapa nya system och verksamhetskomponenter_ nedan.
 
 == Uppgradera installerad Maven eclipse-plugin ==
 Kör följande kommando för att säkra att senaste versionen av Mavens eclipse-plugin används framgent. Det är viktigt att göra detta i en tom katalog, exempelvis temp, annars kan projektfiler skrivas över.
@@ -142,9 +142,7 @@ http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_
 
 Döp konfigurationen till "Build <namn på systemet> System". Ange "Location" genom att klicka på knappen "Variables..." och välja "maven_exec". Ange "Working Directory" genom att klicka på "Variables" och välja variabeln för system-roten. Ange "clean install" under "Arguments". Tryck på "Apply" för att spara. 
 
-Not: vanligtvis låter vi Eclipse bygga respektive projekt (inkl beroenden) men vill vi bygga artefakter till det lokala maven-repositoriet behöver Mavens bygge köras.
-
-TODO: Kolla om denna behövs och när? Är det bara initialt så kanske det är lika bra att köra det ifrån prompten? 
+Not: vanligtvis låter vi Eclipse bygga respektive projekt (inkl beroenden) men vill vi bygga artefakter till det lokala maven-repositoriet behöver Mavens bygge köras.  
 
 == Lägg upp ett External Tool för att generera Eclipse-filer ==
 Syftet med detta External Tool är att det skall genera de eclipse-specifika filer som krävs för att man skall kunna importera ett befintligt system som projekt i eclipse. Det används också när man har uppdaterat i pom.xml-filen för ett befintligt projekt och vill uppdatera eclipse-filerna. 
@@ -155,6 +153,8 @@ Växla sedan till fliken ”Refresh” och markera kryssrutan ”Refresh resourc
  
 Avsluta med "Apply" och "Close".
 == Bygg och skapa eclipse-projektfiler för systemet == 
+
+Innan vi kan importera några projekt i Eclipse behöver vi bygga med maven och sedan köra Maven-pluginen för att generera upp Eclipse-filer. Detta kan vi göra från kommandopromten eller genom de External Tools vi nyss satt upp:
 
 I Eclipse, klicka på pilen till höger om ikonen för externa verktyg (ikonen är en grön pil med väska). Välj "Build <namn på systemet> System". 
  
@@ -204,6 +204,9 @@ Följande maven-kommando genererar den översta nivån (system-nivån) i struktu
 mvn javg-util:javg-template-plugin:svn
 }}}
 
+Verksamhetskomponenten skapas med alla tänkbara moduler/delar. Efter genereringen går det bra att ta bort eventuella delar som inte ska användas, t ex modules/web om det inte ska finnas en web-del.
+
+
 == Skapa en verksamhetskomponent i ett befintligt system ==
 
 Följande maven-kommando skapar en ny verksamhetskomponent för ett befintligt system.
@@ -223,11 +226,14 @@ http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_
 
 Till slut efterfrågas namnet på den nya verksamhetskomponenten: 
 
-
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_BCNamePrompt.png
 
 
-Not: efter skapandet av en ny verksamhetskomponent, kontrollera att versionen på den nya komponenten (default: 1.0-SNAPSHOT) och dess pom.xml parent-relation överensstämmer med det befintliga systemet.
+Efter skapandet av en ny verksamhetskomponent, kontrollera att versionen på den nya komponenten (default: 1.0-SNAPSHOT) och dess pom.xml parent-relation överensstämmer med det befintliga systemet. 
+
+Verksamhetskomponenten skapas med alla tänkbara moduler/delar. Efter genereringen går det bra att ta bort eventuella delar som inte ska användas, t ex modules/web om det inte ska finnas en web-del.
+
+Se ovan för hur en ny komponent importeras i Eclipse. 
 
 =Vidare läsning=
 == Versionshantering av artefakter ==
