@@ -21,7 +21,7 @@ TODO: namnkonvention, prefix för verksamhetskomponenter (t ex ”e” för enti
 == Ingående delar i strukturen ==
 Innehåll och användning av de olika delarna i strukturen beskrivs här.
 === Översikt över hierarkin inom en verksamhetskomponent ===
-En applikation byggs upp av moduler som kan byggas upp utav kompositer. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation.
+En applikation byggs upp av moduler som kan byggas upp av kompositer. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation.
 
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCHierarkin.png
@@ -76,4 +76,3 @@ I den här relationen ärver barnet egenskaper från föräldern.
 Det är mycket viktigt att versionerna överensstämmer. Uppgraderas versionen på föräldern så måste även barnets pom.xml uppgraderas med den nya föräldra-versionen.
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_VersionForalderOchBarn.png
-
