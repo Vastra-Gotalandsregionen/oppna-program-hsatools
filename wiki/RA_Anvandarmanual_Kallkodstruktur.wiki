@@ -24,3 +24,38 @@ En applikation byggs upp av moduler som kan byggas upp utav kompositer. En verks
 
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCHierarkin.png
+
+=== components ===
+Innehåller alla verksamhetskomponenter för ett system samt en byggfil, pom.xml, för att bygga hela systemet. 
+ 
+=== applications ===
+ 
+Innehållet beror på vilken typ av enhet som ska driftsättas. En del verksamhetskomponenter bidrar inte med någon applikation utan bara med composites, i det fallet finns heller inga modules. Det är inte meningen att applikations ska innehålla källkod (ska finnas under modules och composites) förutom den extra kod som kan krävas för att producera till exempel en exekverbar JAR-fil (typiskt en klass med en main-metod).
+Typiskt innehåll i applications är artefakter för att bygga:
+  * EAR-filer
+  * Java Webstart arkiv
+  * Exekverbara JAR-filer 
+
+=== modules ===
+Innehåller källkod för två typer av artefakter, integrationstjänster i intsvc samt web-applikationer (inkluderande Portlets) i web. Strukturen inuti dessa följer den standardiserade Maven2-projektstrukturen (se [3]).
+ 
+==== intsvc ====
+Integrationstjänster i form av Webservices, JMS eller Connector för ingående trafik.
+I fallet av Webservice finns även bindningsklasserna för WSDL här (alltid utgående från ett WSDL till Java scenario).
+==== web ====
+Innehåller en Webapplikation eller Portlet.
+TODO: rekommenderad uppbyggnad av en webapplikation med JAR-filer som innehåller vyfiler + resurser. Teknik: JSF, Facelets.
+Referera till dokument Anvisningar_Portletutveckling.doc (inte klart ännu).
+
+=== composites ===
+Innehåller källkod för återanvändbara delar avsedda för komposition. Strukturen inuti komposit-delarna följer den standardiserade Maven2-projektstrukturen (se [3]).
+==== svc ====
+Tjänster för verksamhetskomponenten. Dessa tjänster exponeras bara inom systemet (och givetvis inom verksamhetskomponenten). För att exponera en tjänst utanför systemgränsen behöver den exponeras som en integrationstjänst, se avsnitt _intsvc_ ovan.
+==== types ====
+Gemensamma typer.
+==== webcomp ====
+TODO: beskriv hur webkomponenter i form av JAR-filer bidrar till en webapplikation/portlet. Hänger ihop med sektion _web_.
+Referera till dokument Anvisningar_Portletutveckling.doc.
+==== schema ====
+Innehåller XML-scheman som används för integration via tjänster som beskrivs i _intsvc_ ovan.
+Scheman används här för att generera JAXB-bindningsklasser (bindning mellan Java och XML) som används inom verksamhetskomponenten.
