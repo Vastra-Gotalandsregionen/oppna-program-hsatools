@@ -7,7 +7,7 @@ Alla system som bygger på referensarkitekturen (RA) har en liknande källkodsst
 Här beskrivs på detaljnivå:
   * de ingående delarna i källkodsstrukturen
 
-För detaljer hur byggsystemet som baseras på källkodstrukturen och Maven2 fungerar se RA_Anvandarmanual_Utvecklingsmiljo. 
+För detaljer hur byggsystemet som baseras på källkodstrukturen och Maven2 fungerar se [RA_Anvandarmanual_Utvecklingsmiljo]. 
 
 = Källkodstruktur i RA-system =
 == Namngivning ==
