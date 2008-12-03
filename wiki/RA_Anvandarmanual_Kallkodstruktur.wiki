@@ -22,3 +22,5 @@ Innehåll och användning av de olika delarna i strukturen beskrivs här.
 === Översikt över hierarkin inom en verksamhetskomponent ===
 En applikation byggs upp av moduler som kan byggas upp utav kompositer. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation.
 
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCHierarkin.png
