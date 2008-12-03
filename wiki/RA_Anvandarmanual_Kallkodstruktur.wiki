@@ -26,8 +26,12 @@ En applikation byggs upp av moduler som kan byggas upp av kompositer. En verksam
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCHierarkin.png
 
-=== components ===
-Innehåller alla verksamhetskomponenter för ett system samt en byggfil, pom.xml, för att bygga hela systemet. 
+=== Verksamhetskomponenter ===
+Direkt under <SystemNamn>/trunk (i svn-fallet) finns alla verksamhetskomponenter för ett system samt en byggfil, pom.xml, för att bygga hela systemet. Varje verksamhetskomponent innehåller i sin tur följade underkataloger: 
+  * applications
+  * composites
+  * modules
+  * sql
  
 === applications ===
  
