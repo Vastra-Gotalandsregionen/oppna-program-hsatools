@@ -199,6 +199,7 @@ Not: javg-template-plugin är speciellt framtagen för referensarkitekturen och 
 
 Följande maven-kommando genererar den översta nivån (system-nivån) i strukturen samt en verksamhetskomponent. Även Subversion-kataloger (trunk etc) skapas.
 
+
 {{{
 mvn javg-util:javg-template-plugin:svn
 }}}
