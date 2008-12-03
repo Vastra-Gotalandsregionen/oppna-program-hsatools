@@ -1,3 +1,24 @@
 #summary Beskriver källkodstrukturen i RA-projekt.
 
 = Introduktion =
+
+Alla system som bygger på referensarkitekturen (RA) har en liknande källkodsstruktur. Bland annat den maven-plugin som följer med RA är beroende av att strukturen ser ut så som här beskrivs och nämnda plugin används också för att skapa den specifika strukturen. 
+
+Här beskrivs på en detaljnivå:
+
+•	de ingående delarna i källkodsstrukturen
+•	hur byggsystemet som baseras på Maven2 fungerar
+
+= Källkodstruktur i RA-system =
+== Namngivning ==
+=== Namngivning av system ===
+Varje systems namn måste vara globalt unikt för att undvika namnkollisioner vid driftsättning.
+=== Namngivning av verksamhetskomponenter ===
+Namngivning av komponenter:
+TODO: namnkonvention, prefix för verksamhetskomponenter (t ex ”e” för entitet) – stäm av mot referensarkitekturen! Ej bestämt ännu (2006-12-18).
+
+== Ingående delar i strukturen ==
+Innehåll och användning av de olika delarna i strukturen beskrivs här.
+=== Översikt över hierarkin inom en verksamhetskomponent ===
+En applikation byggs upp av moduler som kan byggas upp utav kompositer. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation.
+
