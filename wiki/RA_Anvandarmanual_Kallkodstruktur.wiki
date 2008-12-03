@@ -4,10 +4,10 @@
 
 Alla system som bygger på referensarkitekturen (RA) har en liknande källkodsstruktur. Bland annat den maven-plugin som följer med RA är beroende av att strukturen ser ut så som här beskrivs och nämnda plugin används också för att skapa den specifika strukturen. 
 
-Här beskrivs på en detaljnivå:
+Här beskrivs på detaljnivå:
+  * de ingående delarna i källkodsstrukturen
 
-•	de ingående delarna i källkodsstrukturen
-•	hur byggsystemet som baseras på Maven2 fungerar
+För detaljer hur byggsystemet som baseras på källkodstrukturen och Maven2 fungerar se RA_Anvandarmanual_Utvecklingsmiljo. 
 
 = Källkodstruktur i RA-system =
 == Namngivning ==
