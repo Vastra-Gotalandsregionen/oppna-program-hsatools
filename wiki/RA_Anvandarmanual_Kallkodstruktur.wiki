@@ -21,13 +21,15 @@ TODO: namnkonvention, prefix för verksamhetskomponenter (t ex ”e” för enti
 == Ingående delar i strukturen ==
 Innehåll och användning av de olika delarna i strukturen beskrivs här.
 === Översikt över hierarkin inom en verksamhetskomponent ===
-En applikation byggs upp av moduler som kan byggas upp av kompositer. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation.
-
+Varje system består av ett antal verksamhetskomponenter, varje verksamhetskomponent har en inre struktur enligt följande: 
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCHierarkin.png
 
+En applikation byggs upp av moduler som i sin tur kan byggas upp av kompositer. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation.
+
+
 === Verksamhetskomponenter ===
-Direkt under <SystemNamn>/trunk (i svn-fallet) finns alla verksamhetskomponenter för ett system samt en byggfil, pom.xml, för att bygga hela systemet. Varje verksamhetskomponent innehåller i sin tur följade underkataloger: 
+Direkt under `<SystemNamn>/trunk` ligger alla verksamhetskomponenter för ett system samt en byggfil, pom.xml, för att bygga hela systemet. Varje verksamhetskomponent innehåller i sin tur följade underkataloger: 
   * applications
   * composites
   * modules
