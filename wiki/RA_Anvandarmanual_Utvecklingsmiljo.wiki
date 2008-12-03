@@ -2,7 +2,7 @@
 #labels RA
 
 = Introduktion =
-Här beskrivs hur man praktiskt kommer igång med referensarkitekturen, inklusive hur man sätter upp sin utvecklingsmiljö för att kunna utveckla och bygga ett system baserat på referensarkitekturen med en eller flera verksamhetskomponenter samt hur den RA-specifika maven-pluginen kan användas för att generera nya system och verksamhetskomponenter.
+Här beskrivs hur man praktiskt kommer igång med referensarkitekturen, inklusive hur man sätter upp sin utvecklingsmiljö för att kunna utveckla och bygga ett system baserat på referensarkitekturen (RA) med en eller flera verksamhetskomponenter samt hur den RA-specifika maven-pluginen kan användas för att generera nya system och verksamhetskomponenter.
 
 Det här dokumentet beskriver främst sådant som är specifikt för referensarkitekturen och dess källkodsstruktur. Det är inte en generell introduktion till [http://maven.apache.org Maven2] eller [http://www.eclipse.org Eclipse].
 
