@@ -57,7 +57,7 @@ TODO: rekommenderad uppbyggnad av en webapplikation med JAR-filer som innehålle
 Referera till dokument Anvisningar_Portletutveckling.doc (inte klart ännu).
 
 === composites ===
-Innehåller källkod för återanvändbara delar avsedda för komposition. Strukturen inuti komposit-delarna följer den standardiserade Maven2-projektstrukturen (se [3]).
+Innehåller källkod för återanvändbara delar avsedda för komposition. Strukturen inuti komposit-delarna följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
 ==== svc ====
 Tjänster för verksamhetskomponenten. Dessa tjänster exponeras bara inom systemet (och givetvis inom verksamhetskomponenten). För att exponera en tjänst utanför systemgränsen behöver den exponeras som en integrationstjänst, se avsnitt _intsvc_ ovan.
 ==== types ====
@@ -70,7 +70,7 @@ Innehåller XML-scheman som används för integration via tjänster som beskrivs
 Scheman används här för att generera JAXB-bindningsklasser (bindning mellan Java och XML) som används inom verksamhetskomponenten.
 
 = Byggsystem =
-Byggsystemet är baserat på [Maven2 http://maven.apache.org] med tillägg gjorda i form av plugins.
+Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
 Det här avsnittet bygger på det tidigare avsnittet _Källkodsstruktur i RA-system_ och upprepar inte sådant som nämns där. 
 
 == Maven2 relationer mellan pom.xml filer ==
@@ -84,3 +84,11 @@ I den här relationen ärver barnet egenskaper från föräldern.
 Det är mycket viktigt att versionerna överensstämmer. Uppgraderas versionen på föräldern så måste även barnets pom.xml uppgraderas med den nya föräldra-versionen.
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_VersionForalderOchBarn.png
+
+=== Filssystemsrelation (förälder pekar ut barn) ===
+I den här relationen pekar föräldern ut barnet med en relativ sökväg på filsystemet.
+Relationen är inte versionerad och det enda syftet med den är att kunna bygga underliggande projekt med en överordnad byggfil.
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_FilsystemrelationForalderTillBarn.png
+
+  
