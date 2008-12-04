@@ -25,7 +25,9 @@ Varje system består av ett antal verksamhetskomponenter, varje verksamhetskompo
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCHierarkin.png
 
-En applikation byggs upp av moduler som i sin tur kan byggas upp av kompositer. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation.
+En applikation byggs upp av moduler som i sin tur kan byggas upp av kompositer. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation. 
+
+Notera att en applikation är kopplad till en verksamhetskomponent medan ett system består av flera verksamhetskomponenter. 
 
 
 === Verksamhetskomponenter ===
@@ -44,11 +46,11 @@ Typiskt innehåll i applications är artefakter för att bygga:
   * Exekverbara JAR-filer 
 
 === modules ===
-Innehåller källkod för två typer av artefakter, integrationstjänster i intsvc samt web-applikationer (inkluderande Portlets) i web. Strukturen inuti dessa följer den standardiserade Maven2-projektstrukturen (se [3]).
+Innehåller källkod för två typer av artefakter, integrationstjänster, som återfinns under intsvc samt web-applikationer (inkluderande Portlets) som återfinns i web. Strukturen inuti dessa följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
  
 ==== intsvc ====
-Integrationstjänster i form av Webservices, JMS eller Connector för ingående trafik.
-I fallet av Webservice finns även bindningsklasserna för WSDL här (alltid utgående från ett WSDL till Java scenario).
+Innehåller integrationstjänster i form av Webservices, JMS eller Connector för ingående trafik.
+I fallet av Webservice finns även bindningsklasserna för WSDL-filen här (vi arbetar uteslutande enligt principen "contract-first", dsv bindningsklasserna genereras från WSDL-filen).
 ==== web ====
 Innehåller en Webapplikation eller Portlet.
 TODO: rekommenderad uppbyggnad av en webapplikation med JAR-filer som innehåller vyfiler + resurser. Teknik: JSF, Facelets.
