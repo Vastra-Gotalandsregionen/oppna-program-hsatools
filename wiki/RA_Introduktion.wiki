@@ -7,6 +7,22 @@ Främst görs det i form av läsanvisningar och hänvisning till kodexempel.
 
 = Vad är en referensarkitektur? = 
 
+Det övergripande syftet med att ha en referensarkitektur är att styra alla projekt mot en gemensam arkitektur. Fördelarna med detta är många: 
+
+  * Projektekonomi
+    * Generellt: Korta projekttiden
+    * Minska tiden för uppsättning av projektets infrastruktur
+    * Minska mängden ”teknisk forskning” i projekten
+    * Etc.
+  * IT-ekonomi
+    * Ökad livslängd på utvecklade system 
+    * Flexibelt nyttjande av personal/konsulter
+    * Minskade utbildningskostnader
+  * Verksamhetsnytta
+    * Välintegrerade grundfunktioner tvärs system, t ex inloggning
+  * Nå tydlighet i arkitekturarbetet
+    * Kraven på arkitektur är kända för projekten
+
 En referensarkitektur är en abstrakt arkitektur som används som en mall för att skapa konkreta arkitekturer. Referensarkitekturen innehåller principer och guidelines som bestämmer hur system skall designas.
 
 Referensarkitekturen utgår ifrån en vision och ett antal krav som utgör motivet för arkitekturen. Den består av en logisk _referensmodell_ och en _teknisk _arkitektur_. 
