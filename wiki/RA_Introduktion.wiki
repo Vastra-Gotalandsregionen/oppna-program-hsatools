@@ -32,7 +32,7 @@ Motivet för referensarkitekturen är vanligtvis en övergripande vision och ett
 
   * En logisk arkitektur understödd av ett antal _referensmodeller_
     * Referensmodellerna definierar de termer och begrepp som används då vi diskuterar arkitektur, t ex vad innebär begreppen "system" och "komponent" och hur relaterar de till varandra?
-  * En mer konkret _teknisk arkitektur_, innehåller principer och riktlinjer för hur de logiska referesmodellerna konkret skall implementeras:
+  * En mer konkret _teknisk arkitektur_, innehållande principer och riktlinjer för hur de logiska referesmodellerna konkret skall implementeras:
     * Övergripande principer som bestämmer hur system skall designas för att uppfylla visionen
     * Konkreta regelverk/anvisningar som hjälper projekten att uppfylla principerna
     * Exempelapplikationer och Proof of Concepts (PoC)
