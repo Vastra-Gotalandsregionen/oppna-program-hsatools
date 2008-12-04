@@ -25,17 +25,17 @@ Varje system består av ett antal verksamhetskomponenter, varje verksamhetskompo
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCHierarkin.png
 
-En applikation byggs upp av moduler som i sin tur kan byggas upp av kompositer. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation. 
+En applikation byggs upp av moduler som i sin tur kan byggas upp av kompositer. En komposit är en återanvändbar byggsten, bestående av ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar från kravet på modularisering i weblagret och portabilitet mellan portlet och webapp. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation. 
 
-Notera att en applikation är kopplad till en verksamhetskomponent medan ett system består av flera verksamhetskomponenter. 
+En applikation är främst är en _packetering_ av den underliggande funktionaliteten (innehåller i stort sett bara paketeringsartefakter) i en verksamhetskompontent, att jämföra med ett system som består av ett antal, hierarkiskt ordnade, verksamhetskomponenter. 
 
 
 === Verksamhetskomponenter ===
 Direkt under `<SystemNamn>/trunk` ligger alla verksamhetskomponenter för ett system samt en byggfil, pom.xml, för att bygga hela systemet. Varje verksamhetskomponent innehåller i sin tur följade underkataloger: 
-  * applications
+  * applications 
   * composites
-  * modules
-  * sql
+  * modules 
+  * sql 
  
 === applications ===
  
