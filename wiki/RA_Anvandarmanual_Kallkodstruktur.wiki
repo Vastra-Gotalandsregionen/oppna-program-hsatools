@@ -33,8 +33,8 @@ En applikation är främst är en _packetering_ av den underliggande funktionali
 === Verksamhetskomponenter ===
 Direkt under `<SystemNamn>/trunk` ligger alla verksamhetskomponenter för ett system samt en byggfil, pom.xml, för att bygga hela systemet. Varje verksamhetskomponent innehåller i sin tur följade underkataloger: 
   * applications 
-  * composites
   * modules 
+  * composites
   * sql 
  
 === applications ===
@@ -64,11 +64,13 @@ Tjänster för verksamhetskomponenten. Dessa tjänster exponeras bara inom syste
 Gemensamma typer.
 ==== webcomp ====
 TODO: beskriv hur webkomponenter i form av JAR-filer bidrar till en webapplikation/portlet. Hänger ihop med sektion _web_.
-Referera till dokument Anvisningar_Portletutveckling.doc.
+Referera till dokument !Anvisningar_Portletutveckling.doc.
 ==== schema ====
 Innehåller XML-scheman som används för integration via tjänster som beskrivs i _intsvc_ ovan.
 Scheman används här för att generera JAXB-bindningsklasser (bindning mellan Java och XML) som används inom verksamhetskomponenten.
 
+=== sql ===
+Innehåller eventuella sql-skript.
 = Byggsystem =
 Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
 Det här avsnittet bygger på det tidigare avsnittet _Källkodsstruktur i RA-system_ och upprepar inte sådant som nämns där. 
@@ -95,12 +97,12 @@ http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_F
 En verksamhetskomponents pom.xml (den översta byggfilen i komponenten) ska bygga alla underliggande delar direkt (inte via mellanliggande pom.xml med packaging typ satt till pom). Anledningen är att förenkla versionering genom att ha så få versionerade beroenden som möjligt.
 == Versionering av en verksamhetskomponent med Maven2 ==
 En verksamhetskomponent versioneras alltid som en enhet vilket innebär att de ingående delarnas pom.xml inte definierar något eget `<version>` element utan ärver versionen från verksamhetskomponentens pom.xml.
-Se Anvisningar_Konfigurationshantering.doc för mer om versionering.
+Se !Anvisningar_Konfigurationshantering.doc för mer om versionering.
 == SNAPSHOT-versioner och kontinuerlig integration ==
 === Användning ===
 För att slippa bygga hela systemet varje gång under utveckling/testfas så går det att bygga på den nivå som är intressant för tillfället (där ändringar sker). I det läget kommer beroenden att lösas upp mot Maven repositoriet och i de fall de inte finns där (eller är för gamla baserade på SNAPSHOT-uppdateringsfrekvens) så kommer beroendena lösas upp mot ett Maven remote-repository.
 
-Det Maven remote-repository som används är det som populeras av den kontinuerliga integrationsprocessen (se Anvisningar_Kontinuerlig_Integration.doc). Det repositoriet innehåller SNAPSHOT-artefakter byggda på den senast incheckade kodbasen i versionshanteringssystemet (med en liten eftersläpning < ca 15min).
+Det Maven remote-repository som används är det som populeras av den kontinuerliga integrationsprocessen (se !Anvisningar_Kontinuerlig_Integration.doc). Det repositoriet innehåller SNAPSHOT-artefakter byggda på den senast incheckade kodbasen i versionshanteringssystemet (med en liten eftersläpning < ca 15min).
 
 === Översikt av miljön ===
 Det här är en översikt av det som beskrevs i föregående avsnitt.
@@ -113,7 +115,7 @@ http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_O
 
 
 == Publicera stabila versioner till Maven remote repository ==
-Detta är en del av konfigurationshantering och beskrivs därför i Anvisningar_Konfigurationshantering.doc.
+Detta är en del av konfigurationshantering och beskrivs därför i !Anvisningar_Konfigurationshantering.doc.
 
 
 
