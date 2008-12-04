@@ -26,7 +26,7 @@ Det övergripande syftet med att ha en referensarkitektur är att styra alla pro
 
 En referensarkitektur är en abstrakt arkitektur som används som en mall för att skapa konkreta arkitekturer. Referensarkitekturen innehåller principer och guidelines som bestämmer hur system skall designas.
 
-Motivet för referensarkitekturen är vanligtvis en övergripande vision och ett antal krav. 
+Motivet för referensarkitekturen är vanligtvis en övergripande vision och ett antal krav. Se Refernsarkitektur_oversikt.ppt för en genomgång av den vision och de konkreta krav som ligger bakom öppna programs referensarkitektur. 
 
 Öppna programs referensarkitektur består av följande delar: 
 
