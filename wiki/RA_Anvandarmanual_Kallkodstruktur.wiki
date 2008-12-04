@@ -54,7 +54,7 @@ I fallet av Webservice finns även bindningsklasserna för WSDL-filen här (vi a
 ==== web ====
 Innehåller en Webapplikation eller Portlet.
 TODO: rekommenderad uppbyggnad av en webapplikation med JAR-filer som innehåller vyfiler + resurser. Teknik: JSF, Facelets.
-Referera till dokument Anvisningar_Portletutveckling.doc (inte klart ännu).
+Referera till dokument !Anvisningar_Portletutveckling.doc (inte klart ännu).
 
 === composites ===
 Innehåller källkod för återanvändbara delar avsedda för komposition. Strukturen inuti komposit-delarna följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
