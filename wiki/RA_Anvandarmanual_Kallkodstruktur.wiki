@@ -94,7 +94,7 @@ http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_F
 == Byggrelationer inom en verksamhetskomponent ==
 En verksamhetskomponents pom.xml (den översta byggfilen i komponenten) ska bygga alla underliggande delar direkt (inte via mellanliggande pom.xml med packaging typ satt till pom). Anledningen är att förenkla versionering genom att ha så få versionerade beroenden som möjligt.
 == Versionering av en verksamhetskomponent med Maven2 ==
-En verksamhetskomponent versioneras alltid som en enhet vilket innebär att de ingående delarnas pom.xml inte definierar något eget <version> element utan ärver versionen från verksamhetskomponentens pom.xml.
+En verksamhetskomponent versioneras alltid som en enhet vilket innebär att de ingående delarnas pom.xml inte definierar något eget `<version>` element utan ärver versionen från verksamhetskomponentens pom.xml.
 Se Anvisningar_Konfigurationshantering.doc för mer om versionering.
 == SNAPSHOT-versioner och kontinuerlig integration ==
 === Användning ===
