@@ -115,7 +115,7 @@ http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_O
 
 
 == Publicera stabila versioner till Maven remote repository ==
-Detta är en del av konfigurationshantering och beskrivs därför i !Anvisningar_Konfigurationshantering.doc.
+Detta är en del av konfigurationshantering och beskrivs därför i dokumentet !Anvisningar_Konfigurationshantering.doc.
 
 
 
