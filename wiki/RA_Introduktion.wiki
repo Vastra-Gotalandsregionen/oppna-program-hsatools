@@ -72,8 +72,8 @@ En översikt med motivationsfaktorer ges i: `Teknisk presentation på Callista D
 || Anvisningar_Verktyg_Subversion.doc || Teknisk arkitektur, Anvisning || Kortfattad anvisning om subversion. ||
 || [RA_Anvandarmanual_Utvecklingsmiljo] || Teknisk arkitektur, Anvisning || Beskriver hur man praktiskt sätter upp sin utvecklingsmiljö för att komma igång med utveckling av RA-system och komponenter. ||
 || [RA_Anvandarmanual_Kallkodstruktur] || Teknisk arkitektur, Anvisning || Beskriver källkodsstrukturen och dess koppling till RA. ||
-|| Anvisningar_Portletutveckling.doc || Teknisk arkitektur, Anvisning || Beskriver hur man utvecklar portlets. Innehåller ev något ouppdaterad information, behöver revideras. Not: Befintliga projekt använder nyare portlet-standarden JSR 286 istf JSR168. ||
-|| Anvisningar_Klient_UI_lager.doc || Teknisk arkitektur, Anvisning || Innehåller teknikstack för Java EE-weblagret. Innehåller även lite annan info specifik för RA. Bör utökas. ||
+|| !Anvisningar_Portletutveckling.doc || Teknisk arkitektur, Anvisning || Beskriver hur man utvecklar portlets. Innehåller ev något ouppdaterad information, behöver revideras. Not: Befintliga projekt använder nyare portlet-standarden JSR 286 istf JSR168. ||
+|| !Anvisningar_Klient_UI_lager.doc || Teknisk arkitektur, Anvisning || Innehåller teknikstack för Java EE-weblagret. Innehåller även lite annan info specifik för RA. Bör utökas. ||
 || Genensamma Icke-funktionella krav vid upphandling av systemstöd.docx || Kravdokument || Ej färdigt dokument. Dokumentet är tänkt att samla gemensamma, icke-funktionella krav. ||
 || Mall Icke-funktionella krav upphandling av systemstöd.docx || Kravdokument || Ej färdigt dokument. Mall för gemensamma krav. ||
 
