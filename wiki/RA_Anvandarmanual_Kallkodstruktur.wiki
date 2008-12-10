@@ -38,9 +38,10 @@ En applikation byggs upp av moduler som i sin tur kan byggas upp av kompositer. 
 
 En applikation är främst är en _packetering_ av den underliggande funktionaliteten (innehåller i stort sett bara paketeringsartefakter) i en verksamhetskompontent, att jämföra med ett system som består av ett antal, hierarkiskt ordnade, verksamhetskomponenter. 
 
+Även moduler är främst att betrakta som _packeteringar_ av funktionaliteten, vilket är anledningen till att varken applikation eller modul återfinns i den logiska referensmodellen över en verksamhetskomponent. 
 
 === Verksamhetskomponenter ===
-Direkt under `<SystemNamn>/trunk` ligger alltså alla verksamhetskomponenter för ett system samt en byggfil, pom.xml, för att bygga hela systemet. Varje verksamhetskomponent innehåller i sin tur följade underkataloger: 
+Direkt under `<SystemNamn>/trunk` ligger alltså alla verksamhetskomponenter för ett system samt en byggfil, pom.xml, för att bygga hela systemet. Varje verksamhetskomponent har i sin tur följade struktur, med underkatalogerna applications, composites, modules och sql: 
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCFilstruktur.png 
  
