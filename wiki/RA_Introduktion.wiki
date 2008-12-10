@@ -1,5 +1,5 @@
 #summary Introduktion till referensarkitekturen
-#labels Featured
+#labels Featured,RA
 = Introduktion =
 
 Denna sida ska ge en snabb introduktion till referensarkitekturen (förkortad RA) och den dokumentation och exempel som finns.
