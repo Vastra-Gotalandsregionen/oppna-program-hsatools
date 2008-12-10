@@ -29,9 +29,9 @@ Att definiera den taxonomi som tillämpas i kommunikationen med leverantörer oc
 
 == Yttre arkitektur ==
 
-|| *Ref* || *Dokument ID* || *Dokument* ||
-|| CarLink Plus	|| || Referensarkitektur Rapport 2 April 2004.  ||
-HISA || || HISA (Healthcare Information Service Architecture). Detta dokument refereras från CareLink Plus. Dokumentet utgör en möjlig bas för fortsatt detaljering av den yttre arkitekturen, m.a.p process-orienterad integration. HISA defnierar bl.a. en metod för identifiering av tjänstedomäner. ||
+|| *Organisation* || *Dokument* ||
+|| !CarLink Plus || Referensarkitektur Rapport 2 April 2004. ||
+|| HISA || HISA (Healthcare Information Service Architecture). Detta dokument refereras från !CareLink Plus. Dokumentet utgör en möjlig bas för fortsatt detaljering av den yttre arkitekturen, m.a.p process-orienterad integration. HISA defnierar bl.a. en metod för identifiering av tjänstedomäner. ||
 
 Se [RA_Introduktion] för länkar till övriga dokument inom referensarktekturen.
 
@@ -57,3 +57,13 @@ Följande listning redovisar de viktigaste aspekterna av spårbarhet som behöve
   * Spårbarhet till katalogstrukturer (repositorier) för versionsindikerade tekniska tjänstespecifkationer (t.ex. XSD, WSDL)
   * Spårbarhet till komponentkataloger för plattformsspecifika binärer (enheter för komponentbaserad återanvändning inom ett system)
   * Spårbarhet till namnrymder för såväl integrationstjänster som verksamhetskomponenter.
+
+= Den yttre arkitekturen =
+ 
+Bilden illustrerar tre tjänstedomäner, varav en är en process-nära tjänstedomän bestående av en eller flera orkestrerande integrationstjänster. Tjänstedomäner kan i sin tur grupperas i verksamhetsdomäner. Illustrationen belyser inte denna aspekt av den yttre arkitekturen.
+Varje tjänstedomän omfattar ett antal integrationstjänster. Integrationstjänsterna är av två slag – atomära eller orkestrerande.
+De atomära tjänsternas gränssnitt är just gränssnitt i traditionell bemärkelse. De representerar ett informationobjekt eller en uppgift och därmed associerade operationer. De har inga beroenden på gränssnittsnivå till andra tjänster. Defnitionen av en atomär integrationstjänst gör inga antaganden om realiseringens arkitektur. De representerar atomära transaktioner med ickefunktionella krav på ”allt eller inget”. En atomär integrationstjänst kan vara synkron eller asynkron. En synkron tjänst definieras av traditionella uppdrag/svar-operationer. En asynkron tjänst kan vara antingen envägs- eller tvåvägs. I båda fallen finns ett uppdragsgränssnitt med envägsoperationer (utan svar). I fallet tvåvägstjänst finns dessutom ett  svarsgränssnitt – också detta med envägsoperationer. Svarsgränssnittet måste realiseras av den orkestrerande tjänst till vilken den asynkrona integrationstjänsten ska vara en partner. 
+Asynkrona envägstjänster används i första hand för att synkronisera information som föds ur systemarvet eller för start av en asynkron orkestrerande integrationstjänst. Asynkrona tvåvägstjänster är till för att möjliggöra asynkron orkestrering från en orkestrerande integrationstjänst. Dessa tjänster kan vara av batch-liknande karaktär, eller av andra skäl lämpa sig bäst för asynkron integration.
+De orkestrerande integrationstjänsterna är definierade i termer av ett primärt tjänstegränssnitt och ett eller flera partner-länkar. Dessa länkar kan vara synkrona uppdrag/svar, asynkrona envägs eller asynkrona tvåvägs. En partnerlänk definierar ett beroende till an atomär integrationstjänst. För tvåvägslänkar tillkommer dessutom en svarstjänst, genom vilken partnern levererar det asynkrona svarsmeddelandet. Svarsgränssnittet tillhör den asynkrona, atomära tvåvägstjänsten. Detta förhållande framgår inte av illustrationen. Istället tycks svarsgränssnittet felaktigt ägas av den orkestrerande integartionstjänsten och hamnar således i fel tjänstedomän.  Det kan också finnas en svarstjänst för att ta emot felmeddelanden. Dessa är inte illustrerade i bilden.
+Ägarskap av gränssnitt är olika för orkestrerande och atomära integrationstjänster. Atomära integrationstjänster äger såväl det producerande som eventuella konsumerande gränssnitt (dvs svarsgränssnitten). Av detta följer att orkestrerande integrationstjänster endast äger det primära gränssnittet. Syftet med dessa ägasrskapsregler är att behålla de atomära integrationstjänsternas obereonde till sin omgivning.
+En orkestrerande integrationstjänst definieras i syfte att just orkestrera en process. Det primära gränssnittet har som regel bara en operation, vars semantik därför är likvärdig med tjänsten som helhet. Orkestrerande processer definieras således i termer av den process de orkestrerar, snarare än av en uppsättning operationer. Processbeskrivningen kan därför ses som en del av tjänstedefinitionen. Den behöver inte vara exekverbar, men är förmodligen uttryckt i en notation som är närliggande dess exekverbara motsvarighet.
