@@ -59,33 +59,25 @@ En översikt med motivationsfaktorer ges i: `Teknisk presentation på Callista D
  
 = Dokumentationsöversikt= 
 
-|| *Namn* || *Dokumenttyp* || *Beskrivning* ||
-|| Referensarkitektur_översikt.ppt || Presentation, Introduktion || Lättförståelig introduktion till RA ||
-|| [RA_Introduktion] (denna sida)|| Introduktion || Introduktion med läsanvisningar och länkar till vidare information. ||
-|| Genensamma Icke-funktionella krav vid upphandling av systemstöd.docx || Kravdokument || Ej färdigt dokument. Mall för gemensamma krav. ||
+|| *Namn* || *Dokumenttyp* || *Beskrivning av innehåll* ||
+|| [RA_Introduktion] (denna sida)|| Övergripand introduktion || Introduktion med läsanvisningar och länkar till vidare information. ||
+|| Referensarkitektur_översikt.ppt || Övergripande introduktion, Presentation || Lättförståelig introduktion till RA ||
+|| 3R-0009 Anvisning 3R referensarkitektur.doc || Logisk RA, Anvisning || Beskriver referensarkitekturen inkl de logiska referensmodellerna ingående ||
+|| Referensmodell arkitektur 3R.ppt || Logisk RA, Presentation || Beskriver referensarkitekturen inkl de logiska referens-modellerna ||
+
+
+|| Tekniskt ramverk portal VGR.ppt || Teknisk arkitektur, Presentation || Presentation som hölls för Göteborgs stad Intraservice 2008. ||
+|| Teknisk presentation på Callista Developer Conference 2008.ppt || Teknisk arkitektur, Presentation || Teknisk presentation på Callista Developer Conference 2008. Beskriver den tekniska arkitekturen inkl dess motivationsfaktorer. Innehåller även teknikstacken för Java.||
+|| Anvisningar för WSDL-design.doc || Teknisk arkitektur, Anvisning || Detaljerade anvisningar för wsdl-utveckling. Bör förtydligas/utökas med hänvisningar till kodexempel/poc. ||
+|| Anvisningar för versionering av XML-Scheman.doc || Teknisk arkitektur, Anvisning || Detaljerade anvisningar för versionering av XML-scheman. Bör förtydligas/utökas med hänvisningar till kodexempel/poc. ||
+|| Anvisningar_Konfigurationshantering.doc || Teknisk arkitektur, Anvisning || Detaljerade anvisningar om hur man versionerar maven-artefakter, lablar i subversion etc. ||
+|| Anvisningar_Verktyg_Subversion.doc || Teknisk arkitektur, Anvisning || Kortfattad anvisning om subversion. ||
+|| [RA_Anvandarmanual_Utvecklingsmiljo] || Teknisk arkitektur, Anvisning || Beskriver hur man praktiskt sätter upp sin utvecklingsmiljö för att komma igång med utveckling av RA-system och komponenter. ||
+|| [RA_Anvandarmanual_Kallkodstruktur] || Teknisk arkitektur, Anvisning || Beskriver källkodsstrukturen och dess koppling till RA. ||
+|| Anvisningar_Portletutveckling.doc || Teknisk arkitektur, Anvisning || Beskriver hur man utvecklar portlets. Innehåller ev något ouppdaterad information, behöver revideras. Not: Befintliga projekt använder nyare portlet-standarden JSR 286 istf JSR168. ||
+|| Anvisningar_Klient_UI_lager.doc || Teknisk arkitektur, Anvisning || Innehåller teknikstack för Java EE-weblagret. Innehåller även lite annan info specifik för RA. Bör utökas. ||
+|| Genensamma Icke-funktionella krav vid upphandling av systemstöd.docx || Kravdokument || Ej färdigt dokument. Dokumentet är tänkt att samla gemensamma, icke-funktionella krav. ||
 || Mall Icke-funktionella krav upphandling av systemstöd.docx || Kravdokument || Ej färdigt dokument. Mall för gemensamma krav. ||
-|| 3R-0009 Anvisning 3R referensarkitektur.doc || Anvisning || Beskriver den logiska modellen ingående ||
-|| Referensmodell arkitektur 3R.ppt || Presentation || Beskriver den logiska modellen ingående ||
-|| Tekniskt ramverk portal VGR.ppt || Teknisk arkitektur, Presentation || Presentation som hölls för Göteborgs stad Intraservice. ||
-|| Teknisk presentation på Callista Developer Conference 2008.ppt || Teknisk arkitektur, Presentation || Teknisk presentation på Callista Developer Conference 2008. ||
 
 								
-
-		 						Presentation på Callista Developer Conference. Innehåller kraven, teknikstack etc. Bör extraheras. 
-								
-	Systemutveckling							
-		DotNet						
-		Generellt						
-			Webservices					
-				Anvisningar för WSDL-design.doc				Anvisningar för wsdl-utveckling. Bör finnas kvar.
-				Anvisningar för versionering av XML-Scheman.doc				Anvisningar för versionering av XML-scheman. Bör finnas kvar och ev utökas med förtydligande exempel (hänvisningar till kod).
-			Konfigurationshantering					
-				Anvisningar_Konfigurationshantering.doc				Innehåller info om hur man versionerar maven-artefakter, lablar i subversion etc. Bör finnas kvar i någon form. 
-				Anvisningar_Verktyg_Subversion.doc				Kortfattat om subversion. Bör finnas kvar i någon form. 
-
-		Java EE						
-			Anvisningar_Kallkodsstruktur_Byggsystem.doc					Beskriver hur källkodsstrukturen ser ut och hur detta mappas mot ref-arken. Beskriver även hur maven-pluginen används för att genrera upp projekt.  
-			Anvisningar_Verktyg_Maven2.doc					Beskriver hur man får upp sin utvecklingsmiljö. Deploy till VGR-repo, refark-specifika pluginer mm. Ska finnas kvar men i annan form. 
-			Anvisningar_Portletutveckling.doc					Beskriver hur man utvecklar portlets. Innehåller ev något ouppdaterad information, behöver revideras. Not: Befintliga projekt använder nyare portlet-standarden JSR 286 istf JSR168.
-			Anvisningar_Klient_UI_lager.doc					Innehåller teknikstack för java ee-weblagret. Innehåller även lite annan info specifik för RA.
-			Anvisningar_kontinuerlig_integration.doc					Innehåller beskrivning av Continuum och hur det används. VGR har gått över till Hudson så dokumentet är inaktuellt. Dessutom förändras detta iom open sourceningen, då atlassian skall användas.
+		
