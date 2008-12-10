@@ -5,7 +5,7 @@
 
 == Förkortningar och termer == 
 
-|| Begrepp/förkortning || Betydelse ||
+|| *Förkortning* || *Betydelse* ||
 || RRR || Regler, Riktlinjer och Rekommendationer ||
 || VGR || Västra Götalandsregionen ||
 || SSL || Stockholms Läns Landsting ||
