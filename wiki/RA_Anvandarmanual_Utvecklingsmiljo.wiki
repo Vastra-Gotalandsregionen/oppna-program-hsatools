@@ -204,6 +204,24 @@ Följande maven-kommando genererar den översta nivån (system-nivån) i struktu
 mvn javg-util:javg-template-plugin:svn
 }}}
 
+Pluginen kommer att efterfråga ett base-package name:
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_BasePackagePrompt.png
+
+Ange ett base-package name t ex `se.vgr.mytestsystem`.
+
+Sedan efterfrågas ett namn på det nya systemet: 
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_SystemNamePrompt.png
+
+T ex `MyTestSystem` (se [RA-Anvandarmanual_Kallkodsstruktur] för namngivningsregler).
+
+Till slut efterfrågas namnet på den verksamhetskomponent som per default skapas som en del av strukturen: 
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_BCNamePrompt.png
+
+T ex `MyTestBC`.
+
 Verksamhetskomponenten skapas med alla tänkbara moduler/delar. Efter genereringen går det bra att ta bort eventuella delar som inte ska användas, t ex modules/web om det inte ska finnas en web-del.
 
 
@@ -239,4 +257,4 @@ Se ovan för hur en ny komponent importeras i Eclipse.
 == Versionshantering av artefakter ==
 Beskrivs i `Anvisningar_Konfigurationshantering.doc`.
 == Generering av SNAPSHOT-artefakter ==
-Beskrivs i `Anvisningar_Källkodsstruktur_Byggsystem.doc` och `Anvisningar_Kontinuerlig_Integration.doc`.
+Beskrivs i [RA_Anvandarmanual_Kallkodstruktur] och `Anvisningar_Kontinuerlig_Integration.doc`.
