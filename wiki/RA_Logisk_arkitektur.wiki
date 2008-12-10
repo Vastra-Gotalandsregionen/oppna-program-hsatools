@@ -59,6 +59,8 @@ Följande listning redovisar de viktigaste aspekterna av spårbarhet som behöve
   * Spårbarhet till namnrymder för såväl integrationstjänster som verksamhetskomponenter.
 
 = Den yttre arkitekturen =
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Yttre_ark_exempel.png
  
 Bilden illustrerar tre tjänstedomäner, varav en är en process-nära tjänstedomän bestående av en eller flera orkestrerande integrationstjänster. Tjänstedomäner kan i sin tur grupperas i verksamhetsdomäner. Illustrationen belyser inte denna aspekt av den yttre arkitekturen.
 Varje tjänstedomän omfattar ett antal integrationstjänster. Integrationstjänsterna är av två slag – atomära eller orkestrerande.
