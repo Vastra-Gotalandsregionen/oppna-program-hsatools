@@ -23,12 +23,14 @@ TODO: namnkonvention, prefix för verksamhetskomponenter (t ex ”e” för enti
 Innehåll och användning av de olika delarna i strukturen beskrivs här.
 
 === Strukturen inom ett system ===
-Varje system innehåller en eller flera verksamhetskomponenter. När man skapar ett system med maven-pluginen skapas en struktur anpassad till subversion upp. Under systemet finns katalogerna: 
+Varje system innehåller en eller flera verksamhetskomponenter. När man skapar ett system med maven-pluginen skapas en struktur anpassad till subversion upp. Under systemet finns katalogerna branches, tags och trunk: 
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_SystemFilstruktur.png
 
+Under trunk ligger byggfilen `pom.xml` för hela systemet samt kataloger för respektive verksamhetskomponent. I exemplet ovan är `MyTestBC` den enda verksamhetskomponenten. 
+
 === Översikt över hierarkin inom en verksamhetskomponent ===
-Varje system består av ett antal verksamhetskomponenter, varje verksamhetskomponent har en inre struktur enligt följande: 
+Varje system innehåller ett antal verksamhetskomponenter, varje verksamhetskomponent har en konceptuell inre uppbyggnad enligt:
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCHierarkin.png
 
@@ -38,11 +40,9 @@ En applikation är främst är en _packetering_ av den underliggande funktionali
 
 
 === Verksamhetskomponenter ===
-Direkt under `<SystemNamn>/trunk` ligger alla verksamhetskomponenter för ett system samt en byggfil, pom.xml, för att bygga hela systemet. Varje verksamhetskomponent innehåller i sin tur följade underkataloger: 
-  * applications 
-  * modules 
-  * composites
-  * sql 
+Direkt under `<SystemNamn>/trunk` ligger alltså alla verksamhetskomponenter för ett system samt en byggfil, pom.xml, för att bygga hela systemet. Varje verksamhetskomponent innehåller i sin tur följade underkataloger: 
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCFilstruktur.png 
  
 === applications ===
  
