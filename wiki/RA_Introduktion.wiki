@@ -48,7 +48,7 @@ Till den tekniska arkitekturen hör även dokumentation för systemutvecklingsst
 Det är lämpligt att först läsa igenom det dokument som beskriver referens-modellerna för att få en konceptuell förståelse.
 == Logisk RA ==
   * Snabb översikt: `Referensarkitektur_översikt.ppt`
-  * Mer ingående beskrivning: `3R-0009 Anvisning 3R referensarkitektur.doc`
+  * Mer ingående beskrivning: [RA_Logisk_arkitektur].
 
 == Teknisk arkitektur ==
 För kodexempel hänvisas till referensapplikation(erna) samt övriga kodexempel för specifika aspekter (t ex versionering av WSDL).
@@ -62,7 +62,7 @@ En översikt med motivationsfaktorer ges i: `Teknisk presentation på Callista D
 || *Namn* || *Dokumenttyp* || *Beskrivning av innehåll* ||
 || [RA_Introduktion] (denna sida)|| Övergripand introduktion || Introduktion med läsanvisningar och länkar till vidare information. ||
 || Referensarkitektur_översikt.ppt || Övergripande introduktion, Presentation || Lättförståelig introduktion till RA ||
-|| 3R-0009 Anvisning 3R referensarkitektur.doc || Logisk RA, Anvisning || Beskriver referensarkitekturen inkl de logiska referensmodellerna ingående ||
+|| [RA_Logisk_arkitektur] || Logisk RA, Anvisning || Beskriver referensarkitekturen inkl de logiska referensmodellerna ingående ||
 || Referensmodell arkitektur 3R.ppt || Logisk RA, Presentation || Beskriver referensarkitekturen inkl de logiska referens-modellerna ||
 || Tekniskt ramverk portal VGR.ppt || Teknisk arkitektur, Presentation || Presentation som hölls för Göteborgs stad Intraservice 2008. ||
 || Teknisk presentation på Callista Developer Conference 2008.ppt || Teknisk arkitektur, Presentation || Teknisk presentation på Callista Developer Conference 2008. Beskriver den tekniska arkitekturen inkl dess motivationsfaktorer. Innehåller även teknikstacken för Java.||
