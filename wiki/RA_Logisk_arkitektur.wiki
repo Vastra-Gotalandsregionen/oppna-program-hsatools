@@ -22,6 +22,20 @@ Som bas för referensarkitekturen finns en referensmodellen. Den definierar de e
 
 Att definiera den taxonomi som tillämpas i kommunikationen med leverantörer och den struktur som förväntas av de produkter som levereras av våra leverantörer.
 
+== Referenser ==
+== Allmänt ==
+|| *Ref* || *Dokument ID* || *Dokument* ||
+|| 3R || Modell Referensarkitektur 3R|| Modell för referensarkitektur (format: eap / enterprise Architect) ||
+
+== Yttre arkitektur ==
+
+|| *Ref* || *Dokument ID* || *Dokument* ||
+|| CarLink Plus	|| || Referensarkitektur Rapport 2 April 2004.  ||
+HISA || || HISA (Healthcare Information Service Architecture). Detta dokument refereras från CareLink Plus. Dokumentet utgör en möjlig bas för fortsatt detaljering av den yttre arkitekturen, m.a.p process-orienterad integration. HISA defnierar bl.a. en metod för identifiering av tjänstedomäner. ||
+
+Se [RA_Introduktion] för länkar till övriga dokument inom referensarktekturen.
+
+
 = Sammanfattning - Viktigt innehåll =
 Denna anvisning ska omfatta en metamodell för IT-ramverkskomponenter. Med IT-ramverkskomponenter avses komponenter som beställs eller byggs med krav på följsamhet mot IT-ramverket. Tydliga referenser ska finnas till RIV- och BIF-arbeten. 
 
