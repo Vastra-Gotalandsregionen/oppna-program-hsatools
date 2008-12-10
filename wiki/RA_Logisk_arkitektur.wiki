@@ -24,14 +24,14 @@ Att definiera den taxonomi som tillämpas i kommunikationen med leverantörer oc
 
 == Referenser ==
 == Allmänt ==
-|| *Ref* || *Dokument ID* || *Dokument* ||
+|| *Organisation* || *Dokument* || *Beskrivning* ||
 || 3R || Modell Referensarkitektur 3R|| Modell för referensarkitektur (format: eap / enterprise Architect) ||
 
 == Yttre arkitektur ==
 
-|| *Organisation* || *Dokument* ||
-|| !CarLink Plus || Referensarkitektur Rapport 2 April 2004. ||
-|| HISA || HISA (Healthcare Information Service Architecture). Detta dokument refereras från !CareLink Plus. Dokumentet utgör en möjlig bas för fortsatt detaljering av den yttre arkitekturen, m.a.p process-orienterad integration. HISA defnierar bl.a. en metod för identifiering av tjänstedomäner. ||
+|| *Organisation* || *Dokument* || *Beskrivning* ||
+|| !CarLink Plus || Referensarkitektur Rapport 2 April 2004. || - ||
+|| HISA || HISA (Healthcare Information Service Architecture). || Detta dokument refereras från !CareLink Plus. Dokumentet utgör en möjlig bas för fortsatt detaljering av den yttre arkitekturen, m.a.p process-orienterad integration. HISA defnierar bl.a. en metod för identifiering av tjänstedomäner. ||
 
 Se [RA_Introduktion] för länkar till övriga dokument inom referensarktekturen.
 
