@@ -48,7 +48,7 @@ Till den tekniska arkitekturen hör även dokumentation för systemutvecklingsst
 Det är lämpligt att först läsa igenom det dokument som beskriver referens-modellerna för att få en konceptuell förståelse.
 == Logisk RA ==
   * Snabb översikt: `Referensarkitektur_översikt.ppt`
-  * Mer ingående beskrivning: `3R-0009 Anvisning 3R referensarkitekturv2.doc`
+  * Mer ingående beskrivning: `3R-0009 Anvisning 3R referensarkitektur.doc`
 
 == Teknisk arkitektur ==
 För kodexempel hänvisas till referensapplikation(erna) samt övriga kodexempel för specifika aspekter (t ex versionering av WSDL).
