@@ -214,7 +214,7 @@ Sedan efterfrågas ett namn på det nya systemet:
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_SystemNamePrompt.png
 
-T ex `MyTestSystem` (se [RA-Anvandarmanual_Kallkodstruktur] för namngivningsregler).
+T ex `MyTestSystem` (se [RA_Anvandarmanual_Kallkodstruktur] för namngivningsregler).
 
 Till slut efterfrågas namnet på den verksamhetskomponent som per default skapas som en del av strukturen: 
 
