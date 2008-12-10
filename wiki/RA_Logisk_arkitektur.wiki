@@ -4,12 +4,14 @@
 = Introduktion =
 
 == Förkortningar och termer == 
-RRR - Regler, Riktlinjer och Rekommendationer
-VGR – Västra Götalandsregionen
-SSL – Stockholms Läns Landsting
-3R – Samarbete mellan tre regioner; VGR, Region Skåne och SLL
-RIV - Regelverk för interoperabilitet i vården
-BIF - Bastjänster för informationsförsörjning
+
+|| Begrepp/förkortning || Betydelse ||
+|| RRR || Regler, Riktlinjer och Rekommendationer ||
+|| VGR || Västra Götalandsregionen ||
+|| SSL || Stockholms Läns Landsting ||
+|| 3R || Samarbete mellan tre regioner; VGR, Region Skåne och SLL ||
+|| RIV || Regelverk för interoperabilitet i vården ||
+|| BIF || Bastjänster för informationsförsörjning ||
 
 == Bakgrund ==
 Detta dokument beskriver den referensarkitektur som har tagits fram gemensamt inom 3R och släppts som öppen källkod av VGR inom ramen för Öppna Program. 
