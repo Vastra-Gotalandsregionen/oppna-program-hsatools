@@ -24,3 +24,25 @@ Syftet med referensarkitekturen är att uppnå skalfördelar med avseende på å
 Som bas för referensarkitekturen finns en referensmodellen. Den definierar de entiteter som uttrycker arkitekturen hos de IT-lösningar som upphandlas och utvecklas inom 3R.  
 
 Att definiera den taxonomi som tillämpas i kommunikationen med leverantörer och den struktur som förväntas av de produkter som levereras av våra leverantörer.
+
+= Sammanfattning - Viktigt innehåll =
+Denna anvisning ska omfatta en metamodell för IT-ramverkskomponenter. Med IT-ramverkskomponenter avses komponenter som beställs eller byggs med krav på följsamhet mot IT-ramverket. Tydliga referenser ska finnas till RIV- och BIF-arbeten. 
+
+Referensmodellen består av två delar: en referensmodell för inre arkitektur och en referensmodell för yttre arkitektur.
+
+Referensmodellen för den inre arkitekturen beskriver principer för arkitekturen hos den funktionalitet som upphandlas eller utvecklas inom ramen för en så kallad tjänstedomän (relaterade termer: ”blomblad”, ”projekt”), enligt principerna för ”service component architecture” (förslag till översättning: komponentbaserad arkitetur för realisering av tjänster). 
+
+Referensmodellen för den yttre arkiteturen beskriver principer för den tjänsteorienterade arkitektur genom vilken verksamhetskomponenter publicerar de tjänster som krävs för integration av verksamhetens processer.
+
+Yttre arkiteturer - dvs specifikationer av integrationstjänster - drivs fram och ägs av Enterprise Architecture. Inre arkitektur – de verksamhetskomponenter som sammantaget realiserar beställd funktionalitet inom ramen för en tjänstedomän – bildar ett fristående förvaltningsobjekt. Enterprise Architecture bistår projekten vid modellering av inre arkitetur, men tar inget ägarskap för modellerna.
+
+Referensarkitekturen är framtagen gemensamt för ”3R” (tre regioner: Västra Götalandsregionen, Region Skåne, Stockholms Läns Landsting), men kan påföras restriktioner drivna av regionala krav. Dessa region- eller tjänstedomän-specifika anvisningar kallas profiler. 
+
+Dokumentet ger en överblick över hur spårbarhet ska åstadkommas från modeller i den logiska vyn till modeller i de teknologiska och tekniska vyerna. Detaljerna för spårbarhet återfinns i underliggande teknologi-specifika anvisningar. 
+
+Följande listning redovisar de viktigaste aspekterna av spårbarhet som behöver åskådliggöras:
+  * Spårbarhet till plattformsspecifik design för de plattformar 3Rs EA avser omfatta
+  * Spårbarhet till strukturer för konfigurationsstyrning av systems beskrivning och realisering. Här avses strukturer i såväl modeller som testfall, funktionalitet och projektdefinitioner för utvecklingsverktyg.
+  * Spårbarhet till katalogstrukturer (repositorier) för versionsindikerade tekniska tjänstespecifkationer (t.ex. XSD, WSDL)
+  * Spårbarhet till komponentkataloger för plattformsspecifika binärer (enheter för komponentbaserad återanvändning inom ett system)
+  * Spårbarhet till namnrymder för såväl integrationstjänster som verksamhetskomponenter.
