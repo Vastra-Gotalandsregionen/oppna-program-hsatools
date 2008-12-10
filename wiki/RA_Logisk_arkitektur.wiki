@@ -1,14 +1,25 @@
-#summary One-sentence summary of this page.
+#summary Beskriver en logiska referensarkitekturen inkl referensmodellerna.
 #labels RA
 
-= Introduction =
+= Introduktion =
 
-Add your content here.
+== Förkortningar och termer == 
+RRR - Regler, Riktlinjer och Rekommendationer
+VGR – Västra Götalandsregionen
+SSL – Stockholms Läns Landsting
+3R – Samarbete mellan tre regioner; VGR, Region Skåne och SLL
+RIV - Regelverk för interoperabilitet i vården
+BIF - Bastjänster för informationsförsörjning
 
+== Bakgrund ==
+Detta dokument beskriver den referensarkitektur som har tagits fram gemensamt inom 3R och släppts som öppen källkod av VGR inom ramen för Öppna Program. 
 
-= Details =
+Inom VGR grundar sig anvisningen för referensarkitekturen på följande fastslagna regel:
+RRR 8	Tillämpningar, integrationstjänster och plattformsfunktioner utformas enligt fastställd referensarkitektur
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+== Syfte ==
+Syftet med referensarkitekturen är att uppnå skalfördelar med avseende på återanvändbarhet, förvaltningsbarhet, ekonomi och standardisering. Ett viktigt syfte är också att etablera ett fundament för spårbarhet från system-vy till teknologisk och teknisk vy av IT-ramverkskomponenter.
+
+Som bas för referensarkitekturen finns en referensmodellen. Den definierar de entiteter som uttrycker arkitekturen hos de IT-lösningar som upphandlas och utvecklas inom 3R.  
+
+Att definiera den taxonomi som tillämpas i kommunikationen med leverantörer och den struktur som förväntas av de produkter som levereras av våra leverantörer.
