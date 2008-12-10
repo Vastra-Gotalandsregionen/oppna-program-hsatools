@@ -1,8 +1,8 @@
-#summary Beskriver källkodstrukturen i RA-projekt.
+#summary Beskriver källkodstrukturen i RA-system och komponenter.
 
 = Introduktion =
 
-Alla system som bygger på referensarkitekturen (RA) har en liknande källkodsstruktur. Bland annat den maven-plugin som följer med RA är beroende av att strukturen ser ut så som här beskrivs och nämnda plugin används också för att skapa den specifika strukturen. 
+Alla system som bygger på referensarkitekturen (RA) har en liknande källkodsstruktur i filsystemet. Strukturen är direkt kopplad till RA och utgör grunden för en implementation av den. Vissa av kraven på referensarkitekturen, bland annat modularisering i weblagret och portabilitet mellan portlet och webbapp, har en direkt koppling till strukturen. Den maven-plugin som följer med RA är beroende av att strukturen ser ut så som här beskrivs och nämnda plugin används också för att skapa den specifika strukturen. 
 
 Här beskrivs på detaljnivå:
   * de ingående delarna i källkodsstrukturen
@@ -10,7 +10,8 @@ Här beskrivs på detaljnivå:
 
 För konkreta exampel på hur byggsystemet används för att bygga RA-system och komponenter, se [RA_Anvandarmanual_Utvecklingsmiljo]. 
 
-= Källkodstruktur i RA-system =
+= Källkodstruktur i RA-system och komponenter =
+
 == Namngivning ==
 === Namngivning av system ===
 Varje systems namn måste vara globalt unikt för att undvika namnkollisioner vid driftsättning.
@@ -20,6 +21,12 @@ TODO: namnkonvention, prefix för verksamhetskomponenter (t ex ”e” för enti
 
 == Ingående delar i strukturen ==
 Innehåll och användning av de olika delarna i strukturen beskrivs här.
+
+=== Strukturen inom ett system ===
+Varje system innehåller en eller flera verksamhetskomponenter. När man skapar ett system med maven-pluginen skapas en struktur anpassad till subversion upp. Under systemet finns katalogerna: 
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_SystemFilstruktur.png
+
 === Översikt över hierarkin inom en verksamhetskomponent ===
 Varje system består av ett antal verksamhetskomponenter, varje verksamhetskomponent har en inre struktur enligt följande: 
 
