@@ -1,4 +1,5 @@
 #summary Beskriver källkodstrukturen i RA-system och komponenter.
+#labels RA
 
 = Introduktion =
 
