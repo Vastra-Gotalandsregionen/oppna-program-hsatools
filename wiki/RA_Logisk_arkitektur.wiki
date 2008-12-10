@@ -6,7 +6,6 @@
 == Förkortningar och termer == 
 
 || *Förkortning* || *Betydelse* ||
-|| RRR || Regler, Riktlinjer och Rekommendationer ||
 || VGR || Västra Götalandsregionen ||
 || SSL || Stockholms Läns Landsting ||
 || 3R || Samarbete mellan tre regioner; VGR, Region Skåne och SLL ||
@@ -16,8 +15,8 @@
 == Bakgrund ==
 Detta dokument beskriver den referensarkitektur som har tagits fram gemensamt inom 3R och släppts som öppen källkod av VGR inom ramen för Öppna Program. 
 
-Inom VGR grundar sig anvisningen för referensarkitekturen på följande fastslagna regel:
-RRR 8	Tillämpningar, integrationstjänster och plattformsfunktioner utformas enligt fastställd referensarkitektur
+Inom VGR grundar sig referensarkitekturen på följande fastslagna regel:
+"Tillämpningar, integrationstjänster och plattformsfunktioner utformas enligt fastställd referensarkitektur."
 
 == Syfte ==
 Syftet med referensarkitekturen är att uppnå skalfördelar med avseende på återanvändbarhet, förvaltningsbarhet, ekonomi och standardisering. Ett viktigt syfte är också att etablera ett fundament för spårbarhet från system-vy till teknologisk och teknisk vy av IT-ramverkskomponenter.
