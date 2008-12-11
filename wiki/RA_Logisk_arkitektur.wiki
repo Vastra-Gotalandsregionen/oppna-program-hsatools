@@ -13,16 +13,16 @@
 || BIF || Bastjänster för informationsförsörjning ||
 
 == Bakgrund ==
-Här beskrivs den logiska delen av den referensarkitektur som har tagits fram gemensamt inom 3R och släppts som öppen källkod av VGR inom ramen för Öppna Program. 
+Här beskrivs den logiska delen av den referensarkitektur som har tagits fram gemensamt inom 3R och släppts som öppen källkod av VGR här under Öppna Program. 
 
-Referensarkitekturen har även en teknisk arkitektur som är mer implemenationsnära, se [RA_Teknisk_arkitektur].
+Referensarkitekturen innefattar även en teknisk arkitektur som är mer implemenationsnära, se [RA_Teknisk_arkitektur].
 
 == Syfte ==
 Syftet med referensarkitekturen är att uppnå skalfördelar med avseende på återanvändbarhet, förvaltningsbarhet, ekonomi och standardisering. Ett viktigt syfte är också att etablera ett fundament för spårbarhet från system-vy till teknologisk och teknisk vy av IT-ramverkskomponenter.
 
-Som bas för referensarkitekturen finns en referensmodellen. Den definierar de entiteter som uttrycker arkitekturen hos de IT-lösningar som upphandlas och utvecklas inom 3R.  
+Den logiska referensarkitekturen är uppdelad i en yttre och en inre arkitektur. För respektive arkitektur finns en referensmodell som definierar det vokabulär som skall användas när man talar om arkitektur, t ex vad är ett _system_ och hur förhåller det sig till en _komponent_? 
 
-Att definiera den taxonomi som tillämpas i kommunikationen med leverantörer och den struktur som förväntas av de produkter som levereras av våra leverantörer.
+Alla IT-lösningar som upphandlas och utvecklas skall baseras på dessa referensmodeller. Syftet med referensmodellerna är alltså att definiera den taxonomi som tillämpas både internt och i kommunikationen med leverantörer samt den struktur som förväntas av de lösningar som byggs eller upphandlas.
 
 == Referenser ==
 == Allmänt ==
