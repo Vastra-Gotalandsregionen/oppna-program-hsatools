@@ -12,7 +12,7 @@
 || RIV || Regelverk för interoperabilitet i vården ||
 || BIF || Bastjänster för informationsförsörjning ||
 || DMIM || ||
-|| OSOA || Open Service Oriented Architecture ||
+|| OSOA || Open Service Oriented Architecture - Organisationen bakom bland annat SCA ||
 || SCA || Service Component Architecture ||
 
 
@@ -53,7 +53,7 @@ Den inre arkitekturen och dess refernsmodell beskriver principer för arkitektur
 
 Referensmodellen för den yttre arkiteturen beskriver principer för den tjänsteorienterade arkitektur genom vilken verksamhetskomponenter publicerar de tjänster som krävs för integration av verksamhetens processer.
 
-Yttre arkiteturer - dvs specifikationer av integrationstjänster - drivs fram och ägs av Enterprise Architecture. Inre arkitektur – de verksamhetskomponenter som sammantaget realiserar beställd funktionalitet inom ramen för en tjänstedomän – bildar ett fristående förvaltningsobjekt. Enterprise Architecture bistår projekten vid modellering av inre arkitetur, men tar inget ägarskap för modellerna.
+Yttre arkiteturer - dvs specifikationer av integrationstjänster - drivs fram och ägs av en _Enterprise Architecture_-funktion. Inre arkitektur – de verksamhetskomponenter som sammantaget realiserar beställd funktionalitet inom ramen för en tjänstedomän – bildar ett fristående förvaltningsobjekt. Enterprise Architecture bistår projekten vid modellering av inre arkitetur, men tar inget ägarskap för modellerna.
 
 Referensarkitekturen är framtagen gemensamt för ”3R” (tre regioner: Västra Götalandsregionen, Region Skåne, Stockholms Läns Landsting), men kan påföras restriktioner drivna av regionala krav. Dessa region- eller tjänstedomän-specifika anvisningar kallas profiler. 
 
