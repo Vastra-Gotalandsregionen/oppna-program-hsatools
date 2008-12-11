@@ -109,5 +109,24 @@ En mängd samverkande verksamhetskomponenter bildar ett System. Samverkan mellan
  
 Tjänstedomänens integrationstjänster utgör systemets gränsyta. Tjänstedomän ”A” ovan representerar ett typiskt operativt verksamhetsstöd för en del av vårdprocessen. Systemet kan ha upphandlats av en leverantör. Tjänstedomänens (och systemet) funktionella ansvar definieras av en ”blombladsmodell” och den funktionalitet den syftar till att understöda. System ”C” i bilden är av samma karaktär. Enterprise Architecture för 3R har definierat de integrationstjänster som krävs för att funktionaliteten ska kunna integreras i den övergripande vårdprocessen. Integrationstjänsterna representerar m.a.o. de strategiska behoven av integration av verksamhetens processer. Tjänstedomänen ”B” representerar däremot själva integrationen av vårdprocessen (eller en viktig aspekt av integrationen). Den består således huvudsakligen av orkestrerande integrationstjänster. Dessa realiseras av ett för domänen vigt system – nämligen System ”B”. System ”B” är uppbyggt av sinsemellan oberoende processkomponenter. Var och en av dessa realiserar en orkestrerande integrationstjänst. De består således bara ett anslutningsskikt med tänkt realisering i WS-BPEL.
 
+= Plattformstjänster =
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Plattformstjanster.png
+
+ Referensarkitekturen tillåter Plattformskomponenter (en typ av verksamhetskomponent i den inre arkitekturen) i alla system. Plattformskomponenter som bedöms vara av allmänt värde – även utanför det system de tillhör, kan  propageras till verksamhets/systemövergripande plattformsfunktioner. Dessa ägs då av EA-ramverket, som kan sägas representera en ”virtuell” domän uppdelad i tekniska tjänstedomäner i syfte att inordna delade plattformskomponenter i referensarkitekturens strukturer.
+
+= Exempel profil =
+Profiler används för att reducera frihetsgraden för ett specifikt system eller organisation. En profil kan också användas för att härleda nya termer från existerande. Nedanstående profil-exempel illustrerar båda fallen.
+
+  # Integrationstjänster realiseras uteslutande av Entitetskomponenter.
+  # Entitetskomponenter exporterar (publicerar) inte användartjänster.
+  # Entitetstjänsterna i Resursskiktet realiseras m.h.a. HTBs datatjänster 
+  # En Tillämpning definieras som en eller flera Process-komponenter begränsade av följande regler:
+    # Anslutningsskikt med enbart Användartjänster (Integrationstjänster publiceras ej). 
+    # Resursskikt saknas.
+    # Komponenttjänster i andra verksamhetskomponenter refereras ej.
+
+
+
 
  
