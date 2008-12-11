@@ -63,9 +63,11 @@ Följande listning redovisar de viktigaste aspekterna av spårbarhet som behöve
 = Den yttre arkitekturen =
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Yttre_ark_Refmodell.png
-
 Bilden visar referensmodellen för den yttre arkitekturen. 
 
+Den yttre arkitekturen består av ett antal _verksamhetsdomäner_ (ex Vård, Läkemedel etc), som i sin tur innehåller ett antal _tjänstedomäner_. Varje tjänstedomän innehåller ett antal _integrationstjänster_. En integrationstjänst är antingen _orkestrerande_ eller _atomär_. 
+
+Exempel: 
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Yttre_ark_exempel.png
  
