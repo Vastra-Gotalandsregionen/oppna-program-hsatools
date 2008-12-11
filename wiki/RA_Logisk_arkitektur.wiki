@@ -11,11 +11,15 @@
 || 3R || Samarbete mellan tre regioner; VGR, Region Skåne och SLL ||
 || RIV || Regelverk för interoperabilitet i vården ||
 || BIF || Bastjänster för informationsförsörjning ||
+|| DMIM || ||
+|| OSOA || Open Service Oriented Architecture ||
+|| SCA || Service Component Architecture ||
+
 
 == Bakgrund ==
 Här beskrivs den logiska delen av den referensarkitektur som har tagits fram gemensamt inom 3R och släppts som öppen källkod av VGR här under Öppna Program. 
 
-Referensarkitekturen innefattar även en teknisk arkitektur som är mer implemenationsnära, se [RA_Teknisk_arkitektur].
+Referensarkitekturen innefattar även en mer konkret och implementations teknisk arkitektur, se [RA_Teknisk_arkitektur].
 
 == Syfte ==
 Syftet med referensarkitekturen är att uppnå skalfördelar med avseende på återanvändbarhet, förvaltningsbarhet, ekonomi och standardisering. Ett viktigt syfte är också att etablera ett fundament för spårbarhet från system-vy till teknologisk och teknisk vy av IT-ramverkskomponenter.
@@ -34,16 +38,18 @@ Alla IT-lösningar som upphandlas och utvecklas skall baseras på dessa referens
 || *Organisation* || *Dokument* || *Beskrivning* ||
 || !CarLink Plus || Referensarkitektur Rapport 2 April 2004. || - ||
 || HISA || HISA (Healthcare Information Service Architecture). || Detta dokument refereras från !CareLink Plus. Dokumentet utgör en möjlig bas för fortsatt detaljering av den yttre arkitekturen, m.a.p process-orienterad integration. HISA defnierar bl.a. en metod för identifiering av tjänstedomäner. ||
+|| OSOA || [http://www.osoa.org/display/Main/Service+Component+Architecture+Home SCA] || Innehåller ett antal specifikationer kring SCA. ||
 
 Se [RA_Introduktion] för länkar till övriga dokument inom referensarktekturen.
 
+= Sammanfattning - viktigt innehåll =
+Den logiska referensarkitekturen är uppdelad i en inre och en yttre arkitektur. Arkitekturen är formaliserad med hjälp av referensmodeller, ett slags metamodeller som beskriver termer/entiteter samt hur dessa relaterar till varandra. 
 
-= Sammanfattning - Viktigt innehåll =
-Denna anvisning ska omfatta en metamodell för IT-ramverkskomponenter. Med IT-ramverkskomponenter avses komponenter som beställs eller byggs med krav på följsamhet mot IT-ramverket. Tydliga referenser ska finnas till RIV- och BIF-arbeten. 
+Tydliga referenser ska finnas till RIV- och BIF-arbeten. 
+ 
+Referensmodellen består av två delar: en referensmodell för den inre arkitekturen och en referensmodell för den yttre arkitekturen.
 
-Referensmodellen består av två delar: en referensmodell för inre arkitektur och en referensmodell för yttre arkitektur.
-
-Referensmodellen för den inre arkitekturen beskriver principer för arkitekturen hos den funktionalitet som upphandlas eller utvecklas inom ramen för en så kallad tjänstedomän (relaterade termer: ”blomblad”, ”projekt”), enligt principerna för ”service component architecture” (förslag till översättning: komponentbaserad arkitetur för realisering av tjänster). 
+Den inre arkitekturen och dess refernsmodell beskriver principer för arkitekturen hos den funktionalitet som upphandlas eller utvecklas inom ramen för en så kallad _tjänstedomän_, enligt principerna för SCA. 
 
 Referensmodellen för den yttre arkiteturen beskriver principer för den tjänsteorienterade arkitektur genom vilken verksamhetskomponenter publicerar de tjänster som krävs för integration av verksamhetens processer.
 
