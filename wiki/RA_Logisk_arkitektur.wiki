@@ -62,6 +62,11 @@ Följande listning redovisar de viktigaste aspekterna av spårbarhet som behöve
 
 = Den yttre arkitekturen =
 
+http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Yttre_ark_Refmodell.png
+
+Bilden visar referensmodellen för den yttre arkitekturen. 
+
+
 http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Yttre_ark_exempel.png
  
 
