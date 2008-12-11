@@ -13,7 +13,9 @@
 || BIF || Bastjänster för informationsförsörjning ||
 
 == Bakgrund ==
-Detta dokument beskriver den referensarkitektur som har tagits fram gemensamt inom 3R och släppts som öppen källkod av VGR inom ramen för Öppna Program. 
+Här beskrivs den logiska delen av den referensarkitektur som har tagits fram gemensamt inom 3R och släppts som öppen källkod av VGR inom ramen för Öppna Program. 
+
+Referensarkitekturen har även en teknisk arkitektur som är mer implemenationsnära, se [RA_Teknisk_arkitektur].
 
 == Syfte ==
 Syftet med referensarkitekturen är att uppnå skalfördelar med avseende på återanvändbarhet, förvaltningsbarhet, ekonomi och standardisering. Ett viktigt syfte är också att etablera ett fundament för spårbarhet från system-vy till teknologisk och teknisk vy av IT-ramverkskomponenter.
@@ -77,3 +79,8 @@ Svarsgränssnittet tillhör den asynkrona, atomära tvåvägstjänsten. Detta f�
 Ägarskap av gränssnitt är olika för orkestrerande och atomära integrationstjänster. Atomära integrationstjänster äger såväl det producerande som eventuella konsumerande gränssnitt (dvs svarsgränssnitten). Av detta följer att orkestrerande integrationstjänster endast äger det primära gränssnittet. Syftet med dessa ägasrskapsregler är att behålla de atomära integrationstjänsternas obereonde till sin omgivning.
 
 En orkestrerande integrationstjänst definieras i syfte att just orkestrera en process. Det primära gränssnittet har som regel bara en operation, vars semantik därför är likvärdig med tjänsten som helhet. Orkestrerande processer definieras således i termer av den process de orkestrerar, snarare än av en uppsättning operationer. Processbeskrivningen kan därför ses som en del av tjänstedefinitionen. Den behöver inte vara exekverbar, men är förmodligen uttryckt i en notation som är närliggande dess exekverbara motsvarighet.
+
+= Inre arkitektur och verksamhetskomponenter =
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Inre_ark.png
+ 
