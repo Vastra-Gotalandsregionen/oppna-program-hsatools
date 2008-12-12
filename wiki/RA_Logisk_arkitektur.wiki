@@ -29,11 +29,11 @@ Den logiska referensarkitekturen är uppdelad i en yttre och en inre arkitektur.
 Alla IT-lösningar som upphandlas och utvecklas skall baseras på dessa referensmodeller. Syftet med referensmodellerna är alltså att definiera den taxonomi som tillämpas både internt och i kommunikationen med leverantörer samt den struktur som förväntas av de lösningar som byggs eller upphandlas.
 
 == Referenser ==
-== Allmänt ==
+=== Allmänt ===
 || *Organisation* || *Dokument* || *Beskrivning* ||
 || 3R || Modell Referensarkitektur 3R|| Modell för referensarkitektur (format: eap / enterprise Architect) ||
 
-== Yttre arkitektur ==
+=== Yttre arkitektur ===
 
 || *Organisation* || *Dokument* || *Beskrivning* ||
 || !CarLink Plus || Referensarkitektur Rapport 2 April 2004. || - ||
@@ -49,13 +49,13 @@ Tydliga referenser ska finnas till RIV- och BIF-arbeten.
  
 Referensmodellen består av två delar: en referensmodell för den inre arkitekturen och en referensmodell för den yttre arkitekturen.
 
-Den inre arkitekturen och dess refernsmodell beskriver principer för arkitekturen hos den funktionalitet som upphandlas eller utvecklas inom ramen för en så kallad _tjänstedomän_, enligt principerna för SCA. 
+Den inre arkitekturen och dess referensmodell beskriver principer för arkitekturen hos den funktionalitet som upphandlas eller utvecklas inom ramen för en så kallad _tjänstedomän_, enligt principerna för SCA. 
 
 Referensmodellen för den yttre arkiteturen beskriver principer för den tjänsteorienterade arkitektur genom vilken verksamhetskomponenter publicerar de tjänster som krävs för integration av verksamhetens processer.
 
 Yttre arkiteturer - dvs specifikationer av integrationstjänster - drivs fram och ägs av en _Enterprise Architecture_-funktion. Inre arkitektur – de verksamhetskomponenter som sammantaget realiserar beställd funktionalitet inom ramen för en tjänstedomän – bildar ett fristående förvaltningsobjekt. Enterprise Architecture bistår projekten vid modellering av inre arkitetur, men tar inget ägarskap för modellerna.
 
-Referensarkitekturen är framtagen gemensamt för ”3R” (tre regioner: Västra Götalandsregionen, Region Skåne, Stockholms Läns Landsting), men kan påföras restriktioner drivna av regionala krav. Dessa region- eller tjänstedomän-specifika anvisningar kallas profiler. 
+Referensarkitekturen är framtagen gemensamt för ”3R” (tre regioner: Västra Götalandsregionen, Region Skåne, Stockholms Läns Landsting), men kan påföras restriktioner drivna av regionala krav. Dessa region- eller tjänstedomän-specifika anvisningar kallas _profiler_. 
 
 Dokumentet ger en överblick över hur spårbarhet ska åstadkommas från modeller i den logiska vyn till modeller i de teknologiska och tekniska vyerna. Detaljerna för spårbarhet återfinns i underliggande teknologi-specifika anvisningar. 
 
