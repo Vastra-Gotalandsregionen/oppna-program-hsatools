@@ -107,14 +107,14 @@ Asynkrona tvåvägstjänster är till för att möjliggöra asynkron orkestrerin
 
 Som vi såg ovan är ägarskap av gränssnitt olika för orkestrerande och för atomära integrationstjänster. Atomära integrationstjänster äger såväl det producerande som eventuella konsumerande gränssnitt (dvs svarsgränssnitten). Av detta följer att orkestrerande integrationstjänster endast äger det primära gränssnittet. Syftet med dessa ägasrskapsregler är att behålla de atomära integrationstjänsternas obereonde till sin omgivning.
 
-
 == Exempel ==
 http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Yttre_ark_exempel.png
 
 Bilden illustrerar tre tjänstedomäner, varav en (tjänstedomän B) är en process-nära tjänstedomän bestående av en orkestrerande integrationstjänst. Tjänstedomän A och C består av ett antal atomära integrationstjänster. Illustrationen visar inte att tjänstedomänerna i sin tur kan delas in i verksamhetsdomäner.
 
-Notera att svarsgränssnittet för en asynkron tvåvägstjänst tillhör den asynkrona, atomära tvåvägstjänsten. Detta förhållande framgår inte av illustrationen, där svarsgränssnittet felaktigt tycks ägas av den orkestrerande integrationstjänsten (vilket skulle innebära att det hamnar i fel tjänstedomän). 
+Den orkestrerande tjänsten i tjänstedomän B har två partnerlänkar, en till en asynkron tvåvägstjänst i tjänstedomän A och en till en synkron tjänst i tjänstedomän C.
 
+Notera att svarsgränssnittet för en den asynkrona tvåvägstjänsten hör hemma i tjänstedomän A. Detta förhållande framgår inte av illustrationen, där svarsgränssnittet felaktigt tycks ägas av den orkestrerande integrationstjänsten (vilket skulle innebära att det hamnar i fel tjänstedomän). 
 
 
 = Inre arkitektur och verksamhetskomponenter =
