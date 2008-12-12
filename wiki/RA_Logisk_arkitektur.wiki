@@ -23,7 +23,7 @@ Referensarkitekturen innefattar även en mer konkret och implementations teknisk
 
 == Syfte ==
 
-Den logiska referensarkitekturens viktigaste innehåll är dess metamodeller, så kallade _referensmodeller_. Dessa definierar det vokabulär som skall användas när man talar om arkitektur, och svarar på frågor som "Vad menar vi med ett _system_ och hur förhåller det sig till en _komponent_?" etc 
+Den logiska referensarkitekturens viktigaste innehåll är dess metamodeller, så kallade _referensmodeller_. Dessa definierar det vokabulär som skall användas när man talar om arkitektur, och svarar på frågor som "Vad menar vi med ett _system_ och hur förhåller det sig till en _komponent_?" etc.
 
 Alla IT-lösningar som upphandlas och utvecklas skall baseras på dessa referensmodeller. Syftet med den logiska arkitekturen och referensmodellerna är alltså att definiera den taxonomi som tillämpas både internt och i kommunikationen med leverantörer samt den struktur som förväntas av de lösningar som byggs eller upphandlas.
 
@@ -52,13 +52,16 @@ Den logiska referensarkitekturen är uppdelad i en inre och en yttre arkitektur.
 
 Tydliga referenser ska finnas till RIV- och BIF-arbeten. 
 
-Referensmodellen består av två delar: en referensmodell för den inre arkitekturen och en referensmodell för den yttre arkitekturen.
+Referensmodellerna består av två delar: en referensmodell för den inre arkitekturen och en referensmodell för den yttre arkitekturen.
 
-Den inre arkitekturen och dess referensmodell beskriver principer för arkitekturen hos den funktionalitet som upphandlas eller utvecklas inom ramen för en så kallad _tjänstedomän_, enligt principerna för SCA. 
+Den inre arkitekturen beskriver principer för arkitekturen inom de _system_ som utvecklas eller upphandlas. Varje system modulariseras genom att delas upp i ett antal _verksamhetskomponenter_. Den inre arkitekturen bygger på principerna för SCA. 
 
-Referensmodellen för den yttre arkiteturen beskriver principer för den tjänsteorienterade arkitektur genom vilken verksamhetskomponenter publicerar de tjänster som krävs för integration av verksamhetens processer.
+Den yttre arkiteturen beskriver hur systemen integreras med varandra genom en tjänsteorienterad arkitektur. Referensmodellen för den yttre arkitekturen definierar _integrationstjänster_, vilket är de tjänster som krävs för integration av verksamhetens processer. Integrationstjänsterna är indelade i olika _tjänstedomäner_. 
 
-Yttre arkiteturer - dvs specifikationer av integrationstjänster - drivs fram och ägs av en _Enterprise Architecture_-funktion. Inre arkitektur – de verksamhetskomponenter som sammantaget realiserar beställd funktionalitet inom ramen för en tjänstedomän – bildar ett fristående förvaltningsobjekt. Enterprise Architecture bistår projekten vid modellering av inre arkitetur, men tar inget ägarskap för modellerna.
+Kopplingen mellan den inre och den yttre arkitekturen utgörs av att en tjänstedomän, i normal- och idealfallet, är lika med ett system. Det är _verksamhetskomponenterna_ som publicerar integrationstjänsterna. 
+
+
+Yttre arkiteturer - dvs specifikationer av integrationstjänster - drivs fram och ägs av en _Enterprise Architecture_-funktion. Inre arkitektur – de verksamhetskomponenter som sammantaget realiserar beställd funktionalitet inom ramen för en tjänstedomän/ett system – bildar ett fristående förvaltningsobjekt. Enterprise Architecture bistår projekten vid modellering av inre arkitetur, men tar inget ägarskap för modellerna.
 
 Referensarkitekturen är framtagen gemensamt för ”3R” (tre regioner: Västra Götalandsregionen, Region Skåne, Stockholms Läns Landsting), men kan påföras restriktioner drivna av regionala krav. Dessa region- eller tjänstedomän-specifika anvisningar kallas _profiler_. 
 
