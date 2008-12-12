@@ -137,7 +137,7 @@ Tjänstedomänens integrationstjänster utgör systemets gränsyta. Tjänstedom�
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Plattformstjanster.png
 
- Referensarkitekturen tillåter Plattformskomponenter (en typ av verksamhetskomponent i den inre arkitekturen) i alla system. Plattformskomponenter som bedöms vara av allmänt värde – även utanför det system de tillhör, kan  propageras till verksamhets/systemövergripande plattformsfunktioner. Dessa ägs då av EA-ramverket, som kan sägas representera en ”virtuell” domän uppdelad i tekniska tjänstedomäner i syfte att inordna delade plattformskomponenter i referensarkitekturens strukturer.
+Referensarkitekturen tillåter Plattformskomponenter (en typ av verksamhetskomponent i den inre arkitekturen) i alla system. Plattformskomponenter som bedöms vara av allmänt värde – även utanför det system de tillhör, kan  propageras till verksamhets/systemövergripande plattformsfunktioner. Dessa ägs då av EA-ramverket, som kan sägas representera en ”virtuell” domän uppdelad i tekniska tjänstedomäner i syfte att inordna delade plattformskomponenter i referensarkitekturens strukturer.
 
 = Exempel profil =
 Profiler används för att reducera frihetsgraden för ett specifikt system eller organisation. En profil kan också användas för att härleda nya termer från existerande. Nedanstående profil-exempel illustrerar båda fallen.
