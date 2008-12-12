@@ -127,11 +127,15 @@ _Referensmodell för den inre arkitekturen._
 Huvudentiteten i referensmodellen för den inre arkitekturen är ett _system_. Grunden för modulariseringen inom system är en enhet som kallas _verksamhetskomponent_, varje system består av ett antal, hierarkiskt ordande, verksamhetskomponenter. 
 
 == Verksamhetskomponenter ==
+
 En verksamhetskomponent är en relativt stor enhet som representerar ett väl avgränsat funktionsområde/begrepp. Begreppet skall vara relevant för verksamheten och av tillräcklig omfattning för att vara synligt i planer, funktionella beskrivningar, konfigurationsstyrning, ändringshantering och leveranshantering. Det betyder att dess realisering kan spänna över så väl användargränssnitt, som verksamhetsregler och informationshanteringsregler. Detta gäller oavsett komponentens typ, även om tyngdpunkten mellan skikten förskjuts beroende på dess klassificering. 
 
 En verksamhetskomponent klassificeras efter den typ av funktionalitet den representerar: processorienterad, informationsorienterad (entitetskomponent), adapter eller generell / stödjande karaktär (plattformskomponent). 
 
+http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Inre_ark_Verksamhetskomponent.png
+_En verksamhetskomponent och dess skikt._
 
+En verksamhetskomponent kan består av upp till tre skikt, anslutningsskikt, verksamhetsskikt och resursskikt. Tyngdpunkten beror på vilken typ av komponent det är och i vissa fall kan något eller några skikt uteslutas helt. 
 
 === Processkomponent ===
 En processkomponents funktionalitet representerar en aktivitet eller process. De regler som allokeras till en processkomponent har ofta sitt ursprung i ett användningsfall eller processmodell. Processkomponenten har sin tyngdpunkt i verksamhets- och anslutningsskiktet. Anslutningsskiktet realiserar ofta integrationstjänster (SOA-tjänster), användartjänster (t ex portlets, eller en dialog i en rik klient) eller både och. Om anslutningsskiktet i processkomponenten realiserar en orkestrerande integrationstjänst (t ex i form av ett bpel-skript), saknas i regel övriga skikt. 
