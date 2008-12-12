@@ -22,11 +22,12 @@ Här beskrivs den logiska delen av den referensarkitektur som har tagits fram ge
 Referensarkitekturen innefattar även en mer konkret och implementations teknisk arkitektur, se [RA_Teknisk_arkitektur].
 
 == Syfte ==
-Syftet med referensarkitekturen är att uppnå skalfördelar med avseende på återanvändbarhet, förvaltningsbarhet, ekonomi och standardisering. Ett viktigt syfte är också att etablera ett fundament för spårbarhet från system-vy till teknologisk och teknisk vy av IT-ramverkskomponenter.
 
-Den logiska referensarkitekturen är uppdelad i en yttre och en inre arkitektur. För respektive arkitektur finns en referensmodell som definierar det vokabulär som skall användas när man talar om arkitektur, t ex vad är ett _system_ och hur förhåller det sig till en _komponent_? 
+Den logiska referensarkitekturens viktigaste innehåll är dess metamodeller, så kallade _referensmodeller_. Dessa definierar det vokabulär som skall användas när man talar om arkitektur, och svarar på frågor som "Vad menar vi med ett _system_ och hur förhåller det sig till en _komponent_?" etc 
 
-Alla IT-lösningar som upphandlas och utvecklas skall baseras på dessa referensmodeller. Syftet med referensmodellerna är alltså att definiera den taxonomi som tillämpas både internt och i kommunikationen med leverantörer samt den struktur som förväntas av de lösningar som byggs eller upphandlas.
+Alla IT-lösningar som upphandlas och utvecklas skall baseras på dessa referensmodeller. Syftet med den logiska arkitekturen och referensmodellerna är alltså att definiera den taxonomi som tillämpas både internt och i kommunikationen med leverantörer samt den struktur som förväntas av de lösningar som byggs eller upphandlas.
+
+Se även [RA_Introduktion] för övergripande syfte med att ha en referensarkitektur. 
 
 == Referenser ==
 === Allmänt ===
