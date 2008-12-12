@@ -127,17 +127,17 @@ _Referensmodell för den inre arkitekturen._
 Huvudentiteten i referensmodellen för den inre arkitekturen är ett _system_. Grunden för modulariseringen inom system är en enhet som kallas _verksamhetskomponent_, varje system består av ett antal, hierarkiskt ordande, verksamhetskomponenter. 
 
 == Verksamhetskomponenter ==
-En verksamhetskomponent är en relativt stor enhet som representerar ett väl avgränsat funktionsområde. 
+En verksamhetskomponent är en relativt stor enhet som representerar ett väl avgränsat funktionsområde/begrepp. Begreppet skall vara relevant för verksamheten och av tillräcklig omfattning för att vara synligt i planer, funktionella beskrivningar, konfigurationsstyrning, ändringshantering och leveranshantering. Det betyder att dess realisering kan spänna över så väl användargränssnitt, som verksamhetsregler och informationshanteringsregler. Detta gäller oavsett komponentens typ, även om tyngdpunkten mellan skikten förskjuts beroende på dess klassificering. 
 
-http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Inre_ark.png
-_Ett system och dess versksamhetskomponenter_
+En verksamhetskomponent klassificeras efter den typ av funktionalitet den representerar: processorienterad, informationsorienterad (entitetskomponent), adapter eller generell / stödjande karaktär (plattformskomponent). 
 
-Verksamhetskomponenter klassificeras efter den typ av funktionalitet de representerar: processorienterad, informationsorienterad (entitetskomponent), adapter eller generell / stödjande karaktär (plattformskomponent). 
 
-En verksamhetskomponent representerar ett för verksamheten relevant begrepp och av tillräcklig omfattning för att vara synlig i planer, funktionella beskrivningar, konfigurationsstyrning, ändringshantering och leveranshantering. Det betyder att dess realisering kan spänna över så väl användargränssnitt, som verksamhetsrgler och informationshanteringsregler. Detta gäller oavsett typ, även om tyngdpunkten mellan skikten förskjuts beroende på klassificeringen. 
 
 === Processkomponent ===
-En processkomponents funktionalitet representerar en aktivitet eller process. De regler som allokeras till en processkomponent har ofta sitt ursprung i ett användningsfall eller processmodell. Till skillnad från entitetskomponenter har processkomponenten sin tyngdpunkt förskjuten till verksamhets- och anslutningsskiktet. Anslutningsskiktet realiserar ofta integrationstjänster (SOA-tjänster), användartjänster (t.ex. portlets, eller en dialog i en rik klient) eller både och. Om anslutningsskiktet i processkomponenten realiserar en orkestrerande integrationstjänst (t.ex. i form av ett bpel-skript), saknas i regel övriga skikt. Verksamhetsskiktet i en processkomponent är av uppgiftsorienterad karaktär. Om anslutningsskitet definierar en användardialog, kan distribuerad kommunikation krävas mellan anslutningsskiktet och verksamhetsskiktet (s.k. rik klient). Det är dock önskvärt att anslutningsskiktet i detta fall delas upp i den distribuerade dialoghanteringen och en server-del med specifikt ansvar för att ansluta dialog-delen. På så sätt minskas verksamhetsskiktets beroende till klienten. Man får dessutom en beredskap för att realisera sessionbaserad hantering på server-sidan, vilket inte kan ske i verksamhetsskiktets tillståndslösa komponenttjänster. Två av processkomponenterna i bilden realiserar inte någon integrationstjänst, men har trots detta ett anslutningsskikt. Det innebär att komponenterna definierar en eller flera användartjänster.
+En processkomponents funktionalitet representerar en aktivitet eller process. De regler som allokeras till en processkomponent har ofta sitt ursprung i ett användningsfall eller processmodell. Processkomponenten har sin tyngdpunkt i verksamhets- och anslutningsskiktet. Anslutningsskiktet realiserar ofta integrationstjänster (SOA-tjänster), användartjänster (t ex portlets, eller en dialog i en rik klient) eller både och. Om anslutningsskiktet i processkomponenten realiserar en orkestrerande integrationstjänst (t ex i form av ett bpel-skript), saknas i regel övriga skikt. 
+
+Verksamhetsskiktet i en processkomponent är av uppgiftsorienterad karaktär. Om anslutningsskitet definierar en användardialog, kan distribuerad kommunikation krävas mellan anslutningsskiktet och verksamhetsskiktet (en så kallad rik klient). Det är dock önskvärt att anslutningsskiktet i detta fall delas upp i den distribuerade dialoghanteringen och en server-del med specifikt ansvar för att ansluta dialog-delen. På så sätt minskas verksamhetsskiktets beroende till klienten. Man får dessutom en beredskap för att realisera sessionbaserad hantering på server-sidan, vilket inte kan ske i verksamhetsskiktets tillståndslösa komponenttjänster. 
+
 
 
 === Entitetskomponent === 
@@ -159,6 +159,14 @@ _Exempel plattoformskomponenter_
 En plattformskomponent är en komponent av generell/stödjande karaktär, vanligtvis tekniskt orienterad.
 
 Plattformskomponenter som bedöms vara av allmänt värde – även utanför det system de tillhör, kan  propageras till verksamhets/systemövergripande plattformsfunktioner. Dessa ägs då av EA-ramverket, som kan sägas representera en ”virtuell” domän uppdelad i tekniska tjänstedomäner i syfte att inordna delade plattformskomponenter i referensarkitekturens strukturer.
+
+== Exempel == 
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Inre_ark.png
+_Bilden illustrerar ett system och dess verksamhetskomponenter_
+
+Två av processkomponenterna i bilden realiserar inte någon integrationstjänst, men har trots detta ett anslutningsskikt. Det innebär att komponenterna definierar en eller flera användartjänster.
+
 
 
 = Samverkan yttre och inre arkitektur =
