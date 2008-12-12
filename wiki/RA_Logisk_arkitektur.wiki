@@ -38,6 +38,10 @@ Alla IT-lösningar som upphandlas och utvecklas skall baseras på dessa referens
 || *Organisation* || *Dokument* || *Beskrivning* ||
 || !CarLink Plus || Referensarkitektur Rapport 2 April 2004. || - ||
 || HISA || HISA (Healthcare Information Service Architecture). || Detta dokument refereras från !CareLink Plus. Dokumentet utgör en möjlig bas för fortsatt detaljering av den yttre arkitekturen, m.a.p process-orienterad integration. HISA defnierar bl.a. en metod för identifiering av tjänstedomäner. ||
+
+=== Inre arkitektur ===
+
+|| *Organisation* || *Dokument* || *Beskrivning* ||
 || OSOA || [http://www.osoa.org/display/Main/Service+Component+Architecture+Home SCA] || Innehåller ett antal specifikationer kring SCA. ||
 
 Se [RA_Introduktion] för länkar till övriga dokument inom referensarktekturen.
