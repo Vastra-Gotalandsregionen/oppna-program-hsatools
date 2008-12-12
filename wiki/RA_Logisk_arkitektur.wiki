@@ -46,7 +46,7 @@ Se [RA_Introduktion] för länkar till övriga dokument inom referensarktekturen
 Den logiska referensarkitekturen är uppdelad i en inre och en yttre arkitektur. Arkitekturen är formaliserad med hjälp av referensmodeller, ett slags metamodeller som beskriver termer/entiteter samt hur dessa relaterar till varandra. 
 
 Tydliga referenser ska finnas till RIV- och BIF-arbeten. 
- 
+
 Referensmodellen består av två delar: en referensmodell för den inre arkitekturen och en referensmodell för den yttre arkitekturen.
 
 Den inre arkitekturen och dess referensmodell beskriver principer för arkitekturen hos den funktionalitet som upphandlas eller utvecklas inom ramen för en så kallad _tjänstedomän_, enligt principerna för SCA. 
