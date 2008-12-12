@@ -119,6 +119,8 @@ Notera att svarsgränssnittet för en den asynkrona tvåvägstjänsten hör hemm
 
 = Inre arkitektur och verksamhetskomponenter =
 
+http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Inre_ark_Refmodell.png
+
 http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Inre_ark.png
 
 Aktivering av funktionalitet kräver inte integrationstjänster. Integrationstjänster syftar till att realisera integrationsbehov, mellan tjänstedomäner. De teknologier och koncept på vilka integrationstjänster vilar, är inte lämpade för modularisering av funktionalitet i syfte att nå återanvändning, reducera komplexitet eller normalisera implementationen av verksamhetsregler.
