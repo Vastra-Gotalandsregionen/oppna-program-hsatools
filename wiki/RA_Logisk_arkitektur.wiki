@@ -101,7 +101,7 @@ En synkron tjänst definieras av traditionella uppdrag/svar-operationer.
 
 En asynkron tjänst kan vara antingen envägs- eller tvåvägs. I båda fallen finns ett uppdragsgränssnitt med envägsoperationer (utan svar). I fallet tvåvägstjänst finns dessutom ett svarsgränssnitt – också detta med envägsoperationer. Svarsgränssnittet måste realiseras av den eller de orkestrerande tjänst(er) som skall anropa den asynkrona integrationstjänsten, dvs som har en partnerlänk till den.  
 
-Asynkrona envägstjänster används i första hand för att synkronisera information som föds ur systemarvet-- eller för start av en asynkron orkestrerande integrationstjänst--.*???* 
+Asynkrona envägstjänster används i första hand för att synkronisera information som föds ur systemarvet~~ eller för start av en asynkron orkestrerande integrationstjänst~~.*???* 
 
 Asynkrona tvåvägstjänster är till för att möjliggöra asynkron orkestrering från en orkestrerande integrationstjänst. Dessa tjänster kan vara av batch-liknande karaktär, eller av andra skäl lämpa sig bäst för asynkron integration.
 
