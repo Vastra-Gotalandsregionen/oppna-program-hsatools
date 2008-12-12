@@ -79,14 +79,13 @@ Bilden visar referensmodellen för den yttre arkitekturen.
 
 Den yttre arkitekturen består av ett antal _verksamhetsdomäner_ (ex Vård, Läkemedel etc), som i sin tur innehåller ett antal _tjänstedomäner_. Varje tjänstedomän innehåller en eller flera _integrationstjänster_. En integrationstjänst är antingen _orkestrerande_ eller _atomär_. 
 
-Exempel: 
+== Orkestrerande integrationstjänster ==
 
-http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Yttre_ark_exempel.png
- 
+En orkestrerande integrationstjänsts syfte är att orkestrera en process. De har ett primärt gränssnitt samt en eller flera så kallade _partner-länkar_. Det primära gränssnittet har som regel bara en operation, vars semantik därför är likvärdig med tjänsten som helhet. Orkestrerande processer definieras alltså i termer av den process de orkestrerar, snarare än av en uppsättning operationer. Processbeskrivningen kan ses som en del av tjänstedefinitionen. Den behöver inte vara exekverbar, men är förmodligen uttryckt i en notation som är närliggande dess exekverbara motsvarighet. 
 
-Bilden illustrerar tre tjänstedomäner, varav en (tjänstedomän B) är en process-nära tjänstedomän bestående av en orkestrerande integrationstjänst. Tjänstedomän A och C består av ett antal atomära integrationstjänster. Illustrationen visar inte att tjänstedomänerna i sin tur kan delas in i verksamhetsdomäner.
+En partner-länk är ett beroende till en atomär integrationstjänst. De atomära integrationstjänsterna kan vara synkrona (uppdrag/svar), asynkrona envägs eller asynkrona tvåvägs. För asynkrona tvåvägslänkar tillkommer en svarstjänst, genom vilken partnern, dvs de atomära tjänsten, levererar det asynkrona svarsmeddelandet. Denna svarstjänst ägs av den atomära tjänsten och hör till dess tjänstedomän men måste implementeras av den orkestrerande tjänsten. 
 
-Varje tjänstedomän omfattar alltså ett antal integrationstjänster, som kan vara antingen atomära eller orkestrerande.
+En asynkron tvåvägstjänst kan också innefatta en svarstjänst för att ta emot felmeddelanden, vilken isåfall också måste implementeras av den orkestrerande tjänsten. 
 
 == Atomära integrationstjänster ==
 
@@ -98,24 +97,24 @@ Notera att definitionen av en atomär integrationstjänst inte gör några antag
 
 En synkron tjänst definieras av traditionella uppdrag/svar-operationer. 
 
-
 === Asynkrona, atomära tjänster ===
 
 En asynkron tjänst kan vara antingen envägs- eller tvåvägs. I båda fallen finns ett uppdragsgränssnitt med envägsoperationer (utan svar). I fallet tvåvägstjänst finns dessutom ett svarsgränssnitt – också detta med envägsoperationer. Svarsgränssnittet måste realiseras av den eller de orkestrerande tjänst(er) som skall anropa den asynkrona integrationstjänsten. Vi säger att den asynkrona integrationstjänsten är en _partner_ till den orkestrerande integrationstjänsten. 
 
 Asynkrona envägstjänster används i första hand för att synkronisera information som föds ur systemarvet eller för start av en asynkron orkestrerande integrationstjänst. Asynkrona tvåvägstjänster är till för att möjliggöra asynkron orkestrering från en orkestrerande integrationstjänst. Dessa tjänster kan vara av batch-liknande karaktär, eller av andra skäl lämpa sig bäst för asynkron integration.
 
-== Orkestrerande integrationstjänster ==
+Som vi såg ovan är ägarskap av gränssnitt är olika för orkestrerande och för atomära integrationstjänster. Atomära integrationstjänster äger såväl det producerande som eventuella konsumerande gränssnitt (dvs svarsgränssnitten). Av detta följer att orkestrerande integrationstjänster endast äger det primära gränssnittet. Syftet med dessa ägasrskapsregler är att behålla de atomära integrationstjänsternas obereonde till sin omgivning.
 
-De orkestrerande integrationstjänsterna är definierade i termer av ett primärt tjänstegränssnitt och en eller flera partner-länkar. Dessa länkar kan vara synkrona uppdrag/svar, asynkrona envägs eller asynkrona tvåvägs. En partnerlänk definierar ett alltså ett beroende till an atomär integrationstjänst. För tvåvägslänkar tillkommer dessutom en svarstjänst, genom vilken partnern levererar det asynkrona svarsmeddelandet. 
+
+== Exempel ==
+http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Yttre_ark_exempel.png
+ 
+
+Bilden illustrerar tre tjänstedomäner, varav en (tjänstedomän B) är en process-nära tjänstedomän bestående av en orkestrerande integrationstjänst. Tjänstedomän A och C består av ett antal atomära integrationstjänster. Illustrationen visar inte att tjänstedomänerna i sin tur kan delas in i verksamhetsdomäner.
 
 Notera att svarsgränssnittet för en asynkron tvåvägstjänst tillhör den asynkrona, atomära tvåvägstjänsten. Detta förhållande framgår inte av illustrationen, där svarsgränssnittet felaktigt tycks ägas av den orkestrerande integrationstjänsten, vilket skulle innebära att det hamnar i fel tjänstedomän. 
 
-En asynkron tvåvägstjänst kan också innefatta en svarstjänst för att ta emot felmeddelanden. Dessa är inte illustrerade i bilden ovan.
 
-Ägarskap av gränssnitt är olika för orkestrerande och för atomära integrationstjänster. Atomära integrationstjänster äger såväl det producerande som eventuella konsumerande gränssnitt (dvs svarsgränssnitten). Av detta följer att orkestrerande integrationstjänster endast äger det primära gränssnittet. Syftet med dessa ägasrskapsregler är att behålla de atomära integrationstjänsternas obereonde till sin omgivning.
-
-En orkestrerande integrationstjänst definieras i syfte att just orkestrera en process. Det primära gränssnittet har som regel bara en operation, vars semantik därför är likvärdig med tjänsten som helhet. Orkestrerande processer definieras alltså i termer av den process de orkestrerar, snarare än av en uppsättning operationer. Processbeskrivningen kan ses som en del av tjänstedefinitionen. Den behöver inte vara exekverbar, men är förmodligen uttryckt i en notation som är närliggande dess exekverbara motsvarighet.
 
 = Inre arkitektur och verksamhetskomponenter =
 
