@@ -61,7 +61,7 @@ Kopplingen mellan den inre och den yttre arkitekturen utgörs av att en tjänste
 
 Yttre arkiteturer - dvs specifikationer av integrationstjänster - drivs fram och ägs av en _Enterprise Architecture_-funktion. Inre arkitektur – de verksamhetskomponenter som sammantaget realiserar beställd funktionalitet inom ramen för en tjänstedomän/ett system – bildar ett fristående förvaltningsobjekt. Enterprise Architecture bistår projekten vid modellering av inre arkitetur, men tar inget ägarskap för modellerna.
 
-Referensarkitekturen är framtagen gemensamt för ”3R” (tre regioner: Västra Götalandsregionen, Region Skåne, Stockholms Läns Landsting), men kan påföras restriktioner drivna av regionala krav. Dessa region- eller tjänstedomän-specifika anvisningar kallas _profiler_. 
+Referensarkitekturen är framtagen gemensamt för ”3R” (tre regioner: VGR, Region Skåne, SLL), men kan påföras restriktioner drivna av regionala krav. Dessa region- eller tjänstedomän-specifika anvisningar kallas _profiler_. 
 
 Dokumentet ger en överblick över hur spårbarhet ska åstadkommas från modeller i den logiska vyn till modeller i de teknologiska och tekniska vyerna. Detaljerna för spårbarhet återfinns i underliggande teknologi-specifika anvisningar. 
 
@@ -88,11 +88,24 @@ Bilden illustrerar tre tjänstedomäner, varav en (tjänstedomän B) är en proc
 
 Varje tjänstedomän omfattar alltså ett antal integrationstjänster, som kan vara antingen atomära eller orkestrerande.
 
-De atomära tjänsternas gränssnitt är just gränssnitt i traditionell bemärkelse. De representerar ett informationsobjekt eller en uppgift och därmed associerade operationer. En atomär tjänst har inga beroenden på gränssnittsnivå till andra tjänster. De representerar atomära transaktioner med ickefunktionella krav på ”allt eller inget”. En atomär integrationstjänst kan vara synkron eller asynkron. En synkron tjänst definieras av traditionella uppdrag/svar-operationer. En asynkron tjänst kan vara antingen envägs- eller tvåvägs. I båda fallen finns ett uppdragsgränssnitt med envägsoperationer (utan svar). I fallet tvåvägstjänst finns dessutom ett svarsgränssnitt – också detta med envägsoperationer. Svarsgränssnittet måste realiseras av den eller de orkestrerande tjänst(er) som skall anropa den asynkrona integrationstjänsten. Vi säger att den asynkrona integrationstjänsten är en _partner_ till den orkestrerande integrationstjänsten. 
+== Atomära integrationstjänster ==
+
+De atomära tjänsternas gränssnitt är just gränssnitt i traditionell bemärkelse. De representerar ett informationsobjekt eller en uppgift och därmed associerade operationer. En atomär tjänst har inga beroenden på gränssnittsnivå till andra tjänster. De representerar atomära transaktioner med ickefunktionella krav på ”allt eller inget”. En atomär integrationstjänst kan vara synkron eller asynkron. 
+
+Notera att definitionen av en atomär integrationstjänst inte gör några antaganden om realiseringens arkitektur (detta definieras av den inre arkitekturen).
+
+=== Synkrona, atomära tjänster ===
+
+En synkron tjänst definieras av traditionella uppdrag/svar-operationer. 
+
+
+=== Asynkrona, atomära tjänster ===
+
+En asynkron tjänst kan vara antingen envägs- eller tvåvägs. I båda fallen finns ett uppdragsgränssnitt med envägsoperationer (utan svar). I fallet tvåvägstjänst finns dessutom ett svarsgränssnitt – också detta med envägsoperationer. Svarsgränssnittet måste realiseras av den eller de orkestrerande tjänst(er) som skall anropa den asynkrona integrationstjänsten. Vi säger att den asynkrona integrationstjänsten är en _partner_ till den orkestrerande integrationstjänsten. 
 
 Asynkrona envägstjänster används i första hand för att synkronisera information som föds ur systemarvet eller för start av en asynkron orkestrerande integrationstjänst. Asynkrona tvåvägstjänster är till för att möjliggöra asynkron orkestrering från en orkestrerande integrationstjänst. Dessa tjänster kan vara av batch-liknande karaktär, eller av andra skäl lämpa sig bäst för asynkron integration.
 
-Notera att definitionen av en atomär integrationstjänst inte gör några antaganden om realiseringens arkitektur (detta definieras av den inre arkitekturen).
+== Orkestrerande integrationstjänster ==
 
 De orkestrerande integrationstjänsterna är definierade i termer av ett primärt tjänstegränssnitt och en eller flera partner-länkar. Dessa länkar kan vara synkrona uppdrag/svar, asynkrona envägs eller asynkrona tvåvägs. En partnerlänk definierar ett alltså ett beroende till an atomär integrationstjänst. För tvåvägslänkar tillkommer dessutom en svarstjänst, genom vilken partnern levererar det asynkrona svarsmeddelandet. 
 
