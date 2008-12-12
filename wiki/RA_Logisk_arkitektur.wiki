@@ -133,15 +133,19 @@ En verksamhetskomponent är en relativt stor enhet som representerar ett väl av
 En verksamhetskomponent klassificeras efter den typ av funktionalitet den representerar: processorienterad, informationsorienterad (entitetskomponent), adapter eller generell / stödjande karaktär (plattformskomponent). 
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Inre_ark_Verksamhetskomponent.png
+
 _En verksamhetskomponent och dess skikt._
 
 En verksamhetskomponent kan består av upp till tre skikt, anslutningsskikt, verksamhetsskikt och resursskikt. Tyngdpunkten beror på vilken typ av komponent det är och i vissa fall kan något eller några skikt uteslutas helt. 
+
+Anslutningsskiktet innehåller gränssnitt i form av implementerade integrationstjänster och användargränssnitt. 
+
+Verksamhetsskiktet innehåller verksamhetsregler och resursskiktet innehåller informationshanteringsregler. 
 
 === Processkomponent ===
 En processkomponents funktionalitet representerar en aktivitet eller process. De regler som allokeras till en processkomponent har ofta sitt ursprung i ett användningsfall eller processmodell. Processkomponenten har sin tyngdpunkt i verksamhets- och anslutningsskiktet. Anslutningsskiktet realiserar ofta integrationstjänster (SOA-tjänster), användartjänster (t ex portlets, eller en dialog i en rik klient) eller både och. Om anslutningsskiktet i processkomponenten realiserar en orkestrerande integrationstjänst (t ex i form av ett bpel-skript), saknas i regel övriga skikt. 
 
 Verksamhetsskiktet i en processkomponent är av uppgiftsorienterad karaktär. Om anslutningsskitet definierar en användardialog, kan distribuerad kommunikation krävas mellan anslutningsskiktet och verksamhetsskiktet (en så kallad rik klient). Det är dock önskvärt att anslutningsskiktet i detta fall delas upp i den distribuerade dialoghanteringen och en server-del med specifikt ansvar för att ansluta dialog-delen. På så sätt minskas verksamhetsskiktets beroende till klienten. Man får dessutom en beredskap för att realisera sessionbaserad hantering på server-sidan, vilket inte kan ske i verksamhetsskiktets tillståndslösa komponenttjänster. 
-
 
 
 === Entitetskomponent === 
