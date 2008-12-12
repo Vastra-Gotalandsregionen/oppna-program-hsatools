@@ -50,15 +50,13 @@ Se [RA_Introduktion] för länkar till övriga dokument inom referensarktekturen
 = Sammanfattning - viktigt innehåll =
 Den logiska referensarkitekturen är uppdelad i en inre och en yttre arkitektur. Arkitekturen är formaliserad med hjälp av referensmodeller, ett slags metamodeller som beskriver termer/entiteter samt hur dessa relaterar till varandra. 
 
-Tydliga referenser ska finnas till RIV- och BIF-arbeten. 
-
-Referensmodellerna består av två delar: en referensmodell för den inre arkitekturen och en referensmodell för den yttre arkitekturen.
+Referensmodellerna består av två delar: en referensmodell för den _inre_ arkitekturen och en referensmodell för den _yttre_ arkitekturen.
 
 Den inre arkitekturen beskriver principer för arkitekturen inom de _system_ som utvecklas eller upphandlas. Varje system modulariseras genom att delas upp i ett antal _verksamhetskomponenter_. Den inre arkitekturen bygger på principerna för SCA. 
 
 Den yttre arkiteturen beskriver hur systemen integreras med varandra genom en tjänsteorienterad arkitektur. Referensmodellen för den yttre arkitekturen definierar _integrationstjänster_, vilket är de tjänster som krävs för integration av verksamhetens processer. Integrationstjänsterna är indelade i olika _tjänstedomäner_. 
 
-Kopplingen mellan den inre och den yttre arkitekturen utgörs av att en tjänstedomän, i normal- och idealfallet, är lika med ett system. Det är _verksamhetskomponenterna_ som publicerar integrationstjänsterna. 
+Kopplingen mellan den inre och den yttre arkitekturen utgörs av att en tjänstedomän, i normal- och idealfallet, är lika med ett system. Det är _verksamhetskomponenterna_ som publicerar de integrationstjänster som behövs för att systemet ska kunna integreras med andra system. 
 
 
 Yttre arkiteturer - dvs specifikationer av integrationstjänster - drivs fram och ägs av en _Enterprise Architecture_-funktion. Inre arkitektur – de verksamhetskomponenter som sammantaget realiserar beställd funktionalitet inom ramen för en tjänstedomän/ett system – bildar ett fristående förvaltningsobjekt. Enterprise Architecture bistår projekten vid modellering av inre arkitetur, men tar inget ägarskap för modellerna.
@@ -86,7 +84,7 @@ Exempel:
 http://oppna-program.googlecode.com/svn/wiki/RA_Logisk_arkitektur_Yttre_ark_exempel.png
  
 
-Bilden illustrerar tre tjänstedomäner, varav en är en process-nära tjänstedomän bestående av en eller flera orkestrerande integrationstjänster. Tjänstedomäner kan i sin tur grupperas i verksamhetsdomäner. Illustrationen belyser inte denna aspekt av den yttre arkitekturen.
+Bilden illustrerar tre tjänstedomäner, varav en är en process-nära tjänstedomän bestående av en eller flera orkestrerande integrationstjänster. Illustrationen visar inte hur tjänstedomänerna i sin tur kan delas in i verksamhetsdomäner.
 
 Varje tjänstedomän omfattar ett antal integrationstjänster. Integrationstjänsterna är av två slag – atomära eller orkestrerande.
 
