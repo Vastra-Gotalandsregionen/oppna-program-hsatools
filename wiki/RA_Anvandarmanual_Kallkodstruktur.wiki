@@ -29,13 +29,15 @@ Direkt under `<SystemNamn>/trunk` ligger alltså alla verksamhetskomponenter fö
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCCMStructure.png
 
-I filsystemet ser det ut såhär, med underkatalogerna applications, composites, modules och sql (sql syns inte i illustrationen ovan) samt en byggfil för att bygga hela verksamhetskomponenten: 
+I filsystemet ser det ut såhär: 
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCFilstruktur.png 
+
+Byggfilen `pom.xml` används för att bygga hela verksamhetskomponenten. Not: Katalogen `sql` syns inte i illustrationen ovan.
  
 === applications ===
  
-Innehållet beror på vilken typ av enhet som ska driftsättas. En del verksamhetskomponenter bidrar inte med någon applikation utan bara med composites, i det fallet finns heller inga modules. Det är inte meningen att applikations ska innehålla källkod (ska finnas under modules och composites) förutom den extra kod som kan krävas för att producera till exempel en exekverbar JAR-fil (typiskt en klass med en main-metod).
+Innehållet i applications beror på vilken typ av enhet som ska driftsättas. En del verksamhetskomponenter bidrar inte med någon applikation utan bara med composites, i det fallet finns heller inga modules. Det är inte meningen att applikations ska innehålla källkod (ska finnas under modules och composites) förutom den extra kod som kan krävas för att producera till exempel en exekverbar JAR-fil (typiskt en klass med en main-metod).
 Typiskt innehåll i applications är artefakter för att bygga:
   * EAR-filer
   * Java Webstart arkiv
@@ -50,7 +52,7 @@ Innehåller integrationstjänster i form av Webservices, JMS eller Connector fö
 I fallet av Webservice finns även bindningsklasserna för WSDL-filen här (vi arbetar uteslutande enligt principen "contract-first", dsv bindningsklasserna genereras från WSDL-filen).
 ==== web ====
 Innehåller en Webapplikation eller Portlet.
-TODO: rekommenderad uppbyggnad av en webapplikation med JAR-filer som innehåller vyfiler + resurser. Teknik: JSF, Facelets.
+TODO: beskriv rekommenderad uppbyggnad av en webapplikation med JAR-filer som innehåller vyfiler + resurser. Teknik: JSF, Facelets.
 Referera till dokument !Anvisningar_Portletutveckling.doc (inte klart ännu).
 
 === composites ===
@@ -64,13 +66,14 @@ TODO: beskriv hur webkomponenter i form av JAR-filer bidrar till en webapplikati
 Referera till dokument !Anvisningar_Portletutveckling.doc.
 ==== schema ====
 Innehåller XML-scheman som används för integration via tjänster som beskrivs i _intsvc_ ovan.
+
 Scheman används här för att generera JAXB-bindningsklasser (bindning mellan Java och XML) som används inom verksamhetskomponenten.
 
 === sql ===
 Förutom strukturen ovan skapas även en katalog _sql_, där eventuella sql-skript kan placeras. Denna syns inte i illustrationen ovan. 
 
 == Packetering av en verksamhetskomponent == 
-Inför deploy packeteras en verksamhetskomponent på följande vis:
+Inför deploy packeteras en verksamhetskomponent enligt följande:
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCHierarkin.png
 
@@ -78,9 +81,7 @@ En _applikation_ (ear-fil) innehåller ett antal _moduler_ (war-filer) som i sin
 
 Begreppet _applikation_ inom den tekniska arkitekturen innebär alltså en _packetering_ av den underliggande funktionaliteten (innehåller i stort sett bara paketeringsartefakter) i en verksamhetskompontent - att jämföra med ett _system_ som, inom den logiska arkitekturen, betecknar ett antal, hierarkiskt ordnade verksamhetskomponenter. 
 
-Även moduler är främst att betrakta som _packeteringar_ av funktionalitet. 
-
-
+Även moduler är främst att betrakta som _packeteringar_ av funktionalitet (även om de kan innehålla en del källkod - se ovan). 
 
 == Namngivning ==
 === Namngivning av system ===
@@ -91,6 +92,7 @@ TODO: namnkonvention, prefix för verksamhetskomponenter (t ex ”e” för enti
 
 = Byggsystem =
 Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
+
 Det här avsnittet bygger på det tidigare avsnittet _Källkodsstruktur i RA-system_ och upprepar inte sådant som nämns där. 
 
 
