@@ -14,17 +14,16 @@ Här beskrivs på detaljnivå:
  
 = Källkodstruktur i system och verksamhetskomponenter =
 
-== Ingående delar i källkodstrukturen ==
 Innehåll och användning av de olika delarna i strukturen beskrivs här.
 
-=== Strukturen inom ett system ===
+== Strukturen inom ett system ==
 Varje system innehåller en eller flera verksamhetskomponenter. När man skapar ett system med maven-pluginen skapas en struktur anpassad till subversion upp. Under systemet finns katalogerna branches, tags och trunk: 
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_SystemFilstruktur.png
 
 Under trunk ligger byggfilen `pom.xml` för hela systemet samt kataloger för respektive verksamhetskomponent. I exemplet ovan är `MyTestBC` den enda verksamhetskomponenten. 
 
-=== Strukturen inom en verksamhetskomponent ===
+== Strukturen inom en verksamhetskomponent ==
 Direkt under `<SystemNamn>/trunk` ligger alltså alla verksamhetskomponenter för ett system. Varje verksamhetskomponent har i sin tur följade struktur: 
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCCMStructure.png
