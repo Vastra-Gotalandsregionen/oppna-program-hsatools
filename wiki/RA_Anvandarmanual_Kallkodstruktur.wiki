@@ -12,7 +12,7 @@ Här beskrivs på detaljnivå:
   * beroendestrukturen, dvs beroenden inom och mellan verksamhetskomponenter 
 
  
-= Källkodstruktur i RA-system och komponenter =
+= Källkodstruktur i system och verksamhetskomponenter =
 
 == Ingående delar i källkodstrukturen ==
 Innehåll och användning av de olika delarna i strukturen beskrivs här.
@@ -25,12 +25,12 @@ http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_S
 Under trunk ligger byggfilen `pom.xml` för hela systemet samt kataloger för respektive verksamhetskomponent. I exemplet ovan är `MyTestBC` den enda verksamhetskomponenten. 
 
 === Strukturen inom en verksamhetskomponent ===
-Varje system innehåller ett antal verksamhetskomponenter, som har en källkodsstruktur enligt följande: 
+Direkt under `<SystemNamn>/trunk` ligger alltså alla verksamhetskomponenter för ett system samt en byggfil, pom.xml, för att bygga hela systemet. Varje verksamhetskomponent har i sin tur följade struktur: 
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCCMStructure.png
 
 
-Direkt under `<SystemNamn>/trunk` ligger alltså alla verksamhetskomponenter för ett system samt en byggfil, pom.xml, för att bygga hela systemet. Varje verksamhetskomponent har i sin tur följade struktur, med underkatalogerna applications, composites, modules och sql: 
+I filsystemet ser det ut såhär, med underkatalogerna applications, composites, modules och sql (not: sql syns inte i bilden ovan): 
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCFilstruktur.png 
  
@@ -43,10 +43,11 @@ Typiskt innehåll i applications är artefakter för att bygga:
   * Exekverbara JAR-filer 
 
 === modules ===
-Innehåller källkod för två typer av artefakter, integrationstjänster, som återfinns under intsvc samt web-applikationer (inkluderande Portlets) som återfinns i web. Strukturen inuti dessa följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
+Innehåller källkod för två typer av artefakter, integrationstjänster, som återfinns under intsvc samt web-applikationer (inklusive Portlets) som återfinns i web. Strukturen inuti dessa följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
  
 ==== intsvc ====
 Innehåller integrationstjänster i form av Webservices, JMS eller Connector för ingående trafik.
+
 I fallet av Webservice finns även bindningsklasserna för WSDL-filen här (vi arbetar uteslutande enligt principen "contract-first", dsv bindningsklasserna genereras från WSDL-filen).
 ==== web ====
 Innehåller en Webapplikation eller Portlet.
@@ -67,7 +68,7 @@ Innehåller XML-scheman som används för integration via tjänster som beskrivs
 Scheman används här för att generera JAXB-bindningsklasser (bindning mellan Java och XML) som används inom verksamhetskomponenten.
 
 === sql ===
-Förutom strukturen ovan skapas även en katalog _sql_, där eventuella sql-skript kan placeras. Denna syns inte i bilden ovan. 
+Förutom strukturen ovan skapas även en katalog _sql_, där eventuella sql-skript kan placeras. Denna syns inte i illustrationen ovan. 
 = Byggsystem =
 Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
 Det här avsnittet bygger på det tidigare avsnittet _Källkodsstruktur i RA-system_ och upprepar inte sådant som nämns där. 
