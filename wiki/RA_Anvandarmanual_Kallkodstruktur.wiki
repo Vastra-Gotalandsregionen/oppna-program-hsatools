@@ -14,7 +14,6 @@ Här beskrivs på detaljnivå:
  
 = Källkodstruktur i RA-system och komponenter =
 
-
 == Ingående delar i strukturen ==
 Innehåll och användning av de olika delarna i strukturen beskrivs här.
 
@@ -26,11 +25,11 @@ http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_S
 Under trunk ligger byggfilen `pom.xml` för hela systemet samt kataloger för respektive verksamhetskomponent. I exemplet ovan är `MyTestBC` den enda verksamhetskomponenten. 
 
 === Översikt över hierarkin inom en verksamhetskomponent ===
-Varje system innehåller ett antal verksamhetskomponenter, varje verksamhetskomponent har en konceptuell inre uppbyggnad enligt:
+Varje system innehåller ett antal verksamhetskomponenter, varje verksamhetskomponent packeteras på följande vis:
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCHierarkin.png
 
-En applikation byggs upp av moduler som i sin tur kan byggas upp av kompositer. En komposit är en återanvändbar byggsten, bestående av ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar från kravet på modularisering i weblagret och portabilitet mellan portlet och webapp. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation. 
+En applikation (war-fil) byggs upp av moduler som i sin tur kan byggas upp av kompositer. En komposit är en återanvändbar byggsten, bestående av ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar från kravet på modularisering i weblagret och portabilitet mellan portlet och webapp. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation. 
 
 En applikation är främst är en _packetering_ av den underliggande funktionaliteten (innehåller i stort sett bara paketeringsartefakter) i en verksamhetskompontent, att jämföra med ett system som består av ett antal, hierarkiskt ordnade, verksamhetskomponenter. 
 
