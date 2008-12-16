@@ -29,7 +29,7 @@ Direkt under `<SystemNamn>/trunk` ligger alltså alla verksamhetskomponenter fö
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCCMStructure.png
 
-I filsystemet ser det ut såhär, med underkatalogerna applications, composites, modules och sql (not: sql syns inte i bilden ovan) samt en byggfil, pom.xml, för att bygga hela systemet: 
+I filsystemet ser det ut såhär, med underkatalogerna applications, composites, modules och sql (sql syns inte i illustrationen ovan) samt en byggfil för att bygga hela verksamhetskomponenten: 
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCFilstruktur.png 
  
