@@ -69,9 +69,6 @@ Scheman används här för att generera JAXB-bindningsklasser (bindning mellan J
 
 === sql ===
 Förutom strukturen ovan skapas även en katalog _sql_, där eventuella sql-skript kan placeras. Denna syns inte i illustrationen ovan. 
-= Byggsystem =
-Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
-Det här avsnittet bygger på det tidigare avsnittet _Källkodsstruktur i RA-system_ och upprepar inte sådant som nämns där. 
 
 == Packetering av en verksamhetskomponent == 
 Inför deploy packeteras en verksamhetskomponent på följande vis:
@@ -92,6 +89,10 @@ Varje systems namn måste vara globalt unikt för att undvika namnkollisioner vi
 === Namngivning av verksamhetskomponenter ===
 Namngivning av komponenter:
 TODO: namnkonvention, prefix för verksamhetskomponenter (t ex ”e” för entitet) – stäm av mot referensarkitekturen! Ej bestämt ännu (2006-12-18).
+
+= Byggsystem =
+Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
+Det här avsnittet bygger på det tidigare avsnittet _Källkodsstruktur i RA-system_ och upprepar inte sådant som nämns där. 
 
 
 == Maven2 relationer mellan pom.xml filer ==
