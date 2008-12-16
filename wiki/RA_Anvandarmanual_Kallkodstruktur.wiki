@@ -14,12 +14,6 @@ Här beskrivs på detaljnivå:
  
 = Källkodstruktur i RA-system och komponenter =
 
-== Namngivning ==
-=== Namngivning av system ===
-Varje systems namn måste vara globalt unikt för att undvika namnkollisioner vid driftsättning.
-=== Namngivning av verksamhetskomponenter ===
-Namngivning av komponenter:
-TODO: namnkonvention, prefix för verksamhetskomponenter (t ex ”e” för entitet) – stäm av mot referensarkitekturen! Ej bestämt ännu (2006-12-18).
 
 == Ingående delar i strukturen ==
 Innehåll och användning av de olika delarna i strukturen beskrivs här.
@@ -84,6 +78,14 @@ Innehåller eventuella sql-skript.
 = Byggsystem =
 Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
 Det här avsnittet bygger på det tidigare avsnittet _Källkodsstruktur i RA-system_ och upprepar inte sådant som nämns där. 
+
+== Namngivning ==
+=== Namngivning av system ===
+Varje systems namn måste vara globalt unikt för att undvika namnkollisioner vid driftsättning.
+=== Namngivning av verksamhetskomponenter ===
+Namngivning av komponenter:
+TODO: namnkonvention, prefix för verksamhetskomponenter (t ex ”e” för entitet) – stäm av mot referensarkitekturen! Ej bestämt ännu (2006-12-18).
+
 
 == Maven2 relationer mellan pom.xml filer ==
 Det är viktigt att förstå hur Maven2 använder föräldra-barn relationer mellan pom.xml filer och hur det påverkar versioneringen. Det finns två typer av beroenden som beskrivs här.
