@@ -108,16 +108,15 @@ Här beskrivs hur beroenden inom och mellan verksamhetskomponenter ser ut, både
 == Byggsystem ==
 Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
 
-
-=== Maven2 relationer mellan pom.xml filer ===
-Det är viktigt att förstå hur Maven2 använder föräldra-barn relationer mellan pom.xml filer och hur det påverkar versioneringen. Det finns två typer av beroenden som beskrivs här.
+=== Maven2 relationer mellan byggfiler filer ===
+Det är viktigt att förstå hur Maven2 använder föräldra-barn relationer mellan byggfiler (`pom.xml`) och hur det påverkar versioneringen. Det finns två typer av beroenden som beskrivs här.
 
 ==== Versionerad relation med arv (barn pekar ut förälder) ====
 I den här relationen pekar barnet ut föräldern via Maven repositoriet. Föräldern kvalificeras med namn och version. Den här relationen är alltså inte via filsystemet (för Maven1-användare: detta skiljer sig kraftigt från tidigare version).
 
 I den här relationen ärver barnet egenskaper från föräldern.
 
-Det är mycket viktigt att versionerna överensstämmer. Uppgraderas versionen på föräldern så måste även barnets pom.xml uppgraderas med den nya föräldra-versionen.
+Det är mycket viktigt att versionerna överensstämmer. Uppgraderas versionen på föräldern så måste även barnets byggfil uppgraderas med den nya föräldra-versionen.
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_VersionForalderOchBarn.png
 
