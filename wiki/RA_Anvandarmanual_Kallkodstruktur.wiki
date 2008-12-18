@@ -46,7 +46,7 @@ Typiskt innehåll i en applikation är artefakter för att bygga:
   * Exekverbara JAR-filer 
 
 === modules ===
-Innehåller källkod för två typer av artefakter, integrationstjänster, som återfinns under `intsvc` samt web-applikationer (inklusive Portlets) som återfinns i `web`. Strukturen inuti dessa följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
+Innehåller källkod för integrationstjänster, som återfinns under `intsvc`, web-applikationer som återfinns i `web` och portlets, som finns under `portlets`. Strukturen inuti dessa följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
  
 ==== intsvc ====
 Innehåller integrationstjänster i form av Webservices, JMS eller Connector för ingående trafik.
