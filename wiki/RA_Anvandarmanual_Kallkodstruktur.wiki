@@ -75,7 +75,7 @@ Innehåller XML-scheman som används för integration via tjänster som beskrivs
 
 Scheman används här för att generera JAXB-bindningsklasser (bindning mellan Java och XML) som används inom verksamhetskomponenten och systemet. 
 
-XML-scheman ägs inte av verksamhetskomponenten. I enlighet med _principen om kanoniska tjänstegränssnitt_ och _principen för löst kopplade tjänster_ skall alla scheman ägas centralt av _Plattform för Tjänsteorienterad Integration_ (PTI) (t ex finnas tillgängliga via en HTTP-server). Vid behov av schema i en verksamhetskomponent kopieras alla nödvändiga scheman (även inkluderade/importerade scheman) in i schema-biblioteket under verksamhetskomponenten.
+XML-scheman ägs inte av verksamhetskomponenten. I enlighet med _principen om kanoniska tjänstegränssnitt_ och _principen för löst kopplade tjänster_ skall alla scheman ägas centralt (t ex finnas tillgängliga via en HTTP-server). Vid behov av schema i en verksamhetskomponent kopieras alla nödvändiga scheman (även inkluderade/importerade scheman) in i schema-biblioteket under verksamhetskomponenten.
 
 === sql ===
 Förutom strukturen ovan skapas även en katalog _sql_, där eventuella sql-skript kan placeras. Denna syns inte i illustrationen ovan. 
