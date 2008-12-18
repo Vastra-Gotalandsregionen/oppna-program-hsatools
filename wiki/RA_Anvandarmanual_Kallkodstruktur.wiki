@@ -60,7 +60,7 @@ TODO: beskriv rekommenderad uppbyggnad av en webapplikation med JAR-filer som in
 Se dokument !Anvisningar_Portletutveckling.doc (inte klart ännu).
 
 ==== portlet ====
-Not: Denna genereras ej av mavenpluginen i dagsläget då portlet-delen av RA är under uppbyggnad. 
+Not: Denna genereras ej av mavenpluginen i dagsläget då portlet-delen av RA är under uppbyggnad. I dagsläget får man skapa denna manuellt. 
 
 Innehåller en Portlet. Under `portlet` ligger endast den källkod som behövs för att packetera ihop ett antal kompositer till en portlet, bland annat deployment deskriptorn `portlet.xml`. Alla vyfiler och övriga resurser skall finnas som återanvändbara kompositer under `composites`. 
 
@@ -69,7 +69,7 @@ Referera till dokument !Anvisningar_Portletutveckling.doc (inte klart ännu).
 
 === composites ===
 
-En komposit är en återanvändbar byggsten, till exempel en tjänst (som får anropas inom systemet, jmfr integrationstjänster i avsnittet _intsvc_ ovan) eller ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar bland annat från kravet på modularisering i weblagret och portabilitet mellan portlet och webapp. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation (och då heller inga moduler). 
+En komposit är en återanvändbar byggsten, till exempel en tjänst (som får anropas inom systemet, jmfr integrationstjänster i avsnittet [http://code.google.com/p/oppna-program/wiki/RA_Anvandarmanual_Kallkodstruktur#intsvc intsvc] ovan) eller ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar bland annat från kravet på modularisering i weblagret och portabilitet mellan portlet och webapp. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation (och då heller inga moduler). 
 
 Respektive underkatalog innehåller den källkod som behövs för respektive komposit. Strukturen inuti komposit-delarna följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
 ==== svc ====
