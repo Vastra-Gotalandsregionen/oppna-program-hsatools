@@ -7,7 +7,8 @@
 Här beskrivs hur beroenden inom och mellan verksamhetskomponenter fungerar och hur detta understöds av byggsystemet. 
 
 = Beroenden inom och mellan verksamhetskomponenter = 
-Förutsatt att man har följande två verksamhetskomponenter inom ett system: 
+Förutsatt att man har följande två verksamhetskomponenter inom ett system, där Processkomponent 1 har ett bereonde till Entitetskomponent 1: 
+
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_Verksamhetskomponenter.png
 
 
