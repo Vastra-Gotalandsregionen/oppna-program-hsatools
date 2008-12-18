@@ -7,7 +7,8 @@
 Här beskrivs hur beroenden inom och mellan verksamhetskomponenter fungerar och hur detta understöds av byggsystemet. 
 
 = Beroenden inom och mellan verksamhetskomponenter = 
-Här beskrivs hur beroenden inom och mellan verksamhetskomponenter ser ut, både byggmässigt och i runtime. 
+Förutsatt att man har följande två verksamhetskomponenter inom ett system: 
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_Verksamhetskomponenter.png
 
 
 
