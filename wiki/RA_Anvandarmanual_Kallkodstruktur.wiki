@@ -30,7 +30,7 @@ Under trunk ligger byggfilen `pom.xml` för hela systemet samt kataloger för re
 == Strukturen inom en verksamhetskomponent ==
 Direkt under `<SystemNamn>/trunk` ligger alltså alla verksamhetskomponenter för ett system. Varje verksamhetskomponent har i sin tur följade struktur: 
 
-http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCCMStructure.png
+http://oppna-program.googlecode.com/svn/wiki/RA/RA_Anvandarmanual_Kallkodstruktur_BCCMStructure.png
 
 I filsystemet ser det ut såhär: 
 
