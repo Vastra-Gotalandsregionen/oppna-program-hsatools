@@ -21,7 +21,7 @@ Varje system innehåller en eller flera verksamhetskomponenter. När man skapar 
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_SystemFilstruktur.png
 
-Under trunk ligger byggfilen `pom.xml` för hela systemet samt kataloger för respektive verksamhetskomponent. I exemplet ovan är `MyTestBC` den enda verksamhetskomponenten. 
+Under trunk ligger byggfilen `pom.xml` för hela systemet samt kataloger för respektive verksamhetskomponent. I exemplet ovan innehåller `MyTestBC` den enda verksamhetskomponenten. 
 
 == Strukturen inom en verksamhetskomponent ==
 Direkt under `<SystemNamn>/trunk` ligger alltså alla verksamhetskomponenter för ett system. Varje verksamhetskomponent har i sin tur följade struktur: 
@@ -36,28 +36,28 @@ Byggfilen `pom.xml` används för att bygga hela verksamhetskomponenten. Not: Ka
  
 === applications ===
  
-Innehållet i applications beror på vilken typ av enhet som ska driftsättas. En del verksamhetskomponenter bidrar inte med någon applikation utan bara med kompositer, i det fallet finns heller inga moduler. Det är inte meningen att applications ska innehålla källkod (ska finnas under modules och composites) förutom den extra kod som kan krävas för att producera till exempel en exekverbar JAR-fil (typiskt en klass med en main-metod).
-Typiskt innehåll i applications är artefakter för att bygga:
+Innehållet i `applications` beror på vilken typ av enhet som ska driftsättas. En del verksamhetskomponenter bidrar inte med någon applikation utan bara med kompositer, i det fallet finns heller inga moduler. Det är inte meningen att en applikation ska innehålla källkod (ska finnas i moduler och kompositer) förutom den extra kod som kan krävas för att producera till exempel en exekverbar JAR-fil (typiskt en klass med en main-metod).
+Typiskt innehåll i en applikation är artefakter för att bygga:
   * EAR-filer
   * Java Webstart arkiv
   * Exekverbara JAR-filer 
 
 === modules ===
-Innehåller källkod för två typer av artefakter, integrationstjänster, som återfinns under intsvc samt web-applikationer (inklusive Portlets) som återfinns i web. Strukturen inuti dessa följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
+Innehåller källkod för två typer av artefakter, integrationstjänster, som återfinns under `intsvc` samt web-applikationer (inklusive Portlets) som återfinns i `web`. Strukturen inuti dessa följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
  
 ==== intsvc ====
 Innehåller integrationstjänster i form av Webservices, JMS eller Connector för ingående trafik.
 
-I fallet av Webservice finns även bindningsklasserna för WSDL-filen här (vi arbetar uteslutande enligt principen "contract-first", dsv bindningsklasserna genereras från WSDL-filen).
+I fallet av Webservice finns även bindningsklasserna för WSDL-filen här (vi arbetar uteslutande enligt principen "contract-first", dsv bindningsklasserna genereras från WSDL-filen). Notera att själva kontraktet, i form av WSDL-fil och XML-scheman (se avsnittet _schema_ nedan), i enlighet med _principen om kanoniska tjänstegränssnitt_ och _principen för löst kopplade tjänster_ inte ägs av verksamhetskomponenten utan centralt. 
 ==== web ====
-Innehåller en Webapplikation eller Portlet. Under web ligger endast det som behövs för att packetera en webbapplikation eller portlet, ex web.xml och portlet.xml. Alla vyfiler och övriga resurser skall finnas som återanvändbara kompositer under composites. 
+Innehåller en Webapplikation eller Portlet. Under web ligger endast den källkod som behövs för att packetera ihop ett antal kompositer till en webbapplikation eller portlet, bland annat deployment deskriptorerna `web.xml` och `portlet.xml`. Alla vyfiler och övriga resurser skall finnas som återanvändbara kompositer under `composites`. 
 
 TODO: beskriv rekommenderad uppbyggnad av en webapplikation med JAR-filer som innehåller vyfiler + resurser. Teknik: JSF, Facelets.
 Referera till dokument !Anvisningar_Portletutveckling.doc (inte klart ännu).
 
 === composites ===
 
-En komposit är en återanvändbar byggsten, till exempel en tjänst (som får anropas inom systemet, jmfr intsvc) eller ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar bland annat från kravet på modularisering i weblagret och portabilitet mellan portlet och webapp. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation (och då heller inga moduler). 
+En komposit är en återanvändbar byggsten, till exempel en tjänst (som får anropas inom systemet, jmfr integrationstjänster i avsnittet _intsvc_ ovan) eller ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar bland annat från kravet på modularisering i weblagret och portabilitet mellan portlet och webapp. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation (och då heller inga moduler). 
 
 Respektive underkatalog innehåller den källkod som behövs för respektive komposit. Strukturen inuti komposit-delarna följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
 ==== svc ====
@@ -78,16 +78,16 @@ Scheman används här för att generera JAXB-bindningsklasser (bindning mellan J
 XML-scheman ägs inte av verksamhetskomponenten. I enlighet med _principen om kanoniska tjänstegränssnitt_ och _principen för löst kopplade tjänster_ skall alla scheman ägas centralt (t ex finnas tillgängliga via en HTTP-server). Vid behov av schema i en verksamhetskomponent kopieras alla nödvändiga scheman (även inkluderade/importerade scheman) in i schema-biblioteket under verksamhetskomponenten.
 
 === sql ===
-Förutom strukturen ovan skapas även en katalog _sql_, där eventuella sql-skript kan placeras. Denna syns inte i illustrationen ovan. 
+Förutom strukturen ovan skapas även en katalog `sql`, där eventuella sql-skript kan placeras. Denna syns inte i illustrationen ovan. 
 
 == Packetering av en verksamhetskomponent == 
 Inför deploy packeteras en verksamhetskomponent enligt följande:
 
 http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCHierarkin.png
 
-En _applikation_ (ear-fil) innehåller ett antal _moduler_ (war-filer) som i sin tur innehåller _kompositer_. 
+En _applikation_ (vanligtvis i form av en ear-fil) innehåller ett antal _moduler_ (war-filer) som i sin tur innehåller _kompositer_ (jar-filer). 
 
-Begreppet _applikation_ inom den tekniska arkitekturen innebär alltså en _packetering_ av den underliggande funktionaliteten (innehåller i stort sett bara paketeringsartefakter) i en verksamhetskompontent - att jämföra med ett _system_ som, inom den logiska arkitekturen, betecknar ett antal, hierarkiskt ordnade verksamhetskomponenter. 
+Begreppet _applikation_ inom den tekniska arkitekturen innebär alltså en _packetering_ av den underliggande funktionaliteten i en verksamhetskompontent - att jämföra med begreppet _system_ som, inom den logiska arkitekturen, betecknar ett antal, hierarkiskt ordnade verksamhetskomponenter. 
 
 Även moduler är främst att betrakta som _packeteringar_ av funktionalitet (även om de kan innehålla en del källkod - se ovan). 
 
