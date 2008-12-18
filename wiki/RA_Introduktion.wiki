@@ -1,5 +1,9 @@
 #summary Introduktion till referensarkitekturen
 #labels Featured,RA
+= Innehåll = 
+
+<wiki:toc max_depth="3" />
+
 = Introduktion =
 
 Denna sida ska ge en snabb introduktion till referensarkitekturen (förkortad RA) och den dokumentation och exempel som finns.
