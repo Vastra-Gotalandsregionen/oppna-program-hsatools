@@ -13,7 +13,7 @@ http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_
 
 Beroendet kan t ex bestå i att Processkomponent 1 återanvänder en webbdialog från Entitetskomponent 1: 
 
-
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_KompWebBeroende.png
 
 == Byggsystem ==
 Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
