@@ -15,6 +15,12 @@ Beroendet kan t ex bestå i att Processkomponent 1 återanvänder en webbdialog 
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_KompWebBeroende.png
 
+På designnivå skulle de interna beroendena inom resp verksamhetskomponent samt de externa beroendena från den ena komponenten till den andra se ut såhär: 
+
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_KompWebBeroendeDesign.png
+
+
+
 == Byggsystem ==
 Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
 
