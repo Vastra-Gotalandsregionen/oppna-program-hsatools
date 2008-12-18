@@ -11,6 +11,8 @@ Förutsatt att man har följande två verksamhetskomponenter inom ett system, d�
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_Verksamhetskomponenter.png
 
+Beroendet kan t ex bestå i att Processkomponent 1 återanvänder en webbdialog från Entitetskomponent 1: 
+
 
 
 == Byggsystem ==
