@@ -10,6 +10,8 @@ Här beskrivs hur beroenden inom och mellan verksamhetskomponenter fungerar och 
 Här beskrivs hur beroenden inom och mellan verksamhetskomponenter ser ut, både byggmässigt och i runtime. 
 
 
+
+
 == Byggsystem ==
 Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
 
