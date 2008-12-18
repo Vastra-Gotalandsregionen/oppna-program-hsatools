@@ -11,9 +11,9 @@ Alla system som bygger på referensarkitekturen (RA) har en liknande källkodsst
 
 Här beskrivs på detaljnivå:
   * de ingående delarna i källkodsstrukturen
-  * hur byggsystemet, baserat på Maven2, förhåller sig till källkodstrukturen. För konkreta exampel på hur byggsystemet används för att bygga RA-system och komponenter, se [RA_Anvandarmanual_Utvecklingsmiljo].
   * packeteringen av komponenter (jar, war och ear-filer)
-  * beroendestrukturen, dvs beroenden inom och mellan verksamhetskomponenter 
+
+För detaljer kring hur byggsystemet, baserat på Maven2, förhåller sig till källkodstrukturen, se [RA_Anvandarmanual_Beroenden_Mellan_Komponenter]. För konkreta exampel på hur maven2-pluginen används för att generera  RA-system och komponenter, se [RA_Anvandarmanual_Utvecklingsmiljo].
 
 = Källkodstruktur i system och verksamhetskomponenter =
 
