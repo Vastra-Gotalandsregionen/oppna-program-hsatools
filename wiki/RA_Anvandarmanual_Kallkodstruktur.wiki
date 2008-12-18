@@ -13,7 +13,7 @@ Här beskrivs på detaljnivå:
   * de ingående delarna i källkodsstrukturen
   * packeteringen av komponenter (jar, war och ear-filer)
 
-För detaljer kring hur byggsystemet, baserat på Maven2, förhåller sig till källkodstrukturen, se [RA_Anvandarmanual_Beroenden_Mellan_Komponenter]. För konkreta exampel på hur maven2-pluginen används för att generera  RA-system och komponenter, se [RA_Anvandarmanual_Utvecklingsmiljo].
+För detaljer kring hur byggsystemet, baserat på Maven2, förhåller sig till källkodstrukturen, se [RA_Anvandarmanual_Beroenden_Mellan_Komponenter]. För konkreta exampel på hur Maven2-pluginen används för att generera  RA-system och komponenter, se [RA_Anvandarmanual_Utvecklingsmiljo].
 
 = Källkodstruktur i system och verksamhetskomponenter =
 
