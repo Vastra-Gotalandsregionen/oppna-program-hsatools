@@ -3,8 +3,6 @@ h#summary Beskriver RA-systems och komponenters källkodstruktur samt packeterin
 
 = Innehåll = 
 
-[RA_Anvandarmanual_Kallkodstruktur2]
-
 <wiki:toc max_depth="3" />
 
 = Introduktion =
@@ -17,7 +15,6 @@ Här beskrivs på detaljnivå:
   * packeteringen av komponenter (jar, war och ear-filer)
   * beroendestrukturen, dvs beroenden inom och mellan verksamhetskomponenter 
 
- 
 = Källkodstruktur i system och verksamhetskomponenter =
 
 Innehåll och användning av de olika delarna i strukturen beskrivs här.
