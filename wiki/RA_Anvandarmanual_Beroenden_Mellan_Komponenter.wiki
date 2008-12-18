@@ -11,7 +11,6 @@ Här beskrivs hur beroenden inom och mellan verksamhetskomponenter ser ut, både
 
 
 
-
 == Byggsystem ==
 Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
 
@@ -25,13 +24,13 @@ I den här relationen ärver barnet egenskaper från föräldern.
 
 Det är mycket viktigt att versionerna överensstämmer. Uppgraderas versionen på föräldern så måste även barnets byggfil uppgraderas med den nya föräldra-versionen.
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Kallkodstruktur_VersionForalderOchBarn.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_VersionForalderOchBarn.png
 
 ==== Filssystemsrelation (förälder pekar ut barn) ====
 I den här relationen pekar föräldern ut barnet med en relativ sökväg på filsystemet.
 Relationen är inte versionerad och det enda syftet med den är att kunna bygga underliggande projekt med en överordnad byggfil.
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Kallkodstruktur_FilsystemrelationForalderTillBarn.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_FilsystemrelationForalderTillBarn.png
 
 === Byggrelationer inom en verksamhetskomponent ===
 En verksamhetskomponents byggfil (den `pom.xml` som ligger direkt i komponentens katalog i filsystemet) ska bygga alla underliggande delar direkt (inte via mellanliggande byggfiler med _packaging type_ satt till _pom_). Anledningen är att förenkla versionering genom att ha så få versionerade beroenden som möjligt.
@@ -51,7 +50,7 @@ Scenario:
   * Den kontinuerliga integrationsprocessen upptäcker förändringen (med en liten fördröjning), bygger på systemnivå och publicerar artefakterna i ett Maven-repository med remote-access. Notera: enbart SNAPSHOT-artefakter publiceras på det här viset, stabila versioner publiceras inte av den kontinuerliga integrationsprocessen, det är ett manuellt arbete.
   * ”Utvecklare 2” bygger sin komponent som är beroende av den som ”Utvecklare 1” ändrade. Beroendet löses upp mot Maven remote-repositoryt och ”Utvecklare 2” får med den senaste kodbasen utan att behöva bygga alla komponenter som det finns beroenden till.
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Kallkodstruktur_OversiktByggprocess.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_OversiktByggprocess.png
 
 
 === Publicera stabila versioner till Maven remote repository ===
