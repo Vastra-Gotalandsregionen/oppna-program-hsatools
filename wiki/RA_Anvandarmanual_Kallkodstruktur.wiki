@@ -52,10 +52,19 @@ Innehåller källkod för två typer av artefakter, integrationstjänster, som �
 Innehåller integrationstjänster i form av Webservices, JMS eller Connector för ingående trafik.
 
 I fallet av Webservice finns även bindningsklasserna för WSDL-filen här (vi arbetar uteslutande enligt principen "contract-first", dsv bindningsklasserna genereras från WSDL-filen). Notera att själva kontraktet, i form av WSDL-fil och XML-scheman (se avsnittet _schema_ nedan), i enlighet med _principen om kanoniska tjänstegränssnitt_ och _principen för löst kopplade tjänster_ inte ägs av verksamhetskomponenten utan centralt. 
+
 ==== web ====
-Innehåller en Webapplikation eller Portlet. Under web ligger endast den källkod som behövs för att packetera ihop ett antal kompositer till en webbapplikation eller portlet, bland annat deployment deskriptorerna `web.xml` och `portlet.xml`. Alla vyfiler och övriga resurser skall finnas som återanvändbara kompositer under `composites`. 
+Innehåller en Webapplikation. Under `web` ligger endast den källkod som behövs för att packetera ihop ett antal kompositer till en webbapplikation, bland annat deployment deskriptorn `web.xml`. Alla vyfiler och övriga resurser skall finnas som återanvändbara kompositer under `composites`. 
 
 TODO: beskriv rekommenderad uppbyggnad av en webapplikation med JAR-filer som innehåller vyfiler + resurser. Teknik: JSF, Facelets.
+Se dokument !Anvisningar_Portletutveckling.doc (inte klart ännu).
+
+==== portlet ====
+Not: Denna genereras ej av mavenpluginen i dagsläget då portlet-delen av RA är under uppbyggnad. 
+
+Innehåller en Portlet. Under `portlet` ligger endast den källkod som behövs för att packetera ihop ett antal kompositer till en portlet, bland annat deployment deskriptorn `portlet.xml`. Alla vyfiler och övriga resurser skall finnas som återanvändbara kompositer under `composites`. 
+
+TODO: beskriv rekommenderad uppbyggnad av en portlet med JAR-filer som innehåller vyfiler + resurser. Teknik: JSF, Facelets.
 Referera till dokument !Anvisningar_Portletutveckling.doc (inte klart ännu).
 
 === composites ===
