@@ -4,3 +4,53 @@
 = Innehåll =
 <wiki:toc max_depth="3" />
 = Introduktion =
+Här beskrivs hur beroenden inom och mellan verksamhetskomponenter fungerar och hur detta understöds av byggsystemet. 
+
+= Beroenden inom och mellan verksamhetskomponenter = 
+Här beskrivs hur beroenden inom och mellan verksamhetskomponenter ser ut, både byggmässigt och i runtime. 
+
+
+== Byggsystem ==
+Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
+
+=== Maven2 relationer mellan byggfiler ===
+Det är viktigt att förstå hur Maven2 använder föräldra-barn relationer mellan byggfiler (`pom.xml`) och hur det påverkar versioneringen. Det finns två typer av beroenden som beskrivs här.
+
+==== Versionerad relation med arv (barn pekar ut förälder) ====
+I den här relationen pekar barnet ut föräldern via Maven repositoriet. Föräldern kvalificeras med namn och version. Den här relationen är alltså inte via filsystemet (för Maven1-användare: detta skiljer sig kraftigt från tidigare version).
+
+I den här relationen ärver barnet egenskaper från föräldern.
+
+Det är mycket viktigt att versionerna överensstämmer. Uppgraderas versionen på föräldern så måste även barnets byggfil uppgraderas med den nya föräldra-versionen.
+
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Kallkodstruktur_VersionForalderOchBarn.png
+
+==== Filssystemsrelation (förälder pekar ut barn) ====
+I den här relationen pekar föräldern ut barnet med en relativ sökväg på filsystemet.
+Relationen är inte versionerad och det enda syftet med den är att kunna bygga underliggande projekt med en överordnad byggfil.
+
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Kallkodstruktur_FilsystemrelationForalderTillBarn.png
+
+=== Byggrelationer inom en verksamhetskomponent ===
+En verksamhetskomponents byggfil (den `pom.xml` som ligger direkt i komponentens katalog i filsystemet) ska bygga alla underliggande delar direkt (inte via mellanliggande byggfiler med _packaging type_ satt till _pom_). Anledningen är att förenkla versionering genom att ha så få versionerade beroenden som möjligt.
+=== Versionering av en verksamhetskomponent med Maven2 ===
+En verksamhetskomponent versioneras alltid som en enhet vilket innebär att de ingående delarnas pom.xml inte definierar något eget `<version>` element utan ärver versionen från verksamhetskomponentens pom.xml.
+Se !Anvisningar_Konfigurationshantering.doc för mer om versionering.
+=== SNAPSHOT-versioner och kontinuerlig integration ===
+==== Användning ====
+För att slippa bygga hela systemet varje gång under utveckling/testfas så går det att bygga på den nivå som är intressant för tillfället (där ändringar sker). I det läget kommer beroenden att lösas upp mot Maven repositoriet och i de fall de inte finns där (eller är för gamla baserade på SNAPSHOT-uppdateringsfrekvens) så kommer beroendena lösas upp mot ett Maven remote-repository.
+
+Det Maven remote-repository som används är det som populeras av den kontinuerliga integrationsprocessen (se !Anvisningar_Kontinuerlig_Integration.doc). Det repositoriet innehåller SNAPSHOT-artefakter byggda på den senast incheckade kodbasen i versionshanteringssystemet (med en liten eftersläpning < ca 15min).
+
+==== Översikt av miljön ====
+Det här är en översikt av det som beskrevs i föregående avsnitt.
+Scenario:
+  * ”Utvecklare 1” gör en förändring i en komponent som ”Utvecklare 2” är beroende av och checkar in sin ändring i versionshanteringssystemet.
+  * Den kontinuerliga integrationsprocessen upptäcker förändringen (med en liten fördröjning), bygger på systemnivå och publicerar artefakterna i ett Maven-repository med remote-access. Notera: enbart SNAPSHOT-artefakter publiceras på det här viset, stabila versioner publiceras inte av den kontinuerliga integrationsprocessen, det är ett manuellt arbete.
+  * ”Utvecklare 2” bygger sin komponent som är beroende av den som ”Utvecklare 1” ändrade. Beroendet löses upp mot Maven remote-repositoryt och ”Utvecklare 2” får med den senaste kodbasen utan att behöva bygga alla komponenter som det finns beroenden till.
+
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Kallkodstruktur_OversiktByggprocess.png
+
+
+=== Publicera stabila versioner till Maven remote repository ===
+Detta är en del av konfigurationshantering och beskrivs därför i dokumentet !Anvisningar_Konfigurationshantering.doc.
