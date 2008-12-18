@@ -1,0 +1,131 @@
+#summary Beskriver källkodstrukturen i RA-system och komponenter.
+#labels RA
+
+= Introduktion2 =
+
+Alla system som bygger på referensarkitekturen (RA) har en liknande källkodsstruktur i filsystemet. Strukturen är direkt kopplad till RA och utgör grunden för en implementation av den. Vissa av kraven på referensarkitekturen, bland annat modularisering i weblagret och portabilitet mellan portlet och webbapp, har en direkt koppling till strukturen. Den maven-plugin som följer med RA är beroende av att strukturen ser ut så som här beskrivs och nämnda plugin används också för att skapa den specifika strukturen. 
+
+Här beskrivs på detaljnivå:
+  * de ingående delarna i källkodsstrukturen
+  * hur byggsystemet, baserat på Maven2, förhåller sig till källkodstrukturen
+
+För konkreta exampel på hur byggsystemet används för att bygga RA-system och komponenter, se [RA_Anvandarmanual_Utvecklingsmiljo]. 
+
+= Källkodstruktur i RA-system och komponenter =
+
+== Namngivning ==
+=== Namngivning av system ===
+Varje systems namn måste vara globalt unikt för att undvika namnkollisioner vid driftsättning.
+=== Namngivning av verksamhetskomponenter ===
+Namngivning av komponenter:
+TODO: namnkonvention, prefix för verksamhetskomponenter (t ex ”e” för entitet) – stäm av mot referensarkitekturen! Ej bestämt ännu (2006-12-18).
+
+== Ingående delar i strukturen ==
+Innehåll och användning av de olika delarna i strukturen beskrivs här.
+
+=== Strukturen inom ett system ===
+Varje system innehåller en eller flera verksamhetskomponenter. När man skapar ett system med maven-pluginen skapas en struktur anpassad till subversion upp. Under systemet finns katalogerna branches, tags och trunk: 
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_SystemFilstruktur.png
+
+Under trunk ligger byggfilen `pom.xml` för hela systemet samt kataloger för respektive verksamhetskomponent. I exemplet ovan är `MyTestBC` den enda verksamhetskomponenten. 
+
+=== Översikt över hierarkin inom en verksamhetskomponent ===
+Varje system innehåller ett antal verksamhetskomponenter, varje verksamhetskomponent har en konceptuell inre uppbyggnad enligt:
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCHierarkin.png
+
+En applikation byggs upp av moduler som i sin tur kan byggas upp av kompositer. En komposit är en återanvändbar byggsten, bestående av ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar från kravet på modularisering i weblagret och portabilitet mellan portlet och webapp. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation. 
+
+En applikation är främst är en _packetering_ av den underliggande funktionaliteten (innehåller i stort sett bara paketeringsartefakter) i en verksamhetskompontent, att jämföra med ett system som består av ett antal, hierarkiskt ordnade, verksamhetskomponenter. 
+
+Även moduler är främst att betrakta som _packeteringar_ av funktionaliteten, vilket är anledningen till att varken applikation eller modul återfinns i den logiska referensmodellen över en verksamhetskomponent. 
+
+=== Verksamhetskomponenter ===
+Direkt under `<SystemNamn>/trunk` ligger alltså alla verksamhetskomponenter för ett system samt en byggfil, pom.xml, för att bygga hela systemet. Varje verksamhetskomponent har i sin tur följade struktur, med underkatalogerna applications, composites, modules och sql: 
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_BCFilstruktur.png 
+ 
+=== applications ===
+ 
+Innehållet beror på vilken typ av enhet som ska driftsättas. En del verksamhetskomponenter bidrar inte med någon applikation utan bara med composites, i det fallet finns heller inga modules. Det är inte meningen att applikations ska innehålla källkod (ska finnas under modules och composites) förutom den extra kod som kan krävas för att producera till exempel en exekverbar JAR-fil (typiskt en klass med en main-metod).
+Typiskt innehåll i applications är artefakter för att bygga:
+  * EAR-filer
+  * Java Webstart arkiv
+  * Exekverbara JAR-filer 
+
+=== modules ===
+Innehåller källkod för två typer av artefakter, integrationstjänster, som återfinns under intsvc samt web-applikationer (inkluderande Portlets) som återfinns i web. Strukturen inuti dessa följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
+ 
+==== intsvc ====
+Innehåller integrationstjänster i form av Webservices, JMS eller Connector för ingående trafik.
+I fallet av Webservice finns även bindningsklasserna för WSDL-filen här (vi arbetar uteslutande enligt principen "contract-first", dsv bindningsklasserna genereras från WSDL-filen).
+==== web ====
+Innehåller en Webapplikation eller Portlet.
+TODO: rekommenderad uppbyggnad av en webapplikation med JAR-filer som innehåller vyfiler + resurser. Teknik: JSF, Facelets.
+Referera till dokument !Anvisningar_Portletutveckling.doc (inte klart ännu).
+
+=== composites ===
+Innehåller källkod för återanvändbara delar avsedda för komposition. Strukturen inuti komposit-delarna följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
+==== svc ====
+Tjänster för verksamhetskomponenten. Dessa tjänster exponeras bara inom systemet (och givetvis inom verksamhetskomponenten). För att exponera en tjänst utanför systemgränsen behöver den exponeras som en integrationstjänst, se avsnitt _intsvc_ ovan.
+==== types ====
+Gemensamma typer.
+==== webcomp ====
+TODO: beskriv hur webkomponenter i form av JAR-filer bidrar till en webapplikation/portlet. Hänger ihop med sektion _web_.
+Referera till dokument !Anvisningar_Portletutveckling.doc.
+==== schema ====
+Innehåller XML-scheman som används för integration via tjänster som beskrivs i _intsvc_ ovan.
+Scheman används här för att generera JAXB-bindningsklasser (bindning mellan Java och XML) som används inom verksamhetskomponenten.
+
+=== sql ===
+Innehåller eventuella sql-skript.
+= Byggsystem =
+Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
+Det här avsnittet bygger på det tidigare avsnittet _Källkodsstruktur i RA-system_ och upprepar inte sådant som nämns där. 
+
+== Maven2 relationer mellan pom.xml filer ==
+Det är viktigt att förstå hur Maven2 använder föräldra-barn relationer mellan pom.xml filer och hur det påverkar versioneringen. Det finns två typer av beroenden som beskrivs här.
+
+=== Versionerad relation med arv (barn pekar ut förälder) ===
+I den här relationen pekar barnet ut föräldern via Maven repositoriet. Föräldern kvalificeras med namn och version. Den här relationen är alltså inte via filsystemet (för Maven1-användare: detta skiljer sig kraftigt från tidigare version).
+
+I den här relationen ärver barnet egenskaper från föräldern.
+
+Det är mycket viktigt att versionerna överensstämmer. Uppgraderas versionen på föräldern så måste även barnets pom.xml uppgraderas med den nya föräldra-versionen.
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_VersionForalderOchBarn.png
+
+=== Filssystemsrelation (förälder pekar ut barn) ===
+I den här relationen pekar föräldern ut barnet med en relativ sökväg på filsystemet.
+Relationen är inte versionerad och det enda syftet med den är att kunna bygga underliggande projekt med en överordnad byggfil.
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_FilsystemrelationForalderTillBarn.png
+
+== Byggrelationer inom en verksamhetskomponent ==
+En verksamhetskomponents pom.xml (den översta byggfilen i komponenten) ska bygga alla underliggande delar direkt (inte via mellanliggande pom.xml med packaging typ satt till pom). Anledningen är att förenkla versionering genom att ha så få versionerade beroenden som möjligt.
+== Versionering av en verksamhetskomponent med Maven2 ==
+En verksamhetskomponent versioneras alltid som en enhet vilket innebär att de ingående delarnas pom.xml inte definierar något eget `<version>` element utan ärver versionen från verksamhetskomponentens pom.xml.
+Se !Anvisningar_Konfigurationshantering.doc för mer om versionering.
+== SNAPSHOT-versioner och kontinuerlig integration ==
+=== Användning ===
+För att slippa bygga hela systemet varje gång under utveckling/testfas så går det att bygga på den nivå som är intressant för tillfället (där ändringar sker). I det läget kommer beroenden att lösas upp mot Maven repositoriet och i de fall de inte finns där (eller är för gamla baserade på SNAPSHOT-uppdateringsfrekvens) så kommer beroendena lösas upp mot ett Maven remote-repository.
+
+Det Maven remote-repository som används är det som populeras av den kontinuerliga integrationsprocessen (se !Anvisningar_Kontinuerlig_Integration.doc). Det repositoriet innehåller SNAPSHOT-artefakter byggda på den senast incheckade kodbasen i versionshanteringssystemet (med en liten eftersläpning < ca 15min).
+
+=== Översikt av miljön ===
+Det här är en översikt av det som beskrevs i föregående avsnitt.
+Scenario:
+  * ”Utvecklare 1” gör en förändring i en komponent som ”Utvecklare 2” är beroende av och checkar in sin ändring i versionshanteringssystemet.
+  * Den kontinuerliga integrationsprocessen upptäcker förändringen (med en liten fördröjning), bygger på systemnivå och publicerar artefakterna i ett Maven-repository med remote-access. Notera: enbart SNAPSHOT-artefakter publiceras på det här viset, stabila versioner publiceras inte av den kontinuerliga integrationsprocessen, det är ett manuellt arbete.
+  * ”Utvecklare 2” bygger sin komponent som är beroende av den som ”Utvecklare 1” ändrade. Beroendet löses upp mot Maven remote-repositoryt och ”Utvecklare 2” får med den senaste kodbasen utan att behöva bygga alla komponenter som det finns beroenden till.
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Kallkodstruktur_OversiktByggprocess.png
+
+
+== Publicera stabila versioner till Maven remote repository ==
+Detta är en del av konfigurationshantering och beskrivs därför i dokumentet !Anvisningar_Konfigurationshantering.doc.
+
+
+
+  
