@@ -1,6 +1,10 @@
 #summary Beskriver RA-systems och komponenters källkodstruktur samt packetering.
 #labels RA
 
+= Innehåll = 
+
+<wiki:toc max_depth="3" />
+
 = Introduktion =
 
 Alla system som bygger på referensarkitekturen (RA) har en liknande källkodsstruktur i filsystemet och CM-systemet (subversion). Strukturen är direkt kopplad till RA och utgör grunden för en implementation av den. Vissa av kraven på referensarkitekturen, bland annat modularisering i weblagret och portabilitet mellan portlet och webbapp, har en direkt koppling till strukturen. Den maven-plugin som följer med RA är beroende av att strukturen ser ut så som här beskrivs och nämnda plugin används också för att skapa den specifika strukturen. 
