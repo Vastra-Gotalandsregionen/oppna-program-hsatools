@@ -1,5 +1,5 @@
+#summary Denna anvisning beskriver hur beroenden mellan och inom verksamhetskomponenter fungerar.
 #labels RA
-#Denna anvisning beskriver hur beroenden mellan och inom verksamhetskomponenter fungerar.
 
 = Innehåll =
 <wiki:toc max_depth="3" />
