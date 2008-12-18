@@ -36,7 +36,7 @@ Byggfilen `pom.xml` används för att bygga hela verksamhetskomponenten. Not: Ka
  
 === applications ===
  
-Innehållet i applications beror på vilken typ av enhet som ska driftsättas. En del verksamhetskomponenter bidrar inte med någon applikation utan bara med composites, i det fallet finns heller inga modules. Det är inte meningen att applikations ska innehålla källkod (ska finnas under modules och composites) förutom den extra kod som kan krävas för att producera till exempel en exekverbar JAR-fil (typiskt en klass med en main-metod).
+Innehållet i applications beror på vilken typ av enhet som ska driftsättas. En del verksamhetskomponenter bidrar inte med någon applikation utan bara med kompositer, i det fallet finns heller inga moduler. Det är inte meningen att applications ska innehålla källkod (ska finnas under modules och composites) förutom den extra kod som kan krävas för att producera till exempel en exekverbar JAR-fil (typiskt en klass med en main-metod).
 Typiskt innehåll i applications är artefakter för att bygga:
   * EAR-filer
   * Java Webstart arkiv
@@ -50,13 +50,14 @@ Innehåller integrationstjänster i form av Webservices, JMS eller Connector fö
 
 I fallet av Webservice finns även bindningsklasserna för WSDL-filen här (vi arbetar uteslutande enligt principen "contract-first", dsv bindningsklasserna genereras från WSDL-filen).
 ==== web ====
-Innehåller en Webapplikation eller Portlet.
+Innehåller en Webapplikation eller Portlet. Under web ligger endast det som behövs för att packetera en webbapplikation eller portlet, ex web.xml och portlet.xml. Alla vyfiler och övriga resurser skall finnas som återanvändbara kompositer under composites. 
+
 TODO: beskriv rekommenderad uppbyggnad av en webapplikation med JAR-filer som innehåller vyfiler + resurser. Teknik: JSF, Facelets.
 Referera till dokument !Anvisningar_Portletutveckling.doc (inte klart ännu).
 
 === composites ===
 
-En komposit är en återanvändbar byggsten, bestående exempelvis av ett antal sidor som tillsammans bildar en "dialog" eller av en tjänst (inom systemet). Uppdelningen i kompositer härstammar bland annat från kravet på modularisering i weblagret och portabilitet mellan portlet och webapp. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation (och då heller inga moduler). 
+En komposit är en återanvändbar byggsten, till exempel en tjänst (som får anropas inom systemet, jmfr intsvc) eller ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar bland annat från kravet på modularisering i weblagret och portabilitet mellan portlet och webapp. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation (och då heller inga moduler). 
 
 Respektive underkatalog innehåller den källkod som behövs för respektive komposit. Strukturen inuti komposit-delarna följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
 ==== svc ====
@@ -74,7 +75,7 @@ Innehåller XML-scheman som används för integration via tjänster som beskrivs
 
 Scheman används här för att generera JAXB-bindningsklasser (bindning mellan Java och XML) som används inom verksamhetskomponenten och systemet. 
 
-XML-scheman ägs inte av verksamhetskomponenten. Ägandet ska finnas centralt (t ex på en HTTP-server). Vid behov av schema i en verksamhetskomponent kopieras alla nödvändiga scheman (även inkluderade/importerade scheman) in i schema-biblioteket under verksamhetskomponenten.
+XML-scheman ägs inte av verksamhetskomponenten. I enlighet med _principen om kanoniska tjänstegränssnitt_ och _principen för löst kopplade tjänster_ skall alla scheman ägas centralt av _Plattform för Tjänsteorienterad Integration_ (PTI) (t ex finnas tillgängliga via en HTTP-server). Vid behov av schema i en verksamhetskomponent kopieras alla nödvändiga scheman (även inkluderade/importerade scheman) in i schema-biblioteket under verksamhetskomponenten.
 
 === sql ===
 Förutom strukturen ovan skapas även en katalog _sql_, där eventuella sql-skript kan placeras. Denna syns inte i illustrationen ovan. 
