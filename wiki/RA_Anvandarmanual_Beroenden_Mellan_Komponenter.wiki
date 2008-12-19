@@ -19,8 +19,7 @@ På designnivå skulle de interna beroendena inom resp verksamhetskomponent samt
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_KompWebBeroendeDesign.png
 
-Ovanstående illstration visar att 
-
+Ovanstående illstration visar att applikationen _Gui Ear_ är beroende av modulen _Web_ som i sin tur är beroende av kompositen _Web Comp_ som i sin tur är beroende av både _Svc_ och _Types_, allt inom processkomponenten. Dessutom har _Web Comp_ i processkomponenten ett beroende till en annan _Web Comp_ i entitetskomponenten. 
 
 
 == Byggsystem ==
