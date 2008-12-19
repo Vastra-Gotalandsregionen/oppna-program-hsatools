@@ -7,7 +7,7 @@
 Här beskrivs hur beroenden inom och mellan verksamhetskomponenter fungerar och hur detta understöds av byggsystemet. 
 
 = Beroenden inom och mellan verksamhetskomponenter = 
-Förutsatt att man har följande två verksamhetskomponenter inom ett system, där Processkomponent 1 har ett bereonde till Entitetskomponent 1: 
+Förutsatt att man har två verksamhetskomponenter inom ett system, _Processkomponent 1_ och _Entitetskomponent 1_, så skulle Processkomponent 1 kunna ha ett bereonde till Entitetskomponent 1 så här: 
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_Verksamhetskomponenter.png
 
@@ -15,9 +15,11 @@ Beroendet kan t ex bestå i att Processkomponent 1 återanvänder en webbdialog 
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_KompWebBeroende.png
 
-På designnivå skulle de interna beroendena inom resp verksamhetskomponent samt de externa beroendena från den ena komponenten till den andra se ut såhär: 
+På designnivå skulle de interna beroendena inom resp verksamhetskomponent samt de externa beroendena från den ena komponenten till den andra då se ut såhär: 
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_KompWebBeroendeDesign.png
+
+Ovanstående illstration visar att 
 
 
 
