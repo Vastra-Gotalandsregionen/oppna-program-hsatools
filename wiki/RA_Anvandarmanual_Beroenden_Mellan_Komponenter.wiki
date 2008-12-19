@@ -21,8 +21,6 @@ http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_
 
 Ovanstående illstration visar att applikationen _Gui Ear_ är beroende av modulen _Web_ som i sin tur är beroende av kompositen _Web Comp_ som i sin tur är beroende av både _Svc_ och _Types_, allt inom processkomponenten. Dessutom har _Web Comp_ i processkomponenten ett beroende till en annan _Web Comp_ i entitetskomponenten. Maven2-mässigt innebär alla beroenden att byggfilerna (`pom.xml`) i respektive applikation/modul/komposit har en dependency till motstående applikation/modul/komposit. 
 
-*TODO: Kontrollera med Johan/Håkan om det verkligen stämmer att _Web Comp_ i processkomponenten har ett beroende till _Web Comp_ i entitetskomponenten. Det bör väl vara _Web_ som har beroendet?*
-
 
 == Byggsystem ==
 Byggsystemet är baserat på [http://maven.apache.org Maven2] med tillägg gjorda i form av plugins.
