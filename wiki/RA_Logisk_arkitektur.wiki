@@ -20,7 +20,7 @@
 
 
 == Bakgrund ==
-Här beskrivs den logiska delen av den referensarkitektur som har tagits fram gemensamt inom 3R och släppts som öppen källkod av VGR här under Öppna Program. 
+Här beskrivs den logiska delen av den referensarkitektur som har tagits fram gemensamt inom 3R och släppts som öppen källkod av VGR här under öppna program. 
 
 Referensarkitekturen innefattar även en mer konkret och implementations teknisk arkitektur, se [RA_Teknisk_arkitektur].
 
