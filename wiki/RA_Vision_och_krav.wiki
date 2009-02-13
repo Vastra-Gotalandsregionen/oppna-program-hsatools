@@ -12,7 +12,7 @@
 Visionen som ligger bakom öppna programs RA är baserad på den regionala IT-strategin för Västra Götalandsregionen (VGR) som i sin tur baseras på den nationella IT-strategin för vård och omsorg. Den regionala strategin inom VGR kan sammanfattas i ”Ett fönster mot informationen”. 
 
 Följande krav har lett fram till öppna programs referensarkitektur: 
-  * Modularisering i web-lagret
+  * Återanvändning på användningsfallsnivå
   * Portabilitet portlet – webapp
   * Stödja Vervas riktlinjer för web-applikationer
   * "Web-designer-friendly": Mallar för dynamiska HTML-sidor ska kunna skapas och underhållas av web-designers
@@ -30,9 +30,9 @@ Centralt finns ett antal verksamhetsstödjande funktioner/tjänster som alla anv
 
 = Krav = 
 
-== Modularisering i web-lagret ==
+== Återanvändning på användningsfallsnivå ==
 
-En web-applikation skall kunna plockas samman av återanvändbara _moduler_ där en modul innehåller allt som behövs för en dialog (bestående av ett antal sidor). För att möjliggöra detta ska inga dialog-specifika resurser behöva finnas web-appens WEB-INF-katalog. 
+En web-applikation skall kunna plockas samman av återanvändbara _komponenter_ där en komponent innehåller allt som behövs för en dialog (bestående av ett antal sidor). För att möjliggöra detta ska inga dialog-specifika resurser behöva finnas web-appens WEB-INF-katalog. 
 
 == Portabilitet portlet – webapp ==
 
