@@ -62,7 +62,7 @@ Mallar för dynamiska HTML-sidor ska kunna skapas och underhållas av web-design
   * Verktygen skall finnas tillgängliga utan dyra licenskostnader etc
     * Förenklar då man använder sig av konsulter
   * Snabb code-test-debug-cykel
-    * Utvecklartester ska inte kräva deploy i en tung miljö, t ex WebSphere AS eller Portal 
+    * Utvecklartester ska inte kräva deploy i en tung miljö, t ex !WebSphere AS eller !WebSphere Portal 
 
 == Möjliggöra kontroll över bygg -> deploy ==
 
