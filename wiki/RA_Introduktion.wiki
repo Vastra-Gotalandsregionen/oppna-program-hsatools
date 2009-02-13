@@ -43,13 +43,13 @@ Motivet för referensarkitekturen är vanligtvis en övergripande vision och ett
     * Ramverkskod, verktyg för kodgenerering etc
 
 
-= Dokumentationsstruktur = 
+= Referensarkitekturens indelning = 
 Referensarktekturen består av den överordnade logiska modellen (_referensmodellen_) samt den implementationsnära _tekniska arkitekturen_, som beskriver hur referensarkitekturen skall realiseras.
 
 Till den tekniska arkitekturen hör även dokumentation för systemutvecklingsstöd som inte direkt har med arkitektur att göra men som stödjer den. I den tekniska arkitekturen ingår även referensapplikationer och andra kodexempel.
 
 = Läsanvisning = 
-Det är lämpligt att först läsa igenom det dokument som beskriver referens-modellerna för att få en konceptuell förståelse.
+Det är lämpligt att först läsa igenom de delar som beskriver referens-modellerna för att få en konceptuell förståelse.
 == Logisk RA ==
   * Snabb översikt: `Referensarkitektur_översikt.ppt`
   * Mer ingående beskrivning: [RA_Logisk_arkitektur].
@@ -61,7 +61,7 @@ En översikt över kodexempel ges i:
 
 En översikt med motivationsfaktorer ges i: `Teknisk presentation på Callista Developer Conference 2008`
  
-= Dokumentationsöversikt= 
+= Dokumentationsöversikt = 
 
 || *Namn* || *Dokumenttyp* || *Beskrivning av innehåll* ||
 || [RA_Introduktion] (denna sida)|| Övergripand introduktion || Introduktion med läsanvisningar och länkar till vidare information. ||
