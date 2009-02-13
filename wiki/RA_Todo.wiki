@@ -4,7 +4,7 @@
 = Utestående punkter =
 ||*Datum* || *Område* || *Ämne/krav*||
 || || *Anvisningar* || || 
-||9/24/08||Anvisningar_Klient_UI_lager.doc||Fyll på rejält - är bara ett embryo nu. Synka med portlet-anvisningen som delvis överlappar||
+||9/24/08||!Anvisningar_Klient_UI_lager.doc||Fyll på rejält - är bara ett embryo nu. Synka med portlet-anvisningen som delvis överlappar||
 ||9/26/08	||Anvisningar_Kontinuerlig_Integration.doc||Vi har bytt KI-servern Continuum mot Hudson -> uppdatera dokumentet||
 ||10/28/08||Färdigställ en dokumentlista.||ÅP 4 från Kod-och dokumentationsgranskningen. Dokumentlistan utgör beslutsunderlag för vilka dokument som skall finnas kvar efter open sourcening.||
 ||10/28/08||Alla anvisningar/dokument||ÅP 2 från Kod-och dokumentationsgranskningen. Ta beslut om vilka dokument som skall finnas kvar. ||
