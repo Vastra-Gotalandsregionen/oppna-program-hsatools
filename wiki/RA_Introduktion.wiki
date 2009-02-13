@@ -66,6 +66,7 @@ En översikt med motivationsfaktorer ges i: `Teknisk presentation på Callista D
 || *Namn* || *Dokumenttyp* || *Beskrivning av innehåll* ||
 || [RA_Introduktion] (denna sida)|| Övergripand introduktion || Introduktion med läsanvisningar och länkar till vidare information. ||
 || Referensarkitektur_översikt.ppt || Övergripande introduktion, Presentation || Lättförståelig introduktion till RA ||
+|| [RA_Krav] || Krav || Beskriver de krav som legat till grund för referensarkitekturen. ||
 || [RA_Logisk_arkitektur] || Logisk RA, Anvisning || Beskriver referensarkitekturen inkl de logiska referensmodellerna ingående ||
 || Referensmodell arkitektur 3R.ppt || Logisk RA, Presentation || Beskriver referensarkitekturen inkl de logiska referens-modellerna ||
 || Tekniskt ramverk portal VGR.ppt || Teknisk arkitektur, Presentation || Presentation som hölls för Göteborgs stad Intraservice 2008. ||
