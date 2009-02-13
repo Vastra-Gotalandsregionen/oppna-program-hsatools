@@ -51,7 +51,7 @@ Till den tekniska arkitekturen hör även dokumentation för systemutvecklingsst
 = Läsanvisning = 
 Det är lämpligt att först läsa igenom de delar som beskriver referens-modellerna för att få en konceptuell förståelse.
 == Logisk RA ==
-  * Snabb översikt: `Referensarkitektur_översikt.ppt`
+  * Snabb översikt: [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt]
   * Mer ingående beskrivning: [RA_Logisk_arkitektur].
 
 == Teknisk arkitektur ==
@@ -59,14 +59,14 @@ För kodexempel hänvisas till referensapplikation(erna) samt övriga kodexempel
 En översikt över kodexempel ges i:
 `\ref-systems\readme.txt`
 
-En översikt med motivationsfaktorer ges i: `Teknisk presentation på Callista Developer Conference 2008`
+En översikt med motivationsfaktorer ges i: [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt]
  
 = Dokumentationsöversikt = 
 
 || *Namn* || *Dokumenttyp* || *Beskrivning av innehåll* ||
 || [RA_Introduktion] (denna sida)|| Övergripand introduktion || Introduktion med läsanvisningar och länkar till vidare information. ||
 || 
-|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Referensarkitektur_översikt.ppt Referensarkitektur_översikt.ppt] || Övergripande introduktion, Presentation || Lättförståelig introduktion till RA ||
+|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt] || Övergripande introduktion, Presentation || Lättförståelig introduktion till RA ||
 || [RA_Vision_och_krav] || Krav/Vision || Beskriver den vision och de krav som legat till grund för referensarkitekturen. ||
 || [RA_Logisk_arkitektur] || Logisk RA, Anvisning || Beskriver referensarkitekturen inkl de logiska referensmodellerna ingående ||
 || Referensmodell arkitektur 3R.ppt || Logisk RA, Presentation || Beskriver referensarkitekturen inkl de logiska referens-modellerna ||
