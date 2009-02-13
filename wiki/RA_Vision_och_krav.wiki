@@ -30,13 +30,50 @@ Centralt finns ett antal verksamhetsstödjande funktioner/tjänster som alla anv
 
 = Krav = 
 
-
-
 == Modularisering i web-lagret ==
+
+En web-applikation skall kunna plockas samman av återanvändbara _moduler_ där en modul innehåller allt som behövs för en dialog (bestående av ett antal sidor). För att möjliggöra detta ska inga dialog-specifika resurser behöva finnas web-appens WEB-INF-katalog. 
+
 == Portabilitet portlet – webapp ==
 
+Alla lösningar ska kunna köras både som portlets och som “vanliga” web-applikationer. Dessutom ska både portlets och webbapplikationerna gå att köra på olika applikationsservrar/portalserverar.
+
 == Stödja Vervas riktlinjer för web-applikationer ==
+
+  * “Graceful degradation”
+    * Applikationer ska fungera i “alla” webläsare
+    * Användarvänligheten kommer däremot minska vartefter funktionalitet i webläsaren minskar
+  * Exempel
+    * Applikationer måste fungera även om JavaScript är avslaget eller saknas
+    * Applikationer måste fungera även i en gammal webläsare
+
+
 == Web-designer-friendly ==
 
+Mallar för dynamiska HTML-sidor ska kunna skapas och underhållas av web-designers. En webbdesigner ska kunna arbeta i "sitt" verktyg, ex Dreamweaver. Samma källkodsfil ska sedan gå att editera av en javautvecklare, i en XML-editor.  
+
 == Stödja en “agile” utvecklingsmiljö ==
+
+  * Ingen in-låsning vid en viss utvecklingsmiljö
+    * Portabla byggen
+    * “Build file is master” - IDE-konfiguration och projekt genereras från bygg-filerna
+  * Rimliga krav på hårdvara
+    * Det skall gå att utveckla och testa på en normal laptop.
+  * Verktygen skall finnas tillgängliga utan dyra licenskostnader etc
+    * Förenklar då man använder sig av konsulter
+  * Snabb code-test-debug-cykel
+    * Utvecklartester ska inte kräva deploy i en tung miljö, t ex WebSphere AS eller Portal 
+
 == Möjliggöra kontroll över bygg -> deploy ==
+
+  * Enkel hemtagning
+    * Inget beronde till utvecklingsverktyg som inte finns i huset
+    * Allid veta att vi “har fått allt”
+  * Ändringar ska kunna göras med texteditor och incheckning
+    * Byggskript på server som körs automatiskt
+    * Ej beroende av enskild utvecklare eller PC
+  * Säker release-process
+    * Veta vilken version vi kör
+    * Veta vad som ingår
+    * Automatiskt kunna återskapa samma release
+  * Automatiserad driftsättning
