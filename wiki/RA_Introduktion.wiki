@@ -70,7 +70,7 @@ En översikt med motivationsfaktorer ges i: [http://oppna-program.googlecode.com
 || [RA_Vision_och_krav] || Krav/Vision || Beskriver den vision och de krav som legat till grund för referensarkitekturen. ||
 || [RA_Logisk_arkitektur] || Logisk RA, Anvisning || Beskriver referensarkitekturen inkl de logiska referensmodellerna ingående ||
 || [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Referensmodell_arkitektur_3R.ppt Referensmodell_arkitektur_3R.ppt] || Logisk RA, Presentation || Beskriver referensarkitekturen inkl de logiska referens-modellerna ||
-|| Tekniskt ramverk portal VGR.ppt || Teknisk arkitektur, Presentation || Presentation som hölls för Göteborgs stad Intraservice 2008. ||
+|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Tekniskt_ramverk_portal_VGR.ppt Tekniskt_ramverk_portal_VGR.ppt]  || Teknisk arkitektur, Presentation || Presentation som hölls för Göteborgs stad Intraservice 2008. ||
 || Teknisk presentation på Callista Developer Conference 2008.ppt || Teknisk arkitektur, Presentation || Teknisk presentation på Callista Developer Conference 2008. Beskriver den tekniska arkitekturen inkl dess motivationsfaktorer. Innehåller även teknikstacken för Java.||
 || Anvisningar för WSDL-design.doc || Teknisk arkitektur, Anvisning || Detaljerade anvisningar för wsdl-utveckling. Bör förtydligas/utökas med hänvisningar till kodexempel/poc. ||
 || Anvisningar för versionering av XML-Scheman.doc || Teknisk arkitektur, Anvisning || Detaljerade anvisningar för versionering av XML-scheman. Bör förtydligas/utökas med hänvisningar till kodexempel/poc. ||
