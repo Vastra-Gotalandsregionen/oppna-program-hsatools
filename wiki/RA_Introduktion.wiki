@@ -66,23 +66,24 @@ En översikt med motivationsfaktorer ges i: [http://oppna-program.googlecode.com
 || *Namn* || *Dokumenttyp* || *Beskrivning av innehåll* ||
 || [RA_Introduktion] (denna sida)|| Övergripand introduktion || Introduktion med läsanvisningar och länkar till vidare information. ||
 || 
-|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt] || Övergripande introduktion, Presentation || Lättförståelig introduktion till RA ||
+|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt] || Övergripande introduktion, Presentation || Lättförståelig introduktion till RA ||
 || [RA_Vision_och_krav] || Krav/Vision || Beskriver den vision och de krav som legat till grund för referensarkitekturen. ||
 || [RA_Logisk_arkitektur] || Logisk RA, Anvisning || Beskriver referensarkitekturen inkl de logiska referensmodellerna ingående ||
-|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Referensmodell_arkitektur_3R.ppt Referensmodell_arkitektur_3R.ppt] || Logisk RA, Presentation || Beskriver referensarkitekturen inkl de logiska referens-modellerna ||
-|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Tekniskt_ramverk_portal_VGR.ppt Tekniskt_ramverk_portal_VGR.ppt]  || Teknisk arkitektur, Presentation || Presentation som hölls för Göteborgs stad Intraservice 2008. ||
-|| Teknisk presentation på Callista Developer Conference 2008.ppt || Teknisk arkitektur, Presentation || Teknisk presentation på Callista Developer Conference 2008. Beskriver den tekniska arkitekturen inkl dess motivationsfaktorer. Innehåller även teknikstacken för Java.||
-|| Anvisningar för WSDL-design.doc || Teknisk arkitektur, Anvisning || Detaljerade anvisningar för wsdl-utveckling. Bör förtydligas/utökas med hänvisningar till kodexempel/poc. ||
-|| Anvisningar för versionering av XML-Scheman.doc || Teknisk arkitektur, Anvisning || Detaljerade anvisningar för versionering av XML-scheman. Bör förtydligas/utökas med hänvisningar till kodexempel/poc. ||
-|| Anvisningar_Konfigurationshantering.doc || Teknisk arkitektur, Anvisning || Detaljerade anvisningar om hur man versionerar maven-artefakter, lablar i subversion etc. ||
-|| Anvisningar_Verktyg_Subversion.doc || Teknisk arkitektur, Anvisning || Kortfattad anvisning om subversion. ||
+|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Referensmodell/Referensmodell_arkitektur_3R.ppt Referensmodell_arkitektur_3R.ppt] || Logisk RA, Presentation || Beskriver referensarkitekturen inkl de logiska referens-modellerna ||
+|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc] || Teknisk arkitektur, Anvisning || Detaljerade anvisningar för wsdl-utveckling. Bör förtydligas/utökas med hänvisningar till kodexempel/poc. ||
+|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc] || Teknisk arkitektur, Anvisning || Detaljerade anvisningar för versionering av XML-scheman. Bör förtydligas/utökas med hänvisningar till kodexempel/poc. ||
+|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc] || Teknisk arkitektur, Anvisning || Detaljerade anvisningar om hur man versionerar maven-artefakter, lablar i subversion etc. ||
+|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc] || Teknisk arkitektur, Anvisning || Kortfattad anvisning om subversion. ||
 || [RA_Anvandarmanual_Utvecklingsmiljo] || Teknisk arkitektur, Anvisning || Beskriver hur man praktiskt sätter upp sin utvecklingsmiljö för att komma igång med utveckling av RA-system och komponenter. ||
 || [RA_Anvandarmanual_Kallkodstruktur] || Teknisk arkitektur, Anvisning || Beskriver källkodsstrukturen och dess koppling till RA. ||
 || [RA_Anvandarmanual_Beroenden_Mellan_Komponenter] || Teknisk arkitektur, Anvisning || Beskriver hur beroenden inom och mellan verksamhetskomponenter fungerar. ||
-|| !Anvisningar_Portletutveckling.doc || Teknisk arkitektur, Anvisning || Beskriver hur man utvecklar portlets. Innehåller ev något ouppdaterad information, behöver revideras. Not: Befintliga projekt använder nyare portlet-standarden JSR 286 istf JSR168. ||
-|| !Anvisningar_Klient_UI_lager.doc || Teknisk arkitektur, Anvisning || Innehåller teknikstack för Java EE-weblagret. Innehåller även lite annan info specifik för RA. Bör utökas. ||
-|| Genensamma Icke-funktionella krav vid upphandling av systemstöd.docx || Kravdokument || Ej färdigt dokument. Dokumentet är tänkt att samla gemensamma, icke-funktionella krav. ||
-|| Mall Icke-funktionella krav upphandling av systemstöd.docx || Kravdokument || Ej färdigt dokument. Mall för gemensamma krav. ||
+|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Portletutveckling.doc Anvisningar_Portletutveckling.doc]  || Teknisk arkitektur, Anvisning || Beskriver hur man utvecklar portlets. Innehåller ev något ouppdaterad information, behöver revideras. Not: Befintliga projekt använder nyare portlet-standarden JSR 286 istf JSR168. ||
+|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Klient_UI_lager.doc Anvisningar_Klient_UI_lager.doc] || Teknisk arkitektur, Anvisning || Innehåller teknikstack för Java EE-weblagret. Innehåller även lite annan info specifik för RA. Bör utökas. ||
+|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Kravhantering/Upphandling/Gemensamma_krav/Gemensamma_Icke-funktionella_krav_upphandling_av systemstod.docx Gemensamma_Icke-funktionella_krav_upphandling_av systemstod.docx] || Kravdokument || Ej färdigt dokument. Dokumentet är tänkt att samla gemensamma, icke-funktionella krav. ||
+|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Kravhantering/Upphandling/Mallar/Mall_Icke-funktionella_krav_upphandling_av systemstod.docx Mall_Icke-funktionella_krav_upphandling_av systemstod.docx] || Kravdokument || Ej färdigt dokument. Mall för gemensamma krav. ||
+|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Presentationer/Tekniskt_ramverk_portal_VGR.ppt Tekniskt_ramverk_portal_VGR.ppt]  || Teknisk arkitektur, Presentation || Presentation som hölls för Göteborgs stad Intraservice 2008. ||
+|| [http://oppna-program.googlecode.com/svn/wiki/dokument/RA/latest/Presentationer/Teknisk_presentation_Callista_Developer_Conference_2008.ppt Teknisk_presentation_Callista_Developer_Conference_2008.ppt] || Teknisk arkitektur, Presentation || Teknisk presentation på Callista Developer Conference 2008. Beskriver den tekniska arkitekturen inkl dess motivationsfaktorer. Innehåller även teknikstacken för Java.||
+
 
 								
 		
