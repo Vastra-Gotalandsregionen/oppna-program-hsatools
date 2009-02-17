@@ -91,7 +91,7 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Klient_UI_lager.doc Anvisningar_Klient_UI_lager.doc]* Innehåller teknikstack för Java EE-weblagret. Innehåller även lite annan info specifik för RA. Behöver utökas. 
 
 
-= Exempelapplikationer och PoC =
+= Exempelapplikationer och PoCs =
 == Exempelapplikationer == 
 
 Exempelapplikationernas syfte är att visa olika aspekter av referensarkitekturen. I dagsläget finns en exempelapplikation, _addressbook_.  
@@ -103,7 +103,42 @@ Exempelapplikationernas syfte är att visa olika aspekter av referensarkitekture
   * "address" är en entitetskomponent som innehåller funktionalitet för att hantera adress-information. Verksamhetskomponenten innehåller både en webbapp (som visar hur ramverken Facelets och Spring Webflow ska användas) och en integrationstjänst, som visar hur man implementerar system-till-system-integration. 
   * "address-wsclient" är ett exempel på en processkomponent som implemnenterar en webservice-klient. Det är ett litet exempel med fokus på att visa hur man implementerar klient-delen av en webservice. 
 
-== PoC == 
+== PoCs == 
+
+PoC-projekten ska inte bestraktas som exempel/instansieringar av referensarkitekturen. De utgör istället "bevis" på olika tekniska aspekter av referensarkitekturen - och kan användas som exempel på de aspekterna. 
+
+I dagsläget finns det ett PoC som bevisar versioneringsstrategin av webservices (WSDL-filer och XML-scheman).
+
+=== schema-versioning === 
+Detta PoC består av en web service i 3 olika (minor) versioner, 1.0, 1.1 samt 1.2 med tillhörande server-implementationer och klienter. WSDL och Schema-filer är definierade i maven-modulerna:
+
+    * schema-v1.0
+    * schema-v1.1
+    * schema-v1.2
+
+I ovanstående moduler återfinns även genererad server- och klientkod för respektive version av tjänsten.
+
+I schema-filerna har xsd:any använts för att uppnå framåt- och bakåtkompatibilitet, se mer här.
+
+I endpoint-modulerna finns en dummy-implementation av respektive version av tjänsten:
+
+    * endpoint-v1.0
+    * endpoint-v1.1
+    * endpoint-v1.2
+
+Motsvarande klienter återfinns i:
+
+    * client-v1.0
+    * client-v1.1
+    * client-v1.2
+
+Både endpoints och klienter har beroenden (maven-dependencies) till schema-projekten (respektive version är mappad mot samma schema-version, dvs poc-webservice-versioning-endpoint-v1.2 och poc-webservice-versioning-client-v1.2 är beroende av poc-webservice-versioning-schema-v1.2 osv).
+
+Utöver dessa moduler finns en modul, poc-webservice-versioning-common, som innehåller viss gemensam kod för att att köra web services och klienter. Notera att denna kod inte är tänkt för skarpa web services, se istället refapp-ws-modulen i Referensapplikationen för ett konkret exempel.
+
+Alla versioner av klienten skall gå att köra mot alla versioner av endpointen, dvs exemplet visar att strategin uppfyller både framåt- och bakåtkompatibilitet.  
+
+
 
 
  
