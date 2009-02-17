@@ -84,7 +84,7 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
   * *[RA_Anvandarmanual_Kallkodstruktur]* Beskriver källkodsstrukturen och dess koppling till RA. 
   * *[RA_Anvandarmanual_Beroenden_Mellan_Komponenter]* Beskriver hur beroenden inom och mellan verksamhetskomponenter fungerar. 
 *Portletutveckling (Java EE):*
-  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Portletutveckling.doc Anvisningar_Portletutveckling.doc]* Beskriver hur man utvecklar portlets. Innehåller ev något ouppdaterad information, behöver revideras. Not: Befintliga projekt använder nyare portlet-standarden JSR 286 istf JSR168. 
+  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Portletutveckling.doc Anvisningar_Portletutveckling.doc]* Beskriver hur man utvecklar portlets. OBS: Innehåller ouppdaterad information och behöver revideras. Not: Befintliga projekt använder nyare portlet-standarden JSR 286 istf JSR168. 
 *Anvisningar för UI-lagret (Java EE):*
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Klient_UI_lager.doc Anvisningar_Klient_UI_lager.doc]* Innehåller teknikstack för Java EE-weblagret. Innehåller även lite annan info specifik för RA. Behöver utökas. 
 
