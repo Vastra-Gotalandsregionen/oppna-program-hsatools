@@ -60,6 +60,8 @@ En översikt över kodexempel ges i:
 `\ref-systems\readme.txt`
 
 En översikt med motivationsfaktorer ges i: [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt]
+
+En kort introdution finns på sidan [RA_Teknisk_arkitektur].
  
 = Dokumentationsöversikt = 
 
