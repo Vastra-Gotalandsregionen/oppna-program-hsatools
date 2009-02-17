@@ -110,14 +110,17 @@ Proof of Concept (PoC)-projekten ska inte bestraktas som exempel/instansieringar
 I dagsläget finns det ett PoC som bevisar versioneringsstrategin av webservices (WSDL-filer och XML-scheman).
 
 === Schema-versioning === 
+Detta PoC syftar till att bevisa versioneringsstrategin för web services och xml scheman  som återfinns i [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc] och [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc] och utgör exempel på hur man konkret går till väga när man versionerar sina webservices.  Exemplet är förändrat/förenklat i några avseenden gentemot en "riktig" implementation:
 
-Detta PoC utgör beviset för de detaljerade riktlinjer som återfinns i [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc] och [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc], specifikt avseende versioneringsstrategin.
+  * Web servicarna (dvs endpoint-projekten) är gjorda för att kunna köras standalone (men de går även att deploya till Tomcat). I ett normalt scenario skulle webservice implementationen deployas till en applikationsserver.
+  * Klienterna är vanliga java-appliationer.
+  * För att exemplet skall bli tydligt är WSDL- och Schema-filer är namngivna med fullständig version. I ett verkligt scenario skall filerna namnges enligt de regler som finns beskrivna i dokumenten ovan.
 
 PoC't består av en web service i 3 olika (minor) versioner, 1.0, 1.1 samt 1.2 med tillhörande server-implementationer och klienter. WSDL och Schema-filer är definierade i projekten:
 
-    * schema-v1.0
-    * schema-v1.1
-    * schema-v1.2
+  * schema-v1.0
+  * schema-v1.1
+  * schema-v1.2
 
 I ovanstående projekt återfinns även genererad server- och klientkod för respektive version av tjänsten.
 
@@ -125,15 +128,15 @@ I schema-filerna har xsd:any använts för att uppnå framåt- och bakåtkompati
 
 I endpoint-modulerna finns en dummy-implementation av respektive version av tjänsten:
 
-    * endpoint-v1.0
-    * endpoint-v1.1
-    * endpoint-v1.2
+  * endpoint-v1.0
+  * endpoint-v1.1
+  * endpoint-v1.2
 
 Motsvarande klienter återfinns i:
 
-    * client-v1.0
-    * client-v1.1
-    * client-v1.2
+  * client-v1.0
+  * client-v1.1
+  * client-v1.2
 
 Både endpoints och klienter har beroenden (maven-dependencies) till schema-projekten (respektive version är mappad mot samma schema-version, dvs endpoint-v1.2 och client-v1.2 är beroende av schema-v1.2 osv).
 
