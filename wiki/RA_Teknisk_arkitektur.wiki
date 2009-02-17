@@ -94,6 +94,15 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
 = Exempelapplikationer och PoC =
 == Exempelapplikationer == 
 
+Exempelapplikationernas syfte är att visa olika aspekter av referensarkitekturen. I dagsläget finns ett referens-system, _addressbook_.  
+
+=== Addressbook === 
+
+"Addressbook" är ett system med följande verksamhetskomponenter: 
+
+  * "address" är en entitets-orienterad verksamhetskomponent som innehåller funktionalitet för att hantera adress-information. Verksamhetskomponenten innehåller både en webbapp (som visar hur ramverken Facelets och Spring Webflow ska användas) och en integrationstjänst, som visar hur man implementerar system-till-system-integration. 
+  * "address-wsclient" är ett exempel på en webservice-klient. Detta är ett exempel på en process-orienterad verksamhetskomponent. Det är ett litet exempel med fokus på att visa hur man implementerar klient-delen av en webservice. 
+
 == PoC == 
 
 
