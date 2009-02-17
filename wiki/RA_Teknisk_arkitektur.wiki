@@ -80,6 +80,8 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]* Kortfattad anvisning om subversion. 
 *Utvecklingsmiljö (Java EE):*
   * *[RA_Anvandarmanual_Utvecklingsmiljo]* Beskriver hur man praktiskt sätter upp sin utvecklingsmiljö för att komma igång med utveckling av RA-system och komponenter. 
+*Kontinuerlig integration:*
+  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc]* Beskriver hur man sätter upp kontinuerlig integration för projekt med hjälp av verktyget Continuum. OBS: Informationen är inaktuell och behöver uppdateras efter open sourcening. ||
 *Källkodsstruktur:*
   * *[RA_Anvandarmanual_Kallkodstruktur]* Beskriver källkodsstrukturen och dess koppling till RA. 
   * *[RA_Anvandarmanual_Beroenden_Mellan_Komponenter]* Beskriver hur beroenden inom och mellan verksamhetskomponenter fungerar. 
