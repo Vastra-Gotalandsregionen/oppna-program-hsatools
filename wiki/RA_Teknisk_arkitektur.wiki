@@ -24,20 +24,50 @@ Följande så kallade _styrande principer_ skall vara gällande i alla implement
   * Grundfunktionsprincipen
   * Principen ”En funktion en lösning”
   * Samverkansprincipen
-  * Ansvarsprincipen
+  * Ägarskapsprincipen
 
 == Principen om kanoniska tjänstegränssnitt == 
 
+Integrationstjänster skall organiseras i _verksamhetsdomäner_ och publiceras i namnrymder motsvarande dessa domäner.  
+
+En _tjänstedomän_ är en uppsättning gränssnittsdefinitioner för en verksamhetsdomän, t.ex. "Beställning och Svar". 
+
+All integration mellan processer och system sker via dessa s.k. kanoniska gränssnitt.
+
 == Principen för organisationsoberoende == 
+
+System ska i alla avseenden kunna användas på nationell nivå, t.ex. ska tjänstegränssnitt och informationsmodeller ha en nationell vy av informationen.
 
 == Principen för löst kopplade tjänster == 
 
+All integration sker mot integrationstjänster publicerade av _Plattform för Tjänsteorienterad Integration_ (PTI) - inte direkt mot publicerande system. PTI ska fungera som en regionövergripande tjänste-mäklare som synliggör alla regionens tjänster via kanoniska gränssnitt och ansvarar för samverkan med nationella tjänster.
+
 == Skiktprincipen == 
+
+Systems presentationsskikt ska kunna kompletteras eller ersättas utan ingrepp i applikationslogiken. 
 
 == Grundfunktionsprincipen == 
 
+System ska baseras på gemensamma grundfunktioner - inte inkludera interna motsvarigheter.
+
 == Principen "En funktion en lösning" ==
+
+Vi eftersträvar en lösning för varje funktion. Systemstöd ska upphandlas, utvecklas och driftsättas med detta i åtanke. Denna princip relaterar till Grundfunktionsprincipen.
 
 == Samverkansprincipen ==
 
-== Ansvarsprincipen == 
+System ska vara anslutna till regionala och nationella standards för samverkan, där så är tillämpbart. Vid upphandling tas hänsyn till standards under utveckling.
+
+Standards som i en framtid förväntas bli tillämpbara: 
+  * Teknisk samverkan: BIF, Teknisk RIV, Siths etc
+  * Semantisk samverkan: HL7, … 
+
+== Ägarskapsprincipen ==
+
+Referensarkitekturens instansiering ska ske i harmoni med organisationens ansvarsstrukturer. Detta kan leda till kompromisser mellan ideal arkitektur och krav på livscykelhantering.
+
+Tjänstedomäner och system ska ha definierade ägare för livscykelns alla faser. Respektive systemförvaltare äger sina anpassningskomponenter, även om de tekniskt realiseras i PTI.
+
+
+
+ 
