@@ -112,7 +112,7 @@ I dagsläget finns det ett PoC som bevisar versioneringsstrategin av webservices
 === Schema-versioning === 
 Detta PoC syftar till att bevisa versioneringsstrategin för web services och xml scheman  som återfinns i [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc] och [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc] och utgör exempel på hur man konkret går till väga när man versionerar sina webservices.  Exemplet är förändrat/förenklat i några avseenden gentemot en "riktig" implementation:
 
-  * Web servicarna (dvs endpoint-projekten) är gjorda för att kunna köras standalone (men de går även att deploya till Tomcat). I ett normalt scenario skulle webservice implementationen deployas till en applikationsserver.
+  * Webservicarna (dvs endpoint-projekten) är gjorda för att kunna köras standalone (men de går även att deploya till Tomcat). I ett normalt scenario skulle webservice implementationen deployas till en applikationsserver.
   * Klienterna är vanliga java-appliationer.
   * För att exemplet skall bli tydligt är WSDL- och Schema-filer är namngivna med fullständig version. I ett verkligt scenario skall filerna namnges enligt de regler som finns beskrivna i dokumenten ovan.
 
