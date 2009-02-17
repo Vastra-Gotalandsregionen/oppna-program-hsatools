@@ -6,7 +6,7 @@
 
 = Introduktion =
 
-Den tekniska arkitekturen innehåller principer och detaljerade riktlinjer för hur de logiska referesmodellerna konkret skall implementeras:
+Den tekniska arkitekturen innehåller principer och detaljerade riktlinjer för hur de logiska referensmodellerna konkret skall implementeras:
 
     * Styrande principer som bestämmer hur system skall designas för att uppfylla visionen.
     * Konkreta regelverk/anvisningar som hjälper projekten att uppfylla principerna
