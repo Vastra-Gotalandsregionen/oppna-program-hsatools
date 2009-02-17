@@ -72,10 +72,10 @@ Tjänstedomäner och system ska ha definierade ägare för livscykelns alla fase
 
 Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad områden: 
 
-*Web Services (generellt):*
+*Web Services:*
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc]* Detaljerade anvisningar för wsdl-utveckling. Bör förtydligas/utökas med hänvisningar till kodexempel/poc. 
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc]* Detaljerade anvisningar för versionering av XML-scheman. Bör förtydligas/utökas med hänvisningar till kodexempel/poc. 
-*Konfigurationshantering (generellt):* 
+*Konfigurationshantering:* 
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc]* Detaljerade anvisningar om hur man versionerar maven-artefakter, lablar i subversion etc. 
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]* Kortfattad anvisning om subversion. 
 *Utvecklingsmiljö (Java EE):*
