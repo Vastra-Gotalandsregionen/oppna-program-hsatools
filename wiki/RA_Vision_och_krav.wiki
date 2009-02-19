@@ -13,7 +13,6 @@ Visionen som ligger bakom öppna programs RA är baserad på den regionala IT-st
 
 Följande krav har lett fram till öppna programs referensarkitektur: 
   * Återanvändning på användningsfallsnivå
-  * Portabilitet portlet – webapp
   * Stödja Vervas riktlinjer för web-applikationer
   * "Web-designer-friendly": Mallar för dynamiska HTML-sidor ska kunna skapas och underhållas av web-designers
   * Stödja en “agile” utvecklingsmiljö
@@ -34,9 +33,6 @@ Centralt finns ett antal verksamhetsstödjande funktioner/tjänster som alla anv
 
 En web-applikation skall kunna plockas samman av återanvändbara _komponenter_ där en komponent innehåller allt som behövs för en dialog (bestående av ett antal sidor). För att möjliggöra detta ska inga dialog-specifika resurser behöva finnas web-appens WEB-INF-katalog. 
 
-== Portabilitet portlet – webapp ==
-
-Alla lösningar ska kunna köras både som portlets och som “vanliga” web-applikationer. Dessutom ska både portlets och webbapplikationerna gå att köra på olika applikationsservrar/portalserverar.
 
 == Stödja Vervas riktlinjer för web-applikationer ==
 
