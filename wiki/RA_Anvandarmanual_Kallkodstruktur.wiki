@@ -7,7 +7,7 @@
 
 = Introduktion =
 
-Alla system som bygger på referensarkitekturen (RA) har en liknande källkodsstruktur i filsystemet och CM-systemet (subversion). Strukturen är direkt kopplad till RA och utgör grunden för en implementation av den. Vissa av kraven på referensarkitekturen, bland annat modularisering i weblagret och portabilitet mellan portlet och webbapp, har en direkt koppling till strukturen. Den maven-plugin som följer med RA är beroende av att strukturen ser ut så som här beskrivs och nämnda plugin används också för att skapa den specifika strukturen. 
+Alla system som bygger på referensarkitekturen (RA) har en liknande källkodsstruktur i filsystemet och CM-systemet (subversion). Strukturen är direkt kopplad till RA och utgör grunden för en implementation av den. Vissa av kraven på referensarkitekturen, bland annat kravet på återanvändbara användningsfall, har en direkt koppling till strukturen. Den maven-plugin som följer med RA är beroende av att strukturen ser ut så som här beskrivs och nämnda plugin används också för att skapa den specifika strukturen. 
 
 Här beskrivs på detaljnivå:
   * de ingående delarna i källkodsstrukturen
@@ -57,19 +57,19 @@ I fallet av Webservice finns även bindningsklasserna för WSDL-filen här (vi a
 Innehåller en Webapplikation. Under `web` ligger endast den källkod som behövs för att packetera ihop ett antal kompositer till en webbapplikation, bland annat deployment deskriptorn `web.xml`. Alla vyfiler och övriga resurser skall finnas som återanvändbara kompositer under `composites`. 
 
 TODO: beskriv rekommenderad uppbyggnad av en webapplikation med JAR-filer som innehåller vyfiler + resurser. Teknik: JSF, Facelets.
-Se dokument !Anvisningar_Portletutveckling.doc (inte klart ännu).
+Se dokument !Anvisningar_Klient_UI_lager.doc (inte klart än).
 
 ==== portlet ====
 Not: Denna genereras ej av mavenpluginen i dagsläget då portlet-delen av RA är under uppbyggnad. I dagsläget får man skapa denna manuellt. 
 
-Innehåller en Portlet. Under `portlet` ligger endast den källkod som behövs för att packetera ihop ett antal kompositer till en portlet, bland annat deployment deskriptorn `portlet.xml`. Alla vyfiler och övriga resurser skall finnas som återanvändbara kompositer under `composites`. 
+Innehåller en Portlet. 
 
-TODO: beskriv rekommenderad uppbyggnad av en portlet med JAR-filer som innehåller vyfiler + resurser. Teknik: JSF, Facelets.
+TODO: beskriv rekommenderad uppbyggnad av en portlet.
 Referera till dokument !Anvisningar_Portletutveckling.doc (inte klart ännu).
 
 === composites ===
 
-En komposit är en återanvändbar byggsten, till exempel en tjänst (som får anropas inom systemet, jmfr integrationstjänster i avsnittet [http://code.google.com/p/oppna-program/wiki/RA_Anvandarmanual_Kallkodstruktur#intsvc intsvc] ovan) eller ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar bland annat från kravet på modularisering i weblagret och portabilitet mellan portlet och webapp. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation (och då heller inga moduler). 
+En komposit är en återanvändbar byggsten, till exempel en tjänst (som får anropas inom systemet, jmfr integrationstjänster i avsnittet [http://code.google.com/p/oppna-program/wiki/RA_Anvandarmanual_Kallkodstruktur#intsvc intsvc] ovan) eller ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar bland annat från kravet på återanvändbara användningsfall. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation (och då heller inga moduler). 
 
 Respektive underkatalog innehåller den källkod som behövs för respektive komposit. Strukturen inuti komposit-delarna följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
 ==== svc ====
