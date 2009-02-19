@@ -55,14 +55,10 @@ Det är lämpligt att först läsa igenom de delar som beskriver referens-modell
   * Mer ingående beskrivning: [RA_Logisk_arkitektur].
 
 == Teknisk arkitektur ==
-För kodexempel hänvisas till referensapplikation(erna) samt övriga kodexempel för specifika aspekter (t ex versionering av WSDL).
-En översikt över kodexempel ges i:
-`\ref-systems\readme.txt`
+En inledande introdution finns på sidan [RA_Teknisk_arkitektur]. För kodexempel hänvisas till referensapplikation(erna) samt övriga kodexempel (PoC) för specifika aspekter (t ex versionering av WSDL). En översikt över vilka kodexempel som finns ges [RA_Teknisk_arkitektur här].
 
-En översikt med motivationsfaktorer ges i: [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt]
+En översikt med motivationsfaktorer finns även i (slutet av) presentationen: [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt]
 
-En kort introdution finns på sidan [RA_Teknisk_arkitektur].
- 
 = Dokumentationsöversikt = 
 
 || *Namn* || *Dokumenttyp* || *Beskrivning av innehåll* ||
