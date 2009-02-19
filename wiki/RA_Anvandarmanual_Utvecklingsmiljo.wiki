@@ -133,8 +133,6 @@ Skapa en ny variabel på samma sätt som för _Definiera en variabel för Maven-
 
 *Name:* namn på systemet
 
-~~Value: Sökvägen till systemets ”components”-katalog~~
-
 *Value:* Sökvägen till trunk-katalogen.
 
 Denna variabel används också längre fram. 
