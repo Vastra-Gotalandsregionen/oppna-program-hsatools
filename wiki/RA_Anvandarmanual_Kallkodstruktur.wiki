@@ -57,7 +57,7 @@ I fallet av Webservice finns även bindningsklasserna för WSDL-filen här (vi a
 Innehåller en Webapplikation. Under `web` ligger endast den källkod som behövs för att packetera ihop ett antal kompositer till en webbapplikation, bland annat deployment deskriptorn `web.xml`. Alla vyfiler och övriga resurser skall finnas som återanvändbara kompositer under `composites`. 
 
 TODO: beskriv rekommenderad uppbyggnad av en webapplikation med JAR-filer som innehåller vyfiler + resurser. Teknik: JSF, Facelets.
-Se dokument !Anvisningar_Klient_UI_lager.doc (inte klart än).
+Se dokument !Anvisningar_Webb_lager.doc (inte klart än).
 
 ==== portlet ====
 Not: Denna genereras ej av mavenpluginen i dagsläget då portlet-delen av RA är under uppbyggnad. I dagsläget får man skapa denna manuellt. 
@@ -81,7 +81,7 @@ Gemensamma typer som kan användas inom verksamhetskomponenten eller systemet. E
   * hjälpklasser som underlättar tolkandet av parameterklasserna, till exempel en klass med statiska konstanter som definerar de värden som ett fält i en parameter-klass (DTO) tillåts ha. 
 ==== webcomp ====
 TODO: beskriv hur webkomponenter i form av JAR-filer bidrar till en webapplikation/portlet. Hänger ihop med sektion _web_.
-Referera till dokument !Anvisningar_Portletutveckling.doc.
+Referera till dokument !Anvisningar_Webb_lager.doc.
 ==== schema ====
 Innehåller XML-scheman som används för integration via tjänster som beskrivs i _intsvc_ ovan.
 
