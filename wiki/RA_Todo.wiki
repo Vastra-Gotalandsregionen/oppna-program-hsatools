@@ -12,6 +12,7 @@
 ||10/28/08||Alla anvisningar/dokument||ÅP 14.15. Rensa från VGR-specifik info. ||
 ||10/28/08||Generella krav-dokument.||ÅP 9. Se över dessa dokument. ||
 ||02/20/09||!Anvisningar_Webb_lager.doc|| Förbättra felhanteringen i applikationen när t.ex. en session får time-out. ||
+||02/20/09||Teknisk arkitektur|| Se över principerna. Ta fram principer för den inre arkitekturen. ||
 || || *Teknik/Implementation* || ||
 ||9/12/08	||Web-UI||Spring Webflow: uppgradera till version 2.x (större ändring, ej bakåtkompatibel)||
 ||9/12/08	||Portlet||(beror av Webflow 2.x uppgradering): gör om portletexempel och testa i Websphere Portal 6.1 (kräver Java 1.5+)||
