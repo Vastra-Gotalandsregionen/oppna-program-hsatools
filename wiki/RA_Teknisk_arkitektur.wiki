@@ -80,10 +80,10 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
   * *[RA_Anvandarmanual_Beroenden_Mellan_Komponenter]* Beskriver hur beroenden inom och mellan verksamhetskomponenter fungerar. 
 
 *Anvisningar för utveckling av webbapplikationer (Java EE):*
-  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc]* Innehåller teknikstack för Java EE-weblagret. Innehåller även lite annan info specifik för RA. Behöver utökas. 
+  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc]* Beskriver hur man utvecklar webbapplikationer, inkl den valda teknikstacken för Java EE-webblagret. Innehåller även lite annan info specifik för RA. 
 
 *Anvisningar för portletutveckling (Java EE):*
-  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Portletutveckling.doc Anvisningar_Portletutveckling.doc]* Beskriver hur man utvecklar portlets. OBS: Innehåller ouppdaterad information och behöver revideras. Not: Befintliga projekt använder nyare portlet-standarden JSR 286 istf JSR168. 
+  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Portletutveckling.doc Anvisningar_Portletutveckling.doc]* Beskriver hur man utvecklar portlets.  
 
 *Konfigurationshantering:* 
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc]* Detaljerade anvisningar om hur man versionerar maven-artefakter, lablar i subversion etc. 
@@ -94,8 +94,8 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
 
 
 *Web Services:*
-  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc]* Detaljerade anvisningar för wsdl-utveckling. Förtydligas genom PoC. 
-  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc]* Detaljerade anvisningar för versionering av XML-scheman. Förtydligas genom PoC. 
+  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc]* Detaljerade anvisningar för wsdl-utveckling. Versionshanteringsstrategin förtydligas ytterligare genom PoC. 
+  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc]* Detaljerade anvisningar för versionering av XML-scheman. Versionshanteringsstrategin förtydligas ytterligare genom PoC. 
  
 
 
