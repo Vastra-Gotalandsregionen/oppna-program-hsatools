@@ -15,8 +15,8 @@
 ||02/20/09||Teknisk arkitektur|| Se över principerna. Ta fram principer för den inre arkitekturen. ||
 || || *Teknik/Implementation* || ||
 ||9/12/08	||Web-UI||Spring Webflow: uppgradera till version 2.x (större ändring, ej bakåtkompatibel)||
-||9/12/08	||Portlet||(beror av Webflow 2.x uppgradering): gör om portletexempel och testa i Websphere Portal 6.1 (kräver Java 1.5+)||
-||9/12/08||Portlet||Testa befintlig portlet (med Webflow 1.0.5) i Websphere Portal 6.1 (har ej gått att köra (i Websphere Portal 6.0, Java 1.4) sedan vi blev beroende av Java 1.5+). Uppdatera portlet-anvisning efter detta.||
 ||9/24/08	||Databasaccess||JPA-exempel: kräver viss omstrukturering av exempelapplikationen||
+||20/02/09	||Portlet||Reda ut vilka ramverk/teknikstack som skall användas vid portletutveckling. Refarkens ramverk fungerar ej rakt av i Websphere Portal 6.1. Uppdatera anvisningarna härefter.||
+||20/02/09      ||Portlet||Reda ut hur web services skall anropas ifrån en portlet (Apache CXF fungerar ej rakt av i Websphere Portal 6.1.). Uppdatera anvisningarna härefter.||
 || || *Verktyg* || ||	
 ||9/15/08||Maven2 + Eclipse||Introduce the m2eclipse-plugin instead of the current way of integrating Maven2 with Eclipse. Requires change in scaffolding-plugin (javg-template) where project-files should be generated and checked into Subversion (remove ignores). Uppdatera anvisning för Maven2.||
