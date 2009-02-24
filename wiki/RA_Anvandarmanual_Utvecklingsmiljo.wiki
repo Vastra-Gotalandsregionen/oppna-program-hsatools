@@ -72,7 +72,7 @@ mvn install
 
 = Checka ut källkoden från subversion =
 Checka ut källkoden från subversion till en lokal katalog, t ex `d:/svn/<projektnamn>/trunk`.
-Not: Vi utgår här från att det finns en existerande maven-baserad projektstruktur för systemet, med minst en verksamhetskomponent. Finns inte detta, dvs om systemet är helt nytt, kan ett skelett för en dylik struktur, skapas m. h. a. den mall-generereringsplug-in som beskrivs i avsnittet _Skapa nya system och verksamhetskomponenter_ nedan.
+Not: Vi utgår här från att det finns en existerande maven-baserad projektstruktur för systemet, med minst en verksamhetskomponent. Finns inte detta, dvs om systemet är helt nytt, kan ett skelett för en dylik struktur skapas med hjälp av den mall-generereringsplug-in som beskrivs i avsnittet _Skapa nya system och verksamhetskomponenter_ nedan.
 
 = Sätta upp systemet i Eclipse =
 Målet är att etablera en Eclipse-integration så att Mavens pom-xml-filer kan vara ”master” för alla beroenden, men att vi ändå kan använda Eclipse fullt ut, med de handgrepp vi är vana vid. Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera projektfiler för Eclipse, som används för att integrera maven med Eclipse enligt nedan (i avvaktan på att Eclipse-pluginen [http://m2eclipse.codehaus.org/ m2eclipse] skall bli tillräckligt stabil för att kunna användas). Detta innebär att det bara är källkoden plus mavens pom.xml-filer som behöver checkas in i versionshanteringssystemet. 
