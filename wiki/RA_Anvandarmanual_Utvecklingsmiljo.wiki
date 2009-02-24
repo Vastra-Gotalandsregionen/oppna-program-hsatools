@@ -13,6 +13,7 @@ Denna beskrivning innehåller främst sådant som är specifikt för referensark
 == Referenser ==
   * Maven2: http://maven.apache.org
   * [RA_Anvandarmanual_Kallkodstruktur]
+  * [RA_Anvandarmanual_Beroenden_Mellan_Komponenter]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]
