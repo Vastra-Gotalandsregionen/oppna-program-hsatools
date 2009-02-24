@@ -8,14 +8,14 @@
 = Introduktion =
 Här beskrivs hur man praktiskt kommer igång med referensarkitekturen, inklusive hur man sätter upp sin utvecklingsmiljö för att kunna utveckla och bygga ett system baserat på referensarkitekturen (RA) med en eller flera verksamhetskomponenter samt hur den RA-specifika maven-pluginen kan användas för att generera nya system och verksamhetskomponenter.
 
-Det här dokumentet beskriver främst sådant som är specifikt för referensarkitekturen och dess källkodsstruktur. Det är inte en generell introduktion till [http://maven.apache.org Maven2] eller [http://www.eclipse.org Eclipse].
+Denna beskrivning innehåller främst sådant som är specifikt för referensarkitekturen och dess källkodsstruktur. Det är inte en generell introduktion till [http://maven.apache.org Maven2] eller [http://www.eclipse.org Eclipse].
 
 == Referenser ==
   * Maven2: http://maven.apache.org
-  * Anvisningar_Källkodsstruktur_Byggsystem.doc
-  * !Anvisningar_Kontinuerlig_Integration.doc
-  * !Anvisningar_Konfigurationshantering.doc
-  * !Anvisningar_Verktyg_Subversion.doc
+  * [RA_Anvandarmanual_Kallkodstruktur]
+  * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc]
+  * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc]
+  * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]
   * JAXB: http://java.sun.com/webservices/jaxb
   * Eclipse: http://www.eclipse.org
   * Maven2 Eclipse-plug-in: maven.apache.org/plugins/maven-eclipse-plugin/
