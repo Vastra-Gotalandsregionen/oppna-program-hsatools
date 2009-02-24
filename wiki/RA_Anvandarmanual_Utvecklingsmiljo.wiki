@@ -259,4 +259,4 @@ Se ovan för hur en ny komponent importeras i Eclipse.
 == Versionshantering av artefakter ==
 Beskrivs i [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc].
 == Generering av SNAPSHOT-artefakter ==
-Beskrivs i [RA_Anvandarmanual_Kallkodstruktur] och [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc].
+Beskrivs i [RA_Anvandarmanual_Beroenden_Mellan_Komponenter] och [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc].
