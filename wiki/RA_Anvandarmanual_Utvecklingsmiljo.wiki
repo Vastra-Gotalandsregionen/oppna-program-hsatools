@@ -16,7 +16,6 @@ Denna beskrivning innehåller främst sådant som är specifikt för referensark
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]
-  * JAXB: http://java.sun.com/webservices/jaxb
   * Eclipse: http://www.eclipse.org
   * Maven2 Eclipse-plug-in: maven.apache.org/plugins/maven-eclipse-plugin/
 
@@ -71,6 +70,9 @@ mvn clean
 mvn install
 }}}
 
+= Checka ut källkoden från subversion =
+Checka ut källkoden från subversion till en lokal katalog, t ex `d:/svn/<projektnamn>/trunk`.
+Not: Vi utgår här från att det finns en existerande maven-baserad projektstruktur för systemet, med minst en verksamhetskomponent. Finns inte detta, dvs om systemet är helt nytt, kan ett skelett för en dylik struktur, skapas m. h. a. den mall-generereringsplug-in som beskrivs i avsnittet _Skapa nya system och verksamhetskomponenter_ nedan.
 
 = Sätta upp systemet i Eclipse =
 Målet är att etablera en Eclipse-integration så att Mavens pom-xml-filer kan vara ”master” för alla beroenden, men att vi ändå kan använda Eclipse fullt ut, med de handgrepp vi är vana vid. Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera projektfiler för Eclipse, som används för att integrera maven med Eclipse enligt nedan (i avvaktan på att Eclipse-pluginen [http://m2eclipse.codehaus.org/ m2eclipse] skall bli tillräckligt stabil för att kunna användas). Detta innebär att det bara är källkoden plus mavens pom.xml-filer som behöver checkas in i versionshanteringssystemet. 
@@ -83,9 +85,6 @@ Efter att integrationen för ett system är genomförd, gäller dock några regl
 
 Följ instruktionerna nedan för att integrera ett system i Eclipse. 
 
-== Checka ut källkoden från subversion ==
-Checka ut källkoden från subversion till en lokal katalog, t ex `d:/svn/<projektnamn>/trunk`.
-Not: Vi utgår här från att det finns en existerande maven-baserad projektstruktur för systemet, med minst en verksamhetskomponent. Finns inte detta, dvs om systemet är helt nytt, kan ett skelett för en dylik struktur, skapas m. h. a. den mall-generereringsplug-in som beskrivs i avsnittet _Skapa nya system och verksamhetskomponenter_ nedan.
 
 == Uppgradera installerad Maven eclipse-plugin ==
 Kör följande kommando för att säkra att senaste versionen av Mavens eclipse-plugin används framgent. Det är viktigt att göra detta i en tom katalog, exempelvis temp, annars kan projektfiler skrivas över.
@@ -108,7 +107,6 @@ http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_
 För små, korta projekt kan det vara tillräckligt att köra maven från kommandoprompten. Det är då nödvändigt att komma ihåg att vid varje ändring i en pom.xml-fil ska man köra `mvn -Dwtpversion=1.5 eclipse:eclipse` samt göra en refresh i eclipse. Före incheckning skall `mvh clean install` alltid köras. 
 
 För större projekt är det bra om man kan köra maven inne ifrån eclipse, och det är dessutom önskvärt att maven's goal `eclipse:eclipse` automatiskt körs efter förändringar i pom.xml-filerna. Detta kan man åstakomma genom följande steg. 
-
 
 === Definiera en variabel för Maven-programmet ===
 Denna variabel pekar ut mvn.bat och används längre ned när man skapar en så kallad External Tool för att bygga systemet med hjälp av Maven. 
@@ -155,6 +153,7 @@ Kopiera "Build <namn på systemet> System"-konfigurationen (högerklicka och vä
 Växla sedan till fliken ”Refresh” och markera kryssrutan ”Refresh resources upon completion”. Markera därefter alternativet ”The folder containing the selected resource”. Försäkra dig om att kryssrutan ”Recursively include sub-folders” är markerad.
  
 Avsluta med "Apply" och "Close".
+
 == Bygg och skapa eclipse-projektfiler för systemet == 
 
 Innan vi kan importera några projekt i Eclipse behöver vi bygga med maven och sedan köra Maven-pluginen för att generera upp Eclipse-filer. Detta kan vi göra från kommandopromten eller genom de External Tools vi nyss satt upp:
@@ -171,7 +170,7 @@ Förändra inga projektberoenden, utan tryck ”Finish” direkt, istället för
 Efter importen – byt perspektiv till ”J2EE”, om det inte redan gjorts. 
 
 == Skapa en byggkonfigurationer för de importerade projekten ==
-När någon av pom.xml-filer ändras vill vi att Eclipse-filerna automatiskt skall genereras om och projekten refreshas.  
+När någon av pom.xml-filer ändras vill vi att Eclipse-filerna automatiskt skall genereras om och projekten refreshas. (Not: enligt ovan kan vi för kortare projekt hoppa över detta steg och istället köra maven manuellt från kommandoproptem efter varje ändring i en pom.xml-filen.) 
 
 Detta åstakommer vi genom att skapa en byggkonfiguration som anropar den definierade External Tool-konfigurationen vid automatiska byggen. Följande behöver göras på respektive projekt i Eclipse:
 
@@ -187,9 +186,9 @@ Om du inte definierat en Tomcat-server för ditt workspace än, gör det genom a
 Verifiera att det fungerar genom att högerklicka på <namn på Verksamhetskomponenten>-module-web och välj Run As -> Run on Server. Välj Tomcat-servern och kryssa i "Always use this server when running the project". Klicka på "Finish".
 
 == Koppla till Subversion ==
-Se Anvisningar_Verktyg_Subversion.doc för information om subversion och dess Eclipse-plugin. 
+Se [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc] för information om subversion och dess Eclipse-plugin. 
 
-Nu är det dags att koppla alla projekt till subversion. Markera samtliga projekt och högerklicka, välj Team->Share Projects och anslut. Nu får varje projekt som listas under project explorer en repository ikon på sig. 
+För att koppla alla projekt till subversion: Markera samtliga projekt och högerklicka, välj Team->Share Projects och anslut. Nu får varje projekt som listas under project explorer en repository-ikon på sig. 
 
 = Skapa nya system och verksamhetskomponenter =
 För att man snabbt ska komma igång med referensarkitekturen finns Maven2-pluginen _javg-template-plugin_. 
@@ -258,6 +257,6 @@ Se ovan för hur en ny komponent importeras i Eclipse.
 
 =Vidare läsning=
 == Versionshantering av artefakter ==
-Beskrivs i `Anvisningar_Konfigurationshantering.doc`.
+Beskrivs i [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc].
 == Generering av SNAPSHOT-artefakter ==
-Beskrivs i [RA_Anvandarmanual_Kallkodstruktur] och `Anvisningar_Kontinuerlig_Integration.doc`.
+Beskrivs i [RA_Anvandarmanual_Kallkodstruktur] och [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc].
