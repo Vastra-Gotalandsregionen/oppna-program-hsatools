@@ -11,14 +11,14 @@ Här beskrivs hur man praktiskt kommer igång med referensarkitekturen, inklusiv
 Denna beskrivning innehåller främst sådant som är specifikt för referensarkitekturen och dess källkodsstruktur. Det är inte en generell introduktion till [http://maven.apache.org Maven2] eller [http://www.eclipse.org Eclipse].
 
 == Referenser ==
-  * Maven2: http://maven.apache.org
+  * [http://maven.apache.org Maven2]
   * [RA_Anvandarmanual_Kallkodstruktur]
   * [RA_Anvandarmanual_Beroenden_Mellan_Komponenter]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]
-  * Eclipse: http://www.eclipse.org
-  * Maven2 Eclipse-plug-in: maven.apache.org/plugins/maven-eclipse-plugin/
+  * [http://www.eclipse.org Eclipse]
+  * [maven.apache.org/plugins/maven-eclipse-plugin/ Maven2 Eclipse-plug-in]
 
 = Installation och uppsättning av Maven2 =
 
