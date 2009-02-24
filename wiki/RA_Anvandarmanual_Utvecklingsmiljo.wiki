@@ -18,7 +18,7 @@ Denna beskrivning innehåller främst sådant som är specifikt för referensark
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]
   * [http://www.eclipse.org Eclipse]
-  * [maven.apache.org/plugins/maven-eclipse-plugin/ "Maven2 Eclipse-plug-in"]
+  * [http://maven.apache.org/plugins/maven-eclipse-plugin/ Maven2 Eclipse-plug-in]
 
 = Installation och uppsättning av Maven2 =
 
