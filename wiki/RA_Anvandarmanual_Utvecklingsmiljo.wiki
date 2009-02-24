@@ -22,7 +22,7 @@ Denna beskrivning innehåller främst sådant som är specifikt för referensark
 
 = Installation och uppsättning av Maven2 =
 
-Som byggsystem för RA-system används Maven2 (maven-2.0.4 eller senare). Följande sektion beskriver kort hur man installerar och kommer igång med Maven2. Har du redan Maven2 installerat kan du hoppa till nästa stycke, _Sätta upp systemet i Eclipse_. 
+Som byggsystem för RA-system används Maven2 (maven-2.0.4 eller senare). Följande sektion beskriver kort hur man installerar och kommer igång med Maven2. Har du redan Maven2 installerat kan du hoppa till stycket, _Konfiguration_. 
 
 == Installation av Maven2 ==
 Gör en standardinstallation enligt [http://maven.apache.org Maven2 dokumentationen]. I korthet innebär det:
@@ -71,14 +71,9 @@ mvn clean
 mvn install
 }}}
 
-*deploy*: publicera artefakter ~~(med stabil version, inte med SNAPSHOT-version) till det uppsatta Maven remote-repositoryt. CI-servern ansvarar för att göra deploy av snapshot-versioner så snart källkodsändringarna checkats in. Det kan därmed dröja några minuter innan senaste versionen blir synlig för andra utvecklare. Om detta i ett enskilt fall skulle utgöra ett kritiskt problem, kan kommandot köras direkt från klienten. Detta utgör dock ALLTID en risk, eftersom garanti saknas mot att all källkod är incheckad.~~
-{{{
-mvn deploy
-}}}
-
 
 = Sätta upp systemet i Eclipse =
-Målet är att etablera en Eclipse-integration så att Mavens pom-xml-filer kan vara ”master” för alla beroenden, men att vi ändå kan använda Eclipse fullt ut, med de handgrepp vi är vana vid. Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera projektfiler för Eclipse, som används för att integrera maven med Eclipse enligt nedan (i avvaktan på att Eclipse-pluginen [http://m2eclipse.codehaus.org/ m2eclipse] skall bli tillräckligt stabil för att kunna användas). Detta innbär att det bara är källkoden plus mavens pom.xml-filer som behöver checkas in i versionshanteringssystemet. 
+Målet är att etablera en Eclipse-integration så att Mavens pom-xml-filer kan vara ”master” för alla beroenden, men att vi ändå kan använda Eclipse fullt ut, med de handgrepp vi är vana vid. Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera projektfiler för Eclipse, som används för att integrera maven med Eclipse enligt nedan (i avvaktan på att Eclipse-pluginen [http://m2eclipse.codehaus.org/ m2eclipse] skall bli tillräckligt stabil för att kunna användas). Detta innebär att det bara är källkoden plus mavens pom.xml-filer som behöver checkas in i versionshanteringssystemet. 
 
 Efter att integrationen för ett system är genomförd, gäller dock några regler:
 
@@ -109,7 +104,13 @@ Starta Eclipse mot det workspace som kommer att användas för systemet och öpp
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_ClasspathVariables.png
  
-== Definiera en variabel för Maven-programmet ==
+== Sätta upp External Tools för att köra maven-goals inne i Eclipse == 
+För små, korta projekt kan det vara tillräckligt att köra maven från kommandoprompten. Det är då nödvändigt att komma ihåg att vid varje ändring i en pom.xml-fil ska man köra `mvn -Dwtpversion=1.5 eclipse:eclipse` samt göra en refresh i eclipse. Före incheckning skall `mvh clean install` alltid köras. 
+
+För större projekt är det bra om man kan köra maven inne ifrån eclipse, och det är dessutom önskvärt att maven's goal `eclipse:eclipse` automatiskt körs efter förändringar i pom.xml-filerna. Detta kan man åstakomma genom följande steg. 
+
+
+=== Definiera en variabel för Maven-programmet ===
 Denna variabel pekar ut mvn.bat och används längre ned när man skapar en så kallad External Tool för att bygga systemet med hjälp av Maven. 
 
 Öppna ”Window” > ”Preferences”. Välj sedan ”Run/Debug”>”String Substitution”.
@@ -128,7 +129,7 @@ Tryck på "Ok" för att spara.
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_StringSubstitution.png
 
-== Definiera variabel för system-roten ==
+=== Definiera variabel för system-roten ===
 Skapa en ny variabel på samma sätt som för _Definiera en variabel för Maven-programmet_, men denna gång med följande värden:
 
 *Name:* namn på systemet
@@ -137,7 +138,7 @@ Skapa en ny variabel på samma sätt som för _Definiera en variabel för Maven-
 
 Denna variabel används också längre fram. 
  
-== Lägg upp ett External Tool för att bygga hela systemet ==
+=== Lägg upp ett External Tool för att bygga hela systemet ===
 Välj "Run"->"External Tools"->"External Tools Configurations...". Välj "Program" och klicka på "New":
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_ExternalToolsConfigurations.png
@@ -146,7 +147,7 @@ Döp konfigurationen till "Build <namn på systemet> System". Ange "Location" ge
 
 Not: vanligtvis låter vi Eclipse bygga respektive projekt (inkl beroenden) men vill vi bygga artefakter till det lokala maven-repositoriet behöver Mavens bygge köras.  
 
-== Lägg upp ett External Tool för att generera Eclipse-filer ==
+=== Lägg upp ett External Tool för att generera Eclipse-filer ===
 Syftet med detta External Tool är att det skall genera de eclipse-specifika filer som krävs för att man skall kunna importera ett befintligt system som projekt i eclipse. Det används också när man har uppdaterat i pom.xml-filen för ett befintligt projekt och vill uppdatera eclipse-filerna. 
  
 Kopiera "Build <namn på systemet> System"-konfigurationen (högerklicka och välj "Duplicate"), byt namn till "Generate Eclipse Artifacts for <namn på systemet>" och ändra "Arguments" till "-Dwtpversion=1.5 eclipse:eclipse". 
