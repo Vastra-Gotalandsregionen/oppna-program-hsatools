@@ -104,9 +104,9 @@ Starta Eclipse mot det workspace som kommer att användas för systemet och öpp
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_ClasspathVariables.png
  
 == Sätta upp External Tools för att köra maven-goals inne i Eclipse == 
-För små, korta projekt kan det vara tillräckligt att köra maven från kommandoprompten. Det är då nödvändigt att komma ihåg att vid varje ändring i en pom.xml-fil ska man köra `mvn -Dwtpversion=1.5 eclipse:eclipse` samt göra en refresh i eclipse. Före incheckning skall `mvh clean install` alltid köras. 
+För små, korta projekt kan det vara tillräckligt att köra maven från kommandoprompten. Det är då nödvändigt att komma ihåg att vid varje ändring i en pom.xml-fil ska man köra `mvn -Dwtpversion=1.5 eclipse:eclipse` samt göra en refresh i eclipse. Före incheckning skall `mvh clean install` alltid köras. Om du inte vill lägga upp något external tools kan du hoppa till avsnittet _Bygg och skapa eclipse-projektfiler för systemet_.
 
-För större projekt är det bra om man kan köra maven inne ifrån eclipse, och det är dessutom önskvärt att maven's goal `eclipse:eclipse` automatiskt körs efter förändringar i pom.xml-filerna. Detta kan man åstakomma genom följande steg. 
+För större, längre projekt är det dock bra om man kan köra maven inne ifrån eclipse, och det är dessutom önskvärt att maven's goal `eclipse:eclipse` automatiskt körs efter förändringar i pom.xml-filerna (se avsnittet _Skapa en byggkonfigurationer för de importerade projekten_ nedan). Det förstnämnda kan man åstakomma genom följande steg. 
 
 === Definiera en variabel för Maven-programmet ===
 Denna variabel pekar ut mvn.bat och används längre ned när man skapar en så kallad External Tool för att bygga systemet med hjälp av Maven. 
@@ -170,7 +170,7 @@ Förändra inga projektberoenden, utan tryck ”Finish” direkt, istället för
 Efter importen – byt perspektiv till ”J2EE”, om det inte redan gjorts. 
 
 == Skapa en byggkonfigurationer för de importerade projekten ==
-När någon av pom.xml-filer ändras vill vi att Eclipse-filerna automatiskt skall genereras om och projekten refreshas. (Not: enligt ovan kan vi för kortare projekt hoppa över detta steg och istället köra maven manuellt från kommandoproptem efter varje ändring i en pom.xml-filen.) 
+När någon av pom.xml-filer ändras vill vi att Eclipse-filerna automatiskt skall genereras om och projekten refreshas. (Not: Enligt ovan kan vi för kortare projekt hoppa över detta steg och istället köra maven manuellt från kommandoprompten efter varje ändring i en pom.xml-fil.) 
 
 Detta åstakommer vi genom att skapa en byggkonfiguration som anropar den definierade External Tool-konfigurationen vid automatiska byggen. Följande behöver göras på respektive projekt i Eclipse:
 
