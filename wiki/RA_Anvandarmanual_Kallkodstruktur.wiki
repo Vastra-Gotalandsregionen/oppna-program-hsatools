@@ -46,7 +46,9 @@ Typiskt innehåll i en applikation är artefakter för att bygga:
   * Exekverbara JAR-filer 
 
 === modules ===
-Innehåller källkod för integrationstjänster, som återfinns under `intsvc`, web-applikationer som återfinns i `web` och portlets, som finns under `portlets`. Strukturen inuti dessa följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
+Innehåller källkod för integrationstjänster, som återfinns under `intsvc`, web-applikationer som återfinns i `web` och portlets, som finns under `portlets`. Strukturen inuti dessa följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]). 
+
+Not: I fallet av en web-applikation ska modulen i stort sett inte innehålla någon källkod, istället ska varje web-applikation plockas samman av återanvändbara web-komponenter, se mer nedan.
  
 ==== intsvc ====
 Innehåller integrationstjänster i form av Webservices, JMS eller Connector för ingående trafik.
@@ -56,20 +58,18 @@ I fallet av Webservice finns även bindningsklasserna för WSDL-filen här (vi a
 ==== web ====
 Innehåller en Webapplikation. Under `web` ligger endast den källkod som behövs för att packetera ihop ett antal kompositer till en webbapplikation, bland annat deployment deskriptorn `web.xml`. Alla vyfiler och övriga resurser skall finnas som återanvändbara kompositer under `composites`. 
 
-TODO: beskriv rekommenderad uppbyggnad av en webapplikation med JAR-filer som innehåller vyfiler + resurser. Teknik: JSF, Facelets.
-Se dokument !Anvisningar_Webb_lager.doc (inte klart än).
+Se dokument [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc] för mer information.
 
 ==== portlet ====
-Not: Denna genereras ej av mavenpluginen i dagsläget då portlet-delen av RA är under uppbyggnad. I dagsläget får man skapa denna manuellt. 
+Denna katalog genereras ej av mavenpluginen i dagsläget då portlet-delen av RA är under uppbyggnad. I dagsläget får man skapa denna manuellt. 
 
-Innehåller en Portlet. 
+Innehållet i denna katalog skall vara en Portlet. 
 
-TODO: beskriv rekommenderad uppbyggnad av en portlet.
-Referera till dokument !Anvisningar_Portletutveckling.doc (inte klart ännu).
+Portlets deployas vanligtvis självständigt direkt i en portalserver, dvs den packas inte ihop i en applikation. Portleten kan sedan kommunicera med de komponenttjänster som finns under svc - se [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Portletutveckling.doc Anvisningar_Portletutveckling.doc] för mer information om detta och om en portlets uppbyggnad i allmänhet.
 
 === composites ===
 
-En komposit är en återanvändbar byggsten, till exempel en tjänst (som får anropas inom systemet, till skillnad från integrationstjänster, se avsnittet [http://code.google.com/p/oppna-program/wiki/RA_Anvandarmanual_Kallkodstruktur#intsvc intsvc] ovan) eller ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar bland annat från kravet på återanvändbara användningsfall. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation (och då heller inga moduler). 
+En komposit är en återanvändbar byggsten, till exempel en komponenttjänst (som får anropas inom systemet, till skillnad från integrationstjänster, se avsnittet [http://code.google.com/p/oppna-program/wiki/RA_Anvandarmanual_Kallkodstruktur#intsvc intsvc] ovan) eller ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar bland annat från kravet på återanvändbara användningsfall. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation (och då heller inga moduler). 
 
 Respektive underkatalog innehåller den källkod som behövs för respektive komposit. Strukturen inuti komposit-delarna följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
 ==== svc ====
