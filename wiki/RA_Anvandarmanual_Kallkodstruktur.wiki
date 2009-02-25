@@ -80,8 +80,10 @@ Gemensamma typer som kan användas inom verksamhetskomponenten eller systemet. E
   * klasser som exponeras som parametrar i komponenttjänsternas interface, inklusive exception-klasser (både "checked" och "unchecked") och JPA-entiteter (förutsatt att de exponeras i komponenttjänsternas interface).
   * hjälpklasser som underlättar tolkandet av parameterklasserna, till exempel en klass med statiska konstanter som definerar de värden som ett fält i en parameter-klass (DTO) tillåts ha. 
 ==== webcomp ====
-TODO: beskriv hur webkomponenter i form av JAR-filer bidrar till en webapplikation. Hänger ihop med sektion _web_.
-Referera till dokument !Anvisningar_Webb_lager.doc.
+Här återfinns återanvändbara webkomponenter som bidrar till en webapplikation. Dessa packas i form av JAR-filer. 
+
+Se sektion _web_ ovan samt dokument [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc].
+
 ==== schema ====
 Innehåller XML-scheman som används för integration via tjänster som beskrivs i _intsvc_ ovan.
 
@@ -93,7 +95,7 @@ XML-scheman ägs inte av verksamhetskomponenten. I enlighet med _principen om ka
 Förutom strukturen ovan skapas även en katalog `sql`, där eventuella sql-skript kan placeras. Denna syns inte i illustrationen ovan. 
 
 == Packetering av en verksamhetskomponent == 
-Inför deploy packeteras en verksamhetskomponent enligt följande:
+Inför deploy packeteras en verksamhetskomponent vanligtvis enligt följande:
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Kallkodstruktur_BCHierarkin.png
 
@@ -103,12 +105,14 @@ Begreppet _applikation_ inom den tekniska arkitekturen innebär alltså en _pack
 
 Även moduler är främst att betrakta som _packeteringar_ av funktionalitet (även om de kan innehålla en del källkod - se ovan). 
 
+Not: Portlets deployas vanligtvis självständigt direkt i en portalserver, dvs den packas inte ihop i en applikation (ear-fil) utan deployas som en fristående modul/war-fil. 
+
 == Namngivning ==
 === Namngivning av system ===
 Varje systems namn måste vara globalt unikt för att undvika namnkollisioner vid driftsättning.
 === Namngivning av verksamhetskomponenter ===
 Namngivning av komponenter:
-TODO: namnkonvention, prefix för verksamhetskomponenter (t ex ”e” för entitet) – stäm av mot referensarkitekturen! Ej bestämt ännu (2006-12-18).
+TODO: namnkonvention, t ex i form av prefix för verksamhetskomponenter (”e” för entitet osv) – stäm av mot övriga referensarkitekturen. 
 
 
 
