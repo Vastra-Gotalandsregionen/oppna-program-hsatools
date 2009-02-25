@@ -69,18 +69,18 @@ Referera till dokument !Anvisningar_Portletutveckling.doc (inte klart ännu).
 
 === composites ===
 
-En komposit är en återanvändbar byggsten, till exempel en tjänst (som får anropas inom systemet, jmfr integrationstjänster i avsnittet [http://code.google.com/p/oppna-program/wiki/RA_Anvandarmanual_Kallkodstruktur#intsvc intsvc] ovan) eller ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar bland annat från kravet på återanvändbara användningsfall. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation (och då heller inga moduler). 
+En komposit är en återanvändbar byggsten, till exempel en tjänst (som får anropas inom systemet, till skillnad från integrationstjänster, se avsnittet [http://code.google.com/p/oppna-program/wiki/RA_Anvandarmanual_Kallkodstruktur#intsvc intsvc] ovan) eller ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar bland annat från kravet på återanvändbara användningsfall. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation (och då heller inga moduler). 
 
 Respektive underkatalog innehåller den källkod som behövs för respektive komposit. Strukturen inuti komposit-delarna följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
 ==== svc ====
-Tjänster för verksamhetskomponenten. Dessa tjänster exponeras bara inom systemet (och givetvis inom verksamhetskomponenten). För att exponera en tjänst utanför systemgränsen behöver den exponeras som en integrationstjänst, se avsnitt _intsvc_ ovan.
+Komponenttjänster för verksamhetskomponenten. Dessa tjänster exponeras bara inom systemet (och givetvis inom verksamhetskomponenten). För att exponera en tjänst utanför systemgränsen behöver den exponeras som en integrationstjänst, se avsnitt [http://code.google.com/p/oppna-program/wiki/RA_Anvandarmanual_Kallkodstruktur#intsvc intsvc] ovan.
 ==== types ====
 Gemensamma typer som kan användas inom verksamhetskomponenten eller systemet. Exempel: 
 
-  * klasser som exponeras som parametrar i tjänsternas interface, inklusive exception-klasser (både "checked" och "unchecked")
+  * klasser som exponeras som parametrar i komponenttjänsternas interface, inklusive exception-klasser (både "checked" och "unchecked") och JPA-entiteter (förutsatt att de exponeras i komponenttjänsternas interface).
   * hjälpklasser som underlättar tolkandet av parameterklasserna, till exempel en klass med statiska konstanter som definerar de värden som ett fält i en parameter-klass (DTO) tillåts ha. 
 ==== webcomp ====
-TODO: beskriv hur webkomponenter i form av JAR-filer bidrar till en webapplikation/portlet. Hänger ihop med sektion _web_.
+TODO: beskriv hur webkomponenter i form av JAR-filer bidrar till en webapplikation. Hänger ihop med sektion _web_.
 Referera till dokument !Anvisningar_Webb_lager.doc.
 ==== schema ====
 Innehåller XML-scheman som används för integration via tjänster som beskrivs i _intsvc_ ovan.
