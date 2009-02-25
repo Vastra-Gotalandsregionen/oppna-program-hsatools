@@ -22,6 +22,18 @@ http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_
 Ovanstående illstration visar att applikationen _Gui Ear_ är beroende av modulen _Web_ som i sin tur är beroende av kompositen _Web Comp_ som i sin tur är beroende av både _Svc_ och _Types_, allt inom processkomponenten. Dessutom har _Web Comp_ i processkomponenten ett beroende till en annan _Web Comp_ i entitetskomponenten. Maven2-mässigt innebär alla beroenden att byggfilerna (`pom.xml`) i respektive applikation/modul/komposit har en dependency till motstående applikation/modul/komposit. 
 
 
+Ett annat typ av beroende är när komponenttjänster exponerade i en verksamhetskomponent återanvänds i en annan. Nedanstående bild illustrerar att Processkomponent 2 återanvänder/anropar en komponenttjänst från Entitetskomponent 2: 
+
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_KompSvcBeroende.png
+
+På designnivå skulle de interna beroendena inom resp verksamhetskomponent samt de externa beroendena från den ena komponenten till den andra då se ut såhär: 
+
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_KompSvcBeroendeDesign.png
+
+Ovanstående illstration visar att applikationen _Gui Ear_ är beroende av modulen _Web_ som i sin tur är beroende av kompositen _Web Comp_ som i sin tur är beroende av både _Svc_ och _Types_, allt inom processkomponenten. Dessutom har _Web Comp_ i processkomponenten ett beroende till en komponenttjänst i _Svc_ i entitetskomponenten. Maven2-mässigt innebär alla beroenden att byggfilerna (`pom.xml`) i respektive applikation/modul/komposit har en dependency till motstående applikation/modul/komposit. 
+
+Kommunikationen mellan verksamhetskomponenterna (dvs när web-comp i processkomponent 2 anropar en tjänst i svc-lagret i entitetskomponent 2) består normalt i ett java-anrop, men om verksamhetskomponenterna är deployade på olika maskiner krävs någon form av distribuerad kommunikation, t ex i form av web service-anrop eller någon annan typ av remote kommunikation. 
+
 
 == Maven2 relationer mellan byggfiler ==
 Det är viktigt att förstå hur Maven2 använder föräldra-barn relationer mellan byggfiler (`pom.xml`) och hur det påverkar versioneringen. Det finns två typer av beroenden som beskrivs här.
