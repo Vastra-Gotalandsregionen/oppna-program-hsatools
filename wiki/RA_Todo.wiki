@@ -14,6 +14,7 @@
 ||02/20/09||!Anvisningar_Webb_lager.doc|| Förbättra felhanteringen i applikationen när t.ex. en session får time-out. ||
 ||02/20/09||Teknisk arkitektur|| Se över principerna. Ta fram principer för den inre arkitekturen. ||
 ||02/20/09||Grundläggande krav på refarken|| Se över kravbilden, ffa kravet på åtaranvändbara användningsfall. Nya krav från projekten: Bättre stödja små, snabba projekt, bättre stöd för sökverktyg a la google som "spindlar" applikationerna. Utifrån detta bör sedan den tekniska arkitekturen gås igenom (inkl teknikstacken). ||
+||02/25/09||Teknisk arkitektur|| Se över vilka ramverk och tekniker som ska vara tillåtna för (distribuerad) kommunikation inom ett system eller en verksamhetskomponent (dvs när komponenttjänster anropas). Dels behöver vi ha regler för att minska floran av tekniker och dels behöver de tekniker som används verifieras mot bl a säkerhetsmässiga krav (med BIF och vårdtjänster kommer krav på SAML etc).||
 || || *Teknik/Implementation* || ||
 ||9/12/08	||Web-UI||Spring Webflow: uppgradera till version 2.x (större ändring, ej bakåtkompatibel)||
 ||9/24/08	||Databasaccess||JPA-exempel: kräver viss omstrukturering av exempelapplikationen||
