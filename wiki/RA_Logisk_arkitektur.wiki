@@ -151,7 +151,7 @@ Krav på behörighetskontroll definieras genom policy på operationer i komponen
 Denna plötsliga tekniska djupdykning kan tyckas malplacerad. Den är dock viktig för att underbygga förtroende för ansatsens realiserbarhet. Om vi associerat ansvaret för behörighetskontroll till integrationstjänster (d.v.s. anslutningsskiktet för verksamhetskomponenter som realiserar integrationstjänster), hade vi introducerat en risk för redundans. Verksamhetskomponenter anropar varandra via komponenttjänster. En komponenttjänst i en entitetskomponent som anropas i tre led med ursprung i en processkomponent måste fortfarande ta ansvar för behörighetskontroll för den informationsåtkomst entitetskomponenten ansvarar för.
 
 === Adapterkomponent ===
-Adapterkomponenter används för att anropa funktioner som inte har integroperabilitet enligt referensarkitekturen, dvs externa system som *inte* erbjuder tjänster enligt den yttre arkitekturen.
+Adapterkomponenter används för att anropa funktioner som inte har interoperabilitet enligt referensarkitekturen, dvs externa system som *inte* erbjuder tjänster enligt den yttre arkitekturen.
 
 === Plattformskomponent === 
 
