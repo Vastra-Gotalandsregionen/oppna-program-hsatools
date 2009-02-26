@@ -14,7 +14,9 @@
 || 3R || Samarbete mellan tre regioner; VGR, Region Skåne och SLL ||
 || RIV || Regelverk för interoperabilitet i vården ||
 || BIF || Bastjänster för informationsförsörjning ||
-|| DMIM || ||
+|| DIM || Domäninformationsmodell ||
+|| V-DIM || Verksamhetsorienterad DIM, begrepp från RIV ||
+|| MIM || Meddelandeinformationsmodell, begrepp från RIV ||
 || OSOA || Open Service Oriented Architecture - Organisationen bakom bland annat SCA ||
 || SCA || Service Component Architecture ||
 
