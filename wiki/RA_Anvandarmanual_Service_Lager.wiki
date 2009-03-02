@@ -1,14 +1,14 @@
 #summary Beskriver hur man utvecklar sitt servicelager i Java.
 #labels RA
 
-= Introduction =
+= Innehåll = 
 
-Add your content here.
+<wiki:toc max_depth="3" />
+
+= Introduktion =
 
 
-= Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+
+
+  
