@@ -10,10 +10,14 @@
 
 Här beskrivs hur man implementerar integrationstjänster och komponenttjänster i form av webservices i Java enligt de mer generella riktlinjer som återfinns i [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc] och [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc].
 
-= Ramverk för webservices = 
-
-För att implementera webservices i Java används ramverket [http://cxf.apache.org/ Apache CXF]. För integrationstjänster gäller att XML-scheman källkodsmässigt placeras i projektet schema och själva webservice-implementationen inkl wsdl-filer placeras i intsvc (se [RA_Anvandarmanual_Kallkodstruktur]). 
+För integrationstjänster gäller att XML-scheman källkodsmässigt skall placeras i projektet _schema_ och själva webservice-implementationen inkl wsdl-fil etc placeras i _intsvc_ - se [RA_Anvandarmanual_Kallkodstruktur] för ytterligare information. 
 
 TODO: I dagsläget är det inte utrett var ev extra källkod (utöver implementationen i svc) för sk komponenttjänster skall ligga, se [RA_Todo]. Nuvarande förslag är att, i de fall man har en komponenttjänst som skall implementeras som en webservice (t ex för att göras tillgänglig från en portlet, en annan verksamhetskomponent eller en rik klient) skapa ett nytt projekt under modules där wsdl-fil, XML schema och Apache CXF-konfiguration får ligga. Dessa webservices behöver inte följa samma strikta regler som integrationstjänsterna. En annan skillnad är att wsdl-fil och XML schema ägs lokalt, inte av PTI. 
+
+= Ramverk för webservices = 
+
+För att implementera webservices i Java används ramverket [http://cxf.apache.org/ Apache CXF]. 
+
+
 
  
