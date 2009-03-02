@@ -14,15 +14,21 @@ För integrationstjänster gäller att XML-scheman källkodsmässigt skall place
 
 TODO: I dagsläget är det inte utrett var ev extra källkod för komponenttjänster skall ligga (utöver implementationen under _svc_), se [RA_Todo]. Nuvarande förslag är att, i de fall en komponenttjänst skall exponeras som en webservice (t ex för att göras tillgänglig från en portlet, en annan verksamhetskomponent eller en rik klient) skapa ett nytt projekt under modules där wsdl-fil, XML schema, (ev) källkod och Apache CXF-konfiguration får ligga. Not: Till skillnad från integrationstjänsterna så ägs en komponenttjänsts wsdl-fil och XML schema lokalt, inte av PTI. 
 
-= Ramverk för webservices = 
+= Implementation av webservices = 
 
-För att implementera webservices i Java används ramverket [http://cxf.apache.org/ Apache CXF]. I referensapplikationen _addressbook_ finns ett exempel på en implementation av en integrationstjänst mha detta ramverk. Se _schema_ och _intsvc_ för detaljer kring implementationen. 
+== Ramverk ==
+
+För att implementera webservices i Java används ramverket [http://cxf.apache.org/ Apache CXF]. 
+
+== Exempel == 
+
+I referensapplikationen _addressbook_ finns ett exempel på en implementation av en integrationstjänst mha Apache CXF. De projekt som är av intresse är främst _schema_ och _intsvc_. 
 
 == schema == 
 
-Wsdl-fil och XML scheman har kopierats in i `src/main/wsdl` under schema-projektet. 
+WSDL-fil och XML scheman för webservicen finns under `src/main/wsdl` i schema-projektet (i ett verkligt scenario har de kopierats hit från ett centralt repository som ägs av PTI). 
 
-I maven-filen `pom.xml` finns exempel på hur man genererar upp bindningsfiler från WSDL och XML Schema mha jax-ws.
+I maven-filen `pom.xml` finns exempel på hur man genererar upp bindningsfiler från ovanstående WSDL och XML Schema mha jax-ws.
 
 == intsvc == 
 Själva implementationen av webservicen återfinns under `intsvc`. I `web.xml` under WEB-INF finns Apache CXFs servlet konfigurerad: 
@@ -59,7 +65,7 @@ I denna konfiguration har vi angett att tjänsten implementeras av `#Address.Add
 
 }}}
 
-Denna konfiguration injektar en `Address.AddressService` från `svc`-projektet i `Address.AddressEntryIntService`. Denna används för implementation av webservicen.
+Denna konfiguration injektar en `Address.AddressService` från `svc`-projektet i `Address.AddressEntryIntService`. Denna används i implementationen av webservicen.
 
 
 
