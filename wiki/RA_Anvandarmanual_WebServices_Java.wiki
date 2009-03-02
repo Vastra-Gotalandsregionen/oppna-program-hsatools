@@ -24,13 +24,13 @@ För att implementera webservices i Java används ramverket [http://cxf.apache.o
 
 I referensapplikationen _addressbook_ finns ett exempel på en implementation av en integrationstjänst mha Apache CXF. De projekt som är av intresse är främst _schema_ och _intsvc_. 
 
-== schema == 
+=== schema ===
 
 WSDL-fil och XML scheman för webservicen finns under `src/main/wsdl` i schema-projektet (i ett verkligt scenario har de kopierats hit från ett centralt repository som ägs av PTI). 
 
 I maven-filen `pom.xml` finns exempel på hur man genererar upp bindningsfiler från ovanstående WSDL och XML Schema mha jax-ws.
 
-== intsvc == 
+=== intsvc === 
 Själva implementationen av webservicen återfinns under `intsvc`. I `web.xml` under WEB-INF finns Apache CXFs servlet konfigurerad: 
 {{{
 <servlet>
