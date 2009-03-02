@@ -52,6 +52,8 @@ Denna konfiguration har i sin tur anget #Address.AddressEntryIntService som impl
 
 }}}
 
+Denna konfiguration injektar en Address.AddressService från _svc_-projektet i Address.AddressEntryIntService. 
+
 
 
  
