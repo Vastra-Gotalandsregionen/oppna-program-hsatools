@@ -16,9 +16,16 @@ TODO: I dagsläget är det inte utrett var ev extra källkod för komponenttjän
 
 = Ramverk för webservices = 
 
-För att implementera webservices i Java används ramverket [http://cxf.apache.org/ Apache CXF]. Se referensapplikationen _addressbook_ och dess _intsv_-modul för detaljer kring implementationen. 
+För att implementera webservices i Java används ramverket [http://cxf.apache.org/ Apache CXF]. I referensapplikationen _addressbook_ finns ett exempel på en implementation av en integrationstjänst mha detta ramverk. Se _schema_ och _intsvc_ för detaljer kring implementationen. 
 
-I web.xml under WEB-INF finns Apache CXFs servlet konfigurerad: 
+== schema == 
+
+Wsdl-fil och XML scheman har kopierats in i `src/main/wsdl` under schema-projektet. 
+
+I maven-filen `pom.xml` finns exempel på hur man genererar upp bindningsfiler från WSDL och XML Schema mha jax-ws.
+
+== intsvc == 
+Själva implementationen av webservicen återfinns under `intsvc`. I `web.xml` under WEB-INF finns Apache CXFs servlet konfigurerad: 
 {{{
 <servlet>
 	<servlet-name>CXFServlet</servlet-name>
@@ -34,7 +41,7 @@ I web.xml under WEB-INF finns Apache CXFs servlet konfigurerad:
 </servlet-mapping>
 }}}
 
-Apache CXF är integrerat i Spring och konfigureras mha Spring. Filen spring-cxf-config.xml innehåller konfiguration av webbservicen _AddressService_: 
+Apache CXF är integrerat i Spring och konfigureras mha Spring. Filen spring-cxf-config.xml (också under WEB-INF) innehåller konfiguration av webbservicen _AddressService_: 
 {{{
 <jaxws:endpoint id="Address.AddressEntryIntServiceSEI"
     implementor="#Address.AddressEntryIntService"
@@ -42,7 +49,7 @@ Apache CXF är integrerat i Spring och konfigureras mha Spring. Filen spring-cxf
 }}}
 
 
-Denna konfiguration har i sin tur anget #Address.AddressEntryIntService som implementor. Denna service finns i den vanliga service-config.xml-filen under src/main/resources: 
+I denna konfiguration har vi angett att tjänsten implementeras av `#Address.AddressEntryIntService`. Konfiguration av denna service finns i den vanliga `service-config.xml`-filen under `src/main/resources`: 
 {{{
 <bean id="Address.AddressEntryIntService"   
      class="se.vgr.javg.refsystems.addressbook.address.intsvc.AddressEntryIntServiceImpl">
@@ -52,7 +59,7 @@ Denna konfiguration har i sin tur anget #Address.AddressEntryIntService som impl
 
 }}}
 
-Denna konfiguration injektar en Address.AddressService från _svc_-projektet i Address.AddressEntryIntService. 
+Denna konfiguration injektar en `Address.AddressService` från `svc`-projektet i `Address.AddressEntryIntService`. Denna används för implementation av webservicen.
 
 
 
