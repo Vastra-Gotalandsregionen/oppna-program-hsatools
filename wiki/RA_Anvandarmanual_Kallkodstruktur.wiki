@@ -53,7 +53,7 @@ Not: I fallet av en web-applikation ska modulen i stort sett inte innehålla nå
 ==== intsvc ====
 Innehåller integrationstjänster i form av Webservices, JMS eller Connector för ingående trafik.
 
-I fallet av Webservice finns även bindningsklasserna för WSDL-filen här (vi arbetar uteslutande enligt principen "contract-first", dvs bindningsklasserna genereras från WSDL-filen). Notera att själva kontraktet, i form av WSDL-fil och XML-scheman (se avsnittet _schema_ nedan), i enlighet med _principen om kanoniska tjänstegränssnitt_ och _principen för löst kopplade tjänster_ inte ägs av verksamhetskomponenten utan centralt. 
+I fallet av Webservice finns Apache CXF-konfigurationen här medan WSDL-fil, XML scheman och tillhörande bindningsklasser finns under _schema_. 
 
 ==== web ====
 Innehåller en Webapplikation. Under `web` ligger endast den källkod som behövs för att packetera ihop ett antal kompositer till en webbapplikation, bland annat deployment deskriptorn `web.xml`. Alla vyfiler och övriga resurser skall finnas som återanvändbara kompositer under `composites`. 
@@ -85,11 +85,11 @@ Här återfinns återanvändbara webkomponenter som bidrar till en webapplikatio
 Se sektion _web_ ovan samt dokument [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc].
 
 ==== schema ====
-Innehåller XML-scheman som används för integration via tjänster som beskrivs i _intsvc_ ovan.
+Innehåller WSDL-filer och XML-scheman som används för integration via tjänster som beskrivs i _intsvc_ ovan.
 
-Scheman används här för att generera JAXB-bindningsklasser (bindning mellan Java och XML) som används inom verksamhetskomponenten och systemet. 
+Scheman och WSDL-filer används här för att generera JAXB-bindningsklasser (bindning mellan Java och XML) som används inom verksamhetskomponenten och systemet (vi arbetar uteslutande enligt principen "contract-first", dvs bindningsklasserna genereras från WSDL-filen). 
 
-XML-scheman ägs inte av verksamhetskomponenten. I enlighet med _principen om kanoniska tjänstegränssnitt_ och _principen för löst kopplade tjänster_ skall alla scheman ägas centralt (t ex finnas tillgängliga via en HTTP-server). Vid behov av schema i en verksamhetskomponent kopieras alla nödvändiga scheman (även inkluderade/importerade scheman) in i schema-biblioteket under verksamhetskomponenten.
+Notera att själva kontraktet, i form av WSDL-fil och XML-scheman, i enlighet med _principen om kanoniska tjänstegränssnitt_ och _principen för löst kopplade tjänster_ inte ägs av verksamhetskomponenten utan centralt (t ex finnas tillgängliga via en HTTP-server). Vid behov av WSDL-fil och schema i en verksamhetskomponent kopieras alla nödvändiga scheman (även inkluderade/importerade scheman) in i schema-biblioteket under verksamhetskomponenten.
 
 === sql ===
 Förutom strukturen ovan skapas även en katalog `sql`, där eventuella sql-skript kan placeras. Denna syns inte i illustrationen ovan. 
