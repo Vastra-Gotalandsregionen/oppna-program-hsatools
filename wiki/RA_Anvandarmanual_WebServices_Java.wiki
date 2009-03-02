@@ -12,7 +12,7 @@ Här beskrivs hur man implementerar integrationstjänster och komponenttjänster
 
 För integrationstjänster gäller att XML-scheman källkodsmässigt skall placeras i projektet _schema_ och själva webservice-implementationen inkl wsdl-fil etc placeras i _intsvc_ - se [RA_Anvandarmanual_Kallkodstruktur] för ytterligare information. 
 
-TODO: I dagsläget är det inte utrett var ev extra källkod för komponenttjänster skall ligga (utöver implementationen under _svc_), se [RA_Todo]. Nuvarande förslag är att, i de fall en komponenttjänst skall exponeras som en webservice (t ex för att göras tillgänglig från en portlet, en annan verksamhetskomponent eller en rik klient) skapa ett nytt projekt under modules där wsdl-fil, XML schema och Apache CXF-konfiguration får ligga. Not: Till skillnad från integrationstjänsterna så ägs en komponenttjänsts wsdl-fil och XML schema lokalt, inte av PTI. 
+TODO: I dagsläget är det inte utrett var ev extra källkod för komponenttjänster skall ligga (utöver implementationen under _svc_), se [RA_Todo]. Nuvarande förslag är att, i de fall en komponenttjänst skall exponeras som en webservice (t ex för att göras tillgänglig från en portlet, en annan verksamhetskomponent eller en rik klient) skapa ett nytt projekt under modules där wsdl-fil, XML schema, (ev) källkod och Apache CXF-konfiguration får ligga. Not: Till skillnad från integrationstjänsterna så ägs en komponenttjänsts wsdl-fil och XML schema lokalt, inte av PTI. 
 
 = Ramverk för webservices = 
 
