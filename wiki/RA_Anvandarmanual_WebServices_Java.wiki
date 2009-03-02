@@ -16,7 +16,41 @@ TODO: I dagsläget är det inte utrett var ev extra källkod för komponenttjän
 
 = Ramverk för webservices = 
 
-För att implementera webservices i Java används ramverket [http://cxf.apache.org/ Apache CXF]. 
+För att implementera webservices i Java används ramverket [http://cxf.apache.org/ Apache CXF]. Se referensapplikationen _addressbook_ och dess _intsv_-modul för detaljer kring implementationen. 
+
+I web.xml under WEB-INF finns Apache CXFs servlet konfigurerad: 
+{{{
+<servlet>
+	<servlet-name>CXFServlet</servlet-name>
+	<servlet-class>
+		org.apache.cxf.transport.servlet.CXFServlet
+	</servlet-class>
+	<load-on-startup>1</load-on-startup>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>CXFServlet</servlet-name>
+	<url-pattern>/*</url-pattern>
+</servlet-mapping>
+}}}
+
+Apache CXF är integrerat i Spring och konfigureras mha Spring. Filen spring-cxf-config.xml innehåller konfiguration av webbservicen _AddressService_: 
+{{{
+<jaxws:endpoint id="Address.AddressEntryIntServiceSEI"
+    implementor="#Address.AddressEntryIntService"
+    address="/AddressService" />
+}}}
+
+
+Denna konfiguration har i sin tur anget #Address.AddressEntryIntService som implementor. Denna service finns i den vanliga service-config.xml-filen under src/main/resources: 
+{{{
+<bean id="Address.AddressEntryIntService"   
+     class="se.vgr.javg.refsystems.addressbook.address.intsvc.AddressEntryIntServiceImpl">
+	<property name="addressService"
+	    ref="Address.AddressService" />
+</bean>
+
+}}}
 
 
 
