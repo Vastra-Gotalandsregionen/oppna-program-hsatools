@@ -67,6 +67,19 @@ I denna konfiguration har vi angett att tjänsten implementeras av `#Address.Add
 
 Denna konfiguration injektar en `Address.AddressService` från `svc`-projektet i `Address.AddressEntryIntService`. Denna används i implementationen av webservicen.
 
+= Konsumtion av webservices = 
+
+== Ramverk ==
+
+Precis som vid exponering av webservices används ramverket [http://cxf.apache.org/ Apache CXF] för konsumtion av webservices i Java. 
+
+== Exempel == 
+
+I referenssystemet `addressbook` finns en verksamhetskomponent `address-wsclient` som visar hur man konsumerar en webservice. 
+
+Kompositen `main` innehåller en stand-alone Javaapplikation (packas ihop som en körbar jar-fil i applikationen `address-wsclient`) som har som enda syfte att anropa en webservice. Detta görs i klassen `se.vgr.javg.refsystems.addressbook.addresswsclient.AddressBookIntSvcClient`. Webservicen injektas mha Spring, se `services-config.xml` under `src/main/resources` för detaljer. Notera att adressen till webservicen anges som en del av Spring-konfigurationen. 
+
+
 
 
  
