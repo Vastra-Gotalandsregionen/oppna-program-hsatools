@@ -12,6 +12,6 @@ Här beskrivs hur man implementerar integrationstjänster och komponenttjänster
 
 = Ramverk för webservices = 
 
-För att implementera webservices i Java används ramverket [http://cxf.apache.org/ Apache CXF]. 
+För att implementera webservices i Java används ramverket [http://cxf.apache.org/ Apache CXF]. För integrationstjänster gäller att XML-scheman källkodsmässigt placeras i projektet schema och själva webservice-implementationen inkl wsdl-filer placeras i intsvc (se [RA_Anvandarmanual_Kallkodstruktur]). I de fall man har en komponenttjänst som skall implementeras som en webservice, t ex för att göras tillgänglig från en portlet, en annan verksamhetskomponent eller en rik klient, så är det lämpligt att skapa ett nytt projekt under modules där ev wsdl-fil, XML schema och implementation får ligga.
 
  
