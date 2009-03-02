@@ -81,7 +81,8 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
   * *[RA_Anvandarmanual_Beroenden_Mellan_Komponenter]* Beskriver hur beroenden inom och mellan verksamhetskomponenter fungerar. 
 
 *Anvisningar för utveckling av webbapplikationer (Java EE):*
-  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc]* Beskriver hur man utvecklar webbapplikationer, inkl den valda teknikstacken för Java EE-webblagret. Innehåller även lite annan info specifik för RA. 
+  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc]* Beskriver hur man utvecklar webbapplikationer, inkl den valda teknikstacken för Java EE-webblagret. 
+  * *[RA_Anvandarmanual_Service_Lager.doc]* Beskriver hur man utvecklar sitt service lager i Java. Se även [RA_Anvandarmanual_WebServices_Java].
 
 *Anvisningar för portletutveckling (Java EE):*
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Portletutveckling.doc Anvisningar_Portletutveckling.doc]* Beskriver hur man utvecklar portlets.  
@@ -95,8 +96,10 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
 
 
 *Web Services:*
-  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc]* Detaljerade anvisningar för wsdl-utveckling. Versionshanteringsstrategin förtydligas ytterligare genom PoC. 
+  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc]* Detaljerade anvisningar för wsdl-design. Versionshanteringsstrategin förtydligas ytterligare genom PoC. 
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc]* Detaljerade anvisningar för versionering av XML-scheman. Versionshanteringsstrategin förtydligas ytterligare genom PoC. 
+*[RA_Anvandarmanual_WebServices_Java]* Beskriver hur man skall implementerar webservices i Java, gäller både för integrationstjänster och komponenttjänster (i de fall komponenttjänsterna är implementerade som web services). 
+
  
 
 
