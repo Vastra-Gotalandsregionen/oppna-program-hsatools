@@ -13,7 +13,7 @@ Här beskrivs på detaljnivå:
   * de ingående delarna i källkodsstrukturen
   * packeteringen av komponenter (jar, war och ear-filer)
 
-För detaljer kring hur byggsystemet, baserat på Maven2, förhåller sig till källkodstrukturen, se [RA_Anvandarmanual_Beroenden_Mellan_Komponenter]. För konkreta exampel på hur Maven2-pluginen används för att generera  RA-system och komponenter, se [RA_Anvandarmanual_Utvecklingsmiljo].
+För detaljer kring hur byggsystemet, baserat på Maven, förhåller sig till källkodstrukturen, se [RA_Anvandarmanual_Beroenden_Mellan_Komponenter]. För konkreta exampel på hur Maven-pluginen används för att generera  RA-system och komponenter, se [RA_Anvandarmanual_Utvecklingsmiljo].
 
 = Källkodstruktur i system och verksamhetskomponenter =
 
@@ -46,7 +46,7 @@ Typiskt innehåll i en applikation är artefakter för att bygga:
   * Exekverbara JAR-filer 
 
 === modules ===
-Innehåller källkod för integrationstjänster, som återfinns under `intsvc`, web-applikationer som återfinns i `web` och portlets, som finns under `portlets`. Strukturen inuti dessa följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]). 
+Innehåller källkod för integrationstjänster, som återfinns under `intsvc`, web-applikationer som återfinns i `web` och portlets, som finns under `portlets`. Strukturen inuti dessa följer den standardiserade Maven-projektstrukturen (se [http://maven.apache.org Maven]). 
 
 Not: I fallet av en web-applikation ska modulen i stort sett inte innehålla någon källkod, istället ska varje web-applikation plockas samman av återanvändbara web-komponenter, se mer nedan.
  
@@ -71,7 +71,7 @@ Portlets deployas vanligtvis självständigt direkt i en portalserver, dvs den p
 
 En komposit är en återanvändbar byggsten, till exempel en komponenttjänst (som får anropas inom systemet, till skillnad från integrationstjänster, se avsnittet [http://code.google.com/p/oppna-program/wiki/RA_Anvandarmanual_Kallkodstruktur#intsvc intsvc] ovan) eller ett antal sidor som tillsammans bildar en "dialog". Uppdelningen i kompositer härstammar bland annat från kravet på återanvändbara användningsfall. En verksamhetskomponent kan vara av typen att den bara bidrar med kompositer, ingen applikation (och då heller inga moduler). 
 
-Respektive underkatalog innehåller den källkod som behövs för respektive komposit. Strukturen inuti komposit-delarna följer den standardiserade Maven2-projektstrukturen (se [http://maven.apache.org Maven2]).
+Respektive underkatalog innehåller den källkod som behövs för respektive komposit. Strukturen inuti komposit-delarna följer den standardiserade Maven-projektstrukturen (se [http://maven.apache.org Maven]).
 ==== svc ====
 Komponenttjänster för verksamhetskomponenten. Dessa tjänster exponeras bara inom systemet (och givetvis inom verksamhetskomponenten). För att exponera en tjänst utanför systemgränsen behöver den exponeras som en integrationstjänst, se avsnitt [http://code.google.com/p/oppna-program/wiki/RA_Anvandarmanual_Kallkodstruktur#intsvc intsvc] ovan.
 ==== types ====
