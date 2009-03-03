@@ -35,6 +35,12 @@ Syftet med denna förteckning är att:
 
 == Produktionsinfrastruktur==
 == Utvecklingsmiljö ==
+
+|| Namn || Info || Leverantör || Versioner || Download || Dokumentation || Status ||
+|| Maven || Byggverktyg || Apache || 2.0.x || http://maven.apache.org || http://maven.apache.org samt [RA_Anvandarmanual_Utvecklingsmiljo] || S ||
+|| Eclipse || IDE || Eclipse || 3.4 (Ganymede) || http://www.eclipse.org/downloads || http://www.eclipse.org samt [RA_Anvandarmanual_Utvecklingsmiljo] || S ||
+
+
 == Javautveckling ==
 || Namn || Info || Leverantör || Versioner || Download || Dokumentation || Status ||
 || Spring || Ramverk för lös koppling av komponenter/klasser genom dependency injection. || !SpringSource || 2.5.5 || Nedladdas mha maven - se referensapplikationen för detaljer. || http://www.springsource.org/ samt [RA_Anvandarmanual_Service_Lager] || S ||
