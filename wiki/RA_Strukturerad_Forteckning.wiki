@@ -1,4 +1,5 @@
 #summary Strukturerad förteckning över de komponenter/ramverk som används inom referensarkitekturen.
+#labels RA
 
 = Innehåll =
 
@@ -14,24 +15,25 @@ Syftet med denna förteckning är att:
 = Format = 
 
 || Namn || Namnet på komponenten||
-|| Leverantör || Komponenter leverantör eller open source organsation. ||
-|| Versioner || De versioner av komponenten som stödjs. ||
+|| Leverantör || Komponentens leverantör eller open source organsation. ||
+|| Versioner || De versioner av komponenten som har testats inom ramen för RA. ||
 || Download || URL där komponenten kan laddas ned ifrån. ||
 || Dokumentation || URL där man hittar dokumentation och användarguider. ||
 || Support || Kontaktinformation för att få komponentsupport så som licenser, installation etc.||
 || Status || (P)Pilotstatus, (S)Standard, (U)Under utfasning, (X) Utfasad.||
 
-= Komponenter = 
-== Projektledning == 
-== Kvalitetskontroll ==
+= Komponenter =
 == Ändringskontroll och konfigureringshantering ==
-Subversion 
+|| Namn || Leverantör || Versioner || Download || Dokumentation || Support || Status ||
+|| Subversion || Tigris.org || 1.5.x || http://subversion.tigris.org/getting.html (se även dokumentet [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc] för olika klienter) || http://subversion.tigris.org samt dokumentet [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]. ||  || S ||
+
 == Modellering == 
 == Kravhantering == 
 == Kommunikation och interoperabilitet. ==
 == Produktionsinfrastruktur==
 == Utvecklingsmiljö ==
 == Bygge och kontinuerlig integration. ==
+
 == Kollaboration ==
 
 ex. MSM, Jabber, e-mail etc.
