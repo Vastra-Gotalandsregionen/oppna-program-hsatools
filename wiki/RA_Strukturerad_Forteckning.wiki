@@ -9,7 +9,7 @@
 
 Syftet med denna förteckning är att:
 
-  * Hjälpa projektmedlemmar att förstå varför olika komponenter väljs.
+  * Hjälpa projektmedlemmar att snabbt se vilka komponenter som ska användas.
   * Hjälpa projektmedlemmar att hitta dokumentation runt olika komponenter.
 
 = Format = 
@@ -33,12 +33,19 @@ Syftet med denna förteckning är att:
 || VisualSVN || Visual Studio plugin. Ej open source.|| VisualSVN || || http://www.visualsvn.com/ || http://www.visualsvn.com/ || S ||
 
 
-== Produktionsinfrastruktur==
-== Utvecklingsmiljö ==
+== Produktionsmiljö ==
+|| Namn || Info || Leverantör || Versioner || Download || Dokumentation || Status ||
+|| WebSphere Application Server || Applikationsserver || IBM || 6.1 ||  || http://www-01.ibm.com/software/webservers/appserv/was/ || S ||
+|| WebSphere Portal Server || Portalserver || IBM || 6.1 ||  || http://www-01.ibm.com/software/websphere/portal/ || S ||
 
+== Utvecklingsmiljö ==
 || Namn || Info || Leverantör || Versioner || Download || Dokumentation || Status ||
 || Maven || Byggverktyg || Apache || 2.0.x || http://maven.apache.org || http://maven.apache.org samt [RA_Anvandarmanual_Utvecklingsmiljo] || S ||
 || Eclipse || IDE || Eclipse || 3.4 (Ganymede) || http://www.eclipse.org/downloads || http://www.eclipse.org samt [RA_Anvandarmanual_Utvecklingsmiljo] || S ||
+|| Tomcat || Applikationsserver för utveckling/test || Apache ||5.5/6.0 || http://tomcat.apache.org/ || http://tomcat.apache.org/ samt [RA_Anvandarmanual_Utvecklingsmiljo] och [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc]. || S ||
+|| Pluto || Portletcontainer (JSR 186) för utveckling/test. Körs på Tomcat (det finns en distribution där man laddar hem båda två bundlade). || Apache ||  || http://portals.apache.org/pluto/download.html || http://portals.apache.org/pluto/ samt [RA_Anvandarmanual_Utvecklingsmiljo] och [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Portletutveckling.doc Anvisningar_Portletutveckling.doc]. || S ||
+|| Open Portal Container || Portletcontainer (JSR 286) för utveckling/test. Körs t ex på Glassfish eller Tomcat (ej testat på Tomcat). || java.net ||  || https://portlet-container.dev.java.net/ || https://portlet-container.dev.java.net/ samt [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Portletutveckling.doc Anvisningar_Portletutveckling.doc]. || P ||
+
 
 
 == Javautveckling ==
