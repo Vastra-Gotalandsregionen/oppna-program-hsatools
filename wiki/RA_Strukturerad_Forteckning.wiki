@@ -26,8 +26,8 @@ Syftet med denna förteckning är att:
 || Namn || Leverantör || Versioner || Download || Dokumentation || Status ||
 || Subversion || Tigris.org || 1.5.x || http://subversion.tigris.org/getting.html (se även dokumentet [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc] för olika klienter) || http://subversion.tigris.org samt dokumentet [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]. || S ||
 || Subversion - TortoiseSVN ||  || 1.5.x || http://tortoisesvn.net/downloads || http://tortoisesvn.net/support samt dokumentet [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]. || S ||
-|| Subversion - Subversive Eclipse Plugin ||  || http://www.eclipse.org/subversive/ || http://www.eclipse.org/subversive/ || http://www.eclipse.org/subversive/ samt dokumentet [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]. || S ||
-|| Subversion - Visual studio Plugin || Collabnet || || http://ankhsvn.open.collab.net/ || http://ankhsvn.open.collab.net/ || http://ankhsvn.open.collab.net/ || S ||
+|| Subversion - Subversive Eclipse Plugin ||  || http://www.eclipse.org/subversive/ || http://www.eclipse.org/subversive/ samt dokumentet [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]. || S ||
+|| Subversion - Visual studio Plugin || Collabnet || || http://ankhsvn.open.collab.net/ || http://ankhsvn.open.collab.net/ || S ||
 
 
 == Modellering == 
