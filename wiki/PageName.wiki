@@ -1,0 +1,46 @@
+#summary Strukturerad förteckning över de komponenter/ramverk som används inom referensarkitekturen.
+
+= Innehåll =
+
+<wiki:toc max_depth="3" />
+
+= Syfte = 
+
+Syftet med denna förteckning är att:
+
+  * Hjälpa projektmedlemmar att förstå varför olika komponenter väljs.
+  * Hjälpa projektmedlemmar att hitta dokumentation runt olika komponenter.
+
+= Format = 
+
+|| Namn || Namnet på komponenten||
+|| Leverantör || Komponenter leverantör eller open source organsation. ||
+|| Versioner || De versioner av komponenten som stödjs. ||
+|| Download || URL där komponenten kan laddas ned ifrån. ||
+|| Dokumentation || URL där man hittar dokumentation och användarguider. ||
+|| Support || Kontaktinformation för att få komponentsupport så som licenser, installation etc.||
+|| Status || (P)Pilotstatus, (S)Standard, (U)Under utfasning, (X) Utfasad.||
+
+= Komponenter = 
+== Projektledning == 
+== Kvalitetskontroll ==
+== Ändringskontroll och konfigureringshantering ==
+Subversion 
+== Modellering == 
+== Kravhantering == 
+== Kommunikation och interoperabilitet. ==
+== Produktionsinfrastruktur==
+== Utvecklingsmiljö ==
+== Bygge och kontinuerlig integration. ==
+== Kollaboration ==
+
+ex. MSM, Jabber, e-mail etc.
+Bibliotek som bundlas med applikationer.
+
+ex. bibliotek, jar-filer som behövs i runtime.
+Test
+
+ex. verktyg som används för testning på alla nivåer.
+Konton
+
+ex. vilka konton behöver man ha access-rättigheter till?
