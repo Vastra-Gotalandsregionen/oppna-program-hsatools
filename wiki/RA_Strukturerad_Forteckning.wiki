@@ -57,4 +57,5 @@ Syftet med denna förteckning är att:
 || Facelets || En renderingsteknik för JSF som bygger på XHTML-templates. || java.net || 1.1.14 || Nedladdas mha maven - se referensapplikationen för detaljer. || https://facelets.dev.java.net/ samt [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc] || S ||
 
 
-== Bygge och kontinuerlig integration. ==
+== Kontinuerlig integration ==
+|| Bamboo || Saas för kontinuerlig integration || Atlassian ||  || Saas (dvs ingen installation) || http://opensource.bamboo.atlassian.com || P (används ännu inte för något projekt). ||
