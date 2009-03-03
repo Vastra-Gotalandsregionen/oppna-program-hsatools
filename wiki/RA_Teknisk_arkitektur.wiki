@@ -73,7 +73,7 @@ Tjänstedomäner och system ska ha definierade ägare för livscykelns alla fase
 
 Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad områden: 
 
-* Ramverk/komponenter *
+*Ramverk/komponenter:*
   * *[RA_Strukturerad_Forteckning]* Beskriver de externa komponenter/ramverk som ska användas inom respektive område. 
 
 *Utvecklingsmiljö och "komma igång" (Java EE):*
