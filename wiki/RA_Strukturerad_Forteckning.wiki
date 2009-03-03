@@ -35,8 +35,8 @@ Syftet med denna förteckning är att:
 
 == Produktionsmiljö ==
 || Namn || Info || Leverantör || Versioner || Download || Dokumentation || Status ||
-|| WebSphere Application Server || Applikationsserver || IBM || 6.1 ||  || http://www-01.ibm.com/software/webservers/appserv/was/ || S ||
-|| WebSphere Portal Server || Portalserver || IBM || 6.1 ||  || http://www-01.ibm.com/software/websphere/portal/ || S ||
+|| !WebSphere Application Server || Applikationsserver || IBM || 6.1 ||  || http://www-01.ibm.com/software/webservers/appserv/was/ || S ||
+|| !WebSphere Portal Server || Portalserver || IBM || 6.1 ||  || http://www-01.ibm.com/software/websphere/portal/ || S ||
 
 == Utvecklingsmiljö ==
 || Namn || Info || Leverantör || Versioner || Download || Dokumentation || Status ||
