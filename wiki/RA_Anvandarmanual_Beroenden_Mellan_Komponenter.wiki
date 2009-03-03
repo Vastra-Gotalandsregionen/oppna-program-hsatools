@@ -19,7 +19,7 @@ På designnivå skulle de interna beroendena inom resp verksamhetskomponent samt
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_KompWebBeroendeDesign.png
 
-Ovanstående illstration visar att applikationen _Gui Ear_ är beroende av modulen _Web_ som i sin tur är beroende av kompositen _Web Comp_ som i sin tur är beroende av både _Svc_ och _Types_, allt inom processkomponenten. Dessutom har _Web Comp_ i processkomponenten ett beroende till en annan _Web Comp_ i entitetskomponenten. Maven2-mässigt innebär alla beroenden att byggfilerna (`pom.xml`) i respektive applikation/modul/komposit har en dependency till motstående applikation/modul/komposit. 
+Ovanstående illstration visar att applikationen _Gui Ear_ är beroende av modulen _Web_ som i sin tur är beroende av kompositen _Web Comp_ som i sin tur är beroende av både _Svc_ och _Types_, allt inom processkomponenten. Dessutom har _Web Comp_ i processkomponenten ett beroende till en annan _Web Comp_ i entitetskomponenten. Maven-mässigt innebär alla beroenden att byggfilerna (`pom.xml`) i respektive applikation/modul/komposit har en dependency till motstående applikation/modul/komposit. 
 
 
 Ett annat typ av beroende är när komponenttjänster exponerade i en verksamhetskomponent återanvänds i en annan. Nedanstående bild illustrerar att Processkomponent 2 återanvänder/anropar en komponenttjänst från Entitetskomponent 2: 
@@ -30,16 +30,16 @@ På designnivå skulle de interna beroendena inom resp verksamhetskomponent samt
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_KompSvcBeroendeDesign.png
 
-Ovanstående illstration visar att applikationen _Gui Ear_ är beroende av modulen _Web_ som i sin tur är beroende av kompositen _Web Comp_ som i sin tur är beroende av både _Svc_ och _Types_, allt inom processkomponenten. Dessutom har _Web Comp_ i processkomponenten ett beroende till en komponenttjänst i _Svc_ i entitetskomponenten. Maven2-mässigt innebär alla beroenden att byggfilerna (`pom.xml`) i respektive applikation/modul/komposit har en dependency till motstående applikation/modul/komposit. 
+Ovanstående illstration visar att applikationen _Gui Ear_ är beroende av modulen _Web_ som i sin tur är beroende av kompositen _Web Comp_ som i sin tur är beroende av både _Svc_ och _Types_, allt inom processkomponenten. Dessutom har _Web Comp_ i processkomponenten ett beroende till en komponenttjänst i _Svc_ i entitetskomponenten. Maven-mässigt innebär alla beroenden att byggfilerna (`pom.xml`) i respektive applikation/modul/komposit har en dependency till motstående applikation/modul/komposit. 
 
 Kommunikationen mellan verksamhetskomponenterna (dvs när web-comp i processkomponent 2 anropar en tjänst i svc-lagret i entitetskomponent 2) består normalt i ett java-anrop, men om verksamhetskomponenterna är deployade på olika maskiner krävs någon form av distribuerad kommunikation, t ex i form av web service-anrop eller någon annan typ av remote kommunikation. 
 
 
-== Maven2 relationer mellan byggfiler ==
-Det är viktigt att förstå hur Maven2 använder föräldra-barn relationer mellan byggfiler (`pom.xml`) och hur det påverkar versioneringen. Det finns två typer av beroenden som beskrivs här.
+== Maven relationer mellan byggfiler ==
+Det är viktigt att förstå hur Maven använder föräldra-barn relationer mellan byggfiler (`pom.xml`) och hur det påverkar versioneringen. Det finns två typer av beroenden som beskrivs här.
 
 === Versionerad relation med arv (barn pekar ut förälder) ===
-I den här relationen pekar barnet ut föräldern via Maven repositoriet. Föräldern kvalificeras med namn och version. Den här relationen är alltså inte via filsystemet (för Maven1-användare: detta skiljer sig kraftigt från tidigare version).
+I den här relationen pekar barnet ut föräldern via Maven repositoriet. Föräldern kvalificeras med namn och version. Den här relationen är alltså inte via filsystemet (för användare med erfarenhet från Maven 1: detta skiljer sig kraftigt i version 2 av Maven kontra tidigare version).
 
 I den här relationen ärver barnet egenskaper från föräldern.
 
@@ -55,7 +55,7 @@ http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_
 
 == Byggrelationer inom en verksamhetskomponent ==
 En verksamhetskomponents byggfil (den `pom.xml` som ligger direkt i komponentens katalog i filsystemet) ska bygga alla underliggande delar direkt (inte via mellanliggande byggfiler med _packaging type_ satt till _pom_). Anledningen är att förenkla versionering genom att ha så få versionerade beroenden som möjligt.
-== Versionering av en verksamhetskomponent med Maven2 ==
+== Versionering av en verksamhetskomponent med Maven ==
 En verksamhetskomponent versioneras alltid som en enhet vilket innebär att de ingående delarnas pom.xml inte definierar något eget `<version>` element utan ärver versionen från verksamhetskomponentens pom.xml.
 Se [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc] för mer om versionering.
 == SNAPSHOT-versioner och kontinuerlig integration ==
