@@ -37,17 +37,5 @@ Syftet med denna förteckning är att:
 == Kommunikation och interoperabilitet. ==
 == Produktionsinfrastruktur==
 == Utvecklingsmiljö ==
+
 == Bygge och kontinuerlig integration. ==
-
-== Kollaboration ==
-
-ex. MSM, Jabber, e-mail etc.
-Bibliotek som bundlas med applikationer.
-
-ex. bibliotek, jar-filer som behövs i runtime.
-Test
-
-ex. verktyg som används för testning på alla nivåer.
-Konton
-
-ex. vilka konton behöver man ha access-rättigheter till?
