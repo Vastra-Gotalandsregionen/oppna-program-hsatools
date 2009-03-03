@@ -36,10 +36,10 @@ Syftet med denna förteckning är att:
 == Utvecklingsmiljö ==
 == Javautveckling ==
 || Namn || Info || Leverantör || Versioner || Download || Dokumentation || Status ||
-|| Spring || Ramverk för implementation av webservices i Java. || SpringSource || 2.5.5 || http://www.springsource.org/ || http://www.springsource.org/ samt [RA_Anvandarmanual_Service_Lager] || S ||
+|| Spring || Ramverk för implementation av webservices i Java. || !SpringSource || 2.5.5 || http://www.springsource.org/ || http://www.springsource.org/ samt [RA_Anvandarmanual_Service_Lager] || S ||
 || Apache CXF || Ramverk för implementation av webservices i Java. || Apache || 2.1.2 || http://cxf.apache.org/ || http://cxf.apache.org/ samt [RA_Anvandarmanual_WebServices_Java] || S ||
 || !JavaServer Faces (JSF) || Standard/ramverk för webbutveckling (MVC) inom Java EE. || Sun || 1.1 ||  || http://www.jcp.org/en/jsr/detail?id=127 samt [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc] || S ||
-|| Spring Webflow (SWF) ||  || SpringSource || 1.0.5 || http://www.springsource.org/webflow || http://www.springsource.org/webflow samt [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc] || S ||
+|| Spring Webflow (SWF) ||  || !SpringSource || 1.0.5 || http://www.springsource.org/webflow || http://www.springsource.org/webflow samt [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc] || S ||
 || Facelets ||  ||  || 1.2_09 || https://facelets.dev.java.net/ || https://facelets.dev.java.net/ samt [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc] || S ||
 
 
