@@ -8,28 +8,28 @@
 = Introduktion =
 Här beskrivs hur man praktiskt kommer igång med referensarkitekturen, inklusive hur man sätter upp sin utvecklingsmiljö för att kunna utveckla och bygga ett system baserat på referensarkitekturen (RA) med en eller flera verksamhetskomponenter samt hur den RA-specifika maven-pluginen kan användas för att generera nya system och verksamhetskomponenter.
 
-Denna beskrivning innehåller främst sådant som är specifikt för referensarkitekturen och dess källkodsstruktur. Det är inte en generell introduktion till [http://maven.apache.org Maven2] eller [http://www.eclipse.org Eclipse].
+Denna beskrivning innehåller främst sådant som är specifikt för referensarkitekturen och dess källkodsstruktur. Det är inte en generell introduktion till [http://maven.apache.org Maven] eller [http://www.eclipse.org Eclipse].
 
 == Referenser ==
-  * [http://maven.apache.org Maven2]
+  * [http://maven.apache.org Maven]
   * [RA_Anvandarmanual_Kallkodstruktur]
   * [RA_Anvandarmanual_Beroenden_Mellan_Komponenter]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]
   * [http://www.eclipse.org Eclipse]
-  * [http://maven.apache.org/plugins/maven-eclipse-plugin/ Maven2 Eclipse-plug-in]
+  * [http://maven.apache.org/plugins/maven-eclipse-plugin/ Maven Eclipse-plug-in]
 
-= Installation och uppsättning av Maven2 =
+= Installation och uppsättning av Maven =
 
-Som byggsystem för RA-system används Maven2 (maven-2.0.4 eller senare). Följande sektion beskriver kort hur man installerar och kommer igång med Maven2. Har du redan Maven2 installerat kan du hoppa till stycket, _Konfiguration_. 
+Som byggsystem för RA-system används Maven (maven-2.0.4 eller senare). Följande sektion beskriver kort hur man installerar och kommer igång med Maven. Har du redan Maven installerat kan du hoppa till stycket, _Konfiguration_. 
 
-== Installation av Maven2 ==
-Gör en standardinstallation enligt [http://maven.apache.org Maven2 dokumentationen]. I korthet innebär det:
-  #	ladda ned en distribution från [http://maven.apache.org Maven2] (t.ex. maven-2.0.4-bin.zip)
+== Installation av Maven ==
+Gör en standardinstallation enligt [http://maven.apache.org Maven dokumentationen]. I korthet innebär det:
+  #	ladda ned en distribution från [http://maven.apache.org Maven] (t.ex. maven-2.0.4-bin.zip)
   #	packa upp den (i t ex ”C:\program”, packa inte upp den i en sökväg som innehåller mellanslag som t ex ”C:\Program Files”)
   #	lägg till bin-biblioteket till operativsystemets path-variabel
-  #	verifiera att variabeln JAVA_HOME är satt (Maven2 kräver ett installerat JDK)  t ex C:\program\jdk1.5.0_08 eller senare.
+  #	verifiera att variabeln JAVA_HOME är satt (Maven kräver ett installerat JDK)  t ex C:\program\jdk1.5.0_08 eller senare.
   #	testa installationen med 
 {{{
 mvn -verify
@@ -51,9 +51,9 @@ I filen bestämmer du ifall den VGR-interna Maven-proxyn skall användas eller o
     <!-- Use either: vgr_onsite OR vgr_offsite -->
     <activeProfile>vgr_offsite</activeProfile>
 }}}
-== Maven2 snabbstart ==
+== Maven snabbstart ==
 === Baskommandon ===
-Här är en kort beskrivning av de vanligaste kommandon som ges till Maven2 (utföras i samma bibliotek som den pom.xml fil som ska användas):
+Här är en kort beskrivning av de vanligaste kommandon som ges till Maven (utföras i samma bibliotek som den pom.xml fil som ska användas):
 Vanligaste användningen är att kombinera dessa argument (”goal” i Maven terminologi):
 
 {{{
@@ -192,7 +192,7 @@ Se [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkit
 För att koppla alla projekt till subversion: Markera samtliga projekt och högerklicka, välj Team->Share Projects och anslut. Nu får varje projekt som listas under project explorer en repository-ikon på sig. 
 
 = Skapa nya system och verksamhetskomponenter =
-För att man snabbt ska komma igång med referensarkitekturen finns Maven2-pluginen _javg-template-plugin_. 
+För att man snabbt ska komma igång med referensarkitekturen finns Maven-pluginen _javg-template-plugin_. 
 
 Den har goals för att generera upp en skelett-struktur för ett helt nytt system samt för att lägga till en verksamhetskomponent i ett befintligt system. 
 
