@@ -62,10 +62,11 @@ En översikt med motivationsfaktorer finns även i (slutet av) presentationen: [
 = Dokumentationsöversikt = 
 
   * [RA_Todo Todo-lista för Referensarkitekturprojektet]
-  * [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt]   * [RA_Vision_och_krav Vision och krav]
+  * [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt] - Övergripande presentation över hela RA.  
+  * [RA_Vision_och_krav Vision och krav]
   * [RA_Logisk_arkitektur Logisk arkitektur]
     * [http://oppna-program.googlecode.com/svn/reference-architecture/Referensmodell/Referensmodell_arkitektur_3R.ppt Referensmodell_arkitektur_3R.ppt]
-    * [http://oppna-program.googlecode.com/svn/reference-architecture/Referensmodell/Modell_Referensarkitektur_3R.EAP Modell_Referensarkitektur_3R.EAP]
+    * [http://oppna-program.googlecode.com/svn/reference-architecture/Referensmodell/Modell_Referensarkitektur_3R.EAP Modell_Referensarkitektur_3R.EAP] Modellfil på format för produkten Enterprise Architect. Produktsida: http://www.sparxsystems.com.au/products/ Gratis "Viewer" kan laddas ner här: http://www.sparxsystems.com.au/bin/EALite.exe
   * [RA_Teknisk_arkitektur Teknisk arkitektur]
     * [RA_Strukturerad_Forteckning Förteckning över ramverk och tredjepartskomponenter]
     * [RA_Anvisningar_Utvecklingsmiljo Uppsättning av utvecklingsmiljön] 
@@ -89,7 +90,7 @@ En översikt med motivationsfaktorer finns även i (slutet av) presentationen: [
     * [http://oppna-program.googlecode.com/svn/reference-architecture/Kravhantering/Upphandling/Mallar/Mall_Icke-funktionella_krav_upphandling_av_systemstod.docx Mall_Icke-funktionella_krav_upphandling_av_systemstod.docx] 
 
 || *Namn* || *Dokumenttyp* || *Beskrivning av innehåll* ||
-|| [RA_Introduktion] (denna sida)|| Övergripand introduktion || Introduktion med läsanvisningar och länkar till vidare information. ||
+
 || 
 || [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt] || Övergripande introduktion, Presentation || Lättförståelig introduktion till RA ||
 || [RA_Todo] || Allmänt, Todo-lista || Här samlas utestående frågeställningar och punkter. ||
