@@ -58,7 +58,7 @@ I fallet av Webservice finns Apache CXF-konfigurationen här medan WSDL-fil, XML
 ==== web ====
 Innehåller en Webapplikation. Under `web` ligger endast den källkod som behövs för att packetera ihop ett antal kompositer till en webbapplikation, bland annat deployment deskriptorn `web.xml`. Alla vyfiler och övriga resurser skall finnas som återanvändbara kompositer under `composites`. 
 
-Se dokument [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc] för mer information.
+Se dokument [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc Anvisningar_Anslutningsskikt_Webb.doc] för mer information.
 
 ==== portlet ====
 Denna katalog genereras ej av mavenpluginen i dagsläget då portlet-delen av RA är under uppbyggnad. I dagsläget får man skapa denna manuellt. 
@@ -82,7 +82,7 @@ Gemensamma typer som kan användas inom verksamhetskomponenten eller systemet. E
 ==== webcomp ====
 Här återfinns återanvändbara webkomponenter som bidrar till en webapplikation. Dessa packas i form av JAR-filer. 
 
-Se sektion _web_ ovan samt dokument [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc].
+Se sektion _web_ ovan samt dokument [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc Anvisningar_Anslutningsskikt_Webb.doc].
 
 ==== schema ====
 Innehåller WSDL-filer och XML-scheman som används för integration via tjänster som beskrivs i _intsvc_ ovan.
