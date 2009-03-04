@@ -77,15 +77,15 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
   * *[RA_Strukturerad_Forteckning]* Beskriver de externa komponenter/ramverk som ska användas inom respektive område. 
 
 *Utvecklingsmiljö och "komma igång" (Java EE):*
-  * *[RA_Anvandarmanual_Utvecklingsmiljo]* Beskriver hur man praktiskt sätter upp sin utvecklingsmiljö för att komma igång med utveckling av RA-system och komponenter. 
+  * *[RA_Anvisningar_Utvecklingsmiljo]* Beskriver hur man praktiskt sätter upp sin utvecklingsmiljö för att komma igång med utveckling av RA-system och komponenter. 
 
 *Källkodsstruktur:*
-  * *[RA_Anvandarmanual_Kallkodstruktur]* Beskriver källkodsstrukturen och dess koppling till referensarkitekturen. 
-  * *[RA_Anvandarmanual_Beroenden_Mellan_Komponenter]* Beskriver hur beroenden inom och mellan verksamhetskomponenter fungerar. 
+  * *[RA_Anvisningar_Kallkodstruktur]* Beskriver källkodsstrukturen och dess koppling till referensarkitekturen. 
+  * *[RA_Anvisningar_Beroenden_Mellan_Komponenter]* Beskriver hur beroenden inom och mellan verksamhetskomponenter fungerar. 
 
 *Anvisningar för utveckling av system och verksamhetskomponenter (Java EE):*
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc Anvisningar_Anslutningsskikt_Webb.doc]* Beskriver hur man utvecklar webbapplikationer, inkl den valda teknikstacken för Java EE-webblagret. 
-  * *[RA_Anvandarmanual_Verksamhetsskikt]* Beskriver hur man utvecklar en verksamhetskomponents verksamhetsskikt i Java. (Se även [RA_Anvandarmanual_Anslutningsskikt_WebServices].)
+  * *[RA_Anvisningar_Verksamhetsskikt]* Beskriver hur man utvecklar en verksamhetskomponents verksamhetsskikt i Java. (Se även [RA_Anvisningar_Anslutningsskikt_WebServices].)
 
 *Anvisningar för portletutveckling (Java EE):*
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Portlet.doc Anvisningar_Anslutningsskikt_Portlet.doc]* Beskriver hur man utvecklar portlets.  
@@ -101,7 +101,7 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
 *Web Services:*
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc]* Detaljerade anvisningar för wsdl-design. Versionshanteringsstrategin förtydligas ytterligare genom PoC. 
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc]* Detaljerade anvisningar för versionering av XML-scheman. Versionshanteringsstrategin förtydligas ytterligare genom PoC. 
-  * *[RA_Anvandarmanual_Anslutningsskikt_WebServices]* Beskriver hur man skall implementerar webservices i Java, gäller både för integrationstjänster och komponenttjänster (i de fall komponenttjänsterna är implementerade som web services). 
+  * *[RA_Anvisningar_Anslutningsskikt_WebServices]* Beskriver hur man skall implementerar webservices i Java, gäller både för integrationstjänster och komponenttjänster (i de fall komponenttjänsterna är implementerade som web services). 
 
  
 
