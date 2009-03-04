@@ -4,13 +4,13 @@
 = Utestående punkter =
 || *Datum* || *Område* || *Ämne/krav* ||
 || || *Anvisningar* || || 
-||9/24/08||!Anvisningar_Webb_lager.doc||Dokumentet behöver fyllas på rejält.||
+||9/24/08||!Anvisningar_Anslutningsskikt_Webb.doc||Dokumentet behöver fyllas på rejält.||
 ||9/26/08 ||!Anvisningar_Kontinuerlig_Integration.doc||Vi har bytt KI-servern Continuum mot Hudson -> uppdatera dokumentet. Efter open sourceningen kommer detta dessutom igen att bytas ut mot atlassian.||
 ||10/28/08||Alla anvisningar/dokument||ÅP 3. Ta alla dokument till en generell version/nivå. ||
 ||10/28/08||Anvisningar 3r referensmodell.||ÅP 5. Utöka/förenkla dokumentationen av den logiska metamodellen med exempel och definition av termer.||
 ||10/28/08||Kommande.||ÅP 13. Dokumentera byggprocessen för själva refarken. ||
 ||10/28/08||Generella krav-dokument (att användas vid upphandlingar).||ÅP 9. Se över dessa dokument. ||
-||02/20/09||!Anvisningar_Webb_lager.doc|| Förbättra felhanteringen i applikationen när t.ex. en session får time-out. ||
+||02/20/09||!Anvisningar_Anslutningsskikt_Webb.doc|| Förbättra felhanteringen i applikationen när t.ex. en session får time-out. ||
 ||02/20/09||Teknisk arkitektur|| Se över principerna. Ta fram principer för den inre arkitekturen. ||
 ||02/20/09||Grundläggande krav på refarken|| Se över kravbilden, ffa kravet på åtaranvändbara användningsfall. Nya krav från projekten: Bättre stödja små, snabba projekt, bättre stöd för sökverktyg a la google som "spindlar" applikationerna. Utifrån detta bör sedan den tekniska arkitekturen gås igenom (inkl teknikstacken). ||
 ||02/25/09||Teknisk arkitektur|| Se över vilka ramverk och tekniker som ska vara tillåtna för (distribuerad) kommunikation inom ett system eller en verksamhetskomponent (dvs när komponenttjänster anropas). Dels behöver vi ha regler för att minska floran av tekniker och dels behöver de tekniker som används verifieras mot bl a säkerhetsmässiga krav (med BIF och vårdtjänster kommer krav på SAML etc).||

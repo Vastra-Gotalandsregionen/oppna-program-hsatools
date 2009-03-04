@@ -84,7 +84,7 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
   * *[RA_Anvandarmanual_Beroenden_Mellan_Komponenter]* Beskriver hur beroenden inom och mellan verksamhetskomponenter fungerar. 
 
 *Anvisningar för utveckling av system och verksamhetskomponenter (Java EE):*
-  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Webb_lager.doc Anvisningar_Webb_lager.doc]* Beskriver hur man utvecklar webbapplikationer, inkl den valda teknikstacken för Java EE-webblagret. 
+  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc Anvisningar_Anslutningsskikt_Webb.doc]* Beskriver hur man utvecklar webbapplikationer, inkl den valda teknikstacken för Java EE-webblagret. 
   * *[RA_Anvandarmanual_Verksamhetsskikt]* Beskriver hur man utvecklar en verksamhetskomponents verksamhetsskikt i Java. (Se även [RA_Anvandarmanual_WebServices_Java].)
 
 *Anvisningar för portletutveckling (Java EE):*
