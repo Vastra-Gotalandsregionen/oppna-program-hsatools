@@ -63,7 +63,10 @@ En översikt med motivationsfaktorer finns även i (slutet av) presentationen: [
 
   * [RA_Todo Todo-lista för Referensarkitekturprojektet]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt] - Övergripande presentation över hela RA.  
-  * [RA_Vision_och_krav Vision och krav]
+  * [RA_Vision_och_krav Vision och krav] - Vision för och krav på referensarkitekturen
+  * Kravhantering
+    * [http://oppna-program.googlecode.com/svn/reference-architecture/Kravhantering/Upphandling/Gemensamma_krav/Gemensamma_Icke-funktionella_krav_upphandling_av_systemstod.docx Gemensamma_Icke-funktionella_krav_upphandling_av_systemstod.docx] - Dokumentet är tänkt att samla gemensamma, icke-funktionella krav. I dagsläget bara ett embryo, behöver fyllas på med innehåll.
+    * [http://oppna-program.googlecode.com/svn/reference-architecture/Kravhantering/Upphandling/Mallar/Mall_Icke-funktionella_krav_upphandling_av_systemstod.docx Mall_Icke-funktionella_krav_upphandling_av_systemstod.docx] - Mall för gemensamma icke-funktionella krav. I dagsläget ett utkast.   
   * [RA_Logisk_arkitektur Logisk arkitektur]
     * [http://oppna-program.googlecode.com/svn/reference-architecture/Logisk_arkitektur/Referensmodell_arkitektur_3R.ppt Referensmodell_arkitektur_3R.ppt]
     * [http://oppna-program.googlecode.com/svn/reference-architecture/Logisk_arkitektur/Modell_Referensarkitektur_3R.EAP Modell_Referensarkitektur_3R.EAP] - Modellfil på format för produkten Enterprise Architect.`*` 
@@ -79,15 +82,12 @@ En översikt med motivationsfaktorer finns även i (slutet av) presentationen: [
     * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc]
     * [RA_Anvisningar_Verksamhetsskikt Anvisningar för verksamhetsskiktet]
     * [RA_Anvisningar_Resursskikt Anvisningar för resursskiktet]
-    * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc] 
+    * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc] - Detaljerade anvisningar om hur man versionerar maven-artefakter, lablar i subversion etc.
     * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]
     *  [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc] `*``*`
-    * Övriga presentationer
-      * [http://oppna-program.googlecode.com/svn/reference-architecture/Presentationer/Tekniskt_ramverk_portal_VGR.ppt Tekniskt_ramverk_portal_VGR.ppt]
-      * [http://oppna-program.googlecode.com/svn/reference-architecture/Presentationer/Teknisk_presentation_Callista_Developer_Conference_2008.ppt Teknisk_presentation_Callista_Developer_Conference_2008.ppt]
-  * Kravhantering
-    * [http://oppna-program.googlecode.com/svn/reference-architecture/Kravhantering/Upphandling/Gemensamma_krav/Gemensamma_Icke-funktionella_krav_upphandling_av_systemstod.docx Gemensamma_Icke-funktionella_krav_upphandling_av_systemstod.docx]
-    * [http://oppna-program.googlecode.com/svn/reference-architecture/Kravhantering/Upphandling/Mallar/Mall_Icke-funktionella_krav_upphandling_av_systemstod.docx Mall_Icke-funktionella_krav_upphandling_av_systemstod.docx] 
+  * Övriga presentationer
+    * [http://oppna-program.googlecode.com/svn/reference-architecture/Presentationer/Tekniskt_ramverk_portal_VGR.ppt Tekniskt_ramverk_portal_VGR.ppt] - Presentation som hölls för Göteborgs stad Intraservice 2008. Något ouppdaterad - se hellre [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt].
+    * [http://oppna-program.googlecode.com/svn/reference-architecture/Presentationer/Teknisk_presentation_Callista_Developer_Conference_2008.ppt Teknisk_presentation_Callista_Developer_Conference_2008.ppt] - Teknisk presentation på Callista Developer Conference 2008. Beskriver den tekniska arkitekturen inkl dess motivationsfaktorer. Innehåller även teknikstacken för Java. Något ouppdaterad - se hellre [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt].
 
 `*` Produktsida: http://www.sparxsystems.com.au/products/. Gratis "Viewer" kan laddas ner här: http://www.sparxsystems.com.au/bin/EALite.exe
 
@@ -116,10 +116,9 @@ En översikt med motivationsfaktorer finns även i (slutet av) presentationen: [
 || [RA_Anvisningar_Anslutningsskikt_WebServices] || Teknisk arkitektur, Anvisning ||   	 Beskriver hur man utvecklar integrationstjänster och komponenttjänster i Java. ||
 || [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Portlet.doc Anvisningar_Anslutningsskikt_Portlet.doc]  || Teknisk arkitektur, Anvisning || Beskriver hur man utvecklar portlets. ||
 || [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc Anvisningar_Anslutningsskikt_Webb.doc] || Teknisk arkitektur, Anvisning || Anvisningar för utveckling av weblagret. Innehåller teknikstack för Java EE-weblagret samt lite annan info specifik för RA. ||
-|| [http://oppna-program.googlecode.com/svn/reference-architecture/Presentationer/Tekniskt_ramverk_portal_VGR.ppt Tekniskt_ramverk_portal_VGR.ppt]  || Teknisk arkitektur, Presentation || Presentation som hölls för Göteborgs stad Intraservice 2008. Något ouppdaterad - se hellre [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt]. ||
-|| [http://oppna-program.googlecode.com/svn/reference-architecture/Presentationer/Teknisk_presentation_Callista_Developer_Conference_2008.ppt Teknisk_presentation_Callista_Developer_Conference_2008.ppt] || Teknisk arkitektur, Presentation || Teknisk presentation på Callista Developer Conference 2008. Beskriver den tekniska arkitekturen inkl dess motivationsfaktorer. Innehåller även teknikstacken för Java. Något ouppdaterad - se hellre [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt]. ||
-|| [http://oppna-program.googlecode.com/svn/reference-architecture/Kravhantering/Upphandling/Gemensamma_krav/Gemensamma_Icke-funktionella_krav_upphandling_av_systemstod.docx Gemensamma_Icke-funktionella_krav_upphandling_av_systemstod.docx] || Kravdokument || Dokumentet är tänkt att samla gemensamma, icke-funktionella krav. I dagsläget bara ett embryo, behöver fyllas på med innehåll. ||
-|| [http://oppna-program.googlecode.com/svn/reference-architecture/Kravhantering/Upphandling/Mallar/Mall_Icke-funktionella_krav_upphandling_av_systemstod.docx Mall_Icke-funktionella_krav_upphandling_av_systemstod.docx] || Kravdokument || Mall för gemensamma icke-funktionella krav. I dagsläget ett utkast. ||
+
+
+
 
 
 
