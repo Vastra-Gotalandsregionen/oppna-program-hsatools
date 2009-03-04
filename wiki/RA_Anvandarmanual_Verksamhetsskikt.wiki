@@ -7,8 +7,6 @@
 
 = Introduktion =
 
-Denna sida beskriver riktlinjer för hur man utvecklar sitt servicelager i Java. 
-
 
 
 
