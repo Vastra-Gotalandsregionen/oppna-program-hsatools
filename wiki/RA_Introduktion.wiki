@@ -77,7 +77,7 @@ En översikt med motivationsfaktorer finns även i (slutet av) presentationen: [
         * Konfigurationshantering
           * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc] - Detaljerade anvisningar om hur man versionerar maven-artefakter, lablar i subversion etc.
           * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]
-        * WebServices
+        * !WebServices
           * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc]
             * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc]
       * Java EE
