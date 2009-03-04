@@ -17,7 +17,6 @@
       * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc]
       * [RA_Anvisningar_Verksamhetsskikt Anvisningar för verksamhetsskiktet]
       * [RA_Anvisningar_Resursskikt Anvisningar för resursskiktet]
-
       * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc] 
       * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]
       *  [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc] 
@@ -28,5 +27,3 @@
       * [http://oppna-program.googlecode.com/svn/reference-architecture/Kravhantering/Upphandling/Gemensamma_krav/Gemensamma_Icke-funktionella_krav_upphandling_av_systemstod.docx Gemensamma_Icke-funktionella_krav_upphandling_av_systemstod.docx]
       * [http://oppna-program.googlecode.com/svn/reference-architecture/Kravhantering/Upphandling/Mallar/Mall_Icke-funktionella_krav_upphandling_av_systemstod.docx Mall_Icke-funktionella_krav_upphandling_av_systemstod.docx] 
   * [SIK_Introduktion Sök i Katalog]
-
-
