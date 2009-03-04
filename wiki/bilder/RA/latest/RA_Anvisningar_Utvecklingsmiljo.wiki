@@ -1,0 +1,260 @@
+#summary Sätta upp sin utvecklingsmiljö för RA-projekt.
+#labels RA
+
+= Introduktion =
+Här beskrivs hur man praktiskt kommer igång med referensarkitekturen, inklusive hur man sätter upp sin utvecklingsmiljö för att kunna utveckla och bygga ett system baserat på referensarkitekturen (RA) med en eller flera verksamhetskomponenter samt hur den RA-specifika maven-pluginen kan användas för att generera nya system och verksamhetskomponenter.
+
+Det här dokumentet beskriver främst sådant som är specifikt för referensarkitekturen och dess källkodsstruktur. Det är inte en generell introduktion till [http://maven.apache.org Maven2] eller [http://www.eclipse.org Eclipse].
+
+== Referenser ==
+  * Maven2: http://maven.apache.org
+  * Anvisningar_Källkodsstruktur_Byggsystem.doc
+  * !Anvisningar_Kontinuerlig_Integration.doc
+  * !Anvisningar_Konfigurationshantering.doc
+  * !Anvisningar_Verktyg_Subversion.doc
+  * JAXB: http://java.sun.com/webservices/jaxb
+  * Eclipse: http://www.eclipse.org
+  * Maven2 Eclipse-plug-in: maven.apache.org/plugins/maven-eclipse-plugin/
+
+= Installation och uppsättning av Maven2 =
+
+Som byggsystem för RA-system används Maven2 (maven-2.0.4 eller senare). Följande sektion beskriver kort hur man installerar och kommer igång med Maven2. Har du redan Maven2 installerat kan du hoppa till nästa stycke, _Sätta upp systemet i Eclipse_. 
+
+== Installation av Maven2 ==
+Gör en standardinstallation enligt [http://maven.apache.org Maven2 dokumentationen]. I korthet innebär det:
+  #	ladda ned en distribution från [http://maven.apache.org Maven2] (t.ex. maven-2.0.4-bin.zip)
+  #	packa upp den (i t ex ”C:\program”, packa inte upp den i en sökväg som innehåller mellanslag som t ex ”C:\Program Files”)
+  #	lägg till bin-biblioteket till operativsystemets path-variabel
+  #	verifiera att variabeln JAVA_HOME är satt (Maven2 kräver ett installerat JDK)  t ex C:\program\jdk1.5.0_08 eller senare.
+  #	testa installationen med 
+{{{
+mvn -verify
+}}} 
+Om allt gått väl, blir resultatet blir en utskriven lista med versionsnummer för Maven, Java VM och operativsystem.
+
+== Konfiguration ==
+
+~~Det behövs bara en konfiguration och det är att placera filen:
+`<subversion-repo>\javg\trunk\tools\maven-settings\settings.xml`
+i:
+`$USER_HOME/.m2/`
+vilket under WindowsXP blir:
+`C:\Documents and Settings\<USERNAME>\.m2`
+I filen bestämmer du ifall den VGR-interna Maven-proxyn skall användas eller om du vill använda publika Maven-repon direkt genom att välja vilken profil som skall aktiveras:~~
+
+{{{  
+<activeProfiles>
+    <!-- Use either: vgr_onsite OR vgr_offsite -->
+    <activeProfile>vgr_offsite</activeProfile>
+}}}
+== Maven2 snabbstart ==
+=== Baskommandon ===
+Här är en kort beskrivning av de vanligaste kommandon som ges till Maven2 (utföras i samma bibliotek som den pom.xml fil som ska användas):
+Vanligaste användningen är att kombinera dessa argument (”goal” i Maven terminologi):
+
+{{{
+mvn clean install
+}}}
+
+
+*clean*: tar bort gamla byggartefakter.
+{{{
+mvn clean
+}}}
+
+*install*: bygg artefakter och installera i det lokala Maven-repositoriet.
+{{{
+mvn install
+}}}
+
+*deploy*: publicera artefakter ~~(med stabil version, inte med SNAPSHOT-version) till det uppsatta Maven remote-repositoryt. CI-servern ansvarar för att göra deploy av snapshot-versioner så snart källkodsändringarna checkats in. Det kan därmed dröja några minuter innan senaste versionen blir synlig för andra utvecklare. Om detta i ett enskilt fall skulle utgöra ett kritiskt problem, kan kommandot köras direkt från klienten. Detta utgör dock ALLTID en risk, eftersom garanti saknas mot att all källkod är incheckad.~~
+{{{
+mvn deploy
+}}}
+
+
+= Sätta upp systemet i Eclipse =
+Målet är att etablera en Eclipse-integration så att Mavens pom-xml-filer kan vara ”master” för alla beroenden, men att vi ändå kan använda Eclipse fullt ut, med de handgrepp vi är vana vid. Det finns en [http://maven.apache.org/plugins/maven-eclipse-plugin/ maven-plugin] för att generera projektfiler för Eclipse, som används för att integrera maven med Eclipse enligt nedan (i avvaktan på att Eclipse-pluginen [http://m2eclipse.codehaus.org/ m2eclipse] skall bli tillräckligt stabil för att kunna användas). Detta innbär att det bara är källkoden plus mavens pom.xml-filer som behöver checkas in i versionshanteringssystemet. 
+
+Efter att integrationen för ett system är genomförd, gäller dock några regler:
+
+  * Projekt-inställningarna (Project Properties) får inte användas för att upprätta beroenden mellan projekt eller till externa bibliotek. Det gäller även Web Tool Platform (WTP)-specifika beroendeinställningar. Detta görs uteslutande genom editering av Mavens pom.xml-filer.
+ 
+  * Maven-bygge måste köras innan något checkas in i versionshanteringssystemet. Det görs enklast genom att köra det ”External Tool” i Eclipse som satts upp för just detta ändamål; _Build <Namn på systemet>System_. 
+
+Följ instruktionerna nedan för att integrera ett system i Eclipse. 
+
+== Checka ut källkoden från subversion ==
+Checka ut källkoden från subversion till en lokal katalog, t ex `d:/svn/<projektnamn>/trunk`.
+Not: Vi utgår här från att det finns en existerande maven-baserad projektstruktur för systemet, med minst en verksamhetskomponent. Finns inte detta, dvs om systemet är helt nytt, kan ett skelett för en dylik struktur, skapas m. h. a. den mall-generereringsplug-in som beskrivs i avsnittet _Skapa nya system och verksamhetskomponenter_ nedan.
+
+== Uppgradera installerad Maven eclipse-plugin ==
+Kör följande kommando för att säkra att senaste versionen av Mavens eclipse-plugin används framgent. Det är viktigt att göra detta i en tom katalog, exempelvis temp, annars kan projektfiler skrivas över.
+
+{{{
+mvn –U eclipse:clean
+}}}
+
+
+Not: Ovanstående ger felmeddelande eftersom den tomma katalogen saknar pom.xml-fil men det är bara att ignorera eftersom -U flaggan redan har tvingat den senaste versionen av Mavens eclipse-plugin att laddas hem. 
+
+== Definiera en classpath-variabel för maven-repot ==
+För att eclipse skall hitta alla dependencies som pekas ut i pom.xml-filerna måste man sätta upp en variabel som pekar ut ens lokala maven-repo. Detta behöver göras en gång per workspace. 
+
+Starta Eclipse mot det workspace som kommer att användas för systemet och öppna ”Window”>”Preferences”. Välj ”Java”>”Build Path”>”Classpath Variables”. Klicka på ”New…” och lägg till variabeln ”M2_REPO”. Den ska peka ut katalogen `<min hemkatalog>/.m2/repository`
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_ClasspathVariables.png
+ 
+== Definiera en variabel för Maven-programmet ==
+Denna variabel pekar ut mvn.bat och används längre ned när man skapar en så kallad External Tool för att bygga systemet med hjälp av Maven. 
+
+Öppna ”Window” > ”Preferences”. Välj sedan ”Run/Debug”>”String Substitution”.
+
+Klicka på ”New…” och ange följande information i fälten:
+
+*Name:* ”maven_exec”
+
+*Value:* Leta upp mvn.bat (Windows) eller mvn (Unix/Linux/Mac). Exempelvis under: `C:\Program\maven\maven-2.0.7\bin\mvn.bat` Not: I Eclipse 3.4 på Mac kan man bara peka ut kataloger mha Browse-knappen, det enklaste då är att peka ut bin-katalogen och sedan manuellt lägga till "\mvn" på slutet.
+
+*Description:* ”Maven 2 executable”
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_NewStringSubstitution.png
+
+Tryck på "Ok" för att spara.
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_StringSubstitution.png
+
+== Definiera variabel för system-roten ==
+Skapa en ny variabel på samma sätt som för _Definiera en variabel för Maven-programmet_, men denna gång med följande värden:
+
+*Name:* namn på systemet
+
+~~Value: Sökvägen till systemets ”components”-katalog~~
+
+*Value:* Sökvägen till trunk-katalogen.
+
+Denna variabel används också längre fram. 
+ 
+== Lägg upp ett External Tool för att bygga hela systemet ==
+Välj "Run"->"External Tools"->"External Tools Configurations...". Välj "Program" och klicka på "New":
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_ExternalToolsConfigurations.png
+
+Döp konfigurationen till "Build <namn på systemet> System". Ange "Location" genom att klicka på knappen "Variables..." och välja "maven_exec". Ange "Working Directory" genom att klicka på "Variables" och välja variabeln för system-roten. Ange "clean install" under "Arguments". Tryck på "Apply" för att spara. 
+
+Not: vanligtvis låter vi Eclipse bygga respektive projekt (inkl beroenden) men vill vi bygga artefakter till det lokala maven-repositoriet behöver Mavens bygge köras.  
+
+== Lägg upp ett External Tool för att generera Eclipse-filer ==
+Syftet med detta External Tool är att det skall genera de eclipse-specifika filer som krävs för att man skall kunna importera ett befintligt system som projekt i eclipse. Det används också när man har uppdaterat i pom.xml-filen för ett befintligt projekt och vill uppdatera eclipse-filerna. 
+ 
+Kopiera "Build <namn på systemet> System"-konfigurationen (högerklicka och välj "Duplicate"), byt namn till "Generate Eclipse Artifacts for <namn på systemet>" och ändra "Arguments" till "-Dwtpversion=1.5 eclipse:eclipse". 
+ 
+Växla sedan till fliken ”Refresh” och markera kryssrutan ”Refresh resources upon completion”. Markera därefter alternativet ”The folder containing the selected resource”. Försäkra dig om att kryssrutan ”Recursively include sub-folders” är markerad.
+ 
+Avsluta med "Apply" och "Close".
+== Bygg och skapa eclipse-projektfiler för systemet == 
+
+Innan vi kan importera några projekt i Eclipse behöver vi bygga med maven och sedan köra Maven-pluginen för att generera upp Eclipse-filer. Detta kan vi göra från kommandopromten eller genom de External Tools vi nyss satt upp:
+
+I Eclipse, klicka på pilen till höger om ikonen för externa verktyg (ikonen är en grön pil med väska). Välj "Build <namn på systemet> System". 
+ 
+Kontrollera i konsolen att allt gått bra. Kör sedan - på samma sätt - "Generate Eclipse Artifacts For <namn på systemet>".
+
+== Importera projekten till Eclipse ==
+Importera de nya projekten till ditt Eclipse workspace, genom att välja "File"->"Import..." och sedan "General"->"Existing Projects into Workspace". Peka ut "trunk"-katalogen som root directory: `d:\svn\<projektnamn>\trunk`. 
+ 
+Förändra inga projektberoenden, utan tryck ”Finish” direkt, istället för ”Next”.
+
+Efter importen – byt perspektiv till ”J2EE”, om det inte redan gjorts. 
+
+== Skapa en byggkonfigurationer för de importerade projekten ==
+När någon av pom.xml-filer ändras vill vi att Eclipse-filerna automatiskt skall genereras om och projekten refreshas.  
+
+Detta åstakommer vi genom att skapa en byggkonfiguration som anropar den definierade External Tool-konfigurationen vid automatiska byggen. Följande behöver göras på respektive projekt i Eclipse:
+
+  # Öppna projektets "Properties", välj "Builders". Klicka på "Import..." och välj "Generate Eclipse Artifacts for <namn på systemet>". Klicka på "Ok". 
+  # Markera den nyligen skapade buildern och flytta den överst genom att upprepade gånger klicka på "Up". Detta för att builderna ska köras före kompilering. 
+  # Markera buildern och klicka på "Edit...". Klicka på "Refresh"-fliken. Markera "Refresh resources upon completion". Kryss i "The entire workspace" samt "Recursively include subfolders". 
+  # Klicka på "Build Options"-fliken. Markera "After a Clean", "During Manual Builds" samt "During auto builds". http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Builder_BuildOptions.png
+  # Kryssa även i "Specify working set of relevant resources". Klicka på "Specify Resources" och välj projektets pom.xml-fil. Klicka på "Finish". http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Builder_Resources.png
+  # Klicka på "Apply" för att spara konfigurationen av buildern. 
+
+== Uppsättning av Tomcat ==
+Om du inte definierat en Tomcat-server för ditt workspace än, gör det genom att välja File->New->Other…->Server och välj Next. Välj Tomcat v5.5. Välj Next för att komma till ”Add and Remove objects”, markera <namn på Verksamhetskomponenten>module-web och välj Add. Tryck Finish.
+Verifiera att det fungerar genom att högerklicka på <namn på Verksamhetskomponenten>-module-web och välj Run As -> Run on Server. Välj Tomcat-servern och kryssa i "Always use this server when running the project". Klicka på "Finish".
+
+== Koppla till Subversion ==
+Se Anvisningar_Verktyg_Subversion.doc för information om subversion och dess Eclipse-plugin. 
+
+Nu är det dags att koppla alla projekt till subversion. Markera samtliga projekt och högerklicka, välj Team->Share Projects och anslut. Nu får varje projekt som listas under project explorer en repository ikon på sig. 
+
+= Skapa nya system och verksamhetskomponenter =
+För att man snabbt ska komma igång med referensarkitekturen finns Maven2-pluginen _javg-template-plugin_. 
+
+Den har goals för att generera upp en skelett-struktur för ett helt nytt system samt för att lägga till en verksamhetskomponent i ett befintligt system. 
+
+Not: javg-template-plugin är speciellt framtagen för referensarkitekturen och specifikt för den miljö och källkodsstruktur som beskrivs i Anvisningar_Källkodsstruktur_Byggsystem.doc.
+
+== Skapa ett nytt system ==
+
+Följande maven-kommando genererar den översta nivån (system-nivån) i strukturen samt en verksamhetskomponent. Även Subversion-kataloger (trunk etc) skapas.
+
+
+{{{
+mvn javg-util:javg-template-plugin:svn
+}}}
+
+Pluginen kommer att efterfråga ett base-package name:
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_BasePackagePrompt.png
+
+Ange ett base-package name t ex `se.vgr.mytestsystem`.
+
+Sedan efterfrågas ett namn på det nya systemet: 
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_SystemNamePrompt.png
+
+T ex `MyTestSystem` (se [RA_Anvandarmanual_Kallkodstruktur] för namngivningsregler).
+
+Till slut efterfrågas namnet på den verksamhetskomponent som per default skapas som en del av strukturen: 
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_BCNamePrompt.png
+
+T ex `MyTestBC`.
+
+Verksamhetskomponenten skapas med alla tänkbara moduler/delar. Efter genereringen går det bra att ta bort eventuella delar som inte ska användas, t ex modules/web om det inte ska finnas en web-del.
+
+
+== Skapa en verksamhetskomponent i ett befintligt system ==
+
+Följande maven-kommando skapar en ny verksamhetskomponent för ett befintligt system.
+Skall exekveras i system-nivå katalogen för det befintliga systemet. Den nya verksamhetskomponenten införlivas i byggfilen för det befintliga systemet.
+
+{{{
+mvn javg-util:javg-template-plugin:bc
+}}}
+
+Pluginen kommer att efterfråga ett base-package name:
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_BasePackagePrompt.png
+
+Sedan namnet på systemet, vilket måste anges exakt så som det befintliga systemet: 
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_SystemNamePrompt.png
+
+Till slut efterfrågas namnet på den nya verksamhetskomponenten: 
+
+http://oppna-program.googlecode.com/svn/wiki/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_BCNamePrompt.png
+
+
+Efter skapandet av en ny verksamhetskomponent, kontrollera att versionen på den nya komponenten (default: 1.0-SNAPSHOT) och dess pom.xml parent-relation överensstämmer med det befintliga systemet. 
+
+Verksamhetskomponenten skapas med alla tänkbara moduler/delar. Efter genereringen går det bra att ta bort eventuella delar som inte ska användas, t ex modules/web om det inte ska finnas en web-del.
+
+Se ovan för hur en ny komponent importeras i Eclipse. 
+
+=Vidare läsning=
+== Versionshantering av artefakter ==
+Beskrivs i `Anvisningar_Konfigurationshantering.doc`.
+== Generering av SNAPSHOT-artefakter ==
+Beskrivs i [RA_Anvandarmanual_Kallkodstruktur] och `Anvisningar_Kontinuerlig_Integration.doc`.
