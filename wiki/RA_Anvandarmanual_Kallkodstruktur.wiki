@@ -65,7 +65,7 @@ Denna katalog genereras ej av mavenpluginen i dagsläget då portlet-delen av RA
 
 Innehållet i denna katalog skall vara en Portlet. 
 
-Portlets deployas vanligtvis självständigt direkt i en portalserver, dvs den packas inte ihop i en applikation. Portleten kan sedan kommunicera med de komponenttjänster som finns under svc - se [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Portletutveckling.doc Anvisningar_Portletutveckling.doc] för mer information om detta och om en portlets uppbyggnad i allmänhet.
+Portlets deployas vanligtvis självständigt direkt i en portalserver, dvs den packas inte ihop i en applikation. Portleten kan sedan kommunicera med de komponenttjänster som finns under svc - se [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Portlet.doc Anvisningar_Anslutningsskikt_Portlet.doc] för mer information om detta och om en portlets uppbyggnad i allmänhet.
 
 === composites ===
 
