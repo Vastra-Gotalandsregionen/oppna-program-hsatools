@@ -88,7 +88,7 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
   * *[RA_Anvandarmanual_Verksamhetsskikt]* Beskriver hur man utvecklar en verksamhetskomponents verksamhetsskikt i Java. (Se även [RA_Anvandarmanual_WebServices_Java].)
 
 *Anvisningar för portletutveckling (Java EE):*
-  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Portletutveckling.doc Anvisningar_Portletutveckling.doc]* Beskriver hur man utvecklar portlets.  
+  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Portlet.doc Anvisningar_Anslutningsskikt_Portlet.doc]* Beskriver hur man utvecklar portlets.  
 
 *Konfigurationshantering:* 
   * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc]* Detaljerade anvisningar om hur man versionerar maven-artefakter, lablar i subversion etc. 
