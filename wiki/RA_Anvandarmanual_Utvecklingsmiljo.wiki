@@ -12,8 +12,8 @@ Denna beskrivning innehåller främst sådant som är specifikt för referensark
 
 == Referenser ==
   * [http://maven.apache.org Maven]
-  * [RA_Anvandarmanual_Kallkodstruktur]
-  * [RA_Anvandarmanual_Beroenden_Mellan_Komponenter]
+  * [RA_Anvisningar_Kallkodstruktur]
+  * [RA_Anvisningar_Beroenden_Mellan_Komponenter]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc]
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]
@@ -102,7 +102,7 @@ För att eclipse skall hitta alla dependencies som pekas ut i pom.xml-filerna m�
 
 Starta Eclipse mot det workspace som kommer att användas för systemet och öppna ”Window”>”Preferences”. Välj ”Java”>”Build Path”>”Classpath Variables”. Klicka på ”New…” och lägg till variabeln ”M2_REPO”. Den ska peka ut katalogen `<min hemkatalog>/.m2/repository`
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_ClasspathVariables.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Utvecklingsmiljo_ClasspathVariables.png
  
 == Sätta upp External Tools för att köra maven-goals inne i Eclipse == 
 För små, korta projekt kan det vara tillräckligt att köra maven från kommandoprompten. Det är då nödvändigt att komma ihåg att vid varje ändring i en pom.xml-fil ska man köra `mvn -Dwtpversion=1.5 eclipse:eclipse` samt göra en refresh i eclipse. Före incheckning skall `mvh clean install` alltid köras. Om du inte vill lägga upp något external tools kan du hoppa till avsnittet _Bygg och skapa eclipse-projektfiler för systemet_.
@@ -122,11 +122,11 @@ Klicka på ”New…” och ange följande information i fälten:
 
 *Description:* ”Maven 2 executable”
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_NewStringSubstitution.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Utvecklingsmiljo_NewStringSubstitution.png
 
 Tryck på "Ok" för att spara.
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_StringSubstitution.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Utvecklingsmiljo_StringSubstitution.png
 
 === Definiera variabel för system-roten ===
 Skapa en ny variabel på samma sätt som för _Definiera en variabel för Maven-programmet_, men denna gång med följande värden:
@@ -140,7 +140,7 @@ Denna variabel används också längre fram.
 === Lägg upp ett External Tool för att bygga hela systemet ===
 Välj "Run"->"External Tools"->"External Tools Configurations...". Välj "Program" och klicka på "New":
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_ExternalToolsConfigurations.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Utvecklingsmiljo_ExternalToolsConfigurations.png
 
 Döp konfigurationen till "Build <namn på systemet> System". Ange "Location" genom att klicka på knappen "Variables..." och välja "maven_exec". Ange "Working Directory" genom att klicka på "Variables" och välja variabeln för system-roten. Ange "clean install" under "Arguments". Tryck på "Apply" för att spara. 
 
@@ -178,8 +178,8 @@ Detta åstakommer vi genom att skapa en byggkonfiguration som anropar den defini
   # Öppna projektets "Properties", välj "Builders". Klicka på "Import..." och välj "Generate Eclipse Artifacts for <namn på systemet>". Klicka på "Ok". 
   # Markera den nyligen skapade buildern och flytta den överst genom att upprepade gånger klicka på "Up". Detta för att builderna ska köras före kompilering. 
   # Markera buildern och klicka på "Edit...". Klicka på "Refresh"-fliken. Markera "Refresh resources upon completion". Kryss i "The entire workspace" samt "Recursively include subfolders". 
-  # Klicka på "Build Options"-fliken. Markera "After a Clean", "During Manual Builds" samt "During auto builds". http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_Builder_BuildOptions.png
-  # Kryssa även i "Specify working set of relevant resources". Klicka på "Specify Resources" och välj projektets pom.xml-fil. Klicka på "Finish". http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_Builder_Resources.png
+  # Klicka på "Build Options"-fliken. Markera "After a Clean", "During Manual Builds" samt "During auto builds". http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Utvecklingsmiljo_Builder_BuildOptions.png
+  # Kryssa även i "Specify working set of relevant resources". Klicka på "Specify Resources" och välj projektets pom.xml-fil. Klicka på "Finish". http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Utvecklingsmiljo_Builder_Resources.png
   # Klicka på "Apply" för att spara konfigurationen av buildern. 
 
 == Uppsättning av Tomcat ==
@@ -209,19 +209,19 @@ mvn javg-util:javg-template-plugin:svn
 
 Pluginen kommer att efterfråga ett base-package name:
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_BasePackagePrompt.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Utvecklingsmiljo_Plugin_BasePackagePrompt.png
 
 Ange ett base-package name t ex `se.vgr.mytestsystem`.
 
 Sedan efterfrågas ett namn på det nya systemet: 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_SystemNamePrompt.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Utvecklingsmiljo_Plugin_SystemNamePrompt.png
 
-T ex `MyTestSystem` (se [RA_Anvandarmanual_Kallkodstruktur] för namngivningsregler).
+T ex `MyTestSystem` (se [RA_Anvisningar_Kallkodstruktur] för namngivningsregler).
 
 Till slut efterfrågas namnet på den verksamhetskomponent som per default skapas som en del av strukturen: 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_BCNamePrompt.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Utvecklingsmiljo_Plugin_BCNamePrompt.png
 
 T ex `MyTestBC`.
 
@@ -239,15 +239,15 @@ mvn javg-util:javg-template-plugin:bc
 
 Pluginen kommer att efterfråga ett base-package name:
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_BasePackagePrompt.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Utvecklingsmiljo_Plugin_BasePackagePrompt.png
 
 Sedan namnet på systemet, vilket måste anges exakt så som det befintliga systemet: 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_SystemNamePrompt.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Utvecklingsmiljo_Plugin_SystemNamePrompt.png
 
 Till slut efterfrågas namnet på den nya verksamhetskomponenten: 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Utvecklingsmiljo_Plugin_BCNamePrompt.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Utvecklingsmiljo_Plugin_BCNamePrompt.png
 
 
 Efter skapandet av en ny verksamhetskomponent, kontrollera att versionen på den nya komponenten (default: 1.0-SNAPSHOT) och dess pom.xml parent-relation överensstämmer med det befintliga systemet. 
@@ -260,4 +260,4 @@ Se ovan för hur en ny komponent importeras i Eclipse.
 == Versionshantering av artefakter ==
 Beskrivs i [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc].
 == Generering av SNAPSHOT-artefakter ==
-Beskrivs i [RA_Anvandarmanual_Beroenden_Mellan_Komponenter] och [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc].
+Beskrivs i [RA_Anvisningar_Beroenden_Mellan_Komponenter] och [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc].

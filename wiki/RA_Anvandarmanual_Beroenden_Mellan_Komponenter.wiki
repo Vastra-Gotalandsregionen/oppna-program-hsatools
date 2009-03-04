@@ -9,26 +9,26 @@ Här beskrivs hur beroenden inom och mellan verksamhetskomponenter fungerar och 
 = Beroenden inom och mellan verksamhetskomponenter = 
 Förutsatt att man har två verksamhetskomponenter inom ett system, _Processkomponent 1_ och _Entitetskomponent 1_, så skulle Processkomponent 1 kunna ha ett bereonde till Entitetskomponent 1 så här: 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_Verksamhetskomponenter.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Beroenden_Komponenter_Verksamhetskomponenter.png
 
 Beroendet kan t ex bestå i att Processkomponent 1 återanvänder en webbdialog från Entitetskomponent 1: 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_KompWebBeroende.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Beroenden_Komponenter_KompWebBeroende.png
 
 På designnivå skulle de interna beroendena inom resp verksamhetskomponent samt de externa beroendena från den ena komponenten till den andra då se ut såhär: 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_KompWebBeroendeDesign.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Beroenden_Komponenter_KompWebBeroendeDesign.png
 
 Ovanstående illstration visar att applikationen _Gui Ear_ är beroende av modulen _Web_ som i sin tur är beroende av kompositen _Web Comp_ som i sin tur är beroende av både _Svc_ och _Types_, allt inom processkomponenten. Dessutom har _Web Comp_ i processkomponenten ett beroende till en annan _Web Comp_ i entitetskomponenten. Maven-mässigt innebär alla beroenden att byggfilerna (`pom.xml`) i respektive applikation/modul/komposit har en dependency till motstående applikation/modul/komposit. 
 
 
 Ett annat typ av beroende är när komponenttjänster exponerade i en verksamhetskomponent återanvänds i en annan. Nedanstående bild illustrerar att Processkomponent 2 återanvänder/anropar en komponenttjänst från Entitetskomponent 2: 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_KompSvcBeroende.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Beroenden_Komponenter_KompSvcBeroende.png
 
 På designnivå skulle de interna beroendena inom resp verksamhetskomponent samt de externa beroendena från den ena komponenten till den andra då se ut såhär: 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_KompSvcBeroendeDesign.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Beroenden_Komponenter_KompSvcBeroendeDesign.png
 
 Ovanstående illstration visar att applikationen _Gui Ear_ är beroende av modulen _Web_ som i sin tur är beroende av kompositen _Web Comp_ som i sin tur är beroende av både _Svc_ och _Types_, allt inom processkomponenten. Dessutom har _Web Comp_ i processkomponenten ett beroende till en komponenttjänst i _Svc_ i entitetskomponenten. Maven-mässigt innebär alla beroenden att byggfilerna (`pom.xml`) i respektive applikation/modul/komposit har en dependency till motstående applikation/modul/komposit. 
 
@@ -45,13 +45,13 @@ I den här relationen ärver barnet egenskaper från föräldern.
 
 Det är mycket viktigt att versionerna överensstämmer. Uppgraderas versionen på föräldern så måste även barnets byggfil uppgraderas med den nya föräldra-versionen.
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_VersionForalderOchBarn.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Beroenden_Komponenter_VersionForalderOchBarn.png
 
 === Filssystemsrelation (förälder pekar ut barn) ===
 I den här relationen pekar föräldern ut barnet med en relativ sökväg på filsystemet.
 Relationen är inte versionerad och det enda syftet med den är att kunna bygga underliggande projekt med en överordnad byggfil.
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_FilsystemrelationForalderTillBarn.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Beroenden_Komponenter_FilsystemrelationForalderTillBarn.png
 
 == Byggrelationer inom en verksamhetskomponent ==
 En verksamhetskomponents byggfil (den `pom.xml` som ligger direkt i komponentens katalog i filsystemet) ska bygga alla underliggande delar direkt (inte via mellanliggande byggfiler med _packaging type_ satt till _pom_). Anledningen är att förenkla versionering genom att ha så få versionerade beroenden som möjligt.
@@ -71,7 +71,7 @@ Scenario:
   * Den kontinuerliga integrationsprocessen upptäcker förändringen (med en liten fördröjning), bygger på systemnivå och publicerar artefakterna i ett Maven-repository med remote-access. Notera: enbart SNAPSHOT-artefakter publiceras på det här viset, stabila versioner publiceras inte av den kontinuerliga integrationsprocessen, det är ett manuellt arbete.
   * ”Utvecklare 2” bygger sin komponent som är beroende av den som ”Utvecklare 1” ändrade. Beroendet löses upp mot Maven remote-repositoryt och ”Utvecklare 2” får med den senaste kodbasen utan att behöva bygga alla komponenter som det finns beroenden till.
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvandarmanual_Beroenden_Komponenter_OversiktByggprocess.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_Beroenden_Komponenter_OversiktByggprocess.png
 
 
 == Publicera stabila versioner till Maven remote repository ==
