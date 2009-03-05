@@ -99,8 +99,8 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
 
 
 *Web Services:*
-  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc]* Detaljerade anvisningar för wsdl-design. Versionshanteringsstrategin förtydligas ytterligare genom PoC. 
-  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc]* Detaljerade anvisningar för versionering av XML-scheman. Versionshanteringsstrategin förtydligas ytterligare genom PoC. 
+  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc]* Detaljerade anvisningar för wsdl-design. Versionshanteringsstrategin förtydligas ytterligare genom ett PoC. 
+  * *[http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc]* Detaljerade anvisningar för versionering av XML-scheman. Versionshanteringsstrategin förtydligas ytterligare genom ett PoC. 
   * *[RA_Anvisningar_Anslutningsskikt_WebServices]* Beskriver hur man skall implementerar webservices i Java, gäller både för integrationstjänster och komponenttjänster (i de fall komponenttjänsterna är implementerade som web services). 
 
  
