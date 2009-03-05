@@ -1,3 +1,5 @@
+Note: Not in use right now. 
+
   * [RA_Introduktion Referensarkitektur]
     * [RA_Todo Todo-lista]
     * [RA_Vision_och_krav Vision och krav]
