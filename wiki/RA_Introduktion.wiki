@@ -54,7 +54,7 @@ Presentationen [http://oppna-program.googlecode.com/svn/reference-architecture/I
 
 Sedan rekommenderas att först läsa igenom de delar som beskriver den logiska arkitekturen inkl referens-modellerna för att få en konceptuell förståelse.
 
-== Logisk RA ==
+== Logisk arkitektur ==
 Den logiska arkitekturen inklusive referensmodellerna beskrivs på sidan [RA_Logisk_arkitektur].
 
 == Teknisk arkitektur ==
