@@ -1,29 +1,6 @@
   * [RA_Introduktion Referensarkitektur]
     * [RA_Todo Todo-lista]
-    * [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt] 
     * [RA_Vision_och_krav Vision och krav]
-    * Kravhantering
-      * [http://oppna-program.googlecode.com/svn/reference-architecture/Kravhantering/Upphandling/Gemensamma_krav/Gemensamma_Icke-funktionella_krav_upphandling_av_systemstod.docx Gemensamma icke-funktionella krav]
-      * [http://oppna-program.googlecode.com/svn/reference-architecture/Kravhantering/Upphandling/Mallar/Mall_Icke-funktionella_krav_upphandling_av_systemstod.docx Mall_Icke-funktionella_krav_upphandling_av_systemstod.docx] - Mall icke-funktionella krav 
     * [RA_Logisk_arkitektur Logisk arkitektur] 
     * [RA_Teknisk_arkitektur Teknisk arkitektur]
-      * [RA_Strukturerad_Forteckning Förteckning ramverk]
-      * Systemutveckling
-        * Generellt 
-          * Konfigurationshantering
-            * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar konfigurationshantering]
-            * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar subversion]
-          * !WebServices
-            * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar WSDL-design]
-            * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar versionering av XML-Scheman]
-        * Java EE
-          * [RA_Anvisningar_Utvecklingsmiljo Uppsättning av utvecklingsmiljön] 
-          * [RA_Anvisningar_Kallkodstruktur Källkodsstruktur]
-          * [RA_Anvisningar_Beroenden_Mellan_Komponenter Beroenden mellan verksamhetskomponenter]
-          * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc Anvisningar anslutningsskikt webb]
-          * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Portlet.doc Anvisningar anslutningsskikt Portlet]
-          * [RA_Anvisningar_Anslutningsskikt_WebServices Anvisningar anslutningsskikt webbservices]
-          * [RA_Anvisningar_Verksamhetsskikt Anvisningar för verksamhetsskiktet]
-          * [RA_Anvisningar_Resursskikt Anvisningar för resursskiktet]
-          *  [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar kontinuerlig integration]
   * [SIK_Introduktion Sök i Katalog]
