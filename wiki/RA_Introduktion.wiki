@@ -49,17 +49,20 @@ Referensarktekturen består av den överordnade logiska modellen (_referensmodel
 Till den tekniska arkitekturen hör även dokumentation för systemutvecklingsstöd som inte direkt har med arkitektur att göra men som stödjer den. I den tekniska arkitekturen ingår även referensapplikationer och andra kodexempel.
 
 = Läsanvisning = 
-Det är lämpligt att först läsa igenom de delar som beskriver referens-modellerna för att få en konceptuell förståelse.
+
+Presentationen [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt] ger en bra överblick över hela referensarkitekturen och kan därmed vara lämplig att börja med. 
+
+Sedan rekommenderas att först läsa igenom de delar som beskriver den logiska arkitekturen inkl referens-modellerna för att få en konceptuell förståelse.
+
 == Logisk RA ==
-  * Snabb översikt: [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt]
-  * Mer ingående beskrivning: [RA_Logisk_arkitektur].
+Den logiska arkitekturen inklusive referensmodellerna beskrivs på sidan [RA_Logisk_arkitektur].
 
 == Teknisk arkitektur ==
-En inledande introduktion finns på sidan [RA_Teknisk_arkitektur]. För kodexempel hänvisas till referensapplikation(erna) samt övriga kodexempel (PoC) för specifika aspekter (t ex versionering av webservices). En översikt över vilka kodexempel som finns ges på sidan ovan ([RA_Teknisk_arkitektur]).
+En inledande introduktion finns på sidan [RA_Teknisk_arkitektur]. Detaljerade anvisningar finns sedan inom ett antal områden (se nedan eller [RA_Teknisk_arkitektur] för en länklista). För kodexempel hänvisas till referensapplikation(erna) samt övriga kodexempel (PoC) för specifika aspekter (t ex versionering av webservices). En översikt över vilka kodexempel som finns ges på sidan ovan ([RA_Teknisk_arkitektur]).  
 
-En översikt med motivationsfaktorer finns även i (slutet av) presentationen: [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt]
+= Fullständig dokumentlista = 
 
-= Dokumentationsöversikt = 
+Följande wikisidor och dokument finns inom referensarkitekturen:
 
   * [RA_Todo Todo-lista för Referensarkitekturprojektet] - Utestående punkter och förbättringar.
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt] - Övergripande presentation över hela RA.  
