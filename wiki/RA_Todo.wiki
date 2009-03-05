@@ -5,7 +5,7 @@
 || *Datum* || *Område* || *Ämne/krav* ||
 || || *Anvisningar* || || 
 ||9/24/08||!Anvisningar_Anslutningsskikt_Webb.doc||Dokumentet behöver fyllas på rejält.||
-||9/26/08 ||!Anvisningar_Kontinuerlig_Integration.doc||Vi har bytt KI-servern Continuum mot Hudson -> uppdatera dokumentet. Efter open sourceningen kommer detta dessutom igen att bytas ut mot atlassian.||
+||9/26/08 ||!Anvisningar_Kontinuerlig_Integration.doc||Vi har bytt KI-servern Continuum mot Hudson -> uppdatera dokumentet. Efter open sourceningen kommer detta dessutom igen att bytas ut mot en SaaS-lösning från atlassian.||
 ||10/28/08||Alla anvisningar/dokument||ÅP 3. Ta alla dokument till en generell version/nivå. ||
 ||10/28/08||Anvisningar 3r referensmodell.||ÅP 5. Utöka/förenkla dokumentationen av den logiska metamodellen med exempel och definition av termer.||
 ||10/28/08||Kommande.||ÅP 13. Dokumentera byggprocessen för själva refarken. ||
@@ -19,8 +19,9 @@
 ||02/25/09||Referensmodellen för den yttre arkitekturen||Ändra "DMIM" till "V-DIM"/"MIM" (begrepp från RIV) i referensmodellen för den yttre arkitekturen || 
 || || *Teknik/Implementation* || ||
 ||9/12/08	||Web-UI||Spring Webflow: uppgradera till version 2.x (större ändring, ej bakåtkompatibel)||
-||9/24/08	||Databasaccess||JPA-exempel: kräver viss omstrukturering av exempelapplikationen||
+||9/24/08	||Databasaccess|| Införa JPA-exemplet (kräver viss omstrukturering av exempelapplikationen)||
 ||20/02/09	||Portlet||Reda ut vilka ramverk/teknikstack som skall användas vid portletutveckling. Refarkens ramverk fungerar ej rakt av i Websphere Portal 6.1. Uppdatera anvisningarna härefter.||
 ||20/02/09      ||Portlet||Reda ut hur web services skall anropas ifrån en portlet (Apache CXF fungerar ej rakt av i Websphere Portal 6.1.). Uppdatera anvisningarna härefter.||
+||03/03/09	||Felhantering|| Dokumentera hur felhantering i allmänhet ska implementeras och specifikt hur man ska hantera när ett flöde timear ut.||
 || || *Verktyg* || ||	
 ||9/15/08||Maven2 + Eclipse||Introduce the m2eclipse-plugin instead of the current way of integrating Maven2 with Eclipse. Requires change in scaffolding-plugin (javg-template) where project-files should be generated and checked into Subversion (remove ignores). Uppdatera anvisning för Maven2.||
