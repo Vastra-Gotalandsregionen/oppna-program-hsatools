@@ -86,7 +86,7 @@ En översikt med motivationsfaktorer finns även i (slutet av) presentationen: [
         * [RA_Anvisningar_Beroenden_Mellan_Komponenter Beroenden mellan verksamhetskomponenter]
         * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc Anvisningar_Anslutningsskikt_Webb.doc]
         * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Portlet.doc Anvisningar_Anslutningsskikt_Portlet.doc]
-        * [RA_Anvisningar_Anslutningsskikt_WebServices Anslutningsskikt webbservices]
+        * [RA_Anvisningar_Anslutningsskikt_WebServices Anvisningar för anslutningsskikt webbservices]
         * [RA_Anvisningar_Verksamhetsskikt Anvisningar för verksamhetsskiktet]
         * [RA_Anvisningar_Resursskikt Anvisningar för resursskiktet]
         *  [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc] - Information om kontinuerlig integration (informationen är inaktuell och behöver uppdateras efter open sourcening).
