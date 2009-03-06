@@ -1,4 +1,4 @@
-#summary Beskriver hur man utvecklar sitt servicelager i Java.
+#summary Beskriver hur man utvecklar sitt resurslager i Java.
 #labels RA
 
 = Innehåll = 
@@ -6,6 +6,8 @@
 <wiki:toc max_depth="3" />
 
 = Introduktion =
+
+TODO: denna anvisning behöver tas fram. 
 
 
 
