@@ -76,7 +76,7 @@ Den yttre arkitekturen består av ett antal _verksamhetsdomäner_ (ex Vård, Lä
 
 == Orkestrerande integrationstjänster ==
 
-En orkestrerande integrationstjänsts syfte är att orkestrera en process. De har ett primärt gränssnitt samt en eller flera så kallade _partner-länkar_. Det primära gränssnittet har som regel bara en operation, vars semantik därför är likvärdig med tjänsten som helhet. Orkestrerande processer definieras alltså i termer av den process de orkestrerar, snarare än av en uppsättning operationer. Processbeskrivningen kan ses som en del av tjänstedefinitionen. Den behöver inte vara exekverbar, men är förmodligen uttryckt i en notation som är närliggande dess exekverbara motsvarighet. 
+En orkestrerande integrationstjänsts syfte är att orkestrera en process. De har ett primärt gränssnitt samt en eller flera så kallade _partner-länkar_. Det primära gränssnittet har som regel bara en operation, vars semantik därför är likvärdig med tjänsten som helhet. Orkestrerande processer definieras alltså i termer av den process de orkestrerar, snarare än av en uppsättning operationer. Processbeskrivningen kan ses som en del av tjänstedefinitionen.
 
 En partner-länk är ett beroende till en atomär integrationstjänst. De atomära integrationstjänsterna kan vara synkrona (uppdrag/svar), asynkrona envägs eller asynkrona tvåvägs. För länkar till asynkrona tvåvägstjänster tillkommer en svarstjänst, genom vilken partnern, dvs de atomära tjänsten, levererar det asynkrona svarsmeddelandet. Denna svarstjänst ägs av den atomära tjänsten och hör till dess tjänstedomän men måste implementeras av den orkestrerande tjänsten. 
 
@@ -84,9 +84,9 @@ En asynkron tvåvägstjänst kan också innefatta en svarstjänst för att ta em
 
 == Atomära integrationstjänster ==
 
-De atomära tjänsternas gränssnitt är just gränssnitt i traditionell bemärkelse. De representerar ett informationsobjekt eller en uppgift och därmed associerade operationer. En atomär tjänst har inga beroenden på gränssnittsnivå till andra tjänster. De representerar atomära transaktioner med ickefunktionella krav på ”allt eller inget”. En atomär integrationstjänst kan vara synkron eller asynkron. 
+De atomära tjänsternas gränssnitt är just gränssnitt i traditionell bemärkelse. De representerar ett informationsobjekt eller en uppgift och därmed associerade operationer. En atomär tjänst har inga beroenden till andra tjänster. De representerar atomära transaktioner med ickefunktionella krav på ”allt eller inget”. En atomär integrationstjänst kan vara synkron eller asynkron. 
 
-Notera att definitionen av en atomär integrationstjänst inte gör några antaganden om realiseringens arkitektur (detta definieras av den inre arkitekturen).
+Definitionen av en atomär integrationstjänst gör inte några antaganden om hur implementationen ser ut, denna arkitektur definieras av den inre arkitekturen.
 
 === Synkrona, atomära tjänster ===
 
@@ -96,7 +96,7 @@ En synkron tjänst definieras av traditionella uppdrag/svar-operationer.
 
 En asynkron tjänst kan vara antingen envägs- eller tvåvägs. I båda fallen finns ett uppdragsgränssnitt med envägsoperationer (utan svar). I fallet tvåvägstjänst finns dessutom ett svarsgränssnitt – också detta med envägsoperationer. Svarsgränssnittet måste realiseras av den eller de orkestrerande tjänst(er) som skall anropa den asynkrona integrationstjänsten, dvs som har en partnerlänk till den.  
 
-Asynkrona envägstjänster används i första hand för att synkronisera information som föds ur systemarvet~~ eller för start av en asynkron orkestrerande integrationstjänst~~.*???* 
+Asynkrona envägstjänster används i första hand för att synkronisera information som föds ur systemarvet. 
 
 Asynkrona tvåvägstjänster är till för att möjliggöra asynkron orkestrering från en orkestrerande integrationstjänst. Dessa tjänster kan vara av batch-liknande karaktär, eller av andra skäl lämpa sig bäst för asynkron integration.
 
