@@ -69,6 +69,7 @@ Referensarkitekturen är framtagen gemensamt för ”3R” (tre regioner: VGR, R
 = Den yttre arkitekturen =
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Logisk_arkitektur_Yttre_ark_Refmodell.png
+
 _Bilden visar referensmodellen för den yttre arkitekturen._ 
 
 Den yttre arkitekturen består av ett antal _verksamhetsdomäner_ (ex Vård, Läkemedel etc), som i sin tur innehåller ett antal _tjänstedomäner_. Varje tjänstedomän innehåller en eller flera _integrationstjänster_. En integrationstjänst är antingen _orkestrerande_ eller _atomär_. 
@@ -116,6 +117,7 @@ Aktivering av funktionalitet kräver inte integration eller integrationstjänste
 Vi behöver därför en inre arkitektur, som definierar principer för varje systems interna arkitektur. Den inre arkitekturen måste innefatta ett angreppssätt för modularisering, som är tillräckligt lättviktigt och tillräckligt väl integrerat i vald realiseringsplattform för att inte vara i konflikt med dessa mål.
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Logisk_arkitektur_Inre_ark_Refmodell.png
+
 _Referensmodell för den inre arkitekturen._
 
 Huvudentiteten i referensmodellen för den inre arkitekturen är ett _system_. Grunden för modulariseringen inom system är en enhet som kallas _verksamhetskomponent_, varje system består av ett antal, hierarkiskt ordande, verksamhetskomponenter. 
