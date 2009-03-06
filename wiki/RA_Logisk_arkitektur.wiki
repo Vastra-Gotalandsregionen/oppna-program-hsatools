@@ -17,6 +17,7 @@
 || MIM || Meddelandeinformationsmodell, begrepp från RIV ||
 || OSOA || Open Service Oriented Architecture - Organisationen bakom bland annat SCA ||
 || SCA || Service Component Architecture ||
+|| SKL || Sveriges Kommuner och Landsting ||
 
 
 == Bakgrund ==
@@ -40,8 +41,7 @@ Se även [RA_Introduktion] för övergripande syfte med att ha en referensarkite
 === Yttre arkitektur ===
 
 || *Organisation* || *Dokument* || *Beskrivning* ||
-|| !CarLink Plus || [http://www.carelink.se/dokument/forvaltning_och_tjanster/plus/doc_200481934557.pdf  Referensarkitektur Rapport 2 April 2004] || - ||
-|| HISA || HISA (Healthcare Information Service Architecture). || Detta dokument refereras från !CareLink Plus. Dokumentet utgör en möjlig bas för fortsatt detaljering av den yttre arkitekturen, m.a.p process-orienterad integration. HISA definierar bl.a. en metod för identifiering av tjänstedomäner. ||
+|| Carelink || [http://www.carelink.se/utvecklingsarbete/sakerhet/nationell_arkitektur/vit-bokens_tekniska_arkit/  VIT-bokens tekniska arkitektur] || VIT-bokens tekniska arkitektur (T-boken) är en övergripande teknisk anvisning framtagen av sjukvårdsrådgivningen/Carelink på uppdrag av SKLs arkitekturledning. T-boken är i sin tur en del i en övergripande arkitektur som täcker perspektiven Verksamhet, Information och Teknik - den s.k. VIT-boken. T-boken innehåller bl a en referensarkitektur som den yttre arkitekturen är baserad på. ||
 
 === Inre arkitektur ===
 
