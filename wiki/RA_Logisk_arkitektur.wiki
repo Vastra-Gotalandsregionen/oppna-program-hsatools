@@ -68,7 +68,7 @@ Referensarkitekturen är framtagen gemensamt för ”3R” (tre regioner: VGR, R
 
 = Den yttre arkitekturen =
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Logisk_arkitektur_Yttre_ark_Refmodell.png        
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Logisk_arkitektur_Yttre_ark_Refmodell.png
 _Bilden visar referensmodellen för den yttre arkitekturen._ 
 
 Den yttre arkitekturen består av ett antal _verksamhetsdomäner_ (ex Vård, Läkemedel etc), som i sin tur innehåller ett antal _tjänstedomäner_. Varje tjänstedomän innehåller en eller flera _integrationstjänster_. En integrationstjänst är antingen _orkestrerande_ eller _atomär_. 
