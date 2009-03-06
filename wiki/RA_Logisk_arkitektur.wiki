@@ -41,9 +41,7 @@ Se även [RA_Introduktion] för övergripande syfte med att ha en referensarkite
 
 || *Organisation* || *Dokument* || *Beskrivning* ||
 || !CarLink Plus || Referensarkitektur Rapport 2 April 2004. || - ||
-|| HISA || HISA (Healthcare Information Service Architecture). || Detta dokument refereras från !CareLink Plus. 
-Dokumentet utgör en möjlig bas för fortsatt detaljering av den yttre arkitekturen, 
-m.a.p process-orienterad integration. HISA defnierar bl.a. en metod för identifiering av tjänstedomäner. ||
+|| HISA || HISA (Healthcare Information Service Architecture). || Detta dokument refereras från !CareLink Plus. Dokumentet utgör en möjlig bas för fortsatt detaljering av den yttre arkitekturen, m.a.p process-orienterad integration. HISA defnierar bl.a. en metod för identifiering av tjänstedomäner. ||
 
 === Inre arkitektur ===
 
