@@ -18,6 +18,7 @@
 ||02/25/09||!Anvisningar_Anslutningsskikt_Portlet.doc||Dokumentet behöver fyllas på rejält, se punkterna nedan om portlets under Teknik/Implementation.||
 ||3/06/09	||[RA_Anvisningar_Resursskikt]|| Skriva anvisningar för resursskiktet, inkl JPA. Hänger ihop med punkten om att införa JPA-exemplet nedan.||
 ||3/06/09	||[RA_Anvisningar_Verksamhetsskikt]|| Skriva anvisningar för verksamhetsskiktet.||
+||3/06/09	||[RA_Logisk_arkitektur]|| Hänvisa till nationella arkitekturen för den yttre arkitekturen - istället för att ha en "egen". Den nationella är en vidareutveckling av 3rs referensarkitektur (Se T-boken på http://www.carelink.se/utvecklingsarbete/sakerhet/nationell_arkitektur/vit-bokens_tekniska_arkit/).||
 || || *Teknik/Implementation* || ||
 ||9/12/08	||Web-UI||Spring Webflow: uppgradera till version 2.x (större ändring, ej bakåtkompatibel)||
 ||9/24/08	||Databasaccess|| Införa JPA-exemplet (kräver viss omstrukturering av exempelapplikationen)||
