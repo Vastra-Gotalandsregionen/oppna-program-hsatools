@@ -35,13 +35,15 @@ Se även [RA_Introduktion] för övergripande syfte med att ha en referensarkite
 == Referenser ==
 === Allmänt ===
 || *Organisation* || *Dokument* || *Beskrivning* ||
-|| 3R || Modell Referensarkitektur 3R|| Modell för referensarkitektur (format: eap / enterprise Architect) ||
+|| 3R || [http://oppna-program.googlecode.com/svn/reference-architecture/Logisk_arkitektur/Modell_Referensarkitektur_3R.EAP Modell_Referensarkitektur_3R.EAP] || Modell för referensarkitektur. Formatet är specifikt för produkten Enterprise Architect. Produktsida: http://www.sparxsystems.com.au/products/. Gratis "Viewer" kan laddas ner här: http://www.sparxsystems.com.au/bin/EALite.exe ||
 
 === Yttre arkitektur ===
 
 || *Organisation* || *Dokument* || *Beskrivning* ||
 || !CarLink Plus || Referensarkitektur Rapport 2 April 2004. || - ||
-|| HISA || HISA (Healthcare Information Service Architecture). || Detta dokument refereras från !CareLink Plus. Dokumentet utgör en möjlig bas för fortsatt detaljering av den yttre arkitekturen, m.a.p process-orienterad integration. HISA defnierar bl.a. en metod för identifiering av tjänstedomäner. ||
+|| HISA || HISA (Healthcare Information Service Architecture). || Detta dokument refereras från !CareLink Plus. 
+Dokumentet utgör en möjlig bas för fortsatt detaljering av den yttre arkitekturen, 
+m.a.p process-orienterad integration. HISA defnierar bl.a. en metod för identifiering av tjänstedomäner. ||
 
 === Inre arkitektur ===
 
