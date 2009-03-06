@@ -82,6 +82,8 @@ En partner-länk är ett beroende till en atomär integrationstjänst. De atomä
 
 En asynkron tvåvägstjänst kan också innefatta en svarstjänst för att ta emot felmeddelanden, vilken, på samma vis som svarstjänsten, implementeras av den orkestrerande tjänsten. 
 
+Även den orkestrerande tjänten i sig kan vara synkron eller asynkron. 
+
 == Atomära integrationstjänster ==
 
 De atomära tjänsternas gränssnitt är just gränssnitt i traditionell bemärkelse. De representerar ett informationsobjekt eller en uppgift och därmed associerade operationer. En atomär tjänst har inga beroenden till andra tjänster. De representerar atomära transaktioner med ickefunktionella krav på ”allt eller inget”. En atomär integrationstjänst kan vara synkron eller asynkron. 
