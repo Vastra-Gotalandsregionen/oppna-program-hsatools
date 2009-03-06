@@ -82,7 +82,7 @@ En partner-länk är ett beroende till en atomär integrationstjänst. De atomä
 
 En asynkron tvåvägstjänst kan också innefatta en svarstjänst för att ta emot felmeddelanden, vilken, på samma vis som svarstjänsten, implementeras av den orkestrerande tjänsten. 
 
-Även den orkestrerande tjänten i sig kan vara synkron eller asynkron. 
+Även den orkestrerande tjänten i sig kan vara synkron eller asynkron, dvs dess primära gränssnitt/operation kan vara antingen synkron eller asynkron. 
 
 == Atomära integrationstjänster ==
 
