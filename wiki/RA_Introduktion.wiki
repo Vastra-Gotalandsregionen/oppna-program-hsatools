@@ -62,7 +62,7 @@ En inledande introduktion finns på sidan [RA_Teknisk_arkitektur]. Detaljerade a
 
 == För utvecklare av referensarkitekturen ==
 
-Nya utvecklare i referensarkitekturprojektet (eller de som är intresserade av ramverkskodens källkod) hänvisar vi till sidan [RA_Introduktion_for_committers]. 
+Nya utvecklare i referensarkitekturprojektet (eller de som är intresserade av själva referensarkitekturens källkod, i form av ramverkskod etc) hänvisar vi till sidan [RA_Introduktion_for_committers]. 
 
 = Fullständig dokumentlista = 
 
