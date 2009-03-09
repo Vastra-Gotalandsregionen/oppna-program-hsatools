@@ -76,8 +76,8 @@ Följande wikisidor och dokument finns inom referensarkitekturen:
     * [http://oppna-program.googlecode.com/svn/reference-architecture/Kravhantering/Upphandling/Gemensamma_krav/Gemensamma_Icke-funktionella_krav_upphandling_av_systemstod.docx Gemensamma_Icke-funktionella_krav_upphandling_av_systemstod.docx] - Dokumentet är tänkt att samla gemensamma, icke-funktionella krav (i dagsläget bara ett embryo, behöver fyllas på med innehåll).
     * [http://oppna-program.googlecode.com/svn/reference-architecture/Kravhantering/Upphandling/Mallar/Mall_Icke-funktionella_krav_upphandling_av_systemstod.docx Mall_Icke-funktionella_krav_upphandling_av_systemstod.docx] - Mall för gemensamma icke-funktionella krav (i dagsläget ett utkast).   
   * [RA_Logisk_arkitektur Logisk arkitektur]
-    * [http://oppna-program.googlecode.com/svn/reference-architecture/Logisk_arkitektur/Referensmodell_arkitektur_3R.ppt Referensmodell_arkitektur_3R.ppt]
-    * [http://oppna-program.googlecode.com/svn/reference-architecture/Logisk_arkitektur/Modell_Referensarkitektur_3R.EAP Modell_Referensarkitektur_3R.EAP] - Modellfil på format för produkten Enterprise Architect.`*` 
+    * [http://oppna-program.googlecode.com/svn/reference-architecture/Logisk_arkitektur/Referensmodell_arkitektur_oppna_program.ppt Referensmodell_arkitektur_oppna_program.ppt]
+    * [http://oppna-program.googlecode.com/svn/reference-architecture/Logisk_arkitektur/Modell_Referensarkitektur_oppna_program.EAP Modell_Referensarkitektur_oppna_program.EAP] - Modellfil på format för produkten Enterprise Architect.`*` 
   * [RA_Teknisk_arkitektur Teknisk arkitektur]
     * [RA_Strukturerad_Forteckning Förteckning över ramverk och tredjepartskomponenter]
     * Systemutveckling
