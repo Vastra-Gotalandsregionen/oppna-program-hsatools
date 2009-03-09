@@ -35,9 +35,9 @@ Not: Punkterna i denna lista bör flyttas över till _issues_.
 ||20/02/09	||Portlet||Reda ut vilka ramverk/teknikstack som skall användas vid portletutveckling. Refarkens ramverk fungerar ej rakt av i Websphere Portal 6.1. Uppdatera anvisningarna härefter.||
 ||20/02/09      ||Portlet||Reda ut hur web services skall anropas ifrån en portlet (Apache CXF fungerar ej rakt av i Websphere Portal 6.1.). Uppdatera anvisningarna härefter.||
 ||03/03/09	||Felhantering|| Dokumentera hur felhantering i allmänhet ska implementeras och specifikt hur man ska hantera när ett flöde timear ut.||
-||3/9/09	||  || Utöka referens-systemen med exempel på enhetstester enligt den kommande enhetstestansatsen (se punkt ovan).||
-||3/9/09	||  || Utöka referens-systemen med exempel på integrationstester enligt den kommande integrationstestansatsen (se punkt ovan).||
-||3/9/09	|| Generellt  || Skriv enhetstester för ramverkskoden.||
-||3/9/09	|| Ref-systemet/poc-koden  || Utöka koddokumenatationen för ref-systemet och poc-projekten med mer utförlig javadoc etc.||
+||3/9/09	|| Test || Utöka referens-systemen med exempel på enhetstester enligt den kommande enhetstestansatsen (se punkt ovan).||
+||3/9/09	|| Test || Utöka referens-systemen med exempel på integrationstester enligt den kommande integrationstestansatsen (se punkt ovan).||
+||3/9/09	|| Test  || Skriv enhetstester för ramverkskoden.||
+||3/9/09	|| Koddokumentation  || Utöka koddokumenatationen för ref-systemet och poc-projekten med mer utförlig javadoc etc.||
 || || *Verktyg* || ||	
 ||9/15/08||Maven2 + Eclipse||Introduce the m2eclipse-plugin instead of the current way of integrating Maven2 with Eclipse. Requires change in scaffolding-plugin (javg-template) where project-files should be generated and checked into Subversion (remove ignores). Uppdatera anvisning för Maven2.||
