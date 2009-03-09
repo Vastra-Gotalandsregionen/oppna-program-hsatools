@@ -1,0 +1,6 @@
+#summary Här beskrivs det man behöver veta som ny utvecklare/committer i själva referensarkitekturprojektet.
+#labels RA
+
+= Innehåll =
+<wiki:toc/> 
+= Introduktion =
