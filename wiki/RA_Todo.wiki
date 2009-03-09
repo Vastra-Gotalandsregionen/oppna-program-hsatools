@@ -9,9 +9,9 @@ Not: Punkterna i denna lista bör flyttas över till _issues_.
 || || *Anvisningar* || || 
 ||9/24/08||!Anvisningar_Anslutningsskikt_Webb.doc||Dokumentet behöver fyllas på rejält.||
 ||9/26/08 ||!Anvisningar_Kontinuerlig_Integration.doc||Vi har bytt KI-servern Continuum mot Hudson -> uppdatera dokumentet. Efter open sourceningen kommer detta dessutom igen att bytas ut mot en SaaS-lösning från atlassian.||
-||10/28/08||Alla anvisningar/dokument||ÅP 3. Ta alla dokument till en generell version/nivå. ||
-||10/28/08||[RA_Logisk_arkitektur]||ÅP 5. Utöka/förenkla dokumentationen av den logiska metamodellen med exempel och definition av termer.||
-||10/28/08||Generella krav-dokument (att användas vid upphandlingar).||ÅP 9. Se över dessa dokument. ||
+||10/28/08||Alla anvisningar/dokument||Inför open sourcening: Ta alla dokument till en generell version/nivå. ||
+||10/28/08||[RA_Logisk_arkitektur]||Utöka/förenkla dokumentationen av den logiska metamodellen med exempel och definition av termer.||
+||10/28/08||Generella krav-dokument (att användas vid upphandlingar).||Se över dessa dokument. ||
 ||02/20/09||!Anvisningar_Anslutningsskikt_Webb.doc|| Förbättra felhanteringen i applikationen när t.ex. en session får time-out. ||
 ||02/20/09||Teknisk arkitektur|| Se över principerna. Ta fram principer för den inre arkitekturen. ||
 ||02/20/09||Grundläggande krav på refarken|| Se över kravbilden, ffa kravet på åtaranvändbara användningsfall. Nya krav från projekten: Bättre stödja små, snabba projekt, bättre stöd för sökverktyg a la google som "spindlar" applikationerna. Utifrån detta bör sedan den tekniska arkitekturen gås igenom (inkl teknikstacken). ||
