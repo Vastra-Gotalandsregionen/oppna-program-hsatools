@@ -7,7 +7,7 @@
 
 Referensarkitekturen i sig innefattar främst dokument, se [RA_Introduktion] för en översikt. Utöver detta finns det referens-system, PoCs, ramverkskod och kod för att generera upp skelett för system och komponenter. 
 
-= Uppbyggnad =
+= CM-struktur =
 
 Referensarkitekturen har följade CM-struktur (de flesta underkatalogerna har readme-filer som fungerar som introduktion till resp. katalogs innehåll): 
 
