@@ -21,11 +21,23 @@ Not: Punkterna i denna lista bör flyttas över till _issues_.
 ||3/06/09	||[RA_Anvisningar_Resursskikt]|| Skriva anvisningar för resursskiktet, inkl JPA. Hänger ihop med punkten om att införa JPA-exemplet nedan.||
 ||3/06/09	||[RA_Anvisningar_Verksamhetsskikt]|| Skriva anvisningar för verksamhetsskiktet.||
 ||3/06/09	||[RA_Logisk_arkitektur]|| Hänvisa till nationella arkitekturen för den yttre arkitekturen - istället för att ha en "egen". Den nationella är en vidareutveckling av 3rs referensarkitektur (Se T-boken på http://www.carelink.se/utvecklingsarbete/sakerhet/nationell_arkitektur/vit-bokens_tekniska_arkit/).||
+||3/9/09	||Teknisk arkitektur|| Dokumentera vilka delar av RA som är utbytbara.	Det är svårt för en potentiell användare att se vilka delar av RA som är utbytbara och vilka som inte är det. Går det t ex att byta versionshanteringssystem eller något webbramverk och fortfarande dra nytta av RA? Dokumentera på vilka sätt den tekniska implementationen av RA är ”konfigurerbar”.||
+||3/9/09	||Teknisk arkitektur|| Dokumentera testade miljöer (not: info finns i den introducerande powerpointen men skulle kunna förtydligas på en egen wiki-sida t ex).||
+||3/9/09	|| - || Ta fram en introduktion på engelska.||
+||3/9/09	|| - || Överför alla word-dokument till wiki-form.||
+||3/9/09	|| Teknisk arkitektur || Ta fram/peka ut coding conventions som en del av RA-dokumentationen.||
+||3/9/09	|| Notices || Inför open sourcening: Skapa en notices-fil.||
+||3/9/09	|| Kommande || Utöka RA med en explicit ansats för enhetstest. Ansatsen  bör t ex innehålla vilka ramverk som skall användas för test, mockning etc.||
+||3/9/09	|| Kommande || Utöka RA med en explicit ansats för integrationstest. Ansatsen bör t ex innehålla vilka ramverk som skall användas för integrationstest, t ex dbUnit etc.||
 || || *Teknik/Implementation* || ||
 ||9/12/08	||Web-UI||Spring Webflow: uppgradera till version 2.x (större ändring, ej bakåtkompatibel)||
 ||9/24/08	||Databasaccess|| Införa JPA-exemplet (kräver viss omstrukturering av exempelapplikationen)||
 ||20/02/09	||Portlet||Reda ut vilka ramverk/teknikstack som skall användas vid portletutveckling. Refarkens ramverk fungerar ej rakt av i Websphere Portal 6.1. Uppdatera anvisningarna härefter.||
 ||20/02/09      ||Portlet||Reda ut hur web services skall anropas ifrån en portlet (Apache CXF fungerar ej rakt av i Websphere Portal 6.1.). Uppdatera anvisningarna härefter.||
 ||03/03/09	||Felhantering|| Dokumentera hur felhantering i allmänhet ska implementeras och specifikt hur man ska hantera när ett flöde timear ut.||
+||3/9/09	||  || Utöka referens-systemen med exempel på enhetstester enligt den kommande enhetstestansatsen (se punkt ovan).||
+||3/9/09	||  || Utöka referens-systemen med exempel på integrationstester enligt den kommande integrationstestansatsen (se punkt ovan).||
+||3/9/09	|| Generellt  || Skriv enhetstester för ramverkskoden.||
+||3/9/09	|| Ref-systemet/poc-koden  || Utöka koddokumenatationen för ref-systemet och poc-projekten med mer utförlig javadoc etc.||
 || || *Verktyg* || ||	
 ||9/15/08||Maven2 + Eclipse||Introduce the m2eclipse-plugin instead of the current way of integrating Maven2 with Eclipse. Requires change in scaffolding-plugin (javg-template) where project-files should be generated and checked into Subversion (remove ignores). Uppdatera anvisning för Maven2.||
