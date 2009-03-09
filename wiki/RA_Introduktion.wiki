@@ -60,11 +60,16 @@ Den logiska arkitekturen inklusive referensmodellerna beskrivs på sidan [RA_Log
 == Teknisk arkitektur ==
 En inledande introduktion finns på sidan [RA_Teknisk_arkitektur]. Detaljerade anvisningar finns sedan inom ett antal områden, se nedan eller [RA_Teknisk_arkitektur] för en länklista. För kodexempel hänvisas till referensapplikation(erna) samt övriga kodexempel (PoC) för specifika aspekter (t ex versionering av webservices). En översikt över vilka kodexempel som finns ges på introduktionssidan.  
 
+== För utvecklare av referensarkitekturen ==
+
+Nya utvecklare i referensarkitekturprojektet (eller de som är intresserade av ramverkskodens källkod) hänvisar vi till sidan [RA_Introduktion_for_committers]. 
+
 = Fullständig dokumentlista = 
 
 Följande wikisidor och dokument finns inom referensarkitekturen:
 
   * [RA_Todo Todo-lista för Referensarkitekturprojektet] - Utestående punkter och förbättringar.
+  * [RA_Introduktion_for_committers Introduktion för committers i Referensarkitekturprojektet] - Här beskrivs kortfattat hur man hittar i de olika projekt som utgör källkoden för själva referensarkitekturen, inkl ramverkskod och maven plugin etc.
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt] - Övergripande presentation över hela RA.  
   * [RA_Vision_och_krav Vision och krav] - Vision för och krav på referensarkitekturen
   * Kravhantering
