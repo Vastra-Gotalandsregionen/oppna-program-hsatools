@@ -1,4 +1,4 @@
-#summary Beskriver hur man utvecklar sitt servicelager i Java.
+#summary Beskriver hur man utvecklar sitt verksamhetsskikt inkl servicelager i Java.
 #labels RA
 
 = Innehåll = 
