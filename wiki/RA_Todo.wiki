@@ -18,6 +18,7 @@ Not: Punkterna i denna lista bör flyttas över till _issues_.
 ||02/25/09||Teknisk arkitektur|| Se över vilka ramverk och tekniker som ska vara tillåtna för (distribuerad) kommunikation inom ett system eller en verksamhetskomponent (dvs när komponenttjänster anropas). Dels behöver vi ha regler för att minska floran av tekniker och dels behöver de tekniker som används verifieras mot bl a säkerhetsmässiga krav (med BIF och vårdtjänster kommer krav på SAML etc).||
 ||02/25/09||Teknisk arkitektur|| I dagsläget är det inte utrett var källkoden för sk komponenttjänster som behöver exponeras över en distribuerad milö skall ligga. Själva implementationen ligger ju i svc men, t ex i webservicefallet behövs även ett web-projekt. Nuvarande förslag är att skapa ett nytt projekt under modules där implementationen får ligga (i webservicefallet (ev) wsdl-fil, XML schema och Apache CXF-konfig av tjänsten som sedan återfinns under svc). Not: Dessa webservices behöver inte följa samma strikta regler som integrationstjänsterna, detta bör dock också utredas närmare då vissa av reglerna kan vara applicerbara även här. Se även punkten ovan. ||
 ||02/25/09||!Anvisningar_Anslutningsskikt_Portlet.doc||Dokumentet behöver fyllas på rejält, se punkterna nedan om portlets under Teknik/Implementation.||
+||3/06/09||!Anvisningar_Anslutningsskikt_Portlet.doc||Ändra bilden som visar att en portlet accessar en integrationstjänst - det bör vara en komponenttjänst istället.||
 ||3/06/09	||[RA_Anvisningar_Resursskikt]|| Skriva anvisningar för resursskiktet, inkl JPA. Hänger ihop med punkten om att införa JPA-exemplet nedan.||
 ||3/06/09	||[RA_Anvisningar_Verksamhetsskikt]|| Skriva anvisningar för verksamhetsskiktet.||
 ||3/06/09	||[RA_Logisk_arkitektur]|| Hänvisa till nationella arkitekturen för den yttre arkitekturen - istället för att ha en "egen". Den nationella är en vidareutveckling av 3rs referensarkitektur (Se T-boken på http://www.carelink.se/utvecklingsarbete/sakerhet/nationell_arkitektur/vit-bokens_tekniska_arkit/).||
@@ -29,6 +30,7 @@ Not: Punkterna i denna lista bör flyttas över till _issues_.
 ||3/9/09	|| Notices || Inför open sourcening: Skapa en notices-fil.||
 ||3/9/09	|| Kommande || Utöka RA med en explicit ansats för enhetstest. Ansatsen  bör t ex innehålla vilka ramverk som skall användas för test, mockning etc.||
 ||3/9/09	|| Kommande || Utöka RA med en explicit ansats för integrationstest. Ansatsen bör t ex innehålla vilka ramverk som skall användas för integrationstest, t ex dbUnit etc.||
+||3/9/09	|| - || Skriv om xml versioneringsdokumentet så det blir fristående från Vervas riktlinjer (finns inte längre tillgängligt).||
 || || *Teknik/Implementation* || ||
 ||9/12/08	||Web-UI||Spring Webflow: uppgradera till version 2.x (större ändring, ej bakåtkompatibel)||
 ||9/24/08	||Databasaccess|| Införa JPA-exemplet (kräver viss omstrukturering av exempelapplikationen)||
