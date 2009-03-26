@@ -1,0 +1,77 @@
+#summary Anvisningar för WSDL design.
+#labels RA
+
+= Introduktion =
+Här beskrivs hur WSDL (Web Services Description Language) ska designas för att uppnå interoperabilitet enligt WS-I Basic Profile samt en strategi för versionering av tjänster.
+
+Not: versionering av WSDL är nära förknippat med versionering av XML-scheman, vilket beskrivs [RA_Anvisningar_XMLSchema_design här].
+
+Här är en kort översikt över de designregler som ska följas för WSDL. Mer detaljer följer i senare stycken.
+
+  * WS-I Basic Profile ska följas för att säkra interoperabilitet.
+Not 1: nuvarande version av Basic Profile: 1.1
+Not 2: WSDL-mallen i Eclipse 3.4 följer BP 1.1 - dock kan egna tillägg bryta mot BP 1.1 utan att valideringen upptäcker det.
+  * Alla Web Services skall utvecklas enligt "contract-first"-principen, dvs man skall utgå ifrån en WSDL-fil och ett eller flera XML-scheman och generera kod utifrån dessa istället för tvärtom. 
+  * Meddelandetyper samt element ska deklareras i fristående XML-scheman och importeras till en WSDL i types-sektionen. 
+  * Versionering av en WSDL ska följa principen om "kompatibel evolution" vilket i korthet innebär att existerande klienter inte ska påverkas av mindre ändringar som är både bakåt- och framåtkompatibla. Icke-kompatibla ändringar resulterar i en ny WSDL och en ny service-endpoint.
+
+Se PoC schema-versioning för konkreta exempel på hur versionshanteringen av web services och XML Scheman ser ut i praktiken. Övriga regler syns även i referensapplikationen.
+
+= Referenser =
+== Normativa ==
+WSDL: http://www.w3.org/TR/wsdl
+
+WS-I Basic Profile: http://www.ws-i.org/deliverables/workinggroup.aspx?wg=basicprofile
+
+XML Namespaces: http://www.w3.org/TR/xml-names/
+
+XML Schema: http://www.w3.org/XML/Schema
+
+== Bakgrundsinformation ==
+Designing and versioning compatible Web services: http://www.ibm.com/developerworks/websphere/library/techarticles/0705_narayan/0705_narayan.html
+
+Best Practices for WSDL Versioning: http://blogs.iona.com/sos/2007/04/design_for_success_best_practi.html
+
+WSDL interoperabilitet med "document-literal-wrapped": http://pzf.fremantle.org/2007/05/handlign.html
+
+= Versionering av WSDL =
+En versionsstrategi är väsentlig för att kunna ha en effektiv evolution av Webservices. Mindre ändringar måste inte nödvändigtvis innebära att alla befintliga klienter till en webservice måste uppgraderas. Skulle ändringar innebära att klienter behöver uppgraderas behövs det ändå en strategi för att gradvis fasa över klienter till en ny versionen av en webservice. 
+ == Versionsnummer ==
+
+Versionsmönstret som ska användas är *major.minor*. Exempel: 1.0
+
+Detta versioneringsmönster gäller för både WSDL och importerade XML-scheman (se dock mer om scheman [RA_Anvisningar_XMLSchema_design här]). Semantiken för versionssiffrorna är:
+  * Uppgradering av minor-versionen innebär kompatibla förändringar, dvs att existerande webservice-klienter inte behöver uppdateras. Det finns i praktiken endast två typer av förändringar som faller inom denna kategori: 
+    * En ny operation på WSDLen.
+    * Ett nytt, icke-obligatoriskt element någonstans i meddelandet. 
+  * Uppgradering av major-versionen innebär icke-kompatibla förändringar. Detta innebär driftsättning av en ny webservice-endpoint för nya klienter. Åtminstone under en övergångsperiod kommer detta innebära att flera versioner av samma tjänst är driftsatt. Om existerande klienter ska gå mot den nya webservice-endpointen måste de uppdateras. Ur ett konfigurationshanteringsperspektiv innebär detta att en underhållsbranch behöver skapas i källkodshanteringssystemet (exempelvis Subversion) för den tidigare major-versionen av tjänsten.
+  * Om en WSDL importerar ett XML-schema där en major-uppgradering gjorts innebär det att även WSDL:ens major-version måste stegas upp.
+  * Major-versionen ska vara del av targetNamespace för WSDL:en: urn:AddressServices.wsdl.core.vgr.se:v1
+  * Fullständigt versionsnumret ska anges i en documentation-tag direkt efter rot-elementet: <wsdl:documentation>Version: 1.1</wsdl:documentation>
+  * Importerade XML-scheman ska ha egna targetNamespace's, skilda från WSDL:ens targetNamespace (för att tillåta separat versionering).
+  * Filnamnet för en WSDL-fil ska inte innehålla någon versionssiffra. Bakgrunden är att bara en version är aktuell för en utvecklingsbranch i källkodshanteringssystemet. Detta innebär även att WSDL-filens namn inte behöver ändras i byggsystemet vid uppversionering. För XML-scheman är detta annorlunda, där måste versionssiffran ingå i filnamnet pga versionsstrategin.
+  * I adressen till web servicen skall major-versionen ingå, så att man kan deploya en ny major-version på en annan adress. Ex: 'http://localhost:8080/addressbook-address-module-intsvc/services/AddressServiceV1'
+
+== Exempel ==
+Med dessa filer:
+
+!wsdl-files.png!
+
+ser WSDL:en ut som:
+
+!wsdl1.png!
+
+Notera att Fields_V1.xsd importeras i FieldService_V1.xsd och alltså inte ifrån WSDLen.
+
+ = Anpassningar för interoperabilitet = 
+Här beskrivs mönster som ska användas för att uppfylla Basic Profile samt maximera interoperabilitet.
+Not: gäller Basic Profile 1.1
+==  Interoperabilitet för "wrapped-mode" av document-literal ==
+Rot-elementet i ett operation-input-message ska ha samma namn som operationen det används i och eventuellt output-message ska namnges som operationen följt av _Response_. Varje message skall ha en enda wsdl:part som heter _parameters_.
+Rot-elementet ska definieras i ett importerat så kallat gränssnittsschema och referera en komplex-typ från samma eller ett annat schema.
+
+!wsdl2.png!
+
+
+
+
