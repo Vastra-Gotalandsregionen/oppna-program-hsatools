@@ -8,9 +8,7 @@ Not: versionering av WSDL är nära förknippat med versionering av XML-scheman,
 
 Här är en kort översikt över de designregler som ska följas för WSDL. Mer detaljer följer i senare stycken.
 
-  * WS-I Basic Profile ska följas för att säkra interoperabilitet.
-Not 1: nuvarande version av Basic Profile: 1.1
-Not 2: WSDL-mallen i Eclipse 3.4 följer BP 1.1 - dock kan egna tillägg bryta mot BP 1.1 utan att valideringen upptäcker det.
+  * WS-I Basic Profile ska följas för att säkra interoperabilitet. Not 1: nuvarande version av Basic Profile: 1.1. Not 2: WSDL-mallen i Eclipse 3.4 följer BP 1.1 - dock kan egna tillägg bryta mot BP 1.1 utan att valideringen upptäcker det.
   * Alla Web Services skall utvecklas enligt "contract-first"-principen, dvs man skall utgå ifrån en WSDL-fil och ett eller flera XML-scheman och generera kod utifrån dessa istället för tvärtom. 
   * Meddelandetyper samt element ska deklareras i fristående XML-scheman och importeras till en WSDL i types-sektionen. 
   * Versionering av en WSDL ska följa principen om "kompatibel evolution" vilket i korthet innebär att existerande klienter inte ska påverkas av mindre ändringar som är både bakåt- och framåtkompatibla. Icke-kompatibla ändringar resulterar i en ny WSDL och en ny service-endpoint.
@@ -71,7 +69,5 @@ Rot-elementet i ett operation-input-message ska ha samma namn som operationen de
 Rot-elementet ska definieras i ett importerat så kallat gränssnittsschema och referera en komplex-typ från samma eller ett annat schema.
 
 !wsdl2.png!
-
-
 
 
