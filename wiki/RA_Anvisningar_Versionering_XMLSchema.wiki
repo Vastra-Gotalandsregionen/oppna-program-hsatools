@@ -45,11 +45,11 @@ Namespaces skall följa följande konvention:
 
 `urn:<mainType>.schema.<tjänstedomän>.vgr.se:v1`
 
-där <mainType> är huvudtypen i schemat eller ett passande samlingsnamn för de typer som definieras. Exempel:
+där "<mainType>" är huvudtypen i schemat eller ett passande samlingsnamn för de typer som definieras. Exempel:
 
 `urn:AddressEntry.schema.core.vgr.se:v1`
 
-Döp schema-filen till <typ>_v<major>.xsd, ex AddressEntry_v1.xsd.
+Döp schema-filen till *<typ>_v<major>.xsd*, ex `AddressEntry_v1.xsd`.
 
 Se mer om versionshantering nedan.
 
