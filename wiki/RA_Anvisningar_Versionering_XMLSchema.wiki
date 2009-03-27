@@ -14,14 +14,14 @@ Följande riktlinjer gällande versionshatering skall gälla:
 
   * Versioneringsstandard: *<major.minor>*
   * Versionsdeklaration: Target-namespace skall innehålla major-versionen. Hela versionsnumret anges i attributet "version" i schemat.
-  * Namespaces i instans-dokument: !elementFormDefault skall vara satt till 'qualified' i alla scheman.
+  * Namespaces i instans-dokument: elementFormDefault skall vara satt till 'qualified' i alla scheman.
   * xsd:any för att uppnå framåtkompatibilitet: Använd xsd:any-element som "placeholder" för framtida, icke-obligatoriska element: `<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other"/>`
 
 = Rekommendationer = 
 == Generella rekommendationer ==
 === Namngivningskonventioner ===
 
-Att ha en generell strategi för namngivning underlättar läsning av schman. Rekommendationen är !UpperCamelCase för typer, som även skall suffixas med 'Type'. För element och attribut rekommenderas !lowerCamelCase. Exempel:
+Att ha en generell strategi för namngivning underlättar läsning av schman. Rekommendationen är !UpperCamelCase för typer, som även skall suffixas med 'Type'. För element och attribut rekommenderas lowerCamelCase. Exempel:
 {{{
 <complexType name="AddressEntryType">
 		<sequence>
@@ -69,7 +69,7 @@ Venetian Blind design innebär att man följer dessa regler:
 
 Fördelen med detta design pattern är att man maximerar möjligheterna till återanvändning, eftersom alla typer är globala.
 
-För att stödja versioneringsstrategin (se nedan) skall !elementFormDefault vara satt till 'qualified' i alla scheman.
+För att stödja versioneringsstrategin (se nedan) skall elementFormDefault vara satt till 'qualified' i alla scheman.
 
 Exempel:
 
@@ -108,7 +108,7 @@ I ovanstående exempel blir typerna !ContactType, !ContactIdType, !CategoryType 
 
 === XML-schema fil-struktur ===
 
-Använd en fil per schema, dvs används ett och samma !targetNamespace endast i en schema-fil. Deklarera globala typer först och globala element på slutet. Gruppera typer/element som hör ihop i samma schema, ungefär som javaklasser grupperas i paket. 
+Använd en fil per schema, dvs används ett och samma targetNamespace endast i en schema-fil. Deklarera globala typer först och globala element på slutet. Gruppera typer/element som hör ihop i samma schema, ungefär som javaklasser grupperas i paket. 
 
 Använd minst två scheman för varje 'tjänst', ett för återanvändbara typer (och vid behov tillhörande element) samt ett gränssnittsschema, som är kopplat till en specifik tjänst och innehåller dess request och response-element och, vid behov, typer. Vid en ny minor-version måste alla utökningar definieras i egna scheman som importeras, se mer om versionshantering nedan.
 
@@ -138,7 +138,7 @@ Om en "major" version räknas upp, så "nollställs" minor-versionen, exempel:
 
 === Versionsdeklaration ===
 
-Endast major-versionen skall återspeglas i schemats !targetNamespace. I versions-attributet skall schemats hela versionnummer återfinnas.
+Endast major-versionen skall återspeglas i schemats targetNamespace. I versions-attributet skall schemats hela versionnummer återfinnas.
 
 Ex för ett schema med version 1.2:
 
@@ -156,7 +156,7 @@ Schemat sparas i en fil som suffixas `_v<major>`: !AddressEntry_v1.xsd
 
 === Namespaces i instansdokument ===
 
-För att versioneringsstrategin skall fungera fullt ut är det viktigt att alla element i instans-dokument är namespace-qualified. Detta uppnår vi genom att sätta !elementFormDefault till 'qualified' på alla scheman.
+För att versioneringsstrategin skall fungera fullt ut är det viktigt att alla element i instans-dokument är namespace-qualified. Detta uppnår vi genom att sätta elementFormDefault till 'qualified' på alla scheman.
 
 Exempel:
 
@@ -194,7 +194,7 @@ Notera att, på grund av Unique Particle Attribution-regeln i XML schema 1.0-spe
 
 Notera att det nya schemat är i version 1.0, eftersom det följer sin egen versionsnumrering. Namespacet är specifikt för den nya Schema-typen och alltså skilt från ursprungsschemats namespace.
 
-Ursprungsschemat ändras (utan att byta !targetNamespace eller namn på filen) så att den komplexa typen refererar ett globalt element i det nya schemat.
+Ursprungsschemat ändras (utan att byta targetNamespace eller namn på filen) så att den komplexa typen refererar ett globalt element i det nya schemat.
 
 {{{
 <xsd:schema
