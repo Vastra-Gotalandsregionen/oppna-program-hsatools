@@ -13,7 +13,7 @@ Här är en kort översikt över de designregler som ska följas för WSDL. Mer 
   * Meddelandetyper samt element ska deklareras i fristående XML-scheman och importeras till en WSDL i types-sektionen. 
   * Versionering av en WSDL ska följa principen om "kompatibel evolution" vilket i korthet innebär att existerande klienter inte ska påverkas av mindre ändringar som är både bakåt- och framåtkompatibla. Icke-kompatibla ändringar resulterar i en ny WSDL och en ny service-endpoint.
 
-Se PoC schema-versioning för konkreta exempel på hur versionshanteringen av web services och XML Scheman ser ut i praktiken. Övriga regler syns även i referensapplikationen addressbook.
+Se PoC _schema-versioning_ för konkreta exempel på hur versionshanteringen av web services och XML Scheman ser ut i praktiken. Övriga regler syns även i referensapplikationen _addressbook_.
 
 = Referenser =
 == Normativa ==
