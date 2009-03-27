@@ -99,7 +99,7 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
 
 *Web Services:*
   * [RA_Anvisningar_WSDL_design] - Detaljerade anvisningar för wsdl-design. Versionshanteringsstrategin förtydligas ytterligare genom ett PoC. 
-  * [RA_Anvisningar_Versionering_XMLScheman] - Detaljerade anvisningar för versionering av XML-scheman. Versionshanteringsstrategin förtydligas ytterligare genom ett PoC. 
+  * [RA_Anvisningar_Versionering_XMLSchema] - Detaljerade anvisningar för versionering av XML-scheman. Versionshanteringsstrategin förtydligas ytterligare genom ett PoC. 
   * [RA_Anvisningar_Anslutningsskikt_WebServices] - Beskriver hur man skall implementerar webservices i Java, gäller både för integrationstjänster och komponenttjänster (i de fall komponenttjänsterna är implementerade som web services). 
 
 
