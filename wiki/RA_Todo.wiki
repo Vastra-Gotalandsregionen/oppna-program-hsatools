@@ -41,5 +41,6 @@ Not: Punkterna i denna lista bör flyttas över till _issues_.
 ||3/9/09	|| Test || Utöka referens-systemen med exempel på integrationstester enligt den kommande integrationstestansatsen (se punkt ovan).||
 ||3/9/09	|| Test  || Skriv enhetstester för ramverkskoden.||
 ||3/9/09	|| Koddokumentation  || Utöka koddokumenatationen för ref-systemet och poc-projekten med mer utförlig javadoc etc.||
+||	27/3/09|| WSDL/Xml-schema guidelines och refappen addressbook || Namngivingen av XML Scheman stämmer ej med anvisningarna (xml scheman är namngivna med major_minor men ska bara ha major enligt anvisningen). URLen till web servicen stämmer ej heller i refappen kontra anvisningen (ska innehålla major-versionsnummer). Vi behöver även gå igenom anvisningarna map namngivningskonventioner för namespaces, de innehåller nu ett element "core" som är lite oklart? ||
 || || *Verktyg* || ||	
 ||9/15/08||Maven2 + Eclipse||Introduce the m2eclipse-plugin instead of the current way of integrating Maven2 with Eclipse. Requires change in scaffolding-plugin (javg-template) where project-files should be generated and checked into Subversion (remove ignores). Uppdatera anvisning för Maven2.||
