@@ -54,8 +54,8 @@ Detta versioneringsmönster gäller för både WSDL och importerade XML-scheman 
 Med dessa filer:
 
   * wsdl
-    * AddressEntry_V1.xsd
-    * AddressServices.wsdl
+    * !AddressEntry_V1.xsd
+    * !AddressServices.wsdl
     * Category_V1.xsd
 
 ser WSDL:en ut som:
