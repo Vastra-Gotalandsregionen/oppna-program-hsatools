@@ -53,11 +53,10 @@ Detta versioneringsmönster gäller för både WSDL och importerade XML-scheman 
 == Exempel ==
 Med dessa filer:
 
-!wsdl-files.png!
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_WSDL_design_filer.png
 
 ser WSDL:en ut som:
-
-!wsdl1.png!
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_WSDL_design_WSDL.png
 
 Notera att Fields_V1.xsd importeras i FieldService_V1.xsd och alltså inte ifrån WSDLen.
 
@@ -68,4 +67,4 @@ Not: gäller Basic Profile 1.1
 Rot-elementet i ett operation-input-message ska ha samma namn som operationen det används i och eventuellt output-message ska namnges som operationen följt av _Response_. Varje message skall ha en enda wsdl:part som heter _parameters_.
 Rot-elementet ska definieras i ett importerat så kallat gränssnittsschema och referera en komplex-typ från samma eller ett annat schema.
 
-!wsdl2.png!
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_WSDL_design_WSDL_Wrapped.png
