@@ -53,12 +53,11 @@ Detta versioneringsmönster gäller för både WSDL och importerade XML-scheman 
 == Exempel ==
 Med dessa filer:
 
-  * wsdl
-    * !AddressEntry_V1.xsd
-    * !AddressServices.wsdl
-    * !Category_V1.xsd
+  * !AddressServices.wsdl
+  * !AddressEntry_V1.xsd
+  * !Category_V1.xsd
 
-ser WSDL:en ut som:
+ser WSDL:en _!AddressService_s ut som:
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_WSDL_design_WSDL.png
 
