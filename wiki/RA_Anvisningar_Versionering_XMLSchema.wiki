@@ -1,14 +1,282 @@
 #summary Anvisningar för versionering av XML Scheman.
 #labels RA
 
-= Introduction =
+= Inledning = 
 
-Add your content here.
+Följande generella rekommendationer/regler skall gälla för XML schema-design (detaljer följer nedan):
 
+  * Namngivningskonventioner: UpperCamelCase för typer, som även skall ha suffixet 'Type' och lowerCamelCase för attribut och element. För namespaces används följande standard: `urn:<mainType>.schema.core.vgr.se:v1`.
+  * Element eller attribut: Använd element för information och attribut endast för metadata.
+  * XML-schema design pattern: Venetian Blind
+  * XML-schema fil-struktur: Gruppera typer som hör ihop i samma schema (på samma sätt som javaklasser grupperas i paket). Vid nya minor-versioner måste alla nya element hamna i separata scheman med andra namespaces, se versionshantering nedan.
 
-= Details =
+Följande riktlinjer gällande versionshatering skall gälla:
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+  * Versioneringsstandard: *<major.minor>*
+  * Versionsdeklaration: Target-namespace skall innehålla major-versionen. Hela versionsnumret anges i attributet "version" i schemat.
+  * Namespaces i instans-dokument: elementFormDefault skall vara satt till 'qualified' i alla scheman.
+  * xsd:any för att uppnå framåtkompatibilitet: Använd xsd:any-element som "placeholder" för framtida, icke-obligatoriska element: `<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other"/>`
+
+= Rekommendationer = 
+== Generella rekommendationer ==
+=== Namngivningskonventioner ===
+
+Att ha en generell strategi för namngivning underlättar läsning av schman. Rekommendationen är UpperCamelCase för typer, som även skall suffixas med 'Type'. För element och attribut rekommenderas lowerCamelCase. Exempel:
+{{{
+<complexType name="AddressEntryType">
+		<sequence>
+			<element name="entryId" minOccurs="1" maxOccurs="1"
+				type="long" />
+			<element name="name" minOccurs="1" maxOccurs="1"
+				type="string" />
+			<element name="street" minOccurs="0" maxOccurs="1"
+				type="string" />
+			<element name="city" minOccurs="0" maxOccurs="1"
+				type="string" />
+			<element name="category" minOccurs="1" maxOccurs="1"
+				type="cg:CategoryType" />
+			<any namespace="##any" processContents="lax" />
+		</sequence>
+	</complexType>
+ <xsd:element name="address" type="tns:AddressEntryType"/>
+}}}
+
+Namespaces skall följa följande konvention:
+
+`urn:<mainType>.schema.core.vgr.se:v1`
+
+där <mainType> är huvudtypen i schemat eller ett passande samlingsnamn för de typer som definieras. Exempel:
+
+`urn:AddressEntry.schema.core.vgr.se:v1`
+
+Döp schema-filen till <typ>_v<major>.xsd, ex AddressEntry_v1.xsd.
+
+Se mer om versionshantering nedan.
+
+=== Element eller attribut? ===
+
+Använd alltid element för information och attribut för att annotera informationen med metadata. Detta innbär i praktiken att all information som en människa skulle kunna tänkas vara intresserad av ska hamna i element medan metadata som behövs då XMLen skall processas i kod skall "döljas" i attribut.
+
+=== XML-schema design pattern ===
+
+Det design pattern som rekommenderas för XML scheman är det som kallas "Venetian Blind".
+
+Venetian Blind design innebär att man följer dessa regler:
+
+  * Den interna strukturen i ett meddelande byggs upp med hjälp av globalt deklarerade typer.
+  * Endast root-elementet är deklarerat som ett globalt element. I web service-fallet innebär det att request och response-elementen är globalt deklarerade element medan resten är typer.
+    * Not: I vissa fall kan även andra element än request och response behöva vara globala, t ex används element-referenser till globala element i importerade scheman för att stödja versioneringsstrategin, se nedan.
+
+Fördelen med detta design pattern är att man maximerar möjligheterna till återanvändning, eftersom alla typer är globala.
+
+För att stödja versioneringsstrategin (se nedan) skall elementFormDefault vara satt till 'qualified' i alla scheman.
+
+Exempel:
+
+{{{
+   <complexType name="ContactType">
+    	<sequence>
+    		<element name="id" type="tns:ContactIdType"/>
+    		<element name="name" type="string"/>
+    		<element name="category" type="tns:CategoryType"/>
+    		<element name="address" type="tns:AddressType"/>
+    	</sequence>
+    </complexType>
+
+    <simpleType name="ContactIdType">
+    	<restriction base="long"></restriction>
+    </simpleType>
+
+    <complexType name="CategoryType">
+    	<sequence>
+    		<element name="name" type="string"/>
+    	</sequence>
+    </complexType>
+
+    <complexType name="AddressType">
+    	<sequence>
+    		<element name="street" type="string"/>
+    		<element name="city" type="string"/>
+    	</sequence>
+    </complexType>
+    
+    <element name="contact" type="tns:ContactType"/>
+
+}}}
+
+I ovanstående exempel blir typerna ContactType, ContactIdType, CategoryType samt AddressType återanvändbara.
+
+=== XML-schema fil-struktur ===
+
+Använd en fil per schema, dvs används ett och samma targetNamespace endast i en schema-fil. Deklarera globala typer först och globala element på slutet. Gruppera typer/element som hör ihop i samma schema, ungefär som javaklasser grupperas i paket. 
+
+Använd minst två scheman för varje 'tjänst', ett för återanvändbara typer (och vid behov tillhörande element) samt ett gränssnittsschema, som är kopplat till en specifik tjänst och innehåller dess request och response-element och, vid behov, typer. Vid en ny minor-version måste alla utökningar definieras i egna scheman som importeras, se mer om versionshantering nedan.
+
+== Versionshantering ==
+=== Framåt- och bakåtkompatibilitet ===
+
+Begreppen bakåt- och framåtkompatibilitet beskriver vilka förändringar som är möjliga att introducera utan att alla klienter behöver ändras:
+
+  * Bakåtkompatibilitet innebär möjligheten för en klient att fortsätta skicka gamla versioner av ett meddelande, trots att tjänsten har uppgraderats till en nyare version. Det vill säga den som implementerar tjänsten på serversidan måste kunna hantera även den gamla meddelandeversionen.
+  * Framåtkompatibilitet innebär möjligheten för en klient att kunna ta emot nya versioner av ett meddelande med samma resultat som tidigare.
+
+I normalfallet medför alla ändringar en förändring i implementationen av tjänsten på serversidan (vi tar här inte upp fallet då klienten uppdateras men inte servern, detta scenario kan förekomma i integrationssammanhang men bör vara mindre vanligt), vilket innebär att bakåtkompatibilitet generellt sett är enklare att uppnå än framåtkompatibilitet.
+
+I praktiken finns det bara en typ av förändring som uppfyller ovanstående: tillägg av nya, icke-obligatoriska element.
+=== Versioneringsstandard ===
+
+För att få enhetlighet är det viktigt att samma principer för versionering används i alla XML Scheman. Versionsnumreringen skall vara uppdelad i två delar; majorversion och minorversion.
+
+En uppräkning av respektive delversion beror på vilken typ av förändring som görs och vem som berörs av förändringen.
+
+  * Uppräkning av huvudversion: Stora och/eller strukturella förändringar i aktuellt schema jämfört med versionen innan. Dessa förändringar bryter mot bakåt-/framåtkompatibiliteten.
+  * Uppräkning av underversion: Mindre förändring som är både framåt- och bakåtkompatibel för klienten jämfört med versionen innan. Vanligtvis tillägg av icke-obligatoriska element någonstans i frågan eller svaret.
+
+Om en "major" version räknas upp, så "nollställs" minor-versionen, exempel:
+
+  * "1.5" -> "2.0"
+
+=== Versionsdeklaration ===
+
+Endast major-versionen skall återspeglas i schemats targetNamespace. I versions-attributet skall schemats hela versionnummer återfinnas.
+
+Ex för ett schema med version 1.2:
+
+{{{
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="urn:AddressEntry.schema.core.vgr.se:v1"
+	xmlns:tns="urn:AddressEntry.schema.core.vgr.se:v1"
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified"
+	version="1.2">
+...
+}}}
+
+Schemat sparas i en fil som suffixas _v<major>: AddressEntry_v1.xsd
+
+=== Namespaces i instansdokument ===
+
+För att versioneringsstrategin skall fungera fullt ut är det viktigt att alla element i instans-dokument är namespace-qualified. Detta uppnår vi genom att sätta elementFormDefault till 'qualified' på alla scheman.
+
+Exempel:
+
+{{{
+<xs:schema
+elementFormDefault="qualified" ...>
+}}}
+
+Läs mer här: http://www.xfront.com/HideVersusExpose.html
+
+=== xsd:any för att uppnå framåtkompatibilitet ===
+
+För att uppnå framåtkompatibilitet måste man "förbereda" sina XML scheman för detta redan i ursprungsversionen (det vill säga den version som de äldre klienterna har genererats med). Det man kan åstadkomma på detta vis är möjligheten att kunna lägga på ytterligare icke-obligatoriska element utan att de som validerar med en äldre version av schemat för den sakens skull stöter på problem.
+
+De klienter som är intresserade av de nya elementen genererar om sin kod, medan övriga klienter fortsätter fungera utan att påverkas.
+
+För att uppnå denna typ av framåtkompatibilitet rekommenderar vi användandet av schema konstruktionen xsd:any sist i alla komplexa typer som ska kunna utökas:
+
+{{{
+<xsd:complexType name="Person">
+  <xsd:sequence>
+    <xsd:element name="firstName" type="xsd:string" />
+    <xsd:element name="lastName" type="xsd:string" />
+    <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
+  </xsd:sequence>
+</xsd:complexType>
+}}}
+
+Notera att, på grund av Unique Particle Attribution-regeln i XML schema 1.0-specen måste namespace vara satt till "##other" på any-elementet. Detta innebär att alla element som läggs till i den nya versionen måste definieras i ett eget XML schema (som importeras), vilken har ett annat targetNamespace än schemat som utökas.
+
+{{{
+<import namespace="urn:Category.schema.core.vgr.se:v1"
+	  schemaLocation="Category_V1.xsd"/>
+}}}
+
+Notera att det nya schemat är i version 1.0, eftersom det följer sin egen versionsnumrering. Namespacet är specifikt för den nya Schema-typen och alltså skilt från ursprungsschemats namespace.
+
+Ursprungsschemat ändras (utan att byta targetNamespace eller namn på filen) så att den komplexa typen refererar ett globalt element i det nya schemat.
+
+{{{
+<xsd:schema
+targetNamespace="urn:Person.schema.core.vgr.se:v1"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:adr="urn:AddressEntry.schema.core.vgr.se:v1"
+xmlns="urn:Person.schema.core.vgr.se:v1"
+version="1.1"
+elementFormDefault="qualified"
+attributeFormDefault="unqualified">
+...
+<xsd:complexType name="Person">
+  <xsd:sequence>
+    <xsd:element name="firstName" type="xsd:string" />
+    <xsd:element name="lastName" type="xsd:string" />
+    <xsd:element ref="adr:address"/>
+    <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
+  </xsd:sequence>
+</xsd:complexType>
+...
+}}}
+
+Så här ser det nya schemat, där det refererade address-elementet definieras, ut:
+
+{{{
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="urn:AddressEntry.schema.core.vgr.se:v1"
+	xmlns:tns="urn:AddressEntry.schema.core.vgr.se:v1"
+	elementFormDefault="qualified" version="1.0">
+
+    <xsd:complexType name="AddressEntryType">
+    	<xsd:sequence>
+    		<xsd:element name="street" type="xsd:string"/>
+    		<xsd:element name="city" type="xsd:string"/>
+    		<xsd:any namespace="##other" processContents="lax" minOccurs="0"
+    			maxOccurs="unbounded"/>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:element name="address" type="tns:AddressEntryType" nillable="true"/>
+</xsd:schema>
+
+}}}
+Notera att AddressEntryType här i sin tur har en placesholder för nya utökningar. Detta gör det möjligt att i nästa minor version utöka även denna typ.
+
+Se PoC schema-versioning för ett konkret exempel på hur versionshanteringen ser ut i praktiken.
+=== Städning vid ny majorversion ===
+
+När en ny major-version släpps är det lämpligt att "städa" lite i floran av scheman, som kan ha uppstått om ett antal minor-versioner har släppts. Där det är lämpligt går det bra att flytta in typer som tidigare definierats i egna scheman till huvudschemat, i exemplet ovan skulle t ex AddressEntryType kunna flyttas in i person-schemat. Notera att den genererade java-klassen då hamnar i ett annat java-paket (per default), så vid migrering behöver man göra motsvarande "organize imports" i Eclipse för att lösa upp detta problem (dock innebär en ny major-version troligen större/andra förändringar än så).
+=== Fördelar och nackdelar med versioneringsstrategin ===
+
+Fördelar:
+
+  * Det är möjligt att (transitivt) utöka en typ med nya, ickeobligatoriska element utan att alla klienter måste uppdateras.
+  * Versioneringen påverkar inte strukturen av versionerade komplexa typer. Det är inte acceptabelt att en användare av version n givet en komplex typ skall behöva läsa n typdefinioner för att kunna förstå innehållet av version n av den komplexa typen.
+  * Versioneringen påverkar inte programmeringsmodellen dvs så att versioneringen resulterar i en defragmentering av den logiska modell som representeras av schemat. Tillägg av nya element till ett schema skall transformeras till en variabel i motsvarande bindningsklass.
+
+Nackdelar:
+
+  * Alla typer som skall versioneras separat hamnar i egna schema-filer vilket gör det krångligt att läsa/underhålla schema-filerna.
+  * Alla typer som skall versioneras separat hamnar i separata namespaces vilket default genererar bindningsklasser i skilda paket i java.
+
+=== Alternativa strategier ===
+
+Det finns några alternativa strategier för att versionshantera XML Scheman och Web Services, i Designing and versioning compatible Web services beskrivs tre grundläggande strategier, som kan implementeras på lite olika sätt:
+
+  # Kompatibelt XML schema design approach
+  # Service adapter approach
+  # Tillhandahålla multipla versioner
+
+Den valda versioneringsstrategin som beskrivs ovan är en variant på alt 1, som dessutom använder sig av alt 3 (under en övergångsperiod) för större förändringar. Implementationsmässigt skiljer sig dock vår approach från den som beskrivs i artikeln, främst kring hur man valt att uppfylla Unique Particle Attribution-regeln:
+
+  * Vår approach innebär att vi uppfyller regeln genom att sätta namespace=##other på xsd:any-elementet. Detta innebär att alla nya element måste definieras i ett nytt schema som importeras. Strukturen i genererad kod påverkas dock inte (mer än att de nya java-klasserna hamnar i andra java-paket).
+  * Den approach som beskrivs i artikeln uppfyller regeln genom att tillägg nästlas i varandra a la "ryska dockor".
+    * Fördelen är att man slipper lägga alla utökningar i nya scheman.
+    * Den avgörande nackdelen är att strukturen på meddelandet och genererad kod förändras för varje ny minor-version. Programmeringsmodellen blir alltså påverkad av versioneringsstrategin vilket bedöms vara en avgörande nackdel.
+
+Alternativ 2 innebär att man med hjälp av t ex XSLT-stylesheets transformerar inkommande meddelanden innan själva tjänsteimplementationen anropas. På tillbakavägen används transformering av svarsmeddelandet på motsvarande vis. Denna approach har valts bort på grund av de nackdelar som finns listade i artikeln:
+
+  * Kräver att man kan "jacka in" en XSLT transformation innan/efter implementationen av servicen.
+  * Det syns inte i WSDL/Schema att servicen är kompatibel med äldre versioner.
+  * Transformeringen kan påverka prestandan.
+  * XSLT stylesheets måste underhållas.
+
+Alternativ 3 används som sagt för major-versioner, men rekommenderas inte för minor-versioner eftersom det innebär att man måste underhålla många samtidiga, snarlika versioner av samma tjänst. För tjänster som sällan uppdateras, eller som bara har en klient kan detta vara ett tänkbart alternativ även för mindre förändringar.
