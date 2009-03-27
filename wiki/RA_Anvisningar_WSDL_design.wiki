@@ -57,7 +57,7 @@ Med dessa filer:
   * !AddressEntry_V1.xsd
   * !Category_V1.xsd
 
-ser WSDL:en _!AddressService_ ut som:
+ser WSDL:en _!AddressServices_ ut som:
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_WSDL_design_WSDL.png
 
