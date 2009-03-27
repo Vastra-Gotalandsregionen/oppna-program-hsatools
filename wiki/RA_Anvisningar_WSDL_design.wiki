@@ -56,7 +56,7 @@ Med dessa filer:
   * wsdl
     * !AddressEntry_V1.xsd
     * !AddressServices.wsdl
-    * Category_V1.xsd
+    * !Category_V1.xsd
 
 ser WSDL:en ut som:
 
