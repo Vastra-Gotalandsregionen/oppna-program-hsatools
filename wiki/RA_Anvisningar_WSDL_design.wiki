@@ -44,8 +44,8 @@ Detta versioneringsmönster gäller för både WSDL och importerade XML-scheman 
     * Ett nytt, icke-obligatoriskt element någonstans i meddelandet. 
   * Uppgradering av major-versionen innebär icke-kompatibla förändringar. Detta innebär driftsättning av en ny webservice-endpoint för nya klienter. Åtminstone under en övergångsperiod kommer detta innebära att flera versioner av samma tjänst är driftsatt. Om existerande klienter ska gå mot den nya webservice-endpointen måste de uppdateras. Ur ett konfigurationshanteringsperspektiv innebär detta att en underhållsbranch behöver skapas i källkodshanteringssystemet (exempelvis Subversion) för den tidigare major-versionen av tjänsten.
   * Om en WSDL importerar ett XML-schema där en major-uppgradering gjorts innebär det att även WSDL:ens major-version måste stegas upp.
-  * Major-versionen ska vara del av targetNamespace för WSDL:en: urn:AddressServices.wsdl.core.vgr.se:v1
-  * Fullständigt versionsnumret ska anges i en documentation-tag direkt efter rot-elementet: <wsdl:documentation>Version: 1.1</wsdl:documentation>
+  * Major-versionen ska vara del av targetNamespace för WSDL:en: `urn:AddressServices.wsdl.core.vgr.se:v1`
+  * Fullständigt versionsnumret ska anges i en documentation-tag direkt efter rot-elementet: `<wsdl:documentation>Version: 1.1</wsdl:documentation>`
   * Importerade XML-scheman ska ha egna targetNamespace's, skilda från WSDL:ens targetNamespace (för att tillåta separat versionering).
   * Filnamnet för en WSDL-fil ska inte innehålla någon versionssiffra. Bakgrunden är att bara en version är aktuell för en utvecklingsbranch i källkodshanteringssystemet. Detta innebär även att WSDL-filens namn inte behöver ändras i byggsystemet vid uppversionering. För XML-scheman är detta annorlunda, där måste versionssiffran ingå i filnamnet pga versionsstrategin.
   * I adressen till web servicen skall major-versionen ingå, så att man kan deploya en ny major-version på en annan adress. Ex: 'http://localhost:8080/addressbook-address-module-intsvc/services/AddressServiceV1'
