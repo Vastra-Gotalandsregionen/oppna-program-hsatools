@@ -47,7 +47,7 @@ Själva implementationen av webservicen återfinns under `intsvc`. I `web.xml` u
 </servlet-mapping>
 }}}
 
-Apache CXF är integrerat i Spring och konfigureras mha Spring. Filen spring-cxf-config.xml (också under WEB-INF) innehåller konfiguration av webbservicen _AddressService_: 
+Apache CXF är integrerat i Spring och konfigureras mha Spring. Filen spring-cxf-config.xml (också under WEB-INF) innehåller konfiguration av webbservicen !_AddressService_: 
 {{{
 <jaxws:endpoint id="Address.AddressEntryIntServiceSEI"
     implementor="#Address.AddressEntryIntService"
