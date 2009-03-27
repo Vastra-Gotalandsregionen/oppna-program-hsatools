@@ -4,7 +4,7 @@
 = Introduktion =
 Här beskrivs hur WSDL (Web Services Description Language) ska designas för att uppnå interoperabilitet enligt WS-I Basic Profile samt en strategi för versionering av tjänster.
 
-Not: versionering av WSDL är nära förknippat med versionering av XML-scheman, vilket beskrivs [RA_Anvisningar_XMLSchema_design här].
+Not: versionering av WSDL är nära förknippat med versionering av XML-scheman, vilket beskrivs [RA_Anvisningar_Versionering_XMLSchema här].
 
 Här är en kort översikt över de designregler som ska följas för WSDL. Mer detaljer följer i senare stycken.
 
@@ -38,7 +38,7 @@ En versionsstrategi är väsentlig för att kunna ha en effektiv evolution av We
 
 Versionsmönstret som ska användas är *major.minor*. Exempel: 1.0
 
-Detta versioneringsmönster gäller för både WSDL och importerade XML-scheman (se dock mer om scheman [RA_Anvisningar_XMLSchema_design här]). Semantiken för versionssiffrorna är:
+Detta versioneringsmönster gäller för både WSDL och importerade XML-scheman (se dock mer om scheman [RA_Anvisningar_Versionering_XMLSchema här]). Semantiken för versionssiffrorna är:
   * Uppgradering av minor-versionen innebär kompatibla förändringar, dvs att existerande webservice-klienter inte behöver uppdateras. Det finns i praktiken endast två typer av förändringar som faller inom denna kategori: 
     * En ny operation på WSDLen.
     * Ett nytt, icke-obligatoriskt element någonstans i meddelandet. 
@@ -69,5 +69,3 @@ Rot-elementet i ett operation-input-message ska ha samma namn som operationen de
 Rot-elementet ska definieras i ett importerat så kallat gränssnittsschema och referera en komplex-typ från samma eller ett annat schema.
 
 !wsdl2.png!
-
-
