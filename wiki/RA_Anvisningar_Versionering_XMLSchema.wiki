@@ -5,7 +5,7 @@
 
 Följande generella rekommendationer/regler skall gälla för XML schema-design (detaljer följer nedan):
 
-  * Namngivningskonventioner: !UpperCamelCase för typer, som även skall ha suffixet 'Type' och !lowerCamelCase för attribut och element. För namespaces används följande standard: `urn:<mainType>.schema.<tjänstedomän>.vgr.se:v1`.
+  * Namngivningskonventioner: !UpperCamelCase för typer, som även skall ha suffixet 'Type' och lowerCamelCase för attribut och element. För namespaces används följande standard: `urn:<mainType>.schema.<tjänstedomän>.vgr.se:v1`.
   * Element eller attribut: Använd element för information och attribut endast för metadata.
   * XML-schema design pattern: Venetian Blind
   * XML-schema fil-struktur: Gruppera typer som hör ihop i samma schema (på samma sätt som javaklasser grupperas i paket). Vid nya minor-versioner måste alla nya element hamna i separata scheman med andra namespaces, se versionshantering nedan.
@@ -45,11 +45,11 @@ Namespaces skall följa följande konvention:
 
 `urn:<mainType>.schema.<tjänstedomän>.vgr.se:v1`
 
-där "<mainType>" är huvudtypen i schemat eller ett passande samlingsnamn för de typer som definieras. Exempel:
+där `<mainType>` är huvudtypen i schemat eller ett passande samlingsnamn för de typer som definieras. Exempel:
 
 `urn:AddressEntry.schema.core.vgr.se:v1`
 
-Döp schema-filen till *<typ>_v<major>.xsd*, ex `AddressEntry_v1.xsd`.
+Döp schema-filen till `<typ>_v<major>.xsd`, ex `AddressEntry_v1.xsd`.
 
 Se mer om versionshantering nedan.
 
