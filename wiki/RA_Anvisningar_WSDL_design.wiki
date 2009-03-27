@@ -56,9 +56,8 @@ Med dessa filer:
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_WSDL_design_filer.png
 
 ser WSDL:en ut som:
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_WSDL_design_WSDL.png
 
-Notera att Fields_V1.xsd importeras i FieldService_V1.xsd och alltså inte ifrån WSDLen.
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Anvisningar_WSDL_design_WSDL.png
 
  = Anpassningar för interoperabilitet = 
 Här beskrivs mönster som ska användas för att uppfylla Basic Profile samt maximera interoperabilitet.
