@@ -123,7 +123,7 @@ Proof of Concept (PoC)-projekten ska inte bestraktas som exempel/instansieringar
 I dagsläget finns det ett PoC som bevisar versioneringsstrategin av webservices (WSDL-filer och XML-scheman).
 
 === Schema-versioning === 
-Detta PoC syftar till att bevisa versioneringsstrategin för web services och xml scheman  som återfinns i [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_WSDL-design.doc Anvisningar_WSDL-design.doc] och [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc] och utgör exempel på hur man konkret går till väga när man versionerar sina webservices.  Exemplet är förändrat/förenklat i några avseenden gentemot en "riktig" implementation:
+Detta PoC syftar till att bevisa versioneringsstrategin för web services och xml scheman  som återfinns i  [RA_Anvisningar_WSDL_design] och [RA_Anvisningar_Versionering_XMLSchema] och utgör exempel på hur man konkret går till väga när man versionerar sina webservices.  Exemplet är förändrat/förenklat i några avseenden gentemot en "riktig" implementation:
 
   * Webservicarna (dvs endpoint-projekten) är gjorda för att kunna köras standalone (men de går även att deploya till Tomcat). I ett normalt scenario skulle webservice implementationen deployas till en applikationsserver.
   * Klienterna är vanliga java-appliationer.
@@ -137,7 +137,7 @@ PoC't består av en web service i 3 olika (minor) versioner, 1.0, 1.1 samt 1.2 m
 
 I ovanstående projekt återfinns även genererad server- och klientkod för respektive version av tjänsten.
 
-I schema-filerna har xsd:any använts för att uppnå framåt- och bakåtkompatibilitet, se mer i [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/WebServices/Anvisningar_for_versionering_av_XML-Scheman.doc Anvisningar_for_versionering_av_XML-Scheman.doc].
+I schema-filerna har xsd:any använts för att uppnå framåt- och bakåtkompatibilitet, se mer i [RA_Anvisningar_Versionering_XMLSchema].
 
 I endpoint-modulerna finns en dummy-implementation av respektive version av tjänsten:
 
