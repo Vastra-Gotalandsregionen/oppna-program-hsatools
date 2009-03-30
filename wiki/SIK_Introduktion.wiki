@@ -1,2 +1,0 @@
-#summary Introduktion till SIK-projektet.
-#labels SIK,Featured
