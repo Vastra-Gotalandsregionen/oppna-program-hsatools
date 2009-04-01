@@ -5,18 +5,18 @@
 <wiki:toc/> 
 = Introduktion =
 
-Referensarkitekturen i sig innefattar främst dokument, se [RA_Introduktion] för en översikt. Utöver detta finns det referens-system, PoCs, ramverkskod och kod för att generera upp skelett för system och komponenter. 
+Referensarkitekturen i sig innefattar främst dokument, se [Introduktion_till_RA] för en översikt. Utöver detta finns det referens-system, PoCs, ramverkskod och kod för att generera upp skelett för system och komponenter. 
 
 = CM-struktur =
 
 Referensarkitekturen har följade CM-struktur (de flesta underkatalogerna har readme-filer som fungerar som introduktion till resp. katalogs innehåll): 
 
   * archived - Innehåller äldre versioner av JAVG (pre Q3 2008) som sparats som referens. Se readme-filen i subversion för mer info. 
-  * poc - Innehåller PoC-projekt, se [RA_Teknisk_arkitektur] för mer info. 
-  * ref-systems - Innehåller referenssystemen (i dagsläget endast ett). Se [RA_Teknisk_arkitektur] och readme.txt för mer info.
+  * poc - Innehåller PoC-projekt, se [Teknisk_arkitektur] för mer info. 
+  * ref-systems - Innehåller referenssystemen (i dagsläget endast ett). Se [Teknisk_arkitektur] och readme.txt för mer info.
   * runtime - Ramverkskod som stödjer referensarkitekturen. De byggda artefakterna härifrån anges som maven dependencies i de verksamhetskomponenter som bygger på referensarkitekturen. 
   * tools - Innehåller bl a verktyg för generering av källkodsstrukturen (i form av en mavenplugin). 
 
 = Bygge =
 
-Källkoden för referensarkitekturen i sig använder Maven som byggsystem, precis som projekt som baserar sig på referensarkitekturen. Man kan därför använda samma instruktioner för att komma igång med utveckling i referensarkitekturen i sig som med projekt baserade på referensarkitekturen, se [RA_Anvisningar_Utvecklingsmiljo]. 
+Källkoden för referensarkitekturen i sig använder Maven som byggsystem, precis som projekt som baserar sig på referensarkitekturen. Man kan därför använda samma instruktioner för att komma igång med utveckling i referensarkitekturen i sig som med projekt baserade på referensarkitekturen, se [Anvisningar_Utvecklingsmiljo]. 

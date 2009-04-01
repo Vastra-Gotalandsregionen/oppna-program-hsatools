@@ -74,21 +74,21 @@ Tjänstedomäner och system ska ha definierade ägare för livscykelns alla fase
 Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad områden: 
 
 *Ramverk/komponenter:*
-  * [RA_Strukturerad_Forteckning] - Beskriver de externa komponenter/ramverk som ska användas inom respektive område. 
+  * [Strukturerad_Forteckning] - Beskriver de externa komponenter/ramverk som ska användas inom respektive område. 
 
 *Utvecklingsmiljö och "komma igång" (Java EE):*
-  * [RA_Anvisningar_Utvecklingsmiljo] - Beskriver hur man praktiskt sätter upp sin utvecklingsmiljö för att komma igång med utveckling av RA-system och komponenter. 
+  * [Anvisningar_Utvecklingsmiljo] - Beskriver hur man praktiskt sätter upp sin utvecklingsmiljö för att komma igång med utveckling av RA-system och komponenter. 
 
 *Källkodsstruktur:*
-  * [RA_Anvisningar_Kallkodstruktur] - Beskriver källkodsstrukturen och dess koppling till referensarkitekturen. 
-  * [RA_Anvisningar_Beroenden_Mellan_Komponenter] - Beskriver hur beroenden inom och mellan verksamhetskomponenter fungerar. 
+  * [Anvisningar_Kallkodstruktur] - Beskriver källkodsstrukturen och dess koppling till referensarkitekturen. 
+  * [Anvisningar_Beroenden_Mellan_Komponenter] - Beskriver hur beroenden inom och mellan verksamhetskomponenter fungerar. 
 
 *Anvisningar för utveckling av system och verksamhetskomponenter (Java EE):*
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc Anvisningar_Anslutningsskikt_Webb.doc] - Beskriver hur man utvecklar anslutningsskiktet som en webbapplikation, inkl den valda teknikstacken för Java EE-webblagret. 
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Portlet.doc Anvisningar_Anslutningsskikt_Portlet.doc] - Beskriver hur man utvecklar sitt anslutningsskikt mha portlets. 
- * [RA_Anvisningar_Anslutningsskikt_WebServices] - Beskriver hur man utvecklar sitt anslutningsskikt mha webservices i Java,  gäller både för integrationstjänster och komponenttjänster (i de fall komponenttjänsterna är implementerade som web services). 
- * [RA_Anvisningar_Verksamhetsskikt] - Beskriver hur man utvecklar sitt verksamhetsskikt i Java.
- * [RA_Anvisningar_Resursskikt] Beskriver hur man utvecklar sitt resursskikt i Java.
+ * [Anvisningar_Anslutningsskikt_WebServices] - Beskriver hur man utvecklar sitt anslutningsskikt mha webservices i Java,  gäller både för integrationstjänster och komponenttjänster (i de fall komponenttjänsterna är implementerade som web services). 
+ * [Anvisningar_Verksamhetsskikt] - Beskriver hur man utvecklar sitt verksamhetsskikt i Java.
+ * [Anvisningar_Resursskikt] Beskriver hur man utvecklar sitt resursskikt i Java.
 
 *Konfigurationshantering:* 
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc] - Anvisningar om hur man versionerar maven-artefakter, lablar i subversion etc. 
@@ -98,9 +98,9 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
   * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc] - Beskriver hur man sätter upp kontinuerlig integration för projekt med hjälp av verktyget Continuum. OBS: Informationen är inaktuell och behöver uppdateras efter open sourcening. 
 
 *Web Services:*
-  * [RA_Anvisningar_WSDL_design] - Detaljerade anvisningar för wsdl-design. Versionshanteringsstrategin förtydligas ytterligare genom ett PoC. 
-  * [RA_Anvisningar_Versionering_XMLSchema] - Detaljerade anvisningar för versionering av XML-scheman. Versionshanteringsstrategin förtydligas ytterligare genom ett PoC. 
-  * [RA_Anvisningar_Anslutningsskikt_WebServices] - Beskriver hur man skall implementerar webservices i Java, gäller både för integrationstjänster och komponenttjänster (i de fall komponenttjänsterna är implementerade som web services). 
+  * [Anvisningar_WSDL_design] - Detaljerade anvisningar för wsdl-design. Versionshanteringsstrategin förtydligas ytterligare genom ett PoC. 
+  * [Anvisningar_Versionering_XMLSchema] - Detaljerade anvisningar för versionering av XML-scheman. Versionshanteringsstrategin förtydligas ytterligare genom ett PoC. 
+  * [Anvisningar_Anslutningsskikt_WebServices] - Beskriver hur man skall implementerar webservices i Java, gäller både för integrationstjänster och komponenttjänster (i de fall komponenttjänsterna är implementerade som web services). 
 
 
 
@@ -123,7 +123,7 @@ Proof of Concept (PoC)-projekten ska inte bestraktas som exempel/instansieringar
 I dagsläget finns det ett PoC som bevisar versioneringsstrategin av webservices (WSDL-filer och XML-scheman).
 
 === Schema-versioning === 
-Detta PoC syftar till att bevisa versioneringsstrategin för web services och xml scheman  som återfinns i  [RA_Anvisningar_WSDL_design] och [RA_Anvisningar_Versionering_XMLSchema] och utgör exempel på hur man konkret går till väga när man versionerar sina webservices.  Exemplet är förändrat/förenklat i några avseenden gentemot en "riktig" implementation:
+Detta PoC syftar till att bevisa versioneringsstrategin för web services och xml scheman  som återfinns i  [Anvisningar_WSDL_design] och [Anvisningar_Versionering_XMLSchema] och utgör exempel på hur man konkret går till väga när man versionerar sina webservices.  Exemplet är förändrat/förenklat i några avseenden gentemot en "riktig" implementation:
 
   * Webservicarna (dvs endpoint-projekten) är gjorda för att kunna köras standalone (men de går även att deploya till Tomcat). I ett normalt scenario skulle webservice implementationen deployas till en applikationsserver.
   * Klienterna är vanliga java-appliationer.
@@ -137,7 +137,7 @@ PoC't består av en web service i 3 olika (minor) versioner, 1.0, 1.1 samt 1.2 m
 
 I ovanstående projekt återfinns även genererad server- och klientkod för respektive version av tjänsten.
 
-I schema-filerna har xsd:any använts för att uppnå framåt- och bakåtkompatibilitet, se mer i [RA_Anvisningar_Versionering_XMLSchema].
+I schema-filerna har xsd:any använts för att uppnå framåt- och bakåtkompatibilitet, se mer i [Anvisningar_Versionering_XMLSchema].
 
 I endpoint-modulerna finns en dummy-implementation av respektive version av tjänsten:
 
