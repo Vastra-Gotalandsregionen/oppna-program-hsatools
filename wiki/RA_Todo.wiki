@@ -1,5 +1,5 @@
 #summary Detta är en samlingssida för utestående krav, ändringar och tillägg.
-#labels RA
+#labels Project-RA
 
 = Utestående punkter =
 
