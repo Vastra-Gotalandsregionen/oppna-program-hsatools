@@ -1,5 +1,5 @@
 #summary Anvisningar för WSDL design.
-#labels RA
+#labels Project-RA
 
 = Introduktion =
 Här beskrivs hur WSDL (Web Services Description Language) ska designas för att uppnå interoperabilitet enligt WS-I Basic Profile samt en strategi för versionering av tjänster.
