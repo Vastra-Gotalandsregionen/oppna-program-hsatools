@@ -1,5 +1,5 @@
 #summary Introduktion till referensarkitekturen
-#labels Featured,RA
+#labels Featured,Project-RA
 = Innehåll = 
 
 <wiki:toc max_depth="3" />
