@@ -1,5 +1,5 @@
 #summary Beskriver en logiska referensarkitekturen inkl referensmodellerna.
-#labels RA
+#labels Project-RA
 = Innehåll =
 
 <wiki:toc max_depth="3" />
