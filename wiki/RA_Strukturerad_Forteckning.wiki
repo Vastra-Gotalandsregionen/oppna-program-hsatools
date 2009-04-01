@@ -1,5 +1,5 @@
 #summary Strukturerad förteckning över de komponenter/ramverk som används inom referensarkitekturen.
-#labels RA
+#labels Project-RA
 
 = Innehåll =
 
