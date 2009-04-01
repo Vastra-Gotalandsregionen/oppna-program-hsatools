@@ -1,5 +1,5 @@
 #summary Beskriver hur man utvecklar sitt resurslager i Java.
-#labels RA
+#labels Project-RA
 
 = Innehåll = 
 
