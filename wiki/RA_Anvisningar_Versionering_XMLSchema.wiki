@@ -1,5 +1,5 @@
 #summary Anvisningar för versionering av XML Scheman.
-#labels RA
+#labels Project-RA
 
 = Inledning = 
 
