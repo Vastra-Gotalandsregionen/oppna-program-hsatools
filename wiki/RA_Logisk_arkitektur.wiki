@@ -23,7 +23,7 @@
 == Bakgrund ==
 Här beskrivs den logiska delen av den referensarkitektur som har tagits fram gemensamt inom 3R och släppts som öppen källkod av VGR här under öppna program. 
 
-Referensarkitekturen innefattar även en mer konkret och implementationsnära teknisk arkitektur, se [RA_Teknisk_arkitektur].
+Referensarkitekturen innefattar även en mer konkret och implementationsnära teknisk arkitektur, se [Teknisk_arkitektur].
 
 == Syfte ==
 
@@ -31,7 +31,7 @@ Den logiska referensarkitekturens viktigaste innehåll är dess metamodeller, s�
 
 Alla IT-lösningar som upphandlas och utvecklas skall baseras på dessa referensmodeller. Syftet med den logiska arkitekturen och referensmodellerna är alltså att definiera den taxonomi som tillämpas både internt och i kommunikationen med leverantörer samt den struktur som förväntas av de lösningar som byggs eller upphandlas.
 
-Se även [RA_Introduktion] för övergripande syfte med att ha en referensarkitektur. 
+Se även [Introduktion_till_RA] för övergripande syfte med att ha en referensarkitektur. 
 
 == Referenser ==
 === Allmänt ===
@@ -48,7 +48,7 @@ Se även [RA_Introduktion] för övergripande syfte med att ha en referensarkite
 || *Organisation* || *Dokument* || *Beskrivning* ||
 || OSOA || [http://www.osoa.org/display/Main/Service+Component+Architecture+Home SCA] || Innehåller ett antal specifikationer kring SCA. ||
 
-Se [RA_Introduktion] för länkar till övriga dokument inom referensarktekturen.
+Se [Introduktion_till_RA] för länkar till övriga dokument inom referensarktekturen.
 
 = Sammanfattning =
 Den logiska referensarkitekturen är uppdelad i en inre och en yttre arkitektur. Arkitekturen är formaliserad med hjälp av referensmodeller, ett slags metamodeller som beskriver termer/entiteter samt hur dessa relaterar till varandra. 
@@ -68,7 +68,7 @@ Referensarkitekturen är framtagen gemensamt för ”3R” (tre regioner: VGR, R
 
 = Den yttre arkitekturen =
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Logisk_arkitektur_Yttre_ark_Refmodell.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/Logisk_arkitektur_Yttre_ark_Refmodell.png
 
 _Bilden visar referensmodellen för den yttre arkitekturen._ 
 
@@ -105,7 +105,7 @@ Asynkrona tvåvägstjänster är till för att möjliggöra asynkron orkestrerin
 Som vi såg ovan är ägarskap av gränssnitt olika för orkestrerande och för atomära integrationstjänster. Atomära integrationstjänster äger såväl det producerande som eventuella konsumerande gränssnitt (dvs svarsgränssnitten). Av detta följer att orkestrerande integrationstjänster endast äger det primära gränssnittet. Syftet med dessa ägasrskapsregler är att behålla de atomära integrationstjänsternas obereonde till sin omgivning.
 
 == Exempel ==
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Logisk_arkitektur_Yttre_ark_exempel.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/Logisk_arkitektur_Yttre_ark_exempel.png
 
 Bilden illustrerar tre tjänstedomäner, varav en (tjänstedomän B) är en process-nära tjänstedomän bestående av en orkestrerande integrationstjänst. Tjänstedomän A och C består av ett antal atomära integrationstjänster. Illustrationen visar inte att tjänstedomänerna i sin tur kan delas in i verksamhetsdomäner.
 
@@ -118,7 +118,7 @@ Aktivering av funktionalitet kräver inte integration eller integrationstjänste
 
 Vi behöver därför en inre arkitektur, som definierar principer för varje systems interna arkitektur. Den inre arkitekturen måste innefatta ett angreppssätt för modularisering, som är tillräckligt lättviktigt och tillräckligt väl integrerat i vald realiseringsplattform för att inte vara i konflikt med dessa mål.
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Logisk_arkitektur_Inre_ark_Refmodell.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/Logisk_arkitektur_Inre_ark_Refmodell.png
 
 _Referensmodell för den inre arkitekturen._
 
@@ -130,7 +130,7 @@ En verksamhetskomponent är en relativt stor enhet som representerar ett väl av
 
 En verksamhetskomponent klassificeras efter den typ av funktionalitet den representerar: processorienterad, informationsorienterad (entitetskomponent), adapter eller generell / stödjande karaktär (plattformskomponent). 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Logisk_arkitektur_Inre_ark_Verksamhetskomponent.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/Logisk_arkitektur_Inre_ark_Verksamhetskomponent.png
 
 _En verksamhetskomponent och dess skikt._
 
@@ -159,7 +159,7 @@ Adapterkomponenter används för att anropa funktioner som inte har interoperabi
 
 === Plattformskomponent === 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Logisk_arkitektur_Plattformstjanster.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/Logisk_arkitektur_Plattformstjanster.png
 
 _Exempel plattoformskomponenter_
 
@@ -169,7 +169,7 @@ Plattformskomponenter som bedöms vara av allmänt värde – även utanför det
 
 == Exempel == 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Logisk_arkitektur_Inre_ark.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/Logisk_arkitektur_Inre_ark.png
 
 _Bilden illustrerar ett system och dess verksamhetskomponenter_
 
@@ -179,7 +179,7 @@ Två av processkomponenterna i bilden realiserar inte någon integrationstjänst
 
 = Samverkan yttre och inre arkitektur =
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Logisk_arkitektur_Samverkan.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/Logisk_arkitektur_Samverkan.png
 
 _Bilden illustrerar samverkan mellan yttre och inre arkitektur._
 

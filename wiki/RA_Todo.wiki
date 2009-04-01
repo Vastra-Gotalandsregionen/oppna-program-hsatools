@@ -10,7 +10,7 @@ Not: Punkterna i denna lista bör flyttas över till _issues_.
 ||9/24/08||!Anvisningar_Anslutningsskikt_Webb.doc||Dokumentet behöver fyllas på rejält.||
 ||9/26/08 ||!Anvisningar_Kontinuerlig_Integration.doc||Vi har bytt KI-servern Continuum mot Hudson -> uppdatera dokumentet. Efter open sourceningen kommer detta dessutom igen att bytas ut mot en SaaS-lösning från atlassian.||
 ||10/28/08||Alla anvisningar/dokument||Inför open sourcening: Ta alla dokument till en generell version/nivå. ||
-||10/28/08||[RA_Logisk_arkitektur]||Utöka/förenkla dokumentationen av den logiska metamodellen med exempel och definition av termer.||
+||10/28/08||[Logisk_arkitektur]||Utöka/förenkla dokumentationen av den logiska metamodellen med exempel och definition av termer.||
 ||10/28/08||Generella krav-dokument (att användas vid upphandlingar).||Se över dessa dokument. ||
 ||02/20/09||!Anvisningar_Anslutningsskikt_Webb.doc|| Förbättra felhanteringen i applikationen när t.ex. en session får time-out. ||
 ||02/20/09||Teknisk arkitektur|| Se över principerna. Ta fram principer för den inre arkitekturen. ||
@@ -19,9 +19,9 @@ Not: Punkterna i denna lista bör flyttas över till _issues_.
 ||02/25/09||Teknisk arkitektur|| I dagsläget är det inte utrett var källkoden för sk komponenttjänster som behöver exponeras över en distribuerad milö skall ligga. Själva implementationen ligger ju i svc men, t ex i webservicefallet behövs även ett web-projekt. Nuvarande förslag är att skapa ett nytt projekt under modules där implementationen får ligga (i webservicefallet (ev) wsdl-fil, XML schema och Apache CXF-konfig av tjänsten som sedan återfinns under svc). Not: Dessa webservices behöver inte följa samma strikta regler som integrationstjänsterna, detta bör dock också utredas närmare då vissa av reglerna kan vara applicerbara även här. Se även punkten ovan. ||
 ||02/25/09||!Anvisningar_Anslutningsskikt_Portlet.doc||Dokumentet behöver fyllas på rejält, se punkterna nedan om portlets under Teknik/Implementation.||
 ||3/06/09||!Anvisningar_Anslutningsskikt_Portlet.doc||Ändra bilden som visar att en portlet accessar en integrationstjänst - det bör vara en komponenttjänst istället.||
-||3/06/09	||[RA_Anvisningar_Resursskikt]|| Skriva anvisningar för resursskiktet, inkl JPA. Hänger ihop med punkten om att införa JPA-exemplet nedan.||
-||3/06/09	||[RA_Anvisningar_Verksamhetsskikt]|| Skriva anvisningar för verksamhetsskiktet.||
-||3/06/09	||[RA_Logisk_arkitektur]|| Hänvisa till nationella arkitekturen för den yttre arkitekturen - istället för att ha en "egen". Den nationella är en vidareutveckling av 3rs referensarkitektur (Se T-boken på http://www.carelink.se/utvecklingsarbete/sakerhet/nationell_arkitektur/vit-bokens_tekniska_arkit/).||
+||3/06/09	||[Anvisningar_Resursskikt]|| Skriva anvisningar för resursskiktet, inkl JPA. Hänger ihop med punkten om att införa JPA-exemplet nedan.||
+||3/06/09	||[Anvisningar_Verksamhetsskikt]|| Skriva anvisningar för verksamhetsskiktet.||
+||3/06/09	||[Logisk_arkitektur]|| Hänvisa till nationella arkitekturen för den yttre arkitekturen - istället för att ha en "egen". Den nationella är en vidareutveckling av 3rs referensarkitektur (Se T-boken på http://www.carelink.se/utvecklingsarbete/sakerhet/nationell_arkitektur/vit-bokens_tekniska_arkit/).||
 ||3/9/09	||Teknisk arkitektur|| Dokumentera vilka delar av RA som är utbytbara.	Det är svårt för en potentiell användare att se vilka delar av RA som är utbytbara och vilka som inte är det. Går det t ex att byta versionshanteringssystem eller något webbramverk och fortfarande dra nytta av RA? Dokumentera på vilka sätt den tekniska implementationen av RA är ”konfigurerbar”.||
 ||3/9/09	||Teknisk arkitektur|| Dokumentera testade miljöer (not: info finns i den introducerande powerpointen men skulle kunna förtydligas på en egen wiki-sida t ex).||
 ||3/9/09	|| - || Ta fram en introduktion på engelska.||
