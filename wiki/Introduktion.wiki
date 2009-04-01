@@ -1,4 +1,0 @@
-#summary Introduktion till Hitta rätt i vården-projektet
-#labels Project-HRIV,Featured
-
-= Introduktion =
