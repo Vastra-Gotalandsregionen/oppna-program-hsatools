@@ -1,5 +1,5 @@
 #summary Beskriver hur man utvecklar integrationstjänster och komponenttjänster i Java.
-#labels RA
+#labels Project-RA
 
 
 = Innehåll = 
