@@ -40,7 +40,7 @@ En web-applikation skall kunna plockas samman av återanvändbara _komponenter_ 
     * Applikationer ska fungera i “alla” webläsare
     * Användarvänligheten kommer däremot minska vartefter funktionalitet i webläsaren minskar
   * Exempel
-    * Applikationer måste fungera även om JavaScript är avslaget eller saknas
+    * Applikationer måste fungera även om !JavaScript är avslaget eller saknas
     * Applikationer måste fungera även i en gammal webläsare
 
 
