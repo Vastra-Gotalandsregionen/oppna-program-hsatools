@@ -205,7 +205,7 @@ Följande maven-kommando genererar den översta nivån (system-nivån) i struktu
 
 
 {{{
-mvn javg-util:javg-template-plugin:svn
+mvn se.vgr.javg.maven.plugins:javg-template-plugin:svn
 }}}
 
 Pluginen kommer att efterfråga ett base-package name:
@@ -235,7 +235,7 @@ Följande maven-kommando skapar en ny verksamhetskomponent för ett befintligt s
 Skall exekveras i system-nivå katalogen för det befintliga systemet. Den nya verksamhetskomponenten införlivas i byggfilen för det befintliga systemet.
 
 {{{
-mvn javg-util:javg-template-plugin:bc
+mvn se.vgr.javg.maven.plugins:javg-template-plugin:bc
 }}}
 
 Pluginen kommer att efterfråga ett base-package name:
