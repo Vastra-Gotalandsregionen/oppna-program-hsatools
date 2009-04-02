@@ -59,7 +59,7 @@ Med dessa filer:
 
 ser WSDL:en _!AddressServices_ ut som:
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/Anvisningar_WSDL_design_WSDL.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/Anvisningar_WSDL_design_WSDL.png
 
  = Anpassningar för interoperabilitet = 
 Här beskrivs mönster som ska användas för att uppfylla Basic Profile samt maximera interoperabilitet.
@@ -68,4 +68,4 @@ Not: gäller Basic Profile 1.1
 Rot-elementet i ett operation-input-message ska ha samma namn som operationen det används i och eventuellt output-message ska namnges som operationen följt av _Response_. Varje message skall ha en enda wsdl:part som heter _parameters_.
 Rot-elementet ska definieras i ett importerat så kallat gränssnittsschema och referera en komplex-typ från samma eller ett annat schema.
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/Anvisningar_WSDL_design_WSDL_Wrapped.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/Anvisningar_WSDL_design_WSDL_Wrapped.png
