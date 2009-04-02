@@ -21,7 +21,7 @@ Följande krav har lett fram till öppna programs referensarkitektur:
 
 = Vision - "Ett fönster mot informationen" = 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/RA_Vision.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/Vision.png
 _Den tänkta ”mål-arkitekturen” visas i denna bild._ 
 
 Centralt finns ett antal verksamhetsstödjande funktioner/tjänster som alla använder en gemensam informationsmodell (”kanoniskt dataformat”). Understödjande är ett antal gemensamma, tekniska grundfunktioner som alla verksamhetsstödjande tjänster använder sig av. Plattform för tjänsteorienterad integration (PTI) är en regionövergripande ”tjänste-mäklare” som synliggör alla regionens tjänster via kanoniska gränssnitt och ansvarar för samverkan med nationella tjänster.
