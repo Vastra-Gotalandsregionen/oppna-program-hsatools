@@ -22,18 +22,18 @@ Innehåll och användning av de olika delarna i strukturen beskrivs här.
 == Strukturen inom ett system ==
 Varje system innehåller en eller flera verksamhetskomponenter. När man skapar ett system med maven-pluginen skapas en struktur anpassad till subversion upp. Under systemet finns katalogerna branches, tags och trunk: 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/Anvisningar_Kallkodstruktur_SystemFilstruktur.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/Anvisningar_Kallkodstruktur_SystemFilstruktur.png
 
 Under trunk ligger byggfilen `pom.xml` för hela systemet samt kataloger för respektive verksamhetskomponent. I exemplet ovan innehåller `MyTestBC` den enda verksamhetskomponenten. 
 
 == Strukturen inom en verksamhetskomponent ==
 Direkt under `<SystemNamn>/trunk` ligger alltså alla verksamhetskomponenter för ett system. Varje verksamhetskomponent har i sin tur följade struktur: 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/Anvisningar_Kallkodstruktur_BCCMStructure.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/Anvisningar_Kallkodstruktur_BCCMStructure.png
 
 I filsystemet ser det ut såhär: 
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/Anvisningar_Kallkodstruktur_BCFilstruktur.png 
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/Anvisningar_Kallkodstruktur_BCFilstruktur.png 
 
 Byggfilen `pom.xml` används för att bygga hela verksamhetskomponenten. Not: Katalogen `sql` syns inte i illustrationen ovan.
  
@@ -97,7 +97,7 @@ Förutom strukturen ovan skapas även en katalog `sql`, där eventuella sql-skri
 == Packetering av en verksamhetskomponent == 
 Inför deploy packeteras en verksamhetskomponent vanligtvis enligt följande:
 
-http://oppna-program.googlecode.com/svn/wiki/bilder/RA/latest/Anvisningar_Kallkodstruktur_BCHierarkin.png
+http://oppna-program.googlecode.com/svn/wiki/bilder/RA/Anvisningar_Kallkodstruktur_BCHierarkin.png
 
 En _applikation_ (vanligtvis i form av en ear-fil) innehåller ett antal _moduler_ (war-filer) som i sin tur innehåller _kompositer_ (jar-filer). 
 
