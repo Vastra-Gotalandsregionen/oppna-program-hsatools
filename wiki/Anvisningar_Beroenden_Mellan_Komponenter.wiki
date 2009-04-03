@@ -57,7 +57,7 @@ http://oppna-program.googlecode.com/svn/wiki/bilder/RA/Anvisningar_Beroenden_Kom
 En verksamhetskomponents byggfil (den `pom.xml` som ligger direkt i komponentens katalog i filsystemet) ska bygga alla underliggande delar direkt (inte via mellanliggande byggfiler med _packaging type_ satt till _pom_). Anledningen är att förenkla versionering genom att ha så få versionerade beroenden som möjligt.
 == Versionering av en verksamhetskomponent med Maven ==
 En verksamhetskomponent versioneras alltid som en enhet vilket innebär att de ingående delarnas pom.xml inte definierar något eget `<version>` element utan ärver versionen från verksamhetskomponentens pom.xml.
-Se [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc] för mer om versionering.
+Se [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc] för mer om versionering.
 == SNAPSHOT-versioner och kontinuerlig integration ==
 === Användning ===
 För att slippa bygga hela systemet varje gång under utveckling/testfas så går det att bygga på den nivå som är intressant för tillfället (där ändringar sker). I det läget kommer beroenden att lösas upp mot Maven repositoriet och i de fall de inte finns där (eller är för gamla baserade på SNAPSHOT-uppdateringsfrekvens) så kommer beroendena lösas upp mot ett Maven remote-repository.
@@ -75,4 +75,4 @@ http://oppna-program.googlecode.com/svn/wiki/bilder/RA/Anvisningar_Beroenden_Kom
 
 
 == Publicera stabila versioner till Maven remote repository ==
-Detta är en del av konfigurationshantering och beskrivs därför i dokumentet [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc].
+Detta är en del av konfigurationshantering och beskrivs därför i dokumentet [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc].

@@ -15,9 +15,9 @@ Denna beskrivning innehåller främst sådant som är specifikt för referensark
   * [http://maven.apache.org Maven]
   * [Anvisningar_Kallkodstruktur]
   * [Anvisningar_Beroenden_Mellan_Komponenter]
-  * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc]
-  * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc]
-  * [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]
+  * [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc]
+  * [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc]
+  * [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc]
   * [http://www.eclipse.org Eclipse]
   * [http://maven.apache.org/plugins/maven-eclipse-plugin/ Maven Eclipse-plug-in]
 
@@ -188,7 +188,7 @@ Om du inte definierat en Tomcat-server för ditt workspace än, gör det genom a
 Verifiera att det fungerar genom att högerklicka på <namn på Verksamhetskomponenten>-module-web och välj Run As -> Run on Server. Välj Tomcat-servern och kryssa i "Always use this server when running the project". Klicka på "Finish".
 
 == Koppla till Subversion ==
-Se [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc] för information om subversion och dess Eclipse-plugin. 
+Se [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Verktyg_Subversion.doc   Anvisningar_Verktyg_Subversion.doc] för information om subversion och dess Eclipse-plugin. 
 
 För att koppla alla projekt till subversion: Markera samtliga projekt och högerklicka, välj Team->Share Projects och anslut. Nu får varje projekt som listas under project explorer en repository-ikon på sig. 
 
@@ -259,6 +259,6 @@ Se ovan för hur en ny komponent importeras i Eclipse.
 
 =Vidare läsning=
 == Versionshantering av artefakter ==
-Beskrivs i [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc].
+Beskrivs i [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/Generellt/Konfigurationshantering/Anvisningar_Konfigurationshantering.doc  Anvisningar_Konfigurationshantering.doc].
 == Generering av SNAPSHOT-artefakter ==
-Beskrivs i [Anvisningar_Beroenden_Mellan_Komponenter] och [http://oppna-program.googlecode.com/svn/reference-architecture/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc].
+Beskrivs i [Anvisningar_Beroenden_Mellan_Komponenter] och [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc].
