@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<!--  Copyright 2009 Västa Götalandsregionen
+
+  This library is free software; you can redistribute it and/or modify
+  it under the terms of version 2.1 of the GNU Lesser General Public
+  License as published by the Free Software Foundation.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the
+  Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+  Boston, MA 02111-1307  USA
+ -->
+
+<!--
+Maven2 settings. To be placed in $USER_HOME/.m2
+
+VGR-specific
+====================
+One of the profiles:
+  - vgr_onsite
+  - vgr_offsite
+should always be configured <activeProfiles> at the bottom of this file.
+The profile determines if the VGR-internal Maven-repo will be used (vgr_onsite)
+or not (vgr_offsite).
+-->
+<settings>
+
+  <!-- for ci-server only! -->
+  <!-- <localRepository>D:\maven_repos\ci-repo</localRepository>-->
+
+
+  <servers>
+    <!-- Set user/pw to deploy artifacts to internal maven-repo -->
+    <server>
+      <id>releases</id>
+      <username>deployment</username>
+      <password>CHANGE_ME</password>
+    </server>
+    <server>
+      <id>snapshots</id>
+      <username>deployment</username>
+      <password>CHANGE_ME</password>
+    </server>
+  </servers>
+
+  <profiles>
+    <profile>
+      <id>vgr_onsite</id>
+      <!--
+        Internal repo should answer (proxy) all requests when onsite, mainly
+        for performance reasons). Hence the use of "central" as identifier to
+        override the external maven-repo. This is needed since the
+        mirror-mechanism does not work with profiles.
+      -->
+      <repositories>
+        <repository>
+          <id>central</id>
+          <name>vgr internal repo</name>
+          <url>http://portalutv.vgregion.se/nexus/content/groups/all</url>
+        </repository>
+        <repository>
+          <!--
+            This repo has a legacy (maven1) layout - and nexus can't group
+            that together with maven2 repos so we specify it separately here.
+          -->
+          <id>maven1.java.net</id>
+          <url>http://download.java.net/maven/1</url>
+          <layout>legacy</layout>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <name>vgr internal repo</name>
+          <url>http://portalutv.vgregion.se/nexus/content/groups/all</url>
+        </pluginRepository>
+      </pluginRepositories>      
+    </profile>
+    
+    <profile>
+      <id>vgr_offsite</id>
+      <repositories>
+        <repository>
+          <id>maven1.java.net</id>
+          <url>http://download.java.net/maven/1</url>
+          <layout>legacy</layout>
+        </repository>
+        <repository>
+          <id>maven2.java.net</id>
+          <url>http://download.java.net/maven/2</url>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <!-- Use either: vgr_onsite OR vgr_offsite -->
+    <activeProfile>vgr_onsite</activeProfile>
+  </activeProfiles>
+  <pluginGroups>
+    <pluginGroup>se.vgr.javg.maven.plugins</pluginGroup>
+  </pluginGroups>
+
+</settings>
