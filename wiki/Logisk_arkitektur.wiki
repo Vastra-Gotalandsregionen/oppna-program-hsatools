@@ -36,7 +36,7 @@ Se även [Introduktion_till_RA] för övergripande syfte med att ha en referensa
 == Referenser ==
 === Allmänt ===
 || *Organisation* || *Dokument* || *Beskrivning* ||
-|| 3R || [http://oppna-program.googlecode.com/svn/reference-architecture/Logisk_arkitektur/Modell_Referensarkitektur_oppna_program.EAP Modell_Referensarkitektur_oppna_program.EAP] || Modell för referensarkitektur. Formatet är specifikt för produkten Enterprise Architect. Produktsida: http://www.sparxsystems.com.au/products/. Gratis "Viewer" kan laddas ner här: http://www.sparxsystems.com.au/bin/EALite.exe ||
+|| 3R || [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Logisk_arkitektur/Modell_Referensarkitektur_oppna_program.EAP Modell_Referensarkitektur_oppna_program.EAP] || Modell för referensarkitektur. Formatet är specifikt för produkten Enterprise Architect. Produktsida: http://www.sparxsystems.com.au/products/. Gratis "Viewer" kan laddas ner här: http://www.sparxsystems.com.au/bin/EALite.exe ||
 
 === Yttre arkitektur ===
 
