@@ -1,7 +1,7 @@
 #summary Arkitekturen i HRIV
 #labels Project-HRIV
 
-= Arkitekuren i HRIV =
+= Arkitekturen i HRIV =
 
 Ambitionen under utveckling av HRIV har varit att följa [http://code.google.com/p/oppna-program/wiki/Introduktion_till_RA referensarkitekturen]. HRIV tillhör samma system som Sök i Katalog (SIK), HsaTools, men är en egen [http://code.google.com/p/oppna-program/wiki/Anvisningar_Beroenden_Mellan_Komponenter verksamhetskomponent].
 
