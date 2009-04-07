@@ -1,7 +1,7 @@
 #summary Sökkomponenten HsaTools-Search-composite-svc
 #labels Project-HRIV
 
-= Sökkomponenten KivTools-Search-composite-svc =
+= Sökkomponenten HsaTools-Search-composite-svc =
 
 Den komponent som används för att ställa frågor/hämta data från datakällan huserar i ett eget projekt, HsaTools-Search-composite-svc. I och med att datakällan är en LDAPv3-katalog finns stöd för detta protokoll.
 
