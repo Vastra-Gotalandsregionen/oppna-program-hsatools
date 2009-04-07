@@ -1,0 +1,33 @@
+#summary Sökkomponenten HsaTools-Search-composite-svc
+#labels Project-HRIV
+
+= Sökkomponenten KivTools-Search-composite-svc =
+
+Den komponent som används för att ställa frågor/hämta data från datakällan huserar i ett eget projekt, HsaTools-Search-composite-svc. I och med att datakällan är en LDAPv3-katalog finns stöd för detta protokoll.
+
+I ovan nämnda projekt beskrivs de krav som ställs på sök-komponenten (via interfacet SearchService) samt två implementationer, en för LDAPv3 (SearchServiceLdapImpl) och en mock-implementation (SearchServiceMockImpl) för testning utan anslutning till en "riktig" datakälla.
+
+= Att skapa en ny sökkomponentimplementation =
+
+För att skapa en ny sökkomponentimplementation, till exempel för att ansluta till en datakälla som inte kan kommunicera via LDAPv3 eller på något sätt väsentligen skiljer sig från den befintliga, behöver följande göras:
+
+ # Skapa paketet: se.vgregion.kivtools.search.svc.impl.nykomponent
+ # Skapa en implementation av interfacet se.vgregion.kivtools.search.svc.SearchService i paketet du skapade. 
+ # Konfigurera så att den nya sökkomponenten används genom att ändra i Spring-konfigurationen så att den nya sökkomponenten injectas överallt där sökkompontenten används. Konfigurationsfilen är /HsaTools-Search-composite-svc/src/main/resources/services-config.xml och sökkomponenten har id Search.SearchService. Om den nya sökkomponenten avnänder ldap är det lämpligt att även uppdatera bönan propertyPlaceholder så att denna använder en properties-fil med korrekta anslutningsuppgifter.
+ # Skapa property-filer för den nya implementationen. Property-filerna skall ligga i samma paket som implementationen men under /HsaTools-Search-composite-svc/src/main/resources/ till skillnad från javakoden som ligger under /HsaTools-Search-composite-svc/src/main/java/. De property-filer som skall skapas är:
+  * search-composite-svc-healthcare-type-conditions.properties: Innehåller alla verksamhetskoder och namn för den aktuella katalogen. Det går att ange flera villkor för varje vårdtyp, exempel:
+  kivtools.search.svc.impl.condition.name_5-1=hsaBusinessClassificationCode<br>
+  kivtools.search.svc.impl.condition.value_5-1=1000,1100,1600<br>
+  kivtools.search.svc.impl.condition.name_5-2=vgrCareType<br>
+  kivtools.search.svc.impl.condition.value_5-2=01<br>
+  kivtools.search.svc.impl.condition.filtered_5=true<p>
+  Ovanstående betyder att hsaBusinessClassificationCode ska vara antingen "1000", "1100" eller "1600" och vgrCareType ska vara "01". En enhet som uppfyller båda dessa villkor antas tillhöra den femte vårdtypen som benämns enligt kivtools.search.svc.impl.condition.displayname.5 som konfigureras i samma fil (TODO: kivtools -> hsatools).<p>
+  Att "filtered" är satt till true betyder att denna vårdtyp ska begränsas av inställningen "kivtools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes" som anger att enbart mottagningar med vissa värden för "hsaBussinessClassificationCode" ska vara synliga i hriv. Om en vårdtyp definieras som innehåller mottagningar som inte har "korrekta" värden på "hsaBussinessClassificationCode", exempelvis en vårdtyp såsom "Sjukhus" som skulle kunna vara lite speciell, är det lämpligt att sätta "filtered" till false.<p>
+  Observera att det inte är möjligt att använda samma fält två gånger i samma villkor, dvs både 5-1 och 5-2 kan ej ha villkor på exempelvis hsaBusinessClassificationCode.
+  * search-composite-svc-connection.properties: Innehåller inloggningsuppgifter för den aktuella katalogen.
+  * search-composite-svc-municipalities.properties: Innehåller alla sökbara kommuner för den aktuella katalogen. De existerande exempelfilerna bör vara självförklarande.
+ # Om man skall skapa en implementation som läser från en LDAPv3-katalog så är det lämpligt att utgå från implementationen se.vgregion.kivtools.search.svc.impl.hak.ldap då denna bäst följer HSA-standarden. Därefter bör mappningen mellan HSA-attribut och java-attributen i klassen se.vgregion.kivtools.search.svc.domain.Unit ändras. Mappningen sker i den implementationsspecifika klassen UnitFactory. I tabellen nedan listas samtliga hsa-attribut som mappas mot java-attrbut för HRIV.
+ # Det finns ett antal inställningar som påverkar utseendet i hriv. Dessa inställningar är till sin natur starkt förknippade med den implementation och katalog som används varför varje implementation har sin egen uppsättning: /HsaTools-HRIV-composite-webcomp/src/main/resources/se/vgregion/kivtools/search/presentation/[implementationsnamn, exempelvis kiv eller hak]/ hriv-composite-webcomp.properties.<br>
+Dessa inställningar finns i ovan nämnda properties-fil:
+
+TO BE CONTINUED...
