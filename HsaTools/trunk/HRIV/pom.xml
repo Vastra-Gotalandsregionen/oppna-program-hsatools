@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!--
+This is the Business Component Maven POM.
+
+[handcrafted migration to new template structure 2008-09-16]
+Template version: 1.0-SNAPSHOT
+Generation time : 2007-10-09 10:07:02 CEST
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">  
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>KivTools</groupId>
+    <artifactId>KivTools-system</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>KivTools</groupId>
+  <artifactId>KivTools-HRIV</artifactId>
+  <packaging>pom</packaging>
+  <name>${project.artifactId}</name>
+  <version>1.0-SNAPSHOT</version>
+
+  <!-- common library versions -->
+  <properties>
+    <apache.cxf.version>2.1.1</apache.cxf.version>
+    <spring.fw.version>2.5.5</spring.fw.version>
+  </properties>
+
+  <modules>
+    <module>composites/webcomp</module>
+    <module>modules/web</module>
+    <module>applications/HRIV</module>
+  </modules>  
+  
+  <dependencies>
+    <dependency>
+      <groupId>KivTools</groupId>
+      <artifactId>
+        KivTools-Search-composite-svc
+      </artifactId>
+      <!-- version IS DEFINED BY PARENT -->
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <!-- version IS DEFINED BY PARENT -->
+    <dependency>
+      <groupId>KivTools</groupId>
+      <artifactId>
+        KivTools-Search-composite-types
+      </artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.myfaces.core</groupId>
+      <artifactId>myfaces-api</artifactId>
+      <version>1.1.5</version>
+      <scope>provided</scope>
+    </dependency>
+   	<dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webflow</artifactId>
+      <version>1.0.5</version>
+    </dependency>
+   	<dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.fw.version}</version>
+    </dependency>
+	<dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.fw.version}</version>
+    </dependency>
+	<dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>${spring.fw.version}</version>
+    </dependency>
+	<dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <version>${spring.fw.version}</version>
+    </dependency>
+  </dependencies>
+  
+</project>

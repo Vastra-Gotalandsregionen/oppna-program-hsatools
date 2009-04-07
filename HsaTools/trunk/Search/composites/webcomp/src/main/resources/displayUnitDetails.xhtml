@@ -1,0 +1,231 @@
+<!--
+
+    Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<ui:composition template="/unit_details_specific_template.xhtml">
+
+	<ui:define name="MetaDataContainer">
+		<meta name="resource-type" content="organisation" />
+	</ui:define>
+
+	<ui:define name="TabContainer">
+		<h1 class="structural">Sök Enhet</h1>
+        <ul class="tab-container clearfix">
+			<li><h:outputText><a href="displayUnitSearchResult.jsf?_flowId=Search.searchperson-flow">Person</a></h:outputText></li>
+			<li><a href="#" class="active">Enhet</a></li>
+		</ul>
+	</ui:define>
+
+	<ui:define name="HeaderInputFieldContainer">
+		<form id="searchUnitForm" jsfc="h:form" class="search-form">
+			<div id="formContainer">
+		        <div class="text">
+					<label for="searchUnitForm:unitName">Enhet</label>
+					<input id="unitName" type="text" jsfc="h:inputText" value="#{unitSearchSimpleForm.unitName}" />
+					<label for="searchUnitForm:unitName" class="info">Ange namn på enhet du vill söka efter</label>
+				</div>
+			
+				<div class="text">
+					<label for="searchUnitForm:TextBoxCity">Var</label>
+					<input id="TextBoxCity" type="text" jsfc="h:inputText" value="#{unitSearchSimpleForm.searchParamValue}" />
+					<label for="searchUnitForm:TextBoxCity" class="info">Söker i Besöksadress, Postadress, Kommun</label>
+				</div>
+	
+				<div class="submit-area">
+					<input type="submit" id="submitButton" jsfc="h:commandButton" value="Sök" action="doSearch" />
+				</div>
+			</div>
+		</form>
+	</ui:define>
+
+
+	<ui:define name="MainContainer">
+		<div class="yui-u search-result">
+			<div class="summary">
+				<h2>#{unit.name}</h2>
+				<div class="location">
+					<ui:repeat value="#{unit.dn.ancestors}" var="ancestorDn">
+						<a href="visaenhetdn?dn=#{ancestorDn.urlEncoded}">#{ancestorDn.unitName}</a>, 
+					</ui:repeat>
+					<a href="visaenhetdn?dn=#{unit.dn.administration.urlEncoded}">#{unit.dn.administration.unitName}</a> 
+				</div>
+				<div class="description">
+					<div jsfc="ui:repeat" value="#{unit.description}" var="description">#{description}</div>
+				</div>
+				<h:outputText rendered="#{unit.isUnit}">
+					<div class="show-persons">
+					   	<a href="visaorganisation?hsaidentity=#{unit.hsaIdentity}">Visa personer på enhet</a>
+					</div>
+				</h:outputText>
+			</div>
+			<table>
+				<caption>Övergripande information</caption>
+				<tbody>
+					<tr>
+						<th id="main-e-post">E-post</th>
+						<td headers="main-e-post"><a href="mailto:#{unit.mail}">#{unit.mail}</a></td>
+						<th id="main-hemsida">Hemsida</th>
+						<td headers="main-hemsida"><a href="#{unit.labeledURI}">#{unit.labeledURI}</a></td>
+					</tr>
+				</tbody>
+			</table>
+			<table>
+				<caption>Telefonnummer</caption>
+				<tbody>
+					<tr>
+						<th id="publiktelefon">Publiktelefon</th>
+						<td headers="publiktelefon">
+							<div jsfc="ui:repeat" value="#{unit.hsaPublicTelephoneNumber}" var="number">
+								#{number.formattedPhoneNumber}
+							</div>
+						</td>
+						<th id="telefontid">Telefontid</th>
+						<td headers="telefontid">
+							<div jsfc="ui:repeat" value="#{unit.hsaTelephoneTime}" var="time">
+								#{time.displayValue}
+							</div>
+						</td>
+						<th id="vaxeltelefon">Växeltelefon</th>
+						<td headers="vaxeltelefon">#{unit.hsaSedfSwitchboardTelephoneNo.formattedPhoneNumber}</td>
+					</tr>
+					<tr>
+						<th id="mobiltelefon">Mobiltelefon</th>
+						<td headers="mobiltelefon">#{unit.mobileTelephoneNumber.formattedPhoneNumber}</td>
+						<th id="personsokare">Personsökare</th>
+						<td headers="personsokare">#{unit.hsaInternalPagerNumber.formattedPhoneNumber}</td>
+						<th id="minicall">Minicall</th>
+						<td headers="minicall">#{unit.pagerTelephoneNumber.formattedPhoneNumber}</td>
+					</tr>
+					<tr>
+						<th id="texttelefon">Texttelefon</th>
+						<td headers="texttelefon">#{unit.hsaTextPhoneNumber.formattedPhoneNumber}</td>
+						<th id="faxnummer">Faxnummer</th>
+						<td headers="faxnummer">#{unit.facsimileTelephoneNumber.formattedPhoneNumber}</td>
+						<th />
+						<td />
+					</tr>
+				</tbody>
+			</table>
+			<table>
+				<caption>Adresser</caption>
+				<tbody>
+					<tr class="cols">
+						<th id="postadress">Postadress</th>
+						<th id="internadress">Internadress</th>
+						<th id="besoksadress">Besöksadress</th>
+					</tr>
+					<tr class="cols">
+						<td headers="postadress">
+							<div jsfc="ui:repeat" value="#{unit.hsaPostalAddress.additionalInfo}" var="additionalInformation">
+    	                    	#{additionalInformation}
+        	                </div>
+            	 			<div>#{unit.hsaPostalAddress.street}</div>
+             				<span>#{unit.hsaPostalAddress.zipCode.formattedZipCode}</span>
+             				<span>#{unit.hsaPostalAddress.city}</span>
+						</td>
+						<td headers="internadress">
+                          	<div jsfc="ui:repeat" value="#{unit.hsaInternalAddress.additionalInfo}" var="additionalInformation">
+                          		#{additionalInformation}
+                          	</div>
+	               			<div>#{unit.hsaInternalAddress.street}</div>
+	               			<span>#{unit.hsaInternalAddress.zipCode.formattedZipCode}</span>
+	               			<span>#{unit.hsaInternalAddress.city}</span>
+						</td>
+						<td headers="besoksadress">
+                           	<div jsfc="ui:repeat" value="#{unit.hsaStreetAddress.additionalInfo}" var="additionalInformation">
+                           		#{additionalInformation}
+                           	</div>
+                			<div>#{unit.hsaStreetAddress.street}</div>
+                			<span>#{unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
+                			<span>#{unit.hsaStreetAddress.city}</span>
+						</td>
+					</tr>
+					<tr class="cols">
+						<th id="fatkuraadress">Fakturaadress</th>
+						<th id="leveransadress">Leveransadress</th>
+						<th></th>
+					</tr>
+					<tr class="cols">
+						<td headers="fatkuraadress">
+                           	<div jsfc="ui:repeat" value="#{unit.hsaSedfInvoiceAddress.additionalInfo}" var="additionalInformation">
+                           		#{additionalInformation}
+                           	</div>
+                			<div>#{unit.hsaSedfInvoiceAddress.street}</div>
+                			<span>#{unit.hsaSedfInvoiceAddress.zipCode.formattedZipCode}</span>
+                			<span>#{unit.hsaSedfInvoiceAddress.city}</span>
+						</td>
+						<td headers="leveransadress">
+                           	<div jsfc="ui:repeat" value="#{unit.hsaSedfDeliveryAddress.additionalInfo}" var="additionalInformation">
+                           		#{additionalInformation}
+                           	</div>
+                			<div>#{unit.hsaSedfDeliveryAddress.street}</div>
+                			<span>#{unit.hsaSedfDeliveryAddress.zipCode.formattedZipCode}</span>
+                			<span>#{unit.hsaSedfDeliveryAddress.city}</span>
+						</td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+			<table>
+				<caption>Övrig information</caption>
+				<tbody>
+					<tr>
+						<th id="ansvarsnummer">Ansvarsnummer</th>
+						<td headers="ansvarsnummer">
+                           	<span jsfc="ui:repeat" value="#{unit.vgrAnsvarsnummer}" var="anvsarsnummer">
+                           		#{anvsarsnummer}
+                           	</span>
+						</td>
+						<th id="arbetsplatskod">Arbetsplatskod</th>
+						<td headers="arbetsplatskod">#{unit.hsaUnitPrescriptionCode}</td>
+					</tr>
+					<tr>
+						<th id="main-i-nummer">I-nummer</th>
+						<td headers="main-i-nummer">#{unit.vgrInternalSedfInvoiceAddress}</td>
+						<th id="main-vardform">Vårdform</th>
+						<td headers="main-vardform">#{unit.vgrCareType}</td>
+					</tr>
+					<tr>
+						<th id="main-ansvarsomrkod">Ansvarsomr.kod</th>
+						<td headers="main-ansvarsomrkod">#{unit.vgrAO3kod}</td>
+						<th id="main-HSA-identitet">HSA-identitet</th>
+						<td headers="main-HSA-identitet">#{unit.hsaIdentity}</td>
+					</tr>
+					<tr>
+						<th id="main-verksamhetskod-klartext">Verksamhetskod - klartext</th>
+						<td headers="main-verksamhetskod-klartext">
+                           	<div jsfc="ui:repeat" value="#{unit.hsaBusinessClassificationCode}" var="name">
+                           		#{name}
+                           	</div>
+						</td>
+						<th id="kommunnamn">Kommunnamn</th>
+						<td headers="kommunnamn">#{unit.hsaMunicipalityName}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</ui:define>
+
+</ui:composition></div>

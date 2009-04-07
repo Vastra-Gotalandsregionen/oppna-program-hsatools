@@ -1,0 +1,177 @@
+<!--
+
+    Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<ui:composition	template="/template.xhtml">
+
+		<ui:define name="MetaDataContainer">
+			<title>Tillgänglighetsinformation - Hitta rätt i vården</title>
+			<meta name="resource-type" content="organisation" />
+		</ui:define>
+	
+	
+		<ui:define name="MainContainer">
+			<div class="yui-u search-result">
+				<h1>Tillgänglighetsinformation för #{unit.name}</h1>
+
+				<div class="FloatBox">
+					<a href="getlink?_flowId=HRIV.Search.searchunit-flow&amp;hsaidentity=#{unit.hsaIdentity}"><img src="resources/images/control_play_blue.png" alt=""/> Tillbaka till enhetsdetaljer</a><br/><br/>
+					<form id="filterAccessibilityInfoForm" jsfc="h:form" class="filterAccessibilityInfoForm">
+						<table class="borderless">
+							<tr>
+								<td>
+									<div class="FloatLeft TDBSearch">
+										<img src="resources/images/icoHear.gif" border="0" /><input id="hear" type="checkbox" jsfc="h:selectBooleanCheckbox" name="hear" value="#{accessibilityDatabaseFilterForm.hear}" /><label for="hear">Svårt att höra.</label>
+									</div>
+									<div class="FloatLeft TDBSearch">
+										<img src="resources/images/icoSee.gif" border="0" /><input id="see" type="checkbox" jsfc="h:selectBooleanCheckbox" name="see" value="#{accessibilityDatabaseFilterForm.see}" /><label for="see">Svårt att se.</label>
+									</div>
+									<div class="FloatLeft TDBSearch">
+										<img src="resources/images/icoMove.gif" border="0" /><input id="move" type="checkbox" jsfc="h:selectBooleanCheckbox" name="move" value="#{accessibilityDatabaseFilterForm.move}" /><label for="move">Svårt att röra sig.</label>
+									</div>
+								</td>
+								<td>
+									<div class="FloatLeft TDBSearch">
+										<img src="resources/images/icoSubstances.gif" border="0" /><input id="substances" type="checkbox" jsfc="h:selectBooleanCheckbox" name="substances" value="#{accessibilityDatabaseFilterForm.substances}" /><label for="substances">Svårt att tåla vissa ämnen.</label>
+									</div>
+									<div class="FloatLeft TDBSearch">
+										<img src="resources/images/icoInformation.gif" border="0" /><input id="info" type="checkbox" jsfc="h:selectBooleanCheckbox" name="info" value="#{accessibilityDatabaseFilterForm.info}" /><label for="info">Svårt att tolka och bearbeta information.</label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div id="list-type-instructions">
+										"Uppmärksamma" informerar om det som eventuellt kan vara en svårighet på besöksmålet.<br/>
+										"Tillgängligt" informerar om vad som är en god tillgänglighet på besöksmålet.
+									</div>
+									<div class="borderless-container">									
+										<h:selectOneRadio id="resultType" name="listType" value="#{accessibilityDatabaseFilterForm.listType}">
+											<f:selectItems value="#{accessibilityDatabaseFilterForm.listTypes}" />
+										</h:selectOneRadio>
+									</div>
+								</td>
+							</tr>
+						</table>
+						
+						<input type="submit" id="submitButton" jsfc="h:commandButton" value="Visa vald information" action="doFilter" />
+					</form>
+				</div>
+				
+				<br/>
+				
+				<a name="top"/>
+				<div id="accessibilityInfo">
+					<div jsfc="ui:repeat" value="#{unit.accessibilityInformation.businessObject}"
+						var="businessObject" class="accessibilityInfoItem"><b>#{businessObject.name}</b> [#{businessObject.updateStamp}]<br/>
+						<ul jsfc="ui:repeat" value="#{businessObject.blocks}"
+							var="block" class="accessibilityInfoItem">
+							<script type="text/javascript" charset="utf-8">
+								// <![CDATA[]
+									writeImage('#{block.id}', '#{block.name}');
+								// ]]>
+							</script>
+							<div class="accessibilityItemShowable" id="#{block.id}">
+								<ul jsfc="ui:repeat" value="#{block.packages}"
+								var="package" class="accessibilityBlockItem"><li>#{package.name}<br/>
+									&nbsp;<ui:repeat value="#{package.images}" var="image">
+										<h:outputText rendered="#{image.urlLarge != null}">
+											<img src="#{image.urlLarge}" alt="#{image.shortDescription}" /><br/>
+											#{image.longDescription}<br/><br/>
+										</h:outputText>
+									</ui:repeat> </li>
+									<ul jsfc="ui:repeat" value="#{package.criterias}"
+									var="criteria" class="accessibilityCriteriaItem">
+										<h:outputText rendered="#{criteria.show==true}">
+											<li>#{criteria.description}</li>
+											<ul jsfc="ui:repeat" value="#{criteria.additionalCriterias}" var="additionalCriteria">
+												<li>#{additionalCriteria}</li>
+											</ul>
+										</h:outputText>
+									</ul>
+								</ul>
+							</div>
+						</ul>
+					</div>
+					
+					<br/>
+	
+					<div jsfc="ui:repeat" value="#{unit.accessibilityInformation.subObjects}"
+						var="subObject" class="accessibilityInfoItem"><b>#{subObject.name}</b><br/>
+						<ul jsfc="ui:repeat" value="#{subObject.blocks}"
+							var="block" class="accessibilityInfoItem">
+							<script type="text/javascript" charset="utf-8">
+								// <![CDATA[]
+									writeImage('#{block.id}', '#{block.name}');
+								// ]]>
+							</script>
+							<div class="accessibilityItemShowable" id="#{block.id}">
+								<ul jsfc="ui:repeat" value="#{block.packages}"
+								var="package" class="accessibilityBlockItem"><li>#{package.name}<br/>
+									&nbsp;<ui:repeat value="#{package.images}" var="image">
+										<h:outputText rendered="#{image.urlLarge != null}">
+											<img src="#{image.urlLarge}" alt="#{image.shortDescription}" /><br/>
+											#{image.longDescription}<br/><br/>
+										</h:outputText>
+									</ui:repeat> </li>
+									<ul jsfc="ui:repeat" value="#{package.criterias}"
+									var="criteria" class="accessibilityCriteriaItem">
+										<h:outputText rendered="#{criteria.show==true}">
+											<li>#{criteria.description}</li>
+											<ul jsfc="ui:repeat" value="#{criteria.additionalCriterias}" var="additionalCriteria">
+												<li>#{additionalCriteria}</li>
+											</ul>
+										</h:outputText>
+									</ul>
+								</ul>
+							</div>
+						</ul>
+						<br/>
+					</div>
+					
+					<h:outputText rendered="#{unit.accessibilityInformation != null}">
+						<div id="acc-info-toggle">
+							<script type="text/javascript" charset="utf-8">
+							// <![CDATA[]
+								drawAccInfoToggleButton();
+							// ]]>
+							</script>
+							<a href="#top" class="url">Gå högst upp</a>
+						</div>
+					</h:outputText>
+				</div>
+				
+				<script type="text/javascript" charset="utf-8">
+					// <![CDATA[]
+						setJsEnabledAccInfo();
+					// ]]>
+				</script>
+
+				<h:outputText rendered="#{accessibilityDatabaseFilterForm.submitted == true and unit.accessibilityInformation == null}">
+					<p>Ingen tillgänglighetsinformation finns tillgänglig.</p>
+				</h:outputText>
+			</div>
+		</ui:define>
+	</ui:composition>
+</div>

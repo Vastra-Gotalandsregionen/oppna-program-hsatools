@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd">
+
+	<input-mapper>
+		<input-attribute name="googleKey" />
+	</input-mapper>
+
+	<start-state idref="Display.getAllUnitsPageListGeocoded" />
+	
+	<action-state id="Display.getAllUnitsPageListGeocoded">
+		<bean-action bean="Search.SearchUnitFlowSupportBean" method="getAllUnitsGeocoded">
+			<method-arguments>
+				<argument expression="flowScope.googleKey" parameter-type="java.lang.String"/>
+			</method-arguments>
+			<method-result name="unitsGeocoded" scope="flow"/>
+		</bean-action>
+		<transition on="success" to="Display.showAllUnitsPagedGeocoded"></transition>
+	</action-state>
+
+	<end-state id="Display.showAllUnitsPagedGeocoded" view="/displayPagedUnitLinkListGeocoded.xhtml"/>
+
+</flow>

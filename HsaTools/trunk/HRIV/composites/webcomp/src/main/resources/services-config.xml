@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="Search.HandleErrorFlowSupportBean"
+	class="se.vgregion.kivtools.search.presentation.HandleErrorFlowSupportBean"></bean>
+	
+	<bean id="Search.SearchUnitFlowSupportBean"
+		class="se.vgregion.kivtools.search.presentation.SearchUnitFlowSupportBean">
+			<property name="searchService" ref="Search.SearchService" />
+			<property name="maxSearchResult" ref="Search.MaxSearchResult"></property>
+			<property name="pageSize" value="85"></property>
+			<property name="googleMapsKeys" value="#{kivtools.hriv.webcomp.googleMapsKey}" />
+			<property name="meters" value="#{kivtools.hriv.webcomp.metersToCloseUnits}" />
+			<property name="showUnitsWithTheseHsaBussinessClassificationCodes" value="#{kivtools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes}" />
+	</bean>
+
+	<bean id="Search.UnitSearchSimpleFormValidator"		
+		class="se.vgregion.kivtools.search.validation.UnitSearchSimpleFormValidator">
+	</bean>
+
+	<bean id="Search.UserMessageSupportBean"
+		class="se.vgregion.kivtools.search.presentation.forms.UserMessageSupportBean">
+	</bean>
+	
+	<bean id="Display.DisplayUnitDetailsFlowSupportBean"
+		class="se.vgregion.kivtools.search.presentation.DisplayUnitDetailsFlowSupportBean">
+			<property name="searchService" ref="Search.SearchService" />
+			<property name="useMvkIntegration" value="#{kivtools.hriv.webcomp.useMvk}" />
+			<property name="mvkGuid" value="#{kivtools.hriv.webcomp.mvkGuid}" />
+			<property name="mvkUrl" value="#{kivtools.hriv.webcomp.mvkUrlBeforeHsaidAndGuidParams}" />
+	</bean>
+	
+	<bean id="Search.MaxSearchResult" class="java.lang.Integer" scope="prototype">
+		<constructor-arg index="0" value="200" type="java.lang.String"/>
+	</bean>
+
+	<bean id="Search.SettingsContainer" class="se.vgregion.kivtools.search.presentation.SettingsBean" scope="prototype">
+		<property name="testingMode" value="#{kivtools.hriv.webcomp.testingMode}" />
+		<property name="useAccessibilityDatabaseIntegration" value="#{kivtools.hriv.webcomp.useAccessibilityDatabaseIntegration}" />
+		<property name="fallbackOnAddressForMap" value="#{kivtools.hriv.webcomp.fallbackOnAddressForMap}" />
+		<property name="googleMapsKey" value="#{kivtools.hriv.webcomp.googleMapsKey}" />
+		<property name="distanceToUnits" value="#{kivtools.hriv.webcomp.metersToCloseUnits}" />
+		<property name="findRouteLinks" value="#{kivtools.hriv.webcomp.findRouteLinks}" />
+		<property name="styles" value="#{kivtools.hriv.webcomp.styles}" />
+		<property name="scripts" value="#{kivtools.hriv.webcomp.scripts}" />
+		<property name="header" value="#{kivtools.hriv.webcomp.header}" />
+		<property name="footer" value="#{kivtools.hriv.webcomp.footer}" />
+		<property name="useShowUnitCode" value="#{kivtools.hriv.webcomp.useShowUnitCode}" />
+		<property name="showUnitCodeOnServer" value="#{kivtools.hriv.webcomp.showUnitCodeOnServer}" />
+		<property name="showUnitCode1" value="#{kivtools.hriv.webcomp.showUnitCode1}" />
+		<property name="showUnitCode2" value="#{kivtools.hriv.webcomp.showUnitCode2}" />
+		<property name="useTrackingCode" value="#{kivtools.hriv.webcomp.useTrackingCode}" />
+		<property name="trackingCodeOnServer" value="#{kivtools.hriv.webcomp.trackingCodeOnServer}" />
+		<property name="trackingCode" value="#{kivtools.hriv.webcomp.trackingCode}" />
+		<property name="useListenLink" value="#{kivtools.hriv.webcomp.useListenLink}" />
+		<property name="listenLinkCode1" value="#{kivtools.hriv.webcomp.listenLinkCode1}" />
+		<property name="listenLinkCode2" value="#{kivtools.hriv.webcomp.listenLinkCode2}" />
+		<property name="usePrinting" value="#{kivtools.hriv.webcomp.usePrinting}" />
+		<property name="useMvk" value="#{kivtools.hriv.webcomp.useMvk}" />
+		<property name="mainTop" value="#{kivtools.hriv.webcomp.mainTop}" />
+		<property name="startPage" value="#{kivtools.hriv.webcomp.startPage}" />
+		<property name="careTypePage" value="#{kivtools.hriv.webcomp.careTypePage}" />
+		<property name="mvkLoginUrl" value="#{kivtools.hriv.webcomp.mvkLoginUrl}" />
+		<property name="metaAuthor" value="#{kivtools.hriv.webcomp.metaAuthor}" />
+		<property name="metaCopyright" value="#{kivtools.hriv.webcomp.metaCopyright}" />
+		<property name="useShowCloseUnits" value="#{kivtools.hriv.webcomp.useShowCloseUnits}" />
+		<property name="showLinkToIM" value="#{kivtools.hriv.webcomp.showLinkToIM}" />
+		<property name="linkToIMBase" value="#{kivtools.hriv.webcomp.linkToIMBase}" />
+		<property name="linkToIMOnServer" value="#{kivtools.hriv.webcomp.linkToIMOnServer}" />
+		<property name="title" value="#{kivtools.hriv.webcomp.startpage.title}" />
+		<property name="searchResultTitle" value="#{kivtools.hriv.webcomp.searchresult.title}" />
+		<property name="verifyV1" value="#{kivtools.hriv.webcomp.verifyV1}" />
+		<property name="geoRegion" value="#{kivtools.hriv.webcomp.geoRegion}" />
+		<property name="mobileUrl" value="#{kivtools.hriv.webcomp.mobileUrl}" />
+	</bean>
+
+	<bean id="Display.DisplayAccessibilityDatabaseBean" class="se.vgregion.kivtools.search.presentation.DisplayAccessibilityDatabaseBean">
+			<property name="useAccessibilityDatabaseIntegration" value="#{kivtools.hriv.webcomp.useAccessibilityDatabaseIntegration}" />
+			<property name="accessibilityDatabaseIntegrationGetIdUrl" value="#{kivtools.hriv.webcomp.accessibilityDatabaseIntegrationGetIdUrl}" />
+			<property name="accessibilityDatabaseIntegrationGetInfoUrl" value="#{kivtools.hriv.webcomp.accessibilityDatabaseIntegrationGetInfoUrl}" />
+	</bean>
+
+	<bean id="propertyPlaceholderWebcomp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:se/vgregion/kivtools/search/presentation/kiv/hriv-composite-webcomp.properties" />
+		<property name="placeholderPrefix" value="#{" />
+	</bean>
+	
+</beans>

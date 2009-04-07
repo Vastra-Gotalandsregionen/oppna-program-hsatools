@@ -1,0 +1,374 @@
+<!--
+
+    Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<ui:composition template="/template.xhtml">
+
+	<ui:define name="MetaDataContainer">
+		<title>#{unit.name} - Hitta rätt i vården</title>
+		<meta name="resource-type" content="organisation" />
+		<meta name="keywords" content="Hitta-rätt-i-vården, HRIV, sök, organisation, enhet, telefonnummer, adress, #{unit.name}" /> 		
+		<meta name="date" content="#{unit.createTimestampFormatted}" /> 
+		<meta name="creation-date" content="#{unit.createTimestampFormatted}" /> 
+		<meta name="last-modified" content="#{unit.modifyTimestampFormatted}" /> 
+		<meta name="revised" content="#{unit.modifyTimestampFormatted}" /> 
+		<meta name="DC.title" content="#{unit.name} - Hitta rätt i vården" /> 
+		<meta name="DC.subject" content="Hitta-rätt-i-vården, sök, organisation, enhet, mottagning, telefonnummer, adress, ort, #{unit.name}, #{unit.hsaMunicipalityName}" /> 
+		<h:outputText rendered="#{unit.concatenatedDescription == ''}">
+		<meta name="DC.description" content="" />
+		<meta name="description" content="" /> 
+		</h:outputText> 
+		<h:outputText rendered="#{unit.concatenatedDescription != ''}">
+		<meta name="DC.description" content="#{unit.concatenatedDescription}" />
+		<meta name="description" content="#{unit.concatenatedDescription}" />
+		</h:outputText> 
+      	<h:outputText rendered="#{unit.wgs84Lat!=0.0 and unit.wgs84Long!=0.0}">
+		<meta name="geo.position" content="#{unit.wgs84LatRounded} ;#{unit.wgs84LongRounded}"/>
+		</h:outputText>
+		<meta name="geo.country" content="SE" />
+		<meta name="geo.region" content="#{settings.geoRegion}" />
+		<meta name="geo.placename" lang="sv-SE" content="#{unit.hsaMunicipalityName}"/>
+	</ui:define>
+
+	<ui:define name="HRIVCaptions">
+	</ui:define>
+
+	<ui:define name="MainContainer">
+		<div class="yui-u search-result">
+
+			<div id="print-element">
+			
+				<h:outputText rendered="#{settings.showLinkToIM==true and settings.linkToIMOnServer==facesContext.externalContext.request.serverName}">
+					<a href="#{settings.linkToIMBase}#{unit.dnBase64}" class="url">Editera i IM</a>&#160; 
+				</h:outputText>
+			
+				<h:outputText rendered="#{settings.useAccessibilityDatabaseIntegration==true and unit.accessibilityDatabaseId != null}"><a href="getlink?_linkflowkey=${flowExecutionKey}&amp;_linkeventid=viewAccessibilityInfoAction&amp;unitId=#{unit.hsaIdentity}"><img src="resources/images/disabled.png" alt="Tillgänglighetsinformation"/></a>&#160;</h:outputText>
+				<h:outputText rendered="#{settings.usePrinting==true}">
+					<script type="text/javascript" charset="utf-8">
+						// <![CDATA[]
+							drawPrintLabel('print-area');
+						// ]]>
+					</script>
+				</h:outputText>
+			</div>
+			<div id="print-area">
+				<!--  Display unit widget start (dont remove this comment) -->
+				<div class="vcard">
+					<div class="summary given-name fn org">
+						<h1>#{unit.name}, <span class="municipality-name">#{unit.hsaMunicipalityName}</span></h1>
+						 <span class="caretype-customized"> 
+							<h:outputText rendered="#{settings.testingMode==true and unit.caretypeCustomized=='Okänd vårdtyp'}"><span class="warning">#{unit.caretypeCustomized}</span></h:outputText>
+							<h:outputText rendered="#{settings.testingMode!=true or unit.caretypeCustomized!='Okänd vårdtyp'}">#{unit.caretypeCustomized}</h:outputText>#{unit.formattedAncestor}
+						</span> 
+					</div>
+					
+					<table class="borderless">
+						<tr>
+							<th class="leftcol">
+								<span class="grey-header">Öppettider</span>
+							</th>
+							<td class="rightfourcol">
+								<div jsfc="ui:repeat" value="#{unit.hsaSurgeryHours}" var="time">#{time.displayValue}</div>
+			                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaSurgeryHours) lt 1}">
+									<span class="warning">hsaSurgeryHours saknas</span>
+								</h:outputText>
+							</td>
+							<th class="leftcol">
+								<span class="grey-header">Drop-in</span>
+							</th>
+							<td class="rightfourcol">
+								<div jsfc="ui:repeat" value="#{unit.hsaDropInHours}" var="time">#{time.displayValue}</div>
+			                 	<h:outputText rendered="#{fn:length(unit.hsaDropInHours) lt 1}">
+									Ingen drop in
+								</h:outputText>
+							</td>
+						</tr>
+             			<tr>
+             				<th class="leftcol" id="managementTextHeaderCell">
+				             	<span class="grey-header">Drivs av</span>
+				            </th>
+				            <td class="rightfourcol" headers="managementTextHeaderCell">
+				            	#{unit.hsaManagementText}
+			                 	<h:outputText rendered="#{settings.testingMode==true and !unit.hsaManagementTextIsValid}">
+									<span class="warning">hsaManagementText saknas</span>
+								</h:outputText>
+				            </td>
+							<th class="leftcol" id="visitingRuleAgeHeaderCell">
+								<span class="grey-header">Tar emot åldersintervall</span>
+							</th>
+							<td class="rightfourcol" headers="visitingRuleAgeHeaderCell">
+								#{unit.hsaVisitingRuleAge}
+			                 	<h:outputText rendered="#{settings.testingMode==true and !unit.hsaVisitingRuleAgeIsValid}">
+									<span class="warning">hsaVisitingRuleAge saknas</span>
+								</h:outputText>
+							</td>
+						</tr>
+						<h:outputText rendered="#{unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true}">
+	             			<tr>
+	             				<th class="leftcol" id="tempInfoHeaderCell">
+					             	<span class="grey-header">Tillfällig<br/>information</span>
+					            </th>
+					            <td headers="tempInfoHeaderCell" colspan="3">
+					            	#{unit.vgrTempInfoBody}
+									<h:outputText rendered="#{unit.vgrRefInfo != ''}">
+					            	<br/>Hänvisning: #{unit.vgrRefInfo}
+					            	</h:outputText>
+					            </td>
+							</tr>
+						</h:outputText>
+             			<tr>
+             				<th class="leftcol" id="visitingRulesHeaderCell">
+				             	<span class="grey-header">Besöksregler</span>
+				            </th>
+				            <td  class="righttwocol" headers="visitingRulesHeaderCell" colspan="3">
+				            	#{unit.hsaVisitingRules}
+			                 	<h:outputText rendered="#{settings.testingMode==true and !unit.hsaVisitingRulesIsValid}">
+									<span class="warning">hsaVisitingRules saknas</span>
+								</h:outputText>
+				            </td>
+						</tr>
+					</table>
+
+					<div id="description-header" style="padding: 0px;">
+						<table class="borderless">
+							<tr>
+								<th class="leftcol">
+									<span class="grey-header">Beskrivning</span>
+								</th>
+							</tr>
+						</table>			
+					</div>
+	
+					<div id="description-body">
+						<h:outputText rendered="#{fn:length(unit.concatenatedDescription) gt 0}">
+							<div id="description-body-short">
+								<h:outputText value="#{fn:substring(unit.concatenatedDescription, 0, 400)}..." rendered="#{fn:length(unit.concatenatedDescription) gt 400}" />
+								<h:outputText value="#{unit.concatenatedDescription}" rendered="#{fn:length(unit.concatenatedDescription) lt 401}" />
+							</div>
+							
+							<div id="description-body-long" style="display: none;">
+								<h:outputText value="#{unit.concatenatedDescription}" />
+							</div>
+						</h:outputText>
+
+		               	<h:outputText rendered="#{fn:length(unit.concatenatedDescription) lt 1 and settings.testingMode==true}">
+							<span class="warning">Fältet "beskrivning" är tomt!</span>
+	                    </h:outputText>  
+		             	
+						<div id="description-extend">
+			               	<h:outputText rendered="#{fn:length(unit.concatenatedDescription) gt 400}">
+								<div id="description-toggle-area" />
+								<script type="text/javascript" charset="utf-8">
+									// <![CDATA[]
+										drawToggleDescription();
+									// ]]>
+								</script>
+							</h:outputText>
+						</div>
+					</div>
+
+					<div class="unit-details-header">
+						<h2>Kontakta oss</h2>			
+					</div>
+					
+					<div>
+						<table class="borderless">
+							<tr>
+								<th class="leftcol" id="telNumberHeaderCell">
+									<span class="grey-header">Telefonnr</span>
+								</th>
+								<td class="centerthreecol" headers="telNumberHeaderCell">
+									<div jsfc="ui:repeat" value="#{unit.hsaPublicTelephoneNumber}" var="number" class="tel">
+										<span class="bold">#{number.formattedPhoneNumber}</span>
+									</div>
+				                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaPublicTelephoneNumber) lt 1}">
+										<span class="warning">hsaPublicTelephoneNumber saknas</span>
+									</h:outputText>
+								</td>
+								<td class="rightthreecol">
+									<h:outputText rendered="#{settings.useMvk == 'true' and fn:length(unit.mvkCaseTypes) gt 0}">
+										<a href="#{settings.mvkLoginUrl}" class="url"><img src="resources/images/mvk-logo.gif" alt="Mina vårdkontakter"/> Mina Vårdkontakter</a>
+									</h:outputText>
+								</td>			
+							</tr>
+							<tr>
+								<th class="leftcol" id="telTimeHeaderCell">
+									<span class="grey-header">Telefontid</span>
+								</th>
+								<td class="righttwocol" headers="telTimeHeaderCell">
+									<div jsfc="ui:repeat" value="#{unit.hsaTelephoneTime}" var="time">#{time.displayValue}</div>
+				                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaTelephoneTime) lt 1}">
+										<span class="warning">hsaTelephoneTime saknas</span>
+									</h:outputText>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<a href="#{unit.labeledURI}" class="url">Mottagningens webbplats</a>
+				                 	<h:outputText rendered="#{settings.testingMode==true and !unit.labeledURIIsValid}">
+										<span class="warning">labeledURI saknas eller har ej protokoll korrekt angivet</span>
+									</h:outputText>
+								</td>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="unit-details-header" id="unit-details-page-break">
+						<h2>Hitta hit</h2>
+					</div>
+					
+					<div class="address" id="address-div">
+						<table class="borderless" id="address-table">
+							<tr>
+								<th class="leftcol" id="adressHeaderCell">
+									<span class="grey-header">Adress</span>
+								</th>
+								<td id="address-borderless-address">
+									<div class="adr">
+						     			<span class="street-address">#{unit.hsaStreetAddress.street}</span>
+						     			<span class="postal-code">#{unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
+						     			<span class="locality">#{unit.hsaStreetAddress.city}</span>
+					     			</div>
+					     			<span>#{unit.hsaStreetAddress.street}</span><br/>
+					     			<span>#{unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
+					     			<span>#{unit.hsaStreetAddress.city}</span>
+									<div jsfc="ui:repeat" value="#{unit.hsaStreetAddress.additionalInfo}" var="additionalInformation">
+		    	                    	#{additionalInformation}
+        			                </div>
+				                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaStreetAddress.street) lt 1}">
+										<span class="warning">hsaStreetAddress saknas eller kunde inte tolkas till fullo</span>
+									</h:outputText>
+								</td>
+					        </tr>
+							<tr>
+								<th class="leftcol">
+									<span class="grey-header">Hitta rätt</span>
+								</th>
+								<td class="rightcol">
+									<h:outputText value="#{unit.hsaRouteConcatenated}" />
+				                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaRouteConcatenated) lt 1}">
+										<span class="warning">hsaRoute saknas</span>
+									</h:outputText>
+								</td>
+							</tr>
+							<tr>
+								<th class="leftcol">
+									<span class="grey-header">Koordinater</span>
+								</th>
+								<td class="rightcol">
+						           	<h:outputText rendered="#{unit.wgs84Lat!=0.0}">
+						     			<div class="geo">
+						     				Latitud: <abbr class="latitude" id="abbr-latitude">
+												#{unit.wgs84LatRounded}
+											</abbr><br/> 
+											Longitud: <abbr class="longitude" id="abbr-longitude">
+											 	#{unit.wgs84LongRounded}
+											</abbr>
+						     			</div>
+									</h:outputText>
+				                 	<h:outputText rendered="#{settings.testingMode==true and unit.wgs84Lat==0.0}">
+										<span class="warning">hsaGeographicalCoordinates saknas</span>
+									</h:outputText>
+								</td>
+							</tr>
+							<tr>
+								<th class="leftcol">
+									<span class="grey-header">Hitta resväg</span>
+								</th>
+								<td class="rightcol">
+				           		<ui:repeat value="#{settings.findRouteLinksArray}" var="link">
+				           			<a href="#{link.href}?to=#{fn:trim(unit.hsaStreetAddress.street)}" class="url">#{link.name}</a><br/>
+								</ui:repeat>
+								</td>
+							</tr>							
+							<tr class="directions-row">
+								<th id="directionsFromCellHeader"></th>
+								<td id="directionsFromCellBody"></td>
+							</tr>
+							<tr class="directions-row">
+								<th id="directionsToCellHeader"></th>
+								<td id="directionsToCellBody"></td>
+							</tr>
+						</table>	
+						<script type="text/javascript" charset="utf-8">
+							// <![CDATA[]
+								drawDirectionsTableRows('#{unit.name}', '#{unit.wgs84Lat}', '#{unit.wgs84Long}', '#{fn:trim(unit.hsaStreetAddress.street)}', '#{fn:trim(unit.hsaStreetAddress.city)}');
+							// ]]>
+						</script>
+					</div>
+					
+					<div id="map-right-of-address-div">
+						<!--  Map cell start (dont remove this comment) -->
+						<div id="map"/>
+						<noscript>
+				           	<h:outputText rendered="#{unit.wgs84Lat!=0.0}">
+								<img src="http://maps.google.com/staticmap?center=#{unit.wgs84Lat},#{unit.wgs84Long}&amp;zoom=15&amp;size=350x350&amp;maptype=mobile&amp;markers=#{unit.wgs84Lat},#{unit.wgs84Long},red&amp;key=#{settings.googleMapsKey}&amp;sensor=false" alt="Karta"/>
+							</h:outputText>
+						</noscript>
+						<!--  Map cell end (dont remove this comment) -->
+					</div>
+
+					<div id="directions-container" style="display: none;">
+						<div id="dir-div" />
+						<div id="map-div-container" >
+							<div id="map-div"/>
+						</div>
+					</div>
+
+					<h:outputText rendered="#{settings.useShowUnitCode == 'true'}">
+						<h:outputText escape="false" rendered="#{settings.testingMode==true and settings.showUnitCodeOnServer == facesContext.externalContext.request.serverName}" value="#{settings.showUnitCode1}" />
+						<h:outputText escape="false" rendered="#{settings.testingMode==true and settings.showUnitCodeOnServer == facesContext.externalContext.request.serverName}" value="#{unit.hsaIdentity}" />
+						<h:outputText escape="false" rendered="#{settings.testingMode==true and settings.showUnitCodeOnServer == facesContext.externalContext.request.serverName}" value="#{settings.showUnitCode2}" />
+					</h:outputText>
+
+				</div>
+	           	<h:outputText rendered="#{unit.wgs84Lat!=0.0}">
+					<script type="text/javascript" charset="utf-8">
+						// <![CDATA[]
+							document.getElementById("map").style.height = "28em";
+							document.getElementById("map").style.width = "28em";
+							showAddressByCoordinates('#{fn:trim(unit.hsaIdentity)}', '#{unit.wgs84Lat}', '#{unit.wgs84Long}', '#{fn:trim(unit.hsaPublicTelephoneNumber[0])}', '#{fn:trim(unit.caretypeCustomized)}', '#{fn:trim(unit.name)}', '', 'true', null);
+						// ]]>
+					</script>
+				</h:outputText>			
+	           	<h:outputText rendered="#{unit.wgs84Lat==0.0 and settings.fallbackOnAddressForMap==true}">
+	           		<ui:repeat value="#{unit.hsaStreetAddress}" var="address">
+	           			<h:outputText rendered="#{fn:length(address.street) gt 0}">
+							<script type="text/javascript" charset="utf-8">
+								// <![CDATA[]
+									document.getElementById("map").style.height = "28em";
+									document.getElementById("map").style.width = "28em";
+									showAddress('#{fn:trim(unit.hsaIdentity)}', '#{fn:trim(address.street)}, #{fn:trim(address.zipCode.formattedZipCode)}, #{fn:trim(address.city)}', '#{fn:trim(unit.hsaPublicTelephoneNumber[0])}', '#{fn:trim(unit.caretypeCustomized)}', '#{fn:trim(unit.name)}', '', 'true', null);
+								// ]]>
+							</script>
+						</h:outputText>
+					</ui:repeat>
+				</h:outputText>			
+				<!--  Display unit widget end (dont remove this comment) -->
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition></div>
