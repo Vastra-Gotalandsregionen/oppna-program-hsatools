@@ -12,3 +12,5 @@ I praktiken utgörs HRIV av tre enheter som kan utgöra tre projekt i utveckling
 Det mesta arbetet sker i HsaTools-HRIV-composite-webcomp, som innehåller det som ska vara gemensamt för alla moduler, samt i modulen HsaTools-HRIV-module-web, den hittills enda modulen, som beskriver webbgränssnittet.
 
 HsaTools-HRIV-app används för att skapa en EAR-fil.
+
+[http://oppna-program.googlecode.com/svn/wiki/bilder/HsaTools/HRIV/hriv_high_level_graph.png Översiktsbild med exempel från Västra Götaland]
