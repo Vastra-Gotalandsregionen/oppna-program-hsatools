@@ -1,0 +1,55 @@
+<!--
+
+    Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<div id="header-tab-container" xmlns:h="http://java.sun.com/jsf/html">
+	<div id="pageHeader">
+		<div id="pageHeaderSearch">
+			<div class="headerlinks">
+				<ul>
+					<li class="toppadded"><a href="http://vard.vgregion.se/sv/Other-languages/">Other languages</a>&#160; | &#160;</li>
+					<li class="toppadded"><a href="http://vard.vgregion.se/sv/Teckenspraksfilmer/">Teckenspråk</a>&#160; | &#160;</li>
+					<li class="toppadded"><h:outputText rendered="#{settings.useListenLink==true}" escape="false" value="#{settings.listenLinkCode1}" />
+						<h:outputText rendered="#{settings.useListenLink==true}" value="#{facesContext.externalContext.request.queryString}" />
+						<h:outputText rendered="#{settings.useListenLink==true}" escape="false" value="#{settings.listenLinkCode2}" />
+					</li>					
+					<li class="header-search-item"><form action="http://vard.vgregion.se/sv/Sok/" method="get"><input name="quicksearchquery" id="SearchText" accesskey="4" title="Snabbsökning" class="topSearch" type="text" /><input name="Search" value="Sök" id="Search" class="standardButton marginTopFive" type="submit" /></form></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="header">
+		<div class="headimageholder"><a accesskey="S"
+			href="http://vard.vgregion.se/sv/#body-content" /><a accesskey="1"
+			href="http://vard.vgregion.se/"> <img
+			alt="V&#229;rden i V&#228;stra G&#246;taland"
+			src="resources/images/head-img.gif" /> </a></div>
+	<h1>V&#229;rden i V&#228;stra G&#246;aland</h1>
+	</div>
+	<div id="menucontainer">
+		<ul>
+			<li><a class="first" href="http://vard.vgregion.se/sv/Startsidan/"> Startsidan</a></li>
+			<li><a href="http://vard.vgregion.se/sv/Sjukdomar-och-besvar/">Sjukdomar och besv&#228;r</a></li>
+			<li><a href="http://vard.vgregion.se/sv/Undersokningar--behandlingar/">Unders&#246;kningar och behandlingar</a></li>
+			<li><a href="startpage.jsp?startpage=1" class="selected first">Hitta r&#228;tt i v&#229;rden</a></li>
+			<li><a href="http://vard.vgregion.se/sv/Regler-och-rattigheter/">Regler och r&#228;ttigheter</a></li>
+			<li><a href="http://vard.vgregion.se/sv/Mina-vardkontakter/">Mina v&#229;rdkontakter</a></li>
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,248 @@
+<!--
+
+    Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<ui:composition template="/template.xhtml">
+
+	<ui:define name="MetaDataContainer">
+		<title>#{settings.searchResultTitle}</title>
+		<meta name="keywords" content="Hitta-rätt-i-vården, HRIV, sök, organisation, enhet, telefonnummer, adress" /> 		
+		<meta name="DC.title" content="Hitta rätt i vården" /> 
+		<meta name="resource-type" content="organisation" />
+		<meta name="DC.description" content="Hitta-rätt-i-vården hjälper dig att att hitta information om mottagningar" /> 
+		<meta name="description" content="Hitta-rätt-i-vården hjälper dig att att hitta information om mottagningar" />
+		<meta name="DC.subject" content="Hitta-rätt-i-vården, sök, organisation, enhet, mottagning, telefonnummer, adress, ort" /> 
+	</ui:define>
+
+	<ui:define name="HrivCaptions">
+		<div id="hits-type-caption">
+			<div id="type-caption">
+				<h:outputText rendered="#{(displayCloseUnitsSimpleForm.searchFlag == true and fn:length(coordinateUnits) gt 0) or (displayCloseUnitsSimpleForm.searchFlag == false and fn:length(units) gt 0)}">
+					<h:outputText rendered="#{settings.usePrinting==true and unitSearchSimpleForm.resultType gt 1}">
+						<script type="text/javascript" charset="utf-8">
+							// <![CDATA[]
+								drawPrintLabel('map-div');
+							// ]]>
+						</script>
+					</h:outputText>
+				</h:outputText>
+			</div>
+		</div>	
+	</ui:define>
+
+	<ui:define name="MainContainer">
+	
+		<div id="search-result-caption">
+			<div id="search-result-caption-text">
+				<h1 class="structural">Sökresultat</h1>
+				<h:outputText rendered="#{fn:trim(rootCauseException.message) != ''}">
+					<div id="error-reporting-container">
+						#{rootCauseException.message}
+					</div>
+				</h:outputText>
+				<h:outputText rendered="#{fn:length(units) gt 0}">
+					<div id="about-searchinformation-container">
+						<h2><strong><h:outputText rendered="#{displayCloseUnitsSimpleForm.searchFlag == true}">#{fn:length(coordinateUnits)}</h:outputText>
+						<h:outputText rendered="#{displayCloseUnitsSimpleForm.searchFlag == false}">#{fn:length(units)}</h:outputText></strong> träffar</h2>
+					</div>
+				</h:outputText>
+				<h:outputText rendered="#{fn:length(units) >= maxSearchResult}">
+					<div id="error-reporting-container">
+						I resultatlistan nedan visas de #{maxSearchResult} första träffarna.
+					</div>
+				</h:outputText>
+			</div>
+			<div id="search-result-caption-sort">
+				<h:outputText rendered="#{unitSearchSimpleForm.resultType lt 2 &amp;&amp; fn:length(units) gt 0}">
+					Sortera träffar på <select name="sort" id="sort" onchange="var sortName = this.options[this.selectedIndex].value;document.searchUnitForm.elements['sortOrder'].value=sortName;document.searchUnitForm.elements['submitButton'].click();"><option value="UNIT_NAME">Mottagning</option><option value="CARE_TYPE_NAME">Typ av vård</option></select>
+				</h:outputText>
+			</div>
+
+			<script type="text/javascript" charset="utf-8">
+				// <![CDATA[]
+				  	adjustSortOrder();
+				// ]]>
+			</script>
+		</div>
+
+		<div id="print-area">
+			<div class="search-result">
+				<h:outputText rendered="#{fn:length(units) gt 0}">
+					<h:outputText rendered="#{unitSearchSimpleForm.resultType gt 1}">
+						<div id="search-result-container">
+		
+							<div id="spinner-div" class="spin-div">
+								<div class="spin-div-text">
+									<h:outputText value="Genererar karta..." />
+								</div>
+							</div>
+							<div id="map-div">
+								<script type="text/javascript" charset="utf-8">
+									<h:outputText rendered="#{displayCloseUnitsSimpleForm.searchFlag == true}">
+										// <![CDATA[]
+										map = initGMap('#{fn:length(coordinateUnits)}');							
+										// ]]>
+									</h:outputText>
+									<h:outputText rendered="#{displayCloseUnitsSimpleForm.searchFlag == false}">
+										// <![CDATA[]
+										map = initGMap('#{fn:length(units)}');							
+										// ]]>
+									</h:outputText>
+								</script>
+								<script type="text/javascript" charset="utf-8" defer="defer">
+		
+									<h:outputText rendered="#{displayCloseUnitsSimpleForm.searchFlag == true}">
+										<ui:repeat value="#{coordinateUnits}" var="theUnit">
+								           	<h:outputText rendered="#{theUnit.wgs84Lat!=0.0}">
+											// <![CDATA[]
+												showAddressByCoordinates('#{fn:trim(theUnit.hsaIdentity)}', '#{theUnit.wgs84Lat}', '#{theUnit.wgs84Long}', '#{fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '#{fn:trim(theUnit.caretypeCustomized)}', '#{fn:trim(theUnit.name)}', '#{theUnit.distanceToTarget}', 'false', map);
+											// ]]>
+											</h:outputText>			
+					        			   	<h:outputText rendered="#{theUnit.wgs84Lat==0.0 and settings.fallbackOnAddressForMap==true}">
+								           		<ui:repeat value="#{theUnit.hsaStreetAddress}" var="address">
+							           				<h:outputText rendered="#{fn:length(address.street) gt 0}">
+													// <![CDATA[]
+				     									showAddress('#{fn:trim(theUnit.hsaIdentity)}', '#{fn:trim(address.street)}, #{fn:trim(address.zipCode.formattedZipCode)}, #{fn:trim(address.city)}', '#{fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '#{fn:trim(theUnit.caretypeCustomized)}', '#{fn:trim(theUnit.name)}', '#{theUnit.distanceToTarget}', 'false', map);
+													// ]]>
+													</h:outputText>
+												</ui:repeat>
+											</h:outputText>			
+										</ui:repeat>
+									</h:outputText>
+								
+									<h:outputText rendered="#{displayCloseUnitsSimpleForm.searchFlag == false}">
+										<ui:repeat value="#{units}" var="theUnit">
+								           	<h:outputText rendered="#{theUnit.wgs84Lat!=0.0}">
+											// <![CDATA[]
+												showAddressByCoordinates('#{fn:trim(theUnit.hsaIdentity)}', '#{theUnit.wgs84Lat}', '#{theUnit.wgs84Long}', '#{fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '#{fn:trim(theUnit.caretypeCustomized)}', '#{fn:trim(theUnit.name)}', '', 'false', map);
+											// ]]>
+											</h:outputText>			
+					        			   	<h:outputText rendered="#{theUnit.wgs84Lat==0.0 and settings.fallbackOnAddressForMap==true}">
+								           		<ui:repeat value="#{theUnit.hsaStreetAddress}" var="address">
+							           				<h:outputText rendered="#{fn:length(address.street) gt 0}">
+													// <![CDATA[]
+				     									showAddress('#{fn:trim(theUnit.hsaIdentity)}', '#{fn:trim(address.street)}, #{fn:trim(address.zipCode.formattedZipCode)}, #{fn:trim(address.city)}', '#{fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '#{fn:trim(theUnit.caretypeCustomized)}', '#{fn:trim(theUnit.name)}', '', 'false', map);
+													// ]]>
+													</h:outputText>
+												</ui:repeat>
+											</h:outputText>			
+										</ui:repeat>
+									</h:outputText>
+								</script>
+								<script type="text/javascript" charset="utf-8">
+									// <![CDATA[]
+										adjustMapVisibility();
+									// ]]>
+								</script>
+							</div>
+							
+							<h:outputText rendered="#{settings.useShowCloseUnits == 'true'}">
+								Visa mottagningar nära adress (inom #{settings.distanceToUnits} m): 
+								<form jsfc="h:form" id="closeUnitsForm" onsubmit="return closeUnitsFormValidate(document.forms['closeUnitsForm'].elements[0].value);">
+									<input jsfc="h:inputText" value="#{displayCloseUnitsSimpleForm.address}" name="address" size= "20" onclick="this.focus();this.select();" onkeydown="if ((event.which &amp;&amp; event.which == 13) || (event.keyCode &amp;&amp; event.keyCode == 13)) { document.forms['closeUnitsForm'].submit(); }" />
+									<input type="submit" id="submitButton" jsfc="h:commandButton" value="Visa mottagningar" action="doShowCloseUnitsOnMap" />
+								</form>
+								
+								<noscript>
+									<p>Kartvyn kräver JavaScript.</p>
+								</noscript>
+							</h:outputText>
+						</div>						
+					</h:outputText>
+	
+					<h:outputText rendered="#{unitSearchSimpleForm.resultType lt 2}">
+						<ul id="search-result-container">
+							<ui:repeat value="#{units}" var="theUnit">
+							
+								<li>
+					                <div class="vcard clearfix" id="hcard-#{theUnit.hsaIdentity}">
+					                 	<div class="single-row clearfix">
+				                            	<h3 class="given-name fn org">
+					                            	<a href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.requestContextPath}/visaenhet?hsaidentity=#{theUnit.hsaIdentity}&amp;noHeader=#{param.noHeader}">
+														<span class="bold">#{theUnit.name}</span></a><span class="hits-header">, #{theUnit.hsaMunicipalityName}</span>
+					                            </h3>
+					                            <span class="caretype">
+														<h:outputText rendered="#{settings.testingMode==true and theUnit.caretypeCustomized=='Okänd vårdtyp'}"><span class="warning"> #{theUnit.caretypeCustomized}</span></h:outputText>
+														<h:outputText rendered="#{settings.testingMode!=true or theUnit.caretypeCustomized!='Okänd vårdtyp'}"> 
+															<ui:repeat value="#{theUnit.healthcareTypesCustomized}" var="ht">
+																<h:outputText rendered="#{ht.index == unitSearchSimpleForm.healthcareType}"><span class="bold">#{ht.displayName} </span></h:outputText>
+																<h:outputText rendered="#{ht.index != unitSearchSimpleForm.healthcareType}">#{ht.displayName} </h:outputText>
+															</ui:repeat>
+														</h:outputText>
+												</span>
+					                 	</div>
+					                    
+				                        <div class="unit-description">
+											<h:outputText value="#{fn:substring(theUnit.concatenatedDescription, 0, 400)}..." rendered="#{fn:length(theUnit.concatenatedDescription) gt 400}" />
+											<h:outputText value="#{theUnit.concatenatedDescription}" rendered="#{fn:length(theUnit.concatenatedDescription) lt 401}" />
+							               	<h:outputText rendered="#{fn:length(theUnit.concatenatedDescription) lt 1 and settings.testingMode==true}">
+												<span class="warning">Fältet "beskrivning" är tomt!</span>
+					                        </h:outputText>  
+			 	                        </div>
+				                        
+				                        <div class="tel-adr-container">
+					                        <div class="tel-container">
+					                            <div class="tel-header">Telefon</div>
+					                            <div class="tel-body">
+						                            <h:outputText rendered="#{fn:trim(theUnit.hsaPublicTelephoneNumber[0])!=''}">
+														<ui:repeat value="#{theUnit.hsaPublicTelephoneNumber}" var="phone">
+								    	            		<div class="tel"><span class="type">Work</span><span class="value">#{phone.formattedPhoneNumber}</span></div>
+								        	        	</ui:repeat>
+						                            </h:outputText>
+					                            </div>
+				                            </div>
+					                        
+				                            <div class="adr-container">
+					                            <div class="adr-header">Adress</div>
+					                            <div class="adr-body">
+						                           	<ui:repeat value="#{theUnit.hsaStreetAddress}" var="address">
+							                			<div class="street-address">#{address.street}</div>
+							                			<span class="postal-code">#{address.zipCode.formattedZipCode}</span>
+							                			<span class="locality">#{address.city}</span>
+								                	</ui:repeat>
+								                	<div jsfc="ui:repeat" value="#{theUnit.hsaStreetAddress.additionalInfo}" var="additionalInformation">
+		    	                    					#{additionalInformation}
+        			                				</div>
+								                </div>
+					                        </div>
+				                        </div>
+				                        
+										<div class="uncomplete-unit">
+				                    	 	<h:outputText rendered="#{settings.testingMode==true and !theUnit.contentValidationOk}">
+				                    	 		<img src="resources/images/flag_red.png" alt="Uppgifter om enheten saknas!"/>
+				                    	 	</h:outputText>
+				                    	</div>
+				                    </div>
+				
+								</li>
+							</ui:repeat>
+						</ul>
+					</h:outputText>
+				</h:outputText>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition></div>
