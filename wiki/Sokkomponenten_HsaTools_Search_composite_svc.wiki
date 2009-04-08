@@ -48,14 +48,14 @@ Dessa inställningar finns i ovan nämnda properties-fil:
 || kivtools.hriv.webcomp.careTypePage || Sökväg till sidinnehåll som inkluderas. || Pekar ut en fil som inkluderas på vårdtypssidan. || 
 || kivtools.hriv.webcomp.useShowUnitCode || true/false || Anger om kodrutan som visar enhetsdetaljerwidgeten ska användas. || 
 || kivtools.hriv.webcomp.showUnitCodeOnServer || Serverns adress där kodrutan ska visas. || Gör det möjligt att enbart visa kodrutan på en specifik server. Kodrutan kommer inte att visas om HRIV körs på en annan server. || 
-|| kivtools.hriv.webcomp.showUnitCode1 || html-kod som utgör första delen av kodrutan. || Koden för kodrutan har delats i två block för att kunna inkludera dynamisk information (mottagningens hsaId). || 
-|| kivtools.hriv.webcomp.showUnitCode2 || html-kod som utgör andra delen av kodrutan. || Andra delen av kodrutans kod som fortsätter direkt efter att mottagningens hsaid. || 
+|| kivtools.hriv.webcomp.showUnitCode1 || HTML-kod som utgör första delen av kodrutan. || Koden för kodrutan har delats i två block för att kunna inkludera dynamisk information (mottagningens hsaId). || 
+|| kivtools.hriv.webcomp.showUnitCode2 || HTML-kod som utgör andra delen av kodrutan. || Andra delen av kodrutans kod som fortsätter direkt efter att mottagningens hsaid. || 
 || kivtools.hriv.webcomp.useTrackingCode || true/false || Anger om nedanstående "spårningskod" ska användas. || 
 || kivtools.hriv.webcomp.trackingCodeOnServer || Serverns adress där kodrutan ska visas. || Gör det möjligt att enbart inkludera ”spårningskoden” på en specifik server. Exempelvis troligt att spårningskoden inte ska köras på en testserver. || 
 || kivtools.hriv.webcomp.trackingCode || HTML-kod som utgör spårningskoden. || Exempelvis ett anrop till Google Analytics. || 
 || kivtools.hriv.webcomp.useListenLink || true/false || Anger om lyssningslänk för uppläsning av sidan ska presenteras. || 
-|| kivtools.hriv.webcomp.listenLinkCode1 || html-kod som utgör första delen av lyssningskoden. || Koden för lyssningskoden har delats i två block för att kunna inkludera dynamisk information. || 
-|| kivtools.hriv.webcomp.listenLinkCode2 || html-kod som utgör andra delen av lyssningskoden. || Andra delen av kodrutans kod som fortsätter direkt efter att mottagningens hsaid. || 
+|| kivtools.hriv.webcomp.listenLinkCode1 || HTML-kod som utgör första delen av lyssningskoden. || Koden för lyssningskoden har delats i två block för att kunna inkludera dynamisk information. || 
+|| kivtools.hriv.webcomp.listenLinkCode2 || HTML-kod som utgör andra delen av lyssningskoden. || Andra delen av kodrutans kod som fortsätter direkt efter att mottagningens hsaid. || 
 || kivtools.hriv.webcomp.usePrinting || true/false || Anger om utskriftskod ska presenteras. || 
 || kivtools.hriv.webcomp.useMvk || true/false || Aktiverar/inaktiverar integration med Mina Vårdkontakter. || 
 || kivtools.hriv.webcomp.mvkGuid || Sträng || Identifieringskod som tillhandahålls av Mina Vårdkontakter. || 
