@@ -9,22 +9,22 @@ Generation time : 2007-10-09 10:07:02 CEST
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <!--<groupId> groupId IS DEFINED BY PARENT </groupId>-->
-  <artifactId>KivTools-Search-module-web</artifactId>
+  <artifactId>HsaTools-Search-module-web</artifactId>
   <packaging>war</packaging>
-  <name>KivTools-Search-module-web</name>
+  <name>HsaTools-Search-module-web</name>
   <!--<version> version IS DEFINED BY PARENT </version>-->
   
   
   <parent>
-    <groupId>KivTools</groupId>
-    <artifactId>KivTools-Search</artifactId>
+    <groupId>HsaTools</groupId>
+    <artifactId>HsaTools-Search</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>KivTools-Search-composite-webcomp</artifactId>
+      <artifactId>HsaTools-Search-composite-webcomp</artifactId>
       <!-- version IS DEFINED BY PARENT -->
       <version>${project.version}</version>
     </dependency>

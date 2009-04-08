@@ -63,10 +63,10 @@
  	
 	<bean id="Search.LdapConnectionPool"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.LdapConnectionPool" destroy-method="release">
-		<property name="ldapHost" value="${kivtools.search.svc.ldap.ldaphost}" />
-		<property name="loginDN" value="${kivtools.search.svc.ldap.logindn}" />
-		<property name="password" value="${kivtools.search.svc.ldap.password}" />
-		<property name="maxConn" value="${kivtools.search.svc.ldap.maxConn}" />
+		<property name="ldapHost" value="${hsatools.search.svc.ldap.ldaphost}" />
+		<property name="loginDN" value="${hsatools.search.svc.ldap.logindn}" />
+		<property name="password" value="${hsatools.search.svc.ldap.password}" />
+		<property name="maxConn" value="${hsatools.search.svc.ldap.maxConn}" />
 	</bean>
  
 	<!-- LDAP connection settings -->

@@ -11,15 +11,15 @@ Generation time : 2008-06-09 13:23:02 CEST
   <modelVersion>4.0.0</modelVersion>
   <!--<groupId> groupId IS DEFINED BY PARENT </groupId>-->
   <artifactId>
-  	KivTools-HRIV-composite-webcomp
+  	HsaTools-HRIV-composite-webcomp
   </artifactId>
   <packaging>jar</packaging>
-  <name>KivTools-HRIV-composite-webcomp</name>
+  <name>HsaTools-HRIV-composite-webcomp</name>
   <!--<version> version IS DEFINED BY PARENT </version>-->
   
   <parent>
-    <groupId>KivTools</groupId>
-    <artifactId>KivTools-HRIV</artifactId>
+    <groupId>HsaTools</groupId>
+    <artifactId>HsaTools-HRIV</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
