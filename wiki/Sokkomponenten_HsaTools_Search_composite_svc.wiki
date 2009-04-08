@@ -22,12 +22,12 @@ För att skapa en ny sökkomponentimplementation, till exempel för att ansluta 
   kivtools.search.svc.impl.condition.value_5-2=01<br>
   kivtools.search.svc.impl.condition.filtered_5=true<p>
   Ovanstående betyder att hsaBusinessClassificationCode ska vara antingen "1000", "1100" eller "1600" och vgrCareType ska vara "01". En enhet som uppfyller båda dessa villkor antas tillhöra den femte vårdtypen som benämns enligt kivtools.search.svc.impl.condition.displayname.5 som konfigureras i samma fil (TODO: kivtools -> hsatools).<p>
-  Att "filtered" är satt till true betyder att denna vårdtyp ska begränsas av inställningen "kivtools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes" som anger att enbart mottagningar med vissa värden för "hsaBussinessClassificationCode" ska vara synliga i hriv. Om en vårdtyp definieras som innehåller mottagningar som inte har "korrekta" värden på "hsaBussinessClassificationCode", exempelvis en vårdtyp såsom "Sjukhus" som skulle kunna vara lite speciell, är det lämpligt att sätta "filtered" till false.<p>
+  Att "filtered" är satt till true betyder att denna vårdtyp ska begränsas av inställningen "kivtools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes" som anger att enbart mottagningar med vissa värden för "hsaBussinessClassificationCode" ska vara synliga i HRIV. Om en vårdtyp definieras som innehåller mottagningar som inte har "korrekta" värden på "hsaBussinessClassificationCode", exempelvis en vårdtyp såsom "Sjukhus" som skulle kunna vara lite speciell, är det lämpligt att sätta "filtered" till false.<p>
   Observera att det inte är möjligt att använda samma fält två gånger i samma villkor, dvs både 5-1 och 5-2 kan ej ha villkor på exempelvis hsaBusinessClassificationCode.
   * search-composite-svc-connection.properties: Innehåller inloggningsuppgifter för den aktuella katalogen.
   * search-composite-svc-municipalities.properties: Innehåller alla sökbara kommuner för den aktuella katalogen. De existerande exempelfilerna bör vara självförklarande.
  # Om man skall skapa en implementation som läser från en LDAPv3-katalog så är det lämpligt att utgå från implementationen se.vgregion.kivtools.search.svc.impl.hak.ldap då denna bäst följer HSA-standarden. Därefter bör mappningen mellan HSA-attribut och java-attributen i klassen se.vgregion.kivtools.search.svc.domain.Unit ändras. Mappningen sker i den implementationsspecifika klassen UnitFactory. I tabellen nedan listas samtliga hsa-attribut som mappas mot java-attrbut för HRIV.
- # Det finns ett antal inställningar som påverkar utseendet i hriv. Dessa inställningar är till sin natur starkt förknippade med den implementation och katalog som används varför varje implementation har sin egen uppsättning: /HsaTools-HRIV-composite-webcomp/src/main/resources/se/vgregion/kivtools/search/presentation/[implementationsnamn, exempelvis kiv eller hak]/ hriv-composite-webcomp.properties.<br>
+ # Det finns ett antal inställningar som påverkar utseendet i HRIV. Dessa inställningar är till sin natur starkt förknippade med den implementation och katalog som används varför varje implementation har sin egen uppsättning: /HsaTools-HRIV-composite-webcomp/src/main/resources/se/vgregion/kivtools/search/presentation/[implementationsnamn, exempelvis kiv eller hak]/ hriv-composite-webcomp.properties.<br>
 Dessa inställningar finns i ovan nämnda properties-fil:
 
 || *Inställningens namn* || *Möjliga värden* || *Förklaring* || 
@@ -36,7 +36,7 @@ Dessa inställningar finns i ovan nämnda properties-fil:
 || kivtools.hriv.webcomp.accessibilityDatabaseIntegrationGetIdUrl || Sträng (http...) || Sökväg till webservice som levererar tillgänglighetsdatabasid utifrån ett hsaid. || 
 || kivtools.hriv.webcomp.accessibilityDatabaseIntegrationGetInfoUrl || Sträng (http...) || Sökväg till webservice som levererar tillgänglighetsdata utifrån ett tillgänglighetsdatabasid. || 
 || kivtools.hriv.webcomp.fallbackOnAddressForMap || true/false || Anger om adress ska användas för kartuppslagningar ifall koordinater saknas för enheten. || 
-|| kivtools.hriv.webcomp.googleMapsKey || Sträng || Google Maps-nyckeln som är giltig för den webbplats där hriv körs. || 
+|| kivtools.hriv.webcomp.googleMapsKey || Sträng || Google Maps-nyckeln som är giltig för den webbplats där HRIV körs. || 
 || kivtools.hriv.webcomp.metersToCloseUnits || Heltal || Antal meter från angiven adress som mottagningen ska anses vara ”närbelägen”. || 
 || kivtools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes || Kommaseparerad lista med giltiga värden för HsaBussinessClassificationCodes. || Enbart mottagningar som har en av de angivna värdena som HsaBussinessClassificationCode visas. Om denna inställning lämnas tom görs ingen filtrering. || 
 || kivtools.hriv.webcomp.findRouteLinks || url1::länknamn1;url2::länknamn2 || Lista med reselänkar som ska visas upp på detaljvyn under "Hitta resväg". Respektive url får följande tillägg så att mottagningens gatuadress skickas med som en get-parameter: ?to=#{fn:trim(unit.hsaStreetAddress.street)} Är tänkt att göras mer flexibel så att exempelvis parameternamn kan anpassas. || 
@@ -47,7 +47,7 @@ Dessa inställningar finns i ovan nämnda properties-fil:
 || kivtools.hriv.webcomp.startPage || Sökväg till sidinnehåll som inkluderas. || Pekar ut en fil som inkluderas på startsidan. || 
 || kivtools.hriv.webcomp.careTypePage || Sökväg till sidinnehåll som inkluderas. || Pekar ut en fil som inkluderas på vårdtypssidan. || 
 || kivtools.hriv.webcomp.useShowUnitCode || true/false || Anger om kodrutan som visar enhetsdetaljerwidgeten ska användas. || 
-|| kivtools.hriv.webcomp.showUnitCodeOnServer || Serverns adress där kodrutan ska visas. || Gör det möjligt att enbart visa kodrutan på en specifik server. Kodrutan kommer inte att visas om hriv körs på en annan server. || 
+|| kivtools.hriv.webcomp.showUnitCodeOnServer || Serverns adress där kodrutan ska visas. || Gör det möjligt att enbart visa kodrutan på en specifik server. Kodrutan kommer inte att visas om HRIV körs på en annan server. || 
 || kivtools.hriv.webcomp.showUnitCode1 || html-kod som utgör första delen av kodrutan. || Koden för kodrutan har delats i två block för att kunna inkludera dynamisk information (mottagningens hsaId). || 
 || kivtools.hriv.webcomp.showUnitCode2 || html-kod som utgör andra delen av kodrutan. || Andra delen av kodrutans kod som fortsätter direkt efter att mottagningens hsaid. || 
 || kivtools.hriv.webcomp.useTrackingCode || true/false || Anger om nedanstående "spårningskod" ska användas. || 
@@ -67,7 +67,7 @@ Dessa inställningar finns i ovan nämnda properties-fil:
 || kivtools.hriv.webcomp.searchresult.title || Sträng || Titeln på träffresultatsidan. || 
 || kivtools.hriv.webcomp.mainTop || Sträng || Sträng som visas överst i ”huvudinnehållet” (div-id: yui-main) på alla sidor. || 
 || kivtools.hriv.webcomp.showLinkToIM || true/false || Om länk för editering i IM ska visas. || 
-|| kivtools.hriv.webcomp.linkToIMOnServer || Sträng || Gör det möjligt att enbart visa länken till IM på en specifik server. Kodrutan kommer inte att visas om hriv körs på en annan server. || 
+|| kivtools.hriv.webcomp.linkToIMOnServer || Sträng || Gör det möjligt att enbart visa länken till IM på en specifik server. Kodrutan kommer inte att visas om HRIV körs på en annan server. || 
 || kivtools.hriv.webcomp.linkToIMBase || Sträng || Login-sidan till IM som vi länkar till och skickar med sökvägen till mottagningen Base64-kodad. Exempelvis: https://kivweb.vgregion.se/nordicedge/vgr/login.jsp?loginDN= || 
 || kivtools.hriv.webcomp.verifyV1 || Sträng || Innehåll till meta-taggen "verify-v1" som används av Google Web Toolkit (GWT) för att verifiera att man "äger" en viss webbplats. || 
 || kivtools.hriv.webcomp.geoRegion || Sträng/kod || Region-kod som används för geometadatataggen "geo.region". Se http://en.wikipedia.org/wiki/ISO_3166-2:SE || 
