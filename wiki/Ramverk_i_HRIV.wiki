@@ -1,0 +1,43 @@
+#summary En genomgång av de ramverk som används av HRIV
+#labels Project-HRIV
+
+= Ramverk i HRIV =
+
+Förutom den ramverkskod som följer med referensarkitekturen används några andra Java- och webbtekniksrelaterade ramverk. Nedan följer en kortfattad genomgång av några av de viktigaste ramverken.
+
+== Dependency Injection - Spring Core ==
+Spring Core från [http://www.springsource.org/about Spring Framework] används för [http://en.wikipedia.org/wiki/Dependency_injection dependency injection] och konfigureras i /HsaTools-HRIV-composite-webcomp/src/main/resources/services-config.xml.
+
+== Navigation - Spring WebFlow ==
+För att hantera flöden och navigation används [http://www.springsource.org/webflow Spring WebFlow]. Detta är i enlighet med referensarkitekturen och konfigureras i /HsaTools-HRIV-module-web/src/main/webapp/WEB-INF/webflow-config.xml. Det flöde som används i HRIV finns i /HsaTools-HRIV-composite-webcomp/src/main/resources/flows/HRIV.Search.searchunit-flow.xml.
+
+Användandet av Spring WebFlow gör att navigeringsregler inte hanteras via JavaServer Faces vilket annars är vanligt då JavaServer Faces används.
+
+== Användargränssnitt - JavaServer Faces och JavaServer Facelets ==
+HRIV använder de två webbapplikationsramverken [http://java.sun.com/javaee/javaserverfaces/ JavaServer Faces] och [https://facelets.dev.java.net JavaServer Facelets] för att förenkla utvecklingen av användargränssnitt. De rekommenderas av referensarkitekturen och passar bra tillsammans.
+
+Konfigurationsfilen för JavaServer Faces finns i /HsaTools-HRIV-module-web/src/main/webapp/WEB-INF/faces-config.xml. Både JavaServer Faces och JavaServer Facelets konfigureras även till viss del via "context-parametrar" i /HsaTools-HRIV-module-web/src/main/webapp/WEB-INF/web.xml. I web.xml konfigureras även lyssnare, "servlet-mappningar" med mera för JavaServer Faces och JavaServer Facelets.
+
+Det finns en mall, [http://oppna-program.googlecode.com/svn/HsaTools/trunk/HRIV/modules/web/src/main/resources/template.xhtml /HsaTools-HRIV-module-web/src/main/resources/template.xhtml], som beskriver det som är gemensamt för alla vyer. Vissa delar av vyn, som är olika för olika vyer, utgörs av utbytbara fragment. Exempelvis finns följande rad i ovan nämnda template.xhtml:
+`<ui:insert name="MainContainer">``</ui:insert>`
+
+Respektive vy som visar upp något slags "huvudinnehåll" definierar denna MainContainer enligt följande:
+
+`<ui:define name="MainContainer">`
+	`<div id="search-result-caption">` ...
+		`<h:outputText ...`
+`</ui:define>`
+
+Som synes i ovanstående kodblock går det bra att blanda vanlig HTML och JSP-komponenter i Facelets.
+
+== JavaScript och layout – YUI och Prototype ==
+JavaScript-ramverket [http://www.prototypejs.org/ Prototype] används för att förenkla rutinartade uppgifter i JavaScript samt förenklar hanterandet av webbläsarkompabilitet och reducerar kodkomplexiteten. Tanken är att Prototype ska fasas ut till förmån för YUI ifall det är möjligt.
+
+The Yahoo! User Interface Library ([http://developer.yahoo.com/yui/ YUI]) används för layout och snart även för "type-ahead"-fältet där Autocomplete-komponenten kommer att användas. Denna ur för närvarande under utveckling.
+
+== Kartor – Google Maps ==
+För att visa upp kartor och vägbeskrivningar används Google Maps. Detta är en tämligen lättanvänd tjänst och i HRIV fungerar det ungefär så här:
+
+ # Importera en extern JavaScript-fil från Google och skicka med den Google Maps-nyckel (är en [http://code.google.com/p/oppna-program/wiki/Sokkomponenten_HsaTools_Search_composite_svc inställning]: kivtools.hriv.webcomp.googleMapsKey) som ska användas: <br>`<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=XXXXXX" />`
+ # Tala om för Google Maps vilken div som ska användas för att visa upp kartan: var map = new GMap2(document.getElementById("map"));
+ # Kör en JavaScript-funktion som använder de koordinater som finns knutna till mottagningen som ska visas upp. Om koordinaterna saknas kan adressen [http://en.wikipedia.org/wiki/Geocoding geokodas] (är en [http://code.google.com/p/oppna-program/wiki/Sokkomponenten_HsaTools_Search_composite_svc inställning]: kivtools.hriv.webcomp.fallbackOnAddressForMap). Se JavaScript-funktionen showAddress() i [http://oppna-program.googlecode.com/svn/HsaTools/trunk/HRIV/composites/webcomp/src/main/resources/resources/scripts/widget.js widget.js].
