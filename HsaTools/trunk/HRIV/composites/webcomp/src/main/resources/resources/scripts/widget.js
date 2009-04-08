@@ -247,9 +247,9 @@ function drawPrintLabel(divToPrint) {
 }
 
 function showUnit(rootUrl, hsaId, showMap) {
-	// Create request
-	// For external: var url = 'proxy?url=' + rootUrl + '/visaenhet?hsaidentity=' + hsaId;
-	var url = rootUrl + '/visaenhet?hsaidentity=' + hsaId;
+	// For external use when we need AJAX proxy. Requires proxy at the host of the widget:
+	var url = 'proxy?url=' + rootUrl + '/visaenhet?hsaidentity=' + hsaId;
+	// For internal use without need for proxy: var url = rootUrl + '/visaenhet?hsaidentity=' + hsaId;
 	new Ajax.Request(url, {
 	  method: 'get',
 	  onSuccess: function(transport) {
