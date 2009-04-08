@@ -63,7 +63,8 @@ public class Unit implements Serializable {
 	private String objectClass; // e.g. organizationalUnit, organizationalRole
 	private boolean isUnit; // true=Unit, false=Function
 
-	private List<String> description; // Beskrivning
+	private List<String> description; // Extern beskrivning
+	private List<String> internalDescription; // Intern beskrivning
 	private String mail; // E-postadress
 	private String labeledURI; // Hemsida
 	private String vgrInternalSedfInvoiceAddress; // I-nummer
@@ -443,6 +444,10 @@ public class Unit implements Serializable {
 		this.description = description;
 	}
 
+	public void setInternalDescription(List<String> description) {
+		this.internalDescription = description;
+	}
+
 	public List<PhoneNumber> getHsaTelephoneNumber() {
 		return hsaTelephoneNumber;
 	}
@@ -653,8 +658,26 @@ public class Unit implements Serializable {
 	}
 
 	public String getConcatenatedDescription() {
+		return getConcatenatedDescription(false);
+	}
+
+	public String getInternalConcatenatedDescription() {
+		return getConcatenatedDescription(true);
+	}
+
+	/***
+	 * 
+	 * @param useInteralDescription
+	 *            - if true internal description is returned concatenated
+	 * @return - String of concatenated internal or external description
+	 */
+	private String getConcatenatedDescription(boolean useInteralDescription) {
 		String concatenatedDescription = "";
-		if (description != null && description.size() > 0) {
+		if (useInteralDescription && internalDescription != null && internalDescription.size() > 0) {
+			for (String s : internalDescription) {
+				concatenatedDescription += s + "";
+			}
+		} else if (!useInteralDescription && description != null && description.size() > 0) {
 			for (String s : description) {
 				concatenatedDescription += s + "";
 			}
