@@ -294,5 +294,8 @@ a.unit {
 .ulmenu {margin-bottom:0px;}
 .info{width:270px;}
 
+#description-toggle-image,important-toggle-image {
+	vertical-align: 0%;
+}
 
 
