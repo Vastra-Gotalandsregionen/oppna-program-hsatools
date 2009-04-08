@@ -33,7 +33,7 @@ Som synes i ovanstående kodblock går det bra att blanda vanlig HTML och JSP-ko
 == JavaScript och layout – YUI och Prototype ==
 JavaScript-ramverket [http://www.prototypejs.org/ Prototype] används för att förenkla rutinartade uppgifter i JavaScript samt förenklar hanterandet av webbläsarkompabilitet och reducerar kodkomplexiteten. Tanken är att Prototype ska fasas ut till förmån för YUI ifall det är möjligt.
 
-The Yahoo! User Interface Library ([http://developer.yahoo.com/yui/ YUI]) används för layout och snart även för "type-ahead"-fältet där Autocomplete-komponenten kommer att användas. Denna ur för närvarande under utveckling.
+[[http://developer.yahoo.com/yui/ The Yahoo! User Interface Library] (YUI) används för layout och snart även för "type-ahead"-fältet där Autocomplete-komponenten kommer att användas. Denna ur för närvarande under utveckling.
 
 == Kartor – Google Maps ==
 För att visa upp kartor och vägbeskrivningar används Google Maps. Detta är en tämligen lättanvänd tjänst och i HRIV fungerar det ungefär så här:
