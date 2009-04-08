@@ -10,12 +10,12 @@ Generation time : 2007-10-09 10:07:02 CEST
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">  
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>KivTools</groupId>
-    <artifactId>KivTools-system</artifactId>
+    <groupId>HsaTools</groupId>
+    <artifactId>HsaTools-system</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>KivTools</groupId>
-  <artifactId>KivTools-HRIV</artifactId>
+  <groupId>HsaTools</groupId>
+  <artifactId>HsaTools-HRIV</artifactId>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
   <version>1.0-SNAPSHOT</version>
@@ -34,9 +34,9 @@ Generation time : 2007-10-09 10:07:02 CEST
   
   <dependencies>
     <dependency>
-      <groupId>KivTools</groupId>
+      <groupId>HsaTools</groupId>
       <artifactId>
-        KivTools-Search-composite-svc
+        HsaTools-Search-composite-svc
       </artifactId>
       <!-- version IS DEFINED BY PARENT -->
       <version>${project.version}</version>
@@ -44,9 +44,9 @@ Generation time : 2007-10-09 10:07:02 CEST
     </dependency>
     <!-- version IS DEFINED BY PARENT -->
     <dependency>
-      <groupId>KivTools</groupId>
+      <groupId>HsaTools</groupId>
       <artifactId>
-        KivTools-Search-composite-types
+        HsaTools-Search-composite-types
       </artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
