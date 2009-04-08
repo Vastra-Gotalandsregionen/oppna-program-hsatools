@@ -6,10 +6,10 @@
 Förutom den ramverkskod som följer med referensarkitekturen används några andra Java- och webbtekniksrelaterade ramverk. Nedan följer en kortfattad genomgång av några av de viktigaste ramverken.
 
 == Dependency Injection - Spring Core ==
-Spring Core från [http://www.springsource.org/about Spring Framework] används för [http://en.wikipedia.org/wiki/Dependency_injection dependency injection] och konfigureras i /HsaTools-HRIV-composite-webcomp/src/main/resources/services-config.xml.
+Spring Core från [http://www.springsource.org/about Spring Framework] används för [http://en.wikipedia.org/wiki/Dependency_injection dependency injection] och konfigureras i [http://oppna-program.googlecode.com/svn/HsaTools/trunk/HRIV/composites/webcomp/src/main/resources/services-config.xml /HsaTools-HRIV-composite-webcomp/src/main/resources/services-config.xml].
 
 == Navigation - Spring WebFlow ==
-För att hantera flöden och navigation används [http://www.springsource.org/webflow Spring WebFlow]. Detta är i enlighet med referensarkitekturen och konfigureras i /HsaTools-HRIV-module-web/src/main/webapp/WEB-INF/webflow-config.xml. Det flöde som används i HRIV finns i /HsaTools-HRIV-composite-webcomp/src/main/resources/flows/HRIV.Search.searchunit-flow.xml.
+För att hantera flöden och navigation används [http://www.springsource.org/webflow Spring WebFlow]. Detta är i enlighet med referensarkitekturen och konfigureras i /HsaTools-HRIV-module-web/src/main/webapp/WEB-INF/webflow-config.xml. Det flöde som används i HRIV finns i [http://oppna-program.googlecode.com/svn/HsaTools/trunk/HRIV/composites/webcomp/src/main/resources/flows/HRIV.Search.searchunit-flow.xml /HsaTools-HRIV-composite-webcomp/src/main/resources/flows/HRIV.Search.searchunit-flow.xml].
 
 Användandet av Spring WebFlow gör att navigeringsregler inte hanteras via JavaServer Faces vilket annars är vanligt då JavaServer Faces används.
 
