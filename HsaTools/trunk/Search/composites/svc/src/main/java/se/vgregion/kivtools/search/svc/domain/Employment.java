@@ -18,6 +18,8 @@
 package se.vgregion.kivtools.search.svc.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import se.vgregion.kivtools.search.svc.domain.values.Address;
@@ -76,7 +78,7 @@ public class Employment implements Serializable {
 
     // Phone Numbers
     private PhoneNumber facsimileTelephoneNumber;   // Faxnummer
-    private PhoneNumber hsaTelephoneNumber;         // Direkttelefon visas inom organisationen
+    private List<PhoneNumber> hsaTelephoneNumber = new ArrayList<PhoneNumber>();         // Direkttelefon visas inom organisationen
     private PhoneNumber hsaPublicTelephoneNumber;   // Direkttelefon visas f�r allm�nheten
     private PhoneNumber mobileTelephoneNumber;      // Mobilnummer
     private PhoneNumber hsaInternalPagerNumber;     // Persons�kare
@@ -248,10 +250,31 @@ public class Employment implements Serializable {
     }
 
     public PhoneNumber getHsaTelephoneNumber() {
-        return hsaTelephoneNumber;
+        if (!hsaTelephoneNumber.isEmpty()) {
+        	return hsaTelephoneNumber.get(0);
+        }
+        return null;
+    }
+    /***
+     * 
+     * @return - CVS String of all phonenumbers
+     */
+    public String getHsaTelephoneNumbersCSVString(){
+    	StringBuilder sb = new StringBuilder();
+    	for(int i = 0; i < hsaTelephoneNumber.size(); i++){
+    		if (i > 0) {
+    			sb.append(" , ");
+    		}
+    		sb.append(hsaTelephoneNumber.get(i).getFormattedPhoneNumber().getPhoneNumber());
+    	}
+     	return sb.toString();
+    }
+    
+    public List<PhoneNumber> getHsaTelephoneNumbers(){
+    	return this.hsaTelephoneNumber;
     }
 
-    public void setHsaTelephoneNumber(PhoneNumber hsaTelephoneNumber) {
+    public void setHsaTelephoneNumbers(List<PhoneNumber> hsaTelephoneNumber) {
         this.hsaTelephoneNumber = hsaTelephoneNumber;
     }
 

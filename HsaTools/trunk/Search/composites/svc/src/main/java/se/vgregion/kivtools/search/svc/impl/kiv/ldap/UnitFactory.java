@@ -138,10 +138,8 @@ public class UnitFactory {
                 .createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry
                         .getAttribute("hsaSedfSwitchboardTelephoneNo"))));
 
-        // hsaInternalPagerNumber
-        unit.setHsaInternalPagerNumber(PhoneNumber
-                .createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry
-                        .getAttribute("hsaInternalPagerNumber"))));
+		// hsaTelephoneNumber
+		unit.setHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaTelephoneNumber"))));
 
         // hsaSmsTelephoneNumber
         unit.setHsaSmsTelephoneNumber(PhoneNumber

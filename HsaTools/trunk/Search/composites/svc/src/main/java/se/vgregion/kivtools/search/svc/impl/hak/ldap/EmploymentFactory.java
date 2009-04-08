@@ -115,7 +115,7 @@ public class EmploymentFactory {
         
         employment.setName(LdapORMHelper.getSingleValue(employmentEntry.getAttribute("organizationalUnitName")));
         
-        employment.setHsaTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(employmentEntry.getAttribute("hsaTelephoneNumber"))));
+        employment.setHsaTelephoneNumbers(PhoneNumber.createPhoneNumberList(LdapORMHelper.getMultipleValues(employmentEntry.getAttribute("hsaTelephoneNumber"))));
         
         employment.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(employmentEntry.getAttribute("hsaPublicTelephoneNumber"))));
         
