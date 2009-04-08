@@ -18,7 +18,7 @@ HRIV använder de två webbapplikationsramverken [http://java.sun.com/javaee/jav
 
 Konfigurationsfilen för JavaServer Faces finns i [http://oppna-program.googlecode.com/svn/HsaTools/trunk/HRIV/modules/web/src/main/webapp/WEB-INF/faces-config.xml /HsaTools-HRIV-module-web/src/main/webapp/WEB-INF/faces-config.xml]. Både JavaServer Faces och JavaServer Facelets konfigureras även till viss del via "context-parametrar" i [http://oppna-program.googlecode.com/svn/HsaTools/trunk/HRIV/modules/web/src/main/webapp/WEB-INF/web.xml /HsaTools-HRIV-module-web/src/main/webapp/WEB-INF/web.xml]. I web.xml konfigureras även lyssnare, "servlet-mappningar" med mera för JavaServer Faces och JavaServer Facelets.
 
-Det finns en mall, [http://oppna-program.googlecode.com/svn/HsaTools/trunk/HRIV/modules/web/src/main/resources/template.xhtml /HsaTools-HRIV-module-web/src/main/resources/template.xhtml], som beskriver det som är gemensamt för alla vyer. Vissa delar av vyn, som är olika för olika vyer, utgörs av utbytbara fragment. Exempelvis finns följande rad i ovan nämnda template.xhtml:
+Det finns en mall, [http://oppna-program.googlecode.com/svn/HsaTools/trunk/HRIV/modules/web/src/main/resources/template.xhtml /HsaTools-HRIV-module-web/src/main/resources/template.xhtml], som beskriver det som är gemensamt för alla vyer. Vissa delar av vyn, som är olika för olika vyer, utgörs av utbytbara fragment. Exempelvis finns följande rad i ovan nämnda template.xhtml:<br>
 `<ui:insert name="MainContainer">``</ui:insert>`
 
 Respektive vy som visar upp något slags "huvudinnehåll" definierar denna MainContainer enligt följande:
