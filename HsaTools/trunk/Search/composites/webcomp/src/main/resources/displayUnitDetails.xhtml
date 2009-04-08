@@ -71,8 +71,77 @@
 					</ui:repeat>
 					<a href="visaenhetdn?dn=#{unit.dn.administration.urlEncoded}">#{unit.dn.administration.unitName}</a> 
 				</div>
-				<div class="description">
-					<div jsfc="ui:repeat" value="#{unit.description}" var="description">#{description}</div>
+				<div id="kiv-results">
+				<!-- Show tab with external description -->
+					<h:outputText rendered="#{fn:length(unit.concatenatedDescription) gt 0}">
+						<div class="tab">
+							<div class="tab-hd"><h3>Extern beskrivning</h3></div>
+								<div class="tab-bd">
+									<div class="description">
+										<h:outputText rendered="#{fn:length(unit.concatenatedDescription) gt 0}">
+											<div name="description-body-short">
+												<h:outputText value="#{fn:substring(unit.concatenatedDescription, 0, 400)}..." rendered="#{fn:length(unit.concatenatedDescription) gt 400}" />
+												<h:outputText value="#{unit.concatenatedDescription}" rendered="#{fn:length(unit.concatenatedDescription) lt 401}" />
+											</div>
+											
+											<div name="description-body-long" style="display: none;">
+												<h:outputText value="#{unit.concatenatedDescription}" />
+											</div>
+										</h:outputText>
+				
+						               	<h:outputText rendered="#{fn:length(unit.concatenatedDescription) lt 1 and settings.testingMode==true}">
+											<span class="warning">Fältet "beskrivning" är tomt!</span>
+					                    </h:outputText>  
+						             	
+										<div name="description-extend">
+							               	<h:outputText rendered="#{fn:length(unit.concatenatedDescription) gt 400}">
+												<div name="description-toggle-area" />
+												<script type="text/javascript" charset="utf-8">
+													// <![CDATA[]
+														drawToggleDescription();
+													// ]]>
+												</script>
+											</h:outputText>
+										</div>
+								</div>
+							</div>
+						</div>
+					</h:outputText>
+					<!-- Show tab with internal information -->
+					<h:outputText rendered="#{fn:length(unit.internalConcatenatedDescription) gt 0}">
+						<div class="tab">
+							<div class="tab-hd"><h3>Intern beskrivning</h3></div>
+								<div class="tab-bd">
+									<div class="description">
+										<h:outputText rendered="#{fn:length(unit.internalConcatenatedDescription) gt 0}">
+											<div name="description-body-short">
+												<h:outputText value="#{fn:substring(unit.internalConcatenatedDescription, 0, 400)}..." rendered="#{fn:length(unit.internalConcatenatedDescription) gt 400}" />
+												<h:outputText value="#{unit.internalConcatenatedDescription}" rendered="#{fn:length(unit.internalConcatenatedDescription) lt 401}" />
+											</div>
+											
+											<div name="description-body-long" style="display: none;">
+												<h:outputText value="#{unit.internalConcatenatedDescription}" />
+											</div>
+										</h:outputText>
+				
+						               	<h:outputText rendered="#{fn:length(unit.internalConcatenatedDescription) lt 1 and settings.testingMode==true}">
+											<span class="warning">Fältet "beskrivning" är tomt!</span>
+					                    </h:outputText>  
+						             	
+										<div name="description-extend">
+							               	<h:outputText rendered="#{fn:length(unit.internalConcatenatedDescription) gt 400}">
+												<div name="description-toggle-area" />
+												<script type="text/javascript" charset="utf-8">
+													// <![CDATA[]
+														drawToggleDescription();
+													// ]]>
+												</script>
+											</h:outputText>
+										</div>
+								</div>
+							</div>
+						</div>
+					</h:outputText>
 				</div>
 				<h:outputText rendered="#{unit.isUnit}">
 					<div class="show-persons">

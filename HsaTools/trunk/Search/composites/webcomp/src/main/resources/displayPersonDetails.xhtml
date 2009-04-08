@@ -84,23 +84,18 @@
 					<tbody>
 						<tr>
 							<th id="main-e-post">E-post</th>
-							<td headers="main-e-post"><a href="mailto:#{person.mail}">#{person.mail}</a></td>
-							<th id="main-HSA-identitet">HSA-identitet</th>
-							<td headers="main-HSA-identitet">#{person.hsaIdentity}</td>
+							<td colspan="3" headers="main-e-post"><a href="mailto:#{person.mail}">#{person.mail}</a></td>
 						</tr>
 						<tr>
 							<th id="main-vgr-id">VGR-id</th>
 							<td headers="main-vgr-id">#{person.vgrId}</td>
+							<th id="main-HSA-identitet">HSA-identitet</th>
+							<td headers="main-HSA-identitet">#{person.hsaIdentity}</td>
+						</tr> 
+						
+						<tr>
 							<th id="main-leg-yrkesgrupp">Leg. Yrkesgrupp</th>
 							<td headers="main-leg-yrkesgrupp">#{person.hsaTitle}</td>
-						</tr>
-						<tr>
-							<th id="main-specialitetskod">Specialitetskod</th>
-							<td headers="main-specialitetskod">
-								<ui:repeat value="#{person.hsaSpecialityCode}" var="speciality">
-									#{speciality}
-								</ui:repeat>
-							</td>
 							<th id="main-specialitet">Specialitet</th>
 							<td headers="main-specialitet">
 								<ui:repeat value="#{person.hsaSpecialityName}" var="speciality">
@@ -145,7 +140,11 @@
 								<tbody>
 									<tr>
 										<th id="job-tjanste-telefon-#{employment.cn}">Tjänstetelefon</th>
-										<td headers="job-tjanste-telefon-#{employment.cn}" colspan="5">#{employment.hsaTelephoneNumber.formattedPhoneNumber}</td>
+										
+										<td headers="job-tjanste-telefon-#{employment.cn}" colspan="5">
+											#{employment.hsaTelephoneNumbersCSVString}
+								        </td>
+										<!--  <td headers="job-tjanste-telefon-#{employment.cn}" colspan="5">#{employment.hsaTelephoneNumber.formattedPhoneNumber}</td>-->
 									</tr>
 									<tr>
 										<th id="job-publiktelefon-#{employment.cn}">Publik telefon</th>
