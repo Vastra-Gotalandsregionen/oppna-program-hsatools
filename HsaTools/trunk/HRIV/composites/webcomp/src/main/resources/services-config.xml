@@ -30,9 +30,9 @@
 			<property name="searchService" ref="Search.SearchService" />
 			<property name="maxSearchResult" ref="Search.MaxSearchResult"></property>
 			<property name="pageSize" value="85"></property>
-			<property name="googleMapsKeys" value="#{kivtools.hriv.webcomp.googleMapsKey}" />
-			<property name="meters" value="#{kivtools.hriv.webcomp.metersToCloseUnits}" />
-			<property name="showUnitsWithTheseHsaBussinessClassificationCodes" value="#{kivtools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes}" />
+			<property name="googleMapsKeys" value="#{hsatools.hriv.webcomp.googleMapsKey}" />
+			<property name="meters" value="#{hsatools.hriv.webcomp.metersToCloseUnits}" />
+			<property name="showUnitsWithTheseHsaBussinessClassificationCodes" value="#{hsatools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes}" />
 	</bean>
 
 	<bean id="Search.UnitSearchSimpleFormValidator"		
@@ -46,9 +46,9 @@
 	<bean id="Display.DisplayUnitDetailsFlowSupportBean"
 		class="se.vgregion.kivtools.search.presentation.DisplayUnitDetailsFlowSupportBean">
 			<property name="searchService" ref="Search.SearchService" />
-			<property name="useMvkIntegration" value="#{kivtools.hriv.webcomp.useMvk}" />
-			<property name="mvkGuid" value="#{kivtools.hriv.webcomp.mvkGuid}" />
-			<property name="mvkUrl" value="#{kivtools.hriv.webcomp.mvkUrlBeforeHsaidAndGuidParams}" />
+			<property name="useMvkIntegration" value="#{hsatools.hriv.webcomp.useMvk}" />
+			<property name="mvkGuid" value="#{hsatools.hriv.webcomp.mvkGuid}" />
+			<property name="mvkUrl" value="#{hsatools.hriv.webcomp.mvkUrlBeforeHsaidAndGuidParams}" />
 	</bean>
 	
 	<bean id="Search.MaxSearchResult" class="java.lang.Integer" scope="prototype">
@@ -56,49 +56,49 @@
 	</bean>
 
 	<bean id="Search.SettingsContainer" class="se.vgregion.kivtools.search.presentation.SettingsBean" scope="prototype">
-		<property name="testingMode" value="#{kivtools.hriv.webcomp.testingMode}" />
-		<property name="useAccessibilityDatabaseIntegration" value="#{kivtools.hriv.webcomp.useAccessibilityDatabaseIntegration}" />
-		<property name="fallbackOnAddressForMap" value="#{kivtools.hriv.webcomp.fallbackOnAddressForMap}" />
-		<property name="googleMapsKey" value="#{kivtools.hriv.webcomp.googleMapsKey}" />
-		<property name="distanceToUnits" value="#{kivtools.hriv.webcomp.metersToCloseUnits}" />
-		<property name="findRouteLinks" value="#{kivtools.hriv.webcomp.findRouteLinks}" />
-		<property name="styles" value="#{kivtools.hriv.webcomp.styles}" />
-		<property name="scripts" value="#{kivtools.hriv.webcomp.scripts}" />
-		<property name="header" value="#{kivtools.hriv.webcomp.header}" />
-		<property name="footer" value="#{kivtools.hriv.webcomp.footer}" />
-		<property name="useShowUnitCode" value="#{kivtools.hriv.webcomp.useShowUnitCode}" />
-		<property name="showUnitCodeOnServer" value="#{kivtools.hriv.webcomp.showUnitCodeOnServer}" />
-		<property name="showUnitCode1" value="#{kivtools.hriv.webcomp.showUnitCode1}" />
-		<property name="showUnitCode2" value="#{kivtools.hriv.webcomp.showUnitCode2}" />
-		<property name="useTrackingCode" value="#{kivtools.hriv.webcomp.useTrackingCode}" />
-		<property name="trackingCodeOnServer" value="#{kivtools.hriv.webcomp.trackingCodeOnServer}" />
-		<property name="trackingCode" value="#{kivtools.hriv.webcomp.trackingCode}" />
-		<property name="useListenLink" value="#{kivtools.hriv.webcomp.useListenLink}" />
-		<property name="listenLinkCode1" value="#{kivtools.hriv.webcomp.listenLinkCode1}" />
-		<property name="listenLinkCode2" value="#{kivtools.hriv.webcomp.listenLinkCode2}" />
-		<property name="usePrinting" value="#{kivtools.hriv.webcomp.usePrinting}" />
-		<property name="useMvk" value="#{kivtools.hriv.webcomp.useMvk}" />
-		<property name="mainTop" value="#{kivtools.hriv.webcomp.mainTop}" />
-		<property name="startPage" value="#{kivtools.hriv.webcomp.startPage}" />
-		<property name="careTypePage" value="#{kivtools.hriv.webcomp.careTypePage}" />
-		<property name="mvkLoginUrl" value="#{kivtools.hriv.webcomp.mvkLoginUrl}" />
-		<property name="metaAuthor" value="#{kivtools.hriv.webcomp.metaAuthor}" />
-		<property name="metaCopyright" value="#{kivtools.hriv.webcomp.metaCopyright}" />
-		<property name="useShowCloseUnits" value="#{kivtools.hriv.webcomp.useShowCloseUnits}" />
-		<property name="showLinkToIM" value="#{kivtools.hriv.webcomp.showLinkToIM}" />
-		<property name="linkToIMBase" value="#{kivtools.hriv.webcomp.linkToIMBase}" />
-		<property name="linkToIMOnServer" value="#{kivtools.hriv.webcomp.linkToIMOnServer}" />
-		<property name="title" value="#{kivtools.hriv.webcomp.startpage.title}" />
-		<property name="searchResultTitle" value="#{kivtools.hriv.webcomp.searchresult.title}" />
-		<property name="verifyV1" value="#{kivtools.hriv.webcomp.verifyV1}" />
-		<property name="geoRegion" value="#{kivtools.hriv.webcomp.geoRegion}" />
-		<property name="mobileUrl" value="#{kivtools.hriv.webcomp.mobileUrl}" />
+		<property name="testingMode" value="#{hsatools.hriv.webcomp.testingMode}" />
+		<property name="useAccessibilityDatabaseIntegration" value="#{hsatools.hriv.webcomp.useAccessibilityDatabaseIntegration}" />
+		<property name="fallbackOnAddressForMap" value="#{hsatools.hriv.webcomp.fallbackOnAddressForMap}" />
+		<property name="googleMapsKey" value="#{hsatools.hriv.webcomp.googleMapsKey}" />
+		<property name="distanceToUnits" value="#{hsatools.hriv.webcomp.metersToCloseUnits}" />
+		<property name="findRouteLinks" value="#{hsatools.hriv.webcomp.findRouteLinks}" />
+		<property name="styles" value="#{hsatools.hriv.webcomp.styles}" />
+		<property name="scripts" value="#{hsatools.hriv.webcomp.scripts}" />
+		<property name="header" value="#{hsatools.hriv.webcomp.header}" />
+		<property name="footer" value="#{hsatools.hriv.webcomp.footer}" />
+		<property name="useShowUnitCode" value="#{hsatools.hriv.webcomp.useShowUnitCode}" />
+		<property name="showUnitCodeOnServer" value="#{hsatools.hriv.webcomp.showUnitCodeOnServer}" />
+		<property name="showUnitCode1" value="#{hsatools.hriv.webcomp.showUnitCode1}" />
+		<property name="showUnitCode2" value="#{hsatools.hriv.webcomp.showUnitCode2}" />
+		<property name="useTrackingCode" value="#{hsatools.hriv.webcomp.useTrackingCode}" />
+		<property name="trackingCodeOnServer" value="#{hsatools.hriv.webcomp.trackingCodeOnServer}" />
+		<property name="trackingCode" value="#{hsatools.hriv.webcomp.trackingCode}" />
+		<property name="useListenLink" value="#{hsatools.hriv.webcomp.useListenLink}" />
+		<property name="listenLinkCode1" value="#{hsatools.hriv.webcomp.listenLinkCode1}" />
+		<property name="listenLinkCode2" value="#{hsatools.hriv.webcomp.listenLinkCode2}" />
+		<property name="usePrinting" value="#{hsatools.hriv.webcomp.usePrinting}" />
+		<property name="useMvk" value="#{hsatools.hriv.webcomp.useMvk}" />
+		<property name="mainTop" value="#{hsatools.hriv.webcomp.mainTop}" />
+		<property name="startPage" value="#{hsatools.hriv.webcomp.startPage}" />
+		<property name="careTypePage" value="#{hsatools.hriv.webcomp.careTypePage}" />
+		<property name="mvkLoginUrl" value="#{hsatools.hriv.webcomp.mvkLoginUrl}" />
+		<property name="metaAuthor" value="#{hsatools.hriv.webcomp.metaAuthor}" />
+		<property name="metaCopyright" value="#{hsatools.hriv.webcomp.metaCopyright}" />
+		<property name="useShowCloseUnits" value="#{hsatools.hriv.webcomp.useShowCloseUnits}" />
+		<property name="showLinkToIM" value="#{hsatools.hriv.webcomp.showLinkToIM}" />
+		<property name="linkToIMBase" value="#{hsatools.hriv.webcomp.linkToIMBase}" />
+		<property name="linkToIMOnServer" value="#{hsatools.hriv.webcomp.linkToIMOnServer}" />
+		<property name="title" value="#{hsatools.hriv.webcomp.startpage.title}" />
+		<property name="searchResultTitle" value="#{hsatools.hriv.webcomp.searchresult.title}" />
+		<property name="verifyV1" value="#{hsatools.hriv.webcomp.verifyV1}" />
+		<property name="geoRegion" value="#{hsatools.hriv.webcomp.geoRegion}" />
+		<property name="mobileUrl" value="#{hsatools.hriv.webcomp.mobileUrl}" />
 	</bean>
 
 	<bean id="Display.DisplayAccessibilityDatabaseBean" class="se.vgregion.kivtools.search.presentation.DisplayAccessibilityDatabaseBean">
-			<property name="useAccessibilityDatabaseIntegration" value="#{kivtools.hriv.webcomp.useAccessibilityDatabaseIntegration}" />
-			<property name="accessibilityDatabaseIntegrationGetIdUrl" value="#{kivtools.hriv.webcomp.accessibilityDatabaseIntegrationGetIdUrl}" />
-			<property name="accessibilityDatabaseIntegrationGetInfoUrl" value="#{kivtools.hriv.webcomp.accessibilityDatabaseIntegrationGetInfoUrl}" />
+			<property name="useAccessibilityDatabaseIntegration" value="#{hsatools.hriv.webcomp.useAccessibilityDatabaseIntegration}" />
+			<property name="accessibilityDatabaseIntegrationGetIdUrl" value="#{hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetIdUrl}" />
+			<property name="accessibilityDatabaseIntegrationGetInfoUrl" value="#{hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetInfoUrl}" />
 	</bean>
 
 	<bean id="propertyPlaceholderWebcomp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
