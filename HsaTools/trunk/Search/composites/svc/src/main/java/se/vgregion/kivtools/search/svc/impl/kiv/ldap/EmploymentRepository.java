@@ -21,6 +21,10 @@
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
 import java.io.UnsupportedEncodingException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Formatter;
 
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
@@ -39,7 +43,9 @@ import com.novell.ldap.LDAPSearchResults;
 public class EmploymentRepository {
     private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
     private static final String CLASS_NAME = EmploymentRepository.class.getName();
-    private static final String ALL_EMPLOYMENT_FILTER = "(objectclass=vgrAnstallning)";
+    private static final String ALL_EMPLOYMENT_FILTER = "(&(objectclass=vgrAnstallning)(|(!(hsaEndDate=*))(hsaEndDate>=%1$s)))";
+    private static final SimpleDateFormat zuluTimeFormatter =  new SimpleDateFormat("yyyyMMddHHmmss'Z'");
+
     private LdapConnectionPool  theConnectionPool = null;
 
     public void setLdapConnectionPool(LdapConnectionPool lp) {
@@ -57,7 +63,7 @@ public class EmploymentRepository {
             constraints.setMaxResults(0);
             lc = getLDAPConnection();
 
-            searchResults = lc.search(dn.toString(), LDAPConnection.SCOPE_ONE, ALL_EMPLOYMENT_FILTER, null, false, constraints);
+            searchResults = lc.search(dn.toString(), LDAPConnection.SCOPE_ONE, generateLDAPFilter(), null, false, constraints);
             result = extractResult(searchResults, maxResult);
 
         }
@@ -101,5 +107,11 @@ public class EmploymentRepository {
                                            POOL_WAIT_TIME_MILLISECONDS + " ms.");
         }
         return lc;
+    }
+    /** create LDAP filter string with a condition that hsaEndDate must be greater or equal current date */
+    private String generateLDAPFilter(){
+    	String zuluTime =  zuluTimeFormatter.format(new Date());
+    	String filterString =  String.format(ALL_EMPLOYMENT_FILTER, zuluTime);
+    	return filterString;
     }
 }
