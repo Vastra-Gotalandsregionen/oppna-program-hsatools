@@ -104,6 +104,7 @@
 	<bean id="propertyPlaceholderWebcomp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="classpath:se/vgregion/kivtools/search/presentation/kiv/hriv-composite-webcomp.properties" />
 		<property name="placeholderPrefix" value="#{" />
+		<property name="fileEncoding" value="UTF-8" />
 	</bean>
 	
 </beans>

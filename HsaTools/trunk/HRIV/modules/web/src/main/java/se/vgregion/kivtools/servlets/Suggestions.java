@@ -52,8 +52,8 @@ public class Suggestions extends HttpServlet implements Serializable {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		UnitSearchSimpleForm theForm = new UnitSearchSimpleForm();
-		String userInputUnitName = URLDecoder.decode(new String(request.getParameter("query").getBytes("ISO-8859-1")), "ISO-8859-1"); //param name is "query" (not unitName) as default when using YUI
-		//String userInputUnitName = request.getParameter("unitName");
+		//String userInputUnitName = URLDecoder.decode(new String(request.getParameter("query").getBytes("ISO-8859-1")), "ISO-8859-1"); //param name is "query" (not unitName) as default when using YUI AC
+		String userInputUnitName = request.getParameter("unitName");
 		theForm.setUnitName(userInputUnitName);
 		SikSearchResultList<Unit> resultList = null;
 

@@ -720,7 +720,7 @@ a.unit {
 	width: 22em;
 }
 
-/* Auto complete styling */ /*
+/* Auto complete styling */
 div.autocomplete {
 	width: auto ! important;
 	background-color: white;
@@ -749,7 +749,8 @@ div.autocomplete ul li {
 	font-size: 1em;
 	cursor: pointer;
 }
-*/ /* ------------ BEGIN YUI AC */
+
+/* ------------ BEGIN YUI AC 
 #autocomplete_choices {
 	top: 3em;	
 }
@@ -759,7 +760,6 @@ div.autocomplete {
 	margin-bottom: 0.5em;
 	padding: 0px;
 	font-size: 1.2em;
-	/*padding-top: 2em;*/
 }
 
 .yui-ac-content {
@@ -784,8 +784,8 @@ div.autocomplete {
 	font-size: 1em;
 	cursor: pointer;
 }
+--------------- END YUI AC */
 
-/* --------------- END YUI AC */
 #dir-div {
 	float: left;
 	width: 28em;
@@ -946,5 +946,5 @@ div.autocomplete {
 }
 
 #healthcare-selection {
-	padding-top: 2em;
+	/* YUI AC fix padding-top: 2em; */
 }

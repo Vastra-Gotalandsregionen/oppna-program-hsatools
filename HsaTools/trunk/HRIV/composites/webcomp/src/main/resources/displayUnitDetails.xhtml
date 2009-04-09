@@ -27,7 +27,7 @@
 	<ui:composition template="/template.xhtml">
 
 	<ui:define name="MetaDataContainer">
-		<title>#{unit.name} - Hitta rätt i vården</title>
+		<title>#{unit.name} - Hitta rätt i vården i Västra Götaland</title>
 		<meta name="resource-type" content="organisation" />
 		<meta name="keywords" content="Hitta-rätt-i-vården, HRIV, sök, organisation, enhet, telefonnummer, adress, #{unit.name}" /> 		
 		<meta name="date" content="#{unit.createTimestampFormatted}" /> 
@@ -37,8 +37,8 @@
 		<meta name="DC.title" content="#{unit.name} - Hitta rätt i vården" /> 
 		<meta name="DC.subject" content="Hitta-rätt-i-vården, sök, organisation, enhet, mottagning, telefonnummer, adress, ort, #{unit.name}, #{unit.hsaMunicipalityName}" /> 
 		<h:outputText rendered="#{unit.concatenatedDescription == ''}">
-		<meta name="DC.description" content="" />
-		<meta name="description" content="" /> 
+		<meta name="DC.description" content="#{unit.name}, #{unit.caretypeCustomized} i #{unit.hsaMunicipalityName}. Telefonnummer: #{unit.hsaPublicTelephoneNumber[0].formattedPhoneNumber}" />
+		<meta name="description" content="#{unit.name}, #{unit.caretypeCustomized} i #{unit.hsaMunicipalityName}. Telefonnummer: #{unit.hsaPublicTelephoneNumber[0].formattedPhoneNumber}" />
 		</h:outputText> 
 		<h:outputText rendered="#{unit.concatenatedDescription != ''}">
 		<meta name="DC.description" content="#{unit.concatenatedDescription}" />
