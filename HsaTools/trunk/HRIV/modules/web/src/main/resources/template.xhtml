@@ -29,7 +29,6 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
 		<meta http-equiv="Content-Language" content="se" /> 
 		<meta http-equiv="expires" content="-1" /> 
-		<meta http-equiv="pragma" content="no-cache" /> 
 		<meta http-equiv="imagetoolbar" content="false" />
 		<meta name="classification" content="Administration" /> 
 		<meta name="rating" content="Safe For Kids" /> 
@@ -64,14 +63,15 @@
 		</style>	
 		</h:outputText>
 
-		<!-- Not yet... -->
+		<!-- Not yet... 
 		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.7.0/build/autocomplete/assets/skins/sam/autocomplete.css" />
 		<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.7.0/build/yahoo-dom-event/yahoo-dom-event.js&amp;2.7.0/build/datasource/datasource-min.js&amp;2.7.0/build/autocomplete/autocomplete-min.js"></script> 
-		<!-- --> 
+		--> 
 
 		<script type="text/javascript" src="resources/scripts/prototype.js" />
 		<script type="text/javascript" src="resources/scripts/utilities.js" />
 		<script type="text/javascript" src="resources/scripts/script.js" />
+		<script src="resources/scripts/scriptaculous.js?load=effects,controls" type="text/javascript"></script>
 		<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=#{settings.googleMapsKey}" />
 		<script type="text/javascript" src="resources/scripts/widget.js" />
    		<ui:repeat value="#{settings.scriptPaths}" var="script">
@@ -99,11 +99,11 @@
 											<label for="unitName">Namn på mottagning</label> 
 											<input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="#{unitSearchSimpleForm.unitName}" style="width: 15em;"/>
 											<!--  Uncomment when start using YUI --> 
-											<div id="autocomplete_choices" class="autocomplete"></div>
-											<!-- --> 
-											<!--  <span id="indicator1" style="display: none">
+											<!-- <div id="autocomplete_choices" class="autocomplete"></div> -->
+											<!-- Remove when introducing YUI AC -->
+											<span id="indicator1" style="display: none">
 											  <img src="resources/images/spinner.gif" alt="Arbetar..." />
-											</span> -->
+											</span> 
 										</div>
 									
 										<div class="text" id="healthcare-selection">
@@ -137,8 +137,8 @@
 				        	<!--  Search units widget end (dont remove this comment) --> 
 							<script type="text/javascript" charset="utf-8">
 								// <![CDATA[]
-									// drawAutoCompleteDiv(); initOldAutocompleter(); // Remove this line when starting to use YUI
-									initAutocompleter();
+									drawAutoCompleteDiv(); initOldAutocompleter(); // Remove this line when starting to use YUI AC
+									// initAutocompleter(); // Uncomment this line when starting to use YUI AC
 								// ]]>
 							</script>
 				
