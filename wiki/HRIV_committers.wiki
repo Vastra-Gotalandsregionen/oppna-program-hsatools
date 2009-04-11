@@ -8,7 +8,7 @@
 Kortvarianten är som följer:
 
  # Maila nån av projektägarna om att du behöver skrivrättigheter. Om dina skäl är legitima är chanserna goda att du lyckas få det.
- # Du behöver lite mjukvara. Se till att du har en [http://subversion.tigris.org/links.html#clients Subversion-klient] samt en hygglig utvecklingsmiljö, exempelvis [http://www.eclipse.org Eclipse]. Din utvecklingsmiljö får gärna ha integrerat stöd för Subversion men det är även käckt att komplettera med en fristående subversion-klient.
+ # Du behöver lite mjukvara. Se till att du har en [http://subversion.tigris.org/links.html#clients Subversion-klient], [http://maven.apache.org Maven] samt en hygglig utvecklingsmiljö, exempelvis [http://www.eclipse.org Eclipse]. Din utvecklingsmiljö får gärna ha integrerat stöd för Subversion men det är även käckt att komplettera med en fristående subversion-klient.
  # Checka ut källkoden:<br>cd sökväg_till_källkoden && svn checkout https://oppna-program.googlecode.com/svn/ oppna-program --username ditt.användarnamn
  # Bygg och fixa projektfiler (förutsätter att du vill jobba i utvecklingsmiljön Eclipse): mvn install && mvn -U  eclipse:eclipse -Dwtpversion=1.5
  # Importera projekten i Eclipse. I Eclipse: File/Import.../Existing project into Workspace, Välj "sökväg_till_källkoden/oppna-program/HsaTools/trunk" och importera alla projekten. Voila. Utveckla, checka in dina ändringar och se till att hålla den här wikin uppdaterad. 
