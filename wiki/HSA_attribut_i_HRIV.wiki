@@ -5,7 +5,7 @@
 
 Nedan listas alla de HSA-attribut som används av HRIV.
 
-|| *Attributnamn* || *Beskrivning* || *Visas i sökresultatvy* || *Visas i detaljvy* ||
+|| *Attributnamn* || *Beskrivning* || *Används i sökresultatvy* || *Används i detaljvy* ||
 || ou || Enhetsnamn || Ja || Ja || 
 || businessClassificationCode || Verksamhetskod || Ja || Ja || 
 || Description || Beskrivning || Ja || Ja || 
