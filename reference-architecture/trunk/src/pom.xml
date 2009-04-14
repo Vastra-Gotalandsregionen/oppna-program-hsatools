@@ -25,24 +25,31 @@
   <version>1.1-SNAPSHOT</version>
   <name>${project.artifactId}</name>
 
+  
+
   <modules>
     <module>poc</module>
     <module>ref-systems</module>
     <module>runtime</module>
     <module>tools</module>
   </modules>
+  
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.jvnet.wagon-svn</groupId>
+        <artifactId>wagon-svn</artifactId>
+        <version>1.8</version>
+      </extension>
+    </extensions>
+  </build>
 
-  <distributionManagement>
+ <distributionManagement>
     <repository>
-      <id>releases</id>
-      <name>VGR release repo</name>
-      <url>http://portalutv.vgregion.se/nexus/content/repositories/releases</url>
+      <uniqueVersion>false</uniqueVersion>
+      <id>googleCode-svn</id>
+      <url>https://oppna-program.googlecode.com/svn/maven</url>
     </repository>
-    <snapshotRepository>
-      <id>snapshots</id>
-      <name>VGR snapshot repo</name>
-      <url>http://portalutv.vgregion.se/nexus/content/repositories/snapshots</url>
-    </snapshotRepository>
   </distributionManagement>
-
+  
 </project>
