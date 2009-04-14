@@ -18,72 +18,23 @@
 
 <!--
 Maven2 settings. To be placed in $USER_HOME/.m2
-
-VGR-specific
-====================
-One of the profiles:
-  - vgr_onsite
-  - vgr_offsite
-should always be configured <activeProfiles> at the bottom of this file.
-The profile determines if the VGR-internal Maven-repo will be used (vgr_onsite)
-or not (vgr_offsite).
 -->
 <settings>
 
-  <!-- for ci-server only! -->
-  <!-- <localRepository>D:\maven_repos\ci-repo</localRepository>-->
-
-
   <servers>
-    <!-- Set user/pw to deploy artifacts to internal maven-repo -->
+    <!-- Set your svn user/pw to deploy artifacts to 
+	google code svn maven-repo, see also the distributionManagement 
+	element in the main pom-file (genererated) -->
     <server>
-      <id>releases</id>
-      <username>deployment</username>
-      <password>CHANGE_ME</password>
-    </server>
-    <server>
-      <id>snapshots</id>
-      <username>deployment</username>
+      <id>googleCode-svn</id>
+      <username>CHANGE_ME</username>
       <password>CHANGE_ME</password>
     </server>
   </servers>
 
   <profiles>
     <profile>
-      <id>vgr_onsite</id>
-      <!--
-        Internal repo should answer (proxy) all requests when onsite, mainly
-        for performance reasons). Hence the use of "central" as identifier to
-        override the external maven-repo. This is needed since the
-        mirror-mechanism does not work with profiles.
-      -->
-      <repositories>
-        <repository>
-          <id>central</id>
-          <name>vgr internal repo</name>
-          <url>http://portalutv.vgregion.se/nexus/content/groups/all</url>
-        </repository>
-        <repository>
-          <!--
-            This repo has a legacy (maven1) layout - and nexus can't group
-            that together with maven2 repos so we specify it separately here.
-          -->
-          <id>maven1.java.net</id>
-          <url>http://download.java.net/maven/1</url>
-          <layout>legacy</layout>
-        </repository>
-      </repositories>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>central</id>
-          <name>vgr internal repo</name>
-          <url>http://portalutv.vgregion.se/nexus/content/groups/all</url>
-        </pluginRepository>
-      </pluginRepositories>      
-    </profile>
-    
-    <profile>
-      <id>vgr_offsite</id>
+      <id>oppna-program</id>
       <repositories>
         <repository>
           <id>maven1.java.net</id>
@@ -94,13 +45,16 @@ or not (vgr_offsite).
           <id>maven2.java.net</id>
           <url>http://download.java.net/maven/2</url>
         </repository>
+        <repository>
+          <id>oppnaprogram-maven-repo</id>
+          <url>http://oppna-program.googlecode.com/svn/maven</url>
+        </repository>
       </repositories>
     </profile>
   </profiles>
 
   <activeProfiles>
-    <!-- Use either: vgr_onsite OR vgr_offsite -->
-    <activeProfile>vgr_onsite</activeProfile>
+    <activeProfile>oppna-program</activeProfile>
   </activeProfiles>
   <pluginGroups>
     <pluginGroup>se.vgr.javg.maven.plugins</pluginGroup>
