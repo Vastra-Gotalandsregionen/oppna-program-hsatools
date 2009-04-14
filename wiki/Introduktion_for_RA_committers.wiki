@@ -30,23 +30,23 @@ Källkoden för referensarkitekturen i sig använder Maven som byggsystem, preci
 Att skapa en release: 
 
   * Kopiera från trunk till branch
-{{ 
+{{{ 
 svn copy -m "Branching for release"  https://oppna-program.googlecode.com/svn/reference-architecture/trunk/ https://oppna-program.googlecode.com/svn/reference-architecture/branches/<release version>
-}}
+}}}
   * Checka ut branchen
-{{
+{{{
 svn co https://oppna-program.googlecode.com/svn/reference-architecture/branches/<release version>
-}}
+}}}
   * Stega up versionen i trunk (ändra javg-versionen i alla pom-filer). Not: Om det är en milestone eller release candidate som releasas så behövs ej detta - då ska trunk ligga kvar på SNAPSHOT!
     * Stega även upp versionen under taggen <javg.version> i  [http://code.google.com/p/oppna-program/source/browse/reference-architecture/trunk/src/tools/maven-plugins/javg-template-plugin/src/main/template/__svn_repo/trunk/pom.xml template pomen] som används av maven-pluginen. Ex: `<javg.version>1.1-SNAPSHOT</javg.version>`
   * Gör commit på trunk:
-{{
+{{{
 svn -m "Increasing version for new development in trunk" commit
-}}
+}}}
   # Ändra versionen i alla pom-filer under branchen 
     * Ändra även versionen under taggen <javg.version> i filen /reference-architecture/branches/<release version>/src/tools/maven-plugins/javg-template-plugin/src/main/template/__svn_repo/trunk/pom.xml till aktuellt versionsnummer. Ex: `<javg.version>1.1-RC1</javg.version>` 
   * Gör commit på branchen:
-{{
+{{{
 svn -m "Setting version for release of <release version>" commit
-}}
+}}}
   * 
