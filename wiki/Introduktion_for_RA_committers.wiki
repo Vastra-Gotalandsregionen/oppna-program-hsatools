@@ -20,3 +20,10 @@ Referensarkitekturen har följade CM-struktur (de flesta underkatalogerna har re
 = Bygge =
 
 Källkoden för referensarkitekturen i sig använder Maven som byggsystem, precis som projekt som baserar sig på referensarkitekturen. Man kan därför använda samma instruktioner för att komma igång med utveckling i referensarkitekturen i sig som med projekt baserade på referensarkitekturen, se [Anvisningar_Utvecklingsmiljo]. 
+
+= Release = 
+
+Att skapa en release: 
+
+  # Ändra versionen under taggen <javg.version> i  [http://code.google.com/p/oppna-program/source/browse/reference-architecture/trunk/src/tools/maven-plugins/javg-template-plugin/src/main/template/__svn_repo/trunk/pom.xml template pomen] som används av maven-pluginen. Ex: `<javg.version>1.1-RC1</javg.version>`
+  # 
