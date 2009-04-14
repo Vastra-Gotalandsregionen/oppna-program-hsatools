@@ -11,11 +11,15 @@ Referensarkitekturen i sig innefattar främst dokument, se [Introduktion_till_RA
 
 Referensarkitekturen har följade CM-struktur (de flesta underkatalogerna har readme-filer som fungerar som introduktion till resp. katalogs innehåll): 
 
-  * archived - Innehåller äldre versioner av JAVG (pre Q3 2008) som sparats som referens. Se readme-filen i subversion för mer info. 
-  * poc - Innehåller PoC-projekt, se [Teknisk_arkitektur] för mer info. 
-  * ref-systems - Innehåller referenssystemen (i dagsläget endast ett). Se [Teknisk_arkitektur] och readme.txt för mer info.
-  * runtime - Ramverkskod som stödjer referensarkitekturen. De byggda artefakterna härifrån anges som maven dependencies i de verksamhetskomponenter som bygger på referensarkitekturen. 
-  * tools - Innehåller bl a verktyg för generering av källkodsstrukturen (i form av en mavenplugin). 
+  * reference-architecture
+    * trunk
+      * docs - här under ligger dokumentationen (de delar som ej ligger i wikin)
+      * src
+        * archived - Innehåller äldre versioner av JAVG (pre Q3 2008) som sparats som referens. Se readme-filen i subversion för mer info. 
+        * poc - Innehåller PoC-projekt, se [Teknisk_arkitektur] för mer info. 
+        * ref-systems - Innehåller referenssystemen (i dagsläget endast ett). Se [Teknisk_arkitektur] och readme.txt för mer info.
+        * runtime - Ramverkskod som stödjer referensarkitekturen. De byggda artefakterna härifrån anges som maven dependencies i de verksamhetskomponenter som bygger på referensarkitekturen. 
+        * tools - Innehåller bl a verktyg för generering av källkodsstrukturen (i form av en mavenplugin). 
 
 = Bygge =
 
