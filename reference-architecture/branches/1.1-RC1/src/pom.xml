@@ -22,7 +22,7 @@
   <groupId>se.vgr.javg</groupId>
   <artifactId>javg</artifactId>
   <packaging>pom</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1-RC1</version>
   <name>${project.artifactId}</name>
 
   <modules>
@@ -32,17 +32,22 @@
     <module>tools</module>
   </modules>
 
-  <distributionManagement>
-    <repository>
-      <id>releases</id>
-      <name>VGR release repo</name>
-      <url>http://portalutv.vgregion.se/nexus/content/repositories/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>snapshots</id>
-      <name>VGR snapshot repo</name>
-      <url>http://portalutv.vgregion.se/nexus/content/repositories/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
 
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.jvnet.wagon-svn</groupId>
+        <artifactId>wagon-svn</artifactId>
+        <version>1.8</version>
+      </extension>
+    </extensions>
+  </build>
+
+ <distributionManagement>
+    <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>googleCode-svn</id>
+      <url>https://oppna-program.googlecode.com/svn/maven</url>
+    </repository>
+  </distributionManagement>
 </project>

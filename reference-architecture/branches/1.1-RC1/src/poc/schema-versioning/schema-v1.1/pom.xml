@@ -20,12 +20,12 @@
   <parent>
     <groupId>se.vgr.javg.poc</groupId>
     <artifactId>schema-versioning</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1-RC1</version>
   </parent>  
   <groupId>se.vgr.javg.poc.schema-versioning</groupId>
   <artifactId>javg-poc-versioning-schema-v1.1</artifactId>
   <packaging>jar</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1-RC1</version>
   <name>javg-poc-versioning-schema-v1.1</name>
 
   <build>

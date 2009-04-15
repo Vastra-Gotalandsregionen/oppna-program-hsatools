@@ -21,12 +21,12 @@
   <parent>
     <groupId>se.vgr.javg.poc</groupId>
     <artifactId>poc</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1-RC1</version>
   </parent>
   <groupId>se.vgr.javg.poc</groupId>
   <artifactId>schema-versioning</artifactId>
   <packaging>pom</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1-RC1</version>
   <name>schema-versioning</name>
 
   <!-- common library versions -->
