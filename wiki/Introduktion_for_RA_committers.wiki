@@ -5,7 +5,7 @@
 <wiki:toc/> 
 = Introduktion =
 
-Referensarkitekturen i sig innefattar främst dokument, se [Introduktion_till_RA] för en översikt. Utöver detta finns det referens-system, PoCs, ramverkskod och kod för att generera upp skelett för system och komponenter. 
+Referensarkitekturen i sig innefattar främst dokument, se [Introduktion_till_RA] för en översikt. Utöver detta finns det referens-system, !PoCs, ramverkskod och kod för att generera upp skelett för system och komponenter. 
 
 = CM-struktur =
 
@@ -29,27 +29,29 @@ Källkoden för referensarkitekturen i sig använder Maven som byggsystem, preci
 
 Att skapa en release: 
 
-  * Kopiera från trunk till branch
+  * Kopiera från trunk till tag
 {{{ 
-svn copy -m "Branching for release"  https://oppna-program.googlecode.com/svn/reference-architecture/trunk/ https://oppna-program.googlecode.com/svn/reference-architecture/branches/<release version>
+svn copy -m "Taging for release"  https://oppna-program.googlecode.com/svn/reference-architecture/trunk/ https://oppna-program.googlecode.com/svn/reference-architecture/tags/<release version>
 }}}
-  * Checka ut branchen
+  * Checka ut tagen
 {{{
-svn co https://oppna-program.googlecode.com/svn/reference-architecture/branches/<release version>
+svn co https://oppna-program.googlecode.com/svn/reference-architecture/tags/<release version>
 }}}
-  * Stega up versionen i trunk (ändra javg-versionen i alla pom-filer). Not: Om det är en milestone eller release candidate som releasas så behövs ej detta - då ska trunk ligga kvar på SNAPSHOT!
+  * Stega up versionen i trunk (ändra javg-versionen i alla pom-filer). Not: Om det är en milestone eller release candidate som releasas så behövs ej detta - då ska trunk ligga kvar på SNAPSHOT.
     * Stega även upp versionen under taggen <javg.version> i  [http://code.google.com/p/oppna-program/source/browse/reference-architecture/trunk/src/tools/maven-plugins/javg-template-plugin/src/main/template/__svn_repo/trunk/pom.xml template pomen] som används av maven-pluginen. Ex: `<javg.version>1.1-SNAPSHOT</javg.version>`
-  * Gör commit på trunk:
+  * Gör commit på trunk (om versionen har stegats upp):
 {{{
 svn -m "Increasing version for new development in trunk" commit
 }}}
-  * Ändra versionen i alla pom-filer under branchen 
+  * Ändra versionen i alla pom-filer under tagen 
     * Ändra även versionen under taggen <javg.version> i filen /reference-architecture/branches/<release version>/src/tools/maven-plugins/javg-template-plugin/src/main/template/__svn_repo/trunk/pom.xml till aktuellt versionsnummer. Ex: `<javg.version>1.1-RC1</javg.version>` 
-  * Gör commit på branchen:
+  * Gör commit på tagen:
 {{{
 svn -m "Setting version for release of <release version>" commit
 }}}
-  * Kontrollera så att googleCode-svn-serverns användarnamn och lösenord stämmer i mavenfilen $USER_HOME/.m2/settings.xml (se exempel [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/src/tools/maven-settings/settings.xml här]). Kör sedan maven deploy i katalogen /branches/<release version>/src (TODO: detta bör köras av byggservern):
+  * Kontrollera så att googleCode-svn-serverns användarnamn och lösenord stämmer i mavenfilen $USER_HOME/.m2/settings.xml (se exempel [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/src/tools/maven-settings/settings.xml här]). Kör sedan maven deploy i katalogen /tags/<release version>/src (TODO: detta bör köras av byggservern):
 {{{
 mvn deploy
 }}}
+  * Samla ihop filerna inkl dokument och zippa. Lägg upp under downloads. 
+  * Not: Om en separat branch skulle behövas, t ex för buggfixar görs detta vid behov (dvs när första buggen skall fixas) genom att kopera från tags. 
