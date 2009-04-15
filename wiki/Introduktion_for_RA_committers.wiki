@@ -49,9 +49,14 @@ svn -m "Increasing version for new development in trunk" commit
 {{{
 svn -m "Setting version for release of <release version>" commit
 }}}
-  * Kontrollera så att googleCode-svn-serverns användarnamn och lösenord stämmer i mavenfilen $USER_HOME/.m2/settings.xml (se exempel [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/src/tools/maven-settings/settings.xml här]). Kör sedan maven deploy i katalogen /tags/<release version>/src (TODO: detta bör köras av byggservern):
+  * Kontrollera så att googleCode-svn-serverns användarnamn och lösenord stämmer i mavenfilen $USER_HOME/.m2/settings.xml (se exempel [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/src/tools/maven-settings/settings.xml här]). 
+  * Kör sedan maven deploy i katalogen /tags/<release version>/src/runtime för att deploya maven-artefakterna till [https://oppna-program.googlecode.com/svn/maven maven-repot] (TODO: ev bör detta köras av byggservern):
 {{{
 mvn deploy
 }}}
-  * Samla ihop filerna inkl dokument och zippa. Lägg upp under downloads. 
+  * Kör även maven deploy i katalogen /tags/<release version>/src/tools (TODO: ev bör detta köras av byggservern):
+{{{
+mvn deploy
+}}}
+  * Samla ihop alla filer inkl dokument och zippa. Lägg upp under downloads. 
   * Not: Om en separat branch skulle behövas, t ex för buggfixar görs detta vid behov (dvs när första buggen skall fixas) genom att kopiera från tags. 
