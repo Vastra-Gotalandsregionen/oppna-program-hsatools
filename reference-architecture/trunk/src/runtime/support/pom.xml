@@ -21,12 +21,12 @@
   <parent>
     <groupId>se.vgr.javg</groupId>
     <artifactId>runtime</artifactId>
-    <version>1.1-RC1</version>
+    <version>1.1-SNAPSHOT</version>
   </parent>
   <groupId>se.vgr.javg</groupId>
   <artifactId>javg-rt-support</artifactId>
   <packaging>jar</packaging>
-  <version>1.1-RC1</version>
+  <version>1.1-SNAPSHOT</version>
   <name>${project.artifactId}</name>
 
   <dependencies>
