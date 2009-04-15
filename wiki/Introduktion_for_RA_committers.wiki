@@ -49,4 +49,7 @@ svn -m "Increasing version for new development in trunk" commit
 {{{
 svn -m "Setting version for release of <release version>" commit
 }}}
-  * 
+  * Kontrollera så att googleCode-svn-serverns användarnamn och lösenord stämmer i mavenfilen $USER_HOME/.m2/settings.xml (se exempel [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/src/tools/maven-settings/settings.xml här]). Kör sedan maven deploy i katalogen /branches/<release version>/src (TODO: detta bör köras av byggservern):
+{{{
+mvn deploy
+}}}
