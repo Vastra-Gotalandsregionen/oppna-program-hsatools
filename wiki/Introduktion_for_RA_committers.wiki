@@ -54,4 +54,4 @@ svn -m "Setting version for release of <release version>" commit
 mvn deploy
 }}}
   * Samla ihop filerna inkl dokument och zippa. Lägg upp under downloads. 
-  * Not: Om en separat branch skulle behövas, t ex för buggfixar görs detta vid behov (dvs när första buggen skall fixas) genom att kopera från tags. 
+  * Not: Om en separat branch skulle behövas, t ex för buggfixar görs detta vid behov (dvs när första buggen skall fixas) genom att kopiera från tags. 
