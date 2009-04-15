@@ -43,7 +43,7 @@ svn co https://oppna-program.googlecode.com/svn/reference-architecture/branches/
 {{{
 svn -m "Increasing version for new development in trunk" commit
 }}}
-  # Ändra versionen i alla pom-filer under branchen 
+  * Ändra versionen i alla pom-filer under branchen 
     * Ändra även versionen under taggen <javg.version> i filen /reference-architecture/branches/<release version>/src/tools/maven-plugins/javg-template-plugin/src/main/template/__svn_repo/trunk/pom.xml till aktuellt versionsnummer. Ex: `<javg.version>1.1-RC1</javg.version>` 
   * Gör commit på branchen:
 {{{
