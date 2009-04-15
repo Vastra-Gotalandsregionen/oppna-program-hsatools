@@ -59,7 +59,10 @@ mvn deploy
 {{{
 mvn deploy
 }}}
-  * Samla ihop alla filer inkl dokument och zippa. Lägg upp under downloads. 
+  * Samla ihop alla filer, inkl dokument, och skapa en src-dowonload: 
+    * Kör `maven clean` i src-katalogen för att ta bort alla target-folders.
+    * Ta bort alla svn-foldrar, t ex (på Linux/Mac) med `find . -type d -name '*.svn' -print0 | xargs -0 rm -rdf`. Zippa ihop src+docs och lägg upp filen under downloads. 
+  * Not: För icke-bakåtkompatibla releaser (major-versioner) av RA kan vissa wiki-sidor behöva sparas i enlighet med den tidigare versionen. Detta får bedömas från fall till fall. 
   * Not: Om en separat branch skulle behövas, t ex för buggfixar görs detta vid behov (dvs när första buggen skall fixas) genom att kopiera från tags till branches:
 {{{ 
 svn copy -m "Branching release"  https://oppna-program.googlecode.com/svn/reference-architecture/tags/<release version> 
