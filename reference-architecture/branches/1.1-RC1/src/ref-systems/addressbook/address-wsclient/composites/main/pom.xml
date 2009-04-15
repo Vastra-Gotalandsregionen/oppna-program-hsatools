@@ -19,7 +19,7 @@
 This is the main-class composite used to build a standalone webservice client.
 
 
-Template version: 1.1-SNAPSHOT
+Template version: 1.1-RC1
 Generation time : 2008-08-25 16:26:49 CEST
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -29,7 +29,7 @@ Generation time : 2008-08-25 16:26:49 CEST
   <parent>
     <groupId>se.vgr.javg.refsystems.addressbook</groupId>
     <artifactId>addressbook-address-wsclient</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1-RC1</version>
   </parent>
   <artifactId>addressbook-address-wsclient-composite-main</artifactId>
   <packaging>jar</packaging>
@@ -39,7 +39,7 @@ Generation time : 2008-08-25 16:26:49 CEST
     <dependency>
       <groupId>se.vgr.javg.refsystems.addressbook</groupId>
       <artifactId>addressbook-address-composite-schema</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <version>1.1-RC1</version>
     </dependency>
   </dependencies>
   

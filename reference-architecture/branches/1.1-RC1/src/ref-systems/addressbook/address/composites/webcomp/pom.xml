@@ -19,7 +19,7 @@
 This is the Web-composite Maven POM.
 
 
-Template version: 1.1-SNAPSHOT
+Template version: 1.1-RC1
 Generation time : 2008-08-26 12:02:58 CEST
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -29,7 +29,7 @@ Generation time : 2008-08-26 12:02:58 CEST
   <parent>
     <groupId>se.vgr.javg.refsystems.addressbook</groupId>
     <artifactId>addressbook-address</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1-RC1</version>
   </parent>
   <artifactId>addressbook-address-composite-webcomp</artifactId>
   <packaging>jar</packaging>
