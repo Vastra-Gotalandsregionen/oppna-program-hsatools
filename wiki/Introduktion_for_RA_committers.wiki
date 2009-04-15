@@ -31,7 +31,8 @@ Att skapa en release:
 
   * Kopiera från trunk till tag
 {{{ 
-svn copy -m "Taging for release"  https://oppna-program.googlecode.com/svn/reference-architecture/trunk/ https://oppna-program.googlecode.com/svn/reference-architecture/tags/<release version>
+svn copy -m "Taging for release"  https://oppna-program.googlecode.com/svn/reference-architecture/trunk/ 
+https://oppna-program.googlecode.com/svn/reference-architecture/tags/<release version>
 }}}
   * Checka ut tagen
 {{{
@@ -61,5 +62,6 @@ mvn deploy
   * Samla ihop alla filer inkl dokument och zippa. Lägg upp under downloads. 
   * Not: Om en separat branch skulle behövas, t ex för buggfixar görs detta vid behov (dvs när första buggen skall fixas) genom att kopiera från tags till branches:
 {{{ 
-svn copy -m "Branching release"  https://oppna-program.googlecode.com/svn/reference-architecture/tags/<release version> https://oppna-program.googlecode.com/svn/reference-architecture/branches/<release version>
+svn copy -m "Branching release"  https://oppna-program.googlecode.com/svn/reference-architecture/tags/<release version> 
+https://oppna-program.googlecode.com/svn/reference-architecture/branches/<release version>
 }}} 
