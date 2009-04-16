@@ -1,6 +1,5 @@
-<!--
-
-    /* Copyright 2009 Västa Götalandsregionen
+﻿<!-- 
+      Copyright 2009 Västa Götalandsregionen
 
       This library is free software; you can redistribute it and/or modify
       it under the terms of version 2.1 of the GNU Lesser General Public
@@ -15,8 +14,6 @@
       License along with this library; if not, write to the
       Free Software Foundation, Inc., 59 Temple Place, Suite 330,
       Boston, MA 02111-1307  USA
-     */
-
 -->
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
 <?xml version="1.0" encoding="UTF-8"?>
@@ -68,11 +65,11 @@
     <style type="text/css">
         .topSearch {width:163px;} /* used to format the search input field */
         .rightColSearch {width:200px;} /* used to format the hitta i vården input field */
-        .textButton {border:0;background:inherit;background: url(map.png) no-repeat 0 0; padding:0px 0 2px 5px;}
+        .textButton {border:0;background:inherit;background: url(resources/images/map.png) no-repeat 0 0; padding:0px 0 2px 5px;}
         .textButton:hover {text-decoration:underline;cursor:hand;}
         .standardButton2 {margin-bottom: 0.9em; margin-left: 3.4em;}
-        .maplink {background: url(map.png) no-repeat 0 0; padding:2px 0 3px 22px;}
-        .helpicon{background: url(help.png) no-repeat 182px 0;padding-top:5px;}
+        .maplink {background: url(resources/images/map.png) no-repeat 0 0; padding:2px 0 3px 22px;}
+        .helpicon{background: url(resources/images/help.png) no-repeat 182px 0;padding-top:5px;}
     </style>
     
     <!-- Change the action part of the FORM below -->
@@ -235,31 +232,31 @@
                 <div class="boxinside">
                     <p class="boxrub">Hitta rätt i vården</p>
             
-						<form id="searchUnitForm" name="searchUnitForm" action="displayUnitSearchResult.jsf" method="post" encType="application/x-www-form-urlencoded" onsubmit="">
+						<form id="searchUnitForm" name="searchUnitForm" action="displayUnitSearchResult.jsf" method="get" encType="application/x-www-form-urlencoded" onsubmit="">
 <div id="formContainer">
 <div class="text">
 	                    	<div style="float:left;"><p class="searchtext">Namn på mottagning</p></div>	                    
-	                    	<div style="float:right;margin: 0 3em 0 0;"><a href="searchunits?_flowId=HRIV.Search.searchunit&amp;startpage=1"><img src="help.png" /></a></div>
+	                    	<div style="float:right;margin: 0 3em 0 0;"><a href="searchunits?_flowId=HRIV.Search.searchunit&amp;startpage=1"><img src="resources/images/help.png" /></a></div>
 		                    <input class="rightColSearch topSearch" id="unitName" title="Snabbsökning" name="unitName" />
 </div>
 <div class="text">		
 		                    <p class="searchtext">Vilken typ av vård söker du?</p>
 			                    <select class="rightColSearch noMarginTop" id="healthcareType" name="healthcareType">
-			                        <option value="0" selected="selected">Alla typer av vård</option>
-			                        <option value="1">Akutmottagning</option>
-			                        <option value="2">Barnav&#229;rdscentral, BVC</option>
-			                        <option value="3">Barn- och ungdomsmedicin</option>
-			                        <option value="4">Gynekologi</option>
-			                        <option value="5">Jourcentral, JC</option>
-			                        <option value="6">Mottagningar p&aring; sjukhus</option>
-			                        <option value="7">M&#246;drav&#229;rdscentral, MVC</option>
-			                        <option value="8">Psykiatri</option>
-			                        <option value="9">Sjukhus</option>
-			                        <option value="10">Tandv&aring;rd</option>
-			                        <option value="11">Ungdomsmottagning</option>
-			                        <option value="12">V&#229;rdcentral</option>
-			                        <option value="13">&Ouml;vriga mottagningar</option>
-			                    </select>
+									<option value="0">Alla typer av vård</option>
+									<option value="1" selected="selected">Akutmottagning</option>
+									<option value="2">Barnmorskemottagning</option>
+									<option value="3">Barnavårdscentral</option>
+									<option value="4">Barn- och ungdomsmedicin</option>
+									<option value="5">Gynekologi</option>
+									<option value="6">Jourcentral</option>
+									<option value="7">Mottagningar på sjukhus</option>
+									<option value="8">Psykiatri</option>
+									<option value="9">Sjukhus</option>
+									<option value="10">Tandvård</option>
+									<option value="11">Ungdomsmottagning</option>
+									<option value="12">Vårdcentral</option>
+									<option value="13">Övriga mottagningar</option>
+								</select>
 </div>
 		                    
 <div class="text">
