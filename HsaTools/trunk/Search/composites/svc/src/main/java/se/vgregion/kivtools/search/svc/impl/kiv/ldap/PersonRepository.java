@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Person;
@@ -218,8 +219,9 @@ public class PersonRepository {
      * @throws LDAPException
      * @throws UnsupportedEncodingException
      * @throws SikInternalException 
+     * @throws NoConnectionToServerException 
      */
-    private LDAPConnection getLDAPConnection() throws LDAPException, UnsupportedEncodingException, SikInternalException {
+    private LDAPConnection getLDAPConnection() throws LDAPException, UnsupportedEncodingException, SikInternalException, NoConnectionToServerException {
         LDAPConnection lc = theConnectionPool.getConnection(POOL_WAIT_TIME_MILLISECONDS);
         if (lc==null) {
             throw new SikInternalException(this, "getLDAPConnection()", "Could not get a connection after waiting " + 
@@ -237,7 +239,7 @@ public class PersonRepository {
         
         addMultipleAttributes(filterList , givenName, "givenName", "hsaNickName");
 
-        // let�s do some special handling of sn
+        // let's do some special handling of sn
         addMultipleAttributes(filterList , familyName, "sn", "hsaMiddleName");
 
         if (filterList.isEmpty()) {

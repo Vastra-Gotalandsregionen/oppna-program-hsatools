@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Formatter;
 
+import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Employment;
@@ -99,8 +100,9 @@ public class EmploymentRepository {
      * @throws LDAPException
      * @throws UnsupportedEncodingException
      * @throws SikInternalException 
+     * @throws NoConnectionToServerException 
      */
-    private LDAPConnection getLDAPConnection() throws LDAPException, UnsupportedEncodingException, SikInternalException {
+    private LDAPConnection getLDAPConnection() throws LDAPException, UnsupportedEncodingException, SikInternalException, NoConnectionToServerException {
         LDAPConnection lc = theConnectionPool.getConnection(POOL_WAIT_TIME_MILLISECONDS);
         if (lc==null) {
             throw new SikInternalException(this, "getLDAPConnection()", "Could not get a connection after waiting " + 

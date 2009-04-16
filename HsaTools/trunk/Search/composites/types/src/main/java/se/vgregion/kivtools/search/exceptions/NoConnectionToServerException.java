@@ -22,22 +22,23 @@ package se.vgregion.kivtools.search.exceptions;
 
 import java.io.Serializable;
 
+
 /**
- * @author Anders Asplund - KnowIT
+ * @author Hans Gyllensten, KnowIT
+ * @author Jonas Liljenfeldt, Know IT
  *
  */
 @SuppressWarnings("serial")
-public class KivException extends Exception implements Serializable {
-//    private static ResourceBundle userMessageBundle = ResourceBundle.getBundle("UserMessages");
+public class NoConnectionToServerException extends KivException implements Serializable{
 
-    public KivException(String message) {
+    /**
+     * @param message
+     */
+    public NoConnectionToServerException(String message) {
         super(message);
     }
 
-//    protected static ResourceBundle getUserMessageBundle() {
-//        return userMessageBundle;
-//    }    
-    public String toString() {
-        return getMessage();
+    public NoConnectionToServerException() {
+        super("Ingen anslutning till servern. Var god f\u00F6rs\u00F6k senare.");
     }
 }

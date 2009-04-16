@@ -40,8 +40,8 @@ public class SikInternalException extends KivException implements Serializable{
 
     /**
      * 
-     * @param obj   usually "this" then thid is used to construct the qualified name of the class
-     *              where the problem occured.
+     * @param obj   usually "this" then this is used to construct the qualified name of the class
+     *              where the problem occurred.
      * @param methodName
      * @param message
      */
