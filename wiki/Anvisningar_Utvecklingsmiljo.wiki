@@ -43,7 +43,7 @@ Det behövs bara en konfiguration och det är att placera filen [http://oppna-pr
 `$USER_HOME/.m2/`
 vilket under WindowsXP blir:
 `C:\Documents and Settings\<USERNAME>\.m2`
-I filen pekas [http://oppna-program.googlecode.com/svn/maven maven-repot] här på google code (subversion) ut så att projektet hittar referensarkitekturens artefakter. Dessutom finns i filen en inställning som kan användas om man vill deploya sina egna projekt till ett svn-baserat maven-repository ex här på google code: 
+I filen pekas [http://oppna-program.googlecode.com/svn/maven maven-repot] här på google code ut så att projektet hittar referensarkitekturens artefakter. Dessutom finns i filen en inställning som kan användas om man vill deploya sina egna projekt till ett svn-baserat maven-repository exempelvis här på google code: 
 {{{
 <server>
     <id>svn-repo</id>
@@ -52,6 +52,7 @@ I filen pekas [http://oppna-program.googlecode.com/svn/maven maven-repot] här p
 </server>
 }}}
 
+URLen till svn-repot ska pekas ut i pom-filen på system-nivå under taggen distributionManagement. Här i settings.xml anger man alltså sitt användarnamn och lösenord för svn-uppkopplingen. Se [https://wagon-svn.dev.java.net/ wagon-svn] för mer information. 
 == Maven snabbstart ==
 === Baskommandon ===
 Här är en kort beskrivning av de vanligaste kommandon som ges till Maven (utföras i samma bibliotek som den pom.xml fil som ska användas):
@@ -70,6 +71,12 @@ mvn clean
 *install*: bygg artefakter och installera i det lokala Maven-repositoriet.
 {{{
 mvn install
+}}}
+
+
+*deploy*: deploya artefakter och installera i det centrala Maven-repositoriet (default till ett svn-baserat repo mha wagon-svn, se _Konfiguration_ ovan).
+{{{
+mvn deploy
 }}}
 
 = Checka ut källkoden från subversion =
