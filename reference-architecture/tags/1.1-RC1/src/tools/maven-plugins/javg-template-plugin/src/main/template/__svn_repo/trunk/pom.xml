@@ -48,12 +48,12 @@ Generation time : __GENERATION_TIME__
       </plugin>
     </plugins>
     
-		<!-- needed for FTP-deployment -->
+		<!-- needed for SVN-deployment -->
 		<extensions>
 			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ftp</artifactId>
-				<version>1.0-beta-3</version>
+				<groupId>org.jvnet.wagon-svn</groupId>
+				<artifactId>wagon-svn</artifactId>
+				<version>1.8</version>
 			</extension>
 		</extensions>
   </build>
@@ -72,17 +72,14 @@ Generation time : __GENERATION_TIME__
     </dependency>
   </dependencies>
 
+<!-- Used by "mvn deploy" to deploy artefacts to a central maven repository. Use settings.xml to set username and password for this repository, see wagon-svn for more information -->
   <distributionManagement>
-    <repository>
-      <id>releases</id>
-      <name>VGR release repo</name>
-      <url>http://portalutv.vgregion.se/nexus/content/repositories/releases</url>
+     <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>svn-repo</id>
+      <url>CHANGE_TO_PROJECT_SPECIFIC_SVN_REPO</url> <!--E.g. svn:http://server/svn/maven/repo/ -->
     </repository>
-    <snapshotRepository>
-      <id>snapshots</id>
-      <name>VGR snapshot repo</name>
-      <url>http://portalutv.vgregion.se/nexus/content/repositories/snapshots</url>
-    </snapshotRepository>
   </distributionManagement>
+
   
 </project>

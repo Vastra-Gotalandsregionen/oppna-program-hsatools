@@ -46,7 +46,7 @@
  <distributionManagement>
     <repository>
       <uniqueVersion>false</uniqueVersion>
-      <id>googleCode-svn</id>
+      <id>svn-repo</id>
       <url>svn:https://oppna-program.googlecode.com/svn/maven</url>
     </repository>
   </distributionManagement>
