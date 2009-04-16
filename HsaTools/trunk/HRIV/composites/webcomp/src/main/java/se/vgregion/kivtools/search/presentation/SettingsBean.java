@@ -69,7 +69,16 @@ public class SettingsBean implements Serializable {
 	private String verifyV1;
 	private String geoRegion;
 	private String mobileUrl;
+	private String informationArea;
 	
+	public String getInformationArea() {
+		return informationArea;
+	}
+
+	public void setInformationArea(String informationArea) {
+		this.informationArea = informationArea;
+	}
+
 	public String getMobileUrl() {
 		return mobileUrl;
 	}

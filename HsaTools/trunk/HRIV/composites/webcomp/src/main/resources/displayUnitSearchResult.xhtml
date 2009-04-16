@@ -33,7 +33,13 @@
 		<meta name="resource-type" content="organisation" />
 		<meta name="DC.description" content="Hitta-rätt-i-vården hjälper dig att att hitta information om mottagningar" /> 
 		<meta name="description" content="Hitta-rätt-i-vården hjälper dig att att hitta information om mottagningar" />
-		<meta name="DC.subject" content="Hitta-rätt-i-vården, sök, organisation, enhet, mottagning, telefonnummer, adress, ort" /> 
+		<meta name="DC.subject" content="Hitta-rätt-i-vården, sök, organisation, enhet, mottagning, telefonnummer, adress, ort" />
+		<h:outputText rendered="#{fn:trim(rootCauseException.message) != ''}">
+		<meta name="ROBOTS" content="NOINDEX,NOFOLLOW" />
+		</h:outputText>
+		<h:outputText rendered="#{fn:trim(rootCauseException.message) == ''}">
+		<meta name="robots" content="ALL" /> 
+		</h:outputText>
 	</ui:define>
 
 	<ui:define name="HrivCaptions">

@@ -93,6 +93,7 @@
 		<property name="verifyV1" value="#{hsatools.hriv.webcomp.verifyV1}" />
 		<property name="geoRegion" value="#{hsatools.hriv.webcomp.geoRegion}" />
 		<property name="mobileUrl" value="#{hsatools.hriv.webcomp.mobileUrl}" />
+		<property name="informationArea" value="#{hsatools.hriv.webcomp.informationArea}" />
 	</bean>
 
 	<bean id="Display.DisplayAccessibilityDatabaseBean" class="se.vgregion.kivtools.search.presentation.DisplayAccessibilityDatabaseBean">

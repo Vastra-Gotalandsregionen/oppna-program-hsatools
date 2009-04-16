@@ -21,10 +21,13 @@
 package se.vgregion.kivtools.search.presentation;
 
 import java.io.Serializable;
+import java.net.UnknownHostException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
+import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 
@@ -78,11 +81,15 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
 		this.searchService = searchService;
 	}
 
-	public Unit getUnitDetails(String hsaId) {
+	public Unit getUnitDetails(String hsaId) throws NoConnectionToServerException {
 		logger.info(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
 		Unit u = null;
 		try {
 			u = getSearchService().getUnitByHsaId(hsaId);
+		} catch (NoConnectionToServerException e) {
+			// We have no good connection to LDAP server and should be able to
+			// tell the user we have no hope of success.
+			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new Unit();
