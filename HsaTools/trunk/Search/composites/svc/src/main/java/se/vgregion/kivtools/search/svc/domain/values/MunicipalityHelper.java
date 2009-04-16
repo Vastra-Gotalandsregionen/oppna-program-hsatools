@@ -28,8 +28,8 @@ public class MunicipalityHelper {
 
 	public static List<Municipality> allMunicipalities;
 	
-	private static final String MUNICIPALITY_CODE_KEY = "kivtools.search.svc.impl.municipalitycode";
-	private static final String MUNICIPALITY_NAME_KEY = "kivtools.search.svc.impl.municipalityname";
+	private static final String MUNICIPALITY_CODE_KEY = "hsatools.search.svc.impl.municipalitycode";
+	private static final String MUNICIPALITY_NAME_KEY = "hsatools.search.svc.impl.municipalityname";
 
 	private String implResourcePath;
 	

@@ -29,8 +29,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
-import se.vgregion.kivtools.search.svc.domain.Person;
 
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPException;
@@ -145,14 +145,16 @@ public class LdapConnectionPool {
      * has been closed by the database, it's removed from the pool
      * and this method is called again recursively.
      */
-    public synchronized LDAPConnection getConnection() throws LDAPException, UnsupportedEncodingException, SikInternalException{
+    public synchronized LDAPConnection getConnection() throws LDAPException,
+			UnsupportedEncodingException, NoConnectionToServerException,
+			SikInternalException {
         LDAPConnection con = null;
-        if (freeConnections.size() > 0) {
+        if (freeConnections.size() > 0 && freeConnections.get(0) != null) {
             // Pick the first LDAPConnection in the Vector
             // to get round-robin usage
-            con = (LDAPConnection) freeConnections.get(0);
+    		con = (LDAPConnection) freeConnections.get(0);
             freeConnections.remove(0);
-            if (!con.isConnectionAlive()) {
+            if (con == null || !con.isConnectionAlive()) {
                 logger.info("Removed bad connection from Pool");
                 // Try again recursively
                 con = getConnection();
@@ -184,7 +186,9 @@ public class LdapConnectionPool {
      * @throws UnsupportedEncodingException 
      * @throws SikInternalException 
      */
-    public synchronized LDAPConnection getConnection(long timeout) throws UnsupportedEncodingException, LDAPException, SikInternalException {
+    public synchronized LDAPConnection getConnection(long timeout)
+			throws UnsupportedEncodingException, LDAPException,
+			NoConnectionToServerException, SikInternalException {
         
         long startTime = new Date().getTime();
         LDAPConnection con;
@@ -225,8 +229,9 @@ public class LdapConnectionPool {
     
     /**
      * Creates a new connection
+     * @throws NoConnectionToServerException 
      */
-    private LDAPConnection newConnection() throws LDAPException, UnsupportedEncodingException, SikInternalException{
+    private LDAPConnection newConnection() throws LDAPException, UnsupportedEncodingException, SikInternalException, NoConnectionToServerException{
         checkInit();
         LDAPConnection lc = new LDAPConnection();
         try {
@@ -241,6 +246,9 @@ public class LdapConnectionPool {
         catch (LDAPException e) {
             logger.error("Can't create a new connection for ldapHost=" + ldapHost + ", ldapport=" + ldapport + ", exception=" + e.getLDAPErrorMessage());
             e.printStackTrace();
+        	if (e.getResultCode() == LDAPException.CONNECT_ERROR) {
+				throw new NoConnectionToServerException();
+        	}
             throw e;
         } 
         catch (UnsupportedEncodingException e) {

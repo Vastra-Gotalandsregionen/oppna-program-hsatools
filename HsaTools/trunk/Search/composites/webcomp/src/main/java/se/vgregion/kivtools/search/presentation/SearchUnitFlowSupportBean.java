@@ -21,6 +21,7 @@
 package se.vgregion.kivtools.search.presentation;
 
 import java.io.Serializable;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
+import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
@@ -82,7 +84,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
 	}
 
 	public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm)
-			throws KivNoDataFoundException {
+			throws KivNoDataFoundException, NoConnectionToServerException {
 		logger.info(CLASS_NAME + ".doSearch()");
 
 		try {
@@ -105,8 +107,10 @@ public class SearchUnitFlowSupportBean implements Serializable {
 				throw new KivNoDataFoundException();
 			}
 			return list;
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
+			if (e instanceof UnknownHostException) {
+				throw (NoConnectionToServerException) e;
+			}
 			if (e instanceof KivNoDataFoundException) {
 				throw (KivNoDataFoundException) e;
 			}

@@ -23,13 +23,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Unit;
@@ -147,9 +147,9 @@ public class UnitRepository {
 							Method keyMethod;
 							Object value = null;
 							try {
-								keyMethod =  units.get(j).getClass().getMethod("get" + key,
-										null);
-								value = keyMethod.invoke( units.get(j), null);
+								keyMethod = units.get(j).getClass().getMethod(
+										"get" + key, null);
+								value = keyMethod.invoke(units.get(j), null);
 							} catch (SecurityException e) {
 								e.printStackTrace();
 							} catch (NoSuchMethodException e) {
@@ -260,7 +260,8 @@ public class UnitRepository {
 					if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED
 							|| e.getResultCode() == LDAPException.LDAP_TIMEOUT
 							|| e.getResultCode() == LDAPException.CONNECT_ERROR) {
-						break;
+						// break;
+						throw new NoConnectionToServerException();
 					} else {
 						continue; // take next Unit
 					}
@@ -293,6 +294,10 @@ public class UnitRepository {
 			result = extractResult(lc.search(KIV_SEARCH_BASE, searchScope,
 					searchFilter, attributes, false, constraints), maxResult,
 					sortOrder);
+		} catch (SikInternalException e) {
+			// We have no good connection to LDAP server and should be able to
+			// tell the user we have no hope of success.
+			throw new NoConnectionToServerException();
 		} finally {
 			theConnectionPool.freeConnection(lc);
 		}
@@ -313,6 +318,10 @@ public class UnitRepository {
 			lc = getLDAPConnection();
 			result = extractSingleResult(lc.search(searchBase, searchScope,
 					searchFilter, attributes, false, constraints));
+		} catch (NoConnectionToServerException e) {
+			// We have no good connection to LDAP server and should be able to
+			// tell the user we have no hope of success.
+			throw e;
 		} finally {
 			theConnectionPool.freeConnection(lc);
 		}
@@ -328,7 +337,7 @@ public class UnitRepository {
 	 * @throws SikInternalException
 	 */
 	private LDAPConnection getLDAPConnection() throws LDAPException,
-			UnsupportedEncodingException, SikInternalException {
+			UnsupportedEncodingException, NoConnectionToServerException, SikInternalException {
 		LDAPConnection lc = theConnectionPool
 				.getConnection(POOL_WAIT_TIME_MILLISECONDS);
 		if (lc == null) {
@@ -354,7 +363,8 @@ public class UnitRepository {
 			} catch (LDAPException e) {
 				if (e.getResultCode() == LDAPException.LDAP_TIMEOUT
 						|| e.getResultCode() == LDAPException.CONNECT_ERROR) {
-					break;
+					// break;
+					throw new NoConnectionToServerException();
 				} else {
 					continue;
 				}
@@ -364,7 +374,8 @@ public class UnitRepository {
 		// Make sure we don't return duplicates
 		SikSearchResultList<Unit> resultNoDuplicates = new SikSearchResultList<Unit>();
 		for (Unit u : result) {
-			// Would like to use "contains" which uses equals (where you could test for same hsa-id) but that would break the searching.
+			// Would like to use "contains" which uses equals (where you could
+			// test for same hsa-id) but that would break the searching.
 			boolean alreadyExists = false;
 			for (Unit uND : resultNoDuplicates) {
 				if (u.getHsaIdentity().equals(uND.getHsaIdentity())) {
@@ -376,7 +387,7 @@ public class UnitRepository {
 				resultNoDuplicates.add(u);
 			}
 		}
-		
+
 		if (sortOrder == null) {
 			// No sort order was supplied, default to sorting on unit name.
 			sortOrder = new UnitNameComparator();
@@ -385,7 +396,8 @@ public class UnitRepository {
 		Collections.sort(resultNoDuplicates, sortOrder);
 		int resultCount = resultNoDuplicates.size();
 		if (resultNoDuplicates.size() > maxResult && maxResult != 0) {
-			resultNoDuplicates = new SikSearchResultList<Unit>(resultNoDuplicates.subList(0, maxResult));
+			resultNoDuplicates = new SikSearchResultList<Unit>(
+					resultNoDuplicates.subList(0, maxResult));
 		}
 		resultNoDuplicates.setTotalNumberOfFoundItems(resultCount);
 

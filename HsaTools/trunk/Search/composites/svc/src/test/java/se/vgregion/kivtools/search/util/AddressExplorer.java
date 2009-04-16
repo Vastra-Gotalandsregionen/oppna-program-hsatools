@@ -26,6 +26,7 @@ import java.util.List;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
@@ -149,7 +150,7 @@ public class AddressExplorer {
 	}
 
 	private LDAPConnection getLDAPConnection() throws LDAPException,
-			UnsupportedEncodingException, SikInternalException {
+			UnsupportedEncodingException, SikInternalException, NoConnectionToServerException {
 		LDAPConnection lc = theConnectionPool
 				.getConnection(POOL_WAIT_TIME_MILLISECONDS);
 		if (lc == null) {

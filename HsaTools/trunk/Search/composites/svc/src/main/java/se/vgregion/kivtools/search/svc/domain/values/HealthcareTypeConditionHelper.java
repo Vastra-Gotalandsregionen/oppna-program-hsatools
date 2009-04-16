@@ -44,10 +44,10 @@ public class HealthcareTypeConditionHelper {
 	public static List<HealthcareType> allHealthcareTypes = new ArrayList<HealthcareType>();
 	static Set<String> allConditionKeys = new HashSet<String>(); 
 
-	private static final String HEALTHCARE_TYPE_CONDITION_KEY = "kivtools.search.svc.impl.condition.name_";
-	private static final String HEALTHCARE_TYPE_CONDITION_VALUE = "kivtools.search.svc.impl.condition.value_";
-	private static final String HEALTHCARE_TYPE_CONDITION_DISPLAYNAME = "kivtools.search.svc.impl.condition.displayname.";
-	private static final String HEALTHCARE_TYPE_CONDITION_FILTERED = "kivtools.search.svc.impl.condition.filtered_";
+	private static final String HEALTHCARE_TYPE_CONDITION_KEY = "hsatools.search.svc.impl.condition.name_";
+	private static final String HEALTHCARE_TYPE_CONDITION_VALUE = "hsatools.search.svc.impl.condition.value_";
+	private static final String HEALTHCARE_TYPE_CONDITION_DISPLAYNAME = "hsatools.search.svc.impl.condition.displayname.";
+	private static final String HEALTHCARE_TYPE_CONDITION_FILTERED = "hsatools.search.svc.impl.condition.filtered_";
 
 	private String implResourcePath;
 
