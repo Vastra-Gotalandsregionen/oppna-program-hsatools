@@ -1,4 +1,4 @@
-#summary Denna sida beskriver den visison och de krav som ligger bakom RA.
+#summary Denna sida beskriver den vision och de krav som ligger bakom RA.
 #labels Project-RA
 
 = Innehåll = 
