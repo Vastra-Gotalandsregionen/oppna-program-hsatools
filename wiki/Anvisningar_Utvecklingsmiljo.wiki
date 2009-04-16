@@ -39,19 +39,19 @@ Om allt gått väl, blir resultatet blir en utskriven lista med versionsnummer f
 
 == Konfiguration ==
 
-~~Det behövs bara en konfiguration och det är att placera filen:
-`<subversion-repo>\javg\trunk\tools\maven-settings\settings.xml`
-i:
+Det behövs bara en konfiguration och det är att placera filen [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/src/tools/maven-settings/settings.xml settings.xml] i:
 `$USER_HOME/.m2/`
 vilket under WindowsXP blir:
 `C:\Documents and Settings\<USERNAME>\.m2`
-I filen bestämmer du ifall den VGR-interna Maven-proxyn skall användas eller om du vill använda publika Maven-repon direkt genom att välja vilken profil som skall aktiveras:~~
-
-{{{  
-<activeProfiles>
-    <!-- Use either: vgr_onsite OR vgr_offsite -->
-    <activeProfile>vgr_offsite</activeProfile>
+I filen pekas [http://oppna-program.googlecode.com/svn/maven maven-repot] här på google code (subversion) ut så att projektet hittar referensarkitekturens artefakter. Dessutom finns i filen en inställning som kan användas om man vill deploya sina egna projekt till ett svn-baserat maven-repository ex här på google code: 
+{{{
+<server>
+    <id>svn-repo</id>
+    <username>CHANGE_ME</username>
+    <password>CHANGE_ME</password>
+</server>
 }}}
+
 == Maven snabbstart ==
 === Baskommandon ===
 Här är en kort beskrivning av de vanligaste kommandon som ges till Maven (utföras i samma bibliotek som den pom.xml fil som ska användas):
