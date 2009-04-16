@@ -1,6 +1,5 @@
 <!--
-
-    /* Copyright 2009 Västa Götalandsregionen
+      Copyright 2009 Västa Götalandsregionen
 
       This library is free software; you can redistribute it and/or modify
       it under the terms of version 2.1 of the GNU Lesser General Public
@@ -15,8 +14,6 @@
       License along with this library; if not, write to the
       Free Software Foundation, Inc., 59 Temple Place, Suite 330,
       Boston, MA 02111-1307  USA
-     */
-
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="sv-SE" xml:lang="sv-SE" xmlns="http://www.w3.org/1999/xhtml"
@@ -36,7 +33,6 @@
 		<meta name="doc-class" content="Completed" /> 
 		<meta name="doc-rights" content="Copywritten Work" /> 
 		<meta name="MSSmartTagsPreventParsing" content="true" /> 
-		<meta name="robots" content="ALL" /> 
 		<meta name="language" content="Svenska" /> 
 		<meta name="author" content="#{settings.metaAuthor}" /> 
 		<meta name="copyright" content="#{settings.metaCopyright}" /> 
@@ -63,15 +59,12 @@
 		</style>	
 		</h:outputText>
 
-		<!-- Not yet... 
 		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.7.0/build/autocomplete/assets/skins/sam/autocomplete.css" />
 		<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.7.0/build/yahoo-dom-event/yahoo-dom-event.js&amp;2.7.0/build/datasource/datasource-min.js&amp;2.7.0/build/autocomplete/autocomplete-min.js"></script> 
-		--> 
 
 		<script type="text/javascript" src="resources/scripts/prototype.js" />
 		<script type="text/javascript" src="resources/scripts/utilities.js" />
 		<script type="text/javascript" src="resources/scripts/script.js" />
-		<script src="resources/scripts/scriptaculous.js?load=effects,controls" type="text/javascript"></script>
 		<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=#{settings.googleMapsKey}" />
 		<script type="text/javascript" src="resources/scripts/widget.js" />
    		<ui:repeat value="#{settings.scriptPaths}" var="script">
@@ -99,11 +92,10 @@
 											<label for="unitName">Namn på mottagning</label> 
 											<input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="#{unitSearchSimpleForm.unitName}" style="width: 15em;"/>
 											<!--  Uncomment when start using YUI --> 
-											<!-- <div id="autocomplete_choices" class="autocomplete"></div> -->
-											<!-- Remove when introducing YUI AC -->
-											<span id="indicator1" style="display: none">
+											<div id="autocomplete_choices" class="autocomplete"></div>
+											<div id="acIndicator" style="display: none">
 											  <img src="resources/images/spinner.gif" alt="Arbetar..." />
-											</span> 
+											</div> 
 										</div>
 									
 										<div class="text" id="healthcare-selection">
@@ -137,18 +129,13 @@
 				        	<!--  Search units widget end (dont remove this comment) --> 
 							<script type="text/javascript" charset="utf-8">
 								// <![CDATA[]
-									drawAutoCompleteDiv(); initOldAutocompleter(); // Remove this line when starting to use YUI AC
-									// initAutocompleter(); // Uncomment this line when starting to use YUI AC
+									// drawAutoCompleteDiv(); initOldAutocompleter(); // Remove this line when starting to use YUI AC
+									initAutocompleter(); // Uncomment this line when starting to use YUI AC
 								// ]]>
 							</script>
 				
 					        <div id="information-container">
-								<div class="information-area">
-									<br/>Vårdmottagningar som inte omfattas av sökfunktionen hittar du länkar till här;<br/>
-									<a href="http://vard.vgregion.se/sv/Hittaivarden/Halso--och-sjukvard-i-din-kommun/" class="url">Hälso- och sjukvård i din kommun</a><br/>
-									<a href="http://vard.vgregion.se/sv/Hittaivarden/Privata-VC-lakare-och-sjukgymnaster-med-avtal/" class="url">Privata vårdgivare</a><br/>
-									<br/>
-								</div>
+								<ui:include src="#{settings.informationArea}"/>
 					        </div>
 				        </div>
 					</div>

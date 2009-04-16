@@ -18,7 +18,7 @@
 package se.vgregion.kivtools.servlets;
 
 /**
- * Holds information about a unit needed when generating sitemap.
+ * Holds information about a unit needed when generating sitemap. More light weight than full Unit objects.
  * 
  * @author Jonas Liljenfeldt, Know IT
  */

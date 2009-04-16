@@ -23,13 +23,16 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
 	<ui:composition template="/template.xhtml">
-		<ui:define name="TabContainer">
-				<h1>Felmeddelande</h1>
+		<ui:define name="MetaDataContainer">
+			<meta name="ROBOTS" content="NOINDEX,NOFOLLOW" />
 		</ui:define>
-		<ui:define name="HeaderInputFieldContainer"></ui:define>
 		<ui:define name="MainContainer">
-			<h2 id="message-container">#{stateException.message}</h2>
-			<h3 id="message-container">#{rootCauseException.message}</h3>
+			<div class="yui-u search-result">
+				<h1>Felmeddelande</h1>
+				<h2 id="message-container">#{rootCauseException.message}</h2>
+	
+				<span class="informal">Error message for debugging purpose: #{stateException.message}</span>
+			</div>
 		</ui:define>
 	</ui:composition>
 </div>

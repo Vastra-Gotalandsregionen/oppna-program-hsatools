@@ -128,44 +128,53 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 	 * @throws SAXException
 	 * @throws ParserConfigurationException
 	 */
-	public boolean assignAccessibilityDatabaseId(Unit u) throws IOException,
-			SAXException, ParserConfigurationException {
-		// Get accessibility Id
-		URL url = new URL(accessibilityDatabaseIntegrationGetIdUrl
-				+ u.getHsaIdentity());
-		HttpURLConnection urlConnection = (HttpURLConnection) url
-				.openConnection();
-		int responseCode = urlConnection.getResponseCode();
-		BufferedInputStream in;
-		if (responseCode == 200 || responseCode == 201) {
-			in = new BufferedInputStream(urlConnection.getInputStream());
-		} else {
-			in = new BufferedInputStream(urlConnection.getErrorStream());
-		}
-
-		// Now read the buffered stream into a XML document and get
-		// accessibility id
+	public boolean assignAccessibilityDatabaseId(Unit u) {
 		try {
-			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
-					.newInstance();
-			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(in);
-			NodeList ids = doc.getElementsByTagName("string");
-			for (int i = 0; i < ids.getLength(); i++) {
-				String textContent = ids.item(i).getTextContent();
-				int accessabilityId = Integer.parseInt(textContent);
-				u.setAccessibilityDatabaseId(accessabilityId);
+			// Get accessibility Id
+			URL url = new URL(accessibilityDatabaseIntegrationGetIdUrl
+					+ u.getHsaIdentity());
+			HttpURLConnection urlConnection = (HttpURLConnection) url
+					.openConnection();
+			int responseCode = urlConnection.getResponseCode();
+			BufferedInputStream in;
+			if (responseCode == 200 || responseCode == 201) {
+				in = new BufferedInputStream(urlConnection.getInputStream());
+			} else {
+				in = new BufferedInputStream(urlConnection.getErrorStream());
 			}
-		} catch (NumberFormatException e) {
-			logger
-					.error("We did not get a valid accessability database id. Skip it.");
-			return false;
+
+			// Now read the buffered stream into a XML document and get
+			// accessibility id
+			try {
+				DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
+						.newInstance();
+				DocumentBuilder docBuilder = docBuilderFactory
+						.newDocumentBuilder();
+				Document doc = docBuilder.parse(in);
+				NodeList ids = doc.getElementsByTagName("string");
+				for (int i = 0; i < ids.getLength(); i++) {
+					String textContent = ids.item(i).getTextContent();
+					int accessabilityId = Integer.parseInt(textContent);
+					u.setAccessibilityDatabaseId(accessabilityId);
+				}
+			} catch (NumberFormatException e) {
+				logger
+						.error("We did not get a valid accessability database id. Skip it.");
+				return false;
+			} catch (Exception e) {
+				// Most likely we could not parse the answer as a valid XML
+				// structure.
+				return false;
+			}
+			urlConnection.disconnect();
+			return true;
 		} catch (Exception e) {
-			// Most likely we could not parse the answer as a valid XML structure.
-			return false;
+			// If we could not find server and get accessibility db id there is
+			// nothing we can do about it. The show must go on, handle it the
+			// same way as DisplayUnitDetailsFlowSupportBean#getUnitDetails()
+			e.printStackTrace();
 		}
-		urlConnection.disconnect();
-		return true;
+		return false;
 	}
 
 	/**
@@ -177,9 +186,10 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 	 */
 	public void filterAccessibilityDatabaseInfo(
 			AccessibilityDatabaseFilterForm form, Unit u) {
-		// We need to keep track of submissions in order to know when to show "no result".
+		// We need to keep track of submissions in order to know when to show
+		// "no result".
 		form.setSubmitted(true);
-		
+
 		// Create array with selected disabilities
 		int[] selectedDisabilities = new int[5];
 
@@ -193,19 +203,18 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 			selectedDisabilities[3] = 1;
 		if (form.getInfo() == true)
 			selectedDisabilities[4] = 1;
-		
+
 		// Attentive or Available?
 		boolean attentive = false;
 		String listType = form.getListType();
 		if ("attentive".equals(listType)) {
 			attentive = true;
 		}
-		
 
 		// Business object
 		if (u.getAccessibilityInformation() != null) {
-			for (Block b : u.getAccessibilityInformation()
-					.getBusinessObject().getBlocks()) {
+			for (Block b : u.getAccessibilityInformation().getBusinessObject()
+					.getBlocks()) {
 				for (AccessibilityPackage p : b.getPackages()) {
 					criteriaIteration: for (Criteria c : p.getCriterias()) {
 						// Take Attentive/Available choice into consideration.
@@ -216,13 +225,14 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 							c.setShow(false);
 							continue;
 						}
-						
+
 						// Reset show flag
 						c.setShow(false);
-	
+
 						for (String disability : c.getDisabilities()) {
 							// Since we don't want to add the accessibility
-							// information multiple times, move on to next criteria
+							// information multiple times, move on to next
+							// criteria
 							// when it is added.
 							if ("hear".equals(disability)
 									&& selectedDisabilities[0] == 1) {
@@ -255,12 +265,13 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 			}
 
 			// Sub objects
-			for (AccessibilityObject o : u
-					.getAccessibilityInformation().getSubObjects()) {
+			for (AccessibilityObject o : u.getAccessibilityInformation()
+					.getSubObjects()) {
 				for (Block b : o.getBlocks()) {
 					for (AccessibilityPackage p : b.getPackages()) {
 						criteriaIteration: for (Criteria c : p.getCriterias()) {
-							// Take Attentive/Available choice into consideration.
+							// Take Attentive/Available choice into
+							// consideration.
 							// Request should match the criteria's
 							// "attentive/available belonging".
 							// We should not show hidden criterias either.
@@ -268,10 +279,10 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 								c.setShow(false);
 								continue;
 							}
-							
+
 							// Reset show flag
 							c.setShow(false);
-	
+
 							for (String disability : c.getDisabilities()) {
 								// Since we don't want to add the accessibility
 								// information multiple times, move on to next

@@ -132,7 +132,6 @@ function initAutocompleter() {
        resultNode: 'unit', 
        fields: ['name','id']             
     };
-	/* For output=text: 	myDS.responseSchema = {		recordDelim :"\n", 		fieldDelim :"\t"	}; */
 
 	var myAutoComp = new YAHOO.widget.AutoComplete("unitName","autocomplete_choices", myDS);
 	myAutoComp.resultTypeList = false; 
@@ -167,6 +166,21 @@ function initAutocompleter() {
 		}
 	};  
 	myAutoComp.itemSelectEvent.subscribe(itemSelectHandler);
+	
+  	var workingHandler = function(oSelf, sQuery, aResults) {
+  		$('acIndicator').style.padding = '2.5em 0 0 0'; 
+  		$('acIndicator').style.display = 'block'; 
+  		$('healthcare-selection').style.padding = "0";
+ 	};
+  
+  	var readyHandler = function(oSelf) { 
+  		$('acIndicator').style.padding = '0'; 
+  		$('healthcare-selection').style.padding = "2em 0 0 0";
+  		$('acIndicator').style.display = 'none'; 
+ 	};
+  
+ 	myAutoComp.dataRequestEvent.subscribe(workingHandler);
+ 	myAutoComp.containerExpandEvent.subscribe(readyHandler);
 }
 
 // scriptaculous autocompletion
@@ -246,31 +260,50 @@ function drawPrintLabel(divToPrint) {
 	document.write(output);
 }
 
-function showUnit(rootUrl, hsaId, showMap) {
+function showUnitExternal(proxyUrl, urlParam, rootUrl, hsaId, showMap) {
 	// For external use when we need AJAX proxy. Requires proxy at the host of the widget:
-	var url = 'proxy?url=' + rootUrl + '/visaenhet?hsaidentity=' + hsaId;
-	// For internal use without need for proxy: var url = rootUrl + '/visaenhet?hsaidentity=' + hsaId;
+	var url = proxyUrl + '?' + urlParam + '=' + rootUrl + '/visaenhet?hsaidentity=' + hsaId; // Example: 'proxy?url=' + rootUrl + ...
+	showUnit(url);
+}
+
+function showUnitInternal(rootUrl, hsaId, showMap) {
+	// For internal use without proxy: 
+	var url = rootUrl + '/visaenhet?hsaidentity=' + hsaId;
+	showUnit(url);
+}
+
+function showUnit(url) {
 	new Ajax.Request(url, {
-	  method: 'get',
-	  onSuccess: function(transport) {
-		var print_area_from_response = transport.responseText.split(/Display unit widget start[^>]*>/)[1];
-		print_area_from_response = print_area_from_response.split(/Display unit widget end[^>]*>/)[0];
-		
-		if (showMap == '0') {
-			print_area_from_response_temp1 = print_area_from_response.split(/Map cell start[^>]*>/)[0];
-			print_area_from_response_temp2 = print_area_from_response.split(/Map cell end[^>]*/)[1];
-			print_area_from_response = print_area_from_response_temp1 + print_area_from_response_temp2;
-			$('unit-detail').style.width='600px';
-		}
-		var unit_detail = $('unit-detail');
-        unit_detail.update(print_area_from_response);
-	  }
+		  method: 'get',
+		  onSuccess: function(transport) {
+			var print_area_from_response = transport.responseText.split(/Display unit widget start[^>]*>/)[1];
+			print_area_from_response = print_area_from_response.split(/Display unit widget end[^>]*>/)[0];
+			
+			if (showMap == '0') {
+				print_area_from_response_temp1 = print_area_from_response.split(/Map cell start[^>]*>/)[0];
+				print_area_from_response_temp2 = print_area_from_response.split(/Map cell end[^>]*/)[1];
+				print_area_from_response = print_area_from_response_temp1 + print_area_from_response_temp2;
+				$('unit-detail').style.width='600px';
+			}
+			var unit_detail = $('unit-detail');
+	        unit_detail.update(print_area_from_response);
+		  }
 	});
 }
 
-function searchUnits(rootUrl, webappName, municipalityId, resultOnly, googleMapsKey) {
-	//For external: var url = 'proxy?url=' + rootUrl + '/' + webappName + '/startpage.jsp?startpage=1';
+function searchUnitsExternal(proxyUrl, urlParam, rootUrl, webappName, municipalityId, resultOnly, googleMapsKey) {
+	// For external use when we need AJAX proxy. Requires proxy at the host of the widget:
+	var url = proxyUrl + '?' + urlParam + '=' + rootUrl + '/' + webappName + '/getlink?_flowId=HRIV.Search.searchunit-flow&startpage=1'; // Example: 'proxy?url=' + rootUrl + ...
+	searchUnits(url, rootUrl, municipalityId, resultOnly, googleMapsKey);
+}
+
+function searchUnitsInternal(rootUrl, webappName, municipalityId, resultOnly, googleMapsKey) {
+	// For internal use without proxy: 
 	var url = rootUrl + '/' + webappName + '/getlink?_flowId=HRIV.Search.searchunit-flow&startpage=1';
+	searchUnits(url, rootUrl, municipalityId, resultOnly, googleMapsKey);
+}
+
+function searchUnits(url, rootUrl, municipalityId, resultOnly, googleMapsKey) {
 	new Ajax.Request(url, {
 	  method: 'get',
 	  onSuccess: function(transport) {

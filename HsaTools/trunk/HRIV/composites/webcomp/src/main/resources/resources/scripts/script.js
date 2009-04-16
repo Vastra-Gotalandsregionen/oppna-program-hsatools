@@ -15,19 +15,6 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-/* Used for help popup */
-function popup(url) {
-	newwindow=window.open(url,'name','scrollbars=1,height=500,width=500');
-	if (window.focus) {
-		newwindow.focus();
-	}
-	return false;
-}
-
-/* Searching by vgr id */
-function radioVgrid() {
-}
-
 function changeStyleClass(container, classname) {
     container.className = classname;
 }
@@ -143,11 +130,8 @@ function printElement(element) {
 	} else {
 		var a = window.open('','','width=800,height=600');
 		a.document.open("text/html");
-		//a.document.write('<html><head><script type="text/javascript" src="resources/scripts/utilities.js" ></script><script type="text/javascript" src="resources/scripts/tabview-min.js" ></script><script type="text/javascript" src="resources/scripts/script.js" ></script><script type="text/javascript" src="resources/scripts/widget.js" ></script><link href="resources/styles/print.css" title="compact" rel="stylesheet" type="text/css" />');
-		//a.document.write('</head><body>');
 		a.document.write('<script type="text/javascript" src="resources/scripts/widget.js" ></script>');
 		a.document.write($(element).innerHTML);
-		//a.document.write('</body></html>');
 		a.document.close();
 		a.focus();
 		a.print();

@@ -38,7 +38,6 @@ import org.apache.commons.codec.binary.Base64;
  * Ajax proxy to get rid of same-origin-policy-problems. Inspired by a jroller blog
  * @author Jonas Liljenfeldt, Know IT
  * @see http://www.jroller.com/ray/entry/http_proxy_servlet_for_ajax
- *
  */
 public class Proxy extends HttpServlet {
 	private static final long serialVersionUID = 1L;

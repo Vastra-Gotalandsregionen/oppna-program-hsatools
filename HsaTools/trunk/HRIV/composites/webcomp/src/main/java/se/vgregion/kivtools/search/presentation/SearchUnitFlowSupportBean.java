@@ -33,6 +33,7 @@ import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
+import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.presentation.forms.DisplayCloseUnitsSimpleForm;
 import se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm;
@@ -155,6 +156,9 @@ public class SearchUnitFlowSupportBean implements Serializable {
 			}
 			return list;
 		} catch (Exception e) {
+			if (e instanceof NoConnectionToServerException) {
+				throw (NoConnectionToServerException) e;
+			}
 			if (e instanceof KivNoDataFoundException) {
 				throw (KivNoDataFoundException) e;
 			}

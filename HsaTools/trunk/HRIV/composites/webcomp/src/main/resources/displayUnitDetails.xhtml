@@ -27,7 +27,12 @@
 	<ui:composition template="/template.xhtml">
 
 	<ui:define name="MetaDataContainer">
-		<title>#{unit.name} - Hitta rätt i vården i Västra Götaland</title>
+		<h:outputText rendered="#{unit.hsaIdentity != null}">
+		<title>#{unit.name} - #{settings.title}</title>
+		</h:outputText>
+		<h:outputText rendered="#{unit.hsaIdentity == null}">
+		<title>#{settings.title}</title>
+		</h:outputText>
 		<meta name="resource-type" content="organisation" />
 		<meta name="keywords" content="Hitta-rätt-i-vården, HRIV, sök, organisation, enhet, telefonnummer, adress, #{unit.name}" /> 		
 		<meta name="date" content="#{unit.createTimestampFormatted}" /> 
@@ -50,6 +55,13 @@
 		<meta name="geo.country" content="SE" />
 		<meta name="geo.region" content="#{settings.geoRegion}" />
 		<meta name="geo.placename" lang="sv-SE" content="#{unit.hsaMunicipalityName}"/>
+		
+		<h:outputText rendered="#{unit.hsaIdentity == null}">
+		<meta name="ROBOTS" content="NOINDEX,NOFOLLOW" />
+		</h:outputText>
+		<h:outputText rendered="#{unit.hsaIdentity != null}">
+		<meta name="robots" content="ALL" /> 
+		</h:outputText>
 	</ui:define>
 
 	<ui:define name="HRIVCaptions">
@@ -58,8 +70,8 @@
 	<ui:define name="MainContainer">
 		<div class="yui-u search-result">
 
+		<h:outputText rendered="#{unit.hsaIdentity != null}">
 			<div id="print-element">
-			
 				<h:outputText rendered="#{settings.showLinkToIM==true and settings.linkToIMOnServer==facesContext.externalContext.request.serverName}">
 					<a href="#{settings.linkToIMBase}#{unit.dnBase64}" class="url">Editera i IM</a>&#160; 
 				</h:outputText>
@@ -368,6 +380,15 @@
 				</h:outputText>			
 				<!--  Display unit widget end (dont remove this comment) -->
 			</div>
+
+		</h:outputText>
+
+		<h:outputText rendered="#{unit.hsaIdentity == null}">
+			<h1>Efterfrågad mottagning saknas</h1>
+			<p>
+				Om du kom hit via en länk är denna inaktuell och bör om möjligt uppdateras.
+			</p>
+		</h:outputText>
 		</div>
 	</ui:define>
 
