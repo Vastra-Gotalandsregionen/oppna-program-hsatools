@@ -44,6 +44,7 @@ Dessa inställningar finns i ovan nämnda properties-fil:
 || kivtools.hriv.webcomp.scripts || Sökvägar till script-filer || Kommaseparerad lista med sökvägar till script-filer som används förutom standard-filerna (script.js, widget.js etc). Är tänkt att göras om så att en fil pekas ut som hanterar scriptlänkningen. || 
 || kivtools.hriv.webcomp.header || Sökväg till sidhuvud som inkluderas. || Pekar ut en fil som inkluderas som sidhuvud. || 
 || kivtools.hriv.webcomp.footer || Sökväg till sidfot som inkluderas. || Pekar ut en fil som inkluderas som sidfot. || 
+|| hsatools.hriv.webcomp.informationArea || Sökväg till sidinnehåll som inkluderas. || Pekar ut en fil som inkluderas i informationsrutan i vänsterkolumnen. || 
 || kivtools.hriv.webcomp.startPage || Sökväg till sidinnehåll som inkluderas. || Pekar ut en fil som inkluderas på startsidan. || 
 || kivtools.hriv.webcomp.careTypePage || Sökväg till sidinnehåll som inkluderas. || Pekar ut en fil som inkluderas på vårdtypssidan. || 
 || kivtools.hriv.webcomp.useShowUnitCode || true/false || Anger om kodrutan som visar enhetsdetaljerwidgeten ska användas. || 
