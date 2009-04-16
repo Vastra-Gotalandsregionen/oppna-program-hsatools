@@ -13,7 +13,7 @@ Det finns två demosidor som visar hur de två widgeterna används: [http://hitt
 
 När en XmlHttpRequest görs från en domän till en annan finns det vissa säkerhetsmekanismer att ta hänsyn till eftersom webbläsartillverkarna inte vill att användaren ska råka ut för "skadlig kod".
 
-Detta kan lösas genom att man kör en proxy (exvis en servlet eller ett PHP-skript eller motsvarande) på den domän som widgeten ska publiceras på denna i sin tur gör uppslaget mot HRIV. I nuläget krävs det att denna proxy nås via "proxy" (relativt sett widgeten) och att denna tar parametern "url" (så: "proxy?url). 
+Detta kan lösas genom att man kör en proxy (exvis en servlet eller ett PHP-skript eller motsvarande) på den domän som widgeten ska publiceras på denna i sin tur gör uppslaget mot HRIV. 
 
 Mer om problemet och lösningen: http://developer.yahoo.com/javascript/howto-proxy.html och http://ajaxpatterns.org/Cross-Domain_Proxy
 
