@@ -72,11 +72,12 @@ Generation time : __GENERATION_TIME__
     </dependency>
   </dependencies>
 
+<!-- Used by "mvn deploy" to deploy artefacts to a central maven repository. Use settings.xml to set username and password for this repository, see wagon-svn for more information -->
   <distributionManagement>
      <repository>
       <uniqueVersion>false</uniqueVersion>
-      <id>googleCode-svn</id>
-      <url>CHANGE_TO_PROJECT_SPECIFIC_SVN_REPO</url>
+      <id>svn-repo</id>
+      <url>CHANGE_TO_PROJECT_SPECIFIC_SVN_REPO</url> <!--E.g. svn:http://server/svn/maven/repo/ -->
     </repository>
   </distributionManagement>
   

@@ -23,10 +23,11 @@ Maven2 settings. To be placed in $USER_HOME/.m2
 
   <servers>
     <!-- Set your svn user/pw to deploy artifacts to 
-	google code svn maven-repo, see also the distributionManagement 
-	element in the main pom-file (genererated) -->
+	an svn maven-repo, see also the distributionManagement 
+	element in the main pom-file (for projects generated with
+	the RA maven plugin this file is also generated) -->
     <server>
-      <id>googleCode-svn</id>
+      <id>svn-repo</id>
       <username>CHANGE_ME</username>
       <password>CHANGE_ME</password>
     </server>
