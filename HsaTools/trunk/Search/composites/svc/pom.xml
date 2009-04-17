@@ -118,14 +118,4 @@ Generation time : 2007-10-09 10:07:02 CEST
       <name>geogoogle repo</name>
       <url>http://www.cs.drexel.edu/~zl25/maven2/repo</url>
     </repository>
-    <repository>
-      <releases>
-         <updatePolicy>never</updatePolicy>
-         <checksumPolicy>warn</checksumPolicy>
-         <enabled>true</enabled>
-      </releases>
-      <id>oppnaprogram</id>
-      <name>oppna program repo</name>
-      <url>http://oppna-program.googlecode.com/svn/maven</url>
-    </repository>
   </repositories>  </project>
