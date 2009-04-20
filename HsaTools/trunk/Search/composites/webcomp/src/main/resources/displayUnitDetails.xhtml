@@ -24,10 +24,10 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	
-	<ui:composition template="/unit_details_specific_template.xhtml">
+	<ui:composition template="/template.xhtml">
 
-	<ui:define name="MetaDataContainer">
-		<meta name="resource-type" content="organisation" />
+	<ui:define name="HeadContainer">
+		<ui:include src="#{settingsContainer.settings.unitDetailsHeadInclude}" />	
 	</ui:define>
 
 	<ui:define name="TabContainer">
@@ -257,41 +257,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<table>
-				<caption>Övrig information</caption>
-				<tbody>
-					<tr>
-						<th id="ansvarsnummer">Ansvarsnummer</th>
-						<td headers="ansvarsnummer">
-                           	<span jsfc="ui:repeat" value="#{unit.vgrAnsvarsnummer}" var="anvsarsnummer">
-                           		#{anvsarsnummer}
-                           	</span>
-						</td>
-						<th id="arbetsplatskod">Arbetsplatskod</th>
-						<td headers="arbetsplatskod">#{unit.hsaUnitPrescriptionCode}</td>
-					</tr>
-					<tr>
-						<th id="main-i-nummer">I-nummer</th>
-						<td headers="main-i-nummer">#{unit.vgrInternalSedfInvoiceAddress}</td>
-						<th id="main-vardform">Vårdform</th>
-						<td headers="main-vardform">#{unit.vgrCareType}</td>
-					</tr>
-					<tr>
-						<th id="main-ansvarsomrkod">Ansvarsomr.kod</th>
-						<td headers="main-ansvarsomrkod">#{unit.vgrAO3kod}</td>
-						<th id="main-HSA-identitet">HSA-identitet</th>
-						<td headers="main-HSA-identitet">#{unit.hsaIdentity}</td>
-					</tr>
-					<tr>
-						<th id="main-verksamhetskod-klartext">Verksamhetskod - klartext</th>
-						<td headers="main-verksamhetskod-klartext">
-                           	<!--  removed absolete attribute -->
-						</td>
-						<th id="kommunnamn">Kommunnamn</th>
-						<td headers="kommunnamn">#{unit.hsaMunicipalityName}</td>
-					</tr>
-				</tbody>
-			</table>
+			<ui:include src="#{settingsContainer.settings.unitDetailsMiscInfoTableInclude}" />
 		</div>
 	</ui:define>
 

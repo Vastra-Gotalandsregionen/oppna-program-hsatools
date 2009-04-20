@@ -12,3 +12,4 @@
 #----------------------------------------------------------
 # here goes user message properties
 sv.vgregion.kivtools.IncorrectUserInput = Du måste fylla i minst ett av fälten.
+testKey=testValue

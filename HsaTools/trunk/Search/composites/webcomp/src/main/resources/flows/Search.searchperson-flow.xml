@@ -27,6 +27,7 @@
 	<var name="persons" class="java.util.ArrayList" scope="flow" />
 	<var name="userMessage" class="se.vgregion.kivtools.search.presentation.forms.UserMessageContainer" scope="flow"/>
 	<var name="maxSearchResult" bean="Search.MaxSearchResult"/>
+	<var name="settingsContainer" bean="Search.SettingsContainer" />
 	
 	<input-mapper>
 		<!-- Get person with specified vgrId -->

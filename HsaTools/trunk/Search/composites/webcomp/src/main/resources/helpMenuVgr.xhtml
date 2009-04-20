@@ -18,48 +18,21 @@
 
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html lang="sv-SE" xml:lang="sv-SE" xmlns="http://www.w3.org/1999/xhtml"
+<div xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
-	
-	<ui:insert name="HeadContainer" />
-	
-	<body>
-
-	<!-- Could not specify dynamic attribute where resource bundle was specified in settings file -->
-	<ui:include src="#{settingsContainer.settings.resourceBundleInclude}" />
-
-	<div class="clearfix" id="header">
-	   	<div id="header-container">
-		   	<div id="logo-container">
-		   		<a href="index.jsp" id="logo"><img src="resources/images/logo.gif" alt="Västa Götalandsregionen - BETA" /></a>
+	<ui:composition template="/template.xhtml">
+		<ui:define name="LogoContainer">
+			<div id="logo-container">
+				<a href="index.jsp" id="logo"><img src="resources/images/logo.gif" alt="Västa Götalandsregionen - BETA" /></a>
 		    	<ul class="ulmenu">
-		        	<li><a href="http://intra.vgregion.se/vgrtemplates/Start.aspx?id=164835 ">-Anmäl fel i innehållet</a></li>
+		            <li><a href="http://intra.vgregion.se/vgrtemplates/Start.aspx?id=164835 ">-Anmäl fel i innehållet</a></li>
 		        	<li><a href="http://intra.vgregion.se/vgrtemplates/form.aspx?id=195378">-Tyck till om Sök-i-KIV</a></li>
 		            <li><a href="https://hsahotell.carelink.sjunet.org/anonSearch/jsp/base.html">-Sök i hela Sverige</a></li>
 		            <li><a href="help.htm" onclick="return popup('help.htm')" target="_blank">-Hjälp</a></li>
 		    	</ul>
-		   	</div>
-	
-		    <div id="header-info-container">
-		        <div id="header-tab-container">
-		        	<ui:insert name="TabContainer"></ui:insert>
-		        </div>
-		        <div id="header-input-field-container">
-		           	<ui:insert name="HeaderInputFieldContainer"></ui:insert>
-		        </div>
 		    </div>
-		</div>
-	</div>
-	
-    <div id="head-sub-region"></div>
-	<div id="custom-doc">
-		<div id="bd">
-			<div id="yui-main">	 
-				<ui:insert name="MainContainer"></ui:insert>
-			</div>
-		</div>
-	</div>
-</body>
-</html>
+		</ui:define>
+	</ui:composition>
+</div>

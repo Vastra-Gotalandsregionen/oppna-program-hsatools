@@ -6,7 +6,7 @@
 }
 #logo-container ul {float:right;margin:0;list-style:none;}
 #logo {float:left;margin-right:30px;}
-#header {background:#f1f9ff url(./img/header.gif) 0 100% repeat-x;}
+#header {background:#f1f9ff url(../../images/lth/img/header.gif) 0 100% repeat-x;}
 #header-container {
 	width:850px;
 	margin:0 auto;
@@ -105,7 +105,7 @@
 .tab-container a:active {background-color:#eee;}
 .tab-container .active:link,
 .tab-container .active:visited {
-	background:#1751a9 url(./img/tab.gif) repeat-x;
+	background:#1751a9 url(../../images/lth/tab.gif) repeat-x;
 	color:#fff;
 	font-weight:bold;
 	border:1px solid #1751a9;
@@ -152,7 +152,7 @@ h2.about-searchinformation-container {
 	padding:6px 6px 11px 11px;
 	border:5px solid #8dbaf5;
 	border-width:5px 5px 0 0;
-	background:url(../images/selected_search_Item_bg.gif) no-repeat bottom left;
+	background:url(../../images/selected_search_Item_bg.gif) no-repeat bottom left;
 }
 h3.fn {
 	color:#0033CC;
@@ -231,7 +231,7 @@ table.Employment td {border-bottom:none;}
 }
 .back a {
 	padding:3px 0 3px 20px;
-	background:url(../images/control_rewind.gif) no-repeat 0 50%;
+	background:url(../../images/control_rewind.gif) no-repeat 0 50%;
 	font-size:0.94em;
 }
 .last-updated {
@@ -254,7 +254,7 @@ table.Employment td {border-bottom:none;}
 }
 .show-persons a {
 	padding:3px 0 3px 20px;
-	background:url(../images/zoom.gif) no-repeat 0 50%;
+	background:url(../../images/zoom.gif) no-repeat 0 50%;
 }
 .search-result table {
 	margin-bottom:1.5em;
@@ -279,7 +279,7 @@ table.Employment td {border-bottom:none;}
 .search-result .cols td {border-width:0 1px;}
 a.unit {
 	padding:3px 0 3px 20px;
-	background:url(../images/zoom.gif) no-repeat 0 50%;
+	background:url(../../images/zoom.gif) no-repeat 0 50%;
 }
 
 .ulmenu {margin-bottom:0px;}
