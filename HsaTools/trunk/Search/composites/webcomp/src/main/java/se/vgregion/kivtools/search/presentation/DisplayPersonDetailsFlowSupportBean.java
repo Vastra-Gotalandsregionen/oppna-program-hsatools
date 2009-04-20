@@ -15,9 +15,6 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-/**
- * 
- */
 package se.vgregion.kivtools.search.presentation;
 
 import java.io.Serializable;
@@ -28,7 +25,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.search.svc.SearchService;
+import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
+import se.vgregion.kivtools.search.svc.domain.values.DN;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
@@ -51,7 +50,12 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable{
     public Person getPersonDetails(String vgrId) {
         logger.info(CLASS_NAME + "::getPersonDetails(vgrId=" + vgrId + ")");
         try {
-            return getSearchService().getPersonById(vgrId);
+            Person person = getSearchService().getPersonById(vgrId);
+            if (person.getEmployments() == null) {
+	            List<Employment> employments = getSearchService().getEmploymentsForPerson(person);
+	            person.setEmployments(employments);
+            }
+            return person;
         } catch (Exception e) {
             e.printStackTrace();
             return new Person();
@@ -61,5 +65,4 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable{
     public void logger(String msg) {
         logger.info(msg);
     }
-
 }

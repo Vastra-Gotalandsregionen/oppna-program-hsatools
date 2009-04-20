@@ -96,12 +96,15 @@ public class SearchPersonFlowSupportBean implements Serializable {
                 list = getSearchService().searchPersons(theForm.getGivenName(), theForm.getSirName(), theForm.getVgrId(), maxSearchResult);
             }
             // fetch all employments
+            /* Not done this way in HAK implementation. Employment info is on person entry. */
             SikSearchResultList <Employment> empList=null;
             for (Person pers : list) {
-                empList = getSearchService().getEmployments(pers.getDn());
-                pers.setEmployments(empList);
-                // add the datasource time for fetching employments 
-                list.addDataSourceSearchTime(new TimeMeasurement(empList.getTotalDataSourceSearchTimeInMilliSeconds()));
+            	empList = getSearchService().getEmployments(pers.getDn());
+            	if (! empList.isEmpty()){
+	                pers.setEmployments(empList);
+	                // add the datasource time for fetching employments 
+	                list.addDataSourceSearchTime(new TimeMeasurement(empList.getTotalDataSourceSearchTimeInMilliSeconds()));
+            	}
             }
             overAllTime.stop(); // stop measurement
             
