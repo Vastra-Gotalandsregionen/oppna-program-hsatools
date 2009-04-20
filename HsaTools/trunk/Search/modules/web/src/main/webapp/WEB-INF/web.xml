@@ -32,6 +32,7 @@
 			se.vgr.javg.util.webcomponent.support.FaceletsClasspathResourceResolver
 		</param-value>
 	</context-param>
+	<!-- Use specific service-config xml file for the running project -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
