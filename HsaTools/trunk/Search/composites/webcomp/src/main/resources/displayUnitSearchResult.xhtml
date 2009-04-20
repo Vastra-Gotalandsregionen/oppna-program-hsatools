@@ -26,8 +26,8 @@
 	
 	<ui:composition template="/template.xhtml">
 
-	<ui:define name="MetaDataContainer">
-		<meta name="resource-type" content="organisation" />
+	<ui:define name="HeadContainer">
+		<ui:include src="#{settingsContainer.settings.generalHeadInclude}" />
 	</ui:define>
 
 	<ui:define name="TabContainer">

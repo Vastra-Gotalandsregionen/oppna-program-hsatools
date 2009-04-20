@@ -23,11 +23,11 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-
-	<ui:composition	template="/person_details_specific_template.xhtml">
 	
-		<ui:define name="MetaDataContainer">
-			<meta name="resource-type" content="person" />
+	<ui:composition	template="/template.xhtml">
+	
+		<ui:define name="HeadContainer">
+			<ui:include src="#{settingsContainer.settings.personDetailsHeadInclude}" />
 		</ui:define>
 		
 		<ui:define name="TabContainer">
@@ -76,7 +76,7 @@
 	                    <span class="family-name">#{person.sn}</span> 
 					</h2>
 					<ui:repeat value="#{person.employments}" var="employment">
-						<div>#{employment.title}, #{employment.ou}</div>	
+						<div><h:outputText>#{employment.title}</h:outputText><h:outputText render="#{employment.ou != ''}">, #{employment.ou}</h:outputText></div>	
 					</ui:repeat>
 				</div>
 				<table>
@@ -87,7 +87,7 @@
 							<td colspan="3" headers="main-e-post"><a href="mailto:#{person.mail}">#{person.mail}</a></td>
 						</tr>
 						<tr>
-							<th id="main-vgr-id">VGR-id</th>
+							<th id="main-vgr-id">#{msg.userId}</th>
 							<td headers="main-vgr-id">#{person.vgrId}</td>
 							<th id="main-HSA-identitet">HSA-identitet</th>
 							<td headers="main-HSA-identitet">#{person.hsaIdentity}</td>

@@ -63,5 +63,9 @@
 	<bean id="Search.MaxSearchResult" class="java.lang.Integer" scope="prototype">
 		<constructor-arg index="0" value="200" type="java.lang.String"/>
 	</bean>
+	
+	<bean id="Search.SettingsContainer" class="se.vgregion.kivtools.search.presentation.SettingsBean" scope="prototype">
+		<constructor-arg index="0" value="classpath:resources/settings/vgr/sik-composite-webcomp.properties"/>
+	</bean>
 </beans>
 
