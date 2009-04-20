@@ -137,8 +137,10 @@ public class UnitFactory {
                 .createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry
                         .getAttribute("hsaInternalPagerNumber"))));
 
-		// hsaTelephoneNumber
-		unit.setHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("telephoneNumber"))));
+        // hsaSmsTelephoneNumber
+        unit.setHsaSmsTelephoneNumber(PhoneNumber
+                .createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry
+                        .getAttribute("hsaSmsTelephoneNumber"))));
 
         // facsimileTelephoneNumber
         unit.setFacsimileTelephoneNumber(PhoneNumber
@@ -323,17 +325,7 @@ public class UnitFactory {
 		
 		return unit;
     }
-/*
-    1:Landsting/Region
-    2:Kommun
-    3:Statlig
-    4:Privat, v�rdavtal
-    5:Privat, enl lag om l�karv�rdsers�ttning 
-    6:Privat, utan offentlig finansiering 
-    7:Kommunf�rbund/Kommunalf�rbund 
-    9:�vrigt
-*/
-    
+
     private static String getManagementDescription(String code) {
     	String returnValue = null;
     	if (code != null) {

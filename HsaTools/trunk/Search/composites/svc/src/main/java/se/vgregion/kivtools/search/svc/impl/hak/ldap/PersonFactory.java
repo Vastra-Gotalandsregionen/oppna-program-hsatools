@@ -15,13 +15,11 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-/**
- * 
- */
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
 import java.util.TimeZone;
 
+import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 
 import com.domainlanguage.time.TimePoint;
@@ -52,10 +50,10 @@ public class PersonFactory {
         person.setCn(LdapORMHelper.getSingleValue(personEntry.getAttribute("cn")));
 
         // vgr-id samma v�rde som cn (e.g. rogul999)
-        person.setVgrId(LdapORMHelper.getSingleValue(personEntry.getAttribute("vgr-id")));
+        person.setVgrId(LdapORMHelper.getSingleValue(personEntry.getAttribute("regionName")));
 
         // Person-id (e.g. 196712085983)
-        person.setHsaPersonIdentityNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaPersonIdentityNumber")));
+        person.setHsaPersonIdentityNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("personalIdentityNumber")));
         
         // tilltalsnamn (e.g. Christina)
         person.setGivenName(LdapORMHelper.getSingleValue(personEntry.getAttribute("givenName")));
@@ -64,25 +62,19 @@ public class PersonFactory {
         person.setSn(LdapORMHelper.getSingleValue(personEntry.getAttribute("sn")));
 
         // Mellannamn (e.g. Anna)
-        person.setHsaMiddleName(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaMiddleName")));
-
-        // Initialer (e.g. K R)
-        person.setInitials(LdapORMHelper.getSingleValue(personEntry.getAttribute("initials")));
-
+        person.setHsaMiddleName(LdapORMHelper.getSingleValue(personEntry.getAttribute("middleName")));
+        
         // Smeknamn (e.g. Rolle)
-        person.setHsaNickName(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaNickName")));
+        person.setHsaNickName(LdapORMHelper.getSingleValue(personEntry.getAttribute("nickname")));  //Should be multiple values but Person does not support that yet
 
         // Fullst�ndigt Namn (e.g. Christina Svensson)
         person.setFullName(LdapORMHelper.getSingleValue(personEntry.getAttribute("fullName")));
 
         // A list of dn�s to Units where this person is employed e.g ou=Sandl�dan,ou=Org,o=VGR
-        person.setVgrStrukturPersonDN(LdapORMHelper.getMultipleValues(personEntry.getAttribute("vgrStrukturPersonDN")));
+        person.setVgrStrukturPersonDN(LdapORMHelper.getMultipleValues(personEntry.getAttribute("distinguishedName")));
 
         // A list of HsaIdentities to the Units where the person is employed e.g. SE2321000131-E000000000101
-        person.setVgrOrgRel(LdapORMHelper.getMultipleValues(personEntry.getAttribute("vgrOrgRel")));
-
-        // Anst�llningsform (e.g. 1)
-        person.setVgrAnstform(LdapORMHelper.getMultipleValues(personEntry.getAttribute("vgrAnstform")));
+        person.setVgrOrgRel(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaIdentity")));
 
         // HSA identitet (e.g. SE2321000131-P000000101458)
         person.setHsaIdentity(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaIdentity")));
@@ -95,12 +87,6 @@ public class PersonFactory {
 
         // Specialitetskod e.g. 1024 , 1032
         person.setHsaSpecialityCode(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaSpecialityCode")));
-
-        // Ansvarsomr�des kod e.g. 602, 785
-        person.setVgrAO3kod(LdapORMHelper.getMultipleValues(personEntry.getAttribute("vgrAO3kod")));
-
-        // Ansvarsnumer e.g. 1, 2 
-        person.setVgrAnsvarsnummer(LdapORMHelper.getMultipleValues(personEntry.getAttribute("vgrAnsvarsnummer")));
 
         // List of Languages that the person speaks e.g. PL, RO
         person.setHsaLanguageKnowledgeCode(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaLanguageKnowledgeCode")));

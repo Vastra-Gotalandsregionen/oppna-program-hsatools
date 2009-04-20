@@ -17,7 +17,7 @@
  */
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
-
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -60,9 +60,9 @@ public class SearchServiceLdapImpl implements SearchService {
         return this.personRepository.getAllPersonsVgrId();
     }
 
-	public List<String> getAllUnitsHsaIdentity() throws Exception {
-		return this.unitRepository.getAllUnitsHsaIdentity();
-	}
+    public List<String> getAllUnitsHsaIdentity() throws Exception {
+        return this.unitRepository.getAllUnitsHsaIdentity();
+    }
 
 	public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
 		return this.unitRepository.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBussinessClassificationCodes);
@@ -76,9 +76,6 @@ public class SearchServiceLdapImpl implements SearchService {
 
     public Person getPersonById(String vgrId) throws Exception {
         Person person = personRepository.getPersonByVgrId(vgrId);
-        if(person != null) {
-            person.setEmployments(employmentRepository.getEmployments(DN.createDNFromString(person.getDn())));
-        }
         return person;
     }
 
@@ -190,5 +187,19 @@ public class SearchServiceLdapImpl implements SearchService {
 			}
 		}
 		return sb.toString();
+	}
+
+	public Person getPersonByDN(DN dn) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Employment> getEmploymentsForPerson(Person person) throws Exception {
+		SikSearchResultList<Person> personWithEmployments = personRepository.searchPersons(person.getVgrId(), 0);
+		List<Employment> employments = new ArrayList<Employment>();
+		if (personWithEmployments.size() > 0) {
+			employments = personWithEmployments.get(0).getEmployments();
+		}
+		return employments;
 	}
 }

@@ -132,6 +132,13 @@ public interface SearchService {
     public Person getPersonById(String id) throws Exception;
     
     /**
+     * @param dn        dn for a Person
+     * @return          the corresponding person 
+     * @throws Exception
+     */
+    public Person getPersonByDN(DN dn) throws Exception;
+    
+    /**
      * @param personDn  Distinguished name for a Person
      * @return          The Person matching the personDn
      * @throws Exception
@@ -176,4 +183,6 @@ public interface SearchService {
      * @throws Exception
      */
     public List<HealthcareType> getHealthcareTypesList() throws Exception;
+
+	public List<Employment> getEmploymentsForPerson(Person person) throws Exception;
 }

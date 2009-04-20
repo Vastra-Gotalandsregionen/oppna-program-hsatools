@@ -414,4 +414,14 @@ public class SearchServiceMockImpl implements SearchService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public Person getPersonByDN(DN dn) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Employment> getEmploymentsForPerson(Person person) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
