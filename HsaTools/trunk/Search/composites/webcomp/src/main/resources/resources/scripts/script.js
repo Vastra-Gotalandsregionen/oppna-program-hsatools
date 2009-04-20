@@ -120,3 +120,11 @@ YAHOO.util.Event.onDOMReady(function () {
 	VGR.KIVSearch.init();
     attachEvent();
 });
+
+function drawToggleDescription() {
+	var e = document.getElementsByName("description-toggle-area");
+	for(var i=0; i<e.length;i++) {
+		if (e[i].innerHTML != null)
+			e[i].innerHTML = '<a href="#" class="url" onclick="toggleExtendDescription();"><img name="description-toggle-image" alt="" src="resources/images/bullet_toggle_plus.png"/><span name="toggle-extend-description-link-span">Utöka beskrivning om mottagning</span></a>';
+	}
+}
