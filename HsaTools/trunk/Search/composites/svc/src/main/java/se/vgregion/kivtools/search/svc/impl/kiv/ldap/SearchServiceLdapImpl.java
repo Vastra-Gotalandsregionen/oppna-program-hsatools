@@ -165,4 +165,14 @@ public class SearchServiceLdapImpl implements SearchService {
 		return getHealthcareTypeConditionHelper().getAllHealthcareTypes();
 	}
 
+	public Person getPersonByDN(DN dn) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Employment> getEmploymentsForPerson(Person person) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

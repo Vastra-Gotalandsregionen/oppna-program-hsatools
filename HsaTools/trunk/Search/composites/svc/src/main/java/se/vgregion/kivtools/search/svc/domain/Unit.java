@@ -1079,7 +1079,6 @@ public class Unit implements Serializable {
 		return hsaBusinessClassificationCode;
 	}
 
-	// For HAK
 	public List<String> getBusinessClassificationCode() {
 		return hsaBusinessClassificationCode;
 	}
