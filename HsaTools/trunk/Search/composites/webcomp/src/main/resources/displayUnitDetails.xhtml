@@ -144,9 +144,7 @@
 					</h:outputText>
 				</div>
 				<h:outputText rendered="#{unit.isUnit}">
-					<div class="show-persons">
-					   	<a href="visaorganisation?hsaidentity=#{unit.hsaIdentity}">Visa personer på enhet</a>
-					</div>
+					<ui:include src="#{settingsContainer.settings.unitDetailsShowOrganisationInclude}" />
 				</h:outputText>
 			</div>
 			<table>

@@ -37,6 +37,7 @@ import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.TimeMeasurement;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
+import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.util.LogUtils;
 
 /**
@@ -122,31 +123,39 @@ public class SearchPersonFlowSupportBean implements Serializable {
         }
     }
     
-    public SikSearchResultList<Person> getOrganisation(String hsaIdentity) throws KivNoDataFoundException {
+    public SikSearchResultList<Person> getOrganisation(String hsaIdentity, String dn) throws KivNoDataFoundException {
         logger.info(CLASS_NAME + ".getOrganisation()");
         
         try {
             TimeMeasurement overAllTime = new TimeMeasurement();
             overAllTime.start(); // start measurement
-            SikSearchResultList<Person> list = new SikSearchResultList<Person>();
+            SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
             
-            list = getSearchService().getAllPersonsInUnit(hsaIdentity);
-
-            // fetch all employments
-            SikSearchResultList <Employment> empList=null;
-            for (Person pers : list) {
-                empList = getSearchService().getEmployments(pers.getDn());
-                pers.setEmployments(empList);
-                // add the datasource time for fetching employments                list.addDataSourceSearchTime(new TimeMeasurement(empList.getTotalDataSourceSearchTimeInMilliSeconds()));
+            if ("null".equals(hsaIdentity)) {
+            	SikSearchResultList<Person> personsWithoutEmploymentsList = getSearchService().searchPersonsByDn(dn);
+            	for (Person p : personsWithoutEmploymentsList) {
+            		SikSearchResultList<Person> searchPersons = getSearchService().searchPersons(p.getVgrId());
+            		persons.addAll(searchPersons);
+            	}
+            } else {
+	            persons = getSearchService().searchPersons(hsaIdentity);
+	
+	            // fetch all employments
+	            SikSearchResultList <Employment> empList=null;
+	            for (Person pers : persons) {
+	                empList = getSearchService().getEmployments(pers.getDn());
+	                pers.setEmployments(empList);
+	                // add the datasource time for fetching employments                list.addDataSourceSearchTime(new TimeMeasurement(empList.getTotalDataSourceSearchTimeInMilliSeconds()));
+	            }
             }
             
             overAllTime.stop(); // stop measurement
 
-            LogUtils.printSikSearchResultListToLog(this, "getOrganisation", overAllTime, logger, list);            
-            if (list.size()==0) {
+            LogUtils.printSikSearchResultListToLog(this, "getOrganisation", overAllTime, logger, persons);            
+            if (persons.size()==0) {
                 throw new KivNoDataFoundException();
             }
-            return list;
+            return persons;
         } catch (Exception e) {
             if (e instanceof KivNoDataFoundException) {
                 throw (KivNoDataFoundException)e;

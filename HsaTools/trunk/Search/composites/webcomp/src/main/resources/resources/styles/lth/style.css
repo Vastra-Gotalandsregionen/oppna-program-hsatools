@@ -6,7 +6,7 @@
 }
 #logo-container ul {float:right;margin:0;list-style:none;}
 #logo {float:left;margin-right:30px;}
-#header {background:#f1f9ff url(../../images/lth/img/header.gif) 0 100% repeat-x;}
+#header {background:#f1f9ff url(../../images/lth/header.gif) 0 100% repeat-x;}
 #header-container {
 	width:850px;
 	margin:0 auto;

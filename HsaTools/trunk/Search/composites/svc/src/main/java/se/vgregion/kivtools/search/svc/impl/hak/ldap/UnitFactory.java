@@ -50,7 +50,10 @@ public class UnitFactory {
             return unit;
         }
 
-        // set object class
+        // HAK does not seem to make a difference between units and functions, assume all are units.
+        unit.setIsUnit(true);
+        
+        /*
         unit.setObjectClass(LdapORMHelper.getSingleValue(unitEntry.getAttribute("objectClass")));
         String temp = unit.getObjectClass().toLowerCase();
         if (temp.equalsIgnoreCase(Constants.OBJECT_CLASS_UNIT_SPECIFIC) || 
@@ -64,7 +67,7 @@ public class UnitFactory {
         else {
         	Exception e = new Exception("Detected unknown objectClass=" + unit.getObjectClass() + 
                     " in " + UnitFactory.class.getName() + "::reconstitute()");
-        }
+        } */
         
         unit.setDn(DN.createDNFromString(unitEntry.getDN()));
 
