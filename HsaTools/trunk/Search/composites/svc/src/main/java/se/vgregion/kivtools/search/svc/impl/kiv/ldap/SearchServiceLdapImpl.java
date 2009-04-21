@@ -143,11 +143,6 @@ public class SearchServiceLdapImpl implements SearchService {
 				sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
 	}
 
-	public SikSearchResultList<Person> getAllPersonsInUnit(String hsaIdentity)
-			throws Exception {
-		return personRepository.getAllPersonsInUnit(hsaIdentity);
-	}
-
 	public Unit getUnitByDN(DN dn) throws Exception {
 		return unitRepository.getUnitByDN(dn);
 	}
@@ -171,6 +166,15 @@ public class SearchServiceLdapImpl implements SearchService {
 	}
 
 	public List<Employment> getEmploymentsForPerson(Person person) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public SikSearchResultList<Person> getAllPersonsInUnitById(String hsaIdentity) throws Exception {
+		return personRepository.getAllPersonsInUnit(hsaIdentity);
+	}
+
+	public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

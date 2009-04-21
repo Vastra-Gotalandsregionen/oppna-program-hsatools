@@ -86,6 +86,13 @@ public interface SearchService {
     public Unit getUnitByDN(DN dn) throws Exception;
     
     /**
+     * @param dn is the distinguished name of the organizational unit that the person works for.
+     * @return
+     * @throws Exception
+     */
+    public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception;
+    
+    /**
      * @param id is complete or part of a person identifier. That is why this method can return a list.
      * 
      * @param id E.g. in case of VGR the id is a vgrId
@@ -175,7 +182,7 @@ public interface SearchService {
      * @return
      * @throws Exception
      */
-    public SikSearchResultList<Person> getAllPersonsInUnit(String hsaIdentity) throws Exception;
+    public SikSearchResultList<Person> getAllPersonsInUnitById(String hsaIdentity) throws Exception;
     
     /**
      * Returns a list of all caretypes that is used for current implementation.

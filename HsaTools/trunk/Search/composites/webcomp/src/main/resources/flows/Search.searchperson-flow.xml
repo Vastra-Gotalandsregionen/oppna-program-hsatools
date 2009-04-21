@@ -33,8 +33,9 @@
 		<!-- Get person with specified vgrId -->
 		<input-attribute name="vgrid" />
 
-		<!-- Find all persons in unit described by hsaIdentity -->
+		<!-- Find all persons in unit described by hsaIdentity or dn-->
 		<input-attribute name="hsaidentity" />
+		<input-attribute name="dn" />
 
 		<!-- No input parameter shows new search screen -->
 	</input-mapper>
@@ -43,6 +44,7 @@
 
 	<decision-state id="Decision.displayPersonDetails">		
 		<if test="requestParameters.vgrid!=null" then="Display.personDetails" />
+		<if test="requestParameters.dn!=null" then="Display.unitOrganisation"/>
 		<if test="requestParameters.hsaidentity!=null" then="Display.unitOrganisation" else="Search.displayPersonSearchResult"/>
 	</decision-state>
 	
@@ -94,6 +96,7 @@
 		<bean-action bean="Search.SearchPersonFlowSupportBean" method="getOrganisation">
 			<method-arguments>
 					<argument expression="flowScope.hsaidentity" parameter-type="java.lang.String"/>
+					<argument expression="flowScope.dn" parameter-type="java.lang.String"/>
 			</method-arguments>
 			<method-result name="persons" scope="flow" />
 		</bean-action>

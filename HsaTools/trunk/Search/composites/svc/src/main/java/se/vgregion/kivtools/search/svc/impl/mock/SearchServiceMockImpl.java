@@ -260,12 +260,6 @@ public class SearchServiceMockImpl implements SearchService {
         return result;
     }
 
-
-    public SikSearchResultList<Person> getAllPersonsInUnit(String hsaIdentity)
-            throws Exception {
-        return searchPersons("", "");
-    }
-
     public Unit getUnitByDN(DN dn) throws Exception {
         
         Unit u = new Unit();
@@ -421,6 +415,15 @@ public class SearchServiceMockImpl implements SearchService {
 	}
 
 	public List<Employment> getEmploymentsForPerson(Person person) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public SikSearchResultList<Person> getAllPersonsInUnitById(String hsaIdentity) throws Exception {
+		 return searchPersons("", "");
+	}
+
+	public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

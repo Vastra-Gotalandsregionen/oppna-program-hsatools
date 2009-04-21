@@ -132,11 +132,6 @@ public class SearchServiceLdapImpl implements SearchService {
 				sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
 	}
 
-    public SikSearchResultList<Person> getAllPersonsInUnit(String hsaIdentity)
-            throws Exception {  
-        return personRepository.getAllPersonsInUnit(hsaIdentity);
-    }
-
     public Unit getUnitByDN(DN dn) throws Exception {
         return unitRepository.getUnitByDN(dn);
     }
@@ -201,5 +196,15 @@ public class SearchServiceLdapImpl implements SearchService {
 			employments = personWithEmployments.get(0).getEmployments();
 		}
 		return employments;
+	}
+
+	public SikSearchResultList<Person> getAllPersonsInUnitById(String hsaIdentity) throws Exception {
+		 return personRepository.getAllPersonsInUnit(hsaIdentity);
+	}
+
+	public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception {
+		List persons = personRepository.searchPersonsByDn(dn);
+		SikSearchResultList<Person> personsSearchList = new SikSearchResultList<Person>(persons);
+		return personsSearchList;
 	}
 }
