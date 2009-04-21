@@ -550,7 +550,15 @@ public class Unit implements Serializable {
 	}
 
 	public void setHsaVisitingRuleAge(String hsaVisitingRuleAge) {
-		this.hsaVisitingRuleAge = hsaVisitingRuleAge;
+		if ("0-99".equals(hsaVisitingRuleAge)) {
+			this.hsaVisitingRuleAge = "Alla åldrar";
+		} else if (hsaVisitingRuleAge.endsWith("-99")) {
+			this.hsaVisitingRuleAge = hsaVisitingRuleAge.substring(0, hsaVisitingRuleAge.indexOf("-")) + " år eller äldre";
+		} else if (!"".equals(hsaVisitingRuleAge)) {
+			this.hsaVisitingRuleAge = hsaVisitingRuleAge + " år";
+		} else {
+			this.hsaVisitingRuleAge = hsaVisitingRuleAge;
+		}
 	}
 
 	public String getHsaVisitingRules() {
