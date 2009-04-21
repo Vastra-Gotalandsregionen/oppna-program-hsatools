@@ -40,6 +40,7 @@ import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.UnitNameComparator;
+import se.vgregion.kivtools.search.util.EnvAssistant;
 
 /**
  * Generates suggestions based on text entered in unitName text field.
@@ -52,8 +53,17 @@ public class Suggestions extends HttpServlet implements Serializable {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		UnitSearchSimpleForm theForm = new UnitSearchSimpleForm();
-		String userInputUnitName = URLDecoder.decode(new String(request.getParameter("query").getBytes("ISO-8859-1")), "ISO-8859-1"); //param name is "query" (not unitName) as default when using YUI AC
-		//String userInputUnitName = request.getParameter("unitName");
+		String userInputUnitName;
+		if (EnvAssistant.isRunningOnIBM()) {
+			// Running on WebSphere, UTF-8
+			userInputUnitName = URLDecoder.decode(new String(request.getParameter("query").getBytes("UTF-8")), "UTF-8");
+		} else {
+			// We don't run on IBM (maybe Tomcat), 8859-1
+			userInputUnitName = URLDecoder.decode(new String(request.getParameter("query").getBytes("ISO-8859-1")), "ISO-8859-1");
+		}
+		
+		//param name is "query" (not unitName) as default when using YUI AC, when using scriptaculous: String userInputUnitName = request.getParameter("unitName");
+		
 		theForm.setUnitName(userInputUnitName);
 		SikSearchResultList<Unit> resultList = null;
 
