@@ -85,4 +85,9 @@
 	  	</map>
 	  </property>
 	</bean>
+	
+	<bean class="se.vgregion.kivtools.search.svc.domain.values.DN" lazy-init="false">
+		<property name="administrationLevel" value="-2" />
+	</bean>
+	
 </beans>

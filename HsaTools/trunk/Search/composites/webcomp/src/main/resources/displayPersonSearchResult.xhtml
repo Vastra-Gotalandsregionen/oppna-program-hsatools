@@ -138,13 +138,7 @@
 	           									</span>
 	           								</a>
 							            </td>
-           								<td class="org">
-	           								<a href="visaenhetdn?dn=#{employment.vgrStrukturPerson.administration.urlEncoded}">
-	           									<span class="organization-unit">
-		           									#{employment.vgrStrukturPerson.administration.unitName}
-	           									</span>
-	           								</a>
-           								</td>
+										<ui:include src="#{settingsContainer.settings.personDetailsAncestorListInclude}" />
 							            <h:outputText rendered="#{fn:trim(employment.hsaTelephoneNumber) != ''}">
 								            <td class="tel"><span class="type">Work</span><span class="value">#{employment.hsaTelephoneNumber.formattedPhoneNumber}</span></td>
 								        </h:outputText>

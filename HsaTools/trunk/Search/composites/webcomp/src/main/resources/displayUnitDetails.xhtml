@@ -65,12 +65,7 @@
 		<div class="yui-u search-result">
 			<div class="summary">
 				<h2>#{unit.name}</h2>
-				<div class="location">
-					<ui:repeat value="#{unit.dn.ancestors}" var="ancestorDn">
-						<a href="visaenhetdn?dn=#{ancestorDn.urlEncoded}">#{ancestorDn.unitName}</a>, 
-					</ui:repeat>
-					<a href="visaenhetdn?dn=#{unit.dn.administration.urlEncoded}">#{unit.dn.administration.unitName}</a> 
-				</div>
+				<ui:include src="#{settingsContainer.settings.unitDetailsAncestorListInclude}" />
 				<div id="kiv-results">
 				<!-- Show tab with external description -->
 					<h:outputText rendered="#{fn:length(unit.concatenatedDescription) gt 0}">

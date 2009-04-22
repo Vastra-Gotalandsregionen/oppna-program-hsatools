@@ -132,13 +132,13 @@ public class SearchPersonFlowSupportBean implements Serializable {
             SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
             
             if ("null".equals(hsaIdentity)) {
-            	SikSearchResultList<Person> personsWithoutEmploymentsList = getSearchService().searchPersonsByDn(dn);
+            	SikSearchResultList<Person> personsWithoutEmploymentsList = getSearchService().searchPersonsByDn(dn, maxSearchResult);
             	for (Person p : personsWithoutEmploymentsList) {
-            		SikSearchResultList<Person> searchPersons = getSearchService().searchPersons(p.getVgrId());
+            		SikSearchResultList<Person> searchPersons = getSearchService().searchPersons(p.getVgrId(), maxSearchResult);
             		persons.addAll(searchPersons);
             	}
             } else {
-	            persons = getSearchService().searchPersons(hsaIdentity);
+	            persons = getSearchService().searchPersons(hsaIdentity, maxSearchResult);
 	
 	            // fetch all employments
 	            SikSearchResultList <Employment> empList=null;

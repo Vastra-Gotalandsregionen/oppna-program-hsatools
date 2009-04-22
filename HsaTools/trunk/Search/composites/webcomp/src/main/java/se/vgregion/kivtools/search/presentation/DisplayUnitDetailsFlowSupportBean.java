@@ -60,7 +60,7 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable{
     public Unit getUnitByDn(String dn) {
         logger.info(CLASS_NAME + "::getUnitDetailsByDn(dn=" + dn + ")");
         try {
-            Unit u = getSearchService().getUnitByDN(DN.createDNFromString(dn));
+            Unit u = getSearchService().getUnitByDN(dn);
             return u;
         } catch (Exception e) {
             e.printStackTrace();

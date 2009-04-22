@@ -311,11 +311,10 @@ public class PersonRepository {
 				.getAttribute("facsimileTelephoneNumber"))));
 		employment.setLabeledUri(LdapORMHelper.getSingleValue(personEntry.getAttribute("labeledUri")));
 
-		// both hsaTitle and title occurs
-		if (!"".equals(personEntry.getAttribute("hsaTitle")))
-			employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaTitle")));
+		employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaTitle")));
+		/* Deprecated 2009-04-21
 		if (!"".equals(personEntry.getAttribute("title")))
-			employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("title")));
+			employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("title")));*/
 
 		employment.setDescription(LdapORMHelper.getMultipleValues(personEntry.getAttribute("description")));
 		employment.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(LdapORMHelper

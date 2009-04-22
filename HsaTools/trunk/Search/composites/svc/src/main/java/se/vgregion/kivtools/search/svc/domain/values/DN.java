@@ -41,7 +41,8 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 	private List<String> ou;
 	private List<String> dc;
 	private String o;
-	private static final int ADMINISTRATION = -3; // Position of administration
+	private static int ADMINISTRATION = -3; // Position of administration
+	private int position; // Used for formatting ancestors in web gui
 
 	// OU
 
@@ -50,6 +51,10 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 		this.ou = ou == null ? new ArrayList<String>() : ou;
 		this.dc = dc == null ? new ArrayList<String>() : dc;
 		this.o = o == null ? "" : o;
+	}
+
+	public DN() {
+		super();
 	}
 
 	/**
@@ -205,7 +210,9 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 		List<DN> ancestors = new ArrayList<DN>();
 		DN parent = this.getParentDN();
 
+		int position = 1;
 		while (parent != null) {
+			parent.setPosition(position++);
 			if (--fromGeneration <= 0) {
 				ancestors.add(parent);
 			}
@@ -235,7 +242,7 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 		}
 		List<DN> ancestors = new ArrayList<DN>();
 		DN parent = this.getParentDN();
-
+		
 		while (parent != null) {
 			ancestors.add(parent);
 			parent = parent.getParentDN();
@@ -360,4 +367,15 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 
 	}
 
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
+
+	public void setAdministrationLevel(int administration) {
+		ADMINISTRATION = administration;
+	}
 }

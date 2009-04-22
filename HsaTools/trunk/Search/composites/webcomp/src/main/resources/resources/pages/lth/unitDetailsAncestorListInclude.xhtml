@@ -1,0 +1,6 @@
+				<div class="location" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+					<ui:repeat value="#{unit.dn.ancestors}" var="ancestorDn">
+						<a href="visaenhetdn?dn=#{ancestorDn.urlEncoded}">#{ancestorDn.unitName}</a>
+						<h:outputText rendered="#{ancestorDn.position lt fn:length(unit.dn.ancestors)}">, </h:outputText>
+					</ui:repeat>
+				</div>
