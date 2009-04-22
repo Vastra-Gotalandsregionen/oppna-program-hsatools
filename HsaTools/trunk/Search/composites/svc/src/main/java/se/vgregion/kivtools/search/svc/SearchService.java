@@ -83,7 +83,7 @@ public interface SearchService {
      * @return          the corresponding Unit 
      * @throws Exception
      */
-    public Unit getUnitByDN(DN dn) throws Exception;
+    public Unit getUnitByDN(String dn) throws Exception;
     
     /**
      * @param dn is the distinguished name of the organizational unit that the person works for.
@@ -91,6 +91,15 @@ public interface SearchService {
      * @throws Exception
      */
     public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception;
+    
+    /**
+     * @param dn is the distinguished name of the organizational unit that the person works for.
+     * @param maxSearchResult max number of returned items in the result list
+     * @return
+     * @throws Exception
+     */
+    public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception;
+    
     
     /**
      * @param id is complete or part of a person identifier. That is why this method can return a list.

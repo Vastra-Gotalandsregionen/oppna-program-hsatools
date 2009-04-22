@@ -143,8 +143,8 @@ public class SearchServiceLdapImpl implements SearchService {
 				sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
 	}
 
-	public Unit getUnitByDN(DN dn) throws Exception {
-		return unitRepository.getUnitByDN(dn);
+	public Unit getUnitByDN(String dn) throws Exception {
+		return unitRepository.getUnitByDN(DN.createDNFromString(dn));
 	}
 
 	public HealthcareTypeConditionHelper getHealthcareTypeConditionHelper() {
@@ -179,4 +179,9 @@ public class SearchServiceLdapImpl implements SearchService {
 		return null;
 	}
 
+	
+	public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

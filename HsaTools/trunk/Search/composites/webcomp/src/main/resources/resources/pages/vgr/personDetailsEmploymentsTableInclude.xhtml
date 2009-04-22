@@ -1,0 +1,25 @@
+							<table xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+								<caption>Anställning - #{employment.title}</caption>
+								<tbody>
+									<tr>
+										<th id="job-organisation-#{employment.cn}">Organisation</th>
+										<td headers="job-organisation-#{employment.cn}">
+											<h:outputText rendered="#{fn:trim(employment.vgrStrukturPerson.unit.isUnitAndAdministrationOnSameLevel) == 'false'}">
+												<a href="visaenhetdn?dn=#{employment.vgrStrukturPerson.unit.urlEncoded}">#{employment.vgrStrukturPerson.unit.unitName}</a>,
+					        				</h:outputText>	                                   											
+											<ui:repeat value="#{employment.vgrStrukturPerson.ancestors}" var="ancestorDn">
+												<a href="visaenhetdn?dn=#{ancestorDn.urlEncoded}">#{ancestorDn.unitName}</a>, 
+											</ui:repeat>
+											<a href="visaenhetdn?dn=#{employment.vgrStrukturPerson.administration.urlEncoded}">#{employment.vgrStrukturPerson.administration.unitName}</a> 
+										</td>
+									</tr>
+									<tr>
+										<th id="job-beskrivning-#{employment.cn}">Beskrivning</th>
+										<td headers="job-beskrivning-#{employment.cn}">
+											<div value="#{employment.description}" var="descriptionItem" jsfc="ui:repeat">
+												#{descriptionItem}
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>

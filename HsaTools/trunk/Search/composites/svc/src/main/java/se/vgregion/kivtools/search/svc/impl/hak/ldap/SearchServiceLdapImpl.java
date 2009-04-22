@@ -132,8 +132,8 @@ public class SearchServiceLdapImpl implements SearchService {
 				sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
 	}
 
-    public Unit getUnitByDN(DN dn) throws Exception {
-        return unitRepository.getUnitByDN(dn);
+    public Unit getUnitByDN(String dn) throws Exception {
+        return unitRepository.getUnitByDN(DN.createDNFromString(dn));
     }
 
 	public HealthcareTypeConditionHelper getHealthcareTypeConditionHelper() {
@@ -204,6 +204,12 @@ public class SearchServiceLdapImpl implements SearchService {
 
 	public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception {
 		List persons = personRepository.searchPersonsByDn(dn);
+		SikSearchResultList<Person> personsSearchList = new SikSearchResultList<Person>(persons);
+		return personsSearchList;
+	}
+
+	public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception {
+		List persons = personRepository.searchPersonsByDn(dn, maxSearchResult);
 		SikSearchResultList<Person> personsSearchList = new SikSearchResultList<Person>(persons);
 		return personsSearchList;
 	}

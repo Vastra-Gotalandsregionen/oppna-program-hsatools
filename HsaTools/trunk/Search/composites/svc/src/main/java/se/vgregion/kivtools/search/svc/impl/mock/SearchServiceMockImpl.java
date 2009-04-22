@@ -260,7 +260,7 @@ public class SearchServiceMockImpl implements SearchService {
         return result;
     }
 
-    public Unit getUnitByDN(DN dn) throws Exception {
+    public Unit getUnitByDN(String dn) throws Exception {
         
         Unit u = new Unit();
         ArrayList<PhoneNumber> p;
@@ -424,6 +424,11 @@ public class SearchServiceMockImpl implements SearchService {
 	}
 
 	public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
