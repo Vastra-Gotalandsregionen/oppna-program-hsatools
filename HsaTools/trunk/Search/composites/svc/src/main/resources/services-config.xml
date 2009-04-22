@@ -23,6 +23,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+	<!-- Import customized bean configurations for chosen project. -->
+	<import resource="services-config_VGR.xml"/>
+
 <!-- Use this mock-injection if connection to KIV is disabled 
  	<bean id="Search.SearchService" class="se.vgregion.kivtools.search.svc.impl.mock.SearchServiceMockImpl" />
 -->  	
@@ -33,47 +36,6 @@
  -->
 
 <!--  -->
-	<bean id="Search.SearchService" class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.SearchServiceLdapImpl">
-		<property name="personRepository" ref="Search.PersonRepository"></property>
-		<property name="unitRepository" ref="Search.UnitRepository"></property>
-		<property name="employmentRepository" ref="Search.EmploymentRepository"></property>
-		<property name="healthcareTypeConditionHelper" ref="Search.HealthcareTypeConditionHelper"></property>
-	</bean>
- 	
-	<bean id="Search.PersonRepository"
-		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.PersonRepository">
-		<property name="ldapConnectionPool" ref="Search.LdapConnectionPool"></property>
-	</bean>
-	<bean id="Search.UnitRepository"
-		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository">
-		<property name="ldapConnectionPool" ref="Search.LdapConnectionPool"></property>
-	</bean>
-	<bean id="Search.EmploymentRepository"
-		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.EmploymentRepository">
-		<property name="ldapConnectionPool" ref="Search.LdapConnectionPool"></property>
-	</bean>
-	<bean id="Search.HealthcareTypeConditionHelper"
-		class="se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper">
-		<property name="implResourcePath" value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-healthcare-type-conditions"></property>
-	</bean>
-	<bean id="Search.MunicipalityHelper"
-		class="se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper">
-		<property name="implResourcePath" value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-municipalities"></property>
-	</bean>
- 	
-	<bean id="Search.LdapConnectionPool"
-		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.LdapConnectionPool" destroy-method="release">
-		<property name="ldapHost" value="${hsatools.search.svc.ldap.ldaphost}" />
-		<property name="loginDN" value="${hsatools.search.svc.ldap.logindn}" />
-		<property name="password" value="${hsatools.search.svc.ldap.password}" />
-		<property name="maxConn" value="${hsatools.search.svc.ldap.maxConn}" />
-	</bean>
-	<!-- LDAP connection settings  -->
-	<bean id="propertyPlaceholder"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties" />
-	</bean>
-	
  	
 	<bean name="KivTools.CreateLinkLists" class="org.springframework.scheduling.quartz.JobDetailBean">
 	  <property name="jobClass" value="se.vgregion.kivtools.scheduler.LinkListGenerator" />
