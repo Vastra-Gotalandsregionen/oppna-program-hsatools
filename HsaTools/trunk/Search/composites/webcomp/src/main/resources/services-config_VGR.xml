@@ -25,5 +25,6 @@
 	<bean id="Search.SettingsContainer" class="se.vgregion.kivtools.search.presentation.SettingsBean" scope="prototype">
 		<constructor-arg index="0" value="classpath:resources/settings/vgr/sik-composite-webcomp.properties"/>
 	</bean>
+	
 </beans>
 
