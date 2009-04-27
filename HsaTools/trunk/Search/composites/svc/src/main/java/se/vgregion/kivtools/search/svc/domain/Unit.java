@@ -71,7 +71,7 @@ public class Unit implements Serializable {
 	private String vgrCareType; // V�rdform
 	private String vgrAO3kod; // Ansvarsomr�des kod
 	private String hsaIdentity; // HSA identitet
-	private List<HealthcareType> healthcareTypes; // Verksamhetskoder
+	private List<HealthcareType> healthcareTypes; 
 	private List<String> hsaBusinessClassificationCode;
 	private String hsaUnitPrescriptionCode; // Arbetsplatskod
 	private List<String> vgrAnsvarsnummer; // Ansvarsnr
