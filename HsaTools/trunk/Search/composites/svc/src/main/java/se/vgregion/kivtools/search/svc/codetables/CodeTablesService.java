@@ -6,6 +6,6 @@ public interface CodeTablesService {
 
 	void init();
 
-	String getValueFromCode(CodeTableName hsa_management_code, String string);
+	String getValueFromCode(CodeTableName codeTableName, String string);
 
 }

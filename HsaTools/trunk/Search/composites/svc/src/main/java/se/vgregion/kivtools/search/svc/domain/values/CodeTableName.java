@@ -2,7 +2,7 @@ package se.vgregion.kivtools.search.svc.domain.values;
 
 public enum CodeTableName {
 	HSA_ADMINISTRATION_FORM("list_hsaAdministrationForm"), HSA_BUSINESSCLASSIFICATION_CODE("list_hsaBusinessClassificationCode"), HSA_COUNTY_CODE("list_hsaCountyCode"), HSA_MANAGEMENT_CODE("list_hsaManagementCode"), HSA_SPECIALITY_CODE(
-			"list_hsaSpecialityCode");
+			"list_hsaSpecialityCode"), VGR_AO3_CODE("list_vgrAO3kod"), VGR_CARE_TYPE("list_vgrCareType");
 	private final String codeTableName;
 
 	private CodeTableName(String s) {

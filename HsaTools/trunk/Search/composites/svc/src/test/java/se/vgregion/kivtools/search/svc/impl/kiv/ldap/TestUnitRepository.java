@@ -20,6 +20,8 @@
  */
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +34,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
+import se.vgregion.kivtools.search.svc.codetables.CodeTablesTest;
+import se.vgregion.kivtools.search.svc.codetables.CodeTablesTest.LdapConnectionPoolMock;
+import se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
@@ -161,5 +167,24 @@ public class TestUnitRepository {
         unit.setName("ambulans");
         String temp = ur.createAdvancedSearchFilter(unit, new ArrayList<Integer>());
         Assert.assertEquals(correctResult.toString(), temp);        
+    }
+    
+    @Test
+    public void testAssignCodeTableValuesToUnit() {
+    	try {
+    		Unit u = new Unit();
+    		u.setHsaManagementCode("1");
+			Method assignCodeTableValuesToUnitMethod = ur.getClass().getDeclaredMethod("assignCodeTableValuesToUnit", Unit.class);
+			assignCodeTableValuesToUnitMethod.setAccessible(true);
+			// Assign code table mock
+			CodeTablesServiceImpl codeTablesService = new CodeTablesServiceImpl();
+			codeTablesService.setLdapConnectionPool(new CodeTablesTest.LdapConnectionPoolMock());
+			codeTablesService.init();
+			ur.setCodeTablesService(codeTablesService);
+			assignCodeTableValuesToUnitMethod.invoke(ur, u);
+			Assert.assertEquals("Landsting/Region", u.getHsaManagementName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 }

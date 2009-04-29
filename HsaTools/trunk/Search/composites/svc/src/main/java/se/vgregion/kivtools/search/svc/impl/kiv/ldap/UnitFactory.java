@@ -241,10 +241,6 @@ public class UnitFactory {
         unit.setHsaManagementCode(LdapORMHelper.getSingleValue(unitEntry
                 .getAttribute("hsaManagementCode")));
 
-        // �garform klartext
-        unit.setHsaManagementText(LdapORMHelper.getSingleValue(unitEntry
-                .getAttribute("hsaManagementText")));
-
         // Visiting rules
         unit.setHsaVisitingRules(LdapORMHelper.getSingleValue(unitEntry
                 .getAttribute("hsaVisitingRules")));

@@ -28,8 +28,10 @@ import java.util.List;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
+import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.PersonNameComparator;
+import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.Formatter;
@@ -52,8 +54,17 @@ public class PersonRepository {
     private static final String LDAP_WILD_CARD = "*";
     private static final String LDAP_EXACT_CARD = "\""; // an "
     private LdapConnectionPool  theConnectionPool = null;
+	private CodeTablesService codeTablesService;
     
-    public void setLdapConnectionPool(LdapConnectionPool lp) {
+    public CodeTablesService getCodeTablesService() {
+		return codeTablesService;
+	}
+
+	public void setCodeTablesService(CodeTablesService codeTablesService) {
+		this.codeTablesService = codeTablesService;
+	}
+
+	public void setLdapConnectionPool(LdapConnectionPool lp) {
         this.theConnectionPool = lp;
     }
 
@@ -184,7 +195,9 @@ public class PersonRepository {
         if(searchResults == null) {
             return null;
         }
-        return PersonFactory.reconstitute(searchResults.next());
+        Person p = PersonFactory.reconstitute(searchResults.next());
+        assignCodeTableValuesToPerson(p);
+        return p;
     }
 
     private SikSearchResultList<Person> extractResult(LDAPSearchResults searchResults, int maxResult) throws LDAPException {
@@ -194,7 +207,9 @@ public class PersonRepository {
         SikSearchResultList<Person> result = new SikSearchResultList<Person>();
         while (searchResults.hasMore()) {
             try {
-                result.add(PersonFactory.reconstitute(searchResults.next()));
+            	Person p = PersonFactory.reconstitute(searchResults.next());
+            	assignCodeTableValuesToPerson(p);
+                result.add(p);
             } catch(LDAPException e) {
                 if (e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
                     throw e;
@@ -240,25 +255,6 @@ public class PersonRepository {
         addMultipleAttributes(filterList , givenName, "givenName", "hsaNickName");
 
         // let's do some special handling of sn
-        addMultipleAttributes(filterList , familyName, "sn", "hsaMiddleName");
-
-        if (filterList.isEmpty()) {
-            return null;            
-        }
-        for (String s : filterList) {
-            searchFilter += s;
-        }
-        searchFilter += ")";
-        return searchFilter;
-    }
-    
-    private String createSearchPersonsFilter(String givenName, String familyName) throws Exception {
-        List<String> filterList = new ArrayList<String>();
-        
-        String searchFilter = "(&(objectclass=vgrUser)";
-        addMultipleAttributes(filterList , givenName, "givenName", "hsaNickName");
-
-        // let�s do some special handling of sn
         addMultipleAttributes(filterList , familyName, "sn", "hsaMiddleName");
 
         if (filterList.isEmpty()) {
@@ -423,4 +419,18 @@ public class PersonRepository {
             }
         }
     }    
+    
+	/**
+	 * Uses code table service in order to lookup text value for "coded values".
+	 * 
+	 * @param p The person which should get looked up values assigned.
+	 */
+	private void assignCodeTableValuesToPerson(Person p) {
+		List<String> hsaSpecialityNames = new ArrayList<String>();
+		for (String hsaSpecialityCode : p.getHsaSpecialityCode()) {
+			String codeName = codeTablesService.getValueFromCode(CodeTableName.HSA_SPECIALITY_CODE, hsaSpecialityCode);
+			hsaSpecialityNames.add(codeName);
+		}
+		p.setHsaSpecialityName(hsaSpecialityNames);
+	}
 }
