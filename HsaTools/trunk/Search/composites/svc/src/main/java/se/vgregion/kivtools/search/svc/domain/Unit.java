@@ -69,7 +69,9 @@ public class Unit implements Serializable {
 	private String labeledURI; // Hemsida
 	private String vgrInternalSedfInvoiceAddress; // I-nummer
 	private String vgrCareType; // V�rdform
+	private String vgrCareTypeText; // Vårdform klartext
 	private String vgrAO3kod; // Ansvarsomr�des kod
+	private String vgrAO3kodText; // Ansvarsområdeskodens namn
 	private String hsaIdentity; // HSA identitet
 	private List<HealthcareType> healthcareTypes; 
 	private List<String> hsaBusinessClassificationCode;
@@ -339,12 +341,28 @@ public class Unit implements Serializable {
 		this.vgrCareType = vgrCareType;
 	}
 
+	public String getVgrCareTypeText() {
+		return vgrCareTypeText;
+	}
+
+	public void setVgrCareTypeText(String vgrCareTypeText) {
+		this.vgrCareTypeText = vgrCareTypeText;
+	}
+
 	public String getVgrAO3kod() {
 		return vgrAO3kod;
 	}
 
 	public void setVgrAO3kod(String vgrAO3kod) {
 		this.vgrAO3kod = vgrAO3kod;
+	}
+
+	public String getVgrAO3kodText() {
+		return vgrAO3kodText;
+	}
+
+	public void setVgrAO3kodText(String vgrAO3kodText) {
+		this.vgrAO3kodText = vgrAO3kodText;
 	}
 
 	public String getHsaIdentity() {
