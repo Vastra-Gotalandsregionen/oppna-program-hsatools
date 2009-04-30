@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.lang.NotImplementedException;
+
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Employment;
@@ -212,5 +214,9 @@ public class SearchServiceLdapImpl implements SearchService {
 		List persons = personRepository.searchPersonsByDn(dn, maxSearchResult);
 		SikSearchResultList<Person> personsSearchList = new SikSearchResultList<Person>(persons);
 		return personsSearchList;
+	}
+
+	public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws Exception {
+		throw new NotImplementedException("Not used by LTH.");
 	}
 }

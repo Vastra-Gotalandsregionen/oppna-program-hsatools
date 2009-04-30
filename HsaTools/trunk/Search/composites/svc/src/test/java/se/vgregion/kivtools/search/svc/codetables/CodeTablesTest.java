@@ -47,13 +47,13 @@ public class CodeTablesTest {
 	// Generate LDAPConnectionMock and fill it with search alternatives
 	public static LDAPConnectionMock generateConnectionMock() {
 		LDAPConnectionMock connectionMock = new LDAPConnectionMock();
-
+		CodeTablesServiceImpl codeTablesServiceImpl = new CodeTablesServiceImpl();
 		for (Entry<String, String[]> attributeListEntry : attributeLists.entrySet()) {
 			LinkedList<LDAPEntryMock> ldapEntries = new LinkedList<LDAPEntryMock>();
 			LDAPEntryMock entryMock = new LDAPEntryMock();
 			entryMock.addAttribute("description", attributeListEntry.getValue());
 			ldapEntries.add(entryMock);
-			connectionMock.addLdapEntries("(cn=" +  CodeTableName.valueOf(attributeListEntry.getKey()) + ")", ldapEntries);
+			connectionMock.addLdapEntries(new LDAPConnectionMock().new SearchCondition(codeTablesServiceImpl.getCodeTablesBase(), LDAPConnection.SCOPE_SUB, "(cn=" +  CodeTableName.valueOf(attributeListEntry.getKey()) + ")"), ldapEntries);
 		}
 		return connectionMock;
 	}

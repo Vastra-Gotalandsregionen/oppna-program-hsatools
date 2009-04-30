@@ -432,4 +432,9 @@ public class SearchServiceMockImpl implements SearchService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

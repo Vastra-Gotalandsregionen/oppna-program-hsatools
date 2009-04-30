@@ -20,10 +20,11 @@
  */
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import java.lang.reflect.InvocationTargetException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,13 +35,21 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
+import com.novell.ldap.LDAPConnection;
+import com.novell.ldap.LDAPException;
+
+import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
+import se.vgregion.kivtools.search.exceptions.SikInternalException;
+import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesTest;
-import se.vgregion.kivtools.search.svc.codetables.CodeTablesTest.LdapConnectionPoolMock;
 import se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl;
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
+import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
+import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
+import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
+import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock.SearchCondition;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
@@ -182,9 +191,81 @@ public class TestUnitRepository {
 			codeTablesService.init();
 			ur.setCodeTablesService(codeTablesService);
 			assignCodeTableValuesToUnitMethod.invoke(ur, u);
-			Assert.assertEquals("Landsting/Region", u.getHsaManagementName());
+			Assert.assertEquals("Landsting/Region", u.getHsaManagementText());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
     }
+    
+    // Test fetching sub units for a chosen unit
+	@Test
+	public void testGetSubUnits() throws Exception{
+		ur = new UnitRepository();
+		String base = "ou=Folktandvården Fyrbodal,ou=Folktandvården Västra Götaland,ou=Org,o=vgr";
+		String filter = "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")";
+		Unit parentUnit = new Unit();
+		parentUnit.setHsaIdentity("parent");
+		parentUnit.setDn(DN.createDNFromString(base));
+		// Set Ldap connetion mock for the UnitRepository
+		ur.setLdapConnectionPool(new LdapConnectionPoolMock(generateLdapConnectionMock(base, filter)));
+		
+		SikSearchResultList<Unit> subUnits = new SikSearchResultList<Unit>();
+		Unit subUnit1 = new Unit();
+		subUnit1.setName("SubUnit1");
+		subUnit1.setHsaIdentity("SubUnit1");
+		Unit subUnit2 = new Unit();
+		subUnit2.setName("SubUnit2");
+		subUnit2.setHsaIdentity("SubUnit2");
+		
+		subUnits.add(subUnit1);
+		subUnits.add(subUnit2);
+		
+		SikSearchResultList<Unit> subUnitsResult = null;
+		ur.setCodeTablesService(new CodeTablesServiceImpl());
+		subUnitsResult = ur.getSubUnits(parentUnit, 2);
+		
+		Unit returndUnit1 = subUnitsResult.get(0);
+		Unit returndUnit2 = subUnitsResult.get(1);
+		Assert.assertEquals(subUnit1.getName(), returndUnit1.getName());
+		Assert.assertEquals(subUnit2.getName(), returndUnit2.getName());
+	}
+
+	private LDAPConnectionMock generateLdapConnectionMock(String base, String filter) {
+		LDAPConnectionMock ldapConnectionMock = new LDAPConnectionMock();
+		LinkedList<LDAPEntryMock> subUnitLdapEntries = new LinkedList<LDAPEntryMock>();
+
+		// Sub unit entries
+		LDAPEntryMock subUnitEntry1 = new LDAPEntryMock();
+		LDAPEntryMock subUnitEntry2 = new LDAPEntryMock();
+		// Sub entity 1
+		subUnitEntry1.addAttribute("hsaIdentity", "1");
+		subUnitEntry1.addAttribute(Constants.LDAP_PROPERTY_UNIT_NAME, "SubUnit1");
+		subUnitEntry1.addAttribute("objectClass", Constants.OBJECT_CLASS_UNIT_SPECIFIC);
+		// Sub entity 2
+		subUnitEntry2.addAttribute("hsaIdentity", "2");
+		subUnitEntry2.addAttribute(Constants.LDAP_PROPERTY_UNIT_NAME, "SubUnit2");
+		subUnitEntry2.addAttribute("objectClass", Constants.OBJECT_CLASS_UNIT_SPECIFIC);
+		
+		subUnitLdapEntries.add(subUnitEntry1);
+		subUnitLdapEntries.add(subUnitEntry2);
+		
+		ldapConnectionMock.addLdapEntries(new LDAPConnectionMock().new SearchCondition(base,LDAPConnection.SCOPE_SUB,filter), subUnitLdapEntries);
+	
+		return ldapConnectionMock;
+		
+	}
+	
+	public static class LdapConnectionPoolMock extends LdapConnectionPool {
+		
+		private LDAPConnectionMock connectionMock;
+		
+		public LdapConnectionPoolMock(LDAPConnectionMock connectionMock) {
+			this.connectionMock = connectionMock;
+		}
+		@Override
+		public synchronized LDAPConnection getConnection() throws LDAPException, UnsupportedEncodingException, NoConnectionToServerException, SikInternalException {
+			return connectionMock;
+		}
+	}
+
 }
