@@ -20,6 +20,8 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 import java.util.Comparator;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Employment;
@@ -183,5 +185,9 @@ public class SearchServiceLdapImpl implements SearchService {
 	public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws Exception {
+		return unitRepository.getSubUnits(parentUnit, maxSearchResult);
 	}
 }

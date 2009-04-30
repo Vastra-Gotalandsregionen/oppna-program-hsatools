@@ -86,6 +86,14 @@ public interface SearchService {
     public Unit getUnitByDN(String dn) throws Exception;
     
     /**
+     * 
+     * @param parentUnit
+     * @return SikSearchResultList<Unit> object of sub units to the parent unit
+     * @throws Exception
+     */
+    public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws Exception;
+    
+    /**
      * @param dn is the distinguished name of the organizational unit that the person works for.
      * @return
      * @throws Exception

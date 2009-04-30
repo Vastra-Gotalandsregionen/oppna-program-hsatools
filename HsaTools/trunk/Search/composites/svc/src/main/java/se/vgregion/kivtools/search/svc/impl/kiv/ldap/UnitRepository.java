@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -267,9 +268,9 @@ public class UnitRepository {
 		constraints.setMaxResults(0);
 		SikSearchResultList<Unit> result = new SikSearchResultList<Unit>();
 		String[] attributes = { LDAPConnection.ALL_USER_ATTRS, "createTimeStamp" }; // Get
-																					// all
-																					// attributes,
-																					// including
+		// all
+		// attributes,
+		// including
 		// operational attribute createTimeStamp
 
 		logger.debug("LDAP search filter: " + searchFilter);
@@ -293,9 +294,9 @@ public class UnitRepository {
 		constraints.setMaxResults(0);
 		Unit result = new Unit();
 		String[] attributes = { LDAPConnection.ALL_USER_ATTRS, "createTimeStamp" }; // Get
-																					// all
-																					// attributes,
-																					// including
+		// all
+		// attributes,
+		// including
 		// operational attribute createTimeStamp
 
 		try {
@@ -591,9 +592,9 @@ public class UnitRepository {
 			searchValue = searchValue.trim();
 			if (isExactMatchFilter(searchValue)) {
 				searchValue = Formatter.replaceStringInString(searchValue, LDAP_EXACT_CARD, ""); // remove
-																									// "
+				// "
 				filterList.add("(" + searchField + "=" + searchValue.trim() + ")"); // exact
-																					// match
+				// match
 			} else {
 				// change spaces to wildcards
 				searchValue = Formatter.replaceStringInString(searchValue, " ", LDAP_WILD_CARD);
@@ -619,7 +620,7 @@ public class UnitRepository {
 			searchValue = searchValue.trim();
 			if (isExactMatchFilter(searchValue)) {
 				searchValue = Formatter.replaceStringInString(searchValue, LDAP_EXACT_CARD, ""); // remove
-																									// "
+				// "
 				String temp = buildAddressSearch(searchField, searchValue);
 				filterList.add(temp); // exact match
 			} else {
@@ -749,6 +750,34 @@ public class UnitRepository {
 			// Add to top level, should be okay in same way as a valid
 			// hsaBusinessClassificationCode
 			filterList.add(healthCareTypeCondition);
+		}
+	}
+
+	/**
+	 * 
+	 * @param parentUnit
+	 * @param maxResult
+	 * @return
+	 * @throws Exception
+	 */
+	public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxResult) throws Exception {
+		SikSearchResultList<Unit> subUnits = null;
+		DN parentDn = parentUnit.getDn();
+		LDAPConnection ldapConnection = getLDAPConnection();
+		subUnits = extractResult(ldapConnection.search(parentDn.toString(), LDAPConnection.SCOPE_SUB, "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")", null, false), 200, null);
+		removeUnitParentFromList(parentUnit, subUnits);
+		return subUnits;
+	}
+
+	// Remove parent unit from search result list
+	private void removeUnitParentFromList(Unit parentUnit, SikSearchResultList<Unit> subUnits) {
+
+		for (Iterator<Unit> iterator = subUnits.iterator(); iterator.hasNext();) {
+			Unit unit = iterator.next();
+			if (parentUnit.getHsaIdentity().equals(unit.getHsaIdentity())) {
+				subUnits.remove(unit);
+				break;
+			}
 		}
 	}
 }

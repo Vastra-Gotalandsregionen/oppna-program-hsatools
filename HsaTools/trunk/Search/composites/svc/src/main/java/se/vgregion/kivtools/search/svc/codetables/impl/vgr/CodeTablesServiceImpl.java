@@ -55,7 +55,7 @@ public class CodeTablesServiceImpl implements CodeTablesService {
 	}
 
 	private void populateCodeTablesMap(CodeTableName codeTableName) throws Exception {
-		LDAPSearchResults search = ldapConnectionPool.getConnection().search(codeTablesBase, LDAPConnection.SCOPE_ONE, "(cn=" + codeTableName + ")", new String[] { attribute }, false);
+		LDAPSearchResults search = ldapConnectionPool.getConnection().search(codeTablesBase, LDAPConnection.SCOPE_SUB, "(cn=" + codeTableName + ")", new String[] { attribute }, false);
 		LDAPEntry entry;
 		Map<String, String> codeTableContent = new HashMap<String, String>();
 		if ((entry = search.next()) != null) {
