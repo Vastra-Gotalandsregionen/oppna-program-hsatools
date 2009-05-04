@@ -11,9 +11,9 @@ Standarden [http://www.w3.org/TR/xforms/ XForms] kan användas för formulärhan
 
 = Vald XForms implementation = 
 
-Open Sourceprodukten [http://www.orbeon.com Orbeon] används idag som implementation/XForms-engine. Orbeon är en ajax-baserad, serverside XForms-implementation. Detta innebär att stöd i browsern för XForms är inte nödvändigt.
-
 == Orbeon ==
+
+Open Sourceprodukten [http://www.orbeon.com Orbeon] används idag som implementation/XForms-engine. Orbeon är en ajax-baserad, serverside XForms-implementation. Detta innebär att stöd i browsern för XForms är inte nödvändigt.
 
 === Features ===
  
