@@ -9,6 +9,12 @@
 
 Standarden [http://www.w3.org/TR/xforms/ XForms] kan användas för formulärhantering. Denna anvisning beskriver hur XForms skall användas, vilka implementationer som är tillåtna etc. 
 
-= Orbeon = 
+= XForms implementation = 
 
-Open Sourceprodukten [http://www.orbeon.com Orbeon] används som implementation/XForms-engine. 
+Open Sourceprodukten [http://www.orbeon.com Orbeon] används idag som implementation/XForms-engine. 
+
+== Alternativa implementationer == 
+Förutom Orbeon har implementationen [http://chiba.sourceforge.net/ Chiba] utvärderats. Orbeon har valts främst av följande två anledningar: 
+
+  * Bättre stöd för deploy i portal-miljö (dock ej fungerande på WebSphere Portal 6.1 i dagsläget)
+  * Orbeon är ett mer aktivt/levande open source-projekt Bättre dokumentation samt mer ett mer aktivt open source-projekt än Chiba. 
