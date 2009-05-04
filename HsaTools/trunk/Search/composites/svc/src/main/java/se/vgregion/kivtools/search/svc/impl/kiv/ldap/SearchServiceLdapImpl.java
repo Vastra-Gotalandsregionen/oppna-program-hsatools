@@ -17,6 +17,7 @@
  */
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -172,8 +173,8 @@ public class SearchServiceLdapImpl implements SearchService {
 		return null;
 	}
 
-	public SikSearchResultList<Person> getAllPersonsInUnitById(String hsaIdentity) throws Exception {
-		return personRepository.getAllPersonsInUnit(hsaIdentity);
+	public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception {
+		return personRepository.getPersonsForUnits(units, maxResult);
 	}
 
 	public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception {
