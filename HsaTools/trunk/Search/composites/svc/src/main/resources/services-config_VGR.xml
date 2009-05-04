@@ -44,6 +44,7 @@
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.PersonRepository">
 		<property name="ldapConnectionPool" ref="Search.LdapConnectionPool"></property>
 		<property name="codeTablesService" ref="Search.CodeTablesService"></property>
+		<property name="unitFkField"  value="vgrOrgRel"/>
 	</bean>
 	<bean id="Search.UnitRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository">

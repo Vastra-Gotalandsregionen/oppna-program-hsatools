@@ -31,6 +31,7 @@ import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.PersonNameComparator;
+import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.util.Evaluator;
@@ -49,11 +50,20 @@ import com.novell.ldap.LDAPSearchResults;
  */
 public class PersonRepository {
     private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
-    private static final String KIV_SEARCH_BASE = "ou=Personal,o=vgr";
+    public static final String KIV_SEARCH_BASE = "ou=Personal,o=vgr";
     private static final String CLASS_NAME = PersonRepository.class.getName();
     private static final String LDAP_WILD_CARD = "*";
     private static final String LDAP_EXACT_CARD = "\""; // an "
-    private LdapConnectionPool  theConnectionPool = null;
+    private String unitFkField;
+    public String getUnitFkField() {
+		return unitFkField;
+	}
+
+	public void setUnitFkField(String unitFkField) {
+		this.unitFkField = unitFkField;
+	}
+
+	private LdapConnectionPool  theConnectionPool = null;
 	private CodeTablesService codeTablesService;
     
     public CodeTablesService getCodeTablesService() {
@@ -76,11 +86,7 @@ public class PersonRepository {
         String searchFilter = "";
         return searchPersons(searchFilter, LDAPConnection.SCOPE_ONE, maxResult);
     }
-    
-    public SikSearchResultList<Person> getAllPersonsInUnit(String hsaIdentity) throws Exception {
-        return searchPersons("(vgrOrgRel=" + hsaIdentity + ")", LDAPConnection.SCOPE_ONE, 0);
-    }
-
+   
     public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult) throws Exception {
         String searchFilter = createSearchPersonsFilter(givenName, familyName, vgrId);        
         return searchPersons(searchFilter, LDAPConnection.SCOPE_ONE, maxResult);
@@ -432,5 +438,18 @@ public class PersonRepository {
 			hsaSpecialityNames.add(codeName);
 		}
 		p.setHsaSpecialityName(hsaSpecialityNames);
+	}
+
+	public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception  {
+		SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
+		// Generate or filter condition
+		StringBuilder sb = new StringBuilder("(|");
+		for (Unit unit : units) {
+			sb.append("(").append(unitFkField).append("=").append(unit.getHsaIdentity()).append(")");
+		}
+		sb.append(")");
+		
+		persons = searchPersons(sb.toString(), LDAPConnection.SCOPE_ONE, maxResult);
+		return persons;
 	}
 }

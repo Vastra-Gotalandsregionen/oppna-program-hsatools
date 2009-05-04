@@ -20,6 +20,11 @@
  */
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -27,7 +32,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.novell.ldap.LDAPConnection;
+
+import se.vgregion.kivtools.search.svc.SikSearchResultList;
+import se.vgregion.kivtools.search.svc.domain.Person;
+import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.PersonRepository;
+import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
+import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
+import se.vgregion.kivtools.search.svc.impl.mock.LdapConnectionPoolMock;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
@@ -94,5 +107,67 @@ public class TestPersonRepository {
         correctResult.append("(&(objectclass=vgrUser)(vgr-id=*ana*))");
         String temp = repo.createSearchPersonsFilter("","","ana");
         Assert.assertEquals(correctResult.toString(), temp);        
+    }
+    
+    @Test
+    public void testGetPersonsForUnits() throws Exception{
+    	setLdapConnectionMock();
+    	List<Unit> units = generateTestUnitList();
+    	List<Person> persons = null;
+    	persons = repo.getPersonsForUnits(units, 5);
+    	Assert.assertFalse(persons.isEmpty());   	
+    }
+    
+    private List<Unit> generateTestUnitList(){
+    	List<Unit> units = new ArrayList<Unit>();
+    	Unit unit = null;
+    	for (int i = 0; i < 5; i++) {
+    		unit = new Unit();
+    		unit.setHsaIdentity("unit" + i);
+			units.add(unit);
+		}
+    	return units;
+    }
+    
+    private List<Person> generateTestPersonList(){
+    	List<Person> persons = new ArrayList<Person>();
+    	Person person = null;
+    	for (int i = 0; i < 10; i++) {
+			person = new Person();
+			person.setHsaIdentity("person" +i);
+			persons.add(person);
+		}
+    	return persons;
+    }
+    
+    private void setLdapConnectionMock(){
+    	List<Unit> units = generateTestUnitList();
+    	List<Person> persons = generateTestPersonList();
+    	String searchCondition = generateUnitSearchCondition(units);
+    	LinkedList<LDAPEntryMock> ldapEntries = generatePersonLdapEntries(persons);
+    	LDAPConnectionMock connectionMock = new LDAPConnectionMock();
+    	connectionMock.addLdapEntries(new LDAPConnectionMock().new SearchCondition(PersonRepository.KIV_SEARCH_BASE,LDAPConnection.SCOPE_ONE,searchCondition), ldapEntries);
+    	repo.setLdapConnectionPool(new LdapConnectionPoolMock(connectionMock));
+    	repo.setUnitFkField("vgrOrgRel");
+    }
+    
+    private String generateUnitSearchCondition(List<Unit> units){
+    	StringBuilder sb = new StringBuilder("(|");
+    	for (Unit unit : units) {
+			sb.append("(vgrOrgRel=").append(unit.getHsaIdentity()).append(")");
+		}
+    	sb.append(")");
+    	return sb.toString();   	
+    }
+    
+    private LinkedList<LDAPEntryMock> generatePersonLdapEntries(List<Person> persons){
+    	LinkedList<LDAPEntryMock> ldapEntries = new LinkedList<LDAPEntryMock>();
+    	LDAPEntryMock entryMock = null;
+    	for (Person person : persons) {
+    		entryMock = new LDAPEntryMock();
+    		entryMock.addAttribute("hsaIdentity", person.getHsaIdentity());
+			ldapEntries.add(entryMock);
+		}
+    	return ldapEntries;
     }
 }

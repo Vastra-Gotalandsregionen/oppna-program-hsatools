@@ -78,8 +78,8 @@ public class PersonRepository {
 		return searchPersons(dn, searchFilter, LDAPConnection.SCOPE_SUB, maxResult);
 	}
 
-	public SikSearchResultList<Person> getAllPersonsInUnit(String hsaIdentity) throws Exception {
-		return searchPersons("(hsaIdentity=" + hsaIdentity + ")", LDAPConnection.SCOPE_SUB, 0);
+	public SikSearchResultList<Person> getAllPersonsInUnit(String hsaIdentity, int maxResult) throws Exception {
+		return searchPersons("(hsaIdentity=" + hsaIdentity + ")", LDAPConnection.SCOPE_SUB, maxResult);
 	}
 
 	public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult)

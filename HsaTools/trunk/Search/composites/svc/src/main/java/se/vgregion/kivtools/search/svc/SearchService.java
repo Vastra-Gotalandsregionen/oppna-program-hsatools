@@ -199,7 +199,7 @@ public interface SearchService {
      * @return
      * @throws Exception
      */
-    public SikSearchResultList<Person> getAllPersonsInUnitById(String hsaIdentity) throws Exception;
+    //public SikSearchResultList<Person> getAllPersonsInUnitById(String hsaIdentity) throws Exception;
     
     /**
      * Returns a list of all caretypes that is used for current implementation.
@@ -209,4 +209,12 @@ public interface SearchService {
     public List<HealthcareType> getHealthcareTypesList() throws Exception;
 
 	public List<Employment> getEmploymentsForPerson(Person person) throws Exception;
+	
+	/**
+     * Returns a list of all persons employed at unit(s)
+	 * @param units
+	 * @return
+	 * @throws Exception
+	 */
+	public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception;
 }
