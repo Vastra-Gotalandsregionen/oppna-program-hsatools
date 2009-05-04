@@ -6,3 +6,9 @@
 <wiki:toc max_depth="3" />
 
 = Introduktion =
+
+Standarden [http://www.w3.org/TR/xforms/ XForms] kan användas för formulärhantering. Denna anvisning beskriver hur XForms skall användas, vilka implementationer som är tillåtna etc. 
+
+= Orbeon = 
+
+Open Sourceprodukten [http://www.orbeon.com Orbeon] används som implementation/XForms-engine. 
