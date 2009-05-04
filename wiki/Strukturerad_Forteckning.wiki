@@ -55,7 +55,7 @@ Syftet med denna förteckning är att:
 || !JavaServer Faces (JSF) || Standard/ramverk för webbutveckling (MVC) inom Java EE. || Sun || 1.2 || Nedladdas mha maven - se referensapplikationen för detaljer. Suns RI är den implemenetation som används. || http://www.jcp.org/en/jsr/detail?id=127 samt [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc Anvisningar_Anslutningsskikt_Webb.doc] || S ||
 || Spring Webflow (SWF) || Webbramverket Spring Webflow används för användningsfallslogik, inkl navigering och tillståndshantering. || !SpringSource || 1.0.5 || Nedladdas mha maven - se referensapplikationen för detaljer. || http://www.springsource.org/webflow samt [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc Anvisningar_Anslutningsskikt_Webb.doc] || S ||
 || Facelets || En renderingsteknik för JSF som bygger på XHTML-templates. || java.net || 1.1.14 || Nedladdas mha maven - se referensapplikationen för detaljer. || https://facelets.dev.java.net/ samt [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc Anvisningar_Anslutningsskikt_Webb.doc] || S ||
-|| XForms/Orbeon || Orbeon är en open source engine för XForms-standarden. || www.orbeon.com || 3.7.0beta1 || http://www.orbeon.com || http://www.orbeon.com || P ||
+|| XForms/Orbeon || Orbeon är en open source engine för XForms-standarden. || Orbeon || 3.7.0beta1 || http://www.orbeon.com || http://www.orbeon.com || P ||
 
 
 == Kontinuerlig integration ==
