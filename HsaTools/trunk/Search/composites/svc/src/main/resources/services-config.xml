@@ -26,17 +26,10 @@
 	<!-- Import customized bean configurations for chosen project. -->
 	<import resource="services-config_VGR.xml"/>
 
-<!-- Use this mock-injection if connection to KIV is disabled 
+<!-- Search service mock implementation 
  	<bean id="Search.SearchService" class="se.vgregion.kivtools.search.svc.impl.mock.SearchServiceMockImpl" />
 -->  	
-<!-- Use this block of injections if connection to KIV is enabled
-	<bean id="Search.SearchService" class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.SearchServiceNovellLdapImpl">
-		<property name="ldapConnectionPool" ref="Search.LdapConnectionPool"></property>
-	</bean>
- -->
 
-<!--  -->
- 	
 	<bean name="KivTools.CreateLinkLists" class="org.springframework.scheduling.quartz.JobDetailBean">
 	  <property name="jobClass" value="se.vgregion.kivtools.scheduler.LinkListGenerator" />
 	  <property name="jobDataAsMap">
