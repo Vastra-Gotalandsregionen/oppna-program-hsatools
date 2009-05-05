@@ -31,12 +31,14 @@
 	
 	<input-mapper>
 		<input-attribute name="hsaidentity" />
+		<input-attribute name="parentHsaIdentity" />
 		<input-attribute name="dn" />
 	</input-mapper>
 	
 	<start-state idref="Decision.displayUnitDetails" />
 
 	<decision-state id="Decision.displayUnitDetails">
+		<if test="requestParameters.parentHsaIdentity!=null" then="Display.subUnitsById"/>
 		<if test="requestParameters.hsaidentity!=null" then="Display.unitDetailsById"/>
 		<if test="requestParameters.dn!=null" then="Display.unitDetailsByDn" else="Search.displayUnitSearchResult"/>
 	</decision-state>
@@ -103,6 +105,20 @@
 	<view-state id="Search.ErrorHandle" view="/displayError.xhtml">
 		<transition on="confirm" to="Search.displayUnitSearchResult" />
 	</view-state>
+
+	<action-state id="Display.subUnitsById">
+		<bean-action bean="Search.SearchUnitFlowSupportBean" method="getSubUnits">
+			<method-arguments>
+					<argument expression="flowScope.parentHsaIdentity" parameter-type="java.lang.String"/>
+			</method-arguments>
+			<method-result name="units" scope="flow" />
+		</bean-action>
+		<transition on="success" to="Search.displayUnitSearchResult" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
+					to="Search.displayUnitSearchResult">
+		</transition>
+	</action-state>
+
 
 	<global-transitions>
 		<transition on-exception="java.lang.Exception"
