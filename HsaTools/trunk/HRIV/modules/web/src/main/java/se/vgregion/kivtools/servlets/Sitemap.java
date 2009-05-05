@@ -102,6 +102,7 @@ public class Sitemap extends HttpServlet {
 				.getBean("Search.SearchService"));
 		List<String> allUnitsHsaId;
 		ArrayList<Unit> allUnits = new ArrayList<Unit>();
+		siteMapInformationUnits.clear();
 		try {
 			allUnitsHsaId = sb.getAllUnitsHsaIdentity(true);
 			sb.setUnitsCacheComplete(false);
