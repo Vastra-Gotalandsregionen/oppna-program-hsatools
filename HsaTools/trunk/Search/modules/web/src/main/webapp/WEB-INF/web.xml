@@ -205,6 +205,16 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>Display sub units by hsaId</servlet-name>
+		<jsp-file>/displaySubUnitsByHsaId.jsp</jsp-file>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Display sub units by hsaId</servlet-name>
+		<url-pattern>/visaunderliggandeenheter</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>Display Unit by DN</servlet-name>
 		<jsp-file>/displayUnitByDN.jsp</jsp-file>
 		<load-on-startup>1</load-on-startup>

@@ -39,8 +39,8 @@ import se.vgregion.kivtools.search.svc.TimeMeasurement;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.Address;
 import se.vgregion.kivtools.search.svc.domain.values.AddressHelper;
-import se.vgregion.kivtools.search.util.geo.GeoUtil;
 import se.vgregion.kivtools.search.util.LogUtils;
+import se.vgregion.kivtools.search.util.geo.GeoUtil;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
@@ -273,6 +273,17 @@ public class SearchUnitFlowSupportBean implements Serializable {
 			e.printStackTrace();
 			return new ArrayList<Unit>();
 		}
+	}
+	
+	public SikSearchResultList<Unit> getSubUnits(String parentHsaId){
+		SikSearchResultList<Unit> subUnits = new SikSearchResultList<Unit>();
+		try {
+			Unit parentUnit = getSearchService().getUnitByHsaId(parentHsaId);
+			subUnits = getSearchService().getSubUnits(parentUnit, maxSearchResult);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return subUnits;
 	}
 
 	private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm)
