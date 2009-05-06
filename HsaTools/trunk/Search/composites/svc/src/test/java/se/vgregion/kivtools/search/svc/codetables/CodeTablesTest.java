@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -81,6 +82,7 @@ public class CodeTablesTest {
 
 	// Test with a real Ldap connection
 	@Test
+	@Ignore
 	public void testAgainstRealLDAPConnection() throws UnsupportedEncodingException, NoConnectionToServerException, SikInternalException, LDAPException {
 		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("services-config.xml");
 		LdapConnectionPool ldapConnectionPool = (LdapConnectionPool) applicationContext.getBean("Search.LdapConnectionPool");
