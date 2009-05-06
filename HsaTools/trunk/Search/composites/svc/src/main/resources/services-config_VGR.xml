@@ -44,7 +44,7 @@
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.PersonRepository">
 		<property name="ldapConnectionPool" ref="Search.LdapConnectionPool"></property>
 		<property name="codeTablesService" ref="Search.CodeTablesService"></property>
-		<property name="unitFkField"  value="vgrOrgRel"/>
+		<property name="unitFkField" value="vgrOrgRel" />
 	</bean>
 	<bean id="Search.UnitRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository">
@@ -83,8 +83,32 @@
 
 	<!--  Code table service. TODO: schedule -->
 	<bean id="Search.CodeTablesService"
-		class="se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl" init-method="init" depends-on="Search.LdapConnectionPool">
+		class="se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl"
+		init-method="init" depends-on="Search.LdapConnectionPool">
 		<property name="ldapConnectionPool" ref="Search.LdapConnectionPool" />
 	</bean>
 
+	<bean id="jobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="Search.CodeTablesService" />
+		<property name="targetMethod" value="init" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="jobDetail" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="simpleTrigger" />
+			</list>
+		</property>
+	</bean>
 </beans>
