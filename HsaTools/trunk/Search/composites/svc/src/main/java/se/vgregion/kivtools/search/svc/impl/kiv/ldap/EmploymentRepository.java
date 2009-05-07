@@ -21,10 +21,7 @@
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
 import java.io.UnsupportedEncodingException;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Formatter;
 
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
@@ -46,8 +43,7 @@ public class EmploymentRepository {
     private static final String CLASS_NAME = EmploymentRepository.class.getName();
     // Get LDAP entries that have hsaEndDate greater or equal current date and hsaStartDate less or equal current date.
     private static final String ALL_EMPLOYMENT_FILTER = "(&(objectclass=vgrAnstallning)(|(!(hsaEndDate=*))(hsaEndDate>=%1$s))(hsaStartDate<=%1$s))";
-    private static final SimpleDateFormat zuluTimeFormatter =  new SimpleDateFormat("yyyyMMddHHmmss'Z'");
-
+   
     private LdapConnectionPool  theConnectionPool = null;
 
     public void setLdapConnectionPool(LdapConnectionPool lp) {
@@ -113,7 +109,7 @@ public class EmploymentRepository {
     }
     /** create LDAP filter string with a condition that hsaEndDate must be greater or equal current date */
     private String generateLDAPFilter(){
-    	String zuluTime =  zuluTimeFormatter.format(new Date());
+    	String zuluTime =  Constants.zuluTimeFormatter.format(new Date());
     	String filterString =  String.format(ALL_EMPLOYMENT_FILTER, zuluTime);
     	return filterString;
     }

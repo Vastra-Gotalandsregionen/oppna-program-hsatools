@@ -25,6 +25,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.io.filefilter.OrFileFilter;
+import org.springframework.ldap.filter.AndFilter;
+import org.springframework.ldap.filter.EqualsFilter;
+import org.springframework.ldap.filter.OrFilter;
+
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
@@ -443,13 +448,11 @@ public class PersonRepository {
 	public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception  {
 		SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
 		// Generate or filter condition
-		StringBuilder sb = new StringBuilder("(|");
+		OrFilter filter = new OrFilter();
 		for (Unit unit : units) {
-			sb.append("(").append(unitFkField).append("=").append(unit.getHsaIdentity()).append(")");
+			filter.or(new EqualsFilter(unitFkField,unit.getHsaIdentity()));
 		}
-		sb.append(")");
-		
-		persons = searchPersons(sb.toString(), LDAPConnection.SCOPE_ONE, maxResult);
+		persons = searchPersons(filter.encode(), LDAPConnection.SCOPE_ONE, maxResult);
 		return persons;
 	}
 }

@@ -52,7 +52,7 @@ import com.novell.ldap.LDAPSearchResults;
  */
 public class UnitRepository {
 	static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
-	static final String KIV_SEARCH_BASE = "OU=Landstinget Halland,DC=lthallandhsa,DC=se";
+	public static final String KIV_SEARCH_BASE = "OU=Landstinget Halland,DC=lthallandhsa,DC=se";
 	//private static final String READ_BASE = "DC=lthallandhsa,DC=se";
 	static final String CLASS_NAME = UnitRepository.class.getName();
 	static final String LDAP_WILD_CARD = "*";

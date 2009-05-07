@@ -36,21 +36,20 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.novell.ldap.LDAPConnection;
-import com.novell.ldap.LDAPException;
-
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesTest;
 import se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl;
 import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
-import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock.SearchCondition;
+import se.vgregion.kivtools.search.svc.impl.mock.SearchCondition;
+
+import com.novell.ldap.LDAPConnection;
+import com.novell.ldap.LDAPException;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
@@ -250,7 +249,7 @@ public class TestUnitRepository {
 		subUnitLdapEntries.add(subUnitEntry1);
 		subUnitLdapEntries.add(subUnitEntry2);
 		
-		ldapConnectionMock.addLdapEntries(new LDAPConnectionMock().new SearchCondition(base,LDAPConnection.SCOPE_SUB,filter), subUnitLdapEntries);
+		ldapConnectionMock.addLdapEntries(new SearchCondition(base,LDAPConnection.SCOPE_SUB,filter), subUnitLdapEntries);
 	
 		return ldapConnectionMock;
 		
@@ -267,10 +266,5 @@ public class TestUnitRepository {
 		public synchronized LDAPConnection getConnection() throws LDAPException, UnsupportedEncodingException, NoConnectionToServerException, SikInternalException {
 			return connectionMock;
 		}
-	}
-
-	@Test
-	public void testGetFreshUnits() {
-		throw new NotImplementedException("TODO!");
 	}
 }
