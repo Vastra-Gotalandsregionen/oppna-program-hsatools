@@ -111,4 +111,10 @@
 			</list>
 		</property>
 	</bean>
+	
+	
+	<bean id="Push.Eniro" class="se.vgregion.kivtools.search.svc.push.impl.eniro.InformationPusherEniro">
+		<property name="unitRepository" ref="Search.UnitRepository" />
+	</bean>
+	
 </beans>
