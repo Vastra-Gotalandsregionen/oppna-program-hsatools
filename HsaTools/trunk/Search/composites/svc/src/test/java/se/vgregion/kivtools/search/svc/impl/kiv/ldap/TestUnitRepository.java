@@ -28,6 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -268,4 +269,8 @@ public class TestUnitRepository {
 		}
 	}
 
+	@Test
+	public void testGetFreshUnits() {
+		throw new NotImplementedException("TODO!");
+	}
 }
