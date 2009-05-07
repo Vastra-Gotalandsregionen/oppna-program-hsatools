@@ -17,6 +17,8 @@
  */
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
+import java.text.SimpleDateFormat;
+
 public class Constants {
     public static final String OBJECT_CLASS_UNIT_STANDARD 			= "organizationalUnit"; 
     public static final String OBJECT_CLASS_FUNCTION_STANDARD 		= "organizationalRole"; 
@@ -24,4 +26,5 @@ public class Constants {
     public static final String OBJECT_CLASS_FUNCTION_SPECIFIC 		= "vgrOrganizationalRole"; 
     public static final String LDAP_PROPERTY_UNIT_NAME 		= "ou";
     public static final String LDAP_PROPERTY_FUNCTION_NAME 	= "cn";
+    public static final SimpleDateFormat zuluTimeFormatter =  new SimpleDateFormat("yyyyMMddHHmmss'Z'");
 }

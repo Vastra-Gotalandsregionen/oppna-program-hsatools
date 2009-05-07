@@ -21,7 +21,6 @@
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,15 +31,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.novell.ldap.LDAPConnection;
-
-import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.PersonRepository;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LdapConnectionPoolMock;
+import se.vgregion.kivtools.search.svc.impl.mock.SearchCondition;
+
+import com.novell.ldap.LDAPConnection;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
@@ -146,7 +144,7 @@ public class TestPersonRepository {
     	String searchCondition = generateUnitSearchCondition(units);
     	LinkedList<LDAPEntryMock> ldapEntries = generatePersonLdapEntries(persons);
     	LDAPConnectionMock connectionMock = new LDAPConnectionMock();
-    	connectionMock.addLdapEntries(new LDAPConnectionMock().new SearchCondition(PersonRepository.KIV_SEARCH_BASE,LDAPConnection.SCOPE_ONE,searchCondition), ldapEntries);
+    	connectionMock.addLdapEntries(new SearchCondition(PersonRepository.KIV_SEARCH_BASE,LDAPConnection.SCOPE_ONE,searchCondition), ldapEntries);
     	repo.setLdapConnectionPool(new LdapConnectionPoolMock(connectionMock));
     	repo.setUnitFkField("vgrOrgRel");
     }

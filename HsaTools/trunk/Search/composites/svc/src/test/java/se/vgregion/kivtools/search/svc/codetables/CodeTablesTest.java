@@ -19,6 +19,7 @@ import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.LdapConnectionPool;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
+import se.vgregion.kivtools.search.svc.impl.mock.SearchCondition;
 
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPException;
@@ -54,7 +55,7 @@ public class CodeTablesTest {
 			LDAPEntryMock entryMock = new LDAPEntryMock();
 			entryMock.addAttribute("description", attributeListEntry.getValue());
 			ldapEntries.add(entryMock);
-			connectionMock.addLdapEntries(new LDAPConnectionMock().new SearchCondition(codeTablesServiceImpl.getCodeTablesBase(), LDAPConnection.SCOPE_SUB, "(cn=" +  CodeTableName.valueOf(attributeListEntry.getKey()) + ")"), ldapEntries);
+			connectionMock.addLdapEntries(new SearchCondition(codeTablesServiceImpl.getCodeTablesBase(), LDAPConnection.SCOPE_SUB, "(cn=" +  CodeTableName.valueOf(attributeListEntry.getKey()) + ")"), ldapEntries);
 		}
 		return connectionMock;
 	}
