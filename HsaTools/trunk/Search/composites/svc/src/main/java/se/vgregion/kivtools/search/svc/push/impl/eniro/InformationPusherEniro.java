@@ -175,10 +175,8 @@ public class InformationPusherEniro implements InformationPusher {
 		}
 		JAXBContext context = JAXBContext.newInstance(organization.getClass());
 		Marshaller marshaller = context.createMarshaller();
-		// marshaller.marshal(organization, new FileWriter(new
-		// File(destinationFolder, organization.getName() + ".xml")));
 		File organizationXmlFile = new File(destinationFolder, organization.getName() + ".xml");
-		marshaller.marshal(organization, organizationXmlFile);
+		marshaller.marshal(organization, new FileWriter(organizationXmlFile));
 		// Push (upload) XML to specified resource
 		sendXmlFile(organizationXmlFile);
 		return collectData.size();
@@ -194,6 +192,7 @@ public class InformationPusherEniro implements InformationPusher {
 		try {
 			Session session = jsch.getSession(ftpUser, ftpHost, 22);
 			session.setPassword(ftpPassword);
+			session.setConfig("StrictHostKeyChecking", "no");
 			session.connect();
 			ChannelSftp channelSftp = (ChannelSftp) session.openChannel("sftp");
 			channelSftp.connect();

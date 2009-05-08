@@ -85,7 +85,7 @@ public class UnitInformationPusherTest {
 	@Test
 	public void testDoPushInformation() throws Exception{
 		informationPusher.setDestinationFolder(new File("src/test"));
-		informationPusher.setFtpDestinationFolder("");
+		informationPusher.setFtpDestinationFolder("test/vgr.xml");
 		informationPusher.setFtpHost("");
 		informationPusher.setFtpUser("");
 		informationPusher.setFtpPassword("");
