@@ -73,6 +73,11 @@
 			<artifactId>quartz</artifactId>
 			<version>1.5.2</version>
 		</dependency>
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+			<version>0.1.41</version>
+		</dependency>
 
 		<!-- Google Maps Geocoding -->
 		<dependency>

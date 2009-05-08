@@ -2,6 +2,7 @@ package se.vgregion.kivtools.search.svc.push.impl.eniro;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,15 +22,49 @@ import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 import se.vgregion.kivtools.search.svc.push.InformationPusher;
+import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.ObjectFactory;
+import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Organization;
 
 import com.domainlanguage.time.TimePoint;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 
 public class InformationPusherEniro implements InformationPusher {
 
 	Log logger = LogFactory.getLog(this.getClass());
-	Date lastSynchedModifyDate;
-	UnitRepository unitRepository;
-	File lastSynchedModifyDateFile;
+	private Date lastSynchedModifyDate;
+	private UnitRepository unitRepository;
+	private File lastSynchedModifyDateFile;
+	private String country = "Sweden";
+	private String organizationName = "VGR";
+	private String organizationId = "vgr";
+	private File destinationFolder;
+	private String ftpUser;
+	private String ftpHost;
+	private String ftpPassword;
+	private String ftpDestinationFolder;
+
+	public void setFtpDestinationFolder(String ftpDestinationFolder) {
+		this.ftpDestinationFolder = ftpDestinationFolder;
+	}
+
+	public void setFtpUser(String ftpUser) {
+		this.ftpUser = ftpUser;
+	}
+
+	public void setFtpHost(String ftpHost) {
+		this.ftpHost = ftpHost;
+	}
+
+	public void setFtpPassword(String ftpPassword) {
+		this.ftpPassword = ftpPassword;
+	}
+
+	@Required
+	public void setDestinationFolder(File destinationFolder) {
+		this.destinationFolder = destinationFolder;
+	}
 
 	@Required
 	public void setLastSynchedModifyDateFile(File lastSynchedModifyDateFile) {
@@ -52,19 +90,17 @@ public class InformationPusherEniro implements InformationPusher {
 			// lastSynchDate is unknown, read from file
 			try {
 				if (lastSynchedModifyDateFile.exists()) {
-					String lastSynchedModifyString = null;
 					FileReader fileReader = new FileReader(lastSynchedModifyDateFile);
 					BufferedReader br = new BufferedReader(fileReader);
-					lastSynchedModifyString = br.readLine();
+					String lastSynchedModifyString = br.readLine();
 					if (lastSynchedModifyString != null) {
 						lastSynchedModifyDate = Constants.zuluTimeFormatter.parse(lastSynchedModifyString);
-					} else {
-						lastSynchedModifyDate = Constants.zuluTimeFormatter.parse("1970-01-01");
 					}
 				}
 			} catch (Exception e) {
-				e.getStackTrace();
+				logger.error(e);
 			} finally {
+				// Set default start synch date if read from file failed
 				if (lastSynchedModifyDate == null) {
 					Calendar calendar = Calendar.getInstance();
 					calendar.set(1970, Calendar.JANUARY, 1);
@@ -83,7 +119,6 @@ public class InformationPusherEniro implements InformationPusher {
 		} catch (IOException e) {
 			logger.error(e);
 		}
-
 	}
 
 	/**
@@ -122,15 +157,52 @@ public class InformationPusherEniro implements InformationPusher {
 		return freshUnits;
 	}
 
+	/**
+	 * Generate xml file with newly updated units
+	 */
 	public int doPushInformation() throws Exception {
 		List<Unit> collectData = collectData();
-		
-		// Transform units to XML representation
-		
-		
+		ObjectFactory objectFactory = new ObjectFactory();
+		Organization organization = objectFactory.createOrganization();
+		organization.setCountry(country);
+		organization.setId(organizationId);
+		organization.setName(organizationName);
+		List<se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit> organizationbUnits = organization.getUnit();
+		for (Unit unit : collectData) {
+			se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit jaxbUnit = objectFactory.createUnit();
+			fillJaxbUnit(unit, jaxbUnit);
+			organizationbUnits.add(jaxbUnit);
+		}
+		JAXBContext context = JAXBContext.newInstance(organization.getClass());
+		Marshaller marshaller = context.createMarshaller();
+		// marshaller.marshal(organization, new FileWriter(new
+		// File(destinationFolder, organization.getName() + ".xml")));
+		File organizationXmlFile = new File(destinationFolder, organization.getName() + ".xml");
+		marshaller.marshal(organization, organizationXmlFile);
 		// Push (upload) XML to specified resource
-		
+		sendXmlFile(organizationXmlFile);
 		return collectData.size();
 	}
 
+	private void fillJaxbUnit(Unit unit, se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit jaxbUnit) {
+		jaxbUnit.setId(unit.getHsaIdentity());
+		jaxbUnit.setName(unit.getName());
+	}
+
+	private void sendXmlFile(File organizationXmlFile) {
+		JSch jsch = new JSch();
+		try {
+			Session session = jsch.getSession(ftpUser, ftpHost, 22);
+			session.setPassword(ftpPassword);
+			session.connect();
+			ChannelSftp channelSftp = (ChannelSftp) session.openChannel("sftp");
+			channelSftp.connect();
+			channelSftp.put(new FileInputStream(organizationXmlFile), ftpDestinationFolder);
+			channelSftp.disconnect();
+			session.disconnect();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 }
