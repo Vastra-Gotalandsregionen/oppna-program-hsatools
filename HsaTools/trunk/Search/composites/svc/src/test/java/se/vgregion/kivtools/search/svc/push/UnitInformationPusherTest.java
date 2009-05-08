@@ -6,6 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +23,7 @@ import se.vgregion.kivtools.search.svc.impl.mock.LdapConnectionPoolMock;
 import se.vgregion.kivtools.search.svc.impl.mock.SearchCondition;
 import se.vgregion.kivtools.search.svc.impl.mock.UnitLdapEntryMock;
 import se.vgregion.kivtools.search.svc.push.impl.eniro.InformationPusherEniro;
+import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Organization;
 
 import com.novell.ldap.LDAPConnection;
 
@@ -34,7 +39,6 @@ public class UnitInformationPusherTest {
 	@Before
 	public void setUp() {
 		testFile = new File("test.txt");
-		
 		UnitRepository unitRepository = new UnitRepository();
 		ldapConnection = new LDAPConnectionMock();
 		fillLDAPEntries(ldapConnection);
@@ -44,10 +48,14 @@ public class UnitInformationPusherTest {
 		informationPusher.setUnitRepository(unitRepository);
 		informationPusher.setLastSynchedModifyDateFile(testFile);
 	}
+	
+	@After
+	public void deleteTestFile(){
+		testFile.delete();
+	}
 
 	@Test
 	public void testCollectData() throws Exception {
-		testFile.delete();
 		List<Unit> unitInformations = informationPusher.collectData();
 		Assert.assertTrue("Array should contain 10 units", unitInformations.size() == 10);
 		fillLDAPEntries(ldapConnection);
@@ -63,14 +71,30 @@ public class UnitInformationPusherTest {
 
 	@Test
 	public void testUseLastSynchedModifyDateFile() throws Exception {
-		testFile.delete();
-		// First time we don't have last synched modify date information, should collect all (10) units (regarded as new).
+		// First time we don't have last synched modify date information, should
+		// collect all (10) units (regarded as new).
 		List<Unit> unitInformations = informationPusher.collectData();
 		Assert.assertTrue("Array should contain 10 units", unitInformations.size() == 10);
-		// When "resetting", last synched modify date information should be read from file and thus we will not find any new units.
+		// When "resetting", last synched modify date information should be read
+		// from file and thus we will not find any new units.
 		setUp();
 		unitInformations = informationPusher.collectData();
 		Assert.assertTrue("Array should contain 0 units", unitInformations.size() == 0);
+	}
+	
+	@Test
+	public void testDoPushInformation() throws Exception{
+		informationPusher.setDestinationFolder(new File("src/test"));
+		informationPusher.setFtpDestinationFolder("");
+		informationPusher.setFtpHost("");
+		informationPusher.setFtpUser("");
+		informationPusher.setFtpPassword("");
+		informationPusher.doPushInformation();
+		File generatedXml = new File("src/test/VGR.xml");
+		JAXBContext context = JAXBContext.newInstance("se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb");
+		Unmarshaller unmarshaller =  context.createUnmarshaller();
+		Organization organization = (Organization) unmarshaller.unmarshal(generatedXml);
+		Assert.assertTrue("Organization should contain 10 units", organization.getUnit().size() == 10);
 	}
 
 	private static void fillLDAPEntries(LDAPConnectionMock ldapConnection) {
@@ -92,7 +116,7 @@ public class UnitInformationPusherTest {
 	private void addNewUnitToLdap(Map<SearchCondition, LinkedList<LDAPEntryMock>> availableSearchEntries) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - 1);
-
+		// Add the new unit to the unit list for search all units in ldap
 		LinkedList<LDAPEntryMock> oldEntries = availableSearchEntries.get(FILTER_CONDITION_ALL_UNITS);
 		oldEntries.add(new UnitLdapEntryMock(unitname + 11, unitname + "hsaId" + 11, "vgrOrganizationalUnit", calendar.getTime(), calendar.getTime()));
 
