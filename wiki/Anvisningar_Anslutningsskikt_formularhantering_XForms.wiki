@@ -29,7 +29,42 @@ Orbeon består av följande delar:
   * Page Flow Controller (PFC)
   * XForms builder (Alpha)
 
-Vi använder bara XForms Engine delen eftersom resten inte är enligt XForms-standarden. 
+Vi använder bara XForms Engine delen eftersom resten inte är enligt XForms-standarden. Se beslut om använding nedan. 
+
+=== Alterantiva användningar ===
+
+Följande alterantiv har identifierats för användning av Orbeon: 
+  # Använda hela Orbeon-sviten, inkl XML pipelines och PFC.
+    * Innebär att man bygger hela ”applikationer” med Orbeon, inkl flödeslogik etc.
+    * Applikationerna deployas ihop med/under orbeon.war.
+    * Fördelar: 
+      * De flesta exemplen/dokumentationen från Orbeon bygger på detta.
+    * Nackdelar: 
+      * Inlåsning till Orbeon. 
+      * Oklarhet kring när detta resp. RAs övriga teknikstack skall användas? 
+  # Integration med Java/RA där endast Orbeon XForms Engine används.
+    * Fördelar: 
+      * Vi kan byta ut Orbeon mot alt impl.
+      * Naturlig uppdelning mellan RA och Orbeon. 
+    * Nackdelar: 
+      * Många av Orbeons exempel och stora delar av dokumentationen blir irrelevanta. 
+      * Inga exempel/dok hur man åstakommer detta för portlets
+    * Kommentar: Orbeon är relativt monolitisk: Det är inte dokumenterat om/hur Orbeons Xforms Engine kan brytas ut och deployas för sig. Vi måste därmed lösa det med guidelines/restriktioner inom RA.
+
+För att undvika inlåsning vid Orbeon skall alternativ 2 väljas. 
+
+För alternativ två finns i sin tur två alternativa vägar:
+  # Separat deployment
+    * Orbeon.war och myWebApp.war deployas sida vid sida.
+    * Egenutvecklade XForms-formulär ligger i myWebApp, t ex under en specifik folder.
+    * Ett servletfilter används för att redirecta/forwarda requests rörande dessa sidor till orbeon.
+      * För att detta skall vara tillåtet måste ”crossContext” slås på.
+    * MyWebApp behöver ha en jar-fil från Orbeon under web-inf/lib.
+  # Integrerad deployment
+    * Orbeon och myWebApp slås ihop i en war-fil. 
+    * Formulären deployas i denna war-fil.
+
+Här har vi valt alternativ 1, separat deployment, eftersom det är vad som rekommenderas av Orbeon. Not: för portlets finns inte detta alternativ i dagsläget utan man måste ha en kombinerad deployment. 
 
 == Alternativa implementationer == 
 Förutom Orbeon har implementationen [http://chiba.sourceforge.net/ Chiba] utvärderats. Orbeon har valts främst av följande två anledningar: 
