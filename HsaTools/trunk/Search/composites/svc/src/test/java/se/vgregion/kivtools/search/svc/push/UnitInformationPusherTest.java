@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
+import org.easymock.classextension.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,6 +26,10 @@ import se.vgregion.kivtools.search.svc.impl.mock.UnitLdapEntryMock;
 import se.vgregion.kivtools.search.svc.push.impl.eniro.InformationPusherEniro;
 import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Organization;
 
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
 import com.novell.ldap.LDAPConnection;
 
 public class UnitInformationPusherTest {
@@ -35,6 +40,9 @@ public class UnitInformationPusherTest {
 	private static LDAPConnectionMock ldapConnection;
 	private static String unitname = "unitName";
 	private static File testFile;
+	private String ftpHost = "";
+	private String ftpUser = "";
+	private String ftpPassword = "";
 
 	@Before
 	public void setUp() {
@@ -45,8 +53,34 @@ public class UnitInformationPusherTest {
 		unitRepository.setLdapConnectionPool(new LdapConnectionPoolMock(ldapConnection));
 		unitRepository.setCodeTablesService(new CodeTablesServiceImpl());
 		informationPusher = new InformationPusherEniro();
+		
+		JSch jschMock = createEasymockObjects();
+		informationPusher.setJsch(jschMock);
 		informationPusher.setUnitRepository(unitRepository);
 		informationPusher.setLastSynchedModifyDateFile(testFile);
+		informationPusher.setDestinationFolder(new File("src/test"));
+		informationPusher.setFtpDestinationFolder("test/vgr.xml");
+		informationPusher.setFtpHost(ftpHost);
+		informationPusher.setFtpUser(ftpUser);
+		informationPusher.setFtpPassword(ftpPassword);
+	}
+
+	private JSch createEasymockObjects() {
+		JSch jschMock = EasyMock.createMock(JSch.class);
+		Session sessionMock = EasyMock.createMock(Session.class);
+		ChannelSftp channelSftpMock = EasyMock.createMock(ChannelSftp.class);
+		try {
+			EasyMock.expect(jschMock.getSession(ftpUser, ftpHost,22)).andReturn(sessionMock);
+			sessionMock.setPassword(ftpPassword);
+			sessionMock.setConfig("StrictHostKeyChecking", "no");
+			sessionMock.connect();
+			sessionMock.disconnect();
+			EasyMock.expect(sessionMock.openChannel("sftp")).andReturn(channelSftpMock);
+			EasyMock.replay(jschMock,sessionMock);
+		} catch (JSchException e) {
+			e.printStackTrace();
+		}
+		return jschMock;
 	}
 	
 	@After
@@ -55,16 +89,22 @@ public class UnitInformationPusherTest {
 	}
 
 	@Test
-	public void testCollectData() throws Exception {
-		List<Unit> unitInformations = informationPusher.collectData();
+	public void testIncrementalSynchronizaton() throws Exception {
+		List<Unit> unitInformations = informationPusher.doPushInformation();
 		Assert.assertTrue("Array should contain 10 units", unitInformations.size() == 10);
 		fillLDAPEntries(ldapConnection);
-		unitInformations = informationPusher.collectData();
+		informationPusher.setJsch(createEasymockObjects());
+		unitInformations = informationPusher.doPushInformation();
 		Assert.assertTrue("Array should contain 0 units", unitInformations.size() == 0);
 		fillLDAPEntries(ldapConnection);
 		Map<SearchCondition, LinkedList<LDAPEntryMock>> availableSearchEntries = ldapConnection.getAvailableSearchEntries();
 		addNewUnitToLdap(availableSearchEntries);
-		unitInformations = informationPusher.collectData();
+		
+		// Reset date in file to the day before yesterday since we want to find the "new" unit.
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - 2);
+		informationPusher.setJsch(createEasymockObjects());
+		unitInformations = informationPusher.doPushInformation();
 		Assert.assertTrue("Array should contain 1 units", unitInformations.size() == 1);
 
 	}
@@ -73,22 +113,19 @@ public class UnitInformationPusherTest {
 	public void testUseLastSynchedModifyDateFile() throws Exception {
 		// First time we don't have last synched modify date information, should
 		// collect all (10) units (regarded as new).
-		List<Unit> unitInformations = informationPusher.collectData();
+		List<Unit> unitInformations = informationPusher.doPushInformation();
 		Assert.assertTrue("Array should contain 10 units", unitInformations.size() == 10);
+		//createDateInTestFile(new Date());
 		// When "resetting", last synched modify date information should be read
 		// from file and thus we will not find any new units.
 		setUp();
-		unitInformations = informationPusher.collectData();
+		unitInformations = informationPusher.doPushInformation();
 		Assert.assertTrue("Array should contain 0 units", unitInformations.size() == 0);
 	}
 	
 	@Test
 	public void testDoPushInformation() throws Exception{
-		informationPusher.setDestinationFolder(new File("src/test"));
-		informationPusher.setFtpDestinationFolder("test/vgr.xml");
-		informationPusher.setFtpHost("");
-		informationPusher.setFtpUser("");
-		informationPusher.setFtpPassword("");
+		
 		informationPusher.doPushInformation();
 		File generatedXml = new File("src/test/VGR.xml");
 		JAXBContext context = JAXBContext.newInstance("se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb");
@@ -131,5 +168,4 @@ public class UnitInformationPusherTest {
 		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), (calendar.get(Calendar.DAY_OF_MONTH) - (i + 1) * 2), 00, 00, 00);
 		return calendar;
 	}
-
 }
