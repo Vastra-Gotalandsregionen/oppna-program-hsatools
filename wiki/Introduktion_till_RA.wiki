@@ -92,14 +92,13 @@ Följande wikisidor och dokument finns inom referensarkitekturen:
         * [Anvisningar_Utvecklingsmiljo Uppsättning av utvecklingsmiljön] 
         * [Anvisningar_Kallkodstruktur Referensarkitekturens källkodsstruktur]
         * [Anvisningar_Beroenden_Mellan_Komponenter Beroenden mellan verksamhetskomponenter]
-        * [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc 
-Anvisningar_Anslutningsskikt_Webb.doc]
-        * [http://code.google.com/p/oppna-program/wiki/Anvisningar_Anslutningsskikt_formularhantering_XForms Anvisningar för Anslutningsskikt formularhantering med XForms]
+        * [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc Anvisningar_Anslutningsskikt_Webb.doc]
+        * [http://code.google.com/p/oppna-program/wiki/Anvisningar_Anslutningsskikt_formularhantering_XForms Anvisningar för anslutningsskikt XForms]
         * [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Portlet.doc Anvisningar_Anslutningsskikt_Portlet.doc]
         * [Anvisningar_Anslutningsskikt_WebServices Anvisningar för anslutningsskikt webbservices]
         * [Anvisningar_Verksamhetsskikt Anvisningar för verksamhetsskiktet]
         * [Anvisningar_Resursskikt Anvisningar för resursskiktet]
-        *  [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc] - Information om kontinuerlig integration (informationen är inaktuell och behöver uppdateras efter open sourcening).
+        * [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Kontinuerlig_Integration.doc   Anvisningar_Kontinuerlig_Integration.doc] - Information om kontinuerlig integration (informationen är inaktuell och behöver uppdateras efter open sourcening).
   * Övriga presentationer
     * [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Presentationer/Tekniskt_ramverk_portal_VGR.ppt Tekniskt_ramverk_portal_VGR.ppt] - Presentation som hölls för Göteborgs stad Intraservice 2008  (ouppdaterad - se hellre [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt]).
     * [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Presentationer/Teknisk_presentation_Callista_Developer_Conference_2008.ppt Teknisk_presentation_Callista_Developer_Conference_2008.ppt] - Teknisk presentation på Callista Developer Conference 2008. Beskriver den tekniska arkitekturen inkl dess motivationsfaktorer (ouppdaterad - se hellre [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Introduktion/Referensarkitektur_oversikt.ppt Referensarkitektur_översikt.ppt]).
