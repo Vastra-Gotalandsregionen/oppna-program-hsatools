@@ -34,5 +34,5 @@ Vi använder bara XForms Engine delen eftersom resten inte är enligt XForms-sta
 == Alternativa implementationer == 
 Förutom Orbeon har implementationen [http://chiba.sourceforge.net/ Chiba] utvärderats. Orbeon har valts främst av följande två anledningar: 
 
-  * Bättre stöd för deploy i portal-miljö (dock ej fungerande på WebSphere Portal 6.1 i dagsläget)
-  * Orbeon är ett mer aktivt/levande open source-projekt Bättre dokumentation samt mer ett mer aktivt open source-projekt än Chiba. 
+  * Bättre stöd för deploy i portal-miljö (dock ej fungerande på !WebSphere Portal 6.1 i dagsläget)
+  * Orbeon uppfattas som "mer levande" open source-projekt" inkl bättre dokumentation, möjligheter till support mm. 
