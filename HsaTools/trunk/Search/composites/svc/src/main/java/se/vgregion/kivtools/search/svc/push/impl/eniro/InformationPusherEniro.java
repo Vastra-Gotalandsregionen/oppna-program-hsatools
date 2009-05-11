@@ -44,6 +44,11 @@ public class InformationPusherEniro implements InformationPusher {
 	private String ftpHost;
 	private String ftpPassword;
 	private String ftpDestinationFolder;
+	private JSch jsch;
+	
+	public void setJsch(JSch jsch) {
+		this.jsch = jsch;
+	}
 
 	public void setFtpDestinationFolder(String ftpDestinationFolder) {
 		this.ftpDestinationFolder = ftpDestinationFolder;
@@ -79,7 +84,7 @@ public class InformationPusherEniro implements InformationPusher {
 		this.unitRepository = unitRepository;
 	}
 
-	public List<Unit> collectData() throws Exception {
+	private List<Unit> collectData() throws Exception {
 		lastSynchedModifyDate = getLastSynchDate();
 		List<Unit> freshUnits = getFreshUnits();
 		return freshUnits;
@@ -153,14 +158,13 @@ public class InformationPusherEniro implements InformationPusher {
 			}
 		}
 		lastSynchedModifyDate = temporaryLatestModifiedTimepoint.asJavaUtilDate();
-		saveLastSynchedModifyDate();
 		return freshUnits;
 	}
 
 	/**
 	 * Generate xml file with newly updated units
 	 */
-	public int doPushInformation() throws Exception {
+	public List<Unit> doPushInformation() throws Exception {
 		List<Unit> collectData = collectData();
 		ObjectFactory objectFactory = new ObjectFactory();
 		Organization organization = objectFactory.createOrganization();
@@ -179,7 +183,7 @@ public class InformationPusherEniro implements InformationPusher {
 		marshaller.marshal(organization, new FileWriter(organizationXmlFile));
 		// Push (upload) XML to specified resource
 		sendXmlFile(organizationXmlFile);
-		return collectData.size();
+		return collectData;
 	}
 
 	private void fillJaxbUnit(Unit unit, se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit jaxbUnit) {
@@ -188,7 +192,6 @@ public class InformationPusherEniro implements InformationPusher {
 	}
 
 	private void sendXmlFile(File organizationXmlFile) {
-		JSch jsch = new JSch();
 		try {
 			Session session = jsch.getSession(ftpUser, ftpHost, 22);
 			session.setPassword(ftpPassword);
@@ -199,9 +202,12 @@ public class InformationPusherEniro implements InformationPusher {
 			channelSftp.put(new FileInputStream(organizationXmlFile), ftpDestinationFolder);
 			channelSftp.disconnect();
 			session.disconnect();
+			// Save last synch date to file after successful commit of xml file to ftp 
+			saveLastSynchedModifyDate();
 		} catch (Exception e) {
-			e.printStackTrace();
+			// Commit to ftp was unsuccessful. Reset the lastSynchedModifyDate
+			lastSynchedModifyDate = null;
+			logger.error(e);
 		}
-
 	}
 }
