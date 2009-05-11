@@ -29,5 +29,4 @@ Orbeon består av följande delar:
   * Page Flow Controller (PFC)
   * XForms builder (Alpha)
 
-Vi använder bara XForms Engine delen eftersom resten inte är enligt XForms-standarden. Se mer om bakgrunden till beslutet om valet av Orbeon sam hur den skall användas [ här]. 
-
+Vi använder bara XForms Engine delen eftersom resten inte är enligt XForms-standarden. Se mer om bakgrunden till beslutet om valet av Orbeon sam hur den skall användas i presentationen [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Presentationer/XForms-utredning.pptx XForms-utredning.pptx]. 
