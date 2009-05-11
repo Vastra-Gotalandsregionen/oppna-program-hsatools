@@ -92,7 +92,9 @@ Följande wikisidor och dokument finns inom referensarkitekturen:
         * [Anvisningar_Utvecklingsmiljo Uppsättning av utvecklingsmiljön] 
         * [Anvisningar_Kallkodstruktur Referensarkitekturens källkodsstruktur]
         * [Anvisningar_Beroenden_Mellan_Komponenter Beroenden mellan verksamhetskomponenter]
-        * [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc Anvisningar_Anslutningsskikt_Webb.doc]
+        * [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc 
+Anvisningar_Anslutningsskikt_Webb.doc]
+        * [http://code.google.com/p/oppna-program/wiki/Anvisningar_Anslutningsskikt_formularhantering_XForms Anvisningar för Anslutningsskikt formularhantering med XForms]
         * [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Portlet.doc Anvisningar_Anslutningsskikt_Portlet.doc]
         * [Anvisningar_Anslutningsskikt_WebServices Anvisningar för anslutningsskikt webbservices]
         * [Anvisningar_Verksamhetsskikt Anvisningar för verksamhetsskiktet]
