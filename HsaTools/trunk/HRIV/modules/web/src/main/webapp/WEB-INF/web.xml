@@ -34,7 +34,8 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value> classpath*:/services-config.xml
-			/WEB-INF/webflow-config.xml </param-value>
+			/WEB-INF/webflow-config.xml 
+			/WEB-INF/spring-ws-servlet.xml</param-value>
 	</context-param>
 	<context-param>
 		<param-name>facelets.REFRESH_PERIOD</param-name>
@@ -272,6 +273,14 @@
 	<servlet-mapping>
 		<servlet-name>Sitemap</servlet-name>
 		<url-pattern>/Sitemap</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>spring-ws</servlet-name>
+		<servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring-ws</servlet-name>
+		<url-pattern>/ws/*</url-pattern>
 	</servlet-mapping>
 	<error-page>
 		<exception-type>javax.servlet.ServletException</exception-type>
