@@ -85,6 +85,7 @@ Den tekniska arkitekturen definierar detaljerade anvisningar inom en rad område
 
 *Anvisningar för utveckling av system och verksamhetskomponenter (Java EE):*
   * [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Webb.doc Anvisningar_Anslutningsskikt_Webb.doc] - Beskriver hur man utvecklar anslutningsskiktet som en webbapplikation, inkl den valda teknikstacken för Java EE-webblagret. 
+  * [Anvisningar_Anslutningsskikt_formularhantering_XForms] - Beskriver hur man utvecklar formulär mha standarden XForms. 
   * [http://oppna-program.googlecode.com/svn/reference-architecture/trunk/docs/Teknisk_arkitektur/Systemutveckling/JavaEE/Anvisningar_Anslutningsskikt_Portlet.doc Anvisningar_Anslutningsskikt_Portlet.doc] - Beskriver hur man utvecklar sitt anslutningsskikt mha portlets. 
  * [Anvisningar_Anslutningsskikt_WebServices] - Beskriver hur man utvecklar sitt anslutningsskikt mha webservices i Java,  gäller både för integrationstjänster och komponenttjänster (i de fall komponenttjänsterna är implementerade som web services). 
  * [Anvisningar_Verksamhetsskikt] - Beskriver hur man utvecklar sitt verksamhetsskikt i Java.
