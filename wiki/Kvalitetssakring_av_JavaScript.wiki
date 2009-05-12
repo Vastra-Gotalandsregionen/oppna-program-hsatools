@@ -14,7 +14,7 @@ Att validera !JavaScript är inte lika rakt på sak som att validera HTML eller 
 
 Därför innebär kvalitetssäkring av !JavaScript ett arbete i flera steg, varav funktionstester i de webbläsare som finns specificerade i dokumentet ”Krav på webbläsare” är det viktigaste.
 
-I detta och andra kravdokument används den mer utbredda termen !JavaScript i stället för det standardiserade ECMAScript (referens 1). !JavaScript är kompatibelt med ECMAScript men tillhandahåller utökad funktionalitet. För en detaljerad beskrivning av hur !JavaScript och ECMAScript förhåller sig till varandra, se !JavaScript and the ECMAScript Specification (referens 2) på Mozilla Developer Center.
+I detta och andra kravdokument används den mer utbredda termen !JavaScript i stället för det standardiserade [http://www.ecma-international.org/publications/standards/Ecma-262.htm ECMAScript] (referens 1). !JavaScript är kompatibelt med ECMAScript men tillhandahåller utökad funktionalitet. För en detaljerad beskrivning av hur !JavaScript och ECMAScript förhåller sig till varandra, se [http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Guide:JavaScript_Overview#JavaScript_and_the_ECMAScript_Specification !JavaScript and the ECMAScript Specification] (referens 2) på Mozilla Developer Center.
 
 Notera även att grundläggande funktionalitet inte får vara beroende av att !JavaScript är aktiverat i användarens webbläsare. Därför är en del av funktionstestningen att avaktivera !JavaScript och därefter kontrollera att det fortfarande går att använda tjänsten.
 
@@ -52,7 +52,6 @@ Om fel rapporteras, se avsnittet ”Åtgärdande av fel”.
 Om något av verktygen rapporterar att !JavaScriptkoden innehåller fel eller potentiella fel, eller om exekveringsfel uppstår i någon av de aktuella webbläsarna, skall det åtgärdas. Eftersom fel kan ge upphov till följdfel är det lämpligt att börja med att åtgärda det första felet för att därefter testa igen. Proceduren upprepas tills inga fel återstår.
 
 ==Referenser==
-
   # ECMAScript: http://www.ecma-international.org/publications/standards/Ecma-262.htm
   # !JavaScript and the ECMAScript Specification: http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Guide:JavaScript_Overview#JavaScript_and_the_ECMAScript_Specification
   # JSLint: http://www.jslint.com/
