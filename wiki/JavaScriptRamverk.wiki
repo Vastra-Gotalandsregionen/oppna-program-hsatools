@@ -1,0 +1,37 @@
+#summary Detta dokument innehåller riktlinjer för användning av bibliotek eller ramverk för JavaScript.
+
+=Inledning=
+
+_Dokumentets målgrupp består i första hand av utvecklare som har behov av att använda JavaScript för att förfina en webblösnings gränssnitt. Goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts._
+
+=Bibliotek för JavaScript=
+
+För att underlätta och snabba upp mer avancerad JavaScriptprogrammering har de senaste åren ett stort antal så kallade bibliotek eller ramverk för JavaScript kommit ut. De allra flesta är open source och kostnadsfria för vem som helst att använda.
+
+JavaScriptbibliotek har både för- och nackdelar. Fördelarna är att de snabbar upp rutinmässiga delar av utvecklingen och hjälper till att hantera skillnader i hur olika webbläsare hanterar delar av JavaScriptspråket. Nackdelarna är bland annat att de abstraherar delar av koden (vilket kan göra det svårare att felsöka), att de kan locka till överanvändning (vilket kan leda till svåranvända och långsamma webblösningar) och att de kan leda till att JavaScriptkod skrivs med en syntax som inte är särskilt lik normal JavaScript (vilket gör det svårare för utvecklare som inte är bekanta med ett visst bibliotek att sätta sig in i någon annans kod).
+
+Trots de nackdelar som finns är fördelarna så stora att VGR valt att rekommendera att ett JavaScriptbibliotek används där det är befogat, det vill säga där det snabbar upp och förenklar utvecklingen av webblösningar som kan göras mer användbara med hjälp av JavaScript.
+
+==Yahoo! User Interface Library (YUI)==
+
+Efter att ha utvärderat ett antal av de JavaScriptbibliotek som finns att välja på är rekommendationen att Yahoo! User Interface Library (YUI) [1] ska användas. Anledningarna är flera:
+
+•	Det är ett omfattande bibliotek som täcker de flesta behov som kan tänkas uppstå
+•	Det har ett brett stöd bland utvecklare
+•	Den bakomliggande filosofin är att JavaScript ska användas enligt progressive enhancement
+•	Yahoo har en uttalad och modern strategi för webbläsarstöd
+•	JavaScript som använder YUI ser fortfarande ut som JavaScript
+
+På YUIs webbplats finns biblioteket att ladda ner i en rad olika konfigurationer. Där finns även API-dokumentation, demos, blogginlägg och länkar till exempel på hur andra utvecklare har använt YUI.
+
+==Alternativa JavaScriptbibliotek==
+
+För att underlätta och standardisera utveckling och felsökning rekommenderas utvecklare att använda YUI. Om speciella fall uppstår som kräver funktionalitet som inte finns i YUI kan det vara relevant att välja ett annat bibliotek. I sådana fall bör dock det valet motiveras sakligt och inte vara baserat på personligt godtycke.
+
+=Progressive enhancement=
+
+Precis som i all gränssnittsutveckling inom VGR gäller att JavaScriptbibliotek ska användas enligt principen för progressive enhancement, det vill säga att man först bygger en stabil grund som fungerar utan JavaScript, för att sedan använda JavaScript för att förfina gränssnittet och göra det enklare och snabbare att använda.
+
+=Referenser=
+
+  # YUI: http://developer.yahoo.com/yui/
