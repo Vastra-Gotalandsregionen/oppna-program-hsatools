@@ -14,13 +14,13 @@ Trots de nackdelar som finns är fördelarna så stora att VGR valt att rekommen
 
 ==Yahoo! User Interface Library (YUI)==
 
-Efter att ha utvärderat ett antal av de JavaScriptbibliotek som finns att välja på är rekommendationen att Yahoo! User Interface Library (YUI) [1] ska användas. Anledningarna är flera:
+Efter att ha utvärderat ett antal av de JavaScriptbibliotek som finns att välja på är rekommendationen att [http://developer.yahoo.com/yui/ Yahoo! User Interface Library (YUI)] [1] ska användas. Anledningarna är flera:
 
-•	Det är ett omfattande bibliotek som täcker de flesta behov som kan tänkas uppstå
-•	Det har ett brett stöd bland utvecklare
-•	Den bakomliggande filosofin är att JavaScript ska användas enligt progressive enhancement
-•	Yahoo har en uttalad och modern strategi för webbläsarstöd
-•	JavaScript som använder YUI ser fortfarande ut som JavaScript
+  * Det är ett omfattande bibliotek som täcker de flesta behov som kan tänkas uppstå
+  * Det har ett brett stöd bland utvecklare
+  * Den bakomliggande filosofin är att JavaScript ska användas enligt progressive enhancement
+  * Yahoo har en uttalad och modern strategi för webbläsarstöd
+  * JavaScript som använder YUI ser fortfarande ut som JavaScript
 
 På YUIs webbplats finns biblioteket att ladda ner i en rad olika konfigurationer. Där finns även API-dokumentation, demos, blogginlägg och länkar till exempel på hur andra utvecklare har använt YUI.
 
