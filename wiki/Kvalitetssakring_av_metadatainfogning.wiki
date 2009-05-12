@@ -28,22 +28,27 @@ Alla webblösningar inom Västra Götalandsregionen ska använda sig av Dublin C
 
 Följande element är obligatoriska:
 
-||Element||Delelement||Ansvarig||
-||title (titel)||||Redaktör||
-
-creator (upphovsman)		System + redaktör
-subject (ämne)		Redaktör
-description (beskrivning)		Redaktör
-publisher (utgivare)		System
-contributor (medarbetare)		Redaktör
-date (datum)	created (skapad)	System
-	issued (utgiven)	System
-	modified (modifierad)	System
-type (resurstyp)		System
-format (format)		System
-identifier (identifikator)		System
-language (språk)		System + redaktör
-rights (rättigheter)		System + redaktör
+<table>
+<thead>
+<tr><th>Element</th><th>Delelement</th><th>Ansvarig</th></tr>
+</thead>
+<tbody>
+<tr><td>title (titel)</td><td></td><td>Redaktör</td></tr>
+<tr><td>creator (upphovsman)</td><td></td><td>System + redaktör</td></tr>
+<tr><td>subject (ämne)</td><td></td><td>Redaktör</td></tr>
+<tr><td>description (beskrivning)</td><td></td><td>Redaktör</td></tr>
+<tr><td>publisher (utgivare)</td><td></td><td>System</td></tr>
+<tr><td>contributor (medarbetare)</td><td></td><td>Redaktör</td></tr>
+<tr><td>date (datum)</td><td>created (skapad)</td><td>System</td></tr>
+<tr><td></td><td>issued (utgiven)</td><td>System</td></tr>
+<tr><td></td><td>modified (modifierad)</td><td>System</td></tr>
+<tr><td>type (resurstyp)</td><td></td><td>System</td></tr>
+<tr><td>format (format)</td><td></td><td>System</td></tr>
+<tr><td>identifier (identifikator)</td><td></td><td>System</td></tr>
+<tr><td>language (språk)</td><td></td><td>System + redaktör</td></tr>
+<tr><td>rights (rättigheter)</td><td></td><td>System + redaktör</td></tr>
+</tbody>
+</table>
 
 Utöver dessa kan även andra element och delelement från Dublin Core användas vid behov.
 För en mer utförlig beskrivning av vad respektive element och delelement kan innehålla, se Dublin Core Metadata Element Set, Version 1.1 [4].
