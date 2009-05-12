@@ -75,6 +75,6 @@ Skönhetsfel som innebär försämrad läsbarhet eller tillgänglighet skall åt
   # CSS 2.1: http://www.w3.org/TR/CSS21/
   # DOM Level 2: http://www.w3.org/DOM/DOMTR#dom2
   # Gecko: http://en.wikipedia.org/wiki/Gecko_(layout_engine)
-  # WebCore: http://en.wikipedia.org/wiki/WebCore
+  # !WebCore: http://en.wikipedia.org/wiki/WebCore
   # Presto: http://en.wikipedia.org/wiki/Presto_%28layout_engine%29
   # Trident: http://en.wikipedia.org/wiki/Trident_%28layout_engine%29
