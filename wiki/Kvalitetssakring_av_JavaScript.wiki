@@ -1,6 +1,6 @@
 #summary Riktlinjer för kvalitetssäkring av JavaScriptkod som exekveras i användarens webbläsare.
 
-=Kvalitetssäkring av JavaScript/ECMAScript=
+=Kvalitetssäkring av !JavaScript/ECMAScript=
 
 ==Sammanfattning==
 _Detta dokument innehåller riktlinjer för kvalitetssäkring av !JavaScriptkod som exekveras i användarens webbläsare._
