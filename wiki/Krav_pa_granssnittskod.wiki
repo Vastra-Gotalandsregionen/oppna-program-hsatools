@@ -1,0 +1,11 @@
+#summary Övergripande beskrivning av de krav som ställs på den gränssnittskod som används för webblösningar inom Västra Götalandsregionen.
+
+=Krav på gränssnittskod=
+
+==Sammanfattning==
+Detta dokument beskriver övergripande de krav som ställs på den gränssnittskod (HTML/XHTML, CSS, JavaScript/ECMAScript, RSS/XML) som används för webblösningar inom Västra Götalandsregionen. Detaljerade beskrivningar av hur respektive kodtyp valideras och kvalitetskontrolleras finns i separata dokument.
+
+Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts.
+
+==Uppmärkningskod (HTML/XHTML)==
+Den uppmärkningskod som används för att strukturera dokument och ge innehåll betydelse skall validera enligt vald standard (HTML 4.01 Strict eller XHTML 1.0 Strict). Hur valideringen går till beskrivs närmare i dokumentet ”Validering av uppmärkningskod”.
