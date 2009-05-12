@@ -1,4 +1,4 @@
-#summary Detta dokument innehåller riktlinjer för användning av bibliotek eller ramverk för !JavaScript.
+#summary Detta dokument innehåller riktlinjer för användning av bibliotek eller ramverk för JavaScript.
 
 =Bibliotek och ramverk för !JavaScript=
 
