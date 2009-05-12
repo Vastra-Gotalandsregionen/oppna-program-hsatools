@@ -1,4 +1,5 @@
 #summary Detta dokument innehåller riktlinjer för användning av bibliotek eller ramverk för JavaScript.
+#labels Project-RA
 
 =Bibliotek och ramverk för !JavaScript=
 
