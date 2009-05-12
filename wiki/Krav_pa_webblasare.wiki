@@ -14,9 +14,9 @@ Genom att separera all gränssnittskod i tre lager – struktur och innehåll, p
 
 För att uppnå full funktionalitet behöver en webbläsare ha fullgott stöd för följande:
 
-  * *Struktur och innehåll:* HTML 4.01 (referens 1)/XHTML 1.0 (referens 2)
-  * *Presentation:* CSS 2.1 (referens 3)
-  * *Beteende:* DOM Level 2 (referens 4)
+  * *Struktur och innehåll:* [http://www.w3.org/TR/html4/ HTML 4.01] (referens 1) och/eller [http://www.w3.org/TR/xhtml1/ XHTML 1.0] (referens 2)
+  * *Presentation:* [http://www.w3.org/TR/CSS21/ CSS 2.1] (referens 3)
+  * *Beteende:* [http://www.w3.org/DOM/DOMTR#dom2 DOM Level 2] (referens 4)
 
 Dock ska stöd för HTML 4.01/XHTML 1.0 vara tillräckligt för att kunna ta del av informationen och använda VGR:s webblösningar på en grundläggande nivå. Det finns alltså i det fallet inga krav på bibehållen presentation (CSS) eller kompletterande gränssnittsfunktionalitet (!JavaScript).
 
@@ -31,10 +31,10 @@ Det som kan sägas är vilka webbläsare som vid detta dokuments framtagande ans
 
 Man kan dela in webbläsare i olika familjer beroende på vilken renderingsmotor de använder. Följande familjer, med exempel på webbläsare, anses vara tillräckligt spridda och moderna för att de ska vara relevanta att testa i:
 
-  * Gecko (referens 5) (Firefox)
-  * !WebCore (referens 6) (Safari)
-  * Presto (referens 7) (Opera)
-  * Trident (referens 8) (Internet Explorer för Windows)
+  * [http://en.wikipedia.org/wiki/Gecko_(layout_engine) Gecko] (referens 5) (Firefox)
+  * [http://en.wikipedia.org/wiki/WebCore WebCore] (referens 6) (Safari)
+  * [http://en.wikipedia.org/wiki/Presto_%28layout_engine%29 Presto] (referens 7) (Opera)
+  * [http://en.wikipedia.org/wiki/Trident_%28layout_engine%29 Trident] (referens 8) (Internet Explorer för Windows)
 
 Med utgångspunkt i detta kan det med stor sannolikhet sägas att testning bör utföras i följande webbläsare från angiven version och senare:
 
