@@ -1,6 +1,6 @@
 #summary Detta dokument innehåller riktlinjer för användning av bibliotek eller ramverk för JavaScript.
 
-=Bibliotek för JavaScript=
+=Bibliotek och ramverk för JavaScript=
 
 ==Sammanfattning==
 _Detta dokument innehåller riktlinjer för användning av bibliotek eller ramverk för JavaScript. Dokumentets målgrupp är i första hand utvecklare som har behov av att använda JavaScript för att förfina en webblösnings gränssnitt. Goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts._
