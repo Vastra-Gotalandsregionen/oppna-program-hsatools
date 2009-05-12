@@ -32,7 +32,7 @@ Det som kan sägas är vilka webbläsare som vid detta dokuments framtagande ans
 Man kan dela in webbläsare i olika familjer beroende på vilken renderingsmotor de använder. Följande familjer, med exempel på webbläsare, anses vara tillräckligt spridda och moderna för att de ska vara relevanta att testa i:
 
   * Gecko (referens 5) (Firefox)
-  * WebCore (referens 6) (Safari)
+  * !WebCore (referens 6) (Safari)
   * Presto (referens 7) (Opera)
   * Trident (referens 8) (Internet Explorer för Windows)
 
