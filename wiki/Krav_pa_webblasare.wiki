@@ -2,10 +2,12 @@
 
 =Krav på webbläsare=
 
+==Sammanfattning==
 _Detta dokument innehåller riktlinjer för vilka krav som ställs på webbläsare för att de ska erhålla full funktionalitet och presentationskvalitet när de används med webblösningar inom Västra Götalandsregionen. Dokumentet innehåller även exempel på webbläsare som vid dokumentets framtagande lever upp till dessa krav och som därför ska ingå i aktiviteten ”Funktionstest med webbläsare”._
 
 _Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts._
 
+==Inledning==
 Utvecklingen av webbläsare går allt mer mot bättre stöd för de öppna standarder som W3C slagit fast, så kallade webbstandarder. Därför ska även all gränssnittsrelaterad kod använda sig av webbstandarder och undvika proprietära eller icke standardiserade element, attribut eller egenskaper.
 
 Genom att separera all gränssnittskod i tre lager – struktur och innehåll, presentation samt beteende – blir det möjligt att bibehålla en användbar och tillgänglig grundfunktionalitet även utan presentations- och/eller beteendelagren.
@@ -21,3 +23,58 @@ Dock ska stöd för HTML 4.01/XHTML 1.0 vara tillräckligt för att kunna ta del
 Ingen befintlig webbläsare har hundraprocentigt och helt felfritt stöd för någon av de angivna rekommendationerna. Därför måste vissa avvikelser accepteras och hanteras. Exempel på sådana avvikelser är det ofullständiga stödet för CSS 2.1 i Internet Explorer 7 och äldre ofullständiga stöd för CSS 2.1 och dess avsaknad av stöd för W3C:s eventhantering.
 
 Det är också viktigt att acceptera att slutanvändaren inte kommer att uppleva exakt samma sak i  olika webbläsare. Vissa skillnader i presentation är ofrånkomliga och helt i linje med webbens heterogenitet.
+
+==Aktuella webbläsare==
+Att namnge specifika webbläsare och versioner av dem är vanskligt i ett dokument av denna typ som ska kunna användas under en relativt lång tidsperiod. De allmänna kraven på vad webbläsare ska stödja samt en professionell bedömning kommer att behöva användas från fall till fall.
+
+Det som kan sägas är vilka webbläsare som vid detta dokuments framtagande anses ha tillräckligt bra stöd för webbstandarder för att uppnå full funktionalitet.
+
+Man kan dela in webbläsare i olika familjer beroende på vilken renderingsmotor de använder. Följande familjer, med exempel på webbläsare, anses vara tillräckligt spridda och moderna för att de ska vara relevanta att testa i:
+
+  * Gecko (referens 5) (Firefox)
+  * WebCore (referens 6) (Safari)
+  * Presto (referens 7) (Opera)
+  * Trident (referens 8) (Internet Explorer för Windows)
+
+Med utgångspunkt i detta kan det med stor sannolikhet sägas att testning bör utföras i följande webbläsare från angiven version och senare:
+
+  * Firefox 3.0
+  * Safari 3.0
+  * Opera 9.5
+  * Internet Explorer för Windows 6.0
+
+Godkända tester i dessa webbläsare innebär med stor sannolikhet att webblösningen fungerar tillfredsställande även i andra webbläsare inom dessa familjer.
+
+För äldre versioner av dessa webbläsare gäller generellt att de antingen visar gränssnittet med vissa skönhetsfel eller att de visar gränssnittet helt utan extern form, det vill säga enbart baserat på sina egna fördefinierade stilmallar.
+
+Nyare versioner av de nämnda webbläsarna, eller helt nya webbläsare som inte nämns i detta dokument, bör inte framkalla problem såvida inte deras stöd för webbstandarder försämras, vilket får anses som mindre troligt.
+
+Nedlagda webbläsare som Netscape 4 och Internet Explorer för Mac OS når inte upp till den nivå som krävs för full funktionalitet och fullgod presentation. Därför blir deras funktionalitet begränsad till den som uppnås med enbart HTML-lagret.
+
+==Tolkning av resultaten==
+Eventuella problem som uppstår vid testning i webbläsare kan delas in i två grupper – skönhetsfel och funktionsfel – där funktionsfel anses vara betydligt allvarligare.
+
+===Funktionsfel===
+Med funktionsfel avses problem som leder till att den som använder den aktuella webbläsaren inte på ett tillfredsställande sätt kan ta del av den information eller utföra de uppgifter som webblösningen tillhandahåller.
+
+===Skönhetsfel===
+Med skönhetsfel avses problem som leder till att webblösningens presentation i den aktuella webbläsaren inte är optimal.
+
+==Åtgärdande av fel==
+
+===Funktionsfel===
+Funktionsfel skall åtgärdas.
+
+===Skönhetsfel===
+Skönhetsfel som innebär försämrad läsbarhet eller tillgänglighet skall åtgärdas. Övriga skönhetsfel bör åtgärdas.
+
+==Referenser==
+
+  # HTML 4.01: http://www.w3.org/TR/html4/
+  # XHTML 1.0: http://www.w3.org/TR/xhtml1/
+  # CSS 2.1: http://www.w3.org/TR/CSS21/
+  # DOM Level 2: http://www.w3.org/DOM/DOMTR#dom2
+  # Gecko: http://en.wikipedia.org/wiki/Gecko_(layout_engine)
+  # WebCore: http://en.wikipedia.org/wiki/WebCore
+  # Presto: http://en.wikipedia.org/wiki/Presto_%28layout_engine%29
+  # Trident: http://en.wikipedia.org/wiki/Trident_%28layout_engine%29
