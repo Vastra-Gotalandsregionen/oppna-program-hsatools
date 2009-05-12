@@ -3,7 +3,7 @@
 =Krav på gränssnittskod=
 
 ==Sammanfattning==
-_Detta dokument beskriver övergripande de krav som ställs på den gränssnittskod (HTML/XHTML, CSS, JavaScript/ECMAScript, RSS/XML) som används för webblösningar inom Västra Götalandsregionen. Detaljerade beskrivningar av hur respektive kodtyp valideras och kvalitetskontrolleras finns i separata dokument._
+_Detta dokument beskriver övergripande de krav som ställs på den gränssnittskod (HTML/XHTML, CSS, !JavaScript/ECMAScript, RSS/XML) som används för webblösningar inom Västra Götalandsregionen. Detaljerade beskrivningar av hur respektive kodtyp valideras och kvalitetskontrolleras finns i separata dokument._
 
 _Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts._
 
@@ -16,8 +16,8 @@ Den uppmärkningskod som används för att strukturera dokument och ge innehåll
 ==Stilmallskod (CSS)==
 Den stilmallskod (CSS) som används för att styra hur dokument presenteras skall validera enligt vald nivå, till exempel CSS 2.1 eller 3. Hur valideringen går till beskrivs närmare i dokumentet ”Validering av stilmallskod”.
 
-==JavaScript/ECMAScript==
-Den skriptkod (JavaScript/ECMAScript) som används för att ge en webblösning utökad funktionalitet skall kvalitetssäkras med hjälp av de verktyg som finns beskrivna i dokumentet ”Kvalitetssäkring av JavaScript” samt funktionstestas i de webbläsare som är relevanta enligt dokumentet ”Krav på webbläsare”.
+==!JavaScript/ECMAScript==
+Den skriptkod (!JavaScript/ECMAScript) som används för att ge en webblösning utökad funktionalitet skall kvalitetssäkras med hjälp av de verktyg som finns beskrivna i dokumentet ”Kvalitetssäkring av !JavaScript” samt funktionstestas i de webbläsare som är relevanta enligt dokumentet ”Krav på webbläsare”.
 
 ==Nyhetsflöden (RSS/XML)==
 Den kod (RSS i XML-format) som används för att tillhandahålla nyhetsflöden skall validera enligt vald standard (RSS 1.0 eller RSS 2.0). Hur valideringen går till beskrivs närmare i dokumentet ”Validering av nyhetsflöden”.
