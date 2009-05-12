@@ -1,7 +1,11 @@
-#summary Detta dokument innehåller riktlinjer för användning av bibliotek eller ramverk för JavaScript. Dokumentets målgrupp är i första hand utvecklare som har behov av att använda JavaScript för att förfina en webblösnings gränssnitt. Goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts.
+#summary Detta dokument innehåller riktlinjer för användning av bibliotek eller ramverk för JavaScript.
 
 =Bibliotek för JavaScript=
 
+==Sammanfattning==
+_Detta dokument innehåller riktlinjer för användning av bibliotek eller ramverk för JavaScript. Dokumentets målgrupp är i första hand utvecklare som har behov av att använda JavaScript för att förfina en webblösnings gränssnitt. Goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts._
+
+==Inledning==
 För att underlätta och snabba upp mer avancerad JavaScriptprogrammering har de senaste åren ett stort antal så kallade bibliotek eller ramverk för JavaScript kommit ut. De allra flesta är open source och kostnadsfria för vem som helst att använda.
 
 JavaScriptbibliotek har både för- och nackdelar. Fördelarna är att de snabbar upp rutinmässiga delar av utvecklingen och hjälper till att hantera skillnader i hur olika webbläsare hanterar delar av JavaScriptspråket. Nackdelarna är bland annat att de abstraherar delar av koden (vilket kan göra det svårare att felsöka), att de kan locka till överanvändning (vilket kan leda till svåranvända och långsamma webblösningar) och att de kan leda till att JavaScriptkod skrivs med en syntax som inte är särskilt lik normal JavaScript (vilket gör det svårare för utvecklare som inte är bekanta med ett visst bibliotek att sätta sig in i någon annans kod).
