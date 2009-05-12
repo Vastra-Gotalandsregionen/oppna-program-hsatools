@@ -14,7 +14,7 @@ Att validera !JavaScript är inte lika rakt på sak som att validera HTML eller 
 
 Därför innebär kvalitetssäkring av !JavaScript ett arbete i flera steg, varav funktionstester i de webbläsare som finns specificerade i dokumentet ”Krav på webbläsare” är det viktigaste.
 
-I detta och andra kravdokument används den mer utbredda termen !JavaScript i stället för det standardiserade [http://www.ecma-international.org/publications/standards/Ecma-262.htm ECMAScript] (referens 1). !JavaScript är kompatibelt med ECMAScript men tillhandahåller utökad funktionalitet. För en detaljerad beskrivning av hur !JavaScript och ECMAScript förhåller sig till varandra, se [http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Guide:JavaScript_Overview#JavaScript_and_the_ECMAScript_Specification !JavaScript and the ECMAScript Specification] (referens 2) på Mozilla Developer Center.
+I detta och andra kravdokument används den mer utbredda termen !JavaScript i stället för det standardiserade [http://www.ecma-international.org/publications/standards/Ecma-262.htm ECMAScript] (referens 1). !JavaScript är kompatibelt med ECMAScript men tillhandahåller utökad funktionalitet. För en detaljerad beskrivning av hur !JavaScript och ECMAScript förhåller sig till varandra, se [http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Guide:JavaScript_Overview#JavaScript_and_the_ECMAScript_Specification JavaScript and the ECMAScript Specification] (referens 2) på Mozilla Developer Center.
 
 Notera även att grundläggande funktionalitet inte får vara beroende av att !JavaScript är aktiverat i användarens webbläsare. Därför är en del av funktionstestningen att avaktivera !JavaScript och därefter kontrollera att det fortfarande går att använda tjänsten.
 
@@ -22,22 +22,22 @@ Notera även att grundläggande funktionalitet inte får vara beroende av att !J
 Två tjänster, båda kostnadsfria, för verifiering av !JavaScriptsyntax har identifierats. Båda är så kallade ”lint checkers” som rapporterar kodsekvenser som kan misstänkas skapa problem.
 
 ===JSLint, The !JavaScript Verifier===
-JSLint (referens 3) består av ett textinmatningsfält som man klistrar in koden som ska verifieras i. Man kan göra vissa inställningar för att reglera nivån på de varningar som genereras.
+[http://www.jslint.com/ JSLint] (referens 3) består av ett textinmatningsfält som man klistrar in koden som ska verifieras i. Man kan göra vissa inställningar för att reglera nivån på de varningar som genereras.
 
 ===!JavaScript Lint===
-Precis som JSLint har !JavaScript Lint (referens 4) ett textinmatningsfält, men verktyget finns även som ett fristående program.
+Precis som JSLint har [http://www.javascriptlint.com/ JavaScript Lint] (referens 4) ett textinmatningsfält, men verktyget finns även som ett fristående program.
 
 ==Tillägg till webbläsare==
 Utöver de tidigare nämnda onlineverktygen finns också en del tillägg till webbläsare, främst till Mozillabaserade sådana.
 
 ===Firebug (Firefox)===
-För Firefox (referens 5) finns tillägget Firebug (referens 6), som bland annat innehåller en !JavaScript-debugger och visar eventuella !JavaScriptfel i en konsoll.
+För [http://www.mozilla.com/firefox/ Firefox] (referens 5) finns tillägget [http://www.getfirebug.com/ Firebug] (referens 6), som bland annat innehåller en !JavaScript-debugger och visar eventuella !JavaScriptfel i en konsoll.
 
 ==Funktionstest i webbläsare==
 Att inga problem rapporteras av tjänsterna för verifiering av !JavaScriptsyntax eller webbläsartillägget som nämns här, innebär inte att skriptet kommer att fungera i webbläsare eller ens att det använder objekt och metoder som finns i W3C:s DOM (Document Object Model). Därför måste syntaxverifiering kompletteras med funktionstest i de webbläsare som är aktuella enligt dokumentet ”Krav på webbläsare”.
 
 ==Kontroll av biblioteksval==
-För att underlätta och standardisera utveckling och felsökning rekommenderas utvecklare att vid behov använda !JavaScriptbiblioteket Yahoo! User Interface Library (YUI) (referens 7). Som en del i kvalitetssäkringen ingår därför att kontrollera om andra bibliotek eller ramverk används, och i så fall om de innehåller funktionalitet som motiverar valet att använda dem i stället för YUI. 
+För att underlätta och standardisera utveckling och felsökning rekommenderas utvecklare att vid behov använda !JavaScriptbiblioteket [http://developer.yahoo.com/yui/ Yahoo! User Interface Library (YUI)] (referens 7). Som en del i kvalitetssäkringen ingår därför att kontrollera om andra bibliotek eller ramverk används, och i så fall om de innehåller funktionalitet som motiverar valet att använda dem i stället för YUI. 
 
 ==Tolkning av resultaten==
 Båda verktygen som nämns i ”Onlinetjänster för syntaxverifiering” är mycket strikta i sin syntaxtolkning, vilket medför att de rapporterar viss tillåten syntax som problem. Det finns anledningar till att de gör det, så målet bör vara att åtgärda alla rapporterade problem. Tjänsterna tillhandahåller också dokumentation som förklarar varför de anser syntaxen vara ett problem eller ett potentiellt problem.
