@@ -2,12 +2,10 @@
 
 =Krav på webbläsare=
 
-==Sammanfattning==
 _Detta dokument innehåller riktlinjer för vilka krav som ställs på webbläsare för att de ska erhålla full funktionalitet och presentationskvalitet när de används med webblösningar inom Västra Götalandsregionen. Dokumentet innehåller även exempel på webbläsare som vid dokumentets framtagande lever upp till dessa krav och som därför ska ingå i aktiviteten ”Funktionstest med webbläsare”._
 
 _Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts._
 
-==Inledning==
 Utvecklingen av webbläsare går allt mer mot bättre stöd för de öppna standarder som W3C slagit fast, så kallade webbstandarder. Därför ska även all gränssnittsrelaterad kod använda sig av webbstandarder och undvika proprietära eller icke standardiserade element, attribut eller egenskaper.
 
 Genom att separera all gränssnittskod i tre lager – struktur och innehåll, presentation samt beteende – blir det möjligt att bibehålla en användbar och tillgänglig grundfunktionalitet även utan presentations- och/eller beteendelagren.
