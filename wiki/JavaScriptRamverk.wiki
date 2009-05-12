@@ -1,8 +1,4 @@
-#summary Detta dokument innehåller riktlinjer för användning av bibliotek eller ramverk för JavaScript.
-
-=Inledning=
-
-_Dokumentets målgrupp består i första hand av utvecklare som har behov av att använda JavaScript för att förfina en webblösnings gränssnitt. Goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts._
+#summary Detta dokument innehåller riktlinjer för användning av bibliotek eller ramverk för JavaScript. Dokumentets målgrupp är i första hand utvecklare som har behov av att använda JavaScript för att förfina en webblösnings gränssnitt. Goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts.
 
 =Bibliotek för JavaScript=
 
@@ -28,10 +24,10 @@ På YUIs webbplats finns biblioteket att ladda ner i en rad olika konfiguratione
 
 För att underlätta och standardisera utveckling och felsökning rekommenderas utvecklare att använda YUI. Om speciella fall uppstår som kräver funktionalitet som inte finns i YUI kan det vara relevant att välja ett annat bibliotek. I sådana fall bör dock det valet motiveras sakligt och inte vara baserat på personligt godtycke.
 
-=Progressive enhancement=
+==Progressive enhancement==
 
 Precis som i all gränssnittsutveckling inom VGR gäller att JavaScriptbibliotek ska användas enligt principen för progressive enhancement, det vill säga att man först bygger en stabil grund som fungerar utan JavaScript, för att sedan använda JavaScript för att förfina gränssnittet och göra det enklare och snabbare att använda.
 
-=Referenser=
+==Referenser==
 
   # YUI: http://developer.yahoo.com/yui/
