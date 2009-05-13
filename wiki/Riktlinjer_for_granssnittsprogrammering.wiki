@@ -9,6 +9,8 @@ _I dokumentet hänvisas ofta till den HTML-baserade prototyp som tagits fram ino
 
 _Dokumentets målgrupp består i första hand av gränssnitts- och systemutvecklare som ska leverera webblösningar till Västra Götalandsregionen. Goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering med HTML, CSS och JavaScript, förutsätts._
 
+<wiki:toc max_depth="2" />
+
 ==HTML==
 Att skriva bra HTML-kod handlar inte bara om att validera den, även om det naturligtvis är en mycket viktig del. Det finns ett antal andra saker man behöver ta hänsyn till för att slutresultatet ska bli tillgängligt, interoperabelt och enkelt att underhålla. Här beskrivs en del av de mest grundläggande sakerna man bör tänka på.
 
