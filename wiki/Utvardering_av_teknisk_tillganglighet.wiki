@@ -42,9 +42,11 @@ Vissa verktyg finns också som tillägg till webbläsare.
 ===Microsoft Internet Explorer===
 
   * [http://www.microsoft.com/downloads/details.aspx?FamilyID=e59c3964-672d-4511-bb3e-2d5e1db91038&displaylang=en Internet Explorer Developer Toolbar]
+  * [Web Accessibility Toolbar]
 
-===Web Accessibility Toolbar (Internet Explorer, Opera)===
-För Internet Explorer för Windows finns tillägget Web Accessibility Toolbar [7] som har liknande funktionalitet som Web Developer Extension. En version av tillägget finns även för Opera, och den fungerar på alla plattformar: Web Accessibility Toolbar [For Opera] [7].
+===Opera===
+
+  * [http://www.paciellogroup.com/resources/wat-about.html Web Accessibility Toolbar For Opera]
 
 ==Granskningsförfarande==
 Här följer en steg-för-steg-beskrivning av hur kontrollen av teknisk tillgänglighet ska utföras. Granskningen omfattar såväl manuella som automatiska kontroller. Notera att detta inte på något sätt är en uttömmande granskning. Tillgänglighetsproblem kan finnas även om inga problem noteras, men de problem som orsakar störst olägenhet bör fångas upp.
