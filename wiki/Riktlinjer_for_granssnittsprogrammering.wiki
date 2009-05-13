@@ -154,7 +154,7 @@ Med "äldre webbläsare" avses här i första hand Netscape 4 och äldre, Intern
 
 Avsnittet som laddar in en CSS-fil enbart för Internet Explorer för Windows använder en teknik som Microsoft kallar för [http://msdn2.microsoft.com/en-us/library/ms537512(VS.85).aspx Conditional Comments]. Den stöds av Internet Explorer 5 och senare. Övriga webbläsare behandlar denna typ av kommentar som en vanlig HTML-kommentar, bortser från innehållet och laddar följaktligen inte in CSS-filen som anges där.
 
-Mer detaljerade riktlinjer kring CSS finns i avsnittet "CSS".
+Mer detaljerade riktlinjer kring CSS finns i avsnittet [#CSS CSS].
 
 ====Inlänkning av !JavaScript-filer====
 Det sista innehållet i `head`-elementet i portalprototypen är en rad `script`-element som laddar globala !JavaScriptfiler som används på de flesta sidor i prototypen:
@@ -170,7 +170,7 @@ Det är dels filer från !JavaScriptramverket [http://developer.yahoo.com/yui/ Y
 
 All !JavaScriptkod ska ligga i externa filer. I idealfallet skulle de också ligga på ett och samma ställe i HTML-koden, men eftersom till exempel portlets i en portalmiljö inte alltid har möjlighet att lägga till saker i `head`-elementet går det också att ladda in eventuella scriptfiler först i varje enskild portlet. Exempel på detta finns i portalprototypen.
 
-Mer detaljerade riktlinjer kring !JavaScript finns i avsnittet "[#JavaScript JavaScript]".
+Mer detaljerade riktlinjer kring !JavaScript finns i avsnittet [#JavaScript JavaScript].
 
 ====`body`-elementet====
 För mer avancerad gränssnittsfunktionalitet använder portalprototypen kontroller från YUI. För att de ska få rätt utseende har `body`-elementet ett klassnamn:
@@ -194,6 +194,8 @@ I en portal kommer naturligtvis mycket av innehållet från portlets. För att k
 }}}
 
 Portletens innehåll ska alltså ligga i `<div class="module-content"></div>`.
+
+En utförligare beskrivning av hur en modul är uppbyggd finns i [http://code.google.com/p/oppna-program-portalramverk/wiki/ModulStruktur Modul/portletstruktur].
 
 ===Allmänna riktlinjer===
 Här följer ett antal allmänna riktlinjer för HTML som dels underlättar underhåll, dels gör det enklare att uppnå ett fullgott resultat.
@@ -269,7 +271,7 @@ Det går att köra flera funktioner på detta sätt. Det går även att ha flera
 För att styra presentationen av webblösningar ska [http://www.w3.org/TR/CSS21/ CSS 2.1] plus de delar av CSS 3 som har implementerats av webbläsare i tillräckligt hög grad användas. Observera att det mycket väl går att använda CSS som inte stöds av alla aktuella webbläsare så länge det inte medför att innehåll eller funktionalitet blir lidande i de webbläsare som har ofullständigt stöd.
 
 ===Validering===
-Ta för vana att validera all CSS regelbundet, och särskilt före leverans. Även om fel i CSS i många fall inte är lika kritiska som felaktigheter i HTML kan man ofta hitta svaret till skillnader i presentationen i felaktig CSS. Det finns mer utförliga regler för hur webbläsare ska hantera felaktig CSS än för felaktig HTML, men det förekommer ändå skillnader i hur de beter sig.
+Ta för vana att validera all CSS regelbundet, och särskilt före leverans. Även om fel i CSS i många fall inte är lika kritiska som felaktigheter i HTML kan man ofta hitta svaret till skillnader i presentationen i felaktig CSS. Det finns mer utförliga regler för hur webbläsare ska hantera felaktig CSS än det gör för felaktig HTML, men det förekommer ändå skillnader i hur de beter sig.
 
 Det huvudsakliga verktyget för validering av CSS är W3C:s CSS-validerare, en gratistjänst som finns på http://jigsaw.w3.org/css-validator/.
 
