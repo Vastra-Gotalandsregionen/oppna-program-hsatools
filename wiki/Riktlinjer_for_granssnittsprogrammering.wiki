@@ -170,7 +170,7 @@ Det är dels filer från !JavaScriptramverket [http://developer.yahoo.com/yui/ Y
 
 All !JavaScriptkod ska ligga i externa filer. I idealfallet skulle de också ligga på ett och samma ställe i HTML-koden, men eftersom till exempel portlets i en portalmiljö inte alltid har möjlighet att lägga till saker i `head`-elementet går det också att ladda in eventuella scriptfiler först i varje enskild portlet. Exempel på detta finns i portalprototypen.
 
-Mer detaljerade riktlinjer kring !JavaScript finns i avsnittet "!JavaScript".
+Mer detaljerade riktlinjer kring !JavaScript finns i avsnittet "[#JavaScript JavaScript]".
 
 ====`body`-elementet====
 För mer avancerad gränssnittsfunktionalitet använder portalprototypen kontroller från YUI. För att de ska få rätt utseende har `body`-elementet ett klassnamn:
