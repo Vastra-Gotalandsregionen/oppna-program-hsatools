@@ -9,12 +9,12 @@
 ==Sammanfattning==
 _Detta dokument innehåller riktlinjer för hur gränssnittskod för webblösningar inom Västra Götalandsregionen ska skrivas. De gränssnittsspråk som omfattas av dokumentet är HTML/XHTML, CSS och !JavaScript._
 
-_I dokumentet hänvisas ofta till den HTML-baserade prototyp som tagits fram inom ramen för projektet "Portalramverk i VGR"._
+_I dokumentet hänvisas ofta till den HTML-baserade gränssnittsprototyp som dokumenteras på och finns att ladda ner från http://code.google.com/p/oppna-program-portalramverk/._
 
-_Dokumentets målgrupp består i första hand av gränssnitts- och systemutvecklare som ska leverera webblösningar till Västra Götalandsregionen. Goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering med HTML, CSS och !JavaScript, förutsätts._
+_Dokumentets målgrupp är i första hand gränssnitts- och systemutvecklare som ska leverera webblösningar till Västra Götalandsregionen. Goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering med HTML, CSS och !JavaScript, förutsätts._
 
 ==HTML==
-Att skriva bra HTML-kod handlar inte bara om att validera den, även om det naturligtvis är en mycket viktig del. Det finns ett antal andra saker man behöver ta hänsyn till för att slutresultatet ska bli tillgängligt, interoperabelt och enkelt att underhålla. Här beskrivs en del av de mest grundläggande sakerna man bör tänka på.
+Att skriva bra HTML-kod handlar inte bara om att validera den, även om det naturligtvis är en mycket viktig del. Det finns en mängd andra saker man behöver ta hänsyn till för att slutresultatet ska bli tillgängligt, interoperabelt och enkelt att underhålla. Här beskrivs en del av de mest grundläggande sakerna man bör tänka på.
 
 För uppmärkning av webblösningar inom VGR ska i första hand [http://www.w3.org/TR/xhtml1/ XHTML 1.0 Strict] användas. Det är inget självändamål att använda XHTML – i praktiken fungerar HTML 4.01 lika bra. Dock är XHTML-syntaxen tydligare och därmed enklare för utvecklare att läsa, och allt fler verktyg är förinställda på att generera XHTML-syntax. Det blir helt enkelt enklare.
 
@@ -34,7 +34,7 @@ I HTML-validerarens webbaserade gränssnitt kan man ange vilken kod som ska vali
 
 Avancerade inställningar kan göras vid behov.
 
-Många texteditorer och webbläsare har, antingen inbyggt eller som tillägg, funktionalitet för att automatiskt ladda upp HTML-kod till HTML-valideraren och rapportera eventuella problem.
+Många textredigerare och webbläsare har, antingen inbyggt eller som tillägg, funktionalitet för att automatiskt ladda upp HTML-kod till HTML-valideraren och rapportera eventuella problem.
 
 W3C:s validerare är dock den officiella HTML-valideraren som är den som gäller om tveksamheter uppstår.
 
@@ -46,7 +46,7 @@ Det går att ställa in vilken algoritm HTML Validator Extension ska använda. D
 HTML Validator Extension validerar automatiskt alla sidor man öppnar i webbläsaren, och den gör det lokalt utan att skicka någon kod till en annan server. Det gör verktyget mycket lämpligt för miljöer som är inloggningsskyddade eller under utveckling, och att det alltid är aktivt gör att det är mycket enkelt att kontrollera att man använder korrekt HTML-syntax.
 
 ===Ramverk===
-Det finns inget strikt ramverk för strukturering av HTML-kod inom VGR, men inom ramen för Portalramverksprojektet har en prototypwebbplats tagits fram. Prototypen finns på http://code.google.com/p/oppna-program-portalramverk/ och kan med fördel användas som utgångspunkt och stöd vid HTML-kodning.
+Det finns inget strikt ramverk för strukturering av HTML-kod inom VGR, men inom ramen för Portalramverksprojektet har en prototypwebbplats tagits fram. Prototypen finns dokumenterad på och kan laddas ner från http://code.google.com/p/oppna-program-portalramverk/, och kan med fördel användas som utgångspunkt och stöd vid HTML-kodning.
 
 För att göra det enklare att förstå hur prototypen är uppbyggd förklaras här delar av den övergripande strukturen i HTML-koden.
 
@@ -87,7 +87,7 @@ Dokumentets teckenkodning ska alltid anges av webbservern via en http-header, me
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 }}}
 
-Unicode (UTF-8) är den rekommenderade teckenkodningen eftersom det är den förvalda i XML och HTML och innehåller i princip alla tecken man kan tänkas använda.
+Unicode (UTF-8) är den rekommenderade teckenkodningen eftersom den är den förvalda i XML och HTML och innehåller i princip alla tecken man kan tänkas använda för de allra flesta språk.
 
 Mer utförlig information om teckenkodning finns i W3C:s dokument [http://www.w3.org/International/tutorials/tutorial-char-enc/ Tutorial: Character sets & encodings in XHTML, HTML and CSS].
 
@@ -129,7 +129,7 @@ När man länkar in CSS-filer bör man göra det på ett sätt som gör att äld
 
 Om behovet finns kan man också ladda en fil som innehåller fixar för Internet Explorer för Windows, som har betydligt buggigare och sämre stöd för CSS än övriga aktuella webbläsare.
 
-CSS-filerna i portalprototypen laddas in på följande sätt för att gömma dem från äldre webbläsare samt ladda en fil med buggfixar för Internet Explorer:
+CSS-filerna i portalprototypen laddas in på följande sätt för att gömma dem från äldre webbläsare samt ladda en fil med buggfixar för Internet Explorer 7 och äldre:
 
 {{{
 <style type="text/css" media="screen,projection">
@@ -141,7 +141,7 @@ CSS-filerna i portalprototypen laddas in på följande sätt för att gömma dem
     @import '/js/yui/assets/skins/vgr/container.css'; /* CSS för YUI-widgets */
 </style>
 <!-- CSS för IE/Win -->
-<!--[if IE]>
+<!--[if lt IE 8]>
 <link rel="stylesheet" href="/css/ie.css" type="text/css" media="screen" />
 <![endif]-->
 <!-- CSS för utskrift -->
@@ -168,7 +168,7 @@ Det sista innehållet i `head`-elementet i portalprototypen är en rad `script`-
 
 Det är dels filer från !JavaScriptramverket [http://developer.yahoo.com/yui/ Yahoo! User Interface Library (YUI)] som laddas, dels en fil som innehåller globala script som är specialskrivna för prototypen. Ordningen är viktig eftersom filen `vgr.global.js` innehåller funktioner som är beroende av att övriga filer laddats.
 
-All !JavaScriptkod ska ligga i externa filer. I idealfallet skulle de också ligga på ett och samma ställe i HTML-koden, men eftersom till exempel portlets i en portalmiljö inte alltid har möjlighet att lägga till saker i head-elementet går det också att ladda in eventuella scriptfiler först i varje enskild portlet. Exempel på detta finns i portalprototypen.
+All !JavaScriptkod ska ligga i externa filer. I idealfallet skulle de också ligga på ett och samma ställe i HTML-koden, men eftersom till exempel portlets i en portalmiljö inte alltid har möjlighet att lägga till saker i `head`-elementet går det också att ladda in eventuella scriptfiler först i varje enskild portlet. Exempel på detta finns i portalprototypen.
 
 Mer detaljerade riktlinjer kring !JavaScript finns i avsnittet "!JavaScript".
 
@@ -199,7 +199,7 @@ Portletens innehåll ska alltså ligga i `<div class="module-content"></div>`.
 Här följer ett antal allmänna riktlinjer för HTML som dels underlättar underhåll, dels gör det enklare att uppnå ett fullgott resultat.
 
 ====Överspecificera inte====
-Ett vanligt misstag är att använda onödigt många klasser i sin HTML. När till exempel en lista ska märkas upp är det nästan aldrig nödvändigt att ge varje listelement ett `class`-attribut. Både CSS och JavaScript kan komma åt de enskilda listelementen ändå genom att utgå från själva listelementet.
+Ett vanligt misstag är att använda onödigt många klasser i sin HTML. När till exempel en lista ska märkas upp är det nästan aldrig nödvändigt att ge varje listelement ett `class`-attribut. Både CSS och !JavaScript kan komma åt de enskilda listelementen ändå genom att utgå från själva listelementet.
 
 Undvik att skriva så här:
 
