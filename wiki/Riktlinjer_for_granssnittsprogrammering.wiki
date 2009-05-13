@@ -199,7 +199,7 @@ Portletens innehåll ska alltså ligga i `<div class="module-content"></div>`.
 Här följer ett antal allmänna riktlinjer för HTML som dels underlättar underhåll, dels gör det enklare att uppnå ett fullgott resultat.
 
 ====Överspecificera inte====
-Ett vanligt misstag är att använda onödigt många klasser i sin HTML. När till exempel en lista ska märkas upp är det nästan aldrig nödvändigt att ge varje listelement ett class-attribut. Både CSS och JavaScript kan komma åt de enskilda listelementen ändå genom att utgå från själva listelementet.
+Ett vanligt misstag är att använda onödigt många klasser i sin HTML. När till exempel en lista ska märkas upp är det nästan aldrig nödvändigt att ge varje listelement ett `class`-attribut. Både CSS och JavaScript kan komma åt de enskilda listelementen ändå genom att utgå från själva listelementet.
 
 Undvik att skriva så här:
 
@@ -246,16 +246,16 @@ Men detta är fullt tillräckligt och mycket enklare att läsa:
 }}}
 
 ====Undvik inline-CSS====
-Undvik så långt det är möjligt att ange CSS med hjälp av style-attribut. Det försvårar underhåll och gör att webbläsare inte kan cacha CSS-koden. All CSS bör i första hand specificeras i externa filer.
+Undvik så långt det är möjligt att ange CSS med hjälp av `style`-attribut. Det försvårar underhåll och gör att webbläsare inte kan cacha CSS-koden. All CSS bör i första hand specificeras i externa filer.
 
 ====Undvik event handlers i HTML-kod====
-Skriv inga event handlers för JavaScript direkt i HTML-koden. Använd alltid externt laddad JavaScript. Anta att en funktion som heter VGR.linkInfo.init() ska köras när sidan har laddats. Skriv då inte så här:
+Skriv inga event handlers för !JavaScript direkt i HTML-koden. Använd alltid externt laddad !JavaScript. Anta att en funktion som heter `VGR.linkInfo.init()` ska köras när sidan har laddats. Skriv då inte så här:
 
 {{{
-    <body onload="VGR.linkInfo.init()">
+<body onload="VGR.linkInfo.init()">
 }}}
 
-Lägg i stället anropet i en extern fil och använd funktionen onDOMReady() [15] som följer med YUI:
+Lägg i stället anropet i en extern fil och använd funktionen [http://developer.yahoo.com/yui/docs/YAHOO.util.Event.html#onDOMReady onDOMReady()] som följer med YUI:
 
 {{{
 YAHOO.util.Event.onDOMReady(function() {
@@ -263,15 +263,15 @@ YAHOO.util.Event.onDOMReady(function() {
 });
 }}}
 
-Det går att köra flera funktioner på detta sätt. Det går även att ha flera förekomster av onDOMReady() i olika JavaScriptfiler, vilket gör att det blir mycket flexibelt att lägga till eller ta bort JavaScriptanrop. Fler exempel på hur detta går till finns i portalprototypen, till exempel i de scriptfiler som laddas för enskilda "portlets".
+Det går att köra flera funktioner på detta sätt. Det går även att ha flera förekomster av `onDOMReady()` i olika !JavaScriptfiler, vilket gör att det blir mycket flexibelt att lägga till eller ta bort !JavaScriptanrop. Fler exempel på hur detta går till finns i portalprototypen, till exempel i de scriptfiler som laddas för enskilda "portlets".
 
 ==CSS==
-För att styra presentationen av webblösningar ska CSS 2.1 [16] plus de delar av CSS 3 som har implementerats av webbläsare i tillräckligt hög grad användas. Observera att det mycket väl går att använda CSS som inte stöds av alla aktuella webbläsare så länge det inte medför att innehåll eller funktionalitet blir lidande i de webbläsare som har ofullständigt stöd.
+För att styra presentationen av webblösningar ska [http://www.w3.org/TR/CSS21/ CSS 2.1] plus de delar av CSS 3 som har implementerats av webbläsare i tillräckligt hög grad användas. Observera att det mycket väl går att använda CSS som inte stöds av alla aktuella webbläsare så länge det inte medför att innehåll eller funktionalitet blir lidande i de webbläsare som har ofullständigt stöd.
 
 ===Validering===
 Ta för vana att validera all CSS regelbundet, och särskilt före leverans. Även om fel i CSS i många fall inte är lika kritiska som felaktigheter i HTML kan man ofta hitta svaret till skillnader i presentationen i felaktig CSS. Det finns mer utförliga regler för hur webbläsare ska hantera felaktig CSS än för felaktig HTML, men det förekommer ändå skillnader i hur de beter sig.
 
-Det huvudsakliga verktyget för validering av CSS är W3C:s CSS-validerare, en gratistjänst som finns på http://jigsaw.w3.org/css-validator/ [17].
+Det huvudsakliga verktyget för validering av CSS är W3C:s CSS-validerare, en gratistjänst som finns på http://jigsaw.w3.org/css-validator/.
 
 I CSS-validerarens webbaserade gränssnitt kan man ange den kod som ska valideras genom att:
 
@@ -282,7 +282,7 @@ I CSS-validerarens webbaserade gränssnitt kan man ange den kod som ska validera
 Avancerade inställningar kan göras vid behov. Notera att CSS-valideraren är förinställd på att validera mot CSS 2.1-specifikationen. Om stilmallarna använder selektorer eller egenskaper som definieras i en senare version av CSS måste man manuellt ange vilken version valideraren ska använda. Val för detta finns i validerarens utökade gränssnitt.
 
 ===Ramverk===
-I prototypen för portalramverket har ett så kallat gridsystem använts för att skapa layouten. Anledningen till detta är att det underlättar för implementering av layoutval i Websphere Portal Server. Systemet som används är YUI Grids CSS [18].
+I prototypen för portalramverket har ett så kallat gridsystem använts för att skapa layouten. Anledningen till detta är att det underlättar för implementering av layoutval i Websphere Portal Server. Systemet som används är [http://developer.yahoo.com/yui/grids/ YUI Grids CSS].
 
 YUI Grids CSS gör det möjligt att genom att skapa en struktur av HTML-element med speciella klassnamn bygga upp i det närmaste obegränsat antal layouter utan att behöva skriva ny CSS-kod för varje enskilt fall. Fullständig dokumentation finns på YUI Grids CSS-webbplatsen, men här är ett exempel på en tvåspaltslayout från portalprototypen:
 
@@ -303,13 +303,13 @@ YUI Grids CSS gör det möjligt att genom att skapa en struktur av HTML-element 
 
 Det som gör att detta blir en tvåspaltslayout där den högra spalten har fast bredd är dels HTML-strukturen, dels klasserna.
 
-  * id="doc3" gör att hela layouten får 100% bredd och är flexibel
-  * class="yui-t5" skapar två spalter med en smal och fast spalt till höger
-  * id="hd" och id="bd" är behållare för sidhuvud respektive innehåll (hd = head, bd = body)
-  * id="yui-main" anger att detta element innehåller det som anses vara huvudinnehåll
-  * class="yui-b" anger att elementet är ett innehållsblock som ska vara med i layouten
+  * `id="doc3"` gör att hela layouten får 100% bredd och är flexibel
+  * `class="yui-t5"` skapar två spalter med en smal och fast spalt till höger
+  * `id="hd"` och `id="bd"` är behållare för sidhuvud respektive innehåll (hd = head, bd = body)
+  * `id="yui-main"` anger att detta element innehåller det som anses vara huvudinnehåll
+  * `class="yui-b"` anger att elementet är ett innehållsblock som ska vara med i layouten
 
-Genom att byta id och/eller klassnamn kan man enkelt skapa olika varianter av denna layout. Om man till exempel ändrar id="doc3" till id="doc2" blir layouten 950px bred och centrerad horisontellt.
+Genom att byta id och/eller klassnamn kan man enkelt skapa olika varianter av denna layout. Om man till exempel ändrar `id="doc3"` till `id="doc2"` blir layouten 950px bred och centrerad horisontellt.
 
 ===Allmänna riktlinjer===
 Här följer ett antal allmänna riktlinjer för CSS som dels underlättar underhåll, dels gör det enklare att uppnå ett fullgott resultat.
@@ -344,7 +344,7 @@ h3 {
 }}}
 
 ====Använd shorthand====
-I CSS finns många sätt att skriva regler i kortare format, shorthand, för att på så sätt göra koden mer kompakt och överskådlig. Anta att ett element ska ha olika marginal åt alla fyra håll. Då kan man skriva på följande sätt:
+I CSS finns många sätt att skriva regler i kortare format, _shorthand_, för att på så sätt göra koden mer kompakt och överskådlig. Anta att ett element ska ha olika marginal åt alla fyra håll. Då kan man skriva på följande sätt:
 
 {{{
 #my-element {
@@ -363,7 +363,7 @@ Det fungerar och är inte felaktigt. Det är däremot ineffektivt och leder i l�
 
 I detta sätt att skriva anges värdena i ordningen top, right, bottom, left.
 
-Samma metod kan användas för egenskaperna padding och border.
+Samma metod kan användas för egenskaperna `padding` och `border`.
 
 På liknande sätt kan även egenskaper som berör text skrivas ihop. Följande regel:
 
@@ -382,7 +382,7 @@ Kan i stället skrivas så här:
 h1 {font:bold 1.7em/1.0 Arial, Helvetica, sans-serif;}
 }}}
 
-Det finns som tidigare nämnts ett flertal sätt att skriva shorthand-CSS. För en fullständig beskrivning av dessa, se W3C:s CSS 2.1-specifikation [16].
+Det finns som tidigare nämnts ett flertal sätt att skriva shorthand-CSS. För en fullständig beskrivning av dessa, se W3C:s [http://www.w3.org/TR/CSS21/ CSS 2.1-specifikation].
 
 ====Ange egenskaper i en konsekvent ordning====
 För att underlätta samarbete mellan olika utvecklare såväl som framtida underhåll är det bra om man skriver enskilda egenskaper i CSS-regler i samma ordning. Ordningen har ingen praktisk betydelse för slutresultatet i webbläsaren, men om man som utvecklare vet att ordningen alltid är densamma går det snabbare att sätta sig in i koden och göra ändringar.
@@ -425,13 +425,13 @@ white-space
 }}}
 
 ====Undvik CSS-hack====
-I de fall där skillnader i implementering mellan webbläsare gör det nödvändigt att förse olika webbläsare med olika CSS för att uppnå samma resultat är det önskvärt att undvika så kallade CSS-hack [19].
+I de fall där skillnader i implementering mellan webbläsare gör det nödvändigt att förse olika webbläsare med olika CSS för att uppnå samma resultat är det önskvärt att undvika så kallade [http://css-discuss.incutio.com/?page=CssHack CSS-hack].
 
 CSS-hack innebär att man utnyttjar webbläsarbuggar och skillnader i CSS-implementationer för att gömma enskilda CSS-regler från vissa webbläsare eller att ge webbläsare med bristande CSS-stöd anpassade regler. Eftersom CSS-hack i de flesta fall bygger på inofficiella buggar anses de av många vara osäkra att använda. Best practice är att undvika dem så långt det är möjligt.
 
 I praktiken är det endast Internet Explorer som behöver få anpassad CSS, eftersom övriga webbläsare som är aktuella har mycket gott stöd för CSS. För Internet Explorer för Windows finns Conditional Comments som ett säkrare alternativ till CSS-hack. Conditional Comments beskrivs närmare i avsnittet "Inlänkning av CSS-filer".
 
-I den IE-specifika CSS-filen kan dock ett CSS-hack användas för att skilja olika versioner av IE åt. Det så kallade Star html-hacket [20] fungerar endast i versioner tidigare än 7 –  i IE 7 är den bugg det baseras på åtgärdad. Eftersom det är högst osannolikt att den buggen återkommer i nyare versioner av IE är det ett säkert sätt att påverka endast IE 6 och tidigare. Exempel på detta finns i filen /css/ie.css i portalprototypen.
+I den IE-specifika CSS-filen kan dock ett CSS-hack användas för att skilja olika versioner av IE åt. Det så kallade [http://www.info.com.ph/~etan/w3pantheon/style/starhtmlbug.html Star html-hacket] fungerar endast i versioner tidigare än 7 –  i IE 7 är den bugg det baseras på åtgärdad. Eftersom det är högst osannolikt att den buggen återkommer i nyare versioner av IE är det ett säkert sätt att påverka endast IE 6 och tidigare. Exempel på detta finns i filen `css/ie.css` i portalprototypen.
 
 ====Använd enhetlig namngivning för klasser och id====
 Ytterligare en stilfråga som underlättar samarbetet mellan olika utvecklare är att använda samma skrivregler för id och klassnamn. I portalprototypen används enbart gemener, och klasser eller id som består av flera ord separeras med bindestreck. Exempel:
@@ -441,10 +441,10 @@ Ytterligare en stilfråga som underlättar samarbetet mellan olika utvecklare ä
 .search-module { }
 }}}
 
-==JavaScript==
-Grundtanken med att använda JavaScript ska alltid vara att underlätta för användaren, inte att göra utvecklarens jobb lättare. Dessutom ska man alltid vara medveten om vad som händer när en användare inte har JavaScript aktiverat.
+==!JavaScript==
+Grundtanken med att använda !JavaScript ska alltid vara att underlätta för användaren, inte att göra utvecklarens jobb lättare. Dessutom ska man alltid vara medveten om vad som händer när en användare inte har !JavaScript aktiverat.
 
-All JavaScript som används i VGR:s webblösningar ska vara applicerad enligt principen för Progressive enhancement [21]. I korthet innebär det att man först bygger en grundfunktionalitet som inte kräver JavaScript, och därefter förfinar interaktionen genom att till exempel validera formulärinmatning i webbläsaren eller ladda nytt innehåll med hjälp av Ajax. På så sätt kommer användare vars webbläsare saknar stöd för JavaScript att få en mer rudimentär, men ändå fungerande, interaktion i stället för att bli utestängda.
+All !JavaScript som används i VGR:s webblösningar ska vara applicerad enligt principen för [http://en.wikipedia.org/wiki/Progressive_enhancement Progressive enhancement]. I korthet innebär det att man först bygger en grundfunktionalitet som inte kräver !JavaScript, och därefter förfinar interaktionen genom att till exempel validera formulärinmatning i webbläsaren eller ladda nytt innehåll med hjälp av Ajax. På så sätt kommer användare vars webbläsare saknar stöd för !JavaScript att få en mer rudimentär, men ändå fungerande, interaktion i stället för att bli utestängda.
 
 ===Validering===
 JavaScriptkod valideras inte på samma sätt som HTML eller CSS, men det finns verktyg som är utmärkta hjälpmedel för att hitta felaktigheter och potentiella källor till buggar. JSLint [22] är ett sådant.
