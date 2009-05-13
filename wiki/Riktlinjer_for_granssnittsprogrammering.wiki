@@ -255,7 +255,7 @@ Skriv inga event handlers för !JavaScript direkt i HTML-koden. Använd alltid e
 <body onload="VGR.linkInfo.init()">
 }}}
 
-Lägg i stället anropet i en extern fil och använd funktionen [http://developer.yahoo.com/yui/docs/YAHOO.util.Event.html#onDOMReady onDOMReady()] som följer med YUI:
+Lägg i stället anropet i en extern fil och använd funktionen [http://developer.yahoo.com/yui/docs/YAHOO.util.Event.html#method_onDOMReady onDOMReady()] som följer med YUI:
 
 {{{
 YAHOO.util.Event.onDOMReady(function() {
