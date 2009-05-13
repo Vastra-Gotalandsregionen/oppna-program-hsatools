@@ -41,7 +41,7 @@ W3C:s validerare är dock den officiella HTML-valideraren som är den som gälle
 ====HTML Validator Extension för Firefox====
 Ett mycket användbart tillägg för webbläsaren [http://www.mozilla.com/firefox/ Firefox] är [http://users.skynet.be/mgueury/mozilla/ HTML Validator Extension]. Tillägget kan ställas in så att det använder samma algoritm som W3C:s HTML-validerare, vilket gör det mycket pålitligt. Det kompletterar dessutom kodvalideringen med [http://tidy.sourceforge.net/ Tidy], ett verktyg som förutom kodsyntax kan varna för möjliga tillgänglighetsproblem.
 
-Det går att ställa in vilken algoritm HTML Validator Extension ska använda. Den rekommenderade inställningen är "Serial", vilket innebär att koden först kontrolleras med SGML-algoritmen (den som HTML-valideraren använder) och sedan med Tidy. Denna kombination hjälper till att hitta många fel och potentiella orsaker till kompatibilitetsproblem och rekommenderas starkt.
+Den rekommenderade inställningen för HTML Validator Extension är "Serial", vilket innebär att koden först kontrolleras med SGML-algoritmen (den som HTML-valideraren använder) och sedan med Tidy. Denna kombination hjälper till att hitta många fel och potentiella orsaker till kompatibilitetsproblem.
 
 HTML Validator Extension validerar automatiskt alla sidor man öppnar i webbläsaren, och den gör det lokalt utan att skicka någon kod till en annan server. Det gör verktyget mycket lämpligt för miljöer som är inloggningsskyddade eller under utveckling, och att det alltid är aktivt gör att det är mycket enkelt att kontrollera att man använder korrekt HTML-syntax.
 
@@ -60,7 +60,7 @@ Allra först i dokumentet anges vilken Document Type Declaration (Doctype) som a
 
 Notera att Doctype-koden inte ska föregås av något annat än whitespace för att undvika att Internet Explorer 6 använder [http://en.wikipedia.org/wiki/Quirks_mode Quirks mode].
 
-Quirks mode innebär i korthet att webbläsare renderar webbsidor på ett bakåtkompatibelt sätt i stället för att tolka HTML och CSS enligt standarderna. Det gör att det blir större skillnader i hur webbläsare beter sig, vilket i sin tur gör det svårare att skriva HTML och CSS som ger samma resultat i alla webbläsare.
+Quirks mode innebär i korthet att webbläsare renderar webbsidor på ett bakåtkompatibelt sätt i stället för att tolka HTML och CSS strikt enligt standarderna. Det gör att det blir större skillnader i hur webbläsare beter sig, vilket i sin tur gör det svårare att skriva HTML och CSS som ger samma resultat i alla webbläsare.
 
 I vissa böcker och annan dokumentation föregås Doctype av en XML-deklaration som kan se ut så här:
 
@@ -127,7 +127,7 @@ Hur detaljerad metadata som är rimligt att ange varierar mellan dokument och ap
 ====Inlänkning av CSS-filer====
 När man länkar in CSS-filer bör man göra det på ett sätt som gör att äldre webbläsare (som har obefintligt eller dåligt stöd för CSS) inte läser in dem. Vidare bör man också ange vilket eller vilka medier respektive CSS-fil är avsedd för.
 
-Om behovet finns kan man också ladda en fil som innehåller fixar för Internet Explorer för Windows, som har betydligt buggigare och sämre stöd för CSS än övriga aktuella webbläsare.
+Om behovet finns kan man också ladda en fil som innehåller fixar för Internet Explorer för Windows, som har betydligt buggigare och sämre stöd för CSS än övriga aktuella webbläsare. Detta gäller särskilt IE 7 och äldre. I IE 8 är stödet för CSS 2.1 jämförbart med modernare webbläsare, men även den versionen saknar stöd för CSS 3.
 
 CSS-filerna i portalprototypen laddas in på följande sätt för att gömma dem från äldre webbläsare samt ladda en fil med buggfixar för Internet Explorer 7 och äldre:
 
