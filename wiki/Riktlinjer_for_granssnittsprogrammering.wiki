@@ -466,7 +466,7 @@ Som en grund för !JavaScriptprogrammering inom portalprototypen har ramverket [
 
 När användningen av ett !JavaScriptbibliotek är befogat bör YUI användas i första hand. För att undvika krockar och inladdning av onödig kod bör inte andra bibliotek användas om inte mycket goda skäl finns.
 
-Mer utförlig information om !JavaScriptramverk finns i dokumentet [Bibliotek/ramverk för JavaScript].
+Mer utförlig information om !JavaScriptramverk finns i dokumentet [http://code.google.com/p/oppna-program/wiki/Bibliotek_och_ramverk_for_JavaScript Bibliotek och ramverk för JavaScript].
 
 ===Kommentarer===
 Använd gärna JSDoc-syntax för att kommentera !JavaScript. JSDoc är ett verktyg som använder kommentarer i !JavaScript för att generera en HTML-fil med dokumentation av scriptet. Mer information om JSDoc finns på [http://jsdoc.sourceforge.net/ JSDoc Homepage] och [http://jsdoctoolkit.org/ JSDoc Toolkit].
