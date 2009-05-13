@@ -24,21 +24,24 @@ Dock finns tjänster som kan fungera som stöd vid utvärderingen. Vissa kontrol
 ==Onlinetjänster för utvärdering av tillgänglighet==
 Förutom de tjänster som beskrivs i kravdokumenten för validering av uppmärkningskod och stilmallar finns ett antal onlinetjänster som kan användas som ett stöd vid utvärderingen av ett dokuments tekniska tillgänglighet. 
 
-  * HiSoftware Cynthia Says [1]
-  * Watchfire WebXACT [2]
-  * TAW [3]
-  * NetRelations Inspector
+  * [http://inspector.netrelations.se/ NetRelations Inspector] (referens 1)
+  * [http://www.cynthiasays.com/ HiSoftware Cynthia Says] (referens 2)
+  * [http://www.tawdis.net/taw3/cms/en TAW] (referens 3)
+  * [http://wave.webaim.org/ WAVE] (referens 4)
 
 Att använda dessa verktyg kräver inga avancerade förkunskaper, men för att utvärdera resultaten på ett korrekt sätt krävs expertkunskaper inom tillgänglighet.
 
 ==Tillägg till webbläsare==
 Vissa verktyg finns också som tillägg till webbläsare.
 
-===Web Developer Extension (Firefox)==
-För Firefox [4] finns tillägget Web Developer Extension [5] som har många funktioner som underlättar utvärdering av tillgänglighet.
+===[http://www.mozilla.com/firefox/ Mozilla Firefox]===
 
-===Internet Explorer Developer Toolbar===
-För Internet Explorer för Windows finns Internet Explorer Developer Toolbar [6], som även den har ett antal funktioner som underlättar vid utvärdering av teknisk tillgänglighet.
+  * [http://wave.webaim.org/toolbar WAVE Toolbar]
+  * [http://chrispederick.com/work/webdeveloper/ Web Developer Extension]
+
+===Microsoft Internet Explorer===
+
+  * [http://www.microsoft.com/downloads/details.aspx?FamilyID=e59c3964-672d-4511-bb3e-2d5e1db91038&displaylang=en Internet Explorer Developer Toolbar]
 
 ===Web Accessibility Toolbar (Internet Explorer, Opera)===
 För Internet Explorer för Windows finns tillägget Web Accessibility Toolbar [7] som har liknande funktionalitet som Web Developer Extension. En version av tillägget finns även för Opera, och den fungerar på alla plattformar: Web Accessibility Toolbar [For Opera] [7].
