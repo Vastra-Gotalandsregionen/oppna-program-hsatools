@@ -447,11 +447,11 @@ Grundtanken med att använda !JavaScript ska alltid vara att underlätta för an
 All !JavaScript som används i VGR:s webblösningar ska vara applicerad enligt principen för [http://en.wikipedia.org/wiki/Progressive_enhancement Progressive enhancement]. I korthet innebär det att man först bygger en grundfunktionalitet som inte kräver !JavaScript, och därefter förfinar interaktionen genom att till exempel validera formulärinmatning i webbläsaren eller ladda nytt innehåll med hjälp av Ajax. På så sätt kommer användare vars webbläsare saknar stöd för !JavaScript att få en mer rudimentär, men ändå fungerande, interaktion i stället för att bli utestängda.
 
 ===Validering===
-JavaScriptkod valideras inte på samma sätt som HTML eller CSS, men det finns verktyg som är utmärkta hjälpmedel för att hitta felaktigheter och potentiella källor till buggar. JSLint [22] är ett sådant.
+!JavaScriptkod valideras inte på samma sätt som HTML eller CSS, men det finns verktyg som är utmärkta hjälpmedel för att hitta felaktigheter och potentiella källor till buggar. [http://www.jslint.com/ JSLint] är ett sådant.
 
-Som namnet avslöjar är JSLint en så kallad lint checker, ett program som rapporterar kodsekvenser som kan misstänkas skapa problem. Programmet är skrivet helt i JavaScript och körs i webbläsaren. Det uppmuntrar också till gemensamma och tydliga skrivregler som minskar risken för missförstånd och buggar.
+Som namnet avslöjar är JSLint en så kallad lint checker, ett program som rapporterar kodsekvenser som kan misstänkas skapa problem. Programmet är skrivet helt i !JavaScript och körs i webbläsaren. Det uppmuntrar också till gemensamma och tydliga skrivregler som minskar risken för missförstånd och buggar.
 
-Det går att göra en del inställningar som styr hur hård kontrollen som görs är. Rekommenderade inställningar för JavaScript som ska användas i webbläsare är följande:
+Det går att göra en del inställningar som styr hur hård kontrollen som görs är. Rekommenderade inställningar för !JavaScript som ska användas i webbläsare är följande:
 
   * Strict whitespace
   * Assume a browser
@@ -459,17 +459,17 @@ Det går att göra en del inställningar som styr hur hård kontrollen som görs
   * Disallow leading _ in identifiers
   * Disallow == and !=
 
-All JavaScriptkod som används i webblösningar inom VGR bör kontrolleras med hjälp av JSLint.
+All !JavaScriptkod som används i webblösningar inom VGR bör kontrolleras med hjälp av JSLint.
 
 ===Ramverk===
-Som en grund för JavaScriptprogrammering inom portalprototypen har ramverket YUI [13] använts. Den version av YUI som i skrivande stund gäller är 2.4.1. De flesta script bygger på det och använder sig av funktionalitet från YUI för att förenkla och snabba upp programmeringen.
+Som en grund för !JavaScriptprogrammering inom portalprototypen har ramverket [http://developer.yahoo.com/yui/ YUI] använts. De flesta script bygger på det och använder sig av funktionalitet från YUI för att förenkla och snabba upp programmeringen. Den version av YUI som används i prototypen är 2.4.1, men YUI har uppdaterats sedan prototypen byggdes.
 
-När användningen av ett JavaScriptbibliotek är befogat bör YUI användas i första hand. För att undvika krockar och inladdning av onödig kod bör inte andra bibliotek användas om inte mycket goda skäl finns.
+När användningen av ett !JavaScriptbibliotek är befogat bör YUI användas i första hand. För att undvika krockar och inladdning av onödig kod bör inte andra bibliotek användas om inte mycket goda skäl finns.
 
-Mer utförlig information om JavaScriptramverk finns i dokumentet Bibliotek/ramverk för JavaScript.
+Mer utförlig information om !JavaScriptramverk finns i dokumentet [Bibliotek/ramverk för JavaScript].
 
 ===Kommentarer===
-Använd gärna JSDoc-syntax för att kommentera JavaScript. JSDoc är ett verktyg som använder kommentarer i JavaScript för att generera en HTML-fil med dokumentation av scriptet. Mer information om JSDoc finns på JSDoc Homepage [23] och JSDoc Toolkit [24].
+Använd gärna JSDoc-syntax för att kommentera !JavaScript. JSDoc är ett verktyg som använder kommentarer i !JavaScript för att generera en HTML-fil med dokumentation av scriptet. Mer information om JSDoc finns på [http://jsdoc.sourceforge.net/ JSDoc Homepage] och [http://jsdoctoolkit.org/ JSDoc Toolkit].
  
 Här är ett exempel på hur JSDoc-syntax ser ut, hämtat från portalprototypen:
 
@@ -488,12 +488,12 @@ function setCookie(name, value, expires, path, domain, secure) {
 }
 }}}
 
-Se de JavaScriptfiler som används i portalprototypen för fler exempel på JSDoc-syntax.
+Se de !JavaScriptfiler som används i portalprototypen för fler exempel på JSDoc-syntax.
 
 Förutom att det underlättar skapandet av dokumentation uppmuntrar JSDoc även till kommentering av funktioner, vilket underlättar vid framtida underhåll och överlämning till andra utvecklare.
 
 ===Skrivregler===
-Precis som för övrig kod underlättar det samarbete och underhåll om alla använder samma skrivregler. De konventioner som använts i portalprototypen är till stor del baserade på de som finns i dokumentet Code Conventions for the JavaScript Programming Language [25].
+Precis som för övrig kod underlättar det samarbete och underhåll om alla använder samma skrivregler. De konventioner som använts i portalprototypen är till stor del baserade på de som finns i dokumentet [http://javascript.crockford.com/code.html Code Conventions for the JavaScript Programming Language].
 
 För egenutvecklade script används i portalprototypen ett "VGR"-prefix för att minimera risken för namnkrockar. I varje fil som definierar script som ska använda sig av detta prfix finns först denna rad:
 
@@ -501,7 +501,7 @@ För egenutvecklade script används i portalprototypen ett "VGR"-prefix för att
 if (typeof VGR === "undefined") { var VGR = {}; }
 }}}
 
-Där kontrolleras om variabeln VGR finns, och om inte så skapas den. Därefter läggs nya funktioner in under den på följande sätt:
+Där kontrolleras om variabeln `VGR` finns, och om inte så skapas den. Därefter läggs nya funktioner in under den på följande sätt:
 
 {{{
 VGR.clearCookies = function() {
@@ -515,7 +515,7 @@ På så sätt skyddas alla funktioner och variabler från andra script.
 Här följer ett antal allmänna riktlinjer som dels underlättar underhåll, dels gör det enklare att uppnå ett fullgott resultat.
 
 ====Gör ingen interaktion beroende av mus====
-Ett mycket vanligt misstag vid implementering av JavaScriptlösningar är att skapa interaktivitet som kräver mus. Användare som endast använder tangentbordet för att navigera flyttar oftast inte muspekaren, utan flyttar i stället tangentbordsfokus genom att tabba sig fram. Det innebär att de endast kan interagera med element som kan få tangentbordsfokus, det vill säga länkar och formulärkontroller.
+Ett mycket vanligt misstag vid implementering av !JavaScriptlösningar är att skapa interaktivitet som kräver mus. Användare som endast använder tangentbordet för att navigera flyttar oftast inte muspekaren, utan flyttar i stället tangentbordsfokus genom att tabba sig fram. Det innebär att de endast kan interagera med element som kan få tangentbordsfokus, det vill säga länkar och formulärkontroller.
 
 Att göra funktionalitet beroende av mus, till exempel drag-and-drop utan tangentbordsalternativ, innebär därför stora tillgänglighetsproblem och får ej förekomma.
 
@@ -529,7 +529,7 @@ linkA.onclick = alert('linkA');
 linkB.onclick = alert('linkB');
 }}}
 
-Problemet med det är att om antingen addLang eller removeLang inte finns kommer det att ge ett fel vid körningen. Ett bättre sätt är att först kontrollera att elementen faktiskt finns i det aktuella dokumentet:
+Problemet med det är att om antingen `addLang` eller `removeLang` inte finns kommer det att ge ett fel vid körningen. Ett bättre sätt är att först kontrollera att elementen faktiskt finns i det aktuella dokumentet:
 
 {{{
 var linkA = document.getElementById('linkA');
