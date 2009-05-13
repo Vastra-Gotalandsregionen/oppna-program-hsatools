@@ -303,7 +303,7 @@ YUI Grids CSS gör det möjligt att genom att skapa en struktur av HTML-element 
 </div>
 }}}
 
-Det som gör att detta blir en tvåspaltslayout där den högra spalten har fast bredd är dels HTML-strukturen, dels klasserna.
+Det som gör att detta blir en tvåspaltslayout (där den högra spalten har fast bredd) är dels HTML-strukturen, dels klasserna.
 
   * `id="doc3"` gör att hela layouten får 100% bredd och är flexibel
   * `class="yui-t5"` skapar två spalter med en smal och fast spalt till höger
@@ -317,7 +317,7 @@ Genom att byta id och/eller klassnamn kan man enkelt skapa olika varianter av de
 Här följer ett antal allmänna riktlinjer för CSS som dels underlättar underhåll, dels gör det enklare att uppnå ett fullgott resultat.
 
 ====Skrivregler====
-För att underlätta samarbete mellan olika utvecklare såväl som framtida underhåll är det bra om man försöker att alltid använda samma format när man skriver CSS-regler. I den CSS som är skriven för portalprototypen har följande format använts (med enstaka undantag):
+För att underlätta samarbete mellan olika utvecklare såväl som framtida underhåll är det bra om man alltid använder samma format när man skriver CSS-regler. I den CSS som är skriven för portalprototypen har följande format använts (med enstaka undantag):
 
 Regler med flera egenskaper:
 
@@ -387,7 +387,7 @@ h1 {font:bold 1.7em/1.0 Arial, Helvetica, sans-serif;}
 Det finns som tidigare nämnts ett flertal sätt att skriva shorthand-CSS. För en fullständig beskrivning av dessa, se W3C:s [http://www.w3.org/TR/CSS21/ CSS 2.1-specifikation].
 
 ====Ange egenskaper i en konsekvent ordning====
-För att underlätta samarbete mellan olika utvecklare såväl som framtida underhåll är det bra om man skriver enskilda egenskaper i CSS-regler i samma ordning. Ordningen har ingen praktisk betydelse för slutresultatet i webbläsaren, men om man som utvecklare vet att ordningen alltid är densamma går det snabbare att sätta sig in i koden och göra ändringar.
+För att underlätta samarbete mellan olika utvecklare såväl som framtida underhåll är det bra om man alltid skriver enskilda egenskaper i CSS-regler i samma ordning. Ordningen har ingen praktisk betydelse för slutresultatet i webbläsaren, men om man som utvecklare vet att ordningen alltid är densamma går det snabbare att sätta sig in i koden och göra ändringar.
 
 I portalprototypen har följande ordning använts som riktlinje:
 
@@ -444,7 +444,7 @@ Ytterligare en stilfråga som underlättar samarbetet mellan olika utvecklare ä
 }}}
 
 ==!JavaScript==
-Grundtanken med att använda !JavaScript ska alltid vara att underlätta för användaren, inte att göra utvecklarens jobb lättare. Dessutom ska man alltid vara medveten om vad som händer när en användare inte har !JavaScript aktiverat.
+Grundtanken med att använda !JavaScript ska alltid vara att underlätta för användaren, inte att göra utvecklarens jobb lättare. Dessutom ska man alltid vara medveten om vad som händer när en användares webbläsare inte har !JavaScript aktiverat.
 
 All !JavaScript som används i VGR:s webblösningar ska vara applicerad enligt principen för [http://en.wikipedia.org/wiki/Progressive_enhancement Progressive enhancement]. I korthet innebär det att man först bygger en grundfunktionalitet som inte kräver !JavaScript, och därefter förfinar interaktionen genom att till exempel validera formulärinmatning i webbläsaren eller ladda nytt innehåll med hjälp av Ajax. På så sätt kommer användare vars webbläsare saknar stöd för !JavaScript att få en mer rudimentär, men ändå fungerande, interaktion i stället för att bli utestängda.
 
@@ -517,7 +517,7 @@ På så sätt skyddas alla funktioner och variabler från andra script.
 Här följer ett antal allmänna riktlinjer som dels underlättar underhåll, dels gör det enklare att uppnå ett fullgott resultat.
 
 ====Gör ingen interaktion beroende av mus====
-Ett mycket vanligt misstag vid implementering av !JavaScriptlösningar är att skapa interaktivitet som kräver mus. Användare som endast använder tangentbordet för att navigera flyttar oftast inte muspekaren, utan flyttar i stället tangentbordsfokus genom att tabba sig fram. Det innebär att de endast kan interagera med element som kan få tangentbordsfokus, det vill säga länkar och formulärkontroller.
+Ett mycket vanligt misstag vid implementering av !JavaScriptlösningar är att skapa interaktivitet som kräver mus. Användare som endast använder tangentbordet för att navigera flyttar oftast inte muspekaren, utan flyttar i stället tangentbordsfokus genom att tabba sig fram eller med hjälp av andra kortkommandon. Det innebär att de endast kan interagera med element som kan få tangentbordsfokus, det vill säga länkar och formulärkontroller.
 
 Att göra funktionalitet beroende av mus, till exempel drag-and-drop utan tangentbordsalternativ, innebär därför stora tillgänglighetsproblem och får ej förekomma.
 
