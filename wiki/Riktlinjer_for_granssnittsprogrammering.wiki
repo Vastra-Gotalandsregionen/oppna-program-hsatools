@@ -1,0 +1,479 @@
+#summary Riktlinjer för hur gränssnittskod för webblösningar inom Västra Götalandsregionen ska skrivas.
+
+=Riktlinjer för gränssnittsprogrammering=
+
+==Sammanfattning==
+_Detta dokument innehåller riktlinjer för hur gränssnittskod för webblösningar inom Västra Götalandsregionen ska skrivas. De gränssnittsspråk som omfattas av dokumentet är HTML/XHTML, CSS och JavaScript._
+
+_I dokumentet hänvisas ofta till den HTML-baserade prototyp som tagits fram inom ramen för projektet "Portalramverk i VGR"._
+
+_Dokumentets målgrupp består i första hand av gränssnitts- och systemutvecklare som ska leverera webblösningar till Västra Götalandsregionen. Goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering med HTML, CSS och JavaScript, förutsätts._
+
+==HTML==
+Att skriva bra HTML-kod handlar inte bara om att validera den, även om det naturligtvis är en mycket viktig del. Det finns ett antal andra saker man behöver ta hänsyn till för att slutresultatet ska bli tillgängligt, interoperabelt och enkelt att underhålla. Här beskrivs en del av de mest grundläggande sakerna man bör tänka på.
+
+För uppmärkning av webblösningar inom VGR ska i första hand XHTML 1.0 Strict [1] användas. Det är inget självändamål att använda XHTML – i praktiken fungerar HTML 4.01 lika bra. Dock är XHTML-syntaxen tydligare och därmed enklare för utvecklare att läsa, och allt fler verktyg är förinställda på att generera XHTML-syntax. Det blir helt enkelt enklare.
+
+===Validering===
+Ta för vana att validera all HTML regelbundet, och särskilt före leverans. Validering är en utmärkt hjälp för att kontrollera att inga misstag har slunkit in i koden, och korrekt skriven HTML är en grundförutsättning för interoperabilitet, tillgänglighet och framtidssäkring.
+
+Det finns flera olika kostnadsfria verktyg som hjälper till med validering av HTML.
+
+====W3C:s tjänst för validering av uppmärkningskod====
+HTML valideras säkrast med hjälp av W3C:s tjänst för validering av uppmärkningskod (HTML-valideraren), en gratistjänst som finns på http://validator.w3.org/ [2].
+
+I HTML-validerarens webbaserade gränssnitt kan man ange vilken kod som ska valideras genom att:
+
+  * ange en URL
+  * ladda upp en fil
+  * klistra in sidans kod i ett textfält
+
+Avancerade inställningar kan göras vid behov.
+
+Många texteditorer och webbläsare har, antingen inbyggt eller som tillägg, funktionalitet för att automatiskt ladda upp HTML-kod till HTML-valideraren och rapportera eventuella problem.
+
+W3C:s validerare är dock den officiella HTML-valideraren som är den som gäller om tveksamheter uppstår.
+2.1.2	HTML Validator Extension för Firefox
+Ett mycket användbart tillägg för webbläsaren Firefox [3] är HTML Validator Extension [4]. Tillägget kan i de senaste versionerna använda samma algoritm som W3C:s HTML-validerare, vilket gör det mycket pålitligt. Det kompletterar dessutom kodvalideringen med Tidy [5], ett verktyg som förutom kodsyntax kan varna för möjliga tillgänglighetsproblem.
+
+Det går att ställa in vilken algoritm HTML Validator Extension ska använda. Den rekommenderade inställningen är "Serial", vilket innebär att koden först kontrolleras med SGML-algoritmen (den som HTML-valideraren använder) och sedan med Tidy. Denna kombination hjälper till att hitta många fel och potentiella orsaker till kompatibilitetsproblem och rekommenderas starkt.
+
+HTML Validator Extension validerar automatiskt alla sidor man öppnar i webbläsaren, och den gör det lokalt utan att skicka någon kod till en annan server. Det gör verktyget mycket lämpligt för miljöer som är inloggningsskyddade eller under utveckling, och att det alltid är aktivt gör att det är mycket enkelt att kontrollera att man använder korrekt HTML-syntax.
+2.2	Ramverk
+Det finns inget strikt ramverk för strukturering av HTML-kod inom VGR, men inom ramen för Portalramverksprojektet har en prototypwebbplats tagits fram. Den prototypen kan med fördel användas som utgångspunkt och stöd vid HTML-kodning.
+
+För att göra det enklare att förstå hur prototypen är uppbyggd förklaras här delar av den övergripande strukturen i HTML-koden.
+
+Se prototypen online: http://vgregion.se/portalprototyp2007/ [6]
+
+// Ska prototypen bifogas till dokumentet eller på annat sätt göras enkelt åtkomlig? Det underlättar en hel del för förståelsen tror jag. 
+2.2.1	Doctype
+Allra först i dokumentet anges vilken Document Type Declaration (Doctype) som används. Som tidigare nämnts är det XHTML 1.0 Strict:
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+Notera att Doctype-koden inte ska föregås av något annat än whitespace för att undvika att Internet Explorer 6 använder Quirks mode [7].
+
+Quirks mode innebär i korthet att webbläsare renderar webbsidor på ett bakåtkompatibelt sätt i stället för att tolka HTML och CSS enligt standarderna. Det gör att det blir större skillnader i hur webbläsare beter sig, vilket i sin tur gör det svårare att skriva HTML och CSS som ger samma resultat i alla webbläsare.
+
+I vissa böcker och annan dokumentation föregås Doctype av en XML-deklaration som kan se ut så här:
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+Detta leder till att IE 6 använder Quirks mode, vilket alltså inte är önskvärt. Eftersom XML-deklarationen inte är obligatorisk förutom i vissa specialfall som inte är applicerbara här bör den helt enkelt utelämnas.
+2.2.2	Språk
+För att program, främst talsynteser och sökmotorer, ska kunna vara säkra på vilket talat språk dokumentets innehåll är på ska detta anges med hjälp av attributen xml:lang och lang på den öppnande html-taggen. För ett dokument vars innehåll är på svenska ser det ut så här:
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sv" lang="sv">
+
+Språket anges med en kod enligt rekommendationerna i W3C:s dokument Language tags in HTML and XML [8].
+2.2.3	Teckenkodning
+Dokumentets teckenkodning ska alltid anges av webbservern via en http-header, men som ett komplement är det bra att även ange det i dokumentet. Det görs med hjälp av ett meta-element som ska vara det första elementet i head-elementet:
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+Unicode (UTF-8) är den rekommenderade teckenkodningen eftersom det är den förvalda i XML och HTML och innehåller i princip alla tecken man kan tänkas använda.
+
+Mer utförlig information om teckenkodning finns i W3C:s dokument Tutorial: Character sets & encodings in XHTML, HTML and CSS [9].
+2.2.4	Metadata
+Metadata underlättar för sökmotorer och andra verktyg att hitta och använda sig av information om ett dokument. Det kan till exempel göra sökresultat i en intern sökmotor mer träffsäkra om sökmotorn konfigureras för att använda den metadata som finns i dokumenten.
+
+Det finns flera olika sätt att infoga metadata i HTML-dokument. I portalprototypen används Dublin Core för att ange en del grundläggande metadata med hjälp av meta-element i head-elementet:
+
+
+<head profile="http://dublincore.org/documents/dcq-html/">
+    <!-- Generell metadata -->
+    <meta name="keywords" content="relevanta nyckelord för denna sida" />
+    <meta name="description" content="En kort beskrivning av denna sidas innehåll." />
+    <!-- Dublin Core -->
+    <link rel="schema.DC" href="http://purl.org/DC/elements/1.1/" />
+    <link rel="schema.DCTERMS" href="http://purl.org/dc/terms/" />
+    <meta name="DC.title" content="Dokumentets titel" />
+    <meta name="DC.identifier" scheme="DCTERMS.URI" content="http://vgregion.se/url-till-dokumentet/" />
+    <meta name="DC.creator" content="Dokumentets skapare" />
+    <meta name="DC.publisher" content="Organisationens namn" />
+    <meta name="DC.description" content="En kort beskrivning av dokumentets syfte och innehåll." />
+    <meta name="DCTERMS.modified" scheme="DCTERMS.W3CDTF" content="YYYY-MM-DD" />
+    <meta name="DCTERMS.created" scheme="DCTERMS.W3CDTF" content="YYYY-MM-DD" />
+    <meta name="DC.type" scheme="DCTERMS.DCMIType" content="Text" />
+    <meta name="DC.format" scheme="DCTERMS.IMT" content="text/html" />
+
+Respektive meta-elements värde anges i content-attributet och ska anpassas för varje dokument. Metadata gäller alltså på dokumentnivå.
+
+Mer information om infogning av metadata enligt Dublin Core:
+
+•	DCMI Metadata Terms [10]
+•	Expressing Dublin Core in HTML/XHTML meta and link elements [11]
+
+Hur detaljerad metadata som är rimligt att ange varierar mellan dokument och applikationer, men den mängd som finns i portalprototypen är en grundmängd som bör finnas med i alla VGR:s webblösningar om inte särskilda skäl att utelämna något av elementen finns.
+2.2.5	Inlänkning av CSS-filer
+När man länkar in CSS-filer bör man göra det på ett sätt som gör att äldre webbläsare (som har obefintligt eller dåligt stöd för CSS) inte läser in dem. Vidare bör man också ange vilket eller vilka medier respektive CSS-fil är avsedd för.
+
+Om behovet finns kan man också ladda en fil som innehåller fixar för Internet Explorer för Windows, som har betydligt buggigare och sämre stöd för CSS än övriga aktuella webbläsare.
+
+CSS-filerna i portalprototypen laddas in på följande sätt för att gömma dem från äldre webbläsare samt ladda en fil med buggfixar för Internet Explorer:
+
+<style type="text/css" media="screen,projection">
+    @import '/css/grids-min.css'; /* YUI Grids CSS */
+    @import '/css/main.css'; /* Global CSS */
+    @import '/js/yui/assets/tabview.css'; /* CSS för YUI-widgets */
+    @import '/js/yui/assets/border_tabs.css'; /* CSS för YUI-widgets */
+    @import '/js/yui/assets/container.css'; /* CSS för YUI-widgets */
+    @import '/js/yui/assets/skins/vgr/container.css'; /* CSS för YUI-widgets */
+</style>
+<!-- CSS för IE/Win -->
+<!--[if IE]>
+<link rel="stylesheet" href="/css/ie.css" type="text/css" media="screen" />
+<![endif]-->
+<!-- CSS för utskrift -->
+<link rel="stylesheet" href="/css/print.css" type="text/css" media="print" />
+
+Med "äldre webbläsare" avses här i första hand Netscape 4 och äldre, Internet Explorer för Mac samt Internet Explorer 4 och äldre för Windows.
+
+media-attributet används för att styra vilket eller vilka media de olika CSS-filerna används till. Genom att ange media="screen,projection" på style-elementet kommer filerna som laddas med @import att endast användas för visning på skärm eller projektor, och inte vid utskrift. Omvänt kommer filen som laddas med link-elementet att enbart användas vid utskrift eftersom link-elementet innehåller media="print". Det gör att man enkelt kan göra så att till exempel layout, typsnitt och textstorlek automatisk anpassas för utskrift när användaren skriver ut ett dokument från sin webbläsare, utan att utvecklaren behöver skapa en särskild sida för utskrift.
+
+Avsnittet som laddar in en CSS-fil enbart för Internet Explorer för Windows använder en teknik som Microsoft kallar för Conditional Comments [12]. Den stöds av Internet Explorer 5 och senare. Övriga webbläsare behandlar denna typ av kommentar som en vanlig HTML-kommentar, bortser från innehållet och laddar följaktligen inte in CSS-filen som anges där.
+
+Mer detaljerade riktlinjer kring CSS finns i avsnittet "CSS".
+2.2.6	Inlänkning av JavaScript-filer
+Det sista innehållet i head-elementet i portalprototypen är en rad script-element som laddar globala JavaScriptfiler som används på de flesta sidor i prototypen:
+
+<script type="text/javascript" src="/js/yui/utilities.js"></script>
+<script type="text/javascript" src="/js/yui/container-min.js"></script>
+<script type="text/javascript" src="/js/yui/tabview-min.js"></script>
+<script type="text/javascript" src="/js/vgr.global.js"></script>
+
+Det är dels filer från JavaScriptramverket Yahoo! User Interface Library (YUI) [13] som laddas, dels en fil som innehåller globala script som är specialskrivna för prototypen. Ordningen är viktig eftersom filen vgr.global.js innehåller funktioner som är beroende av att övriga filer laddats.
+
+All JavaScriptkod ska ligga i externa filer. I idealfallet skulle de också ligga på ett och samma ställe i HTML-koden, men eftersom till exempel portlets i en portalmiljö inte alltid har möjlighet att lägga till saker i head-elementet går det också att ladda in eventuella scriptfiler först i varje enskild portlet. Exempel på detta finns i portalprototypen.
+
+Mer detaljerade riktlinjer kring JavaScript finns i avsnittet "JavaScript".
+2.2.7	body-elementet
+För mer avancerad gränssnittsfunktionalitet använder portalprototypen kontroller från YUI. För att de ska få rätt utseende har body-elementet ett klassnamn:
+
+<body class="yui-skin-vgr">
+
+Mer information om hur man applicerar skins på YUI-kontroller finns i Understanding YUI Skins [14].
+2.2.8	Portlets/moduler
+I en portal kommer naturligtvis mycket av innehållet från portlets. För att kunna ge alla ingående portlets ett gemensamt utseende och beteende behöver de vara uppbyggda enligt samma HTML-struktur. I portalprototypen ser kodskalet för en modul ut så här:
+
+<div id="module-mymodule" class="module">
+    <h2>Modulrubrik</h2>
+    <div class="module-content">
+        <p>Modulinnehåll</p>
+    </div>
+</div>
+
+Portletens innehåll ska alltså ligga i <div class="module-content">.
+2.3	Allmänna riktlinjer
+Här följer ett antal allmänna riktlinjer för HTML som dels underlättar underhåll, dels gör det enklare att uppnå ett fullgott resultat.
+2.3.1	Överspecificera inte
+Ett vanligt misstag är att använda onödigt många klasser i sin HTML. När till exempel en lista ska märkas upp är det nästan aldrig nödvändigt att ge varje listelement ett class-attribut. Både CSS och JavaScript kan komma åt de enskilda listelementen ändå genom att utgå från själva listelementet.
+
+Undvik att skriva så här:
+
+<ul id="news-list">
+    <li class="news-list-item">
+        <a href="#" class="news-list-link"></a>
+    </li>
+    <li class="news-list-item">
+        <a href="#" class="news-list-link"></a>
+    </li>
+    <li class="news-list-item">
+        <a href="#" class="news-list-link"></a>
+    </li>
+</ul>
+
+Det är nästan alltid fullt tillräckligt, och därmed bättre, att skriva så här:
+
+<ul id="news-list">
+    <li>
+        <a href="#"></a>
+    </li>
+    <li>
+        <a href="#"></a>
+    </li>
+    <li>
+        <a href="#"></a>
+    </li>
+</ul>
+
+Motsvarande CSS skulle i det första fallet kunna se ut så här:
+
+#news-list .news-list-item .news-list-link { }
+
+Men detta är fullt tillräckligt och mycket enklare att läsa:
+
+#news-list a { }
+2.3.2	Undvik inline-CSS
+Undvik så långt det är möjligt att ange CSS med hjälp av style-attribut. Det försvårar underhåll och gör att webbläsare inte kan cacha CSS-koden. All CSS bör i första hand specificeras i externa filer.
+2.3.3	Undvik event handlers i HTML-kod
+Skriv inga event handlers för JavaScript direkt i HTML-koden. Använd alltid externt laddad JavaScript. Anta att en funktion som heter VGR.linkInfo.init() ska köras när sidan har laddats. Skriv då inte så här:
+
+    <body onload="VGR.linkInfo.init()">
+
+Lägg i stället anropet i en extern fil och använd funktionen onDOMReady() [15] som följer med YUI:
+
+YAHOO.util.Event.onDOMReady(function() {
+    VGR.linkInfo.init();
+});
+
+Det går att köra flera funktioner på detta sätt. Det går även att ha flera förekomster av onDOMReady() i olika JavaScriptfiler, vilket gör att det blir mycket flexibelt att lägga till eller ta bort JavaScriptanrop. Fler exempel på hur detta går till finns i portalprototypen, till exempel i de scriptfiler som laddas för enskilda "portlets".
+3	CSS
+För att styra presentationen av webblösningar ska CSS 2.1 [16] plus de delar av CSS 3 som har implementerats av webbläsare i tillräckligt hög grad användas. Observera att det mycket väl går att använda CSS som inte stöds av alla aktuella webbläsare så länge det inte medför att innehåll eller funktionalitet blir lidande i de webbläsare som har ofullständigt stöd.
+3.1	Validering
+Ta för vana att validera all CSS regelbundet, och särskilt före leverans. Även om fel i CSS i många fall inte är lika kritiska som felaktigheter i HTML kan man ofta hitta svaret till skillnader i presentationen i felaktig CSS. Det finns mer utförliga regler för hur webbläsare ska hantera felaktig CSS än för felaktig HTML, men det förekommer ändå skillnader i hur de beter sig.
+
+Det huvudsakliga verktyget för validering av CSS är W3C:s CSS-validerare, en gratistjänst som finns på http://jigsaw.w3.org/css-validator/ [17].
+
+I CSS-validerarens webbaserade gränssnitt kan man ange den kod som ska valideras genom att:
+
+•	ange en URL
+•	ladda upp en fil
+•	klistra in kod i ett textfält
+
+Avancerade inställningar kan göras vid behov. Notera att CSS-valideraren är förinställd på att validera mot CSS 2.1-specifikationen. Om stilmallarna använder selektorer eller egenskaper som definieras i en senare version av CSS måste man manuellt ange vilken version valideraren ska använda. Val för detta finns i validerarens utökade gränssnitt.
+3.2	Ramverk
+I prototypen för portalramverket har ett så kallat gridsystem använts för att skapa layouten. Anledningen till detta är att det underlättar för implementering av layoutval i Websphere Portal Server. Systemet som används är YUI Grids CSS [18].
+
+YUI Grids CSS gör det möjligt att genom att skapa en struktur av HTML-element med speciella klassnamn bygga upp i det närmaste obegränsat antal layouter utan att behöva skriva ny CSS-kod för varje enskilt fall. Fullständig dokumentation finns på YUI Grids CSS-webbplatsen, men här är ett exempel på en tvåspaltslayout från portalprototypen:
+
+<div id="doc3" class="yui-t5">
+    <div id="hd">
+    </div>
+    <div id="bd">
+        <div id="yui-main">
+            <div class="yui-b">
+            </div>
+        </div>
+        <div class="yui-b">
+        </div>
+    </div>
+</div>
+
+Det som gör att detta blir en tvåspaltslayout där den högra spalten har fast bredd är dels HTML-strukturen, dels klasserna.
+
+•	id="doc3" gör att hela layouten får 100% bredd och är flexibel
+•	class="yui-t5" skapar två spalter med en smal och fast spalt till höger
+•	id="hd" och id="bd" är behållare för sidhuvud respektive innehåll (hd = head, bd = body)
+•	id="yui-main" anger att detta element innehåller det som anses vara huvudinnehåll
+•	class="yui-b" anger att elementet är ett innehållsblock som ska vara med i layouten
+
+Genom att byta id och/eller klassnamn kan man enkelt skapa olika varianter av denna layout. Om man till exempel ändrar id="doc3" till id="doc2" blir layouten 950px bred och centrerad horisontellt.
+3.3	Allmänna riktlinjer
+Här följer ett antal allmänna riktlinjer för CSS som dels underlättar underhåll, dels gör det enklare att uppnå ett fullgott resultat.
+3.3.1	Skrivregler
+För att underlätta samarbete mellan olika utvecklare såväl som framtida underhåll är det bra om man försöker att alltid använda samma format när man skriver CSS-regler. I den CSS som är skriven för portalprototypen har följande format använts (med enstaka undantag):
+
+Regler med flera egenskaper:
+
+h1 {
+    margin-bottom:1em;
+    font-size:2em;
+}
+
+Regler med en egenskap:
+
+h1 {font-size:2em;}
+
+Regler med multipla selektorer:
+
+h1,
+h2,
+h3 {
+    margin-bottom:0;
+    font-family:Arial, Helvetica, sans-serif;
+}
+3.3.2	Använd shorthand
+I CSS finns många sätt att skriva regler i kortare format, shorthand, för att på så sätt göra koden mer kompakt och överskådlig. Anta att ett element ska ha olika marginal åt alla fyra håll. Då kan man skriva på följande sätt:
+
+#my-element {
+    margin-top:1em;
+    margin-right:2em;
+    margin-bottom:3em;
+    margin-left:4em;
+}
+
+Det fungerar och är inte felaktigt. Det är däremot ineffektivt och leder i längden till onödigt stora och svåröverskådliga CSS-filer. Ett mer kompakt sätt att ange marginalerna på är detta:
+
+#my-element {margin:1em 2em 3em 4em;}
+
+I detta sätt att skriva anges värdena i ordningen top, right, bottom, left.
+
+Samma metod kan användas för egenskaperna padding och border.
+
+På liknande sätt kan även egenskaper som berör text skrivas ihop. Följande regel:
+
+h1 {
+    font-weight:bold;
+    font-size:1.7em;
+    line-height:1.0;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+Kan i stället skrivas så här:
+
+    h1 {font:bold 1.7em/1.0 Arial, Helvetica, sans-serif;}
+
+Det finns som tidigare nämnts ett flertal sätt att skriva shorthand-CSS. För en fullständig beskrivning av dessa, se W3C:s CSS 2.1-specifikation [16].
+3.3.3	Ange egenskaper i en konsekvent ordning
+För att underlätta samarbete mellan olika utvecklare såväl som framtida underhåll är det bra om man skriver enskilda egenskaper i CSS-regler i samma ordning. Ordningen har ingen praktisk betydelse för slutresultatet i webbläsaren, men om man som utvecklare vet att ordningen alltid är densamma går det snabbare att sätta sig in i koden och göra ändringar.
+
+I portalprototypen har följande ordning använts som riktlinje:
+
+display
+position
+top
+right
+bottom
+left
+z-index
+float
+clear
+width
+height
+margin
+padding
+list-style
+border
+border-width
+border-style
+border-color
+color
+background
+background-color
+background-image
+background-repeat
+background-position
+font
+font-weight
+font-size
+line-height
+font-family
+text-decoration
+text-align
+white-space
+3.3.4	Undvik CSS-hack
+I de fall där skillnader i implementering mellan webbläsare gör det nödvändigt att förse olika webbläsare med olika CSS för att uppnå samma resultat är det önskvärt att undvika så kallade CSS-hack [19].
+
+CSS-hack innebär att man utnyttjar webbläsarbuggar och skillnader i CSS-implementationer för att gömma enskilda CSS-regler från vissa webbläsare eller att ge webbläsare med bristande CSS-stöd anpassade regler. Eftersom CSS-hack i de flesta fall bygger på inofficiella buggar anses de av många vara osäkra att använda. Best practice är att undvika dem så långt det är möjligt.
+
+I praktiken är det endast Internet Explorer som behöver få anpassad CSS, eftersom övriga webbläsare som är aktuella har mycket gott stöd för CSS. För Internet Explorer för Windows finns Conditional Comments som ett säkrare alternativ till CSS-hack. Conditional Comments beskrivs närmare i avsnittet "Inlänkning av CSS-filer".
+
+I den IE-specifika CSS-filen kan dock ett CSS-hack användas för att skilja olika versioner av IE åt. Det så kallade Star html-hacket [20] fungerar endast i versioner tidigare än 7 –  i IE 7 är den bugg det baseras på åtgärdad. Eftersom det är högst osannolikt att den buggen återkommer i nyare versioner av IE är det ett säkert sätt att påverka endast IE 6 och tidigare. Exempel på detta finns i filen /css/ie.css i portalprototypen.
+3.3.5	Använd enhetlig namngivning för klasser och id
+Ytterligare en stilfråga som underlättar samarbetet mellan olika utvecklare är att använda samma skrivregler för id och klassnamn. I portalprototypen används enbart gemener, och klasser eller id som består av flera ord separeras med bindestreck. Exempel:
+
+#login-status { }
+.search-module { }
+4	JavaScript
+Grundtanken med att använda JavaScript ska alltid vara att underlätta för användaren, inte att göra utvecklarens jobb lättare. Dessutom ska man alltid vara medveten om vad som händer när en användare inte har JavaScript aktiverat.
+
+All JavaScript som används i VGR:s webblösningar ska vara applicerad enligt principen för Progressive enhancement [21]. I korthet innebär det att man först bygger en grundfunktionalitet som inte kräver JavaScript, och därefter förfinar interaktionen genom att till exempel validera formulärinmatning i webbläsaren eller ladda nytt innehåll med hjälp av Ajax. På så sätt kommer användare vars webbläsare saknar stöd för JavaScript att få en mer rudimentär, men ändå fungerande, interaktion i stället för att bli utestängda.
+4.1	Validering
+JavaScriptkod valideras inte på samma sätt som HTML eller CSS, men det finns verktyg som är utmärkta hjälpmedel för att hitta felaktigheter och potentiella källor till buggar. JSLint [22] är ett sådant.
+
+Som namnet avslöjar är JSLint en så kallad lint checker, ett program som rapporterar kodsekvenser som kan misstänkas skapa problem. Programmet är skrivet helt i JavaScript och körs i webbläsaren. Det uppmuntrar också till gemensamma och tydliga skrivregler som minskar risken för missförstånd och buggar.
+
+Det går att göra en del inställningar som styr hur hård kontrollen som görs är. Rekommenderade inställningar för JavaScript som ska användas i webbläsare är följande:
+
+•	Strict whitespace
+•	Assume a browser
+•	Disallow undefined variables
+•	Disallow leading _ in identifiers
+•	Disallow == and !=
+
+All JavaScriptkod som används i webblösningar inom VGR bör kontrolleras med hjälp av JSLint.
+4.2	Ramverk
+Som en grund för JavaScriptprogrammering inom portalprototypen har ramverket YUI [13] använts. Den version av YUI som i skrivande stund gäller är 2.4.1. De flesta script bygger på det och använder sig av funktionalitet från YUI för att förenkla och snabba upp programmeringen.
+
+När användningen av ett JavaScriptbibliotek är befogat bör YUI användas i första hand. För att undvika krockar och inladdning av onödig kod bör inte andra bibliotek användas om inte mycket goda skäl finns.
+
+Mer utförlig information om JavaScriptramverk finns i dokumentet Bibliotek/ramverk för JavaScript.
+4.3	Kommentarer
+Använd gärna JSDoc-syntax för att kommentera JavaScript. JSDoc är ett verktyg som använder kommentarer i JavaScript för att generera en HTML-fil med dokumentation av scriptet. Mer information om JSDoc finns på JSDoc Homepage [23] och JSDoc Toolkit [24].
+ 
+Här är ett exempel på hur JSDoc-syntax ser ut, hämtat från portalprototypen:
+
+/**
+ * Sets a cookie.
+ * @param {String} name The name of the cookie to set.
+ * @param {String} value The value of the cookie.
+ * @param {Integer} expires Number of days until the cookie expires.
+ * @param {String} path The path for which the cookie is valid.
+ * @param {String} domain The domain name for which the cookie is valid.
+ * @param {Boolean} secure Whether or not the cookie is secure.
+ */
+function setCookie(name, value, expires, path, domain, secure) {
+    ...
+}
+
+Se de JavaScriptfiler som används i portalprototypen för fler exempel på JSDoc-syntax.
+
+Förutom att det underlättar skapandet av dokumentation uppmuntrar JSDoc även till kommentering av funktioner, vilket underlättar vid framtida underhåll och överlämning till andra utvecklare.
+4.4	Skrivregler
+Precis som för övrig kod underlättar det samarbete och underhåll om alla använder samma skrivregler. De konventioner som använts i portalprototypen är till stor del baserade på de som finns i dokumentet Code Conventions for the JavaScript Programming Language [25].
+
+För egenutvecklade script används i portalprototypen ett "VGR"-prefix för att minimera risken för namnkrockar. I varje fil som definierar script som ska använda sig av detta prfix finns först denna rad:
+
+if (typeof VGR === "undefined") { var VGR = {}; }
+
+Där kontrolleras om variabeln VGR finns, och om inte så skapas den. Därefter läggs nya funktioner in under den på följande sätt:
+
+VGR.clearCookies = function() {
+    ...
+}
+
+På så sätt skyddas alla funktioner och variabler från andra script.
+4.5	Allmänna riktlinjer
+Här följer ett antal allmänna riktlinjer som dels underlättar underhåll, dels gör det enklare att uppnå ett fullgott resultat.
+4.5.1	Gör ingen interaktion beroende av mus
+Ett mycket vanligt misstag vid implementering av JavaScriptlösningar är att skapa interaktivitet som kräver mus. Användare som endast använder tangentbordet för att navigera flyttar oftast inte muspekaren, utan flyttar i stället tangentbordsfokus genom att tabba sig fram. Det innebär att de endast kan interagera med element som kan få tangentbordsfokus, det vill säga länkar och formulärkontroller.
+
+Att göra funktionalitet beroende av mus, till exempel drag-and-drop utan tangentbordsalternativ, innebär därför stora tillgänglighetsproblem och får ej förekomma.
+4.5.2	Gör inga antaganden
+Skriv inte program som förutsätter att ett visst HTML-element finns i dokumentet. Kontrollera först att det verkligen finns. Anta att ett script ska lägga på event handlers på två länkar med olika id:n. Då kan man anta att elementen finns och skriva så här:
+
+var linkA = document.getElementById('linkA');
+var linkB = document.getElementById('linkB');
+linkA.onclick = alert('linkA');
+linkB.onclick = alert('linkB');
+
+Problemet med det är att om antingen addLang eller removeLang inte finns kommer det att ge ett fel vid körningen. Ett bättre sätt är att först kontrollera att elementen faktiskt finns i det aktuella dokumentet:
+
+var linkA = document.getElementById('linkA');
+var linkB = document.getElementById('linkB');
+if (!linkA || !linkB) { return; }
+linkA.onclick = alert('linkA');
+linkB.onclick = alert('linkB');
+
+Om något av elementen inte finns i dokumentet avbryts scriptet innan det försöker anropa elementen, och inget fel uppstår.
+5	Referenser
+1.	XHTML 1.0 Strict: http://www.w3.org/TR/xhtml1/
+2.	W3C Markup Validation Service: http://validator.w3.org/
+3.	Firefox: http://www.mozilla.com/firefox/
+4.	HTML Validator Extension: http://users.skynet.be/mgueury/mozilla/
+5.	Tidy: http://tidy.sourceforge.net/
+6.	Portalprototyp: http://vgregion.se/portalprototyp2007/
+7.	Quirks mode: http://en.wikipedia.org/wiki/Quirks_mode
+8.	Language tags in HTML and XML: http://www.w3.org/International/articles/language-tags/
+9.	Tutorial: Character sets & encodings in XHTML, HTML and CSS: http://www.w3.org/International/tutorials/tutorial-char-enc/
+10.	DCMI Metadata Terms: http://dublincore.org/documents/dcmi-terms/
+11.	Expressing Dublin Core in HTML/XHTML meta and link elements: http://dublincore.org/documents/dcq-html/
+12.	About Conditional Comments: http://msdn2.microsoft.com/en-us/library/ms537512(VS.85).aspx
+13.	YUI: http://developer.yahoo.com/yui/
+14.	Understanding YUI Skins: http://developer.yahoo.com/yui/articles/skinning/
+15.	onDOMReady: http://developer.yahoo.com/yui/docs/YAHOO.util.Event.html#onDOMReady
+16.	CSS 2.1 Specification: http://www.w3.org/TR/CSS21/
+17.	The W3C CSS Validation Service: http://jigsaw.w3.org/css-validator/
+18.	Yahoo! UI Library: Grids CSS: http://developer.yahoo.com/yui/grids/
+19.	CSS Hack: http://css-discuss.incutio.com/?page=CssHack
+20.	Star html Selector Bug: http://www.info.com.ph/~etan/w3pantheon/style/starhtmlbug.html
+21.	Progressive enhancement: http://en.wikipedia.org/wiki/Progressive_enhancement
+22.	JSLint: http://www.jslint.com/
+23.	JSDoc Homepage: http://jsdoc.sourceforge.net/
+24.	JSDoc Toolkit: http://jsdoctoolkit.org/
+25.	Code Conventions for the JavaScript Programming Language: http://javascript.crockford.com/code.html
+
