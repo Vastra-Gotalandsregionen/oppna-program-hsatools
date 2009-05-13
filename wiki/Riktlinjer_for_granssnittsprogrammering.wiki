@@ -9,7 +9,7 @@
 ==Sammanfattning==
 _Detta dokument innehåller riktlinjer för hur gränssnittskod för webblösningar inom Västra Götalandsregionen ska skrivas. De gränssnittsspråk som omfattas av dokumentet är HTML/XHTML, CSS och !JavaScript._
 
-_I dokumentet hänvisas ofta till den HTML-baserade gränssnittsprototyp som dokumenteras på och finns att ladda ner från http://code.google.com/p/oppna-program-portalramverk/._
+_I dokumentet hänvisas ofta till den HTML-baserade gränssnittsprototyp som dokumenteras på och finns att ladda ner från http://code.google.com/p/oppna-program-portalramverk/.
 
 _Dokumentets målgrupp är i första hand gränssnitts- och systemutvecklare som ska leverera webblösningar till Västra Götalandsregionen. Goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering med HTML, CSS och !JavaScript, förutsätts._
 
