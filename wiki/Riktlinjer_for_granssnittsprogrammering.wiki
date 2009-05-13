@@ -115,12 +115,12 @@ Det finns flera olika sätt att infoga metadata i HTML-dokument. I portalprototy
     <meta name="DC.format" scheme="DCTERMS.IMT" content="text/html" />
 }}}
 
-Respektive `meta`-elements värde anges i content-attributet och ska anpassas för varje dokument. Metadata gäller alltså på dokumentnivå.
+Respektive `meta`-elements värde anges i `content`-attributet och ska anpassas för varje dokument. Metadata gäller alltså på dokumentnivå.
 
 Mer information om infogning av metadata enligt Dublin Core:
 
-  * DCMI Metadata Terms [10]
-  * Expressing Dublin Core in HTML/XHTML meta and link elements [11]
+  * [http://dublincore.org/documents/dcmi-terms/ DCMI Metadata Terms]
+  * [http://dublincore.org/documents/dcq-html/ Expressing Dublin Core in HTML/XHTML meta and link elements]
 
 Hur detaljerad metadata som är rimligt att ange varierar mellan dokument och applikationer, men den mängd som finns i portalprototypen är en grundmängd som bör finnas med i alla VGR:s webblösningar om inte särskilda skäl att utelämna något av elementen finns.
 
@@ -150,14 +150,14 @@ CSS-filerna i portalprototypen laddas in på följande sätt för att gömma dem
 
 Med "äldre webbläsare" avses här i första hand Netscape 4 och äldre, Internet Explorer för Mac samt Internet Explorer 4 och äldre för Windows.
 
-`media`-attributet används för att styra vilket eller vilka media de olika CSS-filerna används till. Genom att ange `media="screen,projection"`  på `style`-elementet kommer filerna som laddas med @import att endast användas för visning på skärm eller projektor, och inte vid utskrift. Omvänt kommer filen som laddas med link-elementet att enbart användas vid utskrift eftersom link-elementet innehåller media="print". Det gör att man enkelt kan göra så att till exempel layout, typsnitt och textstorlek automatisk anpassas för utskrift när användaren skriver ut ett dokument från sin webbläsare, utan att utvecklaren behöver skapa en särskild sida för utskrift.
+`media`-attributet används för att styra vilket eller vilka media de olika CSS-filerna används till. Genom att ange `media="screen,projection"`  på `style`-elementet kommer filerna som laddas med `@import` att endast användas för visning på skärm eller projektor, och inte vid utskrift. Omvänt kommer filen som laddas med `link`-elementet att enbart användas vid utskrift eftersom `link`-elementet innehåller `media="print"`. Det gör att man enkelt kan göra så att till exempel layout, typsnitt och textstorlek automatisk anpassas för utskrift när användaren skriver ut ett dokument från sin webbläsare, utan att utvecklaren behöver skapa en särskild sida för utskrift.
 
-Avsnittet som laddar in en CSS-fil enbart för Internet Explorer för Windows använder en teknik som Microsoft kallar för Conditional Comments [12]. Den stöds av Internet Explorer 5 och senare. Övriga webbläsare behandlar denna typ av kommentar som en vanlig HTML-kommentar, bortser från innehållet och laddar följaktligen inte in CSS-filen som anges där.
+Avsnittet som laddar in en CSS-fil enbart för Internet Explorer för Windows använder en teknik som Microsoft kallar för [http://msdn2.microsoft.com/en-us/library/ms537512(VS.85).aspx Conditional Comments]. Den stöds av Internet Explorer 5 och senare. Övriga webbläsare behandlar denna typ av kommentar som en vanlig HTML-kommentar, bortser från innehållet och laddar följaktligen inte in CSS-filen som anges där.
 
 Mer detaljerade riktlinjer kring CSS finns i avsnittet "CSS".
 
-====Inlänkning av JavaScript-filer====
-Det sista innehållet i head-elementet i portalprototypen är en rad script-element som laddar globala JavaScriptfiler som används på de flesta sidor i prototypen:
+====Inlänkning av !JavaScript-filer====
+Det sista innehållet i `head`-elementet i portalprototypen är en rad `script`-element som laddar globala !JavaScriptfiler som används på de flesta sidor i prototypen:
 
 {{{
 <script type="text/javascript" src="/js/yui/utilities.js"></script>
@@ -166,20 +166,20 @@ Det sista innehållet i head-elementet i portalprototypen är en rad script-elem
 <script type="text/javascript" src="/js/vgr.global.js"></script>
 }}}
 
-Det är dels filer från JavaScriptramverket Yahoo! User Interface Library (YUI) [13] som laddas, dels en fil som innehåller globala script som är specialskrivna för prototypen. Ordningen är viktig eftersom filen vgr.global.js innehåller funktioner som är beroende av att övriga filer laddats.
+Det är dels filer från !JavaScriptramverket [http://developer.yahoo.com/yui/ Yahoo! User Interface Library (YUI)] som laddas, dels en fil som innehåller globala script som är specialskrivna för prototypen. Ordningen är viktig eftersom filen `vgr.global.js` innehåller funktioner som är beroende av att övriga filer laddats.
 
-All JavaScriptkod ska ligga i externa filer. I idealfallet skulle de också ligga på ett och samma ställe i HTML-koden, men eftersom till exempel portlets i en portalmiljö inte alltid har möjlighet att lägga till saker i head-elementet går det också att ladda in eventuella scriptfiler först i varje enskild portlet. Exempel på detta finns i portalprototypen.
+All !JavaScriptkod ska ligga i externa filer. I idealfallet skulle de också ligga på ett och samma ställe i HTML-koden, men eftersom till exempel portlets i en portalmiljö inte alltid har möjlighet att lägga till saker i head-elementet går det också att ladda in eventuella scriptfiler först i varje enskild portlet. Exempel på detta finns i portalprototypen.
 
-Mer detaljerade riktlinjer kring JavaScript finns i avsnittet "JavaScript".
+Mer detaljerade riktlinjer kring !JavaScript finns i avsnittet "!JavaScript".
 
-====body-elementet====
-För mer avancerad gränssnittsfunktionalitet använder portalprototypen kontroller från YUI. För att de ska få rätt utseende har body-elementet ett klassnamn:
+====`body`-elementet====
+För mer avancerad gränssnittsfunktionalitet använder portalprototypen kontroller från YUI. För att de ska få rätt utseende har `body`-elementet ett klassnamn:
 
 {{{
 <body class="yui-skin-vgr">
 }}}
 
-Mer information om hur man applicerar skins på YUI-kontroller finns i Understanding YUI Skins [14].
+Mer information om hur man applicerar skins på YUI-kontroller finns i [http://developer.yahoo.com/yui/articles/skinning/ Understanding YUI Skins].
 
 ====Portlets/moduler====
 I en portal kommer naturligtvis mycket av innehållet från portlets. För att kunna ge alla ingående portlets ett gemensamt utseende och beteende behöver de vara uppbyggda enligt samma HTML-struktur. I portalprototypen ser kodskalet för en modul ut så här:
@@ -193,7 +193,7 @@ I en portal kommer naturligtvis mycket av innehållet från portlets. För att k
 </div>
 }}}
 
-Portletens innehåll ska alltså ligga i <div class="module-content"></div>.
+Portletens innehåll ska alltså ligga i `<div class="module-content"></div>`.
 
 ===Allmänna riktlinjer===
 Här följer ett antal allmänna riktlinjer för HTML som dels underlättar underhåll, dels gör det enklare att uppnå ett fullgott resultat.
