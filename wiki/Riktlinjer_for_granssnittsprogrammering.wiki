@@ -33,25 +33,28 @@ Avancerade inställningar kan göras vid behov.
 Många texteditorer och webbläsare har, antingen inbyggt eller som tillägg, funktionalitet för att automatiskt ladda upp HTML-kod till HTML-valideraren och rapportera eventuella problem.
 
 W3C:s validerare är dock den officiella HTML-valideraren som är den som gäller om tveksamheter uppstår.
-2.1.2	HTML Validator Extension för Firefox
+
+====HTML Validator Extension för Firefox====
 Ett mycket användbart tillägg för webbläsaren Firefox [3] är HTML Validator Extension [4]. Tillägget kan i de senaste versionerna använda samma algoritm som W3C:s HTML-validerare, vilket gör det mycket pålitligt. Det kompletterar dessutom kodvalideringen med Tidy [5], ett verktyg som förutom kodsyntax kan varna för möjliga tillgänglighetsproblem.
 
 Det går att ställa in vilken algoritm HTML Validator Extension ska använda. Den rekommenderade inställningen är "Serial", vilket innebär att koden först kontrolleras med SGML-algoritmen (den som HTML-valideraren använder) och sedan med Tidy. Denna kombination hjälper till att hitta många fel och potentiella orsaker till kompatibilitetsproblem och rekommenderas starkt.
 
 HTML Validator Extension validerar automatiskt alla sidor man öppnar i webbläsaren, och den gör det lokalt utan att skicka någon kod till en annan server. Det gör verktyget mycket lämpligt för miljöer som är inloggningsskyddade eller under utveckling, och att det alltid är aktivt gör att det är mycket enkelt att kontrollera att man använder korrekt HTML-syntax.
-2.2	Ramverk
+
+===Ramverk===
 Det finns inget strikt ramverk för strukturering av HTML-kod inom VGR, men inom ramen för Portalramverksprojektet har en prototypwebbplats tagits fram. Den prototypen kan med fördel användas som utgångspunkt och stöd vid HTML-kodning.
 
 För att göra det enklare att förstå hur prototypen är uppbyggd förklaras här delar av den övergripande strukturen i HTML-koden.
 
 Se prototypen online: http://vgregion.se/portalprototyp2007/ [6]
 
-// Ska prototypen bifogas till dokumentet eller på annat sätt göras enkelt åtkomlig? Det underlättar en hel del för förståelsen tror jag. 
-2.2.1	Doctype
+====Doctype====
 Allra först i dokumentet anges vilken Document Type Declaration (Doctype) som används. Som tidigare nämnts är det XHTML 1.0 Strict:
 
+{{{
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+}}}
 
 Notera att Doctype-koden inte ska föregås av något annat än whitespace för att undvika att Internet Explorer 6 använder Quirks mode [7].
 
@@ -59,30 +62,39 @@ Quirks mode innebär i korthet att webbläsare renderar webbsidor på ett bakåt
 
 I vissa böcker och annan dokumentation föregås Doctype av en XML-deklaration som kan se ut så här:
 
+{{{
 <?xml version="1.0" encoding="UTF-8"?>
+}}}
 
 Detta leder till att IE 6 använder Quirks mode, vilket alltså inte är önskvärt. Eftersom XML-deklarationen inte är obligatorisk förutom i vissa specialfall som inte är applicerbara här bör den helt enkelt utelämnas.
-2.2.2	Språk
+
+====Språk====
 För att program, främst talsynteser och sökmotorer, ska kunna vara säkra på vilket talat språk dokumentets innehåll är på ska detta anges med hjälp av attributen xml:lang och lang på den öppnande html-taggen. För ett dokument vars innehåll är på svenska ser det ut så här:
 
+{{{
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sv" lang="sv">
+}}}
 
 Språket anges med en kod enligt rekommendationerna i W3C:s dokument Language tags in HTML and XML [8].
-2.2.3	Teckenkodning
+
+====Teckenkodning====
 Dokumentets teckenkodning ska alltid anges av webbservern via en http-header, men som ett komplement är det bra att även ange det i dokumentet. Det görs med hjälp av ett meta-element som ska vara det första elementet i head-elementet:
 
+{{{
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+}}}
 
 Unicode (UTF-8) är den rekommenderade teckenkodningen eftersom det är den förvalda i XML och HTML och innehåller i princip alla tecken man kan tänkas använda.
 
 Mer utförlig information om teckenkodning finns i W3C:s dokument Tutorial: Character sets & encodings in XHTML, HTML and CSS [9].
-2.2.4	Metadata
+
+====Metadata====
 Metadata underlättar för sökmotorer och andra verktyg att hitta och använda sig av information om ett dokument. Det kan till exempel göra sökresultat i en intern sökmotor mer träffsäkra om sökmotorn konfigureras för att använda den metadata som finns i dokumenten.
 
 Det finns flera olika sätt att infoga metadata i HTML-dokument. I portalprototypen används Dublin Core för att ange en del grundläggande metadata med hjälp av meta-element i head-elementet:
 
-
+{{{
 <head profile="http://dublincore.org/documents/dcq-html/">
     <!-- Generell metadata -->
     <meta name="keywords" content="relevanta nyckelord för denna sida" />
@@ -99,22 +111,25 @@ Det finns flera olika sätt att infoga metadata i HTML-dokument. I portalprototy
     <meta name="DCTERMS.created" scheme="DCTERMS.W3CDTF" content="YYYY-MM-DD" />
     <meta name="DC.type" scheme="DCTERMS.DCMIType" content="Text" />
     <meta name="DC.format" scheme="DCTERMS.IMT" content="text/html" />
+}}}
 
-Respektive meta-elements värde anges i content-attributet och ska anpassas för varje dokument. Metadata gäller alltså på dokumentnivå.
+Respektive `meta`-elements värde anges i content-attributet och ska anpassas för varje dokument. Metadata gäller alltså på dokumentnivå.
 
 Mer information om infogning av metadata enligt Dublin Core:
 
-•	DCMI Metadata Terms [10]
-•	Expressing Dublin Core in HTML/XHTML meta and link elements [11]
+  * DCMI Metadata Terms [10]
+  * Expressing Dublin Core in HTML/XHTML meta and link elements [11]
 
 Hur detaljerad metadata som är rimligt att ange varierar mellan dokument och applikationer, men den mängd som finns i portalprototypen är en grundmängd som bör finnas med i alla VGR:s webblösningar om inte särskilda skäl att utelämna något av elementen finns.
-2.2.5	Inlänkning av CSS-filer
+
+====Inlänkning av CSS-filer====
 När man länkar in CSS-filer bör man göra det på ett sätt som gör att äldre webbläsare (som har obefintligt eller dåligt stöd för CSS) inte läser in dem. Vidare bör man också ange vilket eller vilka medier respektive CSS-fil är avsedd för.
 
 Om behovet finns kan man också ladda en fil som innehåller fixar för Internet Explorer för Windows, som har betydligt buggigare och sämre stöd för CSS än övriga aktuella webbläsare.
 
 CSS-filerna i portalprototypen laddas in på följande sätt för att gömma dem från äldre webbläsare samt ladda en fil med buggfixar för Internet Explorer:
 
+{{{
 <style type="text/css" media="screen,projection">
     @import '/css/grids-min.css'; /* YUI Grids CSS */
     @import '/css/main.css'; /* Global CSS */
@@ -129,51 +144,64 @@ CSS-filerna i portalprototypen laddas in på följande sätt för att gömma dem
 <![endif]-->
 <!-- CSS för utskrift -->
 <link rel="stylesheet" href="/css/print.css" type="text/css" media="print" />
+}}}
 
 Med "äldre webbläsare" avses här i första hand Netscape 4 och äldre, Internet Explorer för Mac samt Internet Explorer 4 och äldre för Windows.
 
-media-attributet används för att styra vilket eller vilka media de olika CSS-filerna används till. Genom att ange media="screen,projection" på style-elementet kommer filerna som laddas med @import att endast användas för visning på skärm eller projektor, och inte vid utskrift. Omvänt kommer filen som laddas med link-elementet att enbart användas vid utskrift eftersom link-elementet innehåller media="print". Det gör att man enkelt kan göra så att till exempel layout, typsnitt och textstorlek automatisk anpassas för utskrift när användaren skriver ut ett dokument från sin webbläsare, utan att utvecklaren behöver skapa en särskild sida för utskrift.
+`media`-attributet används för att styra vilket eller vilka media de olika CSS-filerna används till. Genom att ange `media="screen,projection"`  på `style`-elementet kommer filerna som laddas med @import att endast användas för visning på skärm eller projektor, och inte vid utskrift. Omvänt kommer filen som laddas med link-elementet att enbart användas vid utskrift eftersom link-elementet innehåller media="print". Det gör att man enkelt kan göra så att till exempel layout, typsnitt och textstorlek automatisk anpassas för utskrift när användaren skriver ut ett dokument från sin webbläsare, utan att utvecklaren behöver skapa en särskild sida för utskrift.
 
 Avsnittet som laddar in en CSS-fil enbart för Internet Explorer för Windows använder en teknik som Microsoft kallar för Conditional Comments [12]. Den stöds av Internet Explorer 5 och senare. Övriga webbläsare behandlar denna typ av kommentar som en vanlig HTML-kommentar, bortser från innehållet och laddar följaktligen inte in CSS-filen som anges där.
 
 Mer detaljerade riktlinjer kring CSS finns i avsnittet "CSS".
-2.2.6	Inlänkning av JavaScript-filer
+
+====Inlänkning av JavaScript-filer====
 Det sista innehållet i head-elementet i portalprototypen är en rad script-element som laddar globala JavaScriptfiler som används på de flesta sidor i prototypen:
 
+{{{
 <script type="text/javascript" src="/js/yui/utilities.js"></script>
 <script type="text/javascript" src="/js/yui/container-min.js"></script>
 <script type="text/javascript" src="/js/yui/tabview-min.js"></script>
 <script type="text/javascript" src="/js/vgr.global.js"></script>
+}}}
 
 Det är dels filer från JavaScriptramverket Yahoo! User Interface Library (YUI) [13] som laddas, dels en fil som innehåller globala script som är specialskrivna för prototypen. Ordningen är viktig eftersom filen vgr.global.js innehåller funktioner som är beroende av att övriga filer laddats.
 
 All JavaScriptkod ska ligga i externa filer. I idealfallet skulle de också ligga på ett och samma ställe i HTML-koden, men eftersom till exempel portlets i en portalmiljö inte alltid har möjlighet att lägga till saker i head-elementet går det också att ladda in eventuella scriptfiler först i varje enskild portlet. Exempel på detta finns i portalprototypen.
 
 Mer detaljerade riktlinjer kring JavaScript finns i avsnittet "JavaScript".
-2.2.7	body-elementet
+
+====body-elementet====
 För mer avancerad gränssnittsfunktionalitet använder portalprototypen kontroller från YUI. För att de ska få rätt utseende har body-elementet ett klassnamn:
 
+{{{
 <body class="yui-skin-vgr">
+}}}
 
 Mer information om hur man applicerar skins på YUI-kontroller finns i Understanding YUI Skins [14].
-2.2.8	Portlets/moduler
+
+====Portlets/moduler====
 I en portal kommer naturligtvis mycket av innehållet från portlets. För att kunna ge alla ingående portlets ett gemensamt utseende och beteende behöver de vara uppbyggda enligt samma HTML-struktur. I portalprototypen ser kodskalet för en modul ut så här:
 
+{{{
 <div id="module-mymodule" class="module">
     <h2>Modulrubrik</h2>
     <div class="module-content">
         <p>Modulinnehåll</p>
     </div>
 </div>
+}}}
 
-Portletens innehåll ska alltså ligga i <div class="module-content">.
-2.3	Allmänna riktlinjer
+Portletens innehåll ska alltså ligga i <div class="module-content"></div>.
+
+===Allmänna riktlinjer===
 Här följer ett antal allmänna riktlinjer för HTML som dels underlättar underhåll, dels gör det enklare att uppnå ett fullgott resultat.
-2.3.1	Överspecificera inte
+
+====Överspecificera inte====
 Ett vanligt misstag är att använda onödigt många klasser i sin HTML. När till exempel en lista ska märkas upp är det nästan aldrig nödvändigt att ge varje listelement ett class-attribut. Både CSS och JavaScript kan komma åt de enskilda listelementen ändå genom att utgå från själva listelementet.
 
 Undvik att skriva så här:
 
+{{{
 <ul id="news-list">
     <li class="news-list-item">
         <a href="#" class="news-list-link"></a>
@@ -185,9 +213,11 @@ Undvik att skriva så här:
         <a href="#" class="news-list-link"></a>
     </li>
 </ul>
+}}}
 
 Det är nästan alltid fullt tillräckligt, och därmed bättre, att skriva så här:
 
+{{{
 <ul id="news-list">
     <li>
         <a href="#"></a>
@@ -199,15 +229,21 @@ Det är nästan alltid fullt tillräckligt, och därmed bättre, att skriva så 
         <a href="#"></a>
     </li>
 </ul>
+}}}
 
 Motsvarande CSS skulle i det första fallet kunna se ut så här:
 
+{{{
 #news-list .news-list-item .news-list-link { }
+}}}
 
 Men detta är fullt tillräckligt och mycket enklare att läsa:
 
+{{{
 #news-list a { }
-2.3.2	Undvik inline-CSS
+}}}
+
+====Undvik inline-CSS====
 Undvik så långt det är möjligt att ange CSS med hjälp av style-attribut. Det försvårar underhåll och gör att webbläsare inte kan cacha CSS-koden. All CSS bör i första hand specificeras i externa filer.
 2.3.3	Undvik event handlers i HTML-kod
 Skriv inga event handlers för JavaScript direkt i HTML-koden. Använd alltid externt laddad JavaScript. Anta att en funktion som heter VGR.linkInfo.init() ska köras när sidan har laddats. Skriv då inte så här:
@@ -476,4 +512,3 @@ Om något av elementen inte finns i dokumentet avbryts scriptet innan det förs�
 23.	JSDoc Homepage: http://jsdoc.sourceforge.net/
 24.	JSDoc Toolkit: http://jsdoctoolkit.org/
 25.	Code Conventions for the JavaScript Programming Language: http://javascript.crockford.com/code.html
-
