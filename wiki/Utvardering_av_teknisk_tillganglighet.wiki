@@ -24,10 +24,10 @@ Dock finns tjänster som kan fungera som stöd vid utvärderingen. Vissa kontrol
 ==Onlinetjänster för utvärdering av tillgänglighet==
 Förutom de tjänster som beskrivs i kravdokumenten för validering av uppmärkningskod och stilmallar finns ett antal onlinetjänster som kan användas som ett stöd vid utvärderingen av ett dokuments tekniska tillgänglighet. 
 
-  * [http://inspector.netrelations.se/ NetRelations Inspector] (referens 1)
-  * [http://www.cynthiasays.com/ HiSoftware Cynthia Says] (referens 2)
-  * [http://www.tawdis.net/taw3/cms/en TAW] (referens 3)
-  * [http://wave.webaim.org/ WAVE] (referens 4)
+  * [http://inspector.netrelations.se/ NetRelations Inspector]
+  * [http://www.cynthiasays.com/ HiSoftware Cynthia Says]
+  * [http://www.tawdis.net/taw3/cms/en TAW]
+  * [http://wave.webaim.org/ WAVE]
 
 Att använda dessa verktyg kräver inga avancerade förkunskaper, men för att utvärdera resultaten på ett korrekt sätt krävs expertkunskaper inom tillgänglighet.
 
@@ -39,9 +39,10 @@ Vissa verktyg finns också som tillägg till webbläsare.
   * [http://wave.webaim.org/toolbar WAVE Toolbar]
   * [http://chrispederick.com/work/webdeveloper/ Web Developer Extension]
 
-===Microsoft Internet Explorer===
+===[http://www.microsoft.com/ie/ Microsoft Internet Explorer]===
 
-  * [http://www.microsoft.com/downloads/details.aspx?FamilyID=e59c3964-672d-4511-bb3e-2d5e1db91038&displaylang=en Internet Explorer Developer Toolbar]
+  * Internet Explorer 8 har ett utmärkt verktyg inbyggt, så för den som vill använda Internet Explorer är en mycket stark rekommendation att uppgradera till version 8 eller senare.
+  * För Internet Explorer 7 finns [http://www.microsoft.com/downloads/details.aspx?FamilyID=e59c3964-672d-4511-bb3e-2d5e1db91038&displaylang=en Internet Explorer Developer Toolbar]
   * [Web Accessibility Toolbar]
 
 ===Opera===
@@ -51,8 +52,8 @@ Vissa verktyg finns också som tillägg till webbläsare.
 ==Granskningsförfarande==
 Här följer en steg-för-steg-beskrivning av hur kontrollen av teknisk tillgänglighet ska utföras. Granskningen omfattar såväl manuella som automatiska kontroller. Notera att detta inte på något sätt är en uttömmande granskning. Tillgänglighetsproblem kan finnas även om inga problem noteras, men de problem som orsakar störst olägenhet bör fångas upp.
 
-  # Validera uppmärkningskod med hjälp av W3C:s tjänst för validering av uppmärkningskod, en gratistjänst som finns på http://validator.w3.org/ [9].
-  # Validera stilmallskod med hjälp av W3C:s tjänst för validering av stilmallskod, en gratistjänst som finns på http://jigsaw.w3.org/css-validator/ [10].
+  # Validera uppmärkningskod med hjälp av W3C:s tjänst för validering av uppmärkningskod, en gratistjänst som finns på http://validator.w3.org/.
+  # Validera stilmallskod med hjälp av W3C:s tjänst för validering av stilmallskod, en gratistjänst som finns på http://jigsaw.w3.org/css-validator/.
   # Kontrollera att inga ramar (frame- eller iframe-element) används. Detta kan man antingen göra genom att kontrollera koden manuellt, eller genom att använda ett verktyg som Web Accessibility Toolbar för att synliggöra eventuella ramar: ”Structure/Show Frames”.
   # Kontrollera hur alternativtext för bilder används. För dekorativa bilder ska alt-attributet innehålla en tom sträng (alt=""). Om bilden innehåller text ska alt-attributet innehålla motsvarande text. Om bilden är länkad ska alt-attributet beskriva vart länken leder. Web Developer Toolbar erbjuder ett enkelt sätt att kontrollera detta: ”Images/Replace Images With Alt Attributes”.
   # Kontrollera att inga tabeller används för layout. HTML-tabeller ska endast användas för att presentera information i tabellformat. Det enklaste sättet att kontrollera om layouttabeller används är att använda Web Developer Extension och välja ”Outline/Outline Table Cells”. Om områden som inte är datatabeller blir inramade använder webbplatsen eller funktionen tabeller för layout.
@@ -72,6 +73,7 @@ För godkänt resultat krävs att inga fel eller problem identifieras vid gransk
 Tillgänglighetsproblem beror oftast antingen på felaktigheter i de sidmallar som webblösningen använder eller på att innehåll har matats in på ett felaktigt sätt. Det kan därför vara systemförvaltaren, redaktören, eller en kombination av dessa som är ansvariga för att korrigera upptäckta problem.
 
 ==Referenser==
+  # NetRelations Inspector: http://inspector.netrelations.se/
   # Cynthia Says: http://www.cynthiasays.com/
   # WebXACT: http://webxact.watchfire.com/
   # TAW: http://www.tawdis.net/taw3/cms/en
