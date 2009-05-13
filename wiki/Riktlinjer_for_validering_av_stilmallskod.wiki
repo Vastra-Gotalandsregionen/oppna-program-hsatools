@@ -1,0 +1,65 @@
+#summary Riktlinjer för validering av stilmallskod för webblösningar inom Västra Götalandsregionen.
+
+=Validering av stilmallskod=
+
+==Sammanfattning==
+_Detta dokument innehåller riktlinjer för validering av stilmallskod för webblösningar inom Västra Götalandsregionen._
+
+_Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts._
+
+==Inledning==
+Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar inom Västra Götalandsregionen är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed.
+
+För att styra presentationen av webbdokument ska Cascading Style Sheets (CSS) – stilmallar på svenska – användas.
+
+CSS finns i flera versioner. Den version som i dagsläget bör användas är 2.1 (observera dock att CSS 2.1 [1] i skrivande stund har ”Candidate Recommendation”-status och alltså inte är den slutliga). Utöver CSS 2.1 har vissa webbläsare stöd för delar av CSS 3 [2]. Egenskaper som definieras av CSS 3 kan därmed användas så länge det inte medför försämrad användbarhet eller tillgänglighet i de webbläsare som ännu inte har implementerat dem.
+
+==W3C:s tjänst för validering av stilmallskod==
+CSS valideras med hjälp av W3C:s tjänst för validering av stilmallskod (hädanefter kallad CSS-valideraren), en gratistjänst som finns på http://jigsaw.w3.org/css-validator/ [3].
+
+I CSS-validerarens webbaserade gränssnitt kan man ange den kod som ska valideras genom att:
+
+  * ange en URL
+  * ladda upp en fil
+  * klistra in kod i ett textfält
+
+Avancerade inställningar kan göras vid behov. Notera att CSS-valideraren är förinställd på att validera mot CSS 2.1. Om stilmallarna använder selektorer eller egenskaper som definieras i en senare version av CSS måste man manuellt ange vilken version valideraren ska använda. Val för detta finns i validerarens utökade gränssnitt.
+
+==Tillägg till webbläsare==
+För att underlätta valideringsarbetet kan man använda diverse tillägg till webbläsare för att slippa mata in stilmallens kod eller URL manuellt.
+
+===Web Developer Extension (Firefox)===
+För Firefox [4] finns tillägget Web Developer Extension [5] som har funktioner för att automatiskt ladda upp kod till CSS-valideraren. För att validera ett dokument laddar man det i webbläsaren och väljer ”Tools/Validate CSS”. Detta förutsätter att dokumentet finns publikt åtkomligt, det vill säga att det inte är skyddat av till exempel inloggning.
+
+För att validera dokument som inte är publikt åtkomliga kan man i stället välja ”Tools/Validate Local CSS”, varvid koden, inte sidans URL, skickas till CSS-valideraren.
+
+Notera att detta validerar mot CSS 2.1 om man inte ändrar inställningarna i Web Developer Extension.
+
+===Internet Explorer Developer Toolbar===
+För Internet Explorer för Windows finns Internet Explorer Developer Toolbar [6], som precis som Web Developer Extension automatiskt laddar upp den aktuella sidans kod till CSS-valideraren.
+
+===Web Accessibility Toolbar (Internet Explorer, Opera)===
+För Internet Explorer för Windows finns tillägget Web Accessibility Toolbar [7] som har liknande funktionalitet som Web Developer Extension. En version av tillägget finns även för Opera, och den fungerar på alla plattformar: Web Accessibility Toolbar [For Opera] [8].
+
+===Tolkning av resultaten===
+För godkänt resultat krävs att inga valideringsfel rapporteras, med undantag av sådana fel som beror på brister i CSS-valideraren. Dock kan undantag göras om felen är isolerade till en webbläsarspecifik CSS-fil för Internet Explorer. Mer information om hur man gör att en CSS-fil enbart läses in av Internet Explorer finns i dokumentet "Riktlinjer för gränssnittsprogrammering".
+
+Om det finns fel i koden som valideras listas de på resultatsidan som skapas av CSS-valideraren. För varje fel visas vilken rad det finns på samt möjliga orsaker till felet.
+
+En CSS-validering genererar ofta ett flertal varningar om att endast förgrunds- eller bakgrundsfärg är specificerat i en deklaration. Detta är endast varningar som är till för att göra utvecklaren uppmärksam på att det kan orsaka problem i kombination med användarens inställningar. I praktiken innebär det dock sällan något problem.
+
+Mer utförlig information om denna typ av varning finns i artikeln CSS Validator colour warnings are not errors [9] (på engelska).
+
+==Åtgärdande av fel==
+Om koden som valideras innehåller felaktigheter listas de på resultatsidan som skapas av CSS-valideraren. För varje fel visas vilken rad det finns på samt möjliga orsaker till felet. Eftersom vissa typer av fel leder till flera följdfel är det mest effektiva tillvägagångssättet vid åtgärdande av valideringsfel att börja med det första rapporterade felet och därefter validera igen. Proceduren upprepas tills inga fel återstår. Eventuella fel som inte kan åtgärdas ska dokumenteras.
+
+==Referenser==
+  # CSS 2.1: http://www.w3.org/TR/CSS21/
+  # CSS 3: http://www.w3.org/Style/CSS/current-work#CSS3
+  # W3C CSS Validation Service: http://jigsaw.w3.org/css-validator/
+  # Firefox: http://www.mozilla.com/firefox/
+  # Web Developer Extension: http://chrispederick.com/work/webdeveloper/
+  # Internet Explorer Developer Toolbar: http://www.microsoft.com/downloads/details.aspx?FamilyID=e59c3964-672d-4511-bb3e-2d5e1db91038&displaylang=en
+  # Web Accessibility Toolbar: http://www.nils.org.au/info.aspx?page=614
+  # Web Accessibility Toolbar [For Opera]: http://www.paciellogroup.com/resources/wat-about.html
+  # CSS Validator colour warnings are not errors: http://www.456bereastreet.com/archive/200610/css_validator_colour_warnings_are_not_errors/
