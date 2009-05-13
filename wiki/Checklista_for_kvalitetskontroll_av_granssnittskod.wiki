@@ -16,7 +16,7 @@
 		</tr>
 		<tr>
 			<td>Validering enligt vald standard</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 	</tbody>
@@ -36,12 +36,12 @@
 		</tr>
 		<tr>
 			<td>Validering enligt vald standard</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>All stilmallskod finns i externa filer</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 	</tbody>
@@ -61,17 +61,17 @@
 		</tr>
 		<tr>
 			<td>Syntaxverifiering</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Funktionstest i webbläsare</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>All JavaScriptkod finns i externa filer</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 	</tbody>
@@ -91,7 +91,7 @@
 		</tr>
 		<tr>
 			<td>Validering enligt vald standard</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 	</tbody>
@@ -111,7 +111,7 @@
 		</tr>
 		<tr>
 			<td>Validering av använda metadataelement</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 	</tbody>
@@ -131,67 +131,67 @@
 		</tr>
 		<tr>
 			<td>Inga ramar används</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Alternativtext används på rätt sätt</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Titletext används på rätt sätt</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Webbplatsen eller webbapplikationen är inte beroende av JavaScript</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Tabeller används inte för layout</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Text går att förstora i alla webbläsare</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Text går att förstora till 200% utan att innehåll försvinner eller blir oläsligt</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Rubriker används och används på rätt sätt</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Lösningen går att använda även utan CSS</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Kontrasten mellan text och bakgrund är tillräcklig enligt WAI:s riktlinjer i WCAG 1.0</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Lösningen går att använda utan mus</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Tabeller används för att strukturera tabulär data på korrekt sätt</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Formulär är korrekt uppbyggda</td>
-			<td>[&nbsp;&nbsp;]</td>
+			<td>[ ]</td>
 			<td></td>
 		</tr>
 	</tbody>
