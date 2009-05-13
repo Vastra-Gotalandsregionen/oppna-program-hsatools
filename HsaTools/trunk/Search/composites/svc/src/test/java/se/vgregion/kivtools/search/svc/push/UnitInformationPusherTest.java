@@ -53,7 +53,7 @@ public class UnitInformationPusherTest {
 		unitRepository.setLdapConnectionPool(new LdapConnectionPoolMock(ldapConnection));
 		unitRepository.setCodeTablesService(new CodeTablesServiceImpl());
 		informationPusher = new InformationPusherEniro();
-		
+
 		JSch jschMock = createEasymockObjects();
 		informationPusher.setJsch(jschMock);
 		informationPusher.setUnitRepository(unitRepository);
@@ -70,21 +70,21 @@ public class UnitInformationPusherTest {
 		Session sessionMock = EasyMock.createMock(Session.class);
 		ChannelSftp channelSftpMock = EasyMock.createMock(ChannelSftp.class);
 		try {
-			EasyMock.expect(jschMock.getSession(ftpUser, ftpHost,22)).andReturn(sessionMock);
+			EasyMock.expect(jschMock.getSession(ftpUser, ftpHost, 22)).andReturn(sessionMock);
 			sessionMock.setPassword(ftpPassword);
 			sessionMock.setConfig("StrictHostKeyChecking", "no");
 			sessionMock.connect();
 			sessionMock.disconnect();
 			EasyMock.expect(sessionMock.openChannel("sftp")).andReturn(channelSftpMock);
-			EasyMock.replay(jschMock,sessionMock);
+			EasyMock.replay(jschMock, sessionMock);
 		} catch (JSchException e) {
 			e.printStackTrace();
 		}
 		return jschMock;
 	}
-	
+
 	@After
-	public void deleteTestFile(){
+	public void deleteTestFile() {
 		testFile.delete();
 	}
 
@@ -99,8 +99,9 @@ public class UnitInformationPusherTest {
 		fillLDAPEntries(ldapConnection);
 		Map<SearchCondition, LinkedList<LDAPEntryMock>> availableSearchEntries = ldapConnection.getAvailableSearchEntries();
 		addNewUnitToLdap(availableSearchEntries);
-		
-		// Reset date in file to the day before yesterday since we want to find the "new" unit.
+
+		// Reset date in file to the day before yesterday since we want to find
+		// the "new" unit.
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - 2);
 		informationPusher.setJsch(createEasymockObjects());
@@ -115,23 +116,28 @@ public class UnitInformationPusherTest {
 		// collect all (10) units (regarded as new).
 		List<Unit> unitInformations = informationPusher.doPushInformation();
 		Assert.assertTrue("Array should contain 10 units", unitInformations.size() == 10);
-		//createDateInTestFile(new Date());
+		// createDateInTestFile(new Date());
 		// When "resetting", last synched modify date information should be read
 		// from file and thus we will not find any new units.
 		setUp();
 		unitInformations = informationPusher.doPushInformation();
 		Assert.assertTrue("Array should contain 0 units", unitInformations.size() == 0);
 	}
-	
+
 	@Test
-	public void testDoPushInformation() throws Exception{
-		
+	public void testDoPushInformation() throws Exception {
+
 		informationPusher.doPushInformation();
 		File generatedXml = new File("src/test/VGR.xml");
 		JAXBContext context = JAXBContext.newInstance("se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb");
-		Unmarshaller unmarshaller =  context.createUnmarshaller();
+		Unmarshaller unmarshaller = context.createUnmarshaller();
 		Organization organization = (Organization) unmarshaller.unmarshal(generatedXml);
 		Assert.assertTrue("Organization should contain 10 units", organization.getUnit().size() == 10);
+	}
+
+	@Test
+	public void testGetUnitDetail() {
+		informationPusher.getUnitDetail(unitname+"hsaId1");
 	}
 
 	private static void fillLDAPEntries(LDAPConnectionMock ldapConnection) {

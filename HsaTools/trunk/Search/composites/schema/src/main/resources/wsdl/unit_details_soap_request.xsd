@@ -1,0 +1,12 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:hr="http://vgregion.se/hriv/schemas" elementFormDefault="qualified"
+	targetNamespace="http://vgregion.se/hriv/schemas">
+	<xs:include schemaLocation="unit_details2.xsd" />
+	<xs:element name="UnitRequest">
+        <xs:complexType>
+		    <xs:sequence>
+		        <xs:element name="hsaIdentity" type="xs:string"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

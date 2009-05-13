@@ -1,24 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!--
+	<!--
 
-    /* Copyright 2009 Västa Götalandsregionen
+		/* Copyright 2009 Västa Götalandsregionen This library is free
+		software; you can redistribute it and/or modify it under the terms of
+		version 2.1 of the GNU Lesser General Public License as published by
+		the Free Software Foundation. This library is distributed in the hope
+		that it will be useful, but WITHOUT ANY WARRANTY; without even the
+		implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+		PURPOSE. See the GNU Lesser General Public License for more details.
 
-      This library is free software; you can redistribute it and/or modify
-      it under the terms of version 2.1 of the GNU Lesser General Public
-      License as published by the Free Software Foundation.
-
-      This library is distributed in the hope that it will be useful,
-      but WITHOUT ANY WARRANTY; without even the implied warranty of
-      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-      GNU Lesser General Public License for more details.
-
-      You should have received a copy of the GNU Lesser General Public
-      License along with this library; if not, write to the
-      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
-      Boston, MA 02111-1307  USA
-     */
-
--->
+		You should have received a copy of the GNU Lesser General Public
+		License along with this library; if not, write to the Free Software
+		Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+		USA */
+	-->
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	version="2.4">
@@ -33,9 +28,7 @@
 	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value> classpath*:/services-config.xml
-			/WEB-INF/webflow-config.xml 
-			/WEB-INF/spring-ws-servlet.xml</param-value>
+		<param-value> classpath*:/services-config.xml /WEB-INF/webflow-config.xml</param-value>
 	</context-param>
 	<context-param>
 		<param-name>facelets.REFRESH_PERIOD</param-name>
@@ -87,8 +80,7 @@
 	<filter>
 		<filter-name>Flow System Cleanup Filter</filter-name>
 		<filter-class>
-			org.springframework.webflow.executor.jsf.FlowSystemCleanupFilter 
-		</filter-class>
+			org.springframework.webflow.executor.jsf.FlowSystemCleanupFilter</filter-class>
 	</filter>
 	<!--
 		Filters all request to *.faces to the Flow System Cleanup Filter for
@@ -100,8 +92,7 @@
 	</filter-mapping>
 	<filter>
 		<filter-name>encodingFilter</filter-name>
-		<filter-class> org.springframework.web.filter.CharacterEncodingFilter 
-		</filter-class>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
@@ -117,8 +108,7 @@
 	-->
 	<listener>
 		<listener-class>
-			org.apache.myfaces.webapp.StartupServletContextListener 
-		</listener-class>
+			org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
 	</listener>
 	<!--
 		Bootstraps the root Spring Web Application Context, responsible for
@@ -126,22 +116,19 @@
 		These beans represent the services used by the JSF application.
 	-->
 	<listener>
-		<listener-class> org.springframework.web.context.ContextLoaderListener 
-		</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	<!--
 		Used to be able to specify session arguments in services-config.xml
 	-->
 	<listener>
 		<listener-class>
-			org.springframework.web.context.request.RequestContextListener 
-		</listener-class>
+			org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 	<servlet>
 		<servlet-name>JAVG Classpath Servlet</servlet-name>
 		<servlet-class>
-			se.vgr.javg.util.webcomponent.support.ClasspathResourceLoadingServlet 
-		</servlet-class>
+			se.vgr.javg.util.webcomponent.support.ClasspathResourceLoadingServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<!--
@@ -154,10 +141,11 @@
 		<url-pattern>/resources/*</url-pattern>
 	</servlet-mapping>
 
-  <!-- JAVG support for using GET-links with JSF/Webflow -->
+	<!-- JAVG support for using GET-links with JSF/Webflow -->
 	<servlet>
 		<servlet-name>JSFWebFlowGetRequestDispatcher</servlet-name>
-		<servlet-class>se.vgr.javg.support.webflow.v1.JSFWebFlowGetRequestDispatcher</servlet-class>
+		<servlet-class>
+			se.vgr.javg.support.webflow.v1.JSFWebFlowGetRequestDispatcher</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>JSFWebFlowGetRequestDispatcher</servlet-name>
@@ -174,7 +162,7 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
-  
+
 	<!--  Servlet used as workaround for non-working actionlinks i jsf -->
 	<servlet>
 		<servlet-name>Display Unit By hsaId</servlet-name>
@@ -194,7 +182,7 @@
 		<servlet-name>Display Unit by DN</servlet-name>
 		<url-pattern>/visaenhetdn</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- Used for linkgeneration -->
 	<!--    Step 1 Units -->
 	<servlet>
@@ -216,7 +204,7 @@
 		<servlet-name>Display Range of Units</servlet-name>
 		<url-pattern>/visaenheter_range</url-pattern>
 	</servlet-mapping>
-	
+
 	<!--  Servlet used as workaround for non-working actionlinks i jsf -->
 	<servlet>
 		<servlet-name>Search units</servlet-name>
@@ -262,9 +250,9 @@
 	<servlet>
 		<description>
 		</description>
-		<display-name> Sitemap</display-name>
+		<display-name>Sitemap</display-name>
 		<servlet-name>Sitemap</servlet-name>
-		<servlet-class> se.vgregion.kivtools.servlets.Sitemap</servlet-class>
+		<servlet-class>se.vgregion.kivtools.servlets.Sitemap</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>sitemap</servlet-name>
@@ -274,22 +262,13 @@
 		<servlet-name>Sitemap</servlet-name>
 		<url-pattern>/Sitemap</url-pattern>
 	</servlet-mapping>
-	<servlet>
-		<servlet-name>spring-ws</servlet-name>
-		<servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>spring-ws</servlet-name>
-		<url-pattern>/ws/*</url-pattern>
-	</servlet-mapping>
 	<error-page>
 		<exception-type>javax.servlet.ServletException</exception-type>
 		<location>/displayError.jsf</location>
 	</error-page>
 	<error-page>
 		<exception-type>
-			org.springframework.webflow.execution.repository.support.InvalidContinuationIdException 
-		</exception-type>
+			org.springframework.webflow.execution.repository.support.InvalidContinuationIdException</exception-type>
 		<location>/displayError.jsf</location>
 	</error-page>
 	<welcome-file-list>
