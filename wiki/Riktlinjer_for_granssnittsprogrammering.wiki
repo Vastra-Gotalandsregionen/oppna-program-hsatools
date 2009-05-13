@@ -7,11 +7,11 @@
 <wiki:toc max_depth="3" />
 
 ==Sammanfattning==
-_Detta dokument innehåller riktlinjer för hur gränssnittskod för webblösningar inom Västra Götalandsregionen ska skrivas. De gränssnittsspråk som omfattas av dokumentet är HTML/XHTML, CSS och JavaScript._
+_Detta dokument innehåller riktlinjer för hur gränssnittskod för webblösningar inom Västra Götalandsregionen ska skrivas. De gränssnittsspråk som omfattas av dokumentet är HTML/XHTML, CSS och !JavaScript._
 
 _I dokumentet hänvisas ofta till den HTML-baserade prototyp som tagits fram inom ramen för projektet "Portalramverk i VGR"._
 
-_Dokumentets målgrupp består i första hand av gränssnitts- och systemutvecklare som ska leverera webblösningar till Västra Götalandsregionen. Goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering med HTML, CSS och JavaScript, förutsätts._
+_Dokumentets målgrupp består i första hand av gränssnitts- och systemutvecklare som ska leverera webblösningar till Västra Götalandsregionen. Goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering med HTML, CSS och !JavaScript, förutsätts._
 
 ==HTML==
 Att skriva bra HTML-kod handlar inte bara om att validera den, även om det naturligtvis är en mycket viktig del. Det finns ett antal andra saker man behöver ta hänsyn till för att slutresultatet ska bli tillgängligt, interoperabelt och enkelt att underhålla. Här beskrivs en del av de mest grundläggande sakerna man bör tänka på.
@@ -46,7 +46,7 @@ Det går att ställa in vilken algoritm HTML Validator Extension ska använda. D
 HTML Validator Extension validerar automatiskt alla sidor man öppnar i webbläsaren, och den gör det lokalt utan att skicka någon kod till en annan server. Det gör verktyget mycket lämpligt för miljöer som är inloggningsskyddade eller under utveckling, och att det alltid är aktivt gör att det är mycket enkelt att kontrollera att man använder korrekt HTML-syntax.
 
 ===Ramverk===
-Det finns inget strikt ramverk för strukturering av HTML-kod inom VGR, men inom ramen för Portalramverksprojektet har en prototypwebbplats tagits fram. Prototypen finns på http://code.google.com/p/oppna-program-portalramverk/, och kan med fördel användas som utgångspunkt och stöd vid HTML-kodning.
+Det finns inget strikt ramverk för strukturering av HTML-kod inom VGR, men inom ramen för Portalramverksprojektet har en prototypwebbplats tagits fram. Prototypen finns på http://code.google.com/p/oppna-program-portalramverk/ och kan med fördel användas som utgångspunkt och stöd vid HTML-kodning.
 
 För att göra det enklare att förstå hur prototypen är uppbyggd förklaras här delar av den övergripande strukturen i HTML-koden.
 
@@ -71,16 +71,16 @@ I vissa böcker och annan dokumentation föregås Doctype av en XML-deklaration 
 Detta leder till att IE 6 använder Quirks mode, vilket alltså inte är önskvärt. Eftersom XML-deklarationen inte är obligatorisk förutom i vissa specialfall som inte är applicerbara här bör den helt enkelt utelämnas.
 
 ====Språk====
-För att program, främst talsynteser och sökmotorer, ska kunna vara säkra på vilket talat språk dokumentets innehåll är på ska detta anges med hjälp av attributen xml:lang och lang på den öppnande html-taggen. För ett dokument vars innehåll är på svenska ser det ut så här:
+För att program, främst talsynteser och sökmotorer, ska kunna vara säkra på vilket talat språk dokumentets innehåll är på ska detta anges med hjälp av attributen `xml:lang` och `lang` på den öppnande `html`-taggen. För ett dokument vars innehåll är på svenska ser det ut så här:
 
 {{{
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sv" lang="sv">
 }}}
 
-Språket anges med en kod enligt rekommendationerna i W3C:s dokument Language tags in HTML and XML [8].
+Språket anges med en kod enligt rekommendationerna i W3C:s dokument [http://www.w3.org/International/articles/language-tags/ Language tags in HTML and XML].
 
 ====Teckenkodning====
-Dokumentets teckenkodning ska alltid anges av webbservern via en http-header, men som ett komplement är det bra att även ange det i dokumentet. Det görs med hjälp av ett meta-element som ska vara det första elementet i head-elementet:
+Dokumentets teckenkodning ska alltid anges av webbservern via en http-header, men som ett komplement är det bra att även ange det i dokumentet. Det görs med hjälp av ett `meta`-element som ska vara det första elementet i `head`-elementet:
 
 {{{
 <head>
@@ -89,12 +89,12 @@ Dokumentets teckenkodning ska alltid anges av webbservern via en http-header, me
 
 Unicode (UTF-8) är den rekommenderade teckenkodningen eftersom det är den förvalda i XML och HTML och innehåller i princip alla tecken man kan tänkas använda.
 
-Mer utförlig information om teckenkodning finns i W3C:s dokument Tutorial: Character sets & encodings in XHTML, HTML and CSS [9].
+Mer utförlig information om teckenkodning finns i W3C:s dokument [http://www.w3.org/International/tutorials/tutorial-char-enc/ Tutorial: Character sets & encodings in XHTML, HTML and CSS].
 
 ====Metadata====
 Metadata underlättar för sökmotorer och andra verktyg att hitta och använda sig av information om ett dokument. Det kan till exempel göra sökresultat i en intern sökmotor mer träffsäkra om sökmotorn konfigureras för att använda den metadata som finns i dokumenten.
 
-Det finns flera olika sätt att infoga metadata i HTML-dokument. I portalprototypen används Dublin Core för att ange en del grundläggande metadata med hjälp av meta-element i head-elementet:
+Det finns flera olika sätt att infoga metadata i HTML-dokument. I portalprototypen används Dublin Core för att ange en del grundläggande metadata med hjälp av `meta`-element i `head`-elementet:
 
 {{{
 <head profile="http://dublincore.org/documents/dcq-html/">
