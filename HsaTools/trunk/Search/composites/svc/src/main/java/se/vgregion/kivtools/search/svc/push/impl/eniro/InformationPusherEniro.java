@@ -210,4 +210,9 @@ public class InformationPusherEniro implements InformationPusher {
 			logger.error(e);
 		}
 	}
+
+	public Organization getUnitDetail(String hsaIdentity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
