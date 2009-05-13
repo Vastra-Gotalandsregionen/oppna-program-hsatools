@@ -2,19 +2,19 @@
 
 =Checklista för kvalitetskontroll av gränssnittskod=
 
-<table>
-	<thead align="left">
-		<tr>
+<table width="100%">
+	<thead>
+		<tr align="left" valign="top">
 			<th colspan="3">Uppmärkningskod (HTML/XHTML)</th>
 		</tr>
 	</thead>
-	<tbody align="left">
-		<tr>
-			<th>Riktlinje</th>
+	<tbody valign="top">
+		<tr align="left" valign="top">
+			<th width="55%">Riktlinje</th>
 			<th>Ok</th>
 			<th>Kommentar</th>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Validering enligt vald standard</td>
 			<td>[ ]</td>
 			<td></td>
@@ -22,24 +22,24 @@
 	</tbody>
 </table>
 
-<table>
-	<thead align="left">
-		<tr>
+<table width="100%">
+	<thead>
+		<tr align="left" valign="top">
 			<th colspan="3">Stilmallskod (CSS)</th>
 		</tr>
 	</thead>
-	<tbody align="left">
-		<tr>
-			<th>Riktlinje</th>
+	<tbody>
+		<tr align="left" valign="top">
+			<th width="55%">Riktlinje</th>
 			<th>Ok</th>
 			<th>Kommentar</th>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Validering enligt vald standard</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>All stilmallskod finns i externa filer</td>
 			<td>[ ]</td>
 			<td></td>
@@ -47,29 +47,29 @@
 	</tbody>
 </table>
 
-<table>
-	<thead align="left">
-		<tr>
+<table width="100%">
+	<thead>
+		<tr align="left">
 			<th colspan="3">JavaScript/ECMAScript</th>
 		</tr>
 	</thead>
-	<tbody align="left">
-		<tr>
-			<th>Riktlinje</th>
+	<tbody>
+		<tr align="left" valign="top">
+			<th width="55%">Riktlinje</th>
 			<th>Ok</th>
 			<th>Kommentar</th>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Syntaxverifiering</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Funktionstest i webbläsare</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>All JavaScriptkod finns i externa filer</td>
 			<td>[ ]</td>
 			<td></td>
@@ -77,19 +77,19 @@
 	</tbody>
 </table>
 
-<table>
-	<thead align="left">
-		<tr>
+<table width="100%">
+	<thead>
+		<tr align="left" valign="top">
 			<th colspan="3">Nyhetsflöden (RSS/XML)</th>
 		</tr>
 	</thead>
-	<tbody align="left">
-		<tr>
-			<th>Riktlinje</th>
+	<tbody>
+		<tr align="left" valign="top">
+			<th width="55%">Riktlinje</th>
 			<th>Ok</th>
 			<th>Kommentar</th>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Validering enligt vald standard</td>
 			<td>[ ]</td>
 			<td></td>
@@ -97,19 +97,19 @@
 	</tbody>
 </table>
 
-<table>
-	<thead align="left">
-		<tr>
+<table width="100%">
+	<thead>
+		<tr align="left" valign="top">
 			<th colspan="3">Metadatainfogning (HTML/XHTML samt RSS/XML)</th>
 		</tr>
 	</thead>
-	<tbody align="left">
-		<tr>
-			<th>Riktlinje</th>
+	<tbody>
+		<tr align="left" valign="top">
+			<th width="55%">Riktlinje</th>
 			<th>Ok</th>
 			<th>Kommentar</th>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Validering av använda metadataelement</td>
 			<td>[ ]</td>
 			<td></td>
@@ -117,79 +117,79 @@
 	</tbody>
 </table>
 
-<table>
-	<thead align="left">
-		<tr>
+<table width="100%">
+	<thead>
+		<tr align="left" valign="top">
 			<th colspan="3">Teknisk tillgänglighet</th>
 		</tr>
 	</thead>
-	<tbody align="left">
-		<tr>
-			<th>Riktlinje</th>
+	<tbody>
+		<tr align="left" valign="top">
+			<th width="55%">Riktlinje</th>
 			<th>Ok</th>
 			<th>Kommentar</th>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Inga ramar används</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Alternativtext används på rätt sätt</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Titletext används på rätt sätt</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Webbplatsen eller webbapplikationen är inte beroende av JavaScript</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Tabeller används inte för layout</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Text går att förstora i alla webbläsare</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Text går att förstora till 200% utan att innehåll försvinner eller blir oläsligt</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Rubriker används och används på rätt sätt</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Lösningen går att använda även utan CSS</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Kontrasten mellan text och bakgrund är tillräcklig enligt WAI:s riktlinjer i WCAG 1.0</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Lösningen går att använda utan mus</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Tabeller används för att strukturera tabulär data på korrekt sätt</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
-		<tr>
+		<tr align="left" valign="top">
 			<td>Formulär är korrekt uppbyggda</td>
 			<td>[ ]</td>
 			<td></td>
