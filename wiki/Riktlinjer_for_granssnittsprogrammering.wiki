@@ -16,7 +16,7 @@ _Dokumentets målgrupp består i första hand av gränssnitts- och systemutveckl
 ==HTML==
 Att skriva bra HTML-kod handlar inte bara om att validera den, även om det naturligtvis är en mycket viktig del. Det finns ett antal andra saker man behöver ta hänsyn till för att slutresultatet ska bli tillgängligt, interoperabelt och enkelt att underhålla. Här beskrivs en del av de mest grundläggande sakerna man bör tänka på.
 
-För uppmärkning av webblösningar inom VGR ska i första hand XHTML 1.0 Strict [1] användas. Det är inget självändamål att använda XHTML – i praktiken fungerar HTML 4.01 lika bra. Dock är XHTML-syntaxen tydligare och därmed enklare för utvecklare att läsa, och allt fler verktyg är förinställda på att generera XHTML-syntax. Det blir helt enkelt enklare.
+För uppmärkning av webblösningar inom VGR ska i första hand [http://www.w3.org/TR/xhtml1/ XHTML 1.0 Strict] användas. Det är inget självändamål att använda XHTML – i praktiken fungerar HTML 4.01 lika bra. Dock är XHTML-syntaxen tydligare och därmed enklare för utvecklare att läsa, och allt fler verktyg är förinställda på att generera XHTML-syntax. Det blir helt enkelt enklare.
 
 ===Validering===
 Ta för vana att validera all HTML regelbundet, och särskilt före leverans. Validering är en utmärkt hjälp för att kontrollera att inga misstag har slunkit in i koden, och korrekt skriven HTML är en grundförutsättning för interoperabilitet, tillgänglighet och framtidssäkring.
@@ -24,7 +24,7 @@ Ta för vana att validera all HTML regelbundet, och särskilt före leverans. Va
 Det finns flera olika kostnadsfria verktyg som hjälper till med validering av HTML.
 
 ====W3C:s tjänst för validering av uppmärkningskod====
-HTML valideras säkrast med hjälp av W3C:s tjänst för validering av uppmärkningskod (HTML-valideraren), en gratistjänst som finns på http://validator.w3.org/ [2].
+HTML valideras säkrast med hjälp av W3C:s tjänst för validering av uppmärkningskod (HTML-valideraren), en gratistjänst som finns på http://validator.w3.org/.
 
 I HTML-validerarens webbaserade gränssnitt kan man ange vilken kod som ska valideras genom att:
 
@@ -39,18 +39,16 @@ Många texteditorer och webbläsare har, antingen inbyggt eller som tillägg, fu
 W3C:s validerare är dock den officiella HTML-valideraren som är den som gäller om tveksamheter uppstår.
 
 ====HTML Validator Extension för Firefox====
-Ett mycket användbart tillägg för webbläsaren Firefox [3] är HTML Validator Extension [4]. Tillägget kan i de senaste versionerna använda samma algoritm som W3C:s HTML-validerare, vilket gör det mycket pålitligt. Det kompletterar dessutom kodvalideringen med Tidy [5], ett verktyg som förutom kodsyntax kan varna för möjliga tillgänglighetsproblem.
+Ett mycket användbart tillägg för webbläsaren [http://www.mozilla.com/firefox/ Firefox] är [http://users.skynet.be/mgueury/mozilla/ HTML Validator Extension]. Tillägget kan ställas in så att det använder samma algoritm som W3C:s HTML-validerare, vilket gör det mycket pålitligt. Det kompletterar dessutom kodvalideringen med [http://tidy.sourceforge.net/ Tidy], ett verktyg som förutom kodsyntax kan varna för möjliga tillgänglighetsproblem.
 
 Det går att ställa in vilken algoritm HTML Validator Extension ska använda. Den rekommenderade inställningen är "Serial", vilket innebär att koden först kontrolleras med SGML-algoritmen (den som HTML-valideraren använder) och sedan med Tidy. Denna kombination hjälper till att hitta många fel och potentiella orsaker till kompatibilitetsproblem och rekommenderas starkt.
 
 HTML Validator Extension validerar automatiskt alla sidor man öppnar i webbläsaren, och den gör det lokalt utan att skicka någon kod till en annan server. Det gör verktyget mycket lämpligt för miljöer som är inloggningsskyddade eller under utveckling, och att det alltid är aktivt gör att det är mycket enkelt att kontrollera att man använder korrekt HTML-syntax.
 
 ===Ramverk===
-Det finns inget strikt ramverk för strukturering av HTML-kod inom VGR, men inom ramen för Portalramverksprojektet har en prototypwebbplats tagits fram. Den prototypen kan med fördel användas som utgångspunkt och stöd vid HTML-kodning.
+Det finns inget strikt ramverk för strukturering av HTML-kod inom VGR, men inom ramen för Portalramverksprojektet har en prototypwebbplats tagits fram. Prototypen finns på http://code.google.com/p/oppna-program-portalramverk/, och kan med fördel användas som utgångspunkt och stöd vid HTML-kodning.
 
 För att göra det enklare att förstå hur prototypen är uppbyggd förklaras här delar av den övergripande strukturen i HTML-koden.
-
-Se prototypen online: http://vgregion.se/portalprototyp2007/ [6]
 
 ====Doctype====
 Allra först i dokumentet anges vilken Document Type Declaration (Doctype) som används. Som tidigare nämnts är det XHTML 1.0 Strict:
@@ -60,7 +58,7 @@ Allra först i dokumentet anges vilken Document Type Declaration (Doctype) som a
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 }}}
 
-Notera att Doctype-koden inte ska föregås av något annat än whitespace för att undvika att Internet Explorer 6 använder Quirks mode [7].
+Notera att Doctype-koden inte ska föregås av något annat än whitespace för att undvika att Internet Explorer 6 använder [http://en.wikipedia.org/wiki/Quirks_mode Quirks mode].
 
 Quirks mode innebär i korthet att webbläsare renderar webbsidor på ett bakåtkompatibelt sätt i stället för att tolka HTML och CSS enligt standarderna. Det gör att det blir större skillnader i hur webbläsare beter sig, vilket i sin tur gör det svårare att skriva HTML och CSS som ger samma resultat i alla webbläsare.
 
@@ -549,7 +547,6 @@ Om något av elementen inte finns i dokumentet avbryts scriptet innan det förs�
   # Firefox: http://www.mozilla.com/firefox/
   # HTML Validator Extension: http://users.skynet.be/mgueury/mozilla/
   # Tidy: http://tidy.sourceforge.net/
-  # Portalprototyp: http://vgregion.se/portalprototyp2007/
   # Quirks mode: http://en.wikipedia.org/wiki/Quirks_mode
   # Language tags in HTML and XML: http://www.w3.org/International/articles/language-tags/
   # Tutorial: Character sets & encodings in XHTML, HTML and CSS: http://www.w3.org/International/tutorials/tutorial-char-enc/
