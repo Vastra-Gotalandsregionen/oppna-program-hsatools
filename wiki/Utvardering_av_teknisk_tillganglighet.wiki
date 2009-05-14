@@ -49,7 +49,7 @@ Vissa verktyg finns också som tillägg till webbläsare.
   * För Internet Explorer 7 finns [http://www.microsoft.com/downloads/details.aspx?FamilyID=e59c3964-672d-4511-bb3e-2d5e1db91038&displaylang=en Internet Explorer Developer Toolbar]
   * [http://www.paciellogroup.com/resources/wat-ie-about.html Web Accessibility Toolbar]
 
-===Opera===
+===[http://www.opera.com/ Opera]===
 
   * [http://www.paciellogroup.com/resources/wat-about.html Web Accessibility Toolbar For Opera]
 
