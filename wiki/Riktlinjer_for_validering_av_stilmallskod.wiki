@@ -40,7 +40,7 @@ Notera att detta validerar mot CSS 2.1 om man inte ändrar inställningarna i We
 För Internet Explorer för Windows finns [http://www.microsoft.com/downloads/details.aspx?FamilyID=e59c3964-672d-4511-bb3e-2d5e1db91038&displaylang=en Internet Explorer Developer Toolbar], som precis som Web Developer Extension automatiskt laddar upp den aktuella sidans kod till CSS-valideraren.
 
 ===Web Accessibility Toolbar (Internet Explorer, Opera)===
-För Internet Explorer för Windows finns tillägget [http://www.nils.org.au/info.aspx?page=614 Web Accessibility Toolbar] som har liknande funktionalitet som Web Developer Extension. En version av tillägget finns även för Opera, och den fungerar på alla plattformar: [http://www.paciellogroup.com/resources/wat-about.html Web Accessibility Toolbar For Opera].
+För Internet Explorer för Windows finns tillägget [http://www.paciellogroup.com/resources/wat-ie-about.html Web Accessibility Toolbar] som har liknande funktionalitet som Web Developer Extension. En version av tillägget finns även för Opera, och den fungerar på alla plattformar: [http://www.paciellogroup.com/resources/wat-about.html Web Accessibility Toolbar For Opera].
 
 ===Tolkning av resultaten===
 För godkänt resultat krävs att inga valideringsfel rapporteras, med undantag av sådana fel som beror på brister i CSS-valideraren. Dock kan undantag göras om felen är isolerade till en webbläsarspecifik CSS-fil för Internet Explorer. Mer information om hur man gör att en CSS-fil enbart läses in av Internet Explorer finns i dokumentet "Riktlinjer för gränssnittsprogrammering".
@@ -61,6 +61,6 @@ Om koden som valideras innehåller felaktigheter listas de på resultatsidan som
   # Firefox: http://www.mozilla.com/firefox/
   # Web Developer Extension: http://chrispederick.com/work/webdeveloper/
   # Internet Explorer Developer Toolbar: http://www.microsoft.com/downloads/details.aspx?FamilyID=e59c3964-672d-4511-bb3e-2d5e1db91038&displaylang=en
-  # Web Accessibility Toolbar: http://www.nils.org.au/info.aspx?page=614
+  # Web Accessibility Toolbar: http://www.paciellogroup.com/resources/wat-ie-about.html
   # Web Accessibility Toolbar For Opera: http://www.paciellogroup.com/resources/wat-about.html
   # CSS Validator colour warnings are not errors: http://www.456bereastreet.com/archive/200610/css_validator_colour_warnings_are_not_errors/
