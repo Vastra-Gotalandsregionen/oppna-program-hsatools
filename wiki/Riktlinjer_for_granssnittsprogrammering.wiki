@@ -471,7 +471,7 @@ När användningen av ett !JavaScriptbibliotek är befogat bör YUI användas i 
 Mer utförlig information om !JavaScriptramverk finns i dokumentet [http://code.google.com/p/oppna-program/wiki/Bibliotek_och_ramverk_for_JavaScript Bibliotek och ramverk för JavaScript].
 
 ===Kommentarer===
-Använd gärna JSDoc-syntax för att kommentera !JavaScript. JSDoc är ett verktyg som använder kommentarer i !JavaScript för att generera en HTML-fil med dokumentation av scriptet. Mer information om JSDoc finns på [http://jsdoc.sourceforge.net/ JSDoc Homepage] och [http://jsdoctoolkit.org/ JSDoc Toolkit].
+Använd gärna JSDoc-syntax för att kommentera !JavaScript. JSDoc är ett verktyg som använder kommentarer i !JavaScript för att generera en HTML-fil med dokumentation av scriptet. Mer information om JSDoc finns på [http://jsdoctoolkit.org/ JSDoc Toolkit].
  
 Här är ett exempel på hur JSDoc-syntax ser ut, hämtat från portalprototypen:
 
@@ -522,7 +522,7 @@ Ett mycket vanligt misstag vid implementering av !JavaScriptlösningar är att s
 Att göra funktionalitet beroende av mus, till exempel drag-and-drop utan tangentbordsalternativ, innebär därför stora tillgänglighetsproblem och får ej förekomma.
 
 ====Gör inga antaganden====
-Skriv inte program som förutsätter att ett visst HTML-element finns i dokumentet. Kontrollera först att det verkligen finns. Anta att ett script ska lägga på event handlers på två länkar med olika id:n. Då kan man anta att elementen finns och skriva så här:
+Skriv inte program som förutsätter att ett visst HTML-element finns i dokumentet. Kontrollera först att det verkligen finns. Anta att ett script ska lägga på eventhanterare på två länkar med olika id:n. Då kan man anta att elementen finns och skriva så här:
 
 {{{
 var linkA = document.getElementById('linkA');
