@@ -50,7 +50,7 @@
 <table width="100%">
 	<thead>
 		<tr align="left">
-			<th colspan="3">JavaScript/ECMAScript</th>
+			<th colspan="3">!JavaScript/ECMAScript</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -70,7 +70,7 @@
 			<td></td>
 		</tr>
 		<tr align="left" valign="top">
-			<td>All JavaScriptkod finns i externa filer</td>
+			<td>All !JavaScriptkod finns i externa filer</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
@@ -145,7 +145,7 @@
 			<td></td>
 		</tr>
 		<tr align="left" valign="top">
-			<td>Webbplatsen eller webbapplikationen är inte beroende av JavaScript</td>
+			<td>Webbplatsen eller webbapplikationen är inte beroende av !JavaScript</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
