@@ -30,7 +30,7 @@ Utförligare beskrivning av varje kontrollpunkt finns i tillhörande riktlinjedo
 <table width="100%">
 	<thead>
 		<tr align="left" valign="top">
-			<th colspan="3">Stilmallskod (CSS)</th>
+			<th colspan="3">[http://code.google.com/p/oppna-program/wiki/Riktlinjer_for_validering_av_stilmallskod Stilmallskod (CSS)]</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -55,7 +55,7 @@ Utförligare beskrivning av varje kontrollpunkt finns i tillhörande riktlinjedo
 <table width="100%">
 	<thead>
 		<tr align="left">
-			<th colspan="3">!JavaScript/ECMAScript</th>
+			<th colspan="3">[http://code.google.com/p/oppna-program/wiki/Kvalitetssakring_av_JavaScript JavaScript/ECMAScript]</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -85,7 +85,7 @@ Utförligare beskrivning av varje kontrollpunkt finns i tillhörande riktlinjedo
 <table width="100%">
 	<thead>
 		<tr align="left" valign="top">
-			<th colspan="3">Nyhetsflöden (RSS/XML)</th>
+			<th colspan="3">[http://code.google.com/p/oppna-program/wiki/Riktlinjer_for_validering_av_nyhetsfloden Nyhetsflöden (RSS/XML)]</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -105,7 +105,7 @@ Utförligare beskrivning av varje kontrollpunkt finns i tillhörande riktlinjedo
 <table width="100%">
 	<thead>
 		<tr align="left" valign="top">
-			<th colspan="3">Metadatainfogning (HTML/XHTML samt RSS/XML)</th>
+			<th colspan="3">[http://code.google.com/p/oppna-program/wiki/Kvalitetssakring_av_metadatainfogning Metadatainfogning (HTML/XHTML samt RSS/XML)]</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -125,7 +125,7 @@ Utförligare beskrivning av varje kontrollpunkt finns i tillhörande riktlinjedo
 <table width="100%">
 	<thead>
 		<tr align="left" valign="top">
-			<th colspan="3">Teknisk tillgänglighet</th>
+			<th colspan="3">[http://code.google.com/p/oppna-program/wiki/Utvardering_av_teknisk_tillganglighet Teknisk tillgänglighet]</th>
 		</tr>
 	</thead>
 	<tbody>
