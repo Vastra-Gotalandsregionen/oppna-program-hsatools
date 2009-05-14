@@ -1,4 +1,4 @@
-#summary Riktlinjer för validering av stilmallskod för webblösningar inom Västra Götalandsregionen.
+#summary Riktlinjer för validering av stilmallskod för webblösningar.
 #labels Project-RA
 
 =Validering av stilmallskod=
