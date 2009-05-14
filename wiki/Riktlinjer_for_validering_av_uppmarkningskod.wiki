@@ -1,11 +1,12 @@
 #summary Riktlinjer för validering av uppmärkningskod för webblösningar inom Västra Götalandsregionen.
+#labels Project-RA
 
 =Validering av uppmärkningskod=
 
 ==Sammanfattning==
 _Detta dokument innehåller riktlinjer för validering av uppmärkningskod för webblösningar inom Västra Götalandsregionen. I första hand gäller det HTML och XHTML (när HTML nämns hädanefter avses både HTML och XHTML), men i viss mån även XML._
 
-_Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts._
+_Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om gränssnittsprogrammering förutsätts._
 
 ==Inledning==
 Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar inom Västra Götalandsregionen är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed. För uppmärkning av webbdokument ska i första hand XHTML 1.0 Strict [1] användas.
