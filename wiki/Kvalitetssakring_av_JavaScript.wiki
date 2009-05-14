@@ -9,7 +9,7 @@ _Detta dokument innehåller riktlinjer för kvalitetssäkring av !JavaScriptkod 
 _Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om gränssnittsprogrammering förutsätts._
 
 ==Inledning==
-Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar inom Västra Götalandsregionen är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed.
+Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed.
 
 Att validera !JavaScript är inte lika rakt på sak som att validera HTML eller CSS. Det finns verktyg som kontrollerar att man har använt korrekt syntax, men inget som verifierar att alla metoder och objekt finns i W3C:s DOM (Document Object Model, definierar hur objekt i HTML-dokument exponeras för skript), hur väl de stöds av olika webbläsare, eller ens om skriptet fungerar.
 
