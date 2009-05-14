@@ -1,7 +1,9 @@
-#summary Checklista för kvalitetskontroll av gränssnittskod
+#summary Checklista för kvalitetskontroll av gränssnittskod.
 #labels Project-RA
 
 =Checklista för kvalitetskontroll av gränssnittskod=
+
+Använd denna lista som ett stöd vid granskning av gränssnittskod. I de fall en kontrollpunkt inte är godkänd ska en kommentar som förklarar varför finnas.
 
 <table width="100%">
 	<thead>
