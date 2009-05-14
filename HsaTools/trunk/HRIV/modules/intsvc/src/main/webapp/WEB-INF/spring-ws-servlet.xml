@@ -3,13 +3,24 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
 	<bean id="unitDetailsEndpoint"
 		class="se.vgregion.kivtools.search.intsvc.ws.UnitDetailsEndpoint">
-       <property name="xpathExpression" value="//sch:hsaIdentity" />
-       <property name="namespacePrefix" value="hr" />
-       <property name="namespaceUri" value="http://vgregion.se/hriv/schemas" />
+		<constructor-arg ref="jaxbMarshaller" />
+		<constructor-arg ref="jaxbMarshaller" />
+		<property name="unitDetailsService" ref="unitDetailsService" />
 	</bean>
-	
+
+	<bean id="unitDetailsService"
+		class="se.vgregion.kivtools.search.intsvc.ws.UnitDetailsServiceImpl">
+		<property name="unitRepository" ref="Search.UnitRepository" />
+	</bean>
+
+	<bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="contextPath"
+			value="se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb" />
+	</bean>
+
 	<bean
 		class="org.springframework.ws.server.endpoint.mapping.PayloadRootQNameEndpointMapping">
 		<property name="mappings">
@@ -27,10 +38,10 @@
 		<property name="schema" ref="schema" />
 		<property name="portTypeName" value="UnitRequestSOAP" />
 		<property name="locationUri" value="/ws/unitDetailsService/" />
-		<property name="targetNamespace" value="http://vgregion.se/hriv/schemas"/>   
+		<property name="targetNamespace" value="http://vgregion.se/hriv/schemas" />
 	</bean>
 	<bean id="schema" class="org.springframework.xml.xsd.SimpleXsdSchema">
 		<property name="xsd" value="classpath:wsdl/unit_details2.xsd" />
 	</bean>
-	
+
 </beans>
