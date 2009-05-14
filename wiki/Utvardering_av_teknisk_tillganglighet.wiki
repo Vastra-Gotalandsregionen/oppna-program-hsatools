@@ -80,14 +80,15 @@ Tillgänglighetsproblem beror oftast antingen på felaktigheter i de sidmallar s
 
 ==Referenser==
   # NetRelations Inspector: http://inspector.netrelations.se/
-  # Cynthia Says: http://www.cynthiasays.com/
-  # WebXACT: http://webxact.watchfire.com/
+  # WAVE: http://wave.webaim.org/
   # TAW: http://www.tawdis.net/taw3/cms/en
   # Firefox: http://www.mozilla.com/firefox/
   # Web Developer Extension: http://chrispederick.com/work/webdeveloper/
   # Internet Explorer Developer Toolbar: http://www.microsoft.com/downloads/details.aspx?FamilyID=e59c3964-672d-4511-bb3e-2d5e1db91038&displaylang=en
-  # Web Accessibility Toolbar: http://www.nils.org.au/info.aspx?page=614
-  # Web Accessibility Toolbar [For Opera]: http://www.paciellogroup.com/resources/wat-about.html
+  # Web Accessibility Toolbar: http://www.paciellogroup.com/resources/wat-ie-about.html
+  # Web Accessibility Toolbar For Opera: http://www.paciellogroup.com/resources/wat-about.html
   # W3C Markup Validation Service: http://validator.w3.org/
   # W3C CSS Validation Service: http://jigsaw.w3.org/css-validator/
-  # Colour Contrast Analyser Firefox Extension: http://juicystudio.com/article/colour-contrast-analyser-firefox-extension.php
+  # Colour Contrast Analyser Firefox Extension: https://addons.mozilla.org/en-US/firefox/addon/7313
+  # Contrast Analyser: http://www.paciellogroup.com/resources/contrast-analyser.html
+  # WCAG Contrast checker: https://addons.mozilla.org/es-ES/firefox/addon/7391
