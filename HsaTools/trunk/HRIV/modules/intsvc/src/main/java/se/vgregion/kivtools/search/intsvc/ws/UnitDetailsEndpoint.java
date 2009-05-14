@@ -1,53 +1,29 @@
 package se.vgregion.kivtools.search.intsvc.ws;
 
-import org.jdom.JDOMException;
-import org.jdom.Namespace;
-import org.jdom.xpath.XPath;
-import org.springframework.ws.server.endpoint.AbstractDomPayloadEndpoint;
-import org.w3c.dom.Document;
+import org.springframework.oxm.Marshaller;
+import org.springframework.oxm.Unmarshaller;
+import org.springframework.ws.server.endpoint.AbstractMarshallingPayloadEndpoint;
 
-public class UnitDetailsEndpoint extends AbstractDomPayloadEndpoint{
-	XPath xpath;
-	String xpathExpression;
-	String namespacePrefix;
-	String namespaceUri;
-	UnitDetailsService unitDetailsService;
+import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Organization;
+import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.UnitRequest;
 
-	public UnitDetailsService getUnitDetailsService() {
-		return unitDetailsService;
-	}
+public class UnitDetailsEndpoint extends AbstractMarshallingPayloadEndpoint {
 
-	public void setUnitDetailsService(UnitDetailsService unitDetailsService) {
+	private UnitDetailsService<Organization> unitDetailsService;
+
+	public void setUnitDetailsService(UnitDetailsService<Organization> unitDetailsService) {
 		this.unitDetailsService = unitDetailsService;
 	}
 
-	public void setXpathExpression(String xpathExpression) {
-		this.xpathExpression = xpathExpression;
-	}
-
-	public void setNamespacePrefix(String namespacePrefix) {
-		this.namespacePrefix = namespacePrefix;
-	}
-
-	public void setNamespaceUri(String namespaceUri) {
-		this.namespaceUri = namespaceUri;
-	}
-
-	private XPath getXpath() {
-		if (xpath == null) {
-			try {
-				xpath = XPath.newInstance(xpathExpression);
-				xpath.addNamespace(Namespace.getNamespace(namespacePrefix, namespaceUri));
-			} catch (JDOMException e) {
-				e.printStackTrace();
-			}
-		}
-		return xpath;
+	public UnitDetailsEndpoint(Marshaller marshaller, Unmarshaller unmarshaller) {
+		super(marshaller, unmarshaller);
 	}
 
 	@Override
-	protected org.w3c.dom.Element invokeInternal(org.w3c.dom.Element unitDetailsRequest, Document arg1) throws Exception {
-		String hsaIdentity = getXpath().valueOf(unitDetailsRequest);
-		return unitDetailsService.getUnitDetails(hsaIdentity);
+	protected Object invokeInternal(Object request) throws Exception {
+		UnitRequest unitRequest = (UnitRequest) request;
+		Organization organization = unitDetailsService.getUnitDetails(unitRequest.getHsaIdentity());
+		return organization;
 	}
+
 }
