@@ -5,6 +5,8 @@
 
 Använd denna lista som ett stöd vid granskning av gränssnittskod. I de fall en kontrollpunkt inte är godkänd ska en kommentar som förklarar varför finnas.
 
+Utförligare beskrivning av varje kontrollpunkt finns i tillhörande riktlinjedokument.
+
 <table width="100%">
 	<thead>
 		<tr align="left" valign="top">
@@ -178,7 +180,7 @@ Använd denna lista som ett stöd vid granskning av gränssnittskod. I de fall e
 			<td></td>
 		</tr>
 		<tr align="left" valign="top">
-			<td>Kontrasten mellan text och bakgrund är tillräcklig enligt WAI:s riktlinjer i WCAG 1.0</td>
+			<td>Kontrasten mellan text och bakgrund är tillräcklig enligt WCAG 2.0</td>
 			<td>[ ]</td>
 			<td></td>
 		</tr>
