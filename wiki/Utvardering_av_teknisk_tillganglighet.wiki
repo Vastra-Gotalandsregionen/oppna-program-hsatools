@@ -1,17 +1,17 @@
-#summary Riktlinjer för utvärdering av den tekniska tillgängligheten hos gränssnittskod som används för webblösningar inom Västra Götalandsregionen.
+#summary Riktlinjer för utvärdering av den tekniska tillgängligheten hos gränssnittskod.
 #labels Project-RA
 
 =Utvärdering av teknisk tillgänglighet=
 
 ==Sammanfattning==
-_Detta dokument innehåller riktlinjer för utvärdering av den tekniska tillgängligheten hos gränssnittskod som används för webblösningar inom Västra Götalandsregionen._
+_Detta dokument innehåller riktlinjer för utvärdering av den tekniska tillgängligheten hos gränssnittskod._
 
 _Med tillgänglighet avses i detta sammanhang att gränssnittskoden ska fungera för alla, oavsett om man har något funktionshinder och oavsett vilken webbläsare eller vilket operativsystem man använder._
 
 _Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts._
 
 ==Inledning==
-Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar inom Västra Götalandsregionen är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed.
+Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed.
 
 En del i detta är att säkerställa att alla webblösningar är tillgängligt konstruerade och därmed fungerar med alternativa webbläsare och hjälpmedel för funktionshindrade.
 
