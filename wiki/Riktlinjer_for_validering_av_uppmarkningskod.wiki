@@ -60,4 +60,4 @@ Om HTML-valideraren hittar problem i koden som valideras listas de på resultats
   # Tidy: http://tidy.sourceforge.net/
   # Internet Explorer Developer Toolbar: http://www.microsoft.com/downloads/details.aspx?FamilyID=e59c3964-672d-4511-bb3e-2d5e1db91038&displaylang=en
   # Web Accessibility Toolbar: http://www.nils.org.au/info.aspx?page=614
-  # Web Accessibility Toolbar [For Opera]: http://www.paciellogroup.com/resources/wat-about.html
+  # Web Accessibility Toolbar For Opera: http://www.paciellogroup.com/resources/wat-about.html
