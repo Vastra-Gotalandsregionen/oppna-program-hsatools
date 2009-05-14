@@ -6,7 +6,7 @@
 ==Sammanfattning==
 _Detta dokument innehåller riktlinjer för kvalitetssäkring av !JavaScriptkod som exekveras i användarens webbläsare._
 
-_Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts._
+_Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om gränssnittsprogrammering förutsätts._
 
 ==Inledning==
 Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar inom Västra Götalandsregionen är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed.
