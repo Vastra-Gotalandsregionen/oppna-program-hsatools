@@ -32,7 +32,7 @@ Det som kan sägas är vilka webbläsare som vid detta dokuments framtagande ans
 
 Man kan dela in webbläsare i olika familjer beroende på vilken renderingsmotor de använder. Följande familjer, med exempel på webbläsare, anses vara tillräckligt spridda och moderna för att de ska vara relevanta att testa i:
 
-  * [http://en.wikipedia.org/wiki/Gecko_(layout_engine) Gecko] (Firefox)
+  * [http://en.wikipedia.org/wiki/Gecko_%28layout_engine%29 Gecko] (Firefox)
   * [http://en.wikipedia.org/wiki/WebCore WebCore] (Safari)
   * [http://en.wikipedia.org/wiki/Presto_%28layout_engine%29 Presto] (Opera)
   * [http://en.wikipedia.org/wiki/Trident_%28layout_engine%29 Trident] (Internet Explorer för Windows)
@@ -76,7 +76,7 @@ Skönhetsfel som innebär försämrad läsbarhet eller tillgänglighet *skall* �
   # XHTML 1.0: http://www.w3.org/TR/xhtml1/
   # CSS 2.1: http://www.w3.org/TR/CSS21/
   # DOM Level 2: http://www.w3.org/DOM/DOMTR#dom2
-  # Gecko: http://en.wikipedia.org/wiki/Gecko_(layout_engine)
+  # Gecko: http://en.wikipedia.org/wiki/Gecko_%28layout_engine%29
   # !WebCore: http://en.wikipedia.org/wiki/WebCore
   # Presto: http://en.wikipedia.org/wiki/Presto_%28layout_engine%29
   # Trident: http://en.wikipedia.org/wiki/Trident_%28layout_engine%29
