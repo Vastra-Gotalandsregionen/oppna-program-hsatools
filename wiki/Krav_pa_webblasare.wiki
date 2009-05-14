@@ -1,11 +1,12 @@
 #summary Riktlinjer för vilka krav som ställs på webbläsare för att de ska erhålla full funktionalitet och presentationskvalitet när de används med webblösningar inom Västra Götalandsregionen.
+#labels Project-RA
 
 =Krav på webbläsare=
 
 ==Sammanfattning==
 _Detta dokument innehåller riktlinjer för vilka krav som ställs på webbläsare för att de ska erhålla full funktionalitet och presentationskvalitet när de används med webblösningar inom Västra Götalandsregionen. Dokumentet innehåller även exempel på webbläsare som vid dokumentets framtagande lever upp till dessa krav och som därför ska ingå i aktiviteten ”Funktionstest med webbläsare”._
 
-_Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts._
+_Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om gränssnittsprogrammering förutsätts._
 
 ==Inledning==
 Utvecklingen av webbläsare går allt mer mot bättre stöd för de öppna standarder som W3C slagit fast, så kallade webbstandarder. Därför ska även all gränssnittsrelaterad kod använda sig av webbstandarder och undvika proprietära eller icke standardiserade element, attribut eller egenskaper.
@@ -51,6 +52,8 @@ Nyare versioner av de nämnda webbläsarna, eller helt nya webbläsare som inte 
 
 Nedlagda webbläsare som Netscape 4 och Internet Explorer för Mac OS når inte upp till den nivå som krävs för full funktionalitet och fullgod presentation. Därför blir deras funktionalitet begränsad till den som uppnås med enbart HTML-lagret.
 
+Mer information om denna typ av strategi för webbläsarstöd finns i [http://developer.yahoo.com/yui/articles/gbs/ Graded Browser Support] på Yahoo! Developer Network.
+
 ==Tolkning av resultaten==
 Eventuella problem som uppstår vid testning i webbläsare kan delas in i två grupper – skönhetsfel och funktionsfel – där funktionsfel anses vara betydligt allvarligare.
 
@@ -66,7 +69,7 @@ Med skönhetsfel avses problem som leder till att webblösningens presentation i
 Funktionsfel skall åtgärdas.
 
 ===Skönhetsfel===
-Skönhetsfel som innebär försämrad läsbarhet eller tillgänglighet skall åtgärdas. Övriga skönhetsfel bör åtgärdas.
+Skönhetsfel som innebär försämrad läsbarhet eller tillgänglighet *skall* åtgärdas. Övriga skönhetsfel _bör_ åtgärdas.
 
 ==Referenser==
   # HTML 4.01: http://www.w3.org/TR/html4/
