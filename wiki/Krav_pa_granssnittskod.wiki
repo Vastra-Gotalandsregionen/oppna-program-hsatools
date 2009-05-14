@@ -1,4 +1,4 @@
-#summary Övergripande beskrivning av de krav som ställs på den gränssnittskod som används för webblösningar inom Västra Götalandsregionen.
+#summary Övergripande beskrivning av de krav som ställs på den gränssnittskod som används för webblösningar.
 #labels Project-RA
 
 =Krav på gränssnittskod=
@@ -9,7 +9,7 @@ _Detta dokument beskriver övergripande de krav som ställs på den gränssnitts
 _Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om gränssnittsprogrammering förutsätts._
 
 ==Inledning==
-Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar inom Västra Götalandsregionen är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed.
+Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed.
 
 ==Uppmärkningskod (HTML/XHTML)==
 Den uppmärkningskod som används för att strukturera dokument och ge innehåll betydelse skall validera enligt vald standard (HTML 4.01 Strict eller XHTML 1.0 Strict). Hur valideringen går till beskrivs närmare i [http://code.google.com/p/oppna-program/wiki/Riktlinjer_for_validering_av_uppmarkningskod Validering av uppmärkningskod].
@@ -24,9 +24,9 @@ Den skriptkod (!JavaScript/ECMAScript) som används för att ge en webblösning 
 Den kod (RSS i XML-format) som används för att tillhandahålla nyhetsflöden skall validera enligt vald standard (RSS 1.0 eller RSS 2.0). Hur valideringen går till beskrivs närmare i [http://code.google.com/p/oppna-program/wiki/Riktlinjer_for_validering_av_nyhetsfloden Validering av nyhetsflöden].
 
 ==Metadatainfogning (HTML/XHTML samt RSS/XML)==
-Den metadata som infogas i HTML/XHTML-dokument samt i nyhetsflöden skall infogas på korrekt sätt samt motsvara VGR:s krav på ingående metadata. Hur kvalitetskontrollen går till beskrivs närmare i [http://code.google.com/p/oppna-program/wiki/Kvalitetssakring_av_metadatainfogning Kvalitetssäkring av metadatainfogning].
+Den metadata som infogas i HTML/XHTML-dokument samt i nyhetsflöden skall infogas på korrekt sätt samt motsvara kraven på ingående metadata. Hur kvalitetskontrollen går till beskrivs närmare i [http://code.google.com/p/oppna-program/wiki/Kvalitetssakring_av_metadatainfogning Kvalitetssäkring av metadatainfogning].
 
 ==Teknisk tillgänglighet==
-All gränssnittskod som används i webblösningar inom Västra Götalandsregionen skall följa gällande riktlinjer för tillgänglighet enligt [http://www.w3.org/TR/WCAG20/ WCAG 2.0]. Vägledningen 24-timmarswebben bör också fungera som ett stöd, trots att dess framtid i nuläget är osäker i och med att Verva har lagts ned.
+All gränssnittskod som används i webblösningar skall följa gällande riktlinjer för tillgänglighet enligt [http://www.w3.org/TR/WCAG20/ WCAG 2.0]. Vägledningen 24-timmarswebben bör också fungera som ett stöd, trots att dess framtid i nuläget är osäker i och med att Verva har lagts ned.
 
 Hur delar av dessa riktlinjer kontrolleras beskrivs närmare i [http://code.google.com/p/oppna-program/wiki/Utvardering_av_teknisk_tillganglighet Utvärdering av teknisk tillgänglighet].
