@@ -9,7 +9,7 @@ _Detta dokument innehåller riktlinjer för kvalitetssäkring av metadata i HTML
 _Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om gränssnittsprogrammering förutsätts._
 
 ==Inledning==
-Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar inom Västra Götalandsregionen är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed.
+Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed.
 
 Det finns olika sätt att infoga metadata i HTML/XHTML-dokument (hädanefter avses båda formaten när HTML nämns om inget annat anges). Den metod som rekommenderas i första hand är att använda meta-element i HTML-dokumentens head-element för att infoga metadata enligt [http://dublincore.org/ Dublin Core].
 
@@ -25,7 +25,7 @@ För att verifiera att den metadata som används följer syntaxregler för det a
 [http://validator.w3.org/feed/ W3C:s nyhetsflödesvaliderare] kontrollerar att korrekt syntax används för att beskriva metadata i nyhetsflöden. Utförligare beskrivning av verktyget finns i dokumentet [http://code.google.com/p/oppna-program/wiki/Riktlinjer_for_validering_av_nyhetsfloden Validering av nyhetsflöden].
 
 ==Validering av använda metadataelement==
-Alla webblösningar inom Västra Götalandsregionen ska använda sig av Dublin Cores metadataelement för att beskriva informationsresurser.
+Alla webblösningar inom Öppna program ska använda sig av Dublin Cores metadataelement för att beskriva informationsresurser.
 
 Följande element är obligatoriska:
 
