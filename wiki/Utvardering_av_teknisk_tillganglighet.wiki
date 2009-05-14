@@ -64,7 +64,7 @@ Här följer en steg-för-steg-beskrivning av hur kontrollen av teknisk tillgän
   # Kontrollera hur *alternativtext* för bilder används. För dekorativa bilder ska `alt`-attributet innehålla en tom sträng (`alt=""`). Om bilden innehåller text ska `alt`-attributet innehålla motsvarande text. Om bilden är länkad ska `alt`-attributet beskriva vart länken leder. Web Developer Toolbar erbjuder ett enkelt sätt att kontrollera detta: ”Images/Replace Images With Alt Attributes”.
   # Kontrollera att *inga tabeller används för layout*. HTML-tabeller ska endast användas för att presentera information i tabellformat. Det enklaste sättet att kontrollera om layouttabeller används är att använda Web Developer Extension och välja ”Outline/Outline Table Cells”. Om områden som inte är datatabeller blir inramade använder webbplatsen eller funktionen tabeller för layout.
   # *Datatabeller* ska vara korrekt kodade. För att data presenterat med HTML-tabeller ska bli tillgängligt krävs att tabellerna är kodade på rätt sätt och använder de tillgänglighetsrelaterade element och attribut som finns i HTML.
-  # Stäng av JavaScript och kontrollera att webbplatsen eller funktionen fortfarande går att använda. Detta görs enklast genom att använda Web Developer Extension och välja ”Disable/Disable JavaScript”.
+  # Stäng av !JavaScript och kontrollera att webbplatsen eller funktionen fortfarande går att använda. Detta görs enklast genom att använda Web Developer Extension och välja ”Disable/Disable !JavaScript”.
   # *Öka textstorleken* i webbläsaren. Dels ska textstorleken faktiskt gå att ändra (gäller Internet Explorer för Windows), dels ska inget innehåll försvinna eller bli oläsligt när textstorleken har ökats inom rimliga gränser. Webblösningen bör klara att textstorleken fördubblas.
   # Kontrollera att *rubriker används* och används på rätt sätt. Detta görs enklast genom att använda Web Developer Extension och välja ”Information/View Document Outline”.
   # *Stäng av CSS* och kontrollera att webbplatsen eller funktionen fortfarande går att använda. Detta görs enklast genom att använda Web Developer Extension och välja ”CSS/Disable Styles/All Styles”.
@@ -79,7 +79,7 @@ För godkänt resultat krävs att inga fel eller problem identifieras vid gransk
 Tillgänglighetsproblem beror oftast antingen på felaktigheter i de sidmallar som webblösningen använder eller på att innehåll har matats in på ett felaktigt sätt. Det kan därför vara systemförvaltaren, redaktören, eller en kombination av dessa som är ansvariga för att korrigera upptäckta problem.
 
 ==Referenser==
-  # NetRelations Inspector: http://inspector.netrelations.se/
+  # !NetRelations Inspector: http://inspector.netrelations.se/
   # WAVE: http://wave.webaim.org/
   # TAW: http://www.tawdis.net/taw3/cms/en
   # Firefox: http://www.mozilla.com/firefox/
