@@ -13,7 +13,11 @@ _Dokumentets målgrupp består i första hand av beställare som vill kvalitetsk
 ==Inledning==
 Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar inom Västra Götalandsregionen är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed.
 
-En del i detta är att säkerställa att alla webblösningar är tillgängligt konstruerade och därmed fungerar med alternativa webbläsare och hjälpmedel för funktionshindrade. Exempel på alternativa webbläsare är sådana som används i mobiltelefoner, i handdatorer, eller på persondatorer som använder mindre vanliga operativsystem. Hjälpmedel för funktionshindrade kan vara skärmläsarprogram eller brailleterminaler, men även funktioner som textförstoring och tangentbordsnavigering, som tillhandahålls av de allra flesta webbläsare, måste gå att använda.
+En del i detta är att säkerställa att alla webblösningar är tillgängligt konstruerade och därmed fungerar med alternativa webbläsare och hjälpmedel för funktionshindrade.
+
+Exempel på alternativa webbläsare är sådana som används i mobiltelefoner, i handdatorer, eller på persondatorer som använder mindre vanliga operativsystem.
+
+Hjälpmedel för funktionshindrade kan vara skärmläsarprogram eller brailleterminaler, men även funktioner som textförstoring och tangentbordsnavigering, som tillhandahålls av de allra flesta webbläsare, måste gå att använda.
 
 I detta dokument beskrivs hur kontroll av teknisk tillgänglighet går till. Kontrollen berör endast i begränsad omfattning hur tillgängligt skrivet eller presenterat själva innehållet är. Det är i huvudsak en fråga för interaktionsdesigners, grafiska formgivare och redaktörer.
 
@@ -26,9 +30,8 @@ Dock finns tjänster som kan fungera som stöd vid utvärderingen. Vissa kontrol
 Förutom de tjänster som beskrivs i kravdokumenten för validering av uppmärkningskod och stilmallar finns ett antal onlinetjänster som kan användas som ett stöd vid utvärderingen av ett dokuments tekniska tillgänglighet. 
 
   * [http://inspector.netrelations.se/ NetRelations Inspector]
-  * [http://www.cynthiasays.com/ HiSoftware Cynthia Says]
-  * [http://www.tawdis.net/taw3/cms/en TAW]
   * [http://wave.webaim.org/ WAVE]
+  * [http://www.tawdis.net/taw3/cms/en TAW]
 
 Att använda dessa verktyg kräver inga avancerade förkunskaper, men för att utvärdera resultaten på ett korrekt sätt krävs expertkunskaper inom tillgänglighet.
 
@@ -44,14 +47,16 @@ Vissa verktyg finns också som tillägg till webbläsare.
 
   * Internet Explorer 8 har ett utmärkt verktyg inbyggt, så för den som vill använda Internet Explorer är en mycket stark rekommendation att uppgradera till version 8 eller senare.
   * För Internet Explorer 7 finns [http://www.microsoft.com/downloads/details.aspx?FamilyID=e59c3964-672d-4511-bb3e-2d5e1db91038&displaylang=en Internet Explorer Developer Toolbar]
-  * [Web Accessibility Toolbar]
+  * [http://www.paciellogroup.com/resources/wat-ie-about.html Web Accessibility Toolbar]
 
 ===Opera===
 
   * [http://www.paciellogroup.com/resources/wat-about.html Web Accessibility Toolbar For Opera]
 
 ==Granskningsförfarande==
-Här följer en steg-för-steg-beskrivning av hur kontrollen av teknisk tillgänglighet ska utföras. Granskningen omfattar såväl manuella som automatiska kontroller. Notera att detta inte på något sätt är en uttömmande granskning. Tillgänglighetsproblem kan finnas även om inga problem noteras, men de problem som orsakar störst olägenhet bör fångas upp.
+Här följer en steg-för-steg-beskrivning av hur kontrollen av teknisk tillgänglighet ska utföras. Granskningen omfattar såväl manuella som automatiska kontroller.
+
+*Notera att detta inte på något sätt är en uttömmande granskning.* Tillgänglighetsproblem kan finnas även om inga problem noteras, men de problem som orsakar störst olägenhet bör fångas upp.
 
   # Validera uppmärkningskod med hjälp av W3C:s tjänst för validering av uppmärkningskod, en gratistjänst som finns på http://validator.w3.org/.
   # Validera stilmallskod med hjälp av W3C:s tjänst för validering av stilmallskod, en gratistjänst som finns på http://jigsaw.w3.org/css-validator/.
@@ -63,7 +68,7 @@ Här följer en steg-för-steg-beskrivning av hur kontrollen av teknisk tillgän
   # Öka textstorleken i webbläsaren. Dels ska textstorleken faktiskt gå att ändra (gäller Internet Explorer för Windows), dels ska inget innehåll försvinna eller bli oläsligt när textstorleken har ökats inom rimliga gränser. Webblösningen bör klara att textstorleken fördubblas.
   # Kontrollera att rubriker används och används på rätt sätt. Detta görs enklast genom att använda Web Developer Extension och välja ”Information/View Document Outline”.
   # Stäng av CSS och kontrollera att webbplatsen eller funktionen fortfarande går att använda. Detta görs enklast genom att använda Web Developer Extension och välja ”CSS/Disable Styles/All Styles”.
-  # Kontrollera färgkontraster för text. Med hjälp av Colour Contrast Analyser Firefox Extension [11] kan man snabbt få en överblick av om det finns läsbarhetsproblem orsakade av otillräcklig skillnad i kontrast, ljusstyrka eller färg mellan text och bakgrund. Tillägget kontrollerar tre olika värden (Luminosity Contrast Ratio, Difference in Brightness och Difference in Colour). För godkänt resultat får inte mer än en av dessa understiga tröskelvärdet (anges med "fail" i rapporten som skapas av tillägget).
+  # Kontrollera färgkontraster för text. [https://addons.mozilla.org/en-US/firefox/addon/7313 Colour Contrast Analyser] ger en snabb översikt av eventuella kontrastproblem. För manuell kontroll kan man använda [http://www.paciellogroup.com/resources/contrast-analyser.html Contrast Analyser] eller [https://addons.mozilla.org/es-ES/firefox/addon/7391 WCAG Contrast checker].
   # Lägg undan musen och kontrollera att det går att navigera på webblösningen samt använda den eller de funktioner som tillhandahålls enbart med hjälp av tangentbordet. 
   # Formulär ska vara uppbyggda på rätt sätt. Till exempel ska alla inmatningsfält ha en förklarande fältetikett, och den ska vara explicit ihopkopplad med fältet. ”Forms/View Form Information” i Web Developer Extension underlättar vid denna kontroll. I tabellen ”Elements” listas de inmatningsfält som finns i respektive formulär, och i kolumnen ”Label” visas respektive fälts etikett.
 
