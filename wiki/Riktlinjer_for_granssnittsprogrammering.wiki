@@ -1,4 +1,5 @@
 #summary Riktlinjer för hur gränssnittskod för webblösningar inom Västra Götalandsregionen ska skrivas.
+#labels Project-RA
 
 =Riktlinjer för gränssnittsprogrammering=
 
