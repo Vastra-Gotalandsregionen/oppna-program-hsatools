@@ -1,4 +1,5 @@
 #summary Riktlinjer för validering av uppmärkningskod (XML) för nyhetsflöden som publiceras på webblösningar inom Västra Götalandsregionen.
+#labels Project-RA
 
 =Validering av nyhetsflöden=
 
@@ -8,12 +9,12 @@ _Detta dokument innehåller riktlinjer för validering av uppmärkningskod (XML)
 _Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering, förutsätts._
 
 ==Inledning==
-Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar inom Västra Götalandsregionen är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed. För nyhetsflöden rekommenderas formatet RSS 2.0 [1], men även RSS 1.0 [2] kan användas.
+Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar inom Västra Götalandsregionen är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed. För nyhetsflöden rekommenderas formatet [http://blogs.law.harvard.edu/tech/rss RSS 2.0], men även [http://web.resource.org/rss/1.0/spec RSS 1.0] kan användas.
 
-För att göra det lättare för användare att prenumerera på nyhetsflöden bör länkar till sådana finnas i varje HTML-dokuments head-element och följa syntaxen för RSS Autodiscovery [3].
+För att göra det lättare för användare att prenumerera på nyhetsflöden bör länkar till sådana finnas i varje HTML-dokuments head-element och följa syntaxen för [http://www.rssboard.org/rss-autodiscovery RSS Autodiscovery].
 
 ==W3C:s tjänst för validering av nyhetsflöden==
-Nyhetsflöden valideras med hjälp av W3C:s tjänst för validering av RSS och Atom (hädanefter kallad flödesvalideraren), en gratistjänst som finns på http://validator.w3.org/feed/ [4].
+Nyhetsflöden valideras med hjälp av W3C:s tjänst för validering av RSS och Atom (hädanefter kallad flödesvalideraren), en gratistjänst som finns på http://validator.w3.org/feed/.
 
 I flödesvaliderarens webbaserade gränssnitt kan man ange vilken kod som ska valideras genom att:
 
