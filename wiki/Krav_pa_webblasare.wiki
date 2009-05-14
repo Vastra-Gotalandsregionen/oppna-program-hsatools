@@ -1,10 +1,10 @@
-#summary Riktlinjer för vilka krav som ställs på webbläsare för att de ska erhålla full funktionalitet och presentationskvalitet när de används med webblösningar inom Västra Götalandsregionen.
+#summary Riktlinjer för vilka krav som ställs på webbläsare för att de ska erhålla full funktionalitet och presentationskvalitet när de används med webblösningar inom Öppna program.
 #labels Project-RA
 
 =Krav på webbläsare=
 
 ==Sammanfattning==
-_Detta dokument innehåller riktlinjer för vilka krav som ställs på webbläsare för att de ska erhålla full funktionalitet och presentationskvalitet när de används med webblösningar inom Västra Götalandsregionen. Dokumentet innehåller även exempel på webbläsare som vid dokumentets framtagande lever upp till dessa krav och som därför ska ingå i aktiviteten ”Funktionstest med webbläsare”._
+_Detta dokument innehåller riktlinjer för vilka krav som ställs på webbläsare för att de ska erhålla full funktionalitet och presentationskvalitet när de används med webblösningar inom Öppna program. Dokumentet innehåller även exempel på webbläsare som vid dokumentets framtagande lever upp till dessa krav och som därför ska ingå i aktiviteten ”Funktionstest med webbläsare”._
 
 _Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om gränssnittsprogrammering förutsätts._
 
