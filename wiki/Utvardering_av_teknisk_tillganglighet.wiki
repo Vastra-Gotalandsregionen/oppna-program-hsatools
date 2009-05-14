@@ -68,7 +68,7 @@ Här följer en steg-för-steg-beskrivning av hur kontrollen av teknisk tillgän
   # *Öka textstorleken* i webbläsaren. Dels ska textstorleken faktiskt gå att ändra (gäller Internet Explorer för Windows), dels ska inget innehåll försvinna eller bli oläsligt när textstorleken har ökats inom rimliga gränser. Webblösningen bör klara att textstorleken fördubblas.
   # Kontrollera att *rubriker används* och används på rätt sätt. Detta görs enklast genom att använda Web Developer Extension och välja ”Information/View Document Outline”.
   # *Stäng av CSS* och kontrollera att webbplatsen eller funktionen fortfarande går att använda. Detta görs enklast genom att använda Web Developer Extension och välja ”CSS/Disable Styles/All Styles”.
-  # *Kontrollera färgkontraster* för text. [https://addons.mozilla.org/en-US/firefox/addon/7313 Colour Contrast Analyser] ger en snabb översikt av eventuella kontrastproblem. För manuell kontroll kan man använda [http://www.paciellogroup.com/resources/contrast-analyser.html Contrast Analyser] eller [https://addons.mozilla.org/es-ES/firefox/addon/7391 WCAG Contrast checker].
+  # *Kontrollera färgkontraster* för text. [https://addons.mozilla.org/en-US/firefox/addon/7313 Colour Contrast Analyser] ger en snabb översikt av eventuella kontrastproblem. För manuell kontroll kan man använda [http://www.paciellogroup.com/resources/contrast-analyser.html Contrast Analyser] eller [https://addons.mozilla.org/en-US/firefox/addon/7391 WCAG Contrast checker].
   # *Lägg undan musen* och kontrollera att det går att navigera på webblösningen samt använda den eller de funktioner som tillhandahålls enbart med hjälp av tangentbordet. 
   # *Formulär* ska vara uppbyggda på rätt sätt. Till exempel ska alla inmatningsfält ha en förklarande fältetikett, och den ska vara explicit ihopkopplad med fältet. ”Forms/View Form Information” i Web Developer Extension underlättar vid denna kontroll. I tabellen ”Elements” listas de inmatningsfält som finns i respektive formulär, och i kolumnen ”Label” visas respektive fälts etikett.
 
@@ -93,4 +93,4 @@ Tillgänglighetsproblem beror oftast antingen på felaktigheter i de sidmallar s
   # W3C CSS Validation Service: http://jigsaw.w3.org/css-validator/
   # Colour Contrast Analyser Firefox Extension: https://addons.mozilla.org/en-US/firefox/addon/7313
   # Contrast Analyser: http://www.paciellogroup.com/resources/contrast-analyser.html
-  # WCAG Contrast checker: https://addons.mozilla.org/es-ES/firefox/addon/7391
+  # WCAG Contrast checker: https://addons.mozilla.org/en-US/firefox/addon/7391
