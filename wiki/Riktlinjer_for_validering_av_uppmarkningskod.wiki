@@ -9,10 +9,10 @@ _Detta dokument innehåller riktlinjer för validering av uppmärkningskod för 
 _Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om gränssnittsprogrammering förutsätts._
 
 ==Inledning==
-Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar inom Västra Götalandsregionen är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed. För uppmärkning av webbdokument ska i första hand XHTML 1.0 Strict [1] användas.
+Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar inom Västra Götalandsregionen är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed. För uppmärkning av webbdokument ska i första hand [http://www.w3.org/TR/xhtml1/ XHTML 1.0 Strict] användas.
 
 ==W3C:s tjänst för validering av uppmärkningskod==
-HTML och XML valideras säkrast med hjälp av W3C:s tjänst för validering av uppmärkningskod (hädanefter kallad HTML-valideraren), en gratistjänst som finns på http://validator.w3.org/ [2].
+HTML och XML valideras säkrast med hjälp av W3C:s tjänst för validering av uppmärkningskod (hädanefter kallad HTML-valideraren), en gratistjänst som finns på http://validator.w3.org/.
 
 I HTML-validerarens webbaserade gränssnitt kan man ange vilken kod som ska valideras genom att:
 
@@ -26,18 +26,22 @@ Avancerade inställningar kan göras vid behov.
 För att underlätta valideringsarbetet kan man använda diverse tillägg till webbläsare för att slippa mata in sidans URL manuellt.
 
 ===Web Developer Extension (Firefox)===
-För Firefox [3] finns tillägget Web Developer Extension [4] som har funktioner för att automatiskt ladda upp kod till HTML-valideraren. För att validera ett dokument laddar man det i webbläsaren och väljer ”Tools/Validate HTML”. Detta förutsätter att dokumentet finns publikt åtkomligt, det vill säga att det inte är skyddat av till exempel inloggning.
+För [http://www.mozilla.com/firefox/ Firefox] finns tillägget [http://chrispederick.com/work/webdeveloper/ Web Developer Extension] som har funktioner för att automatiskt ladda upp kod till HTML-valideraren. För att validera ett dokument laddar man det i webbläsaren och väljer ”Tools/Validate HTML”. Detta förutsätter att dokumentet finns publikt åtkomligt, det vill säga att det inte är skyddat av till exempel inloggning.
 
 För att validera dokument som inte är publikt åtkomliga kan man i stället välja ”Tools/Validate Local HTML”, varvid koden, inte sidans URL, skickas till HTML-valideraren.
 
 ===HTML Validator Extension (Firefox)===
-Ett annat tillägg för Firefox är HTML Validator Extension [5], som är baserat på Tidy [6]. Från och med version 0.834 av tillägget finns också stöd för samma tolk som W3C:s HTML-validerare använder. För att resultatet från HTML Validator Extensions validering ska kunna användas vid testning måste tillägget vara inställt på att använda denna tolk.
+Ett annat tillägg för Firefox är [http://users.skynet.be/mgueury/mozilla/ HTML Validator Extension]. Tillägget kan ställas in så att det använder samma algoritm som W3C:s HTML-validerare, vilket gör det mycket pålitligt. Det kompletterar dessutom kodvalideringen med Tidy, ett verktyg som förutom kodsyntax kan varna för möjliga tillgänglighetsproblem.
+
+Den rekommenderade inställningen för HTML Validator Extension är "Serial", vilket innebär att koden först kontrolleras med SGML-algoritmen (den som HTML-valideraren använder) och sedan med Tidy. Denna kombination hjälper till att hitta många fel och potentiella orsaker till kompatibilitetsproblem.
+
+HTML Validator Extension validerar automatiskt alla sidor man öppnar i webbläsaren, och den gör det lokalt utan att skicka någon kod till en annan server. Det gör verktyget mycket lämpligt för miljöer som är inloggningsskyddade eller under utveckling, och att det alltid är aktivt gör att det är mycket enkelt att kontrollera att man använder korrekt HTML-syntax.
 
 ===Internet Explorer Developer Toolbar===
-För Internet Explorer för Windows finns Internet Explorer Developer Toolbar [7], som precis som Web Developer Extension automatiskt laddar upp den aktuella sidans kod till W3C:s valideringstjänst.
+För Internet Explorer för Windows finns [http://www.microsoft.com/downloads/details.aspx?FamilyID=e59c3964-672d-4511-bb3e-2d5e1db91038&displaylang=en Internet Explorer Developer Toolbar], som precis som Web Developer Extension automatiskt laddar upp den aktuella sidans kod till W3C:s valideringstjänst.
 
 ===Web Accessibility Toolbar (Internet Explorer, Opera)===
-För Internet Explorer för Windows finns tillägget Web Accessibility Toolbar [8] som har liknande funktionalitet som Web Developer Extension. En version av tillägget finns även för Opera, och den fungerar på alla plattformar: Web Accessibility Toolbar [For Opera] [9].
+För Internet Explorer för Windows finns tillägget [http://www.nils.org.au/info.aspx?page=614 Web Accessibility Toolbar] som har liknande funktionalitet som Web Developer Extension. En version av tillägget finns även för Opera, och den fungerar på alla plattformar: [http://www.paciellogroup.com/resources/wat-about.html Web Accessibility Toolbar For Opera].
 
 ==Tolkning av resultaten==
 För godkänt resultat krävs att inga valideringsfel rapporteras.
