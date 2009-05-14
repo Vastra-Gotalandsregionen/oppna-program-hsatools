@@ -83,6 +83,8 @@ Tillgänglighetsproblem beror oftast antingen på felaktigheter i de sidmallar s
   # WAVE: http://wave.webaim.org/
   # TAW: http://www.tawdis.net/taw3/cms/en
   # Firefox: http://www.mozilla.com/firefox/
+  # Internet Explorer: http://www.microsoft.com/ie/
+  # Opera: http://www.opera.com/
   # Web Developer Extension: http://chrispederick.com/work/webdeveloper/
   # Internet Explorer Developer Toolbar: http://www.microsoft.com/downloads/details.aspx?FamilyID=e59c3964-672d-4511-bb3e-2d5e1db91038&displaylang=en
   # Web Accessibility Toolbar: http://www.paciellogroup.com/resources/wat-ie-about.html
