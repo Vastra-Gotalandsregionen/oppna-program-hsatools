@@ -567,4 +567,4 @@ Om något av elementen inte finns i dokumentet avbryts scriptet innan det förs�
   # JSLint: http://www.jslint.com/
   # JSDoc Homepage: http://jsdoc.sourceforge.net/
   # JSDoc Toolkit: http://jsdoctoolkit.org/
-  # Code Conventions for the JavaScript Programming Language: http://javascript.crockford.com/code.html
+  # Code Conventions for the !JavaScript Programming Language: http://javascript.crockford.com/code.html
