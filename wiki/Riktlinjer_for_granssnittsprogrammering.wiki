@@ -1,4 +1,4 @@
-#summary Riktlinjer för hur gränssnittskod för webblösningar inom Västra Götalandsregionen ska skrivas.
+#summary Riktlinjer för hur gränssnittskod ska skrivas.
 #labels Project-RA
 
 =Riktlinjer för gränssnittsprogrammering=
@@ -8,11 +8,11 @@
 <wiki:toc max_depth="3" />
 
 ==Sammanfattning==
-_Detta dokument innehåller riktlinjer för hur gränssnittskod för webblösningar inom Västra Götalandsregionen ska skrivas. De gränssnittsspråk som omfattas av dokumentet är HTML/XHTML, CSS och !JavaScript._
+_Detta dokument innehåller riktlinjer för hur gränssnittskod för webblösningar ska skrivas. De gränssnittsspråk som omfattas av dokumentet är HTML/XHTML, CSS och !JavaScript._
 
 _I dokumentet hänvisas ofta till den HTML-baserade gränssnittsprototyp som dokumenteras på och finns att ladda ner från http://code.google.com/p/oppna-program-portalramverk/.
 
-_Dokumentets målgrupp är i första hand gränssnitts- och systemutvecklare som ska leverera webblösningar till Västra Götalandsregionen. Goda kunskaper om gränssnittsprogrammering med HTML, CSS och !JavaScript förutsätts._
+_Dokumentets målgrupp är i första hand gränssnitts- och systemutvecklare som ska leverera webblösningar. Goda kunskaper om gränssnittsprogrammering med HTML, CSS och !JavaScript förutsätts._
 
 ==HTML==
 Att skriva bra HTML-kod handlar inte bara om att validera den, även om det naturligtvis är en mycket viktig del. Det finns en mängd andra saker man behöver ta hänsyn till för att slutresultatet ska bli tillgängligt, interoperabelt och enkelt att underhålla. Här beskrivs en del av de mest grundläggande sakerna man bör tänka på.
