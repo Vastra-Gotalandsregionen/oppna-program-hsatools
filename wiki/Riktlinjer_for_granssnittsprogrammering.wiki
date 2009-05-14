@@ -11,7 +11,7 @@ _Detta dokument innehåller riktlinjer för hur gränssnittskod för webblösnin
 
 _I dokumentet hänvisas ofta till den HTML-baserade gränssnittsprototyp som dokumenteras på och finns att ladda ner från http://code.google.com/p/oppna-program-portalramverk/.
 
-_Dokumentets målgrupp är i första hand gränssnitts- och systemutvecklare som ska leverera webblösningar till Västra Götalandsregionen. Goda kunskaper om webbutveckling, särskilt gränssnittsprogrammering med HTML, CSS och !JavaScript, förutsätts._
+_Dokumentets målgrupp är i första hand gränssnitts- och systemutvecklare som ska leverera webblösningar till Västra Götalandsregionen. Goda kunskaper om gränssnittsprogrammering med HTML, CSS och !JavaScript förutsätts._
 
 ==HTML==
 Att skriva bra HTML-kod handlar inte bara om att validera den, även om det naturligtvis är en mycket viktig del. Det finns en mängd andra saker man behöver ta hänsyn till för att slutresultatet ska bli tillgängligt, interoperabelt och enkelt att underhålla. Här beskrivs en del av de mest grundläggande sakerna man bör tänka på.
@@ -51,14 +51,14 @@ Det finns inget strikt ramverk för strukturering av HTML-kod inom VGR, men inom
 För att göra det enklare att förstå hur prototypen är uppbyggd förklaras här delar av den övergripande strukturen i HTML-koden.
 
 ====Doctype====
-Allra först i dokumentet anges vilken Document Type Declaration (Doctype) som används. Som tidigare nämnts är det XHTML 1.0 Strict:
+Allra först i varje HTML-dokument anges vilken Document Type Declaration (Doctype) som används. Som tidigare nämnts är det XHTML 1.0 Strict:
 
 {{{
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 }}}
 
-Notera att Doctype-koden inte ska föregås av något annat än whitespace för att undvika att Internet Explorer 6 använder [http://en.wikipedia.org/wiki/Quirks_mode Quirks mode].
+Notera att Doctype-koden inte ska föregås av något annat än whitespace – annars kommer Internet Explorer 6 att använda [http://en.wikipedia.org/wiki/Quirks_mode Quirks mode].
 
 Quirks mode innebär i korthet att webbläsare renderar webbsidor på ett bakåtkompatibelt sätt i stället för att tolka HTML och CSS strikt enligt standarderna. Det gör att det blir större skillnader i hur webbläsare beter sig, vilket i sin tur gör det svårare att skriva HTML och CSS som ger samma resultat i alla webbläsare.
 
@@ -87,7 +87,7 @@ Dokumentets teckenkodning ska alltid anges av webbservern via en http-header, me
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 }}}
 
-Unicode (UTF-8) är den rekommenderade teckenkodningen eftersom den är den förvalda i XML och HTML och innehåller i princip alla tecken man kan tänkas använda för de allra flesta språk.
+Unicode (UTF-8) är den rekommenderade teckenkodningen eftersom den är den förvalda i XML och HTML och innehåller i princip alla tecken man kan tänkas behöva använda för de allra flesta språk.
 
 Mer utförlig information om teckenkodning finns i W3C:s dokument [http://www.w3.org/International/tutorials/tutorial-char-enc/ Tutorial: Character sets & encodings in XHTML, HTML and CSS].
 
@@ -115,7 +115,7 @@ Det finns flera olika sätt att infoga metadata i HTML-dokument. I portalprototy
     <meta name="DC.format" scheme="DCTERMS.IMT" content="text/html" />
 }}}
 
-Respektive `meta`-elements värde anges i `content`-attributet och ska anpassas för varje dokument. Metadata gäller alltså på dokumentnivå.
+Varje `meta`-elements värde anges i dess `content`-attribut och ska anpassas för varje dokument. Metadata gäller alltså på dokumentnivå, inte på webbplatsnivå.
 
 Mer information om infogning av metadata enligt Dublin Core:
 
@@ -127,7 +127,7 @@ Hur detaljerad metadata som är rimligt att ange varierar mellan dokument och ap
 ====Inlänkning av CSS-filer====
 När man länkar in CSS-filer bör man göra det på ett sätt som gör att äldre webbläsare (som har obefintligt eller dåligt stöd för CSS) inte läser in dem. Vidare bör man också ange vilket eller vilka medier respektive CSS-fil är avsedd för.
 
-Om behovet finns kan man också ladda en fil som innehåller fixar för Internet Explorer för Windows, som har betydligt buggigare och sämre stöd för CSS än övriga aktuella webbläsare. Detta gäller särskilt IE 7 och äldre. I IE 8 är stödet för CSS 2.1 jämförbart med modernare webbläsare, men även den versionen saknar stöd för CSS 3.
+Om behovet finns kan man också ladda en fil som innehåller fixar för Internet Explorer för Windows, som har betydligt buggigare och sämre stöd för CSS än övriga aktuella webbläsare. Detta gäller särskilt IE 7 och äldre. I IE 8 är stödet för CSS 2.1 jämförbart med modernare webbläsare, men även den versionen saknar fortfarande stöd för CSS 3.
 
 CSS-filerna i portalprototypen laddas in på följande sätt för att gömma dem från äldre webbläsare samt ladda en fil med buggfixar för Internet Explorer 7 och äldre:
 
@@ -166,7 +166,7 @@ Det sista innehållet i `head`-elementet i portalprototypen är en rad `script`-
 <script type="text/javascript" src="/js/vgr.global.js"></script>
 }}}
 
-Det är dels filer från !JavaScriptramverket [http://developer.yahoo.com/yui/ Yahoo! User Interface Library (YUI)] som laddas, dels en fil som innehåller globala script som är specialskrivna för prototypen. Ordningen är viktig eftersom filen `vgr.global.js` innehåller funktioner som är beroende av att övriga filer laddats.
+Det är dels filer från !JavaScriptramverket [http://developer.yahoo.com/yui/ Yahoo! User Interface Library (YUI)] som laddas, dels en fil som innehåller globala script som är specialskrivna för prototypen. Ordningen är viktig eftersom filen `/js/vgr.global.js` innehåller funktioner som är beroende av att övriga filer laddats.
 
 All !JavaScriptkod ska ligga i externa filer. I idealfallet skulle de också ligga på ett och samma ställe i HTML-koden, men eftersom till exempel portlets i en portalmiljö inte alltid har möjlighet att lägga till saker i `head`-elementet går det också att ladda in eventuella scriptfiler först i varje enskild portlet. Exempel på detta finns i portalprototypen.
 
@@ -248,7 +248,7 @@ Men detta är fullt tillräckligt och mycket enklare att läsa:
 }}}
 
 ====Undvik inline-CSS====
-Undvik så långt det är möjligt att ange CSS med hjälp av `style`-attribut. Det försvårar underhåll och gör att webbläsare inte kan cacha CSS-koden. All CSS bör i första hand specificeras i externa filer.
+Undvik att ange CSS med hjälp av `style`-attribut. Det försvårar underhåll, saknar stöd för media-specifik CSS och gör att webbläsare inte kan cacha CSS-koden. All CSS bör i första hand specificeras i externa filer och i undantagsfall i `style`-element i `head`-elementet.
 
 ====Undvik event handlers i HTML-kod====
 Skriv inga event handlers för !JavaScript direkt i HTML-koden. Använd alltid externt laddad !JavaScript. Anta att en funktion som heter `VGR.linkInfo.init()` ska köras när sidan har laddats. Skriv då inte så här:
