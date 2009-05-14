@@ -1,4 +1,5 @@
 #summary Övergripande beskrivning av de krav som ställs på den gränssnittskod som används för webblösningar inom Västra Götalandsregionen.
+#labels Project-RA
 
 =Krav på gränssnittskod=
 
@@ -11,19 +12,19 @@ _Dokumentets målgrupp består i första hand av beställare som vill kvalitetsk
 Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar inom Västra Götalandsregionen är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed.
 
 ==Uppmärkningskod (HTML/XHTML)==
-Den uppmärkningskod som används för att strukturera dokument och ge innehåll betydelse skall validera enligt vald standard (HTML 4.01 Strict eller XHTML 1.0 Strict). Hur valideringen går till beskrivs närmare i dokumentet ”Validering av uppmärkningskod”.
+Den uppmärkningskod som används för att strukturera dokument och ge innehåll betydelse skall validera enligt vald standard (HTML 4.01 Strict eller XHTML 1.0 Strict). Hur valideringen går till beskrivs närmare i [http://code.google.com/p/oppna-program/wiki/Riktlinjer_for_validering_av_uppmarkningskod Validering av uppmärkningskod].
 
 ==Stilmallskod (CSS)==
-Den stilmallskod (CSS) som används för att styra hur dokument presenteras skall validera enligt vald nivå, till exempel CSS 2.1 eller 3. Hur valideringen går till beskrivs närmare i dokumentet ”Validering av stilmallskod”.
+Den stilmallskod (CSS) som används för att styra hur dokument presenteras skall validera enligt vald nivå, till exempel CSS 2.1 eller 3. Hur valideringen går till beskrivs närmare i [http://code.google.com/p/oppna-program/wiki/Riktlinjer_for_validering_av_stilmallskod Validering av stilmallskod].
 
 ==!JavaScript/ECMAScript==
-Den skriptkod (!JavaScript/ECMAScript) som används för att ge en webblösning utökad funktionalitet skall kvalitetssäkras med hjälp av de verktyg som finns beskrivna i dokumentet ”Kvalitetssäkring av !JavaScript” samt funktionstestas i de webbläsare som är relevanta enligt dokumentet ”Krav på webbläsare”.
+Den skriptkod (!JavaScript/ECMAScript) som används för att ge en webblösning utökad funktionalitet skall kvalitetssäkras med hjälp av de verktyg som finns beskrivna i [http://code.google.com/p/oppna-program/wiki/Kvalitetssakring_av_JavaScript Kvalitetssäkring av JavaScript] samt funktionstestas i de webbläsare som är relevanta enligt [http://code.google.com/p/oppna-program/wiki/Krav_pa_webblasare Krav på webbläsare].
 
 ==Nyhetsflöden (RSS/XML)==
-Den kod (RSS i XML-format) som används för att tillhandahålla nyhetsflöden skall validera enligt vald standard (RSS 1.0 eller RSS 2.0). Hur valideringen går till beskrivs närmare i dokumentet ”Validering av nyhetsflöden”.
+Den kod (RSS i XML-format) som används för att tillhandahålla nyhetsflöden skall validera enligt vald standard (RSS 1.0 eller RSS 2.0). Hur valideringen går till beskrivs närmare i [http://code.google.com/p/oppna-program/wiki/Riktlinjer_for_validering_av_nyhetsfloden Validering av nyhetsflöden].
 
 ==Metadatainfogning (HTML/XHTML samt RSS/XML)==
-Den metadata som infogas i HTML/XHTML-dokument samt i nyhetsflöden skall infogas på korrekt sätt samt motsvara VGR:s krav på ingående metadata. Hur kvalitetskontrollen går till beskrivs närmare i dokumentet ”Kvalitetssäkring av metadatainfogning”.
+Den metadata som infogas i HTML/XHTML-dokument samt i nyhetsflöden skall infogas på korrekt sätt samt motsvara VGR:s krav på ingående metadata. Hur kvalitetskontrollen går till beskrivs närmare i [http://code.google.com/p/oppna-program/wiki/Kvalitetssakring_av_metadatainfogning Kvalitetssäkring av metadatainfogning].
 
 ==Teknisk tillgänglighet==
-All gränssnittskod som används i webblösningar inom Västra Götalandsregionen skall följa gällande riktlinjer för tillgänglighet enligt WCAG och Vägledningen 24-timmarswebben. Hur delar av dessa riktlinjer kontrolleras beskrivs närmare i dokumentet ”Utvärdering av teknisk tillgänglighet”.
+All gränssnittskod som används i webblösningar inom Västra Götalandsregionen skall följa gällande riktlinjer för tillgänglighet enligt WCAG och Vägledningen 24-timmarswebben. Hur delar av dessa riktlinjer kontrolleras beskrivs närmare i [http://code.google.com/p/oppna-program/wiki/Utvardering_av_teknisk_tillganglighet Utvärdering av teknisk tillgänglighet].
