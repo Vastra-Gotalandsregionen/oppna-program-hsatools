@@ -4,7 +4,7 @@
 =Validering av stilmallskod=
 
 ==Sammanfattning==
-_Detta dokument innehåller riktlinjer för validering av stilmallskod för webblösningar inom Västra Götalandsregionen._
+_Detta dokument innehåller riktlinjer för validering av stilmallskod för webblösningar._
 
 _Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om gränssnittsprogrammering förutsätts._
 
