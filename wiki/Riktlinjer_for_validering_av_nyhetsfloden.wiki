@@ -1,15 +1,15 @@
-#summary Riktlinjer för validering av uppmärkningskod (XML) för nyhetsflöden som publiceras på webblösningar inom Västra Götalandsregionen.
+#summary Riktlinjer för validering av uppmärkningskod (XML) för nyhetsflöden.
 #labels Project-RA
 
 =Validering av nyhetsflöden=
 
 ==Sammanfattning==
-_Detta dokument innehåller riktlinjer för validering av uppmärkningskod (XML) för nyhetsflöden som publiceras på webblösningar inom Västra Götalandsregionen._
+_Detta dokument innehåller riktlinjer för validering av uppmärkningskod (XML) för nyhetsflöden som publiceras._
 
 _Dokumentets målgrupp består i första hand av beställare som vill kvalitetskontrollera leveranser samt utvecklare och systemadministratörer som vill kontrollera att det de levererar håller önskad kvalitet. Relativt goda kunskaper om gränssnittsprogrammering förutsätts._
 
 ==Inledning==
-Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar inom Västra Götalandsregionen är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed. För nyhetsflöden rekommenderas formatet [http://blogs.law.harvard.edu/tech/rss RSS 2.0], men även [http://web.resource.org/rss/1.0/spec RSS 1.0] kan användas.
+Ett mycket viktigt led i kvalitetssäkringen av all gränssnittsrelaterad kod som används för webblösningar är att säkerställa att den är korrekt skriven, det vill säga följer de specifikationer som finns och är skriven enligt god programmeringssed. För nyhetsflöden rekommenderas formatet [http://blogs.law.harvard.edu/tech/rss RSS 2.0], men även [http://web.resource.org/rss/1.0/spec RSS 1.0] kan användas.
 
 För att göra det lättare för användare att prenumerera på nyhetsflöden bör länkar till sådana finnas i varje HTML-dokuments head-element och följa syntaxen för [http://www.rssboard.org/rss-autodiscovery RSS Autodiscovery].
 
