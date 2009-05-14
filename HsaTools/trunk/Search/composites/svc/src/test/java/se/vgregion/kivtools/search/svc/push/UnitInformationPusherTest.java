@@ -9,7 +9,7 @@ import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import org.easymock.classextension.EasyMock;
+import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -70,7 +70,7 @@ public class UnitInformationPusherTest {
 		Session sessionMock = EasyMock.createMock(Session.class);
 		ChannelSftp channelSftpMock = EasyMock.createMock(ChannelSftp.class);
 		try {
-			EasyMock.expect(jschMock.getSession(ftpUser, ftpHost, 22)).andReturn(sessionMock);
+			org.easymock.EasyMock.expect(jschMock.getSession(ftpUser, ftpHost, 22)).andReturn(sessionMock);
 			sessionMock.setPassword(ftpPassword);
 			sessionMock.setConfig("StrictHostKeyChecking", "no");
 			sessionMock.connect();
