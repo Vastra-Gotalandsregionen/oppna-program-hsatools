@@ -4,8 +4,8 @@ import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.ws.server.endpoint.AbstractMarshallingPayloadEndpoint;
 
-import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Organization;
-import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.UnitRequest;
+import se.vgregion.kivtools.search.intsvc.ws.domain.Organization;
+import se.vgregion.kivtools.search.intsvc.ws.domain.UnitRequest;
 
 public class UnitDetailsEndpoint extends AbstractMarshallingPayloadEndpoint {
 

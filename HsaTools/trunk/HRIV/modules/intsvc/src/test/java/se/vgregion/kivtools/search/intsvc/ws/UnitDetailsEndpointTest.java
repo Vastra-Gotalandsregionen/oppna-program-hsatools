@@ -7,10 +7,10 @@ import org.junit.Test;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import se.vgregion.kivtools.search.intsvc.ws.UnitDetailsService;
-import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.ObjectFactory;
-import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Organization;
-import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit;
-import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.UnitRequest;
+import se.vgregion.kivtools.search.intsvc.ws.domain.ObjectFactory;
+import se.vgregion.kivtools.search.intsvc.ws.domain.Organization;
+import se.vgregion.kivtools.search.intsvc.ws.domain.Unit;
+import se.vgregion.kivtools.search.intsvc.ws.domain.UnitRequest;
 
 public class UnitDetailsEndpointTest {
 	UnitDetailsEndpoint unitDetailsEndpoint;
@@ -40,7 +40,7 @@ public class UnitDetailsEndpointTest {
 		Unit unit = objectFactory.createUnit();
 		unit.setId(unitId);
 		organization.getUnit().add(unit);
-		UnitDetailsService<Organization> unitDetailsServiceMock = EasyMock.createMock(UnitDetailsService.class);
+		UnitDetailsService<Organization> unitDetailsServiceMock = EasyMock.createMock(UnitDetailsServiceImpl.class);
 		EasyMock.expect(unitDetailsServiceMock.getUnitDetails(unitId)).andReturn(organization);
 		EasyMock.replay(unitDetailsServiceMock);
 		return unitDetailsServiceMock;
