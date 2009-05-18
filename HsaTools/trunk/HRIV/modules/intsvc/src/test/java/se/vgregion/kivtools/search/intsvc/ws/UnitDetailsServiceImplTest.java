@@ -48,17 +48,17 @@ public class UnitDetailsServiceImplTest {
 		assertNotNull(unitDetailsService.getUnitDetails(null));
 		assertNotNull(unitDetailsService.getUnitDetails(""));
 	}
-	/*
+	
 	@Test
 	public void testUnitAddressInfo() {
 		// Check Unit 0
 	
 		Organization organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 0);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Address addressWs = organization.getUnit().get(0).getAddress().get(0);
+		se.vgregion.kivtools.search.intsvc.ws.domain.Address addressWs = organization.getUnit().get(0).getAddress().get(0);
 		assertEquals("En trevlig mottagning", organization.getUnit().get(0).getDescription().get(0).getValue());
 		assertEquals("Teststreet", addressWs.getStreetName());
 		assertEquals(null, addressWs.getStreetNumber());
-		assertEquals("1111", organization.getUnit().get(0).getDescriptionOrImageOrAddress().get(0).getTelephoneNumber().get(0));
+		assertEquals("1111", organization.getUnit().get(0).getTelephone().get(0).getTelephoneNumber().get(0));
 		assertEquals("http://unit", organization.getUnit().get(0).getEAlias().get(0).getAlias());
 		assertEquals("Ingen parfym tack", organization.getUnit().get(0).getVisitingConditions().get(0).getVisitingRules());
 		assertEquals("Måndag-Fredag 08:00-17:00, Lördag 10:00-14:00", organization.getUnit().get(0).getVisitingConditions().get(0).getVisitingHours());
@@ -88,7 +88,7 @@ public class UnitDetailsServiceImplTest {
 		assertEquals("12b", addressWs.getStreetNumber());
 		
 	}
-*/
+
 	private List<Address> generateUnitAddress() {
 		Address addressWithoutNb = new Address("Teststreet", new ZipCode("414 57"), "Göteborg", Arrays.asList("Desc1", "Desc2"));
 		Address addressWithNb = new Address("Teststreet 12", new ZipCode("414 57"), "Göteborg", Arrays.asList("Desc1", "Desc2"));
