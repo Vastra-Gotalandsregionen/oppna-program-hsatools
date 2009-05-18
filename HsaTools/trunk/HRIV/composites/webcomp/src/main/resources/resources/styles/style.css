@@ -438,6 +438,7 @@ table.Employment,table.Employment th,table.Employment td {
 	/*background-color: #dee9d4;*/
 	background-color: #F3F1F2;
 	font-size: 1.2em;
+	clear: both;
 }
 
 .unit-details-header h2,.unit-details-header h3 {
@@ -831,6 +832,10 @@ div.autocomplete {
 	vertical-align: 0%;
 }
 
+#unit-listing {
+	float: right;
+}
+
 #print-element {
 	padding-top: 0.5em;
 	text-align: right;
@@ -863,6 +868,9 @@ div.autocomplete {
 
 #description-body,mvk-body {
 	padding: 0.25em;
+	float: left;
+	width: 80%;
+	margin-bottom:1.5em;
 }
 
 #embed-body {

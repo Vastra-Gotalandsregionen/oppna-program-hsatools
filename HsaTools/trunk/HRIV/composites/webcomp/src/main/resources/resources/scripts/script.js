@@ -15,6 +15,14 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
+function popup(url) {
+	newwindow=window.open(url,'name','scrollbars=1,height=800,width=600');
+	if (window.focus) {
+		newwindow.focus();
+	}
+	return false;
+}
+
 function changeStyleClass(container, classname) {
     container.className = classname;
 }
