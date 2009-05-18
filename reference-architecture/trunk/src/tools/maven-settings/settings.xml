@@ -51,6 +51,12 @@ Maven2 settings. To be placed in $USER_HOME/.m2
           <url>http://oppna-program.googlecode.com/svn/maven</url>
         </repository>
       </repositories>
+	   <pluginRepositories>
+        <pluginRepository>
+          <id>oppnaprogram-maven-repo</id>
+          <url>http://oppna-program.googlecode.com/svn/maven</url>
+        </pluginRepository>
+      </pluginRepositories>
     </profile>
   </profiles>
 
