@@ -32,7 +32,7 @@ Generation time : 2007-10-09 10:07:02 CEST
     <dependency>
       <groupId>se.vgr.javg</groupId>
       <artifactId>javg-rt-support</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${javg.version}</version>
     </dependency>
     
     <dependency>
@@ -45,6 +45,24 @@ Generation time : 2007-10-09 10:07:02 CEST
       <groupId>org.springframework</groupId>
       <artifactId>spring-webflow</artifactId>
       <version>1.0.5</version>
+		<exclusions>
+			<exclusion>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+			</exclusion>
+		</exclusions>
     </dependency>
     <!-- We use a Servlet Filter from spring-web to control UTF-8 encodings.
         Facelets doesn't do this for us. -->
