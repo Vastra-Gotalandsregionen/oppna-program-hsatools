@@ -108,4 +108,7 @@
 		<property name="fileEncoding" value="UTF-8" />
 	</bean>
 	
+	<bean id="Controller.registerOnUnit" class="se.vgregion.kivtools.search.presentation.RegisterOnUnitController">
+	<!--  property for web service that communicates with "vårdvalssystemet" -->
+	</bean>
 </beans>
