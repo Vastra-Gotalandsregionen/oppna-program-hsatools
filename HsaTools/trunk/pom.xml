@@ -64,6 +64,10 @@ Generation time : 2007-10-09 10:07:02 CEST
                 <header>header.txt</header>
             </configuration>
       </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-dependency-plugin</artifactId>-->
+<!--      </plugin>-->
     </plugins>
 
     <!-- needed for FTP-deployment -->
