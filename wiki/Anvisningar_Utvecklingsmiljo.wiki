@@ -219,19 +219,20 @@ Pluginen kommer att efterfråga ett base-package name:
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/Anvisningar_Utvecklingsmiljo_Plugin_BasePackagePrompt.png
 
-Ange ett base-package name t ex `se.vgr.mytestsystem`.
+Ange ett base-package name t ex `se.vgr`.
+Not: systemnamnet läggs automatiskt till i de genererade pom filerna (`<groupId>`).
 
-Sedan efterfrågas ett namn på det nya systemet: 
+Sedan efterfrågas ett namn på det nya systemet (t.ex. webbisar): 
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/Anvisningar_Utvecklingsmiljo_Plugin_SystemNamePrompt.png
 
-T ex `MyTestSystem` (se [Anvisningar_Kallkodstruktur] för namngivningsregler).
+T ex `webbisar` (se [Anvisningar_Kallkodstruktur] för namngivningsregler).
 
 Till slut efterfrågas namnet på den verksamhetskomponent som per default skapas som en del av strukturen: 
 
 http://oppna-program.googlecode.com/svn/wiki/bilder/RA/Anvisningar_Utvecklingsmiljo_Plugin_BCNamePrompt.png
 
-T ex `MyTestBC`.
+T ex `core-bc`.
 
 Verksamhetskomponenten skapas med alla tänkbara moduler/delar. Efter genereringen går det bra att ta bort eventuella delar som inte ska användas, t ex modules/web om det inte ska finnas en web-del.
 
