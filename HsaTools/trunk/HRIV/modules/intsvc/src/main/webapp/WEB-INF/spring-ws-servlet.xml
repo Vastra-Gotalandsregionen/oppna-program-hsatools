@@ -18,7 +18,7 @@
 
 	<bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
 		<property name="contextPath"
-			value="se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb" />
+			value="se.vgregion.kivtools.search.intsvc.ws.domain" />
 	</bean>
 
 	<bean
@@ -41,7 +41,7 @@
 		<property name="targetNamespace" value="http://vgregion.se/hriv/schemas" />
 	</bean>
 	<bean id="schema" class="org.springframework.xml.xsd.SimpleXsdSchema">
-		<property name="xsd" value="classpath:wsdl/unit_details2.xsd" />
+		<property name="xsd" value="classpath:wsdl/unit_details_ws.xsd" />
 	</bean>
 
 </beans>
