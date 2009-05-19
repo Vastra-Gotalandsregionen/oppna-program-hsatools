@@ -29,6 +29,7 @@ Generation time : 2007-10-09 10:07:02 CEST
   <modules>
     <module>composites/webcomp</module>
     <module>modules/web</module>
+    <module>modules/intsvc</module>
     <module>applications/HRIV</module>
   </modules>  
   
