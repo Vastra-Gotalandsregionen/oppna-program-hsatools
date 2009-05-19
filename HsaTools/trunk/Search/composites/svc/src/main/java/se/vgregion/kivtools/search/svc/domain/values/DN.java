@@ -375,6 +375,49 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 		this.position = position;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cn == null) ? 0 : cn.hashCode());
+		result = prime * result + ((dc == null) ? 0 : dc.hashCode());
+		result = prime * result + ((o == null) ? 0 : o.hashCode());
+		result = prime * result + ((ou == null) ? 0 : ou.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DN other = (DN) obj;
+		if (cn == null) {
+			if (other.cn != null)
+				return false;
+		} else if (!cn.equals(other.cn))
+			return false;
+		if (dc == null) {
+			if (other.dc != null)
+				return false;
+		} else if (!dc.equals(other.dc))
+			return false;
+		if (o == null) {
+			if (other.o != null)
+				return false;
+		} else if (!o.equals(other.o))
+			return false;
+		if (ou == null) {
+			if (other.ou != null)
+				return false;
+		} else if (!ou.equals(other.ou))
+			return false;
+		return true;
+	}
+
 	public void setAdministrationLevel(int administration) {
 		ADMINISTRATION = administration;
 	}
