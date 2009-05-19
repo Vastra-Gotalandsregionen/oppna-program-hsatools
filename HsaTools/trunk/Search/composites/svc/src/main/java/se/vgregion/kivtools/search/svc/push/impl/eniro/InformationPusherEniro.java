@@ -7,9 +7,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -19,9 +22,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 import se.vgregion.kivtools.search.svc.push.InformationPusher;
+import se.vgregion.kivtools.search.svc.push.UnitInformationPusherTest;
 import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.ObjectFactory;
 import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Organization;
 
@@ -45,7 +50,7 @@ public class InformationPusherEniro implements InformationPusher {
 	private String ftpPassword;
 	private String ftpDestinationFolder;
 	private JSch jsch;
-	
+
 	public void setJsch(JSch jsch) {
 		this.jsch = jsch;
 	}
@@ -202,7 +207,8 @@ public class InformationPusherEniro implements InformationPusher {
 			channelSftp.put(new FileInputStream(organizationXmlFile), ftpDestinationFolder);
 			channelSftp.disconnect();
 			session.disconnect();
-			// Save last synch date to file after successful commit of xml file to ftp 
+			// Save last synch date to file after successful commit of xml file
+			// to ftp
 			saveLastSynchedModifyDate();
 		} catch (Exception e) {
 			// Commit to ftp was unsuccessful. Reset the lastSynchedModifyDate
@@ -214,5 +220,60 @@ public class InformationPusherEniro implements InformationPusher {
 	public Organization getUnitDetail(String hsaIdentity) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Organization generateOrganisationTree(List<Unit> units) {
+		Map<DN, Unit> unitContainer = new HashMap<DN, Unit>();
+		Map<DN, List<Unit>> unitChildrenContainer = new HashMap<DN, List<Unit>>();
+		List<Unit> rootUnits = new ArrayList<Unit>();
+		for (Unit unit : units) {
+			DN dn = unit.getDn();
+			DN parentDn = dn.getParentDN();
+			if (dn != null) {
+				unitContainer.put(dn, unit);
+				if (parentDn == null) {
+					rootUnits.add(unit);
+				} else {
+					List<Unit> childrenList = unitChildrenContainer.get(parentDn);
+					if (childrenList == null) {
+						childrenList = new ArrayList<Unit>();
+						unitChildrenContainer.put(parentDn, childrenList);
+					}
+					childrenList.add(unit);
+				}
+			}
+		}
+
+		Organization organization = new Organization();
+		for (Unit rootUnit : rootUnits) {
+			se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit jaxbRootUnit = new se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit();
+			fillJaxbUnit(rootUnit, jaxbRootUnit);
+			populateUnit(jaxbRootUnit, rootUnit.getDn(), unitChildrenContainer);
+			organization.getUnit().add(jaxbRootUnit);
+		}
+
+		return organization;
+	}
+
+	/**
+	 * 
+	 * @param parentJaxbUnit
+	 *            Parent unit
+	 * @param dn
+	 *            DN of parent unit
+	 * @param unitChildrenContainer
+	 *            Map holding parent - children relations
+	 */
+	private void populateUnit(se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit parentJaxbUnit, DN dn, Map<DN, List<Unit>> unitChildrenContainer) {
+		// Get children for current parent
+		List<Unit> childUnits = unitChildrenContainer.get(dn);
+		if (childUnits != null) {
+			for (Unit child : childUnits) {
+				se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit jaxbChildUnit = new se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit();
+				fillJaxbUnit(child, jaxbChildUnit);
+				parentJaxbUnit.getUnit().add(jaxbChildUnit);
+				populateUnit(jaxbChildUnit, child.getDn(), unitChildrenContainer);
+			}
+		}
 	}
 }
