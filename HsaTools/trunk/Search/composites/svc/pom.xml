@@ -167,7 +167,7 @@
 					<schemaDirectory>${basedir}/../schema/src/main/resources/wsdl/
 					</schemaDirectory>
 					<includeSchemas>
-						<includeSchema>unit_details2.xsd</includeSchema>
+						<includeSchema>unit_details_eniro.xsd</includeSchema>
 					</includeSchemas>
 					<includeBindings>
 						<includeBinding>*.xjb</includeBinding>
