@@ -46,7 +46,6 @@ import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.search.util.LdapParse;
 
-import com.domainlanguage.time.TimePoint;
 import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPEntry;
@@ -217,6 +216,17 @@ public class UnitRepository {
 
 	public List<String> getAllUnitsHsaIdentity() throws Exception {
 		return getAllUnitsHsaIdentity(new ArrayList<Integer>());
+	}
+
+	public List<Unit> getAllUnits() throws Exception {
+		List<Unit> units = new ArrayList<Unit>();
+		for (String hsaId : getAllUnitsHsaIdentity()) {
+			Unit unit = getUnitByHsaId(hsaId);
+			if (unit != null) {
+				units.add(unit);
+			}
+		}
+		return units;
 	}
 
 	public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
