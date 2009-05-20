@@ -88,16 +88,32 @@
 		<property name="ldapConnectionPool" ref="Search.LdapConnectionPool" />
 	</bean>
 
-	<bean id="jobDetail"
+	<bean id="jobDetailCodeTableCacheUpdate"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="Search.CodeTablesService" />
 		<property name="targetMethod" value="init" />
 		<property name="concurrent" value="false" />
 	</bean>
+	
+	<bean id="jobDetailUnitDetailsPusher"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="Push.Eniro" />
+		<property name="targetMethod" value="doPushInformation" />
+		<property name="concurrent" value="false" />
+	</bean>
 
-	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+	<bean id="simpleTriggerCodeTableCacheUpdate" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
 		<!-- see the example of method invoking job above -->
-		<property name="jobDetail" ref="jobDetail" />
+		<property name="jobDetail" ref="jobDetailCodeTableCacheUpdate" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean id="simpleTriggerUnitDetailsPusher" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="jobDetailUnitDetailsPusher" />
 		<!-- 10 seconds -->
 		<property name="startDelay" value="10000" />
 		<!-- repeat every 24 hours -->
@@ -107,14 +123,16 @@
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<ref bean="simpleTrigger" />
+				<ref bean="simpleTriggerCodeTableCacheUpdate" />
+				<ref bean="simpleTriggerUnitDetailsPusher"/>
 			</list>
 		</property>
 	</bean>
-	
-	
-	<bean id="Push.Eniro" class="se.vgregion.kivtools.search.svc.push.impl.eniro.InformationPusherEniro">
+
+
+	<bean id="Push.Eniro"
+		class="se.vgregion.kivtools.search.svc.push.impl.eniro.InformationPusherEniro">
 		<property name="unitRepository" ref="Search.UnitRepository" />
 	</bean>
-	
+
 </beans>
