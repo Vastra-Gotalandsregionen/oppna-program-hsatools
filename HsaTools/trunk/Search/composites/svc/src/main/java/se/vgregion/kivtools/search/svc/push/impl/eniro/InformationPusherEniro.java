@@ -3,12 +3,15 @@ package se.vgregion.kivtools.search.svc.push.impl.eniro;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +29,6 @@ import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 import se.vgregion.kivtools.search.svc.push.InformationPusher;
-import se.vgregion.kivtools.search.svc.push.UnitInformationPusherTest;
-import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.ObjectFactory;
 import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Organization;
 
 import com.domainlanguage.time.TimePoint;
@@ -50,6 +51,13 @@ public class InformationPusherEniro implements InformationPusher {
 	private String ftpPassword;
 	private String ftpDestinationFolder;
 	private JSch jsch;
+	private Map<String, DN> lastExistingUnits;
+	private File lastExistingUnitsFile;
+	private List<Unit> units;
+
+	public void setLastExistingUnitsFile(File lastExistingUnitsFile) {
+		this.lastExistingUnitsFile = lastExistingUnitsFile;
+	}
 
 	public void setJsch(JSch jsch) {
 		this.jsch = jsch;
@@ -81,17 +89,23 @@ public class InformationPusherEniro implements InformationPusher {
 		this.lastSynchedModifyDateFile = lastSynchedModifyDateFile;
 	}
 
-	public UnitRepository getUnitRepository() {
-		return unitRepository;
-	}
-
 	public void setUnitRepository(UnitRepository unitRepository) {
 		this.unitRepository = unitRepository;
 	}
 
-	private List<Unit> collectData() throws Exception {
-		lastSynchedModifyDate = getLastSynchDate();
-		List<Unit> freshUnits = getFreshUnits();
+	/**
+	 * Harvest units that needs to be synched
+	 * @return
+	 * @throws Exception
+	 */
+	private List<Unit> collectUnits() throws Exception {
+		units = unitRepository.getAllUnits();
+		// lastSynchedModifyDate = getLastSynchDate();
+		// Get units that has been created or modified
+		List<Unit> freshUnits = getFreshUnits(units);
+		// Get units that has been removed
+		List<Unit> removedOrMovedUnits = getRemovedOrMovedUnits(units);
+		freshUnits.addAll(removedOrMovedUnits);
 		return freshUnits;
 	}
 
@@ -99,23 +113,25 @@ public class InformationPusherEniro implements InformationPusher {
 		if (lastSynchedModifyDate == null) {
 			// lastSynchDate is unknown, read from file
 			try {
-				if (lastSynchedModifyDateFile.exists()) {
-					FileReader fileReader = new FileReader(lastSynchedModifyDateFile);
-					BufferedReader br = new BufferedReader(fileReader);
-					String lastSynchedModifyString = br.readLine();
-					if (lastSynchedModifyString != null) {
-						lastSynchedModifyDate = Constants.zuluTimeFormatter.parse(lastSynchedModifyString);
-					}
+				// Started for the first time File not exist. Create new file
+				if (!lastSynchedModifyDateFile.exists()) {
+					lastSynchedModifyDateFile.createNewFile();
+				}
+				FileReader fileReader = new FileReader(lastSynchedModifyDateFile);
+				BufferedReader br = new BufferedReader(fileReader);
+				String lastSynchedModifyString = br.readLine();
+				if (lastSynchedModifyString != null) {
+					lastSynchedModifyDate = Constants.zuluTimeFormatter.parse(lastSynchedModifyString);
 				}
 			} catch (Exception e) {
 				logger.error(e);
-			} finally {
-				// Set default start synch date if read from file failed
-				if (lastSynchedModifyDate == null) {
-					Calendar calendar = Calendar.getInstance();
-					calendar.set(1970, Calendar.JANUARY, 1);
-					lastSynchedModifyDate = calendar.getTime();
-				}
+			}
+
+			// Set default start synch date if read from file failed
+			if (lastSynchedModifyDate == null) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(1970, Calendar.JANUARY, 1);
+				lastSynchedModifyDate = calendar.getTime();
 			}
 		}
 		return lastSynchedModifyDate;
@@ -134,30 +150,31 @@ public class InformationPusherEniro implements InformationPusher {
 	/**
 	 * Returns units created/modified since specified date.
 	 * 
+	 * @param units
+	 * 
 	 * @param lastSynchedModifyDate
 	 * @return
 	 * @throws Exception
 	 */
-	private List<Unit> getFreshUnits() throws Exception {
-		List<String> allUnitsHsaId = unitRepository.getAllUnitsHsaIdentity();
+	private List<Unit> getFreshUnits(List<Unit> units) throws Exception {
 		List<Unit> freshUnits = new ArrayList<Unit>();
-		TimePoint lastSynchedModifyTimePoint = TimePoint.from(lastSynchedModifyDate);
-		TimePoint temporaryLatestModifiedTimepoint = TimePoint.from(lastSynchedModifyDate);
+		TimePoint lastSynchedModifyTimePoint = TimePoint.from(getLastSynchDate());
+		TimePoint temporaryLatestModifiedTimepoint = TimePoint.from(getLastSynchDate());
 
-		for (String hsaId : allUnitsHsaId) {
-			Unit u = unitRepository.getUnitByHsaId(hsaId);
-			if (u != null) {
-				TimePoint modifyTimestamp = u.getModifyTimestamp();
-				TimePoint createTimestamp = u.getCreateTimestamp();
+		for (Unit unit : units) {
+			if (unit != null) {
+				TimePoint modifyTimestamp = unit.getModifyTimestamp();
+				TimePoint createTimestamp = unit.getCreateTimestamp();
 				// Check if the unit is created or modified after last synched
 				// modify date
 				if ((modifyTimestamp != null && modifyTimestamp.isAfter(lastSynchedModifyTimePoint)) || (createTimestamp != null && createTimestamp.isAfter(lastSynchedModifyTimePoint))) {
-					freshUnits.add(u);
+					freshUnits.add(unit);
 					if (createTimestamp != null && createTimestamp.isAfter(temporaryLatestModifiedTimepoint)) {
 						temporaryLatestModifiedTimepoint = createTimestamp;
+						unit.setNew(true);
 					}
-					if (u.getModifyTimestamp() != null && u.getModifyTimestamp().isAfter(temporaryLatestModifiedTimepoint)) {
-						temporaryLatestModifiedTimepoint = u.getModifyTimestamp();
+					if (unit.getModifyTimestamp() != null && unit.getModifyTimestamp().isAfter(temporaryLatestModifiedTimepoint)) {
+						temporaryLatestModifiedTimepoint = unit.getModifyTimestamp();
 					}
 				}
 			}
@@ -167,33 +184,136 @@ public class InformationPusherEniro implements InformationPusher {
 	}
 
 	/**
+	 * We need to keep track of units that don't exists anymore or that are
+	 * moved. Compare to previous state and add virtual units that indicates the
+	 * removal and tag moved units as "moved".
+	 * 
+	 * @param units
+	 * @return
+	 */
+	private List<Unit> getRemovedOrMovedUnits(List<Unit> units) {
+		// Read last existing units from file
+		if (lastExistingUnits == null) {
+			try {
+				// Started for the first time File not exist. Create new file
+				if (!lastExistingUnitsFile.exists()) {
+					lastExistingUnitsFile.createNewFile();
+					lastExistingUnits = new HashMap<String, DN>();
+				} else {
+					FileInputStream fileInputStream = new FileInputStream(lastExistingUnitsFile);
+					ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+					lastExistingUnits = (HashMap<String, DN>) objectInputStream.readObject();
+				}
+			} catch (Exception e) {
+				logger.error(e);
+			}
+		}
+
+		// Construct hashmap with current units
+		Map<String, DN> currentUnits = new HashMap<String, DN>();
+		for (Unit unit : units) {
+			currentUnits.put(unit.getHsaIdentity(), unit.getDn());
+		}
+
+		// Get all units that are moved (different dn) or removed (non-existing
+		// in currentUnits) since last synch
+		Map<String, DN> removedOrMovedUnits = new HashMap<String, DN>(currentUnits);
+		removedOrMovedUnits.entrySet().retainAll(lastExistingUnits.entrySet());
+
+		// Holds list of removed or moved units
+		List<Unit> removedOrMovedUnitsList = new ArrayList<Unit>();
+
+		// Tag units as "moved" or "removed"
+		for (Map.Entry<String, DN> unitEntry : removedOrMovedUnits.entrySet()) {
+			Unit tmpUnit = new Unit();
+			tmpUnit.setHsaIdentity(unitEntry.getKey());
+			removedOrMovedUnitsList.add(tmpUnit);
+
+			// Search for moved units (they exists in list of current units)
+			Collections.sort(units);
+			int unitPosition = Collections.binarySearch(units, tmpUnit);
+			if (unitPosition > -1) {
+				// Found unit, ie moved!
+				units.get(unitPosition).setMoved(true);
+			} else {
+				// Did not find unit in list of current units, ie removed!
+				// Create virtual unit and tag as removed.
+				Unit removedUnit = new Unit();
+				removedUnit.setHsaIdentity(unitEntry.getKey());
+				removedUnit.setRemoved(true);
+			}
+		}
+		return removedOrMovedUnitsList;
+	}
+
+	private void saveLastExistingUnitList() {
+			try {
+				
+				//TODO: this doesn't work!
+				for (Unit unit : units) {
+					lastExistingUnits.put(unit.getHsaIdentity(), unit.getDn());
+				}
+				
+				FileOutputStream fileOutputStream = new FileOutputStream(lastExistingUnitsFile);
+				ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+				objectOutputStream.writeObject(lastExistingUnits);
+				objectOutputStream.close();
+			} catch (Exception e) {
+				logger.error(e);
+			}
+	}
+
+	public void doService() {
+
+		try {
+			List<Unit> collectedUnits = collectUnits();
+			Organization organization = null;
+			if (getLastSynchDate().after(Constants.zuluTimeFormatter.parse("19700102000000Z"))) {
+				organization = generateFlatOrganization(collectedUnits);
+			} else {
+				organization = generateOrganisationTree(collectedUnits);
+			}
+			organization.setId("vgr");
+			organization.setName("VGR");
+			// TODO: organization.setIncremental("true")
+			sendXmlFile(generateUnitDetailsXmlFile(organization));
+		} catch (Exception e) {
+			logger.error(e);
+		}
+	}
+
+	/**
 	 * Generate xml file with newly updated units
 	 */
-	public List<Unit> doPushInformation() throws Exception {
-		List<Unit> collectData = collectData();
-		ObjectFactory objectFactory = new ObjectFactory();
-		Organization organization = objectFactory.createOrganization();
-		organization.setCountry(country);
-		organization.setId(organizationId);
-		organization.setName(organizationName);
-		List<se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit> organizationbUnits = organization.getUnit();
-		for (Unit unit : collectData) {
-			se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit jaxbUnit = objectFactory.createUnit();
-			fillJaxbUnit(unit, jaxbUnit);
-			organizationbUnits.add(jaxbUnit);
-		}
+	private File generateUnitDetailsXmlFile(Organization organization) throws Exception {
 		JAXBContext context = JAXBContext.newInstance(organization.getClass());
 		Marshaller marshaller = context.createMarshaller();
 		File organizationXmlFile = new File(destinationFolder, organization.getName() + ".xml");
 		marshaller.marshal(organization, new FileWriter(organizationXmlFile));
 		// Push (upload) XML to specified resource
-		sendXmlFile(organizationXmlFile);
-		return collectData;
+		return organizationXmlFile;
 	}
 
+	/**
+	 * Transfer unit state to jaxb representation of unit
+	 * @param unit
+	 * @param jaxbUnit
+	 */
 	private void fillJaxbUnit(Unit unit, se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit jaxbUnit) {
 		jaxbUnit.setId(unit.getHsaIdentity());
 		jaxbUnit.setName(unit.getName());
+
+		if (unit.isNew()) {
+			jaxbUnit.setOperation("create");
+		} else if (unit.isRemoved()) {
+			jaxbUnit.setOperation("remove");
+		} else if (unit.isMoved()) {
+			Unit parentUnit = getParentUnit(unit);
+			if (parentUnit != null) {
+				jaxbUnit.setParentUnitId(parentUnit.getHsaIdentity());
+			}
+			jaxbUnit.setOperation("move");
+		}
 	}
 
 	private void sendXmlFile(File organizationXmlFile) {
@@ -210,6 +330,7 @@ public class InformationPusherEniro implements InformationPusher {
 			// Save last synch date to file after successful commit of xml file
 			// to ftp
 			saveLastSynchedModifyDate();
+			saveLastExistingUnitList();
 		} catch (Exception e) {
 			// Commit to ftp was unsuccessful. Reset the lastSynchedModifyDate
 			lastSynchedModifyDate = null;
@@ -217,11 +338,28 @@ public class InformationPusherEniro implements InformationPusher {
 		}
 	}
 
-	public Organization getUnitDetail(String hsaIdentity) {
-		// TODO Auto-generated method stub
-		return null;
+	private Unit getParentUnit(Unit unit) {
+		DN dn = unit.getDn();
+		DN parentDn = dn.getParentDN();
+		if (parentDn != null) {
+			Unit parent = null;
+			try {
+				parent = unitRepository.getUnitByDN(parentDn);
+			} catch (Exception e) {
+				logger.error(e);
+			}
+			return parent;
+		} else {
+			return null;
+		}
 	}
 
+	/**
+	 * For full unit detail pushes.
+	 * 
+	 * @param units
+	 * @return
+	 */
 	public Organization generateOrganisationTree(List<Unit> units) {
 		Map<DN, Unit> unitContainer = new HashMap<DN, Unit>();
 		Map<DN, List<Unit>> unitChildrenContainer = new HashMap<DN, List<Unit>>();
@@ -252,6 +390,23 @@ public class InformationPusherEniro implements InformationPusher {
 			organization.getUnit().add(jaxbRootUnit);
 		}
 
+		return organization;
+	}
+
+	/**
+	 * For incremental unit detail pushes.
+	 * 
+	 * @param collectedUnits
+	 * @return Organization with a unit list of created,removed or modified
+	 *         units
+	 */
+	private Organization generateFlatOrganization(List<Unit> collectedUnits) {
+		Organization organization = new Organization();
+		for (Unit unit : collectedUnits) {
+			se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit jaxbUnit = new se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit();
+			fillJaxbUnit(unit, jaxbUnit);
+			organization.getUnit().add(jaxbUnit);
+		}
 		return organization;
 	}
 

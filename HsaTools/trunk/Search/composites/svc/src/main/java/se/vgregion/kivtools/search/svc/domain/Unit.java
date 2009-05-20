@@ -49,7 +49,7 @@ import com.domainlanguage.time.TimePoint;
  * @author Jonas Liljenfeldt, Know IT
  * 
  */
-public class Unit implements Serializable {
+public class Unit implements Serializable, Comparable<Unit> {
 
 	public Unit() {
 	}
@@ -73,7 +73,7 @@ public class Unit implements Serializable {
 	private String vgrAO3kod; // Ansvarsomr�des kod
 	private String vgrAO3kodText; // Ansvarsområdeskodens namn
 	private String hsaIdentity; // HSA identitet
-	private List<HealthcareType> healthcareTypes; 
+	private List<HealthcareType> healthcareTypes;
 	private List<String> hsaBusinessClassificationCode;
 	private String hsaUnitPrescriptionCode; // Arbetsplatskod
 	private List<String> vgrAnsvarsnummer; // Ansvarsnr
@@ -116,13 +116,13 @@ public class Unit implements Serializable {
 	private String hsaManagementText;
 	private String hsaVisitingRules;
 	private String hsaVisitingRuleAge;
-	
+
 	private String vgrTempInfo;
 	private String vgrRefInfo;
 	private Date vgrTempInfoStart;
 	private Date vgrTempInfoEnd;
 	private String vgrTempInfoBody;
-	
+
 	private TimePoint modifyTimestamp; // Senast uppdaterad
 	private TimePoint createTimestamp; // Skapad
 
@@ -132,9 +132,37 @@ public class Unit implements Serializable {
 	private double wgs84Long; // In decimal degrees
 	private int rt90X;
 	private int rt90Y;
-	private GeoCoordinate geoCoordinate; // Needed for calculation of close units
+	private GeoCoordinate geoCoordinate; // Needed for calculation of close
+											// units
 	private String distanceToTarget;
 	private List<String> mvkCaseTypes;
+	private boolean isNew;
+	private boolean isRemoved;
+	private boolean isMoved;
+
+	public boolean isMoved() {
+		return isMoved;
+	}
+
+	public void setMoved(boolean isMoved) {
+		this.isMoved = isMoved;
+	}
+
+	public boolean isRemoved() {
+		return isRemoved;
+	}
+
+	public void setRemoved(boolean isRemoved) {
+		this.isRemoved = isRemoved;
+	}
+
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
+	}
 
 	// Vägbeskrivning
 	private List<String> hsaRoute;
@@ -273,7 +301,8 @@ public class Unit implements Serializable {
 
 	public String getDnBase64() throws UnsupportedEncodingException {
 		String dnString = dn.toString();
-		//dnString = "CN=Hedvig h Blomfrö,OU=Falkenbergsnämnden,OU=Förtroendevalda,OU=Landstinget  Halland,DC=hkat,DC=lthalland,DC=com";
+		// dnString =
+		// "CN=Hedvig h Blomfrö,OU=Falkenbergsnämnden,OU=Förtroendevalda,OU=Landstinget  Halland,DC=hkat,DC=lthalland,DC=com";
 		String dnStringBase64Encoded = Base64.encodeBytes(dnString.getBytes("ISO-8859-1"));
 		return dnStringBase64Encoded;
 	}
@@ -290,8 +319,7 @@ public class Unit implements Serializable {
 		return organizationalUnitNameShort;
 	}
 
-	public void setOrganizationalUnitNameShort(
-			String organizationalUnitNameShort) {
+	public void setOrganizationalUnitNameShort(String organizationalUnitNameShort) {
 		this.organizationalUnitNameShort = organizationalUnitNameShort;
 	}
 
@@ -320,7 +348,7 @@ public class Unit implements Serializable {
 		if (!"".equals(labeledURI) && !(labeledURI.startsWith("http://") || labeledURI.startsWith("https://"))) {
 			labeledURI = "http://" + labeledURI;
 		}
-		
+
 		this.labeledURI = labeledURI;
 	}
 
@@ -328,8 +356,7 @@ public class Unit implements Serializable {
 		return vgrInternalSedfInvoiceAddress;
 	}
 
-	public void setVgrInternalSedfInvoiceAddress(
-			String vgrInternalSedfInvoiceAddress) {
+	public void setVgrInternalSedfInvoiceAddress(String vgrInternalSedfInvoiceAddress) {
 		this.vgrInternalSedfInvoiceAddress = vgrInternalSedfInvoiceAddress;
 	}
 
@@ -377,8 +404,7 @@ public class Unit implements Serializable {
 		return hsaSedfSwitchboardTelephoneNo;
 	}
 
-	public void setHsaSedfSwitchboardTelephoneNo(
-			PhoneNumber hsaSedfSwitchboardTelephoneNo) {
+	public void setHsaSedfSwitchboardTelephoneNo(PhoneNumber hsaSedfSwitchboardTelephoneNo) {
 		this.hsaSedfSwitchboardTelephoneNo = hsaSedfSwitchboardTelephoneNo;
 	}
 
@@ -478,8 +504,7 @@ public class Unit implements Serializable {
 		return hsaPublicTelephoneNumber;
 	}
 
-	public void setHsaPublicTelephoneNumber(
-			List<PhoneNumber> hsaPublicTelephoneNumber) {
+	public void setHsaPublicTelephoneNumber(List<PhoneNumber> hsaPublicTelephoneNumber) {
 		this.hsaPublicTelephoneNumber = hsaPublicTelephoneNumber;
 	}
 
@@ -559,6 +584,31 @@ public class Unit implements Serializable {
 		return hsaManagementText;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((hsaIdentity == null) ? 0 : hsaIdentity.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Unit other = (Unit) obj;
+		if (hsaIdentity == null) {
+			if (other.hsaIdentity != null)
+				return false;
+		} else if (!hsaIdentity.equals(other.hsaIdentity))
+			return false;
+		return true;
+	}
+
 	public void setHsaManagementText(String hsaManagementText) {
 		this.hsaManagementText = hsaManagementText;
 	}
@@ -596,10 +646,11 @@ public class Unit implements Serializable {
 		if ("".equals(vgrTempInfo) || !vgrTempInfo.contains("-") || vgrTempInfo.length() < 19) {
 			return;
 		}
-		/* Split to vgrTempInfoStart, vgrTempInfoEnd and vgrTempInfoBody
+		/*
+		 * Split to vgrTempInfoStart, vgrTempInfoEnd and vgrTempInfoBody
 		 * vgrTempInfo format: YYYYMMDD-YYYYMMDD Message
 		 */
-		
+
 		// Start date
 		String[] temp = vgrTempInfo.split("-");
 		if (temp.length > 1) {
@@ -609,15 +660,17 @@ public class Unit implements Serializable {
 				Date startDate = df.parse(startDateString);
 				Calendar cal = new GregorianCalendar();
 				cal.setTime(startDate);
-				cal.add(Calendar.DAY_OF_YEAR, -7); // Start showing one week earlier
+				cal.add(Calendar.DAY_OF_YEAR, -7); // Start showing one week
+													// earlier
 				setVgrTempInfoStart(cal.getTime());
 			} catch (ParseException e) {
-				// KIV validates this field. Nothing we can do if it is incorrect.
+				// KIV validates this field. Nothing we can do if it is
+				// incorrect.
 			}
 		} else {
 			return;
 		}
-		
+
 		// End date
 		temp = temp[1].split(" ");
 		if (temp.length > 1) {
@@ -630,7 +683,8 @@ public class Unit implements Serializable {
 				cal.add(Calendar.DAY_OF_YEAR, 1); // Stop showing the day after
 				setVgrTempInfoEnd(cal.getTime());
 			} catch (ParseException e) {
-				// KIV validates this field. Nothing we can do if it is incorrect.
+				// KIV validates this field. Nothing we can do if it is
+				// incorrect.
 			}
 			// Message
 			setVgrTempInfoBody(vgrTempInfo.substring(vgrTempInfo.indexOf(" ") + 1));
@@ -663,18 +717,18 @@ public class Unit implements Serializable {
 
 	public boolean getShouldVgrTempInfoBeShown() {
 		Date now = new Date();
-		
+
 		if (vgrTempInfoStart == null || vgrTempInfoEnd == null) {
 			return false;
 		}
-		
+
 		if (now.after(vgrTempInfoStart) && now.before(vgrTempInfoEnd)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	public String getVgrRefInfo() {
 		return vgrRefInfo;
 	}
@@ -714,8 +768,8 @@ public class Unit implements Serializable {
 	public String getCaretypeCustomized() {
 		if (healthcareTypes != null) {
 			String healthcareTypeString = "";
-			for (HealthcareType htc : healthcareTypes){
-				healthcareTypeString += htc.getDisplayName() + ", ";				
+			for (HealthcareType htc : healthcareTypes) {
+				healthcareTypeString += htc.getDisplayName() + ", ";
 			}
 			if (!"".equals(healthcareTypeString)) {
 				return healthcareTypeString.substring(0, healthcareTypeString.length() - 2);
@@ -781,11 +835,9 @@ public class Unit implements Serializable {
 		}
 		return true;
 	}
-	
+
 	public boolean getLabeledURIIsValid() {
-		if (Evaluator.isEmpty(getLabeledURI())
-				|| !(getLabeledURI().startsWith("http://") || getLabeledURI()
-						.startsWith("https://"))) {
+		if (Evaluator.isEmpty(getLabeledURI()) || !(getLabeledURI().startsWith("http://") || getLabeledURI().startsWith("https://"))) {
 			return false;
 		}
 		return true;
@@ -905,7 +957,7 @@ public class Unit implements Serializable {
 		// hsaVisitingRules
 		if (!getHsaVisitingRulesIsValid()) {
 			return false;
-		}		
+		}
 
 		// vgrCareType NOT USED NOW
 		// if (!getVgrCareTypeIsValid()) {
@@ -938,8 +990,7 @@ public class Unit implements Serializable {
 
 	public String getModifyTimestampFormatted() {
 		if (modifyTimestamp != null) {
-			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-					.format(modifyTimestamp.asJavaUtilDate());
+			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(modifyTimestamp.asJavaUtilDate());
 		} else {
 			return "";
 		}
@@ -947,8 +998,7 @@ public class Unit implements Serializable {
 
 	public String getModifyTimestampFormattedInW3CDatetimeFormat() {
 		if (modifyTimestamp != null) {
-			String timeStamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-					.format(modifyTimestamp.asJavaUtilDate());
+			String timeStamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(modifyTimestamp.asJavaUtilDate());
 			return timeStamp.substring(0, 22) + ":" + timeStamp.substring(22);
 		} else {
 			return "";
@@ -965,8 +1015,7 @@ public class Unit implements Serializable {
 
 	public String getCreateTimestampFormatted() {
 		if (createTimestamp != null) {
-			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-					.format(createTimestamp.asJavaUtilDate());
+			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(createTimestamp.asJavaUtilDate());
 		} else {
 			return "";
 		}
@@ -974,8 +1023,7 @@ public class Unit implements Serializable {
 
 	public String getCreateTimestampFormattedInW3CDatetimeFormat() {
 		if (createTimestamp != null) {
-			String timeStamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-					.format(createTimestamp.asJavaUtilDate());
+			String timeStamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(createTimestamp.asJavaUtilDate());
 			return timeStamp.substring(0, 22) + ":" + timeStamp.substring(22);
 		} else {
 			return "";
@@ -1043,8 +1091,7 @@ public class Unit implements Serializable {
 		return accessibilityInformation;
 	}
 
-	public void setAccessibilityInformation(
-			AccessibilityInformation accessibilityInformation) {
+	public void setAccessibilityInformation(AccessibilityInformation accessibilityInformation) {
 		this.accessibilityInformation = accessibilityInformation;
 	}
 
@@ -1071,8 +1118,8 @@ public class Unit implements Serializable {
 	public void setHsaRoute(List<String> hsaRoutelist) {
 		this.hsaRoute = hsaRoutelist;
 		if (hsaRoutelist != null && hsaRoutelist.size() > 0) {
-		for (String s : hsaRoute)
-			this.hsaRouteConcatenated += s + "";
+			for (String s : hsaRoute)
+				this.hsaRouteConcatenated += s + "";
 		}
 	}
 
@@ -1080,13 +1127,13 @@ public class Unit implements Serializable {
 		return healthcareTypes;
 	}
 
-	public void setHealthcareTypes(
-			List<HealthcareType> healthcareTypes) {
+	public void setHealthcareTypes(List<HealthcareType> healthcareTypes) {
 		this.healthcareTypes = healthcareTypes;
 	}
 
 	/**
 	 * Returns comma separated list of assigned health care types.
+	 * 
 	 * @return
 	 */
 	public List<HealthcareType> getHealthcareTypesCustomized() {
@@ -1109,8 +1156,7 @@ public class Unit implements Serializable {
 		return hsaBusinessClassificationCode;
 	}
 
-	public void setHsaBusinessClassificationCode(
-			List<String> hsaBusinessClassificationCode) {
+	public void setHsaBusinessClassificationCode(List<String> hsaBusinessClassificationCode) {
 		this.hsaBusinessClassificationCode = hsaBusinessClassificationCode;
 	}
 
@@ -1123,18 +1169,22 @@ public class Unit implements Serializable {
 	}
 
 	public String getFormattedAncestor() {
-		// Should be safe to use this condition as that is specified by HSA standard.
+		// Should be safe to use this condition as that is specified by HSA
+		// standard.
 		if (hsaIdentity.indexOf("F") > 0) {
 			// Hospitals should not be included
 			HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper();
-			 if (!getHealthcareTypes().contains(healthcareTypeConditionHelper.getHealthcareTypeByName("Sjukhus"))) {
-			 	return ", tillhör " + dn.getAncestor(1).getUnitName();
-			 } else {
-				 return "";
-			 }
+			if (!getHealthcareTypes().contains(healthcareTypeConditionHelper.getHealthcareTypeByName("Sjukhus"))) {
+				return ", tillhör " + dn.getAncestor(1).getUnitName();
+			} else {
+				return "";
+			}
 		} else {
 			return "";
 		}
 	}
-	
+
+	public int compareTo(Unit o) {
+		return this.hsaIdentity.compareTo(o.getHsaIdentity());
+	}
 }
