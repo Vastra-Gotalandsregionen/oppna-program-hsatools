@@ -159,7 +159,9 @@ function toggleAccessibilityItem(id) {
 }
 
 function setJsEnabledAccInfo() {
-	$$("div.accessibilityItemShowable").each(function(elmt) { elmt.style.display = 'none' });
+	//Old way with prototype: $$("div.accessibilityItemShowable").each(function(elmt) { elmt.style.display = 'none' });
+	var accessibilityItemShowableElems = YAHOO.util.Dom.getElementsByClassName('accessibilityItemShowable');
+	YAHOO.util.Dom.batch(accessibilityItemShowableElems, function(elmt) { elmt.style.display = 'none' }); 
 }
 
 function writeImage(blockId, blockName) {
@@ -172,5 +174,7 @@ function drawAccInfoToggleButton() {
 }
 
 function toggleAllAccInfo() {
-	$$("div.accessibilityItemShowable").each(function(elmt) { toggleAccessibilityItem(elmt.id) } );
+	//Old way with prototype: $$("div.accessibilityItemShowable").each(function(elmt) { toggleAccessibilityItem(elmt.id) } );
+	var accessibilityItemShowableElems = YAHOO.util.Dom.getElementsByClassName('accessibilityItemShowable');
+	YAHOO.util.Dom.batch(accessibilityItemShowableElems, function(elmt) { toggleAccessibilityItem(elmt.id) } ); 
 }

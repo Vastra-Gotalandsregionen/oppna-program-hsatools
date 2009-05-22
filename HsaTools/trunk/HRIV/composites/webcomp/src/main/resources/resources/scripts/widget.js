@@ -168,15 +168,15 @@ function initAutocompleter() {
 	myAutoComp.itemSelectEvent.subscribe(itemSelectHandler);
 	
   	var workingHandler = function(oSelf, sQuery, aResults) {
-  		$('acIndicator').style.padding = '2.5em 0 0 0'; 
-  		$('acIndicator').style.display = 'block'; 
-  		$('healthcare-selection').style.padding = "0";
+  		document.getElementById('acIndicator').style.padding = '2.5em 0 0 0'; 
+  		document.getElementById('acIndicator').style.display = 'block'; 
+  		document.getElementById('healthcare-selection').style.padding = "0";
  	};
   
   	var readyHandler = function(oSelf) { 
-  		$('acIndicator').style.padding = '0'; 
-  		$('healthcare-selection').style.padding = "2em 0 0 0";
-  		$('acIndicator').style.display = 'none'; 
+  		document.getElementById('acIndicator').style.padding = '0'; 
+  		document.getElementById('healthcare-selection').style.padding = "2em 0 0 0";
+  		document.getElementById('acIndicator').style.display = 'none'; 
  	};
   
  	myAutoComp.dataRequestEvent.subscribe(workingHandler);
@@ -184,13 +184,13 @@ function initAutocompleter() {
 }
 
 // scriptaculous autocompletion
-function initOldAutocompleter() {
-	new Ajax.Autocompleter("unitName", "autocomplete_choices", "suggestions", {
-		minChars: 2, 
-		indicator: 'indicator1',
-		afterUpdateElement: goDirectlyToUnitFromAutocompleteList
-	});
-}
+//function initOldAutocompleter() {
+//	new Ajax.Autocompleter("unitName", "autocomplete_choices", "suggestions", {
+//		minChars: 2, 
+//		indicator: 'indicator1',
+//		afterUpdateElement: goDirectlyToUnitFromAutocompleteList
+//	});
+//}
 
 // Helper function for the formatter
 function highlightMatch(full, snippet, matchindex) {
@@ -263,47 +263,98 @@ function drawPrintLabel(divToPrint) {
 function showUnitExternal(proxyUrl, urlParam, rootUrl, hsaId, showMap) {
 	// For external use when we need AJAX proxy. Requires proxy at the host of the widget:
 	var url = proxyUrl + '?' + urlParam + '=' + rootUrl + '/visaenhet?hsaidentity=' + hsaId; // Example: 'proxy?url=' + rootUrl + ...
-	showUnit(url);
+	showUnit(url, showMap);
 }
 
 function showUnitInternal(rootUrl, hsaId, showMap) {
 	// For internal use without proxy: 
 	var url = rootUrl + '/visaenhet?hsaidentity=' + hsaId;
-	showUnit(url);
+	showUnit(url, showMap);
 }
 
-function showUnit(url) {
-	new Ajax.Request(url, {
-		  method: 'get',
-		  onSuccess: function(transport) {
-			var print_area_from_response = transport.responseText.split(/Display unit widget start[^>]*>/)[1];
-			print_area_from_response = print_area_from_response.split(/Display unit widget end[^>]*>/)[0];
-			
-			if (showMap == '0') {
-				print_area_from_response_temp1 = print_area_from_response.split(/Map cell start[^>]*>/)[0];
-				print_area_from_response_temp2 = print_area_from_response.split(/Map cell end[^>]*/)[1];
-				print_area_from_response = print_area_from_response_temp1 + print_area_from_response_temp2;
-				$('unit-detail').style.width='600px';
-			}
-			var unit_detail = $('unit-detail');
-	        unit_detail.update(print_area_from_response);
-		  }
-	});
+function showUnit(url, showMap) {
+
+	var callback = {
+			success:  function(transport) {
+				var print_area_from_response = transport.responseText.split(/Display unit widget start[^>]*>/)[1];
+				print_area_from_response = print_area_from_response.split(/Display unit widget end[^>]*>/)[0];
+				
+				if (showMap == '0') {
+					print_area_from_response_temp1 = print_area_from_response.split(/Map cell start[^>]*>/)[0];
+					print_area_from_response_temp2 = print_area_from_response.split(/Map cell end[^>]*/)[1];
+					print_area_from_response = print_area_from_response_temp1 + print_area_from_response_temp2;
+					document.getElementById('unit-detail').style.width='600px';
+				}
+				var unit_detail = document.getElementById('unit-detail');
+		        unit_detail.innerHTML = print_area_from_response;
+		    }
+	} 
+	
+	var transaction = YAHOO.util.Connect.asyncRequest('GET', url, callback, null);
+	
+	// Prototype way of doing things...
+//	new Ajax.Request(url, {
+//		  method: 'get',
+//		  onSuccess: function(transport) {
+//			var print_area_from_response = transport.responseText.split(/Display unit widget start[^>]*>/)[1];
+//			print_area_from_response = print_area_from_response.split(/Display unit widget end[^>]*>/)[0];
+//			
+//			if (showMap == '0') {
+//				print_area_from_response_temp1 = print_area_from_response.split(/Map cell start[^>]*>/)[0];
+//				print_area_from_response_temp2 = print_area_from_response.split(/Map cell end[^>]*/)[1];
+//				print_area_from_response = print_area_from_response_temp1 + print_area_from_response_temp2;
+//				document.getElementById('unit-detail').style.width='600px';
+//			}
+//			var unit_detail = document.getElementById('unit-detail');
+//	        unit_detail.update(print_area_from_response);
+//		  }
+//	});
 }
 
 function searchUnitsExternal(proxyUrl, urlParam, rootUrl, webappName, municipalityId, resultOnly, googleMapsKey) {
 	// For external use when we need AJAX proxy. Requires proxy at the host of the widget:
 	var url = proxyUrl + '?' + urlParam + '=' + rootUrl + '/' + webappName + '/getlink?_flowId=HRIV.Search.searchunit-flow&startpage=1'; // Example: 'proxy?url=' + rootUrl + ...
-	searchUnits(url, rootUrl, municipalityId, resultOnly, googleMapsKey);
+	searchUnits(url, rootUrl, webappName, municipalityId, resultOnly, googleMapsKey);
 }
 
 function searchUnitsInternal(rootUrl, webappName, municipalityId, resultOnly, googleMapsKey) {
 	// For internal use without proxy: 
 	var url = rootUrl + '/' + webappName + '/getlink?_flowId=HRIV.Search.searchunit-flow&startpage=1';
-	searchUnits(url, rootUrl, municipalityId, resultOnly, googleMapsKey);
+	searchUnits(url, rootUrl, webappName, municipalityId, resultOnly, googleMapsKey);
 }
 
-function searchUnits(url, rootUrl, municipalityId, resultOnly, googleMapsKey) {
+function searchUnits(url, rootUrl, webappName, municipalityId, resultOnly, googleMapsKey) {
+	
+	var callback = {
+		success:  function(transport) {
+			var search_area_from_response = transport.responseText.split(/Search units widget start[^>]*>/i)[1];
+			search_area_from_response = search_area_from_response.split(/Search units widget end[^>]*>/i)[0];
+			
+			//Update care types link
+			var toBeReplacedExpression = 'a href="getlink';
+			var toBeReplaced = new RegExp(toBeReplacedExpression, "g");
+			var toReplaceExpression = 'a href=' + rootUrl + '/' + webappName + '/getlink';
+			search_area_from_response = search_area_from_response.replace(toBeReplaced, toReplaceExpression);
+			
+			//Update search form
+			var toBeReplacedExpression = 'action="displayUnitSearchResult.jsf[;jsessionid=,0-9,A-Z]*';
+			var toBeReplaced = new RegExp(toBeReplacedExpression, "g");
+			var toReplaceExpression = 'action="' + rootUrl + '/' + webappName + '/displayUnitSearchResult.jsf?googleMapsKey=' + googleMapsKey + '&resultOnly=' + resultOnly;
+			search_area_from_response = search_area_from_response.replace(toBeReplaced, toReplaceExpression);
+
+			var search_units = document.getElementById('search-units');
+			
+			//Set default municipality
+			if (municipalityId != '') {
+				search_area_from_response = search_area_from_response.replace(municipalityId + "\"", municipalityId + "\" selected=\"selected\"");
+			}
+	        search_units.innerHTML = search_area_from_response;
+		  }
+	} 
+	
+	var transaction = YAHOO.util.Connect.asyncRequest('GET', url, callback, null);
+	
+	/* Prototype way of doing things...
 	new Ajax.Request(url, {
 	  method: 'get',
 	  onSuccess: function(transport) {
@@ -322,7 +373,7 @@ function searchUnits(url, rootUrl, municipalityId, resultOnly, googleMapsKey) {
 		var toReplaceExpression = 'action="' + rootUrl + '/' + webappName + '/displayUnitSearchResult.jsf?googleMapsKey=' + googleMapsKey + '&resultOnly=' + resultOnly;
 		search_area_from_response = search_area_from_response.replace(toBeReplaced, toReplaceExpression);
 
-		var search_units = $('search-units');
+		var search_units = document.getElementById('search-units');
 		
 		//Set default municipality
 		if (municipalityId != '') {
@@ -330,7 +381,7 @@ function searchUnits(url, rootUrl, municipalityId, resultOnly, googleMapsKey) {
 		}
         search_units.update(search_area_from_response);
 	  }
-	});
+	}); */
 }
 
 function closeUnitsFormValidate(address) {
