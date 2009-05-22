@@ -98,7 +98,7 @@
 	<bean id="jobDetailUnitDetailsPusher"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="Push.Eniro" />
-		<property name="targetMethod" value="doPushInformation" />
+		<property name="targetMethod" value="doService" />
 		<property name="concurrent" value="false" />
 	</bean>
 
