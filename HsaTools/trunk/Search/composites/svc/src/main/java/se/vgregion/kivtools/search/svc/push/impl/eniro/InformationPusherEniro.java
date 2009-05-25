@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -95,6 +96,7 @@ public class InformationPusherEniro implements InformationPusher {
 
 	/**
 	 * Harvest units that needs to be synched
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -208,59 +210,54 @@ public class InformationPusherEniro implements InformationPusher {
 				logger.error(e);
 			}
 		}
-
-		// Construct hashmap with current units
-		Map<String, DN> currentUnits = new HashMap<String, DN>();
-		for (Unit unit : units) {
-			currentUnits.put(unit.getHsaIdentity(), unit.getDn());
-		}
-
-		// Get all units that are moved (different dn) or removed (non-existing
-		// in currentUnits) since last synch
-		Map<String, DN> removedOrMovedUnits = new HashMap<String, DN>(currentUnits);
-		removedOrMovedUnits.entrySet().retainAll(lastExistingUnits.entrySet());
-
+		
 		// Holds list of removed or moved units
 		List<Unit> removedOrMovedUnitsList = new ArrayList<Unit>();
 
 		// Tag units as "moved" or "removed"
-		for (Map.Entry<String, DN> unitEntry : removedOrMovedUnits.entrySet()) {
+		for (Map.Entry<String, DN> unitEntry : lastExistingUnits.entrySet()) {
 			Unit tmpUnit = new Unit();
 			tmpUnit.setHsaIdentity(unitEntry.getKey());
-			removedOrMovedUnitsList.add(tmpUnit);
+			
 
 			// Search for moved units (they exists in list of current units)
 			Collections.sort(units);
 			int unitPosition = Collections.binarySearch(units, tmpUnit);
 			if (unitPosition > -1) {
-				// Found unit, ie moved!
-				units.get(unitPosition).setMoved(true);
+				Unit unitInRepository = units.get(unitPosition);
+				if (!unitInRepository.getDn().toString().equals(unitEntry.getValue().toString())) {
+					// Unit has been moved!
+					unitInRepository.setMoved(true);
+					removedOrMovedUnitsList.add(tmpUnit);
+				}
 			} else {
 				// Did not find unit in list of current units, ie removed!
 				// Create virtual unit and tag as removed.
 				Unit removedUnit = new Unit();
 				removedUnit.setHsaIdentity(unitEntry.getKey());
 				removedUnit.setRemoved(true);
+				removedOrMovedUnitsList.add(tmpUnit);
 			}
 		}
+
 		return removedOrMovedUnitsList;
 	}
 
 	private void saveLastExistingUnitList() {
-			try {
-				
-				//TODO: this doesn't work!
-				for (Unit unit : units) {
-					lastExistingUnits.put(unit.getHsaIdentity(), unit.getDn());
-				}
-				
-				FileOutputStream fileOutputStream = new FileOutputStream(lastExistingUnitsFile);
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-				objectOutputStream.writeObject(lastExistingUnits);
-				objectOutputStream.close();
-			} catch (Exception e) {
-				logger.error(e);
+		try {
+
+			// TODO: this doesn't work!
+			for (Unit unit : units) {
+				lastExistingUnits.put(unit.getHsaIdentity(), unit.getDn());
 			}
+
+			FileOutputStream fileOutputStream = new FileOutputStream(lastExistingUnitsFile);
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+			objectOutputStream.writeObject(lastExistingUnits);
+			objectOutputStream.close();
+		} catch (Exception e) {
+			logger.error(e);
+		}
 	}
 
 	public void doService() {
@@ -296,6 +293,7 @@ public class InformationPusherEniro implements InformationPusher {
 
 	/**
 	 * Transfer unit state to jaxb representation of unit
+	 * 
 	 * @param unit
 	 * @param jaxbUnit
 	 */
