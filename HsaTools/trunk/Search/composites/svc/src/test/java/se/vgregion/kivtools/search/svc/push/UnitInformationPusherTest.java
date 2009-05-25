@@ -90,8 +90,6 @@ public class UnitInformationPusherTest {
 		Organization organizationFromXml = getOrganizationFromFile();
 		Assert.assertTrue("Array should contain 10 units", organizationFromXml.getUnit().size() == 10);
 		informationPusher.setJsch(createEasymockObjects());
-		informationPusher.setUnitRepository(createMockUnitRepository(10, false));
-		informationPusher.doService();
 		// the "new" unit.
 		informationPusher.setJsch(createEasymockObjects());
 		informationPusher.setUnitRepository(createMockUnitRepository(11, true));
@@ -294,7 +292,8 @@ public class UnitInformationPusherTest {
 		for (int i = 0; i < unitsToCreate; i++) {
 			Unit unit = new Unit();
 			unit.setHsaIdentity(Integer.toString(i));
-			unit.setDn(DN.createDNFromString("ou=" + i));
+			DN dn = DN.createDNFromString("o=vgr,ou=" + i);
+			unit.setDn(dn);
 			String dateStr = "";
 			if (i == 0 && createOneWithFreshDate) {
 				dateStr = Constants.zuluTimeFormatter.format(new Date());
@@ -306,6 +305,8 @@ public class UnitInformationPusherTest {
 			units[i] = unit;
 		}
 		EasyMock.expect(mockUnitRepository.getAllUnits()).andReturn(Arrays.asList(units));
+		EasyMock.expect(mockUnitRepository.getUnitByDN(DN.createDNFromString("o=vgr"))).andReturn(null);
+		EasyMock.expectLastCall().anyTimes();
 		EasyMock.replay(mockUnitRepository);
 		return mockUnitRepository;
 	}
