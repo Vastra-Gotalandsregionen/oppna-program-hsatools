@@ -66,11 +66,17 @@ public class UnitInformationPusherTest {
 		ChannelSftp channelSftpMock = EasyMock.createMock(ChannelSftp.class);
 		try {
 			EasyMock.expect(jschMock.getSession(ftpUser, ftpHost, 22)).andReturn(sessionMock);
+			EasyMock.expectLastCall().anyTimes();
 			sessionMock.setPassword(ftpPassword);
+			EasyMock.expectLastCall().anyTimes();
 			sessionMock.setConfig("StrictHostKeyChecking", "no");
+			EasyMock.expectLastCall().anyTimes();
 			sessionMock.connect();
+			EasyMock.expectLastCall().anyTimes();
 			sessionMock.disconnect();
+			EasyMock.expectLastCall().anyTimes();
 			EasyMock.expect(sessionMock.openChannel("sftp")).andReturn(channelSftpMock);
+			EasyMock.expectLastCall().anyTimes();
 			EasyMock.replay(jschMock, sessionMock);
 		} catch (JSchException e) {
 			e.printStackTrace();
@@ -119,11 +125,14 @@ public class UnitInformationPusherTest {
 		informationPusher.doService();
 		Organization organization = getOrganizationFromFile();
 		Assert.assertTrue("Organization should contain 10 units", organization.getUnit().size() == 10);
+		for (se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unit : organization.getUnit()) {
+			Assert.assertEquals("create", unit.getOperation());
+		}
 		informationPusher.setUnitRepository(createMockUnitRepository(9, false));
 		informationPusher.doService();
 		organization = getOrganizationFromFile();
 		Assert.assertTrue("Organization should contain 10 units", organization.getUnit().size() == 1);
-
+		Assert.assertEquals("remove",  organization.getUnit().get(0).getOperation());
 	}
 
 	@Test
