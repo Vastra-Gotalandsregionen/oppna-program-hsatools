@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -167,20 +166,25 @@ public class InformationPusherEniro implements InformationPusher {
 			if (unit != null) {
 				TimePoint modifyTimestamp = unit.getModifyTimestamp();
 				TimePoint createTimestamp = unit.getCreateTimestamp();
-				// Check if the unit is created or modified after last synched
-				// modify date
+				// Check if the unit is created or modified after last synched modify date
 				if ((modifyTimestamp != null && modifyTimestamp.isAfter(lastSynchedModifyTimePoint)) || (createTimestamp != null && createTimestamp.isAfter(lastSynchedModifyTimePoint))) {
 					freshUnits.add(unit);
-					if (createTimestamp != null && createTimestamp.isAfter(temporaryLatestModifiedTimepoint)) {
-						temporaryLatestModifiedTimepoint = createTimestamp;
+					if (createTimestamp != null && createTimestamp.isAfter(lastSynchedModifyTimePoint)) {
 						unit.setNew(true);
 					}
-					if (unit.getModifyTimestamp() != null && unit.getModifyTimestamp().isAfter(temporaryLatestModifiedTimepoint)) {
-						temporaryLatestModifiedTimepoint = unit.getModifyTimestamp();
-					}
+				}
+
+				// Update latest in order to keep track of the latest creation/modification date in this batch
+				if (createTimestamp.isAfter(temporaryLatestModifiedTimepoint)) {
+					temporaryLatestModifiedTimepoint = createTimestamp;
+				}
+				if (modifyTimestamp.isAfter(temporaryLatestModifiedTimepoint)) {
+					temporaryLatestModifiedTimepoint = modifyTimestamp;
 				}
 			}
 		}
+
+		// Lastest in this batch
 		lastSynchedModifyDate = temporaryLatestModifiedTimepoint.asJavaUtilDate();
 		return freshUnits;
 	}
@@ -210,7 +214,7 @@ public class InformationPusherEniro implements InformationPusher {
 				logger.error(e);
 			}
 		}
-		
+
 		// Holds list of removed or moved units
 		List<Unit> removedOrMovedUnitsList = new ArrayList<Unit>();
 
@@ -218,7 +222,6 @@ public class InformationPusherEniro implements InformationPusher {
 		for (Map.Entry<String, DN> unitEntry : lastExistingUnits.entrySet()) {
 			Unit tmpUnit = new Unit();
 			tmpUnit.setHsaIdentity(unitEntry.getKey());
-			
 
 			// Search for moved units (they exists in list of current units)
 			Collections.sort(units);
@@ -236,7 +239,7 @@ public class InformationPusherEniro implements InformationPusher {
 				Unit removedUnit = new Unit();
 				removedUnit.setHsaIdentity(unitEntry.getKey());
 				removedUnit.setRemoved(true);
-				removedOrMovedUnitsList.add(tmpUnit);
+				removedOrMovedUnitsList.add(removedUnit);
 			}
 		}
 
