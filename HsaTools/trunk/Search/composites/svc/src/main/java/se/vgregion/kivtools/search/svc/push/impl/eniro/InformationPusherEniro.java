@@ -42,7 +42,7 @@ public class InformationPusherEniro implements InformationPusher {
 	private Date lastSynchedModifyDate;
 	private UnitRepository unitRepository;
 	private File lastSynchedModifyDateFile;
-	private String country = "Sweden";
+	private String organizationCountry = "Sweden";
 	private String organizationName = "VGR";
 	private String organizationId = "vgr";
 	private File destinationFolder;
@@ -166,7 +166,8 @@ public class InformationPusherEniro implements InformationPusher {
 			if (unit != null) {
 				TimePoint modifyTimestamp = unit.getModifyTimestamp();
 				TimePoint createTimestamp = unit.getCreateTimestamp();
-				// Check if the unit is created or modified after last synched modify date
+				// Check if the unit is created or modified after last synched
+				// modify date
 				if ((modifyTimestamp != null && modifyTimestamp.isAfter(lastSynchedModifyTimePoint)) || (createTimestamp != null && createTimestamp.isAfter(lastSynchedModifyTimePoint))) {
 					freshUnits.add(unit);
 					if (createTimestamp != null && createTimestamp.isAfter(lastSynchedModifyTimePoint)) {
@@ -174,11 +175,12 @@ public class InformationPusherEniro implements InformationPusher {
 					}
 				}
 
-				// Update latest in order to keep track of the latest creation/modification date in this batch
-				if (createTimestamp.isAfter(temporaryLatestModifiedTimepoint)) {
+				// Update latest in order to keep track of the latest
+				// creation/modification date in this batch
+				if (createTimestamp != null && createTimestamp.isAfter(temporaryLatestModifiedTimepoint)) {
 					temporaryLatestModifiedTimepoint = createTimestamp;
 				}
-				if (modifyTimestamp.isAfter(temporaryLatestModifiedTimepoint)) {
+				if (modifyTimestamp != null && modifyTimestamp.isAfter(temporaryLatestModifiedTimepoint)) {
 					temporaryLatestModifiedTimepoint = modifyTimestamp;
 				}
 			}
@@ -197,6 +199,7 @@ public class InformationPusherEniro implements InformationPusher {
 	 * @param units
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private List<Unit> getRemovedOrMovedUnits(List<Unit> units) {
 		// Read last existing units from file
 		if (lastExistingUnits == null) {
@@ -248,8 +251,6 @@ public class InformationPusherEniro implements InformationPusher {
 
 	private void saveLastExistingUnitList() {
 		try {
-
-			// TODO: this doesn't work!
 			for (Unit unit : units) {
 				lastExistingUnits.put(unit.getHsaIdentity(), unit.getDn());
 			}
@@ -264,18 +265,19 @@ public class InformationPusherEniro implements InformationPusher {
 	}
 
 	public void doService() {
-
 		try {
+			boolean generateFullOrg = !getLastSynchDate().after(Constants.zuluTimeFormatter.parse("19700102000000Z"));
 			List<Unit> collectedUnits = collectUnits();
 			Organization organization = null;
-			if (getLastSynchDate().after(Constants.zuluTimeFormatter.parse("19700102000000Z"))) {
-				organization = generateFlatOrganization(collectedUnits);
-			} else {
+			if (generateFullOrg) {
 				organization = generateOrganisationTree(collectedUnits);
+			} else {
+				organization = generateFlatOrganization(collectedUnits);
+				// TODO: organization.setIncremental("true")
 			}
-			organization.setId("vgr");
-			organization.setName("VGR");
-			// TODO: organization.setIncremental("true")
+			organization.setId(organizationId);
+			organization.setName(organizationName);
+			organization.setCountry(organizationCountry);
 			sendXmlFile(generateUnitDetailsXmlFile(organization));
 		} catch (Exception e) {
 			logger.error(e);
@@ -303,17 +305,18 @@ public class InformationPusherEniro implements InformationPusher {
 	private void fillJaxbUnit(Unit unit, se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit jaxbUnit) {
 		jaxbUnit.setId(unit.getHsaIdentity());
 		jaxbUnit.setName(unit.getName());
-
+		Unit parentUnit = null;
 		if (unit.isNew()) {
 			jaxbUnit.setOperation("create");
+			parentUnit = getParentUnit(unit);
 		} else if (unit.isRemoved()) {
 			jaxbUnit.setOperation("remove");
 		} else if (unit.isMoved()) {
-			Unit parentUnit = getParentUnit(unit);
-			if (parentUnit != null) {
-				jaxbUnit.setParentUnitId(parentUnit.getHsaIdentity());
-			}
 			jaxbUnit.setOperation("move");
+			parentUnit = getParentUnit(unit);
+		}
+		if (parentUnit != null) {
+			jaxbUnit.setParentUnitId(parentUnit.getHsaIdentity());
 		}
 	}
 
