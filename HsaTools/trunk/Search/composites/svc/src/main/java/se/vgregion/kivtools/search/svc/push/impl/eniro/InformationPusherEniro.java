@@ -54,7 +54,7 @@ public class InformationPusherEniro implements InformationPusher {
 	private Map<String, DN> lastExistingUnits;
 	private File lastExistingUnitsFile;
 	private List<Unit> units;
-
+		
 	public void setLastExistingUnitsFile(File lastExistingUnitsFile) {
 		this.lastExistingUnitsFile = lastExistingUnitsFile;
 	}
@@ -101,7 +101,6 @@ public class InformationPusherEniro implements InformationPusher {
 	 */
 	private List<Unit> collectUnits() throws Exception {
 		units = unitRepository.getAllUnits();
-		// lastSynchedModifyDate = getLastSynchDate();
 		// Get units that has been created or modified
 		List<Unit> freshUnits = getFreshUnits(units);
 		// Get units that has been removed
@@ -115,19 +114,17 @@ public class InformationPusherEniro implements InformationPusher {
 			// lastSynchDate is unknown, read from file
 			try {
 				// Started for the first time File not exist. Create new file
-				if (!lastSynchedModifyDateFile.exists()) {
-					lastSynchedModifyDateFile.createNewFile();
-				}
-				FileReader fileReader = new FileReader(lastSynchedModifyDateFile);
-				BufferedReader br = new BufferedReader(fileReader);
-				String lastSynchedModifyString = br.readLine();
-				if (lastSynchedModifyString != null) {
-					lastSynchedModifyDate = Constants.zuluTimeFormatter.parse(lastSynchedModifyString);
+				if (lastSynchedModifyDateFile.exists()) {
+					FileReader fileReader = new FileReader(lastSynchedModifyDateFile);
+					BufferedReader br = new BufferedReader(fileReader);
+					String lastSynchedModifyString = br.readLine();
+					if (lastSynchedModifyString != null) {
+						lastSynchedModifyDate = Constants.zuluTimeFormatter.parse(lastSynchedModifyString);
+					}
 				}
 			} catch (Exception e) {
 				logger.error(e);
 			}
-
 			// Set default start synch date if read from file failed
 			if (lastSynchedModifyDate == null) {
 				Calendar calendar = Calendar.getInstance();
@@ -142,6 +139,7 @@ public class InformationPusherEniro implements InformationPusher {
 		try {
 			FileWriter fileWriter = new FileWriter(lastSynchedModifyDateFile);
 			fileWriter.write(Constants.zuluTimeFormatter.format(lastSynchedModifyDate));
+			fileWriter.flush();
 			fileWriter.close();
 		} catch (IOException e) {
 			logger.error(e);
@@ -186,7 +184,7 @@ public class InformationPusherEniro implements InformationPusher {
 			}
 		}
 
-		// Lastest in this batch
+		// Latest in this batch
 		lastSynchedModifyDate = temporaryLatestModifiedTimepoint.asJavaUtilDate();
 		return freshUnits;
 	}
@@ -206,12 +204,13 @@ public class InformationPusherEniro implements InformationPusher {
 			try {
 				// Started for the first time File not exist. Create new file
 				if (!lastExistingUnitsFile.exists()) {
-					lastExistingUnitsFile.createNewFile();
 					lastExistingUnits = new HashMap<String, DN>();
 				} else {
 					FileInputStream fileInputStream = new FileInputStream(lastExistingUnitsFile);
 					ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 					lastExistingUnits = (HashMap<String, DN>) objectInputStream.readObject();
+					objectInputStream.close();
+					fileInputStream.close();
 				}
 			} catch (Exception e) {
 				logger.error(e);
@@ -254,11 +253,13 @@ public class InformationPusherEniro implements InformationPusher {
 			for (Unit unit : units) {
 				lastExistingUnits.put(unit.getHsaIdentity(), unit.getDn());
 			}
-
 			FileOutputStream fileOutputStream = new FileOutputStream(lastExistingUnitsFile);
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
 			objectOutputStream.writeObject(lastExistingUnits);
+			objectOutputStream.flush();
 			objectOutputStream.close();
+			fileOutputStream.flush();
+			fileOutputStream.close();
 		} catch (Exception e) {
 			logger.error(e);
 		}

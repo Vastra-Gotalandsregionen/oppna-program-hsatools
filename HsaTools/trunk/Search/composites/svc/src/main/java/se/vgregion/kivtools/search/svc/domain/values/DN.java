@@ -182,7 +182,7 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 
 		if (theCN != null && theCN.size() > 0) {
 			theCN = theCN.size() < 2 ? new ArrayList<String>() : theCN.subList(1, theCN.size());
-		} else if (theOU != null && theOU.size() > 0) {
+		} else if (theOU != null && theOU.size() > -(ADMINISTRATION + 1)) {
 			theOU = getOuWithoutUnit();
 		} else {
 			return null;
@@ -418,7 +418,7 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 		return true;
 	}
 
-	public void setAdministrationLevel(int administration) {
+	public static void setAdministrationLevel(int administration) {
 		ADMINISTRATION = administration;
 	}
 }
