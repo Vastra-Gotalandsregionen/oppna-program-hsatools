@@ -1,6 +1,7 @@
 package se.vgregion.kivtools.search.svc.push;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,7 +46,8 @@ public class UnitInformationPusherTest {
 
 	@Before
 	public void setUp() throws Exception {
-		UnitRepository unitRepository = createMockUnitRepository(10, false);
+		UnitRepository unitRepository = createMockUnitRepositoryFull(false);
+
 		informationPusher = new InformationPusherEniro();
 
 		JSch jschMock = createEasymockObjects();
@@ -91,27 +93,36 @@ public class UnitInformationPusherTest {
 	}
 
 	@Test
-	public void testIncrementalSynchronizaton() throws Exception {
+	public void testIncrementalSynchronization() throws Exception {
 		informationPusher.doService();
 		Organization organizationFromXml = getOrganizationFromFile();
-		Assert.assertTrue("Array should contain 10 units", organizationFromXml.getUnit().size() == 10);
+		Assert.assertTrue("Array should contain 4 root units", organizationFromXml.getUnit().size() == 4);
 		informationPusher.setJsch(createEasymockObjects());
 		// the "new" unit.
 		informationPusher.setJsch(createEasymockObjects());
-		informationPusher.setUnitRepository(createMockUnitRepository(11, true));
+
+		Unit unitLeaf7 = new Unit();
+		unitLeaf7.setDn(DN.createDNFromString("ou=leaf7,ou=child5,o=root4"));
+		unitLeaf7.setName("leaf7");
+		List<Unit> units = new ArrayList<Unit>(unitsInRepository);
+		units.add(unitLeaf7);
+		unitsInRepository = units;
+
+		informationPusher.setUnitRepository(createMockUnitRepositoryFull(true));
 		informationPusher.doService();
 		organizationFromXml = getOrganizationFromFile();
-		Assert.assertTrue("Array should contain 1 units but are: " + organizationFromXml.getUnit().size(), organizationFromXml.getUnit().size() == 1);
-
+		Assert.assertTrue("Array should contain 1 unit but are: " + organizationFromXml.getUnit().size(), organizationFromXml.getUnit().size() == 1);
+		// HsaId 8 corresponds to child5 in unitsInRepository, i.e parent of leaf7  
+		Assert.assertEquals("8", organizationFromXml.getUnit().get(0).getParentUnitId());
 	}
 
 	@Test
 	public void testUseLastSynchedModifyDateFile() throws Exception {
 		// First time we don't have last synched modify date information, should
-		// collect all (10) units (regarded as new).
+		// collect all (15) units (regarded as new) but only 4 root units.
 		informationPusher.doService();
 		Organization organizationFromXml = getOrganizationFromFile();
-		Assert.assertTrue("Array should contain 10 units", organizationFromXml.getUnit().size() == 10);
+		Assert.assertTrue("Array should contain 4 root units", organizationFromXml.getUnit().size() == 4);
 		// When "resetting", last synched modify date information should be read
 		// from file and thus we will not find any new units.
 		setUp();
@@ -132,7 +143,7 @@ public class UnitInformationPusherTest {
 		informationPusher.doService();
 		organization = getOrganizationFromFile();
 		Assert.assertTrue("Organization should contain 10 units", organization.getUnit().size() == 1);
-		Assert.assertEquals("remove",  organization.getUnit().get(0).getOperation());
+		Assert.assertEquals("remove", organization.getUnit().get(0).getOperation());
 	}
 
 	@Test
@@ -156,10 +167,11 @@ public class UnitInformationPusherTest {
 	}
 
 	@Test
-	public void testGenerateOrganisationTree() {
+	public void testGenerateOrganisationTree() throws Exception {
 
-		Organization generatedOrganization = informationPusher.generateOrganisationTree(unitsInRepository);
-
+		informationPusher.setUnitRepository(createMockUnitRepositoryFull(false));
+		informationPusher.doService();
+		Organization generatedOrganization = getOrganizationFromFile();
 		for (int i = 0; i < generatedOrganization.getUnit().size(); i++) {
 			se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit rootUnit = generatedOrganization.getUnit().get(i);
 			se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit expectedRootUnit = organization.getUnit().get(i);
@@ -316,6 +328,26 @@ public class UnitInformationPusherTest {
 		EasyMock.expect(mockUnitRepository.getAllUnits()).andReturn(Arrays.asList(units));
 		EasyMock.expect(mockUnitRepository.getUnitByDN(DN.createDNFromString("o=vgr"))).andReturn(null);
 		EasyMock.expectLastCall().anyTimes();
+		EasyMock.replay(mockUnitRepository);
+		return mockUnitRepository;
+	}
+
+	private UnitRepository createMockUnitRepositoryFull(boolean createOneWithFreshDate) throws Exception {
+		UnitRepository mockUnitRepository = EasyMock.createMock(UnitRepository.class);
+		EasyMock.expect(mockUnitRepository.getAllUnits()).andReturn(unitsInRepository);
+		for (int i = 0; i < unitsInRepository.size(); i++) {
+			EasyMock.expect(mockUnitRepository.getUnitByDN(DN.createDNFromString(unitsInRepository.get(i).getDn().toString()))).andReturn(unitsInRepository.get(i));
+			EasyMock.expectLastCall().anyTimes();
+			String dateStr = "";
+			if (i == unitsInRepository.size() - 1 && createOneWithFreshDate) {
+				dateStr = Constants.zuluTimeFormatter.format(new Date());
+			} else {
+				dateStr = Constants.zuluTimeFormatter.format(generateCalendar(i).getTime());
+			}
+			unitsInRepository.get(i).setHsaIdentity(String.valueOf(i));
+			unitsInRepository.get(i).setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
+			unitsInRepository.get(i).setModifyTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
+		}
 		EasyMock.replay(mockUnitRepository);
 		return mockUnitRepository;
 	}
