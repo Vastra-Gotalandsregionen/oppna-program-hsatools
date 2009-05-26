@@ -129,10 +129,12 @@
 		</property>
 	</bean>
 
-
 	<bean id="Push.Eniro"
 		class="se.vgregion.kivtools.search.svc.push.impl.eniro.InformationPusherEniro">
 		<property name="unitRepository" ref="Search.UnitRepository" />
+		<property name="destinationFolder" value="/tmp/" />
+		<property name="lastSynchedModifyDateFile" value="/tmp/lsmdf.txt" />
+		<property name="lastExistingUnitsFile" value="/tmp/leuf.txt" />
 	</bean>
 
 </beans>
