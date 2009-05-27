@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -16,6 +17,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -24,11 +27,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 
+import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
+import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
+import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 import se.vgregion.kivtools.search.svc.push.InformationPusher;
+import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Address;
 import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Organization;
 
 import com.domainlanguage.time.TimePoint;
@@ -49,12 +57,19 @@ public class InformationPusherEniro implements InformationPusher {
 	private String ftpUser;
 	private String ftpHost;
 	private String ftpPassword;
-	private String ftpDestinationFolder;
+	private String ftpDestinationFileName;
 	private JSch jsch;
 	private Map<String, DN> lastExistingUnits;
 	private File lastExistingUnitsFile;
 	private List<Unit> units;
-		
+	private int ftpPort;
+	private CodeTablesService codeTablesService;
+
+	@Required
+	public void setCodeTablesService(CodeTablesService codeTablesService) {
+		this.codeTablesService = codeTablesService;
+	}
+
 	public void setLastExistingUnitsFile(File lastExistingUnitsFile) {
 		this.lastExistingUnitsFile = lastExistingUnitsFile;
 	}
@@ -63,18 +78,26 @@ public class InformationPusherEniro implements InformationPusher {
 		this.jsch = jsch;
 	}
 
-	public void setFtpDestinationFolder(String ftpDestinationFolder) {
-		this.ftpDestinationFolder = ftpDestinationFolder;
+	public void setFtpDestinationFileName(String ftpDestinationFileName) {
+		this.ftpDestinationFileName = ftpDestinationFileName;
 	}
 
-	public void setFtpUser(String ftpUser) {
-		this.ftpUser = ftpUser;
-	}
-
+	@Required
 	public void setFtpHost(String ftpHost) {
 		this.ftpHost = ftpHost;
 	}
 
+	@Required
+	public void setFtpPort(int ftpPort) {
+		this.ftpPort = ftpPort;
+	}
+
+	@Required
+	public void setFtpUser(String ftpUser) {
+		this.ftpUser = ftpUser;
+	}
+
+	@Required
 	public void setFtpPassword(String ftpPassword) {
 		this.ftpPassword = ftpPassword;
 	}
@@ -123,7 +146,7 @@ public class InformationPusherEniro implements InformationPusher {
 					}
 				}
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error("Error in getLastSynchDate", e);
 			}
 			// Set default start synch date if read from file failed
 			if (lastSynchedModifyDate == null) {
@@ -142,7 +165,7 @@ public class InformationPusherEniro implements InformationPusher {
 			fileWriter.flush();
 			fileWriter.close();
 		} catch (IOException e) {
-			logger.error(e);
+			logger.error("Error in saveLastSynchedModifyDate", e);
 		}
 	}
 
@@ -190,9 +213,7 @@ public class InformationPusherEniro implements InformationPusher {
 	}
 
 	/**
-	 * We need to keep track of units that don't exists anymore or that are
-	 * moved. Compare to previous state and add virtual units that indicates the
-	 * removal and tag moved units as "moved".
+	 * We need to keep track of units that don't exists anymore or that are moved. Compare to previous state and add virtual units that indicates the removal and tag moved units as "moved".
 	 * 
 	 * @param units
 	 * @return
@@ -213,7 +234,7 @@ public class InformationPusherEniro implements InformationPusher {
 					fileInputStream.close();
 				}
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error("Error in getRemovedOrMovedUnits", e);
 			}
 		}
 
@@ -261,7 +282,7 @@ public class InformationPusherEniro implements InformationPusher {
 			fileOutputStream.flush();
 			fileOutputStream.close();
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("Error in saveLastExistingUnitList", e);
 		}
 	}
 
@@ -279,9 +300,13 @@ public class InformationPusherEniro implements InformationPusher {
 			organization.setId(organizationId);
 			organization.setName(organizationName);
 			organization.setCountry(organizationCountry);
-			sendXmlFile(generateUnitDetailsXmlFile(organization));
+			File generatedUnitDetailsXmlFile = generateUnitDetailsXmlFile(organization);
+			if (organization.getUnit().size() > 0) {
+				sendXmlFile(generatedUnitDetailsXmlFile);
+			} 
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("Error in doService", e);
+
 		}
 	}
 
@@ -304,8 +329,13 @@ public class InformationPusherEniro implements InformationPusher {
 	 * @param jaxbUnit
 	 */
 	private void fillJaxbUnit(Unit unit, se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit jaxbUnit) {
-		jaxbUnit.setId(unit.getHsaIdentity());
-		jaxbUnit.setName(unit.getName());
+		if (unit.isNew() || unit.isMoved()) {
+			fillJaxbUnitWithData(unit, jaxbUnit);
+		} else {
+			 jaxbUnit.setId(unit.getHsaIdentity());
+			 jaxbUnit.setName(unit.getName());
+		}
+
 		Unit parentUnit = null;
 		if (unit.isNew()) {
 			jaxbUnit.setOperation("create");
@@ -321,15 +351,142 @@ public class InformationPusherEniro implements InformationPusher {
 		}
 	}
 
+	private se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit fillJaxbUnitWithData(Unit unit, se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit jaxbUnit) {
+		jaxbUnit.setId(unit.getHsaIdentity());
+		jaxbUnit.setName(unit.getName());
+
+		// Description
+		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Description description = new se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Description();
+		description.setValue(unit.getConcatenatedDescription());
+		jaxbUnit.getDescriptionOrImageOrAddress().add(description);
+
+		// Set unitWs street address
+		Address streetAddress = new Address();
+		streetAddress.setType("Visit");
+		// address.setLabel(value);
+		setStreetNameAndNumberForAddress(streetAddress, unit.getHsaStreetAddress().getStreet());
+		List<String> streetPostCodes = streetAddress.getPostCode();
+		streetPostCodes.add(unit.getHsaStreetAddress().getZipCode().toString());
+		streetAddress.setCity(unit.getHsaStreetAddress().getCity());
+		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.AddressType.GeoCoordinates streetGeoCoordinates = new se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.AddressType.GeoCoordinates();
+		streetGeoCoordinates.setXpos(BigInteger.valueOf(unit.getRt90X()));
+		streetGeoCoordinates.setYpos(BigInteger.valueOf(unit.getRt90Y()));
+		streetAddress.setGeoCoordinates(streetGeoCoordinates);
+		jaxbUnit.getDescriptionOrImageOrAddress().add(streetAddress);
+
+		// Set unitWs postal address
+		Address postalAddress = new Address();
+		postalAddress.setType("Post");
+		// address.setLabel(value);
+		setStreetNameAndNumberForAddress(postalAddress, unit.getHsaPostalAddress().getStreet());
+		postalAddress.getPostCode().add(unit.getHsaPostalAddress().getZipCode().toString());
+		postalAddress.setCity(unit.getHsaPostalAddress().getCity());
+		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.AddressType.GeoCoordinates postalGeoCoordinates = new se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.AddressType.GeoCoordinates();
+		postalGeoCoordinates.setXpos(BigInteger.valueOf(unit.getRt90X()));
+		postalGeoCoordinates.setYpos(BigInteger.valueOf(unit.getRt90Y()));
+		postalAddress.setGeoCoordinates(postalGeoCoordinates);
+		jaxbUnit.getDescriptionOrImageOrAddress().add(postalAddress);
+
+		// Set telephone
+		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.TelephoneType telephoneType = new se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.TelephoneType();
+		for (PhoneNumber phoneNumber : unit.getHsaPublicTelephoneNumber()) {
+			telephoneType.getTelephoneNumber().add(phoneNumber.getPhoneNumber());
+
+		}
+		// Telephone hours
+		String telephoneHoursConcatenated = "";
+		for (WeekdayTime telephoneHoursInfo : unit.getHsaTelephoneTime()) {
+			telephoneHoursConcatenated += telephoneHoursInfo.getDisplayValue() + ", ";
+		}
+		telephoneHoursConcatenated = stripEndingCommaAndSpace(telephoneHoursConcatenated);
+		telephoneType.setTelephoneHours(telephoneHoursConcatenated);
+		jaxbUnit.getDescriptionOrImageOrAddress().add(telephoneType);
+
+		// Set URL
+		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.EAliasType unitWeb = new se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.EAliasType();
+		unitWeb.setLabel("Mottagningens webbplats");
+		unitWeb.setType("URL");
+		unitWeb.setAlias(unit.getLabeledURI());
+		jaxbUnit.getDescriptionOrImageOrAddress().add(unitWeb);
+
+		// Set visiting rules
+		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.UnitType.VisitingConditions visitingConditions = new se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.UnitType.VisitingConditions();
+		visitingConditions.setVisitingRules(unit.getHsaVisitingRules());
+
+		// Drop in hours
+		String dropInConcatenated = "";
+		for (WeekdayTime dropInInfo : unit.getHsaDropInHours()) {
+			dropInConcatenated += dropInInfo.getDisplayValue() + ", ";
+		}
+		dropInConcatenated = stripEndingCommaAndSpace(dropInConcatenated);
+		visitingConditions.setDropInHours(dropInConcatenated);
+
+		// Visiting hours
+		String visitingHoursConcatenated = "";
+		for (WeekdayTime visitingHoursInfo : unit.getHsaSurgeryHours()) {
+			visitingHoursConcatenated += visitingHoursInfo.getDisplayValue() + ", ";
+		}
+		visitingHoursConcatenated = stripEndingCommaAndSpace(visitingHoursConcatenated);
+		visitingConditions.setVisitingHours(visitingHoursConcatenated);
+		jaxbUnit.getDescriptionOrImageOrAddress().add(visitingConditions);
+
+		// Management
+		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.UnitType.Management management = new se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.UnitType.Management();
+		management.setValue(unit.getHsaManagementText());
+		jaxbUnit.getDescriptionOrImageOrAddress().add(management);
+
+		// Business classification
+		List<String> businessClassifications = unit.getHsaBusinessClassificationCode();
+
+		for (String businessClassificationCode : businessClassifications) {
+			se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.UnitType.BusinessClassification businessClassification = new se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.UnitType.BusinessClassification();
+			String bcName = codeTablesService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, businessClassificationCode);
+			businessClassification.setBCName(bcName);
+			businessClassification.setBCCode(businessClassificationCode);
+			jaxbUnit.getDescriptionOrImageOrAddress().add(businessClassification);
+		}
+
+		// Location
+		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.UnitType.Locality locality = new se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.UnitType.Locality();
+		locality.setValue(unit.getHsaMunicipalityName());
+
+		jaxbUnit.getDescriptionOrImageOrAddress().add(locality);
+
+		return jaxbUnit;
+	}
+
+	private void setStreetNameAndNumberForAddress(Address address, String hsaAddress) {
+		Pattern patternStreetName = Pattern.compile("\\D+");
+		Matcher matcherStreetName = patternStreetName.matcher(hsaAddress);
+		Pattern patternStreetNb = Pattern.compile("\\d+\\w*");
+		Matcher matcherStreetNb = patternStreetNb.matcher(hsaAddress);
+
+		if (matcherStreetName.find()) {
+			String streetName = matcherStreetName.group().trim();
+			address.setStreetName(streetName);
+		}
+		if (matcherStreetNb.find()) {
+			String streetNb = matcherStreetNb.group();
+			address.setStreetNumber(streetNb);
+		}
+	}
+
+	private String stripEndingCommaAndSpace(String inputString) {
+		if (inputString.endsWith(", ")) {
+			inputString = inputString.substring(0, inputString.length() - 2);
+		}
+		return inputString;
+	}
+
 	private void sendXmlFile(File organizationXmlFile) {
 		try {
-			Session session = jsch.getSession(ftpUser, ftpHost, 22);
+			Session session = jsch.getSession(ftpUser, ftpHost, ftpPort);
 			session.setPassword(ftpPassword);
 			session.setConfig("StrictHostKeyChecking", "no");
 			session.connect();
 			ChannelSftp channelSftp = (ChannelSftp) session.openChannel("sftp");
 			channelSftp.connect();
-			channelSftp.put(new FileInputStream(organizationXmlFile), ftpDestinationFolder);
+			channelSftp.put(new FileInputStream(organizationXmlFile), ftpDestinationFileName);
 			channelSftp.disconnect();
 			session.disconnect();
 			// Save last synch date to file after successful commit of xml file
@@ -339,7 +496,7 @@ public class InformationPusherEniro implements InformationPusher {
 		} catch (Exception e) {
 			// Commit to ftp was unsuccessful. Reset the lastSynchedModifyDate
 			lastSynchedModifyDate = null;
-			logger.error(e);
+			logger.error("Error in sendXmlFile", e);
 		}
 	}
 
@@ -351,7 +508,7 @@ public class InformationPusherEniro implements InformationPusher {
 			try {
 				parent = unitRepository.getUnitByDN(parentDn);
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error("Error in getParentUnit", e);
 			}
 			return parent;
 		} else {
@@ -402,8 +559,7 @@ public class InformationPusherEniro implements InformationPusher {
 	 * For incremental unit detail pushes.
 	 * 
 	 * @param collectedUnits
-	 * @return Organization with a unit list of created,removed or modified
-	 *         units
+	 * @return Organization with a unit list of created,removed or modified units
 	 */
 	private Organization generateFlatOrganization(List<Unit> collectedUnits) {
 		Organization organization = new Organization();
