@@ -94,7 +94,7 @@
 		<property name="targetMethod" value="init" />
 		<property name="concurrent" value="false" />
 	</bean>
-	
+
 	<bean id="jobDetailUnitDetailsPusher"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="Push.Eniro" />
@@ -121,20 +121,30 @@
 	</bean>
 
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="startupDelay" value="10" />
 		<property name="triggers">
 			<list>
 				<ref bean="simpleTriggerCodeTableCacheUpdate" />
-				<ref bean="simpleTriggerUnitDetailsPusher"/>
+				<ref bean="simpleTriggerUnitDetailsPusher" />
 			</list>
 		</property>
 	</bean>
 
+	<bean id="jsch" class="com.jcraft.jsch.JSch" />
+
 	<bean id="Push.Eniro"
 		class="se.vgregion.kivtools.search.svc.push.impl.eniro.InformationPusherEniro">
+		<property name="jsch" ref="jsch" />
+		<property name="ftpHost" value="webbservern.se" />
+		<property name="ftpPort" value="10022" />
+		<property name="ftpDestinationFileName" value="test3.xml" />
+		<property name="ftpUser" value="kapten" />
+		<property name="ftpPassword" value="mrcaptain" />
 		<property name="unitRepository" ref="Search.UnitRepository" />
 		<property name="destinationFolder" value="/tmp/" />
 		<property name="lastSynchedModifyDateFile" value="/tmp/lsmdf.txt" />
 		<property name="lastExistingUnitsFile" value="/tmp/leuf.txt" />
+		<property name="codeTablesService" ref="Search.CodeTablesService" />
 	</bean>
 
 </beans>

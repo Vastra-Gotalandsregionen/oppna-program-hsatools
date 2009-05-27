@@ -17,14 +17,20 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.svc.domain.values.Address;
+import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
+import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
+import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
+import se.vgregion.kivtools.search.svc.domain.values.ZipCode;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 import se.vgregion.kivtools.search.svc.push.impl.eniro.InformationPusherEniro;
+import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.AddressType;
 import se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Organization;
 
 import com.domainlanguage.time.TimePoint;
@@ -35,30 +41,31 @@ import com.jcraft.jsch.Session;
 
 public class UnitInformationPusherTest {
 
-	private static InformationPusherEniro informationPusher;
+	private InformationPusherEniro informationPusher;
 	private static File dateSynchFile;
 	private static File unitExistFile;
 	private String ftpHost = "";
 	private String ftpUser = "";
 	private String ftpPassword = "";
 
-	private static List<Unit> unitsInRepository;
-	private static Organization organization;
-
 	@Before
 	public void setUp() throws Exception {
-		UnitRepository unitRepository = createMockUnitRepositoryFull(false, getTestUnits());
-
 		informationPusher = new InformationPusherEniro();
-
+		UnitRepository unitRepository = createMockUnitRepositoryFull(getDefaultTestUnits());
 		JSch jschMock = createEasymockObjects();
+		CodeTablesService mockCodeTableService = EasyMock.createMock(CodeTablesService.class);
+		EasyMock.expect(mockCodeTableService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "")).andReturn("");
+		EasyMock.expectLastCall().anyTimes();
+		EasyMock.replay(mockCodeTableService);
+		informationPusher.setCodeTablesService(mockCodeTableService);
 		informationPusher.setJsch(jschMock);
 		informationPusher.setUnitRepository(unitRepository);
 		informationPusher.setLastSynchedModifyDateFile(dateSynchFile);
 		informationPusher.setLastExistingUnitsFile(unitExistFile);
 		informationPusher.setDestinationFolder(new File("src/test"));
-		informationPusher.setFtpDestinationFolder("test/vgr.xml");
+		informationPusher.setFtpDestinationFileName("test/vgr.xml");
 		informationPusher.setFtpHost(ftpHost);
+		informationPusher.setFtpPort(22);
 		informationPusher.setFtpUser(ftpUser);
 		informationPusher.setFtpPassword(ftpPassword);
 	}
@@ -102,35 +109,37 @@ public class UnitInformationPusherTest {
 		// the "new" unit.
 		informationPusher.setJsch(createEasymockObjects());
 
+		List<Unit> units = getDefaultTestUnits();
 		Unit unitLeaf7 = new Unit();
 		unitLeaf7.setDn(DN.createDNFromString("ou=leaf7,ou=child5,o=root4"));
 		unitLeaf7.setName("leaf7");
-		List<Unit> units = new ArrayList<Unit>(unitsInRepository);
-		units.add(unitLeaf7);
-		unitsInRepository = units;
+		unitLeaf7.setHsaIdentity("leaf7-id");
 
-		informationPusher.setUnitRepository(createMockUnitRepositoryFull(true, getTestUnits()));
+		String dateStr = Constants.zuluTimeFormatter.format(new Date());
+		unitLeaf7.setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
+		unitLeaf7.setModifyTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
+		fillMockData(unitLeaf7);
+		units.add(unitLeaf7);
+
+		informationPusher.setUnitRepository(createMockUnitRepositoryFull(units));
 		informationPusher.doService();
 		organizationFromXml = getOrganizationFromFile();
 		Assert.assertTrue("Array should contain 1 unit but are: " + organizationFromXml.getUnit().size(), organizationFromXml.getUnit().size() == 1);
-		// HsaId 8 corresponds to child5 in unitsInRepository, i.e parent of
-		// leaf7
+		// HsaId 8 corresponds to child5 in unitsInRepository, i.e parent of leaf7
 		Assert.assertEquals("child5-id", organizationFromXml.getUnit().get(0).getParentUnitId());
 	}
 
 	@Test
 	public void testUseLastSynchedModifyDateFile() throws Exception {
-		// First time we don't have last synched modify date information, should
-		// collect all (15) units (regarded as new) but only 4 root units.
+		// First time we don't have last synched modify date information, should collect all (15) units (regarded as new) but only 4 root units.
 		informationPusher.doService();
 		Organization organizationFromXml = getOrganizationFromFile();
 		Assert.assertTrue("Array should contain 4 root units", organizationFromXml.getUnit().size() == 4);
-		// When "resetting", last synched modify date information should be read
-		// from file and thus we will not find any new units.
+		// When "resetting", last synched modify date information should be read from file and thus we will not find any new units.
 		setUp();
 		informationPusher.doService();
 		organizationFromXml = getOrganizationFromFile();
-		Assert.assertTrue("Array should contain 0 units", organizationFromXml.getUnit().size() == 0);
+		Assert.assertTrue("Array should contain 0 units, not " + organizationFromXml.getUnit().size() + ".", organizationFromXml.getUnit().size() == 0);
 	}
 
 	@Test
@@ -142,9 +151,9 @@ public class UnitInformationPusherTest {
 			Assert.assertEquals("create", unit.getOperation());
 		}
 		// Remove one unit
-		List<Unit> units = getTestUnits();
+		List<Unit> units = getDefaultTestUnits();
 		units.remove(0);
-		informationPusher.setUnitRepository(createMockUnitRepositoryFull(false,units));
+		informationPusher.setUnitRepository(createMockUnitRepositoryFull(units));
 		informationPusher.doService();
 		organization = getOrganizationFromFile();
 		Assert.assertTrue("Organization should contain 1 units, not " + organization.getUnit().size() + ".", organization.getUnit().size() == 1);
@@ -174,41 +183,25 @@ public class UnitInformationPusherTest {
 	@Test
 	public void testGenerateOrganisationTree() throws Exception {
 
-		informationPusher.setUnitRepository(createMockUnitRepositoryFull(false, getTestUnits()));
+		informationPusher.setUnitRepository(createMockUnitRepositoryFull(getDefaultTestUnits()));
 		informationPusher.doService();
 		Organization generatedOrganization = getOrganizationFromFile();
 
-//		int nbrOfRootUnits = 0;
-//		int nbrOfChildUnits = 0;
-//		int nbrOfLeafUnits = 0;
-//		for (se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unit : generatedOrganization.getUnit()) {
-//			nbrOfRootUnits++;
-//			Assert.assertEquals("root" + nbrOfRootUnits + "-id", unit.getId());
-//			for (se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit childUnit : unit.getUnit()) {
-//				nbrOfChildUnits++;
-//				Assert.assertEquals("child" + nbrOfRootUnits + "-id", childUnit.getId());
-//				for (int i = 0; i < childUnit.getUnit().size() ; i++) {
-//					nbrOfLeafUnits++;
-//					se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit leafUnit = childUnit.getUnit().get(i);
-//					Assert.assertEquals("leaf" + (i+1) + "-id", leafUnit.getId());
-//				}
-//
-//			}
-//		}
-
-		for (int i = 0; i < generatedOrganization.getUnit().size(); i++) {
-			se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit rootUnit = generatedOrganization.getUnit().get(i);
-			se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit expectedRootUnit = organization.getUnit().get(i);
-			Assert.assertEquals(rootUnit.getName(), expectedRootUnit.getName());
-			for (int j = 0; j < rootUnit.getUnit().size(); j++) {
-				se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit childUnit = rootUnit.getUnit().get(j);
-				se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit expectedChildUnit = organization.getUnit().get(i).getUnit().get(j);
-				Assert.assertEquals(childUnit.getName(), expectedChildUnit.getName());
-				for (int x = 0; x < childUnit.getUnit().size(); x++) {
-					se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit leafUnit = childUnit.getUnit().get(x);
-					se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit expectedLeafUnit = organization.getUnit().get(i).getUnit().get(j).getUnit().get(x);
-					Assert.assertEquals(leafUnit.getName(), expectedLeafUnit.getName());
+		int nbrOfRootUnits = 0;
+		int nbrOfChildUnits = 0;
+		int nbrOfLeafUnits = 0;
+		for (se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unit : generatedOrganization.getUnit()) {
+			nbrOfRootUnits++;
+			Assert.assertEquals("root" + nbrOfRootUnits + "-id", unit.getId());
+			for (se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit childUnit : unit.getUnit()) {
+				nbrOfChildUnits++;
+				Assert.assertEquals("child" + nbrOfChildUnits + "-id", childUnit.getId());
+				for (int i = 0; i < childUnit.getUnit().size(); i++) {
+					nbrOfLeafUnits++;
+					se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit leafUnit = childUnit.getUnit().get(i);
+					Assert.assertEquals("leaf" + nbrOfLeafUnits + "-id", leafUnit.getId());
 				}
+
 			}
 		}
 	}
@@ -230,107 +223,6 @@ public class UnitInformationPusherTest {
 		dateSynchFile.delete();
 		unitExistFile.delete();
 		DN.setAdministrationLevel(-1);
-
-		// Test data for unit repository
-		Unit unitRoot1 = new Unit();
-		unitRoot1.setDn(DN.createDNFromString("o=root1"));
-		unitRoot1.setName("root1");
-		unitRoot1.setHsaIdentity("root1-id");
-		Unit unitRoot2 = new Unit();
-		unitRoot2.setDn(DN.createDNFromString("o=root2"));
-		unitRoot2.setName("root2");
-		unitRoot2.setHsaIdentity("root2-id");
-		Unit unitRoot3 = new Unit();
-		unitRoot3.setDn(DN.createDNFromString("o=root3"));
-		unitRoot3.setName("root3");
-		unitRoot3.setHsaIdentity("root3-id");
-		Unit unitRoot4 = new Unit();
-		unitRoot4.setDn(DN.createDNFromString("o=root4"));
-		unitRoot4.setName("root4");
-		unitRoot4.setHsaIdentity("root4-id");
-
-		Unit unitChild1 = new Unit();
-		unitChild1.setDn(DN.createDNFromString("ou=child1,o=root1"));
-		unitChild1.setName("child1");
-		unitChild1.setHsaIdentity("child1-id");
-		Unit unitChild2 = new Unit();
-		unitChild2.setDn(DN.createDNFromString("ou=child2,o=root2"));
-		unitChild2.setName("child2");
-		unitChild2.setHsaIdentity("child2-id");
-		Unit unitChild3 = new Unit();
-		unitChild3.setDn(DN.createDNFromString("ou=child3,o=root3"));
-		unitChild3.setName("child3");
-		unitChild3.setHsaIdentity("child3-id");
-		Unit unitChild4 = new Unit();
-		unitChild4.setDn(DN.createDNFromString("ou=child4,o=root4"));
-		unitChild4.setName("child4");
-		unitChild4.setHsaIdentity("child4-id");
-		Unit unitChild5 = new Unit();
-		unitChild5.setDn(DN.createDNFromString("ou=child5,o=root4"));
-		unitChild5.setName("child5");
-		unitChild5.setHsaIdentity("child5-id");
-
-		Unit unitLeaf1 = new Unit();
-		unitLeaf1.setDn(DN.createDNFromString("ou=leaf1,ou=child1,o=root1"));
-		unitLeaf1.setName("leaf1");
-		unitLeaf1.setHsaIdentity("leaf1-id");
-		Unit unitLeaf2 = new Unit();
-		unitLeaf2.setDn(DN.createDNFromString("ou=leaf2,ou=child2,o=root2"));
-		unitLeaf2.setName("leaf2");
-		unitLeaf2.setHsaIdentity("leaf2-id");
-		Unit unitLeaf3 = new Unit();
-		unitLeaf3.setDn(DN.createDNFromString("ou=leaf3,ou=child3,o=root3"));
-		unitLeaf3.setName("leaf3");
-		unitLeaf3.setHsaIdentity("leaf3-id");
-		Unit unitLeaf4 = new Unit();
-		unitLeaf4.setDn(DN.createDNFromString("ou=leaf4,ou=child3,o=root3"));
-		unitLeaf4.setName("leaf4");
-		unitLeaf4.setHsaIdentity("leaf4-id");
-		Unit unitLeaf5 = new Unit();
-		unitLeaf5.setDn(DN.createDNFromString("ou=leaf5,ou=child4,o=root4"));
-		unitLeaf5.setName("leaf5");
-		unitLeaf5.setHsaIdentity("leaf5-id");
-		Unit unitLeaf6 = new Unit();
-		unitLeaf6.setDn(DN.createDNFromString("ou=leaf6,ou=child5,o=root4"));
-		unitLeaf6.setName("leaf6");
-		unitLeaf6.setHsaIdentity("leaf6-id");
-
-		unitsInRepository = new ArrayList<Unit>(Arrays.asList(unitRoot1, unitRoot2, unitRoot3, unitRoot4, unitChild1, unitChild2, unitChild3, unitChild4, unitChild5, unitLeaf1, unitLeaf2, unitLeaf3,
-				unitLeaf4, unitLeaf5, unitLeaf6));
-
-		// Generate test units for verifying test result data
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitRoot1Eniro = getEniroUnit(unitRoot1);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitRoot2Eniro = getEniroUnit(unitRoot2);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitRoot3Eniro = getEniroUnit(unitRoot3);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitRoot4Eniro = getEniroUnit(unitRoot4);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitChild1Eniro = getEniroUnit(unitChild1);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitChild2Eniro = getEniroUnit(unitChild2);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitChild3Eniro = getEniroUnit(unitChild3);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitChild4Eniro = getEniroUnit(unitChild4);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitChild5Eniro = getEniroUnit(unitChild5);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitLeaf1Eniro = getEniroUnit(unitLeaf1);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitLeaf2Eniro = getEniroUnit(unitLeaf2);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitLeaf3Eniro = getEniroUnit(unitLeaf3);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitLeaf4Eniro = getEniroUnit(unitLeaf4);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitLeaf5Eniro = getEniroUnit(unitLeaf5);
-		se.vgregion.kivtools.search.svc.push.impl.eniro.jaxb.Unit unitLeaf6Eniro = getEniroUnit(unitLeaf6);
-
-		organization = new Organization();
-		organization.getUnit().addAll(Arrays.asList(unitRoot1Eniro, unitRoot2Eniro, unitRoot3Eniro, unitRoot4Eniro));
-		unitRoot1Eniro.getUnit().add(unitChild1Eniro);
-		unitChild1Eniro.getUnit().add(unitLeaf1Eniro);
-
-		unitRoot2Eniro.getUnit().add(unitChild2Eniro);
-		unitChild2Eniro.getUnit().add(unitLeaf2Eniro);
-
-		unitRoot3Eniro.getUnit().add(unitChild3Eniro);
-		unitChild3Eniro.getUnit().add(unitLeaf3Eniro);
-		unitChild3Eniro.getUnit().add(unitLeaf4Eniro);
-
-		unitRoot4Eniro.getUnit().add(unitChild4Eniro);
-		unitRoot4Eniro.getUnit().add(unitChild5Eniro);
-		unitChild4Eniro.getUnit().add(unitLeaf5Eniro);
-		unitChild5Eniro.getUnit().add(unitLeaf6Eniro);
 	}
 
 	private static Calendar generateCalendar(int i) {
@@ -340,7 +232,7 @@ public class UnitInformationPusherTest {
 		return calendar;
 	}
 
-	private static List<Unit> getTestUnits() {
+	private static List<Unit> getDefaultTestUnits() {
 
 		// Test data for unit repository
 		Unit unitRoot1 = new Unit();
@@ -410,22 +302,31 @@ public class UnitInformationPusherTest {
 				unitLeaf5, unitLeaf6));
 	}
 
-	private UnitRepository createMockUnitRepositoryFull(boolean createOneWithFreshDate, List<Unit> units) throws Exception {
+	private UnitRepository createMockUnitRepositoryFull(List<Unit> units) throws Exception {
 		UnitRepository mockUnitRepository = EasyMock.createMock(UnitRepository.class);
 		EasyMock.expect(mockUnitRepository.getAllUnits()).andReturn(units);
 		for (int i = 0; i < units.size(); i++) {
 			EasyMock.expect(mockUnitRepository.getUnitByDN(DN.createDNFromString(units.get(i).getDn().toString()))).andReturn(units.get(i));
 			EasyMock.expectLastCall().anyTimes();
-			String dateStr = "";
-			if (i == units.size() - 1 && createOneWithFreshDate) {
-				dateStr = Constants.zuluTimeFormatter.format(new Date());
-			} else {
-				dateStr = Constants.zuluTimeFormatter.format(generateCalendar(i).getTime());
+			// If createTimestamp and modifyTimestamp is null set values
+			if (units.get(i).getCreateTimestamp() == null || units.get(i).getModifyTimestamp() == null) {
+				String dateStr = Constants.zuluTimeFormatter.format(generateCalendar(i).getTime());
+				units.get(i).setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
+				units.get(i).setModifyTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
 			}
-			units.get(i).setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
-			units.get(i).setModifyTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
+			fillMockData(units.get(i));
 		}
 		EasyMock.replay(mockUnitRepository);
 		return mockUnitRepository;
+	}
+
+	private void fillMockData(Unit unit) {
+		unit.setHsaStreetAddress(new Address("Test avenue 1", new ZipCode("41323"), "Gothenburg", new ArrayList<String>()));
+		unit.setHsaPostalAddress(new Address("Test avenue 1", new ZipCode("41323"), "Gothenburg", new ArrayList<String>()));
+		unit.setHsaPublicTelephoneNumber(new ArrayList<PhoneNumber>());
+		unit.setHsaDropInHours(new ArrayList<WeekdayTime>());
+		unit.setHsaTelephoneTime(new ArrayList<WeekdayTime>());
+		unit.setHsaSurgeryHours(new ArrayList<WeekdayTime>());
+		unit.setHsaBusinessClassificationCode(new ArrayList<String>());
 	}
 }
