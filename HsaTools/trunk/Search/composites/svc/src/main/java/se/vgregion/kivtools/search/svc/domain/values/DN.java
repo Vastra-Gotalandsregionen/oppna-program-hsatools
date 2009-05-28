@@ -44,8 +44,6 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 	private static int ADMINISTRATION = -3; // Position of administration
 	private int position; // Used for formatting ancestors in web gui
 
-	// OU
-
 	public DN(List<String> cn, List<String> ou, List<String> dc, String o) {
 		this.cn = cn == null ? new ArrayList<String>() : cn;
 		this.ou = ou == null ? new ArrayList<String>() : ou;
@@ -175,19 +173,23 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 		return DN.createDNFromString(tmpStr);
 	}
 
-	public DN getParentDN() {
+	public DN getParentDN(int rootLevel) {
 		List<String> theCN = this.cn;
 		List<String> theOU = this.ou;
 		List<String> theDC = this.dc;
 
 		if (theCN != null && theCN.size() > 0) {
 			theCN = theCN.size() < 2 ? new ArrayList<String>() : theCN.subList(1, theCN.size());
-		} else if (theOU != null && theOU.size() > -(ADMINISTRATION + 1)) {
+		} else if (theOU != null && theOU.size() > rootLevel) {
 			theOU = getOuWithoutUnit();
 		} else {
 			return null;
 		}
 		return new DN(theCN, theOU, theDC, this.o);
+	}
+
+	public DN getParentDN() {
+		return getParentDN(0);
 	}
 
 	/**
@@ -202,9 +204,7 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 	 * @param generations
 	 * @return returns the specified number of generations.
 	 * 
-	 *         Use 0 for all generations. A positive number to get an exact
-	 *         count of generations. A negative number to get all generations
-	 *         except for the last n generations.
+	 *         Use 0 for all generations. A positive number to get an exact count of generations. A negative number to get all generations except for the last n generations.
 	 */
 	public List<DN> getAncestors(int fromGeneration, int toGeneration) {
 		List<DN> ancestors = new ArrayList<DN>();
@@ -232,9 +232,7 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 	 * @param generations
 	 * @return returns the specified number of generations.
 	 * 
-	 *         Use 0 for all generations. A positive number to get an exact
-	 *         count of generations. A negative number to get all generations
-	 *         except for the last n generations.
+	 *         Use 0 for all generations. A positive number to get an exact count of generations. A negative number to get all generations except for the last n generations.
 	 */
 	public DN getAncestor(int generation) {
 		if (generation == 0) {
@@ -242,7 +240,7 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 		}
 		List<DN> ancestors = new ArrayList<DN>();
 		DN parent = this.getParentDN();
-		
+
 		while (parent != null) {
 			ancestors.add(parent);
 			parent = parent.getParentDN();
@@ -255,10 +253,8 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 	}
 
 	/**
-	 * The method is mainly used when creating links to units. This can cause
-	 * problems if the link contains special characters like ������. The method
-	 * takes care of encoding incompatibility problems between IBM WAS and
-	 * Apache Tomcat.
+	 * The method is mainly used when creating links to units. This can cause problems if the link contains special characters like ������. The method takes care of encoding incompatibility problems
+	 * between IBM WAS and Apache Tomcat.
 	 * 
 	 * @return Url encoded value of the DN.
 	 */
@@ -273,27 +269,19 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 				return URLEncoder.encode(this.toString(), "iso-8859-1");
 			}
 		} catch (UnsupportedEncodingException e) {
-			System.out
-					.println("Exception in method="
-							+ this.getClass().getName()
-							+ "::getUrlEncoded(), Exception="
-							+ e.toString()
-							+ ", this could be caused due to the fact that the environment variable env.kivtools.server.istomcat is not set.");
+			System.out.println("Exception in method=" + this.getClass().getName() + "::getUrlEncoded(), Exception=" + e.toString()
+					+ ", this could be caused due to the fact that the environment variable env.kivtools.server.istomcat is not set.");
 			return this.toString().replace("=", "%3D");
 		} catch (Exception e) {
-			System.out
-					.println("Exception in method="
-							+ this.getClass().getName()
-							+ "::getUrlEncoded(), Exception="
-							+ e.toString()
-							+ ", this could be caused due to the fact that the environment variable env.kivtools.server.istomcat is not set.");
+			System.out.println("Exception in method=" + this.getClass().getName() + "::getUrlEncoded(), Exception=" + e.toString()
+					+ ", this could be caused due to the fact that the environment variable env.kivtools.server.istomcat is not set.");
 			return this.toString().replace("=", "%3D");
 		}
 	}
 
 	public String toString() {
 		StringBuilder str = new StringBuilder();
-		
+
 		for (String aCN : this.cn) {
 			str.append("cn=");
 			str.append(aCN);
@@ -416,9 +404,5 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 		} else if (!ou.equals(other.ou))
 			return false;
 		return true;
-	}
-
-	public static void setAdministrationLevel(int administration) {
-		ADMINISTRATION = administration;
 	}
 }
