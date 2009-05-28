@@ -81,7 +81,6 @@
 			value="classpath:se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties" />
 	</bean>
 
-	<!--  Code table service. TODO: schedule -->
 	<bean id="Search.CodeTablesService"
 		class="se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl"
 		init-method="init" depends-on="Search.LdapConnectionPool">
@@ -95,25 +94,9 @@
 		<property name="concurrent" value="false" />
 	</bean>
 
-	<bean id="jobDetailUnitDetailsPusher"
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="Push.Eniro" />
-		<property name="targetMethod" value="doService" />
-		<property name="concurrent" value="false" />
-	</bean>
-
 	<bean id="simpleTriggerCodeTableCacheUpdate" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
 		<!-- see the example of method invoking job above -->
 		<property name="jobDetail" ref="jobDetailCodeTableCacheUpdate" />
-		<!-- 10 seconds -->
-		<property name="startDelay" value="10000" />
-		<!-- repeat every 24 hours -->
-		<property name="repeatInterval" value="86400000" />
-	</bean>
-
-	<bean id="simpleTriggerUnitDetailsPusher" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
-		<!-- see the example of method invoking job above -->
-		<property name="jobDetail" ref="jobDetailUnitDetailsPusher" />
 		<!-- 10 seconds -->
 		<property name="startDelay" value="10000" />
 		<!-- repeat every 24 hours -->
@@ -125,26 +108,7 @@
 		<property name="triggers">
 			<list>
 				<ref bean="simpleTriggerCodeTableCacheUpdate" />
-				<ref bean="simpleTriggerUnitDetailsPusher" />
 			</list>
 		</property>
 	</bean>
-
-	<bean id="jsch" class="com.jcraft.jsch.JSch" />
-
-	<bean id="Push.Eniro"
-		class="se.vgregion.kivtools.search.svc.push.impl.eniro.InformationPusherEniro">
-		<property name="jsch" ref="jsch" />
-		<property name="ftpHost" value="webbservern.se" />
-		<property name="ftpPort" value="10022" />
-		<property name="ftpDestinationFileName" value="test3.xml" />
-		<property name="ftpUser" value="kapten" />
-		<property name="ftpPassword" value="mrcaptain" />
-		<property name="unitRepository" ref="Search.UnitRepository" />
-		<property name="destinationFolder" value="/tmp/" />
-		<property name="lastSynchedModifyDateFile" value="/tmp/lsmdf.txt" />
-		<property name="lastExistingUnitsFile" value="/tmp/leuf.txt" />
-		<property name="codeTablesService" ref="Search.CodeTablesService" />
-	</bean>
-
 </beans>
