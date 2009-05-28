@@ -84,25 +84,46 @@
 				<version>1.1</version>
 				<executions>
 					<execution>
+					<id>1</id>
 						<goals>
 							<goal>generate</goal>
 						</goals>
+						<configuration>
+							<generatePackage>se.vgregion.kivtools.search.intsvc.ws.domain.sahlgrenska</generatePackage>
+							<generateDirectory>src/main/java</generateDirectory>
+							<schemaDirectory>${basedir}/../../../Search/composites/schema/src/main/resources/wsdl/
+							</schemaDirectory>
+							<includeSchemas>
+								<includeSchema>unit_details_ws.xsd</includeSchema>
+							</includeSchemas>
+							<includeBindings>
+								<includeBinding>*.xjb</includeBinding>
+							</includeBindings>
+							<strict>true</strict>
+							<verbose>true</verbose>
+						</configuration>
+					</execution>
+					<execution>
+					<id>2</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<generatePackage>se.vgregion.kivtools.search.intsvc.ws.domain.eniro</generatePackage>
+							<generateDirectory>src/main/java</generateDirectory>
+							<schemaDirectory>${basedir}/../../../Search/composites/schema/src/main/resources/wsdl/
+							</schemaDirectory>
+							<includeSchemas>
+								<includeSchema>unit_details_eniro.xsd</includeSchema>
+							</includeSchemas>
+							<includeBindings>
+								<includeBinding>*.xjb</includeBinding>
+							</includeBindings>
+							<strict>true</strict>
+							<verbose>true</verbose>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<generatePackage>se.vgregion.kivtools.search.intsvc.ws.domain</generatePackage>
-					<generateDirectory>src/main/java</generateDirectory>
-					<schemaDirectory>${basedir}/../../../Search/composites/schema/src/main/resources/wsdl/
-					</schemaDirectory>
-					<includeSchemas>
-						<includeSchema>unit_details_ws.xsd</includeSchema>
-					</includeSchemas>
-					<includeBindings>
-						<includeBinding>*.xjb</includeBinding>
-					</includeBindings>
-					<strict>true</strict>
-					<verbose>true</verbose>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
