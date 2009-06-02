@@ -73,7 +73,7 @@
 		<h:outputText rendered="#{unit.hsaIdentity != null}">
 			<div id="print-element">
 				<h:outputText rendered="#{settings.showLinkToIM==true and settings.linkToIMOnServer==facesContext.externalContext.request.serverName}">
-					<a href="#{settings.linkToIMBase}#{unit.dnBase64}" class="url">Editera i IM</a>&#160; 
+					<a href="#{settings.linkToIMBase}#{unit.dnBase64}" class="url">#{msg.editInIM}</a>&#160; 
 				</h:outputText>
 			
 				<h:outputText rendered="#{settings.useAccessibilityDatabaseIntegration==true and unit.accessibilityDatabaseId != null}"><a href="getlink?_linkflowkey=${flowExecutionKey}&amp;_linkeventid=viewAccessibilityInfoAction&amp;unitId=#{unit.hsaIdentity}"><img src="resources/images/disabled.png" alt="Tillgänglighetsinformation"/></a>&#160;</h:outputText>
@@ -99,65 +99,65 @@
 					<table class="borderless">
 						<tr>
 							<th class="leftcol">
-								<span class="grey-header">Öppettider</span>
+								<span class="grey-header">#{msg.openingHours}</span>
 							</th>
 							<td class="rightfourcol">
 								<div jsfc="ui:repeat" value="#{unit.hsaSurgeryHours}" var="time">#{time.displayValue}</div>
 			                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaSurgeryHours) lt 1}">
-									<span class="warning">hsaSurgeryHours saknas</span>
+									<span class="warning">hsaSurgeryHours #{msg.missing}</span>
 								</h:outputText>
 							</td>
 							<th class="leftcol">
-								<span class="grey-header">Drop-in</span>
+								<span class="grey-header">#{msg.dropInHours}</span>
 							</th>
 							<td class="rightfourcol">
 								<div jsfc="ui:repeat" value="#{unit.hsaDropInHours}" var="time">#{time.displayValue}</div>
 			                 	<h:outputText rendered="#{fn:length(unit.hsaDropInHours) lt 1}">
-									Ingen drop in
+									#{msg.noDropIn}
 								</h:outputText>
 							</td>
 						</tr>
              			<tr>
              				<th class="leftcol" id="managementTextHeaderCell">
-				             	<span class="grey-header">Drivs av</span>
+				             	<span class="grey-header">#{msg.management}</span>
 				            </th>
 				            <td class="rightfourcol" headers="managementTextHeaderCell">
 				            	#{unit.hsaManagementText}
 			                 	<h:outputText rendered="#{settings.testingMode==true and !unit.hsaManagementTextIsValid}">
-									<span class="warning">hsaManagementText saknas</span>
+									<span class="warning">hsaManagementText #{msg.missing}</span>
 								</h:outputText>
 				            </td>
 							<th class="leftcol" id="visitingRuleAgeHeaderCell">
-								<span class="grey-header">Tar emot åldersintervall</span>
+								<span class="grey-header">#{msg.visitingRuleAge}</span>
 							</th>
 							<td class="rightfourcol" headers="visitingRuleAgeHeaderCell">
 								#{unit.hsaVisitingRuleAge}
 			                 	<h:outputText rendered="#{settings.testingMode==true and !unit.hsaVisitingRuleAgeIsValid}">
-									<span class="warning">hsaVisitingRuleAge saknas</span>
+									<span class="warning">hsaVisitingRuleAge #{msg.missing}</span>
 								</h:outputText>
 							</td>
 						</tr>
 						<h:outputText rendered="#{unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true}">
 	             			<tr>
 	             				<th class="leftcol" id="tempInfoHeaderCell">
-					             	<span class="grey-header">Tillfällig<br/>information</span>
+					             	<span class="grey-header">#{msg.temporary}<br/>#{msg.information}</span>
 					            </th>
 					            <td headers="tempInfoHeaderCell" colspan="3">
 					            	#{unit.vgrTempInfoBody}
 									<h:outputText rendered="#{unit.vgrRefInfo != ''}">
-					            	<br/>Hänvisning: #{unit.vgrRefInfo}
+					            	<br/>#{msg.referral}: #{unit.vgrRefInfo}
 					            	</h:outputText>
 					            </td>
 							</tr>
 						</h:outputText>
              			<tr>
              				<th class="leftcol" id="visitingRulesHeaderCell">
-				             	<span class="grey-header">Besöksregler</span>
+				             	<span class="grey-header">#{msg.visitingRules}</span>
 				            </th>
 				            <td  class="righttwocol" headers="visitingRulesHeaderCell" colspan="3">
 				            	#{unit.hsaVisitingRules}
 			                 	<h:outputText rendered="#{settings.testingMode==true and !unit.hsaVisitingRulesIsValid}">
-									<span class="warning">hsaVisitingRules saknas</span>
+									<span class="warning">hsaVisitingRules #{msg.missing}</span>
 								</h:outputText>
 				            </td>
 						</tr>
@@ -167,7 +167,7 @@
 						<table class="borderless">
 							<tr>
 								<th class="leftcol">
-									<span class="grey-header">Beskrivning</span>
+									<span class="grey-header">#{msg.description}</span>
 								</th>
 							</tr>
 						</table>			
@@ -201,26 +201,26 @@
 						</div>
 					</div>
 					<div id="unit-listing">
-						<a href="confirmRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnit-flow">Välj/Byt vårdcentral</a>
+						<a href="confirmRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnit-flow">#{msg.pickChooseUnit}</a>
 						<!-- <a href="" onclick="popup('https://extwebseal.vgregion.se/hriv/secure/confirmRegistrationChanges.jsp?hsaidentity=#{unit.hsaIdentity}')">Välj/Byt vårdcentral</a>  -->
 					</div>						
 
 					<div class="unit-details-header">
-						<h2>Kontakta oss</h2>			
+						<h2>#{msg.contactUs}</h2>			
 					</div>
 					
 					<div>
 						<table class="borderless">
 							<tr>
 								<th class="leftcol" id="telNumberHeaderCell">
-									<span class="grey-header">Telefonnr</span>
+									<span class="grey-header">#{msg.telNo}</span>
 								</th>
 								<td class="centerthreecol" headers="telNumberHeaderCell">
 									<div jsfc="ui:repeat" value="#{unit.hsaPublicTelephoneNumber}" var="number" class="tel">
 										<span class="bold">#{number.formattedPhoneNumber}</span>
 									</div>
 				                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaPublicTelephoneNumber) lt 1}">
-										<span class="warning">hsaPublicTelephoneNumber saknas</span>
+										<span class="warning">hsaPublicTelephoneNumber #{msg.missing}</span>
 									</h:outputText>
 								</td>
 								<td class="rightthreecol">
@@ -231,20 +231,20 @@
 							</tr>
 							<tr>
 								<th class="leftcol" id="telTimeHeaderCell">
-									<span class="grey-header">Telefontid</span>
+									<span class="grey-header">#{telTime}</span>
 								</th>
 								<td class="righttwocol" headers="telTimeHeaderCell">
 									<div jsfc="ui:repeat" value="#{unit.hsaTelephoneTime}" var="time">#{time.displayValue}</div>
 				                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaTelephoneTime) lt 1}">
-										<span class="warning">hsaTelephoneTime saknas</span>
+										<span class="warning">hsaTelephoneTime #{msg.missing}</span>
 									</h:outputText>
 								</td>
 							</tr>
 							<tr>
 								<td colspan="2">
-									<a href="#{unit.labeledURI}" class="url">Mottagningens webbplats</a>
+									<a href="#{unit.labeledURI}" class="url">#{websiteOfTheUnit}</a>
 				                 	<h:outputText rendered="#{settings.testingMode==true and !unit.labeledURIIsValid}">
-										<span class="warning">labeledURI saknas eller har ej protokoll korrekt angivet</span>
+										<span class="warning">labeledURI #{msg.missing} #{msg.orIncorrectProtocol}</span>
 									</h:outputText>
 								</td>
 							</tr>
@@ -252,14 +252,14 @@
 					</div>
 					
 					<div class="unit-details-header" id="unit-details-page-break">
-						<h2>Hitta hit</h2>
+						<h2>#{msg.getHere}</h2>
 					</div>
 					
 					<div class="address" id="address-div">
 						<table class="borderless" id="address-table">
 							<tr>
 								<th class="leftcol" id="adressHeaderCell">
-									<span class="grey-header">Adress</span>
+									<span class="grey-header">#{msg.address}</span>
 								</th>
 								<td id="address-borderless-address">
 									<div class="adr">
@@ -274,48 +274,53 @@
 		    	                    	#{additionalInformation}
         			                </div>
 				                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaStreetAddress.street) lt 1}">
-										<span class="warning">hsaStreetAddress saknas eller kunde inte tolkas till fullo</span>
+										<span class="warning">hsaStreetAddress #{msg.missing} #{msg.orNotParsable}</span>
 									</h:outputText>
 								</td>
 					        </tr>
 							<tr>
 								<th class="leftcol">
-									<span class="grey-header">Hitta rätt</span>
+									<span class="grey-header">#{msg.routeDescription}</span>
 								</th>
 								<td class="rightcol">
 									<h:outputText value="#{unit.hsaRouteConcatenated}" />
 				                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaRouteConcatenated) lt 1}">
-										<span class="warning">hsaRoute saknas</span>
+										<span class="warning">hsaRoute #{msg.missing}</span>
 									</h:outputText>
 								</td>
 							</tr>
 							<tr>
 								<th class="leftcol">
-									<span class="grey-header">Koordinater</span>
+									<span class="grey-header">#{msg.coordinates}</span>
 								</th>
 								<td class="rightcol">
 						           	<h:outputText rendered="#{unit.wgs84Lat!=0.0}">
 						     			<div class="geo">
-						     				Latitud: <abbr class="latitude" id="abbr-latitude">
+						     				#{msg.latitude}: <abbr class="latitude" id="abbr-latitude">
 												#{unit.wgs84LatRounded}
 											</abbr><br/> 
-											Longitud: <abbr class="longitude" id="abbr-longitude">
+											#{msg.longitude}: <abbr class="longitude" id="abbr-longitude">
 											 	#{unit.wgs84LongRounded}
 											</abbr>
 						     			</div>
 									</h:outputText>
 				                 	<h:outputText rendered="#{settings.testingMode==true and unit.wgs84Lat==0.0}">
-										<span class="warning">hsaGeographicalCoordinates saknas</span>
+										<span class="warning">hsaGeographicalCoordinates #{msg.missing}</span>
 									</h:outputText>
 								</td>
 							</tr>
 							<tr>
 								<th class="leftcol">
-									<span class="grey-header">Hitta resväg</span>
+									<span class="grey-header">#{msg.findRoute}</span>
 								</th>
 								<td class="rightcol">
 				           		<ui:repeat value="#{settings.findRouteLinksArray}" var="link">
-				           			<a href="#{link.href}?to=#{fn:trim(unit.hsaStreetAddress.street)}" class="url">#{link.name}</a><br/>
+				           			<h:outputText rendered="#{link.toParamName != ''}">
+					           			<a href="#{link.href}?#{link.toParamName}=#{fn:trim(unit.hsaStreetAddress.street)}" class="url">#{link.name}</a><br/>
+									</h:outputText>
+				           			<h:outputText rendered="#{link.toParamName == ''}">
+					           			<a href="#{link.href}" class="url">#{link.name}</a><br/>
+									</h:outputText>								
 								</ui:repeat>
 								</td>
 							</tr>							
@@ -388,9 +393,9 @@
 		</h:outputText>
 
 		<h:outputText rendered="#{unit.hsaIdentity == null}">
-			<h1>Efterfrågad mottagning saknas</h1>
+			<h1>#{msg.unitMissing}</h1>
 			<p>
-				Om du kom hit via en länk är denna inaktuell och bör om möjligt uppdateras.
+				#{msg.unitMissingDescription}
 			</p>
 		</h:outputText>
 		</div>
