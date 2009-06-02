@@ -1,4 +1,4 @@
-#summary Sökkomponenten HsaTools-Search-composite-svc
+#summary Sökkomponenten, dess inställningar, och att skapa en ny sökkomponentimplementation
 #labels Project-HRIV
 
 = Sökkomponenten HsaTools-Search-composite-svc =
@@ -39,7 +39,7 @@ Dessa inställningar finns i ovan nämnda properties-fil:
 || kivtools.hriv.webcomp.googleMapsKey || Sträng || Google Maps-nyckeln som är giltig för den webbplats där HRIV körs. || 
 || kivtools.hriv.webcomp.metersToCloseUnits || Heltal || Antal meter från angiven adress som mottagningen ska anses vara ”närbelägen”. || 
 || kivtools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes || Kommaseparerad lista med giltiga värden för HsaBussinessClassificationCodes. || Enbart mottagningar som har en av de angivna värdena som HsaBussinessClassificationCode visas. Om denna inställning lämnas tom görs ingen filtrering. || 
-|| kivtools.hriv.webcomp.findRouteLinks || url1::länknamn1;url2::länknamn2 || Lista med reselänkar som ska visas upp på detaljvyn under "Hitta resväg". Respektive url får följande tillägg så att mottagningens gatuadress skickas med som en get-parameter: ?to=#{fn:trim(unit.hsaStreetAddress.street)} Är tänkt att göras mer flexibel så att exempelvis parameternamn kan anpassas. || 
+|| kivtools.hriv.webcomp.findRouteLinks || url1::länknamn1::tillParameterNamn;url2::länknamn2::tillParameterNamn || Lista med reselänkar som ska visas upp på detaljvyn under "Hitta resväg". Respektive url får följande tillägg så att mottagningens gatuadress skickas med som en get-parameter: ?tillParameterNamn=#{fn:trim(unit.hsaStreetAddress.street)} Om tillParameterNamn utelämnas kommmer denna även att utelämnas i de länkar som genereras. || 
 || kivtools.hriv.webcomp.styles || Import-satser för stilmallar. Exempel: @import 'resources/styles/grids-min.css'; @import 'resources/styles/main.css' || De stilmallsimporter som ska ske. || 
 || kivtools.hriv.webcomp.scripts || Sökvägar till script-filer || Kommaseparerad lista med sökvägar till script-filer som används förutom standard-filerna (script.js, widget.js etc). Är tänkt att göras om så att en fil pekas ut som hanterar scriptlänkningen. || 
 || kivtools.hriv.webcomp.header || Sökväg till sidhuvud som inkluderas. || Pekar ut en fil som inkluderas som sidhuvud. || 
