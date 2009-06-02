@@ -29,8 +29,7 @@
 	<var name="userMessage" class="se.vgregion.kivtools.search.presentation.forms.UserMessageContainer" scope="flow"/>
 	<var name="units" class="java.util.ArrayList" scope="flow" />
 	<var name="coordinateUnits" class="java.util.ArrayList" scope="flow" />
-	<var name="maxSearchResult" bean="Search.MaxSearchResult"/>
-	<var name="settings" bean="Search.SettingsContainer" />
+	<var name="maxSearchResult" bean="Search.MaxSearchResult"/>	 <var name="settings" bean="Search.SettingsContainer" /> 
 	
 	<input-mapper>
 		<input-attribute name="hsaidentity" />
