@@ -1,7 +1,7 @@
 #summary Ytterligare anpassningar av HRIV
 #labels Project-HRIV
 
-= Ytterligare anpassningar av HRIV
+=Ytterligare anpassningar av HRIV=
 
 Förutom de [http://code.google.com/p/oppna-program/wiki/Sokkomponenten_HsaTools_Search_composite_svc inställningar] som kan göras i konfigurationsfiler går det att skicka med några GET-parametrar som påverkar utseendet av HRIV.
 
