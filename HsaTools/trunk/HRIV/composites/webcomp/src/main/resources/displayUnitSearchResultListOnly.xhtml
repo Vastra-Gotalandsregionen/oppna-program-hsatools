@@ -38,12 +38,12 @@
 				</h:outputText>
 				<h:outputText rendered="#{fn:length(units) gt 0}">
 					<div id="about-searchinformation-container">
-						<strong>#{fn:length(units)}</strong> träffar
+						<strong>#{fn:length(units)}</strong> #{msg.hits}
 					</div>
 				</h:outputText>
 				<h:outputText rendered="#{fn:length(units) >= maxSearchResult}">
 					<div id="error-reporting-container">
-						I resultatlistan nedan visas de #{maxSearchResult} första träffarna.
+						#{msg.firstHits1} #{maxSearchResult} #{msg.firstHits2}.
 					</div>
 				</h:outputText>
 			</div>
@@ -54,12 +54,12 @@
 				<ul id="search-result-container">
 					<h:outputText rendered="#{unitSearchSimpleForm.resultType gt 1}">
 						<div id="print-element">
-							<a href="#" onclick="printElement('map-div');"><img src="resources/images/printer.png" alt=""/> Skriv ut karta</a>
+							<a href="#" onclick="printElement('map-div');"><img src="resources/images/printer.png" alt=""/> #{msg.printMap}</a>
 						</div>
 					
 						<div id="spinner-div" class="spin-div">
 							<div class="spin-div-text">
-								<h:outputText value="Genererar karta..." />
+								<h:outputText value="#{msg.generatingMap}" />
 							</div>
 						</div>
 						<div id="map-div" style="width: 40em;height: 40em;">
@@ -92,7 +92,6 @@
 								// ]]>
 							</script>
 						</div>
-							Visa adress i karta: <input type="text" name="move_map" id="move_map" value="Ort, postnummer eller gata" onclick="this.focus();this.select();" onkeydown="if ((event.which &amp;&amp; event.which == 13) || (event.keyCode &amp;&amp; event.keyCode == 13)) {moveMap(this.value);}"/>
 					</h:outputText>
 	
 					<ui:repeat value="#{units}" var="theUnit" rendered="#{unitSearchSimpleForm.resultType lt 2}">
@@ -114,13 +113,13 @@
 		                        		#{description}<br/>
 		                        	</ui:repeat>
 					               	<h:outputText rendered="#{fn:length(theUnit.concatenatedDescription) lt 1 and settings.testingMode==true}">
-										<span class="warning">Fältet "beskrivning" är tomt!</span>
+										<span class="warning">#{msg.missingDescription}</span>
 			                        </h:outputText>  
 	 	                        </div>
 		                        
 		                        <div class="tel-adr-container">
 		                            <div class="adr-container adr">
-			                            <div class="adr-header">Adress</div>
+			                            <div class="adr-header">#{msg.address}</div>
 			                            <abbr class="type" style="display:none;">parcel</abbr>
 			                            <div class="adr-body">
 				                           	<ui:repeat value="#{theUnit.hsaStreetAddress}" var="address">
@@ -134,7 +133,7 @@
 		                        
 								<div class="uncomplete-unit">
 		                    	 	<h:outputText rendered="#{settings.testingMode==true and !theUnit.contentValidationOk}">
-		                    	 		<img src="resources/images/flag_red.png" alt="Uppgifter om enheten saknas!"/>
+		                    	 		<img src="resources/images/flag_red.png" alt="#{msg.missingInfoOnUnit}"/>
 		                    	 	</h:outputText>
 		                    	</div>
 		                    </div>

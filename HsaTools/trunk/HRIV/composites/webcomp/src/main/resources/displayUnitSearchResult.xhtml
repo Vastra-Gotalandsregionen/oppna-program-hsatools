@@ -62,7 +62,7 @@
 	
 		<div id="search-result-caption">
 			<div id="search-result-caption-text">
-				<h1 class="structural">Sökresultat</h1>
+				<h1 class="structural">#{msg.searchResult}</h1>
 				<h:outputText rendered="#{fn:trim(rootCauseException.message) != ''}">
 					<div id="error-reporting-container">
 						#{rootCauseException.message}
@@ -71,18 +71,18 @@
 				<h:outputText rendered="#{fn:length(units) gt 0}">
 					<div id="about-searchinformation-container">
 						<h2><strong><h:outputText rendered="#{displayCloseUnitsSimpleForm.searchFlag == true}">#{fn:length(coordinateUnits)}</h:outputText>
-						<h:outputText rendered="#{displayCloseUnitsSimpleForm.searchFlag == false}">#{fn:length(units)}</h:outputText></strong> träffar</h2>
+						<h:outputText rendered="#{displayCloseUnitsSimpleForm.searchFlag == false}">#{fn:length(units)}</h:outputText></strong> #{msg.hits}</h2>
 					</div>
 				</h:outputText>
 				<h:outputText rendered="#{fn:length(units) >= maxSearchResult}">
 					<div id="error-reporting-container">
-						I resultatlistan nedan visas de #{maxSearchResult} första träffarna.
+						#{msg.firstHits1} #{maxSearchResult} #{msg.firstHits2}.
 					</div>
 				</h:outputText>
 			</div>
 			<div id="search-result-caption-sort">
 				<h:outputText rendered="#{unitSearchSimpleForm.resultType lt 2 &amp;&amp; fn:length(units) gt 0}">
-					Sortera träffar på <select name="sort" id="sort" onchange="var sortName = this.options[this.selectedIndex].value;document.searchUnitForm.elements['sortOrder'].value=sortName;document.searchUnitForm.elements['submitButton'].click();"><option value="UNIT_NAME">Mottagning</option><option value="CARE_TYPE_NAME">Typ av vård</option></select>
+					#{msg.sortHitsOn} <select name="sort" id="sort" onchange="var sortName = this.options[this.selectedIndex].value;document.searchUnitForm.elements['sortOrder'].value=sortName;document.searchUnitForm.elements['submitButton'].click();"><option value="UNIT_NAME">#{msg.unit}</option><option value="CARE_TYPE_NAME">#[msg.careType}</option></select>
 				</h:outputText>
 			</div>
 
@@ -101,7 +101,7 @@
 		
 							<div id="spinner-div" class="spin-div">
 								<div class="spin-div-text">
-									<h:outputText value="Genererar karta..." />
+									<h:outputText value="#{msg.generatingMap}" />
 								</div>
 							</div>
 							<div id="map-div">
@@ -165,14 +165,14 @@
 							</div>
 							
 							<h:outputText rendered="#{settings.useShowCloseUnits == 'true'}">
-								Visa mottagningar nära adress (inom #{settings.distanceToUnits} m): 
+								#{msg.showUnitsCloseToAddress} #{settings.distanceToUnits} m): 
 								<form jsfc="h:form" id="closeUnitsForm" onsubmit="return closeUnitsFormValidate(document.forms['closeUnitsForm'].elements[0].value);">
 									<input jsfc="h:inputText" value="#{displayCloseUnitsSimpleForm.address}" name="address" size= "20" onclick="this.focus();this.select();" onkeydown="if ((event.which &amp;&amp; event.which == 13) || (event.keyCode &amp;&amp; event.keyCode == 13)) { document.forms['closeUnitsForm'].submit(); }" />
-									<input type="submit" id="submitButton" jsfc="h:commandButton" value="Visa mottagningar" action="doShowCloseUnitsOnMap" />
+									<input type="submit" id="submitButton" jsfc="h:commandButton" value="#{msg.showUnits}" action="doShowCloseUnitsOnMap" />
 								</form>
 								
 								<noscript>
-									<p>Kartvyn kräver JavaScript.</p>
+									<p>#{msg.mapNeedsJavaScript}.</p>
 								</noscript>
 							</h:outputText>
 						</div>						
@@ -204,13 +204,13 @@
 											<h:outputText value="#{fn:substring(theUnit.concatenatedDescription, 0, 400)}..." rendered="#{fn:length(theUnit.concatenatedDescription) gt 400}" />
 											<h:outputText value="#{theUnit.concatenatedDescription}" rendered="#{fn:length(theUnit.concatenatedDescription) lt 401}" />
 							               	<h:outputText rendered="#{fn:length(theUnit.concatenatedDescription) lt 1 and settings.testingMode==true}">
-												<span class="warning">Fältet "beskrivning" är tomt!</span>
+												<span class="warning">#{msg.missingDescription}</span>
 					                        </h:outputText>  
 			 	                        </div>
 				                        
 				                        <div class="tel-adr-container">
 					                        <div class="tel-container">
-					                            <div class="tel-header">Telefon</div>
+					                            <div class="tel-header">#{msg.telephone}</div>
 					                            <div class="tel-body">
 						                            <h:outputText rendered="#{fn:trim(theUnit.hsaPublicTelephoneNumber[0])!=''}">
 														<ui:repeat value="#{theUnit.hsaPublicTelephoneNumber}" var="phone">
@@ -221,7 +221,7 @@
 				                            </div>
 					                        
 				                            <div class="adr-container">
-					                            <div class="adr-header">Adress</div>
+					                            <div class="adr-header">#{msg.address}</div>
 					                            <div class="adr-body">
 						                           	<ui:repeat value="#{theUnit.hsaStreetAddress}" var="address">
 							                			<div class="street-address">#{address.street}</div>
@@ -237,7 +237,7 @@
 				                        
 										<div class="uncomplete-unit">
 				                    	 	<h:outputText rendered="#{settings.testingMode==true and !theUnit.contentValidationOk}">
-				                    	 		<img src="resources/images/flag_red.png" alt="Uppgifter om enheten saknas!"/>
+				                    	 		<img src="resources/images/flag_red.png" alt="#{msg.missingInfoOnUnit}"/>
 				                    	 	</h:outputText>
 				                    	</div>
 				                    </div>

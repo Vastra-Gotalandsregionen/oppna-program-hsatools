@@ -71,6 +71,10 @@
 		<link rel="Shortcut Icon" type="image/ico" href="resources/images/favicon.ico" />
 	</head>
 	<body onunload="GUnload()" class="yui-skin-sam">
+	
+	<!-- Could not specify dynamic attribute where resource bundle was specified in settings file -->
+	<ui:include src="#{settings.resourceBundleInclude}" />
+	
 		<div id="wrapper">
 			<div id="custom-doc">
 				<h:outputText rendered="#{param.noHeader != '1'}">
@@ -87,24 +91,24 @@
 				        	<div id="forms-container">
 								<form name="searchUnitForm" id="searchUnitForm" class="search-form" method="get" action="displayUnitSearchResult.jsf">
 										<div id="firstText">
-											<label for="unitName">Namn på mottagning</label> 
+											<label for="unitName">#{msg.unitName}</label> 
 											<input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="#{unitSearchSimpleForm.unitName}" style="width: 15em;"/>
 											<!--  Uncomment when start using YUI --> 
 											<div id="autocomplete_choices" class="autocomplete"></div>
 											<div id="acIndicator" style="display: none">
-											  <img src="resources/images/spinner.gif" alt="Arbetar..." />
+											  <img src="resources/images/spinner.gif" alt="#{msg.inProgress}" />
 											</div> 
 										</div>
 									
 										<div class="text" id="healthcare-selection">
-											<label for="healthcareType">Vilken typ av vård? <a href="caretypes.jsp?caretypes=1"><img src="resources/images/help.gif" alt="Hjälp"/></a></label> 
+											<label for="healthcareType">#{msg.typeOfCare} <a href="caretypes.jsp?caretypes=1"><img src="resources/images/help.gif" alt="#{msg.help}"/></a></label> 
 											<h:selectOneMenu id="healthcareType" name="healthcareType" class="search-input-field" value="#{unitSearchSimpleForm.healthcareType}">
 												<f:selectItems value="#{unitSearchSimpleForm.healthcareTypeItems}" />
 											</h:selectOneMenu>
 										</div>
 						
 										<div class="text">
-											<label for="municipality">Var vill du hitta vård?</label>
+											<label for="municipality">#{msg.whereCare}</label>
 											<h:selectOneMenu id="municipality" name="municipality" class="search-input-field" value="#{unitSearchSimpleForm.municipality}">
 												<f:selectItems value="#{unitSearchSimpleForm.municipalityItems}" />
 											</h:selectOneMenu>
@@ -120,7 +124,7 @@
 											<input type="hidden" name="noHeader" value="#{param.noHeader}" />
 											<input id="sortOrder" name="sortOrder" type="hidden" jsfc="h:inputHidden" value="#{unitSearchSimpleForm.sortOrder}" />
 											<input id="_flowId" name="_flowId" type="hidden" value="HRIV.Search.searchunit-flow" />
-											&#160;&#160;<input type="submit" id="submitButton" value="Hitta" />
+											&#160;&#160;<input type="submit" id="submitButton" value="#{msg.find}" />
 										</div>
 								</form>
 							</div>

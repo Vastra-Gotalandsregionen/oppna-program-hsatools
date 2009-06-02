@@ -26,45 +26,45 @@
 	<ui:composition	template="/template.xhtml">
 
 		<ui:define name="MetaDataContainer">
-			<title>Tillgänglighetsinformation - Hitta rätt i vården</title>
+			<title>#{msg.accessibilityInfo} - #{msg.applicationName}</title>
 			<meta name="resource-type" content="organisation" />
 		</ui:define>
 	
 	
 		<ui:define name="MainContainer">
 			<div class="yui-u search-result">
-				<h1>Tillgänglighetsinformation för #{unit.name}</h1>
+				<h1>#{msg.accessibilityInfo} #{msg.for} #{unit.name}</h1>
 
 				<div class="FloatBox">
-					<a href="getlink?_flowId=HRIV.Search.searchunit-flow&amp;hsaidentity=#{unit.hsaIdentity}"><img src="resources/images/control_play_blue.png" alt=""/> Tillbaka till enhetsdetaljer</a><br/><br/>
+					<a href="getlink?_flowId=HRIV.Search.searchunit-flow&amp;hsaidentity=#{unit.hsaIdentity}"><img src="resources/images/control_play_blue.png" alt=""/> #{msg.backToUnitDetails}</a><br/><br/>
 					<form id="filterAccessibilityInfoForm" jsfc="h:form" class="filterAccessibilityInfoForm">
 						<table class="borderless">
 							<tr>
 								<td>
 									<div class="FloatLeft TDBSearch">
-										<img src="resources/images/icoHear.gif" border="0" /><input id="hear" type="checkbox" jsfc="h:selectBooleanCheckbox" name="hear" value="#{accessibilityDatabaseFilterForm.hear}" /><label for="hear">Svårt att höra.</label>
+										<img src="resources/images/icoHear.gif" border="0" alt="#{msg.hardToHear}"/><input id="hear" type="checkbox" jsfc="h:selectBooleanCheckbox" name="hear" value="#{accessibilityDatabaseFilterForm.hear}" /><label for="hear">#{msg.hardToHear}.</label>
 									</div>
 									<div class="FloatLeft TDBSearch">
-										<img src="resources/images/icoSee.gif" border="0" /><input id="see" type="checkbox" jsfc="h:selectBooleanCheckbox" name="see" value="#{accessibilityDatabaseFilterForm.see}" /><label for="see">Svårt att se.</label>
+										<img src="resources/images/icoSee.gif" border="0" alt="#{msg.hardToSee}"/><input id="see" type="checkbox" jsfc="h:selectBooleanCheckbox" name="see" value="#{accessibilityDatabaseFilterForm.see}" /><label for="see">#{msg.hardToSee}.</label>
 									</div>
 									<div class="FloatLeft TDBSearch">
-										<img src="resources/images/icoMove.gif" border="0" /><input id="move" type="checkbox" jsfc="h:selectBooleanCheckbox" name="move" value="#{accessibilityDatabaseFilterForm.move}" /><label for="move">Svårt att röra sig.</label>
+										<img src="resources/images/icoMove.gif" border="0" alt="#{msg.hardToMove}"/><input id="move" type="checkbox" jsfc="h:selectBooleanCheckbox" name="move" value="#{accessibilityDatabaseFilterForm.move}" /><label for="move">#{msg.hardToMove}.</label>
 									</div>
 								</td>
 								<td>
 									<div class="FloatLeft TDBSearch">
-										<img src="resources/images/icoSubstances.gif" border="0" /><input id="substances" type="checkbox" jsfc="h:selectBooleanCheckbox" name="substances" value="#{accessibilityDatabaseFilterForm.substances}" /><label for="substances">Svårt att tåla vissa ämnen.</label>
+										<img src="resources/images/icoSubstances.gif" border="0" alt="#{msg.hardToDealWithSomeSubstances}"/><input id="substances" type="checkbox" jsfc="h:selectBooleanCheckbox" name="substances" value="#{accessibilityDatabaseFilterForm.substances}" /><label for="substances">#{msg.hardToDealWithSomeSubstances}.</label>
 									</div>
 									<div class="FloatLeft TDBSearch">
-										<img src="resources/images/icoInformation.gif" border="0" /><input id="info" type="checkbox" jsfc="h:selectBooleanCheckbox" name="info" value="#{accessibilityDatabaseFilterForm.info}" /><label for="info">Svårt att tolka och bearbeta information.</label>
+										<img src="resources/images/icoInformation.gif" border="0" alt="#{msg.hardToProcessInfo}"/><input id="info" type="checkbox" jsfc="h:selectBooleanCheckbox" name="info" value="#{accessibilityDatabaseFilterForm.info}" /><label for="info">#{msg.hardToProcessInfo}.</label>
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td colspan="2">
 									<div id="list-type-instructions">
-										"Uppmärksamma" informerar om det som eventuellt kan vara en svårighet på besöksmålet.<br/>
-										"Tillgängligt" informerar om vad som är en god tillgänglighet på besöksmålet.
+										#{msg.accessibilityInstructionNotice}.<br/>
+										#{msg.accessibilityInstructionAccessible}.
 									</div>
 									<div class="borderless-container">									
 										<h:selectOneRadio id="resultType" name="listType" value="#{accessibilityDatabaseFilterForm.listType}">
@@ -75,7 +75,7 @@
 							</tr>
 						</table>
 						
-						<input type="submit" id="submitButton" jsfc="h:commandButton" value="Visa vald information" action="doFilter" />
+						<input type="submit" id="submitButton" jsfc="h:commandButton" value="#{msg.showChosenInfo}" action="doFilter" />
 					</form>
 				</div>
 				
@@ -157,7 +157,7 @@
 								drawAccInfoToggleButton();
 							// ]]>
 							</script>
-							<a href="#top" class="url">Gå högst upp</a>
+							<a href="#top" class="url">#{msg.toTop}</a>
 						</div>
 					</h:outputText>
 				</div>
@@ -169,7 +169,7 @@
 				</script>
 
 				<h:outputText rendered="#{accessibilityDatabaseFilterForm.submitted == true and unit.accessibilityInformation == null}">
-					<p>Ingen tillgänglighetsinformation finns tillgänglig.</p>
+					<p>#{msg.noAccessibilityInfoAvailable}.</p>
 				</h:outputText>
 			</div>
 		</ui:define>

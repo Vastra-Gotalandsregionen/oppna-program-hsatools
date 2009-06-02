@@ -28,10 +28,10 @@
 		</ui:define>
 		<ui:define name="MainContainer">
 			<div class="yui-u search-result">
-				<h1>Felmeddelande</h1>
+				<h1>#{msg.errorMessage}</h1>
 				<h2 id="message-container">#{rootCauseException.message}</h2>
 	
-				<span class="informal">Error message for debugging purpose: #{stateException.message}</span>
+				<span class="informal">#{msg.errorMessageForDebuggingPurpose}: #{stateException.message}</span>
 			</div>
 		</ui:define>
 	</ui:composition>
