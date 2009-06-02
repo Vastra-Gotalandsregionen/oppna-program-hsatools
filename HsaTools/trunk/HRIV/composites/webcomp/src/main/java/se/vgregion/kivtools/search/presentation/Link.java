@@ -29,11 +29,21 @@ public class Link implements Serializable {
 	private static final long serialVersionUID = 1252630862103552549L;
 	private String href;
 	private String name;
+	private String toParamName;
 
-	public Link(String href, String name) {
+	public String getToParamName() {
+		return toParamName;
+	}
+
+	public void setToParamName(String toParamName) {
+		this.toParamName = toParamName;
+	}
+
+	public Link(String href, String name, String toParamName) {
 		super();
 		this.href = href;
 		this.name = name;
+		this.toParamName = toParamName;
 	}
 
 	public String getHref() {

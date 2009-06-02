@@ -30,6 +30,7 @@ import java.util.List;
  */
 public class SettingsBean implements Serializable {
 	private static final long serialVersionUID = 246274450053259084L;
+	private String resourceBundleInclude;
 	private boolean testingMode = false;
 	private boolean useAccessibilityDatabaseIntegration = false;
 	private boolean fallbackOnAddressForMap;
@@ -318,7 +319,7 @@ public class SettingsBean implements Serializable {
 		String[] routeLinks = findRouteLinks.split(";");
 		for (String routeLink : routeLinks) {
 			String[] routeLinkComponents = routeLink.split("::");
-			Link l = new Link(routeLinkComponents[0], routeLinkComponents[1]);
+			Link l = new Link(routeLinkComponents[0], routeLinkComponents[1], (routeLinkComponents.length > 2 ? routeLinkComponents[2] : ""));
 			addRouteLink(l);
 		}
 	}
@@ -414,5 +415,12 @@ public class SettingsBean implements Serializable {
 
 	public void setGeoRegion(String geoRegion) {
 		this.geoRegion = geoRegion;
+	}
+	public String getResourceBundleInclude() {
+		return resourceBundleInclude;
+	}
+
+	public void setResourceBundleInclude(String resourceBundleInclude) {
+		this.resourceBundleInclude = resourceBundleInclude;
 	}
 }
