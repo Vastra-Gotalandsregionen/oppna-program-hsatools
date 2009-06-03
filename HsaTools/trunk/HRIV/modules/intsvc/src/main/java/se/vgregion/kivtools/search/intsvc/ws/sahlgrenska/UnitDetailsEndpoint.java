@@ -6,6 +6,7 @@ import org.springframework.ws.server.endpoint.AbstractMarshallingPayloadEndpoint
 
 import se.vgregion.kivtools.search.intsvc.ws.domain.sahlgrenska.Organization;
 import se.vgregion.kivtools.search.intsvc.ws.domain.sahlgrenska.UnitRequest;
+import se.vgregion.kivtools.search.intsvc.ws.domain.sahlgrenska.UnitResponse;
 
 public class UnitDetailsEndpoint extends AbstractMarshallingPayloadEndpoint {
 
@@ -23,7 +24,9 @@ public class UnitDetailsEndpoint extends AbstractMarshallingPayloadEndpoint {
 	protected Object invokeInternal(Object request) throws Exception {
 		UnitRequest unitRequest = (UnitRequest) request;
 		Organization organization = unitDetailsService.getUnitDetails(unitRequest.getHsaIdentity());
-		return organization;
+		UnitResponse response = new UnitResponse();
+		response.setOrganization(organization);
+		return response;
 	}
 
 }

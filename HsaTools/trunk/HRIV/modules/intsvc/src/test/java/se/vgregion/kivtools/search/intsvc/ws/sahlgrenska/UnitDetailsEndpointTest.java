@@ -10,6 +10,7 @@ import se.vgregion.kivtools.search.intsvc.ws.domain.sahlgrenska.ObjectFactory;
 import se.vgregion.kivtools.search.intsvc.ws.domain.sahlgrenska.Organization;
 import se.vgregion.kivtools.search.intsvc.ws.domain.sahlgrenska.Unit;
 import se.vgregion.kivtools.search.intsvc.ws.domain.sahlgrenska.UnitRequest;
+import se.vgregion.kivtools.search.intsvc.ws.domain.sahlgrenska.UnitResponse;
 import se.vgregion.kivtools.search.intsvc.ws.sahlgrenska.UnitDetailsEndpoint;
 import se.vgregion.kivtools.search.intsvc.ws.sahlgrenska.UnitDetailsService;
 import se.vgregion.kivtools.search.intsvc.ws.sahlgrenska.UnitDetailsServiceImpl;
@@ -22,8 +23,8 @@ public class UnitDetailsEndpointTest {
 		// Create a UnitRequest object 
 		UnitRequest unitRequest = new UnitRequest();
 		unitRequest.setHsaIdentity("hsaId1");
-		Organization organization = (Organization) unitDetailsEndpoint.invokeInternal(unitRequest);
-		Assert.assertEquals("hsaId1", organization.getUnit().get(0).getId());
+		UnitResponse unitResponse = (UnitResponse) unitDetailsEndpoint.invokeInternal(unitRequest);
+		Assert.assertEquals("hsaId1", unitResponse.getOrganization().getUnit().get(0).getId());
 	}
 
 	// Setup a UnitDetailsEndpoint object
