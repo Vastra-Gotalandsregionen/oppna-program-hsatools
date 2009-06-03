@@ -12,6 +12,13 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    <xs:element name="UnitResponse">
+        <xs:complexType>
+		    <xs:sequence>
+		        <xs:element ref="hr:Organization"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 	<xs:element name="Organization">
 		<xs:annotation>
 			<xs:documentation>The organization is the top node
