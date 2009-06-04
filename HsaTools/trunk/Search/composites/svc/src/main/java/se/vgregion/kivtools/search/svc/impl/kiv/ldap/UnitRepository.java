@@ -401,6 +401,12 @@ public class UnitRepository {
 	 */
 	private void assignCodeTableValuesToUnit(Unit u) {
 		String hsaManagementText = codeTablesService.getValueFromCode(CodeTableName.HSA_MANAGEMENT_CODE, u.getHsaManagementCode());
+		List<String> businessText = new ArrayList<String>();
+		for (String businessCode : u.getHsaBusinessClassificationCode()) {
+			String hsaBusinessClassificationText = codeTablesService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, businessCode);
+			businessText.add(hsaBusinessClassificationText);
+		}
+		u.setHsaBusinessClassificationText(businessText);
 		u.setHsaManagementText(hsaManagementText);
 		String hsaHsaAdministrationFormText = codeTablesService.getValueFromCode(CodeTableName.HSA_ADMINISTRATION_FORM, u.getHsaAdministrationForm());
 		u.setHsaAdministrationFormText(hsaHsaAdministrationFormText);
