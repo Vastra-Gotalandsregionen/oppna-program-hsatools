@@ -24,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -75,6 +76,7 @@ public class Unit implements Serializable, Comparable<Unit> {
 	private String hsaIdentity; // HSA identitet
 	private List<HealthcareType> healthcareTypes;
 	private List<String> hsaBusinessClassificationCode;
+	private List<String> hsaBusinessClassificationText;
 	private String hsaUnitPrescriptionCode; // Arbetsplatskod
 	private List<String> vgrAnsvarsnummer; // Ansvarsnr
 	private String hsaMunicipalityName; // Kommunnamn
@@ -113,7 +115,7 @@ public class Unit implements Serializable, Comparable<Unit> {
 	private List<WeekdayTime> hsaSurgeryHours;
 	private List<WeekdayTime> hsaDropInHours;
 	private String vgrOrganizationalRole;
-	private String hsaManagementText;
+	private String hsaManagementText; // Detta skall vara busnessClass i ldap
 	private String hsaVisitingRules;
 	private String hsaVisitingRuleAge;
 
@@ -1152,12 +1154,27 @@ public class Unit implements Serializable, Comparable<Unit> {
 		return hsaBusinessClassificationCode;
 	}
 
-	public List<String> getBusinessClassificationCode() {
-		return hsaBusinessClassificationCode;
-	}
-
 	public void setHsaBusinessClassificationCode(List<String> hsaBusinessClassificationCode) {
 		this.hsaBusinessClassificationCode = hsaBusinessClassificationCode;
+	}
+	
+	public List<String> getHsaBusinessClassificationText() {
+		return hsaBusinessClassificationText;
+	}
+	
+	public String getHsaBusinessClassificationTextFormatted(){
+		StringBuilder sb = new StringBuilder();
+		for(int i=0;i < hsaBusinessClassificationText.size(); i++){
+			sb.append(hsaBusinessClassificationText.get(i));
+			if (i < hsaBusinessClassificationText.size() - 1) {
+				sb.append(", ");
+			}
+		}
+		return sb.toString();
+	}
+
+	public void setHsaBusinessClassificationText(List<String> hsaBusinessClassificationText) {
+		this.hsaBusinessClassificationText = hsaBusinessClassificationText;
 	}
 
 	public void setMvkCaseTypes(List<String> caseTypes) {

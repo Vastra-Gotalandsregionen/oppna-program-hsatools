@@ -95,6 +95,10 @@ public class UnitFactory {
         // description
         unit.setDescription(LdapORMHelper.getMultipleValues(unitEntry
                 .getAttribute("description")));
+       
+        // internal description
+        unit.setInternalDescription(LdapORMHelper.getMultipleValues(unitEntry
+                .getAttribute("vgrInternalDescription")));
 
         // mail
         unit.setMail(LdapORMHelper.getSingleValue(unitEntry
