@@ -27,15 +27,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 
-import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
-import se.vgregion.kivtools.search.svc.domain.values.DN;
-import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
-import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
-import se.vgregion.kivtools.search.intsvc.ws.eniro.InformationPusher;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Address;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Description;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.EAliasType;
@@ -46,11 +37,17 @@ import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.UnitType.BusinessClass
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.UnitType.Locality;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.UnitType.Management;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.UnitType.VisitingConditions;
+import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
+import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
+import se.vgregion.kivtools.search.svc.domain.values.DN;
+import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
+import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
+import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
+import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 
 import com.domainlanguage.time.TimePoint;
-import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
 
 public class InformationPusherEniro implements InformationPusher {
 
@@ -62,16 +59,16 @@ public class InformationPusherEniro implements InformationPusher {
 	private String organizationName = "VGR";
 	private String organizationId = "vgr";
 	private File destinationFolder;
-	private String ftpUser;
-	private String ftpHost;
-	private String ftpPassword;
-	private String ftpDestinationFileName;
-	private JSch jsch;
 	private Map<String, DN> lastExistingUnits;
 	private File lastExistingUnitsFile;
 	private List<Unit> units;
-	private int ftpPort;
+	private FtpClient ftpClient;
 	private CodeTablesService codeTablesService;
+
+	@Required
+	public void setFtpClient(FtpClient ftpClient) {
+		this.ftpClient = ftpClient;
+	}
 
 	@Required
 	public void setCodeTablesService(CodeTablesService codeTablesService) {
@@ -80,34 +77,6 @@ public class InformationPusherEniro implements InformationPusher {
 
 	public void setLastExistingUnitsFile(File lastExistingUnitsFile) {
 		this.lastExistingUnitsFile = lastExistingUnitsFile;
-	}
-
-	public void setJsch(JSch jsch) {
-		this.jsch = jsch;
-	}
-
-	public void setFtpDestinationFileName(String ftpDestinationFileName) {
-		this.ftpDestinationFileName = ftpDestinationFileName;
-	}
-
-	@Required
-	public void setFtpHost(String ftpHost) {
-		this.ftpHost = ftpHost;
-	}
-
-	@Required
-	public void setFtpPort(int ftpPort) {
-		this.ftpPort = ftpPort;
-	}
-
-	@Required
-	public void setFtpUser(String ftpUser) {
-		this.ftpUser = ftpUser;
-	}
-
-	@Required
-	public void setFtpPassword(String ftpPassword) {
-		this.ftpPassword = ftpPassword;
 	}
 
 	@Required
@@ -310,7 +279,14 @@ public class InformationPusherEniro implements InformationPusher {
 			organization.setCountry(organizationCountry);
 			File generatedUnitDetailsXmlFile = generateUnitDetailsXmlFile(organization);
 			if (organization.getUnit().size() > 0) {
-				sendXmlFile(generatedUnitDetailsXmlFile);
+				if (ftpClient.sendFile(generatedUnitDetailsXmlFile)){
+					// Save last synch date to file after successful commit of xml file to ftp
+					saveLastSynchedModifyDate();
+					saveLastExistingUnitList();
+				} else {
+					// Commit to ftp was unsuccessful. Reset the lastSynchedModifyDate
+					lastSynchedModifyDate = null;
+				}
 			} 
 		} catch (Exception e) {
 			logger.error("Error in doService", e);
@@ -485,7 +461,8 @@ public class InformationPusherEniro implements InformationPusher {
 		}
 		return inputString;
 	}
-
+	
+	/*
 	private void sendXmlFile(File organizationXmlFile) {
 		try {
 			Session session = jsch.getSession(ftpUser, ftpHost, ftpPort);
@@ -506,7 +483,7 @@ public class InformationPusherEniro implements InformationPusher {
 			lastSynchedModifyDate = null;
 			logger.error("Error in sendXmlFile", e);
 		}
-	}
+	}*/
 
 	private Unit getParentUnit(Unit unit) {
 		DN dn = unit.getDn();
