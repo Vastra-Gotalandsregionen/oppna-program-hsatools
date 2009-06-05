@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Organization;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.Address;
@@ -29,9 +30,6 @@ import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.svc.domain.values.ZipCode;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
-import se.vgregion.kivtools.search.intsvc.ws.eniro.InformationPusherEniro;
-import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.AddressType;
-import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Organization;
 
 import com.domainlanguage.time.TimePoint;
 import com.jcraft.jsch.ChannelSftp;
@@ -52,22 +50,26 @@ public class UnitInformationPusherTest {
 	public void setUp() throws Exception {
 		informationPusher = new InformationPusherEniro();
 		UnitRepository unitRepository = createMockUnitRepositoryFull(getDefaultTestUnits());
-		JSch jschMock = createEasymockObjects();
+		//JSch jschMock = createEasymockObjects();
 		CodeTablesService mockCodeTableService = EasyMock.createMock(CodeTablesService.class);
 		EasyMock.expect(mockCodeTableService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "")).andReturn("");
 		EasyMock.expectLastCall().anyTimes();
-		EasyMock.replay(mockCodeTableService);
+		FtpClient mockFtpClient = EasyMock.createMock(FtpClient.class);
+		EasyMock.expect(mockFtpClient.sendFile(new File("src/test/VGR.xml"))).andReturn(true);
+		EasyMock.expectLastCall().anyTimes();
+		EasyMock.replay(mockCodeTableService, mockFtpClient);
+		informationPusher.setFtpClient(mockFtpClient);
 		informationPusher.setCodeTablesService(mockCodeTableService);
-		informationPusher.setJsch(jschMock);
+		//informationPusher.setJsch(jschMock);
 		informationPusher.setUnitRepository(unitRepository);
 		informationPusher.setLastSynchedModifyDateFile(dateSynchFile);
 		informationPusher.setLastExistingUnitsFile(unitExistFile);
 		informationPusher.setDestinationFolder(new File("src/test"));
-		informationPusher.setFtpDestinationFileName("test/vgr.xml");
-		informationPusher.setFtpHost(ftpHost);
-		informationPusher.setFtpPort(22);
-		informationPusher.setFtpUser(ftpUser);
-		informationPusher.setFtpPassword(ftpPassword);
+		//informationPusher.setFtpDestinationFileName("test/vgr.xml");
+		//informationPusher.setFtpHost(ftpHost);
+		//informationPusher.setFtpPort(22);
+		//informationPusher.setFtpUser(ftpUser);
+		//informationPusher.setFtpPassword(ftpPassword);
 	}
 
 	private JSch createEasymockObjects() {
@@ -105,9 +107,9 @@ public class UnitInformationPusherTest {
 		informationPusher.doService();
 		Organization organizationFromXml = getOrganizationFromFile();
 		Assert.assertTrue("Array should contain 4 root units", organizationFromXml.getUnit().size() == 4);
-		informationPusher.setJsch(createEasymockObjects());
+		//informationPusher.setJsch(createEasymockObjects());
 		// the "new" unit.
-		informationPusher.setJsch(createEasymockObjects());
+		//informationPusher.setJsch(createEasymockObjects());
 
 		List<Unit> units = getDefaultTestUnits();
 		Unit unitLeaf7 = new Unit();
