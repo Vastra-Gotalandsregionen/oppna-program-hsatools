@@ -37,7 +37,15 @@
 
 				<div class="FloatBox">
 					<a href="getlink?_flowId=HRIV.Search.searchunit-flow&amp;hsaidentity=#{unit.hsaIdentity}"><img src="resources/images/control_play_blue.png" alt=""/> #{msg.backToUnitDetails}</a><br/><br/>
+
+
 					<form id="filterAccessibilityInfoForm" jsfc="h:form" class="filterAccessibilityInfoForm">
+
+					#{msg.language}:
+					<h:selectOneRadio id="language" name="language" value="#{accessibilityDatabaseFilterForm.languageId}">
+						<f:selectItems value="#{accessibilityDatabaseFilterForm.availableLanguages}" />
+					</h:selectOneRadio>
+					
 						<table class="borderless">
 							<tr>
 								<td>

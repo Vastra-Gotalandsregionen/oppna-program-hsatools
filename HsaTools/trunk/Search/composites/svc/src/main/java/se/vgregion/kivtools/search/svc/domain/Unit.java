@@ -29,6 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 
 import se.vgregion.kivtools.search.util.Base64;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
@@ -1089,14 +1090,6 @@ public class Unit implements Serializable, Comparable<Unit> {
 		this.accessibilityDatabaseId = accessibilityDatabaseId;
 	}
 
-	public AccessibilityInformation getAccessibilityInformation() {
-		return accessibilityInformation;
-	}
-
-	public void setAccessibilityInformation(AccessibilityInformation accessibilityInformation) {
-		this.accessibilityInformation = accessibilityInformation;
-	}
-
 	public String getObjectClass() {
 		return objectClass;
 	}
@@ -1204,4 +1197,14 @@ public class Unit implements Serializable, Comparable<Unit> {
 	public int compareTo(Unit o) {
 		return this.hsaIdentity.compareTo(o.getHsaIdentity());
 	}
+
+	public AccessibilityInformation getAccessibilityInformation() {
+		return accessibilityInformation;
+	}
+
+	public void setAccessibilityInformation(
+			AccessibilityInformation accessibilityInformation) {
+		this.accessibilityInformation = accessibilityInformation;
+	}
+
 }

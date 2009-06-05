@@ -155,13 +155,14 @@
 			<bean-action bean="Display.DisplayAccessibilityDatabaseBean" method="assignAccessibilityDatabaseInfo">
 				<method-arguments>
 					<argument expression="flowScope.unit" parameter-type="se.vgregion.kivtools.search.svc.domain.Unit"/>
+					<argument expression="flowScope.accessibilityDatabaseFilterForm" />
 				</method-arguments>
 			</bean-action>
 		</entry-actions>
 		<bean-action bean="Display.DisplayAccessibilityDatabaseBean" method="filterAccessibilityDatabaseInfo">
 			<method-arguments>
+				<argument expression="flowScope.unit" parameter-type="se.vgregion.kivtools.search.svc.domain.Unit"/>
 				<argument expression="flowScope.accessibilityDatabaseFilterForm" />
-				<argument expression="flowScope.unit" />
 			</method-arguments>
 		</bean-action>
 		<transition on="success" to="Display.viewAccessibilityInfo" />

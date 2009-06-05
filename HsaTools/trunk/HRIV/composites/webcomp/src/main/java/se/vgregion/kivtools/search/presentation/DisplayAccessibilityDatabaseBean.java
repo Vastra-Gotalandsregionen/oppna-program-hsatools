@@ -55,28 +55,39 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 	private String useAccessibilityDatabaseIntegration;
 	private String accessibilityDatabaseIntegrationGetIdUrl;
 	private String accessibilityDatabaseIntegrationGetInfoUrl;
+	private String formerLanguageId;
+
+	public String getFormerLanguageId() {
+		return formerLanguageId;
+	}
+
+	public void setFormerLanguageId(String formerLanguageId) {
+		this.formerLanguageId = formerLanguageId;
+	}
 
 	/**
 	 * Look up database accessibility information for specified unit.
 	 * 
-	 * @param u
+	 * @param u The unit which should get accessibility info assigned to it.
 	 * @throws IOException
 	 * @throws SAXException
 	 * @throws ParserConfigurationException
 	 */
-	public void assignAccessibilityDatabaseInfo(Unit u) throws IOException,
-			SAXException, ParserConfigurationException {
+	public void assignAccessibilityDatabaseInfo(Unit u,
+			AccessibilityDatabaseFilterForm accessibilityDatabaseFilterForm)
+			throws IOException, SAXException, ParserConfigurationException {
 		// Don't reassign accessibility info, only on first visit
-		if (u.getAccessibilityInformation() != null)
-			return;
+		// if (u.getAccessibilityInformation() != null)
+		//	return;
 
 		// First find out the accessibility database id
 		if (!assignAccessibilityDatabaseId(u))
 			return;
 
-		// Get accessibility info
+		int languageId = Integer.parseInt(accessibilityDatabaseFilterForm.getLanguageId());
+
 		URL url = new URL(accessibilityDatabaseIntegrationGetInfoUrl
-				+ u.getAccessibilityDatabaseId());
+				+ languageId + "&facilityId=" + u.getAccessibilityDatabaseId());
 		HttpURLConnection urlConnection = (HttpURLConnection) url
 				.openConnection();
 		int responseCode = urlConnection.getResponseCode();
@@ -183,13 +194,21 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 	 * 
 	 * @param form
 	 * @param u
+	 * @throws ParserConfigurationException 
+	 * @throws SAXException 
+	 * @throws IOException 
 	 */
-	public void filterAccessibilityDatabaseInfo(
-			AccessibilityDatabaseFilterForm form, Unit u) {
+	public void filterAccessibilityDatabaseInfo(Unit u, AccessibilityDatabaseFilterForm form) throws IOException, SAXException, ParserConfigurationException {
 		// We need to keep track of submissions in order to know when to show
 		// "no result".
 		form.setSubmitted(true);
 
+		// If language has changed we need to download new data
+		if (!form.getLanguageId().equals(formerLanguageId)) {
+			assignAccessibilityDatabaseInfo(u, form);
+			formerLanguageId = form.getLanguageId();
+		}
+		
 		// Create array with selected disabilities
 		int[] selectedDisabilities = new int[5];
 
@@ -213,8 +232,8 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 
 		// Business object
 		if (u.getAccessibilityInformation() != null) {
-			for (Block b : u.getAccessibilityInformation().getBusinessObject()
-					.getBlocks()) {
+			for (Block b : u.getAccessibilityInformation()
+					.getBusinessObject().getBlocks()) {
 				for (AccessibilityPackage p : b.getPackages()) {
 					criteriaIteration: for (Criteria c : p.getCriterias()) {
 						// Take Attentive/Available choice into consideration.
@@ -265,8 +284,7 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 			}
 
 			// Sub objects
-			for (AccessibilityObject o : u.getAccessibilityInformation()
-					.getSubObjects()) {
+			for (AccessibilityObject o : u.getAccessibilityInformation().getSubObjects()) {
 				for (Block b : o.getBlocks()) {
 					for (AccessibilityPackage p : b.getPackages()) {
 						criteriaIteration: for (Criteria c : p.getCriterias()) {
