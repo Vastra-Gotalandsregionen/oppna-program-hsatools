@@ -32,25 +32,17 @@ import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 
 import com.domainlanguage.time.TimePoint;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 
 public class UnitInformationPusherTest {
 
 	private InformationPusherEniro informationPusher;
 	private static File dateSynchFile;
 	private static File unitExistFile;
-	private String ftpHost = "";
-	private String ftpUser = "";
-	private String ftpPassword = "";
-
+	
 	@Before
 	public void setUp() throws Exception {
 		informationPusher = new InformationPusherEniro();
 		UnitRepository unitRepository = createMockUnitRepositoryFull(getDefaultTestUnits());
-		//JSch jschMock = createEasymockObjects();
 		CodeTablesService mockCodeTableService = EasyMock.createMock(CodeTablesService.class);
 		EasyMock.expect(mockCodeTableService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "")).andReturn("");
 		EasyMock.expectLastCall().anyTimes();
@@ -60,40 +52,10 @@ public class UnitInformationPusherTest {
 		EasyMock.replay(mockCodeTableService, mockFtpClient);
 		informationPusher.setFtpClient(mockFtpClient);
 		informationPusher.setCodeTablesService(mockCodeTableService);
-		//informationPusher.setJsch(jschMock);
 		informationPusher.setUnitRepository(unitRepository);
 		informationPusher.setLastSynchedModifyDateFile(dateSynchFile);
 		informationPusher.setLastExistingUnitsFile(unitExistFile);
 		informationPusher.setDestinationFolder(new File("src/test"));
-		//informationPusher.setFtpDestinationFileName("test/vgr.xml");
-		//informationPusher.setFtpHost(ftpHost);
-		//informationPusher.setFtpPort(22);
-		//informationPusher.setFtpUser(ftpUser);
-		//informationPusher.setFtpPassword(ftpPassword);
-	}
-
-	private JSch createEasymockObjects() {
-		JSch jschMock = EasyMock.createMock(JSch.class);
-		Session sessionMock = EasyMock.createMock(Session.class);
-		ChannelSftp channelSftpMock = EasyMock.createMock(ChannelSftp.class);
-		try {
-			EasyMock.expect(jschMock.getSession(ftpUser, ftpHost, 22)).andReturn(sessionMock);
-			EasyMock.expectLastCall().anyTimes();
-			sessionMock.setPassword(ftpPassword);
-			EasyMock.expectLastCall().anyTimes();
-			sessionMock.setConfig("StrictHostKeyChecking", "no");
-			EasyMock.expectLastCall().anyTimes();
-			sessionMock.connect();
-			EasyMock.expectLastCall().anyTimes();
-			sessionMock.disconnect();
-			EasyMock.expectLastCall().anyTimes();
-			EasyMock.expect(sessionMock.openChannel("sftp")).andReturn(channelSftpMock);
-			EasyMock.expectLastCall().anyTimes();
-			EasyMock.replay(jschMock, sessionMock);
-		} catch (JSchException e) {
-			e.printStackTrace();
-		}
-		return jschMock;
 	}
 
 	@After
@@ -107,17 +69,14 @@ public class UnitInformationPusherTest {
 		informationPusher.doService();
 		Organization organizationFromXml = getOrganizationFromFile();
 		Assert.assertTrue("Array should contain 4 root units", organizationFromXml.getUnit().size() == 4);
-		//informationPusher.setJsch(createEasymockObjects());
 		// the "new" unit.
-		//informationPusher.setJsch(createEasymockObjects());
-
 		List<Unit> units = getDefaultTestUnits();
 		Unit unitLeaf7 = new Unit();
 		unitLeaf7.setDn(DN.createDNFromString("ou=leaf7,ou=child5,ou=root4,ou=org,o=VGR"));
 		unitLeaf7.setName("leaf7");
 		unitLeaf7.setHsaIdentity("leaf7-id");
 
-		String dateStr = Constants.zuluTimeFormatter.format(new Date());
+		String dateStr = Constants.formateDateToZuluTime(new Date());
 		unitLeaf7.setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
 		unitLeaf7.setModifyTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
 		fillMockData(unitLeaf7);
@@ -207,14 +166,15 @@ public class UnitInformationPusherTest {
 			}
 		}
 	}
-
+	
+	/* Not used remove 06082009 db
 	private static se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Unit getEniroUnit(Unit domainUnit) {
 		se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Unit eniroUnit = new se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Unit();
 		eniroUnit.setName(domainUnit.getName());
 		eniroUnit.setId(domainUnit.getHsaIdentity());
 		return eniroUnit;
 	}
-
+	*/
 	/**
 	 * Generate test units
 	 */
@@ -311,7 +271,7 @@ public class UnitInformationPusherTest {
 			EasyMock.expectLastCall().anyTimes();
 			// If createTimestamp and modifyTimestamp is null set values
 			if (units.get(i).getCreateTimestamp() == null || units.get(i).getModifyTimestamp() == null) {
-				String dateStr = Constants.zuluTimeFormatter.format(generateCalendar(i).getTime());
+				String dateStr = Constants.formateDateToZuluTime(generateCalendar(i).getTime());
 				units.get(i).setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
 				units.get(i).setModifyTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
 			}
