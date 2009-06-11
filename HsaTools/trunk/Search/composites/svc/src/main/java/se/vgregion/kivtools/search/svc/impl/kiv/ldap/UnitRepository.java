@@ -208,6 +208,7 @@ public class UnitRepository {
 		try {
 			lc = getLDAPConnection();
 			u = UnitFactory.reconstitute(lc.read(dn.escape().toString()));
+			assignCodeTableValuesToUnit(u);
 		} finally {
 			theConnectionPool.freeConnection(lc);
 		}
