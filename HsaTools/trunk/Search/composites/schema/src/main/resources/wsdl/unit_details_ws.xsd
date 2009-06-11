@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	<!--
-		edited with XMLSpy v2009 sp1 (http://www.altova.com) by Mattias
-		Ericsson (Eniro)
-	-->
 <xs:schema targetNamespace="http://vgregion.se/hriv/schemas" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:hr="http://vgregion.se/hriv/schemas"
 	elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="UnitRequest">
@@ -59,7 +55,6 @@
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="xs:string">
-					<xs:attribute ref="hr:Visibility" />
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>
@@ -68,6 +63,8 @@
 	<xs:element name="Label" type="xs:string" />
 	<xs:complexType name="AddressType">
 		<xs:sequence>
+			<xs:element name="isConcatenated" type="xs:boolean" />
+			<xs:element name="concatenatedAddress" type="xs:string" />
 			<xs:element name="Type">
 				<xs:annotation>
 					<xs:documentation>The type of address given the fixed options
@@ -137,7 +134,6 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute ref="hr:Visibility" />
 	</xs:complexType>
 	<xs:element name="E-alias" type="hr:E-aliasType" />
 	<xs:element name="Telephone" type="hr:TelephoneType" />
@@ -182,7 +178,6 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute ref="hr:Visibility" />
 	</xs:complexType>
 	<xs:complexType name="E-aliasType">
 		<xs:sequence>
@@ -212,7 +207,6 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute ref="hr:Visibility" />
 	</xs:complexType>
 	<xs:complexType name="UnitType">
 		<xs:sequence>
@@ -276,9 +270,9 @@
 						<xs:element name="VisitingRules" type="xs:string"
 							minOccurs="0" />
 					</xs:all>
-					<xs:attribute ref="hr:Visibility" />
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="MvkEnable" type="xs:boolean" />
 			<xs:element name="Management" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Description of management form,
@@ -287,7 +281,6 @@
 				<xs:complexType>
 					<xs:simpleContent>
 						<xs:extension base="xs:string">
-							<xs:attribute ref="hr:Visibility" />
 						</xs:extension>
 					</xs:simpleContent>
 				</xs:complexType>
@@ -301,7 +294,6 @@
 				<xs:complexType>
 					<xs:simpleContent>
 						<xs:extension base="xs:string">
-							<xs:attribute ref="hr:Visibility" />
 						</xs:extension>
 					</xs:simpleContent>
 				</xs:complexType>
@@ -321,14 +313,12 @@
 				<xs:complexType>
 					<xs:simpleContent>
 						<xs:extension base="xs:string">
-							<xs:attribute ref="hr:Visibility" />
 						</xs:extension>
 					</xs:simpleContent>
 				</xs:complexType>
 			</xs:element>
 			<xs:element ref="hr:Unit" />
 		</xs:sequence>
-		<xs:attribute ref="hr:Visibility" />
 	</xs:complexType>
 	<xs:element name="Unit">
 		<xs:annotation>
@@ -380,13 +370,5 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute ref="hr:Visibility" />
 	</xs:complexType>
-	<xs:attribute name="Visibility" type="xs:string">
-		<xs:annotation>
-			<xs:documentation>Defines the visibility in different channels
-				using a comma-separated syntax. Ex. "site 1,site 2".
-			</xs:documentation>
-		</xs:annotation>
-	</xs:attribute>
 </xs:schema>
