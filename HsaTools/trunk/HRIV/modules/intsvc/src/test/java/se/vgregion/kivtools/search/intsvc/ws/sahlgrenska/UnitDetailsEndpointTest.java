@@ -20,11 +20,22 @@ public class UnitDetailsEndpointTest {
 	
 	@Test
 	public void testInvoke() throws Exception{
+		
+		
 		// Create a UnitRequest object 
-		UnitRequest unitRequest = new UnitRequest();
-		unitRequest.setHsaIdentity("hsaId1");
-		UnitResponse unitResponse = (UnitResponse) unitDetailsEndpoint.invokeInternal(unitRequest);
+		UnitRequest unitRequest_valid_Id = new UnitRequest();
+		unitRequest_valid_Id.setHsaIdentity("hsaId1");
+		UnitRequest unitRequest_invalid_id = new UnitRequest();
+		unitRequest_invalid_id.setHsaIdentity(null);
+		
+		// Test with valid id
+		UnitResponse unitResponse = (UnitResponse) unitDetailsEndpoint.invokeInternal(unitRequest_valid_Id);
 		Assert.assertEquals("hsaId1", unitResponse.getOrganization().getUnit().get(0).getId());
+		
+		// Test with invalid id
+		//unitResponse  =  (UnitResponse) unitDetailsEndpoint.invokeInternal(unitRequest_invalid_id);
+		//Assert.assertEquals("", unitResponse.getOrganization().getUnit().get(0).getId());
+		
 	}
 
 	// Setup a UnitDetailsEndpoint object
