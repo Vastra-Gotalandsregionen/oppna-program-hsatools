@@ -43,32 +43,33 @@
 	<bean id="schema" class="org.springframework.xml.xsd.SimpleXsdSchema">
 		<property name="xsd" value="classpath:wsdl/unit_details_ws.xsd" />
 	</bean>
-	
-	
-	<bean id="jsch" class="com.jcraft.jsch.JSch" />
+
+	<bean id="Commons.FtpClient" class="org.apache.commons.net.ftp.FTPSClient" />
+	<bean id="Transfer.ftps" class="se.vgregion.kivtools.search.intsvc.ws.eniro.FtpsClient">
+		<property name="ftpsclient" ref="Commons.FtpClient" />
+		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
+		<property name="hostname" value="leverans.prod.eniro.net" />
+		<property name="username" value="ftp_vgrtest" />
+		<property name="password" value="Vgt3p4sw" />
+		<property name="port" value="21" />
+	</bean>
 
 	<bean id="Push.Eniro"
 		class="se.vgregion.kivtools.search.intsvc.ws.eniro.InformationPusherEniro">
-		<property name="jsch" ref="jsch" />
-		<property name="ftpHost" value="webbservern.se" />
-		<property name="ftpPort" value="10022" />
-		<property name="ftpDestinationFileName" value="test3.xml" />
-		<property name="ftpUser" value="kapten" />
-		<property name="ftpPassword" value="mrcaptain" />
+		<property name="ftpClient" ref="Transfer.ftps" />
 		<property name="unitRepository" ref="Search.UnitRepository" />
-		<property name="destinationFolder" value="/tmp/" />
 		<property name="lastSynchedModifyDateFile" value="/tmp/lsmdf.txt" />
 		<property name="lastExistingUnitsFile" value="/tmp/leuf.txt" />
 		<property name="codeTablesService" ref="Search.CodeTablesService" />
 	</bean>
-	
+
 	<bean id="jobDetailUnitDetailsPusher"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="Push.Eniro" />
 		<property name="targetMethod" value="doService" />
 		<property name="concurrent" value="false" />
 	</bean>
-	
+
 	<bean id="simpleTriggerUnitDetailsPusher" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
 		<!-- see the example of method invoking job above -->
 		<property name="jobDetail" ref="jobDetailUnitDetailsPusher" />
@@ -77,7 +78,7 @@
 		<!-- repeat every 24 hours -->
 		<property name="repeatInterval" value="86400000" />
 	</bean>
-	
+
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="startupDelay" value="10" />
 		<property name="triggers">
