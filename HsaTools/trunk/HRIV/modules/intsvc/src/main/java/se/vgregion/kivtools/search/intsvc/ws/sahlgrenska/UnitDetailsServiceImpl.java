@@ -53,35 +53,11 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
 		Description description = new Description();
 		description.setValue(unit.getConcatenatedDescription());
 		unitWs.getDescription().add(description);
-		
-		// Set unitWs street address
-		Address streetAddress = objectFactory.createAddress();
-		streetAddress.setType("Visit");
-		// address.setLabel(value);
-		setStreetNameAndNumberForAddress(streetAddress, unit.getHsaStreetAddress().getStreet());
-		List<String> streetPostCodes = streetAddress.getPostCode();
-		streetPostCodes.add(unit.getHsaStreetAddress().getZipCode().toString());
-		streetAddress.setCity(unit.getHsaPostalAddress().getCity());
-		GeoCoordinates streetGeoCoordinates = new AddressType.GeoCoordinates();
-		streetGeoCoordinates.getXpos().add(String.valueOf(unit.getRt90X()));
-		streetGeoCoordinates.getYpos().add(String.valueOf(unit.getRt90Y()));
-		streetAddress.setGeoCoordinates(streetGeoCoordinates);
-		unitWs.getAddress().add(streetAddress);
 
 		// Set unitWs street address
-		Address postalAddress = objectFactory.createAddress();
-		postalAddress.setType("Post");
-		// address.setLabel(value);
-		setStreetNameAndNumberForAddress(postalAddress, unit.getHsaPostalAddress().getStreet());
-		List<String> postalPostCodes = postalAddress.getPostCode();
-		postalPostCodes.add(unit.getHsaStreetAddress().getZipCode().toString());
-		postalAddress.setCity(unit.getHsaPostalAddress().getCity());
-		GeoCoordinates postalGeoCoordinates = new AddressType.GeoCoordinates();
-		postalGeoCoordinates.getXpos().add(String.valueOf(unit.getRt90X()));
-		postalGeoCoordinates.getYpos().add(String.valueOf(unit.getRt90Y()));
-		postalAddress.setGeoCoordinates(postalGeoCoordinates);
-		unitWs.getAddress().add(postalAddress);
-
+		setAddress(unitWs, unit.getHsaStreetAddress(),"Visit", unit);
+		// Set unitWs post address
+		setAddress(unitWs, unit.getHsaPostalAddress(),"Post", unit);
 		// Set telephone
 		TelephoneType telephoneType = new TelephoneType();
 		for (PhoneNumber phoneNumber : unit.getHsaPublicTelephoneNumber()) {
@@ -142,8 +118,36 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
 		Locality locality = new Locality();
 		locality.setValue(unit.getHsaMunicipalityName());
 		unitWs.setLocality(locality);
-		
+
+		// Set if unit is connected to MVK
+		unitWs.setMvkEnable(checkIfConnectedToMvk(unit));
+
 		return unitWs;
+	}
+
+	private void setAddress(se.vgregion.kivtools.search.intsvc.ws.domain.sahlgrenska.Unit unitWs, se.vgregion.kivtools.search.svc.domain.values.Address address, String addressType, Unit unit) {
+		// Set unitWs street address
+		Address wsAddress = objectFactory.createAddress();
+
+		if ("".equalsIgnoreCase(address.getStreet())) {
+			wsAddress.setIsConcatenated(true);
+			wsAddress.setConcatenatedAddress(address.getAdditionalInfoToString());
+		} else {
+			wsAddress.setType(addressType);
+			setStreetNameAndNumberForAddress(wsAddress, address.getStreet());
+			List<String> postalPostCodes = wsAddress.getPostCode();
+			postalPostCodes.add(address.getZipCode().toString());
+			wsAddress.setCity(address.getCity());
+			GeoCoordinates postalGeoCoordinates = new AddressType.GeoCoordinates();
+			postalGeoCoordinates.getXpos().add(String.valueOf(unit.getRt90X()));
+			postalGeoCoordinates.getYpos().add(String.valueOf(unit.getRt90Y()));
+			wsAddress.setGeoCoordinates(postalGeoCoordinates);
+		}
+		unitWs.getAddress().add(wsAddress);
+	}
+
+	private boolean checkIfConnectedToMvk(Unit unit) {
+		return (unit.getMvkCaseTypes() != null && unit.getMvkCaseTypes().size() > 0);
 	}
 
 	private String stripEndingCommaAndSpace(String inputString) {
