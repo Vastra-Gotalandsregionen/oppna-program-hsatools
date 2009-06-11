@@ -109,7 +109,7 @@ public class EmploymentRepository {
     }
     /** create LDAP filter string with a condition that hsaEndDate must be greater or equal current date */
     private String generateLDAPFilter(){
-    	String zuluTime =  Constants.zuluTimeFormatter.format(new Date());
+    	String zuluTime =  Constants.formateDateToZuluTime(new Date());
     	String filterString =  String.format(ALL_EMPLOYMENT_FILTER, zuluTime);
     	return filterString;
     }

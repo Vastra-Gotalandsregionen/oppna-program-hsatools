@@ -17,7 +17,9 @@
  */
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Constants {
 	public static final String OBJECT_CLASS_UNIT_STANDARD = "organizationalUnit";
@@ -26,5 +28,19 @@ public class Constants {
 	public static final String OBJECT_CLASS_FUNCTION_SPECIFIC = "vgrOrganizationalRole";
 	public static final String LDAP_PROPERTY_UNIT_NAME = "ou";
 	public static final String LDAP_PROPERTY_FUNCTION_NAME = "cn";
-	public static final SimpleDateFormat zuluTimeFormatter = new SimpleDateFormat("yyyyMMddHHmmss'Z'");
+	private static final SimpleDateFormat zuluTimeFormatter = new SimpleDateFormat("yyyyMMddHHmmss'Z'");
+
+	public static final String formateDateToZuluTime(Date date) {
+		return zuluTimeFormatter.format(date);
+	}
+
+	public static final Date parseStringToZuluTime(String dateStr) {
+		try {
+			return zuluTimeFormatter.parse(dateStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		// If exception is thrown then return new date
+		return new Date();
+	}
 }
