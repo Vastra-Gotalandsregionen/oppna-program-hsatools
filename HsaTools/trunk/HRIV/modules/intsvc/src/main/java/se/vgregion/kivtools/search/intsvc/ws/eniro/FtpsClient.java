@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPSClient;
-import org.apache.commons.net.ftp.FTPSCommand;
 
 public class FtpsClient implements FtpClient {
 
@@ -16,11 +15,32 @@ public class FtpsClient implements FtpClient {
 	private int port;
 	private String username;
 	private String password;
-	private String ftpDestinationFileName;
 
-	public void setFtpclient(FTPSClient ftpsclient) {
+	public void setFtpsclient(FTPSClient ftpsclient) {
 		this.ftpsclient = ftpsclient;
 	}
+
+	public void setHostname(String hostname) {
+		this.hostname = hostname;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setFtpDestinationFileName(String ftpDestinationFileName) {
+		this.ftpDestinationFileName = ftpDestinationFileName;
+	}
+
+	private String ftpDestinationFileName;
 
 	public boolean sendFile(File file) {
 		try {
@@ -37,9 +57,5 @@ public class FtpsClient implements FtpClient {
 			logger.error("Error in SftpClient", e);
 		}
 		return false;
-	}
-
-	public static void main(String[] args) {
-		System.out.println(FTPSCommand.getCommand(FTPSCommand.PROT));
 	}
 }

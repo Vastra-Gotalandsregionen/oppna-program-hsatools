@@ -47,7 +47,6 @@ import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 
 import com.domainlanguage.time.TimePoint;
-import com.jcraft.jsch.JSch;
 
 public class InformationPusherEniro implements InformationPusher {
 
@@ -119,8 +118,10 @@ public class InformationPusherEniro implements InformationPusher {
 					BufferedReader br = new BufferedReader(fileReader);
 					String lastSynchedModifyString = br.readLine();
 					if (lastSynchedModifyString != null) {
-						lastSynchedModifyDate = Constants.zuluTimeFormatter.parse(lastSynchedModifyString);
+						lastSynchedModifyDate = Constants.parseStringToZuluTime(lastSynchedModifyString);
 					}
+					br.close();
+					fileReader.close();
 				}
 			} catch (Exception e) {
 				logger.error("Error in getLastSynchDate", e);
@@ -138,7 +139,7 @@ public class InformationPusherEniro implements InformationPusher {
 	private void saveLastSynchedModifyDate() {
 		try {
 			FileWriter fileWriter = new FileWriter(lastSynchedModifyDateFile);
-			fileWriter.write(Constants.zuluTimeFormatter.format(lastSynchedModifyDate));
+			fileWriter.write(Constants.formateDateToZuluTime(lastSynchedModifyDate));
 			fileWriter.flush();
 			fileWriter.close();
 		} catch (IOException e) {
@@ -265,7 +266,7 @@ public class InformationPusherEniro implements InformationPusher {
 
 	public void doService() {
 		try {
-			boolean generateFullOrg = !getLastSynchDate().after(Constants.zuluTimeFormatter.parse("19700102000000Z"));
+			boolean generateFullOrg = !getLastSynchDate().after(Constants.parseStringToZuluTime("19700102000000Z"));
 			List<Unit> collectedUnits = collectUnits();
 			Organization organization = null;
 			if (generateFullOrg) {
@@ -514,8 +515,8 @@ public class InformationPusherEniro implements InformationPusher {
 		List<Unit> rootUnits = new ArrayList<Unit>();
 		for (Unit unit : units) {
 			DN dn = unit.getDn();
-			DN parentDn = dn.getParentDN(2);
 			if (dn != null) {
+				DN parentDn = dn.getParentDN(2);
 				unitContainer.put(dn, unit);
 				if (parentDn == null) {
 					rootUnits.add(unit);
