@@ -80,7 +80,7 @@ Generation time : 2007-10-09 10:07:02 CEST
     <dependency>
       <groupId>org.apache.myfaces.core</groupId>
       <artifactId>myfaces-api</artifactId>
-      <version>1.1.5</version>
+      <version>1.1.7</version>
       <scope>compile</scope>
     </dependency>
 
@@ -88,7 +88,7 @@ Generation time : 2007-10-09 10:07:02 CEST
 	<dependency>
 		<groupId>org.apache.myfaces.core</groupId>
 		<artifactId>myfaces-impl</artifactId>
-		<version>1.1.5</version>
+		<version>1.1.7</version>
 		<scope>compile</scope>
 	</dependency>
 	<dependency>
