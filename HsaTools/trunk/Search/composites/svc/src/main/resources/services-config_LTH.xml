@@ -75,8 +75,9 @@
 		<property name="location" value="classpath:se/vgregion/kivtools/search/svc/impl/hak/ldap/search-composite-svc-connection.properties" />
 	</bean>
  	
+ 	<!-- Not used like this anymore. getParentDN can take the admin level as a parameter. Make sure it is handled correctly. 
 	<bean class="se.vgregion.kivtools.search.svc.domain.values.DN" lazy-init="false">
 		<property name="administrationLevel" value="-2" />
 	</bean>
-	
+	 -->
 </beans>
