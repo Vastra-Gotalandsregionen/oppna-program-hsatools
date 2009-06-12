@@ -479,7 +479,7 @@ public class UnitRepository {
 		if (!"".equals(functionSearchString)) {
 			filterList.add(functionSearchString);
 		}
-		String orCriterias = makeOr(filterList); // (|(par1=value1)(par2=value2))
+		String orCriterias = makeOr(filterList); //(|(par1=value1)(par2=value2))
 		return orCriterias;
 	}
 
@@ -519,7 +519,7 @@ public class UnitRepository {
 		// condition
 		addHealthCareTypeConditions(filterList, allUnfilteredHealthcareTypes);
 
-		String orCriterias = makeOr(filterList); // (|(par1=value1)(par2=value2))
+		String orCriterias = makeOr(filterList); //(|(par1=value1)(par2=value2))
 		long endTimeMillis = System.currentTimeMillis();
 		logger.debug("Creating filter for hsaBusinessClassificationCode took: " + (endTimeMillis - startTimeMillis) + " milliseconds.");
 		return orCriterias;
@@ -537,7 +537,7 @@ public class UnitRepository {
 		addAddressSearchFilter(filterList, "hsaPostalAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
 
 		addAddressSearchFilter(filterList, "hsaStreetAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
-		String orCriterias = makeOr(filterList); // (|(par1=value1)(par2=value2))
+		String orCriterias = makeOr(filterList); //(|(par1=value1)(par2=value2))
 
 		filterList = new ArrayList<String>();
 		addSearchFilter(filterList, Constants.LDAP_PROPERTY_UNIT_NAME, unit.getName());
@@ -547,7 +547,7 @@ public class UnitRepository {
 
 		addSearchFilter(filterList, "hsaIdentity", unit.getHsaIdentity());
 
-		String andCriterias = makeAnd(filterList); // (&(par3=value3)(par4=value4
+		String andCriterias = makeAnd(filterList); //(&(par3=value3)(par4=value4
 		// ))
 		if (Evaluator.isEmpty(andCriterias)) {
 			return searchFilter;
@@ -571,7 +571,7 @@ public class UnitRepository {
 		addAddressSearchFilter(filterList, "hsaPostalAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
 
 		addAddressSearchFilter(filterList, "hsaStreetAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
-		String orCriterias = makeOr(filterList); // (|(par1=value1)(par2=value2))
+		String orCriterias = makeOr(filterList); //(|(par1=value1)(par2=value2))
 
 		filterList = new ArrayList<String>();
 		addSearchFilter(filterList, Constants.LDAP_PROPERTY_UNIT_NAME, unit.getName());
@@ -586,7 +586,7 @@ public class UnitRepository {
 			addHealthCareTypeConditions(filterList, unit.getHealthcareTypes());
 		}
 
-		String andCriterias = makeAnd(filterList); // (&(par3=value3)(par4=value4
+		String andCriterias = makeAnd(filterList); //(&(par3=value3)(par4=value4
 		// ))
 		if (Evaluator.isEmpty(andCriterias)) {
 			return "";
@@ -782,9 +782,14 @@ public class UnitRepository {
 	public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxResult) throws Exception {
 		SikSearchResultList<Unit> subUnits = null;
 		DN parentDn = parentUnit.getDn();
-		LDAPConnection ldapConnection = getLDAPConnection();
-		subUnits = extractResult(ldapConnection.search(parentDn.toString(), LDAPConnection.SCOPE_SUB, "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")", null, false), maxResult, null);
-		removeUnitParentFromList(parentUnit, subUnits);
+		LDAPConnection ldapConnection = null;
+		try {
+			ldapConnection = getLDAPConnection();
+			subUnits = extractResult(ldapConnection.search(parentDn.toString(), LDAPConnection.SCOPE_SUB, "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")", null, false), maxResult, null);
+			removeUnitParentFromList(parentUnit, subUnits);
+		} finally {
+			theConnectionPool.freeConnection(ldapConnection);
+		}
 		return subUnits;
 	}
 
