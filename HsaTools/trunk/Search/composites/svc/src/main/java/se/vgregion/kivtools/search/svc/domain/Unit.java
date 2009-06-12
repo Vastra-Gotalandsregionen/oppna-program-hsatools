@@ -1157,10 +1157,12 @@ public class Unit implements Serializable, Comparable<Unit> {
 	
 	public String getHsaBusinessClassificationTextFormatted(){
 		StringBuilder sb = new StringBuilder();
-		for(int i=0;i < hsaBusinessClassificationText.size(); i++){
-			sb.append(hsaBusinessClassificationText.get(i));
-			if (i < hsaBusinessClassificationText.size() - 1) {
-				sb.append(", ");
+		if (hsaBusinessClassificationText != null) {
+			for(int i=0;i < hsaBusinessClassificationText.size(); i++){
+				sb.append(hsaBusinessClassificationText.get(i));
+				if (i < hsaBusinessClassificationText.size() - 1) {
+					sb.append(", ");
+				}
 			}
 		}
 		return sb.toString();
