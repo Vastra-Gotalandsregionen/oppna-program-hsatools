@@ -24,14 +24,15 @@
 		<artifactId>HsaTools-HRIV</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>HsaTools-HRIV-module-intsvc</artifactId>
+	<artifactId>HsaTools-HRIV-module-intsvc
+	</artifactId>
 	<packaging>war</packaging>
 	<name>HsaTools-HRIV-module-intsvc</name>
-
 	<dependencies>
 		<dependency>
 			<groupId>HsaTools</groupId>
-			<artifactId>HsaTools-Search-composite-schema</artifactId>
+			<artifactId>HsaTools-Search-composite-schema
+			</artifactId>
 			<version>${pom.version}</version>
 			<scope>compile</scope>
 		</dependency>
@@ -51,28 +52,10 @@
 			<version>full</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.xml.soap</groupId>
-			<artifactId>saaj-api</artifactId>
-			<version>1.3</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.xml.messaging.saaj</groupId>
-			<artifactId>saaj-impl</artifactId>
-			<version>1.3.1</version>
-			<scope>runtime</scope>
-		</dependency>
-		<!-- Måste finnas med för att fungera på webpshere-->
-		<dependency>
-			<groupId>javax.xml.ws</groupId>
-			<artifactId>jaxws-api</artifactId>
-			<version>2.1</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.xml</groupId>
-					<artifactId>jaxb-api</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.4</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-net</groupId>
@@ -80,45 +63,19 @@
 			<version>2.0</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.sun.xml.stream.buffer</groupId>
-			<artifactId>streambuffer</artifactId>
-			<version>0.8</version>
-		</dependency>
-		<!--
-			<dependency> <groupId>xerces</groupId>
-			<artifactId>xerces</artifactId> <version>2.4.0</version>
-			</dependency> <dependency> <groupId>xerces</groupId>
-			<artifactId>xercesImpl</artifactId> <version>2.9.1</version>
-			</dependency> <dependency> <groupId>xalan</groupId>
-			<artifactId>xalan</artifactId> <version>2.7.1</version> </dependency>
-			<dependency> <groupId>javax.xml</groupId>
-			<artifactId>jaxp-api</artifactId> <version>1.4.2</version>
-			</dependency>
-		-->
-		<dependency>
-			<groupId>activesoap</groupId>
-			<artifactId>jaxb-xercesImpl</artifactId>
-			<version>1.5</version>
-		</dependency>
-
-		<dependency>
-			<groupId>activesoap</groupId>
-			<artifactId>jaxb-xalan</artifactId>
-			<version>1.5</version>
-		</dependency>
-
 	</dependencies>
 	<pluginRepositories>
 		<pluginRepository>
 			<id>maven2-repository.dev.java.net</id>
 			<name>Java.net Maven 2 Repository</name>
-			<url>http://download.java.net/maven/2</url>
+			<url>http://download.java.net/maven/2
+			</url>
 		</pluginRepository>
 		<pluginRepository>
 			<id>java.net</id>
 			<name>java.net Maven Repository</name>
-			<url>https://maven-repository.dev.java.net/nonav/repository</url>
+			<url>https://maven-repository.dev.java.net/nonav/repository
+			</url>
 			<layout>legacy</layout>
 		</pluginRepository>
 	</pluginRepositories>
@@ -135,12 +92,16 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<generatePackage>se.vgregion.kivtools.search.intsvc.ws.domain.sahlgrenska</generatePackage>
+							<generatePackage>
+								se.vgregion.kivtools.search.intsvc.ws.domain.sahlgrenska
+							</generatePackage>
 							<generateDirectory>src/main/java</generateDirectory>
-							<schemaDirectory>${basedir}/../../../Search/composites/schema/src/main/resources/wsdl/
+							<schemaDirectory>
+								${basedir}/../../../Search/composites/schema/src/main/resources/wsdl/
 							</schemaDirectory>
 							<includeSchemas>
-								<includeSchema>unit_details_ws.xsd</includeSchema>
+								<includeSchema>unit_details_ws.xsd
+								</includeSchema>
 							</includeSchemas>
 							<includeBindings>
 								<includeBinding>*.xjb</includeBinding>
@@ -155,12 +116,16 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<generatePackage>se.vgregion.kivtools.search.intsvc.ws.domain.eniro</generatePackage>
+							<generatePackage>
+								se.vgregion.kivtools.search.intsvc.ws.domain.eniro
+							</generatePackage>
 							<generateDirectory>src/main/java</generateDirectory>
-							<schemaDirectory>${basedir}/../../../Search/composites/schema/src/main/resources/wsdl/
+							<schemaDirectory>
+								${basedir}/../../../Search/composites/schema/src/main/resources/wsdl/
 							</schemaDirectory>
 							<includeSchemas>
-								<includeSchema>unit_details_eniro.xsd</includeSchema>
+								<includeSchema>unit_details_eniro.xsd
+								</includeSchema>
 							</includeSchemas>
 							<includeBindings>
 								<includeBinding>*.xjb</includeBinding>
@@ -171,11 +136,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!--
-				http://140.166.208.147/V%C3%A5rdvalService/?wsdl
-				http://kivsearch.vgregion.se/hrivws/ws/unitDetails.wsdl
-				se.vgregion.kivtools.search.intsvc.ws.domain.vardval
-			-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jaxws-maven-plugin</artifactId>
@@ -186,19 +146,14 @@
 						</goals>
 						<configuration>
 							<wsdlUrls>
-								<wsdlUrl>
-									http://w120390/VardvalService/Vardvalservice.svc?wsdl
-				</wsdlUrl>
+								<wsdlUrl>http://w120390/VardvalService/Vardvalservice.svc?wsdl</wsdlUrl>
 							</wsdlUrls>
-							<packageName>se.vgregion.kivtools.search.intsvc.ws.domain.vardval
-				</packageName>
+							<packageName>se.vgregion.kivtools.search.intsvc.ws.domain.vardval</packageName>
 							<sourceDestDir>src/main/java</sourceDestDir>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-
-
 		</plugins>
 	</build>
 </project>
