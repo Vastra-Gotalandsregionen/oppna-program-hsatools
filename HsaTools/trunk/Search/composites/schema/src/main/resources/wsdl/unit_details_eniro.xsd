@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2007 (http://www.altova.com) by Mattias Ericsson (Eniro Sweden AB) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified">
 	<xs:element name="Organization">
 		<xs:annotation>
 			<xs:documentation>The organization is the top node</xs:documentation>
@@ -35,6 +35,16 @@
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
+			<xs:attribute name="LoadType" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Full"/>
+						<xs:enumeration value="Increment"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute ref="ValidFrom"/>
+			<xs:attribute ref="ValidTo"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Description">
@@ -208,6 +218,18 @@
 					<xs:documentation>The name of the unit.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="Management" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of management form, company type, ownership etc.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute ref="Visibility"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:element ref="Description" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
@@ -267,18 +289,6 @@
 						<xs:attribute ref="Visibility"/>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="Management" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Description of management form, company type, ownership etc.</xs:documentation>
-					</xs:annotation>
-					<xs:complexType>
-						<xs:simpleContent>
-							<xs:extension base="xs:string">
-								<xs:attribute ref="Visibility"/>
-							</xs:extension>
-						</xs:simpleContent>
-					</xs:complexType>
-				</xs:element>
 				<xs:element name="BusinessClassification" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Label of what the unit's business is about such as "day care center", hospital etc.</xs:documentation>
@@ -330,6 +340,8 @@
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute ref="Visibility"/>
+		<xs:attribute ref="ValidFrom"/>
+		<xs:attribute ref="ValidTo"/>
 	</xs:complexType>
 	<xs:element name="Unit">
 		<xs:annotation>
@@ -397,4 +409,14 @@
 			<xs:documentation>The organization number</xs:documentation>
 		</xs:annotation>
 	</xs:element>
+	<xs:attribute name="ValidFrom" type="xs:dateTime">
+		<xs:annotation>
+			<xs:documentation>Defines the date and time when the organization instance starts to be valid (e.g. published). An empty value is equals to allways valid.</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attribute name="ValidTo" type="xs:dateTime">
+		<xs:annotation>
+			<xs:documentation>Defines the date and time when the organization instance ends to be valid (e.g. unpublished). An empty value is equals to allways valid.</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
 </xs:schema>
