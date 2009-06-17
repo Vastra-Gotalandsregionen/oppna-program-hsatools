@@ -273,7 +273,8 @@ public class InformationPusherEniro implements InformationPusher {
 				organization = generateOrganisationTree(collectedUnits);
 			} else {
 				organization = generateFlatOrganization(collectedUnits);
-				// TODO: organization.setIncremental("true")
+				organization.setLoadType("full")
+				// TODO: bryt ut full till enum
 			}
 			organization.setId(organizationId);
 			organization.setName(organizationName);
