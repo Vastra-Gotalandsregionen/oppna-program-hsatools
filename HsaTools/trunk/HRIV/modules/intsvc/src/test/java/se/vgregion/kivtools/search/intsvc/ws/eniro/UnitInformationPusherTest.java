@@ -1,6 +1,8 @@
 package se.vgregion.kivtools.search.intsvc.ws.eniro;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -19,6 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.exceptions.InvalidFormatException;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Organization;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
@@ -38,13 +41,17 @@ public class UnitInformationPusherTest {
 	private InformationPusherEniro informationPusher;
 	private static File dateSynchFile;
 	private static File unitExistFile;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		informationPusher = new InformationPusherEniro();
 		UnitRepository unitRepository = createMockUnitRepositoryFull(getDefaultTestUnits());
 		CodeTablesService mockCodeTableService = EasyMock.createMock(CodeTablesService.class);
 		EasyMock.expect(mockCodeTableService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "")).andReturn("");
+		EasyMock.expectLastCall().anyTimes();
+		EasyMock.expect(mockCodeTableService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "1604")).andReturn("test");
+		EasyMock.expectLastCall().anyTimes();
+		EasyMock.expect(mockCodeTableService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "1460")).andReturn("test2");
 		EasyMock.expectLastCall().anyTimes();
 		FtpClient mockFtpClient = EasyMock.createMock(FtpClient.class);
 		EasyMock.expect(mockFtpClient.sendFile(new File("src/test/VGR.xml"))).andReturn(true);
@@ -91,6 +98,35 @@ public class UnitInformationPusherTest {
 	}
 
 	@Test
+	public void testErrorHandlingForSaveLastSynchedModifyDateMethod() {
+		informationPusher.setLastSynchedModifyDateFile(null);
+		informationPusher.doService();
+	}
+
+	@Test
+	public void testErrorHandlingForLastExistingUnitsFile() {
+		File mockLastExistingUnitsFile = EasyMock.createMock(File.class);
+		EasyMock.expect(mockLastExistingUnitsFile.exists()).andReturn(false);
+		EasyMock.expect(mockLastExistingUnitsFile.getPath()).andReturn("");
+		EasyMock.replay(mockLastExistingUnitsFile);
+		try {
+			informationPusher.setLastExistingUnitsFile(mockLastExistingUnitsFile);
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			PrintStream printStream = new PrintStream(byteArrayOutputStream);
+			System.setErr(printStream);
+			informationPusher.doService();
+			System.err.println("tets");
+			String f = byteArrayOutputStream.toString();
+			f = "";
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@Test
 	public void testUseLastSynchedModifyDateFile() throws Exception {
 		// First time we don't have last synched modify date information, should collect all (15) units (regarded as new) but only 4 root units.
 		informationPusher.doService();
@@ -125,6 +161,24 @@ public class UnitInformationPusherTest {
 	public void testDoPushInformation() throws Exception {
 		informationPusher.doService();
 		Organization organization = getOrganizationFromFile();
+		Assert.assertTrue("Organization should contain 4 root units", organization.getUnit().size() == 4);
+	}
+
+	@Test
+	/*
+	 * * If ftp fails to send file then doService method shall continue to generate full tree structure xml file
+	 */
+	public void testFtpFailure() throws Exception {
+		FtpClient mockFtpClient = EasyMock.createMock(FtpClient.class);
+		EasyMock.expect(mockFtpClient.sendFile(new File("src/test/VGR.xml"))).andReturn(false);
+		EasyMock.expectLastCall().anyTimes();
+		informationPusher.setFtpClient(mockFtpClient);
+		informationPusher.doService();
+		Organization organization = getOrganizationFromFile();
+		Assert.assertTrue("Organization should contain 4 root units", organization.getUnit().size() == 4);
+
+		informationPusher.doService();
+		organization = getOrganizationFromFile();
 		Assert.assertTrue("Organization should contain 4 root units", organization.getUnit().size() == 4);
 	}
 
@@ -166,15 +220,11 @@ public class UnitInformationPusherTest {
 			}
 		}
 	}
-	
-	/* Not used remove 06082009 db
-	private static se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Unit getEniroUnit(Unit domainUnit) {
-		se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Unit eniroUnit = new se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Unit();
-		eniroUnit.setName(domainUnit.getName());
-		eniroUnit.setId(domainUnit.getHsaIdentity());
-		return eniroUnit;
-	}
-	*/
+
+	/*
+	 * Not used remove 06082009 db private static se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Unit getEniroUnit(Unit domainUnit) { se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Unit
+	 * eniroUnit = new se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Unit(); eniroUnit.setName(domainUnit.getName()); eniroUnit.setId(domainUnit.getHsaIdentity()); return eniroUnit; }
+	 */
 	/**
 	 * Generate test units
 	 */
@@ -186,11 +236,13 @@ public class UnitInformationPusherTest {
 		unitExistFile.delete();
 	}
 
-	private static Calendar generateCalendar(int i) {
+	private static void setCreateAndModifyTimestampForUnit(int i, Unit unit) {
 		Calendar calendar = Calendar.getInstance();
 		// Newest is assumed to be the day before yesterday
 		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), (calendar.get(Calendar.DAY_OF_MONTH) - (i + 1) * 2), 00, 00, 00);
-		return calendar;
+		String dateStr = Constants.formateDateToZuluTime(calendar.getTime());
+		unit.setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
+		unit.setModifyTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
 	}
 
 	private static List<Unit> getDefaultTestUnits() {
@@ -200,64 +252,81 @@ public class UnitInformationPusherTest {
 		unitRoot1.setDn(DN.createDNFromString("ou=root1,ou=org,o=VGR"));
 		unitRoot1.setName("root1");
 		unitRoot1.setHsaIdentity("root1-id");
+		setCreateAndModifyTimestampForUnit(1, unitRoot1);
 		Unit unitRoot2 = new Unit();
 		unitRoot2.setDn(DN.createDNFromString("ou=root2,ou=org,o=VGR"));
 		unitRoot2.setName("root2");
 		unitRoot2.setHsaIdentity("root2-id");
+		setCreateAndModifyTimestampForUnit(2, unitRoot2);
 		Unit unitRoot3 = new Unit();
 		unitRoot3.setDn(DN.createDNFromString("ou=root3,ou=org,o=VGR"));
 		unitRoot3.setName("root3");
 		unitRoot3.setHsaIdentity("root3-id");
+		setCreateAndModifyTimestampForUnit(3, unitRoot3);
 		Unit unitRoot4 = new Unit();
 		unitRoot4.setDn(DN.createDNFromString("ou=root4,ou=org,o=VGR"));
 		unitRoot4.setName("root4");
 		unitRoot4.setHsaIdentity("root4-id");
+		setCreateAndModifyTimestampForUnit(4, unitRoot4);
 
 		Unit unitChild1 = new Unit();
 		unitChild1.setDn(DN.createDNFromString("ou=child1,ou=root1,ou=org,o=VGR"));
 		unitChild1.setName("child1");
 		unitChild1.setHsaIdentity("child1-id");
+		setCreateAndModifyTimestampForUnit(5, unitChild1);
 		Unit unitChild2 = new Unit();
 		unitChild2.setDn(DN.createDNFromString("ou=child2,ou=root2,ou=org,o=VGR"));
 		unitChild2.setName("child2");
 		unitChild2.setHsaIdentity("child2-id");
+		setCreateAndModifyTimestampForUnit(6, unitChild2);
 		Unit unitChild3 = new Unit();
 		unitChild3.setDn(DN.createDNFromString("ou=child3,ou=root3,ou=org,o=VGR"));
 		unitChild3.setName("child3");
 		unitChild3.setHsaIdentity("child3-id");
+		setCreateAndModifyTimestampForUnit(7, unitChild3);
 		Unit unitChild4 = new Unit();
 		unitChild4.setDn(DN.createDNFromString("ou=child4,ou=root4,ou=org,o=VGR"));
 		unitChild4.setName("child4");
 		unitChild4.setHsaIdentity("child4-id");
+		setCreateAndModifyTimestampForUnit(8, unitChild4);
 		Unit unitChild5 = new Unit();
 		unitChild5.setDn(DN.createDNFromString("ou=child5,ou=root4,ou=org,o=VGR"));
 		unitChild5.setName("child5");
 		unitChild5.setHsaIdentity("child5-id");
+		setCreateAndModifyTimestampForUnit(9, unitChild5);
 
 		Unit unitLeaf1 = new Unit();
 		unitLeaf1.setDn(DN.createDNFromString("ou=leaf1,ou=child1,ou=root1,ou=org,o=VGR"));
 		unitLeaf1.setName("leaf1");
 		unitLeaf1.setHsaIdentity("leaf1-id");
+		setCreateAndModifyTimestampForUnit(10, unitLeaf1);
 		Unit unitLeaf2 = new Unit();
 		unitLeaf2.setDn(DN.createDNFromString("ou=leaf2,ou=child2,ou=root2,ou=org,o=VGR"));
 		unitLeaf2.setName("leaf2");
 		unitLeaf2.setHsaIdentity("leaf2-id");
+		setCreateAndModifyTimestampForUnit(11, unitLeaf2);
 		Unit unitLeaf3 = new Unit();
 		unitLeaf3.setDn(DN.createDNFromString("ou=leaf3,ou=child3,ou=root3,ou=org,o=VGR"));
 		unitLeaf3.setName("leaf3");
 		unitLeaf3.setHsaIdentity("leaf3-id");
+		setCreateAndModifyTimestampForUnit(12, unitLeaf3);
 		Unit unitLeaf4 = new Unit();
 		unitLeaf4.setDn(DN.createDNFromString("ou=leaf4,ou=child3,ou=root3,ou=org,o=VGR"));
 		unitLeaf4.setName("leaf4");
 		unitLeaf4.setHsaIdentity("leaf4-id");
+		setCreateAndModifyTimestampForUnit(13, unitLeaf4);
 		Unit unitLeaf5 = new Unit();
 		unitLeaf5.setDn(DN.createDNFromString("ou=leaf5,ou=child4,ou=root4,ou=org,o=VGR"));
 		unitLeaf5.setName("leaf5");
 		unitLeaf5.setHsaIdentity("leaf5-id");
+		setCreateAndModifyTimestampForUnit(14, unitLeaf5);
 		Unit unitLeaf6 = new Unit();
 		unitLeaf6.setDn(DN.createDNFromString("ou=leaf6,ou=child5,ou=root4,ou=org,o=VGR"));
 		unitLeaf6.setName("leaf6");
 		unitLeaf6.setHsaIdentity("leaf6-id");
+		setCreateAndModifyTimestampForUnit(0, unitLeaf6);
+		// This is to test that informationpusher can handle a unit with only modify date set.
+		unitLeaf6.setCreateTimestamp(null);
 
 		return new ArrayList<Unit>(Arrays.asList(unitRoot1, unitRoot2, unitRoot3, unitRoot4, unitChild1, unitChild2, unitChild3, unitChild4, unitChild5, unitLeaf1, unitLeaf2, unitLeaf3, unitLeaf4,
 				unitLeaf5, unitLeaf6));
@@ -266,15 +335,10 @@ public class UnitInformationPusherTest {
 	private UnitRepository createMockUnitRepositoryFull(List<Unit> units) throws Exception {
 		UnitRepository mockUnitRepository = EasyMock.createMock(UnitRepository.class);
 		EasyMock.expect(mockUnitRepository.getAllUnits()).andReturn(units);
+		EasyMock.expectLastCall().anyTimes();
 		for (int i = 0; i < units.size(); i++) {
 			EasyMock.expect(mockUnitRepository.getUnitByDN(DN.createDNFromString(units.get(i).getDn().toString()))).andReturn(units.get(i));
 			EasyMock.expectLastCall().anyTimes();
-			// If createTimestamp and modifyTimestamp is null set values
-			if (units.get(i).getCreateTimestamp() == null || units.get(i).getModifyTimestamp() == null) {
-				String dateStr = Constants.formateDateToZuluTime(generateCalendar(i).getTime());
-				units.get(i).setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
-				units.get(i).setModifyTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
-			}
 			fillMockData(units.get(i));
 		}
 		EasyMock.replay(mockUnitRepository);
@@ -284,10 +348,14 @@ public class UnitInformationPusherTest {
 	private void fillMockData(Unit unit) {
 		unit.setHsaStreetAddress(new Address("Test avenue 1", new ZipCode("41323"), "Gothenburg", new ArrayList<String>()));
 		unit.setHsaPostalAddress(new Address("Test avenue 1", new ZipCode("41323"), "Gothenburg", new ArrayList<String>()));
-		unit.setHsaPublicTelephoneNumber(new ArrayList<PhoneNumber>());
-		unit.setHsaDropInHours(new ArrayList<WeekdayTime>());
-		unit.setHsaTelephoneTime(new ArrayList<WeekdayTime>());
-		unit.setHsaSurgeryHours(new ArrayList<WeekdayTime>());
-		unit.setHsaBusinessClassificationCode(new ArrayList<String>());
+		unit.setHsaPublicTelephoneNumber(Arrays.asList(new PhoneNumber("11111"), new PhoneNumber("22222")));
+		try {
+			unit.setHsaDropInHours(Arrays.asList(new WeekdayTime(1, 3, 8, 0, 17, 0), new WeekdayTime(4, 5, 10, 0, 17, 0)));
+			unit.setHsaTelephoneTime(Arrays.asList(new WeekdayTime(1, 3, 8, 0, 17, 0), new WeekdayTime(4, 5, 10, 0, 17, 0)));
+			unit.setHsaSurgeryHours(Arrays.asList(new WeekdayTime(1, 3, 8, 0, 17, 0), new WeekdayTime(4, 5, 10, 0, 17, 0)));
+		} catch (InvalidFormatException e) {
+			throw new RuntimeException();
+		}
+		unit.setHsaBusinessClassificationCode(Arrays.asList("1604", "1460"));
 	}
 }
