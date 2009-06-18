@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.math.BigInteger;
@@ -30,6 +29,7 @@ import org.springframework.beans.factory.annotation.Required;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Address;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Description;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.EAliasType;
+import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.ObjectFactory;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Organization;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.TelephoneType;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.AddressType.GeoCoordinates;
@@ -142,7 +142,7 @@ public class InformationPusherEniro implements InformationPusher {
 			fileWriter.write(Constants.formateDateToZuluTime(lastSynchedModifyDate));
 			fileWriter.flush();
 			fileWriter.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error("Error in saveLastSynchedModifyDate", e);
 		}
 	}
@@ -273,7 +273,7 @@ public class InformationPusherEniro implements InformationPusher {
 				organization = generateOrganisationTree(collectedUnits);
 			} else {
 				organization = generateFlatOrganization(collectedUnits);
-				organization.setLoadType("full")
+				//organization.setLoadType("full");
 				// TODO: bryt ut full till enum
 			}
 			organization.setId(organizationId);
@@ -419,8 +419,8 @@ public class InformationPusherEniro implements InformationPusher {
 		// Management
 		Management management = new Management();
 		management.setValue(unit.getHsaManagementText());
-		jaxbUnit.getDescriptionOrImageOrAddress().add(management);
-
+		jaxbUnit.setManagement(management);
+		
 		// Business classification
 		List<String> businessClassifications = unit.getHsaBusinessClassificationCode();
 
@@ -464,29 +464,6 @@ public class InformationPusherEniro implements InformationPusher {
 		return inputString;
 	}
 	
-	/*
-	private void sendXmlFile(File organizationXmlFile) {
-		try {
-			Session session = jsch.getSession(ftpUser, ftpHost, ftpPort);
-			session.setPassword(ftpPassword);
-			session.setConfig("StrictHostKeyChecking", "no");
-			session.connect();
-			ChannelSftp channelSftp = (ChannelSftp) session.openChannel("sftp");
-			channelSftp.connect();
-			channelSftp.put(new FileInputStream(organizationXmlFile), ftpDestinationFileName);
-			channelSftp.disconnect();
-			session.disconnect();
-			// Save last synch date to file after successful commit of xml file
-			// to ftp
-			saveLastSynchedModifyDate();
-			saveLastExistingUnitList();
-		} catch (Exception e) {
-			// Commit to ftp was unsuccessful. Reset the lastSynchedModifyDate
-			lastSynchedModifyDate = null;
-			logger.error("Error in sendXmlFile", e);
-		}
-	}*/
-
 	private Unit getParentUnit(Unit unit) {
 		DN dn = unit.getDn();
 		DN parentDn = dn.getParentDN(2);
