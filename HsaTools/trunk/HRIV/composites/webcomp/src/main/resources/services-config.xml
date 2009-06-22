@@ -110,6 +110,7 @@
 		<property name="fileEncoding" value="UTF-8" />
 	</bean>
 	
+<!-- TODO Move to vgr import -->
 	<bean id="Controller.registerOnUnit" class="se.vgregion.kivtools.search.presentation.RegisterOnUnitController">
 		<property name="vardValService" ref="Registration.vardValService" />
 	</bean>
