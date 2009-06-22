@@ -311,6 +311,10 @@ public class UnitFactory {
 		HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
 		htch.assignHealthcareTypes(unit);
 		
+		// Vårdval
+        unit.setVgrVardVal(Boolean.parseBoolean(LdapORMHelper.getSingleValue(unitEntry
+                .getAttribute("vgrVardVal"))));
+		
 		return unit;
     }
 
