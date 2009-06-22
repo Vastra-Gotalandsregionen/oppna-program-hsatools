@@ -136,24 +136,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jaxws-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>wsimport</goal>
-						</goals>
-						<configuration>
-							<wsdlUrls>
-								<wsdlUrl>http://w120390/VardvalService/Vardvalservice.svc?wsdl</wsdlUrl>
-							</wsdlUrls>
-							<packageName>se.vgregion.kivtools.search.intsvc.ws.domain.vardval</packageName>
-							<sourceDestDir>src/main/java</sourceDestDir>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 </project>
