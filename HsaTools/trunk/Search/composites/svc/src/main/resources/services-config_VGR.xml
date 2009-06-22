@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 	<!--
-
 		Copyright 2009 Västa Götalandsregionen This library is free software;
 		you can redistribute it and/or modify it under the terms of version
 		2.1 of the GNU Lesser General Public License as published by the Free
@@ -16,7 +15,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
 	<!--
 		Use this mock-injection if connection to KIV is disabled <bean
 		id="Search.SearchService"
@@ -39,7 +37,6 @@
 		<property name="employmentRepository" ref="Search.EmploymentRepository"></property>
 		<property name="healthcareTypeConditionHelper" ref="Search.HealthcareTypeConditionHelper"></property>
 	</bean>
-
 	<bean id="Search.PersonRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.PersonRepository">
 		<property name="ldapConnectionPool" ref="Search.LdapConnectionPool"></property>
@@ -65,7 +62,6 @@
 		<property name="implResourcePath"
 			value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-municipalities"></property>
 	</bean>
-
 	<bean id="Search.LdapConnectionPool"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.LdapConnectionPool"
 		destroy-method="release">
@@ -80,20 +76,17 @@
 		<property name="location"
 			value="classpath:se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties" />
 	</bean>
-
 	<bean id="Search.CodeTablesService"
 		class="se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl"
 		init-method="init" depends-on="Search.LdapConnectionPool">
 		<property name="ldapConnectionPool" ref="Search.LdapConnectionPool" />
 	</bean>
-
 	<bean id="jobDetailCodeTableCacheUpdate"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="Search.CodeTablesService" />
 		<property name="targetMethod" value="init" />
 		<property name="concurrent" value="false" />
 	</bean>
-
 	<bean id="simpleTriggerCodeTableCacheUpdate" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
 		<!-- see the example of method invoking job above -->
 		<property name="jobDetail" ref="jobDetailCodeTableCacheUpdate" />
@@ -102,13 +95,18 @@
 		<!-- repeat every 24 hours -->
 		<property name="repeatInterval" value="86400000" />
 	</bean>
-
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="startupDelay" value="10" />
 		<property name="triggers">
 			<list>
 				<ref bean="simpleTriggerCodeTableCacheUpdate" />
 			</list>
+		</property>
+	</bean>
+	<bean id="Registration.vardValService"
+		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl">
+		<property name="vardvalService">
+			<bean class="se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalService" />
 		</property>
 	</bean>
 </beans>
