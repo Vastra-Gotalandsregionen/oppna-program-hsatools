@@ -15,26 +15,22 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd">
-	<start-state idref="Select.registerOnUnitView" />
+        
+        
+    <var name="registrationSupportBean" class="se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm" scope="flow" />
+        
+	<start-state idref="Display.displayRegistration" />
 	
-	<decision-state id="Select.registerOnUnitView">
+	<view-state id="Display.displayRegistration" view="/confirmRegistrationChanges.xhtml">
 		<entry-actions>
-			<action bean="Controller.registerOnUnit" method="extractSessionInformation"></action>
-
+ 			<action bean="Controller.registerOnUnit" method="getUnitRegistrationInformation"></action> 
 <!-- 			<bean-action bean="Controller.registerOnUnit" method="extractSessionInformation">
 				<method-arguments>
 					<argument expression="sessionScope." />
 				</method-arguments>
 			</bean-action>  -->
 		</entry-actions>
-		<if test="requestParameters.hsaidentity!=null" then="Display.displayRegistration"
-			else="Display.unitRegisterSearchView" />
-	</decision-state>
-	
-	<view-state id="Display.unitRegisterSearchView" view="/registrationOnUnitSearchView.xhtml">
-	</view-state>
-	
-	<view-state id="Display.displayRegistration" view="/confirmRegistrationChanges.xhtml">
+
 		<transition on="doConfirm" to="Action.changeRegistration" />
 		<transition on="doCancel" to="Display.startpage" />
 		<transition on="doSearch" to="Search.validateSearchParams" />

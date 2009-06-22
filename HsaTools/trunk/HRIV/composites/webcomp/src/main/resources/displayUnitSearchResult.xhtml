@@ -235,6 +235,10 @@
 					                        </div>
 				                        </div>
 				                        
+										<h:outputText rendered="#{unit.showInVgrVardVal == true}">
+											<div class="vardval">Ingår i VG Primärvård</div>
+										</h:outputText>
+
 										<div class="uncomplete-unit">
 				                    	 	<h:outputText rendered="#{settings.testingMode==true and !theUnit.contentValidationOk}">
 				                    	 		<img src="resources/images/flag_red.png" alt="#{msg.missingInfoOnUnit}"/>

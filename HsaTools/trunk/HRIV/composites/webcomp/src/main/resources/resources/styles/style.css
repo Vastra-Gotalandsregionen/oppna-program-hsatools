@@ -959,3 +959,8 @@ div.autocomplete {
 	/* YUI AC fix */
 	padding-top: 2em; 
 }
+
+.vardval {
+	border-style: solid;
+	border-color: red;
+}

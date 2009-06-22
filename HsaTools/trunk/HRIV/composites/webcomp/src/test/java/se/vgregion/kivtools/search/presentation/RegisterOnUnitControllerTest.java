@@ -45,7 +45,7 @@ public class RegisterOnUnitControllerTest {
 		
 		EasyMock.replay(mockRequestContext, mockServletExternalContext, mockHttpServletRequest);
 		
-		Event event = registerOnUnitController.extractSessionInformation(mockRequestContext);
+		Event event = registerOnUnitController.getUnitRegistrationInformation(mockRequestContext);
 		assertEquals("success", event.getId());
 	}
 }

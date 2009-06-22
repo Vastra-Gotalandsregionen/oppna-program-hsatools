@@ -57,6 +57,7 @@
 
 	<bean id="Search.SettingsContainer" class="se.vgregion.kivtools.search.presentation.SettingsBean" scope="prototype">
 		<property name="resourceBundleInclude" value="#{hsatools.hriv.webcomp.resourceBundleInclude}" />
+		<property name="vardValInclude" value="#{hsatools.hriv.webcomp.vardValInclude}" />
 		<property name="testingMode" value="#{hsatools.hriv.webcomp.testingMode}" />
 		<property name="useAccessibilityDatabaseIntegration" value="#{hsatools.hriv.webcomp.useAccessibilityDatabaseIntegration}" />
 		<property name="fallbackOnAddressForMap" value="#{hsatools.hriv.webcomp.fallbackOnAddressForMap}" />
@@ -110,6 +111,6 @@
 	</bean>
 	
 	<bean id="Controller.registerOnUnit" class="se.vgregion.kivtools.search.presentation.RegisterOnUnitController">
-	<!--  property for web service that communicates with "vårdvalssystemet" -->
+		<property name="vardValService" ref="Registration.vardValService" />
 	</bean>
 </beans>

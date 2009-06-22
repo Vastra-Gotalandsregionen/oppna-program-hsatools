@@ -201,8 +201,7 @@
 						</div>
 					</div>
 					<div id="unit-listing">
-						<a href="confirmRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnit-flow">#{msg.pickChooseUnit}</a>
-						<!-- <a href="" onclick="popup('https://extwebseal.vgregion.se/hriv/secure/confirmRegistrationChanges.jsp?hsaidentity=#{unit.hsaIdentity}')">Välj/Byt vårdcentral</a>  -->
+						<ui:include src="#{settings.vardValInclude}" />
 					</div>						
 
 					<div class="unit-details-header">
