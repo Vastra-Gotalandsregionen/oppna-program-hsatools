@@ -24,21 +24,19 @@ import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
 
-import se.vgregion.kivtools.search.util.Base64;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.Address;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
+import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityInformation;
+import se.vgregion.kivtools.search.util.Base64;
 import se.vgregion.kivtools.search.util.Constants;
 import se.vgregion.kivtools.search.util.Evaluator;
 
@@ -142,6 +140,16 @@ public class Unit implements Serializable, Comparable<Unit> {
 	private boolean isNew;
 	private boolean isRemoved;
 	private boolean isMoved;
+
+	private boolean vgrVardVal;
+	
+	public boolean isVgrVardVal() {
+		return vgrVardVal;
+	}
+
+	public void setVgrVardVal(boolean vgrVardVal) {
+		this.vgrVardVal = vgrVardVal;
+	}
 
 	public boolean isMoved() {
 		return isMoved;
@@ -1209,4 +1217,15 @@ public class Unit implements Serializable, Comparable<Unit> {
 		this.accessibilityInformation = accessibilityInformation;
 	}
 
+	public boolean isShowInVgrVardVal() {
+// TODO use vgrVardVal when it is set in LDAP		if (isVgrVardVal() && getHsaBusinessClassificationText().contains("Vårdcentral")) {
+		if (true) {
+			for (HealthcareType ht : getHealthcareTypes()) {
+				if ("Vårdcentral".equals(ht.getDisplayName())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
