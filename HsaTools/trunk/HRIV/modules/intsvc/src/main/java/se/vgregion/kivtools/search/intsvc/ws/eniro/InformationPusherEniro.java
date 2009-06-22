@@ -274,7 +274,7 @@ public class InformationPusherEniro implements InformationPusher {
 			} else {
 				organization = generateFlatOrganization(collectedUnits);
 				//organization.setLoadType("full");
-				// TODO: bryt ut full till enum
+				// TODO: bryt ut full till enumnh
 			}
 			organization.setId(organizationId);
 			organization.setName(organizationName);
@@ -435,7 +435,7 @@ public class InformationPusherEniro implements InformationPusher {
 		// Location
 		Locality locality = new Locality();
 		locality.setValue(unit.getHsaMunicipalityName());
-
+		// TODO set attribut beroende på om stadsdel eller kommun
 		jaxbUnit.getDescriptionOrImageOrAddress().add(locality);
 
 		return jaxbUnit;
