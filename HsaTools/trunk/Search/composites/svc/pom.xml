@@ -12,19 +12,15 @@
 	<packaging>jar</packaging>
 	<name>HsaTools-Search-composite-svc</name>
 	<!--<version> version IS DEFINED BY PARENT </version>-->
-
 	<parent>
 		<groupId>HsaTools</groupId>
 		<artifactId>HsaTools-Search</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-
 	<dependencies>
 		<dependency>
 			<groupId>HsaTools</groupId>
-			<artifactId>
-        HsaTools-Search-composite-types
-      </artifactId>
+			<artifactId> HsaTools-Search-composite-types </artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>
@@ -95,7 +91,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -135,7 +130,6 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-
 	<repositories>
 		<repository>
 			<id>maven2-repository.dev.java.net</id>
@@ -160,4 +154,26 @@
 			<url>http://download.java.net/maven/2</url>
 		</pluginRepository>
 	</pluginRepositories>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						<configuration>
+							<wsdlUrls>
+								<wsdlUrl>http://w120390/VardvalService/Vardvalservice.svc?wsdl</wsdlUrl>
+							</wsdlUrls>
+							<packageName>se.vgregion.kivtools.search.svc.ws.domain.vardval</packageName>
+							<sourceDestDir>src/main/java</sourceDestDir>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
