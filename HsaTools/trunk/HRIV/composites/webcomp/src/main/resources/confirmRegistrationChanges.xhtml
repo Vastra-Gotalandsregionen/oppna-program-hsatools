@@ -27,42 +27,10 @@
 	<ui:composition template="/template.xhtml">
 
 	<ui:define name="MetaDataContainer">
-		<h:outputText rendered="#{unit.hsaIdentity != null}">
-		<title>#{unit.name} - #{settings.title}</title>
-		</h:outputText>
-		<h:outputText rendered="#{unit.hsaIdentity == null}">
-		<title>#{settings.title}</title>
-		</h:outputText>
+		<title>Bekräfta listning på mottagning - #{settings.title}</title>
 		<meta name="resource-type" content="organisation" />
-		<meta name="keywords" content="Hitta-rätt-i-vården, HRIV, sök, organisation, enhet, telefonnummer, adress, #{unit.name}" /> 		
-		<meta name="date" content="#{unit.createTimestampFormatted}" /> 
-		<meta name="creation-date" content="#{unit.createTimestampFormatted}" /> 
-		<meta name="last-modified" content="#{unit.modifyTimestampFormatted}" /> 
-		<meta name="revised" content="#{unit.modifyTimestampFormatted}" /> 
-		<meta name="DC.title" content="#{unit.name} - Hitta rätt i vården" /> 
-		<meta name="DC.subject" content="Hitta-rätt-i-vården, sök, organisation, enhet, mottagning, telefonnummer, adress, ort, #{unit.name}, #{unit.hsaMunicipalityName}" /> 
-		<h:outputText rendered="#{unit.concatenatedDescription == ''}">
-		<meta name="DC.description" content="#{unit.name}, #{unit.caretypeCustomized} i #{unit.hsaMunicipalityName}. Telefonnummer: #{unit.hsaPublicTelephoneNumber[0].formattedPhoneNumber}" />
-		<meta name="description" content="#{unit.name}, #{unit.caretypeCustomized} i #{unit.hsaMunicipalityName}. Telefonnummer: #{unit.hsaPublicTelephoneNumber[0].formattedPhoneNumber}" />
-		</h:outputText> 
-		<h:outputText rendered="#{unit.concatenatedDescription != ''}">
-		<meta name="DC.description" content="#{unit.concatenatedDescription}" />
-		<meta name="description" content="#{unit.concatenatedDescription}" />
-		</h:outputText> 
-      	<h:outputText rendered="#{unit.wgs84Lat!=0.0 and unit.wgs84Long!=0.0}">
-		<meta name="geo.position" content="#{unit.wgs84LatRounded} ;#{unit.wgs84LongRounded}"/>
-		</h:outputText>
-		<meta name="geo.country" content="SE" />
-		<meta name="geo.region" content="#{settings.geoRegion}" />
-		<meta name="geo.placename" lang="sv-SE" content="#{unit.hsaMunicipalityName}"/>
-		
-		<h:outputText rendered="#{unit.hsaIdentity == null}">
+		<meta name="DC.title" content="Bekräfta listning på mottagning - #{settings.title}" /> 
 		<meta name="ROBOTS" content="NOINDEX,NOFOLLOW" />
-		</h:outputText>
-		<h:outputText rendered="#{unit.hsaIdentity != null}">
-		<meta name="robots" content="ALL" /> 
-		</h:outputText>19
-		
 	</ui:define>
 
 	<ui:define name="HRIVCaptions">
@@ -70,28 +38,12 @@
 
 	<ui:define name="MainContainer">
 		<div class="yui-u search-result">
-
-		<h:outputText rendered="#{unit.hsaIdentity != null}">
-			<div id="print-element">
-				<h:outputText rendered="#{settings.showLinkToIM==true and settings.linkToIMOnServer==facesContext.externalContext.request.serverName}">
-					<a href="#{settings.linkToIMBase}#{unit.dnBase64}" class="url">Editera i IM</a>&#160; 
-				</h:outputText>
-			
-				<h:outputText rendered="#{settings.useAccessibilityDatabaseIntegration==true and unit.accessibilityDatabaseId != null}"><a href="getlink?_linkflowkey=${flowExecutionKey}&amp;_linkeventid=viewAccessibilityInfoAction&amp;unitId=#{unit.hsaIdentity}"><img src="resources/images/disabled.png" alt="Tillgänglighetsinformation"/></a>&#160;</h:outputText>
-				<h:outputText rendered="#{settings.usePrinting==true}">
-					<script type="text/javascript" charset="utf-8">
-						// <![CDATA[]
-							drawPrintLabel('print-area');
-						// ]]>
-					</script>
-				</h:outputText>
-			</div>
 			<div id="print-area">
 				<h1>Bekräfta byte av vårdcentral</h1>
 				
 				<div id="confirm-listing">
-					Namn: <br/>
-					Personnummer: #{facesContext.externalContext.requestParameterMap.ssn}<br/>
+<!--					Namn: #{flowScope.ldapPath}<br/>-->
+					Personnummer: #{registrationSupportBean.ssn}<br/>
 				</div>
 				
 				Din nuvarande listning för vårdcentral:<br/>
@@ -104,10 +56,7 @@
 					<input type="submit" id="submitButton" jsfc="h:commandButton" value="Bekräfta byte" action="doConfirm" />				
 					<input type="submit" id="submitButton" jsfc="h:commandButton" value="Avbryt" action="doCancel" />				
 				</h:form>
-				
 			</div>
-
-		</h:outputText>
 		</div>
 	</ui:define>
 

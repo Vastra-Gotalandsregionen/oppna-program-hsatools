@@ -16,40 +16,50 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd">
         
-        
+	<var name="settings" bean="Search.SettingsContainer" />        
     <var name="registrationSupportBean" class="se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm" scope="flow" />
-        
+    <var name="unitSearchSimpleForm" class="se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm" scope="flow" />
+	<var name="registrationSupportBean" class="se.vgregion.kivtools.search.presentation.RegistrationSupportBean" scope="flow" />
+
+	<input-mapper>
+		<input-attribute name="hsaidentity" />
+	</input-mapper>
+	    
 	<start-state idref="Display.displayRegistration" />
 	
 	<view-state id="Display.displayRegistration" view="/confirmRegistrationChanges.xhtml">
-		<entry-actions>
- 			<action bean="Controller.registerOnUnit" method="getUnitRegistrationInformation"></action> 
+		<render-actions>
+ 			<bean-action bean="Controller.registerOnUnit" method="getUnitRegistrationInformation">
+				<method-arguments>
+					<argument expression="externalContext"/>
+				</method-arguments>
+				<method-result name="registrationSupportBean" scope="flow" />
+ 			</bean-action> 
 <!-- 			<bean-action bean="Controller.registerOnUnit" method="extractSessionInformation">
 				<method-arguments>
 					<argument expression="sessionScope." />
 				</method-arguments>
 			</bean-action>  -->
-		</entry-actions>
+		</render-actions>
 
-		<transition on="doConfirm" to="Action.changeRegistration" />
+<!--		<transition on="doConfirm" to="Action.changeRegistration" />-->
 		<transition on="doCancel" to="Display.startpage" />
 		<transition on="doSearch" to="Search.validateSearchParams" />
 		<transition on="gotoCaretypes" to="Display.caretypes" />
 		<transition on="gotoStartpage" to="Display.startpage" />
 	</view-state>
 	
-	<action-state id="Action.changeRegistration">
-		<action bean="Controller.registerOnUnit" method="commitRegistrationOnUnit">
-		</action>
-		<transition on="success" to="Display.registrationConfirmation" />
-		<transition
-			on-exception="se.vgregion.kivtools.search.exceptions.IncorrectUserInputException"
-			to="Search.displayUnitSearchResult">
-		</transition>
-	</action-state>
+<!--	<action-state id="Action.changeRegistration">-->
+<!--		<bean-action bean="Controller.registerOnUnit" method="commitRegistrationOnUnit" />-->
+<!--		<transition on="success" to="Display.registrationConfirmation" />-->
+<!--		<transition-->
+<!--			on-exception="se.vgregion.kivtools.search.exceptions.IncorrectUserInputException"-->
+<!--			to="Search.displayUnitSearchResult">-->
+<!--		</transition>-->
+<!--	</action-state>-->
 	
 	<view-state id="Display.registrationConfirmation" view="/confirmationRegistrationChanges.xhtml">
-		<transition on="doConfirm" to="Action.changeListing" />
+<!--		<transition on="doConfirm" to="Action.changeListing" />-->
 		<transition on="doCancel" to="Display.startpage" />
 		<transition on="doSearch" to="Search.validateSearchParams" />
 		<transition on="gotoCaretypes" to="Display.caretypes" />

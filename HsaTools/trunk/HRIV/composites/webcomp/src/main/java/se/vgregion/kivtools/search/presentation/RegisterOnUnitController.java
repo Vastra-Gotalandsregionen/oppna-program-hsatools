@@ -1,25 +1,30 @@
 package se.vgregion.kivtools.search.presentation;
 
 
-import org.springframework.webflow.action.MultiAction;
-import org.springframework.webflow.context.servlet.ServletExternalContext;
-import org.springframework.webflow.execution.Event;
-import org.springframework.webflow.execution.RequestContext;
+import java.io.Serializable;
+import java.util.Map;
 
-import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
+import org.springframework.webflow.context.ExternalContext;
+import org.springframework.webflow.context.servlet.ServletExternalContext;
+import org.springframework.webflow.executor.jsf.JsfExternalContext;
+
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
 
-public class RegisterOnUnitController extends MultiAction {
+public class RegisterOnUnitController implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	VardvalService vardValService;
 	
 	public void setVardValService(VardvalService vardValService) {
 		this.vardValService = vardValService;
 	}
 
-	public Event getUnitRegistrationInformation(RequestContext requestContext) {
+	public RegistrationSupportBean getUnitRegistrationInformation(ExternalContext externalContext) {
+		
+		JsfExternalContext jsfExternalContext = (JsfExternalContext) externalContext;
+		
 		// Put ssn in sessionscope object
-		ServletExternalContext externalContext = (ServletExternalContext) requestContext.getExternalContext();
+		////JsfExternalContext externalContext = (JsfExternalContext) requestContext.getExternalContext();
 		//Cookie[] cookies = externalContext.getRequest().getCookies();
 		/*
 		String ltpaCookieToken = null;
@@ -35,24 +40,41 @@ public class RegisterOnUnitController extends MultiAction {
 		// LTPA token is base64 encoded
 		byte[] ltpaTokenKey = Base64.decode(ltpaCookieToken);
 		*/
-		//String remoteUser = externalContext.getRequest().getRemoteUser();
+		
+		// WAS returns null. Maybe because the url is not protected in web.xml?
+		////Principal remoteUser = externalContext.getUserPrincipal();
+		//String name = remoteUser.getName();
 		
 		// Find ssn as http header (put there by WebSphere)
-		String ssn = externalContext.getRequest().getHeader("iv-user");
+		//Map<String, String> requestHeaderMap = externalContext.getFacesContext().getExternalContext().getRequestHeaderMap();
+		
+		Map<String, String> requestHeaderMap = jsfExternalContext.getFacesContext().getExternalContext().getRequestHeaderMap();
+		
+		String ssn = requestHeaderMap.get("iv-user");
+		//String ldapPath = requestHeaderMap.get("iv-user-1");
+		System.out.println("ssn: " + ssn);
+		//System.out.println("ldapPath: " + ldapPath);
+		//System.out.print("name: " + name);
 		
 		//VardvalInfo vardval = vardValService.getVardval(ssn);
 		
 		// Set the results in "request scope"
 		//requestContext.getRequestScope().put("vardval", vardval);
-		requestContext.getRequestScope().put("ssn", ssn);
+		//requestContext.getFlowScope().put("ssn", ssn);
+		//requestContext.getFlowScope().put("ldapPath", ldapPath);
+		//requestContext.getRequestScope().put("name", name);
 		
-		Event event = new Event(this, "success");
-		return event;
+		//Event event = new Event(this, "success");
+		//return event;
+		
+		RegistrationSupportBean rsb = new RegistrationSupportBean();
+		rsb.setSsn(ssn);
+		return rsb;
 	}
 
-	public Event commitRegistrationOnUnit(RequestContext requestContext) {
+	//public void commitRegistrationOnUnit() {
 		// we need String socialSecurityNumber, String hsaIdentity) {
-		return success();
-	}
+//		return success();
+	//}
 
 }
