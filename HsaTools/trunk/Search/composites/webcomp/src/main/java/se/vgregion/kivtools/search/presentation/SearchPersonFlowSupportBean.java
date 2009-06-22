@@ -22,7 +22,6 @@ package se.vgregion.kivtools.search.presentation;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -39,7 +38,6 @@ import se.vgregion.kivtools.search.svc.TimeMeasurement;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.util.LogUtils;
 
 /**
