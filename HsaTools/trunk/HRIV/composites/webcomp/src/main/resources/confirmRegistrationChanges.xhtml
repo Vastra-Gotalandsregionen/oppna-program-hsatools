@@ -61,7 +61,8 @@
 		</h:outputText>
 		<h:outputText rendered="#{unit.hsaIdentity != null}">
 		<meta name="robots" content="ALL" /> 
-		</h:outputText>
+		</h:outputText>19
+		
 	</ui:define>
 
 	<ui:define name="HRIVCaptions">
@@ -90,16 +91,16 @@
 				
 				<div id="confirm-listing">
 					Namn: <br/>
-					Personnummer: <br/>
+					Personnummer: #{facesContext.externalContext.requestParameterMap.ssn}<br/>
 				</div>
 				
 				Din nuvarande listning för vårdcentral:<br/>
-				
+				#{facesContext.externalContext.requestParameterMap.vardval.currentHsaId}
+								
 				Du vill byta vårdcentral att vara listad på till:
-				
+				#{facesContext.externalContext.requestParameterMap.vardval.upcomingHsaId}
 				
 				<h:form>
-				
 					<input type="submit" id="submitButton" jsfc="h:commandButton" value="Bekräfta byte" action="doConfirm" />				
 					<input type="submit" id="submitButton" jsfc="h:commandButton" value="Avbryt" action="doCancel" />				
 				</h:form>

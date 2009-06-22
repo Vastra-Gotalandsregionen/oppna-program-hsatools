@@ -31,6 +31,7 @@ import java.util.List;
 public class SettingsBean implements Serializable {
 	private static final long serialVersionUID = 246274450053259084L;
 	private String resourceBundleInclude;
+	private String vardValInclude;
 	private boolean testingMode = false;
 	private boolean useAccessibilityDatabaseIntegration = false;
 	private boolean fallbackOnAddressForMap;
@@ -422,5 +423,12 @@ public class SettingsBean implements Serializable {
 
 	public void setResourceBundleInclude(String resourceBundleInclude) {
 		this.resourceBundleInclude = resourceBundleInclude;
+	}
+	public String getVardValInclude() {
+		return vardValInclude;
+	}
+
+	public void setVardValInclude(String vardValInclude) {
+		this.vardValInclude = vardValInclude;
 	}
 }

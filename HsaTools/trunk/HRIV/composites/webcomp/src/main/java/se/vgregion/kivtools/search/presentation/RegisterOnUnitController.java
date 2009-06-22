@@ -1,21 +1,26 @@
 package se.vgregion.kivtools.search.presentation;
 
-import javax.servlet.http.Cookie;
 
 import org.springframework.webflow.action.MultiAction;
 import org.springframework.webflow.context.servlet.ServletExternalContext;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 
-import se.vgregion.kivtools.search.common.Base64;
+import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
+import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
 
 public class RegisterOnUnitController extends MultiAction {
 
-	public Event extractSessionInformation(RequestContext requestContext) {
+	VardvalService vardValService;
+	
+	public void setVardValService(VardvalService vardValService) {
+		this.vardValService = vardValService;
+	}
+
+	public Event getUnitRegistrationInformation(RequestContext requestContext) {
 		// Put ssn in sessionscope object
 		ServletExternalContext externalContext = (ServletExternalContext) requestContext.getExternalContext();
-		Cookie[] cookies = externalContext.getRequest().getCookies();
-
+		//Cookie[] cookies = externalContext.getRequest().getCookies();
 		/*
 		String ltpaCookieToken = null;
 		String ltpaCookieName = "LtpaToken";
@@ -30,12 +35,19 @@ public class RegisterOnUnitController extends MultiAction {
 		// LTPA token is base64 encoded
 		byte[] ltpaTokenKey = Base64.decode(ltpaCookieToken);
 		*/
-
-		String remoteUser = externalContext.getRequest().getRemoteUser();
+		//String remoteUser = externalContext.getRequest().getRemoteUser();
 		
-		System.out.println(requestContext);
-
-		return success();
+		// Find ssn as http header (put there by WebSphere)
+		String ssn = externalContext.getRequest().getHeader("iv-user");
+		
+		//VardvalInfo vardval = vardValService.getVardval(ssn);
+		
+		// Set the results in "request scope"
+		//requestContext.getRequestScope().put("vardval", vardval);
+		requestContext.getRequestScope().put("ssn", ssn);
+		
+		Event event = new Event(this, "success");
+		return event;
 	}
 
 	public Event commitRegistrationOnUnit(RequestContext requestContext) {
