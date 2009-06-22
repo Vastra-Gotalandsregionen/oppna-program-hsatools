@@ -16,7 +16,7 @@
 	version="2.4">
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath*:/services-config.xml WEB-INF/spring-ws-servlet.xml</param-value>
+		<param-value>classpath*:/services-config.xml</param-value>
 	</context-param>
 
 	<listener>
