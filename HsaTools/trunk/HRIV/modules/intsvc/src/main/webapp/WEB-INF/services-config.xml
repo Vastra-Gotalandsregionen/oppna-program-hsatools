@@ -46,8 +46,18 @@
 
 	<bean id="Commons.FtpsClient" class="org.apache.commons.net.ftp.FTPSClient" />
 	<bean id="Commons.FtpClient" class="org.apache.commons.net.ftp.FTPClient" />
+	<bean id="jsch" class="com.jcraft.jsch.JSch" />
 
-	<bean id="Transfer.ftp" class="se.vgregion.kivtools.search.intsvc.ws.eniro.FtpClientImpl">
+	<bean id="Transfer.ftp" class="se.vgregion.kivtools.search.intsvc.ws.eniro.SftpClientImpl">
+		<property name="jsch" ref="jsch" />
+		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
+		<property name="hostname" value="webbservern2" />
+		<property name="username" value="kapten" />
+		<property name="password" value="mrcaptain" />
+		<property name="port" value="22" />
+	</bean>
+
+<!-- 	<bean id="Transfer.ftp" class="se.vgregion.kivtools.search.intsvc.ws.eniro.FtpClientImpl">
 		<property name="ftpclient" ref="Commons.FtpClient" />
 		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
 		<property name="hostname" value="leverans.prod.eniro.net" />
@@ -55,6 +65,7 @@
 		<property name="password" value="Vgt3p4sw" />
 		<property name="port" value="21" />
 	</bean>
+-->
 
 	<bean id="Push.Eniro"
 		class="se.vgregion.kivtools.search.intsvc.ws.eniro.InformationPusherEniro">
