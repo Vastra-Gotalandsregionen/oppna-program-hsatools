@@ -29,7 +29,6 @@ import org.springframework.beans.factory.annotation.Required;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Address;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Description;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.EAliasType;
-import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.ObjectFactory;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Organization;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.TelephoneType;
 import se.vgregion.kivtools.search.intsvc.ws.domain.eniro.AddressType.GeoCoordinates;
@@ -271,10 +270,12 @@ public class InformationPusherEniro implements InformationPusher {
 			Organization organization = null;
 			if (generateFullOrg) {
 				organization = generateOrganisationTree(collectedUnits);
+				organization.setLoadType("Full");
+				// TODO: bryt ut Full till enum
 			} else {
 				organization = generateFlatOrganization(collectedUnits);
-				//organization.setLoadType("full");
-				// TODO: bryt ut full till enumnh
+				organization.setLoadType("Increment");
+				// TODO: bryt ut Increment till enum
 			}
 			organization.setId(organizationId);
 			organization.setName(organizationName);
