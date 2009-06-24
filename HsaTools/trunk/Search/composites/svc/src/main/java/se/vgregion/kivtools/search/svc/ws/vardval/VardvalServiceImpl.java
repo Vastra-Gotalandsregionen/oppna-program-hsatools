@@ -39,12 +39,12 @@ public class VardvalServiceImpl implements VardvalService {
 			upcomingVardval = ((SetVårdvalResponse) response).getKommandeVårdval();
 		}
 
-		if (currentVardval != null) {
+		if (currentVardval != null && currentVardval.getValue() != null) {
 			vardvalInfo.setCurrentHsaId(currentVardval.getValue().getVårdcentralHsaId());
 			vardvalInfo.setCurrentValidFromDate(currentVardval.getValue().getGiltigFrån().toGregorianCalendar().getTime());
 		}
 
-		if (upcomingVardval != null) {
+		if (upcomingVardval != null && upcomingVardval.getValue() != null) {
 			vardvalInfo.setUpcomingHsaId(upcomingVardval.getValue().getVårdcentralHsaId());
 			vardvalInfo.setUpcomingValidFromDate(upcomingVardval.getValue().getGiltigFrån().toGregorianCalendar().getTime());
 		}
@@ -55,9 +55,9 @@ public class VardvalServiceImpl implements VardvalService {
 	public VardvalInfo setVardval(String ssn, String hsaId, byte[] signature) {
 		IVårdvalService service = vardvalService.getBasicHttpBindingIVårdvalService();
 		SetVårdvalRequest vardvalRequest = new SetVårdvalRequest();
-		JAXBElement<String> soapSsn = objectFactory.createGetVårdvalRequestPersonnummer(ssn);
-		JAXBElement<byte[]> soapSignature = objectFactory.createBase64Binary(signature);
-		JAXBElement<String> soapHsaId = objectFactory.createString(hsaId);
+		JAXBElement<String> soapSsn = objectFactory.createSetVårdvalRequestPersonnummer(ssn);
+		JAXBElement<byte[]> soapSignature = objectFactory.createSetVårdvalRequestSigneringskod(signature);
+		JAXBElement<String> soapHsaId = objectFactory.createSetVårdvalRequestVårdcentralHsaId(hsaId);
 		vardvalRequest.setPersonnummer(soapSsn);
 		vardvalRequest.setSigneringskod(soapSignature);
 		vardvalRequest.setVårdcentralHsaId(soapHsaId);

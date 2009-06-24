@@ -4,7 +4,7 @@ public interface VardvalService {
 	
 	/**
 	 * 
-	 * @param sn - Social Security Number
+	 * @param sn - Social Security Number in format: YYYYMMDDNNNN
 	 * @return - Javabean
 	 */
 	VardvalInfo getVardval(String ssn);

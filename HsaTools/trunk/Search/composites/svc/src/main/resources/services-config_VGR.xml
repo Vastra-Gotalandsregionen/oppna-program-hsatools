@@ -106,7 +106,8 @@
 	<bean id="Registration.vardValService"
 		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl">
 		<property name="vardvalService">
-			<bean class="se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalService" />
+			<bean
+				class="se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalService" />
 		</property>
 	</bean>
 </beans>

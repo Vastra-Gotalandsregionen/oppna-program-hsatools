@@ -42,17 +42,25 @@
 				<h1>Bekräfta byte av vårdcentral</h1>
 				
 				<div id="confirm-listing">
-<!--					Namn: #{flowScope.ldapPath}<br/>-->
-					Personnummer: #{registrationSupportBean.ssn}<br/>
+<!-- Avvaktar med namn. Ska slås upp via WASens LDAP<br/>-->
+					Personnummer: #{vardvalInfo.ssn}<br/>
 				</div>
 				
 				Din nuvarande listning för vårdcentral:<br/>
-				#{facesContext.externalContext.requestParameterMap.vardval.currentHsaId}
+				#{vardvalInfo.currentUnitName}
 								
-				Du vill byta vårdcentral att vara listad på till:
-				#{facesContext.externalContext.requestParameterMap.vardval.upcomingHsaId}
+				<!-- Om det finns en upcoming, visa denna: -->
+				<h:outputText rendered="#{vardvalInfo.upcomingUnitName != null}">
+					Du har tidigare valt att byta till denna vårdcentral och listningen har ännu inte aktiverats:<br/>
+					#{vardvalInfo.upcomingUnitName}<br/>
+				</h:outputText>
+				
+				Du har nu valt att lista dig för denna vårdcentral:<br/>
+				#{vardvalInfo.selectedUnitName}<br/>
 				
 				<h:form>
+					<input type="hidden" id="ssn" jsfc="h:inputHidden" value="#{vardvalInfo.ssn}" />
+					<input type="hidden" id="selectedRegistrationUnit" jsfc="h:inputHidden" value="#{vardvalInfo.selectedUnitId}" />
 					<input type="submit" id="submitButton" jsfc="h:commandButton" value="Bekräfta byte" action="doConfirm" />				
 					<input type="submit" id="submitButton" jsfc="h:commandButton" value="Avbryt" action="doCancel" />				
 				</h:form>
