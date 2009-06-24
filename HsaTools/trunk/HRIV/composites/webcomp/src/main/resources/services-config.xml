@@ -22,6 +22,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+	<!-- Import customized bean configurations for chosen project. -->
+	<import resource="services-config_VGR.xml"/>
+
 	<bean id="Search.HandleErrorFlowSupportBean"
 	class="se.vgregion.kivtools.search.presentation.HandleErrorFlowSupportBean"></bean>
 	
@@ -108,10 +111,5 @@
 		<property name="location" value="classpath:se/vgregion/kivtools/search/presentation/kiv/hriv-composite-webcomp.properties" />
 		<property name="placeholderPrefix" value="#{" />
 		<property name="fileEncoding" value="UTF-8" />
-	</bean>
-	
-<!-- TODO Move to vgr import -->
-	<bean id="Controller.registerOnUnit" class="se.vgregion.kivtools.search.presentation.RegisterOnUnitController">
-		<property name="vardValService" ref="Registration.vardValService" />
 	</bean>
 </beans>
