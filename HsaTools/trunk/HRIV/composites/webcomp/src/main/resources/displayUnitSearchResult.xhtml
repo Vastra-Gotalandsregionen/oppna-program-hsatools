@@ -200,6 +200,12 @@
 												</span>
 					                 	</div>
 					                    
+					                    <div class="vardval-participant">
+											<h:outputText rendered="#{unit.showInVgrVardVal == true}">
+												<div class="vardval">#{msg.includedInVGPrimarvard}</div>
+											</h:outputText>
+										</div>
+
 				                        <div class="unit-description">
 											<h:outputText value="#{fn:substring(theUnit.concatenatedDescription, 0, 400)}..." rendered="#{fn:length(theUnit.concatenatedDescription) gt 400}" />
 											<h:outputText value="#{theUnit.concatenatedDescription}" rendered="#{fn:length(theUnit.concatenatedDescription) lt 401}" />
@@ -234,10 +240,6 @@
 								                </div>
 					                        </div>
 				                        </div>
-				                        
-										<h:outputText rendered="#{unit.showInVgrVardVal == true}">
-											<div class="vardval">Ingår i VG Primärvård</div>
-										</h:outputText>
 
 										<div class="uncomplete-unit">
 				                    	 	<h:outputText rendered="#{settings.testingMode==true and !theUnit.contentValidationOk}">

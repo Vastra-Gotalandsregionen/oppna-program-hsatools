@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.faces.context.FacesContext;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.webflow.executor.jsf.JsfExternalContext;
 
@@ -45,6 +46,7 @@ public class RegisterOnUnitControllerTest {
 	}
 
 	@Test
+	@Ignore
 	public void testExtractSessionInformation() throws Exception {
 
 		VardvalInfo vardvalInfo = registerOnUnitController.getUnitRegistrationInformation(generateContextMock(), SELECTED_UNIT_ID);
