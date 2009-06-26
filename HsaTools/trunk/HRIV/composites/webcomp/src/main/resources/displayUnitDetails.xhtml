@@ -224,7 +224,10 @@
 								</td>
 								<td class="rightthreecol">
 									<h:outputText rendered="#{settings.useMvk == 'true' and fn:length(unit.mvkCaseTypes) gt 0}">
-										<a href="#{settings.mvkLoginUrl}" class="url"><img src="resources/images/mvk-logo.gif" alt="Mina vårdkontakter"/> Mina Vårdkontakter</a>
+										<a href="#{settings.mvkLoginUrl}" class="url"><img src="resources/images/mvk-logo.gif" alt="#{msg.mvk}"/> #{msg.mvk}</a>
+									</h:outputText>
+									<h:outputText rendered="#{unit.showInVgrVardVal == true}">
+										<a href="http://portal.proxy.vgregion.se/hriv/secure/confirmRegistrationChanges.jsp?hsaidentity=#{unit.hsaIdentity}">#{msg.pickChooseUnit}</a>
 									</h:outputText>
 								</td>			
 							</tr>
