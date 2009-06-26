@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.webflow.context.ExternalContext;
 import org.springframework.webflow.executor.jsf.JsfExternalContext;
 
-import se.vgregion.kivtools.search.presentation.forms.RegistrationConfirmationForm;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
@@ -39,7 +38,7 @@ public class RegisterOnUnitController implements Serializable {
 		// String ldapPath = requestHeaderMap.get("iv-user-1");
 
 		// FIXME Remove this line
-		ssn = "194509259257";
+		//ssn = "194509259257";
 
 		// Request information about the listing from Vårdvals system's
 		// webservice
@@ -64,7 +63,6 @@ public class RegisterOnUnitController implements Serializable {
 			if (upcomingUnit != null) {
 				vardvalInfo.setUpcomingUnitName(upcomingUnit.getName());
 			}
-			vardvalInfo.setVardvalInfo(vardvalInfo);
 		} catch (Exception e) {
 			// FIXME Proper exception handling. Show information page if we
 			// could not find unit with given hsa id
