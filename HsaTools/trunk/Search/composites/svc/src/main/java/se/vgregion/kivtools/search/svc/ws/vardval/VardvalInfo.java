@@ -11,7 +11,6 @@ public class VardvalInfo implements Serializable {
 	private Date currentValidFromDate;
 	private String upcomingHsaId;
 	private Date upcomingValidFromDate;
-	private VardvalInfo vardvalInfo;
 	private String ssn;
 	private String name;
 	private String selectedUnitId;
@@ -58,14 +57,6 @@ public class VardvalInfo implements Serializable {
 
 	public void setCurrentUnitName(String currentUnitName) {
 		this.currentUnitName = currentUnitName;
-	}
-
-	public VardvalInfo getVardvalInfo() {
-		return vardvalInfo;
-	}
-
-	public void setVardvalInfo(VardvalInfo vardvalInfo) {
-		this.vardvalInfo = vardvalInfo;
 	}
 
 	public String getSsn() {
