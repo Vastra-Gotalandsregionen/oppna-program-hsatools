@@ -59,7 +59,6 @@
 				#{vardvalInfo.selectedUnitName}</p>
 				
 				<h:form>
-					<input type="hidden" id="_flowExecutionKey" jsfc="h:inputHidden" value="${flowExecutionKey}" />
 					<input type="hidden" id="ssn" jsfc="h:inputHidden" value="#{vardvalInfo.ssn}" />
 					<input type="hidden" id="selectedRegistrationUnit" jsfc="h:inputHidden" value="#{vardvalInfo.selectedUnitId}" />
 					<input type="submit" id="submitButton" jsfc="h:commandButton" value="Bekräfta byte" action="doConfirm" />				

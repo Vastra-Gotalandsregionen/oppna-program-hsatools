@@ -3,6 +3,8 @@ package se.vgregion.kivtools.search.presentation;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -16,6 +18,7 @@ import org.springframework.webflow.executor.mvc.FlowController;
 
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImpl;
 import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImplService;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
@@ -58,7 +61,7 @@ public class RegisterOnUnitController implements Serializable {
 		// webservice
 		VardvalInfo vardvalInfo = new VardvalInfo();
 		try {
-			////vardvalInfo = vardValService.getVardval(ssn);
+			// //vardvalInfo = vardValService.getVardval(ssn);
 
 			// Lookup unit names in order to show real names instead of hsa ids
 			// TODO Exception handling
@@ -95,9 +98,10 @@ public class RegisterOnUnitController implements Serializable {
 	 */
 	public String preCommitRegistrationOnUnit(VardvalInfo vardvalInfo, ExternalContext externalContext) {
 		String redirectUrl = "";
+		Date date = new Date();
 		try {
-
-			String registrationData = "197407185656_" + "SE2321000131-E000000006727" + "_20090626094900";
+			// FIXME Should be a formal letter instead
+			String registrationData = "Jag " + vardvalInfo.getSsn() + " listar mig härmed på vårdcentral " + vardvalInfo.getSelectedUnitName() + " (hsaid: " + vardvalInfo.getSelectedUnitId() + ").\nDatum: " + Constants.formateDateToZuluTime(date);
 			byte[] base64encoded = Base64.encodeBase64(registrationData.getBytes("UTF-8"));
 			String mimeType = "text/plain";
 			String documentDescription = "Signature for Vardval registration";
@@ -111,20 +115,19 @@ public class RegisterOnUnitController implements Serializable {
 			HttpServletRequest httpServletRequest = (HttpServletRequest) jsfExternalContext.getFacesContext().getExternalContext().getRequest();
 			String urlToThisPage = httpServletRequest.getRequestURL().toString();
 			String eventId = "Action.postChangeRegistration";
-			
-			
+
 			// TODO Extract flowExecutionKey in a nicer way
 			Enumeration<String> parameterNames = httpServletRequest.getParameterNames();
 			String flowExecutionKey = "";
 			while (parameterNames.hasMoreElements()) {
 				String paramName = parameterNames.nextElement();
 				if (paramName.indexOf("_flowExecutionKey") > -1) {
-					flowExecutionKey = httpServletRequest.getParameter(paramName); 
+					flowExecutionKey = httpServletRequest.getParameter(paramName);
 				}
 			}
-			
-			String targetUrl = urlToThisPage.substring(0, urlToThisPage.lastIndexOf("/") + 1) + "confirmationRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnit-flow&_eventId=" + eventId
-					+ "&_flowExecutionKey=" + flowExecutionKey + "&redirectedFromSignatureService=true";
+
+			String targetUrl = urlToThisPage.substring(0, urlToThisPage.lastIndexOf("/") + 1) + "confirmationRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnitPostSign-flow&ssn="
+					+ vardvalInfo.getSsn() + "&selectedUnitId=" + vardvalInfo.getSelectedUnitId();
 
 			// Redirect user to test.signicat.com
 			System.out.println("Redirects the user to " + targetUrl);
@@ -136,11 +139,11 @@ public class RegisterOnUnitController implements Serializable {
 		return redirectUrl;
 	}
 
-	public String postCommitRegistrationOnUnit(VardvalInfo vardvalInfo, ExternalContext externalContext) {
+	public VardvalInfo postCommitRegistrationOnUnit(String ssn, String selectedUnitId, ExternalContext externalContext) {
 
 		String errorMessage;
 		byte[] samlAssertionBytes = new byte[0];
-		
+
 		String artifact = (String) externalContext.getSessionMap().get("artifact");
 		String samlAssertion = signatureservice.retrieveSaml(artifact);
 		System.out.println("Saml Assertion recieved");
@@ -166,7 +169,11 @@ public class RegisterOnUnitController implements Serializable {
 		// )
 		// )
 		// ;
-		return "success";
+		
+		VardvalInfo vardvalInfo = new VardvalInfo();
+		vardvalInfo.setSsn(ssn);
+		vardvalInfo.setSelectedUnitId(selectedUnitId);
+		return vardvalInfo;
 	}
 
 }
