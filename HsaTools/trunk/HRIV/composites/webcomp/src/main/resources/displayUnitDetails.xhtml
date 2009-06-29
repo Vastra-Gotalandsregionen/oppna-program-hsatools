@@ -96,6 +96,10 @@
 						</span> 
 					</div>
 					
+					<div id="unit-listing">
+						<ui:include src="#{settings.vardValInclude}" />
+					</div>						
+
 					<table class="borderless">
 						<tr>
 							<th class="leftcol">
@@ -200,9 +204,6 @@
 							</h:outputText>
 						</div>
 					</div>
-					<div id="unit-listing">
-						<ui:include src="#{settings.vardValInclude}" />
-					</div>						
 
 					<div class="unit-details-header">
 						<h2>#{msg.contactUs}</h2>			

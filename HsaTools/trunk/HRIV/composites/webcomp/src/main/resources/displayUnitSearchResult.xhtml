@@ -200,11 +200,9 @@
 												</span>
 					                 	</div>
 					                    
-					                    <div class="vardval-participant">
-											<h:outputText rendered="#{unit.showInVgrVardVal == true}">
-												<div class="vardval">#{msg.includedInVGPrimarvard}</div>
-											</h:outputText>
-										</div>
+										<h:outputText rendered="#{unit.showInVgrVardVal == true}">
+						                    <div class="vardval-participant"><div class="vardval">#{msg.includedInVGPrimarvard}</div></div>
+										</h:outputText>
 
 				                        <div class="unit-description">
 											<h:outputText value="#{fn:substring(theUnit.concatenatedDescription, 0, 400)}..." rendered="#{fn:length(theUnit.concatenatedDescription) gt 400}" />
