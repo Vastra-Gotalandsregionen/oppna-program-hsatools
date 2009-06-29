@@ -21,44 +21,30 @@
 	<var name="vardvalInfo" class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo" scope="flow" />
 
 	<input-mapper>
-		<input-attribute name="hsaidentity" />
 		<input-attribute name="ssn" />
+		<input-attribute name="selectedUnitId" />
 	</input-mapper>
 	    
-	<start-state idref="Display.displayRegistration" />
+	<start-state idref="Action.postChangeRegistration" />
 	
-	<view-state id="Display.displayRegistration" view="/confirmRegistrationChanges.xhtml">
-		<render-actions>
- 			<bean-action bean="Controller.registerOnUnit" method="getUnitRegistrationInformation">
-				<method-arguments>
-					<argument expression="externalContext"/>
-					<argument expression="requestParameters.hsaidentity"/>
-				</method-arguments>
-				<method-result name="vardvalInfo" scope="flow" />
- 			</bean-action> 
-		</render-actions>
-
-		<transition on="doConfirm" to="Action.preChangeRegistration" />
-		<transition on="doCancel" to="Display.startpage" />
-		<transition on="gotoCaretypes" to="Display.caretypes" />
-		<transition on="gotoStartpage" to="Display.startpage" />
-	</view-state>
-	
-	<action-state id="Action.preChangeRegistration">
-		<bean-action bean="Controller.registerOnUnit" method="preCommitRegistrationOnUnit">
+	<action-state id="Action.postChangeRegistration">
+		<bean-action bean="Controller.registerOnUnit" method="postCommitRegistrationOnUnit">
 			<method-arguments>
-				<argument expression="flowScope.vardvalInfo"/>
+				<argument expression="requestParameters.ssn"/>
+				<argument expression="requestParameters.selectedUnitId"/>
 				<argument expression="externalContext"/>
 			</method-arguments>
-			<method-result name="redirectUrl" scope="flow"/>
+			<method-result name="vardvalInfo" scope="flow" />
 		</bean-action>
-		<transition to="Redirect.toSignatureService" />
+		<transition on="success" to="Display.registrationConfirmation" />
 		<transition
 			on-exception="se.vgregion.kivtools.search.exceptions.IncorrectUserInputException"
 			to="Search.displayUnitSearchResult">
 		</transition>
 	</action-state>
-
-   <view-state id="Redirect.toSignatureService" view="externalRedirect:${flowScope.redirectUrl}" />
-
+	
+	<view-state id="Display.registrationConfirmation" view="/confirmationRegistrationChanges.xhtml">
+		<transition on="gotoCaretypes" to="Display.caretypes" />
+		<transition on="gotoStartpage" to="Display.startpage" />
+	</view-state>
 </flow>
