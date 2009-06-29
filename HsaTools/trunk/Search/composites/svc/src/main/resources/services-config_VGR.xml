@@ -103,11 +103,15 @@
 			</list>
 		</property>
 	</bean>
+<!--	<bean id="Registration.vardValService"-->
+<!--		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl" />-->
 	<bean id="Registration.vardValService"
 		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl">
 		<property name="vardvalService">
 			<bean
 				class="se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalService" />
 		</property>
+		<property name="username" value="" />
+		<property name="password" value="" /> 
 	</bean>
 </beans>

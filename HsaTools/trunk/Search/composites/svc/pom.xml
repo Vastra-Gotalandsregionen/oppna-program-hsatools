@@ -111,7 +111,13 @@
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1-beta1</version>
 		</dependency>
-
+		<!-- Used for Base64 encoding signature -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.3</version>
+		</dependency>
+		
 		<!-- Used for jax-ws client usage -->
 		<dependency>
 			<groupId>com.sun.xml.ws</groupId>
@@ -123,6 +129,11 @@
 			<artifactId>saaj-api</artifactId>
 			<version>1.3</version>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>xerces</groupId>-->
+<!--			<artifactId>xercesImpl</artifactId>-->
+<!--			<version>2.9.1</version>-->
+<!--		</dependency>-->
 		<!-- ***************************** -->
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
@@ -169,6 +180,64 @@
 	</pluginRepositories>
 	<build>
 		<plugins>
+<!--			<plugin>-->
+<!--				<artifactId>maven-antrun-plugin</artifactId>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<phase>generate-sources</phase>-->
+<!--						<configuration>-->
+<!--							<tasks>-->
+<!--								<exec executable="wsimport">-->
+<!--									<env key="VMARGS"-->
+			<!--
+				value="-Djavax.net.ssl.trustStore=/home/jonas/tmp/vardval.jks
+				-Djavax.net.ssl.trustStorePassword=vardval -Djavax.net.debug" />
+			-->
+			<!--
+				<arg line="-XdisableSSLHostnameVerfication -keep -d src/main/java -p
+				se.vgregion.kivtools.search.svc.ws.domain.vardval
+				https://w120390/VardvalService/Vardvalservice.svc?wsdl" />
+			-->
+			<!--
+				!!! NB: -XdisableSSLHostnameVerfication requires at least 2.1.5
+				http://www.java-tips.org/java-ee-tips/java-api-for-xml-web-services/using-jax-ws-based-web-services-wit.html
+			-->
+<!--								</exec>-->
+<!--							</tasks>-->
+<!--						</configuration>-->
+<!--						<goals>-->
+<!--							<goal>run</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						<configuration>
+<!--							!!! NB -wsdlLocation kan vara användbar om man vill referera till-->
+<!--							en lokalt sparad wsdl-->
+<!--							http://weblogs.java.net/blog/vivekp/archive/2007/06/portable_client.html-->
+							<wsdlUrls>
+								<wsdlUrl>https://w120390/VardvalService/VardvalService.svc?wsdl</wsdlUrl>
+							</wsdlUrls>
+<!--								<wsdlFiles>-->
+<!--									<wsdlFile>../../../../../Search/composites/schema/src/main/resources/wsdl/VardvalService.wsdl</wsdlFile>-->
+<!--								</wsdlFiles>-->
+							<packageName>se.vgregion.kivtools.search.svc.ws.domain.vardval</packageName>
+							<sourceDestDir>src/main/java</sourceDestDir>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!--  Signicat -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jaxws-maven-plugin</artifactId>
@@ -179,9 +248,9 @@
 						</goals>
 						<configuration>
 							<wsdlUrls>
-								<wsdlUrl>http://w120390/VardvalService/Vardvalservice.svc?wsdl</wsdlUrl>
+								<wsdlUrl>https://test.signicat.com/signatureservice/services/signatureservice?wsdl</wsdlUrl>
 							</wsdlUrls>
-							<packageName>se.vgregion.kivtools.search.svc.ws.domain.vardval</packageName>
+							<packageName>se.vgregion.kivtools.search.svc.ws.signicat.signature</packageName>
 							<sourceDestDir>src/main/java</sourceDestDir>
 						</configuration>
 					</execution>
