@@ -106,12 +106,17 @@
 <!--	<bean id="Registration.vardValService"-->
 <!--		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl" />-->
 	<bean id="Registration.vardValService"
-		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl">
+		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl" init-method="setup">
 		<property name="vardvalService">
 			<bean
 				class="se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalService" />
 		</property>
-		<property name="username" value="" />
-		<property name="password" value="" /> 
+		<property name="webserviceEndpoint" value="https://w120390/VardvalService/VardvalService.svc" />
+		<property name="keystoreLocation" value="/home/david/tmp/HRIVclient.p12" />
+		<property name="keystoreType" value="pkcs12" />
+		<property name="keystorePassword" value="vardval" />
+		<property name="truststoreLocation" value="/home/david/tmp/vardval.jks" />
+		<property name="truststoreType" value="jks" />
+		<property name="truststorePassword" value="vardval" />
 	</bean>
 </beans>

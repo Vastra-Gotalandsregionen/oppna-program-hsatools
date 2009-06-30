@@ -1,11 +1,14 @@
 package se.vgregion.kivtools.search.svc.ws.vardval;
 
+import java.util.Map;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.ws.BindingProvider;
 
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.GetVårdvalRequest;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.GetVårdvalResponse;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalService;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.ObjectFactory;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalRequest;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalResponse;
@@ -17,6 +20,54 @@ public class VardvalServiceImpl implements VardvalService {
 	private VårdvalService vardvalService;
 	private ObjectFactory objectFactory = new ObjectFactory();
 	private String username, password;
+	private String webserviceEndpoint;
+	private String keystoreLocation;
+	private String keystoreType;
+	private String keystorePassword;
+	private String truststoreLocation;
+	private String truststoreType;
+	private String truststorePassword;
+	
+	private void setup()
+	{
+		Map<String, Object> requestContext = ((BindingProvider)vardvalService.getBasicHttpBindingIVårdvalService()).getRequestContext();
+		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,webserviceEndpoint);
+		// Set system properties for ssl use
+		System.setProperty("javax.net.ssl.keyStoreType", keystoreType);
+		System.setProperty("javax.net.ssl.trustStoreType" , truststoreType);
+		System.setProperty("javax.net.ssl.keyStore", keystoreLocation);
+		System.setProperty("javax.net.ssl.trustStore", truststoreLocation);
+		System.setProperty("javax.net.ssl.keyStorePassword", keystorePassword);
+		System.setProperty("javax.net.ssl.trustStorePassword", truststorePassword);
+	}
+
+	public void setKeystoreLocation(String keystoreLocation) {
+		this.keystoreLocation = keystoreLocation;
+	}
+
+	public void setKeystoreType(String keystoreType) {
+		this.keystoreType = keystoreType;
+	}
+
+	public void setKeystorePassword(String keystorePassword) {
+		this.keystorePassword = keystorePassword;
+	}
+
+	public void setTruststoreLocation(String truststoreLocation) {
+		this.truststoreLocation = truststoreLocation;
+	}
+
+	public void setTruststoreType(String truststoreType) {
+		this.truststoreType = truststoreType;
+	}
+
+	public void setTruststorePassword(String truststorePassword) {
+		this.truststorePassword = truststorePassword;
+	}
+
+	public void setWebserviceEndpoint(String webserviceEndpoint) {
+		this.webserviceEndpoint = webserviceEndpoint;
+	}
 
 	public String getUsername() {
 		return username;
@@ -70,9 +121,8 @@ public class VardvalServiceImpl implements VardvalService {
 	}
 
 	@Override
-	public VardvalInfo setVardval(String ssn, String hsaId, byte[] signature) {
+	public VardvalInfo setVardval(String ssn, String hsaId, byte[] signature) throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage {
 		IVårdvalService service = vardvalService.getBasicHttpBindingIVårdvalService();
-		assignCredentials(service);
 		SetVårdvalRequest vardvalRequest = new SetVårdvalRequest();
 		JAXBElement<String> soapSsn = objectFactory.createSetVårdvalRequestPersonnummer(ssn);
 		JAXBElement<byte[]> soapSignature = objectFactory.createSetVårdvalRequestSigneringskod(signature);
@@ -84,12 +134,6 @@ public class VardvalServiceImpl implements VardvalService {
 		return generateVardvalInfo(response);
 	}
 
-	private void assignCredentials(IVårdvalService service) {
-		BindingProvider bindingProvider = (BindingProvider) service;
-		bindingProvider.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, username);
-		bindingProvider.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, password);
-	}
-
 	/**
 	 * 
 	 * @param ssn
@@ -98,7 +142,6 @@ public class VardvalServiceImpl implements VardvalService {
 	 */
 	private GetVårdvalResponse getVardvalInfo(String ssn) {
 		IVårdvalService service = vardvalService.getBasicHttpBindingIVårdvalService();
-		assignCredentials(service);
 		ObjectFactory objectFactory = new ObjectFactory();
 		JAXBElement<String> soapSsn = objectFactory.createGetVårdvalRequestPersonnummer(ssn);
 		GetVårdvalRequest getVardvalRequest = new GetVårdvalRequest();
