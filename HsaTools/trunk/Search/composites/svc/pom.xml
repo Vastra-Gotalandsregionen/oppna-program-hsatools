@@ -17,6 +17,14 @@
 		<artifactId>HsaTools-Search</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
+	<properties>
+		<keystore.type>pkcs12</keystore.type>
+		<keystore>HRIVclient.p12</keystore>
+		<keystore.password>vardval</keystore.password>
+		<truststore.type>jks</truststore.type>
+		<truststore>vardval.jks</truststore>
+		<truststore.password>vardval</truststore.password>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>HsaTools</groupId>
@@ -178,40 +186,9 @@
 			<url>http://download.java.net/maven/2</url>
 		</pluginRepository>
 	</pluginRepositories>
+	
 	<build>
 		<plugins>
-<!--			<plugin>-->
-<!--				<artifactId>maven-antrun-plugin</artifactId>-->
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<phase>generate-sources</phase>-->
-<!--						<configuration>-->
-<!--							<tasks>-->
-<!--								<exec executable="wsimport">-->
-<!--									<env key="VMARGS"-->
-			<!--
-				value="-Djavax.net.ssl.trustStore=/home/jonas/tmp/vardval.jks
-				-Djavax.net.ssl.trustStorePassword=vardval -Djavax.net.debug" />
-			-->
-			<!--
-				<arg line="-XdisableSSLHostnameVerfication -keep -d src/main/java -p
-				se.vgregion.kivtools.search.svc.ws.domain.vardval
-				https://w120390/VardvalService/Vardvalservice.svc?wsdl" />
-			-->
-			<!--
-				!!! NB: -XdisableSSLHostnameVerfication requires at least 2.1.5
-				http://www.java-tips.org/java-ee-tips/java-api-for-xml-web-services/using-jax-ws-based-web-services-wit.html
-			-->
-<!--								</exec>-->
-<!--							</tasks>-->
-<!--						</configuration>-->
-<!--						<goals>-->
-<!--							<goal>run</goal>-->
-<!--						</goals>-->
-<!--					</execution>-->
-<!--				</executions>-->
-<!--			</plugin>-->
-
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jaxws-maven-plugin</artifactId>
@@ -221,15 +198,9 @@
 							<goal>wsimport</goal>
 						</goals>
 						<configuration>
-<!--							!!! NB -wsdlLocation kan vara användbar om man vill referera till-->
-<!--							en lokalt sparad wsdl-->
-<!--							http://weblogs.java.net/blog/vivekp/archive/2007/06/portable_client.html-->
 							<wsdlUrls>
-								<wsdlUrl>https://w120390/VardvalService/VardvalService.svc?wsdl</wsdlUrl>
+								<wsdlUrl>http://w120390/VardvalServiceWSDL/VardvalService.svc?wsdl</wsdlUrl>
 							</wsdlUrls>
-<!--								<wsdlFiles>-->
-<!--									<wsdlFile>../../../../../Search/composites/schema/src/main/resources/wsdl/VardvalService.wsdl</wsdlFile>-->
-<!--								</wsdlFiles>-->
 							<packageName>se.vgregion.kivtools.search.svc.ws.domain.vardval</packageName>
 							<sourceDestDir>src/main/java</sourceDestDir>
 						</configuration>
