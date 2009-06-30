@@ -1,5 +1,7 @@
 package se.vgregion.kivtools.search.svc.ws.vardval;
 
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
+
 public interface VardvalService {
 	
 	/**
@@ -14,6 +16,7 @@ public interface VardvalService {
 	 * @param sn - Social Security Number
 	 * @param hsaId - HsaIdentity
 	 * @param signature - Personal signature
+	 * @throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage 
 	 */
-	VardvalInfo setVardval(String ssn, String hsaId, byte[] signature);
+	VardvalInfo setVardval(String ssn, String hsaId, byte[] signature) throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
 }

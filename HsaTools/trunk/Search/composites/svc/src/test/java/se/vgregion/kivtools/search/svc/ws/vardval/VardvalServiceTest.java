@@ -17,6 +17,7 @@ import org.junit.Test;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.GetVårdvalRequest;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.GetVårdvalResponse;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalService;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.ObjectFactory;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalRequest;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalResponse;
@@ -70,7 +71,7 @@ public void testGetVardvalMethod() throws ParseException {
 	/**
 	 * Test assigning new listing and check retrieved Vardval information. 
 	 */
-	public void testSetVardvalMethod() {
+	public void testSetVardvalMethod() throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage {
 		mockVardvalService = EasyMock.createMock(VårdvalService.class);
 		IVårdvalService mockService = EasyMock.createMock(IVårdvalService.class);
 		SetVårdvalResponse setVardvalResponse = new SetVårdvalResponse();
