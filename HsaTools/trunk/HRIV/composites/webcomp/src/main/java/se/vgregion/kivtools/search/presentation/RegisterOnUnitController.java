@@ -3,22 +3,19 @@ package se.vgregion.kivtools.search.presentation;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.webflow.context.ExternalContext;
-import org.springframework.webflow.executor.jsf.FlowExecutionKeyStateHolder;
 import org.springframework.webflow.executor.jsf.JsfExternalContext;
-import org.springframework.webflow.executor.mvc.FlowController;
 
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImpl;
 import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImplService;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
@@ -29,8 +26,8 @@ public class RegisterOnUnitController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	VardvalService vardValService;
 	SearchService searchService;
-	String signatureserviceUrl = "https://test.signicat.com/signatureservice/services/signatureservice";
-	String serviceUrl = "https://test.signicat.com/std/method/shared?method=sign&profile=default";
+	private static final String signatureserviceUrl = "https://test.signicat.com/signatureservice/services/signatureservice";
+	private static final String serviceUrl = "https://test.signicat.com/std/method/vgr?method=sign"; //shared ska bytas till vgr
 	SignatureEndpointImplService signatureEndpointImplService = new SignatureEndpointImplService();
 	SignatureEndpointImpl signatureservice = signatureEndpointImplService.getSignatureservice();
 
@@ -61,7 +58,7 @@ public class RegisterOnUnitController implements Serializable {
 		// webservice
 		VardvalInfo vardvalInfo = new VardvalInfo();
 		try {
-			// //vardvalInfo = vardValService.getVardval(ssn);
+			vardvalInfo = vardValService.getVardval(ssn);
 
 			// Lookup unit names in order to show real names instead of hsa ids
 			// TODO Exception handling
@@ -81,6 +78,7 @@ public class RegisterOnUnitController implements Serializable {
 				vardvalInfo.setUpcomingUnitName(upcomingUnit.getName());
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			// FIXME Proper exception handling. Show information page if we
 			// could not find unit with given hsa id
 		}
@@ -114,17 +112,6 @@ public class RegisterOnUnitController implements Serializable {
 			JsfExternalContext jsfExternalContext = (JsfExternalContext) externalContext;
 			HttpServletRequest httpServletRequest = (HttpServletRequest) jsfExternalContext.getFacesContext().getExternalContext().getRequest();
 			String urlToThisPage = httpServletRequest.getRequestURL().toString();
-			String eventId = "Action.postChangeRegistration";
-
-			// TODO Extract flowExecutionKey in a nicer way
-			Enumeration<String> parameterNames = httpServletRequest.getParameterNames();
-			String flowExecutionKey = "";
-			while (parameterNames.hasMoreElements()) {
-				String paramName = parameterNames.nextElement();
-				if (paramName.indexOf("_flowExecutionKey") > -1) {
-					flowExecutionKey = httpServletRequest.getParameter(paramName);
-				}
-			}
 
 			String targetUrl = urlToThisPage.substring(0, urlToThisPage.lastIndexOf("/") + 1) + "confirmationRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnitPostSign-flow&ssn="
 					+ vardvalInfo.getSsn() + "&selectedUnitId=" + vardvalInfo.getSelectedUnitId();
@@ -139,7 +126,7 @@ public class RegisterOnUnitController implements Serializable {
 		return redirectUrl;
 	}
 
-	public VardvalInfo postCommitRegistrationOnUnit(String ssn, String selectedUnitId, ExternalContext externalContext) {
+	public VardvalInfo postCommitRegistrationOnUnit(String ssn, String selectedUnitId, ExternalContext externalContext) throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage {
 
 		String errorMessage;
 		byte[] samlAssertionBytes = new byte[0];
@@ -157,8 +144,7 @@ public class RegisterOnUnitController implements Serializable {
 		// }
 
 		// signature should be byte[]
-		// vardValService.setVardval(vardvalInfo.getSsn(),
-		// vardvalInfo.getSelectedUnitId(), "".getBytes());// vardvalInfo
+		vardValService.setVardval(ssn, selectedUnitId, "".getBytes());// vardvalInfo
 		// .
 		// getSignature
 		// (
