@@ -20,19 +20,21 @@
 		<javg.version>1.1-RC1</javg.version>
 		<spring.fw.version>2.5.5</spring.fw.version>
 		<apache.cxf.version>2.1.2</apache.cxf.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<modules>
 		<module>HRIV</module>
 		<module>Search</module>
 	</modules>
 	<build>
+		<!-- for future Maven 2.1 use -->
+		<!--<sourceEncoding>UTF-8</sourceEncoding>-->
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
-					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
