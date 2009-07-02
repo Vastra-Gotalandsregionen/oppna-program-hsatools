@@ -205,6 +205,7 @@
 								<wsdlUrl>http://w120390/VardvalServiceWSDL/VardvalService.svc?wsdl</wsdlUrl>
 							</wsdlUrls>
 							<packageName>se.vgregion.kivtools.search.svc.ws.domain.vardval</packageName>
+							<sourceDestDir>src/main/java</sourceDestDir>
 							<extension>true</extension>
 						</configuration>
 					</execution>
@@ -219,6 +220,7 @@
 								<wsdlUrl>https://test.signicat.com/signatureservice/services/signatureservice?wsdl</wsdlUrl>
 							</wsdlUrls>
 							<packageName>se.vgregion.kivtools.search.svc.ws.signicat.signature</packageName>
+							<sourceDestDir>src/main/java</sourceDestDir>
 						</configuration>
 					</execution>
 				</executions>
