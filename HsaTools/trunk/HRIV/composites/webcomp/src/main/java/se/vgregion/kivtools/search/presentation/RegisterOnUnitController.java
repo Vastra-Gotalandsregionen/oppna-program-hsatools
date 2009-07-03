@@ -5,18 +5,22 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.webflow.context.ExternalContext;
 import org.springframework.webflow.core.collection.SharedAttributeMap;
 import org.springframework.webflow.executor.jsf.JsfExternalContext;
 
+import se.vgregion.kivtools.search.presentation.exceptions.UnsuccessfullRegistrationException;
+import se.vgregion.kivtools.search.presentation.types.SigningInformation;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
+import se.vgregion.kivtools.search.svc.registration.CitizenRepository;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImpl;
 import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImplService;
@@ -26,16 +30,18 @@ import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
 public class RegisterOnUnitController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	Log logger = LogFactory.getLog(this.getClass());
 	VardvalService vardValService;
 	SearchService searchService;
 	private static final String signatureserviceUrl = "https://test.signicat.com/signatureservice/services/signatureservice";
-	private static final String serviceUrl = "https://test.signicat.com/std/method/vgr?method=sign"; // shared
-																										// ska
-																										// bytas
-																										// till
-																										// vgr
+	private static final String serviceUrl = "https://test.signicat.com/std/method/vgr?method=sign";
 	SignatureEndpointImplService signatureEndpointImplService = new SignatureEndpointImplService();
 	SignatureEndpointImpl signatureservice = signatureEndpointImplService.getSignatureservice();
+	private CitizenRepository citizenRepository;
+
+	public void setCitizenRepository(CitizenRepository citizenRepository) {
+		this.citizenRepository = citizenRepository;
+	}
 
 	public void setSearchService(SearchService searchService) {
 		this.searchService = searchService;
@@ -49,32 +55,38 @@ public class RegisterOnUnitController implements Serializable {
 
 		JsfExternalContext jsfExternalContext = (JsfExternalContext) externalContext;
 
-		// WAS returns null. Maybe because the url is not protected in web.xml?
-		// Principal remoteUser = externalContext.getUserPrincipal();
-
 		Map<String, String> requestHeaderMap = jsfExternalContext.getFacesContext().getExternalContext().getRequestHeaderMap();
 
 		String ssn = requestHeaderMap.get("iv-user");
-		// String ldapPath = requestHeaderMap.get("iv-user-1");
 
 		// FIXME Remove this line
-		ssn = "190706195526";
+		// ssn = "190706195526";
+		ssn = "188803099368"; // Agda
 
-		// Request information about the listing from Vårdvals system's
-		// webservice
+		// Get name from LDAP
+		String name = getNameFromSsn(ssn);
+
+		// Request information about the listing from Vårdvals system
 		VardvalInfo vardvalInfo = new VardvalInfo();
+		vardvalInfo.setName(name);
+
 		try {
-			// vardvalInfo = vardValService.getVardval(ssn);
+			// vardvalInfo = vardValService.getVardval(ssn); FIXME Uncomment
 
 			// Lookup unit names in order to show real names instead of hsa ids
-			// TODO Exception handling
 			Unit selectedUnit = searchService.getUnitByHsaId(selectedUnitId);
 			if (selectedUnit != null) {
 				vardvalInfo.setSelectedUnitName(selectedUnit.getName());
 			}
 			vardvalInfo.setSelectedUnitId(selectedUnitId);
-			Unit currentUnit = searchService.getUnitByHsaId(vardvalInfo.getCurrentHsaId());
-			Unit upcomingUnit = searchService.getUnitByHsaId(vardvalInfo.getUpcomingHsaId());
+			Unit currentUnit = null;
+			Unit upcomingUnit = null;
+			if (vardvalInfo.getCurrentHsaId() != null) {
+				currentUnit = searchService.getUnitByHsaId(vardvalInfo.getCurrentHsaId());
+			}
+			if (vardvalInfo.getUpcomingHsaId() != null) {
+				upcomingUnit = searchService.getUnitByHsaId(vardvalInfo.getUpcomingHsaId());
+			}
 
 			// Set values in DTO
 			if (currentUnit != null) {
@@ -84,13 +96,15 @@ public class RegisterOnUnitController implements Serializable {
 				vardvalInfo.setUpcomingUnitName(upcomingUnit.getName());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			// FIXME Proper exception handling. Show information page if we
-			// could not find unit with given hsa id
+			throw new UnsuccessfullRegistrationException("Någon enhet är ogiltig. Eventuellt är det någon enhet som inte upplagd i Vårdvalssystemet.");
 		}
 
 		vardvalInfo.setSsn(ssn);
 		return vardvalInfo;
+	}
+
+	private String getNameFromSsn(String ssn) {
+		return citizenRepository.getCitizenNameFromSsn(ssn);
 	}
 
 	/**
@@ -104,68 +118,91 @@ public class RegisterOnUnitController implements Serializable {
 		String redirectUrl = "";
 		Date date = new Date();
 
-		// For testing
-		vardvalInfo.setSelectedUnitId("SE2321000131-E000000006727");
-		vardvalInfo.setSelectedUnitName("angered");
-		vardvalInfo.setSsn("190706195526");
+		String registrationData = "Jag " + vardvalInfo.getName() + " (" + vardvalInfo.getSsn() + ") listar mig härmed på vårdcentral " + vardvalInfo.getSelectedUnitName() + " (HsaId: "
+				+ vardvalInfo.getSelectedUnitId() + "). Datum: " + Constants.formatDateToNormalTime(date);
+		byte[] base64encoded = encodeRegistrationData(registrationData);
+		String mimeType = "text/plain";
+		String documentDescription = "Signature for Vardval registration";
 
-		try {
-			// FIXME Should be a formal letter instead
-			String registrationData = "Jag " + vardvalInfo.getSsn() + " listar mig härmed på vårdcentral " + vardvalInfo.getSelectedUnitName() + " (hsaid: " + vardvalInfo.getSelectedUnitId()
-					+ "). Datum: " + Constants.formateDateToZuluTime(date);
-			byte[] base64encoded = Base64.encodeBase64(registrationData.getBytes("UTF-8"));
-			String mimeType = "text/plain";
-			String documentDescription = "Signature for Vardval registration";
-			
-		    // Stores signatureserviceUrl and mimetype in session so
-		    // postprocessing.jsp can access them after the signature is done.
-			externalContext.getSessionMap().put("signatureservice.url", signatureserviceUrl);
-			externalContext.getSessionMap().put("mimeType", mimeType);
-			
-			String artifact = signatureservice.registerDocument(new String(base64encoded), mimeType, documentDescription);
-			System.out.println("Artifact recieved: " + artifact);
-			// Save artifact
-			externalContext.getSessionMap().put("artifact", artifact);
+		// Stores signatureserviceUrl and mimetype in session so
+		externalContext.getSessionMap().put("signatureservice.url", signatureserviceUrl);
+		externalContext.getSessionMap().put("mimeType", mimeType);
+		externalContext.getSessionMap().put("ssn", vardvalInfo.getSsn());
+		externalContext.getSessionMap().put("name", vardvalInfo.getName());
+		externalContext.getSessionMap().put("selectedUnitId", vardvalInfo.getSelectedUnitId());
 
-			// Construct redirect url
-			JsfExternalContext jsfExternalContext = (JsfExternalContext) externalContext;
-			HttpServletRequest httpServletRequest = (HttpServletRequest) jsfExternalContext.getFacesContext().getExternalContext().getRequest();
-			String urlToThisPage = httpServletRequest.getRequestURL().toString();
+		String artifact = signatureservice.registerDocument(new String(base64encoded), mimeType, documentDescription);
+		externalContext.getSessionMap().put("artifact", artifact);
 
-			String targetUrl = urlToThisPage.substring(0, urlToThisPage.lastIndexOf("/") + 1) + "confirmationRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnitPostSign-flow&ssn="
-					+ vardvalInfo.getSsn() + "&selectedUnitId=" + vardvalInfo.getSelectedUnitId();
+		// Construct redirect url
+		JsfExternalContext jsfExternalContext = (JsfExternalContext) externalContext;
+		HttpServletRequest httpServletRequest = (HttpServletRequest) jsfExternalContext.getFacesContext().getExternalContext().getRequest();
+		String urlToThisPage = httpServletRequest.getRequestURL().toString();
 
-			// Redirect user to test.signicat.com
-			System.out.println("Redirects the user to " + targetUrl);
-			redirectUrl = serviceUrl + "&documentArtifact=" + artifact + "&target=" + URLEncoder.encode(targetUrl, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			redirectUrl = "FELSIDA";
-			// FIXME
-		}
+		String targetUrl = urlToThisPage.substring(0, urlToThisPage.lastIndexOf("/") + 1) + "confirmationRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnitPostSign-flow";
+
+		// Redirect user to test.signicat.com
+		redirectUrl = serviceUrl + "&documentArtifact=" + artifact + "&target=" + encodeTargetUrl(targetUrl);
 		return redirectUrl;
 	}
 
-	public VardvalInfo postCommitRegistrationOnUnit(String ssn, String selectedUnitId, ExternalContext externalContext) throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage {
+	public VardvalInfo postCommitRegistrationOnUnit(ExternalContext externalContext) throws UnsuccessfullRegistrationException {
 
+		SigningInformation signingInformation = handleSamlResponse(externalContext);
+
+		VardvalInfo vardvalInfo = new VardvalInfo();
+
+		SharedAttributeMap sessionMap = externalContext.getSessionMap();
+		String ssn = sessionMap.getString("ssn");
+		String selectedUnitId = sessionMap.getString("selectedUnitId");
+		String name = sessionMap.getString("name");
+
+		// Set new registration if same ssn etc
+		if (signingInformation.getNationalId() != null && signingInformation.getNationalId().equals(ssn) && signingInformation.getSignature() != null) {
+			try {
+				if (false) {
+					vardvalInfo = vardValService.setVardval(ssn, selectedUnitId, signingInformation.getSignature().getBytes());
+				}
+				vardvalInfo.setSsn(ssn);
+				vardvalInfo.setName(name);
+			} catch (IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage e) {
+				throw new UnsuccessfullRegistrationException(e.getMessage());
+			}
+		} else {
+			throw new UnsuccessfullRegistrationException("Signeringen misslyckades. Detta kan bero på att det inte är samma person som har loggat in som har signerat.");
+		}
+		return vardvalInfo;
+	}
+
+	private String encodeTargetUrl(String targetUrl) {
+		try {
+			return URLEncoder.encode(targetUrl, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// Should not happen
+			throw new RuntimeException(e);
+		}
+	}
+
+	private byte[] encodeRegistrationData(String registrationData) {
+		try {
+			return Base64.encodeBase64(registrationData.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// Should not happen
+			throw new RuntimeException(e);
+		}
+	}
+
+	private SigningInformation handleSamlResponse(ExternalContext externalContext) {
 		String errorMessage = null;
-		byte[] documentBytes = new byte[0];
 		byte[] samlAssertionBytes = new byte[0];
-		Map samlAttributes = null;
-		String signersIdentity = null;
-		String signatureMethod = null;
+		SigningInformation signingInformation = null;
 
 		try {
-
 			// Reads information stored in the session
 			SharedAttributeMap sessionMap = externalContext.getSessionMap();
 			String artifact = (String) sessionMap.get("artifact");
 			String url = (String) sessionMap.get("signatureservice.url");
 			String mimeType = (String) sessionMap.get("mimeType");
-
-			// Some logging
-			System.out.println("Mime Type: " + mimeType);
-			System.out.println("Artifact: " + artifact);
-			System.out.println("URL: " + url);
 
 			// Test the environment
 			if (artifact == null) {
@@ -178,140 +215,25 @@ public class RegisterOnUnitController implements Serializable {
 				errorMessage = "The url in the http session was null";
 			}
 
-			documentBytes = null;
 			samlAssertionBytes = null;
-			samlAttributes = null;
-			signersIdentity = null;
-			signatureMethod = null;
 
 			// Download and save file if everything is ok so far
 			if (errorMessage == null) {
-
-				// Locate Web Service
-
 				// Get the SAML Assertion
-				System.out.println("Calling web service to retrieve signed document...");
 				String samlAssertion = signatureservice.retrieveSaml(artifact);
-				System.out.println("Saml Assertion recieved");
 				if (samlAssertion == null || samlAssertion.length() == 0) {
 					errorMessage = "SAML assertion was empty";
 				}
 
 				if (errorMessage == null) {
-
-					// We now have the SAML Assertion with the signed document.
-					// This may be parsed in two ways.
-					// You should choose either strategy 1 or strategy 2.
-
-					//
-					// Strategy 1; parse manually
-					//
-					samlAssertionBytes = Base64.decodeBase64(samlAssertion.getBytes("utf-8"));
-					System.out.println("Saml Assertion decoded");
-					//
-					// Add your own code here to read the xml in
-					// samlAssertionBytes
-					//
-
-					//
-					// Strategy 2; parse using the SAML libraries provided in
-					// this client kit
-					//
-
-					// Create the saml facade
-					// // Properties configuration = new Properties();
-					// // configuration.setProperty("debug", "false");
-					// // configuration.setProperty("trustkeystore.file",
-					// "C:/signicat/config/signicat-client-keystore");
-					// // configuration.setProperty("trustkeystore.password",
-					// "changeit");
-					// // configuration.setProperty(
-					// "asserting.party.certificate.subject.dn",
-					// "CN=test.kantega.no/id, OU=Kantega AS, O=Kantega AS, L=Trondheim, ST=Norway, C=NO"
-					// );
-					// //
-					// // // Uncomment this if you want to use the special
-					// classloader
-					// // // configuration.setProperty("classpath",
-					// "C:/signicat/lib");
-					// //
-					// //// SamlFacadeFactory factory = new
-					// SamlFacadeFactory(configuration);
-					// //// SamlFacade samlFacade = factory.createSamlFacade();
-					// // System.out.println("Saml facade created");
-					// //
-					// // // Parse the unsigned saml assertion
-					// // try {
-					// // samlAttributes =
-					// samlFacade.readUnsignedAssertion(samlAssertion, new
-					// URL(request.getRequestURL().toString()));
-					// // System.out.println("Saml assertion parsed");
-					// //
-					// // //
-					// // // The attributes and other values are now stored in
-					// the samlAttributes map
-					// // //
-					// //
-					// // // The identity of the signer is stored in the
-					// attribute map. You should validate that
-					// // // the signer actually is the one you belive it is.
-					// // // You may use the saml.subject.nameidentifier.name
-					// attribute or any of the other attributes to do this.
-					// // signersIdentity = (String)
-					// samlAttributes.get("saml.subject.nameidentifier.name");
-					// //
-					// // // The method used to sign the document is also
-					// available...
-					// // signatureMethod = (String)
-					// samlAttributes.get("saml.authentication.authmethod");
-					// //
-					// // // The signed document is stored in the attribute that
-					// ends with "document.data"
-					// // Iterator i = samlAttributes.keySet().iterator();
-					// // while (i.hasNext()) {
-					// // String key = (String) i.next();
-					// // if (key.endsWith("document.data")) {
-					// // // The attribute is stored as a list, since
-					// technically attributes may have more than one element
-					// // List documentDataList = (List)
-					// samlAttributes.get(key);
-					// // String documentDataBase64 = (String)
-					// documentDataList.get(0);
-					// //
-					// // // The document is base 64 encoded, so we have to
-					// decode it
-					// // documentBytes =
-					// Base64.decodeBase64(documentDataBase64.
-					// getBytes("utf-8"));
-					// // }
-					// // }
-					// } catch (ScSecurityException e) {
-					// errorMessage = "Failed while reading SAML Assertion";
-					// }
+					samlAssertionBytes = Base64.decodeBase64(samlAssertion.getBytes("UTF-8"));
+					String samlAssertionString = new String(samlAssertionBytes, "UTF-8");
+					signingInformation = SamlResponseHelper.getSigningInformation(samlAssertionString);
 				}
 			}
 		} catch (Exception e) {
-			errorMessage = "Exception: " + e.getMessage() + " (" + e.getClass().getName() + "). Stacktrace was printed to standard err.";
-			e.printStackTrace(System.err);
+			logger.error(errorMessage, e);
 		}
-
-		// signature should be byte[]
-		vardValService.setVardval(ssn, selectedUnitId, "".getBytes());// vardvalInfo
-		// .
-		// getSignature
-		// (
-		// )
-		// .
-		// getBytes
-		// (
-		// )
-		// )
-		// ;
-
-		VardvalInfo vardvalInfo = new VardvalInfo();
-		vardvalInfo.setSsn(ssn);
-		vardvalInfo.setSelectedUnitId(selectedUnitId);
-		return vardvalInfo;
+		return signingInformation;
 	}
-
 }

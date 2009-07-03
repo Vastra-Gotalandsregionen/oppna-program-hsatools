@@ -17,20 +17,17 @@
  */
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-
-import org.springframework.stereotype.Repository;
 
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
-import se.vgregion.kivtools.search.svc.domain.values.DN;
 
 /**
  * @author Anders Asplund, Know IT
@@ -51,8 +48,7 @@ public class SearchServiceLdapImpl implements SearchService {
 		this.unitRepository = unitRepository;
 	}
 
-	public void setEmploymentRepository(
-			EmploymentRepository employmentRepository) {
+	public void setEmploymentRepository(EmploymentRepository employmentRepository) {
 		this.employmentRepository = employmentRepository;
 	}
 
@@ -68,17 +64,14 @@ public class SearchServiceLdapImpl implements SearchService {
 		return this.unitRepository.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBussinessClassificationCodes);
 	}
 
-	public SikSearchResultList<Employment> getEmployments(String personDn)
-			throws Exception {
-		return employmentRepository.getEmployments(DN
-				.createDNFromString(personDn));
+	public SikSearchResultList<Employment> getEmployments(String personDn) throws Exception {
+		return employmentRepository.getEmployments(DN.createDNFromString(personDn));
 	}
 
 	public Person getPersonById(String vgrId) throws Exception {
 		Person person = personRepository.getPersonByVgrId(vgrId);
 		if (person != null) {
-			person.setEmployments(employmentRepository.getEmployments(DN
-					.createDNFromString(person.getDn())));
+			person.setEmployments(employmentRepository.getEmployments(DN.createDNFromString(person.getDn())));
 		}
 		return person;
 	}
@@ -87,15 +80,12 @@ public class SearchServiceLdapImpl implements SearchService {
 		return unitRepository.getUnitByHsaId(hsaId);
 	}
 
-	public SikSearchResultList<Person> searchPersons(String givenName,
-			String familyName, String vgrId) throws Exception {
+	public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId) throws Exception {
 		return personRepository.searchPersons(givenName, familyName, vgrId, 0);
 	}
 
-	public SikSearchResultList<Person> searchPersons(String givenName,
-			String familyName, String vgrId, int maxResult) throws Exception {
-		return personRepository.searchPersons(givenName, familyName, vgrId,
-				maxResult);
+	public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult) throws Exception {
+		return personRepository.searchPersons(givenName, familyName, vgrId, maxResult);
 	}
 
 	/**
@@ -106,8 +96,7 @@ public class SearchServiceLdapImpl implements SearchService {
 	 * @return
 	 * @throws Exception
 	 */
-	public SikSearchResultList<Person> searchPersons(String vgrId)
-			throws Exception {
+	public SikSearchResultList<Person> searchPersons(String vgrId) throws Exception {
 		return personRepository.searchPersons(vgrId, 0);
 	}
 
@@ -119,8 +108,7 @@ public class SearchServiceLdapImpl implements SearchService {
 	 * @return
 	 * @throws Exception
 	 */
-	public SikSearchResultList<Person> searchPersons(String vgrId,
-			int maxSearchResult) throws Exception {
+	public SikSearchResultList<Person> searchPersons(String vgrId, int maxSearchResult) throws Exception {
 		return personRepository.searchPersons(vgrId, maxSearchResult);
 	}
 
@@ -128,22 +116,16 @@ public class SearchServiceLdapImpl implements SearchService {
 		return unitRepository.searchUnits(unit);
 	}
 
-	public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit,
-			Comparator<Unit> sortOrder) throws Exception {
+	public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws Exception {
 		return unitRepository.searchAdvancedUnits(unit, sortOrder);
 	}
 
-	public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult)
-			throws Exception {
+	public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws Exception {
 		return unitRepository.searchUnits(unit, maxSearchResult);
 	}
 
-	public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit,
-			int maxSearchResult, Comparator<Unit> sortOrder,
-			List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes)
-			throws Exception {
-		return unitRepository.searchAdvancedUnits(unit, maxSearchResult,
-				sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
+	public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+		return unitRepository.searchAdvancedUnits(unit, maxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
 	}
 
 	public Unit getUnitByDN(String dn) throws Exception {
@@ -154,8 +136,7 @@ public class SearchServiceLdapImpl implements SearchService {
 		return healthcareTypeConditionHelper;
 	}
 
-	public void setHealthcareTypeConditionHelper(
-			HealthcareTypeConditionHelper healthcareTypeConditionHelper) {
+	public void setHealthcareTypeConditionHelper(HealthcareTypeConditionHelper healthcareTypeConditionHelper) {
 		this.healthcareTypeConditionHelper = healthcareTypeConditionHelper;
 	}
 
@@ -182,7 +163,6 @@ public class SearchServiceLdapImpl implements SearchService {
 		return null;
 	}
 
-	
 	public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception {
 		// TODO Auto-generated method stub
 		return null;

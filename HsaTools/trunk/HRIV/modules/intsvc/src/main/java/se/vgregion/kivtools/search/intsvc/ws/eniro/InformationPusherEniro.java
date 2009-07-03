@@ -138,7 +138,7 @@ public class InformationPusherEniro implements InformationPusher {
 	private void saveLastSynchedModifyDate() {
 		try {
 			FileWriter fileWriter = new FileWriter(lastSynchedModifyDateFile);
-			fileWriter.write(Constants.formateDateToZuluTime(lastSynchedModifyDate));
+			fileWriter.write(Constants.formatDateToZuluTime(lastSynchedModifyDate));
 			fileWriter.flush();
 			fileWriter.close();
 		} catch (Exception e) {

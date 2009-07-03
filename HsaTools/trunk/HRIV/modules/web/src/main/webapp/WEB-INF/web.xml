@@ -273,17 +273,4 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-	<security-constraint>
-		<display-name>Vardval security</display-name>
-		<web-resource-collection>
-			<web-resource-name>Secured area</web-resource-name>
-			<url-pattern>/secure/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>citizens</role-name>
-		</auth-constraint>
-	</security-constraint>
-	<security-role>
-		<role-name>citizens</role-name>
-	</security-role>
 </web-app>

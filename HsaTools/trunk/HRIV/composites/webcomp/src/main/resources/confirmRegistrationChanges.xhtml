@@ -42,13 +42,15 @@
 				<h1>#{msg.confirmRegistrationChange}</h1>
 				
 				<div class="confirm-registration-box">
-					<!-- Avvaktar med namn. Ska slås upp via WASens LDAP<br/>-->
+					#{msg.name}: #{vardvalInfo.name}<br/>
 					#{msg.ssn}: #{vardvalInfo.ssn}<br/>
 				</div>
 				<br/>				
+				<h:outputText rendered="#{vardvalInfo.currentUnitName != null}">
 				<p>#{msg.currentRegistration}:<br/>
 				#{vardvalInfo.currentUnitName}</p>
-								
+				</h:outputText>
+												
 				<!-- Om det finns en upcoming, visa denna: -->
 				<h:outputText rendered="#{vardvalInfo.upcomingUnitName != null}">
 					<p>#{msg.upcomingText}:<br/>
