@@ -28,15 +28,20 @@ public class Constants {
 	public static final String OBJECT_CLASS_FUNCTION_SPECIFIC = "vgrOrganizationalRole";
 	public static final String LDAP_PROPERTY_UNIT_NAME = "ou";
 	public static final String LDAP_PROPERTY_FUNCTION_NAME = "cn";
-	private static final SimpleDateFormat zuluTimeFormatter = new SimpleDateFormat("yyyyMMddHHmmss'Z'");
+	private static final String ZULUTIMEFORMATSTRING = "yyyyMMddHHmmss'Z'";
+	private static final String NORMALTIMEFORMATSTRING = "dd MMMM, yyyy";
 
-	public static final String formateDateToZuluTime(Date date) {
-		return zuluTimeFormatter.format(date);
+	public static final String formatDateToNormalTime(Date date) {
+		return new SimpleDateFormat(NORMALTIMEFORMATSTRING).format(date);
+	}
+
+	public static final String formatDateToZuluTime(Date date) {
+		return new SimpleDateFormat(ZULUTIMEFORMATSTRING).format(date);
 	}
 
 	public static final Date parseStringToZuluTime(String dateStr) {
 		try {
-			return zuluTimeFormatter.parse(dateStr);
+			return new SimpleDateFormat(ZULUTIMEFORMATSTRING).parse(dateStr);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

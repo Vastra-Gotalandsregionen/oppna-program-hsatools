@@ -25,6 +25,7 @@
 	<bean id="Controller.registerOnUnit" class="se.vgregion.kivtools.search.presentation.RegisterOnUnitController">
 		<property name="vardValService" ref="Registration.vardValService" />
 		<property name="searchService" ref="Search.SearchService" />
+		<property name="citizenRepository" ref="Registration.citizenRepository" />
 	</bean>
 
 </beans>

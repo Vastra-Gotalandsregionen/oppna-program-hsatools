@@ -83,7 +83,7 @@ public class UnitInformationPusherTest {
 		unitLeaf7.setName("leaf7");
 		unitLeaf7.setHsaIdentity("leaf7-id");
 
-		String dateStr = Constants.formateDateToZuluTime(new Date());
+		String dateStr = Constants.formatDateToZuluTime(new Date());
 		unitLeaf7.setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
 		unitLeaf7.setModifyTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
 		fillMockData(unitLeaf7);
@@ -240,7 +240,7 @@ public class UnitInformationPusherTest {
 		Calendar calendar = Calendar.getInstance();
 		// Newest is assumed to be the day before yesterday
 		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), (calendar.get(Calendar.DAY_OF_MONTH) - (i + 1) * 2), 00, 00, 00);
-		String dateStr = Constants.formateDateToZuluTime(calendar.getTime());
+		String dateStr = Constants.formatDateToZuluTime(calendar.getTime());
 		unit.setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
 		unit.setModifyTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
 	}

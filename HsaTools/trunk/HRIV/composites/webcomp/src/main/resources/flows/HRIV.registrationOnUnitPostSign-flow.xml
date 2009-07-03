@@ -20,30 +20,28 @@
     <var name="unitSearchSimpleForm" class="se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm" scope="flow" />
 	<var name="vardvalInfo" class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo" scope="flow" />
 
-	<input-mapper>
-		<input-attribute name="ssn" />
-		<input-attribute name="selectedUnitId" />
-	</input-mapper>
-	    
 	<start-state idref="Action.postChangeRegistration" />
 	
 	<action-state id="Action.postChangeRegistration">
 		<bean-action bean="Controller.registerOnUnit" method="postCommitRegistrationOnUnit">
 			<method-arguments>
-				<argument expression="requestParameters.ssn"/>
-				<argument expression="requestParameters.selectedUnitId"/>
 				<argument expression="externalContext"/>
 			</method-arguments>
 			<method-result name="vardvalInfo" scope="flow" />
 		</bean-action>
 		<transition on="success" to="Display.registrationConfirmation" />
 		<transition
-			on-exception="se.vgregion.kivtools.search.exceptions.IncorrectUserInputException"
-			to="Search.displayUnitSearchResult">
+			on-exception="se.vgregion.kivtools.search.presentation.exceptions.UnsuccessfullRegistrationException"
+			to="Display.signingError">
 		</transition>
 	</action-state>
 	
 	<view-state id="Display.registrationConfirmation" view="/confirmationRegistrationChanges.xhtml">
+		<transition on="gotoCaretypes" to="Display.caretypes" />
+		<transition on="gotoStartpage" to="Display.startpage" />
+	</view-state>
+
+	<view-state id="Display.signingError" view="/signingError.xhtml">
 		<transition on="gotoCaretypes" to="Display.caretypes" />
 		<transition on="gotoStartpage" to="Display.startpage" />
 	</view-state>
