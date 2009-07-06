@@ -589,7 +589,7 @@ th.leftcol,.rightcol { /*margin-bottom: 0.5em;*/
 
 .summary {
 	clear: both;
-	margin-bottom: 1.5em;
+	margin-bottom: 0.1em;
 }
 
 .summary h2 {
@@ -832,10 +832,6 @@ div.autocomplete {
 	vertical-align: 0%;
 }
 
-#unit-listing {
-	float: right;
-}
-
 #print-element {
 	padding-top: 0.5em;
 	text-align: right;
@@ -964,6 +960,8 @@ div.autocomplete {
 	border-style: solid;
 	border-color: #9C132F;
 	text-align: right;
+	padding: 2px;
+	float: right;
 }
 
 .confirm-registration-box {

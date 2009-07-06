@@ -134,7 +134,7 @@ public class Unit implements Serializable, Comparable<Unit> {
 	private int rt90X;
 	private int rt90Y;
 	private GeoCoordinate geoCoordinate; // Needed for calculation of close
-											// units
+	// units
 	private String distanceToTarget;
 	private List<String> mvkCaseTypes;
 	private boolean isNew;
@@ -142,7 +142,7 @@ public class Unit implements Serializable, Comparable<Unit> {
 	private boolean isMoved;
 
 	private boolean vgrVardVal;
-	
+
 	public boolean isVgrVardVal() {
 		return vgrVardVal;
 	}
@@ -313,7 +313,8 @@ public class Unit implements Serializable, Comparable<Unit> {
 	public String getDnBase64() throws UnsupportedEncodingException {
 		String dnString = dn.toString();
 		// dnString =
-		// "CN=Hedvig h Blomfrö,OU=Falkenbergsnämnden,OU=Förtroendevalda,OU=Landstinget  Halland,DC=hkat,DC=lthalland,DC=com";
+		// "CN=Hedvig h Blomfrö,OU=Falkenbergsnämnden,OU=Förtroendevalda,OU=Landstinget  Halland,DC=hkat,DC=lthalland,DC=com"
+		// ;
 		String dnStringBase64Encoded = Base64.encodeBytes(dnString.getBytes("ISO-8859-1"));
 		return dnStringBase64Encoded;
 	}
@@ -599,24 +600,29 @@ public class Unit implements Serializable, Comparable<Unit> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((hsaIdentity == null) ? 0 : hsaIdentity.hashCode());
+		result = prime * result + (hsaIdentity == null ? 0 : hsaIdentity.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Unit other = (Unit) obj;
 		if (hsaIdentity == null) {
-			if (other.hsaIdentity != null)
+			if (other.hsaIdentity != null) {
 				return false;
-		} else if (!hsaIdentity.equals(other.hsaIdentity))
+			}
+		} else if (!hsaIdentity.equals(other.hsaIdentity)) {
 			return false;
+		}
 		return true;
 	}
 
@@ -672,7 +678,7 @@ public class Unit implements Serializable, Comparable<Unit> {
 				Calendar cal = new GregorianCalendar();
 				cal.setTime(startDate);
 				cal.add(Calendar.DAY_OF_YEAR, -7); // Start showing one week
-													// earlier
+				// earlier
 				setVgrTempInfoStart(cal.getTime());
 			} catch (ParseException e) {
 				// KIV validates this field. Nothing we can do if it is
@@ -984,10 +990,11 @@ public class Unit implements Serializable, Comparable<Unit> {
 	}
 
 	private boolean getHsaRouteIsValid() {
-		if (Evaluator.isEmpty(getHsaRoute()))
+		if (Evaluator.isEmpty(getHsaRoute())) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	}
 
 	public void setModifyTimestamp(TimePoint modifyTimestamp) {
@@ -1121,8 +1128,9 @@ public class Unit implements Serializable, Comparable<Unit> {
 	public void setHsaRoute(List<String> hsaRoutelist) {
 		this.hsaRoute = hsaRoutelist;
 		if (hsaRoutelist != null && hsaRoutelist.size() > 0) {
-			for (String s : hsaRoute)
+			for (String s : hsaRoute) {
 				this.hsaRouteConcatenated += s + "";
+			}
 		}
 	}
 
@@ -1158,15 +1166,15 @@ public class Unit implements Serializable, Comparable<Unit> {
 	public void setHsaBusinessClassificationCode(List<String> hsaBusinessClassificationCode) {
 		this.hsaBusinessClassificationCode = hsaBusinessClassificationCode;
 	}
-	
+
 	public List<String> getHsaBusinessClassificationText() {
 		return hsaBusinessClassificationText;
 	}
-	
-	public String getHsaBusinessClassificationTextFormatted(){
+
+	public String getHsaBusinessClassificationTextFormatted() {
 		StringBuilder sb = new StringBuilder();
 		if (hsaBusinessClassificationText != null) {
-			for(int i=0;i < hsaBusinessClassificationText.size(); i++){
+			for (int i = 0; i < hsaBusinessClassificationText.size(); i++) {
 				sb.append(hsaBusinessClassificationText.get(i));
 				if (i < hsaBusinessClassificationText.size() - 1) {
 					sb.append(", ");
@@ -1212,14 +1220,12 @@ public class Unit implements Serializable, Comparable<Unit> {
 		return accessibilityInformation;
 	}
 
-	public void setAccessibilityInformation(
-			AccessibilityInformation accessibilityInformation) {
+	public void setAccessibilityInformation(AccessibilityInformation accessibilityInformation) {
 		this.accessibilityInformation = accessibilityInformation;
 	}
 
 	public boolean isShowInVgrVardVal() {
-// TODO use vgrVardVal when it is set in LDAP		if (isVgrVardVal() && getHsaBusinessClassificationText().contains("Vårdcentral")) {
-		if (true) {
+		if (isVgrVardVal()) {
 			for (HealthcareType ht : getHealthcareTypes()) {
 				if ("Vårdcentral".equals(ht.getDisplayName())) {
 					return true;

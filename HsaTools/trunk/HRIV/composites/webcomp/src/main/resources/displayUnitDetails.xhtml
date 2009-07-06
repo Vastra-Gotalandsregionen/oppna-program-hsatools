@@ -96,9 +96,9 @@
 						</span> 
 					</div>
 					
-					<div id="unit-listing">
-						<ui:include src="#{settings.vardValInclude}" />
-					</div>						
+					<h:outputText rendered="#{unit.showInVgrVardVal == true}">
+						<div class="vardval-participant">#{msg.includedInVGPrimarvard}</div>
+					</h:outputText>
 
 					<table class="borderless">
 						<tr>
@@ -225,10 +225,11 @@
 								</td>
 								<td class="rightthreecol">
 									<h:outputText rendered="#{settings.useMvk == 'true' and fn:length(unit.mvkCaseTypes) gt 0}">
-										<a href="#{settings.mvkLoginUrl}" class="url"><img src="resources/images/mvk-logo.gif" alt="#{msg.mvk}"/> #{msg.mvk}</a>
+										<p><a href="#{settings.mvkLoginUrl}" class="url"><img src="resources/images/mvk-logo.gif" alt="#{msg.mvk}"/> #{msg.mvk}</a></p>
 									</h:outputText>
+									
 									<h:outputText rendered="#{unit.showInVgrVardVal == true}">
-										<a href="http://portal.proxy.vgregion.se/hriv/secure/confirmRegistrationChanges.jsp?hsaidentity=#{unit.hsaIdentity}">#{msg.pickChooseUnit}</a>
+										<p><a href="http://portal.proxy.vgregion.se/hriv/secure/confirmRegistrationChanges.jsp?hsaidentity=#{unit.hsaIdentity}">#{msg.pickChooseUnit}</a></p>
 									</h:outputText>
 								</td>			
 							</tr>

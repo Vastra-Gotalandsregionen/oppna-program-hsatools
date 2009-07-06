@@ -312,7 +312,7 @@ public class UnitFactory {
 		htch.assignHealthcareTypes(unit);
 		
 		// Vårdval
-        unit.setVgrVardVal(Boolean.parseBoolean(LdapORMHelper.getSingleValue(unitEntry
+        unit.setVgrVardVal("J".equalsIgnoreCase(LdapORMHelper.getSingleValue(unitEntry
                 .getAttribute("vgrVardVal"))));
 		
 		return unit;
