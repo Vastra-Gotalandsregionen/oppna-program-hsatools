@@ -26,7 +26,10 @@
 		<input-attribute name="ssn" />
 	</input-mapper>
 	<start-state idref="Display.displayRegistration" />
-	<!-- TODO confirmRegistrationChanges.xhtml should perhaps be protected and put in a secure (/secure) folder? -->
+	<!--
+		TODO confirmRegistrationChanges.xhtml should perhaps be protected and
+		put in a secure (/secure) folder?
+	-->
 	<view-state id="Display.displayRegistration" view="/confirmRegistrationChanges.xhtml">
 		<render-actions>
 			<bean-action bean="Controller.registerOnUnit" method="getUnitRegistrationInformation">
@@ -42,7 +45,7 @@
 			to="Display.registrationError">
 		</transition>
 		<transition on="doConfirm" to="Action.preChangeRegistration" />
-		<transition on="doCancel" to="Display.startpage" />
+		<transition on="doCancel" to="Redirect.backToUnit" />
 		<transition on="gotoCaretypes" to="Display.caretypes" />
 		<transition on="gotoStartpage" to="Display.startpage" />
 	</view-state>
@@ -56,9 +59,12 @@
 		</bean-action>
 		<transition to="Redirect.toSignatureService" />
 	</action-state>
-	<view-state id="Redirect.toSignatureService" view="externalRedirect:${flowScope.redirectUrl}" />
+
 	<view-state id="Display.registrationError" view="/registrationError.xhtml">
 		<transition on="gotoCaretypes" to="Display.caretypes" />
 		<transition on="gotoStartpage" to="Display.startpage" />
 	</view-state>
+	<end-state id="Redirect.backToUnit"
+		view="externalRedirect:/displayUnitDetails.jsf?_flowId=HRIV.Search.searchunit-flow&amp;hsaidentity=${flowScope.hsaidentity}" />
+	<end-state id="Redirect.toSignatureService" view="externalRedirect:${flowScope.redirectUrl}" />
 </flow>
