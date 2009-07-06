@@ -21,11 +21,9 @@ public class SamlResponseHelper {
 	public static SigningInformation getSigningInformation(String samlAssertionString) {
 
 		String nationalId = null;
-		String signature = null;
 		try {
 			Document document = getDocument(samlAssertionString);
 			nationalId = getNationalId(document);
-			signature = getSignature(document);
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -36,19 +34,7 @@ public class SamlResponseHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new SigningInformation(nationalId, signature);
-	}
-
-	private static String getSignature(Document document) {
-		String signature = null;
-
-		NodeList signatureValues = document.getElementsByTagName("ds:SignatureValue");
-		Node signatureValue = signatureValues.item(0);
-		if (signatureValue != null) {
-			signature = signatureValue.getTextContent();
-		}
-
-		return signature;
+		return new SigningInformation(nationalId, samlAssertionString);
 	}
 
 	private static String getNationalId(Document document) {
