@@ -3,8 +3,10 @@ package se.vgregion.kivtools.search.presentation;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,11 +35,22 @@ public class RegisterOnUnitController implements Serializable {
 	Log logger = LogFactory.getLog(this.getClass());
 	VardvalService vardValService;
 	SearchService searchService;
-	private static final String signatureserviceUrl = "https://test.signicat.com/signatureservice/services/signatureservice";
-	private static final String serviceUrl = "https://test.signicat.com/std/method/vgr?method=sign";
+	private static final String signatureserviceUrl = "https://test.signicat.com/signatureservice/services/signatureservice"; // Test
+	// ->
+	// prod:
+	// test
+	// ->
+	// id
+	private static final String serviceUrl = "https://test.signicat.com/std/method/vgr?method=sign"; // Test
+	// ->
+	// prod:
+	// test
+	// ->
+	// id
 	SignatureEndpointImplService signatureEndpointImplService = new SignatureEndpointImplService();
 	SignatureEndpointImpl signatureservice = signatureEndpointImplService.getSignatureservice();
 	private CitizenRepository citizenRepository;
+	private final ResourceBundle bundle = ResourceBundle.getBundle("messagesVGR");
 
 	public void setCitizenRepository(CitizenRepository citizenRepository) {
 		this.citizenRepository = citizenRepository;
@@ -51,6 +64,14 @@ public class RegisterOnUnitController implements Serializable {
 		this.vardValService = vardValService;
 	}
 
+	/**
+	 * Prepare "confirm step" in registration process.
+	 * 
+	 * @param externalContext
+	 * @param selectedUnitId
+	 * @return
+	 * @throws Exception
+	 */
 	public VardvalInfo getUnitRegistrationInformation(ExternalContext externalContext, String selectedUnitId) throws Exception {
 
 		JsfExternalContext jsfExternalContext = (JsfExternalContext) externalContext;
@@ -96,7 +117,7 @@ public class RegisterOnUnitController implements Serializable {
 				vardvalInfo.setUpcomingUnitName(upcomingUnit.getName());
 			}
 		} catch (Exception e) {
-			throw new UnsuccessfullRegistrationException("Någon enhet är ogiltig. Eventuellt är det någon enhet som inte upplagd i Vårdvalssystemet.");
+			throw new UnsuccessfullRegistrationException(bundle.getString("registrationInvalidUnit"));
 		}
 
 		vardvalInfo.setSsn(ssn);
@@ -108,6 +129,7 @@ public class RegisterOnUnitController implements Serializable {
 	}
 
 	/**
+	 * Prepare signature request.
 	 * 
 	 * @param vardvalInfo
 	 * @param externalContext
@@ -117,12 +139,13 @@ public class RegisterOnUnitController implements Serializable {
 	public String preCommitRegistrationOnUnit(VardvalInfo vardvalInfo, ExternalContext externalContext) {
 		String redirectUrl = "";
 		Date date = new Date();
+		String documentText = bundle.getString("registrationDocumentText");
+		String registrationData = MessageFormat.format(documentText, vardvalInfo.getName(), vardvalInfo.getSsn(), vardvalInfo.getSelectedUnitName(), vardvalInfo.getSelectedUnitId(), Constants
+				.formatDateToNormalTime(date));
 
-		String registrationData = "Jag " + vardvalInfo.getName() + " (" + vardvalInfo.getSsn() + ") listar mig härmed på vårdcentral " + vardvalInfo.getSelectedUnitName() + " (HsaId: "
-				+ vardvalInfo.getSelectedUnitId() + "). Datum: " + Constants.formatDateToNormalTime(date);
 		byte[] base64encoded = encodeRegistrationData(registrationData);
 		String mimeType = "text/plain";
-		String documentDescription = "Signature for Vardval registration";
+		String documentDescription = bundle.getString("registrationDocumentDescription");
 
 		// Stores signatureserviceUrl and mimetype in session so
 		externalContext.getSessionMap().put("signatureservice.url", signatureserviceUrl);
@@ -141,11 +164,19 @@ public class RegisterOnUnitController implements Serializable {
 
 		String targetUrl = urlToThisPage.substring(0, urlToThisPage.lastIndexOf("/") + 1) + "confirmationRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnitPostSign-flow";
 
-		// Redirect user to test.signicat.com
+		// Redirect user to Signicat
 		redirectUrl = serviceUrl + "&documentArtifact=" + artifact + "&target=" + encodeTargetUrl(targetUrl);
 		return redirectUrl;
 	}
 
+	/**
+	 * Returning from signature service (ie Signicat). Process Saml response and
+	 * set registration in Vårdval system.
+	 * 
+	 * @param externalContext
+	 * @return
+	 * @throws UnsuccessfullRegistrationException
+	 */
 	public VardvalInfo postCommitRegistrationOnUnit(ExternalContext externalContext) throws UnsuccessfullRegistrationException {
 
 		SigningInformation signingInformation = handleSamlResponse(externalContext);
@@ -158,10 +189,10 @@ public class RegisterOnUnitController implements Serializable {
 		String name = sessionMap.getString("name");
 
 		// Set new registration if same ssn etc
-		if (signingInformation.getNationalId() != null && signingInformation.getNationalId().equals(ssn) && signingInformation.getSignature() != null) {
+		if (signingInformation.getNationalId() != null && signingInformation.getNationalId().equals(ssn) && signingInformation.getSamlResponse() != null) {
 			try {
 				if (false) {
-					vardvalInfo = vardValService.setVardval(ssn, selectedUnitId, signingInformation.getSignature().getBytes());
+					vardvalInfo = vardValService.setVardval(ssn, selectedUnitId, signingInformation.getSamlResponse().getBytes());
 				}
 				vardvalInfo.setSsn(ssn);
 				vardvalInfo.setName(name);
@@ -169,7 +200,7 @@ public class RegisterOnUnitController implements Serializable {
 				throw new UnsuccessfullRegistrationException(e.getMessage());
 			}
 		} else {
-			throw new UnsuccessfullRegistrationException("Signeringen misslyckades. Detta kan bero på att det inte är samma person som har loggat in som har signerat.");
+			throw new UnsuccessfullRegistrationException(bundle.getString("registrationSigningFailed"));
 		}
 		return vardvalInfo;
 	}
