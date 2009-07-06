@@ -44,7 +44,7 @@
 				<p>Signeringen misslyckades eller avbröts. Detta kan bero på att det inte är samma person som har loggat in som har signerat.</p>
 				
 				<h:outputText rendered="#{facesContext.externalContext.sessionMap.selectedUnitId != null}">
-					<a href="visaenhet?hsaidentity=#{facesContext.externalContext.sessionMap.selectedUnitId}">Tillbaka till vald mottagning</a>
+					<a href="visaenhet?hsaidentity=#{facesContext.externalContext.sessionMap.selectedUnitId}" class="url">Tillbaka till vald mottagning</a>
 				</h:outputText>
 			</div>
 		</div>
