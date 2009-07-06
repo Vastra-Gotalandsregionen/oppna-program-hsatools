@@ -12,7 +12,7 @@ public class SamlResponseHelperTest {
 		String samlAssertionString = getSaml();
 		SigningInformation signingInformation = SamlResponseHelper.getSigningInformation(samlAssertionString);
 		Assert.assertEquals("188803099368", signingInformation.getNationalId());
-		Assert.assertEquals("dvIrlZe8cBvaNNu+paSgM9RuPBAnncj9pioi/HGLlitg9cGnoWXLMg==", signingInformation.getSignature());
+		Assert.assertNotNull("Saml response was null", signingInformation.getSamlResponse());
 	}
 
 	private String getSaml() {
