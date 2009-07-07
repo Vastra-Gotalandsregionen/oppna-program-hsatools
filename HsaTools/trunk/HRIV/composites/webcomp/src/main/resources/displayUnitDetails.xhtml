@@ -40,10 +40,10 @@
 		<meta name="last-modified" content="#{unit.modifyTimestampFormatted}" /> 
 		<meta name="revised" content="#{unit.modifyTimestampFormatted}" /> 
 		<meta name="DC.title" content="#{unit.name} - Hitta rätt i vården" /> 
-		<meta name="DC.subject" content="Hitta-rätt-i-vården, sök, organisation, enhet, mottagning, telefonnummer, adress, ort, #{unit.name}, #{unit.hsaMunicipalityName}" /> 
+		<meta name="DC.subject" content="Hitta-rätt-i-vården, sök, organisation, enhet, mottagning, telefonnummer, adress, ort, #{unit.name}, #{unit.locality}, #{unit.hsaMunicipalityName}" /> 
 		<h:outputText rendered="#{unit.concatenatedDescription == ''}">
-		<meta name="DC.description" content="#{unit.name}, #{unit.caretypeCustomized} i #{unit.hsaMunicipalityName}. Telefonnummer: #{unit.hsaPublicTelephoneNumber[0].formattedPhoneNumber}" />
-		<meta name="description" content="#{unit.name}, #{unit.caretypeCustomized} i #{unit.hsaMunicipalityName}. Telefonnummer: #{unit.hsaPublicTelephoneNumber[0].formattedPhoneNumber}" />
+		<meta name="DC.description" content="#{unit.name}, #{unit.caretypeCustomized} i #{unit.locality} (#{unit.hsaMunicipalityName}). Telefonnummer: #{unit.hsaPublicTelephoneNumber[0].formattedPhoneNumber}" />
+		<meta name="description" content="#{unit.name}, #{unit.caretypeCustomized} i #{unit.locality} (#{unit.hsaMunicipalityName}). Telefonnummer: #{unit.hsaPublicTelephoneNumber[0].formattedPhoneNumber}" />
 		</h:outputText> 
 		<h:outputText rendered="#{unit.concatenatedDescription != ''}">
 		<meta name="DC.description" content="#{unit.concatenatedDescription}" />
@@ -89,7 +89,7 @@
 				<!--  Display unit widget start (dont remove this comment) -->
 				<div class="vcard">
 					<div class="summary given-name fn org">
-						<h1>#{unit.name}, <span class="municipality-name">#{unit.hsaMunicipalityName}</span></h1>
+						<h1>#{unit.name}, <span class="municipality-name">#{unit.locality}</span></h1>
 						 <span class="caretype-customized"> 
 							<h:outputText rendered="#{settings.testingMode==true and unit.caretypeCustomized=='Okänd vårdtyp'}"><span class="warning">#{unit.caretypeCustomized}</span></h:outputText>
 							<h:outputText rendered="#{settings.testingMode!=true or unit.caretypeCustomized!='Okänd vårdtyp'}">#{unit.caretypeCustomized}</h:outputText>#{unit.formattedAncestor}
@@ -229,6 +229,7 @@
 									</h:outputText>
 									
 									<h:outputText rendered="#{unit.showInVgrVardVal == true}">
+<!--										TODO URL should be configurable, eg via Spring -->
 										<p><a href="http://portal.proxy.vgregion.se/hriv/secure/confirmRegistrationChanges.jsp?hsaidentity=#{unit.hsaIdentity}" class="url">#{msg.chooseChangeUnitForRegistration}</a></p>
 									</h:outputText>
 								</td>			

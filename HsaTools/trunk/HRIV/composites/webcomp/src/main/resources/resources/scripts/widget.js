@@ -130,23 +130,21 @@ function initAutocompleter() {
 	myDS.scriptQueryAppend = "output=xml";
 	myDS.responseSchema = { 
        resultNode: 'unit', 
-       fields: ['name','id']             
+       fields: ['description','id']             
     };
 
 	var myAutoComp = new YAHOO.widget.AutoComplete("unitName","autocomplete_choices", myDS);
 	myAutoComp.resultTypeList = false; 
 	myAutoComp.formatResult = function(oResultData, sQuery, sResultMatch) { 
 		var query = sQuery.toLowerCase();
-		var name = sResultMatch;
-		var nameMatchIndex = name.toLowerCase().indexOf(query);
-		var displayName;
+		var description = sResultMatch;
+		var descriptionMatchIndex = description.toLowerCase().indexOf(query);
+		var displayDescription;
 		
-		if (nameMatchIndex > -1) {
-			displayName = highlightMatch(name, query, nameMatchIndex);
-		} else {
-			displayName = fname;
+		if (descriptionMatchIndex > -1) {
+			displayDescription = highlightMatch(description, query, descriptionMatchIndex);
 		} 
-		return displayName;
+		return displayDescription;
 	}
 
 	myAutoComp.autoHighlight = false;
@@ -182,15 +180,6 @@ function initAutocompleter() {
  	myAutoComp.dataRequestEvent.subscribe(workingHandler);
  	myAutoComp.containerExpandEvent.subscribe(readyHandler);
 }
-
-// scriptaculous autocompletion
-//function initOldAutocompleter() {
-//	new Ajax.Autocompleter("unitName", "autocomplete_choices", "suggestions", {
-//		minChars: 2, 
-//		indicator: 'indicator1',
-//		afterUpdateElement: goDirectlyToUnitFromAutocompleteList
-//	});
-//}
 
 // Helper function for the formatter
 function highlightMatch(full, snippet, matchindex) {
