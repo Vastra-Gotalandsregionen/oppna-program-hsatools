@@ -27,14 +27,13 @@ public class VardvalServiceImpl implements VardvalService {
 	private String truststoreLocation;
 	private String truststoreType;
 	private String truststorePassword;
-	
-	private void setup()
-	{
-		Map<String, Object> requestContext = ((BindingProvider)vardvalService.getBasicHttpBindingIVårdvalService()).getRequestContext();
-		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,webserviceEndpoint);
+
+	private void setup() {
+		Map<String, Object> requestContext = ((BindingProvider) vardvalService.getBasicHttpBindingIVårdvalService()).getRequestContext();
+		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, webserviceEndpoint);
 		// Set system properties for ssl use
 		System.setProperty("javax.net.ssl.keyStoreType", keystoreType);
-		System.setProperty("javax.net.ssl.trustStoreType" , truststoreType);
+		System.setProperty("javax.net.ssl.trustStoreType", truststoreType);
 		System.setProperty("javax.net.ssl.keyStore", keystoreLocation);
 		System.setProperty("javax.net.ssl.trustStore", truststoreLocation);
 		System.setProperty("javax.net.ssl.keyStorePassword", keystorePassword);
