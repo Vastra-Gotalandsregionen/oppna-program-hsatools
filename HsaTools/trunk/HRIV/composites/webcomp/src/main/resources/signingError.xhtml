@@ -39,12 +39,12 @@
 	<ui:define name="MainContainer">
 		<div class="yui-u search-result">
 			<div id="print-area">
-				<h1>Fel vid signering eller signering avbruten</h1>
+				<h1>#{msg.signingError}</h1>
 
-				<p>Signeringen misslyckades eller avbröts. Detta kan bero på att det inte är samma person som har loggat in som har signerat.</p>
+				<p>#{msg.signingErrorBody}</p>
 				
 				<h:outputText rendered="#{facesContext.externalContext.sessionMap.selectedUnitId != null}">
-					<a href="visaenhet?hsaidentity=#{facesContext.externalContext.sessionMap.selectedUnitId}" class="url">Tillbaka till vald mottagning</a>
+					<a href="visaenhet?hsaidentity=#{facesContext.externalContext.sessionMap.selectedUnitId}" class="url">#{msg.signingErrorLink}</a>
 				</h:outputText>
 			</div>
 		</div>
