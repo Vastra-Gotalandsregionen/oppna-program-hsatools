@@ -127,15 +127,20 @@
 									<span class="warning">hsaManagementText #{msg.missing}</span>
 								</h:outputText>
 				            </td>
-							<th class="leftcol" id="visitingRuleAgeHeaderCell">
-								<span class="grey-header">#{msg.visitingRuleAge}</span>
-							</th>
-							<td class="rightfourcol" headers="visitingRuleAgeHeaderCell">
-								#{unit.hsaVisitingRuleAge}
-			                 	<h:outputText rendered="#{settings.testingMode==true and !unit.hsaVisitingRuleAgeIsValid}">
-									<span class="warning">hsaVisitingRuleAge #{msg.missing}</span>
-								</h:outputText>
-							</td>
+				            <h:outputText rendered="#{unit.showAgeIntervalAndVisitingRules}">
+								<th class="leftcol" id="visitingRuleAgeHeaderCell">
+									<span class="grey-header">#{msg.visitingRuleAge}</span>
+								</th>
+								<td class="rightfourcol" headers="visitingRuleAgeHeaderCell">
+									#{unit.hsaVisitingRuleAge}
+				                 	<h:outputText rendered="#{settings.testingMode==true and !unit.hsaVisitingRuleAgeIsValid}">
+										<span class="warning">hsaVisitingRuleAge #{msg.missing}</span>
+									</h:outputText>
+								</td>
+							</h:outputText>
+				            <h:outputText rendered="#{!unit.showAgeIntervalAndVisitingRules}">
+				            	<th></th><td></td>
+							</h:outputText>
 						</tr>
 						<h:outputText rendered="#{unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true}">
 	             			<tr>
@@ -150,17 +155,19 @@
 					            </td>
 							</tr>
 						</h:outputText>
-             			<tr>
-             				<th class="leftcol" id="visitingRulesHeaderCell">
-				             	<span class="grey-header">#{msg.visitingRules}</span>
-				            </th>
-				            <td  class="righttwocol" headers="visitingRulesHeaderCell" colspan="3">
-				            	#{unit.hsaVisitingRules}
-			                 	<h:outputText rendered="#{settings.testingMode==true and !unit.hsaVisitingRulesIsValid}">
-									<span class="warning">hsaVisitingRules #{msg.missing}</span>
-								</h:outputText>
-				            </td>
-						</tr>
+						<h:outputText rendered="#{unit.showAgeIntervalAndVisitingRules}">
+	             			<tr>
+	             				<th class="leftcol" id="visitingRulesHeaderCell">
+					             	<span class="grey-header">#{msg.visitingRules}</span>
+					            </th>
+					            <td  class="righttwocol" headers="visitingRulesHeaderCell" colspan="3">
+					            	#{unit.hsaVisitingRules}
+				                 	<h:outputText rendered="#{settings.testingMode==true and !unit.hsaVisitingRulesIsValid}">
+										<span class="warning">hsaVisitingRules #{msg.missing}</span>
+									</h:outputText>
+					            </td>
+							</tr>
+						</h:outputText>
 					</table>
 
 					<div id="description-header" style="padding: 0px;">
