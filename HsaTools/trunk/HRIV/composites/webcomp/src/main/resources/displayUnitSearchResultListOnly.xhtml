@@ -102,10 +102,6 @@
 			                            	<a href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.requestContextPath}/visaenhet?hsaidentity=#{theUnit.hsaIdentity}&amp;noHeader=#{param.noHeader}">
 												#{theUnit.name}</a><span class="hits-header">, #{theUnit.hsaMunicipalityName}</span>
 			                            </h3>
-			                            <span class="hits-header">
-												<h:outputText rendered="#{settings.testingMode==true and theUnit.caretypeCustomized=='Okänd vårdtyp'}"><span class="warning"> #{theUnit.caretypeCustomized}</span></h:outputText>
-												<h:outputText rendered="#{settings.testingMode!=true or theUnit.caretypeCustomized!='Okänd vårdtyp'}"> #{theUnit.caretypeCustomized}</h:outputText>
-										</span>
 			                 	</div>
 			                    
 		                        <div class="unit-description">

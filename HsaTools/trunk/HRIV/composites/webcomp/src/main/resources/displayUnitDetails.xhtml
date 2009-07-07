@@ -90,10 +90,6 @@
 				<div class="vcard">
 					<div class="summary given-name fn org">
 						<h1>#{unit.name}, <span class="municipality-name">#{unit.locality}</span></h1>
-						 <span class="caretype-customized"> 
-							<h:outputText rendered="#{settings.testingMode==true and unit.caretypeCustomized=='Okänd vårdtyp'}"><span class="warning">#{unit.caretypeCustomized}</span></h:outputText>
-							<h:outputText rendered="#{settings.testingMode!=true or unit.caretypeCustomized!='Okänd vårdtyp'}">#{unit.caretypeCustomized}</h:outputText>#{unit.formattedAncestor}
-						</span> 
 					</div>
 					
 					<h:outputText rendered="#{unit.showInVgrVardVal == true}">
