@@ -12,3 +12,12 @@ Kortvarianten är som följer:
  # Checka ut källkoden:<br>cd sökväg_till_källkoden && svn checkout https://oppna-program.googlecode.com/svn/ oppna-program --username ditt.användarnamn
  # Bygg och fixa projektfiler (förutsätter att du vill jobba i utvecklingsmiljön Eclipse): cd sökväg_till_källkoden/oppna-program/HsaTools/trunk/; mvn install && mvn -U  eclipse:eclipse -Dwtpversion=1.5
  # Importera projekten i Eclipse. I Eclipse: File/Import.../Existing project into Workspace, Välj "sökväg_till_källkoden/oppna-program/HsaTools/trunk" och importera alla projekten. Voila. Utveckla, checka in dina ändringar och se till att hålla den här wikin uppdaterad. 
+ # Importera inställningar:
+   * Spara ner inställningsfilerna från projektet på Google Code:
+     * http://oppna-program.googlecode.com/files/VGR_CodeFormat.xml
+     * http://oppna-program.googlecode.com/files/VGR_CodeTemplates.xml
+     * http://oppna-program.googlecode.com/files/VGR_CleanUp.xml
+   * I Eclipse välj Window/Preferences
+   * Välj Java/Code Style/Formatter och tryck på Import och importera VGR_CodeFormat.xml
+   * Välj Java/Code Style/Code Templates och tryck på Import och importera VGR_CodeTemplates.xml
+   * Välj Java/Code Style/Clean Up och tryck på Import och importera VGR_CleanUp.xml
