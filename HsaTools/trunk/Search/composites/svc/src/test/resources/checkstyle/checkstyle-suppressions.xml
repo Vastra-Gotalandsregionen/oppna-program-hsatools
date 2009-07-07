@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.0//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_0.dtd">
+
+<suppressions>
+	<!--
+    <suppress checks="JavadocStyleCheck"
+              files="GeneratedObject.java"
+              lines="50-9999"/>
+    <suppress checks="MagicNumberCheck"
+              files="LegacyDatasetConvertor.java"
+              lines="221,250-295"/>
+    -->
+    
+    <!-- Suppress all testfiles -->
+    <suppress checks=".*" files=".*/test/.*" />
+    <suppress checks=".*" files=".*/jaxws/wsimport/.*" />
+</suppressions>
