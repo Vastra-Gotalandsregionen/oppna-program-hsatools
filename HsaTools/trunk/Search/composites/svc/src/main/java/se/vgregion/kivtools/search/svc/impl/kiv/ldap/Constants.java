@@ -40,12 +40,13 @@ public class Constants {
 	}
 
 	public static final Date parseStringToZuluTime(String dateStr) {
-		try {
-			return new SimpleDateFormat(ZULUTIMEFORMATSTRING).parse(dateStr);
-		} catch (ParseException e) {
-			e.printStackTrace();
+		if (dateStr != null && dateStr.length() > 0) {
+			try {
+				return new SimpleDateFormat(ZULUTIMEFORMATSTRING).parse(dateStr);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
-		// If exception is thrown then return new date
-		return new Date();
+		return null;
 	}
 }

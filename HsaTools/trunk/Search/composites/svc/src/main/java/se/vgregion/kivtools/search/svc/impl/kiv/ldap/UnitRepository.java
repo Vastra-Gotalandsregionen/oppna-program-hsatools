@@ -38,10 +38,9 @@ import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.UnitNameComparator;
 import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
+import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.search.util.LdapParse;
@@ -103,7 +102,24 @@ public class UnitRepository {
 
 		removeUnallowedUnits(units, showUnitsWithTheseHsaBussinessClassificationCodes);
 
+		removeOutdatedUnits(units);
+
 		return units;
+	}
+
+	/**
+	 * Removes units that have passed its end date (hsaEndDate).
+	 * 
+	 * @param units
+	 */
+	private void removeOutdatedUnits(SikSearchResultList<Unit> units) {
+		Date now = new Date();
+		for (Iterator<Unit> iterator = units.iterator(); iterator.hasNext();) {
+			Unit unit = iterator.next();
+			if (unit.getHsaEndDate() != null && now.after(unit.getHsaEndDate())) {
+				iterator.remove();
+			}
+		}
 	}
 
 	/**
@@ -171,7 +187,7 @@ public class UnitRepository {
 								}
 							} else if (value instanceof List) {
 								for (String v : conditionValues) {
-									if ((((List<String>) value).contains(v))) {
+									if (((List<String>) value).contains(v)) {
 										conditionFulfilled = true;
 									}
 								}
@@ -275,7 +291,7 @@ public class UnitRepository {
 		return result;
 	}
 
-	private SikSearchResultList<Unit> searchUnits(String searchFilter, int searchScope, int maxResult, Comparator<Unit> sortOrder) throws Exception {
+	protected SikSearchResultList<Unit> searchUnits(String searchFilter, int searchScope, int maxResult, Comparator<Unit> sortOrder) throws Exception {
 		LDAPSearchConstraints constraints = new LDAPSearchConstraints();
 		LDAPConnection lc = null;
 		constraints.setMaxResults(0);
@@ -479,7 +495,7 @@ public class UnitRepository {
 		if (!"".equals(functionSearchString)) {
 			filterList.add(functionSearchString);
 		}
-		String orCriterias = makeOr(filterList); //(|(par1=value1)(par2=value2))
+		String orCriterias = makeOr(filterList); // (|(par1=value1)(par2=value2))
 		return orCriterias;
 	}
 
@@ -519,7 +535,7 @@ public class UnitRepository {
 		// condition
 		addHealthCareTypeConditions(filterList, allUnfilteredHealthcareTypes);
 
-		String orCriterias = makeOr(filterList); //(|(par1=value1)(par2=value2))
+		String orCriterias = makeOr(filterList); // (|(par1=value1)(par2=value2))
 		long endTimeMillis = System.currentTimeMillis();
 		logger.debug("Creating filter for hsaBusinessClassificationCode took: " + (endTimeMillis - startTimeMillis) + " milliseconds.");
 		return orCriterias;
@@ -537,7 +553,7 @@ public class UnitRepository {
 		addAddressSearchFilter(filterList, "hsaPostalAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
 
 		addAddressSearchFilter(filterList, "hsaStreetAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
-		String orCriterias = makeOr(filterList); //(|(par1=value1)(par2=value2))
+		String orCriterias = makeOr(filterList); // (|(par1=value1)(par2=value2))
 
 		filterList = new ArrayList<String>();
 		addSearchFilter(filterList, Constants.LDAP_PROPERTY_UNIT_NAME, unit.getName());
@@ -547,7 +563,7 @@ public class UnitRepository {
 
 		addSearchFilter(filterList, "hsaIdentity", unit.getHsaIdentity());
 
-		String andCriterias = makeAnd(filterList); //(&(par3=value3)(par4=value4
+		String andCriterias = makeAnd(filterList); // (&(par3=value3)(par4=value4
 		// ))
 		if (Evaluator.isEmpty(andCriterias)) {
 			return searchFilter;
@@ -571,7 +587,7 @@ public class UnitRepository {
 		addAddressSearchFilter(filterList, "hsaPostalAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
 
 		addAddressSearchFilter(filterList, "hsaStreetAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
-		String orCriterias = makeOr(filterList); //(|(par1=value1)(par2=value2))
+		String orCriterias = makeOr(filterList); // (|(par1=value1)(par2=value2))
 
 		filterList = new ArrayList<String>();
 		addSearchFilter(filterList, Constants.LDAP_PROPERTY_UNIT_NAME, unit.getName());
@@ -586,7 +602,7 @@ public class UnitRepository {
 			addHealthCareTypeConditions(filterList, unit.getHealthcareTypes());
 		}
 
-		String andCriterias = makeAnd(filterList); //(&(par3=value3)(par4=value4
+		String andCriterias = makeAnd(filterList); // (&(par3=value3)(par4=value4
 		// ))
 		if (Evaluator.isEmpty(andCriterias)) {
 			return "";
