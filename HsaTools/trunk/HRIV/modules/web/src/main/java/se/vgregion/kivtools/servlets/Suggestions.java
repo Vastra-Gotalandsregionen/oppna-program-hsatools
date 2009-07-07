@@ -41,6 +41,7 @@ import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.UnitNameComparator;
 import se.vgregion.kivtools.search.util.EnvAssistant;
+import se.vgregion.kivtools.search.util.Formatter;
 
 /**
  * Generates suggestions based on text entered in unitName text field.
@@ -50,8 +51,8 @@ import se.vgregion.kivtools.search.util.EnvAssistant;
 public class Suggestions extends HttpServlet implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
+	@Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		UnitSearchSimpleForm theForm = new UnitSearchSimpleForm();
 		String userInputUnitName;
 		if (EnvAssistant.isRunningOnIBM()) {
@@ -61,19 +62,18 @@ public class Suggestions extends HttpServlet implements Serializable {
 			// We don't run on IBM (maybe Tomcat), 8859-1
 			userInputUnitName = URLDecoder.decode(new String(request.getParameter("query").getBytes("ISO-8859-1")), "ISO-8859-1");
 		}
-		
-		//param name is "query" (not unitName) as default when using YUI AC, when using scriptaculous: String userInputUnitName = request.getParameter("unitName");
-		
+
+		// param name is "query" (not unitName) as default when using YUI AC,
+		// when using scriptaculous: String userInputUnitName =
+		// request.getParameter("unitName");
+
 		theForm.setUnitName(userInputUnitName);
 		SikSearchResultList<Unit> resultList = null;
 
 		// Spring bean name is hard coded!
-		WebApplicationContext springContext = WebApplicationContextUtils
-				.getWebApplicationContext(getServletContext());
-		SearchUnitFlowSupportBean sb = (SearchUnitFlowSupportBean) springContext
-				.getBean("Search.SearchUnitFlowSupportBean");
-		sb.setSearchService((SearchService) springContext
-				.getBean("Search.SearchService"));
+		WebApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+		SearchUnitFlowSupportBean sb = (SearchUnitFlowSupportBean) springContext.getBean("Search.SearchUnitFlowSupportBean");
+		sb.setSearchService((SearchService) springContext.getBean("Search.SearchService"));
 
 		ArrayList<Unit> units = sb.getUnits();
 		ArrayList<Unit> matchingUnits = new ArrayList<Unit>();
@@ -97,7 +97,7 @@ public class Suggestions extends HttpServlet implements Serializable {
 			// We have the units cached
 
 			for (Unit u : units) {
-				//System.out.println(u.getHsaIdentity() + ": " + u.getName());
+				// System.out.println(u.getHsaIdentity() + ": " + u.getName());
 				if (u.getName().toLowerCase().indexOf(userInputUnitName.toLowerCase()) >= 0) {
 					matchingUnits.add(u);
 				}
@@ -105,28 +105,29 @@ public class Suggestions extends HttpServlet implements Serializable {
 		}
 
 		Collections.sort(matchingUnits, new UnitNameComparator());
-		
+
 		/* Create output */
 		String outputFormat = request.getParameter("output");
 		String output = "";
-	
+
 		if ("xml".equals(outputFormat)) {
-			// XML 
+			// XML
 			output += "<?xml version='1.0' standalone='yes'?>\n<units>\n";
 			if (matchingUnits != null) {
 				for (Unit u : matchingUnits) {
-					String name = getUnitNameEncoded(u);
-					output += "<unit name=\"" + name + "\" id=\"" + u.getHsaIdentity() + "\" />\n";
+					String description = getUnitDescriptionEncoded(u);
+					output += "<unit description=\"" + description + "\" id=\"" + u.getHsaIdentity() + "\" />\n";
 				}
 			}
 			output += "</units>";
 			response.setContentType("text/xml");
 		} else if ("text".equals(outputFormat)) {
-			// Flat text response, tab as field delimiter and newline as record delimiter. 
+			// Flat text response, tab as field delimiter and newline as record
+			// delimiter.
 			if (matchingUnits != null) {
 				for (Unit u : matchingUnits) {
-					String name = getUnitNameEncoded(u);
-					output += name + "\t" + u.getHsaIdentity() + "\n";
+					String description = getUnitDescriptionEncoded(u);
+					output += description + "\t" + u.getHsaIdentity() + "\n";
 				}
 			}
 			response.setContentType("text/plain");
@@ -135,8 +136,8 @@ public class Suggestions extends HttpServlet implements Serializable {
 			output += "<ul>";
 			if (matchingUnits != null) {
 				for (Unit u : matchingUnits) {
-					String name = getUnitNameEncoded(u);
-					output += "<li id=\"" + u.getHsaIdentity() + "\">" + name + "</li>";
+					String description = getUnitDescriptionEncoded(u);
+					output += "<li id=\"" + u.getHsaIdentity() + "\">" + description + "</li>";
 				}
 			}
 			output += "</ul>";
@@ -146,10 +147,11 @@ public class Suggestions extends HttpServlet implements Serializable {
 		out.print(output);
 	}
 
-	private String getUnitNameEncoded(Unit u) {
+	private String getUnitDescriptionEncoded(Unit u) {
 		String name = u.getName();
-		name = htmlEncodeSwedishCharacters(name);
-		return name;
+		String locality = u.getLocality();
+		String description = htmlEncodeSwedishCharacters(Formatter.concatenate(name, locality));
+		return description;
 	}
 
 	private String htmlEncodeSwedishCharacters(String name) {
@@ -176,8 +178,7 @@ public class Suggestions extends HttpServlet implements Serializable {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doPost(req, resp);
 	}
 }

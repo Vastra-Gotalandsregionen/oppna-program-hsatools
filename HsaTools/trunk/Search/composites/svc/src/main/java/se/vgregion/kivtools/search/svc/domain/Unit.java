@@ -66,6 +66,7 @@ public class Unit implements Serializable, Comparable<Unit> {
 	private List<String> description; // Extern beskrivning
 	private List<String> internalDescription; // Intern beskrivning
 	private String mail; // E-postadress
+	private String locality; // Stadsdel
 	private String labeledURI; // Hemsida
 	private String vgrInternalSedfInvoiceAddress; // I-nummer
 	private String vgrCareType; // V�rdform
@@ -362,6 +363,14 @@ public class Unit implements Serializable, Comparable<Unit> {
 		}
 
 		this.labeledURI = labeledURI;
+	}
+
+	public String getLocality() {
+		return locality;
+	}
+
+	public void setLocality(String locality) {
+		this.locality = locality;
 	}
 
 	public String getVgrInternalSedfInvoiceAddress() {
@@ -1234,4 +1243,5 @@ public class Unit implements Serializable, Comparable<Unit> {
 		}
 		return false;
 	}
+
 }
