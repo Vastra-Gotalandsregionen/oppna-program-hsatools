@@ -71,15 +71,15 @@ public class UnitFactory {
 		if (unit.getIsUnit()) {
 			// Is Unit
 			String unitName = Formatter.replaceStringInString(unit.getOu(), "\\,", ","); // change
-																							// \,
-																							// to
-																							// ,
+			// \,
+			// to
+			// ,
 			unit.setName(unitName.trim());
 		} else {
 			// Is Function
 			String cn = LdapORMHelper.getSingleValue(unitEntry.getAttribute(Constants.LDAP_PROPERTY_FUNCTION_NAME));
 			cn = Formatter.replaceStringInString(cn, "\\,", ","); // change \,
-																	// to ,
+			// to ,
 			unit.setName(cn.trim());
 		}
 
@@ -145,6 +145,9 @@ public class UnitFactory {
 
 		// hsaTelephoneTime
 		unit.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaTelephoneTime"))));
+
+		// hsaEndDate
+		unit.setHsaEndDate(Constants.parseStringToZuluTime(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaEndDate"))));
 
 		// hsaSurgeryHours
 		unit.setHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaSurgeryHours"))));

@@ -75,7 +75,8 @@ public class Unit implements Serializable, Comparable<Unit> {
 	private String vgrAO3kodText; // Ansvarsområdeskodens namn
 	private String hsaIdentity; // HSA identitet
 	private List<HealthcareType> healthcareTypes;
-	private List<String> hsaBusinessClassificationCode;
+	private List<String> hsaBusinessClassificationCode; // FIXME Should be
+														// Integer?
 	private List<String> hsaBusinessClassificationText;
 	private String hsaUnitPrescriptionCode; // Arbetsplatskod
 	private List<String> vgrAnsvarsnummer; // Ansvarsnr
@@ -99,6 +100,7 @@ public class Unit implements Serializable, Comparable<Unit> {
 	private List<PhoneNumber> hsaTelephoneNumber; // Direkttelefon
 	private List<PhoneNumber> hsaPublicTelephoneNumber; // Telefon publik
 	private List<WeekdayTime> hsaTelephoneTime; // Telefontid
+	private Date hsaEndDate; // Giltighetsslutdatum
 
 	private String vgrEDICode; // EDI-kod
 	private String vgrEANCode; // EAN-kod
@@ -1242,6 +1244,14 @@ public class Unit implements Serializable, Comparable<Unit> {
 			}
 		}
 		return false;
+	}
+
+	public Date getHsaEndDate() {
+		return hsaEndDate;
+	}
+
+	public void setHsaEndDate(Date hsaEndDate) {
+		this.hsaEndDate = hsaEndDate;
 	}
 
 }
