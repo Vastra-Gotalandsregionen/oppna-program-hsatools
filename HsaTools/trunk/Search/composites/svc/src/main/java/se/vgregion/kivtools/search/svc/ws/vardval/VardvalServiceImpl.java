@@ -1,5 +1,6 @@
 package se.vgregion.kivtools.search.svc.ws.vardval;
 
+import java.lang.annotation.Inherited;
 import java.security.KeyStoreException;
 import java.util.Map;
 
@@ -35,6 +36,9 @@ public class VardvalServiceImpl implements VardvalService {
 		this.webserviceEndpoint = webserviceEndpoint;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public VardvalInfo getVardval(String ssn) {
 		GetVårdvalResponse response = getVardvalInfo(ssn);
@@ -66,6 +70,9 @@ public class VardvalServiceImpl implements VardvalService {
 		return vardvalInfo;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public VardvalInfo setVardval(String ssn, String hsaId, byte[] signature) throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage {	
 		SetVårdvalRequest vardvalRequest = new SetVårdvalRequest();
