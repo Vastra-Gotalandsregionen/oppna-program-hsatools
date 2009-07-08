@@ -24,8 +24,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<!-- TODO Absolute URL needed in order to get styles and scripts loaded correctly at target. Needs to be configurable.  -->
+<!-- TODO Needs to be configurable, eg via Spring configuration. See WebApplicationContextUtils.getWebApplicationContext(getServletContext()); -->
 <%
+	String ssnFromWebSeal = request.getHeader("iv-user");
+	request.getSession().setAttribute("iv-user", ssnFromWebSeal);
 	response.sendRedirect("http://kivsearch.vgregion.se/hriv/confirmRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnit-flow&hsaidentity=" + request.getParameter("hsaidentity"));
 %>
 </head>

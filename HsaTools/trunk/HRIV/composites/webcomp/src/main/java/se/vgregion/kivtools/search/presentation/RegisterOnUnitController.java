@@ -76,9 +76,9 @@ public class RegisterOnUnitController implements Serializable {
 
 		JsfExternalContext jsfExternalContext = (JsfExternalContext) externalContext;
 
-		Map<String, String> requestHeaderMap = jsfExternalContext.getFacesContext().getExternalContext().getRequestHeaderMap();
+		Map<String, String> sessionMap = jsfExternalContext.getFacesContext().getExternalContext().getSessionMap();
 
-		String ssn = requestHeaderMap.get("iv-user");
+		String ssn = sessionMap.get("iv-user");
 
 		// FIXME Remove this line
 		// ssn = "190706195526";
@@ -87,19 +87,17 @@ public class RegisterOnUnitController implements Serializable {
 		// Get name from LDAP
 		String name = getNameFromSsn(ssn);
 
-		// Request information about the listing from Vårdvals system
+		// Request information about the listing from Vårdvalsystem
 		VardvalInfo vardvalInfo = new VardvalInfo();
-		vardvalInfo.setName(name);
 
 		try {
-			// vardvalInfo = vardValService.getVardval(ssn); FIXME Uncomment
+			vardvalInfo = vardValService.getVardval(ssn);
 
 			// Lookup unit names in order to show real names instead of hsa ids
 			Unit selectedUnit = searchService.getUnitByHsaId(selectedUnitId);
 			if (selectedUnit != null) {
 				vardvalInfo.setSelectedUnitName(selectedUnit.getName());
 			}
-			vardvalInfo.setSelectedUnitId(selectedUnitId);
 			Unit currentUnit = null;
 			Unit upcomingUnit = null;
 			if (vardvalInfo.getCurrentHsaId() != null) {
@@ -119,8 +117,9 @@ public class RegisterOnUnitController implements Serializable {
 		} catch (Exception e) {
 			throw new UnsuccessfullRegistrationException(bundle.getString("registrationInvalidUnit"));
 		}
-
+		vardvalInfo.setName(name);
 		vardvalInfo.setSsn(ssn);
+		vardvalInfo.setSelectedUnitId(selectedUnitId);
 		return vardvalInfo;
 	}
 
@@ -153,6 +152,7 @@ public class RegisterOnUnitController implements Serializable {
 		externalContext.getSessionMap().put("ssn", vardvalInfo.getSsn());
 		externalContext.getSessionMap().put("name", vardvalInfo.getName());
 		externalContext.getSessionMap().put("selectedUnitId", vardvalInfo.getSelectedUnitId());
+		externalContext.getSessionMap().put("selectedUnitName", vardvalInfo.getSelectedUnitName());
 
 		String artifact = signatureservice.registerDocument(new String(base64encoded), mimeType, documentDescription);
 		externalContext.getSessionMap().put("artifact", artifact);
@@ -170,8 +170,7 @@ public class RegisterOnUnitController implements Serializable {
 	}
 
 	/**
-	 * Returning from signature service (ie Signicat). Process Saml response and
-	 * set registration in Vårdval system.
+	 * Returning from signature service (ie Signicat). Process Saml response and set registration in Vårdval system.
 	 * 
 	 * @param externalContext
 	 * @return
@@ -186,16 +185,16 @@ public class RegisterOnUnitController implements Serializable {
 		SharedAttributeMap sessionMap = externalContext.getSessionMap();
 		String ssn = sessionMap.getString("ssn");
 		String selectedUnitId = sessionMap.getString("selectedUnitId");
+		String selectedUnitName = sessionMap.getString("selectedUnitName");
 		String name = sessionMap.getString("name");
 
 		// Set new registration if same ssn etc
 		if (signingInformation.getNationalId() != null && signingInformation.getNationalId().equals(ssn) && signingInformation.getSamlResponse() != null) {
 			try {
-				if (false) {
-					vardvalInfo = vardValService.setVardval(ssn, selectedUnitId, signingInformation.getSamlResponse().getBytes());
-				}
+				vardvalInfo = vardValService.setVardval(ssn, selectedUnitId, signingInformation.getSamlResponse().getBytes());
 				vardvalInfo.setSsn(ssn);
 				vardvalInfo.setName(name);
+				vardvalInfo.setSelectedUnitName(selectedUnitName);
 			} catch (IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage e) {
 				throw new UnsuccessfullRegistrationException(e.getMessage());
 			}
