@@ -30,6 +30,7 @@ import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
+import se.vgregion.kivtools.search.util.DisplayValueTranslator;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.search.util.geo.CoordinateTransformerService;
 import se.vgregion.kivtools.search.util.geo.GaussKrugerProjection;
@@ -48,6 +49,7 @@ import com.novell.ldap.LDAPEntry;
 public class UnitFactory {
 
   private static CodeTablesService codeTablesService;
+  private static DisplayValueTranslator displayValueTranslator;
 
   /**
    * Set CodeTablesService object for UnitFactory to use.
@@ -56,6 +58,15 @@ public class UnitFactory {
    */
   public static void setCodeTablesService(CodeTablesService codeTablesService) {
     UnitFactory.codeTablesService = codeTablesService;
+  }
+
+  /**
+   * Setter for the displayValueTranslator to use.
+   * 
+   * @param displayValueTranslator The DisplayValueTranslator to use.
+   */
+  public static void setDisplayValueTranslator(DisplayValueTranslator displayValueTranslator) {
+    UnitFactory.displayValueTranslator = displayValueTranslator;
   }
 
   public static Unit reconstitute(LDAPEntry unitEntry) throws Exception {
@@ -289,13 +300,13 @@ public class UnitFactory {
    * @param unit
    */
   private static void assignCodeTableValuesToUnit(Unit unit) {
-    String hsaManagementText = codeTablesService.getValueFromCode(CodeTableName.HSA_MANAGEMENT_CODE, unit.getHsaManagementCode());
     List<String> businessText = new ArrayList<String>();
     for (String businessCode : unit.getHsaBusinessClassificationCode()) {
       String hsaBusinessClassificationText = codeTablesService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, businessCode);
       businessText.add(hsaBusinessClassificationText);
     }
     unit.setHsaBusinessClassificationText(businessText);
+    String hsaManagementText = displayValueTranslator.translateManagementCode(unit.getHsaManagementCode());
     unit.setHsaManagementText(hsaManagementText);
     String hsaHsaAdministrationFormText = codeTablesService.getValueFromCode(CodeTableName.HSA_ADMINISTRATION_FORM, unit.getHsaAdministrationForm());
     unit.setHsaAdministrationFormText(hsaHsaAdministrationFormText);

@@ -13,8 +13,10 @@
 	-->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 	<!--
 		Use this mock-injection if connection to KIV is disabled <bean
 		id="Search.SearchService"
@@ -81,6 +83,21 @@
 		init-method="init" depends-on="Search.LdapConnectionPool">
 		<property name="ldapConnectionPool" ref="Search.LdapConnectionPool" />
 	</bean>
+	<bean id="Search.DisplayValueTranslator"
+		class="se.vgregion.kivtools.search.util.DisplayValueTranslator">
+		<property name="translationMap">
+			<util:map>
+				<entry key="1" value="Offentlig vårdgivare"/>
+				<entry key="2" value="Offentlig vårdgivare"/>
+				<entry key="3" value="Offentlig vårdgivare"/>
+				<entry key="7" value="Offentlig vårdgivare"/>
+				<entry key="4" value="Privat vårdgivare"/>
+				<entry key="5" value="Privat vårdgivare"/>
+				<entry key="6" value="Privat vårdgivare"/>
+				<entry key="9" value="Övrigt"/>
+			</util:map>
+		</property>
+	</bean>
 	<bean id="jobDetailCodeTableCacheUpdate"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="Search.CodeTablesService" />
@@ -138,7 +155,7 @@
 	</bean>
 	
 	
-	<bean id="initUnitFactory"
+	<bean id="initUnitFactoryCodeTablesService"
           class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="staticMethod"
                   value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitFactory.setCodeTablesService"/>
@@ -149,4 +166,14 @@
         </property>
     </bean>
 
+	<bean id="initUnitFactoryDisplayValueTranslator"
+          class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"
+                  value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitFactory.setDisplayValueTranslator"/>
+        <property name="arguments">
+            <list>
+                <ref bean="Search.DisplayValueTranslator"/>
+            </list>
+        </property>
+    </bean>
 </beans>
