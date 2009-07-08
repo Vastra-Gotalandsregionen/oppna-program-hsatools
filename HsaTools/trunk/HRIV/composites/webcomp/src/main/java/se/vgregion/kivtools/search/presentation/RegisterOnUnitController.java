@@ -80,10 +80,6 @@ public class RegisterOnUnitController implements Serializable {
 
 		String ssn = sessionMap.get("iv-user");
 
-		// FIXME Remove this line
-		// ssn = "190706195526";
-		ssn = "188803099368"; // Agda
-
 		// Get name from LDAP
 		String name = getNameFromSsn(ssn);
 
