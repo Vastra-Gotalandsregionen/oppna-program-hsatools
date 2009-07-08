@@ -14,23 +14,18 @@ import se.vgregion.kivtools.search.svc.ws.domain.vardval.ObjectFactory;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalRequest;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalResponse;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalEntry;
-import se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalService;
 
 public class VardvalServiceImpl implements VardvalService {
 
-	private VårdvalService vardvalService;
 	private ObjectFactory objectFactory = new ObjectFactory();
 	private IVårdvalService service;
 	private String webserviceEndpoint;
-	private String keystoreLocation;
-	private String keystoreType;
-	private String keystorePassword;
-	private String truststoreLocation;
-	private String truststoreType;
-	private String truststorePassword;
+	
+	public void setService(IVårdvalService service) {
+		this.service = service;
+	}
 
-	public void setup() throws KeyStoreException {
-		service = vardvalService.getBasicHttpBindingIVårdvalService();
+	public void setEndpoint() throws KeyStoreException {
 		BindingProvider bindingProvider = (BindingProvider) service;
 		Map<String, Object> requestContext = bindingProvider.getRequestContext();
 		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, webserviceEndpoint);
@@ -38,10 +33,6 @@ public class VardvalServiceImpl implements VardvalService {
 
 	public void setWebserviceEndpoint(String webserviceEndpoint) {
 		this.webserviceEndpoint = webserviceEndpoint;
-	}
-
-	public void setVardvalService(VårdvalService vardvalService) {
-		this.vardvalService = vardvalService;
 	}
 
 	@Override
