@@ -28,7 +28,7 @@
 <%
 	String ssnFromWebSeal = request.getHeader("iv-user");
 	request.getSession().setAttribute("iv-user", ssnFromWebSeal);
-	response.sendRedirect("http://kivsearch.vgregion.se/hriv/confirmRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnit-flow&hsaidentity=" + request.getParameter("hsaidentity"));
+	response.sendRedirect("http://hriv.vgregion.se:8080/hriv/confirmRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnit-flow&hsaidentity=" + request.getParameter("hsaidentity"));
 %>
 </head>
 <body>
