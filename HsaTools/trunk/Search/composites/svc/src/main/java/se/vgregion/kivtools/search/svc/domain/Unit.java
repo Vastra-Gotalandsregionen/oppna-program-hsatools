@@ -40,6 +40,7 @@ import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityInformation;
 import se.vgregion.kivtools.search.util.Constants;
 import se.vgregion.kivtools.search.util.Evaluator;
+import se.vgregion.kivtools.search.util.Formatter;
 
 import com.domainlanguage.time.TimePoint;
 
@@ -51,9 +52,6 @@ import com.domainlanguage.time.TimePoint;
  * 
  */
 public class Unit implements Serializable, Comparable<Unit> {
-
-  public Unit() {
-  }
 
   private static final long serialVersionUID = 1L;
   private String ou; // 0u (e.g.Näl)
@@ -147,6 +145,16 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   private boolean vgrVardVal;
 
+  // Vägbeskrivning
+  private List<String> hsaRoute;
+  private String hsaRouteConcatenated = "";
+
+  private Integer accessibilityDatabaseId;
+  private AccessibilityInformation accessibilityInformation;
+
+  public Unit() {
+  }
+
   public boolean isVgrVardVal() {
     return vgrVardVal;
   }
@@ -178,13 +186,6 @@ public class Unit implements Serializable, Comparable<Unit> {
   public void setNew(boolean isNew) {
     this.isNew = isNew;
   }
-
-  // Vägbeskrivning
-  private List<String> hsaRoute;
-  private String hsaRouteConcatenated = "";
-
-  private Integer accessibilityDatabaseId;
-  private AccessibilityInformation accessibilityInformation;
 
   public String getDistanceToTarget() {
     return distanceToTarget;
@@ -1182,16 +1183,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaBusinessClassificationTextFormatted() {
-    StringBuilder sb = new StringBuilder();
-    if (hsaBusinessClassificationText != null) {
-      for (int i = 0; i < hsaBusinessClassificationText.size(); i++) {
-        sb.append(hsaBusinessClassificationText.get(i));
-        if (i < hsaBusinessClassificationText.size() - 1) {
-          sb.append(", ");
-        }
-      }
-    }
-    return sb.toString();
+    return Formatter.concatenate(hsaBusinessClassificationText);
   }
 
   public void setHsaBusinessClassificationText(List<String> hsaBusinessClassificationText) {
@@ -1207,8 +1199,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getFormattedAncestor() {
-    // Should be safe to use this condition as that is specified by HSA
-    // standard.
+    // Should be safe to use this condition as that is specified by HSA standard.
     if (hsaIdentity.indexOf("F") > 0) {
       // Hospitals should not be included
       HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper();

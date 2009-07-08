@@ -91,4 +91,21 @@ public class UnitTest {
     String result = unit.getDnBase64();
     assertEquals("Unexpected value for Base64-encoded DN", expected, result);
   }
+
+  @Test
+  public void testGetHsaBusinessClassificationTextFormatted() {
+    List<String> businessClassificationTexts = new ArrayList<String>();
+    businessClassificationTexts.add("Test1");
+    businessClassificationTexts.add("Test2");
+    businessClassificationTexts.add("Test3");
+    unit.setHsaBusinessClassificationText(businessClassificationTexts);
+
+    String expected = "Test1, Test2, Test3";
+    String result = unit.getHsaBusinessClassificationTextFormatted();
+    assertEquals("Unexpected value for formatted business classification", expected, result);
+
+    unit.setHsaBusinessClassificationText(null);
+    expected = "";
+    result = unit.getHsaBusinessClassificationTextFormatted();
+  }
 }
