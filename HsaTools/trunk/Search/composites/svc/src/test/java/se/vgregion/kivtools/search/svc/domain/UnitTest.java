@@ -19,12 +19,14 @@ package se.vgregion.kivtools.search.svc.domain;
 
 import static org.junit.Assert.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 
 public class UnitTest {
@@ -79,5 +81,14 @@ public class UnitTest {
     healthcareType.setDisplayName("Vårdcentral");
     healthcareTypes.add(healthcareType);
     assertTrue("Unit should show info regarding vardval if it is of type Vårdcentral and is part of VGR Vardval", unit.isShowInVgrVardVal());
+  }
+
+  @Test
+  public void testGetDnBase64() throws UnsupportedEncodingException {
+    DN dn = DN.createDNFromString("CN=Hedvig h Blomfrö,OU=Falkenbergsnämnden,OU=Förtroendevalda,OU=Landstinget  Halland,DC=hkat,DC=lthalland,DC=com");
+    unit.setDn(dn);
+    String expected = "Y249SGVkdmlnIGggQmxvbWZy9ixvdT1GYWxrZW5iZXJnc27kbW5kZW4sb3U9RvZydHJvZW5kZXZh\r\nbGRhLG91PUxhbmRzdGluZ2V0ICBIYWxsYW5kLGRjPWhrYXQsZGM9bHRoYWxsYW5kLGRjPWNvbQ==\r\n";
+    String result = unit.getDnBase64();
+    assertEquals("Unexpected value for Base64-encoded DN", expected, result);
   }
 }
