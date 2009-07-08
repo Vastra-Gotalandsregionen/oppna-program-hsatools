@@ -103,38 +103,35 @@
 			</list>
 		</property>
 	</bean>
-<!--	<bean id="Registration.vardValService"-->
-<!--		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl" />-->
+	<!--	<bean id="Registration.vardValService"-->
+	<!--
+		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl"
+		/>
+	-->
 	<bean id="Registration.vardValService"
-		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl" init-method="setup">
+		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl"
+		init-method="setup">
 		<property name="vardvalService">
 			<bean
 				class="se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalService" />
 		</property>
-		<property name="webserviceEndpoint" value="https://w120390/VardvalService/VardvalService.svc" />
-		<property name="keystoreLocation" value="/home/jonas/tmp/HRIVclient.jks" />
-		<property name="keystoreType" value="jks" />
-<!--		<property name="keystoreLocation" value="/home/jonas/tmp/HRIVclient.p12" />-->
-<!--		<property name="keystoreType" value="pkcs12" />-->
-		<property name="keystorePassword" value="vardval" />
-		<property name="truststoreLocation" value="/home/jonas/tmp/vardval.jks" />
-		<property name="truststoreType" value="jks" />
-		<property name="truststorePassword" value="vardval" />
+		<property name="webserviceEndpoint"
+			value="https://w120390.got.vgregion.se/VardvalService/VardvalService.svc" />
 	</bean>
-	
-	<bean id="Registration.citizenRepository" class="se.vgregion.kivtools.search.svc.registration.CitizenRepository">
-        <property name="ldapTemplate" ref="ldapTemplate" />
+
+	<bean id="Registration.citizenRepository"
+		class="se.vgregion.kivtools.search.svc.registration.CitizenRepository">
+		<property name="ldapTemplate" ref="ldapTemplate" />
 	</bean>
-	
-    <bean id="contextSource"
-        class="org.springframework.ldap.core.support.LdapContextSource">
-        <property name="url" value="ldap://ldappoc.vgregion.se:389" />
-        <property name="base" value="ou=medborgare,ou=anv,O=VGR" />
-<!--        <property name="userName" value="" />-->
-<!--        <property name="password" value="" />-->
-        <property name="pooled" value="true"/>
-    </bean>
-    <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
-        <constructor-arg ref="contextSource" />
-    </bean>
+
+	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://ldappoc.vgregion.se:389" />
+		<property name="base" value="ou=medborgare,ou=anv,O=VGR" />
+		<!--        <property name="userName" value="" />-->
+		<!--        <property name="password" value="" />-->
+		<property name="pooled" value="true" />
+	</bean>
+	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSource" />
+	</bean>
 </beans>
