@@ -21,3 +21,12 @@ Kortvarianten är som följer:
    * Välj Java/Code Style/Formatter och tryck på Import och importera VGR_CodeFormat.xml
    * Välj Java/Code Style/Code Templates och tryck på Import och importera VGR_CodeTemplates.xml
    * Välj Java/Code Style/Clean Up och tryck på Import och importera VGR_CleanUp.xml
+ # Om man valt att installera Checkstyle-pluginen i Eclipse (http://eclipse-cs.sf.net/update) så måste man sätta upp sina projekt så att dom kontrolleras av pluginen.
+   * Gå in i Properties för projektet
+   * Välj Checkstyle
+   * Gå till fliken Local Check Configurations
+   * Klicka på New, välj Project Relative Configuration under Type, skriv local i Name och browse:a fram till src/test/resources/checkstyle/checkstyle.xml för det projekt du konfigurerar
+   * Tryck Ok och gå tillbaka till Main-fliken och välj local i drop-down:en, kryssa i Checkstyle active for this project och tryck Ok.
+   * Eclipse kommer nu att vilja bygga om projektet.
+   * För att se eventuella checkstyle varningar, gå till Window - Show view - Other - Checkstyle - Checkstyle violations
+   * Välj local
