@@ -29,6 +29,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.codec.binary.Base64;
+
 import se.vgregion.kivtools.search.svc.domain.values.Address;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
@@ -36,7 +38,6 @@ import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelp
 import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityInformation;
-import se.vgregion.kivtools.search.util.Base64;
 import se.vgregion.kivtools.search.util.Constants;
 import se.vgregion.kivtools.search.util.Evaluator;
 
@@ -318,7 +319,7 @@ public class Unit implements Serializable, Comparable<Unit> {
     // dnString =
     // "CN=Hedvig h Blomfrö,OU=Falkenbergsnämnden,OU=Förtroendevalda,OU=Landstinget  Halland,DC=hkat,DC=lthalland,DC=com"
     // ;
-    String dnStringBase64Encoded = Base64.encodeBytes(dnString.getBytes("ISO-8859-1"));
+    String dnStringBase64Encoded = new String(Base64.encodeBase64(dnString.getBytes("ISO-8859-1"), true));
     return dnStringBase64Encoded;
   }
 
