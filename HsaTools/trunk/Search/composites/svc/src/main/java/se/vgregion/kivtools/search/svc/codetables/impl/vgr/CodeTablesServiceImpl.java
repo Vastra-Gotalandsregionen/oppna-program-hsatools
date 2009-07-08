@@ -12,69 +12,92 @@ import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPEntry;
 import com.novell.ldap.LDAPSearchResults;
 
+/**
+ * Class that handles code, text pairing of ldap values.
+ * 
+ * @author David & Jonas
+ * 
+ */
 public class CodeTablesServiceImpl implements CodeTablesService {
 
-	Map<String, Map<String, String>> codeTables = new HashMap<String, Map<String, String>>();
-	String codeTablesBase = "ou=listor,ou=System,o=VGR";
-	String attribute = "description";
-	LdapConnectionPool ldapConnectionPool;
+  private Map<String, Map<String, String>> codeTables = new HashMap<String, Map<String, String>>();
+  private String codeTablesBase = "ou=listor,ou=System,o=VGR";
+  private String attribute = "description";
+  private LdapConnectionPool ldapConnectionPool;
 
-	public LdapConnectionPool getLdapConnectionPool() {
-		return ldapConnectionPool;
-	}
 
-	public void setLdapConnectionPool(LdapConnectionPool ldapConnectionPool) {
-		this.ldapConnectionPool = ldapConnectionPool;
-	}
+  /**
+   * Set LdapConnectionPool to use for codeTable service.
+   * @param ldapConnectionPool - LdapConnectionPool to use in CodeTable service.
+   */
+  public void setLdapConnectionPool(LdapConnectionPool ldapConnectionPool) {
+    this.ldapConnectionPool = ldapConnectionPool;
+  }
+  /**
+   * 
+   * @return String of codetable base.
+   */
+  public String getCodeTablesBase() {
+    return codeTablesBase;
+  }
+  /**
+   * Set the String codetabel base.
+   * @param codeTablesBase - String.
+   */
+  public void setCodeTablesBase(String codeTablesBase) {
+    this.codeTablesBase = codeTablesBase;
+  }
+  
+  /**
+   * 
+   * @param codeTables - Map<String, Map<String, String>>
+   */
+  public void setCodeTables(Map<String, Map<String, String>> codeTables) {
+    this.codeTables = codeTables;
+  }
+  /**
+   * 
+   * @inheritDoc
+   */
+  public void init() {
+    codeTables.clear();
+    for (CodeTableName codeTableName : CodeTableName.values()) {
+      try {
+        populateCodeTablesMap(codeTableName);
+      } catch (Exception e) {
+        throw new LDAPRuntimeExcepton(e.getMessage());
+      }
+    }
+  }
 
-	public String getCodeTablesBase() {
-		return codeTablesBase;
-	}
-
-	public void setCodeTablesBase(String codeTablesBase) {
-		this.codeTablesBase = codeTablesBase;
-	}
-
-	public Map<String, Map<String, String>> getCodeTables() {
-		return codeTables;
-	}
-
-	public void setCodeTables(Map<String, Map<String, String>> codeTables) {
-		this.codeTables = codeTables;
-	}
-
-	public void init() {
-		codeTables.clear();
-		for (CodeTableName codeTableName : CodeTableName.values()) {
-			try {
-				populateCodeTablesMap(codeTableName);
-			} catch (Exception e) {
-				throw new LDAPRuntimeExcepton(e.getMessage());
-			}
-		}
-	}
-
-	private void populateCodeTablesMap(CodeTableName codeTableName) throws Exception {
-		LDAPSearchResults search = ldapConnectionPool.getConnection().search(codeTablesBase, LDAPConnection.SCOPE_SUB, "(cn=" + codeTableName + ")", new String[] { attribute }, false);
-		LDAPEntry entry;
-		Map<String, String> codeTableContent = new HashMap<String, String>();
-		if ((entry = search.next()) != null) {
-			String[] codePair = entry.getAttribute(attribute).getStringValueArray();
-			for (String code : codePair) {
-				String[] codeArr = code.split(";");
-				codeTableContent.put(codeArr[0], codeArr[1]);
-			}
-			codeTables.put(String.valueOf(codeTableName), codeTableContent);
-		}
-	}
-
-	public String getValueFromCode(CodeTableName codeTableName, String code) {
-		Map<String, String> chosenCodeTable = codeTables.get(String.valueOf(codeTableName));
-		String value = "";
-		if (chosenCodeTable != null) {
-			value = chosenCodeTable.get(code);
-		}
-		return value;
-	}
+  private void populateCodeTablesMap(CodeTableName codeTableName) throws Exception {
+    LDAPSearchResults search = ldapConnectionPool.getConnection().search(codeTablesBase, LDAPConnection.SCOPE_SUB, "(cn=" + codeTableName + ")", new String[] { attribute }, false);
+    LDAPEntry entry;
+    Map<String, String> codeTableContent = new HashMap<String, String>();
+    if ((entry = search.next()) != null) {
+      String[] codePair = entry.getAttribute(attribute).getStringValueArray();
+      for (String code : codePair) {
+        String[] codeArr = code.split(";");
+        codeTableContent.put(codeArr[0], codeArr[1]);
+      }
+      codeTables.put(String.valueOf(codeTableName), codeTableContent);
+    }
+  }
+  
+  /**
+   * 
+   * @inheritDoc
+   * @param codeTableName - CodeTableName enum.
+   * @param code - String code.
+   * @return String
+   */
+  public String getValueFromCode(CodeTableName codeTableName, String code) {
+    Map<String, String> chosenCodeTable = codeTables.get(String.valueOf(codeTableName));
+    String value = "";
+    if (chosenCodeTable != null) {
+      value = chosenCodeTable.get(code);
+    }
+    return value;
+  }
 
 }
