@@ -136,4 +136,17 @@
 	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
 		<constructor-arg ref="contextSource" />
 	</bean>
+	
+	
+	<bean id="initUnitFactory"
+          class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"
+                  value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitFactory.setCodeTablesService"/>
+        <property name="arguments">
+            <list>
+                <ref bean="Search.CodeTablesService"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>

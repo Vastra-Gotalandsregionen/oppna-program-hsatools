@@ -201,6 +201,7 @@ public class TestUnitRepository {
 	@Test
 	public void testGetSubUnits() throws Exception{
 		ur = new UnitRepository();
+		UnitFactory.setCodeTablesService(new CodeTablesServiceImpl());
 		String base = "ou=Folktandvården Fyrbodal,ou=Folktandvården Västra Götaland,ou=Org,o=vgr";
 		String filter = "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")";
 		Unit parentUnit = new Unit();

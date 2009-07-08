@@ -234,11 +234,11 @@ public class UnitFactory {
                 .getSingleValue(unitEntry
                         .getAttribute("hsaMunicipalitySectionCode")));
 
-        // L�nskod
+        // Länskod
         unit.setHsaCountyCode(LdapORMHelper.getSingleValue(unitEntry
                 .getAttribute("hsaCountyCode")));
 
-        // L�nsnamn
+        // Länsnamn
         unit.setHsaCountyName(LdapORMHelper.getSingleValue(unitEntry
                 .getAttribute("hsaCountyName")));
 
