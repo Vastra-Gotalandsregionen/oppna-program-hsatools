@@ -26,8 +26,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -46,6 +44,7 @@ import se.vgregion.kivtools.search.svc.domain.UnitCareTypeNameComparator;
 import se.vgregion.kivtools.search.svc.domain.UnitNameComparator;
 import se.vgregion.kivtools.search.svc.domain.values.Address;
 import se.vgregion.kivtools.search.svc.domain.values.AddressHelper;
+import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.util.LogUtils;
 import se.vgregion.kivtools.search.util.geo.GeoUtil;
@@ -56,337 +55,325 @@ import se.vgregion.kivtools.search.util.geo.GeoUtil;
  */
 public class SearchUnitFlowSupportBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	Log logger = LogFactory.getLog(this.getClass());
+  Log logger = LogFactory.getLog(this.getClass());
 
-	private static final String CLASS_NAME = SearchUnitFlowSupportBean.class
-			.getName();
+  private static final String CLASS_NAME = SearchUnitFlowSupportBean.class.getName();
 
-	private SearchService searchService;
+  private SearchService searchService;
 
-	private int pageSize;
+  private int pageSize;
 
-	private int maxSearchResult;
+  private int maxSearchResult;
 
-	private ArrayList<Unit> units;
-	
-	private boolean unitsCacheComplete;
-	
-	private String googleMapsKey;
-	
-	private int meters;
+  private ArrayList<Unit> units;
 
-	private List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes = new ArrayList<Integer>();
-	
-	public int getMeters() {
-		return meters;
-	}
+  private boolean unitsCacheComplete;
 
-	public void setMeters(int meters) {
-		this.meters = meters;
-	}
+  private String googleMapsKey;
 
-	public String getGoogleMapsKey() {
-		return googleMapsKey;
-	}
+  private int meters;
 
-	public void setGoogleMapsKeys(String googleMapsKey) {
-		this.googleMapsKey = googleMapsKey;
-	}
+  private List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes = new ArrayList<Integer>();
 
-	public ArrayList<Unit> getUnits() {
-		return units;
-	}
+  public int getMeters() {
+    return meters;
+  }
 
-	public void setUnits(ArrayList<Unit> units) {
-		this.units = units;
-	}
+  public void setMeters(int meters) {
+    this.meters = meters;
+  }
 
-	public void setMaxSearchResult(int maxSearchResult) {
-		this.maxSearchResult = maxSearchResult;
-	}
+  public String getGoogleMapsKey() {
+    return googleMapsKey;
+  }
 
-	public SearchService getSearchService() {
-		return searchService;
-	}
+  public void setGoogleMapsKeys(String googleMapsKey) {
+    this.googleMapsKey = googleMapsKey;
+  }
 
-	public void setSearchService(SearchService searchService) {
-		this.searchService = searchService;
-	}
+  public ArrayList<Unit> getUnits() {
+    return units;
+  }
 
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
+  public void setUnits(ArrayList<Unit> units) {
+    this.units = units;
+  }
 
-	public void initalLoad() {
-		logger.info(CLASS_NAME + ".initalLoad()");
-	}
+  public void setMaxSearchResult(int maxSearchResult) {
+    this.maxSearchResult = maxSearchResult;
+  }
 
-	public void cleanSearchSimpleForm(UnitSearchSimpleForm theForm) {
-		logger.info(CLASS_NAME + ".cleanSearchSimpleForm()");
-		theForm.setMunicipality("");
-		theForm.setUnitName("");
-		theForm.setHealthcareType("");
-	}
+  public SearchService getSearchService() {
+    return searchService;
+  }
 
-	public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm)
-			throws KivNoDataFoundException, KivException {
-		logger.info(CLASS_NAME + ".doSearch()");
+  public void setSearchService(SearchService searchService) {
+    this.searchService = searchService;
+  }
 
-		try {
-			TimeMeasurement overAllTime = new TimeMeasurement();
-			overAllTime.start(); // start measurement
-			SikSearchResultList<Unit> list = new SikSearchResultList<Unit>();
+  public void setPageSize(int pageSize) {
+    this.pageSize = pageSize;
+  }
 
-			if (!theForm.isEmpty()) {
-				Unit u = mapSearchCriteriaToUnit(theForm);
-				
-				Comparator<Unit> sortOrder = evaluateSortOrder(theForm);
-				
-				list = getSearchService().searchAdvancedUnits(u, maxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
-			}
+  public void initalLoad() {
+    logger.info(CLASS_NAME + ".initalLoad()");
+  }
 
-			overAllTime.stop(); // stop measurement
+  public void cleanSearchSimpleForm(UnitSearchSimpleForm theForm) {
+    logger.info(CLASS_NAME + ".cleanSearchSimpleForm()");
+    theForm.setMunicipality("");
+    theForm.setUnitName("");
+    theForm.setHealthcareType("");
+  }
 
-			LogUtils.printSikSearchResultListToLog(this, "doSearch",
-					overAllTime, logger, list);
-			if (list.size() == 0) {
-				throw new KivNoDataFoundException();
-			}
-			return list;
-		} catch (Exception e) {
-			if (e instanceof NoConnectionToServerException) {
-				throw (NoConnectionToServerException) e;
-			}
-			if (e instanceof KivNoDataFoundException) {
-				throw (KivNoDataFoundException) e;
-			}
-			e.printStackTrace();
-			return new SikSearchResultList<Unit>();
-		}
-	}
+  public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm) throws KivNoDataFoundException, KivException {
+    logger.info(CLASS_NAME + ".doSearch()");
 
-	/**
-	 * Evaluate user input and match to an appropriate unit comparator.
-	 * @param theForm
-	 * @return
-	 * @throws KivException
-	 */
-	private Comparator<Unit> evaluateSortOrder(UnitSearchSimpleForm theForm)
-			throws KivException {
-		Comparator<Unit> sortOrder = null;
-		String s = theForm.getSortOrder();
-		if (s == null) {
-			throw new KivException("No sort order specified. MethodName=" + this.getClass().getName() + "::doSearch(...)");
-		} else if (s.trim().equalsIgnoreCase("UNIT_NAME")) {
-			sortOrder = new UnitNameComparator();
-		} else if (s.trim().equalsIgnoreCase("CARE_TYPE_NAME")) {
-			sortOrder = new UnitCareTypeNameComparator();
-		} else {
-			throw new KivException("Unknown sort order specified. MethodName=" + this.getClass().getName() + "::doSearch(...)");
-		}
-		return sortOrder;
-	}
+    try {
+      TimeMeasurement overAllTime = new TimeMeasurement();
+      // start measurement
+      overAllTime.start();
+      SikSearchResultList<Unit> list = new SikSearchResultList<Unit>();
 
-	public List<String> getAllUnitsHsaIdentity(boolean showFilteredByHsaBusinessClassificationCode) throws KivNoDataFoundException {
-		try {
-			if (showFilteredByHsaBusinessClassificationCode) {
-				List<String> units = getSearchService().getAllUnitsHsaIdentity(showUnitsWithTheseHsaBussinessClassificationCodes);
-				return units;
-			} else {
-				return getSearchService().getAllUnitsHsaIdentity();
-			}
-		} catch (Exception e) {
-			if (e instanceof KivNoDataFoundException) {
-				throw (KivNoDataFoundException) e;
-			}
-			e.printStackTrace();
-			return new ArrayList<String>();
-		}
-	}
+      if (!theForm.isEmpty()) {
+        Unit u = mapSearchCriteriaToUnit(theForm);
 
-	public List<String> getAllUnitsHsaIdentity() throws KivNoDataFoundException {
-		return getAllUnitsHsaIdentity(false);
-	}
+        Comparator<Unit> sortOrder = evaluateSortOrder(theForm);
 
-	/**
-	 * Return a list of hsaIds corresponding to startIndex->endIndex of units
-	 * 
-	 * @param startIndex
-	 * @param endIndex
-	 * @return
-	 * @throws KivNoDataFoundException
-	 */
-	public List<String> getRangeUnitsPageList(Integer startIndex,
-			Integer endIndex) throws KivNoDataFoundException {
-		try {
-			List<String> list = getAllUnitsHsaIdentity(true);
-			if (startIndex < 0 || startIndex > endIndex || endIndex < 0
-					|| endIndex > (list.size() - 1)) {
-				throw new SikInternalException(this,
-						"getRangeUnitsPageList(startIndex=" + startIndex
-								+ ", endIndex=" + endIndex + ")",
-						"Error input parameters are wrong (result list size="
-								+ list.size() + ")");
-			}
-			List<String> result = new ArrayList<String>();
-			for (int position = startIndex; position <= endIndex; position++) {
-				try {
-					result.add(list.get(position));
-				} catch (Exception e) {
-					logger.error("Error in " + CLASS_NAME
-							+ "::getRangeUnitsPageList(startIndex="
-							+ startIndex + ", endIndex=" + endIndex
-							+ ") index position=" + position
-							+ " does not exist as expected", e);
-				}
-			}
-			return result;
-		} catch (Exception e) {
-			if (e instanceof KivNoDataFoundException) {
-				throw (KivNoDataFoundException) e;
-			}
-			e.printStackTrace();
-			return new ArrayList<String>();
-		}
-	}
+        list = getSearchService().searchAdvancedUnits(u, maxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
+      }
 
-	/**
-	 * Return a list of PagedSearchMetaData objects which chops up the full list
-	 * in to minor chunks Used in case of indexing all units. Returns a list of
-	 * page meta data.
-	 * 
-	 * @param pageSizeString
-	 * @return
-	 * @throws KivNoDataFoundException
-	 */
-	public List<PagedSearchMetaData> getAllUnitsPageList(String pageSizeString)
-			throws KivNoDataFoundException {
-		try {
-			PagedSearchMetaData metaData;
-			List<PagedSearchMetaData> result = new ArrayList<PagedSearchMetaData>();
-			List<String> unitHsaIdList = getAllUnitsHsaIdentity(true);
-			int size = unitHsaIdList.size();
-			if (isInteger(pageSizeString)) {
-				int temp = Integer.parseInt(pageSizeString);
-				if (temp > pageSize) {
-					pageSize = temp;// we can only increase the page size
-				}
-			}
-			int index = 0;
-			if (size > 0) {
-				while (index < size) {
-					metaData = new PagedSearchMetaData();
-					metaData.setStartIndex(index); // 0 the first time
-					int endIndex = index + pageSize > size ? size - 1 : (index
-							+ pageSize - 1);
-					metaData.setEndIndex(endIndex); // e.g. 274 the first time
-					result.add(metaData);
-					index = index + pageSize; // e.g. 275 the first time
-				}
-			}
-			return result;
-		} catch (Exception e) {
-			if (e instanceof KivNoDataFoundException) {
-				throw (KivNoDataFoundException) e;
-			}
-			e.printStackTrace();
-			return new ArrayList<PagedSearchMetaData>();
-		}
-	}
+      // stop measurement
+      overAllTime.stop();
 
-	private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm)
-			throws Exception {
-		final String methodName = CLASS_NAME + ".mapSearchCriteriaToUnit(...)";
-		logger.info(methodName);
-		Unit unit = new Unit();
+      LogUtils.printSikSearchResultListToLog(this, "doSearch", overAllTime, logger, list);
+      if (list.size() == 0) {
+        throw new KivNoDataFoundException();
+      }
+      return list;
+    } catch (Exception e) {
+      if (e instanceof NoConnectionToServerException) {
+        throw (NoConnectionToServerException) e;
+      }
+      if (e instanceof KivNoDataFoundException) {
+        throw (KivNoDataFoundException) e;
+      }
+      e.printStackTrace();
+      return new SikSearchResultList<Unit>();
+    }
+  }
 
-		// unit name
-		unit.setName(theForm.getUnitName());
+  /**
+   * Evaluate user input and match to an appropriate unit comparator.
+   * 
+   * @param theForm
+   * @return
+   * @throws KivException
+   */
+  private Comparator<Unit> evaluateSortOrder(UnitSearchSimpleForm theForm) throws KivException {
+    Comparator<Unit> sortOrder = null;
+    String s = theForm.getSortOrder();
+    if (s == null) {
+      throw new KivException("No sort order specified. MethodName=" + this.getClass().getName() + "::doSearch(...)");
+    } else if (s.trim().equalsIgnoreCase("UNIT_NAME")) {
+      sortOrder = new UnitNameComparator();
+    } else if (s.trim().equalsIgnoreCase("CARE_TYPE_NAME")) {
+      sortOrder = new UnitCareTypeNameComparator();
+    } else {
+      throw new KivException("Unknown sort order specified. MethodName=" + this.getClass().getName() + "::doSearch(...)");
+    }
+    return sortOrder;
+  }
 
-		// hsaStreetAddress
-		List<String> list = new ArrayList<String>();
-		list.add(theForm.getMunicipality());
-		unit.setHsaStreetAddress(AddressHelper.convertToAddress(list));
+  public List<String> getAllUnitsHsaIdentity(boolean showFilteredByHsaBusinessClassificationCode) throws KivNoDataFoundException {
+    try {
+      if (showFilteredByHsaBusinessClassificationCode) {
+        List<String> units = getSearchService().getAllUnitsHsaIdentity(showUnitsWithTheseHsaBussinessClassificationCodes);
+        return units;
+      } else {
+        return getSearchService().getAllUnitsHsaIdentity();
+      }
+    } catch (Exception e) {
+      if (e instanceof KivNoDataFoundException) {
+        throw (KivNoDataFoundException) e;
+      }
+      e.printStackTrace();
+      return new ArrayList<String>();
+    }
+  }
 
-		// hsaPostalAddress
-		list = new ArrayList<String>();
-		list.add(theForm.getMunicipality());
-		Address adress = new Address();
-		adress.setAdditionalInfo(list); // we stuff in the text in the
-										// additionalInfo
-		unit.setHsaPostalAddress(adress);
+  public List<String> getAllUnitsHsaIdentity() throws KivNoDataFoundException {
+    return getAllUnitsHsaIdentity(false);
+  }
 
-		// hsaMunicipalityCode
-		unit.setHsaMunicipalityCode(theForm.getMunicipality());
+  /**
+   * Return a list of hsaIds corresponding to startIndex->endIndex of units
+   * 
+   * @param startIndex
+   * @param endIndex
+   * @return
+   * @throws KivNoDataFoundException
+   */
+  public List<String> getRangeUnitsPageList(Integer startIndex, Integer endIndex) throws KivNoDataFoundException {
+    try {
+      List<String> list = getAllUnitsHsaIdentity(true);
+      if (startIndex < 0 || startIndex > endIndex || endIndex < 0 || endIndex > list.size() - 1) {
+        throw new SikInternalException(this, "getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + ")", "Error input parameters are wrong (result list size=" + list.size()
+            + ")");
+      }
+      List<String> result = new ArrayList<String>();
+      for (int position = startIndex; position <= endIndex; position++) {
+        try {
+          result.add(list.get(position));
+        } catch (Exception e) {
+          logger.error("Error in " + CLASS_NAME + "::getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + ") index position=" + position + " does not exist as expected", e);
+        }
+      }
+      return result;
+    } catch (Exception e) {
+      if (e instanceof KivNoDataFoundException) {
+        throw (KivNoDataFoundException) e;
+      }
+      e.printStackTrace();
+      return new ArrayList<String>();
+    }
+  }
 
-		// Assign health care types
-		Integer healthcareTypeIndex = null;
-		try {
-			healthcareTypeIndex = Integer.parseInt(theForm.getHealthcareType());
-		} catch (NumberFormatException nfe) {
-			// No health care type was chosen.
-		}
-		if (healthcareTypeIndex != null) {
-			HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
-			HealthcareType ht = htch.getHealthcareTypeByIndex(healthcareTypeIndex);
-			List<HealthcareType> healthcareTypes = new ArrayList<HealthcareType>();
-			if (ht != null) {
-				healthcareTypes.add(ht);
-			}
-			unit.setHealthcareTypes(healthcareTypes);
-		}
-		return unit;
-	}
-	
-	public void logger() {
-		logger.info("Logger");
-	}
+  /**
+   * Return a list of PagedSearchMetaData objects which chops up the full list in to minor chunks Used in case of indexing all units. Returns a list of page meta data.
+   * 
+   * @param pageSizeString
+   * @return
+   * @throws KivNoDataFoundException
+   */
+  public List<PagedSearchMetaData> getAllUnitsPageList(String pageSizeString) throws KivNoDataFoundException {
+    try {
+      PagedSearchMetaData metaData;
+      List<PagedSearchMetaData> result = new ArrayList<PagedSearchMetaData>();
+      List<String> unitHsaIdList = getAllUnitsHsaIdentity(true);
+      int size = unitHsaIdList.size();
+      if (isInteger(pageSizeString)) {
+        int temp = Integer.parseInt(pageSizeString);
+        if (temp > pageSize) {
+          // we can only increase the page size
+          pageSize = temp;
+        }
+      }
+      int index = 0;
+      if (size > 0) {
+        while (index < size) {
+          metaData = new PagedSearchMetaData();
+          // 0 the first time
+          metaData.setStartIndex(index);
+          int endIndex = index + pageSize > size ? size - 1 : index + pageSize - 1;
+          // e.g. 274 the first time
+          metaData.setEndIndex(endIndex);
+          result.add(metaData);
+          // e.g. 275 the first time
+          index = index + pageSize;
+        }
+      }
+      return result;
+    } catch (Exception e) {
+      if (e instanceof KivNoDataFoundException) {
+        throw (KivNoDataFoundException) e;
+      }
+      e.printStackTrace();
+      return new ArrayList<PagedSearchMetaData>();
+    }
+  }
 
-	public boolean isInteger(String s) {
-		try {
-			Integer.parseInt(s);
-		} catch (Exception e) {
-			return false;
-		}
-		return true;
-	}
-	
-	public ArrayList<Unit> getCloseUnits(DisplayCloseUnitsSimpleForm form) {
-		ArrayList<Unit> closeUnits = new ArrayList<Unit>();
-		if (units == null) {
-			// Units are not set, probably because the unit popuplation is not finished yet.
-			return closeUnits;
-		}
-		
-		GeoUtil geoUtil = new GeoUtil();
-		closeUnits = geoUtil.getCloseUnits(form.getAddress(), units, meters, googleMapsKey);
-		return closeUnits;
-	}
-	
-	public void populateCoordinates() {
-		GeoUtil geoUtil = new GeoUtil();
-		for (Unit u : units) {
-			geoUtil.setGeoCoordinate(u, new double[]{u.getWgs84Lat(), u.getWgs84Long()});
-		}
-	}
+  private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm) throws Exception {
+    final String methodName = CLASS_NAME + ".mapSearchCriteriaToUnit(...)";
+    logger.info(methodName);
+    Unit unit = new Unit();
 
-	public void setShowUnitsWithTheseHsaBussinessClassificationCodes(
-			String showUnitsWithTheseHsaBussinessClassificationCodes) {
-		List<String> tempList = Arrays.asList(showUnitsWithTheseHsaBussinessClassificationCodes.split(","));
-		for (String id : tempList) {
-			if (id.length() > 0){
-				this.showUnitsWithTheseHsaBussinessClassificationCodes.add(Integer.parseInt(id));
-			}
-		}
-	}
+    // unit name
+    unit.setName(theForm.getUnitName());
 
-	public boolean isUnitsCacheComplete() {
-		return unitsCacheComplete;
-	}
+    // hsaStreetAddress
+    List<String> list = new ArrayList<String>();
+    list.add(theForm.getMunicipality());
+    unit.setHsaStreetAddress(AddressHelper.convertToAddress(list));
 
-	public void setUnitsCacheComplete(boolean unitsCacheComplete) {
-		this.unitsCacheComplete = unitsCacheComplete;
-	}
+    // hsaPostalAddress
+    list = new ArrayList<String>();
+    list.add(theForm.getMunicipality());
+    Address adress = new Address();
+    // we stuff in the text in the additionalInfo
+    adress.setAdditionalInfo(list);
+    unit.setHsaPostalAddress(adress);
+
+    // hsaMunicipalityCode
+    unit.setHsaMunicipalityCode(theForm.getMunicipality());
+
+    // Assign health care types
+    Integer healthcareTypeIndex = null;
+    try {
+      healthcareTypeIndex = Integer.parseInt(theForm.getHealthcareType());
+    } catch (NumberFormatException nfe) {
+      // No health care type was chosen.
+    }
+    if (healthcareTypeIndex != null) {
+      HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
+      HealthcareType ht = htch.getHealthcareTypeByIndex(healthcareTypeIndex);
+      List<HealthcareType> healthcareTypes = new ArrayList<HealthcareType>();
+      if (ht != null) {
+        healthcareTypes.add(ht);
+      }
+      unit.setHealthcareTypes(healthcareTypes);
+    }
+    return unit;
+  }
+
+  public void logger() {
+    logger.info("Logger");
+  }
+
+  public boolean isInteger(String s) {
+    try {
+      Integer.parseInt(s);
+    } catch (Exception e) {
+      return false;
+    }
+    return true;
+  }
+
+  public ArrayList<Unit> getCloseUnits(DisplayCloseUnitsSimpleForm form) {
+    ArrayList<Unit> closeUnits = new ArrayList<Unit>();
+    if (units == null) {
+      // Units are not set, probably because the unit popuplation is not finished yet.
+      return closeUnits;
+    }
+
+    GeoUtil geoUtil = new GeoUtil();
+    closeUnits = geoUtil.getCloseUnits(form.getAddress(), units, meters, googleMapsKey);
+    return closeUnits;
+  }
+
+  public void populateCoordinates() {
+    GeoUtil geoUtil = new GeoUtil();
+    for (Unit u : units) {
+      geoUtil.setGeoCoordinate(u, new double[] { u.getWgs84Lat(), u.getWgs84Long() });
+    }
+  }
+
+  public void setShowUnitsWithTheseHsaBussinessClassificationCodes(String showUnitsWithTheseHsaBussinessClassificationCodes) {
+    List<String> tempList = Arrays.asList(showUnitsWithTheseHsaBussinessClassificationCodes.split(","));
+    for (String id : tempList) {
+      if (id.length() > 0) {
+        this.showUnitsWithTheseHsaBussinessClassificationCodes.add(Integer.parseInt(id));
+      }
+    }
+  }
+
+  public boolean isUnitsCacheComplete() {
+    return unitsCacheComplete;
+  }
+
+  public void setUnitsCacheComplete(boolean unitsCacheComplete) {
+    this.unitsCacheComplete = unitsCacheComplete;
+  }
 }

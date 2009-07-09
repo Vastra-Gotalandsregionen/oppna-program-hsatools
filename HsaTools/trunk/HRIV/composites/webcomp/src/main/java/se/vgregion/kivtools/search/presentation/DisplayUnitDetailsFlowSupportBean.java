@@ -21,13 +21,11 @@
 package se.vgregion.kivtools.search.presentation;
 
 import java.io.Serializable;
-import java.net.UnknownHostException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
-import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 
@@ -38,89 +36,85 @@ import se.vgregion.kivtools.search.svc.domain.Unit;
  */
 @SuppressWarnings("serial")
 public class DisplayUnitDetailsFlowSupportBean implements Serializable {
-	Log logger = LogFactory.getLog(this.getClass());
-	private static final String CLASS_NAME = DisplayUnitDetailsFlowSupportBean.class
-			.getName();
-	private SearchService searchService;
-	private String accessibilityDatabaseIntegrationGetIdUrl;
-	private String accessibilityDatabaseIntegrationGetInfoUrl;
-	private String useMvkIntegration;
-	private String mvkGuid;
-	private String mvkUrl;
+  private static final String CLASS_NAME = DisplayUnitDetailsFlowSupportBean.class.getName();
+  private Log logger = LogFactory.getLog(this.getClass());
+  private SearchService searchService;
+  private String accessibilityDatabaseIntegrationGetIdUrl;
+  private String accessibilityDatabaseIntegrationGetInfoUrl;
+  private String useMvkIntegration;
+  private String mvkGuid;
+  private String mvkUrl;
 
-	public String getMvkUrl() {
-		return mvkUrl;
-	}
+  public String getMvkUrl() {
+    return mvkUrl;
+  }
 
-	public void setMvkUrl(String mvkUrl) {
-		this.mvkUrl = mvkUrl;
-	}
+  public void setMvkUrl(String mvkUrl) {
+    this.mvkUrl = mvkUrl;
+  }
 
-	public String getMvkGuid() {
-		return mvkGuid;
-	}
+  public String getMvkGuid() {
+    return mvkGuid;
+  }
 
-	public void setMvkGuid(String mvkGuid) {
-		this.mvkGuid = mvkGuid;
-	}
+  public void setMvkGuid(String mvkGuid) {
+    this.mvkGuid = mvkGuid;
+  }
 
+  public String getUseMvkIntegration() {
+    return useMvkIntegration;
+  }
 
-	public String getUseMvkIntegration() {
-		return useMvkIntegration;
-	}
+  public void setUseMvkIntegration(String useMvkIntegration) {
+    this.useMvkIntegration = useMvkIntegration;
+  }
 
-	public void setUseMvkIntegration(String useMvkIntegration) {
-		this.useMvkIntegration = useMvkIntegration;
-	}
+  public SearchService getSearchService() {
+    return searchService;
+  }
 
-	public SearchService getSearchService() {
-		return searchService;
-	}
+  public void setSearchService(SearchService searchService) {
+    this.searchService = searchService;
+  }
 
-	public void setSearchService(SearchService searchService) {
-		this.searchService = searchService;
-	}
+  public Unit getUnitDetails(String hsaId) throws NoConnectionToServerException {
+    logger.info(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
+    Unit u = null;
+    try {
+      u = getSearchService().getUnitByHsaId(hsaId);
+    } catch (NoConnectionToServerException e) {
+      // We have no good connection to LDAP server and should be able to
+      // tell the user we have no hope of success.
+      throw e;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return new Unit();
+    }
 
-	public Unit getUnitDetails(String hsaId) throws NoConnectionToServerException {
-		logger.info(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
-		Unit u = null;
-		try {
-			u = getSearchService().getUnitByHsaId(hsaId);
-		} catch (NoConnectionToServerException e) {
-			// We have no good connection to LDAP server and should be able to
-			// tell the user we have no hope of success.
-			throw e;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Unit();
-		}
-		
-		if ("true".equals(useMvkIntegration)) {
-			new MvkClient(mvkGuid, mvkUrl).assignCaseTypes(u);
-		}
-		
-		return u;
-	}
+    if ("true".equals(useMvkIntegration)) {
+      new MvkClient(mvkGuid, mvkUrl).assignCaseTypes(u);
+    }
 
-	public void logger(String msg) {
-		logger.info(msg);
-	}
+    return u;
+  }
 
-	public String getAccessibilityDatabaseIntegrationGetIdUrl() {
-		return accessibilityDatabaseIntegrationGetIdUrl;
-	}
+  public void logger(String msg) {
+    logger.info(msg);
+  }
 
-	public void setAccessibilityDatabaseIntegrationGetIdUrl(
-			String accessibilityDatabaseIntegrationGetIdUrl) {
-		this.accessibilityDatabaseIntegrationGetIdUrl = accessibilityDatabaseIntegrationGetIdUrl;
-	}
+  public String getAccessibilityDatabaseIntegrationGetIdUrl() {
+    return accessibilityDatabaseIntegrationGetIdUrl;
+  }
 
-	public String getAccessibilityDatabaseIntegrationGetInfoUrl() {
-		return accessibilityDatabaseIntegrationGetInfoUrl;
-	}
+  public void setAccessibilityDatabaseIntegrationGetIdUrl(String accessibilityDatabaseIntegrationGetIdUrl) {
+    this.accessibilityDatabaseIntegrationGetIdUrl = accessibilityDatabaseIntegrationGetIdUrl;
+  }
 
-	public void setAccessibilityDatabaseIntegrationGetInfoUrl(
-			String accessibilityDatabaseIntegrationGetInfoUrl) {
-		this.accessibilityDatabaseIntegrationGetInfoUrl = accessibilityDatabaseIntegrationGetInfoUrl;
-	}
+  public String getAccessibilityDatabaseIntegrationGetInfoUrl() {
+    return accessibilityDatabaseIntegrationGetInfoUrl;
+  }
+
+  public void setAccessibilityDatabaseIntegrationGetInfoUrl(String accessibilityDatabaseIntegrationGetInfoUrl) {
+    this.accessibilityDatabaseIntegrationGetInfoUrl = accessibilityDatabaseIntegrationGetInfoUrl;
+  }
 }
