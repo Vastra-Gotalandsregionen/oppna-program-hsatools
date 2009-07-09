@@ -135,7 +135,7 @@ public class GeoUtil {
   }
 
   /**
-   * Parse NMEA-String
+   * Parse NMEA-String.
    * 
    * @param latOrLong Latitude or longitude in nmea format
    * @param isLong True if longitude, false if latitude.
@@ -161,7 +161,7 @@ public class GeoUtil {
 
     // Get the Hemisphere String
     latOrLong = latOrLong.substring(latOrLong.indexOf("\"") + 1);
-    if (isLong && latOrLong == "S" || !isLong && latOrLong == "W") {
+    if (isLong && "S".equals(latOrLong) || !isLong && "W".equals(latOrLong)) {
       // Set us right
       deciLatLon = -deciLatLon;
     }
@@ -170,7 +170,7 @@ public class GeoUtil {
   }
 
   /**
-   * Convert from degrees in decimal format (eg 49.5125) to {grade, minutes, seconds} (eg {49, 30, 45})
+   * Convert from degrees in decimal format (eg 49.5125) to {grade, minutes, seconds} (eg {49, 30, 45}).
    * 
    * @param Latitude or longitude in decimal degrees
    * @return array with {grade,min,sec}

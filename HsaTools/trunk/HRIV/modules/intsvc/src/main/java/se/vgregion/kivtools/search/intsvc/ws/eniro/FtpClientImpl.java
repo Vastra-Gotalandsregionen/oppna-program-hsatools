@@ -15,6 +15,7 @@ public class FtpClientImpl implements FtpClient {
   private int port;
   private String username;
   private String password;
+  private String ftpDestinationFileName;
 
   public void setFtpclient(FTPClient ftpsclient) {
     this.ftpclient = ftpsclient;
@@ -39,8 +40,6 @@ public class FtpClientImpl implements FtpClient {
   public void setFtpDestinationFileName(String ftpDestinationFileName) {
     this.ftpDestinationFileName = ftpDestinationFileName;
   }
-
-  private String ftpDestinationFileName;
 
   public boolean sendFile(String fileContent) {
     try {
