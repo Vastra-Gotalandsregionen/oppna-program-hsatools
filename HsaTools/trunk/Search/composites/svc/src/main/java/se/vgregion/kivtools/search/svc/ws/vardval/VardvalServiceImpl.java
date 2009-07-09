@@ -1,6 +1,5 @@
 package se.vgregion.kivtools.search.svc.ws.vardval;
 
-import java.lang.annotation.Inherited;
 import java.security.KeyStoreException;
 import java.util.Map;
 
@@ -18,86 +17,84 @@ import se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalEntry;
 
 public class VardvalServiceImpl implements VardvalService {
 
-	private ObjectFactory objectFactory = new ObjectFactory();
-	private IVårdvalService service;
-	private String webserviceEndpoint;
-	
-	public void setService(IVårdvalService service) {
-		this.service = service;
-	}
+  private ObjectFactory objectFactory = new ObjectFactory();
+  private IVårdvalService service;
+  private String webserviceEndpoint;
 
-	public void setEndpoint() throws KeyStoreException {
-		BindingProvider bindingProvider = (BindingProvider) service;
-		Map<String, Object> requestContext = bindingProvider.getRequestContext();
-		requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, webserviceEndpoint);
-	}
+  public void setService(IVårdvalService service) {
+    this.service = service;
+  }
 
-	public void setWebserviceEndpoint(String webserviceEndpoint) {
-		this.webserviceEndpoint = webserviceEndpoint;
-	}
+  public void setEndpoint() throws KeyStoreException {
+    BindingProvider bindingProvider = (BindingProvider) service;
+    Map<String, Object> requestContext = bindingProvider.getRequestContext();
+    requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, webserviceEndpoint);
+  }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public VardvalInfo getVardval(String ssn) {
-		GetVårdvalResponse response = getVardvalInfo(ssn);
-		return generateVardvalInfo(response);
-	}
+  public void setWebserviceEndpoint(String webserviceEndpoint) {
+    this.webserviceEndpoint = webserviceEndpoint;
+  }
 
-	private VardvalInfo generateVardvalInfo(Object response) {
-		VardvalInfo vardvalInfo = new VardvalInfo();
-		JAXBElement<VårdvalEntry> currentVardval = null;
-		JAXBElement<VårdvalEntry> upcomingVardval = null;
-		// Check what sort of soap response
-		if (response instanceof GetVårdvalResponse) {
-			currentVardval = ((GetVårdvalResponse) response).getAktivtVårdval();
-			upcomingVardval = ((GetVårdvalResponse) response).getKommandeVårdval();
-		} else if (response instanceof SetVårdvalResponse) {
-			currentVardval = ((SetVårdvalResponse) response).getAktivtVårdval();
-			upcomingVardval = ((SetVårdvalResponse) response).getKommandeVårdval();
-		}
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public VardvalInfo getVardval(String ssn) {
+    GetVårdvalResponse response = getVardvalInfo(ssn);
+    return generateVardvalInfo(response);
+  }
 
-		if (currentVardval != null && currentVardval.getValue() != null) {
-			vardvalInfo.setCurrentHsaId(currentVardval.getValue().getVårdcentralHsaId());
-			vardvalInfo.setCurrentValidFromDate(currentVardval.getValue().getGiltigFrån().toGregorianCalendar().getTime());
-		}
+  private VardvalInfo generateVardvalInfo(Object response) {
+    VardvalInfo vardvalInfo = new VardvalInfo();
+    JAXBElement<VårdvalEntry> currentVardval = null;
+    JAXBElement<VårdvalEntry> upcomingVardval = null;
+    // Check what sort of soap response
+    if (response instanceof GetVårdvalResponse) {
+      currentVardval = ((GetVårdvalResponse) response).getAktivtVårdval();
+      upcomingVardval = ((GetVårdvalResponse) response).getKommandeVårdval();
+    } else if (response instanceof SetVårdvalResponse) {
+      currentVardval = ((SetVårdvalResponse) response).getAktivtVårdval();
+      upcomingVardval = ((SetVårdvalResponse) response).getKommandeVårdval();
+    }
 
-		if (upcomingVardval != null && upcomingVardval.getValue() != null) {
-			vardvalInfo.setUpcomingHsaId(upcomingVardval.getValue().getVårdcentralHsaId());
-			vardvalInfo.setUpcomingValidFromDate(upcomingVardval.getValue().getGiltigFrån().toGregorianCalendar().getTime());
-		}
-		return vardvalInfo;
-	}
+    if (currentVardval != null && currentVardval.getValue() != null) {
+      vardvalInfo.setCurrentHsaId(currentVardval.getValue().getVårdcentralHsaId());
+      vardvalInfo.setCurrentValidFromDate(currentVardval.getValue().getGiltigFrån().toGregorianCalendar().getTime());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public VardvalInfo setVardval(String ssn, String hsaId, byte[] signature) throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage {	
-		SetVårdvalRequest vardvalRequest = new SetVårdvalRequest();
-		JAXBElement<String> soapSsn = objectFactory.createSetVårdvalRequestPersonnummer(ssn);
-		JAXBElement<byte[]> soapSignature = objectFactory.createSetVårdvalRequestSigneringskod(signature);
-		JAXBElement<String> soapHsaId = objectFactory.createSetVårdvalRequestVårdcentralHsaId(hsaId);
-		vardvalRequest.setPersonnummer(soapSsn);
-		vardvalRequest.setSigneringskod(soapSignature);
-		vardvalRequest.setVårdcentralHsaId(soapHsaId);
-		SetVårdvalResponse response = service.setVårdVal(vardvalRequest);
-		return generateVardvalInfo(response);
-	}
+    if (upcomingVardval != null && upcomingVardval.getValue() != null) {
+      vardvalInfo.setUpcomingHsaId(upcomingVardval.getValue().getVårdcentralHsaId());
+      vardvalInfo.setUpcomingValidFromDate(upcomingVardval.getValue().getGiltigFrån().toGregorianCalendar().getTime());
+    }
+    return vardvalInfo;
+  }
 
-	/**
-	 * 
-	 * @param ssn
-	 *            - Social Security Number
-	 * @return - Soap response
-	 */
-	private GetVårdvalResponse getVardvalInfo(String ssn) {
-		JAXBElement<String> soapSsn = objectFactory.createGetVårdvalRequestPersonnummer(ssn);
-		GetVårdvalRequest getVardvalRequest = objectFactory.createGetVårdvalRequest();
-		getVardvalRequest.setPersonnummer(soapSsn);
-		GetVårdvalResponse getVardvalResponse = service.getVårdVal(getVardvalRequest);
-		return getVardvalResponse;
-	}
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public VardvalInfo setVardval(String ssn, String hsaId, byte[] signature) throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage {
+    SetVårdvalRequest vardvalRequest = new SetVårdvalRequest();
+    JAXBElement<String> soapSsn = objectFactory.createSetVårdvalRequestPersonnummer(ssn);
+    JAXBElement<byte[]> soapSignature = objectFactory.createSetVårdvalRequestSigneringskod(signature);
+    JAXBElement<String> soapHsaId = objectFactory.createSetVårdvalRequestVårdcentralHsaId(hsaId);
+    vardvalRequest.setPersonnummer(soapSsn);
+    vardvalRequest.setSigneringskod(soapSignature);
+    vardvalRequest.setVårdcentralHsaId(soapHsaId);
+    SetVårdvalResponse response = service.setVårdVal(vardvalRequest);
+    return generateVardvalInfo(response);
+  }
 
+  /**
+   * 
+   * @param ssn - Social Security Number
+   * @return - Soap response
+   */
+  private GetVårdvalResponse getVardvalInfo(String ssn) {
+    JAXBElement<String> soapSsn = objectFactory.createGetVårdvalRequestPersonnummer(ssn);
+    GetVårdvalRequest getVardvalRequest = objectFactory.createGetVårdvalRequest();
+    getVardvalRequest.setPersonnummer(soapSsn);
+    GetVårdvalResponse getVardvalResponse = service.getVårdVal(getVardvalRequest);
+    return getVardvalResponse;
+  }
 }

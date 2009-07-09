@@ -17,42 +17,32 @@
  */
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
-import java.util.Iterator;
-import java.util.List;
-
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 
 public class BusinessClassificationCodeReaderTest {
 
-	/**
-	 * @param args
-	 * @throws Exception 
-	 */
-	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
-		HealthcareTypeConditionHelper ctr = new HealthcareTypeConditionHelper();
-		ctr.setImplResourcePath("se.vgregion.kivtools.search.svc.impl.hak.ldap.search-composite-svc-impl");
-		
-		try {
-			/* TODO Write new test for new class HealthcareTypeConditionHelper
-			 * 
-			List<HealthcareType> careTypes = ctr.getAllBusinessClassifications();
-			for (Iterator i = careTypes.iterator(); i.hasNext(); ) {
-				System.out.println("-- New caretype --");
-				HealthcareType careType = (HealthcareType) i.next();
-				System.out.println(careType.getBusinessClassificationKey());
-				System.out.println(careType.getBusinessClassificationName());
-				for (Iterator j = careType.getBusinessClassificationCodes().iterator(); j.hasNext(); ) {
-					System.out.println( j.next());
-				}
-			}
-			 */
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+  /**
+   * @param args
+   * @throws Exception
+   */
+  public static void main(String[] args) throws Exception {
+    // TODO Auto-generated method stub
+    HealthcareTypeConditionHelper ctr = new HealthcareTypeConditionHelper();
+    ctr.setImplResourcePath("se.vgregion.kivtools.search.svc.impl.hak.ldap.search-composite-svc-impl");
 
-	}
+    try {
+      /*
+       * TODO Write new test for new class HealthcareTypeConditionHelper
+       * 
+       * List<HealthcareType> careTypes = ctr.getAllBusinessClassifications(); for (Iterator i = careTypes.iterator(); i.hasNext(); ) { System.out.println("-- New caretype --"); HealthcareType
+       * careType = (HealthcareType) i.next(); System.out.println(careType.getBusinessClassificationKey()); System.out.println(careType.getBusinessClassificationName()); for (Iterator j =
+       * careType.getBusinessClassificationCodes().iterator(); j.hasNext(); ) { System.out.println( j.next()); } }
+       */
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+  }
 
 }
