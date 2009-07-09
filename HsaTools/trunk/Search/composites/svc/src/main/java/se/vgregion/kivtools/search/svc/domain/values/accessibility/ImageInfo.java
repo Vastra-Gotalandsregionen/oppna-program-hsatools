@@ -24,55 +24,63 @@ import org.w3c.dom.NodeList;
 
 public class ImageInfo implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	String url;
-	String urlLarge;
+  private static final long serialVersionUID = 1L;
+  private String url;
+  private String urlLarge;
 
-	String shortDescription, longDescription;
-	
-	public String getUrlLarge() {
-		return urlLarge;
-	}
-	public void setUrlLarge(String urlLarge) {
-		this.urlLarge = urlLarge;
-	}
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	public String getShortDescription() {
-		return shortDescription;
-	}
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
-	}
-	public String getLongDescription() {
-		return longDescription;
-	}
-	public void setLongDescription(String longDescription) {
-		this.longDescription = longDescription;
-	}
-	
-	public ImageInfo(Node imageInfo) {
-		NodeList imageChildren = imageInfo.getChildNodes();
-		// Loop through child nodes of image element
-		for (int i = 0; i < imageChildren.getLength(); i++) {
-			// Set url
-			if ("URL".equals(imageChildren.item(i).getNodeName())) {
-				url = imageChildren.item(i).getTextContent();
-				if (url.indexOf("small") >= 0) {
-					urlLarge = url.replaceAll("small", "large");
-				}
-			}
-			// Set short and long description
-			if ("ShortValue".equals(imageChildren.item(i).getNodeName())) {
-				shortDescription = imageChildren.item(i).getTextContent();
-			}
-			if ("LongValue".equals(imageChildren.item(i).getNodeName())) {
-				longDescription = imageChildren.item(i).getTextContent();
-			}
-		}
-	}
+  private String shortDescription;
+  private String longDescription;
+
+  public String getUrlLarge() {
+    return urlLarge;
+  }
+
+  public void setUrlLarge(String urlLarge) {
+    this.urlLarge = urlLarge;
+  }
+
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
+
+  public String getShortDescription() {
+    return shortDescription;
+  }
+
+  public void setShortDescription(String shortDescription) {
+    this.shortDescription = shortDescription;
+  }
+
+  public String getLongDescription() {
+    return longDescription;
+  }
+
+  public void setLongDescription(String longDescription) {
+    this.longDescription = longDescription;
+  }
+
+  public ImageInfo(Node imageInfo) {
+    NodeList imageChildren = imageInfo.getChildNodes();
+    // Loop through child nodes of image element
+    for (int i = 0; i < imageChildren.getLength(); i++) {
+      // Set url
+      if ("URL".equals(imageChildren.item(i).getNodeName())) {
+        url = imageChildren.item(i).getTextContent();
+        if (url.indexOf("small") >= 0) {
+          urlLarge = url.replaceAll("small", "large");
+        }
+      }
+      // Set short and long description
+      if ("ShortValue".equals(imageChildren.item(i).getNodeName())) {
+        shortDescription = imageChildren.item(i).getTextContent();
+      }
+      if ("LongValue".equals(imageChildren.item(i).getNodeName())) {
+        longDescription = imageChildren.item(i).getTextContent();
+      }
+    }
+  }
 }

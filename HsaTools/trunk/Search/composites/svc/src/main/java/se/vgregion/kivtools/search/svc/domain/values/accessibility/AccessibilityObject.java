@@ -25,68 +25,67 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class AccessibilityObject implements Serializable {
-	private static final long serialVersionUID = 1L;
-	ArrayList<Block> blocks = new ArrayList<Block>();
-	String name = "";
-	String id;
-	String updateStamp;
+  private static final long serialVersionUID = 1L;
+  private ArrayList<Block> blocks = new ArrayList<Block>();
+  private String name = "";
+  private String id;
+  private String updateStamp;
 
-	public String getUpdateStamp() {
-		return updateStamp;
-	}
+  public String getUpdateStamp() {
+    return updateStamp;
+  }
 
-	public void setUpdateStamp(String updateStamp) {
-		this.updateStamp = updateStamp;
-	}
+  public void setUpdateStamp(String updateStamp) {
+    this.updateStamp = updateStamp;
+  }
 
-	public String getId() {
-		return id;
-	}
+  public String getId() {
+    return id;
+  }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public ArrayList<Block> getBlocks() {
-		return blocks;
-	}
+  public ArrayList<Block> getBlocks() {
+    return blocks;
+  }
 
-	public void setBlocks(ArrayList<Block> blocks) {
-		this.blocks = blocks;
-	}
+  public void setBlocks(ArrayList<Block> blocks) {
+    this.blocks = blocks;
+  }
 
-	// Create business object and sub objects
-	public AccessibilityObject(Node subObject) {
-		// Set id
-		NamedNodeMap attributes = subObject.getAttributes();
-		if (attributes != null && attributes.getNamedItem("id") != null) {
-			id = attributes.getNamedItem("id").getTextContent() + "_" + System.currentTimeMillis();
-		}
-		
-		// Get blocks
-		NodeList subObjectChildren = subObject.getChildNodes();
-		for (int i = 0; i < subObjectChildren.getLength(); i++) {
-			// If node name is objectName or name, set name
-			if ("objectName".equals(subObjectChildren.item(i).getNodeName())
-					|| "name".equals(subObjectChildren.item(i).getNodeName())) {
-				name = subObjectChildren.item(i).getTextContent();
-			}
-			if ("updateStamp".equals(subObjectChildren.item(i).getNodeName())) {
-				updateStamp = subObjectChildren.item(i).getTextContent();
-			}
-			if (subObjectChildren.item(i).getNodeName().equals("block")) {
-				Block block = new Block(subObjectChildren.item(i));
-				blocks.add(block);
-			}
-		}
-	}
+  // Create business object and sub objects
+  public AccessibilityObject(Node subObject) {
+    // Set id
+    NamedNodeMap attributes = subObject.getAttributes();
+    if (attributes != null && attributes.getNamedItem("id") != null) {
+      id = attributes.getNamedItem("id").getTextContent() + "_" + System.currentTimeMillis();
+    }
+
+    // Get blocks
+    NodeList subObjectChildren = subObject.getChildNodes();
+    for (int i = 0; i < subObjectChildren.getLength(); i++) {
+      // If node name is objectName or name, set name
+      if ("objectName".equals(subObjectChildren.item(i).getNodeName()) || "name".equals(subObjectChildren.item(i).getNodeName())) {
+        name = subObjectChildren.item(i).getTextContent();
+      }
+      if ("updateStamp".equals(subObjectChildren.item(i).getNodeName())) {
+        updateStamp = subObjectChildren.item(i).getTextContent();
+      }
+      if (subObjectChildren.item(i).getNodeName().equals("block")) {
+        Block block = new Block(subObjectChildren.item(i));
+        blocks.add(block);
+      }
+    }
+  }
 
 }

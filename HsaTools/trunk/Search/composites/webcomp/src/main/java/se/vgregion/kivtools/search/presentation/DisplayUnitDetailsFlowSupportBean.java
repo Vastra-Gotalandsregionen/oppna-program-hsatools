@@ -27,49 +27,49 @@ import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.DN;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
- *
+ * 
  */
 @SuppressWarnings("serial")
-public class DisplayUnitDetailsFlowSupportBean implements Serializable{
-    Log logger = LogFactory.getLog(this.getClass());
-    private static final String CLASS_NAME = DisplayUnitDetailsFlowSupportBean.class.getName();
-    private SearchService searchService;
-    
-    public SearchService getSearchService() {
-        return searchService;
-    }
+public class DisplayUnitDetailsFlowSupportBean implements Serializable {
+  private static final String CLASS_NAME = DisplayUnitDetailsFlowSupportBean.class.getName();
 
-    public void setSearchService(SearchService searchService) {
-        this.searchService = searchService;
-    }
+  private Log logger = LogFactory.getLog(this.getClass());
+  private SearchService searchService;
 
-    public Unit getUnitDetails(String hsaId) {
-        logger.info(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
-        try {
-            return getSearchService().getUnitByHsaId(hsaId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Unit();
-        }
-    }
-    
-    public Unit getUnitByDn(String dn) {
-        logger.info(CLASS_NAME + "::getUnitDetailsByDn(dn=" + dn + ")");
-        try {
-            Unit u = getSearchService().getUnitByDN(dn);
-            return u;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Unit();
-        }
-    }
+  public SearchService getSearchService() {
+    return searchService;
+  }
 
-    public void logger(String msg) {
-        logger.info(msg);
+  public void setSearchService(SearchService searchService) {
+    this.searchService = searchService;
+  }
+
+  public Unit getUnitDetails(String hsaId) {
+    logger.info(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
+    try {
+      return getSearchService().getUnitByHsaId(hsaId);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return new Unit();
     }
+  }
+
+  public Unit getUnitByDn(String dn) {
+    logger.info(CLASS_NAME + "::getUnitDetailsByDn(dn=" + dn + ")");
+    try {
+      Unit u = getSearchService().getUnitByDN(dn);
+      return u;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return new Unit();
+    }
+  }
+
+  public void logger(String msg) {
+    logger.info(msg);
+  }
 
 }

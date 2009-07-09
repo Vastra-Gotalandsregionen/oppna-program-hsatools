@@ -25,129 +25,125 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class Criteria implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	ArrayList<String> disabilities = new ArrayList<String>();
-	ArrayList<String> additionalCriterias= new ArrayList<String>();
-	String description;
-	boolean show;
-	String name = "";
-	boolean notice; // If true, display as "Vad bör uppmärksammas". Otherwise, show as "vad är tillgängligt"
-	boolean hidden; // Not for public display, only for internal use.
+  private static final long serialVersionUID = 1L;
 
-	public String getName() {
-		return name;
-	}
+  private ArrayList<String> disabilities = new ArrayList<String>();
+  private ArrayList<String> additionalCriterias = new ArrayList<String>();
+  private String description;
+  private boolean show;
+  private String name = "";
+  // If true, display as "Vad bör uppmärksammas". Otherwise, show as "vad är tillgängligt"
+  private boolean notice;
+  // Not for public display, only for internal use.
+  private boolean hidden;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public boolean getShow() {
-		return show;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public void setShow(boolean show) {
-		this.show = show;
-	}
+  public boolean getShow() {
+    return show;
+  }
 
-	public ArrayList<String> getAdditionalCriterias() {
-		return additionalCriterias;
-	}
-	
-	public void setAdditionalCriterias(ArrayList<String> additionalCriterias) {
-		this.additionalCriterias = additionalCriterias;
-	}
-	
-	public boolean isNotice() {
-		return notice;
-	}
-	
-	public void setNotice(boolean notice) {
-		this.notice = notice;
-	}
-	
-	public boolean isHidden() {
-		return hidden;
-	}
-	
-	public void setHidden(boolean hidden) {
-		this.hidden = hidden;
-	}
+  public void setShow(boolean show) {
+    this.show = show;
+  }
 
-	/**
-	 * Construct AccessibilityInformation object from a node which may look like:
-	 * 
-	 * <criteria id="618" objectName="021 Lås (HIN)" status="1" type="1">
-	 * <Disabilities>
-	 * <move/>
-	 * <information/>
-	 * </Disabilities>
-	 * <input id="79508">
-	 * Det krävs flera handrörelser eller båda händerna för att låsa/låsa upp.
-	 * </input>
-	 * </criteria>
-	 * 
-	 * @param item
-	 */
-	public Criteria(Node criteria) {
-		// Set name, status and type
-		NamedNodeMap attributes = criteria.getAttributes();
-		if (attributes != null && attributes.getNamedItem("objectName") != null) {
-			name = attributes.getNamedItem("objectName").getTextContent() + "_" + System.currentTimeMillis();
-		}
-		if (attributes != null && attributes.getNamedItem("status") != null) {
-			String status = attributes.getNamedItem("status").getTextContent();
-			if ("16".equals(status)) {
-				hidden = true;
-			}
-		}
-		if (attributes != null && attributes.getNamedItem("type") != null) {
-			String type = attributes.getNamedItem("type").getTextContent();
-			if ("1".equals(type)) {
-				notice = true;
-			}
-		}
-		
-		NodeList criteriaChildren = criteria.getChildNodes();
-		// Loop through child nodes of criteria element
-		for (int i = 0; i < criteriaChildren.getLength(); i++) {
-			// Set disabilities
-			if ("Disabilities".equals(criteriaChildren.item(i).getNodeName())) {
-				NodeList disabilitiesElements = criteriaChildren.item(i).getChildNodes();
-				for (int j = 0; j < disabilitiesElements.getLength(); j++) {
-					Node disableElement = disabilitiesElements.item(j);
-					if (disableElement.getNodeType() == Node.ELEMENT_NODE) {
-						String nodeName = disableElement.getNodeName();
-						if (nodeName != null)
-							disabilities.add(nodeName);
-					}
-				}
-			}
-			// Add bCriterias
-			if ("bcriteria".equals(criteriaChildren.item(i).getNodeName())) {
-				additionalCriterias.add(criteriaChildren.item(i).getTextContent());
-			}
-			// Set description
-			if ("input".equals(criteriaChildren.item(i).getNodeName())) {
-				description = criteriaChildren.item(i).getTextContent();
-			}
-		}
-	}
+  public ArrayList<String> getAdditionalCriterias() {
+    return additionalCriterias;
+  }
 
-	public ArrayList<String> getDisabilities() {
-		return disabilities;
-	}
+  public void setAdditionalCriterias(ArrayList<String> additionalCriterias) {
+    this.additionalCriterias = additionalCriterias;
+  }
 
-	public void setDisabilities(ArrayList<String> disabilities) {
-		this.disabilities = disabilities;
-	}
+  public boolean isNotice() {
+    return notice;
+  }
 
-	public String getDescription() {
-		return description;
-	}
+  public void setNotice(boolean notice) {
+    this.notice = notice;
+  }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+  public boolean isHidden() {
+    return hidden;
+  }
+
+  public void setHidden(boolean hidden) {
+    this.hidden = hidden;
+  }
+
+  /**
+   * Construct AccessibilityInformation object from a node which may look like:
+   * 
+   * <criteria id="618" objectName="021 Lås (HIN)" status="1" type="1"> <Disabilities> <move/> <information/> </Disabilities> <input id="79508"> Det krävs flera handrörelser eller båda händerna för
+   * att låsa/låsa upp. </input> </criteria>
+   * 
+   * @param item
+   */
+  public Criteria(Node criteria) {
+    // Set name, status and type
+    NamedNodeMap attributes = criteria.getAttributes();
+    if (attributes != null && attributes.getNamedItem("objectName") != null) {
+      name = attributes.getNamedItem("objectName").getTextContent() + "_" + System.currentTimeMillis();
+    }
+    if (attributes != null && attributes.getNamedItem("status") != null) {
+      String status = attributes.getNamedItem("status").getTextContent();
+      if ("16".equals(status)) {
+        hidden = true;
+      }
+    }
+    if (attributes != null && attributes.getNamedItem("type") != null) {
+      String type = attributes.getNamedItem("type").getTextContent();
+      if ("1".equals(type)) {
+        notice = true;
+      }
+    }
+
+    NodeList criteriaChildren = criteria.getChildNodes();
+    // Loop through child nodes of criteria element
+    for (int i = 0; i < criteriaChildren.getLength(); i++) {
+      // Set disabilities
+      if ("Disabilities".equals(criteriaChildren.item(i).getNodeName())) {
+        NodeList disabilitiesElements = criteriaChildren.item(i).getChildNodes();
+        for (int j = 0; j < disabilitiesElements.getLength(); j++) {
+          Node disableElement = disabilitiesElements.item(j);
+          if (disableElement.getNodeType() == Node.ELEMENT_NODE) {
+            String nodeName = disableElement.getNodeName();
+            if (nodeName != null) {
+              disabilities.add(nodeName);
+            }
+          }
+        }
+      }
+      // Add bCriterias
+      if ("bcriteria".equals(criteriaChildren.item(i).getNodeName())) {
+        additionalCriterias.add(criteriaChildren.item(i).getTextContent());
+      }
+      // Set description
+      if ("input".equals(criteriaChildren.item(i).getNodeName())) {
+        description = criteriaChildren.item(i).getTextContent();
+      }
+    }
+  }
+
+  public ArrayList<String> getDisabilities() {
+    return disabilities;
+  }
+
+  public void setDisabilities(ArrayList<String> disabilities) {
+    this.disabilities = disabilities;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
 }

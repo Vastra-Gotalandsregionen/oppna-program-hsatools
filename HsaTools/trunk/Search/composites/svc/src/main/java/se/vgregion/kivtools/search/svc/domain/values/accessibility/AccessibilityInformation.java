@@ -21,25 +21,24 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class AccessibilityInformation implements Serializable {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public ArrayList<AccessibilityObject> getSubObjects() {
-		return subObjects;
-	}
+  private AccessibilityObject businessObject;
+  private ArrayList<AccessibilityObject> subObjects;
 
-	public void setSubObjects(ArrayList<AccessibilityObject> subObject) {
-		this.subObjects = subObject;
-	}
+  public ArrayList<AccessibilityObject> getSubObjects() {
+    return subObjects;
+  }
 
-	public AccessibilityObject getBusinessObject() {
-		return businessObject;
-	}
+  public void setSubObjects(ArrayList<AccessibilityObject> subObject) {
+    this.subObjects = subObject;
+  }
 
-	public void setBusinessObject(AccessibilityObject businessObject) {
-		this.businessObject = businessObject;
-	}
+  public AccessibilityObject getBusinessObject() {
+    return businessObject;
+  }
 
-	AccessibilityObject businessObject;
-	ArrayList<AccessibilityObject> subObjects;
-
+  public void setBusinessObject(AccessibilityObject businessObject) {
+    this.businessObject = businessObject;
+  }
 }

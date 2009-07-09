@@ -33,7 +33,7 @@ import se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm;
 @SuppressWarnings("serial")
 public class UnitSearchSimpleFormValidator implements Serializable {
 
-  Log logger = LogFactory.getLog(this.getClass());
+  private Log logger = LogFactory.getLog(this.getClass());
 
   public String validate(UnitSearchSimpleForm param) throws IncorrectUserInputException {
     logger.info(this.getClass().getName() + ".validate()");

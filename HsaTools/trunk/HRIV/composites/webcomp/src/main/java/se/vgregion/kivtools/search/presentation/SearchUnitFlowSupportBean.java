@@ -55,11 +55,10 @@ import se.vgregion.kivtools.search.util.geo.GeoUtil;
  */
 public class SearchUnitFlowSupportBean implements Serializable {
 
+  private static final String CLASS_NAME = SearchUnitFlowSupportBean.class.getName();
   private static final long serialVersionUID = 1L;
 
-  Log logger = LogFactory.getLog(this.getClass());
-
-  private static final String CLASS_NAME = SearchUnitFlowSupportBean.class.getName();
+  private Log logger = LogFactory.getLog(this.getClass());
 
   private SearchService searchService;
 

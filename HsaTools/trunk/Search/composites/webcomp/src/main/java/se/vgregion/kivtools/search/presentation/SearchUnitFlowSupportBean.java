@@ -48,281 +48,257 @@ import se.vgregion.kivtools.search.util.geo.GeoUtil;
  */
 public class SearchUnitFlowSupportBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	Log logger = LogFactory.getLog(this.getClass());
-	private static final String CLASS_NAME = SearchUnitFlowSupportBean.class
-			.getName();
-	private SearchService searchService;
-	private int pageSize;
+  private static final long serialVersionUID = 1L;
+  private static final String CLASS_NAME = SearchUnitFlowSupportBean.class.getName();
 
-	private int maxSearchResult;
+  private Log logger = LogFactory.getLog(this.getClass());
+  private SearchService searchService;
+  private int pageSize;
 
-	public void setMaxSearchResult(int maxSearchResult) {
-		this.maxSearchResult = maxSearchResult;
-	}
+  private int maxSearchResult;
 
-	public SearchService getSearchService() {
-		return searchService;
-	}
+  public void setMaxSearchResult(int maxSearchResult) {
+    this.maxSearchResult = maxSearchResult;
+  }
 
-	public void setSearchService(SearchService searchService) {
-		this.searchService = searchService;
-	}
+  public SearchService getSearchService() {
+    return searchService;
+  }
 
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
+  public void setSearchService(SearchService searchService) {
+    this.searchService = searchService;
+  }
 
-	public void initalLoad() {
-		logger.info(CLASS_NAME + ".initalLoad()");
-	}
+  public void setPageSize(int pageSize) {
+    this.pageSize = pageSize;
+  }
 
-	public void cleanSearchSimpleForm(UnitSearchSimpleForm theForm) {
-		logger.info(CLASS_NAME + ".cleanSearchSimpleForm()");
-		theForm.setSearchParamValue("");
-		theForm.setUnitName("");
-	}
+  public void initalLoad() {
+    logger.info(CLASS_NAME + ".initalLoad()");
+  }
 
-	public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm)
-			throws KivNoDataFoundException, NoConnectionToServerException {
-		logger.info(CLASS_NAME + ".doSearch()");
+  public void cleanSearchSimpleForm(UnitSearchSimpleForm theForm) {
+    logger.info(CLASS_NAME + ".cleanSearchSimpleForm()");
+    theForm.setSearchParamValue("");
+    theForm.setUnitName("");
+  }
 
-		try {
-			TimeMeasurement overAllTime = new TimeMeasurement();
+  public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm) throws KivNoDataFoundException, NoConnectionToServerException {
+    logger.info(CLASS_NAME + ".doSearch()");
 
-			overAllTime.start(); // start measurement
-			SikSearchResultList<Unit> list = null;
-			if (!theForm.isEmpty()) {
-				Unit u = mapSearchCriteriaToUnit(theForm);
-				list = getSearchService().searchUnits(u, maxSearchResult);
-			}
-			overAllTime.stop(); // stop measurement
+    try {
+      TimeMeasurement overAllTime = new TimeMeasurement();
 
-			if (list == null) {
-				list = new SikSearchResultList<Unit>();
-			}
-			LogUtils.printSikSearchResultListToLog(this, "doSearch",
-					overAllTime, logger, list);
-			if (list.size() == 0) {
-				throw new KivNoDataFoundException();
-			}
-			return list;
-		} catch (Exception e) {
-			if (e instanceof UnknownHostException) {
-				throw (NoConnectionToServerException) e;
-			}
-			if (e instanceof KivNoDataFoundException) {
-				throw (KivNoDataFoundException) e;
-			}
-			logger.error(e.getMessage(), e);
-			e.printStackTrace();
-			return new SikSearchResultList<Unit>();
-		}
-	}
+      overAllTime.start(); // start measurement
+      SikSearchResultList<Unit> list = null;
+      if (!theForm.isEmpty()) {
+        Unit u = mapSearchCriteriaToUnit(theForm);
+        list = getSearchService().searchUnits(u, maxSearchResult);
+      }
+      overAllTime.stop(); // stop measurement
 
-	public List<String> getAllUnitsHsaIdentity() throws KivNoDataFoundException {
-		try {
-			return getSearchService().getAllUnitsHsaIdentity();
-		} catch (Exception e) {
-			if (e instanceof KivNoDataFoundException) {
-				throw (KivNoDataFoundException) e;
-			}
-			e.printStackTrace();
-			return new ArrayList<String>();
-		}
-	}
+      if (list == null) {
+        list = new SikSearchResultList<Unit>();
+      }
+      LogUtils.printSikSearchResultListToLog(this, "doSearch", overAllTime, logger, list);
+      if (list.size() == 0) {
+        throw new KivNoDataFoundException();
+      }
+      return list;
+    } catch (Exception e) {
+      if (e instanceof UnknownHostException) {
+        throw (NoConnectionToServerException) e;
+      }
+      if (e instanceof KivNoDataFoundException) {
+        throw (KivNoDataFoundException) e;
+      }
+      logger.error(e.getMessage(), e);
+      e.printStackTrace();
+      return new SikSearchResultList<Unit>();
+    }
+  }
 
-	/**
-	 * Return a list of hsaIds corresponding to startIndex->endIndex of units
-	 * 
-	 * @param startIndex
-	 * @param endIndex
-	 * @return
-	 * @throws KivNoDataFoundException
-	 */
-	public List<String> getRangeUnitsPageList(Integer startIndex,
-			Integer endIndex) throws KivNoDataFoundException {
-		try {
-			List<String> list = getSearchService().getAllUnitsHsaIdentity();
-			if (startIndex < 0 || startIndex > endIndex || endIndex < 0
-					|| endIndex > (list.size() - 1)) {
-				throw new SikInternalException(this,
-						"getRangeUnitsPageList(startIndex=" + startIndex
-								+ ", endIndex=" + endIndex + ")",
-						"Error input parameters are wrong (result list size="
-								+ list.size() + ")");
-			}
-			List<String> result = new ArrayList<String>();
-			for (int position = startIndex; position <= endIndex; position++) {
-				try {
-					result.add(list.get(position));
-				} catch (Exception e) {
-					logger.error("Error in " + CLASS_NAME
-							+ "::getRangeUnitsPageList(startIndex="
-							+ startIndex + ", endIndex=" + endIndex
-							+ ") index position=" + position
-							+ " does not exist as expected", e);
-				}
-			}
-			return result;
-		} catch (Exception e) {
-			if (e instanceof KivNoDataFoundException) {
-				throw (KivNoDataFoundException) e;
-			}
-			e.printStackTrace();
-			return new ArrayList<String>();
-		}
-	}
+  public List<String> getAllUnitsHsaIdentity() throws KivNoDataFoundException {
+    try {
+      return getSearchService().getAllUnitsHsaIdentity();
+    } catch (Exception e) {
+      if (e instanceof KivNoDataFoundException) {
+        throw (KivNoDataFoundException) e;
+      }
+      e.printStackTrace();
+      return new ArrayList<String>();
+    }
+  }
 
-	/**
-	 * Return a list of PagedSearchMetaData objects which chops up the full list
-	 * in to minor chunks Used in case of indexing all units. Returns a list of
-	 * page meta data.
-	 * 
-	 * @param pageSizeString
-	 * @return
-	 * @throws KivNoDataFoundException
-	 */
-	public List<PagedSearchMetaData> getAllUnitsPageList(String pageSizeString)
-			throws KivNoDataFoundException {
-		try {
-			PagedSearchMetaData metaData;
-			List<PagedSearchMetaData> result = new ArrayList<PagedSearchMetaData>();
-			List<String> unitHsaIdList = getSearchService()
-					.getAllUnitsHsaIdentity();
-			int size = unitHsaIdList.size();
-			if (isInteger(pageSizeString)) {
-				int temp = Integer.parseInt(pageSizeString);
-				if (temp > pageSize) {
-					pageSize = temp;// we can only increase the page size
-				}
-			}
-			int index = 0;
-			if (size > 0) {
-				while (index < size) {
-					metaData = new PagedSearchMetaData();
-					metaData.setStartIndex(index); // 0 the first time
-					int endIndex = index + pageSize > size ? size - 1 : (index
-							+ pageSize - 1);
-					metaData.setEndIndex(endIndex); // e.g. 274 the first time
-					result.add(metaData);
-					index = index + pageSize; // e.g. 275 the first time
-				}
-			}
-			return result;
-		} catch (Exception e) {
-			if (e instanceof KivNoDataFoundException) {
-				throw (KivNoDataFoundException) e;
-			}
-			e.printStackTrace();
-			return new ArrayList<PagedSearchMetaData>();
-		}
-	}
+  /**
+   * Return a list of hsaIds corresponding to startIndex->endIndex of units.
+   * 
+   * @param startIndex
+   * @param endIndex
+   * @return
+   * @throws KivNoDataFoundException
+   */
+  public List<String> getRangeUnitsPageList(Integer startIndex, Integer endIndex) throws KivNoDataFoundException {
+    try {
+      List<String> list = getSearchService().getAllUnitsHsaIdentity();
+      if (startIndex < 0 || startIndex > endIndex || endIndex < 0 || endIndex > list.size() - 1) {
+        throw new SikInternalException(this, "getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + ")", "Error input parameters are wrong (result list size=" + list.size()
+            + ")");
+      }
+      List<String> result = new ArrayList<String>();
+      for (int position = startIndex; position <= endIndex; position++) {
+        try {
+          result.add(list.get(position));
+        } catch (Exception e) {
+          logger.error("Error in " + CLASS_NAME + "::getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + ") index position=" + position + " does not exist as expected", e);
+        }
+      }
+      return result;
+    } catch (Exception e) {
+      if (e instanceof KivNoDataFoundException) {
+        throw (KivNoDataFoundException) e;
+      }
+      e.printStackTrace();
+      return new ArrayList<String>();
+    }
+  }
 
-	/**
-	 * Geocode all units to RT90.
-	 * @param googleKey Google Maps key.
-	 * @return List with units with coordinates.
-	 * @throws KivNoDataFoundException
-	 */
-	public List<Unit> getAllUnitsGeocoded(String googleKey)
-			throws KivNoDataFoundException {
-		List<String> allUnitsHsaIdentity = getAllUnitsHsaIdentity();
-		List<Unit> allUnitsWithPositionInfo = new ArrayList<Unit>();
-		GeoUtil geoUtil = new GeoUtil();
-		try {
-//			int i = 0;
-			for (String hsaId : allUnitsHsaIdentity) {
-//				i++;
-//				if (i > 10)
-//					break;
-				// Get coordinates from Google.
-				Unit u = getSearchService().getUnitByHsaId(hsaId);
-				if (u != null) {
-					if (u.getHsaStreetAddressIsValid()) {
-						int[] RT90Coordinates = geoUtil.geocodeToRT90(u
-								.getHsaStreetAddress(), googleKey);
-						if (RT90Coordinates != null) {
-							u.setRt90X(RT90Coordinates[0]);
-							u.setRt90Y(RT90Coordinates[1]);
-						} else {
-							u.setRt90X(-1);
-							u.setRt90Y(-1);
-						}
-						
-						// For debug purpose only.
-						/*
-						double[] WGS84Coordinates = GeoUtil.geocodeToWGS84(u.getHsaStreetAddress(), googleKey);
-						if (WGS84Coordinates != null) {
-							u.setWgs84_lat(WGS84Coordinates[0]);
-							u.setWgs84_long(WGS84Coordinates[1]);
-						} else {
-							u.setWgs84_lat(-1);
-							u.setWgs84_long(-1);
-						}
-						*/
-						allUnitsWithPositionInfo.add(u);
-					}
-				}
-			}
-			return allUnitsWithPositionInfo;
-		} catch (Exception e) {
-			if (e instanceof KivNoDataFoundException) {
-				throw (KivNoDataFoundException) e;
-			}
-			e.printStackTrace();
-			return new ArrayList<Unit>();
-		}
-	}
-	
-	public SikSearchResultList<Unit> getSubUnits(String parentHsaId){
-		SikSearchResultList<Unit> subUnits = new SikSearchResultList<Unit>();
-		try {
-			Unit parentUnit = getSearchService().getUnitByHsaId(parentHsaId);
-			subUnits = getSearchService().getSubUnits(parentUnit, maxSearchResult);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return subUnits;
-	}
+  /**
+   * Return a list of PagedSearchMetaData objects which chops up the full list in to minor chunks Used in case of indexing all units. Returns a list of page meta data.
+   * 
+   * @param pageSizeString
+   * @return
+   * @throws KivNoDataFoundException
+   */
+  public List<PagedSearchMetaData> getAllUnitsPageList(String pageSizeString) throws KivNoDataFoundException {
+    try {
+      PagedSearchMetaData metaData;
+      List<PagedSearchMetaData> result = new ArrayList<PagedSearchMetaData>();
+      List<String> unitHsaIdList = getSearchService().getAllUnitsHsaIdentity();
+      int size = unitHsaIdList.size();
+      if (isInteger(pageSizeString)) {
+        int temp = Integer.parseInt(pageSizeString);
+        if (temp > pageSize) {
+          pageSize = temp;// we can only increase the page size
+        }
+      }
+      int index = 0;
+      if (size > 0) {
+        while (index < size) {
+          metaData = new PagedSearchMetaData();
+          metaData.setStartIndex(index); // 0 the first time
+          int endIndex = index + pageSize > size ? size - 1 : index + pageSize - 1;
+          metaData.setEndIndex(endIndex); // e.g. 274 the first time
+          result.add(metaData);
+          index = index + pageSize; // e.g. 275 the first time
+        }
+      }
+      return result;
+    } catch (Exception e) {
+      if (e instanceof KivNoDataFoundException) {
+        throw (KivNoDataFoundException) e;
+      }
+      e.printStackTrace();
+      return new ArrayList<PagedSearchMetaData>();
+    }
+  }
 
-	private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm)
-			throws Exception {
-		final String methodName = CLASS_NAME + ".mapSearchCriteriaToUnit(...)";
-		logger.info(methodName);
-		Unit unit = new Unit();
+  /**
+   * Geocode all units to RT90.
+   * 
+   * @param googleKey Google Maps key.
+   * @return List with units with coordinates.
+   * @throws KivNoDataFoundException
+   */
+  public List<Unit> getAllUnitsGeocoded(String googleKey) throws KivNoDataFoundException {
+    List<String> allUnitsHsaIdentity = getAllUnitsHsaIdentity();
+    List<Unit> allUnitsWithPositionInfo = new ArrayList<Unit>();
+    GeoUtil geoUtil = new GeoUtil();
+    try {
+      // int i = 0;
+      for (String hsaId : allUnitsHsaIdentity) {
+        // i++;
+        // if (i > 10)
+        // break;
+        // Get coordinates from Google.
+        Unit u = getSearchService().getUnitByHsaId(hsaId);
+        if (u != null) {
+          if (u.getHsaStreetAddressIsValid()) {
+            int[] RT90Coordinates = geoUtil.geocodeToRT90(u.getHsaStreetAddress(), googleKey);
+            if (RT90Coordinates != null) {
+              u.setRt90X(RT90Coordinates[0]);
+              u.setRt90Y(RT90Coordinates[1]);
+            } else {
+              u.setRt90X(-1);
+              u.setRt90Y(-1);
+            }
 
-		// unit name
-		unit.setName(theForm.getUnitName());
+            // For debug purpose only.
+            /*
+             * double[] WGS84Coordinates = GeoUtil.geocodeToWGS84(u.getHsaStreetAddress(), googleKey); if (WGS84Coordinates != null) { u.setWgs84_lat(WGS84Coordinates[0]);
+             * u.setWgs84_long(WGS84Coordinates[1]); } else { u.setWgs84_lat(-1); u.setWgs84_long(-1); }
+             */
+            allUnitsWithPositionInfo.add(u);
+          }
+        }
+      }
+      return allUnitsWithPositionInfo;
+    } catch (Exception e) {
+      if (e instanceof KivNoDataFoundException) {
+        throw (KivNoDataFoundException) e;
+      }
+      e.printStackTrace();
+      return new ArrayList<Unit>();
+    }
+  }
 
-		// hsaStreetAddress
-		List<String> list = new ArrayList<String>();
-		list.add(theForm.getSearchParamValue());
-		unit.setHsaStreetAddress(AddressHelper.convertToAddress(list));
+  public SikSearchResultList<Unit> getSubUnits(String parentHsaId) {
+    SikSearchResultList<Unit> subUnits = new SikSearchResultList<Unit>();
+    try {
+      Unit parentUnit = getSearchService().getUnitByHsaId(parentHsaId);
+      subUnits = getSearchService().getSubUnits(parentUnit, maxSearchResult);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return subUnits;
+  }
 
-		// hsaPostalAddress
-		list = new ArrayList<String>();
-		list.add(theForm.getSearchParamValue());
-		Address adress = new Address();
-		adress.setAdditionalInfo(list); // we stuff in the text in the
-		// additionalInfo
-		unit.setHsaPostalAddress(adress);
+  private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm) throws Exception {
+    final String methodName = CLASS_NAME + ".mapSearchCriteriaToUnit(...)";
+    logger.info(methodName);
+    Unit unit = new Unit();
 
-		// hsaMunicipalityName
-		unit.setHsaMunicipalityName(theForm.getSearchParamValue());
-		return unit;
-	}
+    // unit name
+    unit.setName(theForm.getUnitName());
 
-	public void logger() {
-		logger.info("Logger");
-	}
+    // hsaStreetAddress
+    List<String> list = new ArrayList<String>();
+    list.add(theForm.getSearchParamValue());
+    unit.setHsaStreetAddress(AddressHelper.convertToAddress(list));
 
-	public boolean isInteger(String s) {
-		try {
-			Integer.parseInt(s);
-		} catch (Exception e) {
-			return false;
-		}
-		return true;
-	}
+    // hsaPostalAddress
+    list = new ArrayList<String>();
+    list.add(theForm.getSearchParamValue());
+    Address adress = new Address();
+    adress.setAdditionalInfo(list); // we stuff in the text in the
+    // additionalInfo
+    unit.setHsaPostalAddress(adress);
+
+    // hsaMunicipalityName
+    unit.setHsaMunicipalityName(theForm.getSearchParamValue());
+    return unit;
+  }
+
+  public void logger() {
+    logger.info("Logger");
+  }
+
+  public boolean isInteger(String s) {
+    try {
+      Integer.parseInt(s);
+    } catch (Exception e) {
+      return false;
+    }
+    return true;
+  }
 }
