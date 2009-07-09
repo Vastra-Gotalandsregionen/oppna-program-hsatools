@@ -25,14 +25,15 @@ public class CodeTablesServiceImpl implements CodeTablesService {
   private String attribute = "description";
   private LdapConnectionPool ldapConnectionPool;
 
-
   /**
    * Set LdapConnectionPool to use for codeTable service.
+   * 
    * @param ldapConnectionPool - LdapConnectionPool to use in CodeTable service.
    */
   public void setLdapConnectionPool(LdapConnectionPool ldapConnectionPool) {
     this.ldapConnectionPool = ldapConnectionPool;
   }
+
   /**
    * 
    * @return String of codetable base.
@@ -40,14 +41,16 @@ public class CodeTablesServiceImpl implements CodeTablesService {
   public String getCodeTablesBase() {
     return codeTablesBase;
   }
+
   /**
    * Set the String codetabel base.
+   * 
    * @param codeTablesBase - String.
    */
   public void setCodeTablesBase(String codeTablesBase) {
     this.codeTablesBase = codeTablesBase;
   }
-  
+
   /**
    * 
    * @param codeTables - Map<String, Map<String, String>>
@@ -55,6 +58,7 @@ public class CodeTablesServiceImpl implements CodeTablesService {
   public void setCodeTables(Map<String, Map<String, String>> codeTables) {
     this.codeTables = codeTables;
   }
+
   /**
    * 
    * @inheritDoc
@@ -72,9 +76,9 @@ public class CodeTablesServiceImpl implements CodeTablesService {
 
   private void populateCodeTablesMap(CodeTableName codeTableName) throws Exception {
     LDAPSearchResults search = ldapConnectionPool.getConnection().search(codeTablesBase, LDAPConnection.SCOPE_SUB, "(cn=" + codeTableName + ")", new String[] { attribute }, false);
-    LDAPEntry entry;
     Map<String, String> codeTableContent = new HashMap<String, String>();
-    if ((entry = search.next()) != null) {
+    LDAPEntry entry = search.next();
+    if (entry != null) {
       String[] codePair = entry.getAttribute(attribute).getStringValueArray();
       for (String code : codePair) {
         String[] codeArr = code.split(";");
@@ -83,7 +87,7 @@ public class CodeTablesServiceImpl implements CodeTablesService {
       codeTables.put(String.valueOf(codeTableName), codeTableContent);
     }
   }
-  
+
   /**
    * 
    * @inheritDoc

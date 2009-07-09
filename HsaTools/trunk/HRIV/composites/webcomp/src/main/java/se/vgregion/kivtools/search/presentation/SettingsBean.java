@@ -319,7 +319,7 @@ public class SettingsBean implements Serializable {
     String[] routeLinks = findRouteLinks.split(";");
     for (String routeLink : routeLinks) {
       String[] routeLinkComponents = routeLink.split("::");
-      Link l = new Link(routeLinkComponents[0], routeLinkComponents[1], (routeLinkComponents.length > 2 ? routeLinkComponents[2] : ""));
+      Link l = new Link(routeLinkComponents[0], routeLinkComponents[1], routeLinkComponents.length > 2 ? routeLinkComponents[2] : "");
       addRouteLink(l);
     }
   }

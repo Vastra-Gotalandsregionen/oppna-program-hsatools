@@ -57,13 +57,14 @@ import com.novell.ldap.LDAPSearchResults;
  * 
  */
 public class UnitRepository {
-  private Log logger = LogFactory.getLog(this.getClass());
-  static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
   public static final String KIV_SEARCH_BASE = "ou=Org,o=vgr";
-  static final String CLASS_NAME = UnitRepository.class.getName();
-  static final String LDAP_WILD_CARD = "*";
-  static final String LDAP_EXACT_CARD = "\""; // an "
-  private LdapConnectionPool theConnectionPool = null;
+  private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
+  private static final String CLASS_NAME = UnitRepository.class.getName();
+  private static final String LDAP_WILD_CARD = "*";
+  // an "
+  private static final String LDAP_EXACT_CARD = "\"";
+  private Log logger = LogFactory.getLog(this.getClass());
+  private LdapConnectionPool theConnectionPool;
   private CodeTablesService codeTablesService;
 
   public CodeTablesService getCodeTablesService() {
