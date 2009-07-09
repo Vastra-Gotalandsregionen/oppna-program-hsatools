@@ -18,7 +18,6 @@
 package se.vgregion.kivtools.search.presentation;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -27,42 +26,42 @@ import org.apache.commons.logging.LogFactory;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
-import se.vgregion.kivtools.search.svc.domain.values.DN;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
- *
+ * 
  */
 @SuppressWarnings("serial")
-public class DisplayPersonDetailsFlowSupportBean implements Serializable{
-    Log logger = LogFactory.getLog(this.getClass());
-    private static final String CLASS_NAME = DisplayPersonDetailsFlowSupportBean.class.getName();
-    private SearchService searchService;
-    
-    public SearchService getSearchService() {
-        return searchService;
-    }
+public class DisplayPersonDetailsFlowSupportBean implements Serializable {
+  private static final String CLASS_NAME = DisplayPersonDetailsFlowSupportBean.class.getName();
 
-    public void setSearchService(SearchService searchService) {
-        this.searchService = searchService;
-    }
+  private Log logger = LogFactory.getLog(this.getClass());
+  private SearchService searchService;
 
-    public Person getPersonDetails(String vgrId) {
-        logger.info(CLASS_NAME + "::getPersonDetails(vgrId=" + vgrId + ")");
-        try {
-            Person person = getSearchService().getPersonById(vgrId);
-            if (person.getEmployments() == null) {
-	            List<Employment> employments = getSearchService().getEmploymentsForPerson(person);
-	            person.setEmployments(employments);
-            }
-            return person;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Person();
-        }
+  public SearchService getSearchService() {
+    return searchService;
+  }
+
+  public void setSearchService(SearchService searchService) {
+    this.searchService = searchService;
+  }
+
+  public Person getPersonDetails(String vgrId) {
+    logger.info(CLASS_NAME + "::getPersonDetails(vgrId=" + vgrId + ")");
+    try {
+      Person person = getSearchService().getPersonById(vgrId);
+      if (person.getEmployments() == null) {
+        List<Employment> employments = getSearchService().getEmploymentsForPerson(person);
+        person.setEmployments(employments);
+      }
+      return person;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return new Person();
     }
-    
-    public void logger(String msg) {
-        logger.info(msg);
-    }
+  }
+
+  public void logger(String msg) {
+    logger.info(msg);
+  }
 }

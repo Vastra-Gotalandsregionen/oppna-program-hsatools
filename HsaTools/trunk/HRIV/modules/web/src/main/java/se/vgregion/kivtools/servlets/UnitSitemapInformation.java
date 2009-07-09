@@ -23,43 +23,40 @@ package se.vgregion.kivtools.servlets;
  * @author Jonas Liljenfeldt, Know IT
  */
 public class UnitSitemapInformation {
-	String hsaId;
+  private String hsaId;
 
-	String modifyTimestampFormattedInW3CDatetimeFormat;
-	String createTimestampFormattedInW3CDatetimeFormat;
+  private String modifyTimestampFormattedInW3CDatetimeFormat;
+  private String createTimestampFormattedInW3CDatetimeFormat;
 
-	public String getCreateTimestampFormattedInW3CDatetimeFormat() {
-		return createTimestampFormattedInW3CDatetimeFormat;
-	}
+  public String getCreateTimestampFormattedInW3CDatetimeFormat() {
+    return createTimestampFormattedInW3CDatetimeFormat;
+  }
 
-	public void setCreateTimestampFormattedInW3CDatetimeFormat(
-			String createTimestampFormattedInW3CDatetimeFormat) {
-		this.createTimestampFormattedInW3CDatetimeFormat = createTimestampFormattedInW3CDatetimeFormat;
-	}
+  public void setCreateTimestampFormattedInW3CDatetimeFormat(String createTimestampFormattedInW3CDatetimeFormat) {
+    this.createTimestampFormattedInW3CDatetimeFormat = createTimestampFormattedInW3CDatetimeFormat;
+  }
 
-	public UnitSitemapInformation(String hsaId,	String modifyTimestampFormattedInW3CDatetimeFormat, 
-			String createTimestampFormattedInW3CDatetimeFormat) {
-		super();
-		this.hsaId = hsaId;
-		this.modifyTimestampFormattedInW3CDatetimeFormat = modifyTimestampFormattedInW3CDatetimeFormat;
-		this.createTimestampFormattedInW3CDatetimeFormat = createTimestampFormattedInW3CDatetimeFormat;
-	}
+  public UnitSitemapInformation(String hsaId, String modifyTimestampFormattedInW3CDatetimeFormat, String createTimestampFormattedInW3CDatetimeFormat) {
+    super();
+    this.hsaId = hsaId;
+    this.modifyTimestampFormattedInW3CDatetimeFormat = modifyTimestampFormattedInW3CDatetimeFormat;
+    this.createTimestampFormattedInW3CDatetimeFormat = createTimestampFormattedInW3CDatetimeFormat;
+  }
 
-	public String getModifyTimestampFormattedInW3CDatetimeFormat() {
-		return modifyTimestampFormattedInW3CDatetimeFormat;
-	}
+  public String getModifyTimestampFormattedInW3CDatetimeFormat() {
+    return modifyTimestampFormattedInW3CDatetimeFormat;
+  }
 
-	public void setModifyTimestampFormattedInW3CDatetimeFormat(
-			String modifyTimestampFormattedInW3CDatetimeFormat) {
-		this.modifyTimestampFormattedInW3CDatetimeFormat = modifyTimestampFormattedInW3CDatetimeFormat;
-	}
+  public void setModifyTimestampFormattedInW3CDatetimeFormat(String modifyTimestampFormattedInW3CDatetimeFormat) {
+    this.modifyTimestampFormattedInW3CDatetimeFormat = modifyTimestampFormattedInW3CDatetimeFormat;
+  }
 
-	public String getHsaId() {
-		return hsaId;
-	}
+  public String getHsaId() {
+    return hsaId;
+  }
 
-	public void setHsaId(String hsaId) {
-		this.hsaId = hsaId;
-	}
+  public void setHsaId(String hsaId) {
+    this.hsaId = hsaId;
+  }
 
 }

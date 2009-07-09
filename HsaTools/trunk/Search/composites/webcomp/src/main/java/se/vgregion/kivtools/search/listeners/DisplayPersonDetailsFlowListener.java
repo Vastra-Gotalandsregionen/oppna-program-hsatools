@@ -25,24 +25,21 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.webflow.core.collection.MutableAttributeMap;
 import org.springframework.webflow.definition.FlowDefinition;
 import org.springframework.webflow.execution.FlowExecutionListenerAdapter;
-import org.springframework.webflow.execution.FlowSession;
 import org.springframework.webflow.execution.RequestContext;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
  * @author Anders Asplund / KnowIT
- *
- * Used when persondetails should be viewed via a vgrId
+ * 
+ *         Used when persondetails should be viewed via a vgrId
  */
 public class DisplayPersonDetailsFlowListener extends FlowExecutionListenerAdapter {
-    Log logger = LogFactory.getLog(this.getClass());
+  private Log logger = LogFactory.getLog(this.getClass());
 
-    @Override
-    public void sessionStarting(RequestContext context,
-            FlowDefinition definition, MutableAttributeMap input) {
-        String vgrId = context.getRequestParameters().get("vgrId");
-        logger.info("DisplayPersonDetailsFlowListener.sessionStarting() -> vgrId: " + vgrId);
-        input.put("vgrId", vgrId);
-    }
-
+  @Override
+  public void sessionStarting(RequestContext context, FlowDefinition definition, MutableAttributeMap input) {
+    String vgrId = context.getRequestParameters().get("vgrId");
+    logger.info("DisplayPersonDetailsFlowListener.sessionStarting() -> vgrId: " + vgrId);
+    input.put("vgrId", vgrId);
+  }
 }

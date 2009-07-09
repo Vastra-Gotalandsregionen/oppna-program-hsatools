@@ -27,15 +27,15 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Anders Asplund - KnowIt
- *
+ * 
  */
 public class HandleErrorFlowSupportBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    Log logger = LogFactory.getLog(this.getClass());
-    
-    public void handleError() {
-        //TODO
-        logger.error("Error");
-    }
+  private static final long serialVersionUID = 1L;
+  private Log logger = LogFactory.getLog(this.getClass());
+
+  public void handleError() {
+    // TODO
+    logger.error("Error");
+  }
 }

@@ -32,9 +32,6 @@ import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
 public class RegisterOnUnitController implements Serializable {
 
   private static final long serialVersionUID = 1L;
-  Log logger = LogFactory.getLog(this.getClass());
-  VardvalService vardValService;
-  SearchService searchService;
   // Test
   // ->
   // prod:
@@ -49,8 +46,12 @@ public class RegisterOnUnitController implements Serializable {
   // ->
   // id
   private static final String serviceUrl = "https://test.signicat.com/std/method/vgr?method=sign";
-  SignatureEndpointImplService signatureEndpointImplService = new SignatureEndpointImplService();
-  SignatureEndpointImpl signatureservice = signatureEndpointImplService.getSignatureservice();
+
+  private Log logger = LogFactory.getLog(this.getClass());
+  private VardvalService vardValService;
+  private SearchService searchService;
+  private SignatureEndpointImplService signatureEndpointImplService = new SignatureEndpointImplService();
+  private SignatureEndpointImpl signatureservice = signatureEndpointImplService.getSignatureservice();
   private CitizenRepository citizenRepository;
   private final ResourceBundle bundle = ResourceBundle.getBundle("messagesVGR");
 

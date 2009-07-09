@@ -49,8 +49,9 @@ import se.vgregion.kivtools.search.svc.domain.values.accessibility.Criteria;
  */
 @SuppressWarnings("serial")
 public class DisplayAccessibilityDatabaseBean implements Serializable {
-  Log logger = LogFactory.getLog(this.getClass());
   private static final String CLASS_NAME = DisplayAccessibilityDatabaseBean.class.getName();
+
+  private Log logger = LogFactory.getLog(this.getClass());
   private String useAccessibilityDatabaseIntegration;
   private String accessibilityDatabaseIntegrationGetIdUrl;
   private String accessibilityDatabaseIntegrationGetInfoUrl;

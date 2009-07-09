@@ -29,34 +29,32 @@ import org.apache.commons.logging.LogFactory;
  */
 public class Extractor {
 
-    private static String CLASS_NAME = Extractor.class.getName();
+  private static final String CLASS_NAME = Extractor.class.getName();
 
-    static Log logger = LogFactory.getLog(CLASS_NAME);
+  private static Log logger = LogFactory.getLog(CLASS_NAME);
 
-    public static String getSystemProperty(String systemPropertyName, boolean isMandatory) throws Exception{
-        String result = null;
-        try {
-                result = System.getProperty(systemPropertyName);
-        } 
-        catch (Exception e) {
-            String msg = CLASS_NAME + "::getSystemProperty(systemPropertyName(" + systemPropertyName + ") Retrieving property.";
-            logger.error(msg, e);
-            throw new Exception(msg);
-        }
-        if (Evaluator.isEmpty(result) && (isMandatory)) {
-            String msg = CLASS_NAME
-            + "::getSystemProperty(systemPropertyName(" + systemPropertyName + ") is not found.";
-            logger.error(msg);
-            throw new Exception(msg);                
-        }
-        return result.trim();
+  public static String getSystemProperty(String systemPropertyName, boolean isMandatory) throws Exception {
+    String result = null;
+    try {
+      result = System.getProperty(systemPropertyName);
+    } catch (Exception e) {
+      String msg = CLASS_NAME + "::getSystemProperty(systemPropertyName(" + systemPropertyName + ") Retrieving property.";
+      logger.error(msg, e);
+      throw new Exception(msg);
     }
-
-    public static long getNowAsLong() {
-        return System.currentTimeMillis();
+    if (Evaluator.isEmpty(result) && isMandatory) {
+      String msg = CLASS_NAME + "::getSystemProperty(systemPropertyName(" + systemPropertyName + ") is not found.";
+      logger.error(msg);
+      throw new Exception(msg);
     }
+    return result.trim();
+  }
 
-    public static Long getNowAsLongObject() {
-        return new Long(System.currentTimeMillis());
-    }
+  public static long getNowAsLong() {
+    return System.currentTimeMillis();
+  }
+
+  public static Long getNowAsLongObject() {
+    return new Long(System.currentTimeMillis());
+  }
 }

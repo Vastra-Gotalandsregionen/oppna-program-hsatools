@@ -27,27 +27,23 @@ import org.springframework.webflow.definition.FlowDefinition;
 import org.springframework.webflow.execution.FlowExecutionListenerAdapter;
 import org.springframework.webflow.execution.RequestContext;
 
-import se.vgregion.kivtools.search.util.EnvAssistant;
-
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
  * @author Anders Asplund / KnowIT
- *
- * Used when unitdetails should be viewed via a hsaId
+ * 
+ *         Used when unitdetails should be viewed via a hsaId
  */
 public class DisplayUnitDetailsFlowListener extends FlowExecutionListenerAdapter {
-    Log logger = LogFactory.getLog(this.getClass());
+  private Log logger = LogFactory.getLog(this.getClass());
 
-    @Override
-    public void sessionStarting(RequestContext context,
-            FlowDefinition definition, MutableAttributeMap input) {
-        super.sessionStarting(context, definition, input);
-        
-//        EnvAssistant.printEnvironment(this.getClass());
-        String dn = context.getRequestParameters().get("dn");
-        System.out.println("Listener DN: " + dn);
-//        logger.info("DisplayUnitDetailsFlowListener.sessionStarting() -> hsaIdentity: " + hsaIdentity);
-//        input.put("hsaIdentity", hsaIdentity==null?"":hsaIdentity);
-    }
-    
+  @Override
+  public void sessionStarting(RequestContext context, FlowDefinition definition, MutableAttributeMap input) {
+    super.sessionStarting(context, definition, input);
+
+    // EnvAssistant.printEnvironment(this.getClass());
+    String dn = context.getRequestParameters().get("dn");
+    System.out.println("Listener DN: " + dn);
+    // logger.info("DisplayUnitDetailsFlowListener.sessionStarting() -> hsaIdentity: " + hsaIdentity);
+    // input.put("hsaIdentity", hsaIdentity==null?"":hsaIdentity);
+  }
 }

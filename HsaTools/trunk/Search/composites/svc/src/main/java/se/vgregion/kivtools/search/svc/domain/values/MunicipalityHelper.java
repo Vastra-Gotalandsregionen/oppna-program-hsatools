@@ -23,64 +23,63 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
 public class MunicipalityHelper {
+  private static final String MUNICIPALITY_CODE_KEY = "hsatools.search.svc.impl.municipalitycode";
+  private static final String MUNICIPALITY_NAME_KEY = "hsatools.search.svc.impl.municipalityname";
 
-	public static List<Municipality> allMunicipalities;
-	
-	private static final String MUNICIPALITY_CODE_KEY = "hsatools.search.svc.impl.municipalitycode";
-	private static final String MUNICIPALITY_NAME_KEY = "hsatools.search.svc.impl.municipalityname";
+  private static List<Municipality> allMunicipalities;
 
-	private String implResourcePath;
-	
-	public List<Municipality> getAllMunicipalities() {
-        return allMunicipalities;
+  private String implResourcePath;
+
+  public List<Municipality> getAllMunicipalities() {
+    return allMunicipalities;
+  }
+
+  private Enumeration<String> getAllConfigPars() {
+    ResourceBundle bundle = ResourceBundle.getBundle(getImplResourcePath());
+    return bundle.getKeys();
+  }
+
+  private String getConfigParByKey(String key) {
+    String rv = "";
+    ResourceBundle bundle = ResourceBundle.getBundle(getImplResourcePath());
+    String value = bundle.getString(key);
+    if (value != null) {
+      rv = value;
     }
-	
-	private Enumeration<String> getAllConfigPars() {
-		ResourceBundle bundle = ResourceBundle.getBundle(getImplResourcePath());
-		return bundle.getKeys();
-	}
-	
-	private String getConfigParByKey(String key) {
-		String rv = "";
-		ResourceBundle bundle = ResourceBundle.getBundle(getImplResourcePath());
-		String value = bundle.getString(key);
-		if (value != null)
-			rv = value;
-		return rv;
-	}
+    return rv;
+  }
 
-	public String getImplResourcePath() {
-		return implResourcePath;
-	}
+  public String getImplResourcePath() {
+    return implResourcePath;
+  }
 
-	public void setImplResourcePath(String implResourcePath)  {
-		this.implResourcePath = implResourcePath;
-		
-        Enumeration<String> allKeys = getAllConfigPars();
-        String currentKey;
-        String currentName;
-        Municipality currentMunicipality;
-        int currentIndex;
-        int beginPos;
-        while (allKeys.hasMoreElements()) {
-        	currentKey = allKeys.nextElement();
-        	if (currentKey.startsWith(MUNICIPALITY_CODE_KEY)) {
-        		beginPos = currentKey.indexOf('_');
-        		currentIndex = Integer.parseInt(currentKey.substring(beginPos + 1));
-        		currentName = getConfigParByKey(MUNICIPALITY_NAME_KEY + "_" + currentIndex);
-        		currentMunicipality = new Municipality();
-        		currentMunicipality.setMunicipalityKey(currentKey);
-        		currentMunicipality.setMunicipalityName(currentName);
-        		String code = getConfigParByKey(MUNICIPALITY_CODE_KEY + "_" + currentIndex);
-        		currentMunicipality.setMunicipalityCode(code);
-        		if (allMunicipalities == null) {
-        			allMunicipalities = new ArrayList<Municipality>();
-        		}
-        		allMunicipalities.add(currentMunicipality);
-        	}
+  public void setImplResourcePath(String implResourcePath) {
+    this.implResourcePath = implResourcePath;
+
+    Enumeration<String> allKeys = getAllConfigPars();
+    String currentKey;
+    String currentName;
+    Municipality currentMunicipality;
+    int currentIndex;
+    int beginPos;
+    while (allKeys.hasMoreElements()) {
+      currentKey = allKeys.nextElement();
+      if (currentKey.startsWith(MUNICIPALITY_CODE_KEY)) {
+        beginPos = currentKey.indexOf('_');
+        currentIndex = Integer.parseInt(currentKey.substring(beginPos + 1));
+        currentName = getConfigParByKey(MUNICIPALITY_NAME_KEY + "_" + currentIndex);
+        currentMunicipality = new Municipality();
+        currentMunicipality.setMunicipalityKey(currentKey);
+        currentMunicipality.setMunicipalityName(currentName);
+        String code = getConfigParByKey(MUNICIPALITY_CODE_KEY + "_" + currentIndex);
+        currentMunicipality.setMunicipalityCode(code);
+        if (allMunicipalities == null) {
+          allMunicipalities = new ArrayList<Municipality>();
         }
-    	Collections.sort(allMunicipalities);
-	}	
+        allMunicipalities.add(currentMunicipality);
+      }
+    }
+    Collections.sort(allMunicipalities);
+  }
 }

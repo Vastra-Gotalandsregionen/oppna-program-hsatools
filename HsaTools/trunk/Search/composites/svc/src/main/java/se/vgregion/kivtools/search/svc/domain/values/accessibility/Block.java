@@ -25,59 +25,57 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class Block implements Serializable {
-	private static final long serialVersionUID = 1L;
-	ArrayList<AccessibilityPackage> packages = new ArrayList<AccessibilityPackage>();
-	String id;
+  private static final long serialVersionUID = 1L;
+  private ArrayList<AccessibilityPackage> packages = new ArrayList<AccessibilityPackage>();
+  private String id;
+  private String name = "";
 
-	public String getId() {
-		return id;
-	}
+  public String getId() {
+    return id;
+  }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public ArrayList<AccessibilityPackage> getPackages() {
-		return packages;
-	}
+  public ArrayList<AccessibilityPackage> getPackages() {
+    return packages;
+  }
 
-	public void setPackages(ArrayList<AccessibilityPackage> packages) {
-		this.packages = packages;
-	}
+  public void setPackages(ArrayList<AccessibilityPackage> packages) {
+    this.packages = packages;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	String name = "";
+  public Block(Node block) {
+    // Set id
+    NamedNodeMap attributes = block.getAttributes();
+    if (attributes != null && attributes.getNamedItem("id") != null) {
+      id = attributes.getNamedItem("id").getTextContent() + "_" + Math.random();
+    }
 
-	public Block(Node block) {
-		// Set id
-		NamedNodeMap attributes = block.getAttributes();
-		if (attributes != null && attributes.getNamedItem("id") != null) {
-			id = attributes.getNamedItem("id").getTextContent() + "_" + Math.random();
-		}
-		
-		if (attributes != null && attributes.getNamedItem("fkSystemObjectId") != null) {
-			id = attributes.getNamedItem("fkSystemObjectId").getTextContent() + "_" + Math.random();
-		}
-		
-		// Get packages
-		NodeList blockChildren = block.getChildNodes();
-		for (int i = 0; i < blockChildren.getLength(); i++) {
-			// If node name is objectName, set name
-			if (blockChildren.item(i).getNodeName().equals("objectName")
-					|| blockChildren.item(i).getNodeName().equals("name"))
-				name = blockChildren.item(i).getTextContent();
-			if (blockChildren.item(i).getNodeName().equals("package")) {
-				AccessibilityPackage accessibilityPackage = new AccessibilityPackage(
-						blockChildren.item(i));
-				packages.add(accessibilityPackage);
-			}
-		}
-	}
+    if (attributes != null && attributes.getNamedItem("fkSystemObjectId") != null) {
+      id = attributes.getNamedItem("fkSystemObjectId").getTextContent() + "_" + Math.random();
+    }
+
+    // Get packages
+    NodeList blockChildren = block.getChildNodes();
+    for (int i = 0; i < blockChildren.getLength(); i++) {
+      // If node name is objectName, set name
+      if (blockChildren.item(i).getNodeName().equals("objectName") || blockChildren.item(i).getNodeName().equals("name")) {
+        name = blockChildren.item(i).getTextContent();
+      }
+      if (blockChildren.item(i).getNodeName().equals("package")) {
+        AccessibilityPackage accessibilityPackage = new AccessibilityPackage(blockChildren.item(i));
+        packages.add(accessibilityPackage);
+      }
+    }
+  }
 }

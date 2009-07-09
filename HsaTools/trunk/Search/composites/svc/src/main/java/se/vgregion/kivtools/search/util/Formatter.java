@@ -33,8 +33,8 @@ import org.apache.commons.logging.LogFactory;
  * 
  */
 public class Formatter {
-  private static String CLASS_NAME = Formatter.class.getName();
-  static Log logger = LogFactory.getLog(CLASS_NAME);
+  private static final String CLASS_NAME = Formatter.class.getName();
+  private static Log logger = LogFactory.getLog(CLASS_NAME);
 
   /**
    * Replace all occurances of stringToReplace in string originalString with replacingString.

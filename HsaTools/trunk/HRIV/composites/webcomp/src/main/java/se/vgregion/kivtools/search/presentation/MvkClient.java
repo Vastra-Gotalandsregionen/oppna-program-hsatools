@@ -50,7 +50,7 @@ import se.vgregion.kivtools.search.svc.domain.Unit;
 public class MvkClient {
   private String mvkGuid;
   private String mvkUrl;
-  Log logger = LogFactory.getLog(this.getClass());
+  private Log logger = LogFactory.getLog(this.getClass());
 
   public MvkClient(String mvkGuid, String mvkUrl) {
     this.mvkGuid = mvkGuid;
