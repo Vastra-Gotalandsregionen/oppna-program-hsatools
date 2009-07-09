@@ -127,13 +127,8 @@
 	-->
 
 	<bean id="Registration.vardValService"
-		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl"
-		init-method="setEndpoint">
-		<property name="service">
-			<bean
-				class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceFactory"
-				factory-method="getIVardvalservice" />
-		</property>
+		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl">
+		<property name="vardvalService"><bean class="se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalService" /></property>
 		<property name="webserviceEndpoint"
 			value="https://w120390.got.vgregion.se/VardvalService/VardvalService.svc" />
 	</bean>
