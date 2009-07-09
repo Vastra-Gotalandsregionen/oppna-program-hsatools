@@ -8,6 +8,10 @@ import static org.junit.Assert.assertEquals;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.faces.context.FacesContext;
 
 import org.junit.Before;
@@ -19,6 +23,8 @@ import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
+
+import com.novell.ldap.util.Base64;
 
 public class RegisterOnUnitControllerTest {
 
@@ -61,6 +67,28 @@ public class RegisterOnUnitControllerTest {
 		assertEquals(UPCOMING_UNIT_ID, vardvalInfo.getUpcomingHsaId());
 	}
 
+	@Test
+	public void testGetBase64DecodedSsn() throws Exception {
+		assertEquals("kalle banan", registerOnUnitController.getBase64DecodedSsn("a2FsbGUgYmFuYW4="));
+	}
+
+	@Test
+	public void testGetDecryptedSsn() throws Exception {
+		String encryptedString = Base64.encode(getEncryptedByteArray("197407185656"));
+		assertEquals("197407185656", registerOnUnitController.getDecryptedSsn(Base64.decode(encryptedString)));
+	}
+
+	private byte[] getEncryptedByteArray(String inputString) throws Exception {
+		byte[] preSharedKey = "ACME1234ACME1234QWERT123".getBytes();
+		SecretKey aesKey = new SecretKeySpec(preSharedKey, "DESede");
+		Cipher cipher = Cipher.getInstance("DESede/CBC/PKCS5Padding");
+		String initialVector = "vardval0";
+		IvParameterSpec ivs = new IvParameterSpec(initialVector.getBytes());
+		cipher.init(Cipher.ENCRYPT_MODE, aesKey, ivs);
+		byte[] cipherText = cipher.doFinal(inputString.getBytes());
+		return cipherText;
+	}
+
 	private JsfExternalContext generateContextMock() {
 		JsfExternalContext mockJsfExternalContext = createMock(JsfExternalContext.class);
 		FacesContext mockFacesContext = createMock(FacesContext.class);
@@ -92,7 +120,5 @@ public class RegisterOnUnitControllerTest {
 		replay(mockVardvalService);
 		return mockVardvalService;
 	}
-	
-	
-	
+
 }
