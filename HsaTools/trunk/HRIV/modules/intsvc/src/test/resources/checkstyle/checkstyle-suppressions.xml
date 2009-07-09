@@ -16,4 +16,5 @@
     
     <!-- Suppress all testfiles -->
     <suppress checks=".*" files=".*/test/.*" />
+    <suppress checks=".*" files=".*/main/java/.*/ws/domain/.*" />
 </suppressions>

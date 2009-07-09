@@ -1,9 +1,6 @@
 package se.vgregion.kivtools.search.intsvc.ws.eniro;
 
-
 public interface InformationPusher {
 
-	void doService() throws Exception;
-
-
+  void doService() throws Exception;
 }
