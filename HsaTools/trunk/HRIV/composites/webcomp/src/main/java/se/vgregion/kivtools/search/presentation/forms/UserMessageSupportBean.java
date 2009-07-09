@@ -21,19 +21,17 @@
 package se.vgregion.kivtools.search.presentation.forms;
 
 import java.io.Serializable;
-import se.vgregion.kivtools.search.common.Constants;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
- *
+ * 
  */
-public class UserMessageSupportBean implements Serializable{
+public class UserMessageSupportBean implements Serializable {
 
-    public UserMessageSupportBean() {
-    }
+  public UserMessageSupportBean() {
+  }
 
-    public void clean(UserMessageContainer umc) {
-        umc.clear();
-    }
-    
+  public void clean(UserMessageContainer umc) {
+    umc.clear();
+  }
 }

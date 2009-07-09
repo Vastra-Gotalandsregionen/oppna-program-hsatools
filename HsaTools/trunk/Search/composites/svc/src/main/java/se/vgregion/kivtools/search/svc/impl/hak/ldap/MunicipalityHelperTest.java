@@ -25,30 +25,28 @@ import se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper;
 
 public class MunicipalityHelperTest {
 
-	/**
-	 * @param args
-	 * @throws Exception 
-	 */
-	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
-		MunicipalityHelper mh = new MunicipalityHelper();
-		mh.setImplResourcePath("se.vgregion.kivtools.search.svc.impl.hak.ldap.search-composite-svc-municipalities");
-		
-		try {
-			List<Municipality> municipalities = mh.getAllMunicipalities();
-			for (Iterator<Municipality> i = municipalities.iterator(); i.hasNext(); ) {
-				System.out.println("-- New municipality --");
-				Municipality m = i.next();
-				System.out.println(m.getMunicipalityKey());
-				System.out.println(m.getMunicipalityName());
-				System.out.println(m.getMunicipalityCode());
-			}
+  /**
+   * @param args
+   * @throws Exception
+   */
+  public static void main(String[] args) throws Exception {
+    // TODO Auto-generated method stub
+    MunicipalityHelper mh = new MunicipalityHelper();
+    mh.setImplResourcePath("se.vgregion.kivtools.search.svc.impl.hak.ldap.search-composite-svc-municipalities");
 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    try {
+      List<Municipality> municipalities = mh.getAllMunicipalities();
+      for (Iterator<Municipality> i = municipalities.iterator(); i.hasNext();) {
+        System.out.println("-- New municipality --");
+        Municipality m = i.next();
+        System.out.println(m.getMunicipalityKey());
+        System.out.println(m.getMunicipalityName());
+        System.out.println(m.getMunicipalityCode());
+      }
 
-	}
-
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
 }
