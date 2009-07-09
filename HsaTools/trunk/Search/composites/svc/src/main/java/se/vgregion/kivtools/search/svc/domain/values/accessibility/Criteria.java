@@ -37,46 +37,6 @@ public class Criteria implements Serializable {
   // Not for public display, only for internal use.
   private boolean hidden;
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public boolean getShow() {
-    return show;
-  }
-
-  public void setShow(boolean show) {
-    this.show = show;
-  }
-
-  public ArrayList<String> getAdditionalCriterias() {
-    return additionalCriterias;
-  }
-
-  public void setAdditionalCriterias(ArrayList<String> additionalCriterias) {
-    this.additionalCriterias = additionalCriterias;
-  }
-
-  public boolean isNotice() {
-    return notice;
-  }
-
-  public void setNotice(boolean notice) {
-    this.notice = notice;
-  }
-
-  public boolean isHidden() {
-    return hidden;
-  }
-
-  public void setHidden(boolean hidden) {
-    this.hidden = hidden;
-  }
-
   /**
    * Construct AccessibilityInformation object from a node which may look like:
    * 
@@ -129,6 +89,46 @@ public class Criteria implements Serializable {
         description = criteriaChildren.item(i).getTextContent();
       }
     }
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public boolean getShow() {
+    return show;
+  }
+
+  public void setShow(boolean show) {
+    this.show = show;
+  }
+
+  public ArrayList<String> getAdditionalCriterias() {
+    return additionalCriterias;
+  }
+
+  public void setAdditionalCriterias(ArrayList<String> additionalCriterias) {
+    this.additionalCriterias = additionalCriterias;
+  }
+
+  public boolean isNotice() {
+    return notice;
+  }
+
+  public void setNotice(boolean notice) {
+    this.notice = notice;
+  }
+
+  public boolean isHidden() {
+    return hidden;
+  }
+
+  public void setHidden(boolean hidden) {
+    this.hidden = hidden;
   }
 
   public ArrayList<String> getDisabilities() {

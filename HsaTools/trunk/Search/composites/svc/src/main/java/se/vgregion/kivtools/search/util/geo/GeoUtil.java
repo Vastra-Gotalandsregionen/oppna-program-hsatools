@@ -178,13 +178,13 @@ public class GeoUtil {
   static double[] getGradeMinSec(double decDegree) {
     // In example, wants to get 49 degrees 30 minutes and 45 secs from
     // 49.5125
-    int degree = (int) Math.floor(decDegree); // degree = int(49.5125) = 49
-    double minDouble = (decDegree - degree) * 60; // min =
-    // frac(49.5125)*60
-    // = 0.5125*60 =
-    // 30.75 min
+    // degree = int(49.5125) = 49
+    int degree = (int) Math.floor(decDegree);
+    // min = frac(49.5125)*60 = 0.5125*60 = 30.75 min
+    double minDouble = (decDegree - degree) * 60;
     int min = (int) minDouble;
-    double sec = (minDouble - min) * 60; // frac(min) * 60 = 45 sec
+    // frac(min) * 60 = 45 sec
+    double sec = (minDouble - min) * 60;
     return new double[] { degree, min, sec };
   }
 

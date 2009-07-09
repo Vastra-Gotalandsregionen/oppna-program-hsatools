@@ -75,7 +75,8 @@ public class Sitemap extends HttpServlet {
       public void run() {
         Sitemap.fillUnits(logger);
       }
-    }, 0, 3600000 * 24); // Update list of units once in a 24 hour period.
+      // Update list of units once in a 24 hour period.
+    }, 0, 3600000 * 24);
   }
 
   /**

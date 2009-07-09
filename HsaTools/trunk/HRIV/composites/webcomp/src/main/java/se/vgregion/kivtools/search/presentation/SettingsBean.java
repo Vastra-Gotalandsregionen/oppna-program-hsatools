@@ -72,6 +72,10 @@ public class SettingsBean implements Serializable {
   private String mobileUrl;
   private String informationArea;
 
+  public SettingsBean() {
+    super();
+  }
+
   public String getInformationArea() {
     return informationArea;
   }
@@ -338,10 +342,6 @@ public class SettingsBean implements Serializable {
 
   public void setFallbackOnAddressForMap(boolean fallbackOnAddressForMap) {
     this.fallbackOnAddressForMap = fallbackOnAddressForMap;
-  }
-
-  public SettingsBean() {
-    super();
   }
 
   public void setTestingMode(boolean b) {

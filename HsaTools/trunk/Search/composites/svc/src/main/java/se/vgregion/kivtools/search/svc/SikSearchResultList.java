@@ -29,52 +29,50 @@ import se.vgregion.kivtools.search.exceptions.SikInternalException;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
- *
+ * 
  */
 @SuppressWarnings("serial")
-public class SikSearchResultList<T> extends ArrayList<T> implements List<T>, Serializable{
+public class SikSearchResultList<T> extends ArrayList<T> implements List<T>, Serializable {
 
-    private List<TimeMeasurement> timeMeasureMentList = new ArrayList<TimeMeasurement>();
-    private int totalNumberOfFoundItems = 0;
-    
-    public void addDataSourceSearchTime(TimeMeasurement timeForAFetch) {
-        timeMeasureMentList.add(timeForAFetch);        
-    }
-    
-    public SikSearchResultList() {    
-    }
-    
-    public SikSearchResultList(Collection<? extends T> c) {
-        super(c);
-    }
-    
-    /**
-     * @return The sum of all individual times needed
-     * @throws SikInternalException
-     */
-    public long getTotalDataSourceSearchTimeInMilliSeconds() throws SikInternalException{
-        long totalTime = 0;
-        for (TimeMeasurement timeSlot : timeMeasureMentList) {
-            totalTime += timeSlot.getElapsedTimeInMillisSeconds();
-        }
-        return totalTime;
-    }
-    
-    /**
-     * @return The sum of all individual times needed
-     * @throws SikInternalException
-     */
-    public long getTotalDataSourceSearchTimeInSeconds() throws SikInternalException{
-        return getTotalDataSourceSearchTimeInMilliSeconds()/1000;
-    }
-    
-    public int getTotalNumberOfFoundItems() {
-        return totalNumberOfFoundItems;
-    }
+  private List<TimeMeasurement> timeMeasureMentList = new ArrayList<TimeMeasurement>();
+  private int totalNumberOfFoundItems;
 
+  public SikSearchResultList() {
+  }
 
-    public void setTotalNumberOfFoundItems(int totalNumberOfFoundItems) {
-        this.totalNumberOfFoundItems = totalNumberOfFoundItems;
+  public SikSearchResultList(Collection<? extends T> c) {
+    super(c);
+  }
+
+  public void addDataSourceSearchTime(TimeMeasurement timeForAFetch) {
+    timeMeasureMentList.add(timeForAFetch);
+  }
+
+  /**
+   * @return The sum of all individual times needed
+   * @throws SikInternalException
+   */
+  public long getTotalDataSourceSearchTimeInMilliSeconds() throws SikInternalException {
+    long totalTime = 0;
+    for (TimeMeasurement timeSlot : timeMeasureMentList) {
+      totalTime += timeSlot.getElapsedTimeInMillisSeconds();
     }
-    
+    return totalTime;
+  }
+
+  /**
+   * @return The sum of all individual times needed
+   * @throws SikInternalException
+   */
+  public long getTotalDataSourceSearchTimeInSeconds() throws SikInternalException {
+    return getTotalDataSourceSearchTimeInMilliSeconds() / 1000;
+  }
+
+  public int getTotalNumberOfFoundItems() {
+    return totalNumberOfFoundItems;
+  }
+
+  public void setTotalNumberOfFoundItems(int totalNumberOfFoundItems) {
+    this.totalNumberOfFoundItems = totalNumberOfFoundItems;
+  }
 }

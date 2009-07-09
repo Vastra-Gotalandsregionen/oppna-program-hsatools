@@ -23,7 +23,7 @@ import java.util.Properties;
 public class EnvAssistant {
 
   /**
-   * This class is just used for the method createBean() to return a sorted list
+   * This class is just used for the method createBean() to return a sorted list.
    */
   public class SortableItem implements Comparable {
 
@@ -31,7 +31,8 @@ public class EnvAssistant {
     private String id;
 
     SortableItem(String id, String value) {
-      this.value = value; // Label
+      // Label
+      this.value = value;
       this.id = id;
     }
 
@@ -44,7 +45,8 @@ public class EnvAssistant {
     System.out.println("******** Enviroment in class: " + clazz.getName() + "**********");
     Properties prop = System.getProperties();
     Enumeration propList = prop.propertyNames();
-    String propertyName, propertyValue;
+    String propertyName;
+    String propertyValue;
     while (propList.hasMoreElements()) {
       propertyName = (String) propList.nextElement();
       propertyValue = prop.getProperty(propertyName);

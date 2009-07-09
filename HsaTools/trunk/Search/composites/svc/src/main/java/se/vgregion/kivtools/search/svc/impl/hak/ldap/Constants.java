@@ -18,10 +18,10 @@
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
 public class Constants {
-    public static final String OBJECT_CLASS_UNIT_STANDARD 			= "organizationalUnit"; 
-    public static final String OBJECT_CLASS_FUNCTION_STANDARD 		= "organizationalRole"; 
-    public static final String OBJECT_CLASS_UNIT_SPECIFIC 			= "organizationalUnit"; 
-    public static final String OBJECT_CLASS_FUNCTION_SPECIFIC 		= "organizationalRole"; 
-    public static final String LDAP_PROPERTY_UNIT_NAME 		= "ou";
-    public static final String LDAP_PROPERTY_FUNCTION_NAME 	= "cn";
+  public static final String OBJECT_CLASS_UNIT_STANDARD = "organizationalUnit";
+  public static final String OBJECT_CLASS_FUNCTION_STANDARD = "organizationalRole";
+  public static final String OBJECT_CLASS_UNIT_SPECIFIC = "organizationalUnit";
+  public static final String OBJECT_CLASS_FUNCTION_SPECIFIC = "organizationalRole";
+  public static final String LDAP_PROPERTY_UNIT_NAME = "ou";
+  public static final String LDAP_PROPERTY_FUNCTION_NAME = "cn";
 }

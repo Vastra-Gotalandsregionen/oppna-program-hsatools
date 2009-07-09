@@ -21,26 +21,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Utility class for converting
+ * Utility class for converting.
+ * 
  * @author Jonas Liljenfeldt, Know IT
- *
+ * 
  */
 public class Converter {
 
-	/**
-	 * Return array list of integers from array list of strings.
-	 * 
-	 * @param stringArrayList
-	 * @return
-	 */
-	public static ArrayList<Integer> getIntegerArrayList(List<String> stringArrayList) {
-		ArrayList<Integer> integerArrayList = new ArrayList<Integer>();
-		for (String s : stringArrayList) {
-			if (Evaluator.isInteger(s)) {
-				integerArrayList.add(Integer.parseInt(s));
-			}
-		}
-		return integerArrayList;
-	}
-	
+  /**
+   * Return array list of integers from array list of strings.
+   * 
+   * @param stringArrayList
+   * @return
+   */
+  public static ArrayList<Integer> getIntegerArrayList(List<String> stringArrayList) {
+    ArrayList<Integer> integerArrayList = new ArrayList<Integer>();
+    for (String s : stringArrayList) {
+      if (Evaluator.isInteger(s)) {
+        integerArrayList.add(Integer.parseInt(s));
+      }
+    }
+    return integerArrayList;
+  }
+
 }

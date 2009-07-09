@@ -18,38 +18,36 @@
 package se.vgregion.kivtools.servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class for Servlet: RequestDispatcher
- *
+ * Servlet implementation class for Servlet: RequestDispatcher.
+ * 
  */
- public class RequestDispatcher extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {
-   static final long serialVersionUID = 1L;
-   
-	public RequestDispatcher() {
-		super();
-	}   	
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    String servletName = request.getServletPath();
-	    request.setCharacterEncoding("UTF-8");
-	    if(servletName != null) {
-            if(servletName.contains("visaperson")) {
-                request.getRequestDispatcher("displayPersonDetails.jsf?_flowId=Search.searchperson-flow").forward(request, response);
-            }
-            else if(servletName.contains("visaenhet")) {
-                request.getRequestDispatcher("displayUnitDetails.jsf?_flowId=Search.searchunit-flow").forward(request, response);
-            }
-            else if(servletName.contains("visaenhetdn")) {
-                request.getRequestDispatcher("displayUnitDetails.jsf?_flowId=Search.searchunit-flow").forward(request, response);
-            }
-            else if(servletName.contains("visaorganisation")) {
-                request.getRequestDispatcher("displayPersonSearchResult.jsf?_flowId=Search.searchperson-flow").forward(request, response);
-            }
-	    }
-	}  	
-	
+public class RequestDispatcher extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {
+  static final long serialVersionUID = 1L;
+
+  public RequestDispatcher() {
+    super();
+  }
+
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String servletName = request.getServletPath();
+    request.setCharacterEncoding("UTF-8");
+    if (servletName != null) {
+      if (servletName.contains("visaperson")) {
+        request.getRequestDispatcher("displayPersonDetails.jsf?_flowId=Search.searchperson-flow").forward(request, response);
+      } else if (servletName.contains("visaenhet")) {
+        request.getRequestDispatcher("displayUnitDetails.jsf?_flowId=Search.searchunit-flow").forward(request, response);
+      } else if (servletName.contains("visaenhetdn")) {
+        request.getRequestDispatcher("displayUnitDetails.jsf?_flowId=Search.searchunit-flow").forward(request, response);
+      } else if (servletName.contains("visaorganisation")) {
+        request.getRequestDispatcher("displayPersonSearchResult.jsf?_flowId=Search.searchperson-flow").forward(request, response);
+      }
+    }
+  }
 }

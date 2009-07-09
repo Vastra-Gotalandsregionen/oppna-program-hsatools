@@ -97,16 +97,14 @@ public class UnitFactory {
     // Name
     if (unit.getIsUnit()) {
       // Is Unit
-      String unitName = Formatter.replaceStringInString(unit.getOu(), "\\,", ","); // change
-      // \,
-      // to
-      // ,
+      // change \, to ,
+      String unitName = Formatter.replaceStringInString(unit.getOu(), "\\,", ",");
       unit.setName(unitName.trim());
     } else {
       // Is Function
       String cn = LdapORMHelper.getSingleValue(unitEntry.getAttribute(Constants.LDAP_PROPERTY_FUNCTION_NAME));
-      cn = Formatter.replaceStringInString(cn, "\\,", ","); // change \,
-      // to ,
+      // change \, to ,
+      cn = Formatter.replaceStringInString(cn, "\\,", ",");
       unit.setName(cn.trim());
     }
 

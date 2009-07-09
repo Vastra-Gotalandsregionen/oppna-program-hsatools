@@ -55,123 +55,119 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   private static final long serialVersionUID = 1L;
   // 0u (e.g.Näl)
-  private String ou; 
+  private String ou;
   // Distinuished Name (e.g. ou=N�l,ou=Org,o=VGR)
-  private DN dn; 
+  private DN dn;
   // Enhetens namn
-  private String name; 
+  private String name;
   // Enhetens kort namn
-  private String organizationalUnitNameShort; 
+  private String organizationalUnitNameShort;
   // Var i organisationen enheten
-  private String ldapDistinguishedName; 
+  private String ldapDistinguishedName;
   // e.g. organizationalUnit, organizationalRole
-  private String objectClass; 
+  private String objectClass;
   // true=Unit, false=Function
-  private boolean isUnit; 
+  private boolean isUnit;
 
   // Code tables values
   // Vårdform
   private String vgrCareType;
   // Vårdform klartext
-  private String vgrCareTypeText; 
+  private String vgrCareTypeText;
   // Ansvarsområdes kod
-  private String vgrAO3kod; 
+  private String vgrAO3kod;
   // Ansvarsområdeskodens namn
   private String vgrAO3kodText;
   // FIXME Should be Integer?
-  private List<String> hsaBusinessClassificationCode; 
+  private List<String> hsaBusinessClassificationCode;
   private List<String> hsaBusinessClassificationText;
   // Kommunkod
-  private String hsaMunicipalityCode; 
+  private String hsaMunicipalityCode;
   // Kommunnamn
-  private String hsaMunicipalityName; 
+  private String hsaMunicipalityName;
   // Länskod
-  private String hsaCountyCode; 
+  private String hsaCountyCode;
   // Länsnamn
-  private String hsaCountyName; 
+  private String hsaCountyName;
   // Ägarformkod
-  private String hsaManagementCode; 
+  private String hsaManagementCode;
   // Ägarform klartext
-  private String hsaManagementName; 
+  private String hsaManagementName;
   // Drifts- & juridisk formkod
-  private String hsaAdministrationForm; 
+  private String hsaAdministrationForm;
   // Drifts- & juridisk formklartext
-  private String hsaAdministrationFormText; 
-  
-  
+  private String hsaAdministrationFormText;
+
   // Extern beskrivning
-  private List<String> description; 
+  private List<String> description;
   // Intern beskrivning
-  private List<String> internalDescription; 
+  private List<String> internalDescription;
   // E-postadress
-  private String mail; 
+  private String mail;
   // Stadsdel
-  private String locality; 
+  private String locality;
   // Hemsida
-  private String labeledURI; 
+  private String labeledURI;
   // I-nummer
-  private String vgrInternalSedfInvoiceAddress; 
+  private String vgrInternalSedfInvoiceAddress;
   // HSA identitet
-  private String hsaIdentity; 
+  private String hsaIdentity;
   private List<HealthcareType> healthcareTypes;
   // Ansvarsnr
-  private List<String> vgrAnsvarsnummer; 
+  private List<String> vgrAnsvarsnummer;
   // Arbetsplatskod
-  private String hsaUnitPrescriptionCode; 
-
+  private String hsaUnitPrescriptionCode;
 
   // Addresses
   // Postadress
-  private Address hsaPostalAddress; 
+  private Address hsaPostalAddress;
   // Internadress
-  private Address hsaInternalAddress; 
+  private Address hsaInternalAddress;
   // Besöksadress
-  private Address hsaStreetAddress; 
+  private Address hsaStreetAddress;
   // Leveransadress
-  private Address hsaSedfDeliveryAddress; 
+  private Address hsaSedfDeliveryAddress;
   // Fakturaadress
-  private Address hsaSedfInvoiceAddress; 
+  private Address hsaSedfInvoiceAddress;
 
   // Phone numbers
   // Växeltelefon
-  private PhoneNumber hsaSedfSwitchboardTelephoneNo; 
+  private PhoneNumber hsaSedfSwitchboardTelephoneNo;
   // Personsökare
-  private PhoneNumber hsaInternalPagerNumber; 
+  private PhoneNumber hsaInternalPagerNumber;
   // Minicall
-  private PhoneNumber pagerTelephoneNumber; 
+  private PhoneNumber pagerTelephoneNumber;
   // Texttelefon
-  private PhoneNumber hsaTextPhoneNumber; 
+  private PhoneNumber hsaTextPhoneNumber;
   // Mobiltelefon
-  private PhoneNumber mobileTelephoneNumber; 
+  private PhoneNumber mobileTelephoneNumber;
   // SMS
-  private PhoneNumber hsaSmsTelephoneNumber; 
+  private PhoneNumber hsaSmsTelephoneNumber;
   // Faxnummer
-  private PhoneNumber facsimileTelephoneNumber; 
+  private PhoneNumber facsimileTelephoneNumber;
   // Direkttelefon
-  private List<PhoneNumber> hsaTelephoneNumber; 
+  private List<PhoneNumber> hsaTelephoneNumber;
   // Telefon publik
-  private List<PhoneNumber> hsaPublicTelephoneNumber; 
+  private List<PhoneNumber> hsaPublicTelephoneNumber;
   // Telefontid
-  private List<WeekdayTime> hsaTelephoneTime; 
+  private List<WeekdayTime> hsaTelephoneTime;
   // Giltighetsslutdatum
-  private Date hsaEndDate; 
+  private Date hsaEndDate;
 
   // EDI-kod
-  private String vgrEDICode; 
+  private String vgrEDICode;
   // EAN-kod
-  private String vgrEANCode; 
+  private String vgrEANCode;
   // Kommundelsnamn
-  private String hsaMunicipalitySectionName; 
+  private String hsaMunicipalitySectionName;
   // Kommundelskod
-  private String hsaMunicipalitySectionCode; 
-
- 
+  private String hsaMunicipalitySectionCode;
 
   private List<WeekdayTime> hsaSurgeryHours;
   private List<WeekdayTime> hsaDropInHours;
   private String vgrOrganizationalRole;
   // Detta skall vara businessClass i ldap
-  private String hsaManagementText; 
+  private String hsaManagementText;
   private String hsaVisitingRules;
   private String hsaVisitingRuleAge;
 
@@ -182,20 +178,20 @@ public class Unit implements Serializable, Comparable<Unit> {
   private String vgrTempInfoBody;
 
   // Senast uppdaterad
-  private TimePoint modifyTimestamp; 
+  private TimePoint modifyTimestamp;
   // Skapad
-  private TimePoint createTimestamp; 
+  private TimePoint createTimestamp;
 
   // Geo coordinates
   private String hsaGeographicalCoordinates;
   // In decimal degrees
-  private double wgs84Lat; 
+  private double wgs84Lat;
   // In decimal degrees
-  private double wgs84Long; 
+  private double wgs84Long;
   private int rt90X;
   private int rt90Y;
   // Needed for calculation of close
-  private GeoCoordinate geoCoordinate; 
+  private GeoCoordinate geoCoordinate;
   // units
   private String distanceToTarget;
   private List<String> mvkCaseTypes;
@@ -749,7 +745,8 @@ public class Unit implements Serializable, Comparable<Unit> {
         Date startDate = df.parse(startDateString);
         Calendar cal = new GregorianCalendar();
         cal.setTime(startDate);
-        cal.add(Calendar.DAY_OF_YEAR, -7); // Start showing one week
+        // Start showing one week
+        cal.add(Calendar.DAY_OF_YEAR, -7);
         // earlier
         setVgrTempInfoStart(cal.getTime());
       } catch (ParseException e) {
@@ -769,7 +766,8 @@ public class Unit implements Serializable, Comparable<Unit> {
         Date endDate = df.parse(endDateString);
         Calendar cal = new GregorianCalendar();
         cal.setTime(endDate);
-        cal.add(Calendar.DAY_OF_YEAR, 1); // Stop showing the day after
+        // Stop showing the day after
+        cal.add(Calendar.DAY_OF_YEAR, 1);
         setVgrTempInfoEnd(cal.getTime());
       } catch (ParseException e) {
         // KIV validates this field. Nothing we can do if it is

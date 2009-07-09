@@ -18,19 +18,14 @@
 package se.vgregion.kivtools.search.exceptions;
 
 /**
- * Klass f�r fel i formattering
+ * Klass för fel i formattering.
  * 
  */
 public class InvalidFormatException extends Exception {
 
+  private static final long serialVersionUID = -1563818733230370743L;
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -1563818733230370743L;
-
-    public InvalidFormatException(String message) {
-        super(message);
-    }
-    
+  public InvalidFormatException(String message) {
+    super(message);
+  }
 }

@@ -30,30 +30,6 @@ public class Block implements Serializable {
   private String id;
   private String name = "";
 
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public ArrayList<AccessibilityPackage> getPackages() {
-    return packages;
-  }
-
-  public void setPackages(ArrayList<AccessibilityPackage> packages) {
-    this.packages = packages;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
   public Block(Node block) {
     // Set id
     NamedNodeMap attributes = block.getAttributes();
@@ -77,5 +53,29 @@ public class Block implements Serializable {
         packages.add(accessibilityPackage);
       }
     }
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public ArrayList<AccessibilityPackage> getPackages() {
+    return packages;
+  }
+
+  public void setPackages(ArrayList<AccessibilityPackage> packages) {
+    this.packages = packages;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 }

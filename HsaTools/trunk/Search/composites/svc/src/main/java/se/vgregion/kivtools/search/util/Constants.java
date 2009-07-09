@@ -18,5 +18,5 @@
 package se.vgregion.kivtools.search.util;
 
 public class Constants {
-	public static final String HSA_BUSINESS_CLASSIFICATION_NAME_UNKNOWN = "Ok\u00E4nd v\u00E5rdtyp";
+  public static final String HSA_BUSINESS_CLASSIFICATION_NAME_UNKNOWN = "Ok\u00E4nd v\u00E5rdtyp";
 }

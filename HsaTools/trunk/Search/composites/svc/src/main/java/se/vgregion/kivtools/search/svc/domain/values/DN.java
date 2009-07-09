@@ -223,8 +223,9 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
       parent = parent.getParentDN();
     }
 
-    if (ancestors.size() < Math.abs(toGeneration))
+    if (ancestors.size() < Math.abs(toGeneration)) {
       return null;
+    }
     // Remove generations at the end
     if (toGeneration < 0) {
       ancestors = ancestors.subList(0, ancestors.size() + toGeneration);
@@ -283,6 +284,7 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
     }
   }
 
+  @Override
   public String toString() {
     StringBuilder str = new StringBuilder();
 
@@ -324,13 +326,13 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
   }
 
   private class DNIterator implements Iterator<DN> {
-    private int cnPoint = 0;
-    private int ouPoint = 0;
-    private int dcPoint = 0;
+    private int cnPoint;
+    private int ouPoint;
+    private int dcPoint;
     private String oPoint = o;
 
     public boolean hasNext() {
-      return (cn != null && cnPoint < cn.size()) || (ou != null && ouPoint < ou.size()) || (oPoint != null);
+      return cn != null && cnPoint < cn.size() || ou != null && ouPoint < ou.size() || oPoint != null;
     }
 
     public DN next() {
@@ -371,42 +373,53 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((cn == null) ? 0 : cn.hashCode());
-    result = prime * result + ((dc == null) ? 0 : dc.hashCode());
-    result = prime * result + ((o == null) ? 0 : o.hashCode());
-    result = prime * result + ((ou == null) ? 0 : ou.hashCode());
+    result = prime * result + (cn == null ? 0 : cn.hashCode());
+    result = prime * result + (dc == null ? 0 : dc.hashCode());
+    result = prime * result + (o == null ? 0 : o.hashCode());
+    result = prime * result + (ou == null ? 0 : ou.hashCode());
     return result;
   }
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     DN other = (DN) obj;
     if (cn == null) {
-      if (other.cn != null)
+      if (other.cn != null) {
         return false;
-    } else if (!cn.equals(other.cn))
+      }
+    } else if (!cn.equals(other.cn)) {
       return false;
+    }
     if (dc == null) {
-      if (other.dc != null)
+      if (other.dc != null) {
         return false;
-    } else if (!dc.equals(other.dc))
+      }
+    } else if (!dc.equals(other.dc)) {
       return false;
+    }
     if (o == null) {
-      if (other.o != null)
+      if (other.o != null) {
         return false;
-    } else if (!o.equals(other.o))
+      }
+    } else if (!o.equals(other.o)) {
       return false;
+    }
     if (ou == null) {
-      if (other.ou != null)
+      if (other.ou != null) {
         return false;
-    } else if (!ou.equals(other.ou))
+      }
+    } else if (!ou.equals(other.ou)) {
       return false;
+    }
     return true;
   }
 }

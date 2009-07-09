@@ -35,140 +35,132 @@ import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelp
  */
 public class SearchServiceLdapImpl implements SearchService {
 
-	private PersonRepository personRepository;
-	private UnitRepository unitRepository;
-	private EmploymentRepository employmentRepository;
-	private HealthcareTypeConditionHelper healthcareTypeConditionHelper;
+  private PersonRepository personRepository;
+  private UnitRepository unitRepository;
+  private EmploymentRepository employmentRepository;
+  private HealthcareTypeConditionHelper healthcareTypeConditionHelper;
 
-	public void setPersonRepository(PersonRepository personRepository) {
-		this.personRepository = personRepository;
-	}
+  public void setPersonRepository(PersonRepository personRepository) {
+    this.personRepository = personRepository;
+  }
 
-	public void setUnitRepository(UnitRepository unitRepository) {
-		this.unitRepository = unitRepository;
-	}
+  public void setUnitRepository(UnitRepository unitRepository) {
+    this.unitRepository = unitRepository;
+  }
 
-	public void setEmploymentRepository(EmploymentRepository employmentRepository) {
-		this.employmentRepository = employmentRepository;
-	}
+  public void setEmploymentRepository(EmploymentRepository employmentRepository) {
+    this.employmentRepository = employmentRepository;
+  }
 
-	public List<String> getAllPersonsId() throws Exception {
-		return this.personRepository.getAllPersonsVgrId();
-	}
+  public List<String> getAllPersonsId() throws Exception {
+    return this.personRepository.getAllPersonsVgrId();
+  }
 
-	public List<String> getAllUnitsHsaIdentity() throws Exception {
-		return this.unitRepository.getAllUnitsHsaIdentity();
-	}
+  public List<String> getAllUnitsHsaIdentity() throws Exception {
+    return this.unitRepository.getAllUnitsHsaIdentity();
+  }
 
-	public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
-		return this.unitRepository.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBussinessClassificationCodes);
-	}
+  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+    return this.unitRepository.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBussinessClassificationCodes);
+  }
 
-	public SikSearchResultList<Employment> getEmployments(String personDn) throws Exception {
-		return employmentRepository.getEmployments(DN.createDNFromString(personDn));
-	}
+  public SikSearchResultList<Employment> getEmployments(String personDn) throws Exception {
+    return employmentRepository.getEmployments(DN.createDNFromString(personDn));
+  }
 
-	public Person getPersonById(String vgrId) throws Exception {
-		Person person = personRepository.getPersonByVgrId(vgrId);
-		if (person != null) {
-			person.setEmployments(employmentRepository.getEmployments(DN.createDNFromString(person.getDn())));
-		}
-		return person;
-	}
+  public Person getPersonById(String vgrId) throws Exception {
+    Person person = personRepository.getPersonByVgrId(vgrId);
+    if (person != null) {
+      person.setEmployments(employmentRepository.getEmployments(DN.createDNFromString(person.getDn())));
+    }
+    return person;
+  }
 
-	public Unit getUnitByHsaId(String hsaId) throws Exception {
-		return unitRepository.getUnitByHsaId(hsaId);
-	}
+  public Unit getUnitByHsaId(String hsaId) throws Exception {
+    return unitRepository.getUnitByHsaId(hsaId);
+  }
 
-	public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId) throws Exception {
-		return personRepository.searchPersons(givenName, familyName, vgrId, 0);
-	}
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId) throws Exception {
+    return personRepository.searchPersons(givenName, familyName, vgrId, 0);
+  }
 
-	public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult) throws Exception {
-		return personRepository.searchPersons(givenName, familyName, vgrId, maxResult);
-	}
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult) throws Exception {
+    return personRepository.searchPersons(givenName, familyName, vgrId, maxResult);
+  }
 
-	/**
-	 * 
-	 * @param vgrId
-	 *            can be a complete or parts of a vgrId. That is why we can
-	 *            return a list of Persons
-	 * @return
-	 * @throws Exception
-	 */
-	public SikSearchResultList<Person> searchPersons(String vgrId) throws Exception {
-		return personRepository.searchPersons(vgrId, 0);
-	}
+  /**
+   * 
+   * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list of Persons
+   * @return
+   * @throws Exception
+   */
+  public SikSearchResultList<Person> searchPersons(String vgrId) throws Exception {
+    return personRepository.searchPersons(vgrId, 0);
+  }
 
-	/**
-	 * 
-	 * @param vgrId
-	 *            can be a complete or parts of a vgrId. That is why we can
-	 *            return a list of Persons
-	 * @return
-	 * @throws Exception
-	 */
-	public SikSearchResultList<Person> searchPersons(String vgrId, int maxSearchResult) throws Exception {
-		return personRepository.searchPersons(vgrId, maxSearchResult);
-	}
+  /**
+   * 
+   * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list of Persons
+   * @return
+   * @throws Exception
+   */
+  public SikSearchResultList<Person> searchPersons(String vgrId, int maxSearchResult) throws Exception {
+    return personRepository.searchPersons(vgrId, maxSearchResult);
+  }
 
-	public SikSearchResultList<Unit> searchUnits(Unit unit) throws Exception {
-		return unitRepository.searchUnits(unit);
-	}
+  public SikSearchResultList<Unit> searchUnits(Unit unit) throws Exception {
+    return unitRepository.searchUnits(unit);
+  }
 
-	public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws Exception {
-		return unitRepository.searchAdvancedUnits(unit, sortOrder);
-	}
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws Exception {
+    return unitRepository.searchAdvancedUnits(unit, sortOrder);
+  }
 
-	public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws Exception {
-		return unitRepository.searchUnits(unit, maxSearchResult);
-	}
+  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws Exception {
+    return unitRepository.searchUnits(unit, maxSearchResult);
+  }
 
-	public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
-		return unitRepository.searchAdvancedUnits(unit, maxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
-	}
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+    return unitRepository.searchAdvancedUnits(unit, maxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
+  }
 
-	public Unit getUnitByDN(String dn) throws Exception {
-		return unitRepository.getUnitByDN(DN.createDNFromString(dn));
-	}
+  public Unit getUnitByDN(String dn) throws Exception {
+    return unitRepository.getUnitByDN(DN.createDNFromString(dn));
+  }
 
-	public HealthcareTypeConditionHelper getHealthcareTypeConditionHelper() {
-		return healthcareTypeConditionHelper;
-	}
+  public HealthcareTypeConditionHelper getHealthcareTypeConditionHelper() {
+    return healthcareTypeConditionHelper;
+  }
 
-	public void setHealthcareTypeConditionHelper(HealthcareTypeConditionHelper healthcareTypeConditionHelper) {
-		this.healthcareTypeConditionHelper = healthcareTypeConditionHelper;
-	}
+  public void setHealthcareTypeConditionHelper(HealthcareTypeConditionHelper healthcareTypeConditionHelper) {
+    this.healthcareTypeConditionHelper = healthcareTypeConditionHelper;
+  }
 
-	public List<HealthcareType> getHealthcareTypesList() throws Exception {
-		return getHealthcareTypeConditionHelper().getAllHealthcareTypes();
-	}
+  public List<HealthcareType> getHealthcareTypesList() throws Exception {
+    return getHealthcareTypeConditionHelper().getAllHealthcareTypes();
+  }
 
-	public Person getPersonByDN(DN dn) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  public Person getPersonByDN(DN dn) throws Exception {
+    return null;
+  }
 
-	public List<Employment> getEmploymentsForPerson(Person person) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  public List<Employment> getEmploymentsForPerson(Person person) {
+    return null;
+  }
 
-	public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception {
-		return personRepository.getPersonsForUnits(units, maxResult);
-	}
+  public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception {
+    return personRepository.getPersonsForUnits(units, maxResult);
+  }
 
-	public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception {
+    return null;
+  }
 
-	public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception {
+    return null;
+  }
 
-	public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws Exception {
-		return unitRepository.getSubUnits(parentUnit, maxSearchResult);
-	}
+  public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws Exception {
+    return unitRepository.getSubUnits(parentUnit, maxSearchResult);
+  }
 }

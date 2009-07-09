@@ -29,7 +29,7 @@ public class DisplayCloseUnitsSimpleForm implements Serializable {
 
   private static final long serialVersionUID = 5237982284800930275L;
   private String address = "Gata, ort";
-  private boolean searchFlag = false;
+  private boolean searchFlag;
 
   public boolean getSearchFlag() {
     return searchFlag;

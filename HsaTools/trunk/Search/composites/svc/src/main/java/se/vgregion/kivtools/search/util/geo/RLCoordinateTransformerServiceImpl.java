@@ -62,7 +62,8 @@ public class RLCoordinateTransformerServiceImpl implements CoordinateTransformer
     String str;
     while (null != (str = input.readLine())) {
       // Fetch X and Y
-      int x = 0, y = 0;
+      int x = 0;
+      int y = 0;
       if (str.startsWith("<tr class=pyjamas><td>RT90</td><td class=code>X = ")) {
         try {
           x = Integer.parseInt(str.substring(str.indexOf("X = ") + 4, str.indexOf("X = ") + 11));

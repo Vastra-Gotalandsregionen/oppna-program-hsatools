@@ -89,13 +89,15 @@ public class SearchUnitFlowSupportBean implements Serializable {
     try {
       TimeMeasurement overAllTime = new TimeMeasurement();
 
-      overAllTime.start(); // start measurement
+      // start measurement
+      overAllTime.start();
       SikSearchResultList<Unit> list = null;
       if (!theForm.isEmpty()) {
         Unit u = mapSearchCriteriaToUnit(theForm);
         list = getSearchService().searchUnits(u, maxSearchResult);
       }
-      overAllTime.stop(); // stop measurement
+      // stop measurement
+      overAllTime.stop();
 
       if (list == null) {
         list = new SikSearchResultList<Unit>();
@@ -179,18 +181,22 @@ public class SearchUnitFlowSupportBean implements Serializable {
       if (isInteger(pageSizeString)) {
         int temp = Integer.parseInt(pageSizeString);
         if (temp > pageSize) {
-          pageSize = temp;// we can only increase the page size
+          // we can only increase the page size
+          pageSize = temp;
         }
       }
       int index = 0;
       if (size > 0) {
         while (index < size) {
           metaData = new PagedSearchMetaData();
-          metaData.setStartIndex(index); // 0 the first time
+          // 0 the first time
+          metaData.setStartIndex(index);
           int endIndex = index + pageSize > size ? size - 1 : index + pageSize - 1;
-          metaData.setEndIndex(endIndex); // e.g. 274 the first time
+          // e.g. 274 the first time
+          metaData.setEndIndex(endIndex);
           result.add(metaData);
-          index = index + pageSize; // e.g. 275 the first time
+          // e.g. 275 the first time
+          index = index + pageSize;
         }
       }
       return result;
@@ -280,8 +286,8 @@ public class SearchUnitFlowSupportBean implements Serializable {
     list = new ArrayList<String>();
     list.add(theForm.getSearchParamValue());
     Address adress = new Address();
-    adress.setAdditionalInfo(list); // we stuff in the text in the
-    // additionalInfo
+    // we stuff in the text in the additionalInfo
+    adress.setAdditionalInfo(list);
     unit.setHsaPostalAddress(adress);
 
     // hsaMunicipalityName

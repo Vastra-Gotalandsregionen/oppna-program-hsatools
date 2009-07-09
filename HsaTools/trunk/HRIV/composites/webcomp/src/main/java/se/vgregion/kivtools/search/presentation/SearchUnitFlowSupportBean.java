@@ -208,7 +208,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
   }
 
   /**
-   * Return a list of hsaIds corresponding to startIndex->endIndex of units
+   * Return a list of hsaIds corresponding to startIndex->endIndex of units.
    * 
    * @param startIndex
    * @param endIndex
