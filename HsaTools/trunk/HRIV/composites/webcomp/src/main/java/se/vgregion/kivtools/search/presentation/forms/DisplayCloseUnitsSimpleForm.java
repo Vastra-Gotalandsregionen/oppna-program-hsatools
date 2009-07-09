@@ -21,33 +21,33 @@ import java.io.Serializable;
 
 /**
  * Holds form input when displaying close units.
+ * 
  * @author Jonas Liljenfeldt, Know IT
  * 
  */
 public class DisplayCloseUnitsSimpleForm implements Serializable {
 
-	private static final long serialVersionUID = 5237982284800930275L;
-	private String address = "Gata, ort";
-	private boolean searchFlag = false; 
+  private static final long serialVersionUID = 5237982284800930275L;
+  private String address = "Gata, ort";
+  private boolean searchFlag = false;
 
-	public boolean getSearchFlag() {
-		return searchFlag;
-	}
+  public boolean getSearchFlag() {
+    return searchFlag;
+  }
 
-	public String getAddress() {
-		return address;
-	}
+  public String getAddress() {
+    return address;
+  }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	
-	public void setSearchFlag() {
-		searchFlag = true;
-	}
+  public void setAddress(String address) {
+    this.address = address;
+  }
 
-	public void resetSearchFlag() {
-		searchFlag = false;
-	}
-	
+  public void setSearchFlag() {
+    searchFlag = true;
+  }
+
+  public void resetSearchFlag() {
+    searchFlag = false;
+  }
 }

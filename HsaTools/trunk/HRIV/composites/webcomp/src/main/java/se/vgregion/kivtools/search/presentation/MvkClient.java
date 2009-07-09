@@ -48,137 +48,126 @@ import se.vgregion.kivtools.search.svc.domain.Unit;
  * @author Jonas Liljenfeldt, Know IT
  */
 public class MvkClient {
-	private String mvkGuid;
-	private String mvkUrl;
-	Log logger = LogFactory.getLog(this.getClass());
+  private String mvkGuid;
+  private String mvkUrl;
+  Log logger = LogFactory.getLog(this.getClass());
 
-	public MvkClient(String mvkGuid, String mvkUrl) {
-		this.mvkGuid = mvkGuid;
-		this.mvkUrl = mvkUrl;
-	}
+  public MvkClient(String mvkGuid, String mvkUrl) {
+    this.mvkGuid = mvkGuid;
+    this.mvkUrl = mvkUrl;
+  }
 
-	public String getMvkUrl() {
-		return mvkUrl;
-	}
+  public String getMvkUrl() {
+    return mvkUrl;
+  }
 
-	public void setMvkUrl(String mvkUrl) {
-		this.mvkUrl = mvkUrl;
-	}
+  public void setMvkUrl(String mvkUrl) {
+    this.mvkUrl = mvkUrl;
+  }
 
-	public String getMvkGuid() {
-		return mvkGuid;
-	}
+  public String getMvkGuid() {
+    return mvkGuid;
+  }
 
-	public void setMvkGuid(String mvkGuid) {
-		this.mvkGuid = mvkGuid;
-	}
+  public void setMvkGuid(String mvkGuid) {
+    this.mvkGuid = mvkGuid;
+  }
 
-	public void assignCaseTypes(Unit u) {
-		// Get accessibility info
-		URL url = null;
-		String mvkUrlString = mvkUrl + "&hsaid=" + u.getHsaIdentity()
-				+ "&guid=" + getMvkGuid();
-		try {
-			url = new URL(mvkUrlString);
-		} catch (MalformedURLException e) {
-			logger.error("MVK url no good: " + mvkUrlString, e);
-		}
+  public void assignCaseTypes(Unit u) {
+    // Get accessibility info
+    URL url = null;
+    String mvkUrlString = mvkUrl + "&hsaid=" + u.getHsaIdentity() + "&guid=" + getMvkGuid();
+    try {
+      url = new URL(mvkUrlString);
+    } catch (MalformedURLException e) {
+      logger.error("MVK url no good: " + mvkUrlString, e);
+    }
 
-		trustAllHttpsCertificates();
-		HttpURLConnection urlConnection;
-		BufferedInputStream in = null;
-		try {
-			urlConnection = (HttpURLConnection) url.openConnection();
-			((HttpsURLConnection) urlConnection)
-					.setHostnameVerifier(new HostnameVerifier() {
-						public boolean verify(String hostname,
-								SSLSession session) {
-							return true;
-						}
-					});
+    trustAllHttpsCertificates();
+    HttpURLConnection urlConnection;
+    BufferedInputStream in = null;
+    try {
+      urlConnection = (HttpURLConnection) url.openConnection();
+      ((HttpsURLConnection) urlConnection).setHostnameVerifier(new HostnameVerifier() {
+        public boolean verify(String hostname, SSLSession session) {
+          return true;
+        }
+      });
 
-			int responseCode = urlConnection.getResponseCode();
-			if (responseCode == 200 || responseCode == 201) {
-				in = new BufferedInputStream(urlConnection.getInputStream());
-			} else {
-				in = new BufferedInputStream(urlConnection.getErrorStream());
-			}
-		} catch (IOException e) {
-			logger.error("Error when retrieving MVK xml response", e);
-		}
+      int responseCode = urlConnection.getResponseCode();
+      if (responseCode == 200 || responseCode == 201) {
+        in = new BufferedInputStream(urlConnection.getInputStream());
+      } else {
+        in = new BufferedInputStream(urlConnection.getErrorStream());
+      }
+    } catch (IOException e) {
+      logger.error("Error when retrieving MVK xml response", e);
+    }
 
-		// Now read the buffered stream and get mvk info
-		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
-				.newInstance();
-		DocumentBuilder docBuilder;
-		Document doc = null;
-		try {
-			docBuilder = docBuilderFactory.newDocumentBuilder();
-			doc = docBuilder.parse(in);
-			doc.normalize();
-		} catch (ParserConfigurationException e) {
-			logger.error("Error when parsing MVK xml response", e);
-		} catch (SAXException e) {
-			logger.error("Error when parsing MVK xml response", e);
-		} catch (IOException e) {
-			logger.error("Error when parsing MVK xml response", e);
-		}
+    // Now read the buffered stream and get mvk info
+    DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder docBuilder;
+    Document doc = null;
+    try {
+      docBuilder = docBuilderFactory.newDocumentBuilder();
+      doc = docBuilder.parse(in);
+      doc.normalize();
+    } catch (ParserConfigurationException e) {
+      logger.error("Error when parsing MVK xml response", e);
+    } catch (SAXException e) {
+      logger.error("Error when parsing MVK xml response", e);
+    } catch (IOException e) {
+      logger.error("Error when parsing MVK xml response", e);
+    }
 
-		// Get and assign case types
-		NodeList caseTypesNodeList = doc.getElementsByTagName("casetype");
-		List<String> caseTypes = new ArrayList<String>();
-		for (int i = 0; i < caseTypesNodeList.getLength(); i++) {
-			caseTypes.add(caseTypesNodeList.item(i).getTextContent());
-		}
-		u.setMvkCaseTypes(caseTypes);
-	}
+    // Get and assign case types
+    NodeList caseTypesNodeList = doc.getElementsByTagName("casetype");
+    List<String> caseTypes = new ArrayList<String>();
+    for (int i = 0; i < caseTypesNodeList.getLength(); i++) {
+      caseTypes.add(caseTypesNodeList.item(i).getTextContent());
+    }
+    u.setMvkCaseTypes(caseTypes);
+  }
 
-	public static class miTM implements javax.net.ssl.TrustManager,	javax.net.ssl.X509TrustManager {
-		public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-			return null;
-		}
+  public static class miTM implements javax.net.ssl.TrustManager, javax.net.ssl.X509TrustManager {
+    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+      return null;
+    }
 
-		public boolean isServerTrusted(
-				java.security.cert.X509Certificate[] certs) {
-			return true;
-		}
+    public boolean isServerTrusted(java.security.cert.X509Certificate[] certs) {
+      return true;
+    }
 
-		public boolean isClientTrusted(
-				java.security.cert.X509Certificate[] certs) {
-			return true;
-		}
+    public boolean isClientTrusted(java.security.cert.X509Certificate[] certs) {
+      return true;
+    }
 
-		public void checkServerTrusted(
-				java.security.cert.X509Certificate[] certs, String authType)
-				throws java.security.cert.CertificateException {
-			return;
-		}
+    public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) throws java.security.cert.CertificateException {
+      return;
+    }
 
-		public void checkClientTrusted(
-				java.security.cert.X509Certificate[] certs, String authType)
-				throws java.security.cert.CertificateException {
-			return;
-		}
-	}
+    public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) throws java.security.cert.CertificateException {
+      return;
+    }
+  }
 
-	/**
-	 * @see http://www.java-samples.com/showtutorial.php?tutorialid=211
-	 */
-	private static void trustAllHttpsCertificates() {
-		// Create a trust manager that does not validate certificate chains:
-		javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[1];
-		javax.net.ssl.TrustManager tm = new miTM();
-		trustAllCerts[0] = tm;
-		javax.net.ssl.SSLContext sc = null;
-		try {
-			sc = javax.net.ssl.SSLContext.getInstance("SSL");
-			sc.init(null, trustAllCerts, null);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (KeyManagementException e) {
-			e.printStackTrace();
-		}
-		javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(
-		sc.getSocketFactory());
-	}
+  /**
+   * @see http://www.java-samples.com/showtutorial.php?tutorialid=211
+   */
+  private static void trustAllHttpsCertificates() {
+    // Create a trust manager that does not validate certificate chains:
+    javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[1];
+    javax.net.ssl.TrustManager tm = new miTM();
+    trustAllCerts[0] = tm;
+    javax.net.ssl.SSLContext sc = null;
+    try {
+      sc = javax.net.ssl.SSLContext.getInstance("SSL");
+      sc.init(null, trustAllCerts, null);
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    } catch (KeyManagementException e) {
+      e.printStackTrace();
+    }
+    javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+  }
 }

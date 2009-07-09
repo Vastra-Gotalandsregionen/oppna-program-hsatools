@@ -33,30 +33,29 @@ import se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm;
 @SuppressWarnings("serial")
 public class UnitSearchSimpleFormValidator implements Serializable {
 
-	Log logger = LogFactory.getLog(this.getClass());
+  Log logger = LogFactory.getLog(this.getClass());
 
-	public String validate(UnitSearchSimpleForm param)
-			throws IncorrectUserInputException {
-		logger.info(this.getClass().getName() + ".validate()");
+  public String validate(UnitSearchSimpleForm param) throws IncorrectUserInputException {
+    logger.info(this.getClass().getName() + ".validate()");
 
-		if (param.getMunicipality() == null)
-			param.setMunicipality("");
-		if (param.getUnitName() == null)
-			param.setUnitName("");
-		if (param.getHealthcareType() == null)
-			param.setHealthcareType("0");
-		
-		int paramlength = param.getMunicipality().trim().length();
-		int unitNameLength = param.getUnitName().trim().length();
+    if (param.getMunicipality() == null) {
+      param.setMunicipality("");
+    }
+    if (param.getUnitName() == null) {
+      param.setUnitName("");
+    }
+    if (param.getHealthcareType() == null) {
+      param.setHealthcareType("0");
+    }
 
-		if ((paramlength == 0) && (unitNameLength == 0) || (paramlength == 1)
-				&& (unitNameLength == 0) || (paramlength == 0)
-				&& (unitNameLength == 1) || (paramlength == 1)
-				&& (unitNameLength == 1)) {
-			// throw new IncorrectUserInputException(
-			// "Ange minst tv\u00E5 tecken som s\u00F6kkriteria i ett av f\u00E4lten."
-			// );
-		}
-		return Constants.SUCCESSFUL_OPERATION;
-	}
+    int paramlength = param.getMunicipality().trim().length();
+    int unitNameLength = param.getUnitName().trim().length();
+
+    if (paramlength == 0 && unitNameLength == 0 || paramlength == 1 && unitNameLength == 0 || paramlength == 0 && unitNameLength == 1 || paramlength == 1 && unitNameLength == 1) {
+      // throw new IncorrectUserInputException(
+      // "Ange minst tv\u00E5 tecken som s\u00F6kkriteria i ett av f\u00E4lten."
+      // );
+    }
+    return Constants.SUCCESSFUL_OPERATION;
+  }
 }

@@ -30,97 +30,98 @@ import javax.faces.model.SelectItem;
  */
 @SuppressWarnings("serial")
 public class AccessibilityDatabaseFilterForm implements Serializable {
-	private Boolean hear = false;
-	private Boolean see = false;
-	private Boolean move = false;
-	private Boolean substances = false;
-	private Boolean info = false;
-	private Boolean submitted = false;
-	private String listType = "attentive";
-	private String languageId = "1"; // Default to Swedish
-	
-	private SelectItem[] listTypes = new SelectItem[] {
-			new SelectItem("attentive", "Vad bör uppmärksammas"), new SelectItem("available", "Vad är tillgängligt") };
+  private Boolean hear = false;
+  private Boolean see = false;
+  private Boolean move = false;
+  private Boolean substances = false;
+  private Boolean info = false;
+  private Boolean submitted = false;
+  private String listType = "attentive";
+  // Default to Swedish
+  private String languageId = "1";
 
-	private SelectItem[] availableLanguages = new SelectItem[] {
-			new SelectItem("1", "Svenska"), new SelectItem("2", "Engelska"), new SelectItem("3", "Franska"), new SelectItem("4", "Tyska"), new SelectItem("5", "Lättläst svenska") };
+  private SelectItem[] listTypes = new SelectItem[] { new SelectItem("attentive", "Vad bör uppmärksammas"), new SelectItem("available", "Vad är tillgängligt") };
 
-	public SelectItem[] getListTypes() {
-		return listTypes;
-	}
+  private SelectItem[] availableLanguages = new SelectItem[] { new SelectItem("1", "Svenska"), new SelectItem("2", "Engelska"), new SelectItem("3", "Franska"), new SelectItem("4", "Tyska"),
+      new SelectItem("5", "Lättläst svenska") };
 
-	public void setListTypes(SelectItem[] listTypes) {
-		this.listTypes = listTypes;
-	}
+  public SelectItem[] getListTypes() {
+    return listTypes;
+  }
 
-	public Boolean getHear() {
-		return hear;
-	}
+  public void setListTypes(SelectItem[] listTypes) {
+    this.listTypes = listTypes;
+  }
 
-	public void setHear(Boolean hear) {
-		this.hear = hear;
-	}
+  public Boolean getHear() {
+    return hear;
+  }
 
-	public Boolean getSee() {
-		return see;
-	}
+  public void setHear(Boolean hear) {
+    this.hear = hear;
+  }
 
-	public void setSee(Boolean see) {
-		this.see = see;
-	}
+  public Boolean getSee() {
+    return see;
+  }
 
-	public Boolean getMove() {
-		return move;
-	}
+  public void setSee(Boolean see) {
+    this.see = see;
+  }
 
-	public void setMove(Boolean move) {
-		this.move = move;
-	}
+  public Boolean getMove() {
+    return move;
+  }
 
-	public Boolean getSubstances() {
-		return substances;
-	}
+  public void setMove(Boolean move) {
+    this.move = move;
+  }
 
-	public void setSubstances(Boolean substances) {
-		this.substances = substances;
-	}
+  public Boolean getSubstances() {
+    return substances;
+  }
 
-	public Boolean getInfo() {
-		return info;
-	}
+  public void setSubstances(Boolean substances) {
+    this.substances = substances;
+  }
 
-	public void setInfo(Boolean info) {
-		this.info = info;
-	}
+  public Boolean getInfo() {
+    return info;
+  }
 
-	public Boolean getSubmitted() {
-		return submitted;
-	}
+  public void setInfo(Boolean info) {
+    this.info = info;
+  }
 
-	public void setSubmitted(Boolean submitted) {
-		this.submitted = submitted;
-	}
-	public String getListType() {
-		return listType;
-	}
-	
-	public void setListType(String listType) {
-		this.listType = listType;
-	}
+  public Boolean getSubmitted() {
+    return submitted;
+  }
 
-	public String getLanguageId() {
-		return languageId;
-	}
+  public void setSubmitted(Boolean submitted) {
+    this.submitted = submitted;
+  }
 
-	public void setLanguageId(String languageId) {
-		this.languageId = languageId;
-	}
+  public String getListType() {
+    return listType;
+  }
 
-	public SelectItem[] getAvailableLanguages() {
-		return availableLanguages;
-	}
+  public void setListType(String listType) {
+    this.listType = listType;
+  }
 
-	public void setAvailableLanguages(SelectItem[] availableLanguages) {
-		this.availableLanguages = availableLanguages;
-	}
+  public String getLanguageId() {
+    return languageId;
+  }
+
+  public void setLanguageId(String languageId) {
+    this.languageId = languageId;
+  }
+
+  public SelectItem[] getAvailableLanguages() {
+    return availableLanguages;
+  }
+
+  public void setAvailableLanguages(SelectItem[] availableLanguages) {
+    this.availableLanguages = availableLanguages;
+  }
 }

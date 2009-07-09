@@ -37,145 +37,139 @@ import se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper;
  */
 @SuppressWarnings("serial")
 public class UnitSearchSimpleForm implements Serializable {
-	private String unitName = "";
-	private String municipality = "";
-	private String healthcareType = "";
-	private String c = "";
-	private String resultType = "1";
-	private String sortOrder = "UNIT_NAME";
-	private SelectItem[] resultTypeItems = new SelectItem[] {
-			new SelectItem("1", "Lista"), new SelectItem("2", "Karta") };
+  private String unitName = "";
+  private String municipality = "";
+  private String healthcareType = "";
+  private String c = "";
+  private String resultType = "1";
+  private String sortOrder = "UNIT_NAME";
+  private SelectItem[] resultTypeItems = new SelectItem[] { new SelectItem("1", "Lista"), new SelectItem("2", "Karta") };
 
-	private List<HealthcareType> healthcareTypeList;
-	private SelectItem[] healthcareTypeItems;
-	private List<Municipality> municipalityList;
-	private SelectItem[] municipalityItems;
+  private List<HealthcareType> healthcareTypeList;
+  private SelectItem[] healthcareTypeItems;
+  private List<Municipality> municipalityList;
+  private SelectItem[] municipalityItems;
 
-	{
-		healthcareTypeList = new HealthcareTypeConditionHelper().getAllHealthcareTypes();
-		List<SelectItem> htcTempList = new ArrayList<SelectItem>();
-		htcTempList.add(new SelectItem("0", "Alla typer av v\u00E5rd"));
-		for (HealthcareType htc : healthcareTypeList) {
-			String value = htc.getIndex().toString();
-			htcTempList.add(new SelectItem(value, htc.getDisplayName()));
-		}
-		healthcareTypeItems = new SelectItem[htcTempList.size()];
-		for (int i = 0; i < htcTempList.size(); i++) {
-			healthcareTypeItems[i] = htcTempList.get(i);
-		}
-		
-		municipalityList = new MunicipalityHelper().getAllMunicipalities();
-		List<SelectItem> mTempList = new ArrayList<SelectItem>();
-		mTempList.add(new SelectItem("", "V\u00E4lj kommun"));
-		for (Municipality m : municipalityList) {
-			mTempList.add(new SelectItem(m.getMunicipalityCode(), m.getMunicipalityName()));
-		}
-		municipalityItems = new SelectItem[mTempList.size()];
-		for (int i = 0; i < mTempList.size(); i++) {
-			municipalityItems[i] = mTempList.get(i);
-		}
-	}
+  {
+    healthcareTypeList = new HealthcareTypeConditionHelper().getAllHealthcareTypes();
+    List<SelectItem> htcTempList = new ArrayList<SelectItem>();
+    htcTempList.add(new SelectItem("0", "Alla typer av v\u00E5rd"));
+    for (HealthcareType htc : healthcareTypeList) {
+      String value = htc.getIndex().toString();
+      htcTempList.add(new SelectItem(value, htc.getDisplayName()));
+    }
+    healthcareTypeItems = new SelectItem[htcTempList.size()];
+    for (int i = 0; i < htcTempList.size(); i++) {
+      healthcareTypeItems[i] = htcTempList.get(i);
+    }
 
-	public SelectItem[] getMunicipalityItems() {
-		return municipalityItems;
-	}
+    municipalityList = new MunicipalityHelper().getAllMunicipalities();
+    List<SelectItem> mTempList = new ArrayList<SelectItem>();
+    mTempList.add(new SelectItem("", "V\u00E4lj kommun"));
+    for (Municipality m : municipalityList) {
+      mTempList.add(new SelectItem(m.getMunicipalityCode(), m.getMunicipalityName()));
+    }
+    municipalityItems = new SelectItem[mTempList.size()];
+    for (int i = 0; i < mTempList.size(); i++) {
+      municipalityItems[i] = mTempList.get(i);
+    }
+  }
 
-	public void setMunicipalityItems(SelectItem[] municipalityItems) {
-		this.municipalityItems = municipalityItems;
-	}
+  public SelectItem[] getMunicipalityItems() {
+    return municipalityItems;
+  }
 
-	public String getUnitName() {
-		return unitName;
-	}
+  public void setMunicipalityItems(SelectItem[] municipalityItems) {
+    this.municipalityItems = municipalityItems;
+  }
 
-	public void setUnitName(String unitName) {
-		this.unitName = unitName;
-	}
+  public String getUnitName() {
+    return unitName;
+  }
 
-	public String getMunicipality() {
-		return municipality;
-	}
+  public void setUnitName(String unitName) {
+    this.unitName = unitName;
+  }
 
-	public void setMunicipality(String municipality) {
-		this.municipality = municipality;
-	}
+  public String getMunicipality() {
+    return municipality;
+  }
 
-	public boolean isEmpty() {
-		if ((unitName == null) && (municipality == null)
-				&& healthcareType == null) {
-			return true;
-		}
-		if ((unitName.trim().length() == 0)
-				&& (municipality.trim().length() == 0)
-				&& (healthcareType.trim().length() == 0)) {
-			return true;
-		}
-		return false;
-	}
+  public void setMunicipality(String municipality) {
+    this.municipality = municipality;
+  }
 
-	public String getHealthcareType() {
-		return healthcareType;
-	}
+  public boolean isEmpty() {
+    if (unitName == null && municipality == null && healthcareType == null) {
+      return true;
+    }
+    if (unitName.trim().length() == 0 && municipality.trim().length() == 0 && healthcareType.trim().length() == 0) {
+      return true;
+    }
+    return false;
+  }
 
-	public void setHealthcareType(String healthcareType) {
-		this.healthcareType = healthcareType;
-	}
+  public String getHealthcareType() {
+    return healthcareType;
+  }
 
-	public String getC() {
-		return c;
-	}
+  public void setHealthcareType(String healthcareType) {
+    this.healthcareType = healthcareType;
+  }
 
-	public void setC(String c) {
-		this.c = c;
-	}
+  public String getC() {
+    return c;
+  }
 
-	public String getResultType() {
-		return resultType;
-	}
+  public void setC(String c) {
+    this.c = c;
+  }
 
-	public void setResultType(String resultType) {
-		this.resultType = resultType;
-	}
+  public String getResultType() {
+    return resultType;
+  }
 
-	public SelectItem[] getResultTypeItems() {
-		return resultTypeItems;
-	}
+  public void setResultType(String resultType) {
+    this.resultType = resultType;
+  }
 
-	public void setResultTypeItems(SelectItem[] resultTypeItems) {
-		this.resultTypeItems = resultTypeItems;
-	}
+  public SelectItem[] getResultTypeItems() {
+    return resultTypeItems;
+  }
 
-	public String getSortOrder() {
-		return sortOrder;
-	}
+  public void setResultTypeItems(SelectItem[] resultTypeItems) {
+    this.resultTypeItems = resultTypeItems;
+  }
 
-	public void setSortOrder(String sortOrder) {
-		this.sortOrder = sortOrder;
-	}
+  public String getSortOrder() {
+    return sortOrder;
+  }
 
-	public List<HealthcareType> getHealthcareTypeList() {
-		return healthcareTypeList;
-	}
+  public void setSortOrder(String sortOrder) {
+    this.sortOrder = sortOrder;
+  }
 
-	public void setHealthcareTypeList(
-			List<HealthcareType> healthcareTypeList) {
-		this.healthcareTypeList = healthcareTypeList;
-	}
+  public List<HealthcareType> getHealthcareTypeList() {
+    return healthcareTypeList;
+  }
 
-	public SelectItem[] getHealthcareTypeItems() {
-		return healthcareTypeItems;
-	}
+  public void setHealthcareTypeList(List<HealthcareType> healthcareTypeList) {
+    this.healthcareTypeList = healthcareTypeList;
+  }
 
-	public void setHealthcareTypeItems(
-			SelectItem[] healthcareTypeItems) {
-		this.healthcareTypeItems = healthcareTypeItems;
-	}
+  public SelectItem[] getHealthcareTypeItems() {
+    return healthcareTypeItems;
+  }
 
-	public List<Municipality> getMunicipalityList() {
-		return municipalityList;
-	}
+  public void setHealthcareTypeItems(SelectItem[] healthcareTypeItems) {
+    this.healthcareTypeItems = healthcareTypeItems;
+  }
 
-	public void setMunicipalityList(List<Municipality> municipalityList) {
-		this.municipalityList = municipalityList;
-	}
+  public List<Municipality> getMunicipalityList() {
+    return municipalityList;
+  }
+
+  public void setMunicipalityList(List<Municipality> municipalityList) {
+    this.municipalityList = municipalityList;
+  }
 }

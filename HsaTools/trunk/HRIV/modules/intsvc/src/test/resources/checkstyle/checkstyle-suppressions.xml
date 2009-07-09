@@ -16,5 +16,8 @@
     
     <!-- Suppress all testfiles -->
     <suppress checks=".*" files=".*/test/.*" />
+        <!-- Suppress resources -->
+    <suppress checks=".*" files=".*/main/resources/.*" />
+    <!-- Suppress JAXB generated files -->
     <suppress checks=".*" files=".*/main/java/.*/ws/domain/.*" />
 </suppressions>
