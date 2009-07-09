@@ -33,55 +33,55 @@ import se.vgregion.kivtools.search.exceptions.SikInternalException;
  */
 @SuppressWarnings("serial")
 public class SearchResultMetaData implements Serializable {
-	
-	private int totalNumberOfHits = 0;
-	// used to measure the responsetime of the datasource e.g. LDAP
-	private TimeMeasurement dataSourceSearchTime = new TimeMeasurement();
-	// used to measure the overall response time
-	private TimeMeasurement contextSearchTime = new TimeMeasurement();
 
-	public SearchResultMetaData() {
-		super();
-	}
+  private int totalNumberOfHits;
+  // used to measure the responsetime of the datasource e.g. LDAP
+  private TimeMeasurement dataSourceSearchTime = new TimeMeasurement();
+  // used to measure the overall response time
+  private TimeMeasurement contextSearchTime = new TimeMeasurement();
 
-	public void startContextSearchTime() {
-		contextSearchTime.start();
-	}
+  public SearchResultMetaData() {
+    super();
+  }
 
-	public void stopContextSearchTime() {
-		contextSearchTime.stop();
-	}
+  public void startContextSearchTime() {
+    contextSearchTime.start();
+  }
 
-	public void startDataSourceSearchTime() {
-		dataSourceSearchTime.start();
-	}
+  public void stopContextSearchTime() {
+    contextSearchTime.stop();
+  }
 
-	public void stopDataSourceSearchTime() {
-		dataSourceSearchTime.stop();
-	}
+  public void startDataSourceSearchTime() {
+    dataSourceSearchTime.start();
+  }
 
-	public TimeMeasurement getDataSourceSearchTime() {
-		return dataSourceSearchTime;
-	}
+  public void stopDataSourceSearchTime() {
+    dataSourceSearchTime.stop();
+  }
 
-	public TimeMeasurement getContextSearchTime() {
-		return contextSearchTime;
-	}
+  public TimeMeasurement getDataSourceSearchTime() {
+    return dataSourceSearchTime;
+  }
 
-	public int getTotalNumberOfHits() {
-		return totalNumberOfHits;
-	}
+  public TimeMeasurement getContextSearchTime() {
+    return contextSearchTime;
+  }
 
-	public void setTotalNumberOfHits(int totalNumberOfHits) {
-		this.totalNumberOfHits = totalNumberOfHits;
-	}
+  public int getTotalNumberOfHits() {
+    return totalNumberOfHits;
+  }
 
-	public void printToLog(Object obj, String methodName, Log logger) throws SikInternalException {
-		logger.info("*********************************************************");
-		logger.info("Time measurements: " + obj.getClass() + "::" + methodName);
-		logger.info("Total number of hits=" + getTotalNumberOfHits());
-		logger.info("Overall elapsed time=" + getContextSearchTime().getElapsedTimeInMillisSeconds() + " milli seconds");
-		logger.info("Datasource elapsed time=" + getDataSourceSearchTime().getElapsedTimeInMillisSeconds() + " milli seconds");
-		logger.info("*********************************************************");
-	}
+  public void setTotalNumberOfHits(int totalNumberOfHits) {
+    this.totalNumberOfHits = totalNumberOfHits;
+  }
+
+  public void printToLog(Object obj, String methodName, Log logger) throws SikInternalException {
+    logger.info("*********************************************************");
+    logger.info("Time measurements: " + obj.getClass() + "::" + methodName);
+    logger.info("Total number of hits=" + getTotalNumberOfHits());
+    logger.info("Overall elapsed time=" + getContextSearchTime().getElapsedTimeInMillisSeconds() + " milli seconds");
+    logger.info("Datasource elapsed time=" + getDataSourceSearchTime().getElapsedTimeInMillisSeconds() + " milli seconds");
+    logger.info("*********************************************************");
+  }
 }

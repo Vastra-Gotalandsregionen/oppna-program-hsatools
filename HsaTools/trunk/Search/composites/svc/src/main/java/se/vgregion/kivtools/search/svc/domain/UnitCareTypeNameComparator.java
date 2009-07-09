@@ -27,51 +27,46 @@ import java.util.Comparator;
  */
 public class UnitCareTypeNameComparator implements Comparator<Unit> {
 
-	/**
-	 * Sorting by getHsaBusinessClassificationCode. We only take the first
-	 * HsaBusinessClassificationCode into account and hope that the most
-	 * important code is first.
-	 * 
-	 * Algorithm: Sort by hsaBusinessClassificationName and sort the invalid
-	 * ones
-	 */
-	public int compare(Unit unit1, Unit unit2) {
-		boolean businessCodeUnit1IsOK = true;
-		boolean businessCodeUnit2IsOK = true;
-		
-		String unit1HealthcareTypeDisplayName = null;
-		String unit2HealthcareTypeDisplayName = null;		
+  /**
+   * Sorting by getHsaBusinessClassificationCode. We only take the first HsaBusinessClassificationCode into account and hope that the most important code is first.
+   * 
+   * Algorithm: Sort by hsaBusinessClassificationName and sort the invalid ones
+   */
+  public int compare(Unit unit1, Unit unit2) {
+    boolean businessCodeUnit1IsOK = true;
+    boolean businessCodeUnit2IsOK = true;
 
-		try {
-			// Test if unit1 has a valid BusinessClassificationName
-			unit1HealthcareTypeDisplayName  = unit1.getHealthcareTypes().get(0).getDisplayName();
-		} catch (Exception e) {
-			// NullpointerException is possible
-			businessCodeUnit1IsOK = false;
-		}
-		
-		try {
-			// Test if unit2 has a valid BusinessClassificationName
-			unit2HealthcareTypeDisplayName  = unit2.getHealthcareTypes().get(0).getDisplayName();
-		} catch (Exception e) {
-			// NullpointerException is possible
-			businessCodeUnit2IsOK = false;
-		}
+    String unit1HealthcareTypeDisplayName = null;
+    String unit2HealthcareTypeDisplayName = null;
 
-		// If both units have valid classification codes, compare the BusinessClassificationName.
-		// If unit1 lacks valid getHsaBusinessClassificationCode, put it last.
-		// Same is true for unit2. If both unit1 and unit2 are missing a valid
-		// getHsaBusinessClassificationCode, sort by unit name.
-		if (businessCodeUnit1IsOK && businessCodeUnit2IsOK) {
-			return unit1HealthcareTypeDisplayName.toLowerCase().compareTo(
-					unit2HealthcareTypeDisplayName.toLowerCase());
-		} else if (businessCodeUnit1IsOK && !businessCodeUnit2IsOK) {
-			return -1;
-		} else if (!businessCodeUnit1IsOK && businessCodeUnit2IsOK) {
-			return 1;
-		} else {
-			return unit1.getName().toLowerCase().compareTo(
-					unit2.getName().toLowerCase());
-		}
-	}
+    try {
+      // Test if unit1 has a valid BusinessClassificationName
+      unit1HealthcareTypeDisplayName = unit1.getHealthcareTypes().get(0).getDisplayName();
+    } catch (Exception e) {
+      // NullpointerException is possible
+      businessCodeUnit1IsOK = false;
+    }
+
+    try {
+      // Test if unit2 has a valid BusinessClassificationName
+      unit2HealthcareTypeDisplayName = unit2.getHealthcareTypes().get(0).getDisplayName();
+    } catch (Exception e) {
+      // NullpointerException is possible
+      businessCodeUnit2IsOK = false;
+    }
+
+    // If both units have valid classification codes, compare the BusinessClassificationName.
+    // If unit1 lacks valid getHsaBusinessClassificationCode, put it last.
+    // Same is true for unit2. If both unit1 and unit2 are missing a valid
+    // getHsaBusinessClassificationCode, sort by unit name.
+    if (businessCodeUnit1IsOK && businessCodeUnit2IsOK) {
+      return unit1HealthcareTypeDisplayName.toLowerCase().compareTo(unit2HealthcareTypeDisplayName.toLowerCase());
+    } else if (businessCodeUnit1IsOK && !businessCodeUnit2IsOK) {
+      return -1;
+    } else if (!businessCodeUnit1IsOK && businessCodeUnit2IsOK) {
+      return 1;
+    } else {
+      return unit1.getName().toLowerCase().compareTo(unit2.getName().toLowerCase());
+    }
+  }
 }

@@ -66,8 +66,10 @@ public class Formatter {
         leftPart = originalString.substring(beginIndex, length);
         finalString = finalString + leftPart;
       } else {
-        leftPart = originalString.substring(beginIndex, endIndex); // hello
-        finalString = finalString + leftPart + replacingString; // hello''
+        // hello
+        leftPart = originalString.substring(beginIndex, endIndex);
+        // hello''
+        finalString = finalString + leftPart + replacingString;
       }
 
       if (endIndex + 1 >= length) {
@@ -120,7 +122,8 @@ public class Formatter {
         }
         return list;
       } else {
-        leftPart = inputString.substring(beginIndex, endIndex); // hello
+        // hello
+        leftPart = inputString.substring(beginIndex, endIndex);
         if (!Evaluator.isEmpty(leftPart)) {
           list.add(leftPart);
         }

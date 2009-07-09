@@ -81,9 +81,12 @@ public class Person implements Serializable {
   private List<String> hsaLanguageKnowledgeCode;
   // List of Languages that the person speaks e.g. Polska, Romanska
   private List<String> hsaLanguageKnowledgeText;
-  private String hsaTitle; // Legitimerade Yrkesgrupper e.g Biomedicinsk analytiker
-  private String hsaPersonPrescriptionCode; // Personlig kod till person med r�tt att f�rskriva l�kemedel
-  private List<Employment> employments; // List of Employment objects
+  // Legitimerade Yrkesgrupper e.g Biomedicinsk analytiker
+  private String hsaTitle;
+  // Personlig kod till person med rätt att förskriva läkemedel
+  private String hsaPersonPrescriptionCode;
+  // List of Employment objects
+  private List<Employment> employments;
 
   public String getDn() {
     return dn;

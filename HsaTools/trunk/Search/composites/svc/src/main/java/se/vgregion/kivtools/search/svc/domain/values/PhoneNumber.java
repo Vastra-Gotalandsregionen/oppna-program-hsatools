@@ -34,147 +34,141 @@ import se.vgregion.kivtools.search.util.Evaluator;
  * 
  */
 public class PhoneNumber implements Serializable, Comparable<PhoneNumber>, IsEmptyMarker {
-    private static final long serialVersionUID = 1L;
-    private String phoneNumber;
+  private static final long serialVersionUID = 1L;
+  private static final String AREA_CODE_SWEDEN = "+46";
+  private static final Set<String> LOCAL_AREA_CODES = new HashSet<String>();
 
-    public static final String AREA_CODE_SWEDEN = "+46";
-    private static final Set<String> LOCAL_AREA_CODES = new HashSet<String>();
+  private String phoneNumber;
 
-    // Define all two- and three digit area codes. Any area code not defined in
-    // the set is supposed to be a four digit area code.
-    static {
-        LOCAL_AREA_CODES.add("011");
-        LOCAL_AREA_CODES.add("013");
-        LOCAL_AREA_CODES.add("016");
-        LOCAL_AREA_CODES.add("018");
-        LOCAL_AREA_CODES.add("019");
-        LOCAL_AREA_CODES.add("021");
-        LOCAL_AREA_CODES.add("023");
-        LOCAL_AREA_CODES.add("026");
-        LOCAL_AREA_CODES.add("031");
-        LOCAL_AREA_CODES.add("033");
-        LOCAL_AREA_CODES.add("035");
-        LOCAL_AREA_CODES.add("036");
-        LOCAL_AREA_CODES.add("040");
-        LOCAL_AREA_CODES.add("042");
-        LOCAL_AREA_CODES.add("044");
-        LOCAL_AREA_CODES.add("046");
-        LOCAL_AREA_CODES.add("054");
-        LOCAL_AREA_CODES.add("060");
-        LOCAL_AREA_CODES.add("063");
-        LOCAL_AREA_CODES.add("08");
-        LOCAL_AREA_CODES.add("090");
+  // Define all two- and three digit area codes. Any area code not defined in
+  // the set is supposed to be a four digit area code.
+  static {
+    LOCAL_AREA_CODES.add("011");
+    LOCAL_AREA_CODES.add("013");
+    LOCAL_AREA_CODES.add("016");
+    LOCAL_AREA_CODES.add("018");
+    LOCAL_AREA_CODES.add("019");
+    LOCAL_AREA_CODES.add("021");
+    LOCAL_AREA_CODES.add("023");
+    LOCAL_AREA_CODES.add("026");
+    LOCAL_AREA_CODES.add("031");
+    LOCAL_AREA_CODES.add("033");
+    LOCAL_AREA_CODES.add("035");
+    LOCAL_AREA_CODES.add("036");
+    LOCAL_AREA_CODES.add("040");
+    LOCAL_AREA_CODES.add("042");
+    LOCAL_AREA_CODES.add("044");
+    LOCAL_AREA_CODES.add("046");
+    LOCAL_AREA_CODES.add("054");
+    LOCAL_AREA_CODES.add("060");
+    LOCAL_AREA_CODES.add("063");
+    LOCAL_AREA_CODES.add("08");
+    LOCAL_AREA_CODES.add("090");
+  }
+
+  public PhoneNumber(String phoneNumber) {
+    this.setPhoneNumber(phoneNumber);
+  }
+
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public static PhoneNumber createPhoneNumber(String phoneNumber) {
+    return new PhoneNumber(phoneNumber);
+  }
+
+  public static List<PhoneNumber> createPhoneNumberList(List<String> numbers) {
+    List<PhoneNumber> phoneNumbers = new ArrayList<PhoneNumber>();
+    for (String number : numbers) {
+      phoneNumbers.add(new PhoneNumber(number));
+    }
+    return phoneNumbers;
+  }
+
+  public void setPhoneNumber(String phoneNumber) throws IllegalArgumentException {
+    if (!PhoneNumber.isValid(phoneNumber)) {
+      throw new IllegalArgumentException();
+    }
+    if (phoneNumber == null || phoneNumber.trim().length() == 0) {
+      this.phoneNumber = "";
+    }
+    this.phoneNumber = phoneNumber;
+  }
+
+  public static boolean isValid(String phoneNumber) {
+    return true;
+  }
+
+  /**
+   * Konverterar LDAP-lagrade telefonnummer s� de blir mer l�ttl�sta. Fr�n katalogformat till presentationsformat.
+   * 
+   * @param in V�dre som ska konverteras
+   * @return String med konverterat v�rde
+   */
+  public PhoneNumber getFormattedPhoneNumber() {
+
+    // Make a local copy so that we don't change the original phone number
+    String strPhoneNumber = this.phoneNumber;
+
+    // remove +46
+    if (strPhoneNumber.indexOf(PhoneNumber.AREA_CODE_SWEDEN) != -1) {
+      strPhoneNumber = strPhoneNumber.replace(PhoneNumber.AREA_CODE_SWEDEN, "").trim();
+    }
+    // add 0 to the area code if not already there
+    if (!strPhoneNumber.startsWith("0") && !strPhoneNumber.contains("(0)")) {
+      strPhoneNumber = "0" + strPhoneNumber;
     }
 
-    public PhoneNumber(String phoneNumber) {
-        this.setPhoneNumber(phoneNumber);
+    // Remove all characters that's not a number.
+    String regex = "\\D*";
+    strPhoneNumber = strPhoneNumber.replaceAll(regex, "");
+
+    String areaCode;
+    // The phone number must have at least 7 digits to pass formatting
+    if (strPhoneNumber.length() < 7) {
+      return new PhoneNumber(this.phoneNumber);
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    // Split phone number correctly after area code
+    if (LOCAL_AREA_CODES.contains(strPhoneNumber.substring(0, 2))) {
+      // Two-digit area code
+      areaCode = strPhoneNumber.substring(0, 2);
+      strPhoneNumber = strPhoneNumber.substring(2);
+    } else if (LOCAL_AREA_CODES.contains(strPhoneNumber.substring(0, 3))) {
+      // Three-digit area code
+      areaCode = strPhoneNumber.substring(0, 3);
+      strPhoneNumber = strPhoneNumber.substring(3);
+    } else {
+      // Four-digit area code
+      areaCode = strPhoneNumber.substring(0, 4);
+      strPhoneNumber = strPhoneNumber.substring(4);
     }
-    
-    public static PhoneNumber createPhoneNumber(String phoneNumber) {
-        return new PhoneNumber(phoneNumber);
-    }
-    
-    public static List<PhoneNumber> createPhoneNumberList(List<String> numbers) {
-        List<PhoneNumber> phoneNumbers = new ArrayList<PhoneNumber>();
-        for (String number : numbers) {
-            phoneNumbers.add(new PhoneNumber(number));
-        }
-        return phoneNumbers;
-    }
+    String tempNumber = "";
+    for (int i = strPhoneNumber.length(); i > 0; i -= 2) {
+      String head = strPhoneNumber.substring(0, i - 2);
+      String tail = strPhoneNumber.substring(i - 2, i);
 
-    public void setPhoneNumber(String phoneNumber)
-            throws IllegalArgumentException {
-        if (!PhoneNumber.isValid(phoneNumber)) {
-            throw new IllegalArgumentException();
-        }
-        if (phoneNumber == null || phoneNumber.trim().length() == 0) {
-            this.phoneNumber = "";
-        }
-        this.phoneNumber = phoneNumber;
-    }
-
-    public static boolean isValid(String phoneNumber) {
-        return true;
+      tempNumber = " " + tail + tempNumber;
+      if (head.length() == 3) {
+        tempNumber = head + tempNumber;
+        break;
+      }
     }
 
-    /**
-     * Konverterar LDAP-lagrade telefonnummer s� de blir mer l�ttl�sta. Fr�n
-     * katalogformat till presentationsformat.
-     * 
-     * @param in
-     *            V�dre som ska konverteras
-     * @return String med konverterat v�rde
-     */
-    public PhoneNumber getFormattedPhoneNumber() {
-        
-        // Make a local copy so that we don't change the original phone number
-        String strPhoneNumber = this.phoneNumber;
-        
-        // remove +46
-        if (strPhoneNumber.indexOf(PhoneNumber.AREA_CODE_SWEDEN) != -1) {
-            strPhoneNumber = strPhoneNumber.replace(
-                    PhoneNumber.AREA_CODE_SWEDEN, "").trim();
-        }
-        // add 0 to the area code if not already there
-        if (!strPhoneNumber.startsWith("0") && !strPhoneNumber.contains("(0)")) {
-            strPhoneNumber = "0" + strPhoneNumber;
-        }
+    return new PhoneNumber(areaCode + " - " + tempNumber.trim());
+  }
 
-        //Remove all characters that's not a number.
-        String regex = "\\D*";
-        strPhoneNumber = strPhoneNumber.replaceAll(regex, "");
+  public boolean isEmpty() {
+    return Evaluator.isEmpty(phoneNumber);
+  }
 
-        String areaCode;
-        //The phone number must have at least 7 digits to pass formatting
-        if(strPhoneNumber.length() < 7 ) {
-            return new PhoneNumber(this.phoneNumber);
-        }
+  @Override
+  public String toString() {
+    return this.getPhoneNumber();
+  }
 
-        // Check for two-digit area code
-        if (LOCAL_AREA_CODES.contains(strPhoneNumber.substring(0, 2))) {
-            areaCode = strPhoneNumber.substring(0, 2);
-            strPhoneNumber = strPhoneNumber.substring(2);
-        }
-        // Check for three-digit area code
-        else if (LOCAL_AREA_CODES.contains(strPhoneNumber.substring(0, 3))) {
-            areaCode = strPhoneNumber.substring(0, 3);
-            strPhoneNumber = strPhoneNumber.substring(3);
-        }
-        // It is a four-digit area code
-        else {
-            areaCode = strPhoneNumber.substring(0, 4);
-            strPhoneNumber = strPhoneNumber.substring(4);
-        }
-        String tempNumber = "";
-        for (int i = strPhoneNumber.length(); i > 0; i -= 2) {
-            String head = strPhoneNumber.substring(0, i - 2);
-            String tail = strPhoneNumber.substring(i - 2, i);
-
-            tempNumber = " " + tail + tempNumber;
-            if (head.length() == 3) {
-                tempNumber = head + tempNumber;
-                break;
-            }
-        }
-
-        return new PhoneNumber(areaCode + " - " + tempNumber.trim());
-    }
-
-    public boolean isEmpty() {
-        return Evaluator.isEmpty(phoneNumber);
-    }
-
-    
-    public String toString() {
-        return this.getPhoneNumber();
-    }
-
-    public int compareTo(PhoneNumber anotherPhoneNumber) {
-        return this.getFormattedPhoneNumber().compareTo(
-                anotherPhoneNumber.getFormattedPhoneNumber());
-    }
+  public int compareTo(PhoneNumber anotherPhoneNumber) {
+    return this.getFormattedPhoneNumber().compareTo(anotherPhoneNumber.getFormattedPhoneNumber());
+  }
 }

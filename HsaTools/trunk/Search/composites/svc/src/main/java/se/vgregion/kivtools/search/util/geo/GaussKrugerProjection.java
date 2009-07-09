@@ -84,10 +84,30 @@ public class GaussKrugerProjection implements CoordinateTransformerService {
   private double k0;
   private double FN;
   private double FE;
-  private double lat; // Geodetic latitude
-  private double lon; // Geodetic longitude
+  // Geodetic latitude
+  private double lat;
+  // Geodetic longitude
+  private double lon;
   // Gauss-Krüger Projection variables
-  private double A, B, C, D, beta1, beta2, beta3, beta4, e2, n, aHat, delta1, delta2, delta3, delta4, Astar, Bstar, Cstar, Dstar;
+  private double A;
+  private double B;
+  private double C;
+  private double D;
+  private double beta1;
+  private double beta2;
+  private double beta3;
+  private double beta4;
+  private double e2;
+  private double n;
+  private double aHat;
+  private double delta1;
+  private double delta2;
+  private double delta3;
+  private double delta4;
+  private double Astar;
+  private double Bstar;
+  private double Cstar;
+  private double Dstar;
 
   // RT90 coordinates
   private double rt90X;

@@ -24,30 +24,33 @@ import java.io.Serializable;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
- *
+ * 
  */
 public class PagedSearchMetaData implements Serializable {
-    private int startIndex=0;
-    private int endIndex=0;
-    
-    public int getStartIndex() {
-        return startIndex;
-    }
-    public void setStartIndex(int startIndex) {
-        this.startIndex = startIndex;
-    }
-    public int getEndIndex() {
-        return endIndex;
-    }
-    public void setEndIndex(int endIndex) {
-        this.endIndex = endIndex;
-    }
-    
-    public String getAsLink() {
-        StringBuffer buf = new StringBuffer("startIndex=");
-        buf.append(startIndex);
-        buf.append("&endIndex=");
-        buf.append(endIndex);
-        return buf.toString();
-    }
+  private int startIndex;
+  private int endIndex;
+
+  public int getStartIndex() {
+    return startIndex;
+  }
+
+  public void setStartIndex(int startIndex) {
+    this.startIndex = startIndex;
+  }
+
+  public int getEndIndex() {
+    return endIndex;
+  }
+
+  public void setEndIndex(int endIndex) {
+    this.endIndex = endIndex;
+  }
+
+  public String getAsLink() {
+    StringBuffer buf = new StringBuffer("startIndex=");
+    buf.append(startIndex);
+    buf.append("&endIndex=");
+    buf.append(endIndex);
+    return buf.toString();
+  }
 }

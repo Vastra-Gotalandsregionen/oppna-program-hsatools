@@ -31,6 +31,31 @@ public class AccessibilityObject implements Serializable {
   private String id;
   private String updateStamp;
 
+  // Create business object and sub objects
+  public AccessibilityObject(Node subObject) {
+    // Set id
+    NamedNodeMap attributes = subObject.getAttributes();
+    if (attributes != null && attributes.getNamedItem("id") != null) {
+      id = attributes.getNamedItem("id").getTextContent() + "_" + System.currentTimeMillis();
+    }
+
+    // Get blocks
+    NodeList subObjectChildren = subObject.getChildNodes();
+    for (int i = 0; i < subObjectChildren.getLength(); i++) {
+      // If node name is objectName or name, set name
+      if ("objectName".equals(subObjectChildren.item(i).getNodeName()) || "name".equals(subObjectChildren.item(i).getNodeName())) {
+        name = subObjectChildren.item(i).getTextContent();
+      }
+      if ("updateStamp".equals(subObjectChildren.item(i).getNodeName())) {
+        updateStamp = subObjectChildren.item(i).getTextContent();
+      }
+      if (subObjectChildren.item(i).getNodeName().equals("block")) {
+        Block block = new Block(subObjectChildren.item(i));
+        blocks.add(block);
+      }
+    }
+  }
+
   public String getUpdateStamp() {
     return updateStamp;
   }
@@ -62,30 +87,4 @@ public class AccessibilityObject implements Serializable {
   public void setBlocks(ArrayList<Block> blocks) {
     this.blocks = blocks;
   }
-
-  // Create business object and sub objects
-  public AccessibilityObject(Node subObject) {
-    // Set id
-    NamedNodeMap attributes = subObject.getAttributes();
-    if (attributes != null && attributes.getNamedItem("id") != null) {
-      id = attributes.getNamedItem("id").getTextContent() + "_" + System.currentTimeMillis();
-    }
-
-    // Get blocks
-    NodeList subObjectChildren = subObject.getChildNodes();
-    for (int i = 0; i < subObjectChildren.getLength(); i++) {
-      // If node name is objectName or name, set name
-      if ("objectName".equals(subObjectChildren.item(i).getNodeName()) || "name".equals(subObjectChildren.item(i).getNodeName())) {
-        name = subObjectChildren.item(i).getTextContent();
-      }
-      if ("updateStamp".equals(subObjectChildren.item(i).getNodeName())) {
-        updateStamp = subObjectChildren.item(i).getTextContent();
-      }
-      if (subObjectChildren.item(i).getNodeName().equals("block")) {
-        Block block = new Block(subObjectChildren.item(i));
-        blocks.add(block);
-      }
-    }
-  }
-
 }

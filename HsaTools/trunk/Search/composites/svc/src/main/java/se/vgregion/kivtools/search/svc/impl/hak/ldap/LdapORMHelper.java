@@ -32,63 +32,62 @@ import com.novell.ldap.util.Base64;
 
 /**
  * @author Anders Asplund - KnowIT
- *
+ * 
  */
 public class LdapORMHelper {
-    private static String KIV_NEW_LINE_DELIMITER = "$";
+  private static final String KIV_NEW_LINE_DELIMITER = "$";
 
-    static String getSingleValue(LDAPAttribute attribute) {
-        List<String> values = getValues(attribute);
-        if (values==null) {
-            return "";
-        }
-        String s = values.get(0);
-        if (Evaluator.isEmpty(s)) {
-            return "";
-        }
-        return s;
+  static String getSingleValue(LDAPAttribute attribute) {
+    List<String> values = getValues(attribute);
+    if (values == null) {
+      return "";
+    }
+    String s = values.get(0);
+    if (Evaluator.isEmpty(s)) {
+      return "";
+    }
+    return s;
+  }
+
+  static List<String> getMultipleValues(LDAPAttribute attribute) {
+    List<String> values = getValues(attribute);
+    if (values == null) {
+      return new ArrayList<String>();
+    }
+    return values;
+  }
+
+  /**
+   * 
+   * @param allAttributes An Iterator with all LDAP attributes
+   * @param attributeAndValuesMap Key=attribute name, value=ArrayList with corresponding values
+   */
+  @SuppressWarnings("unchecked")
+  private static List<String> getValues(LDAPAttribute attribute) {
+    if (attribute == null) {
+      return null;
     }
 
-    static List<String> getMultipleValues(LDAPAttribute attribute) {
-        List<String> values = getValues(attribute);
-        if (values==null) {
-            return new ArrayList<String>();
-        }
-        return values;
-    }
-    
-    /**
-     * 
-     * @param allAttributes             An Iterator with all LDAP attributes
-     * @param attributeAndValuesMap     Key=attribute name, value=ArrayList with corresponding values
-     */
-    @SuppressWarnings("unchecked")
-    private static List<String> getValues(LDAPAttribute attribute) {
-        if(attribute == null) {
-            return null;
-        }
-        
-        List<String> values = new ArrayList<String>();
+    List<String> values = new ArrayList<String>();
 
-        Enumeration<String> allValues = attribute.getStringValues();
-    
-        if (allValues != null) {
-    
-            // while loop goes through all the attribute values
-            while (allValues.hasMoreElements()) {
-                String value = allValues.nextElement();
-                value=value.trim();
-                if (Base64.isLDIFSafe(value) && (value.indexOf(KIV_NEW_LINE_DELIMITER)<0)) {
-                    values.add(value);
-                }
-                else {
-                    // The parser th-inks that Strings containing a '$' character is 64 encoded
-                    // KIV Strings having a $ character ends up here                            
-                    values = Formatter.chopUpStringToList(values, value, KIV_NEW_LINE_DELIMITER);
-                }
-            }
+    Enumeration<String> allValues = attribute.getStringValues();
+
+    if (allValues != null) {
+
+      // while loop goes through all the attribute values
+      while (allValues.hasMoreElements()) {
+        String value = allValues.nextElement();
+        value = value.trim();
+        if (Base64.isLDIFSafe(value) && value.indexOf(KIV_NEW_LINE_DELIMITER) < 0) {
+          values.add(value);
+        } else {
+          // The parser th-inks that Strings containing a '$' character is 64 encoded
+          // KIV Strings having a $ character ends up here
+          values = Formatter.chopUpStringToList(values, value, KIV_NEW_LINE_DELIMITER);
         }
-        return values;
+      }
     }
+    return values;
+  }
 
 }

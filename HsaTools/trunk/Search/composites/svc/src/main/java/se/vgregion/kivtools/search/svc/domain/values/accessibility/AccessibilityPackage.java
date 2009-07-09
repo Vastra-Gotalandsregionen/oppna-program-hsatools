@@ -31,6 +31,37 @@ public class AccessibilityPackage implements Serializable {
   private ArrayList<Criteria> criterias = new ArrayList<Criteria>();
   private String id;
 
+  public AccessibilityPackage(Node accessibilityPackage) {
+    // Set id
+    NamedNodeMap attributes = accessibilityPackage.getAttributes();
+    if (attributes != null && attributes.getNamedItem("id") != null) {
+      id = attributes.getNamedItem("id").getTextContent() + "_" + System.currentTimeMillis();
+    }
+
+    // Get criterias
+    NodeList accessibilityPackageChildren = accessibilityPackage.getChildNodes();
+    for (int i = 0; i < accessibilityPackageChildren.getLength(); i++) {
+      // If node name is objectName, set name
+      if (accessibilityPackageChildren.item(i).getNodeName().equals("objectName") || accessibilityPackageChildren.item(i).getNodeName().equals("name")) {
+        name = accessibilityPackageChildren.item(i).getTextContent();
+      }
+      if ("images".equals(accessibilityPackageChildren.item(i).getNodeName())) {
+        for (int j = 0; j < accessibilityPackageChildren.item(i).getChildNodes().getLength(); j++) {
+          if ("image".equals(accessibilityPackageChildren.item(i).getChildNodes().item(j).getNodeName())) {
+            ImageInfo imageInfo = new ImageInfo(accessibilityPackageChildren.item(i).getChildNodes().item(j));
+            images.add(imageInfo);
+          }
+        }
+      }
+      if (accessibilityPackageChildren.item(i).getNodeName().equals("criteria")) {
+        Criteria criteria = new Criteria(accessibilityPackageChildren.item(i));
+        if (!criteria.isHidden()) {
+          criterias.add(criteria);
+        }
+      }
+    }
+  }
+
   public String getId() {
     return id;
   }
@@ -61,36 +92,5 @@ public class AccessibilityPackage implements Serializable {
 
   public void setImages(ArrayList<ImageInfo> images) {
     this.images = images;
-  }
-
-  public AccessibilityPackage(Node accessibilityPackage) {
-    // Set id
-    NamedNodeMap attributes = accessibilityPackage.getAttributes();
-    if (attributes != null && attributes.getNamedItem("id") != null) {
-      id = attributes.getNamedItem("id").getTextContent() + "_" + System.currentTimeMillis();
-    }
-
-    // Get criterias
-    NodeList accessibilityPackageChildren = accessibilityPackage.getChildNodes();
-    for (int i = 0; i < accessibilityPackageChildren.getLength(); i++) {
-      // If node name is objectName, set name
-      if (accessibilityPackageChildren.item(i).getNodeName().equals("objectName") || accessibilityPackageChildren.item(i).getNodeName().equals("name")) {
-        name = accessibilityPackageChildren.item(i).getTextContent();
-      }
-      if ("images".equals(accessibilityPackageChildren.item(i).getNodeName())) {
-        for (int j = 0; j < accessibilityPackageChildren.item(i).getChildNodes().getLength(); j++) {
-          if ("image".equals(accessibilityPackageChildren.item(i).getChildNodes().item(j).getNodeName())) {
-            ImageInfo imageInfo = new ImageInfo(accessibilityPackageChildren.item(i).getChildNodes().item(j));
-            images.add(imageInfo);
-          }
-        }
-      }
-      if (accessibilityPackageChildren.item(i).getNodeName().equals("criteria")) {
-        Criteria criteria = new Criteria(accessibilityPackageChildren.item(i));
-        if (!criteria.isHidden()) {
-          criterias.add(criteria);
-        }
-      }
-    }
   }
 }

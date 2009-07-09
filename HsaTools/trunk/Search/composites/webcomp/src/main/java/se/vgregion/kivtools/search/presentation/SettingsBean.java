@@ -32,19 +32,19 @@ import org.springframework.core.io.Resource;
  */
 public class SettingsBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private Properties settings = new Properties();
+  private static final long serialVersionUID = 1L;
+  private Properties settings = new Properties();
 
-	public SettingsBean(Resource resource) {
-		try {
-			settings.load(resource.getInputStream());
-		} catch (IOException e) {
-			// Set default properties?
-			e.printStackTrace();
-		}
-	}
+  public SettingsBean(Resource resource) {
+    try {
+      settings.load(resource.getInputStream());
+    } catch (IOException e) {
+      // Set default properties?
+      e.printStackTrace();
+    }
+  }
 
-	public Map<Object, Object> getSettings() {
-		return (Map<Object,Object>) settings;
-	}
+  public Map<Object, Object> getSettings() {
+    return settings;
+  }
 }

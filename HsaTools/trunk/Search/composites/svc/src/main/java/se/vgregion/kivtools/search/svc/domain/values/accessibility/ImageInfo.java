@@ -31,6 +31,27 @@ public class ImageInfo implements Serializable {
   private String shortDescription;
   private String longDescription;
 
+  public ImageInfo(Node imageInfo) {
+    NodeList imageChildren = imageInfo.getChildNodes();
+    // Loop through child nodes of image element
+    for (int i = 0; i < imageChildren.getLength(); i++) {
+      // Set url
+      if ("URL".equals(imageChildren.item(i).getNodeName())) {
+        url = imageChildren.item(i).getTextContent();
+        if (url.indexOf("small") >= 0) {
+          urlLarge = url.replaceAll("small", "large");
+        }
+      }
+      // Set short and long description
+      if ("ShortValue".equals(imageChildren.item(i).getNodeName())) {
+        shortDescription = imageChildren.item(i).getTextContent();
+      }
+      if ("LongValue".equals(imageChildren.item(i).getNodeName())) {
+        longDescription = imageChildren.item(i).getTextContent();
+      }
+    }
+  }
+
   public String getUrlLarge() {
     return urlLarge;
   }
@@ -61,26 +82,5 @@ public class ImageInfo implements Serializable {
 
   public void setLongDescription(String longDescription) {
     this.longDescription = longDescription;
-  }
-
-  public ImageInfo(Node imageInfo) {
-    NodeList imageChildren = imageInfo.getChildNodes();
-    // Loop through child nodes of image element
-    for (int i = 0; i < imageChildren.getLength(); i++) {
-      // Set url
-      if ("URL".equals(imageChildren.item(i).getNodeName())) {
-        url = imageChildren.item(i).getTextContent();
-        if (url.indexOf("small") >= 0) {
-          urlLarge = url.replaceAll("small", "large");
-        }
-      }
-      // Set short and long description
-      if ("ShortValue".equals(imageChildren.item(i).getNodeName())) {
-        shortDescription = imageChildren.item(i).getTextContent();
-      }
-      if ("LongValue".equals(imageChildren.item(i).getNodeName())) {
-        longDescription = imageChildren.item(i).getTextContent();
-      }
-    }
   }
 }

@@ -70,7 +70,8 @@ public class PersonRepository {
   }
 
   public List<Person> searchPersonsByDn(String dn) throws Exception {
-    return searchPersonsByDn(dn, 0); // Zero means all persons
+    // Zero means all persons
+    return searchPersonsByDn(dn, 0);
   }
 
   public List<Person> searchPersonsByDn(String dn, int maxResult) throws Exception {

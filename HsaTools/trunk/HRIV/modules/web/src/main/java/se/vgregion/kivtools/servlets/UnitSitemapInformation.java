@@ -28,18 +28,18 @@ public class UnitSitemapInformation {
   private String modifyTimestampFormattedInW3CDatetimeFormat;
   private String createTimestampFormattedInW3CDatetimeFormat;
 
+  public UnitSitemapInformation(String hsaId, String modifyTimestampFormattedInW3CDatetimeFormat, String createTimestampFormattedInW3CDatetimeFormat) {
+    super();
+    this.hsaId = hsaId;
+    this.modifyTimestampFormattedInW3CDatetimeFormat = modifyTimestampFormattedInW3CDatetimeFormat;
+    this.createTimestampFormattedInW3CDatetimeFormat = createTimestampFormattedInW3CDatetimeFormat;
+  }
+
   public String getCreateTimestampFormattedInW3CDatetimeFormat() {
     return createTimestampFormattedInW3CDatetimeFormat;
   }
 
   public void setCreateTimestampFormattedInW3CDatetimeFormat(String createTimestampFormattedInW3CDatetimeFormat) {
-    this.createTimestampFormattedInW3CDatetimeFormat = createTimestampFormattedInW3CDatetimeFormat;
-  }
-
-  public UnitSitemapInformation(String hsaId, String modifyTimestampFormattedInW3CDatetimeFormat, String createTimestampFormattedInW3CDatetimeFormat) {
-    super();
-    this.hsaId = hsaId;
-    this.modifyTimestampFormattedInW3CDatetimeFormat = modifyTimestampFormattedInW3CDatetimeFormat;
     this.createTimestampFormattedInW3CDatetimeFormat = createTimestampFormattedInW3CDatetimeFormat;
   }
 
@@ -58,5 +58,4 @@ public class UnitSitemapInformation {
   public void setHsaId(String hsaId) {
     this.hsaId = hsaId;
   }
-
 }

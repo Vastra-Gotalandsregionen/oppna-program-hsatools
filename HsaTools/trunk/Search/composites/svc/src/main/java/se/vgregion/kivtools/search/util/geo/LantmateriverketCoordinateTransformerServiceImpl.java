@@ -59,7 +59,8 @@ public class LantmateriverketCoordinateTransformerServiceImpl implements Coordin
       post.releaseConnection();
     }
 
-    int x = 0, y = 0;
+    int x = 0;
+    int y = 0;
     try {
       int startPos = response.indexOf("<span class=\"geodeticResultSpan transformation\">");
       String xString = response.substring(startPos + 55, startPos + 65);

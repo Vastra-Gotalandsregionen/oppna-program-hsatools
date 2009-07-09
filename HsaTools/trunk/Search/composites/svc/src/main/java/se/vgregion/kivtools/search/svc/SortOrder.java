@@ -18,12 +18,11 @@
 package se.vgregion.kivtools.search.svc;
 
 public enum SortOrder {
-		UNIT_NAME(0),
-		CARE_TYPE_NAME(1);
+  UNIT_NAME(0), CARE_TYPE_NAME(1);
 
-		private final int ORDER_ID;
-		
-		SortOrder(int order_id) {
-			ORDER_ID = order_id;
-		}
+  private final int ORDER_ID;
+
+  SortOrder(int order_id) {
+    ORDER_ID = order_id;
+  }
 }

@@ -14,23 +14,22 @@ import org.springframework.ldap.core.LdapTemplate;
  */
 public class CitizenRepository {
 
-	private LdapTemplate ldapTemplate;
+  private LdapTemplate ldapTemplate;
 
-	public void setLdapTemplate(LdapTemplate ldapTemplate) {
-		this.ldapTemplate = ldapTemplate;
-	}
+  public void setLdapTemplate(LdapTemplate ldapTemplate) {
+    this.ldapTemplate = ldapTemplate;
+  }
 
-	public String getCitizenNameFromSsn(String ssn) {
-		String name = (String) ldapTemplate.lookup("uid=" + ssn, new CitizenMapper());
-		return name;
-	}
+  public String getCitizenNameFromSsn(String ssn) {
+    String name = (String) ldapTemplate.lookup("uid=" + ssn, new CitizenMapper());
+    return name;
+  }
 
-	class CitizenMapper implements AttributesMapper {
-		@Override
-		public Object mapFromAttributes(Attributes attrs) throws NamingException {
-			String name = (String) attrs.get("cn").get();
-			return name;
-		}
-
-	}
+  class CitizenMapper implements AttributesMapper {
+    @Override
+    public Object mapFromAttributes(Attributes attrs) throws NamingException {
+      String name = (String) attrs.get("cn").get();
+      return name;
+    }
+  }
 }

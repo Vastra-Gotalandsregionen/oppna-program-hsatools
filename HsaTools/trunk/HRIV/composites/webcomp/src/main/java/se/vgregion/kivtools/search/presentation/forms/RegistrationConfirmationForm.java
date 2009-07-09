@@ -5,7 +5,9 @@ import java.io.Serializable;
 public class RegistrationConfirmationForm implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  private String ssn, hsaIdentity, signature;
+  private String ssn;
+  private String hsaIdentity;
+  private String signature;
 
   public String getSsn() {
     return ssn;

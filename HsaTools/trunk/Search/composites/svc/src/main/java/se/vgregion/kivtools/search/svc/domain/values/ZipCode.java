@@ -26,49 +26,51 @@ import se.vgregion.kivtools.search.util.Evaluator;
 
 /**
  * @author Anders Asplund - KnowIT
- *
+ * 
  */
 public class ZipCode implements Serializable, Comparable<ZipCode> {
 
-    private static final long serialVersionUID = 1L;
-    private String zipCode = "";
-    
-    public ZipCode(String zipCode) {
-        setZipCode(zipCode);
-    }
+  private static final long serialVersionUID = 1L;
+  private String zipCode = "";
 
-    public static boolean isValid(String zipCode) {
-        return Evaluator.containsOnlyNumbers(zipCode, true) && zipCode.replaceAll(" ", "").length()==5;
-    }
+  public ZipCode(String zipCode) {
+    setZipCode(zipCode);
+  }
 
-    public String getZipCode() {
-        return zipCode;
-    }
-    
-    public ZipCode getFormattedZipCode() {
-        if(!ZipCode.isValid(this.zipCode)) {
-            return new ZipCode("");
-        }
-        //Remove all characters that's not a number.
-        String regex = "\\D*";
-        String strZipCode = this.zipCode.replaceAll(regex, ""); // Use a new string so we don't modify the original.
-        
-        return new ZipCode(strZipCode.substring(0, 3) + " " + strZipCode.substring(3));
-    }
+  public static boolean isValid(String zipCode) {
+    return Evaluator.containsOnlyNumbers(zipCode, true) && zipCode.replaceAll(" ", "").length() == 5;
+  }
 
-    private void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
+  public String getZipCode() {
+    return zipCode;
+  }
 
-    public int compareTo(ZipCode anotherZipCode) {
-        if(anotherZipCode == null) {
-            return 1;
-        }
-        return this.getFormattedZipCode().toString().compareTo(anotherZipCode.getFormattedZipCode().toString());
+  public ZipCode getFormattedZipCode() {
+    if (!ZipCode.isValid(this.zipCode)) {
+      return new ZipCode("");
     }
-    
-    public String toString() {
-        return zipCode;
+    // Remove all characters that's not a number.
+    String regex = "\\D*";
+    // Use a new string so we don't modify the original.
+    String strZipCode = this.zipCode.replaceAll(regex, "");
+
+    return new ZipCode(strZipCode.substring(0, 3) + " " + strZipCode.substring(3));
+  }
+
+  private void setZipCode(String zipCode) {
+    this.zipCode = zipCode;
+  }
+
+  public int compareTo(ZipCode anotherZipCode) {
+    if (anotherZipCode == null) {
+      return 1;
     }
-    
+    return this.getFormattedZipCode().toString().compareTo(anotherZipCode.getFormattedZipCode().toString());
+  }
+
+  @Override
+  public String toString() {
+    return zipCode;
+  }
+
 }

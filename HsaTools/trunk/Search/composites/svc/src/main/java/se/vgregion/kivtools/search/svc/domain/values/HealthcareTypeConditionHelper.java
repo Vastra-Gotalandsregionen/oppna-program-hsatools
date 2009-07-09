@@ -151,7 +151,9 @@ public class HealthcareTypeConditionHelper {
 
     Enumeration<String> allKeys = getAllHealthcareConditionConfigurationKeys();
     String currentConditionKey;
-    int currentIndex, beginPos, endPos;
+    int currentIndex;
+    int beginPos;
+    int endPos;
 
     // Get indexes
     Set<Integer> indexes = new HashSet<Integer>();
@@ -160,7 +162,8 @@ public class HealthcareTypeConditionHelper {
       if (currentConditionKey.startsWith(HEALTHCARE_TYPE_CONDITION_KEY)) {
         beginPos = currentConditionKey.indexOf('_');
         endPos = currentConditionKey.indexOf("-", beginPos);
-        currentIndex = Integer.parseInt(currentConditionKey.substring(beginPos + 1, endPos)); // Get index number
+        // Get index number
+        currentIndex = Integer.parseInt(currentConditionKey.substring(beginPos + 1, endPos));
         indexes.add(currentIndex);
       }
     }
