@@ -41,9 +41,9 @@ import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
 public class RegisterOnUnitController implements Serializable {
 
   private static final long serialVersionUID = 1L;
-  private static final String SIGNATURE_SERVICE_URL = "https://test.signicat.com/signatureservice/services/signatureservice";
+  private static final String SIGNATURE_SERVICE_URL = "https://id.signicat.com/signatureservice/services/signatureservice";
   // Test -> prod: test -> id
-  private static final String SERVICE_URL = "https://test.signicat.com/std/method/vgr?method=sign";
+  private static final String SERVICE_URL = "https://id.signicat.com/std/method/vgr?method=sign";
   // Test -> prod: test -> id
 
   private Log logger = LogFactory.getLog(this.getClass());

@@ -39,7 +39,7 @@ public class RLCoordinateTransformerServiceImpl implements CoordinateTransformer
   private String serviceUrl = "http://rl.se/rt90";
 
   public int[] getRT90(double latDecDeg, double lonDecDeg) throws IOException {
-    int[] RT90Coordinates = null;
+    int[] rt90Coordinates = null;
     URL url = new URL(serviceUrl);
     DataOutputStream printout;
     DataInputStream input;
@@ -68,7 +68,7 @@ public class RLCoordinateTransformerServiceImpl implements CoordinateTransformer
         try {
           x = Integer.parseInt(str.substring(str.indexOf("X = ") + 4, str.indexOf("X = ") + 11));
           y = Integer.parseInt(str.substring(str.indexOf("Y = ") + 4, str.indexOf("Y = ") + 11));
-          RT90Coordinates = new int[] { x, y };
+          rt90Coordinates = new int[] { x, y };
         } catch (NumberFormatException e) {
           // We did not find RT90 coordinates. Move on.
         }
@@ -76,7 +76,7 @@ public class RLCoordinateTransformerServiceImpl implements CoordinateTransformer
       }
     }
     input.close();
-    return RT90Coordinates;
+    return rt90Coordinates;
   }
 
   public double[] getWGS84(int x, int y) {

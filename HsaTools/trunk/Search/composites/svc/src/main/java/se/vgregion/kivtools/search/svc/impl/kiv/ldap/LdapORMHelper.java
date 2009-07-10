@@ -35,7 +35,7 @@ import com.novell.ldap.util.Base64;
  * 
  */
 public class LdapORMHelper {
-  private static String KIV_NEW_LINE_DELIMITER = "$";
+  private static final String KIV_NEW_LINE_DELIMITER = "$";
 
   static String getSingleValue(LDAPAttribute attribute) {
     List<String> values = getValues(attribute);

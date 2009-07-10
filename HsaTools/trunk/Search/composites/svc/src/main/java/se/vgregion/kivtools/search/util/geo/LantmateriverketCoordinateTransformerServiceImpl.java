@@ -42,7 +42,7 @@ public class LantmateriverketCoordinateTransformerServiceImpl implements Coordin
     double[] latDegMinSec = GeoUtil.getGradeMinSec(latDecDeg);
     double[] lonDegMinSec = GeoUtil.getGradeMinSec(lonDecDeg);
 
-    int[] RT90Coordinates = null;
+    int[] rt90Coordinates = null;
     String response = "";
     PostMethod post = new PostMethod(serviceUrl);
     NameValuePair[] data = { new NameValuePair("send", "Transformera"), new NameValuePair("FORM_NR", "Form1"), new NameValuePair("latgra", String.valueOf(latDegMinSec[0])),
@@ -67,11 +67,11 @@ public class LantmateriverketCoordinateTransformerServiceImpl implements Coordin
       String yString = response.substring(startPos + 206, startPos + 216);
       x = (int) Math.round(Double.parseDouble(xString));
       y = (int) Math.round(Double.parseDouble(yString));
-      RT90Coordinates = new int[] { x, y };
+      rt90Coordinates = new int[] { x, y };
     } catch (NumberFormatException e) {
       // We did not find RT90 coordinates. Move on.
     }
-    return RT90Coordinates;
+    return rt90Coordinates;
   }
 
   public double[] getWGS84(int x, int y) {
