@@ -100,17 +100,14 @@ public interface SearchService {
   public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception;
 
   /**
-   * @param id is complete or part of a person identifier. That is why this method can return a list.
-   * 
-   * @param id E.g. in case of VGR the id is a vgrId
+   * @param id is complete or part of a person identifier. That is why this method can return a list. E.g. in case of VGR the id is a vgrId
    * @return
    * @throws Exception
    */
   public SikSearchResultList<Person> searchPersons(String id) throws Exception;
 
   /**
-   * @param id is complete or part of a person identifier. That is why this method can return a list.
-   * @param id E.g. in case of VGR the id is a vgrId
+   * @param id is complete or part of a person identifier. That is why this method can return a list. E.g. in case of VGR the id is a vgrId
    * @param maxSearchResult max number of returned items in the result list
    * @return
    * @throws Exception
@@ -118,10 +115,9 @@ public interface SearchService {
   public SikSearchResultList<Person> searchPersons(String id, int maxSearchResult) throws Exception;
 
   /**
-   * @param id can be a complete or parts of a vgrId. That is why we can return a list od Persons
+   * @param id can be a complete or parts of a vgrId. That is why we can return a list of Persons. E.g. in case of VGR the id is a (part of) a vgrId
    * @param givenName
    * @param familyName
-   * @param id E.g. in case of VGR the id is a (part of) a vgrId
    * @return
    * @throws Exception
    */
@@ -138,7 +134,7 @@ public interface SearchService {
   public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id, int maxResult) throws Exception;
 
   /**
-   * @param a person id for the Person (E.g vgrId in case of VGR)
+   * @param id person id for the Person (E.g vgrId in case of VGR)
    * @return The Person matching the search criteria (must be exactly one)
    * @throws Exception
    */

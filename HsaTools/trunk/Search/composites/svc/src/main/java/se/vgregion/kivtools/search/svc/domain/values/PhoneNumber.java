@@ -86,7 +86,7 @@ public class PhoneNumber implements Serializable, Comparable<PhoneNumber>, IsEmp
     return phoneNumbers;
   }
 
-  public void setPhoneNumber(String phoneNumber) throws IllegalArgumentException {
+  public void setPhoneNumber(String phoneNumber) {
     if (!PhoneNumber.isValid(phoneNumber)) {
       throw new IllegalArgumentException();
     }
@@ -103,7 +103,6 @@ public class PhoneNumber implements Serializable, Comparable<PhoneNumber>, IsEmp
   /**
    * Konverterar LDAP-lagrade telefonnummer s� de blir mer l�ttl�sta. Fr�n katalogformat till presentationsformat.
    * 
-   * @param in V�dre som ska konverteras
    * @return String med konverterat v�rde
    */
   public PhoneNumber getFormattedPhoneNumber() {
