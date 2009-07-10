@@ -118,7 +118,7 @@ public class GaussKrugerProjection implements CoordinateTransformerService {
   /**
    * Constructor with specified gon.
    * 
-   * @param Specified Gon
+   * @param gon Specified Gon
    */
   public GaussKrugerProjection(String gon) throws Exception {
     if (gon != null) {
