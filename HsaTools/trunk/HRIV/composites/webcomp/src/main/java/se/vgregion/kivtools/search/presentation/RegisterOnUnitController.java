@@ -3,20 +3,10 @@ package se.vgregion.kivtools.search.presentation;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
@@ -37,6 +27,7 @@ import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointIm
 import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImplService;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
+import se.vgregion.kivtools.search.util.EncryptionUtil;
 
 public class RegisterOnUnitController implements Serializable {
 
@@ -74,11 +65,11 @@ public class RegisterOnUnitController implements Serializable {
    * @return
    * @throws Exception
    */
-  public VardvalInfo getUnitRegistrationInformation(ExternalContext externalContext, String selectedUnitId) throws Exception {
+  public VardvalInfo getUnitRegistrationInformation(ExternalContext externalContext, String selectedUnitId) throws UnsuccessfullRegistrationException {
 
     String ssnEncodedEncrypted = externalContext.getRequestParameterMap().get("iv-user");
 
-    String decryptedSsn = getDecryptedSsn(Base64.decodeBase64(ssnEncodedEncrypted.getBytes()));
+    String decryptedSsn = EncryptionUtil.decrypt(ssnEncodedEncrypted, "ACME1234ACME1234QWERT123");
 
     // FIXME Remove
     if (decryptedSsn == null) {
@@ -123,48 +114,6 @@ public class RegisterOnUnitController implements Serializable {
     vardvalInfo.setSsn(decryptedSsn);
     vardvalInfo.setSelectedUnitId(selectedUnitId);
     return vardvalInfo;
-  }
-
-  protected String getDecryptedSsn(byte[] encryptedByteArray) {
-    byte[] preSharedKey = "ACME1234ACME1234QWERT123".getBytes();
-    SecretKey aesKey = new SecretKeySpec(preSharedKey, "DESede");
-    byte[] ssnBytes = null;
-    try {
-      Cipher cipher = Cipher.getInstance("DESede/CBC/PKCS5Padding");
-      String initialVector = "vardval0";
-      IvParameterSpec ivs = new IvParameterSpec(initialVector.getBytes());
-      cipher.init(Cipher.DECRYPT_MODE, aesKey, ivs);
-      ssnBytes = cipher.doFinal(encryptedByteArray);
-    } catch (InvalidKeyException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (NoSuchAlgorithmException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (NoSuchPaddingException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IllegalBlockSizeException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (BadPaddingException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (InvalidAlgorithmParameterException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    // Decrypt the cleartext
-    String ssn = new String(ssnBytes);
-    return ssn;
-  }
-
-  protected String getBase64DecodedSsn(String base64EncodedString) {
-    byte[] base64Decoded = null;
-    String base64DecodedString = null;
-    base64Decoded = Base64.decodeBase64(base64EncodedString.getBytes());
-    base64DecodedString = new String(base64Decoded);
-    return base64DecodedString;
   }
 
   private String getNameFromSsn(String ssn) {

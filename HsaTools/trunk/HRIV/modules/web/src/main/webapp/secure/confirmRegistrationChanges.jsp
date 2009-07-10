@@ -22,25 +22,15 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<%@page
-	import="javax.crypto.Cipher,javax.crypto.SecretKey,javax.crypto.spec.SecretKeySpec,javax.crypto.spec.IvParameterSpec"%>
-<%@page import="org.apache.commons.codec.binary.Base64"%>
-<%@page import="java.net.URLEncoder"%><html>
+<%@page import="java.net.URLEncoder"%>
+<%@page import="se.vgregion.kivtools.search.util.EncryptionUtil"%><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!-- TODO Needs to be configurable, eg via Spring configuration. See WebApplicationContextUtils.getWebApplicationContext(getServletContext()); -->
 <%
 	String ssnFromWebSeal = request.getHeader("iv-user");
 
-	byte[] preSharedKey = "ACME1234ACME1234QWERT123".getBytes();
-	SecretKey aesKey = new SecretKeySpec(preSharedKey, "DESede");
-	Cipher cipher = Cipher.getInstance("DESede/CBC/PKCS5Padding");
-	String initialVector = "vardval0";
-	IvParameterSpec ivs = new IvParameterSpec(initialVector.getBytes());
-	cipher.init(Cipher.ENCRYPT_MODE, aesKey, ivs);
-	byte[] cipherText = cipher.doFinal(ssnFromWebSeal.getBytes());
-
-	String cipherTextStringBase64Encoded = new String(Base64.encodeBase64(cipherText));
+	String cipherTextStringBase64Encoded = EncryptionUtil.encrypt(ssnFromWebSeal, "ACME1234ACME1234QWERT123");
 	String cipherTextStringBase64EncodedURLEncoded = URLEncoder.encode(cipherTextStringBase64Encoded, "ISO-8859-1");
 	String url = response.encodeRedirectURL("http://hriv.vgregion.se:8080/hriv/confirmRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnit-flow&hsaidentity="
 			+ request.getParameter("hsaidentity") + "&iv-user=" + cipherTextStringBase64EncodedURLEncoded);
