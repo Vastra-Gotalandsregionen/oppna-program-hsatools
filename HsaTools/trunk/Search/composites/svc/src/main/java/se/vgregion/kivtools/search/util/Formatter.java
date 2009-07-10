@@ -105,7 +105,7 @@ public class Formatter {
     int beginIndex = 0;
     int endIndex = inputString.indexOf(delimiter, beginIndex);
     String leftPart = "";
-    int delimiter_length = delimiter.length();
+    int delimiterLength = delimiter.length();
 
     if (endIndex < 0) {
       // there was no delimiter found
@@ -132,7 +132,7 @@ public class Formatter {
       if (endIndex + 1 >= length) {
         return list;
       } else {
-        beginIndex = endIndex + delimiter_length;
+        beginIndex = endIndex + delimiterLength;
       }
     }
     return list;

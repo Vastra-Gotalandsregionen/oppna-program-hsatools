@@ -20,9 +20,9 @@ package se.vgregion.kivtools.search.svc;
 public enum SortOrder {
   UNIT_NAME(0), CARE_TYPE_NAME(1);
 
-  private final int ORDER_ID;
+  private final int orderId;
 
-  SortOrder(int order_id) {
-    ORDER_ID = order_id;
+  SortOrder(int orderId) {
+    this.orderId = orderId;
   }
 }

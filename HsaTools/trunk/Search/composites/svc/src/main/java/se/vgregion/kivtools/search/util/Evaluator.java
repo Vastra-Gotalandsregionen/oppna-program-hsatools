@@ -26,7 +26,7 @@ import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 
 public class Evaluator {
-  private static final String className = Evaluator.class.getName();
+  private static final String CLASSNAME = Evaluator.class.getName();
 
   public static boolean isInteger(String s) {
     try {

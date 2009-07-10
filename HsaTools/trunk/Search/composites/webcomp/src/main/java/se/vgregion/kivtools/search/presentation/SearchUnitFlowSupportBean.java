@@ -230,10 +230,10 @@ public class SearchUnitFlowSupportBean implements Serializable {
         Unit u = getSearchService().getUnitByHsaId(hsaId);
         if (u != null) {
           if (u.getHsaStreetAddressIsValid()) {
-            int[] RT90Coordinates = geoUtil.geocodeToRT90(u.getHsaStreetAddress(), googleKey);
-            if (RT90Coordinates != null) {
-              u.setRt90X(RT90Coordinates[0]);
-              u.setRt90Y(RT90Coordinates[1]);
+            int[] rt90Coordinates = geoUtil.geocodeToRT90(u.getHsaStreetAddress(), googleKey);
+            if (rt90Coordinates != null) {
+              u.setRt90X(rt90Coordinates[0]);
+              u.setRt90Y(rt90Coordinates[1]);
             } else {
               u.setRt90X(-1);
               u.setRt90Y(-1);

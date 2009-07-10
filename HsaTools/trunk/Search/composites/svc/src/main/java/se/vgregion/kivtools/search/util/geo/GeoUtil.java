@@ -58,18 +58,18 @@ public class GeoUtil {
   public int[] geocodeToRT90(Address hsaStreetAddress, String googleKey) throws Exception {
     logger.info(CLASS_NAME + ".geocodeToRT90()");
 
-    int[] RT90Coordinates = null;
-    double[] WGS84Coordinates = geocodeToWGS84FromHsaAddress(hsaStreetAddress, googleKey);
+    int[] rt90Coordinates = null;
+    double[] wgs84Coordinates = geocodeToWGS84FromHsaAddress(hsaStreetAddress, googleKey);
 
-    if (WGS84Coordinates != null) {
+    if (wgs84Coordinates != null) {
       // 2.5V is HSA standard
       CoordinateTransformerService cts = new GaussKrugerProjection("2.5V");
-      RT90Coordinates = cts.getRT90(WGS84Coordinates[0], WGS84Coordinates[1]);
-      if (RT90Coordinates != null) {
-        logger.debug("RT90 Coords after projection: " + RT90Coordinates[0] + "," + RT90Coordinates[1]);
+      rt90Coordinates = cts.getRT90(wgs84Coordinates[0], wgs84Coordinates[1]);
+      if (rt90Coordinates != null) {
+        logger.debug("RT90 Coords after projection: " + rt90Coordinates[0] + "," + rt90Coordinates[1]);
       }
     }
-    return RT90Coordinates;
+    return rt90Coordinates;
   }
 
   private double[] geocodeToWGS84FromString(String address, String googleKey, GeoAddressAccuracy accuracy) {
