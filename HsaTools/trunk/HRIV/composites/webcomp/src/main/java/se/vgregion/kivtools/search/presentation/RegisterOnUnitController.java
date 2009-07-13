@@ -63,7 +63,7 @@ public class RegisterOnUnitController implements Serializable {
    * @param externalContext
    * @param selectedUnitId
    * @return
-   * @throws Exception
+   * @throws UnsuccessfullRegistrationException If there is a problem looking up the citizens current unit selection.
    */
   public VardvalInfo getUnitRegistrationInformation(ExternalContext externalContext, String selectedUnitId) throws UnsuccessfullRegistrationException {
 
@@ -167,7 +167,7 @@ public class RegisterOnUnitController implements Serializable {
    * 
    * @param externalContext
    * @return
-   * @throws UnsuccessfullRegistrationException
+   * @throws UnsuccessfullRegistrationException If there is a problem registering the citizens unit selection.
    */
   public VardvalInfo postCommitRegistrationOnUnit(ExternalContext externalContext) throws UnsuccessfullRegistrationException {
 

@@ -185,8 +185,7 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
    * @throws IOException
    */
   public void filterAccessibilityDatabaseInfo(Unit u, AccessibilityDatabaseFilterForm form) throws IOException, SAXException, ParserConfigurationException {
-    // We need to keep track of submissions in order to know when to show
-    // "no result".
+    // We need to keep track of submissions in order to know when to show "no result".
     form.setSubmitted(true);
 
     // If language has changed we need to download new data
@@ -196,126 +195,76 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
     }
 
     // Create array with selected disabilities
-    int[] selectedDisabilities = new int[5];
+    boolean[] selectedDisabilities = new boolean[5];
 
-    if (form.getHear() == true) {
-      selectedDisabilities[0] = 1;
-    }
-    if (form.getSee() == true) {
-      selectedDisabilities[1] = 1;
-    }
-    if (form.getMove() == true) {
-      selectedDisabilities[2] = 1;
-    }
-    if (form.getSubstances() == true) {
-      selectedDisabilities[3] = 1;
-    }
-    if (form.getInfo() == true) {
-      selectedDisabilities[4] = 1;
-    }
+    selectedDisabilities[0] = form.getHear();
+    selectedDisabilities[1] = form.getSee();
+    selectedDisabilities[2] = form.getMove();
+    selectedDisabilities[3] = form.getSubstances();
+    selectedDisabilities[4] = form.getInfo();
 
     // Attentive or Available?
-    boolean attentive = false;
     String listType = form.getListType();
-    if ("attentive".equals(listType)) {
-      attentive = true;
-    }
+    boolean attentive = "attentive".equals(listType);
 
-    // Business object
     if (u.getAccessibilityInformation() != null) {
-      for (Block b : u.getAccessibilityInformation().getBusinessObject().getBlocks()) {
-        for (AccessibilityPackage p : b.getPackages()) {
-          criteriaIteration: for (Criteria c : p.getCriterias()) {
-            // Take Attentive/Available choice into consideration.
-            // Request should match the criteria's
-            // "attentive/available belonging".
-            // We should not show hidden criterias either.
-            if (!(attentive == c.isNotice()) || c.isHidden()) {
-              c.setShow(false);
-              continue;
-            }
-
-            // Reset show flag
-            c.setShow(false);
-
-            for (String disability : c.getDisabilities()) {
-              // Since we don't want to add the accessibility
-              // information multiple times, move on to next
-              // criteria
-              // when it is added.
-              if ("hear".equals(disability) && selectedDisabilities[0] == 1) {
-                c.setShow(true);
-                continue criteriaIteration;
-              }
-              if ("see".equals(disability) && selectedDisabilities[1] == 1) {
-                c.setShow(true);
-                continue criteriaIteration;
-              }
-              if ("move".equals(disability) && selectedDisabilities[2] == 1) {
-                c.setShow(true);
-                continue criteriaIteration;
-              }
-              if ("substances".equals(disability) && selectedDisabilities[3] == 1) {
-                c.setShow(true);
-                continue criteriaIteration;
-              }
-              if ("information".equals(disability) && selectedDisabilities[4] == 1) {
-                c.setShow(true);
-                continue criteriaIteration;
-              }
-            }
-          }
-        }
-      }
+      // Business object
+      AccessibilityObject businessObject = u.getAccessibilityInformation().getBusinessObject();
+      updateCriteriasInAccesibilityObject(businessObject, selectedDisabilities, attentive);
 
       // Sub objects
-      for (AccessibilityObject o : u.getAccessibilityInformation().getSubObjects()) {
-        for (Block b : o.getBlocks()) {
-          for (AccessibilityPackage p : b.getPackages()) {
-            criteriaIteration: for (Criteria c : p.getCriterias()) {
-              // Take Attentive/Available choice into
-              // consideration.
-              // Request should match the criteria's
-              // "attentive/available belonging".
-              // We should not show hidden criterias either.
-              if (!(attentive == c.isNotice()) || c.isHidden()) {
-                c.setShow(false);
-                continue;
-              }
+      for (AccessibilityObject subObject : u.getAccessibilityInformation().getSubObjects()) {
+        updateCriteriasInAccesibilityObject(subObject, selectedDisabilities, attentive);
+      }
+    }
+  }
 
-              // Reset show flag
-              c.setShow(false);
-
-              for (String disability : c.getDisabilities()) {
-                // Since we don't want to add the accessibility
-                // information multiple times, move on to next
-                // criteria when it is added.
-                if ("hear".equals(disability) && selectedDisabilities[0] == 1) {
-                  c.setShow(true);
-                  continue criteriaIteration;
-                }
-                if ("see".equals(disability) && selectedDisabilities[1] == 1) {
-                  c.setShow(true);
-                  continue criteriaIteration;
-                }
-                if ("move".equals(disability) && selectedDisabilities[2] == 1) {
-                  c.setShow(true);
-                  continue criteriaIteration;
-                }
-                if ("substances".equals(disability) && selectedDisabilities[3] == 1) {
-                  c.setShow(true);
-                  continue criteriaIteration;
-                }
-                if ("information".equals(disability) && selectedDisabilities[4] == 1) {
-                  c.setShow(true);
-                  continue criteriaIteration;
-                }
-              }
-            }
+  /**
+   * Updates criterias in the retrieved AccessibilityObjects based on if we should be attentive to the users selected disabilities and the users selected disabilities.
+   * 
+   * @param accessibilityObject The AccessibilityObject to update criterias in.
+   * @param selectedDisabilities The users selected disabilities.
+   * @param attentive True if we should be attentive to the users selected disabilities.
+   */
+  private void updateCriteriasInAccesibilityObject(AccessibilityObject accessibilityObject, boolean[] selectedDisabilities, boolean attentive) {
+    for (Block b : accessibilityObject.getBlocks()) {
+      for (AccessibilityPackage p : b.getPackages()) {
+        for (Criteria c : p.getCriterias()) {
+          // Take Attentive/Available choice into consideration.
+          // Request should match the criteria's "attentive/available belonging".
+          // We should not show hidden criterias either.
+          if (!(attentive == c.isNotice()) || c.isHidden()) {
+            c.setShow(false);
+            continue;
           }
+
+          boolean disabilities = checkDisabilities(c, selectedDisabilities);
+          c.setShow(disabilities);
         }
       }
     }
+  }
+
+  /**
+   * Checks if the provided criteria has any of the selected disabilities.
+   * 
+   * @param criteria Criteria to check disabilities for.
+   * @param selectedDisabilities The selected disabilities to look for.
+   * @return True if any of the selected disabilities are found.
+   */
+  private boolean checkDisabilities(Criteria criteria, boolean[] selectedDisabilities) {
+    boolean result = false;
+
+    for (String disability : criteria.getDisabilities()) {
+      // Since we don't want to add the accessibility information multiple times, move on to next criteria when it is added.
+      result |= "hear".equals(disability) && selectedDisabilities[0];
+      result |= "see".equals(disability) && selectedDisabilities[1];
+      result |= "move".equals(disability) && selectedDisabilities[2];
+      result |= "substances".equals(disability) && selectedDisabilities[3];
+      result |= "information".equals(disability) && selectedDisabilities[4];
+    }
+
+    return result;
   }
 
   public void logger(String msg) {
