@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<doc>
+	<businessobject>
+		<objectName>aa_name</objectName>
+		<updateStamp>2009-01-01</updateStamp>
+		<block id="bl_1" fkSystemObjectId="id">
+			<name>bb_name</name>
+			<package id="pid">
+				<name>pck1</name>
+				<images>
+					<image></image>
+				</images>
+				<criteria objectName="crit1" status="15" type="2">
+					<Disabilities>
+						<hear />
+						<see />
+					</Disabilities>
+					<bcriteria>bcrit</bcriteria>
+					<input>input</input>
+				</criteria>
+				<criteria objectName="crit2" status="16" type="1">
+					<Disabilities>
+						<move />
+						<substances />
+					</Disabilities>
+					<bcriteria>bcrit2</bcriteria>
+					<input>input2</input>
+				</criteria>
+				<criteria objectName="crit3" status="15" type="1">
+					<Disabilities>
+						<hear />
+					</Disabilities>
+				</criteria>
+				<criteria objectName="crit4" status="15" type="1">
+					<Disabilities>
+						<see />
+					</Disabilities>
+				</criteria>
+				<criteria objectName="crit5" status="15" type="1">
+					<Disabilities>
+						<move />
+					</Disabilities>
+				</criteria>
+				<criteria objectName="crit6" status="15" type="1">
+					<Disabilities>
+						<substances />
+					</Disabilities>
+				</criteria>
+				<criteria objectName="crit7" status="15" type="1">
+					<Disabilities>
+						<information />
+					</Disabilities>
+				</criteria>
+			</package>
+		</block>
+	</businessobject>
+	<subobject>
+		<objectName>aa_name</objectName>
+		<updateStamp>2009-01-01</updateStamp>
+		<block id="bl_1" fkSystemObjectId="id">
+			<name>bb_name</name>
+			<package id="pid">
+				<name>pck1</name>
+				<images>
+					<image></image>
+				</images>
+				<criteria objectName="crit1" status="15" type="2">
+					<Disabilities>
+						<hear />
+						<see />
+					</Disabilities>
+					<bcriteria>bcrit</bcriteria>
+					<input>input</input>
+				</criteria>
+				<criteria objectName="crit2" status="16" type="1">
+					<Disabilities>
+						<move />
+						<substances />
+					</Disabilities>
+					<bcriteria>bcrit2</bcriteria>
+					<input>input2</input>
+				</criteria>
+				<criteria objectName="crit3" status="15" type="1">
+					<Disabilities>
+						<hear />
+					</Disabilities>
+				</criteria>
+				<criteria objectName="crit4" status="15" type="1">
+					<Disabilities>
+						<see />
+					</Disabilities>
+				</criteria>
+				<criteria objectName="crit5" status="15" type="1">
+					<Disabilities>
+						<move />
+					</Disabilities>
+				</criteria>
+				<criteria objectName="crit6" status="15" type="1">
+					<Disabilities>
+						<substances />
+					</Disabilities>
+				</criteria>
+				<criteria objectName="crit7" status="15" type="1">
+					<Disabilities>
+						<information />
+					</Disabilities>
+				</criteria>
+			</package>
+		</block>
+	</subobject>
+</doc>
