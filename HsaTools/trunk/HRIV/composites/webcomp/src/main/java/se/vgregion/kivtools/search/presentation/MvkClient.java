@@ -82,8 +82,8 @@ public class MvkClient {
     } catch (MalformedURLException e) {
       logger.error("MVK url no good: " + mvkUrlString, e);
     }
-
-    trustAllHttpsCertificates();
+    // FIXME should not be used anymore because it destroys keystore that is used by ssl soap in VardvalService
+    // trustAllHttpsCertificates();
     HttpURLConnection urlConnection;
     BufferedInputStream in = null;
     try {
