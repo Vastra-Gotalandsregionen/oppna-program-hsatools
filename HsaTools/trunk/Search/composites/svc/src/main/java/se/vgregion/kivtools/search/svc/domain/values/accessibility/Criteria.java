@@ -19,6 +19,7 @@ package se.vgregion.kivtools.search.svc.domain.values.accessibility;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -50,25 +51,21 @@ public class Criteria implements Serializable {
    * &lt;/criteria&gt;
    * </pre>
    * 
-   * @param item
+   * @param criteria A Node describing a Criteria.
    */
   public Criteria(Node criteria) {
     // Set name, status and type
-    NamedNodeMap attributes = criteria.getAttributes();
-    if (attributes != null && attributes.getNamedItem("objectName") != null) {
-      name = attributes.getNamedItem("objectName").getTextContent() + "_" + System.currentTimeMillis();
+    String criteriaName = Criteria.getAttribute(criteria, "objectName");
+    if (criteriaName != null) {
+      name = criteriaName + "_" + System.currentTimeMillis();
     }
-    if (attributes != null && attributes.getNamedItem("status") != null) {
-      String status = attributes.getNamedItem("status").getTextContent();
-      if ("16".equals(status)) {
-        hidden = true;
-      }
+    String status = Criteria.getAttribute(criteria, "status");
+    if ("16".equals(status)) {
+      hidden = true;
     }
-    if (attributes != null && attributes.getNamedItem("type") != null) {
-      String type = attributes.getNamedItem("type").getTextContent();
-      if ("1".equals(type)) {
-        notice = true;
-      }
+    String type = Criteria.getAttribute(criteria, "type");
+    if ("1".equals(type)) {
+      notice = true;
     }
 
     NodeList criteriaChildren = criteria.getChildNodes();
@@ -76,16 +73,8 @@ public class Criteria implements Serializable {
     for (int i = 0; i < criteriaChildren.getLength(); i++) {
       // Set disabilities
       if ("Disabilities".equals(criteriaChildren.item(i).getNodeName())) {
-        NodeList disabilitiesElements = criteriaChildren.item(i).getChildNodes();
-        for (int j = 0; j < disabilitiesElements.getLength(); j++) {
-          Node disableElement = disabilitiesElements.item(j);
-          if (disableElement.getNodeType() == Node.ELEMENT_NODE) {
-            String nodeName = disableElement.getNodeName();
-            if (nodeName != null) {
-              disabilities.add(nodeName);
-            }
-          }
-        }
+        List<String> nodeDisabilities = Criteria.getDisabilities(criteriaChildren.item(i));
+        disabilities.addAll(nodeDisabilities);
       }
       // Add bCriterias
       if ("bcriteria".equals(criteriaChildren.item(i).getNodeName())) {
@@ -152,5 +141,48 @@ public class Criteria implements Serializable {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  /**
+   * Helper-method to get all the disabilities from a Node.
+   * 
+   * @param node The node to get disabilities from.
+   * @return A list of all the disabilities for the provided Node.
+   */
+  private static List<String> getDisabilities(Node node) {
+    List<String> disabilities = new ArrayList<String>();
+
+    NodeList disabilitiesElements = node.getChildNodes();
+    for (int j = 0; j < disabilitiesElements.getLength(); j++) {
+      Node disableElement = disabilitiesElements.item(j);
+      if (disableElement.getNodeType() == Node.ELEMENT_NODE) {
+        String nodeName = disableElement.getNodeName();
+        if (nodeName != null) {
+          disabilities.add(nodeName);
+        }
+      }
+    }
+
+    return disabilities;
+  }
+
+  /**
+   * Helper-method to get the text content of a named attribute from a Node.
+   * 
+   * @param node The Node to get the attribute from.
+   * @param attributeName The name of the attribute to get.
+   * @return The text content of the named attribute or null if the attribute was not found.
+   */
+  private static String getAttribute(Node node, String attributeName) {
+    String attribute = null;
+
+    NamedNodeMap attributes = node.getAttributes();
+    if (attributes != null) {
+      Node attributeNode = attributes.getNamedItem(attributeName);
+      if (attributeNode != null) {
+        attribute = attributeNode.getTextContent();
+      }
+    }
+    return attribute;
   }
 }

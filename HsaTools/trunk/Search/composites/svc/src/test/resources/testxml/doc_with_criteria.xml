@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+	<criteria objectName="crit1" status="15" type="2">
+		<Disabilities>
+			<hear />
+			<see />
+		</Disabilities>
+		<bcriteria>bcrit</bcriteria>
+		<input>input</input>
+	</criteria>
+	<criteria objectName="crit2" status="16" type="1">
+		<Disabilities>
+			<move />
+			<substances />
+		</Disabilities>
+		<bcriteria>bcrit2</bcriteria>
+		<input>input2</input>
+	</criteria>
+</doc>
