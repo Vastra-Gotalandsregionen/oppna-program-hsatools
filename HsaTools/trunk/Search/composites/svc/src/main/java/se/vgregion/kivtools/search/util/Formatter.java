@@ -95,44 +95,37 @@ public class Formatter {
    * @param list This list is allocated outside the call and filled with data E.g. The list get�s two new entries list[0]=Hello list[1]=Guys
    * @param inputString E.g "Hello$Guys$ $"
    * @param delimiter E.g."$"
-   * @return
+   * @return The list of strings that was passed in with the parts of the chopped up inputstring added to it.
    */
   public static List<String> chopUpStringToList(List<String> list, String inputString, String delimiter) {
-    if (Evaluator.isEmpty(inputString) || delimiter == null || delimiter.length() == 0) {
-      return list;
-    }
-    int length = inputString.length();
-    int beginIndex = 0;
-    int endIndex = inputString.indexOf(delimiter, beginIndex);
-    String leftPart = "";
-    int delimiterLength = delimiter.length();
+    if (!Evaluator.isEmpty(inputString) && !Evaluator.isEmpty(delimiter)) {
+      int length = inputString.length();
+      int beginIndex = 0;
+      int endIndex = inputString.indexOf(delimiter, beginIndex);
+      String leftPart = "";
+      int delimiterLength = delimiter.length();
 
-    if (endIndex < 0) {
-      // there was no delimiter found
-      list.add(inputString);
-      return list;
-    }
+      if (endIndex >= 0) {
+        while (beginIndex < length && endIndex >= 0) {
+          endIndex = inputString.indexOf(delimiter, beginIndex);
+          if (endIndex < 0) {
+            leftPart = inputString.substring(beginIndex, length);
+            if (!Evaluator.isEmpty(leftPart)) {
+              list.add(leftPart);
+            }
+          } else {
+            // hello
+            leftPart = inputString.substring(beginIndex, endIndex);
+            if (!Evaluator.isEmpty(leftPart)) {
+              list.add(leftPart);
+            }
+          }
 
-    while (beginIndex < length && endIndex >= 0) {
-      endIndex = inputString.indexOf(delimiter, beginIndex);
-      if (endIndex < 0) {
-        leftPart = inputString.substring(beginIndex, length);
-        if (!Evaluator.isEmpty(leftPart)) {
-          list.add(leftPart);
+          beginIndex = endIndex + delimiterLength;
         }
-        return list;
       } else {
-        // hello
-        leftPart = inputString.substring(beginIndex, endIndex);
-        if (!Evaluator.isEmpty(leftPart)) {
-          list.add(leftPart);
-        }
-      }
-
-      if (endIndex + 1 >= length) {
-        return list;
-      } else {
-        beginIndex = endIndex + delimiterLength;
+        // there was no delimiter found
+        list.add(inputString);
       }
     }
     return list;
