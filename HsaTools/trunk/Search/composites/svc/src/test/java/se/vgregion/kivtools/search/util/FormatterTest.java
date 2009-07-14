@@ -21,4 +21,46 @@ public class FormatterTest {
     list.add("Angered");
     assertEquals("Unexpected result", "Vårdcentral Angered, Angered", Formatter.concatenate(list));
   }
+
+  @Test
+  public void testChopUpString() {
+    List<String> values = new ArrayList<String>();
+
+    values = Formatter.chopUpStringToList(values, null, null);
+    assertNotNull("Unexpected null returned", values);
+    assertEquals("Unexpected size of returned list", 0, values.size());
+
+    values = Formatter.chopUpStringToList(values, "", "");
+    assertNotNull("Unexpected null returned", values);
+    assertEquals("Unexpected size of returned list", 0, values.size());
+
+    values = Formatter.chopUpStringToList(values, "teststring", "$");
+    assertNotNull("Unexpected null returned", values);
+    assertEquals("Unexpected size of returned list", 1, values.size());
+    assertEquals("Unexpected value returned", "teststring", values.get(0));
+
+    values.clear();
+
+    values = Formatter.chopUpStringToList(values, "teststring$teststring2", "$");
+    assertNotNull("Unexpected null returned", values);
+    assertEquals("Unexpected size of returned list", 2, values.size());
+    assertEquals("Unexpected value returned", "teststring", values.get(0));
+    assertEquals("Unexpected value returned", "teststring2", values.get(1));
+
+    values.clear();
+
+    values = Formatter.chopUpStringToList(values, "teststring$ $teststring2", "$");
+    assertNotNull("Unexpected null returned", values);
+    assertEquals("Unexpected size of returned list", 2, values.size());
+    assertEquals("Unexpected value returned", "teststring", values.get(0));
+    assertEquals("Unexpected value returned", "teststring2", values.get(1));
+
+    values.clear();
+
+    values = Formatter.chopUpStringToList(values, "teststring$teststring2$ $$$", "$");
+    assertNotNull("Unexpected null returned", values);
+    assertEquals("Unexpected size of returned list", 2, values.size());
+    assertEquals("Unexpected value returned", "teststring", values.get(0));
+    assertEquals("Unexpected value returned", "teststring2", values.get(1));
+  }
 }

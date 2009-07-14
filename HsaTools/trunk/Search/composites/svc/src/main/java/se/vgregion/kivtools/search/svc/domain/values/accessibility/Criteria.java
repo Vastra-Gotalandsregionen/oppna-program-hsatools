@@ -38,10 +38,17 @@ public class Criteria implements Serializable {
   private boolean hidden;
 
   /**
-   * Construct AccessibilityInformation object from a node which may look like:
+   * Construct AccessibilityInformation object from a node which may look like below.
    * 
-   * <criteria id="618" objectName="021 Lås (HIN)" status="1" type="1"> <Disabilities> <move/> <information/> </Disabilities> <input id="79508"> Det krävs flera handrörelser eller båda händerna för
-   * att låsa/låsa upp. </input> </criteria>
+   * <pre>
+   * &lt;criteria id=&quot;618&quot; objectName=&quot;021 Lås (HIN)&quot; status=&quot;1&quot; type=&quot;1&quot;&gt;
+   *   &lt;Disabilities&gt; 
+   *     &lt;move/&gt; 
+   *     &lt;information/&gt; 
+   *   &lt;/Disabilities&gt;
+   *   &lt;input id=&quot;79508&quot;&gt;Det krävs flera handrörelser eller båda händerna för att låsa/låsa upp.&lt;/input&gt;
+   * &lt;/criteria&gt;
+   * </pre>
    * 
    * @param item
    */

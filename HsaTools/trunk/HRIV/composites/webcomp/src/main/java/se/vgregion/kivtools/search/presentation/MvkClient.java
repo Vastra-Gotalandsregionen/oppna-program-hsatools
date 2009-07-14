@@ -129,7 +129,7 @@ public class MvkClient {
     u.setMvkCaseTypes(caseTypes);
   }
 
-  public static class miTM implements javax.net.ssl.TrustManager, javax.net.ssl.X509TrustManager {
+  public static class MiTM implements javax.net.ssl.TrustManager, javax.net.ssl.X509TrustManager {
     public java.security.cert.X509Certificate[] getAcceptedIssuers() {
       return null;
     }
@@ -157,7 +157,7 @@ public class MvkClient {
   private static void trustAllHttpsCertificates() {
     // Create a trust manager that does not validate certificate chains:
     javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[1];
-    javax.net.ssl.TrustManager tm = new miTM();
+    javax.net.ssl.TrustManager tm = new MiTM();
     trustAllCerts[0] = tm;
     javax.net.ssl.SSLContext sc = null;
     try {
