@@ -134,7 +134,6 @@ public class DisplayAccessibilityDatabaseBeanTest {
       factory.setValidating(false);
       DocumentBuilder builder = factory.newDocumentBuilder();
       InputStream inputStream = DisplayAccessibilityDatabaseBeanTest.class.getClassLoader().getResourceAsStream(resourceName);
-      // InputStream inputStream = ClassLoader.getSystemResourceAsStream(resourceName);
       document = builder.parse(inputStream);
     } catch (ParserConfigurationException e) {
       throw new RuntimeException(e);
