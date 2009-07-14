@@ -104,7 +104,7 @@ public class LdapParse {
       int pos = 0;
       try {
         pos = Integer.parseInt(vec.get(1));
-      } catch (Exception e) {
+      } catch (NumberFormatException e) {
         return "";
       }
       String[] tmp = valueFromGUI.split("\\$");

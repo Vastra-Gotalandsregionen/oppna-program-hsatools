@@ -533,6 +533,11 @@ th.leftcol,.rightcol { /*margin-bottom: 0.5em;*/
 	width: 4em;
 }
 
+.directions-right-col {
+	width: 20em;
+	padding: 0.25em;
+}
+
 /*Paging*/
 #pager-container {
 	padding-top: 0.5em;
