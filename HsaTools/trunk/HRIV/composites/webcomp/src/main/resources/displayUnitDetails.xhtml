@@ -290,7 +290,7 @@
 								<th class="leftcol">
 									<span class="grey-header">#{msg.routeDescription}</span>
 								</th>
-								<td class="rightcol">
+								<td class="directions-right-col">
 									<h:outputText value="#{unit.hsaRouteConcatenated}" />
 				                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaRouteConcatenated) lt 1}">
 										<span class="warning">hsaRoute #{msg.missing}</span>
@@ -301,7 +301,7 @@
 								<th class="leftcol">
 									<span class="grey-header">#{msg.coordinates}</span>
 								</th>
-								<td class="rightcol">
+								<td class="directions-right-col">
 						           	<h:outputText rendered="#{unit.wgs84Lat!=0.0}">
 						     			<div class="geo">
 						     				#{msg.latitude}: <abbr class="latitude" id="abbr-latitude">
@@ -321,7 +321,7 @@
 								<th class="leftcol">
 									<span class="grey-header">#{msg.findRoute}</span>
 								</th>
-								<td class="rightcol">
+								<td class="directions-right-col">
 				           		<ui:repeat value="#{settings.findRouteLinksArray}" var="link">
 				           			<h:outputText rendered="#{link.toParamName != ''}">
 					           			<a href="#{link.href}?#{link.toParamName}=#{fn:trim(unit.hsaStreetAddress.street)}" class="url">#{link.name}</a><br/>
