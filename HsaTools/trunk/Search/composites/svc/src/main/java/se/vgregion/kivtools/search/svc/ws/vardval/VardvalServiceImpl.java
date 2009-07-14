@@ -14,14 +14,18 @@ import se.vgregion.kivtools.search.svc.ws.domain.vardval.ObjectFactory;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalRequest;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalResponse;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalEntry;
-import se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalService;
 
 public class VardvalServiceImpl implements VardvalService {
 
   private ObjectFactory objectFactory = new ObjectFactory();
+  private IVårdvalService service;
   private String webserviceEndpoint;
 
-  public void setEndpoint(IVårdvalService service) throws KeyStoreException {
+  public void setService(IVårdvalService service) {
+    this.service = service;
+  }
+
+  public void setEndpoint() throws KeyStoreException {
     BindingProvider bindingProvider = (BindingProvider) service;
     Map<String, Object> requestContext = bindingProvider.getRequestContext();
     requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, webserviceEndpoint);
@@ -70,14 +74,6 @@ public class VardvalServiceImpl implements VardvalService {
    */
   @Override
   public VardvalInfo setVardval(String ssn, String hsaId, byte[] signature) throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage {
-    IVårdvalService service = new VårdvalService().getBasicHttpBindingIVårdvalService();
-    try {
-      setEndpoint(service);
-    } catch (KeyStoreException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
     SetVårdvalRequest vardvalRequest = new SetVårdvalRequest();
     JAXBElement<String> soapSsn = objectFactory.createSetVårdvalRequestPersonnummer(ssn);
     JAXBElement<byte[]> soapSignature = objectFactory.createSetVårdvalRequestSigneringskod(signature);
@@ -95,24 +91,10 @@ public class VardvalServiceImpl implements VardvalService {
    * @return - Soap response
    */
   private GetVårdvalResponse getVardvalInfo(String ssn) {
-
-    IVårdvalService service = new VårdvalService().getBasicHttpBindingIVårdvalService();
-
-    System.out.println(System.getProperty("javax.net.ssl.keyStore"));
-
-    try {
-      setEndpoint(service);
-    } catch (KeyStoreException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
     JAXBElement<String> soapSsn = objectFactory.createGetVårdvalRequestPersonnummer(ssn);
     GetVårdvalRequest getVardvalRequest = objectFactory.createGetVårdvalRequest();
     getVardvalRequest.setPersonnummer(soapSsn);
     GetVårdvalResponse getVardvalResponse = service.getVårdVal(getVardvalRequest);
     return getVardvalResponse;
-  }
-
-  public void setVardvalService(VårdvalService vardvalService) {
   }
 }
