@@ -26,6 +26,8 @@ import java.text.SimpleDateFormat;
 import java.text.StringCharacterIterator;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,6 +39,27 @@ import java.util.regex.Pattern;
  *         Ldap specific parsing. Received from the Kiv Admin project
  */
 public class LdapParse {
+  private static Map<String, String> objectStatusText = new HashMap<String, String>();
+  private static Map<String, String> dayNames = new HashMap<String, String>();
+
+  static {
+    objectStatusText.put("0", "[Klarmarkerad]");
+    objectStatusText.put("10", "[Palett] Ny anställning");
+    objectStatusText.put("11", "[Palett] Ansvarsnummer");
+    objectStatusText.put("12", "[Palett] Titel");
+    objectStatusText.put("20", "Ny person");
+    objectStatusText.put("21", "[Västfolket] Namn");
+    objectStatusText.put("22", "[Västfolket] Sekretessmark.");
+    objectStatusText.put("30", "[Notes] E-postadress");
+
+    dayNames.put("1", "Måndag");
+    dayNames.put("2", "Tisdag");
+    dayNames.put("3", "Onsdag");
+    dayNames.put("4", "Torsdag");
+    dayNames.put("5", "Fredag");
+    dayNames.put("6", "Lördag");
+    dayNames.put("0", "Söndag");
+  }
 
   /**
    * Metod som tar en String som har $ som skiljetecken och ersätter detta med radmatningstecken.
@@ -102,33 +125,13 @@ public class LdapParse {
    * @return - String returnerar dag ex. "6" blir "Lördag".
    */
   public static String getDayName(String number) {
-    if (number != null && number.length() > 0) {
-      int intNumber = 0;
-      try {
-        intNumber = Integer.parseInt(number);
-      } catch (Exception e) {
-        return "";
-      }
-      switch (intNumber) {
-        case 1:
-          return "Måndag";
-        case 2:
-          return "Tisdag";
-        case 3:
-          return "Onsdag";
-        case 4:
-          return "Torsdag";
-        case 5:
-          return "Fredag";
-        case 6:
-          return "Lördag";
-        case 0:
-          return "Söndag";
-        default:
-          return "";
-      }
+    String dayName = dayNames.get(number);
+
+    if (dayName == null) {
+      dayName = "";
     }
-    return "";
+
+    return dayName;
   }
 
   /**
@@ -280,39 +283,17 @@ public class LdapParse {
   /**
    * Visar objektstatus i textform.
    * 
-   * @param in -String objektstatus som nummerisk sträng
-   * @return -String objektstatus som text
+   * @param in Objektstatus som nummerisk sträng
+   * @return Objektstatus som text
    */
   public static String vgrObjectStatusToText(String in) {
-    if (in != null) {
-      int val = 0;
-      try {
-        val = Integer.parseInt(in);
-        switch (val) {
-          case 0:
-            return "[Klarmarkerad]";
-          case 10:
-            return "[Palett] Ny anställning";
-          case 11:
-            return "[Palett] Ansvarsnummer";
-          case 12:
-            return "[Palett] Titel";
-          case 20:
-            return "Ny person";
-          case 21:
-            return "[Västfolket] Namn";
-          case 22:
-            return "[Västfolket] Sekretessmark.";
-          case 30:
-            return "[Notes] E-postadress";
-          default:
-            return "";
-        }
-      } catch (Exception e) {
-        return "";
-      }
+    String objectStatus = objectStatusText.get(in);
+
+    if (objectStatus == null) {
+      objectStatus = "";
     }
-    return "";
+
+    return objectStatus;
   }
 
   /**
