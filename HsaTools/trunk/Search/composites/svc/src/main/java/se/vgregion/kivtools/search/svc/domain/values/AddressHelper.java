@@ -58,10 +58,6 @@ public class AddressHelper implements Serializable {
     VALID_STREET_SUFFIX.add("centrum");
   }
 
-  public AddressHelper() {
-    super();
-  }
-
   public static boolean isStreet(String text) {
     if (Evaluator.isEmpty(text)) {
       return false;
@@ -157,7 +153,7 @@ public class AddressHelper implements Serializable {
     System.out.println("Additional Info:" + address.getAdditionalInfoToString());
   }
 
-  private static Address jumpOut(List<String> origAddressList) {
+  private static Address createNewUnparsedAddress(List<String> origAddressList) {
     Address address = new Address();
     address.setAdditionalInfo(origAddressList);
     return address;
@@ -177,16 +173,33 @@ public class AddressHelper implements Serializable {
   }
 
   /**
-   * Convert a List of Strings (containing an address to an Address object) The entry can look like: ex1. Dan Anderssonsgatan 4 422 04 Hisingsbacka
+   * Convert a List of Strings (containing an address to an Address object). The entry can look like:
    * 
-   * ex2. Hus 14 plan 2 Dan Anderssonsgatan 4 42204 Hisingsbacka
+   * <pre>
+   * ex1.
+   * Dan Anderssonsgatan 4
+   * 422 04 Hisingsbacka
    * 
-   * ex3. Dan Anderssonsgatan 4 422 04 Hisingsbacka Gröna stråket
+   * ex2.
+   * Hus 14 plan 2
+   * Dan Anderssonsgatan 4
+   * 42204 Hisingsbacka
    * 
-   * ex4. Dan Anderssonsgatan 4 422 04 Hisingsbacka Till vänster via Huvudentré Hiss A Plan 10
+   * ex3.
+   * Dan Anderssonsgatan 4
+   * 422 04 Hisingsbacka
+   * Gröna stråket
    * 
-   * @param addressList
-   * @return
+   * ex4.
+   * Dan Anderssonsgatan 4
+   * 422 04 Hisingsbacka
+   * Till vänster via Huvudentré
+   * Hiss A
+   * Plan 10
+   * </pre>
+   * 
+   * @param origAddressList The list of strings which the address is built from.
+   * @return A populated Address-object.
    */
   public static Address convertToStreetAddress(List<String> origAddressList) {
     Address address = new Address();
@@ -194,107 +207,198 @@ public class AddressHelper implements Serializable {
     boolean foundZipCode = false;
     boolean foundStreet = false;
 
-    if (Evaluator.isEmpty(origAddressList) || origAddressList.isEmpty()) {
-      return address;
-    }
+    if (!Evaluator.isEmpty(origAddressList)) {
 
-    // let´s make a copy to handle this case
-    List<String> tempAdressList = new ArrayList<String>(origAddressList);
+      // let´s make a copy to handle this case
+      List<String> tempAdressList = new ArrayList<String>(origAddressList);
 
-    int size = tempAdressList.size();
+      int size = tempAdressList.size();
 
-    if (size <= 1) {
-      // no evaluation
-      return jumpOut(origAddressList);
-    }
+      if (size <= 1) {
+        // no evaluation
+        address = createNewUnparsedAddress(origAddressList);
+      } else {
+        // 1. rip out the street
+        // *********************
+        // this is a quite tricky one since sometimes the street name is a part of additional information
+        // so first check if street address exists twice
+        if (isStreetMoreThanOnce(tempAdressList)) {
+          // we have street name in two different locations we give up
+          address = createNewUnparsedAddress(origAddressList);
+        } else {
+          int streetRow = findStreet(tempAdressList);
 
-    // 1. rip out the street
-    // *********************
-    // this is a quiet tricky one since sometimes the street name is a part
-    // of additional information
-    // so first check if street address exists twice
-    if (isStreetMoreThanOnce(tempAdressList)) {
-      // we have street name in two different locations we give up
-      return jumpOut(origAddressList);
-    }
+          if (streetRow == -1) {
+            // if there was no street we can´t do it
+            address = createNewUnparsedAddress(origAddressList);
+          } else {
+            // Street was found, set it in address and remove from list of adress lines.
+            foundStreet = true;
+            String street = tempAdressList.get(streetRow);
+            address.setStreet(street);
+            tempAdressList.remove(streetRow);
 
-    String temp = "";
-    for (int row = size - 1; row >= 0 && !foundStreet; row--) {
-      temp = tempAdressList.get(row);
-      if (AddressHelper.isStreet(temp)) {
-        address.setStreet(temp);
-        foundStreet = true;
-        tempAdressList.remove(row);
+            size = tempAdressList.size();
+
+            // 2. rip out postal code (always 5 characters)
+            // *******************************************
+            int zipRow = findZipAndCity(tempAdressList);
+
+            if (zipRow != -1) {
+              // Zip and city found
+              foundZipCode = true;
+              String zipAndCity = tempAdressList.get(zipRow);
+              String zipCode = getZipcode(zipAndCity);
+              address.setZipCode(new ZipCode(zipCode));
+
+              String city = getCity(zipAndCity);
+              address.setCity(city);
+              foundCity = !Evaluator.isEmpty(city);
+
+              if (foundZipCode) {
+                // ok remove this row
+                tempAdressList.remove(zipRow);
+                if (foundCity) {
+                  address.setAdditionalInfo(tempAdressList);
+                }
+              }
+            }
+
+            if (!foundStreet || !foundCity) {
+              // if there was no street or no city found
+              address = createNewUnparsedAddress(origAddressList);
+            }
+          }
+        }
       }
     }
-    if (!foundStreet) {
-      // if there was no street we can´t do it
-      return jumpOut(origAddressList);
-    }
-    size = tempAdressList.size();
+    return address;
+  }
 
-    // 2. rip out postal code (always 5 characters)
-    // *******************************************
-    ZipCode.isValid("");
-    temp = "";
-    for (int row = size - 1; row >= 0 && !foundZipCode; row--) {
-      temp = tempAdressList.get(row);
+  /**
+   * Helper-method to get the city from an address line.
+   * 
+   * @param zipAndCity The address line containing zip and city.
+   * @return The city from the provided address line.
+   */
+  private static String getCity(String zipAndCity) {
+    String tempCity = zipAndCity;
+    String city = null;
+
+    if (tempCity.length() > ZIPCODE_LENGTH) {
+      tempCity = tempCity.substring(ZIPCODE_LENGTH + 1);
+
+      int position;
+      position = getCityPosition(tempCity);
+      tempCity = tempCity.substring(position);
+      if (!Evaluator.isEmpty(tempCity)) {
+        city = tempCity;
+      }
+    }
+    return city;
+  }
+
+  /**
+   * Helper-method to get the zipcode from an address line.
+   * 
+   * @param zipAndCity The address line containing zip and city.
+   * @return The zipcode from the provided address line.
+   */
+  private static String getZipcode(String zipAndCity) {
+    String tempZip = zipAndCity.replaceAll(" ", "");
+    String zip = null;
+
+    if (tempZip.length() == ZIPCODE_LENGTH && Evaluator.containsOnlyNumbers(tempZip, false)) {
+      zip = tempZip;
+    } else if (tempZip.length() > ZIPCODE_LENGTH) {
+      tempZip = tempZip.substring(0, ZIPCODE_LENGTH);
+      if (Evaluator.containsOnlyNumbers(tempZip, false)) {
+        // ok we have a postalCode here...
+        zip = tempZip;
+      }
+    }
+
+    return zip;
+  }
+
+  /**
+   * Helper-method to find which row (if any) contains the zip and city.
+   * 
+   * @param addressList The list of strings in the address.
+   * @return The index of the row in the provided list of strings that contains the zip and city.
+   */
+  private static int findZipAndCity(List<String> addressList) {
+    int foundRow = -1;
+
+    String temp = "";
+    for (int row = addressList.size() - 1; row >= 0; row--) {
+      temp = addressList.get(row);
       temp = temp.replaceAll(" ", "");
       int tempSize = temp.length();
       if (tempSize == ZIPCODE_LENGTH) {
         // there might be a zipCode here
         if (Evaluator.containsOnlyNumbers(temp, false)) {
           // ok we have a postalCode here...
-          address.setZipCode(new ZipCode(temp));
-          foundZipCode = true;
+          foundRow = row;
+          break;
         }
-      }
-      if (tempSize > ZIPCODE_LENGTH) {
-        // there might be a zipCode here
-        String tempZip = temp.substring(0, ZIPCODE_LENGTH);
-        if (Evaluator.containsOnlyNumbers(tempZip, false)) {
-          // ok we have a postalCode here...
-          address.setZipCode(new ZipCode(tempZip));
-          foundZipCode = true;
-
-          // check if the city is on the same line
-          temp = tempAdressList.get(row);
-          temp = temp.substring(ZIPCODE_LENGTH + 1, temp.length());
-          boolean leadingDigits = true;
-          int position = 0;
-          for (int i = 0; i < temp.length() && leadingDigits; i++) {
-            String c = temp.substring(i, i + 1);
-            if (Evaluator.isEmpty(c)) {
-              position++;
-              continue;
-            }
-            if (Evaluator.isInteger(c)) {
-              position++;
-            } else {
-              leadingDigits = false;
-            }
+      } else {
+        if (tempSize > ZIPCODE_LENGTH) {
+          // there might be a zipCode here
+          String tempZip = temp.substring(0, ZIPCODE_LENGTH);
+          if (Evaluator.containsOnlyNumbers(tempZip, false)) {
+            // ok we have a postalCode here...
+            foundRow = row;
           }
-          String city = temp.substring(position);
-          if (!Evaluator.isEmpty(city)) {
-            foundCity = true;
-            address.setCity(city);
-          }
-        }
-      }
-      if (foundZipCode) {
-        // ok remove this row
-        tempAdressList.remove(row);
-        if (foundCity) {
-          address.setAdditionalInfo(tempAdressList);
-          return address;
         }
       }
     }
 
-    if (!foundStreet || !foundCity) {
-      // if there was no street or no city found
-      return jumpOut(origAddressList);
+    return foundRow;
+  }
+
+  /**
+   * Helper-method to find which row (if any) is the street address.
+   * 
+   * @param addressList The list of strings in the address.
+   * @return The index of the row in the provided list of strings that is the street address.
+   */
+  private static int findStreet(List<String> addressList) {
+    int foundRow = -1;
+
+    String temp = "";
+    for (int row = addressList.size() - 1; row >= 0; row--) {
+      temp = addressList.get(row);
+      if (AddressHelper.isStreet(temp)) {
+        foundRow = row;
+        break;
+      }
     }
-    return address;
+
+    return foundRow;
+  }
+
+  /**
+   * Helper-method to find the position within the provided string where the city starts.
+   * 
+   * @param zipAndCity The string containing both zip and city.
+   * @return The position in the provided string where the city starts.
+   */
+  private static int getCityPosition(String zipAndCity) {
+    int position = 0;
+    boolean leadingDigits = true;
+    for (int i = 0; i < zipAndCity.length() && leadingDigits; i++) {
+      String c = zipAndCity.substring(i, i + 1);
+      if (Evaluator.isEmpty(c)) {
+        position++;
+        continue;
+      }
+      if (Evaluator.isInteger(c)) {
+        position++;
+      } else {
+        leadingDigits = false;
+      }
+    }
+    return position;
   }
 }
