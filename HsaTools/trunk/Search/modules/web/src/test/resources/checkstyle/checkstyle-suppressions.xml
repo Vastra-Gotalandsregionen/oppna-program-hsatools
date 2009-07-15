@@ -20,4 +20,6 @@
     <suppress checks=".*" files=".*[/\\]target[/\\].*" />
     <!-- Suppress resources -->
     <suppress checks=".*" files=".*[/\\]main[/\\]resources[/\\].*" />
+    
+    <suppress checks="ThrowsCount" files="RequestDispatcher.java" lines="34"/>
 </suppressions>
