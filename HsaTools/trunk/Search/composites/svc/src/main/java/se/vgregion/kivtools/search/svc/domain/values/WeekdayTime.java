@@ -96,7 +96,7 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
   /**
    * Skapar en nytt tidsintervall utifrån en sträng på katalogformat.
    * 
-   * @param saveValue
+   * @param saveValue -
    * 
    * @throws InvalidFormatException om någon av inparametrarna ligger utanför tillåtna intervall.
    */
