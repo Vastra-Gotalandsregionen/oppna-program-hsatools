@@ -22,51 +22,51 @@ package se.vgregion.kivtools.search.svc;
 
 import java.io.Serializable;
 
-import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.util.Extractor;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
- *
- * Used for measuring 
+ * 
+ *         Used for measuring
  */
-public class TimeMeasurement implements Serializable{
-    
-    private Long startTime = new Long(0);
-    private Long stopTime = new Long(0);
-    
-    public TimeMeasurement() {
-        super();
-    }
-    
-    public TimeMeasurement(long timeInMilliseconds) {
-        super();
-        startTime= new Long(0);
-        stopTime = new Long(timeInMilliseconds);
-    }
-    public void start() {
-        startTime = Extractor.getNowAsLongObject();
-    }
+public class TimeMeasurement implements Serializable {
 
-    public void stop() {
-        stopTime = Extractor.getNowAsLongObject();
-    }
-    
-    public Long getElapsedTimeInMillisSeconds() throws SikInternalException {
-        if (startTime==null || stopTime==null) {
-            throw new SikInternalException(this, "getElapsedTimeInMillisSeconds", "startTime or stopTime == null");
-        }        
-        return stopTime-startTime;
-    }
+  private Long startTime = Long.valueOf(0);
+  private Long stopTime = Long.valueOf(0);
 
-    public Long getElapsedTimeInSeconds() throws SikInternalException {
-        return getElapsedTimeInMillisSeconds()/1000;
+  public TimeMeasurement() {
+    super();
+  }
+
+  public TimeMeasurement(long timeInMilliseconds) {
+    super();
+    startTime = Long.valueOf(0);
+    stopTime = Long.valueOf(timeInMilliseconds);
+  }
+
+  public void start() {
+    startTime = Extractor.getNowAsLongObject();
+  }
+
+  public void stop() {
+    stopTime = Extractor.getNowAsLongObject();
+  }
+
+  public Long getElapsedTimeInMillisSeconds() {
+    if (startTime == null || stopTime == null) {
+      throw new RuntimeException("TimeMeasurement.getElapsedTimeInMillisSeconds, startTime or stopTime == null");
     }
-    
-    public TimeMeasurement add(TimeMeasurement t1, TimeMeasurement t2) throws SikInternalException{
-        TimeMeasurement t = new TimeMeasurement();
-        t.startTime=new Long(0);
-        t.stopTime=new Long(t1.getElapsedTimeInMillisSeconds() + t2.getElapsedTimeInMillisSeconds());
-        return t;
-    }
+    return stopTime - startTime;
+  }
+
+  public Long getElapsedTimeInSeconds() {
+    return getElapsedTimeInMillisSeconds() / 1000;
+  }
+
+  public TimeMeasurement add(TimeMeasurement t1, TimeMeasurement t2) {
+    TimeMeasurement t = new TimeMeasurement();
+    t.startTime = Long.valueOf(0);
+    t.stopTime = Long.valueOf(t1.getElapsedTimeInMillisSeconds() + t2.getElapsedTimeInMillisSeconds());
+    return t;
+  }
 }

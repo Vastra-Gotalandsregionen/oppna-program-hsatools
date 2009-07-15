@@ -55,6 +55,6 @@ public class Extractor {
   }
 
   public static Long getNowAsLongObject() {
-    return new Long(System.currentTimeMillis());
+    return Long.valueOf(System.currentTimeMillis());
   }
 }

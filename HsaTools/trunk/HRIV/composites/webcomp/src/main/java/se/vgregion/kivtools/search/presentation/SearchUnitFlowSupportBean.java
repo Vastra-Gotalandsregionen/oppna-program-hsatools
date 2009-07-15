@@ -127,7 +127,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
     theForm.setHealthcareType("");
   }
 
-  public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm) throws KivNoDataFoundException, KivException {
+  public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm) throws KivException {
     logger.info(CLASS_NAME + ".doSearch()");
 
     try {

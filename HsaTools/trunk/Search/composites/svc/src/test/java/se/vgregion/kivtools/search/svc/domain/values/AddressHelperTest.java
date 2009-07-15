@@ -26,6 +26,7 @@ import org.junit.Test;
 
 public class AddressHelperTest {
 
+  private static final String CITY = "Göteborg";
   private static final String ZIPCODE_CITY = "412 63 Göteborg";
   private static final String ZIPCODE_FORMATTED = "412 63";
   private static final String ZIPCODE = "41263";
@@ -91,10 +92,10 @@ public class AddressHelperTest {
     address = AddressHelper.convertToStreetAddress(origAddress);
     assertNotNull("An address should have been created", address);
     assertEquals("Unexpected value for zipcode", "41263", address.getZipCode().getZipCode());
-    assertEquals("Unexpected value for city", "Göteborg", address.getCity());
+    assertEquals("Unexpected value for city", CITY, address.getCity());
 
     origAddress.remove("41263  28 Göteborg");
-    origAddress.add("Göteborg");
+    origAddress.add(CITY);
     origAddress.add("Sverige");
     address = AddressHelper.convertToStreetAddress(origAddress);
     assertNotNull("An address should have been created", address);
@@ -104,5 +105,43 @@ public class AddressHelperTest {
     address = AddressHelper.convertToStreetAddress(origAddress);
     assertNotNull("An address should have been created", address);
     assertEquals("Unexpected value for additional information", "StorgatanGöteborgSverige", address.getAdditionalInfoToString());
+  }
+
+  @Test
+  public void testConvertToAddress() {
+    Address address = AddressHelper.convertToAddress(null);
+    assertNotNull("An empty address should have been created", address);
+    assertEquals("Street should be empty", "", address.getStreet());
+
+    List<String> origAddress = new ArrayList<String>();
+    address = AddressHelper.convertToAddress(origAddress);
+    assertNotNull("An empty address should have been created", address);
+    assertEquals("Street should be empty", "", address.getStreet());
+
+    origAddress.add(STREET);
+    address = AddressHelper.convertToAddress(origAddress);
+    assertNotNull("An address should have been created", address);
+    assertEquals("Unexpected value for street", "", address.getStreet());
+    assertEquals("Unexpected value for additional information", STREET, address.getAdditionalInfoToString());
+
+    origAddress.clear();
+    origAddress.add("string");
+    origAddress.add("number");
+    origAddress.add("date");
+    address = AddressHelper.convertToAddress(origAddress);
+    assertNotNull("An address should have been created", address);
+    assertEquals("Unexpected value for street", "", address.getStreet());
+    assertEquals("Unexpected value for additional information", "stringnumberdate", address.getAdditionalInfoToString());
+
+    origAddress.clear();
+    origAddress.add(STREET);
+    origAddress.add(ZIPCODE);
+    origAddress.add(CITY);
+    address = AddressHelper.convertToAddress(origAddress);
+    assertNotNull("An address should have been created", address);
+    assertEquals("Unexpected value for street", STREET, address.getStreet());
+    assertEquals("Unexpected value for zipcode", ZIPCODE, address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", CITY, address.getCity());
+    assertNull("Unexpected value for additional information", address.getAdditionalInfoToString());
   }
 }
