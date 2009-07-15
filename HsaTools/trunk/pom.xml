@@ -154,6 +154,17 @@
 	</distributionManagement>
 
 	<pluginRepositories>
+        <pluginRepository>
+            <id>Atlassian Public</id>
+            <url>http://maven.atlassian.com/repository/public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+        </pluginRepository>
+        
 		<pluginRepository>
 			<id>mc-release</id>
 			<name>Local Maven repository of releases</name>
@@ -165,17 +176,6 @@
 				<enabled>true</enabled>
 			</releases>
 		</pluginRepository>
-		
-        <pluginRepository>
-            <id>Atlassian Public</id>
-            <url>http://maven.atlassian.com/repository/public/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-        </pluginRepository>
 	</pluginRepositories>
 
 	<repositories>
@@ -190,6 +190,19 @@
 			<url>http://oppna-program.googlecode.com/svn/maven</url>
 		</repository>
 
+        <repository>
+            <id>Atlassian Public</id>
+            <url>http://maven.atlassian.com/repository/public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+			</releases>
+        </repository>
+        
 		<repository>
 			<id>maven2-repository.dev.java.net</id>
 			<name>Java.net Repository for Maven</name>
