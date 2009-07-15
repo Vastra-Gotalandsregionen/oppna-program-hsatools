@@ -20,9 +20,8 @@ package se.vgregion.kivtools.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Collections;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,16 +31,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
-import se.vgregion.kivtools.search.presentation.SearchUnitFlowSupportBean;
-import se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm;
-import se.vgregion.kivtools.search.svc.SearchService;
-import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.UnitNameComparator;
+import se.vgregion.kivtools.search.presentation.SuggestionsSupportBean;
 import se.vgregion.kivtools.search.util.EnvAssistant;
-import se.vgregion.kivtools.search.util.Formatter;
 
 /**
  * Generates suggestions based on text entered in unitName text field.
@@ -53,7 +44,39 @@ public class Suggestions extends HttpServlet implements Serializable {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-    UnitSearchSimpleForm theForm = new UnitSearchSimpleForm();
+    String userInputUnitName = getUserInput(request);
+
+    // Spring bean name is hard coded!
+    WebApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+    SuggestionsSupportBean suggestionsSupportBean = (SuggestionsSupportBean) springContext.getBean("Search.SuggestionsSupportBean");
+
+    String outputFormat = request.getParameter("output");
+
+    String output = suggestionsSupportBean.getSuggestions(userInputUnitName, outputFormat);
+
+    setContentType(response, outputFormat);
+
+    PrintWriter out = response.getWriter();
+    out.print(output);
+  }
+
+  /**
+   * Helper-method for setting the correct content type based on the output format.
+   * 
+   * @param response The response to set the content type for.
+   * @param outputFormat The output format.
+   */
+  private void setContentType(HttpServletResponse response, String outputFormat) {
+    if ("xml".equals(outputFormat)) {
+      response.setContentType("text/xml");
+    } else if ("text".equals(outputFormat)) {
+      response.setContentType("text/plain");
+    } else {
+      response.setContentType("text/html");
+    }
+  }
+
+  private String getUserInput(HttpServletRequest request) throws UnsupportedEncodingException {
     String userInputUnitName;
     if (EnvAssistant.isRunningOnIBM()) {
       // Running on WebSphere, UTF-8
@@ -62,128 +85,10 @@ public class Suggestions extends HttpServlet implements Serializable {
       // We don't run on IBM (maybe Tomcat), 8859-1
       userInputUnitName = URLDecoder.decode(new String(request.getParameter("query").getBytes("ISO-8859-1")), "ISO-8859-1");
     }
-
     // param name is "query" (not unitName) as default when using YUI AC,
     // when using scriptaculous: String userInputUnitName =
     // request.getParameter("unitName");
-
-    theForm.setUnitName(userInputUnitName);
-    SikSearchResultList<Unit> resultList = null;
-
-    // Spring bean name is hard coded!
-    WebApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
-    SearchUnitFlowSupportBean sb = (SearchUnitFlowSupportBean) springContext.getBean("Search.SearchUnitFlowSupportBean");
-    sb.setSearchService((SearchService) springContext.getBean("Search.SearchService"));
-
-    ArrayList<Unit> units = sb.getUnits();
-    ArrayList<Unit> matchingUnits = new ArrayList<Unit>();
-
-    // If we have not yet cached the units, search in catalog
-    if (units == null || !sb.isUnitsCacheComplete()) {
-      try {
-        resultList = sb.doSearch(theForm);
-      } catch (KivNoDataFoundException e) {
-        // Not too much to do...
-        e.printStackTrace();
-      } catch (KivException e) {
-        // Not too much to do...
-        e.printStackTrace();
-      }
-      // Transfer matching units from resultList to matchingUnits
-      if (resultList != null) {
-        matchingUnits.addAll(resultList);
-      }
-    } else {
-      // We have the units cached
-
-      for (Unit u : units) {
-        // System.out.println(u.getHsaIdentity() + ": " + u.getName());
-        if (u.getName().toLowerCase().indexOf(userInputUnitName.toLowerCase()) >= 0) {
-          matchingUnits.add(u);
-        }
-      }
-    }
-
-    Collections.sort(matchingUnits, new UnitNameComparator());
-
-    /* Create output */
-    String outputFormat = request.getParameter("output");
-    String output = "";
-
-    if ("xml".equals(outputFormat)) {
-      // XML
-      output += "<?xml version='1.0' standalone='yes'?>\n<units>\n";
-      if (matchingUnits != null) {
-        for (Unit u : matchingUnits) {
-          String description = getUnitDescriptionEncoded(u);
-          output += "<unit description=\"" + description + "\" id=\"" + u.getHsaIdentity() + "\" />\n";
-        }
-      }
-      output += "</units>";
-      response.setContentType("text/xml");
-    } else if ("text".equals(outputFormat)) {
-      // Flat text response, tab as field delimiter and newline as record
-      // delimiter.
-      if (matchingUnits != null) {
-        for (Unit u : matchingUnits) {
-          String description = getUnitDescriptionEncoded(u);
-          output += description + "\t" + u.getHsaIdentity() + "\n";
-        }
-      }
-      response.setContentType("text/plain");
-    } else {
-      // Default to HTML (unordered list, UL)
-      output += "<ul>";
-      if (matchingUnits != null) {
-        for (Unit u : matchingUnits) {
-          String description = getUnitDescriptionEncoded(u);
-          output += "<li id=\"" + u.getHsaIdentity() + "\">" + description + "</li>";
-        }
-      }
-      output += "</ul>";
-      response.setContentType("text/html");
-    }
-    PrintWriter out = response.getWriter();
-    out.print(output);
-  }
-
-  private String getUnitDescriptionEncoded(Unit u) {
-    String name = u.getName();
-    String locality = u.getLocality();
-    String description = htmlEncodeSwedishCharacters(Formatter.concatenate(name, locality));
-    return description;
-  }
-
-  private String htmlEncodeSwedishCharacters(String name) {
-    String result = name;
-    // &
-    result = result.replace("&", "&amp;");
-
-    // å
-    result = result.replace("å", "&#229;");
-    result = result.replace("\u00E5", "&#229;");
-
-    // ä
-    result = result.replace("ä", "&#228;");
-    result = result.replace("\u00E4", "&#228;");
-
-    // ö
-    result = result.replace("ö", "&#246;");
-    result = result.replace("\u00F6", "&#246;");
-
-    // Å
-    result = result.replace("Å", "&#197;");
-    result = result.replace("\u00C5", "&&#197;");
-
-    // Ä
-    result = result.replace("Ä", "&#196;");
-    result = result.replace("\u00E4", "&#196;");
-
-    // Ö
-    result = result.replace("Ö", "&#214;");
-    result = result.replace("\u00D6", "&#214;");
-
-    return result;
+    return userInputUnitName;
   }
 
   @Override

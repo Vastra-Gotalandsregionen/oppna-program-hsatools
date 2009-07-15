@@ -38,6 +38,10 @@
 			<property name="showUnitsWithTheseHsaBussinessClassificationCodes" value="#{hsatools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes}" />
 	</bean>
 
+	<bean id="Search.SuggestionsSupportBean" class="se.vgregion.kivtools.search.presentation.SuggestionsSupportBean">
+		<property name="searchUnitFlowSupportBean" ref="Search.SearchUnitFlowSupportBean"/>
+	</bean>
+
 	<bean id="Search.UnitSearchSimpleFormValidator"		
 		class="se.vgregion.kivtools.search.validation.UnitSearchSimpleFormValidator">
 	</bean>
