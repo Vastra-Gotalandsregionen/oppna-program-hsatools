@@ -66,6 +66,11 @@ public class UnitRepository {
   private Log logger = LogFactory.getLog(this.getClass());
   private LdapConnectionPool theConnectionPool;
   private CodeTablesService codeTablesService;
+  private UnitFactory unitFactory;
+
+  public void setUnitFactory(UnitFactory unitFactory) {
+    this.unitFactory = unitFactory;
+  }
 
   public CodeTablesService getCodeTablesService() {
     return codeTablesService;
@@ -92,7 +97,12 @@ public class UnitRepository {
   /**
    * Advanced means that it also handles healthcareTypeConditions in the search filter.
    * 
-   * @param showUnitsWithTheseHsaBussinessClassificationCodes
+   * @param unit - unit to search for.
+   * @param maxResult - max result of found units to return.
+   * @param sortOrder - sort order for the result list.
+   * @param showUnitsWithTheseHsaBussinessClassificationCodes - show units for chosen HsaBussinessClassificationCodes.
+   * 
+   * @return - a list of found units.
    */
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
     String searchFilter = createAdvancedSearchFilter(unit, showUnitsWithTheseHsaBussinessClassificationCodes);
@@ -220,7 +230,7 @@ public class UnitRepository {
 
     try {
       lc = getLDAPConnection();
-      u = UnitFactory.reconstitute(lc.read(dn.escape().toString()));
+      u = unitFactory.reconstitute(lc.read(dn.escape().toString()));
     } finally {
       theConnectionPool.freeConnection(lc);
     }
@@ -350,14 +360,14 @@ public class UnitRepository {
   }
 
   private Unit extractSingleResult(LDAPSearchResults searchResults) throws Exception {
-    return UnitFactory.reconstitute(searchResults.next());
+    return unitFactory.reconstitute(searchResults.next());
   }
 
   private SikSearchResultList<Unit> extractResult(LDAPSearchResults searchResults, int maxResult, Comparator<Unit> sortOrder) throws Exception {
     SikSearchResultList<Unit> result = new SikSearchResultList<Unit>();
     while (searchResults.hasMore()) {
       try {
-        Unit u = UnitFactory.reconstitute(searchResults.next());
+        Unit u = unitFactory.reconstitute(searchResults.next());
         result.add(u);
       } catch (LDAPException e) {
         if (e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
@@ -746,9 +756,9 @@ public class UnitRepository {
 
   /**
    * 
-   * @param parentUnit
-   * @param maxResult
-   * @return
+   * @param parentUnit - unit to get subunits for
+   * @param maxResult - maximum of unit to be return in the result
+   * @return A list of subunits for current unit.
    * @throws Exception
    */
   public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxResult) throws Exception {
