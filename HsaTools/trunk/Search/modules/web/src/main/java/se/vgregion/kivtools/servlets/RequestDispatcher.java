@@ -30,10 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 public class RequestDispatcher extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {
   static final long serialVersionUID = 1L;
 
-  public RequestDispatcher() {
-    super();
-  }
-
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String servletName = request.getServletPath();
