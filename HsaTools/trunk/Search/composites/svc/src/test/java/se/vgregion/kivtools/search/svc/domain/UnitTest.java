@@ -26,8 +26,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.exceptions.InvalidFormatException;
+import se.vgregion.kivtools.search.svc.domain.values.Address;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
+import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
+import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 
 public class UnitTest {
 
@@ -107,5 +111,77 @@ public class UnitTest {
     unit.setHsaBusinessClassificationText(null);
     expected = "";
     result = unit.getHsaBusinessClassificationTextFormatted();
+    assertEquals("Unexpected value for formatted business classification", expected, result);
+  }
+
+  @Test
+  public void testGetContentValidationOk() throws InvalidFormatException {
+    assertFalse(unit.getContentValidationOk());
+
+    unit.setName("Angered");
+    assertFalse(unit.getContentValidationOk());
+
+    unit.setHsaMunicipalityName("Göteborg");
+    Address address = new Address();
+    unit.setHsaStreetAddress(address);
+    assertFalse(unit.getContentValidationOk());
+
+    address.setStreet("Storgatan");
+    assertFalse(unit.getContentValidationOk());
+
+    ArrayList<String> routelist = new ArrayList<String>();
+    routelist.add("Via centralen");
+    unit.setHsaRoute(routelist);
+    assertFalse(unit.getContentValidationOk());
+
+    unit.setHsaGeographicalCoordinates("coords");
+    assertFalse(unit.getContentValidationOk());
+
+    List<WeekdayTime> surgeryHours = new ArrayList<WeekdayTime>();
+    unit.setHsaSurgeryHours(surgeryHours);
+    assertFalse(unit.getContentValidationOk());
+
+    surgeryHours.add(new WeekdayTime(1, 5, 9, 0, 16, 0));
+    assertFalse(unit.getContentValidationOk());
+
+    List<WeekdayTime> dropInHours = new ArrayList<WeekdayTime>();
+    unit.setHsaDropInHours(dropInHours);
+    assertFalse(unit.getContentValidationOk());
+
+    dropInHours.add(new WeekdayTime(1, 5, 9, 0, 16, 0));
+    assertFalse(unit.getContentValidationOk());
+
+    List<PhoneNumber> telephoneNumbers = new ArrayList<PhoneNumber>();
+    unit.setHsaPublicTelephoneNumber(telephoneNumbers);
+    assertFalse(unit.getContentValidationOk());
+
+    telephoneNumbers.add(new PhoneNumber("031-12345"));
+    assertFalse(unit.getContentValidationOk());
+
+    List<WeekdayTime> telephoneTime = new ArrayList<WeekdayTime>();
+    unit.setHsaTelephoneTime(telephoneTime);
+    assertFalse(unit.getContentValidationOk());
+
+    telephoneTime.add(new WeekdayTime(1, 5, 9, 0, 16, 0));
+    assertFalse(unit.getContentValidationOk());
+
+    unit.setLabeledURI("http://angered.vgregion.se");
+    assertFalse(unit.getContentValidationOk());
+
+    List<String> description = new ArrayList<String>();
+    unit.setDescription(description);
+    assertFalse(unit.getContentValidationOk());
+
+    description.add("Beskrivning");
+    assertFalse(unit.getContentValidationOk());
+
+    unit.setHsaVisitingRuleAge("0-99");
+    assertFalse(unit.getContentValidationOk());
+
+    unit.setHsaVisitingRules("Besöksregler");
+    assertFalse(unit.getContentValidationOk());
+
+    unit.setHsaManagementText("Management text");
+    assertTrue(unit.getContentValidationOk());
   }
 }
