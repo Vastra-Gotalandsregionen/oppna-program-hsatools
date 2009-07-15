@@ -42,6 +42,11 @@ import se.vgregion.kivtools.search.util.EnvAssistant;
 public class Suggestions extends HttpServlet implements Serializable {
   private static final long serialVersionUID = 1L;
 
+  /**
+   * Called via AJAX-call from Search Unit screen.
+   * 
+   * @inheritDoc
+   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     String userInputUnitName = getUserInput(request);
@@ -76,14 +81,25 @@ public class Suggestions extends HttpServlet implements Serializable {
     }
   }
 
-  private String getUserInput(HttpServletRequest request) throws UnsupportedEncodingException {
+  /**
+   * Gets the user input from the request.
+   * 
+   * @param request The request to get the user input from.
+   * @return The name of the unit that the user want's to find.
+   */
+  private String getUserInput(HttpServletRequest request) {
     String userInputUnitName;
-    if (EnvAssistant.isRunningOnIBM()) {
-      // Running on WebSphere, UTF-8
-      userInputUnitName = URLDecoder.decode(new String(request.getParameter("query").getBytes("UTF-8")), "UTF-8");
-    } else {
-      // We don't run on IBM (maybe Tomcat), 8859-1
-      userInputUnitName = URLDecoder.decode(new String(request.getParameter("query").getBytes("ISO-8859-1")), "ISO-8859-1");
+    try {
+      if (EnvAssistant.isRunningOnIBM()) {
+        // Running on WebSphere, UTF-8
+        userInputUnitName = URLDecoder.decode(new String(request.getParameter("query").getBytes("UTF-8")), "UTF-8");
+      } else {
+        // We don't run on IBM (maybe Tomcat), 8859-1
+        userInputUnitName = URLDecoder.decode(new String(request.getParameter("query").getBytes("ISO-8859-1")), "ISO-8859-1");
+      }
+    } catch (UnsupportedEncodingException e) {
+      // Should not happpen, rethrowing as RuntimeException.
+      throw new RuntimeException(e);
     }
     // param name is "query" (not unitName) as default when using YUI AC,
     // when using scriptaculous: String userInputUnitName =
