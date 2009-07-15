@@ -58,93 +58,89 @@ public class AddressHelper implements Serializable {
     VALID_STREET_SUFFIX.add("centrum");
   }
 
-  public static boolean isStreet(String text) {
-    if (Evaluator.isEmpty(text)) {
-      return false;
-    }
-    for (String validSuffix : AddressHelper.VALID_STREET_SUFFIX) {
-      if (text.toLowerCase().contains(validSuffix)) {
-        return true;
+  /**
+   * Helper-method to check if a string contains street information.
+   * 
+   * @param text The string to check.
+   * @return True if the provided string contains street information, otherwise false.
+   */
+  private static boolean isStreet(String text) {
+    boolean result = false;
+    if (!Evaluator.isEmpty(text)) {
+      for (String validSuffix : AddressHelper.VALID_STREET_SUFFIX) {
+        result |= text.toLowerCase().contains(validSuffix);
       }
     }
-    return false;
+    return result;
   }
 
   /**
    * Convert a List of Strings (containing an address to an Address object).
    * 
-   * @param addressList
-   * @return
+   * @param addressList The list of strings to populate the Address object with.
+   * @return A populated Address object.
    */
   public static Address convertToAddress(List<String> addressList) {
     Address address = new Address();
     boolean foundCity = false;
     boolean foundPostalCode = false;
-    boolean foundStreet = false;
 
-    if (Evaluator.isEmpty(addressList) || addressList.isEmpty()) {
-      return address;
-    }
-    int size = addressList.size();
+    if (!Evaluator.isEmpty(addressList)) {
+      int size = addressList.size();
 
-    if (size >= 3) {
-      // let´s make a copy to handle this case
-      List<String> additionalInfo = new ArrayList<String>(addressList);
+      if (size >= 3) {
+        // let´s make a copy to handle this case
+        List<String> additionalInfo = new ArrayList<String>(addressList);
 
-      // The list has at least 3 items let´s see if we can find out some things
-      int indexToRemove = -1;
-      // last item should be city
-      String temp = additionalInfo.get(size - 1);
-      if (Evaluator.containsNoNumbers(temp, true)) {
-        address.setCity(temp);
-        foundCity = true;
-        indexToRemove = size - 1;
-      }
-      if (foundCity) {
-        // remove city from list
-        additionalInfo.remove(indexToRemove);
-      }
+        // The list has at least 3 items let´s see if we can find out some things
 
-      // the last - 1 item should be postal code.
-      String zCode = additionalInfo.get(additionalInfo.size() - 1);
-      if (ZipCode.isValid(zCode)) {
-        address.setZipCode(new ZipCode(zCode));
-        foundPostalCode = true;
-        // remove postal code from list
-        indexToRemove = additionalInfo.size() - 1;
-      }
-      if (foundPostalCode) {
-        // remove postal code from list
-        additionalInfo.remove(indexToRemove);
-      }
-
-      // let´s find the street
-      size = additionalInfo.size();
-      for (int i = size - 1; i >= 0 && !foundStreet; i--) {
-        temp = additionalInfo.get(i);
-        if (AddressHelper.isStreet(temp)) {
-          address.setStreet(temp);
-          foundStreet = true;
-          indexToRemove = i;
+        // last item should be city
+        String temp = additionalInfo.get(size - 1);
+        if (Evaluator.containsNoNumbers(temp, true)) {
+          address.setCity(temp);
+          foundCity = true;
+          // remove city from list
+          additionalInfo.remove(size - 1);
         }
-      }
-      if (foundStreet) {
-        // remove street from list
-        additionalInfo.remove(indexToRemove);
-      }
 
-      if (foundCity && foundPostalCode) {
-        // found city and zipCode that´s good enough
-        address.setAdditionalInfo(additionalInfo);
-        return address;
+        // the last - 1 item should be postal code.
+        String zCode = additionalInfo.get(additionalInfo.size() - 1);
+        if (ZipCode.isValid(zCode)) {
+          address.setZipCode(new ZipCode(zCode));
+          foundPostalCode = true;
+          // remove postal code from list
+          additionalInfo.remove(additionalInfo.size() - 1);
+        }
+
+        // let´s find the street
+        int streetRow = findStreet(additionalInfo);
+
+        if (streetRow != -1) {
+          temp = additionalInfo.get(streetRow);
+          address.setStreet(temp);
+          additionalInfo.remove(streetRow);
+        }
+
+        if (foundCity && foundPostalCode) {
+          // found city and zipCode that´s good enough
+          address.setAdditionalInfo(additionalInfo);
+        } else {
+          // not an ok mapping we can´t rip out enough information
+          address = new Address();
+          address.setAdditionalInfo(addressList);
+        }
+      } else {
+        address.setAdditionalInfo(addressList);
       }
-      // not an ok mapping we can´t rip out enough information
-      address = new Address();
     }
-    address.setAdditionalInfo(addressList);
     return address;
   }
 
+  /**
+   * Prints an address to standard output.
+   * 
+   * @param address The address to print.
+   */
   public static void print(Address address) {
     System.out.println("**** print adress ****");
     System.out.println("Street:" + address.getStreet() + "*");

@@ -53,7 +53,7 @@ public class CodeTablesServiceImpl implements CodeTablesService {
 
   /**
    * 
-   * @param codeTables - Map<String, Map<String, String>>
+   * @param codeTables - Map&lt;String, Map&lt;String, String&gt;&gt;
    */
   public void setCodeTables(Map<String, Map<String, String>> codeTables) {
     this.codeTables = codeTables;

@@ -25,11 +25,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import se.vgregion.kivtools.search.exceptions.SikInternalException;
-
 /**
+ * An implementation of List that can keep track of how long the actual search in the datasource took.
+ * 
  * @author hangy2 , Hans Gyllensten / KnowIT
  * 
+ * @param <T> The type of object this list handles.
  */
 @SuppressWarnings("serial")
 public class SikSearchResultList<T> extends ArrayList<T> implements List<T>, Serializable {
@@ -37,22 +38,36 @@ public class SikSearchResultList<T> extends ArrayList<T> implements List<T>, Ser
   private List<TimeMeasurement> timeMeasureMentList = new ArrayList<TimeMeasurement>();
   private int totalNumberOfFoundItems;
 
+  /**
+   * Empty constructor.
+   */
   public SikSearchResultList() {
   }
 
+  /**
+   * Constructor which takes a collection of objects to populate the list with.
+   * 
+   * @param c The collection of objects to populate the list with.
+   */
   public SikSearchResultList(Collection<? extends T> c) {
     super(c);
   }
 
+  /**
+   * Adds a TimeMeasurement for one fetch to the list of time measurements.
+   * 
+   * @param timeForAFetch The TimeMeasurement to add to the list.
+   */
   public void addDataSourceSearchTime(TimeMeasurement timeForAFetch) {
     timeMeasureMentList.add(timeForAFetch);
   }
 
   /**
+   * Gets the total search time in milliseconds.
+   * 
    * @return The sum of all individual times needed
-   * @throws SikInternalException
    */
-  public long getTotalDataSourceSearchTimeInMilliSeconds() throws SikInternalException {
+  public long getTotalDataSourceSearchTimeInMilliSeconds() {
     long totalTime = 0;
     for (TimeMeasurement timeSlot : timeMeasureMentList) {
       totalTime += timeSlot.getElapsedTimeInMillisSeconds();
@@ -61,17 +76,28 @@ public class SikSearchResultList<T> extends ArrayList<T> implements List<T>, Ser
   }
 
   /**
+   * Gets the total search time in seconds.
+   * 
    * @return The sum of all individual times needed
-   * @throws SikInternalException
    */
-  public long getTotalDataSourceSearchTimeInSeconds() throws SikInternalException {
+  public long getTotalDataSourceSearchTimeInSeconds() {
     return getTotalDataSourceSearchTimeInMilliSeconds() / 1000;
   }
 
+  /**
+   * Getter for the property totalNumberOfFoundItems.
+   * 
+   * @return The value of totalNumberOfFoundItems.
+   */
   public int getTotalNumberOfFoundItems() {
     return totalNumberOfFoundItems;
   }
 
+  /**
+   * Setter for the property totalNumberOfFoundItems.
+   * 
+   * @param totalNumberOfFoundItems The value of totalNumberOfFoundItems.
+   */
   public void setTotalNumberOfFoundItems(int totalNumberOfFoundItems) {
     this.totalNumberOfFoundItems = totalNumberOfFoundItems;
   }
