@@ -20,4 +20,6 @@
     <suppress checks=".*" files=".*[/\\]target[/\\].*" />
     <!-- Suppress resources -->
     <suppress checks=".*" files=".*[/\\]main[/\\]resources[/\\].*" />
+    
+    <suppress checks="ThrowsCount" files="Suggestions.java" lines="46, 95"/>
 </suppressions>
