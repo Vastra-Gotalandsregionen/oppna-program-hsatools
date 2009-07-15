@@ -881,7 +881,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public boolean getHsaStreetAddressIsValid() {
-    if (getHsaStreetAddress().isEmpty()) {
+    if (getHsaStreetAddress() == null || getHsaStreetAddress().isEmpty()) {
       return false;
     }
     return true;
@@ -978,84 +978,60 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the content of the unit is valid.
+   * 
+   * @return True if the content is valid, otherwise false.
+   */
   public boolean getContentValidationOk() {
+    boolean valid = true;
 
     // name
-    if (!getNameIsValid()) {
-      return false;
-    }
+    valid &= getNameIsValid();
 
     // hsaMunicapilatyName
-    if (!getHsaMunicapilatyNameIsValid()) {
-      return false;
-    }
+    valid &= getHsaMunicapilatyNameIsValid();
 
     // hsaStreetAdress
-    if (!getHsaStreetAddressIsValid()) {
-      return false;
-    }
+    valid &= getHsaStreetAddressIsValid();
 
     // hsaRoute
-    if (!getHsaRouteIsValid()) {
-      return false;
-    }
+    valid &= getHsaRouteIsValid();
 
     // coordinates
-    if (!getHsaGeographicalCoordinatesIsValid()) {
-      return false;
-    }
+    valid &= getHsaGeographicalCoordinatesIsValid();
 
     // surgeryHours
-    if (!getHsaSurgeryHoursIsValid()) {
-      return false;
-    }
+    valid &= getHsaSurgeryHoursIsValid();
 
     // dropInHours
-    if (!getHsaDropInHoursIsValid()) {
-      return false;
-    }
+    valid &= getHsaDropInHoursIsValid();
 
     // hsaPublicTelephoneNumber
-    if (!getHsaPublicTelephoneNumberIsValid()) {
-      return false;
-    }
+    valid &= getHsaPublicTelephoneNumberIsValid();
 
     // hsaTelephoneTime
-    if (!getHsaTelephoneTimeIsValid()) {
-      return false;
-    }
+    valid &= getHsaTelephoneTimeIsValid();
 
     // labeledURI
-    if (!getLabeledURIIsValid()) {
-      return false;
-    }
+    valid &= getLabeledURIIsValid();
 
     // description
-    if (!getDescriptionIsValid()) {
-      return false;
-    }
+    valid &= getDescriptionIsValid();
 
     // hsaVisitingRuleAge
-    if (!getHsaVisitingRuleAgeIsValid()) {
-      return false;
-    }
+    valid &= getHsaVisitingRuleAgeIsValid();
 
     // hsaVisitingRules
-    if (!getHsaVisitingRulesIsValid()) {
-      return false;
-    }
+    valid &= getHsaVisitingRulesIsValid();
 
     // vgrCareType NOT USED NOW
-    // if (!getVgrCareTypeIsValid()) {
-    // return false;
-    // }
+    // valid &= getVgrCareTypeIsValid();
 
     // hsaManagementText
-    if (!getHsaManagementTextIsValid()) {
-      return false;
-    }
+    valid &= getHsaManagementTextIsValid();
 
-    return true;
+    return valid;
   }
 
   private boolean getHsaRouteIsValid() {
