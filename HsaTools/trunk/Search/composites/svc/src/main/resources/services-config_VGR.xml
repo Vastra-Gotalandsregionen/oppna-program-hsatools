@@ -12,10 +12,9 @@
 		Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 	-->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 	<!--
 		Use this mock-injection if connection to KIV is disabled <bean
@@ -47,8 +46,9 @@
 	</bean>
 	<bean id="Search.UnitRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository">
-		<property name="ldapConnectionPool" ref="Search.LdapConnectionPool"></property>
-		<property name="codeTablesService" ref="Search.CodeTablesService"></property>
+		<property name="ldapConnectionPool" ref="Search.LdapConnectionPool" />
+		<property name="codeTablesService" ref="Search.CodeTablesService" />
+		<property name="unitFactory" ref="Search.Unitfactory" />
 	</bean>
 	<bean id="Search.EmploymentRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.EmploymentRepository">
@@ -83,18 +83,17 @@
 		init-method="init" depends-on="Search.LdapConnectionPool">
 		<property name="ldapConnectionPool" ref="Search.LdapConnectionPool" />
 	</bean>
-	<bean id="Search.DisplayValueTranslator"
-		class="se.vgregion.kivtools.search.util.DisplayValueTranslator">
+	<bean id="Search.DisplayValueTranslator" class="se.vgregion.kivtools.search.util.DisplayValueTranslator">
 		<property name="translationMap">
 			<util:map>
-				<entry key="1" value="Offentlig vårdgivare"/>
-				<entry key="2" value="Offentlig vårdgivare"/>
-				<entry key="3" value="Offentlig vårdgivare"/>
-				<entry key="7" value="Offentlig vårdgivare"/>
-				<entry key="4" value="Privat vårdgivare"/>
-				<entry key="5" value="Privat vårdgivare"/>
-				<entry key="6" value="Privat vårdgivare"/>
-				<entry key="9" value="Övrigt"/>
+				<entry key="1" value="Offentlig vårdgivare" />
+				<entry key="2" value="Offentlig vårdgivare" />
+				<entry key="3" value="Offentlig vårdgivare" />
+				<entry key="7" value="Offentlig vårdgivare" />
+				<entry key="4" value="Privat vårdgivare" />
+				<entry key="5" value="Privat vårdgivare" />
+				<entry key="6" value="Privat vårdgivare" />
+				<entry key="9" value="Övrigt" />
 			</util:map>
 		</property>
 	</bean>
@@ -127,8 +126,13 @@
 	-->
 
 	<bean id="Registration.vardValService"
-		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl">
-		<property name="vardvalService"><bean class="se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalService" /></property>
+		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl"
+		init-method="setEndpoint">
+		<property name="service">
+			<bean
+				class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceFactory"
+				factory-method="getIVardvalservice" />
+		</property>
 		<property name="webserviceEndpoint"
 			value="https://w120390.got.vgregion.se/VardvalService/VardvalService.svc" />
 	</bean>
@@ -148,27 +152,10 @@
 	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
 		<constructor-arg ref="contextSource" />
 	</bean>
-	
-	
-	<bean id="initUnitFactoryCodeTablesService"
-          class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="staticMethod"
-                  value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitFactory.setCodeTablesService"/>
-        <property name="arguments">
-            <list>
-                <ref bean="Search.CodeTablesService"/>
-            </list>
-        </property>
-    </bean>
 
-	<bean id="initUnitFactoryDisplayValueTranslator"
-          class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="staticMethod"
-                  value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitFactory.setDisplayValueTranslator"/>
-        <property name="arguments">
-            <list>
-                <ref bean="Search.DisplayValueTranslator"/>
-            </list>
-        </property>
-    </bean>
+	<bean id="Search.Unitfactory"
+		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitFactory">
+		<property name="codeTablesService" ref="Search.CodeTablesService" />
+		<property name="displayValueTranslator" ref="Search.DisplayValueTranslator" />
+	</bean>
 </beans>

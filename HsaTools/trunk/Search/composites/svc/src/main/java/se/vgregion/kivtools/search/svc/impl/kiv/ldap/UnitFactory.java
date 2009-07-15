@@ -48,16 +48,16 @@ import com.novell.ldap.LDAPEntry;
  */
 public class UnitFactory {
 
-  private static CodeTablesService codeTablesService;
-  private static DisplayValueTranslator displayValueTranslator;
+  private CodeTablesService codeTablesService;
+  private DisplayValueTranslator displayValueTranslator;
 
   /**
    * Set CodeTablesService object for UnitFactory to use.
    * 
    * @param codeTablesService - CodeTablesService
    */
-  public static void setCodeTablesService(CodeTablesService codeTablesService) {
-    UnitFactory.codeTablesService = codeTablesService;
+  public void setCodeTablesService(CodeTablesService codeTablesService) {
+    this.codeTablesService = codeTablesService;
   }
 
   /**
@@ -65,11 +65,11 @@ public class UnitFactory {
    * 
    * @param displayValueTranslator The DisplayValueTranslator to use.
    */
-  public static void setDisplayValueTranslator(DisplayValueTranslator displayValueTranslator) {
-    UnitFactory.displayValueTranslator = displayValueTranslator;
+  public void setDisplayValueTranslator(DisplayValueTranslator displayValueTranslator) {
+    this.displayValueTranslator = displayValueTranslator;
   }
 
-  public static Unit reconstitute(LDAPEntry unitEntry) throws Exception {
+  public Unit reconstitute(LDAPEntry unitEntry) throws Exception {
     Unit unit = new Unit();
     if (unitEntry == null) {
       return unit;
@@ -297,7 +297,7 @@ public class UnitFactory {
    * 
    * @param unit
    */
-  private static void assignCodeTableValuesToUnit(Unit unit) {
+  private void assignCodeTableValuesToUnit(Unit unit) {
     List<String> businessText = new ArrayList<String>();
     for (String businessCode : unit.getHsaBusinessClassificationCode()) {
       String hsaBusinessClassificationText = codeTablesService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, businessCode);
@@ -316,7 +316,7 @@ public class UnitFactory {
     unit.setHsaMunicipalityName(municipalityName);
   }
 
-  public static void printAllAttributes(LDAPEntry entry) {
+  public void printAllAttributes(LDAPEntry entry) {
     LDAPAttributeSet mySet = entry.getAttributeSet();
     for (Iterator<LDAPAttribute> myIterator = mySet.iterator(); myIterator.hasNext();) {
       LDAPAttribute attr = myIterator.next();
