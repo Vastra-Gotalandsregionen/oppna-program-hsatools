@@ -20,6 +20,9 @@ public class FormatterTest {
     list.add("Vårdcentral Angered");
     list.add("Angered");
     assertEquals("Unexpected result", "Vårdcentral Angered, Angered", Formatter.concatenate(list));
+
+    list.add("   Sverige   ");
+    assertEquals("Unexpected result", "Vårdcentral Angered, Angered, Sverige", Formatter.concatenate(list));
   }
 
   @Test

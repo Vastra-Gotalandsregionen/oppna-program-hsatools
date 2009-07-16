@@ -29,15 +29,15 @@ import java.util.List;
 
 import se.vgregion.kivtools.search.interfaces.IsEmptyMarker;
 import se.vgregion.kivtools.search.util.Evaluator;
+import se.vgregion.kivtools.search.util.Formatter;
 
 /**
+ * Represents an adress entry.
+ * 
+ * example: street=Per Dubbsgatan 15 zipCode=45145 city=Uddevalla additional info=Ta vänster vid norra porten, hiss till plan 7
+ * 
  * @author hangy2 , Hans Gyllensten / KnowIT
- * 
- *         Represents an adress entry
- * 
- *         example: street=Per Dubbsgatan 15 zipCode=45145 city=Uddevalla additional info=Ta vänster vid norra porten, hiss till plan 7
  */
-
 public class Address implements Serializable, IsEmptyMarker {
   private static final long serialVersionUID = 1L;
   // to any special address info
@@ -61,62 +61,121 @@ public class Address implements Serializable, IsEmptyMarker {
     VALID_STREET_SUFFIX.add("backe");
   }
 
+  /**
+   * Empty constructor.
+   */
   public Address() {
     super();
   }
 
+  /**
+   * Constructor with possibility to populate the address.
+   * 
+   * @param street The street information.
+   * @param zipCode The zipcode.
+   * @param city The city.
+   * @param additionalInfo Any additional information.
+   */
   public Address(String street, ZipCode zipCode, String city, List<String> additionalInfo) {
     super();
-    this.street = street;
-    this.zipCode = zipCode == null ? new ZipCode("") : zipCode;
+    setStreet(street);
+    setZipCode(zipCode);
     this.city = city;
     this.additionalInfo = additionalInfo;
   }
 
+  /**
+   * @inheritDoc
+   * @return True if the address is empty.
+   */
+  @Override
   public boolean isEmpty() {
-    if (!isEmpty(street) || !isEmpty(zipCode.getZipCode()) || !isEmpty(city)) {
-      return false;
-    }
-    // we only get here if street, postal code, city is empty
-    if (additionalInfo == null || additionalInfo.size() == 0) {
-      return true;
-    }
-    for (int i = 0; i < additionalInfo.size(); i++) {
-      if (!isEmpty(additionalInfo.get(i))) {
-        return false;
+    boolean empty = true;
+
+    empty &= Evaluator.isEmpty(street);
+    empty &= Evaluator.isEmpty(zipCode.getZipCode());
+    empty &= Evaluator.isEmpty(city);
+
+    if (additionalInfo != null && additionalInfo.size() > 0) {
+      for (int i = 0; i < additionalInfo.size(); i++) {
+        empty &= Evaluator.isEmpty(additionalInfo.get(i));
       }
     }
-    return true;
+    return empty;
   }
 
+  /**
+   * Getter for the street property.
+   * 
+   * @return The value of the street property.
+   */
   public String getStreet() {
     return street;
   }
 
+  /**
+   * Setter for the street property.
+   * 
+   * @param street The new value of the street property.
+   */
   public void setStreet(String street) {
     this.street = street;
   }
 
+  /**
+   * Getter for the zipCode property.
+   * 
+   * @return The value of the zipCode property.
+   */
   public ZipCode getZipCode() {
     return zipCode;
   }
 
+  /**
+   * Setter for the zipCode property.
+   * 
+   * @param zipCode The new value of the zipCode property.
+   */
   public void setZipCode(ZipCode zipCode) {
-    this.zipCode = zipCode;
+    if (zipCode == null) {
+      this.zipCode = new ZipCode("");
+    } else {
+      this.zipCode = zipCode;
+    }
   }
 
+  /**
+   * Getter for the city property.
+   * 
+   * @return The value of the city property.
+   */
   public String getCity() {
     return city;
   }
 
+  /**
+   * Setter for the city property.
+   * 
+   * @param city The new value of the city property.
+   */
   public void setCity(String city) {
     this.city = city;
   }
 
+  /**
+   * Getter for the additionalInfo property.
+   * 
+   * @return The value of the additional info property.
+   */
   public List<String> getAdditionalInfo() {
     return additionalInfo;
   }
 
+  /**
+   * Gets the additional info as a string.
+   * 
+   * @return All the lines from the additional info concatenated to a string.
+   */
   public String getAdditionalInfoToString() {
     String result = null;
     if (additionalInfo != null && additionalInfo.size() > 0) {
@@ -129,26 +188,19 @@ public class Address implements Serializable, IsEmptyMarker {
     return result;
   }
 
+  /**
+   * Setter for the additionalInfo property.
+   * 
+   * @param additionalInfo The new value of the additionalInfo property.
+   */
   public void setAdditionalInfo(List<String> additionalInfo) {
     this.additionalInfo = additionalInfo;
-  }
-
-  public boolean isEmpty(String s) {
-    if (s == null) {
-      return true;
-    }
-    s = s.trim();
-    if (s.equalsIgnoreCase("")) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   /**
    * Used to inform if Vcard can be used.
    * 
-   * @return
+   * @return True if the address has data in street, zipcode and city, otherwise false.
    */
   public boolean getHasVcardData() {
     if (Evaluator.isEmpty(street) || Evaluator.isEmpty(zipCode.getZipCode()) || Evaluator.isEmpty(city)) {
@@ -157,6 +209,11 @@ public class Address implements Serializable, IsEmptyMarker {
     return true;
   }
 
+  /**
+   * Gets an URLEncoded version of the street and city.
+   * 
+   * @return An URLEncoded string which consists of street and city.
+   */
   public String getEncodedAddress() {
     String addressStr = this.getStreet() + ", " + this.getCity();
     try {
@@ -168,21 +225,11 @@ public class Address implements Serializable, IsEmptyMarker {
   }
 
   /**
-   * Nice to be able to get the hole string at once in facelet.
+   * Gets a comma-separated string of all additional info strings. Nice to be able to get the hole string at once in a facelet.
    * 
-   * @return
+   * @return A comma-separated string of all additional info strings.
    */
   public String getConcatenatedAdditionalInfo() {
-    String concatenatedAdditionalInfo = "";
-    if (additionalInfo != null && additionalInfo.size() > 0) {
-      for (String s : additionalInfo) {
-        concatenatedAdditionalInfo += s.trim() + ", ";
-      }
-    }
-
-    if (concatenatedAdditionalInfo.endsWith(", ")) {
-      concatenatedAdditionalInfo = concatenatedAdditionalInfo.substring(0, concatenatedAdditionalInfo.length() - 2);
-    }
-    return concatenatedAdditionalInfo;
+    return Formatter.concatenate(additionalInfo);
   }
 }
