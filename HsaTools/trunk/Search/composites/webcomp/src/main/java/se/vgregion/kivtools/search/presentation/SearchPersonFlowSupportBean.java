@@ -292,9 +292,10 @@ public class SearchPersonFlowSupportBean implements Serializable {
   }
 
   /**
+   * Gets all persons for a unit and it's child units.
    * 
-   * @param hsaIdentity - Parent unit hsaIdentity
-   * @return SikSearchResultList<Person> - With all person for parent unit and children units.
+   * @param hsaIdentity The hsaIdentity of the unit to get persons for.
+   * @return A list of all persons for a unit and it's child units.
    */
   public SikSearchResultList<Person> getPersonsForUnitsRecursive(String hsaIdentity) {
     SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
