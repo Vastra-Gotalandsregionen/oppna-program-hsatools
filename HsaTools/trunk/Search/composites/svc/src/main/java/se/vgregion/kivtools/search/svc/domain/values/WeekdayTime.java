@@ -157,6 +157,12 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
     this.setEndMin(endMin);
   }
 
+  /**
+   * Creates a list of WeekdayTime objects based on a list of save values (representation from an LDAP entry).
+   * 
+   * @param saveValues The save values to create WeekdayTime objects from.
+   * @return A list of WeekdayTime objects.
+   */
   public static List<WeekdayTime> createWeekdayTimeList(List<String> saveValues) {
     List<WeekdayTime> timeList = new ArrayList<WeekdayTime>();
     if (saveValues != null) {
@@ -208,8 +214,24 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
    * @param other
    * @return
    */
-  public boolean equals(WeekdayTime other) {
-    return this.getSaveValue().equals(other.getSaveValue());
+  @Override
+  public boolean equals(Object obj) {
+    boolean equal = true;
+
+    if (this != obj) {
+      if (obj == null) {
+        equal = false;
+      } else {
+        if (getClass() != obj.getClass()) {
+          equal = false;
+        } else {
+          WeekdayTime other = (WeekdayTime) obj;
+          equal = this.getSaveValue().equals(other.getSaveValue());
+        }
+      }
+    }
+
+    return equal;
   }
 
   /**
@@ -223,12 +245,9 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
   }
 
   /**
-   * 
    * Hämtar representation av tidsintervall till format som presenteras för användaren.
    * 
-   * 
-   * 
-   * @return
+   * @return A representation of a time interval that is presentable to a user.
    */
   public String getDisplayValue() {
 
