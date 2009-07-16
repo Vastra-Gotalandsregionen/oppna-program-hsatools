@@ -6,9 +6,9 @@
 
 <module name="Checker">
 	<property name="severity" value="warning" />
-<!--	<module name="FileTabCharacter" />-->
+	<module name="FileLength" />
+	<module name="FileTabCharacter" />
 	<module name="TreeWalker">
-		<module name="FileLength" />
 		<property name="tabWidth" value="2" />
 		<module name="JavadocMethod">
 			<property name="scope" value="public" />
