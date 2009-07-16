@@ -21,7 +21,7 @@
 package se.vgregion.kivtools.search.util;
 
 import java.text.CharacterIterator;
-import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.text.StringCharacterIterator;
 import java.util.Arrays;
@@ -172,26 +172,25 @@ public class LdapParse {
   /**
    * Kontrollerar att ett datum med specificerat format är riktigt.
    * 
-   * @param value -String datumet
-   * @param pattern -String format på värdet som ska kontrolleras
-   * @return om datumet är riktigt
+   * @param value Datumet som skall kontrolleras.
+   * @param pattern Datumformat på värdet som ska kontrolleras.
+   * @return True om datumet är riktigt, annars false.
    */
   public static boolean isValidDateFormat(String value, String pattern) {
+    boolean valid = true;
     try {
-      Date sd = new SimpleDateFormat(pattern).parse(value);
-      Format formatter = new SimpleDateFormat(pattern);
-      if (value.equals(formatter.format(sd))) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (Exception e) {
-      return false;
+      SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+      Date sd = dateFormat.parse(value);
+      valid = value.equals(dateFormat.format(sd));
+    } catch (ParseException e) {
+      valid = false;
     }
+
+    return valid;
   }
 
   /**
-   * Kovnerterar datum/tid till zuluformat.
+   * Konverterar datum/tid till zuluformat.
    * 
    * @param in - String datumangivelse i olika format
    * @return - Konverterat datum till zulutime format
