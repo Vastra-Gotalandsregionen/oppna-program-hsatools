@@ -66,4 +66,11 @@ public class LdapParseTest {
     assertEquals("Unexpected returned value for 30", "[Notes] E-postadress", LdapParse.vgrObjectStatusToText("30"));
     assertEquals("Unexpected returned value for 7", "", LdapParse.vgrObjectStatusToText("7"));
   }
+
+  @Test
+  public void testIsValidDateFormat() {
+    assertTrue(LdapParse.isValidDateFormat("2009-01-01", "yyyy-MM-dd"));
+    assertFalse(LdapParse.isValidDateFormat("2009-01-00", "yyyy-MM-dd"));
+    assertFalse(LdapParse.isValidDateFormat("xxxx-01-00", "yyyy-MM-dd"));
+  }
 }
