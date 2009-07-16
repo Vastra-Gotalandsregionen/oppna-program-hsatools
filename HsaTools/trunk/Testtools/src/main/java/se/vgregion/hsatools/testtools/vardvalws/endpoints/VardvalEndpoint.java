@@ -11,12 +11,12 @@ import org.springframework.oxm.Unmarshaller;
 import org.springframework.ws.server.endpoint.AbstractMarshallingPayloadEndpoint;
 
 import se.vgregion.hsatools.testtools.services.Service;
-import se.vgregion.kivtools.testservice.vardvalws.ws.domain.GetVårdvalRequest;
-import se.vgregion.kivtools.testservice.vardvalws.ws.domain.GetVårdvalResponse;
-import se.vgregion.kivtools.testservice.vardvalws.ws.domain.ObjectFactory;
-import se.vgregion.kivtools.testservice.vardvalws.ws.domain.SetVårdvalRequest;
-import se.vgregion.kivtools.testservice.vardvalws.ws.domain.SetVårdvalResponse;
-import se.vgregion.kivtools.testservice.vardvalws.ws.domain.VårdvalEntry;
+import se.vgregion.hsatools.testtools.vardvalws.ws.domain.GetVårdvalRequest;
+import se.vgregion.hsatools.testtools.vardvalws.ws.domain.GetVårdvalResponse;
+import se.vgregion.hsatools.testtools.vardvalws.ws.domain.ObjectFactory;
+import se.vgregion.hsatools.testtools.vardvalws.ws.domain.SetVårdvalRequest;
+import se.vgregion.hsatools.testtools.vardvalws.ws.domain.SetVårdvalResponse;
+import se.vgregion.hsatools.testtools.vardvalws.ws.domain.VårdvalEntry;
 
 public class VardvalEndpoint extends AbstractMarshallingPayloadEndpoint {
 

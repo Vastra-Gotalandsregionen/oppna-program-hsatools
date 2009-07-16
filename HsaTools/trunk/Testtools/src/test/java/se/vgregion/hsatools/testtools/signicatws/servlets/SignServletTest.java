@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import se.vgregion.hsatools.testtools.signicatws.servlets.SignServlet;
-
 public class SignServletTest {
 
   private SignServlet signServlet = new SignServlet();
