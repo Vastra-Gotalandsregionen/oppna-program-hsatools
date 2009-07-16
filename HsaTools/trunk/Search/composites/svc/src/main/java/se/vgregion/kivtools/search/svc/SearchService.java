@@ -35,14 +35,14 @@ public interface SearchService {
   /**
    * @param unit OBS! for parameters of type Address (e.g. hsaPostalAddress) the criteria is considered to be in AdditionalInfo
    * 
-   * @return List<Unit> A List of Units
+   * @return A List of Units
    */
   public SikSearchResultList<Unit> searchUnits(Unit unit) throws Exception;
 
   /**
    * @param unit OBS! for parameters of type Address (e.g. hsaPostalAddress) the criteria is considered to be in AdditionalInfo
    * 
-   * @return List<Unit> A List of Units
+   * @return A List of Units
    */
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws Exception;
 
@@ -50,7 +50,7 @@ public interface SearchService {
    * @param unit
    * @param maxSearchResult OBS! for parameters of type Address (e.g. hsaPostalAddress) the criteria is considered to be in AdditionalInfo
    * 
-   * @return List<Unit> A List of Units
+   * @return A List of Units
    */
   public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws Exception;
 
@@ -58,7 +58,7 @@ public interface SearchService {
    * @param unit
    * @param maxSearchResult OBS! for parameters of type Address (e.g. hsaPostalAddress) the criteria is considered to be in AdditionalInfo
    * 
-   * @return List<Unit> A List of Units
+   * @return A List of Units
    */
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception;
 
@@ -79,14 +79,14 @@ public interface SearchService {
   /**
    * 
    * @param parentUnit
-   * @return SikSearchResultList<Unit> object of sub units to the parent unit
+   * @return A list of sub units to the parent unit
    * @throws Exception
    */
   public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws Exception;
 
   /**
    * @param dn is the distinguished name of the organizational unit that the person works for.
-   * @return
+   * @return A list of matching persons.
    * @throws Exception
    */
   public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception;
@@ -94,14 +94,14 @@ public interface SearchService {
   /**
    * @param dn is the distinguished name of the organizational unit that the person works for.
    * @param maxSearchResult max number of returned items in the result list
-   * @return
+   * @return A list of matching persons.
    * @throws Exception
    */
   public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception;
 
   /**
    * @param id is complete or part of a person identifier. That is why this method can return a list. E.g. in case of VGR the id is a vgrId
-   * @return
+   * @return A list of matching persons.
    * @throws Exception
    */
   public SikSearchResultList<Person> searchPersons(String id) throws Exception;
@@ -109,7 +109,7 @@ public interface SearchService {
   /**
    * @param id is complete or part of a person identifier. That is why this method can return a list. E.g. in case of VGR the id is a vgrId
    * @param maxSearchResult max number of returned items in the result list
-   * @return
+   * @return A list of matching persons.
    * @throws Exception
    */
   public SikSearchResultList<Person> searchPersons(String id, int maxSearchResult) throws Exception;
@@ -118,7 +118,7 @@ public interface SearchService {
    * @param id can be a complete or parts of a vgrId. That is why we can return a list of Persons. E.g. in case of VGR the id is a (part of) a vgrId
    * @param givenName
    * @param familyName
-   * @return
+   * @return A list of matching persons.
    * @throws Exception
    */
   public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id) throws Exception;
@@ -128,7 +128,7 @@ public interface SearchService {
    * @param givenName
    * @param familyName
    * @param maxResult max number of returned items in the result list
-   * @return
+   * @return A list of matching persons.
    * @throws Exception
    */
   public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id, int maxResult) throws Exception;
@@ -157,7 +157,7 @@ public interface SearchService {
   /**
    * Returns a list with hsaIdentities of all Units and functions.
    * 
-   * @return
+   * @return A list of hsaIdentities.
    * @throws Exception
    */
   public List<String> getAllUnitsHsaIdentity() throws Exception;
@@ -166,7 +166,7 @@ public interface SearchService {
    * Returns a list with hsaIdentities of all Units and functions filtered with showUnitsWithTheseHsaBussinessClassificationCodes.
    * 
    * @param showUnitsWithTheseHsaBussinessClassificationCodes
-   * @return
+   * @return A list of hsaIdentities.
    * @throws Exception
    */
   public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception;
@@ -174,7 +174,7 @@ public interface SearchService {
   /**
    * Returns a list of unique identifiers for all persons. E.g. vgrId in case of VGR
    * 
-   * @return
+   * @return A list of unique identifiers for all persons.
    * @throws Exception
    */
   public List<String> getAllPersonsId() throws Exception;
@@ -191,18 +191,25 @@ public interface SearchService {
   /**
    * Returns a list of all caretypes that is used for current implementation.
    * 
-   * @return
+   * @return A list of HealthcareType objects.
    * @throws Exception
    */
   public List<HealthcareType> getHealthcareTypesList() throws Exception;
 
+  /**
+   * Gets a list of employments for the provided person.
+   * 
+   * @param person The person to get employments for.
+   * @return A list of employments.
+   * @throws Exception If something goes wrong.
+   */
   public List<Employment> getEmploymentsForPerson(Person person) throws Exception;
 
   /**
    * Returns a list of all persons employed at unit(s).
    * 
    * @param units
-   * @return
+   * @return A list of persons employed at the provided units.
    * @throws Exception
    */
   public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception;
