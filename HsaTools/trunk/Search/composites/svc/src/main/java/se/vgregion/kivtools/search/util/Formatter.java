@@ -166,7 +166,7 @@ public class Formatter {
       }
 
       for (int i = 0; i < stringPartsList.size(); i++) {
-        concatenatedString.append(stringPartsList.get(i));
+        concatenatedString.append(stringPartsList.get(i).trim());
         if (i < stringPartsList.size() - 1) {
           concatenatedString.append(", ");
         }
