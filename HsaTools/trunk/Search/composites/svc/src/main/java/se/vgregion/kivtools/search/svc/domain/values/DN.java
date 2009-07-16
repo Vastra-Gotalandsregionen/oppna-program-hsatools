@@ -380,46 +380,68 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
     return result;
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    DN other = (DN) obj;
-    if (cn == null) {
-      if (other.cn != null) {
-        return false;
+    boolean equal = true;
+    if (this != obj) {
+      if (obj == null) {
+        equal = false;
+      } else {
+        if (getClass() != obj.getClass()) {
+          equal = false;
+        } else {
+          DN other = (DN) obj;
+
+          equal &= isEqual(cn, other.cn);
+          equal &= isEqual(dc, other.dc);
+          equal &= isEqual(o, other.o);
+          equal &= isEqual(ou, other.ou);
+        }
       }
-    } else if (!cn.equals(other.cn)) {
-      return false;
     }
-    if (dc == null) {
-      if (other.dc != null) {
-        return false;
+    return equal;
+  }
+
+  /**
+   * Helper-method which checks if two lists of strings are equal. Two nulls are considered equal as well.
+   * 
+   * @param first The first list of strings to compare.
+   * @param second The second list of strings to compare.
+   * @return True if the two lists are equal or if both are null.
+   */
+  private boolean isEqual(List<String> first, List<String> second) {
+    boolean equal = true;
+
+    if (first == null) {
+      if (second != null) {
+        equal = false;
       }
-    } else if (!dc.equals(other.dc)) {
-      return false;
+    } else {
+      equal = first.equals(second);
     }
-    if (o == null) {
-      if (other.o != null) {
-        return false;
+    return equal;
+  }
+
+  /**
+   * Helper-method which checks if two strings are equal. Two nulls are considered equal as well.
+   * 
+   * @param first The first string to compare.
+   * @param second The second string to compare.
+   * @return True if the two strings are equal or if both are null.
+   */
+  private boolean isEqual(String first, String second) {
+    boolean equal = true;
+
+    if (first == null) {
+      if (second != null) {
+        equal = false;
       }
-    } else if (!o.equals(other.o)) {
-      return false;
+    } else {
+      equal = first.equals(second);
     }
-    if (ou == null) {
-      if (other.ou != null) {
-        return false;
-      }
-    } else if (!ou.equals(other.ou)) {
-      return false;
-    }
-    return true;
+    return equal;
   }
 }
