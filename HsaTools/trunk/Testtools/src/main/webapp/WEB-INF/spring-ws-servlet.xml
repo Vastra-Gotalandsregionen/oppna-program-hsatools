@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="signicatEndpoint" class="se.vgregion.hsatools.testtools.signicatws.endpoints.SignicatEndpoint">
+		<constructor-arg ref="jaxbMarshallerSignicat" />
+		<constructor-arg ref="jaxbMarshallerSignicat" />
+	</bean>
+
+	<bean id="vardvalEndpoint" class="se.vgregion.hsatools.testtools.vardvalws.endpoints.VardvalEndpoint">
+		<constructor-arg ref="jaxbMarshallerVardval" />
+		<constructor-arg ref="jaxbMarshallerVardval" />
+	</bean>
+
+	<bean id="jaxbMarshallerSignicat" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="contextPath" value="se.vgregion.hsatools.testtools.signicatws.ws.domain" />
+	</bean>
+
+	<bean id="jaxbMarshallerVardval" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="contextPath" value="se.vgregion.hsatools.testtools.vardvalws.ws.domain" />
+	</bean>
+
+	<bean
+		class="org.springframework.ws.server.endpoint.mapping.PayloadRootQNameEndpointMapping">
+		<property name="mappings">
+			<props>
+				<prop key="{http://impl.signatureservice.ksc}registerDocument">signicatEndpoint</prop>
+				<prop key="{http://impl.signatureservice.ksc}retrieveSaml">signicatEndpoint</prop>
+				<prop key="{urn:VGRegion.VGPrimärvård.Vårdval.Service}GetVårdvalRequest">vardvalEndpoint</prop>
+				<prop key="{urn:VGRegion.VGPrimärvård.Vårdval.Service}SetVårdvalRequest">vardvalEndpoint</prop>
+			</props>
+		</property>
+		<property name="interceptors">
+			<bean
+				class="org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor" />
+		</property>
+	</bean>
+</beans>
