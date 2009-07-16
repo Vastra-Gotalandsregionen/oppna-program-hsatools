@@ -1,6 +1,6 @@
 package se.vgregion.kivtools.search.svc.ws.vardval;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.xml.bind.JAXBElement;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.easymock.classextension.EasyMock;
@@ -22,8 +24,6 @@ import se.vgregion.kivtools.search.svc.ws.domain.vardval.ObjectFactory;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalRequest;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalResponse;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalEntry;
-
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 public class VardvalServiceTest {
 
@@ -67,7 +67,7 @@ public class VardvalServiceTest {
   /*
    * * Test assigning new listing and check retrieved Vardval information.
    */
-  public void testSetVardvalMethod() throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage {
+  public void testSetVardvalMethod() throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage, DatatypeConfigurationException {
     IVårdvalService mockService = EasyMock.createMock(IVårdvalService.class);
     SetVårdvalResponse setVardvalResponse = new SetVårdvalResponse();
     generateResponse(setVardvalResponse);
@@ -84,15 +84,15 @@ public class VardvalServiceTest {
     assertEquals(upcomingValidFromDate, vardvalInfo.getUpcomingValidFromDate());
   }
 
-  private void generateResponse(GetVårdvalResponse getVardvalResponse) {
+  private void generateResponse(GetVårdvalResponse getVardvalResponse) throws DatatypeConfigurationException {
     VårdvalEntry currentEntry = new VårdvalEntry();
     VårdvalEntry upcomingEntry = new VårdvalEntry();
     // Set current and upcoming dates for vårdval entries
     GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
     calendar.setTime(currentValidFromDate);
-    XMLGregorianCalendar currentGregorianCalendar = new XMLGregorianCalendarImpl(calendar);
+    XMLGregorianCalendar currentGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
     calendar.setTime(upcomingValidFromDate);
-    XMLGregorianCalendar upcomingGregorianCalendar = new XMLGregorianCalendarImpl(calendar);
+    XMLGregorianCalendar upcomingGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
     currentEntry.setGiltigFrån(currentGregorianCalendar);
     upcomingEntry.setGiltigFrån(upcomingGregorianCalendar);
 
@@ -108,15 +108,15 @@ public class VardvalServiceTest {
 
   }
 
-  private void generateResponse(SetVårdvalResponse setVardvalResponse) {
+  private void generateResponse(SetVårdvalResponse setVardvalResponse) throws DatatypeConfigurationException {
     VårdvalEntry currentEntry = new VårdvalEntry();
     VårdvalEntry upcomingEntry = new VårdvalEntry();
     // Set current and upcoming dates for vårdval entries
     GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
     calendar.setTime(currentValidFromDate);
-    XMLGregorianCalendar currentGregorianCalendar = new XMLGregorianCalendarImpl(calendar);
+    XMLGregorianCalendar currentGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
     calendar.setTime(upcomingValidFromDate);
-    XMLGregorianCalendar upcomingGregorianCalendar = new XMLGregorianCalendarImpl(calendar);
+    XMLGregorianCalendar upcomingGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
     currentEntry.setGiltigFrån(currentGregorianCalendar);
     upcomingEntry.setGiltigFrån(upcomingGregorianCalendar);
 
