@@ -96,7 +96,7 @@ public class AddressHelper implements Serializable {
 
         // last item should be city
         String temp = additionalInfo.get(size - 1);
-        if (Evaluator.containsNoNumbers(temp, true)) {
+        if (Evaluator.containsNoNumbers(temp)) {
           address.setCity(temp);
           foundCity = true;
           // remove city from list

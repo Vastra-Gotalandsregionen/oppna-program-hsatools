@@ -25,169 +25,254 @@ import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 
-public class Evaluator {
-  private static final String CLASSNAME = Evaluator.class.getName();
-
-  public static boolean isInteger(String s) {
+/**
+ * Utility class for various datatype checks and conversions.
+ */
+public final class Evaluator {
+  /**
+   * Checks if the provided string is an integer.
+   * 
+   * @param string The string to check.
+   * @return True if the provided string is an integer, otherwise false.
+   */
+  public static boolean isInteger(String string) {
+    boolean integer = true;
     try {
-      Integer.parseInt(s);
-    } catch (Exception e) {
-      return false;
+      Integer.parseInt(string);
+    } catch (NumberFormatException e) {
+      integer = false;
     }
-    return true;
+    return integer;
   }
 
-  public static boolean isBoolean(String s) {
-    return Boolean.TRUE.toString().equals(s) || Boolean.FALSE.toString().equals(s);
+  /**
+   * Checks if the provided string is a boolean.
+   * 
+   * @param string The string to check.
+   * @return True if the provided string is either of the strings "true" or "false", otherwise false.
+   */
+  public static boolean isBoolean(String string) {
+    return Boolean.TRUE.toString().equals(string) || Boolean.FALSE.toString().equals(string);
   }
 
-  public static boolean isDouble(String s) {
-    try {
-      Double.parseDouble(s);
-    } catch (Exception e) {
-      return false;
-    }
-    return true;
-  }
-
-  public static boolean isEmpty(String s) {
-    if (s == null) {
-      return true;
-    }
-    s = s.trim();
-    if (s.equalsIgnoreCase("")) {
-      return true;
+  /**
+   * Checks if the provided string is a double.
+   * 
+   * @param string The string to check.
+   * @return True if the provided string is a double.
+   */
+  public static boolean isDouble(String string) {
+    boolean result = true;
+    if (isEmpty(string)) {
+      result = false;
     } else {
-      return false;
+      try {
+        Double.parseDouble(string);
+      } catch (NumberFormatException e) {
+        result = false;
+      }
     }
+    return result;
   }
 
+  /**
+   * Checks if the provided string is empty.
+   * 
+   * @param string The string to check.
+   * @return True if the provided string is empty, null or only contains whitespace.
+   */
+  public static boolean isEmpty(String string) {
+    boolean empty = false;
+
+    if (string == null) {
+      empty = true;
+    } else {
+      empty = string.trim().equalsIgnoreCase("");
+    }
+    return empty;
+  }
+
+  /**
+   * Checks if the provided object implementing IsEmptyMarker is empty.
+   * 
+   * @param obj The object implementing the IsEmptyMarker interface.
+   * @return True if the object is empty, otherwise false.
+   */
   public static boolean isEmpty(IsEmptyMarker obj) {
     return obj.isEmpty();
   }
 
-  public static boolean isNegative(String s) {
-    try {
-      double d = Double.parseDouble(s);
+  /**
+   * Checks if the provided string is a negative number.
+   * 
+   * @param string The string to check.
+   * @return True if the provided string is a number and less than 0, otherwise false.
+   */
+  public static boolean isNegative(String string) {
+    boolean negative = false;
+
+    if (isDouble(string)) {
+      double d = Double.parseDouble(string);
       if (d < 0) {
-        return true;
-      }
-      return false;
-    } catch (Exception e) {
-      return false;
-    }
-  }
-
-  public static boolean checkDouble(String s, boolean emptyAndNullIsOk) {
-    if (s == null || s.equalsIgnoreCase("")) {
-      if (emptyAndNullIsOk) {
-        return true;
-      } else {
-        return false;
+        negative = true;
       }
     }
-    return isDouble(s);
+
+    return negative;
   }
 
-  public static boolean stringToBoolean(String s) {
-    if (s != null && s.equalsIgnoreCase("true")) {
-      return true;
+  /**
+   * Checks if the provided string is a double.
+   * 
+   * @param string The string to check.
+   * @param emptyAndNullIsOk Decides if null and empty strings should return true or false.
+   * @return True if the provided string is a valid double or if the provided string is null or empty and the emptyOrNullOk is set to true, otherwise false.
+   */
+  public static boolean checkDouble(String string, boolean emptyAndNullIsOk) {
+    boolean result = false;
+
+    result |= isEmpty(string) && emptyAndNullIsOk;
+    result |= isDouble(string);
+
+    return result;
+  }
+
+  /**
+   * Converts the provided string to a boolean.
+   * 
+   * @param string The string to convert.
+   * @return True if the provided string is "true", otherwise false.
+   */
+  public static boolean stringToBoolean(String string) {
+    boolean result = false;
+
+    if (isBoolean(string)) {
+      result = Boolean.parseBoolean(string);
     }
-    return false;
+
+    return result;
   }
 
+  /**
+   * Checks if a list of objects is empty.
+   * 
+   * @param list The list of objects to check.
+   * @return True if the list is null or empty.
+   */
+  @SuppressWarnings("unchecked")
+  public static boolean isEmptyList(List list) {
+    return list == null || list.isEmpty();
+  }
+
+  /**
+   * Checks if a list of objects implementing the IsEmptyMarker interface is empty or contains only empty objects.
+   * 
+   * @param list The list of objects implementing the IsEmptyMarker interface to check.
+   * @return True if the list is null, empty or contains only empty objects, otherwise false.
+   */
+  public static boolean isEmptyMarkerList(List<? extends IsEmptyMarker> list) {
+    boolean empty = true;
+    if (!isEmptyList(list)) {
+      for (IsEmptyMarker mark : list) {
+        if (!mark.isEmpty()) {
+          empty = false;
+        }
+      }
+    }
+    return empty;
+  }
+
+  /**
+   * Checks if a list of addresses is empty or only contains empty addresses.
+   * 
+   * @param list The list of addresses to check.
+   * @return True if the list is null, empty or only contains empty addresses, otherwise false.
+   */
   public static boolean isEmptyAdress(List<Address> list) {
-    if (list == null || list.isEmpty()) {
-      return true;
-    }
-    for (IsEmptyMarker mark : list) {
-      if (!mark.isEmpty()) {
-        return false;
-      }
-    }
-    return true;
+    return isEmptyMarkerList(list);
   }
 
+  /**
+   * Checks if a list of phone numbers is empty or only contains empty phone numbers.
+   * 
+   * @param list The list of phone numbers to check.
+   * @return True if the list is null, empty or only contains empty phone numbers, otherwise false.
+   */
   public static boolean isEmptyPhoneNumber(List<PhoneNumber> list) {
-    if (list == null || list.isEmpty()) {
-      return true;
-    }
-    for (IsEmptyMarker mark : list) {
-      if (!mark.isEmpty()) {
-        return false;
-      }
-    }
-    return true;
+    return isEmptyMarkerList(list);
   }
 
+  /**
+   * Checks if a list of WeekdayTime objects is empty.
+   * 
+   * @param list The list of WeekdayTime objects to check.
+   * @return True if the list is null or empty, otherwise false.
+   */
   public static boolean isEmptyWeekDayTime(List<WeekdayTime> list) {
-    if (list == null || list.isEmpty()) {
-      return true;
-    }
-    return false;
+    return isEmptyList(list);
   }
 
+  /**
+   * Checks if a list of HealthcareType objects is empty or only contains empty HealthcareType objects.
+   * 
+   * @param list The list of HealthcareType objects to check.
+   * @return True if the list is null, empty or only contains empty HealthcareType objects, otherwise false.
+   */
   public static boolean isEmptyBusinessClassification(List<HealthcareType> list) {
-    if (list == null || list.isEmpty()) {
-      return true;
-    }
-    for (IsEmptyMarker mark : list) {
-      if (!mark.isEmpty()) {
-        return false;
+    return isEmptyMarkerList(list);
+  }
+
+  /**
+   * Checks if a list of strings is empty.
+   * 
+   * @param list The list of strings to check.
+   * @return True if the list is null or empty.
+   */
+  public static boolean isEmpty(List<String> list) {
+    return isEmptyList(list);
+  }
+
+  /**
+   * Checks if the provided string contains any numeric characters.
+   * 
+   * @param string The string to check.
+   * @return True if the provided string is free from numeric characters, otherwise false.
+   */
+  public static boolean containsNoNumbers(String string) {
+    boolean result = true;
+
+    if (isEmpty(string)) {
+      result = false;
+    } else {
+      for (int i = 0; i < string.length(); i++) {
+        // If we find a non-digit character we return false.
+        result &= !Character.isDigit(string.charAt(i));
       }
     }
-    return true;
+    return result;
   }
 
-  public static boolean isEmpty(List<String> l) {
-    if (l == null) {
-      return true;
-    }
-    return l.isEmpty();
-  }
+  /**
+   * Checks if the provided string contains only numeric characters.
+   * 
+   * @param string The string to check.
+   * @param ignoreWhiteSpace True if any whitespace in the string should be ignored.
+   * @return True if the provided string consists of only numeric characters, otherwise false.
+   */
+  public static boolean containsOnlyNumbers(String string, boolean ignoreWhiteSpace) {
+    boolean result = true;
 
-  public static boolean containsNoNumbers(String str, boolean ignoreWhiteSpace) {
-    if (str == null || str.length() == 0) {
-      return false;
-    }
-    for (int i = 0; i < str.length(); i++) {
-
-      // If we find a non-digit character we return false.
-      if (Character.isDigit(str.charAt(i))) {
-        if (Character.isWhitespace(str.charAt(i))) {
-          // is white space
-          if (ignoreWhiteSpace) {
-            continue;
-          } else {
-            return false;
-          }
-        }
-        return false;
-      }
-    }
-    return true;
-  }
-
-  public static boolean containsOnlyNumbers(String str, boolean ignoreWhiteSpace) {
     // It can't contain only numbers if it's null or empty...
-    if (str == null || str.length() == 0) {
-      return false;
-    }
-    for (int i = 0; i < str.length(); i++) {
-
-      // If we find a non-digit character we return false.
-      if (!Character.isDigit(str.charAt(i))) {
-        if (Character.isWhitespace(str.charAt(i))) {
-          // is white space
-          if (ignoreWhiteSpace) {
-            continue;
-          } else {
-            return false;
-          }
+    if (isEmpty(string)) {
+      result = false;
+    } else {
+      for (int i = 0; i < string.length(); i++) {
+        // If we find a non-digit character we return false.
+        if (!Character.isDigit(string.charAt(i))) {
+          result &= Character.isWhitespace(string.charAt(i)) && ignoreWhiteSpace;
         }
-        return false;
       }
     }
-    return true;
+    return result;
   }
 }
