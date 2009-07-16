@@ -48,7 +48,7 @@ public class LinkListGenerator extends QuartzJobBean {
     }
 
     @Override
-    protected void executeInternal(JobExecutionContext context) {
+    public void executeInternal(JobExecutionContext context) {
         try {
             FileWriter file = openFile("units.html");            
             List<String> ids = this.searchService.getAllUnitsHsaIdentity();
