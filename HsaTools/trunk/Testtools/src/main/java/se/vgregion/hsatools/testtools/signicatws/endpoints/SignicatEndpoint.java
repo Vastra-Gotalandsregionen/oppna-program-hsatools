@@ -8,10 +8,10 @@ import org.springframework.oxm.Unmarshaller;
 import org.springframework.ws.server.endpoint.AbstractMarshallingPayloadEndpoint;
 
 import se.vgregion.hsatools.testtools.services.Service;
-import se.vgregion.kivtools.testservice.signicatws.ws.domain.RegisterDocument;
-import se.vgregion.kivtools.testservice.signicatws.ws.domain.RegisterDocumentResponse;
-import se.vgregion.kivtools.testservice.signicatws.ws.domain.RetrieveSaml;
-import se.vgregion.kivtools.testservice.signicatws.ws.domain.RetrieveSamlResponse;
+import se.vgregion.hsatools.testtools.signicatws.ws.domain.RegisterDocument;
+import se.vgregion.hsatools.testtools.signicatws.ws.domain.RegisterDocumentResponse;
+import se.vgregion.hsatools.testtools.signicatws.ws.domain.RetrieveSaml;
+import se.vgregion.hsatools.testtools.signicatws.ws.domain.RetrieveSamlResponse;
 
 public class SignicatEndpoint extends AbstractMarshallingPayloadEndpoint {
   

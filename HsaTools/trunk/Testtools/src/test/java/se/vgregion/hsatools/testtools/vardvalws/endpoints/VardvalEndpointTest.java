@@ -9,11 +9,10 @@ import org.junit.Test;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import se.vgregion.hsatools.testtools.services.Service;
-import se.vgregion.hsatools.testtools.vardvalws.endpoints.VardvalEndpoint;
-import se.vgregion.kivtools.testservice.vardvalws.ws.domain.GetVårdvalRequest;
-import se.vgregion.kivtools.testservice.vardvalws.ws.domain.GetVårdvalResponse;
-import se.vgregion.kivtools.testservice.vardvalws.ws.domain.ObjectFactory;
-import se.vgregion.kivtools.testservice.vardvalws.ws.domain.SetVårdvalRequest;
+import se.vgregion.hsatools.testtools.vardvalws.ws.domain.GetVårdvalRequest;
+import se.vgregion.hsatools.testtools.vardvalws.ws.domain.GetVårdvalResponse;
+import se.vgregion.hsatools.testtools.vardvalws.ws.domain.ObjectFactory;
+import se.vgregion.hsatools.testtools.vardvalws.ws.domain.SetVårdvalRequest;
 
 public class VardvalEndpointTest {
 

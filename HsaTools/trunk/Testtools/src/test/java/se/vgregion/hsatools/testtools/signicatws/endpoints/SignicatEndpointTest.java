@@ -8,11 +8,10 @@ import org.junit.Test;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import se.vgregion.hsatools.testtools.services.Service;
-import se.vgregion.hsatools.testtools.signicatws.endpoints.SignicatEndpoint;
-import se.vgregion.kivtools.testservice.signicatws.ws.domain.RegisterDocument;
-import se.vgregion.kivtools.testservice.signicatws.ws.domain.RegisterDocumentResponse;
-import se.vgregion.kivtools.testservice.signicatws.ws.domain.RetrieveSaml;
-import se.vgregion.kivtools.testservice.signicatws.ws.domain.RetrieveSamlResponse;
+import se.vgregion.hsatools.testtools.signicatws.ws.domain.RegisterDocument;
+import se.vgregion.hsatools.testtools.signicatws.ws.domain.RegisterDocumentResponse;
+import se.vgregion.hsatools.testtools.signicatws.ws.domain.RetrieveSaml;
+import se.vgregion.hsatools.testtools.signicatws.ws.domain.RetrieveSamlResponse;
 
 public class SignicatEndpointTest {
 
