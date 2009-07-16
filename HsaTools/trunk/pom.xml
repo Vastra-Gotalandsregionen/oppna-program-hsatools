@@ -90,7 +90,11 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.3</version>
+				<!--
+				Temporary version loaded from Unbound Snapshots repository until a "real"
+				2.4-SNAPSHOT is available from the maven master repositories.
+				 -->
+				<version>2.4-atlassian-2-SNAPSHOT</version>
 				<configuration>
 					<configLocation>
 						${basedir}/src/test/resources/checkstyle/checkstyle.xml
@@ -175,6 +179,14 @@
 			<releases>
 				<enabled>true</enabled>
 			</releases>
+		</pluginRepository>
+		<!--
+		Temporary repository until a "real" 2.4-SNAPSHOT is available from the maven master repositories.
+		 -->
+		<pluginRepository>
+			<id>Unbound Snapshots</id>
+			<name>Unbound Snapshots</name>
+			<url>http://unbound.se/maven/snapshots</url>
 		</pluginRepository>
 	</pluginRepositories>
 
