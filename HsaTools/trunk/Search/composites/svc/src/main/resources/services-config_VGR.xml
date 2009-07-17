@@ -65,7 +65,7 @@
 			value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-municipalities"></property>
 	</bean>
 	<bean id="Search.LdapConnectionPool"
-		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.LdapConnectionPool"
+		class="se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool"
 		destroy-method="release">
 		<property name="ldapHost" value="${hsatools.search.svc.ldap.ldaphost}" />
 		<property name="loginDN" value="${hsatools.search.svc.ldap.logindn}" />

@@ -62,7 +62,7 @@
 	</bean>
  	
 	<bean id="Search.LdapConnectionPool"
-		class="se.vgregion.kivtools.search.svc.impl.hak.ldap.LdapConnectionPool" destroy-method="release">
+		class="se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool" destroy-method="release">
 		<property name="ldapHost" value="${hsatools.search.svc.ldap.ldaphost}" />
 		<property name="loginDN" value="${hsatools.search.svc.ldap.logindn}" />
 		<property name="password" value="${hsatools.search.svc.ldap.password}" />
