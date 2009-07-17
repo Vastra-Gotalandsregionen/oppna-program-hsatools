@@ -63,6 +63,24 @@
 					<header>header.txt</header>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<configuration>
+					<instrumentation>
+						<!--
+						<ignores>
+							<ignore>com.example.boringcode.*</ignore>
+						</ignores>
+						-->
+						<excludes>
+							<exclude>**/ws/domain/**/*.class</exclude>
+							<exclude>**/ws/domain/*.class</exclude>
+						</excludes>
+					</instrumentation>
+				</configuration>
+			</plugin>
 		</plugins>
 
 		<!-- needed for FTP-deployment -->
@@ -92,9 +110,10 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<!--
-				Temporary version loaded from Unbound Snapshots repository until a "real"
-				2.4-SNAPSHOT is available from the maven master repositories.
-				 -->
+					Temporary version loaded from Unbound Snapshots repository until a
+					"real" 2.4-SNAPSHOT is available from the maven master
+					repositories.
+				-->
 				<version>2.4-atlassian-2-SNAPSHOT</version>
 				<configuration>
 					<configLocation>
@@ -159,17 +178,19 @@
 	</distributionManagement>
 
 	<pluginRepositories>
-<!--        <pluginRepository>-->
-<!--            <id>Atlassian Public</id>-->
-<!--            <url>http://maven.atlassian.com/repository/public/</url>-->
-<!--			<snapshots>-->
-<!--				<enabled>true</enabled>-->
-<!--			</snapshots>-->
-<!--			<releases>-->
-<!--				<enabled>true</enabled>-->
-<!--			</releases>-->
-<!--        </pluginRepository>-->
-        
+		<!--        <pluginRepository>-->
+		<!--            <id>Atlassian Public</id>-->
+		<!--
+			<url>http://maven.atlassian.com/repository/public/</url>
+		-->
+		<!--			<snapshots>-->
+		<!--				<enabled>true</enabled>-->
+		<!--			</snapshots>-->
+		<!--			<releases>-->
+		<!--				<enabled>true</enabled>-->
+		<!--			</releases>-->
+		<!--        </pluginRepository>-->
+
 		<pluginRepository>
 			<id>mc-release</id>
 			<name>Local Maven repository of releases</name>
@@ -182,8 +203,9 @@
 			</releases>
 		</pluginRepository>
 		<!--
-		Temporary repository until a "real" 2.4-SNAPSHOT is available from the maven master repositories.
-		 -->
+			Temporary repository until a "real" 2.4-SNAPSHOT is available from
+			the maven master repositories.
+		-->
 		<pluginRepository>
 			<id>Unbound Snapshots</id>
 			<name>Unbound Snapshots</name>
