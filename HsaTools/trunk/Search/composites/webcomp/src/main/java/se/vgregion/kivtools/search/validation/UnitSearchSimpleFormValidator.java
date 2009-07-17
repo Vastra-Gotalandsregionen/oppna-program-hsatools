@@ -30,20 +30,31 @@ import se.vgregion.kivtools.search.common.Constants;
 import se.vgregion.kivtools.search.exceptions.IncorrectUserInputException;
 import se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm;
 
+/**
+ * Validates user input in a UnitSearchSimpleForm.
+ */
 @SuppressWarnings("serial")
 public class UnitSearchSimpleFormValidator implements Serializable {
 
   private Log logger = LogFactory.getLog(this.getClass());
 
+  /**
+   * Validates user input in a UnitSearchSimpleForm.
+   * 
+   * @param param The form to validate.
+   * @return "success" in case of a succesful validation.
+   * @throws IncorrectUserInputException if the validation fails.
+   */
   public String validate(UnitSearchSimpleForm param) throws IncorrectUserInputException {
     logger.info(this.getClass().getName() + ".validate()");
 
     int paramlength = param.getSearchParamValue().trim().length();
     int unitNameLength = param.getUnitName().trim().length();
 
-    if (paramlength == 0 && unitNameLength == 0 || paramlength == 1 && unitNameLength == 0 || paramlength == 0 && unitNameLength == 1 || paramlength == 1 && unitNameLength == 1) {
+    if (!(paramlength >= 2 || unitNameLength >= 2)) {
       throw new IncorrectUserInputException("Ange minst tv\u00E5 tecken som s\u00F6kkriteria i ett av f\u00E4lten.");
     }
+
     return Constants.SUCCESSFUL_OPERATION;
   }
 }
