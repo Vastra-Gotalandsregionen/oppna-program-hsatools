@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.MissingResourceException;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,12 +36,8 @@ public class HealthcareTypeConditionHelperTest {
   @Before
   public void setUp() throws Exception {
     helper = new HealthcareTypeConditionHelper();
-    unit = new Unit();
-  }
-
-  @After
-  public void tearDown() throws Exception {
     helper.getAllHealthcareTypes().clear();
+    unit = new Unit();
   }
 
   @Test
