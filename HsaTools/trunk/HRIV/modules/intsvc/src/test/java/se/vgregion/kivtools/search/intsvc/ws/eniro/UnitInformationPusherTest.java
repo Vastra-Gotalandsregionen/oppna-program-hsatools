@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import javax.swing.tree.ExpandVetoException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -38,23 +39,25 @@ import com.domainlanguage.time.TimePoint;
 
 public class UnitInformationPusherTest {
   private InformationPusherEniro informationPusher;
-  private static File dateSynchFile;
-  private static File unitExistFile;
+  private static File dateSynchFile = new File("dateSynch.txt");
+  private static File unitExistFile = new File("unitExistList");
   private MockFtpClient mockFtpClient;
 
   @Before
   public void setUp() throws Exception {
-    dateSynchFile = new File("dateSynch.txt");
-    unitExistFile = new File("unitExistList");
-    dateSynchFile.delete();
-    unitExistFile.delete();
+   dateSynchFile.delete();
+   unitExistFile.delete();
 
     setupInformationPusher();
   }
 
   private void setupInformationPusher() throws Exception {
     informationPusher = new InformationPusherEniro();
-    UnitRepository unitRepository = createMockUnitRepositoryFull(getDefaultTestUnits());
+    List<Unit> units = getDefaultTestUnits();
+    for (Unit unit : units) {
+      fillMockData(unit);
+    }
+    UnitRepository unitRepository = createMockUnitRepositoryFull(units);
     CodeTablesService mockCodeTableService = EasyMock.createMock(CodeTablesService.class);
     org.easymock.EasyMock.expect(mockCodeTableService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "")).andReturn("");
     org.easymock.EasyMock.expectLastCall().anyTimes();
@@ -73,12 +76,6 @@ public class UnitInformationPusherTest {
     informationPusher.setLastSynchedModifyDateFile(dateSynchFile);
     informationPusher.setLastExistingUnitsFile(unitExistFile);
     informationPusher.setDestinationFolder(new File("src/test"));
-  }
-
-  @After
-  public void deleteTestFile() {
-    dateSynchFile.delete();
-    unitExistFile.delete();
   }
 
   @Test
@@ -128,12 +125,10 @@ public class UnitInformationPusherTest {
       System.err.println("tets");
       String f = byteArrayOutputStream.toString();
       f = "";
-
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-
   }
 
   @Test
@@ -159,13 +154,24 @@ public class UnitInformationPusherTest {
     // Remove one unit
     List<Unit> units = getDefaultTestUnits();
     units.remove(0);
+    Unit unitToMove = units.get(13);
+    fillMockData(unitToMove);
+    unitToMove.setDn(DN.createDNFromString("ou=leaf6,ou=child4,ou=root4,ou=org,o=VGR"));
     informationPusher.setUnitRepository(createMockUnitRepositoryFull(units));
     informationPusher.doService();
     organization = getOrganizationFromFile(this.mockFtpClient.getFileContent());
-    Assert.assertTrue("Organization should contain 1 units, not " + organization.getUnit().size() + ".", organization.getUnit().size() == 1);
+    Assert.assertTrue("Organization should contain 2 units, not " + organization.getUnit().size() + ".", organization.getUnit().size() == 2);
     Assert.assertEquals("remove", organization.getUnit().get(0).getOperation());
   }
 
+  @Test
+  public void testUnitRepositoryThrowsException() throws Exception {
+    UnitRepository mockUnitRepository = EasyMock.createMock(UnitRepository.class);
+    EasyMock.expect(mockUnitRepository.getAllUnits()).andThrow(new Exception());
+    informationPusher.doService();
+  }
+
+  // This test should be changed or removed
   @Test
   public void testDoPushInformation() throws Exception {
     informationPusher.doService();

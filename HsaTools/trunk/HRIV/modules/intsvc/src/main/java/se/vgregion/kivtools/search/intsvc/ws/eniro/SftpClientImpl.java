@@ -1,6 +1,7 @@
 package se.vgregion.kivtools.search.intsvc.ws.eniro;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -81,13 +82,14 @@ public class SftpClientImpl implements FtpClient {
    */
   public boolean sendFile(String fileContent) {
     try {
+      InputStream inputStream = new ByteArrayInputStream(fileContent.getBytes("UTF-8"));
       Session session = jsch.getSession(username, hostname, port);
       session.setPassword(password);
       session.setConfig("StrictHostKeyChecking", "no");
       session.connect();
       ChannelSftp channelSftp = (ChannelSftp) session.openChannel("sftp");
       channelSftp.connect();
-      channelSftp.put(new ByteArrayInputStream(fileContent.getBytes("UTF-8")), ftpDestinationFileName);
+      channelSftp.put(inputStream, ftpDestinationFileName);
       channelSftp.disconnect();
       session.disconnect();
       return true;
