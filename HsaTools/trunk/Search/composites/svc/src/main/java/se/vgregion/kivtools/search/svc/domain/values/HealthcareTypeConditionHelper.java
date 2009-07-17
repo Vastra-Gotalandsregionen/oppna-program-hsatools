@@ -17,7 +17,6 @@
  */
 package se.vgregion.kivtools.search.svc.domain.values;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -33,6 +32,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.util.ReflectionUtil;
 
 /**
  * Health care type operations.
@@ -52,6 +52,11 @@ public class HealthcareTypeConditionHelper {
 
   private String implResourcePath;
 
+  /**
+   * Gets all healthcare types.
+   * 
+   * @return A list of all healthcare types.
+   */
   public List<HealthcareType> getAllHealthcareTypes() {
     return allHealthcareTypes;
   }
@@ -59,8 +64,8 @@ public class HealthcareTypeConditionHelper {
   /**
    * Look through all keys in configuration file and try to match to health care types.
    * 
-   * @param unitEntry
-   * @return
+   * @param unit The unit to assign healthcare types to.
+   * @return The updated unit.
    */
   public Unit assignHealthcareTypes(Unit unit) {
 
@@ -77,42 +82,12 @@ public class HealthcareTypeConditionHelper {
         // this field.
         String key = condition.getKey();
         key = key.substring(0, 1).toUpperCase() + key.substring(1);
-        Method keyMethod = null;
-        try {
-          keyMethod = unit.getClass().getMethod("get" + key, null);
-        } catch (Exception e) {
-          // If the field is not accessible (security or doesn't exists), there's nothing we can do about it.
-        }
-        if (keyMethod != null) {
+        if (ReflectionUtil.hasMethod(unit, "get" + key)) {
           // Field exists, does it have correct value?
 
-          // The health care type value may be multiple comma separated values
-          String[] conditionValues = condition.getValue().split(",");
-          Object value = null;
-          try {
-            value = keyMethod.invoke(unit, null);
-          } catch (Exception e) {
-            // If the field is not accessible (security or doesn't exists), there's nothing we can do about it.
-          }
-          boolean conditionFulfilled = false;
-          if (value instanceof String) {
-            if (value != null) {
-              for (String v : conditionValues) {
-                if (v.equals(value)) {
-                  conditionFulfilled = true;
-                }
-              }
-            }
-          } else if (value instanceof List) {
-            for (String v : conditionValues) {
-              if (((List<String>) value).contains(v)) {
-                conditionFulfilled = true;
-              }
-            }
-          }
-          if (!conditionFulfilled) {
-            conditionsFulfilled = false;
-          }
+          Object value = ReflectionUtil.callMethod(unit, "get" + key);
+          String conditionValue = condition.getValue();
+          conditionsFulfilled &= checkConditionFulfilled(value, conditionValue);
         }
       }
       if (conditionsFulfilled) {
@@ -127,14 +102,75 @@ public class HealthcareTypeConditionHelper {
     return unit;
   }
 
+  /**
+   * Helper-method to check if the condition is fulfilled.
+   * 
+   * @param value The value to check against the condition value.
+   * @param conditionValue The condition value to check against.
+   * @return True if the condition is fulfilled, otherwise false.
+   */
+  @SuppressWarnings("unchecked")
+  private boolean checkConditionFulfilled(Object value, String conditionValue) {
+    boolean conditionFulfilled = false;
+    // The health care type value may be multiple comma separated values
+    String[] conditionValues = conditionValue.split(",");
+    if (value instanceof String) {
+      conditionFulfilled = checkConditionFulfilled((String) value, conditionValues);
+    } else if (value instanceof List) {
+      conditionFulfilled = checkConditionFulfilled((List) value, conditionValues);
+    }
+    return conditionFulfilled;
+  }
+
+  /**
+   * Checks a List of string-values against the conditionValues to see if the condition is fulfilled.
+   * 
+   * @param value The List of string-values to check.
+   * @param conditionValues The conditionValues to check against.
+   * @return True if the condition is fulfilled.
+   */
+  @SuppressWarnings("unchecked")
+  private boolean checkConditionFulfilled(List<?> value, String[] conditionValues) {
+    boolean conditionFulfilled = false;
+
+    for (String v : conditionValues) {
+      if (((List<String>) value).contains(v)) {
+        conditionFulfilled = true;
+      }
+    }
+
+    return conditionFulfilled;
+  }
+
+  /**
+   * Checks a string-value against the conditionValues to see if the condition is fulfilled.
+   * 
+   * @param value The string-value to check.
+   * @param conditionValues The conditionValues to check against.
+   * @return True if the condition is fulfilled.
+   */
+  private boolean checkConditionFulfilled(String value, String[] conditionValues) {
+    boolean conditionFulfilled = false;
+
+    if (value != null) {
+      for (String v : conditionValues) {
+        if (v.equals(value)) {
+          conditionFulfilled = true;
+        }
+      }
+    }
+
+    return conditionFulfilled;
+  }
+
   private Enumeration<String> getAllHealthcareConditionConfigurationKeys() {
-    ResourceBundle bundle = ResourceBundle.getBundle(getImplResourcePath());
+    ResourceBundle bundle = ResourceBundle.getBundle(implResourcePath);
     return bundle.getKeys();
   }
 
   private String getHealthcareConditionValueByKey(String key) {
     String rv = "";
-    ResourceBundle bundle = ResourceBundle.getBundle(getImplResourcePath());
+    ResourceBundle bundle = ResourceBundle.getBundle(implResourcePath);
     String value = bundle.getString(key);
     if (value != null) {
       rv = value;
@@ -142,33 +178,66 @@ public class HealthcareTypeConditionHelper {
     return rv;
   }
 
-  public String getImplResourcePath() {
-    return implResourcePath;
-  }
-
+  /**
+   * Sets the resource path and builds the internal cache of healtcare type conditions.
+   * 
+   * @param implResourcePath The package path to the properties-file containing healthcare type conditions.
+   */
   public void setImplResourcePath(String implResourcePath) {
     this.implResourcePath = implResourcePath;
 
     Enumeration<String> allKeys = getAllHealthcareConditionConfigurationKeys();
-    String currentConditionKey;
-    int currentIndex;
-    int beginPos;
-    int endPos;
 
     // Get indexes
-    Set<Integer> indexes = new HashSet<Integer>();
-    while (allKeys.hasMoreElements()) {
-      currentConditionKey = allKeys.nextElement();
-      if (currentConditionKey.startsWith(HEALTHCARE_TYPE_CONDITION_KEY)) {
-        beginPos = currentConditionKey.indexOf('_');
-        endPos = currentConditionKey.indexOf("-", beginPos);
-        // Get index number
-        currentIndex = Integer.parseInt(currentConditionKey.substring(beginPos + 1, endPos));
-        indexes.add(currentIndex);
-      }
-    }
+    Set<Integer> indexes = getIndexes(allKeys);
 
     // Get sub indexes
+    Map<Integer, Integer> indexesAndsubIndexes = getIndexMap(indexes);
+
+    // Iterate through all condition keys and condition values, build health
+    // care types and corresponding conditions
+    buildInternalCache(indexesAndsubIndexes);
+  }
+
+  /**
+   * Helper-method that builds the internal cache of healthcare type conditions.
+   * 
+   * @param indexesAndsubIndexes The map of indexes and subindexes to base the cache on.
+   */
+  private void buildInternalCache(Map<Integer, Integer> indexesAndsubIndexes) {
+    for (Entry<Integer, Integer> entry : indexesAndsubIndexes.entrySet()) {
+      HealthcareType htc = new HealthcareType(entry.getKey());
+
+      // Add filtered status
+      String filteredKey = HEALTHCARE_TYPE_CONDITION_FILTERED + entry.getKey();
+      String filteredKeyValue = getHealthcareConditionValueByKey(filteredKey);
+      htc.setFiltered("true".equals(filteredKeyValue));
+
+      for (int subIndex = 1; subIndex <= entry.getValue(); subIndex++) {
+        String conditionKeyKey = HEALTHCARE_TYPE_CONDITION_KEY + entry.getKey() + "-" + subIndex;
+        String conditionKeyValue = getHealthcareConditionValueByKey(conditionKeyKey);
+        String conditionValueKey = HEALTHCARE_TYPE_CONDITION_VALUE + entry.getKey() + "-" + subIndex;
+        String conditionValueValue = getHealthcareConditionValueByKey(conditionValueKey);
+        htc.addCondition(conditionKeyValue, conditionValueValue);
+        allConditionKeys.add(conditionKeyValue);
+      }
+      String displayName = getHealthcareConditionValueByKey(HEALTHCARE_TYPE_CONDITION_DISPLAYNAME + entry.getKey());
+      htc.setDisplayName(displayName);
+      allHealthcareTypes.add(htc);
+    }
+
+    Collections.sort(allHealthcareTypes);
+  }
+
+  /**
+   * Helper-method which builds a map of indexes needed for building the internal cache of healthcare type conditions.
+   * 
+   * @param indexes The set of indexes to base the map on.
+   * @return A map of indexes and subindexes.
+   */
+  private Map<Integer, Integer> getIndexMap(Set<Integer> indexes) {
+    Enumeration<String> allKeys;
+    String currentConditionKey;
     Map<Integer, Integer> indexesAndsubIndexes = new HashMap<Integer, Integer>();
     for (Integer index : indexes) {
       allKeys = getAllHealthcareConditionConfigurationKeys();
@@ -185,43 +254,39 @@ public class HealthcareTypeConditionHelper {
         }
       }
     }
-
-    // Iterate through all condition keys and condition values, build health
-    // care types and corresponding conditions
-    for (Entry<Integer, Integer> entry : indexesAndsubIndexes.entrySet()) {
-      HealthcareType htc = new HealthcareType(entry.getKey());
-
-      // Add filtered status
-      String filteredKey = HEALTHCARE_TYPE_CONDITION_FILTERED + entry.getKey();
-      String filteredKeyValue = getHealthcareConditionValueByKey(filteredKey);
-      if ("true".equals(filteredKeyValue)) {
-        htc.setFiltered(true);
-      } else {
-        htc.setFiltered(false);
-      }
-
-      for (int subIndex = 1; subIndex <= entry.getValue(); subIndex++) {
-        String conditionKeyKey = HEALTHCARE_TYPE_CONDITION_KEY + entry.getKey() + "-" + subIndex;
-        String conditionKeyValue = getHealthcareConditionValueByKey(conditionKeyKey);
-        String conditionValueKey = HEALTHCARE_TYPE_CONDITION_VALUE + entry.getKey() + "-" + subIndex;
-        String conditionValueValue = getHealthcareConditionValueByKey(conditionValueKey);
-        htc.addCondition(conditionKeyValue, conditionValueValue);
-        allConditionKeys.add(conditionKeyValue);
-      }
-      String displayName = getHealthcareConditionValueByKey(HEALTHCARE_TYPE_CONDITION_DISPLAYNAME + entry.getKey());
-      htc.setDisplayName(displayName);
-      allHealthcareTypes.add(htc);
-    }
-    if (allHealthcareTypes != null) {
-      Collections.sort(allHealthcareTypes);
-    }
+    return indexesAndsubIndexes;
   }
 
   /**
-   * Return health care type by index.
+   * Helper-method for building a set of indexes from the provided enumeration of keys.
    * 
-   * @param healthcareTypeIndex
-   * @return
+   * @param allKeys The enumeration of keys to build the index set from.
+   * @return The index set of the provided enumeration of keys.
+   */
+  private Set<Integer> getIndexes(Enumeration<String> allKeys) {
+    String currentConditionKey;
+    int currentIndex;
+    int beginPos;
+    int endPos;
+    Set<Integer> indexes = new HashSet<Integer>();
+    while (allKeys.hasMoreElements()) {
+      currentConditionKey = allKeys.nextElement();
+      if (currentConditionKey.startsWith(HEALTHCARE_TYPE_CONDITION_KEY)) {
+        beginPos = currentConditionKey.indexOf('_');
+        endPos = currentConditionKey.indexOf("-", beginPos);
+        // Get index number
+        currentIndex = Integer.parseInt(currentConditionKey.substring(beginPos + 1, endPos));
+        indexes.add(currentIndex);
+      }
+    }
+    return indexes;
+  }
+
+  /**
+   * Get a healthcare type by index.
+   * 
+   * @param healthcareTypeIndex The index of the healthcare type to get.
+   * @return The healthcare type with the provided index or null if no healthcare type was found.
    */
   public HealthcareType getHealthcareTypeByIndex(Integer healthcareTypeIndex) {
     for (HealthcareType ht : getAllHealthcareTypes()) {
@@ -233,10 +298,10 @@ public class HealthcareTypeConditionHelper {
   }
 
   /**
-   * Return healt care type by name.
+   * Get a healthcare type by name.
    * 
-   * @param name
-   * @return
+   * @param name The name of the healthcare type to get.
+   * @return The healthcare type found by the provided name or null if no healthcare type was found.
    */
   public HealthcareType getHealthcareTypeByName(String name) {
     for (HealthcareType ht : getAllHealthcareTypes()) {
@@ -248,7 +313,9 @@ public class HealthcareTypeConditionHelper {
   }
 
   /**
-   * Returns all unfiltered health care types.
+   * Returns all unfiltered healthcare types.
+   * 
+   * @return A list of all unfiltered healthcare types.
    */
   public List<HealthcareType> getAllUnfilteredHealthCareTypes() {
     List<HealthcareType> allUnfilteredHealthcareTypes = new ArrayList<HealthcareType>();
