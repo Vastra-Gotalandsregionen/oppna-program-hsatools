@@ -31,6 +31,7 @@ import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
+import se.vgregion.kivtools.search.util.Evaluator;
 
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPException;
@@ -64,6 +65,9 @@ public class LdapConnectionPool {
   // "6wuz8zab";
   private String password;
 
+  /**
+   * Constructs a new LdapConnectionPool.
+   */
   public LdapConnectionPool() {
     logger.info("entering " + CLASS_NAME + "::LdapConnectionPool(), freeConnections=" + freeConnections.size() + ", checkedOut=" + checkedOut);
   }
@@ -72,6 +76,11 @@ public class LdapConnectionPool {
     return ldapHost;
   }
 
+  /**
+   * Setter for the ldapHost property.
+   * 
+   * @param ldapHost The new value of the ldapHost property.
+   */
   public void setLdapHost(String ldapHost) {
     this.ldapHost = ldapHost;
   }
@@ -80,6 +89,11 @@ public class LdapConnectionPool {
     return loginDN;
   }
 
+  /**
+   * Setter for the loginDN property.
+   * 
+   * @param loginDN The new value of the loginDN property.
+   */
   public void setLoginDN(String loginDN) {
     this.loginDN = loginDN;
   }
@@ -88,6 +102,11 @@ public class LdapConnectionPool {
     return password;
   }
 
+  /**
+   * Setter for the password property.
+   * 
+   * @param password The new value of the password property.
+   */
   public void setPassword(String password) {
     this.password = password;
   }
@@ -96,23 +115,29 @@ public class LdapConnectionPool {
     return "" + this.maxConn;
   }
 
+  /**
+   * Sets the maximum number of connections to keep in the pool.
+   * 
+   * @param maxConn The maximum number of connections.
+   */
   public void setMaxConn(String maxConn) {
-    if (!isInteger(maxConn)) {
+    if (!Evaluator.isInteger(maxConn)) {
       logger.warn("maxConn=" + maxConn + ", should be a number. Is defaulted to " + MAX_CONN_DEFAULT);
       this.maxConn = MAX_CONN_DEFAULT;
+    } else {
+      this.maxConn = Integer.parseInt(maxConn);
     }
-    this.maxConn = Integer.parseInt(maxConn);
   }
 
   private void checkInit() throws SikInternalException {
     String methodName = "::checkInit()";
-    if (isEmpty(ldapHost)) {
+    if (Evaluator.isEmpty(ldapHost)) {
       throw new SikInternalException(this, methodName, "ldapHost is not initialized.");
     }
-    if (isEmpty(loginDN)) {
+    if (Evaluator.isEmpty(loginDN)) {
       throw new SikInternalException(this, methodName, "loginDN is not initialized.");
     }
-    if (isEmpty(password)) {
+    if (Evaluator.isEmpty(password)) {
       throw new SikInternalException(this, methodName, "password is not initialized.");
     }
     if (maxConn == NOT_INITIALIZED) {
@@ -137,8 +162,13 @@ public class LdapConnectionPool {
   /**
    * Checks out a connection from the pool. If no free connection is available, a new connection is created unless the max number of connections has been reached. If a free connection has been closed
    * by the database, it's removed from the pool and this method is called again recursively.
+   * 
+   * @return An LDAPConnection from the pool.
+   * @throws NoConnectionToServerException if it wasn't possible to connect to the server.
+   * @throws LDAPException if there is a problem connecting to the LDAP server.
+   * @throws SikInternalException if any of the init-parameters are not set.
    */
-  public synchronized LDAPConnection getConnection() throws LDAPException, UnsupportedEncodingException, NoConnectionToServerException, SikInternalException {
+  public synchronized LDAPConnection getConnection() throws LDAPException, NoConnectionToServerException, SikInternalException {
     LDAPConnection con = null;
     if (freeConnections.size() > 0 && freeConnections.get(0) != null) {
       // Pick the first LDAPConnection in the Vector
@@ -167,11 +197,12 @@ public class LdapConnectionPool {
    * If no connection is available and the max number has been reached, this method waits the specified time for one to be checked in.
    * 
    * @param timeout The timeout value in milliseconds
-   * @throws LDAPException
-   * @throws UnsupportedEncodingException
-   * @throws SikInternalException
+   * @return An LDAPConnection from the pool.
+   * @throws NoConnectionToServerException if it wasn't possible to connect to the server.
+   * @throws LDAPException if there is a problem connecting to the LDAP server.
+   * @throws SikInternalException if any of the init-parameters are not set.
    */
-  public synchronized LDAPConnection getConnection(long timeout) throws UnsupportedEncodingException, LDAPException, NoConnectionToServerException, SikInternalException {
+  public synchronized LDAPConnection getConnection(long timeout) throws LDAPException, NoConnectionToServerException, SikInternalException {
 
     long startTime = new Date().getTime();
     LDAPConnection con;
@@ -179,6 +210,7 @@ public class LdapConnectionPool {
       try {
         wait(timeout);
       } catch (InterruptedException e) {
+        // No specific handling
       }
       if (new Date().getTime() - startTime >= timeout) {
         // Timeout has expired
@@ -214,7 +246,7 @@ public class LdapConnectionPool {
    * 
    * @throws NoConnectionToServerException
    */
-  private LDAPConnection newConnection() throws LDAPException, UnsupportedEncodingException, SikInternalException, NoConnectionToServerException {
+  private LDAPConnection newConnection() throws LDAPException, SikInternalException, NoConnectionToServerException {
     checkInit();
     LDAPConnection lc = new LDAPConnection();
     try {
@@ -233,31 +265,10 @@ public class LdapConnectionPool {
       }
       throw e;
     } catch (UnsupportedEncodingException e) {
+      // This should never happen
       logger.error("Can't create a new connection for ldapHost=" + ldapHost + ", ldapport=" + ldapport + ", exception=" + e.getMessage());
-      e.printStackTrace();
-      throw e;
+      throw new RuntimeException(e);
     }
     return lc;
-  }
-
-  public boolean isEmpty(String s) {
-    if (s == null) {
-      return true;
-    }
-    s = s.trim();
-    if (s.equalsIgnoreCase("")) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public boolean isInteger(String s) {
-    try {
-      Integer.parseInt(s);
-    } catch (Exception e) {
-      return false;
-    }
-    return true;
   }
 }
