@@ -18,7 +18,7 @@
 /**
  * 
  */
-package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
+package se.vgregion.kivtools.search.svc.ldap;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -37,7 +37,7 @@ import com.novell.ldap.util.Base64;
 public class LdapORMHelper {
   private static final String KIV_NEW_LINE_DELIMITER = "$";
 
-  static String getSingleValue(LDAPAttribute attribute) {
+  public static String getSingleValue(LDAPAttribute attribute) {
     List<String> values = getValues(attribute);
     if (values == null) {
       return "";
@@ -49,7 +49,7 @@ public class LdapORMHelper {
     return s;
   }
 
-  static List<String> getMultipleValues(LDAPAttribute attribute) {
+  public static List<String> getMultipleValues(LDAPAttribute attribute) {
     List<String> values = getValues(attribute);
     if (values == null) {
       return new ArrayList<String>();
