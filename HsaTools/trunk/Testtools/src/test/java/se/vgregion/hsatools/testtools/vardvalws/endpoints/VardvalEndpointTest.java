@@ -50,4 +50,9 @@ public class VardvalEndpointTest {
     response = (GetVårdvalResponse) vardvalEndpoint.invokeInternal(getVardvalRequest);
     assertEquals(NEW_UNIT, response.getKommandeVårdval().getValue().getVårdcentralHsaId());
   }
+
+  @Test
+  public void testInvokeInternalWithDummyRequest() throws Exception {
+    assertNull(vardvalEndpoint.invokeInternal(this));
+  }
 }
