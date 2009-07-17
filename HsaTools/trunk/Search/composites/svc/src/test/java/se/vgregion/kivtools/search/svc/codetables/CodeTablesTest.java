@@ -16,10 +16,10 @@ import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl;
 import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.LdapConnectionPool;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
 import se.vgregion.kivtools.search.svc.impl.mock.SearchCondition;
+import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPException;

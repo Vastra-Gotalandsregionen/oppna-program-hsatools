@@ -20,12 +20,12 @@
  */
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
-import java.io.UnsupportedEncodingException;
-
+import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
+import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPException;
@@ -90,10 +90,10 @@ public class EmploymentRepository {
    * 
    * @return
    * @throws LDAPException
-   * @throws UnsupportedEncodingException
+   * @throws NoConnectionToServerException
    * @throws SikInternalException
    */
-  private LDAPConnection getLDAPConnection() throws LDAPException, UnsupportedEncodingException, SikInternalException {
+  private LDAPConnection getLDAPConnection() throws LDAPException, NoConnectionToServerException, SikInternalException {
     LDAPConnection lc = theConnectionPool.getConnection(POOL_WAIT_TIME_MILLISECONDS);
     if (lc == null) {
       throw new SikInternalException(this, "getLDAPConnection()", "Could not get a connection after waiting " + POOL_WAIT_TIME_MILLISECONDS + " ms.");

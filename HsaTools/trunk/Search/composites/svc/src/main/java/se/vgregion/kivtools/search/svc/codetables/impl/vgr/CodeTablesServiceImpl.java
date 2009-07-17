@@ -6,7 +6,7 @@ import java.util.Map;
 import se.vgregion.kivtools.search.exceptions.LDAPRuntimeExcepton;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.LdapConnectionPool;
+import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPEntry;

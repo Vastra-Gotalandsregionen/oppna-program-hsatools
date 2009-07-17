@@ -28,6 +28,7 @@ import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.svc.domain.values.ZipCode;
+import se.vgregion.kivtools.search.svc.ldap.LdapORMHelper;
 
 import com.domainlanguage.time.TimePoint;
 import com.novell.ldap.LDAPEntry;

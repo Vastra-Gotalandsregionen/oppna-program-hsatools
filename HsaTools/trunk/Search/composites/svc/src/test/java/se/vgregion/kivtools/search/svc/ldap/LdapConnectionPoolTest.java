@@ -15,7 +15,7 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
+package se.vgregion.kivtools.search.svc.ldap;
 
 import static org.junit.Assert.*;
 
@@ -26,6 +26,7 @@ import org.junit.Test;
 
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
+import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 
 import com.novell.ldap.LDAPException;
 
