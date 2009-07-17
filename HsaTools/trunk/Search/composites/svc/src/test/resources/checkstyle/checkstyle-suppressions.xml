@@ -22,4 +22,6 @@
     <suppress checks=".*" files=".*[/\\]main[/\\]resources[/\\].*" />
     <!-- Suppress JAXB generated files -->
     <suppress checks=".*" files=".*[/\\]jaxws[/\\]wsimport[/\\].*" />
+    
+    <suppress checks="EmptyBlock" files="LdapConnectionPool.java" lines="212" />
 </suppressions>

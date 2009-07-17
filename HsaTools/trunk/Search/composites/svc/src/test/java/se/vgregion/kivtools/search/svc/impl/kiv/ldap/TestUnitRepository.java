@@ -20,7 +20,6 @@
  */
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -272,7 +271,7 @@ public class TestUnitRepository {
     }
 
     @Override
-    public synchronized LDAPConnection getConnection() throws LDAPException, UnsupportedEncodingException, NoConnectionToServerException, SikInternalException {
+    public synchronized LDAPConnection getConnection() throws LDAPException, NoConnectionToServerException, SikInternalException {
       return connectionMock;
     }
   }
