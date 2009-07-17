@@ -416,13 +416,18 @@ public class Unit implements Serializable, Comparable<Unit> {
     return labeledURI;
   }
 
+  /**
+   * Setter for the labeledURI property.
+   * 
+   * @param labeledURI The new value of the labeledURI property.
+   */
   public void setLabeledURI(String labeledURI) {
     // Do some simple validation/fixing
     if (!"".equals(labeledURI) && !(labeledURI.startsWith("http://") || labeledURI.startsWith("https://"))) {
-      labeledURI = "http://" + labeledURI;
+      this.labeledURI = "http://" + labeledURI;
+    } else {
+      this.labeledURI = labeledURI;
     }
-
-    this.labeledURI = labeledURI;
   }
 
   public String getLocality() {
@@ -802,18 +807,20 @@ public class Unit implements Serializable, Comparable<Unit> {
     this.vgrTempInfoBody = vgrTempInfoBody;
   }
 
+  /**
+   * Checks if the temporary info should be shown depending on the temporary info start and end dates.
+   * 
+   * @return True if now is between temporary info start and end date.
+   */
   public boolean getShouldVgrTempInfoBeShown() {
+    boolean show = false;
     Date now = new Date();
 
-    if (vgrTempInfoStart == null || vgrTempInfoEnd == null) {
-      return false;
+    if (vgrTempInfoStart != null && vgrTempInfoEnd != null) {
+      show = now.after(vgrTempInfoStart) && now.before(vgrTempInfoEnd);
     }
 
-    if (now.after(vgrTempInfoStart) && now.before(vgrTempInfoEnd)) {
-      return true;
-    } else {
-      return false;
-    }
+    return show;
   }
 
   public String getVgrRefInfo() {
@@ -1035,11 +1042,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   private boolean getHsaRouteIsValid() {
-    if (Evaluator.isEmpty(getHsaRoute())) {
-      return false;
-    } else {
-      return true;
-    }
+    return !Evaluator.isEmpty(getHsaRoute());
   }
 
   public void setModifyTimestamp(TimePoint modifyTimestamp) {

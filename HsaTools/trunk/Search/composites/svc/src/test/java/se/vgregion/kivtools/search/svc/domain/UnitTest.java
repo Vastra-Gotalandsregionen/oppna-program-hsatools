@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Before;
@@ -183,5 +184,44 @@ public class UnitTest {
 
     unit.setHsaManagementText("Management text");
     assertTrue(unit.getContentValidationOk());
+  }
+
+  @Test
+  public void testSetLabeledURI() {
+    try {
+      unit.setLabeledURI(null);
+      fail("NullPointerException expected");
+    } catch (NullPointerException e) {
+      // Expected exception
+    }
+
+    unit.setLabeledURI("");
+    assertEquals("", unit.getLabeledURI());
+
+    unit.setLabeledURI("www.test.com");
+    assertEquals("http://www.test.com", unit.getLabeledURI());
+
+    unit.setLabeledURI("http://www.test2.com");
+    assertEquals("http://www.test2.com", unit.getLabeledURI());
+
+    unit.setLabeledURI("https://www.test2.com");
+    assertEquals("https://www.test2.com", unit.getLabeledURI());
+  }
+
+  @Test
+  public void testGetShouldVgrTempInfoBeShown() {
+    assertFalse(unit.getShouldVgrTempInfoBeShown());
+
+    Calendar calendar = Calendar.getInstance();
+    calendar.add(Calendar.DAY_OF_YEAR, -1);
+    unit.setVgrTempInfoStart(calendar.getTime());
+    assertFalse(unit.getShouldVgrTempInfoBeShown());
+
+    unit.setVgrTempInfoEnd(calendar.getTime());
+    assertFalse(unit.getShouldVgrTempInfoBeShown());
+
+    calendar.add(Calendar.DAY_OF_YEAR, 3);
+    unit.setVgrTempInfoEnd(calendar.getTime());
+    assertTrue(unit.getShouldVgrTempInfoBeShown());
   }
 }
