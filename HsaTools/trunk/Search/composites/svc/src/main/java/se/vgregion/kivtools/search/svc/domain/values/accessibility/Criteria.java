@@ -25,6 +25,13 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * Representation of a accessibility criteria.
+ */
+/**
+ * 
+ * @author argoyle
+ */
 public class Criteria implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -87,58 +94,128 @@ public class Criteria implements Serializable {
     }
   }
 
+  /**
+   * Getter for the name property.
+   * 
+   * @return The value of the name property.
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Setter for the name property.
+   * 
+   * @param name The new value of the name property.
+   */
   public void setName(String name) {
     this.name = name;
   }
 
+  /**
+   * Getter for the show property.
+   * 
+   * @return The value of the show property.
+   */
   public boolean getShow() {
     return show;
   }
 
+  /**
+   * Setter for the show property.
+   * 
+   * @param show The new value of the show property.
+   */
   public void setShow(boolean show) {
     this.show = show;
   }
 
+  /**
+   * Getter for the additionalCriterias property.
+   * 
+   * @return The value of the additionalCriterias property.
+   */
   public ArrayList<String> getAdditionalCriterias() {
     return additionalCriterias;
   }
 
+  /**
+   * Setter for the additionalCriterias property.
+   * 
+   * @param additionalCriterias The new value of the additionalCriterias property.
+   */
   public void setAdditionalCriterias(ArrayList<String> additionalCriterias) {
     this.additionalCriterias = additionalCriterias;
   }
 
+  /**
+   * Checks the notice property.
+   * 
+   * @return The value of the notice property.
+   */
   public boolean isNotice() {
     return notice;
   }
 
+  /**
+   * Setter for the notice property.
+   * 
+   * @param notice The new value of the notice property.
+   */
   public void setNotice(boolean notice) {
     this.notice = notice;
   }
 
+  /**
+   * Checks the hidden property.
+   * 
+   * @return The value of the hidden property.
+   */
   public boolean isHidden() {
     return hidden;
   }
 
+  /**
+   * Setter for the hidden property.
+   * 
+   * @param hidden The new value of the hidden property.
+   */
   public void setHidden(boolean hidden) {
     this.hidden = hidden;
   }
 
+  /**
+   * Getter for the disabilities property.
+   * 
+   * @return The value of the disabilities property.
+   */
   public ArrayList<String> getDisabilities() {
     return disabilities;
   }
 
+  /**
+   * Setter for the disabilities property.
+   * 
+   * @param disabilities The new value of the disabilities property.
+   */
   public void setDisabilities(ArrayList<String> disabilities) {
     this.disabilities = disabilities;
   }
 
+  /**
+   * Getter for the description property.
+   * 
+   * @return The value of the description property.
+   */
   public String getDescription() {
     return description;
   }
 
+  /**
+   * Setter for the description property.
+   * 
+   * @param description The new value of the description property.
+   */
   public void setDescription(String description) {
     this.description = description;
   }

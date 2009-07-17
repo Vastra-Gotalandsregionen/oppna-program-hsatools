@@ -21,11 +21,13 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -33,13 +35,20 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class CriteriaTest {
+  private static final String TEST_STRING = "test";
   private static final Document DOC_WITH_CRITERIA = CriteriaTest.getDocumentFromResource("testxml/doc_with_criteria.xml");
+  private NodeList nodeList;
+  private Criteria criteria;
+
+  @Before
+  public void setUp() {
+    nodeList = DOC_WITH_CRITERIA.getElementsByTagName("criteria");
+  }
 
   @Test
   public void testConstructor() {
-    NodeList nodeList = DOC_WITH_CRITERIA.getElementsByTagName("criteria");
     Node node = nodeList.item(0);
-    Criteria criteria = new Criteria(node);
+    criteria = new Criteria(node);
     assertNotNull("Unexpected null", criteria);
     assertTrue("Unexpected name", criteria.getName().startsWith("crit1_"));
     assertEquals("Unexpected size of disabilities", 2, criteria.getDisabilities().size());
@@ -53,6 +62,48 @@ public class CriteriaTest {
     assertEquals("Unexpected size of disabilities", 2, criteria.getDisabilities().size());
     assertEquals("Unexpected size of additional criterias", 1, criteria.getAdditionalCriterias().size());
     assertEquals("Unexpected description", "input2", criteria.getDescription());
+
+    node = nodeList.item(2);
+    criteria = new Criteria(node);
+    assertNotNull("Unexpected null", criteria);
+    assertEquals("Unexpected name", "", criteria.getName());
+  }
+
+  @Test
+  public void testSetters() {
+    Node node = nodeList.item(2);
+    criteria = new Criteria(node);
+
+    criteria.setName(TEST_STRING);
+    assertEquals(TEST_STRING, criteria.getName());
+
+    assertNull(criteria.getDescription());
+    criteria.setDescription(TEST_STRING);
+    assertEquals(TEST_STRING, criteria.getDescription());
+
+    assertFalse(criteria.getShow());
+    criteria.setShow(true);
+    assertTrue(criteria.getShow());
+
+    assertFalse(criteria.isHidden());
+    criteria.setHidden(true);
+    assertTrue(criteria.isHidden());
+
+    assertFalse(criteria.isNotice());
+    criteria.setNotice(true);
+    assertTrue(criteria.isNotice());
+
+    assertEquals(0, criteria.getAdditionalCriterias().size());
+    ArrayList<String> additionalCriterias = new ArrayList<String>();
+    additionalCriterias.add(TEST_STRING);
+    criteria.setAdditionalCriterias(additionalCriterias);
+    assertEquals(1, criteria.getAdditionalCriterias().size());
+
+    assertEquals(0, criteria.getDisabilities().size());
+    ArrayList<String> disabilities = new ArrayList<String>();
+    disabilities.add(TEST_STRING);
+    criteria.setDisabilities(disabilities);
+    assertEquals(1, criteria.getDisabilities().size());
   }
 
   private static Document getDocumentFromResource(String resourceName) {
