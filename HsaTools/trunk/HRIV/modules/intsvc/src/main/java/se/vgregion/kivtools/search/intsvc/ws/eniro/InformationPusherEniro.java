@@ -98,13 +98,18 @@ public class InformationPusherEniro implements InformationPusher {
    * @return
    * @throws Exception
    */
-  private List<Unit> collectUnits() throws Exception {
-    units = unitRepository.getAllUnits();
-    // Get units that has been created or modified
-    List<Unit> freshUnits = getFreshUnits(units);
-    // Get units that has been removed
-    List<Unit> removedOrMovedUnits = getRemovedOrMovedUnits(units);
-    freshUnits.addAll(removedOrMovedUnits);
+  private List<Unit> collectUnits() {
+    List<Unit> freshUnits = null;
+    try {
+      units = unitRepository.getAllUnits();
+      // Get units that has been created or modified
+      freshUnits = getFreshUnits(units);
+      // Get units that has been removed
+      List<Unit> removedOrMovedUnits = getRemovedOrMovedUnits(units);
+      freshUnits.addAll(removedOrMovedUnits);
+    } catch (Exception e) {
+      freshUnits = new ArrayList<Unit>();
+    }
     return freshUnits;
   }
 
@@ -160,7 +165,7 @@ public class InformationPusherEniro implements InformationPusher {
    * @return
    * @throws Exception
    */
-  private List<Unit> getFreshUnits(List<Unit> units) throws Exception {
+  private List<Unit> getFreshUnits(List<Unit> units) {
     List<Unit> freshUnits = new ArrayList<Unit>();
     TimePoint lastSynchedModifyTimePoint = TimePoint.from(getLastSynchDate());
     TimePoint temporaryLatestModifiedTimepoint = TimePoint.from(getLastSynchDate());
@@ -227,6 +232,7 @@ public class InformationPusherEniro implements InformationPusher {
     for (Map.Entry<String, DN> unitEntry : lastExistingUnits.entrySet()) {
       Unit tmpUnit = new Unit();
       tmpUnit.setHsaIdentity(unitEntry.getKey());
+      tmpUnit.setDn(unitEntry.getValue());
 
       // Search for moved units (they exists in list of current units)
       Collections.sort(units);
@@ -234,9 +240,9 @@ public class InformationPusherEniro implements InformationPusher {
       if (unitPosition > -1) {
         Unit unitInRepository = units.get(unitPosition);
         if (!unitInRepository.getDn().toString().equals(unitEntry.getValue().toString())) {
-          // Unit has been moved!
+          // Unit has been moved
           unitInRepository.setMoved(true);
-          removedOrMovedUnitsList.add(tmpUnit);
+          removedOrMovedUnitsList.add(unitInRepository);
         }
       } else {
         // Did not find unit in list of current units, ie removed!
