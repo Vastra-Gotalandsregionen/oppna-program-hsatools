@@ -419,7 +419,7 @@ public class UnitRepository {
    * @return A LDAP search string for search among functions
    * @throws Exception
    */
-  String makeFunctionSearchStringFromUnitSearchString(String unitSearchString) throws Exception {
+  String makeFunctionSearchStringFromUnitSearchString(String unitSearchString) {
     String functionSearchString = Formatter.replaceStringInString(unitSearchString, Constants.OBJECT_CLASS_UNIT_SPECIFIC, Constants.OBJECT_CLASS_FUNCTION_SPECIFIC);
     functionSearchString = Formatter.replaceStringInString(functionSearchString, Constants.OBJECT_CLASS_UNIT_STANDARD, Constants.OBJECT_CLASS_FUNCTION_STANDARD);
     functionSearchString = Formatter.replaceStringInString(functionSearchString, Constants.LDAP_PROPERTY_UNIT_NAME + "=", Constants.LDAP_PROPERTY_FUNCTION_NAME + "=");
@@ -598,7 +598,7 @@ public class UnitRepository {
    * 
    * @throws Exception
    */
-  private void addSearchFilter(List<String> filterList, String searchField, String searchValue) throws Exception {
+  private void addSearchFilter(List<String> filterList, String searchField, String searchValue) {
     if (!Evaluator.isEmpty(searchValue)) {
       searchValue = searchValue.trim();
       if (isExactMatchFilter(searchValue)) {
@@ -621,7 +621,7 @@ public class UnitRepository {
    * 
    * @throws Exception
    */
-  void addAddressSearchFilter(List<String> filterList, String searchField, String searchValue) throws Exception {
+  void addAddressSearchFilter(List<String> filterList, String searchField, String searchValue) {
     if (!Evaluator.isEmpty(searchValue)) {
       searchValue = searchValue.trim();
       if (isExactMatchFilter(searchValue)) {

@@ -297,7 +297,7 @@ public class PersonRepository {
    * 
    * @throws Exception
    */
-  private String createSearchFilterItem(String searchField, String searchValue) throws Exception {
+  private String createSearchFilterItem(String searchField, String searchValue) {
     if (!Evaluator.isEmpty(searchValue)) {
       searchValue = searchValue.trim();
       if (isExactMatchFilter(searchValue)) {
