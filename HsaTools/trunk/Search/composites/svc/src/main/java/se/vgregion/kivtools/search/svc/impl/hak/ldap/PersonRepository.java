@@ -399,9 +399,8 @@ public class PersonRepository {
    * 
    * e.g. searchField=givenName searchValue="hans-erik" result=(givenName=hans-erik)
    * 
-   * @throws Exception
    */
-  private String createSearchFilterItem(String searchField, String searchValue) throws Exception {
+  private String createSearchFilterItem(String searchField, String searchValue) {
     if (!Evaluator.isEmpty(searchValue)) {
       searchValue = searchValue.trim();
       if (isExactMatchFilter(searchValue)) {

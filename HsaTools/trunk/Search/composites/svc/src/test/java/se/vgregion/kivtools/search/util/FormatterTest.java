@@ -8,6 +8,11 @@ import java.util.List;
 import org.junit.Test;
 
 public class FormatterTest {
+  @Test
+  public void testInstantiation() {
+    Formatter formatter = new Formatter();
+    assertNotNull(formatter);
+  }
 
   @Test
   public void testConcatenate() {
@@ -65,5 +70,37 @@ public class FormatterTest {
     assertEquals("Unexpected size of returned list", 2, values.size());
     assertEquals("Unexpected value returned", "teststring", values.get(0));
     assertEquals("Unexpected value returned", "teststring2", values.get(1));
+  }
+
+  @Test
+  public void testReplaceStringInString() throws Exception {
+    assertNull(Formatter.replaceStringInString(null, null, null));
+
+    String original = "A quick brown fox";
+    assertEquals(original, Formatter.replaceStringInString(original, "giraffe", "wolf"));
+
+    String expected = "A quick brown wolf";
+    String result = Formatter.replaceStringInString(original, "fox", "wolf");
+    assertEquals(expected, result);
+
+    expected = "A quick gray fox";
+    result = Formatter.replaceStringInString(original, "brown", "gray");
+    assertEquals(expected, result);
+
+    expected = "  ";
+    result = Formatter.replaceStringInString(" ", " ", "  ");
+    assertEquals(expected, result);
+
+    StringBuilder builder = new StringBuilder();
+    while (builder.length() < 12000) {
+      builder.append(" ");
+    }
+
+    try {
+      Formatter.replaceStringInString(builder.toString(), " ", ".");
+      fail("Exception expected");
+    } catch (RuntimeException e) {
+      // Expected exception
+    }
   }
 }

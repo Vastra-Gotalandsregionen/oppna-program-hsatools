@@ -37,56 +37,62 @@ public class Formatter {
   private static Log logger = LogFactory.getLog(CLASS_NAME);
 
   /**
-   * Replace all occurances of stringToReplace in string originalString with replacingString.
+   * Replace all occurrences of stringToReplace in string originalString with replacingString.
    * 
-   * E.g. originalString = "hello'all'" another example: = "2005 Gold 2004 Gold" stringToReplace = "\'" = "Gold" replacingString = "''" = "Guld"
+   * <pre>
+   * E.g.
+   * originalString = &quot;hello'all'&quot; stringToReplace = &quot;\'&quot; replacingString = &quot;''&quot; returns &quot;hello''all''&quot;
+   * another example: = &quot;2005 Gold 2004 Gold&quot; stringToReplace = &quot;Gold&quot; replacingString = &quot;Guld&quot; returns &quot;2005 Guld 2004 Guld&quot;
+   * </pre>
    * 
-   * returns "hello''all''" = "2005 Guld 2004 Guld"
+   * @param originalString The original string.
+   * @param stringToReplace The string to replace.
+   * @param replacingString The string to replace with.
+   * @return The original string with all occurrences of stringToReplace replaced with replacingString.
    */
-  public static String replaceStringInString(String originalString, String stringToReplace, String replacingString) throws Exception {
-    String methodName = "replaceStringInString(originalString=" + originalString + ", stringToReplace=" + stringToReplace + ", replacingString=" + replacingString + ")";
-    String finalString = "";
-    if (originalString == null) {
-      return null;
-    }
-    int length = originalString.length();
-    int beginIndex = 0;
-    int endIndex = originalString.indexOf(stringToReplace, beginIndex);
-    String leftPart = "";
-    int count = 0;
+  public static String replaceStringInString(String originalString, String stringToReplace, String replacingString) {
+    String result = null;
+    if (originalString != null) {
+      StringBuilder builder = new StringBuilder();
 
-    if (endIndex < 0) {
-      return originalString;
-    }
+      int length = originalString.length();
+      int beginIndex = 0;
+      int endIndex = originalString.indexOf(stringToReplace, beginIndex);
+      String leftPart;
+      int count = 0;
 
-    while (beginIndex < length && endIndex >= 0) {
+      while (beginIndex < length && endIndex >= 0) {
 
-      endIndex = originalString.indexOf(stringToReplace, beginIndex);
-      if (endIndex < 0) {
-        leftPart = originalString.substring(beginIndex, length);
-        finalString = finalString + leftPart;
-      } else {
-        // hello
-        leftPart = originalString.substring(beginIndex, endIndex);
-        // hello''
-        finalString = finalString + leftPart + replacingString;
-      }
+        endIndex = originalString.indexOf(stringToReplace, beginIndex);
+        if (endIndex < 0) {
+          leftPart = originalString.substring(beginIndex, length);
+          builder.append(leftPart);
+        } else {
+          // hello
+          leftPart = originalString.substring(beginIndex, endIndex);
+          // hello''
+          builder.append(leftPart).append(replacingString);
+        }
 
-      if (endIndex + 1 >= length) {
-        return finalString;
-      } else {
         beginIndex = endIndex + stringToReplace.length();
+
+        count++;
+        if (count > 10000) {
+          // something is wrong
+          String methodName = "replaceStringInString(originalString=" + originalString + ", stringToReplace=" + stringToReplace + ", replacingString=" + replacingString + ")";
+          String s = "className=" + CLASS_NAME + methodName + ", caught in an endless loop";
+          logger.error(s);
+          throw new RuntimeException(s);
+        }
       }
 
-      count++;
-      if (count > 10000) {
-        // something is wrong
-        String s = "className=" + CLASS_NAME + methodName + ", caught in an endless loop";
-        logger.error(s);
-        throw new Exception(s);
+      if (builder.length() == 0) {
+        builder.append(originalString);
       }
+
+      result = builder.toString();
     }
-    return finalString;
+    return result;
   }
 
   /**
