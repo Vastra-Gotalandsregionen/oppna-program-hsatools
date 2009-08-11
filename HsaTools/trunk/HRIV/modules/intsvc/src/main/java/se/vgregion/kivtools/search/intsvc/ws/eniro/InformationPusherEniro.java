@@ -1,22 +1,19 @@
 package se.vgregion.kivtools.search.intsvc.ws.eniro;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StringWriter;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,9 +48,7 @@ import com.domainlanguage.time.TimePoint;
 public class InformationPusherEniro implements InformationPusher {
 
   private Log logger = LogFactory.getLog(this.getClass());
-  private Date lastSynchedModifyDate;
   private UnitRepository unitRepository;
-  private File lastSynchedModifyDateFile;
   private String organizationCountry = "Sweden";
   private String organizationName = "VGR";
   private String organizationId = "vgr";
@@ -83,11 +78,6 @@ public class InformationPusherEniro implements InformationPusher {
     this.destinationFolder = destinationFolder;
   }
 
-  @Required
-  public void setLastSynchedModifyDateFile(File lastSynchedModifyDateFile) {
-    this.lastSynchedModifyDateFile = lastSynchedModifyDateFile;
-  }
-
   public void setUnitRepository(UnitRepository unitRepository) {
     this.unitRepository = unitRepository;
   }
@@ -103,7 +93,7 @@ public class InformationPusherEniro implements InformationPusher {
     try {
       units = unitRepository.getAllUnits();
       // Get units that has been created or modified
-      freshUnits = getFreshUnits(units);
+      freshUnits = getFreshUnits(units, getLastSynchDate());
       // Get units that has been removed
       List<Unit> removedOrMovedUnits = getRemovedOrMovedUnits(units);
       freshUnits.addAll(removedOrMovedUnits);
@@ -114,61 +104,26 @@ public class InformationPusherEniro implements InformationPusher {
   }
 
   private Date getLastSynchDate() {
-    if (lastSynchedModifyDate == null) {
-      // lastSynchDate is unknown, read from file
-      try {
-        // Started for the first time File not exist. Create new file
-        if (lastSynchedModifyDateFile.exists()) {
-          FileReader fileReader = new FileReader(lastSynchedModifyDateFile);
-          BufferedReader br = new BufferedReader(fileReader);
-          String lastSynchedModifyString = br.readLine();
-          if (lastSynchedModifyString != null) {
-            lastSynchedModifyDate = Constants.parseStringToZuluTime(lastSynchedModifyString);
-          }
-          if (lastSynchedModifyDate == null) {
-            lastSynchedModifyDate = new Date();
-          }
-
-          br.close();
-          fileReader.close();
-        }
-      } catch (Exception e) {
-        logger.error("Error in getLastSynchDate", e);
-      }
-      // Set default start synch date if read from file failed
-      if (lastSynchedModifyDate == null) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(1970, Calendar.JANUARY, 1);
-        lastSynchedModifyDate = calendar.getTime();
-      }
-    }
-    return lastSynchedModifyDate;
+    Preferences prefs = Preferences.systemNodeForPackage(getClass());
+    return new Date(prefs.getLong("LastSynchedModifyDate", 0));
   }
 
-  private void saveLastSynchedModifyDate() {
-    try {
-      FileWriter fileWriter = new FileWriter(lastSynchedModifyDateFile);
-      fileWriter.write(Constants.formatDateToZuluTime(lastSynchedModifyDate));
-      fileWriter.flush();
-      fileWriter.close();
-    } catch (Exception e) {
-      logger.error("Error in saveLastSynchedModifyDate", e);
-    }
+  private void saveLastSynchedModifyDate(Date lastSynchedModifyDate) {
+    Preferences prefs = Preferences.systemNodeForPackage(getClass());
+    prefs.putLong("LastSynchedModifyDate", lastSynchedModifyDate.getTime());
   }
 
   /**
    * Returns units created/modified since specified date.
    * 
-   * @param units
-   * 
-   * @param lastSynchedModifyDate
-   * @return
-   * @throws Exception
+   * @param units The complete list of units.
+   * @param lastSynchDate The date of the last synchronization.
+   * @return A list of units which have been created/modified since the specified date.
    */
-  private List<Unit> getFreshUnits(List<Unit> units) {
+  private List<Unit> getFreshUnits(List<Unit> units, Date lastSynchDate) {
     List<Unit> freshUnits = new ArrayList<Unit>();
-    TimePoint lastSynchedModifyTimePoint = TimePoint.from(getLastSynchDate());
-    TimePoint temporaryLatestModifiedTimepoint = TimePoint.from(getLastSynchDate());
+    TimePoint lastSynchedModifyTimePoint = TimePoint.from(lastSynchDate);
+    TimePoint temporaryLatestModifiedTimepoint = TimePoint.from(lastSynchDate);
 
     for (Unit unit : units) {
       if (unit != null) {
@@ -195,7 +150,9 @@ public class InformationPusherEniro implements InformationPusher {
     }
 
     // Latest in this batch
-    lastSynchedModifyDate = temporaryLatestModifiedTimepoint.asJavaUtilDate();
+    // lastSynchedModifyDate = temporaryLatestModifiedTimepoint.asJavaUtilDate();
+    Preferences prefs = Preferences.systemNodeForPackage(getClass());
+    prefs.putLong("LastSynchedModifyDate", temporaryLatestModifiedTimepoint.asJavaUtilDate().getTime());
     return freshUnits;
   }
 
@@ -294,14 +251,11 @@ public class InformationPusherEniro implements InformationPusher {
       String generatedUnitDetailsXmlFile = generateUnitDetailsXmlFile(organization);
       if (organization.getUnit().size() > 0) {
         if (ftpClient.sendFile(generatedUnitDetailsXmlFile)) {
-          // Save last synch date to file after successful commit of
-          // xml file to ftp
-          saveLastSynchedModifyDate();
+          // Save last synch date to file after successful commit of xml file to ftp
           saveLastExistingUnitList();
         } else {
-          // Commit to ftp was unsuccessful. Reset the
-          // lastSynchedModifyDate
-          lastSynchedModifyDate = null;
+          // Commit to ftp was unsuccessful. Reset the lastSynchedModifyDate
+          saveLastSynchedModifyDate(new Date(0));
         }
       }
     } catch (Exception e) {
@@ -316,8 +270,6 @@ public class InformationPusherEniro implements InformationPusher {
   private String generateUnitDetailsXmlFile(Organization organization) throws Exception {
     JAXBContext context = JAXBContext.newInstance(organization.getClass());
     Marshaller marshaller = context.createMarshaller();
-    // File organizationXmlFile = new File(destinationFolder,
-    // organization.getName() + ".xml");
     StringWriter fileContent = new StringWriter();
     marshaller.marshal(organization, fileContent);
     // Push (upload) XML to specified resource
