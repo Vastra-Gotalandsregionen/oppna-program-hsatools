@@ -243,90 +243,40 @@ public class InformationPusherEniroTest {
   }
 
   private static List<Unit> getDefaultTestUnits() {
-
     // Test data for unit repository
-    Unit unitRoot1 = new Unit();
-    unitRoot1.setDn(DN.createDNFromString("ou=root1,ou=org,o=VGR"));
-    unitRoot1.setName("root1");
-    unitRoot1.setHsaIdentity("root1-id");
-    setCreateAndModifyTimestampForUnit(1, unitRoot1);
-    Unit unitRoot2 = new Unit();
-    unitRoot2.setDn(DN.createDNFromString("ou=root2,ou=org,o=VGR"));
-    unitRoot2.setName("root2");
-    unitRoot2.setHsaIdentity("root2-id");
-    setCreateAndModifyTimestampForUnit(2, unitRoot2);
-    Unit unitRoot3 = new Unit();
-    unitRoot3.setDn(DN.createDNFromString("ou=root3,ou=org,o=VGR"));
-    unitRoot3.setName("root3");
-    unitRoot3.setHsaIdentity("root3-id");
-    setCreateAndModifyTimestampForUnit(3, unitRoot3);
-    Unit unitRoot4 = new Unit();
-    unitRoot4.setDn(DN.createDNFromString("ou=root4,ou=org,o=VGR"));
-    unitRoot4.setName("root4");
-    unitRoot4.setHsaIdentity("root4-id");
-    setCreateAndModifyTimestampForUnit(4, unitRoot4);
+    Unit unitRoot1 = createUnit("root1", "root1-id", "ou=root1,ou=org,o=VGR", 1);
+    Unit unitRoot2 = createUnit("root2", "root2-id", "ou=root2,ou=org,o=VGR", 2);
+    Unit unitRoot3 = createUnit("root3", "root3-id", "ou=root3,ou=org,o=VGR", 3);
+    Unit unitRoot4 = createUnit("root4", "root4-id", "ou=root4,ou=org,o=VGR", 4);
 
-    Unit unitChild1 = new Unit();
-    unitChild1.setDn(DN.createDNFromString("ou=child1,ou=root1,ou=org,o=VGR"));
-    unitChild1.setName("child1");
-    unitChild1.setHsaIdentity("child1-id");
-    setCreateAndModifyTimestampForUnit(5, unitChild1);
-    Unit unitChild2 = new Unit();
-    unitChild2.setDn(DN.createDNFromString("ou=child2,ou=root2,ou=org,o=VGR"));
-    unitChild2.setName("child2");
-    unitChild2.setHsaIdentity("child2-id");
-    setCreateAndModifyTimestampForUnit(6, unitChild2);
-    Unit unitChild3 = new Unit();
-    unitChild3.setDn(DN.createDNFromString("ou=child3,ou=root3,ou=org,o=VGR"));
-    unitChild3.setName("child3");
-    unitChild3.setHsaIdentity("child3-id");
-    setCreateAndModifyTimestampForUnit(7, unitChild3);
-    Unit unitChild4 = new Unit();
-    unitChild4.setDn(DN.createDNFromString("ou=child4,ou=root4,ou=org,o=VGR"));
-    unitChild4.setName("child4");
-    unitChild4.setHsaIdentity("child4-id");
-    setCreateAndModifyTimestampForUnit(8, unitChild4);
-    Unit unitChild5 = new Unit();
-    unitChild5.setDn(DN.createDNFromString("ou=child5,ou=root4,ou=org,o=VGR"));
-    unitChild5.setName("child5");
-    unitChild5.setHsaIdentity("child5-id");
-    setCreateAndModifyTimestampForUnit(9, unitChild5);
+    Unit unitChild1 = createUnit("child1", "child1-id", "ou=child1,ou=root1,ou=org,o=VGR", 5);
+    Unit unitChild2 = createUnit("child2", "child2-id", "ou=child2,ou=root2,ou=org,o=VGR", 6);
+    Unit unitChild3 = createUnit("child3", "child3-id", "ou=child3,ou=root3,ou=org,o=VGR", 7);
+    Unit unitChild4 = createUnit("child4", "child4-id", "ou=child4,ou=root4,ou=org,o=VGR", 8);
+    Unit unitChild5 = createUnit("child5", "child5-id", "ou=child5,ou=root4,ou=org,o=VGR", 9);
 
-    Unit unitLeaf1 = new Unit();
-    unitLeaf1.setDn(DN.createDNFromString("ou=leaf1,ou=child1,ou=root1,ou=org,o=VGR"));
-    unitLeaf1.setName("leaf1");
-    unitLeaf1.setHsaIdentity("leaf1-id");
-    setCreateAndModifyTimestampForUnit(10, unitLeaf1);
-    Unit unitLeaf2 = new Unit();
-    unitLeaf2.setDn(DN.createDNFromString("ou=leaf2,ou=child2,ou=root2,ou=org,o=VGR"));
-    unitLeaf2.setName("leaf2");
-    unitLeaf2.setHsaIdentity("leaf2-id");
-    setCreateAndModifyTimestampForUnit(11, unitLeaf2);
-    Unit unitLeaf3 = new Unit();
-    unitLeaf3.setDn(DN.createDNFromString("ou=leaf3,ou=child3,ou=root3,ou=org,o=VGR"));
-    unitLeaf3.setName("leaf3");
-    unitLeaf3.setHsaIdentity("leaf3-id");
-    setCreateAndModifyTimestampForUnit(12, unitLeaf3);
-    Unit unitLeaf4 = new Unit();
-    unitLeaf4.setDn(DN.createDNFromString("ou=leaf4,ou=child3,ou=root3,ou=org,o=VGR"));
-    unitLeaf4.setName("leaf4");
-    unitLeaf4.setHsaIdentity("leaf4-id");
-    setCreateAndModifyTimestampForUnit(13, unitLeaf4);
-    Unit unitLeaf5 = new Unit();
-    unitLeaf5.setDn(DN.createDNFromString("ou=leaf5,ou=child4,ou=root4,ou=org,o=VGR"));
-    unitLeaf5.setName("leaf5");
-    unitLeaf5.setHsaIdentity("leaf5-id");
-    setCreateAndModifyTimestampForUnit(14, unitLeaf5);
-    Unit unitLeaf6 = new Unit();
-    unitLeaf6.setDn(DN.createDNFromString("ou=leaf6,ou=child5,ou=root4,ou=org,o=VGR"));
-    unitLeaf6.setName("leaf6");
-    unitLeaf6.setHsaIdentity("leaf6-id");
-    setCreateAndModifyTimestampForUnit(0, unitLeaf6);
+    Unit unitLeaf1 = createUnit("leaf1", "leaf1-id", "ou=leaf1,ou=child1,ou=root1,ou=org,o=VGR", 10);
+    Unit unitLeaf2 = createUnit("leaf2", "leaf2-id", "ou=leaf2,ou=child2,ou=root2,ou=org,o=VGR", 11);
+    Unit unitLeaf3 = createUnit("leaf3", "leaf3-id", "ou=leaf3,ou=child3,ou=root3,ou=org,o=VGR", 12);
+    Unit unitLeaf4 = createUnit("leaf4", "leaf4-id", "ou=leaf4,ou=child4,ou=root4,ou=org,o=VGR", 13);
+    Unit unitLeaf5 = createUnit("leaf5", "leaf5-id", "ou=leaf5,ou=child5,ou=root5,ou=org,o=VGR", 14);
+    Unit unitLeaf6 = createUnit("leaf6", "leaf6-id", "ou=leaf6,ou=child6,ou=root6,ou=org,o=VGR", 0);
+
     // This is to test that informationpusher can handle a unit with only modify date set.
     unitLeaf6.setCreateTimestamp(null);
 
     return new ArrayList<Unit>(Arrays.asList(unitRoot1, unitRoot2, unitRoot3, unitRoot4, unitChild1, unitChild2, unitChild3, unitChild4, unitChild5, unitLeaf1, unitLeaf2, unitLeaf3, unitLeaf4,
         unitLeaf5, unitLeaf6));
+  }
+
+  private static Unit createUnit(String name, String identity, String dn, int i) {
+    Unit unit = new Unit();
+    unit.setDn(DN.createDNFromString(dn));
+    unit.setName(name);
+    unit.setHsaIdentity(identity);
+    setCreateAndModifyTimestampForUnit(i, unit);
+
+    return unit;
   }
 
   private UnitRepository createMockUnitRepositoryFull(List<Unit> units) throws Exception {
