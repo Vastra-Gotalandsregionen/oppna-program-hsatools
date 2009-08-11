@@ -3,6 +3,7 @@ package se.vgregion.kivtools.search.intsvc.ws.eniro;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StringWriter;
@@ -116,36 +117,32 @@ public class InformationPusherEniro implements InformationPusher {
   /**
    * Returns units created/modified since specified date.
    * 
-   * @param units The complete list of units.
+   * @param unitList The complete list of units.
    * @param lastSynchDate The date of the last synchronization.
    * @return A list of units which have been created/modified since the specified date.
    */
-  private List<Unit> getFreshUnits(List<Unit> units, Date lastSynchDate) {
+  private List<Unit> getFreshUnits(List<Unit> unitList, Date lastSynchDate) {
     List<Unit> freshUnits = new ArrayList<Unit>();
     TimePoint lastSynchedModifyTimePoint = TimePoint.from(lastSynchDate);
     TimePoint temporaryLatestModifiedTimepoint = TimePoint.from(lastSynchDate);
 
-    for (Unit unit : units) {
+    for (Unit unit : unitList) {
       if (unit != null) {
         TimePoint modifyTimestamp = unit.getModifyTimestamp();
         TimePoint createTimestamp = unit.getCreateTimestamp();
         // Check if the unit is created or modified after last synched
         // modify date
-        if (modifyTimestamp != null && modifyTimestamp.isAfter(lastSynchedModifyTimePoint) || createTimestamp != null && createTimestamp.isAfter(lastSynchedModifyTimePoint)) {
+        if (isAfterTimePoint(modifyTimestamp, lastSynchedModifyTimePoint) || isAfterTimePoint(createTimestamp, lastSynchedModifyTimePoint)) {
           freshUnits.add(unit);
-          if (createTimestamp != null && createTimestamp.isAfter(lastSynchedModifyTimePoint)) {
+          if (isAfterTimePoint(createTimestamp, lastSynchedModifyTimePoint)) {
             unit.setNew(true);
           }
         }
 
         // Update latest in order to keep track of the latest
         // creation/modification date in this batch
-        if (createTimestamp != null && createTimestamp.isAfter(temporaryLatestModifiedTimepoint)) {
-          temporaryLatestModifiedTimepoint = createTimestamp;
-        }
-        if (modifyTimestamp != null && modifyTimestamp.isAfter(temporaryLatestModifiedTimepoint)) {
-          temporaryLatestModifiedTimepoint = modifyTimestamp;
-        }
+        temporaryLatestModifiedTimepoint = getLatestTimePoint(temporaryLatestModifiedTimepoint, createTimestamp);
+        temporaryLatestModifiedTimepoint = getLatestTimePoint(temporaryLatestModifiedTimepoint, modifyTimestamp);
       }
     }
 
@@ -157,13 +154,43 @@ public class InformationPusherEniro implements InformationPusher {
   }
 
   /**
+   * Checks if a TimePoint is after another TimePoint.
+   * 
+   * @param timePointToCheck The TimePoint to check.
+   * @param timePointToCheckAgainst The other TimePoint to check against.
+   * @return True if the TimePoint is after the other TimePoint, otherwise false.
+   */
+  private boolean isAfterTimePoint(TimePoint timePointToCheck, TimePoint timePointToCheckAgainst) {
+    boolean result = false;
+
+    result = timePointToCheck != null && timePointToCheck.isAfter(timePointToCheckAgainst);
+
+    return result;
+  }
+
+  /**
+   * Returns the latest TimePoint of the two provided TimePoints.
+   * 
+   * @param first The first TimePoint to compare.
+   * @param second The second TimePoint to compare.
+   * @return The latest of the two provided TimePoints.
+   */
+  private TimePoint getLatestTimePoint(TimePoint first, TimePoint second) {
+    TimePoint result = first;
+    if (isAfterTimePoint(second, first)) {
+      result = second;
+    }
+    return result;
+  }
+
+  /**
    * We need to keep track of units that don't exists anymore or that are moved. Compare to previous state and add virtual units that indicates the removal and tag moved units as "moved".
    * 
-   * @param units
+   * @param unitList
    * @return
    */
   @SuppressWarnings("unchecked")
-  private List<Unit> getRemovedOrMovedUnits(List<Unit> units) {
+  private List<Unit> getRemovedOrMovedUnits(List<Unit> unitList) {
     // Read last existing units from file
     if (lastExistingUnits == null) {
       try {
@@ -177,7 +204,9 @@ public class InformationPusherEniro implements InformationPusher {
           objectInputStream.close();
           fileInputStream.close();
         }
-      } catch (Exception e) {
+      } catch (IOException e) {
+        logger.error("Error in getRemovedOrMovedUnits", e);
+      } catch (ClassNotFoundException e) {
         logger.error("Error in getRemovedOrMovedUnits", e);
       }
     }
@@ -192,10 +221,10 @@ public class InformationPusherEniro implements InformationPusher {
       tmpUnit.setDn(unitEntry.getValue());
 
       // Search for moved units (they exists in list of current units)
-      Collections.sort(units);
-      int unitPosition = Collections.binarySearch(units, tmpUnit);
+      Collections.sort(unitList);
+      int unitPosition = Collections.binarySearch(unitList, tmpUnit);
       if (unitPosition > -1) {
-        Unit unitInRepository = units.get(unitPosition);
+        Unit unitInRepository = unitList.get(unitPosition);
         if (!unitInRepository.getDn().toString().equals(unitEntry.getValue().toString())) {
           // Unit has been moved
           unitInRepository.setMoved(true);
@@ -226,7 +255,7 @@ public class InformationPusherEniro implements InformationPusher {
       objectOutputStream.close();
       fileOutputStream.flush();
       fileOutputStream.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       logger.error("Error in saveLastExistingUnitList", e);
     }
   }
@@ -426,22 +455,24 @@ public class InformationPusherEniro implements InformationPusher {
   }
 
   private String stripEndingCommaAndSpace(String inputString) {
-    if (inputString.endsWith(", ")) {
-      inputString = inputString.substring(0, inputString.length() - 2);
+    String result = inputString;
+    if (result.endsWith(", ")) {
+      result = result.substring(0, result.length() - 2);
     }
-    return inputString;
+    return result;
   }
 
   private Unit getParentUnit(Unit unit) {
     DN dn = unit.getDn();
     DN parentDn = dn.getParentDN(2);
     if (parentDn != null) {
-      Unit parent = null;
+      Unit parent;
       try {
         parent = unitRepository.getUnitByDN(parentDn);
       } catch (Exception e) {
         // Not necessary to log
         // logger.error("Error in getParentUnit", e);
+        parent = null;
       }
       return parent;
     } else {
@@ -452,14 +483,14 @@ public class InformationPusherEniro implements InformationPusher {
   /**
    * For full unit detail pushes.
    * 
-   * @param units
-   * @return
+   * @param unitList The units to populate the Organization object with.
+   * @return An Organization object populated from the provided units.
    */
-  public Organization generateOrganisationTree(List<Unit> units) {
+  public Organization generateOrganisationTree(List<Unit> unitList) {
     Map<DN, Unit> unitContainer = new HashMap<DN, Unit>();
     Map<DN, List<Unit>> unitChildrenContainer = new HashMap<DN, List<Unit>>();
     List<Unit> rootUnits = new ArrayList<Unit>();
-    for (Unit unit : units) {
+    for (Unit unit : unitList) {
       DN dn = unit.getDn();
       if (dn != null) {
         DN parentDn = dn.getParentDN(2);
