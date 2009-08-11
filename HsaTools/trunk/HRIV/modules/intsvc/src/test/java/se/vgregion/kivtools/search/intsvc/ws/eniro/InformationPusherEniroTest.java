@@ -10,14 +10,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.prefs.Preferences;
 
-import javax.swing.tree.ExpandVetoException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.easymock.classextension.EasyMock;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,16 +36,16 @@ import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 
 import com.domainlanguage.time.TimePoint;
 
-public class UnitInformationPusherTest {
+public class InformationPusherEniroTest {
   private InformationPusherEniro informationPusher;
-  private static File dateSynchFile = new File("dateSynch.txt");
   private static File unitExistFile = new File("unitExistList");
   private MockFtpClient mockFtpClient;
 
   @Before
   public void setUp() throws Exception {
-   dateSynchFile.delete();
-   unitExistFile.delete();
+    Preferences prefs = Preferences.systemNodeForPackage(getClass());
+    prefs.remove("LastSynchedModifyDate");
+    unitExistFile.delete();
 
     setupInformationPusher();
   }
@@ -66,14 +65,11 @@ public class UnitInformationPusherTest {
     org.easymock.EasyMock.expect(mockCodeTableService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "1460")).andReturn("test2");
     org.easymock.EasyMock.expectLastCall().anyTimes();
     mockFtpClient = new MockFtpClient();
-    // org.easymock.EasyMock.expect(mockFtpClient.sendFile(new File("src/test/VGR.xml"))).andReturn(true);
-    // org.easymock.EasyMock.expectLastCall().anyTimes();
     EasyMock.replay(mockCodeTableService);
 
     informationPusher.setFtpClient(mockFtpClient);
     informationPusher.setCodeTablesService(mockCodeTableService);
     informationPusher.setUnitRepository(unitRepository);
-    informationPusher.setLastSynchedModifyDateFile(dateSynchFile);
     informationPusher.setLastExistingUnitsFile(unitExistFile);
     informationPusher.setDestinationFolder(new File("src/test"));
   }
@@ -106,7 +102,6 @@ public class UnitInformationPusherTest {
 
   @Test
   public void testErrorHandlingForSaveLastSynchedModifyDateMethod() {
-    informationPusher.setLastSynchedModifyDateFile(null);
     informationPusher.doService();
   }
 
@@ -167,7 +162,7 @@ public class UnitInformationPusherTest {
   @Test
   public void testUnitRepositoryThrowsException() throws Exception {
     UnitRepository mockUnitRepository = EasyMock.createMock(UnitRepository.class);
-    EasyMock.expect(mockUnitRepository.getAllUnits()).andThrow(new Exception());
+    org.easymock.EasyMock.expect(mockUnitRepository.getAllUnits()).andThrow(new Exception());
     informationPusher.doService();
   }
 
@@ -179,15 +174,12 @@ public class UnitInformationPusherTest {
     Assert.assertTrue("Organization should contain 4 root units", organization.getUnit().size() == 4);
   }
 
-  @Test
   /*
    * * If ftp fails to send file then doService method shall continue to generate full tree structure xml file
    */
+  @Test
   public void testFtpFailure() throws Exception {
     this.mockFtpClient.setReturnValue(false);
-    // FtpClient mockFtpClient = EasyMock.createMock(FtpClient.class);
-    // org.easymock.EasyMock.expect(mockFtpClient.sendFile(new File("src/test/VGR.xml"))).andReturn(false);
-    // org.easymock.EasyMock.expectLastCall().anyTimes();
     informationPusher.setFtpClient(mockFtpClient);
     informationPusher.doService();
     Organization organization = getOrganizationFromFile(this.mockFtpClient.getFileContent());
@@ -201,7 +193,6 @@ public class UnitInformationPusherTest {
   private Organization getOrganizationFromFile(String fileContent) {
     Organization organization = null;
     try {
-      // File generatedXml = new File("src/test/VGR.xml");
       JAXBContext context = JAXBContext.newInstance("se.vgregion.kivtools.search.intsvc.ws.domain.eniro");
       Unmarshaller unmarshaller = context.createUnmarshaller();
       organization = (Organization) unmarshaller.unmarshal(new StringReader(fileContent));

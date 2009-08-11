@@ -71,7 +71,6 @@
 		class="se.vgregion.kivtools.search.intsvc.ws.eniro.InformationPusherEniro">
 		<property name="ftpClient" ref="Transfer.ftp" />
 		<property name="unitRepository" ref="Search.UnitRepository" />
-		<property name="lastSynchedModifyDateFile" value="/tmp/lsmdf.txt" />
 		<property name="lastExistingUnitsFile" value="/tmp/leuf.txt" />
 		<property name="codeTablesService" ref="Search.CodeTablesService" />
 	</bean>
