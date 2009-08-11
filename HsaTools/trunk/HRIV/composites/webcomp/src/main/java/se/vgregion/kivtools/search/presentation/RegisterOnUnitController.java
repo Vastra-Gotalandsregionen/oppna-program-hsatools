@@ -5,9 +5,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.ws.BindingProvider;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
@@ -32,11 +34,8 @@ import se.vgregion.kivtools.search.util.EncryptionUtil;
 public class RegisterOnUnitController implements Serializable {
 
   private static final long serialVersionUID = 1L;
-  private static final String SIGNATURE_SERVICE_URL = "https://id.signicat.com/signatureservice/services/signatureservice";
-  // Test -> prod: test -> id
-  private static final String SERVICE_URL = "https://id.signicat.com/std/method/vgr?method=sign";
-  // Test -> prod: test -> id
-
+  private String signatureServiceEndpoint;
+  private String serviceUrl;
   private Log logger = LogFactory.getLog(this.getClass());
   private VardvalService vardValService;
   private SearchService searchService;
@@ -44,6 +43,14 @@ public class RegisterOnUnitController implements Serializable {
   private SignatureEndpointImpl signatureservice = signatureEndpointImplService.getSignatureservice();
   private CitizenRepository citizenRepository;
   private final ResourceBundle bundle = ResourceBundle.getBundle("messagesVGR");
+
+  public void initEndpoint() {
+    if (!"".equalsIgnoreCase(signatureServiceEndpoint)) {
+      BindingProvider bindingProvider = (BindingProvider) signatureservice;
+      Map<String, Object> requestContext = bindingProvider.getRequestContext();
+      requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, signatureServiceEndpoint);
+    }
+  }
 
   public void setCitizenRepository(CitizenRepository citizenRepository) {
     this.citizenRepository = citizenRepository;
@@ -55,6 +62,14 @@ public class RegisterOnUnitController implements Serializable {
 
   public void setVardValService(VardvalService vardValService) {
     this.vardValService = vardValService;
+  }
+
+  public void setSignatureServiceEndpoint(String signatureServiceEndpoint) {
+    this.signatureServiceEndpoint = signatureServiceEndpoint;
+  }
+
+  public void setServiceUrl(String serviceUrl) {
+    this.serviceUrl = serviceUrl;
   }
 
   /**
@@ -140,7 +155,7 @@ public class RegisterOnUnitController implements Serializable {
     String documentDescription = bundle.getString("registrationDocumentDescription");
 
     // Stores signatureserviceUrl and mimetype in session so
-    externalContext.getSessionMap().put("signatureservice.url", SIGNATURE_SERVICE_URL);
+    externalContext.getSessionMap().put("signatureservice.url", signatureServiceEndpoint);
     externalContext.getSessionMap().put("mimeType", mimeType);
     externalContext.getSessionMap().put("ssn", vardvalInfo.getSsn());
     externalContext.getSessionMap().put("name", vardvalInfo.getName());
@@ -158,7 +173,7 @@ public class RegisterOnUnitController implements Serializable {
     String targetUrl = urlToThisPage.substring(0, urlToThisPage.lastIndexOf("/") + 1) + "confirmationRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnitPostSign-flow";
 
     // Redirect user to Signicat
-    redirectUrl = SERVICE_URL + "&documentArtifact=" + artifact + "&target=" + encodeTargetUrl(targetUrl);
+    redirectUrl = serviceUrl + "&documentArtifact=" + artifact + "&target=" + encodeTargetUrl(targetUrl);
     return redirectUrl;
   }
 
