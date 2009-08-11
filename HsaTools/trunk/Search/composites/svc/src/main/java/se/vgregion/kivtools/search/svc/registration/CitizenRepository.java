@@ -14,29 +14,43 @@ import org.springframework.ldap.core.LdapTemplate;
  */
 public class CitizenRepository {
 
-	private LdapTemplate ldapTemplate;
+  private LdapTemplate ldapTemplate;
 
-	public void setLdapTemplate(LdapTemplate ldapTemplate) {
-		this.ldapTemplate = ldapTemplate;
-	}
+  /**
+   * Setter for the Spring LdapTemplate to use.
+   * 
+   * @param ldapTemplate The Spring LdapTemplate to use.
+   */
+  public void setLdapTemplate(LdapTemplate ldapTemplate) {
+    this.ldapTemplate = ldapTemplate;
+  }
 
-	public String getCitizenNameFromSsn(String ssn) {
-		String name = (String) ldapTemplate.lookup("uid=" + ssn, new CitizenMapper());
-		return name;
-	}
+  /**
+   * Gets a citizens registered name in the LDAP directory by the ssn.
+   * 
+   * @param ssn The citizens ssn.
+   * @return The citizens registered name in the LDAP directory.
+   */
+  public String getCitizenNameFromSsn(String ssn) {
+    String name = (String) ldapTemplate.lookup("uid=" + ssn, new CitizenMapper());
+    return name;
+  }
 
-	class CitizenMapper implements AttributesMapper {
-		@Override
-		public Object mapFromAttributes(Attributes attrs) throws NamingException {
-			String givenName = (String) attrs.get("cn").get();
-			String surName = (String) attrs.get("sn").get();
-			String name = "";
-			if (givenName.contains(surName)) {
-				name = givenName;
-			} else {
-				name = givenName + " " + surName;
-			}
-			return name;
-		}
-	}
+  /**
+   * Maps LDAP attributes to a simple string.
+   */
+  class CitizenMapper implements AttributesMapper {
+    @Override
+    public Object mapFromAttributes(Attributes attrs) throws NamingException {
+      String givenName = (String) attrs.get("cn").get();
+      String surName = (String) attrs.get("sn").get();
+      String name = "";
+      if (givenName.contains(surName)) {
+        name = givenName;
+      } else {
+        name = givenName + " " + surName;
+      }
+      return name;
+    }
+  }
 }
