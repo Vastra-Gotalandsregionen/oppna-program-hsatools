@@ -49,10 +49,10 @@ public class GeoUtil {
   /**
    * Geocode an address to RT90.
    * 
-   * @param hsaStreetAddress
-   * @param googleKey
+   * @param hsaStreetAddress The address to geocode.
+   * @param googleKey The Google Maps key to use.
    * @return RT90Coordinates: element #0 = latitude, #1 = longitude
-   * @throws Exception
+   * @throws Exception If anything goes wrong.
    * @see http://geo-google.sourceforge.net/usage.html
    */
   public int[] geocodeToRT90(Address hsaStreetAddress, String googleKey) throws Exception {
@@ -72,7 +72,17 @@ public class GeoUtil {
     return rt90Coordinates;
   }
 
+  /**
+   * Geocode an address to WGS84.
+   * 
+   * @param address The street address.
+   * @param googleKey The Google Maps key to use.
+   * @param accuracy The accuracy of the addresses to find.
+   * @return An array of WGS84 coordinates.
+   */
   private double[] geocodeToWGS84FromString(String address, String googleKey, GeoAddressAccuracy accuracy) {
+    double[] result = null;
+
     GeoAddressStandardizer st = new GeoAddressStandardizer(googleKey);
     GeoAddress geoAddress = null;
     try {
@@ -82,35 +92,31 @@ public class GeoUtil {
       geoAddress = null;
       if (geoAddresses != null && geoAddresses.size() > 0) {
         geoAddress = geoAddresses.get(0);
-      } else {
-        return null;
       }
 
       // We need at least "address level"
-      if (geoAddress == null || geoAddress.getAccuracy().getCode() < accuracy.getCode()) {
-        return null;
+      if (geoAddress != null && geoAddress.getAccuracy().getCode() >= accuracy.getCode()) {
+        result = new double[] { geoAddress.getCoordinate().getLatitude(), geoAddress.getCoordinate().getLongitude() };
       }
 
       logger.debug("WGS84 Coord from Google Maps: " + geoAddress.getCoordinate().getLatitude() + "," + geoAddress.getCoordinate().getLongitude());
     } catch (GeoException e) {
       // We could not geocode, possibly a non accurate address.
       logger.debug("Could not geocode: " + address);
-      return null;
     }
-    return new double[] { geoAddress.getCoordinate().getLatitude(), geoAddress.getCoordinate().getLongitude() };
+    return result;
   }
 
   /**
    * Geocode an address to WGS84.
    * 
-   * @param hsaStreetAddress
-   * @param googleKey
-   * @return
+   * @param hsaStreetAddress The street address.
+   * @param googleKey The Google Maps key to use.
+   * @return An array of WGS84 coordinates.
    */
   public double[] geocodeToWGS84FromHsaAddress(Address hsaStreetAddress, String googleKey) {
     logger.info(CLASS_NAME + ".geocodeToWGS84()");
-    // We can't do anything if we don't have at least a street name, zip
-    // code or city.
+    // We can't do anything if we don't have at least a street name, zip code or city.
     if (hsaStreetAddress == null || Evaluator.isEmpty(hsaStreetAddress.getStreet()) && Evaluator.isEmpty(hsaStreetAddress.getZipCode().getZipCode()) && Evaluator.isEmpty(hsaStreetAddress.getCity())) {
       return null;
     }
@@ -119,25 +125,25 @@ public class GeoUtil {
   }
 
   /**
-   * @param rt90String HSA formatted RT90 coords: X: 1234567, Y: 1234567
-   * @return
+   * @param rt90String HSA formatted RT90 coords: X: 1234567, Y: 1234567.
+   * @return An array of RT90 coordinates.
    */
   public static int[] parseRT90HsaString(String rt90String) {
-    int rt90X = 0;
-    int rt90Y = 0;
-    if (rt90String.indexOf("X:") < 0 || rt90String.indexOf("X:") < 0) {
-      return null;
-    } else {
-      rt90X = Integer.parseInt(rt90String.substring(3, 10));
-      rt90Y = Integer.parseInt(rt90String.substring(15));
+    int[] result = null;
+    if (!Evaluator.isEmpty(rt90String)) {
+      if (rt90String.indexOf("X:") >= 0 && rt90String.indexOf("Y:") >= 0) {
+        int rt90X = Integer.parseInt(rt90String.substring(3, 10));
+        int rt90Y = Integer.parseInt(rt90String.substring(15));
+        result = new int[] { rt90X, rt90Y };
+      }
     }
-    return new int[] { rt90X, rt90Y };
+    return result;
   }
 
   /**
    * Parse NMEA-String.
    * 
-   * @param latOrLong Latitude or longitude in nmea format
+   * @param latOrLong Latitude or longitude in NMEA format
    * @param isLong True if longitude, false if latitude.
    * @return Latitude or longitude in radians as decimal value.
    */
@@ -146,22 +152,22 @@ public class GeoUtil {
     double deciLatLon = Double.parseDouble(latOrLong.substring(0, latOrLong.indexOf("D")));
 
     // Remove it once we've used it
-    latOrLong = latOrLong.substring(latOrLong.indexOf("D") + 1);
+    String remainder = latOrLong.substring(latOrLong.indexOf("D") + 1);
 
     // Get Minutes (up to the '.') and3872648 divide by Minutes/Hour
-    deciLatLon += Double.parseDouble(latOrLong.substring(0, latOrLong.indexOf("."))) / 60.0;
+    deciLatLon += Double.parseDouble(remainder.substring(0, remainder.indexOf("."))) / 60.0;
 
     // Remove it once we've used it
-    latOrLong = latOrLong.substring(latOrLong.indexOf(".") + 1);
+    remainder = remainder.substring(remainder.indexOf(".") + 1);
 
     // Get Seconds (up to the '"') and divide by Seconds/Hour
-    String sec = latOrLong.substring(0, latOrLong.indexOf("\""));
+    String sec = remainder.substring(0, remainder.indexOf("\""));
     // Insert a dot to prevent the time from flying away...
     deciLatLon += Double.parseDouble(new StringBuilder(sec).insert(2, ".").toString()) / 3600.0;
 
     // Get the Hemisphere String
-    latOrLong = latOrLong.substring(latOrLong.indexOf("\"") + 1);
-    if (isLong && "S".equals(latOrLong) || !isLong && "W".equals(latOrLong)) {
+    remainder = remainder.substring(remainder.indexOf("\"") + 1);
+    if (isLong && "S".equals(remainder) || !isLong && "W".equals(remainder)) {
       // Set us right
       deciLatLon = -deciLatLon;
     }
@@ -170,10 +176,10 @@ public class GeoUtil {
   }
 
   /**
-   * Convert from degrees in decimal format (eg 49.5125) to {grade, minutes, seconds} (eg {49, 30, 45}).
+   * Convert from degrees in decimal format (eg. 49.5125) to {grade, minutes, seconds} (eg. {49, 30, 45}).
    * 
-   * @param Latitude or longitude in decimal degrees
-   * @return array with {grade,min,sec}
+   * @param Latitude or longitude in decimal degrees.
+   * @return An array with {grade, min, sec}
    */
   static double[] getGradeMinSec(double decDegree) {
     // In example, wants to get 49 degrees 30 minutes and 45 secs from
@@ -189,10 +195,13 @@ public class GeoUtil {
   }
 
   /**
-   * @param address The address to check distance to
-   * @param u
-   * @param googleMapsKey
+   * Gets a list of units which are in the specified distance of the provided address.
    * 
+   * @param address The address to check distance to
+   * @param allUnits The list of units to check against.
+   * @param meters The distance from the provided address which the units should be within to be a part of the result.
+   * @param googleMapsKey The Google Maps key to use.
+   * @return A list of Units that is within the distance of the address.
    */
   public ArrayList<Unit> getCloseUnits(String address, ArrayList<Unit> allUnits, int meters, String googleMapsKey) {
     // Create GeoCoordinate from given address
@@ -224,17 +233,18 @@ public class GeoUtil {
   /**
    * Convert meters -> miles.
    * 
-   * @param meters
-   * @return
+   * @param meters The number of meters to convert to miles.
+   * @return The provided number of meters converted to miles.
    */
   private double getMilesFromMetres(int meters) {
     return meters / METRES_PER_MILE;
   }
 
   /**
+   * Creates a new GeoCoordinate object from the provided coordinates.
    * 
-   * @param coordinates {lat, long}
-   * @return
+   * @param coordinates The coordinates to use, {lat, long}.
+   * @return A populated GeoCoordinate object.
    */
   private GeoCoordinate getGeoCoordinate(double[] coordinates) {
     // Since altitude is ignored when calculating distance we can skip it.
@@ -244,10 +254,10 @@ public class GeoUtil {
   /**
    * Sets a geoCoordinate on specified unit.
    * 
-   * @param u
-   * @param coordinates
+   * @param unit The unit to set GeoCoordinate on.
+   * @param coordinates The coordinates to use for the GeoCoordinate.
    */
-  public void setGeoCoordinate(Unit u, double[] coordinates) {
-    u.setGeoCoordinate(getGeoCoordinate(coordinates));
+  public void setGeoCoordinate(Unit unit, double[] coordinates) {
+    unit.setGeoCoordinate(getGeoCoordinate(coordinates));
   }
 }
