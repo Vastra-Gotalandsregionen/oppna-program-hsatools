@@ -1,0 +1,8 @@
+#labels Project-HRIV
+#Att tänka på vid driftsättning av HRIV
+
+= Driftsättning av HRIV =
+
+Apache Tomcat är den rekommenderade applikationsservern och mer specifikt är det version 5.5.27 som har använts.
+
+För att tolkandet av GET-parametrar ska fungera smärtfritt är det lämpligt att använda UTF-8 som teckenkodning. Ange därför attributet URIEncoding="UTF-8" på lämpligt Connector-element i server.xml.
