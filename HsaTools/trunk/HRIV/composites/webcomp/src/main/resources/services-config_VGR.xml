@@ -37,8 +37,8 @@
 		<property name="signatureServiceEndpoint"
 			value="https://id.signicat.com/signatureservice/services/signatureservice" />
 
-		<property name="signatureServiceEndpoint"
-			value="http://kivsearch.vgregion.se:8080/testtools/ws/signatureservice/services/signatureservice" />
+<!--		<property name="signatureServiceEndpoint"-->
+<!--			value="http://kivsearch.vgregion.se:8080/testtools/ws/signatureservice/services/signatureservice" />-->
 
 		<property name="vardValService" ref="Registration.vardValService" />
 		<property name="searchService" ref="Search.SearchService" />
