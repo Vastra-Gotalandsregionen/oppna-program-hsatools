@@ -31,14 +31,22 @@ import se.vgregion.kivtools.search.exceptions.IncorrectUserInputException;
 import se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm;
 
 /**
- * @author Anders Asplund - KnowIT
+ * Validates user input in a PersonSearchSimpleForm.
  * 
+ * @author Anders Asplund - KnowIT
  */
 @SuppressWarnings("serial")
 public class PersonSearchSimpleFormValidator implements Serializable {
 
   private Log logger = LogFactory.getLog(this.getClass());
 
+  /**
+   * Validates user input in a PersonSearchSimpleForm.
+   * 
+   * @param param The form to validate.
+   * @return "success" in case of a succesful validation.
+   * @throws IncorrectUserInputException if the validation fails.
+   */
   public String validate(PersonSearchSimpleForm param) throws IncorrectUserInputException {
     logger.info(this.getClass().getName() + ".validate()");
 
