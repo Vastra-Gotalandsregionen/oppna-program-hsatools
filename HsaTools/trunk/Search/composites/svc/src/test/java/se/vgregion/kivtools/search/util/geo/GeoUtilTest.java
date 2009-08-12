@@ -60,23 +60,13 @@ public class GeoUtilTest {
   @Test
   public void testParseRT90HsaString() {
     int[] rt90 = null;
-    try {
-      rt90 = GeoUtil.parseRT90HsaString(null);
-      fail("NullPointerException expected");
-    } catch (NullPointerException e) {
-      // Expected exception
-    }
+    rt90 = GeoUtil.parseRT90HsaString(null);
     assertNull(rt90);
 
     rt90 = GeoUtil.parseRT90HsaString("");
     assertNull(rt90);
 
-    try {
-      rt90 = GeoUtil.parseRT90HsaString("X:");
-      fail("StringIndexOutOfBoundsException expected");
-    } catch (StringIndexOutOfBoundsException e) {
-      // Expected exception
-    }
+    rt90 = GeoUtil.parseRT90HsaString("X:");
     assertNull(rt90);
 
     rt90 = GeoUtil.parseRT90HsaString("Y:");
