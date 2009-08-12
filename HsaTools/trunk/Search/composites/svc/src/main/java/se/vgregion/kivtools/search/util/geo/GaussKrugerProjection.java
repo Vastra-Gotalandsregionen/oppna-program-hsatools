@@ -119,6 +119,7 @@ public class GaussKrugerProjection implements CoordinateTransformerService {
    * Constructor with specified gon.
    * 
    * @param gon Specified Gon
+   * @throws Exception If an unknown Gon is specified.
    */
   public GaussKrugerProjection(String gon) throws Exception {
     if (gon != null) {
@@ -264,10 +265,8 @@ public class GaussKrugerProjection implements CoordinateTransformerService {
     lat = phiStar + Math.sin(phiStar) * Math.cos(phiStar) * (aStar + bStar * Math.pow(Math.sin(phiStar), 2) + cStar * Math.pow(Math.sin(phiStar), 4) + dStar * Math.pow(Math.sin(phiStar), 6));
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see se.vgregion.kivtools.search.util.CoordinateTransformerService#getRT90(double, double)
+  /**
+   * {@inheritDoc}
    */
   public int[] getRT90(double latitude, double longitude) {
     this.lat = latitude;
@@ -285,10 +284,8 @@ public class GaussKrugerProjection implements CoordinateTransformerService {
     return rt90Coordinates;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see se.vgregion.kivtools.search.util.CoordinateTransformerService#getWGS84(int, int)
+  /**
+   * {@inheritDoc}
    */
   public double[] getWGS84(int x, int y) {
     rt90X = x;
