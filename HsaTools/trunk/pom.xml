@@ -77,7 +77,7 @@
 						<excludes>
 							<exclude>**/ws/domain/**/*.class</exclude>
 							<exclude>**/ws/domain/*.class</exclude>
-							<exclude>**/ws/signicat/*.class</exclude>
+							<exclude>**/ws/signicat/**/*.class</exclude>
 						</excludes>
 					</instrumentation>
 				</configuration>
