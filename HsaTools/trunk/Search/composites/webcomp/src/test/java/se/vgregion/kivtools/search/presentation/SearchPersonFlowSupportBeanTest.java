@@ -128,7 +128,7 @@ public class SearchPersonFlowSupportBeanTest {
     }
 
     try {
-      bean.getOrganisation(NULL, DN);
+      bean.getOrganisation(null, DN);
       fail("KivNoDataFoundException expected");
     } catch (KivNoDataFoundException e) {
       // Expected exception
@@ -138,7 +138,7 @@ public class SearchPersonFlowSupportBeanTest {
     Person person = new Person();
     persons.add(person);
     searchService.setPersons(persons);
-    SikSearchResultList<Person> result = bean.getOrganisation(NULL, DN);
+    SikSearchResultList<Person> result = bean.getOrganisation(null, DN);
     assertNotNull(result);
     assertEquals(1, result.size());
 
@@ -165,7 +165,7 @@ public class SearchPersonFlowSupportBeanTest {
     assertEquals(1, result.size());
 
     bean.setSearchService(null);
-    result = bean.getOrganisation(NULL, DN);
+    result = bean.getOrganisation(null, DN);
     assertNotNull(result);
     assertEquals(0, result.size());
   }

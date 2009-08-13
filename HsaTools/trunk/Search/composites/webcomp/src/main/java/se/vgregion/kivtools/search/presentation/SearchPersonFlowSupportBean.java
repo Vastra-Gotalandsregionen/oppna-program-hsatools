@@ -29,7 +29,6 @@ import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.search.common.Constants;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
-import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
 import se.vgregion.kivtools.search.svc.SearchService;
@@ -38,11 +37,13 @@ import se.vgregion.kivtools.search.svc.TimeMeasurement;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.LogUtils;
 
 /**
- * @author Anders Asplund - KnowIt
+ * Support bean for the Search Person flow.
  * 
+ * @author Anders Asplund - KnowIt
  */
 @SuppressWarnings("serial")
 public class SearchPersonFlowSupportBean implements Serializable {
@@ -54,24 +55,40 @@ public class SearchPersonFlowSupportBean implements Serializable {
 
   private int maxSearchResult;
 
+  /**
+   * Sets the maximum number of search results to return.
+   * 
+   * @param maxSearchResult The maximum number of search results to return.
+   */
   public void setMaxSearchResult(int maxSearchResult) {
     this.maxSearchResult = maxSearchResult;
   }
 
+  /**
+   * Getter for the SearchService to use.
+   * 
+   * @return The SearchService to use.
+   */
   public SearchService getSearchService() {
     return searchService;
   }
 
+  /**
+   * Setter for the SearchService to use.
+   * 
+   * @param searchService The SearchService to use.
+   */
   public void setSearchService(SearchService searchService) {
     this.searchService = searchService;
   }
 
+  /**
+   * Sets the number of search results to show per page.
+   * 
+   * @param pageSize The number of search results to show per page.
+   */
   public void setPageSize(int pageSize) {
     this.pageSize = pageSize;
-  }
-
-  public void initalLoad() {
-    logger.info(CLASS_NAME + ".initalLoad()");
   }
 
   protected boolean isVgrIdSearch(PersonSearchSimpleForm theForm) throws KivNoDataFoundException {
@@ -85,6 +102,13 @@ public class SearchPersonFlowSupportBean implements Serializable {
     return false;
   }
 
+  /**
+   * Searches for personsby the criterias specified in the provided form.
+   * 
+   * @param theForm The form with the search criterias.
+   * @return A list of matching persons.
+   * @throws KivNoDataFoundException If no persons were found with the provided criterias.
+   */
   public SikSearchResultList<Person> doSearch(PersonSearchSimpleForm theForm) throws KivNoDataFoundException {
     logger.info(CLASS_NAME + ".doSearch()");
 
@@ -118,15 +142,22 @@ public class SearchPersonFlowSupportBean implements Serializable {
         throw new KivNoDataFoundException();
       }
       return list;
+    } catch (KivNoDataFoundException e) {
+      throw e;
     } catch (Exception e) {
-      if (e instanceof KivNoDataFoundException) {
-        throw (KivNoDataFoundException) e;
-      }
       e.printStackTrace();
       return new SikSearchResultList<Person>();
     }
   }
 
+  /**
+   * Gets all persons in the organisation from the unit with the provided hsaIdentity and it's sub units or all persons matching the provided dn.
+   * 
+   * @param hsaIdentity The hsaIdentity of the root unit.
+   * @param dn The dn to search for if no hsaIdentity is provided.
+   * @return A list of persons.
+   * @throws KivNoDataFoundException If no matching persons are found.
+   */
   public SikSearchResultList<Person> getOrganisation(String hsaIdentity, String dn) throws KivNoDataFoundException {
     logger.info(CLASS_NAME + ".getOrganisation()");
 
@@ -136,7 +167,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
       overAllTime.start();
       SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
 
-      if ("null".equals(hsaIdentity)) {
+      if (Evaluator.isEmpty(hsaIdentity)) {
         SikSearchResultList<Person> personsWithoutEmploymentsList = getSearchService().searchPersonsByDn(dn, maxSearchResult);
         for (Person p : personsWithoutEmploymentsList) {
           SikSearchResultList<Person> searchPersons = getSearchService().searchPersons(p.getVgrId(), maxSearchResult);
@@ -170,6 +201,12 @@ public class SearchPersonFlowSupportBean implements Serializable {
     }
   }
 
+  /**
+   * Gets a list of the id's of all persons.
+   * 
+   * @return A list of the id's of all persons.
+   * @throws KivNoDataFoundException If no result was found
+   */
   public List<String> getAllPersonsVgrId() throws KivNoDataFoundException {
     try {
       List<String> listOfVgrIds = getSearchService().getAllPersonsId();
@@ -186,47 +223,36 @@ public class SearchPersonFlowSupportBean implements Serializable {
   /**
    * Return a list of vgrIds corresponding to startIndex->endIndex of persons.
    * 
-   * @param startIndex
-   * @param endIndex
-   * @return
-   * @throws KivNoDataFoundException
+   * @param startIndex The index of the first person in the list to return.
+   * @param endIndex The index of the last person in the list to return.
+   * @return A list of vgrIds which is a sub-list of the complete list of id's of all persons.
+   * @throws KivNoDataFoundException If no result was found.
    */
   public List<String> getRangePersonsVgrIdPageList(Integer startIndex, Integer endIndex) throws KivNoDataFoundException {
-    try {
-      List<String> list = getSearchService().getAllPersonsId();
-      if (startIndex < 0 || startIndex > endIndex || endIndex < 0) {
-        throw new SikInternalException(this, "getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + ")", "Error input parameters are wrong (result list size=" + list.size()
-            + ")");
+    List<String> result = new ArrayList<String>();
+    List<String> list = getAllPersonsVgrId();
+    if (startIndex < 0 || startIndex > endIndex || endIndex < 0) {
+      logger.error("getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + "), Error input parameters are wrong (result list size=" + list.size() + ")");
+    } else {
+      int realEndIndex = endIndex;
+      if (realEndIndex > list.size() - 1) {
+        // It is wrong but let's continue anyway
+        logger.error("MethodName=" + CLASS_NAME + "::" + "getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + realEndIndex + ") detected that endIndex > ");
+        realEndIndex = list.size() - 1;
       }
-      if (endIndex > list.size() - 1) {
-        // It is wrong but let�s continue anyway
-        logger.error("MethodName=" + CLASS_NAME + "::" + "getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + ") detected that endIndex > ");
-        endIndex = list.size() - 1;
+      for (int position = startIndex; position <= realEndIndex; position++) {
+        result.add(list.get(position));
       }
-      List<String> result = new ArrayList<String>();
-      for (int position = startIndex; position <= endIndex; position++) {
-        try {
-          result.add(list.get(position));
-        } catch (Exception e) {
-          logger.error("Error in " + CLASS_NAME + "::getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + ") index position=" + position + " does not exist as expected", e);
-        }
-      }
-      return result;
-    } catch (Exception e) {
-      if (e instanceof KivNoDataFoundException) {
-        throw (KivNoDataFoundException) e;
-      }
-      e.printStackTrace();
-      return new ArrayList<String>();
     }
+    return result;
   }
 
   /**
    * Return a list of PagedSearchMetaData objects which chops up the full list in to minor chunks Used in case of indexing all persons. Returns a list of page meta data.
    * 
-   * @param pageSizeString
-   * @return
-   * @throws KivNoDataFoundException
+   * @param pageSizeString The number of search results to show per page.
+   * @return A list of PagedSearchMetaData objects.
+   * @throws KivNoDataFoundException If no result was found.
    */
   public List<PagedSearchMetaData> getAllPersonsVgrIdPageList(String pageSizeString) throws KivNoDataFoundException {
     try {
@@ -234,7 +260,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
       List<PagedSearchMetaData> result = new ArrayList<PagedSearchMetaData>();
       List<String> personVgrIdList = getSearchService().getAllPersonsId();
       int size = personVgrIdList.size();
-      if (isInteger(pageSizeString)) {
+      if (Evaluator.isInteger(pageSizeString)) {
         int temp = Integer.parseInt(pageSizeString);
         if (temp > pageSize) {
           // we can only increase the page size
@@ -263,32 +289,6 @@ public class SearchPersonFlowSupportBean implements Serializable {
       e.printStackTrace();
       return new ArrayList<PagedSearchMetaData>();
     }
-  }
-
-  private Person mapSearchCriteriaToPerson(PersonSearchSimpleForm theForm) throws Exception {
-    final String methodName = CLASS_NAME + ".mapSearchCriteriaToPerson(...)";
-    logger.info(methodName);
-    Person person = new Person();
-
-    // given name
-    person.setGivenName(theForm.getGivenName());
-    // sir name
-    person.setSn(theForm.getSirName());
-
-    return person;
-  }
-
-  public void logger() {
-    logger.info("Logger");
-  }
-
-  public boolean isInteger(String s) {
-    try {
-      Integer.parseInt(s);
-    } catch (Exception e) {
-      return false;
-    }
-    return true;
   }
 
   /**
