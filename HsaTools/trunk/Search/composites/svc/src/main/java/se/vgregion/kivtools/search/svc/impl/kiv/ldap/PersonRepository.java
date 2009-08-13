@@ -20,7 +20,6 @@
  */
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -233,11 +232,10 @@ public class PersonRepository {
    * 
    * @return
    * @throws LDAPException
-   * @throws UnsupportedEncodingException
    * @throws SikInternalException
    * @throws NoConnectionToServerException
    */
-  private LDAPConnection getLDAPConnection() throws LDAPException, UnsupportedEncodingException, SikInternalException, NoConnectionToServerException {
+  private LDAPConnection getLDAPConnection() throws LDAPException, SikInternalException, NoConnectionToServerException {
     LDAPConnection lc = theConnectionPool.getConnection(POOL_WAIT_TIME_MILLISECONDS);
     if (lc == null) {
       throw new SikInternalException(this, "getLDAPConnection()", "Could not get a connection after waiting " + POOL_WAIT_TIME_MILLISECONDS + " ms.");
