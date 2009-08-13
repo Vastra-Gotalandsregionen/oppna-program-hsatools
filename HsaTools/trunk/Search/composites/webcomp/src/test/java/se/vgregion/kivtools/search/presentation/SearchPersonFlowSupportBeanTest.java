@@ -256,7 +256,63 @@ public class SearchPersonFlowSupportBeanTest {
     assertEquals(0, result.size());
   }
 
+  @Test
+  public void testSetMaxSearchResults() throws KivNoDataFoundException {
+    bean.setMaxSearchResult(3);
+
+    form.setGivenName("a");
+    try {
+      bean.doSearch(form);
+      fail("KivNoDataFoundException expected");
+    } catch (KivNoDataFoundException e) {
+      // Expected exception
+    }
+
+    this.searchService.assertMaxSearchResults(3);
+
+    bean.setMaxSearchResult(5);
+    try {
+      bean.doSearch(form);
+      fail("KivNoDataFoundException expected");
+    } catch (KivNoDataFoundException e) {
+      // Expected exception
+    }
+
+    this.searchService.assertMaxSearchResults(5);
+  }
+
+  @Test
+  public void testSetPageSize() throws KivNoDataFoundException {
+    bean.setPageSize(3);
+
+    List<String> allPersonsId = new ArrayList<String>();
+    allPersonsId.add("abc-123");
+    allPersonsId.add("def-456");
+    allPersonsId.add("ghi-789");
+    searchService.setAllPersonsId(allPersonsId);
+    List<PagedSearchMetaData> result = bean.getAllPersonsVgrIdPageList("1");
+    assertNotNull(result);
+    // 3 results per page == 1 page metadata
+    assertEquals(1, result.size());
+
+    bean.setPageSize(2);
+    result = bean.getAllPersonsVgrIdPageList("1");
+    assertNotNull(result);
+    // 2 results per page == 2 page metadata
+    assertEquals(2, result.size());
+
+    bean.setPageSize(0);
+    result = bean.getAllPersonsVgrIdPageList("1");
+    assertNotNull(result);
+    // 1 result per page == 3 page metadata
+    assertEquals(3, result.size());
+  }
+
+  // Mocks
+
   class SearchServiceMock implements SearchService {
+    private int maxSearchResults = -1;
+
     private SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
     private Map<String, SikSearchResultList<Employment>> employments = new HashMap<String, SikSearchResultList<Employment>>();
     private Map<String, Unit> units = new HashMap<String, Unit>();
@@ -290,6 +346,7 @@ public class SearchPersonFlowSupportBeanTest {
 
     @Override
     public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id, int maxResult) throws Exception {
+      this.maxSearchResults = maxResult;
       return persons;
     }
 
@@ -344,6 +401,10 @@ public class SearchPersonFlowSupportBeanTest {
         throw this.exceptionToThrow;
       }
       return this.allPersonsId;
+    }
+
+    public void assertMaxSearchResults(int expected) {
+      assertEquals("Unexpected value for maxSearchResults", expected, this.maxSearchResults);
     }
 
     // Dummy implementations

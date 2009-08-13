@@ -231,7 +231,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
   public List<String> getRangePersonsVgrIdPageList(Integer startIndex, Integer endIndex) throws KivNoDataFoundException {
     List<String> result = new ArrayList<String>();
     List<String> list = getAllPersonsVgrId();
-    if (startIndex < 0 || startIndex > endIndex || endIndex < 0) {
+    if (startIndex < 0 || startIndex > endIndex) {
       logger.error("getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + "), Error input parameters are wrong (result list size=" + list.size() + ")");
     } else {
       int realEndIndex = endIndex;
