@@ -8,17 +8,17 @@ import java.util.Date;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.BindingProvider;
+import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.webflow.context.ExternalContext;
 import org.springframework.webflow.core.collection.SharedAttributeMap;
-import org.springframework.webflow.executor.jsf.JsfExternalContext;
 
-import se.vgregion.kivtools.search.presentation.exceptions.UnsuccessfullRegistrationException;
+import se.vgregion.kivtools.search.presentation.exceptions.VardvalRegistrationException;
+import se.vgregion.kivtools.search.presentation.exceptions.VardvalSigningException;
 import se.vgregion.kivtools.search.presentation.types.SigningInformation;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
@@ -36,6 +36,7 @@ public class RegisterOnUnitController implements Serializable {
   private static final long serialVersionUID = 1L;
   private String signatureServiceEndpoint;
   private String serviceUrl;
+  private String externalApplicationURL;
   private Log logger = LogFactory.getLog(this.getClass());
   private VardvalService vardValService;
   private SearchService searchService;
@@ -72,24 +73,23 @@ public class RegisterOnUnitController implements Serializable {
     this.serviceUrl = serviceUrl;
   }
 
+  public void setExternalApplicationURL(String externalApplicationURL) {
+    this.externalApplicationURL = externalApplicationURL;
+  }
+
   /**
    * Prepare "confirm step" in registration process.
    * 
    * @param externalContext
    * @param selectedUnitId
    * @return
-   * @throws UnsuccessfullRegistrationException If there is a problem looking up the citizens current unit selection.
+   * @throws VardvalRegistrationException If there is a problem looking up the citizens current unit selection.
    */
-  public VardvalInfo getUnitRegistrationInformation(ExternalContext externalContext, String selectedUnitId) throws UnsuccessfullRegistrationException {
+  public VardvalInfo getUnitRegistrationInformation(ExternalContext externalContext, String selectedUnitId) throws VardvalRegistrationException {
 
     String ssnEncodedEncrypted = externalContext.getRequestParameterMap().get("iv-user");
 
     String decryptedSsn = EncryptionUtil.decrypt(ssnEncodedEncrypted, "ACME1234ACME1234QWERT123");
-
-    // FIXME Remove
-    if (decryptedSsn == null) {
-      decryptedSsn = "188803099368";
-    }
 
     // Get name from LDAP
     String name = getNameFromSsn(decryptedSsn);
@@ -121,9 +121,12 @@ public class RegisterOnUnitController implements Serializable {
       if (upcomingUnit != null) {
         vardvalInfo.setUpcomingUnitName(upcomingUnit.getName());
       }
+    } catch (SOAPFaultException sfe) {
+      externalContext.getSessionMap().put("selectedUnitId", selectedUnitId);
+      throw new VardvalRegistrationException(sfe.getMessage());
     } catch (Exception e) {
-      e.printStackTrace();
-      throw new UnsuccessfullRegistrationException(bundle.getString("registrationInvalidUnit"));
+      externalContext.getSessionMap().put("selectedUnitId", selectedUnitId);
+      throw new VardvalRegistrationException(bundle.getString("registrationInvalidUnit"));
     }
     vardvalInfo.setName(name);
     vardvalInfo.setSsn(decryptedSsn);
@@ -166,11 +169,7 @@ public class RegisterOnUnitController implements Serializable {
     externalContext.getSessionMap().put("artifact", artifact);
 
     // Construct redirect url
-    JsfExternalContext jsfExternalContext = (JsfExternalContext) externalContext;
-    HttpServletRequest httpServletRequest = (HttpServletRequest) jsfExternalContext.getFacesContext().getExternalContext().getRequest();
-    String urlToThisPage = httpServletRequest.getRequestURL().toString();
-
-    String targetUrl = urlToThisPage.substring(0, urlToThisPage.lastIndexOf("/") + 1) + "confirmationRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnitPostSign-flow";
+    String targetUrl = externalApplicationURL + "/confirmationRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnitPostSign-flow";
 
     // Redirect user to Signicat
     redirectUrl = serviceUrl + "&documentArtifact=" + artifact + "&target=" + encodeTargetUrl(targetUrl);
@@ -182,9 +181,10 @@ public class RegisterOnUnitController implements Serializable {
    * 
    * @param externalContext
    * @return
-   * @throws UnsuccessfullRegistrationException If there is a problem registering the citizens unit selection.
+   * @throws VardvalRegistrationException If there is a problem registering the citizens unit selection.
+   * @throws VardvalSigningException
    */
-  public VardvalInfo postCommitRegistrationOnUnit(ExternalContext externalContext) throws UnsuccessfullRegistrationException {
+  public VardvalInfo postCommitRegistrationOnUnit(ExternalContext externalContext) throws VardvalRegistrationException, VardvalSigningException {
 
     SigningInformation signingInformation = handleSamlResponse(externalContext);
 
@@ -204,10 +204,10 @@ public class RegisterOnUnitController implements Serializable {
         vardvalInfo.setName(name);
         vardvalInfo.setSelectedUnitName(selectedUnitName);
       } catch (IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage e) {
-        throw new UnsuccessfullRegistrationException(e.getMessage());
+        throw new VardvalRegistrationException(e.getMessage());
       }
     } else {
-      throw new UnsuccessfullRegistrationException(bundle.getString("registrationSigningFailed"));
+      throw new VardvalSigningException();
     }
     return vardvalInfo;
   }

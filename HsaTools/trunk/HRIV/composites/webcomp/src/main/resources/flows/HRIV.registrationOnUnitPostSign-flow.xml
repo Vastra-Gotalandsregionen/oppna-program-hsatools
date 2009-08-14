@@ -31,8 +31,12 @@
 		</bean-action>
 		<transition on="success" to="Display.registrationConfirmation" />
 		<transition
-			on-exception="se.vgregion.kivtools.search.presentation.exceptions.UnsuccessfullRegistrationException"
+			on-exception="se.vgregion.kivtools.search.presentation.exceptions.VardvalSigningException"
 			to="Display.signingError">
+		</transition>
+		<transition
+			on-exception="se.vgregion.kivtools.search.presentation.exceptions.VardvalRegistrationException"
+			to="Display.registrationError">
 		</transition>
 	</action-state>
 	
@@ -42,6 +46,11 @@
 	</view-state>
 
 	<view-state id="Display.signingError" view="/signingError.xhtml">
+		<transition on="gotoCaretypes" to="Display.caretypes" />
+		<transition on="gotoStartpage" to="Display.startpage" />
+	</view-state>
+
+	<view-state id="Display.registrationError" view="/registrationError.xhtml">
 		<transition on="gotoCaretypes" to="Display.caretypes" />
 		<transition on="gotoStartpage" to="Display.startpage" />
 	</view-state>
