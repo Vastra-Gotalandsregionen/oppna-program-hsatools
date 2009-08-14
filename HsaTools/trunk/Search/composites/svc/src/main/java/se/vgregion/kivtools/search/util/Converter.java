@@ -31,17 +31,18 @@ public class Converter {
   /**
    * Return array list of integers from array list of strings.
    * 
-   * @param stringArrayList
-   * @return
+   * @param strings The list of strings to convert to integers.
+   * @return A list of all integers found in the provided list of strings.
    */
-  public static ArrayList<Integer> getIntegerArrayList(List<String> stringArrayList) {
+  public static List<Integer> getIntegerArrayList(List<String> strings) {
     ArrayList<Integer> integerArrayList = new ArrayList<Integer>();
-    for (String s : stringArrayList) {
-      if (Evaluator.isInteger(s)) {
-        integerArrayList.add(Integer.parseInt(s));
+    if (strings != null) {
+      for (String s : strings) {
+        if (Evaluator.isInteger(s)) {
+          integerArrayList.add(Integer.parseInt(s));
+        }
       }
     }
     return integerArrayList;
   }
-
 }

@@ -27,10 +27,21 @@ import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.TimeMeasurement;
 
 /**
- * @author hangy2 , Hans Gyllensten / KnowIT
+ * Helper class for logging information on a search result.
  * 
+ * @author hangy2 , Hans Gyllensten / KnowIT
  */
 public class LogUtils {
+  /***
+   * Logs information on a search result.
+   * 
+   * @param obj The object that called the log method.
+   * @param methodName The method that called the the log method.
+   * @param overallTime The overall time the search took.
+   * @param logger The logger to use.
+   * @param list The list of search results.
+   * @throws SikInternalException If anything goes wrong.
+   */
   public static void printSikSearchResultListToLog(Object obj, String methodName, TimeMeasurement overallTime, Log logger, SikSearchResultList<?> list) throws SikInternalException {
     logger.info("*********************************************************");
     logger.info("Time measurements: " + obj.getClass().getSimpleName() + "::" + methodName);
