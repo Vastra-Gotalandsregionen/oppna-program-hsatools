@@ -68,6 +68,9 @@
 	</ui:define>
 
 	<ui:define name="MainContainer">
+	
+		<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=#{settings.googleMapsKey}" />
+	
 		<div class="yui-u search-result">
 
 		<h:outputText rendered="#{unit.hsaIdentity != null}">
