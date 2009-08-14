@@ -103,7 +103,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
   }
 
   /**
-   * Searches for personsby the criterias specified in the provided form.
+   * Searches for persons by the criterias specified in the provided form.
    * 
    * @param theForm The form with the search criterias.
    * @return A list of matching persons.
@@ -248,18 +248,16 @@ public class SearchPersonFlowSupportBean implements Serializable {
   }
 
   /**
-   * Return a list of PagedSearchMetaData objects which chops up the full list in to minor chunks Used in case of indexing all persons. Returns a list of page meta data.
+   * Return a list of PagedSearchMetaData objects which chops up the full list in to minor chunks. Used in case of indexing all persons.
    * 
    * @param pageSizeString The number of search results to show per page.
    * @return A list of PagedSearchMetaData objects.
    * @throws KivNoDataFoundException If no result was found.
    */
   public List<PagedSearchMetaData> getAllPersonsVgrIdPageList(String pageSizeString) throws KivNoDataFoundException {
+    List<PagedSearchMetaData> result;
     try {
-      PagedSearchMetaData metaData;
-      List<PagedSearchMetaData> result = new ArrayList<PagedSearchMetaData>();
       List<String> personVgrIdList = getSearchService().getAllPersonsId();
-      int size = personVgrIdList.size();
       if (Evaluator.isInteger(pageSizeString)) {
         int temp = Integer.parseInt(pageSizeString);
         if (temp > pageSize) {
@@ -267,28 +265,15 @@ public class SearchPersonFlowSupportBean implements Serializable {
           pageSize = temp;
         }
       }
-      int index = 0;
-      if (size > 0) {
-        while (index < size) {
-          metaData = new PagedSearchMetaData();
-          // 0 the first time
-          metaData.setStartIndex(index);
-          int endIndex = index + pageSize > size ? size - 1 : index + pageSize - 1;
-          // e.g. 274 the first time
-          metaData.setEndIndex(endIndex);
-          result.add(metaData);
-          // e.g. 275 the first time
-          index = index + pageSize;
-        }
-      }
-      return result;
+      result = PagedSearchMetaDataHelper.buildPagedSearchMetaData(personVgrIdList, pageSize);
     } catch (Exception e) {
       if (e instanceof KivNoDataFoundException) {
         throw (KivNoDataFoundException) e;
       }
       e.printStackTrace();
-      return new ArrayList<PagedSearchMetaData>();
+      result = new ArrayList<PagedSearchMetaData>();
     }
+    return result;
   }
 
   /**

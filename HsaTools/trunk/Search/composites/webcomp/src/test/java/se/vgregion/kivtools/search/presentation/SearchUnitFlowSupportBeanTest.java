@@ -19,7 +19,6 @@ package se.vgregion.kivtools.search.presentation;
 
 import static org.junit.Assert.*;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,14 +89,6 @@ public class SearchUnitFlowSupportBeanTest {
     result = bean.doSearch(form);
     assertNotNull(result);
     assertEquals(1, result.size());
-
-    this.searchService.addExceptionToThrow(new UnknownHostException());
-    try {
-      bean.doSearch(form);
-      fail("ClassCastException expected");
-    } catch (ClassCastException e) {
-      // Expected exception
-    }
   }
 
   @Test
