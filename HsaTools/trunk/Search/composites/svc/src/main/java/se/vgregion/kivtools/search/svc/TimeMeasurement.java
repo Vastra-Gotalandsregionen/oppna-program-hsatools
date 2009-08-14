@@ -22,36 +22,54 @@ package se.vgregion.kivtools.search.svc;
 
 import java.io.Serializable;
 
-import se.vgregion.kivtools.search.util.Extractor;
-
 /**
- * @author hangy2 , Hans Gyllensten / KnowIT
+ * Used for measuring.
  * 
- *         Used for measuring
+ * @author hangy2 , Hans Gyllensten / KnowIT
  */
 public class TimeMeasurement implements Serializable {
+  private static final long serialVersionUID = 1L;
 
   private Long startTime = Long.valueOf(0);
   private Long stopTime = Long.valueOf(0);
 
+  /**
+   * Constructs a new TimeMeasurement object.
+   */
   public TimeMeasurement() {
     super();
   }
 
+  /**
+   * Constructs a new TimeMeasurement object initialized to the provided value.
+   * 
+   * @param timeInMilliseconds The time in milli-seconds to initialize this object to.
+   */
   public TimeMeasurement(long timeInMilliseconds) {
     super();
     startTime = Long.valueOf(0);
     stopTime = Long.valueOf(timeInMilliseconds);
   }
 
+  /**
+   * Start measurement.
+   */
   public void start() {
-    startTime = Extractor.getNowAsLongObject();
+    startTime = System.currentTimeMillis();
   }
 
+  /**
+   * Stops measurement.
+   */
   public void stop() {
-    stopTime = Extractor.getNowAsLongObject();
+    stopTime = System.currentTimeMillis();
   }
 
+  /**
+   * Gets the last measurement in milli-seconds.
+   * 
+   * @return The time spent between the calls to start and stop in milli-seconds.
+   */
   public Long getElapsedTimeInMillisSeconds() {
     if (startTime == null || stopTime == null) {
       throw new RuntimeException("TimeMeasurement.getElapsedTimeInMillisSeconds, startTime or stopTime == null");
@@ -59,11 +77,23 @@ public class TimeMeasurement implements Serializable {
     return stopTime - startTime;
   }
 
+  /**
+   * Gets the last measurement in seconds.
+   * 
+   * @return The time spent between the calls to start and stop in seconds.
+   */
   public Long getElapsedTimeInSeconds() {
     return getElapsedTimeInMillisSeconds() / 1000;
   }
 
-  public TimeMeasurement add(TimeMeasurement t1, TimeMeasurement t2) {
+  /**
+   * Sums two TimeMeasurement objects.
+   * 
+   * @param t1 The first TimeMeasurement to sum.
+   * @param t2 The seconds TimeMeasurement to sum.
+   * @return A new TimeMeasurement with the elapsed time of the provided TimeMeasurement objects are summmed.
+   */
+  public static TimeMeasurement add(TimeMeasurement t1, TimeMeasurement t2) {
     TimeMeasurement t = new TimeMeasurement();
     t.startTime = Long.valueOf(0);
     t.stopTime = Long.valueOf(t1.getElapsedTimeInMillisSeconds() + t2.getElapsedTimeInMillisSeconds());
