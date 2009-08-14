@@ -30,6 +30,12 @@ import org.junit.Test;
 public class LdapParseTest {
 
   @Test
+  public void testInstantiation() {
+    LdapParse ldapParse = new LdapParse();
+    assertNotNull(ldapParse);
+  }
+
+  @Test
   public void testEscapeLDAPSearchFilter() {
     assertNull("Null input string should return null", LdapParse.escapeLDAPSearchFilter(null));
     assertEquals("No special characters to escape", "Hi This is a test #çà", LdapParse.escapeLDAPSearchFilter("Hi This is a test #çà"));

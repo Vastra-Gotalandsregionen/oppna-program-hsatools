@@ -27,6 +27,12 @@ public class EncryptionUtilTest {
   private static final String KEY = "ACME1234ACME1234QWERT123";
 
   @Test
+  public void testInstantiation() {
+    EncryptionUtil encryptionUtil = new EncryptionUtil();
+    assertNotNull(encryptionUtil);
+  }
+
+  @Test
   public void testEncryptNullValue() {
     assertNull("A null-value should be returned for a null input value", EncryptionUtil.encrypt(null, KEY));
   }

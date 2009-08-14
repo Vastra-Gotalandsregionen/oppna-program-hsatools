@@ -45,8 +45,8 @@ public class LdapParse {
   /**
    * Översätter ett string nummer till dag i klartext.
    * 
-   * @param number - String nummer mellan 0-6 representerar varsin dag.
-   * @return - String returnerar dag ex. "6" blir "Lördag".
+   * @param number String nummer mellan 0-6 representerar varsin dag.
+   * @return Den dag i klartext som motsvarar det inskickade nummret, t.ex. "6" blir "Lördag".
    */
   public static String getDayName(String number) {
     String dayName = dayNames.get(number);
@@ -61,7 +61,7 @@ public class LdapParse {
   /**
    * Filters the query, prevents ldap injection.
    * 
-   * @param filter
+   * @param filter The ldap search filter to perform escaping on.
    * @see http://www.owasp.org/index.php/Preventing_LDAP_Injection_in_Java
    * @return escaped ldap search filter
    */
