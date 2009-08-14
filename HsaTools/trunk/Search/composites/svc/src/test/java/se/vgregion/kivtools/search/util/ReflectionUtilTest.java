@@ -19,13 +19,14 @@ package se.vgregion.kivtools.search.util;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class ReflectionUtilTest {
 
-  @Before
-  public void setUp() throws Exception {
+  @Test
+  public void testInstantiation() {
+    ReflectionUtil reflectionUtil = new ReflectionUtil();
+    assertNotNull(reflectionUtil);
   }
 
   @Test
