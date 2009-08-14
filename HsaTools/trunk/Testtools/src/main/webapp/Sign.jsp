@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="/signicatws/SignServlet" method="post">
+<form action="SignServlet" method="post">
 <label for="ssn">ssn</label>
 <input name="ssn" type="text" value="${param.ssn}"/><br/>
 <label for="documentArtifact">documentArtifact</label>
