@@ -1,5 +1,6 @@
 package se.vgregion.kivtools.search.svc.ws.vardval;
 
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
 
 public interface VardvalService {
@@ -7,9 +8,10 @@ public interface VardvalService {
   /**
    * 
    * @param ssn Social Security Number in format: YYYYMMDDNNNN
+   * @throws IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage Exception from Vårdval service.
    * @return - Javabean
    */
-  VardvalInfo getVardval(String ssn);
+  VardvalInfo getVardval(String ssn) throws IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage;
 
   /**
    * 

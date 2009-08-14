@@ -9,6 +9,7 @@ import javax.xml.ws.BindingProvider;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.GetVårdvalRequest;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.GetVårdvalResponse;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalService;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.ObjectFactory;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalRequest;
@@ -37,9 +38,10 @@ public class VardvalServiceImpl implements VardvalService {
 
   /**
    * {@inheritDoc}
+   * 
    */
   @Override
-  public VardvalInfo getVardval(String ssn) {
+  public VardvalInfo getVardval(String ssn) throws IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage {
     GetVårdvalResponse response = getVardvalInfo(ssn);
     return generateVardvalInfo(response);
   }
@@ -89,8 +91,9 @@ public class VardvalServiceImpl implements VardvalService {
    * 
    * @param ssn - Social Security Number
    * @return - Soap response
+   * @throws IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage Exception from Vårdval service.
    */
-  private GetVårdvalResponse getVardvalInfo(String ssn) {
+  private GetVårdvalResponse getVardvalInfo(String ssn) throws IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage {
     JAXBElement<String> soapSsn = objectFactory.createGetVårdvalRequestPersonnummer(ssn);
     GetVårdvalRequest getVardvalRequest = objectFactory.createGetVårdvalRequest();
     getVardvalRequest.setPersonnummer(soapSsn);
