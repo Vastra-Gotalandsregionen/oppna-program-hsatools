@@ -3,11 +3,7 @@ package se.vgregion.kivtools.search.presentation;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,13 +12,10 @@ import se.vgregion.kivtools.search.common.Constants;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
-import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.DN;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 
 public class SearchPersonFlowSupportBeanTest {
   private static final String NULL = "null";
@@ -176,7 +169,7 @@ public class SearchPersonFlowSupportBeanTest {
     assertNotNull(result);
     assertEquals(0, result.size());
 
-    searchService.setExceptionToThrow(new KivNoDataFoundException());
+    searchService.addExceptionToThrow(new KivNoDataFoundException());
     try {
       bean.getAllPersonsVgrId();
       fail("KivNoDataFoundException expected");
@@ -184,7 +177,7 @@ public class SearchPersonFlowSupportBeanTest {
       // Expected exception
     }
 
-    searchService.setExceptionToThrow(new Exception());
+    searchService.addExceptionToThrow(new Exception());
     result = bean.getAllPersonsVgrId();
     assertNotNull(result);
     assertEquals(0, result.size());
@@ -211,7 +204,7 @@ public class SearchPersonFlowSupportBeanTest {
     assertNotNull(result);
     assertEquals(1, result.size());
 
-    searchService.setExceptionToThrow(new KivNoDataFoundException());
+    searchService.addExceptionToThrow(new KivNoDataFoundException());
     try {
       bean.getRangePersonsVgrIdPageList(0, 0);
       fail("KivNoDataFoundException expected");
@@ -242,7 +235,7 @@ public class SearchPersonFlowSupportBeanTest {
     assertNotNull(result);
     assertEquals(1, result.size());
 
-    searchService.setExceptionToThrow(new KivNoDataFoundException());
+    searchService.addExceptionToThrow(new KivNoDataFoundException());
     try {
       bean.getAllPersonsVgrIdPageList("1");
       fail("KivNoDataFoundException expected");
@@ -250,7 +243,7 @@ public class SearchPersonFlowSupportBeanTest {
       // Expected exception
     }
 
-    searchService.setExceptionToThrow(new Exception());
+    searchService.addExceptionToThrow(new Exception());
     result = bean.getAllPersonsVgrIdPageList("1");
     assertNotNull(result);
     assertEquals(0, result.size());
@@ -306,177 +299,5 @@ public class SearchPersonFlowSupportBeanTest {
     assertNotNull(result);
     // 1 result per page == 3 page metadata
     assertEquals(3, result.size());
-  }
-
-  // Mocks
-
-  class SearchServiceMock implements SearchService {
-    private int maxSearchResults = -1;
-
-    private SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
-    private Map<String, SikSearchResultList<Employment>> employments = new HashMap<String, SikSearchResultList<Employment>>();
-    private Map<String, Unit> units = new HashMap<String, Unit>();
-    private Map<String, SikSearchResultList<Person>> personsForUnit = new HashMap<String, SikSearchResultList<Person>>();
-    private Exception exceptionToThrow;
-    private List<String> allPersonsId = Collections.emptyList();
-
-    public void setPersons(SikSearchResultList<Person> persons) {
-      this.persons = persons;
-    }
-
-    public void addEmployment(String personDn, SikSearchResultList<Employment> employment) {
-      this.employments.put(personDn, employment);
-    }
-
-    public void addUnit(Unit unit) {
-      units.put(unit.getHsaIdentity(), unit);
-    }
-
-    public void addPersonsForUnit(Unit unit, SikSearchResultList<Person> persons) {
-      personsForUnit.put(unit.getHsaIdentity(), persons);
-    }
-
-    public void setExceptionToThrow(Exception exception) {
-      this.exceptionToThrow = exception;
-    }
-
-    public void setAllPersonsId(List<String> allPersonsId) {
-      this.allPersonsId = allPersonsId;
-    }
-
-    @Override
-    public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id, int maxResult) throws Exception {
-      this.maxSearchResults = maxResult;
-      return persons;
-    }
-
-    @Override
-    public SikSearchResultList<Employment> getEmployments(String personDn) throws Exception {
-      SikSearchResultList<Employment> result;
-      if (employments.containsKey(personDn)) {
-        result = employments.get(personDn);
-      } else {
-        result = new SikSearchResultList<Employment>();
-      }
-      return result;
-    }
-
-    @Override
-    public Unit getUnitByHsaId(String hsaId) throws Exception {
-      return units.get(hsaId);
-    }
-
-    @Override
-    public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws Exception {
-      return new SikSearchResultList<Unit>();
-    }
-
-    @Override
-    public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception {
-      SikSearchResultList<Person> result = new SikSearchResultList<Person>();
-      if (units != null) {
-        for (Unit unit : units) {
-
-          if (personsForUnit.containsKey(unit.getHsaIdentity())) {
-            result.addAll(personsForUnit.get(unit.getHsaIdentity()));
-          }
-        }
-      }
-      return result;
-    }
-
-    @Override
-    public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception {
-      return this.persons;
-    }
-
-    @Override
-    public SikSearchResultList<Person> searchPersons(String id, int maxSearchResult) throws Exception {
-      return this.persons;
-    }
-
-    @Override
-    public List<String> getAllPersonsId() throws Exception {
-      if (this.exceptionToThrow != null) {
-        throw this.exceptionToThrow;
-      }
-      return this.allPersonsId;
-    }
-
-    public void assertMaxSearchResults(int expected) {
-      assertEquals("Unexpected value for maxSearchResults", expected, this.maxSearchResults);
-    }
-
-    // Dummy implementations
-
-    @Override
-    public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception {
-      return null;
-    }
-
-    @Override
-    public List<String> getAllUnitsHsaIdentity() throws Exception {
-      return null;
-    }
-
-    @Override
-    public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
-      return null;
-    }
-
-    @Override
-    public List<Employment> getEmploymentsForPerson(Person person) throws Exception {
-      return null;
-    }
-
-    @Override
-    public List<HealthcareType> getHealthcareTypesList() throws Exception {
-      return null;
-    }
-
-    @Override
-    public Person getPersonByDN(DN dn) throws Exception {
-      return null;
-    }
-
-    @Override
-    public Person getPersonById(String id) throws Exception {
-      return null;
-    }
-
-    @Override
-    public Unit getUnitByDN(String dn) throws Exception {
-      return null;
-    }
-
-    @Override
-    public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws Exception {
-      return null;
-    }
-
-    @Override
-    public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
-      return null;
-    }
-
-    @Override
-    public SikSearchResultList<Person> searchPersons(String id) throws Exception {
-      return null;
-    }
-
-    @Override
-    public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id) throws Exception {
-      return null;
-    }
-
-    @Override
-    public SikSearchResultList<Unit> searchUnits(Unit unit) throws Exception {
-      return null;
-    }
-
-    @Override
-    public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws Exception {
-      return null;
-    }
   }
 }
