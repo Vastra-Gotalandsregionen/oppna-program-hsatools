@@ -1,8 +1,9 @@
 package se.vgregion.kivtools.search.presentation;
 
-import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.springframework.webflow.executor.jsf.JsfExternalContext;
 
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
 
@@ -97,7 +99,7 @@ public class RegisterOnUnitControllerTest {
     return mockSearchService;
   }
 
-  private VardvalService generateVardvalServiceMock() {
+  private VardvalService generateVardvalServiceMock() throws IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage {
     VardvalInfo vardvalInfo = new VardvalInfo();
     vardvalInfo.setCurrentHsaId(CURRENT_UNIT_ID);
     vardvalInfo.setUpcomingHsaId(UPCOMING_UNIT_ID);
