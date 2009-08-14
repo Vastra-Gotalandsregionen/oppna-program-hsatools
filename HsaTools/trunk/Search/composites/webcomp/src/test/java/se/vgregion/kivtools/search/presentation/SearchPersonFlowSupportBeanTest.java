@@ -177,6 +177,7 @@ public class SearchPersonFlowSupportBeanTest {
       // Expected exception
     }
 
+    searchService.clearExceptionsToThrow();
     searchService.addExceptionToThrow(new Exception());
     result = bean.getAllPersonsVgrId();
     assertNotNull(result);
@@ -243,6 +244,7 @@ public class SearchPersonFlowSupportBeanTest {
       // Expected exception
     }
 
+    searchService.clearExceptionsToThrow();
     searchService.addExceptionToThrow(new Exception());
     result = bean.getAllPersonsVgrIdPageList("1");
     assertNotNull(result);
