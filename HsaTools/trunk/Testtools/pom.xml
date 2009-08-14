@@ -57,7 +57,7 @@
 						</goals>
 						<configuration>
 							<wsdlUrls>
-								<wsdlUrl>https://test.signicat.com/signatureservice/services/signatureservice?wsdl</wsdlUrl>
+								<wsdlUrl>https://id.signicat.com/signatureservice/services/signatureservice?wsdl</wsdlUrl>
 							</wsdlUrls>
 							<packageName>se.vgregion.hsatools.testtools.signicatws.ws.domain</packageName>
 						</configuration>

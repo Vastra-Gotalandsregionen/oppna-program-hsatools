@@ -14,7 +14,7 @@
     	</description>
 		<display-name>SignServlet</display-name>
 		<servlet-name>SignServlet</servlet-name>
-		<servlet-class>hriv.signicatws.servlets.SignServlet</servlet-class>
+		<servlet-class>se.vgregion.hsatools.testtools.signicatws.servlets.SignServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>SignServlet</servlet-name>
