@@ -32,7 +32,7 @@
 
 	String cipherTextStringBase64Encoded = EncryptionUtil.encrypt(ssnFromWebSeal, "ACME1234ACME1234QWERT123");
 	String cipherTextStringBase64EncodedURLEncoded = URLEncoder.encode(cipherTextStringBase64Encoded, "ISO-8859-1");
-	String url = response.encodeRedirectURL("http://hriv.vgregion.se:8080/hriv/confirmRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnit-flow&hsaidentity="
+	String url = response.encodeRedirectURL("http://hittavard.vgregion.se/hriv/confirmRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnit-flow&hsaidentity="
 			+ request.getParameter("hsaidentity") + "&iv-user=" + cipherTextStringBase64EncodedURLEncoded);
 	response.sendRedirect(url);
 %>
