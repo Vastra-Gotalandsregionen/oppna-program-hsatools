@@ -41,7 +41,7 @@
 			</bean-action>
 		</render-actions>
 		<transition
-			on-exception="se.vgregion.kivtools.search.presentation.exceptions.UnsuccessfullRegistrationException"
+			on-exception="se.vgregion.kivtools.search.presentation.exceptions.VardvalRegistrationException"
 			to="Display.registrationError">
 		</transition>
 		<transition on="doConfirm" to="Action.preChangeRegistration" />

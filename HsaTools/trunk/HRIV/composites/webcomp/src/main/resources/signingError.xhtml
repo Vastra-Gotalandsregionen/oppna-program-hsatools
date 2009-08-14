@@ -44,7 +44,7 @@
 				<p>#{msg.signingErrorBody}</p>
 				
 				<h:outputText rendered="#{facesContext.externalContext.sessionMap.selectedUnitId != null}">
-					<a href="visaenhet?hsaidentity=#{facesContext.externalContext.sessionMap.selectedUnitId}" class="url">#{msg.signingErrorLink}</a>
+					<a href="visaenhet?hsaidentity=#{facesContext.externalContext.sessionMap.selectedUnitId}" class="url">#{msg.backToUnitLink}</a>
 				</h:outputText>
 			</div>
 		</div>

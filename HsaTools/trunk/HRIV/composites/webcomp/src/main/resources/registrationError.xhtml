@@ -41,7 +41,19 @@
 			<div id="print-area">
 				<h1>#{msg.registrationError}</h1>
 
-				<p>#{msg.registrationErrorBody}</p>
+				<h:outputText rendered="#{rootCauseException.message != null}">				
+					<p>#{rootCauseException.message}</p>
+				</h:outputText>
+				
+				<h:outputText rendered="#{rootCauseException.message == null}">				
+					<p>#{msg.registrationErrorBody}</p>
+				</h:outputText>
+				
+				
+				<h:outputText rendered="#{facesContext.externalContext.sessionMap.selectedUnitId != null}">
+					<a href="visaenhet?hsaidentity=#{facesContext.externalContext.sessionMap.selectedUnitId}" class="url">#{msg.backToUnitLink}</a>
+				</h:outputText>
+				
 			</div>
 		</div>
 	</ui:define>
