@@ -33,7 +33,7 @@
 			<property name="searchService" ref="Search.SearchService" />
 			<property name="maxSearchResult" ref="Search.MaxSearchResult"></property>
 			<property name="pageSize" value="85"></property>
-			<property name="googleMapsKeys" value="#{hsatools.hriv.webcomp.googleMapsKey}" />
+			<property name="googleMapsKey" value="#{hsatools.hriv.webcomp.googleMapsKey}" />
 			<property name="meters" value="#{hsatools.hriv.webcomp.metersToCloseUnits}" />
 			<property name="showUnitsWithTheseHsaBussinessClassificationCodes" value="#{hsatools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes}" />
 	</bean>

@@ -163,11 +163,7 @@ public class SearchUnitFlowSupportBeanTest {
 
   @Test
   public void testGetAllUnitsPageList() throws KivNoDataFoundException {
-    List<PagedSearchMetaData> result = bean.getAllUnitsPageList(null);
-    assertNotNull(result);
-    assertEquals(0, result.size());
-
-    result = bean.getAllUnitsPageList("1");
+    List<PagedSearchMetaData> result = bean.getAllUnitsPageList("1");
     assertNotNull(result);
     assertEquals(0, result.size());
 
@@ -298,10 +294,10 @@ public class SearchUnitFlowSupportBeanTest {
 
   @Test
   public void testSetGoogleMapsKey() {
-    bean.setGoogleMapsKeys("ABC-123");
+    bean.setGoogleMapsKey("ABC-123");
     assertEquals("ABC-123", bean.getGoogleMapsKey());
 
-    bean.setGoogleMapsKeys("DEF-234");
+    bean.setGoogleMapsKey("DEF-234");
     assertEquals("DEF-234", bean.getGoogleMapsKey());
   }
 

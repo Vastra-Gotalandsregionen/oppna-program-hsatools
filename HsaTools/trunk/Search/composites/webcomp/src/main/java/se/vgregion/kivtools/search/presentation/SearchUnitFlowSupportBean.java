@@ -37,6 +37,7 @@ import se.vgregion.kivtools.search.svc.domain.values.Address;
 import se.vgregion.kivtools.search.svc.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.LogUtils;
+import se.vgregion.kivtools.search.util.PagedSearchMetaDataHelper;
 import se.vgregion.kivtools.search.util.geo.GeoUtil;
 
 /**

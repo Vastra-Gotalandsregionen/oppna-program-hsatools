@@ -39,6 +39,7 @@ import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.LogUtils;
+import se.vgregion.kivtools.search.util.PagedSearchMetaDataHelper;
 
 /**
  * Support bean for the Search Person flow.

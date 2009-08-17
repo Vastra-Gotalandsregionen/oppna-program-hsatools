@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
+import se.vgregion.kivtools.search.util.PagedSearchMetaDataHelper;
 
 public class PagedSearchMetaDataHelperTest {
 
