@@ -46,6 +46,7 @@ import se.vgregion.kivtools.search.svc.domain.values.Address;
 import se.vgregion.kivtools.search.svc.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
+import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.LogUtils;
 import se.vgregion.kivtools.search.util.geo.GeoUtil;
 
@@ -114,10 +115,6 @@ public class SearchUnitFlowSupportBean implements Serializable {
 
   public void setPageSize(int pageSize) {
     this.pageSize = pageSize;
-  }
-
-  public void initalLoad() {
-    logger.info(CLASS_NAME + ".initalLoad()");
   }
 
   public void cleanSearchSimpleForm(UnitSearchSimpleForm theForm) {
@@ -224,11 +221,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
       }
       List<String> result = new ArrayList<String>();
       for (int position = startIndex; position <= endIndex; position++) {
-        try {
-          result.add(list.get(position));
-        } catch (Exception e) {
-          logger.error("Error in " + CLASS_NAME + "::getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + ") index position=" + position + " does not exist as expected", e);
-        }
+        result.add(list.get(position));
       }
       return result;
     } catch (Exception e) {
@@ -253,7 +246,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
       List<PagedSearchMetaData> result = new ArrayList<PagedSearchMetaData>();
       List<String> unitHsaIdList = getAllUnitsHsaIdentity(true);
       int size = unitHsaIdList.size();
-      if (isInteger(pageSizeString)) {
+      if (Evaluator.isInteger(pageSizeString)) {
         int temp = Integer.parseInt(pageSizeString);
         if (temp > pageSize) {
           // we can only increase the page size
@@ -325,19 +318,6 @@ public class SearchUnitFlowSupportBean implements Serializable {
       unit.setHealthcareTypes(healthcareTypes);
     }
     return unit;
-  }
-
-  public void logger() {
-    logger.info("Logger");
-  }
-
-  public boolean isInteger(String s) {
-    try {
-      Integer.parseInt(s);
-    } catch (Exception e) {
-      return false;
-    }
-    return true;
   }
 
   public ArrayList<Unit> getCloseUnits(DisplayCloseUnitsSimpleForm form) {
