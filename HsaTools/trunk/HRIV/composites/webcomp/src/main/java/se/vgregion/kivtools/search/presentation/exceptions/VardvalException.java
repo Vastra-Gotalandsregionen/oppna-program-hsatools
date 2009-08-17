@@ -11,16 +11,17 @@ public class VardvalException extends Exception {
   private static final long serialVersionUID = 1L;
 
   /**
-   * {@inheritDoc}
+   * Constructs a new VardvalException.
+   * 
+   * @param message The message to use.
    */
   public VardvalException(String message) {
     super(message);
   }
 
   /**
-   * {@inheritDoc}
+   * Constructs a new VardvalException.
    */
   public VardvalException() {
   }
-
 }

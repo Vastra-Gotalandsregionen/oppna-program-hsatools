@@ -10,7 +10,9 @@ public class VardvalRegistrationException extends VardvalException {
   private static final long serialVersionUID = 1L;
 
   /**
-   * {@inheritDoc}
+   * Constructs a new VardvalRegistrationException.
+   * 
+   * @param message The message to use.
    */
   public VardvalRegistrationException(String message) {
     super(message);
