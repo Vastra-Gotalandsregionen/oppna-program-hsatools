@@ -553,7 +553,10 @@ public class UnitRepository {
     List<String> filterList = new ArrayList<String>();
 
     String searchFilter = "(&(objectclass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")";
-
+    // should be part of vgr vardval. This filter can only be used if vgrVardval is true.
+    if (unit.isVgrVardVal()) {
+      addSearchFilter(filterList, "vgrVardval", LdapParse.escapeLDAPSearchFilter(LdapParse.convertBooleanToString(unit.isVgrVardVal())));
+    }
     // or criterias
     addSearchFilter(filterList, "hsaMunicipalityName", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
     if (unit.getHsaMunicipalityCode() != null) {

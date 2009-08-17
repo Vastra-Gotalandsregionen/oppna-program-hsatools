@@ -94,4 +94,24 @@ public class LdapParse {
     }
     return sb.toString();
   }
+  /**
+   * Convert boolean value to string value used in ldap.
+   * @param b boolean value to convert to string.
+   * @return J for true and N for false value.
+   */
+  public static String convertBooleanToString(boolean b) {
+    String value = "N";
+    if (b) {
+      value = "J";
+    }
+    return value;
+  }
+  /**
+   * Convert string to boolean.
+   * @param booleanStr ldap boolean string to convert.
+   * @return true for "J" otherwise false.
+   */
+  public static boolean convertStringToBoolean(String booleanStr) {
+    return "J".equalsIgnoreCase(booleanStr);
+  }
 }

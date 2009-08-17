@@ -330,7 +330,6 @@ public class SearchUnitFlowSupportBean implements Serializable {
 
     // unit name
     unit.setName(theForm.getUnitName());
-
     // hsaStreetAddress
     List<String> list = new ArrayList<String>();
     list.add(theForm.getMunicipality());
@@ -363,7 +362,12 @@ public class SearchUnitFlowSupportBean implements Serializable {
         healthcareTypes.add(ht);
       }
       unit.setHealthcareTypes(healthcareTypes);
+      // If vardcental is chosen as healthcare type, then only units with vgrVardval should be search for. 
+      if (unit.getHealthcareTypes().contains(htch.getHealthcareTypeByName("Vårdcentral"))){
+        unit.setVgrVardVal(true);
+      }
     }
+    
     return unit;
   }
 
