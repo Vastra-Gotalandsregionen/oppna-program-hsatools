@@ -17,6 +17,7 @@
  */
 package se.vgregion.kivtools.search.svc.domain;
 
+import java.text.Collator;
 import java.util.Comparator;
 
 /**
@@ -59,14 +60,17 @@ public class UnitCareTypeNameComparator implements Comparator<Unit> {
     // If unit1 lacks valid getHsaBusinessClassificationCode, put it last.
     // Same is true for unit2. If both unit1 and unit2 are missing a valid
     // getHsaBusinessClassificationCode, sort by unit name.
+
+    Collator myCollator = Collator.getInstance();
+
     if (businessCodeUnit1IsOK && businessCodeUnit2IsOK) {
-      return unit1HealthcareTypeDisplayName.toLowerCase().compareTo(unit2HealthcareTypeDisplayName.toLowerCase());
+      return myCollator.compare(unit1HealthcareTypeDisplayName.toLowerCase(), unit2HealthcareTypeDisplayName.toLowerCase());
     } else if (businessCodeUnit1IsOK && !businessCodeUnit2IsOK) {
       return -1;
     } else if (!businessCodeUnit1IsOK && businessCodeUnit2IsOK) {
       return 1;
     } else {
-      return unit1.getName().toLowerCase().compareTo(unit2.getName().toLowerCase());
+      return myCollator.compare(unit1.getName().toLowerCase(), unit2.getName().toLowerCase());
     }
   }
 }
