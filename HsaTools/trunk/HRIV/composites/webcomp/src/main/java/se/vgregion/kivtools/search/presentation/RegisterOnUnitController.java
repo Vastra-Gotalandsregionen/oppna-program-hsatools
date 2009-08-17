@@ -31,6 +31,7 @@ import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointIm
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
 import se.vgregion.kivtools.search.util.EncryptionUtil;
+import se.vgregion.kivtools.search.util.Evaluator;
 
 /**
  * Controller class for the process when a citizen registers on a unit.
@@ -53,7 +54,7 @@ public class RegisterOnUnitController implements Serializable {
    * Initializes the webservice endpoint for the signature service.
    */
   public void initEndpoint() {
-    if (!"".equalsIgnoreCase(signatureServiceEndpoint)) {
+    if (!Evaluator.isEmpty(signatureServiceEndpoint)) {
       BindingProvider bindingProvider = (BindingProvider) signatureservice;
       Map<String, Object> requestContext = bindingProvider.getRequestContext();
       requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, signatureServiceEndpoint);
@@ -236,7 +237,7 @@ public class RegisterOnUnitController implements Serializable {
     String name = sessionMap.getString("name");
 
     // Set new registration if same ssn etc
-    if (signingInformation.getNationalId() != null && signingInformation.getNationalId().equals(ssn) && signingInformation.getSamlResponse() != null) {
+    if (signingInformation.getNationalId() != null && signingInformation.getNationalId().equals(ssn)) {
       try {
         vardvalInfo = vardValService.setVardval(ssn, selectedUnitId, signingInformation.getSamlResponse().getBytes());
         vardvalInfo.setSsn(ssn);
@@ -297,7 +298,7 @@ public class RegisterOnUnitController implements Serializable {
     if (errorMessage == null) {
       // Get the SAML Assertion
       String samlAssertion = signatureservice.retrieveSaml(artifact);
-      if (samlAssertion == null || samlAssertion.length() == 0) {
+      if (Evaluator.isEmpty(samlAssertion)) {
         errorMessage = "SAML assertion was empty";
       }
 

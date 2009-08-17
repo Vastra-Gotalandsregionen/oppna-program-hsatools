@@ -89,12 +89,7 @@ public class RegisterOnUnitControllerTest {
 
   @Test
   public void testInitEndpoint() {
-    try {
-      registerOnUnitController.initEndpoint();
-      fail("IllegalArgumentException expected");
-    } catch (IllegalArgumentException e) {
-      // Expected exception
-    }
+    registerOnUnitController.initEndpoint();
 
     registerOnUnitController.setSignatureServiceEndpoint("http://localhost");
     registerOnUnitController.initEndpoint();
@@ -305,7 +300,6 @@ public class RegisterOnUnitControllerTest {
         + "           <ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:bearer\n" + "            </ConfirmationMethod>\n" + "          </SubjectConfirmation>\n" + "       </Subject>\n"
         + "       <Attribute AttributeName=\"security-level\"\n" + "          AttributeNamespace=\"signicat\">\n" + "         <AttributeValue>3</AttributeValue>\n" + "       </Attribute>\n"
         + "       <Attribute AttributeName=\"bankid-se\" AttributeNamespace=\"unique-id\">\n" + "         <AttributeValue></AttributeValue>\n" + "        </Attribute>\n"
-        + "       <Attribute AttributeName=\"se.persnr\" AttributeNamespace=\"national-id\">\n" + "         <AttributeValue></AttributeValue>\n" + "        </Attribute>\n"
         + "       <Attribute AttributeName=\"firstname\" AttributeNamespace=\"bankid-se\">\n" + "         <AttributeValue>Agda</AttributeValue>\n" + "        </Attribute>\n"
         + "       <Attribute AttributeName=\"lastname\" AttributeNamespace=\"bankid-se\">\n" + "          <AttributeValue>Andersson</AttributeValue>\n" + "       </Attribute>\n"
         + "       <Attribute AttributeName=\"plain-name\" AttributeNamespace=\"bankid-se\">\n" + "          <AttributeValue>Agda Andersson</AttributeValue>\n" + "        </Attribute>\n"
