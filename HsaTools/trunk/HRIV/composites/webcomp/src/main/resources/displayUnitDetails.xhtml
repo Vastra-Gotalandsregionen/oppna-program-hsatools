@@ -244,7 +244,7 @@
 							</tr>
 							<tr>
 								<th class="leftcol" id="telTimeHeaderCell">
-									<span class="grey-header">#{telTime}</span>
+									<span class="grey-header">#{msg.telTime}</span>
 								</th>
 								<td class="righttwocol" headers="telTimeHeaderCell">
 									<div jsfc="ui:repeat" value="#{unit.hsaTelephoneTime}" var="time">#{time.displayValue}</div>
@@ -255,7 +255,7 @@
 							</tr>
 							<tr>
 								<td colspan="2">
-									<a href="#{unit.labeledURI}" class="url">#{websiteOfTheUnit}</a>
+									<a href="#{unit.labeledURI}" class="url">#{msg.websiteOfTheUnit}</a>
 				                 	<h:outputText rendered="#{settings.testingMode==true and !unit.labeledURIIsValid}">
 										<span class="warning">labeledURI #{msg.missing} #{msg.orIncorrectProtocol}</span>
 									</h:outputText>
