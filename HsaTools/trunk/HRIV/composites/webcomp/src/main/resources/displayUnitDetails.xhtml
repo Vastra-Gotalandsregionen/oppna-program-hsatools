@@ -78,7 +78,7 @@
 				<h:outputText rendered="#{settings.showLinkToIM==true and settings.linkToIMOnServer==facesContext.externalContext.request.serverName}">
 					<a href="#{settings.linkToIMBase}#{unit.dnBase64}" class="url">#{msg.editInIM}</a>&#160; 
 				</h:outputText>
-						
+			
 				<h:outputText rendered="#{settings.usePrinting==true}">
 					<script type="text/javascript" charset="utf-8">
 						// <![CDATA[]
@@ -97,7 +97,7 @@
 					
 					<h:outputText rendered="#{unit.showInVgrVardVal == true}">
 						<div class="vardval-participant">
-							<img src="resources/images/Godk_symbol.JPG" alt="#{msg.includedInVGPrimarvard}" />
+							<img src="resources/images/Godk_symbol_unit_details.jpg" alt="#{msg.includedInVGPrimarvard}" />
 						</div>
 					</h:outputText>
 
@@ -231,9 +231,9 @@
 										<span class="warning">hsaPublicTelephoneNumber #{msg.missing}</span>
 									</h:outputText>
 								</td>
-								<td class="rightthreecol">
+								<td class="rightthreecol rightaligned">
 									<h:outputText rendered="#{settings.useMvk == 'true' and fn:length(unit.mvkCaseTypes) gt 0}">
-										<p><a href="#{settings.mvkLoginUrl}" class="url"><img src="resources/images/mvk-logo.gif" alt="#{msg.mvk}"/> #{msg.mvk}</a></p>
+										<p><a href="#{settings.mvkLoginUrl}" class="url"><img src="resources/images/mvk-logo.gif" alt="#{msg.mvkUnitDetails}"/> #{msg.mvkUnitDetails}</a></p>
 									</h:outputText>
 									
 									<h:outputText rendered="#{unit.showInVgrVardVal == true}">
