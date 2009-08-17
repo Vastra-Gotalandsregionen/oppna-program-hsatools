@@ -77,6 +77,10 @@ public class RegisterOnUnitController implements Serializable {
     this.externalApplicationURL = externalApplicationURL;
   }
 
+  protected void setSignatureService(SignatureEndpointImpl signatureService) {
+    this.signatureservice = signatureService;
+  }
+
   /**
    * Prepare "confirm step" in registration process.
    * 
