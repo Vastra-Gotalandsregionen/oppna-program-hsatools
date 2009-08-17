@@ -17,6 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.webflow.context.ExternalContext;
 import org.springframework.webflow.core.collection.SharedAttributeMap;
 
+import se.vgregion.kivtools.search.presentation.exceptions.VardvalException;
 import se.vgregion.kivtools.search.presentation.exceptions.VardvalRegistrationException;
 import se.vgregion.kivtools.search.presentation.exceptions.VardvalSigningException;
 import se.vgregion.kivtools.search.presentation.types.SigningInformation;
@@ -31,6 +32,9 @@ import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
 import se.vgregion.kivtools.search.util.EncryptionUtil;
 
+/**
+ * Controller class for the process when a citizen registers on a unit.
+ */
 public class RegisterOnUnitController implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -45,6 +49,9 @@ public class RegisterOnUnitController implements Serializable {
   private CitizenRepository citizenRepository;
   private final ResourceBundle bundle = ResourceBundle.getBundle("messagesVGR");
 
+  /**
+   * Initializes the webservice endpoint for the signature service.
+   */
   public void initEndpoint() {
     if (!"".equalsIgnoreCase(signatureServiceEndpoint)) {
       BindingProvider bindingProvider = (BindingProvider) signatureservice;
@@ -53,26 +60,56 @@ public class RegisterOnUnitController implements Serializable {
     }
   }
 
+  /**
+   * Setter for the CitizenRepository to use.
+   * 
+   * @param citizenRepository The CitizenRepository to use.
+   */
   public void setCitizenRepository(CitizenRepository citizenRepository) {
     this.citizenRepository = citizenRepository;
   }
 
+  /**
+   * Setter for the SearchService to use.
+   * 
+   * @param searchService The SearchService to use.
+   */
   public void setSearchService(SearchService searchService) {
     this.searchService = searchService;
   }
 
+  /**
+   * Setter for the VardvalService to use.
+   * 
+   * @param vardValService The VardvalService to use.
+   */
   public void setVardValService(VardvalService vardValService) {
     this.vardValService = vardValService;
   }
 
+  /**
+   * Setter for the signature service endpoint to use.
+   * 
+   * @param signatureServiceEndpoint The signature service endpoint to use.
+   */
   public void setSignatureServiceEndpoint(String signatureServiceEndpoint) {
     this.signatureServiceEndpoint = signatureServiceEndpoint;
   }
 
+  /**
+   * Setter for the service URL to redirect to for signing the registration.
+   * 
+   * @param serviceUrl The service URL to redirect to for signing the registration.
+   */
   public void setServiceUrl(String serviceUrl) {
     this.serviceUrl = serviceUrl;
   }
 
+  /**
+   * Setter for the external application URL for the signature service to redirect back to after signing the registration.
+   * 
+   * @param externalApplicationURL The external application URL for the signature service to redirect back to after signing the registration.
+   */
   public void setExternalApplicationURL(String externalApplicationURL) {
     this.externalApplicationURL = externalApplicationURL;
   }
@@ -84,9 +121,9 @@ public class RegisterOnUnitController implements Serializable {
   /**
    * Prepare "confirm step" in registration process.
    * 
-   * @param externalContext
-   * @param selectedUnitId
-   * @return
+   * @param externalContext The JSF external context.
+   * @param selectedUnitId The hsaIdentity of the selected unit to register on.
+   * @return A populated VardvalInfo object.
    * @throws VardvalRegistrationException If there is a problem looking up the citizens current unit selection.
    */
   public VardvalInfo getUnitRegistrationInformation(ExternalContext externalContext, String selectedUnitId) throws VardvalRegistrationException {
@@ -145,10 +182,9 @@ public class RegisterOnUnitController implements Serializable {
   /**
    * Prepare signature request.
    * 
-   * @param vardvalInfo
-   * @param externalContext
-   * @return redirectUrl The url to redirect to
-   * @throws UnsupportedEncodingException
+   * @param vardvalInfo A populated VardvalInfo object containing information on the citizen and the selected unit.
+   * @param externalContext The JSF external context.
+   * @return redirectUrl The url to redirect to.
    */
   public String preCommitRegistrationOnUnit(VardvalInfo vardvalInfo, ExternalContext externalContext) {
     String redirectUrl = "";
@@ -183,12 +219,11 @@ public class RegisterOnUnitController implements Serializable {
   /**
    * Returning from signature service (ie Signicat). Process Saml response and set registration in Vårdval system.
    * 
-   * @param externalContext
-   * @return
-   * @throws VardvalRegistrationException If there is a problem registering the citizens unit selection.
-   * @throws VardvalSigningException
+   * @param externalContext The JSF external context.
+   * @return A populated VardvalInfo object containing information on the current and upcoming unit registration.
+   * @throws VardvalException If there is a problem registering the citizens unit selection or during the signing phase of the process.
    */
-  public VardvalInfo postCommitRegistrationOnUnit(ExternalContext externalContext) throws VardvalRegistrationException, VardvalSigningException {
+  public VardvalInfo postCommitRegistrationOnUnit(ExternalContext externalContext) throws VardvalException {
 
     SigningInformation signingInformation = handleSamlResponse(externalContext);
 
@@ -239,46 +274,48 @@ public class RegisterOnUnitController implements Serializable {
     byte[] samlAssertionBytes = new byte[0];
     SigningInformation signingInformation = null;
 
-    try {
-      // Reads information stored in the session
-      SharedAttributeMap sessionMap = externalContext.getSessionMap();
-      String artifact = (String) sessionMap.get("artifact");
-      String url = (String) sessionMap.get("signatureservice.url");
-      String mimeType = (String) sessionMap.get("mimeType");
+    // Reads information stored in the session
+    SharedAttributeMap sessionMap = externalContext.getSessionMap();
+    String artifact = (String) sessionMap.get("artifact");
+    String url = (String) sessionMap.get("signatureservice.url");
+    String mimeType = (String) sessionMap.get("mimeType");
 
-      // Test the environment
-      if (artifact == null) {
-        errorMessage = "The artifact in the http session was null";
-      }
-      if (mimeType == null) {
-        errorMessage = "The mime type in the http session was null";
-      }
-      if (url == null) {
-        errorMessage = "The url in the http session was null";
+    // Test the environment
+    if (artifact == null) {
+      errorMessage = "The artifact in the http session was null";
+    }
+    if (mimeType == null) {
+      errorMessage = "The mime type in the http session was null";
+    }
+    if (url == null) {
+      errorMessage = "The url in the http session was null";
+    }
+
+    samlAssertionBytes = null;
+
+    // Download and save file if everything is ok so far
+    if (errorMessage == null) {
+      // Get the SAML Assertion
+      String samlAssertion = signatureservice.retrieveSaml(artifact);
+      if (samlAssertion == null || samlAssertion.length() == 0) {
+        errorMessage = "SAML assertion was empty";
       }
 
-      samlAssertionBytes = null;
-
-      // Download and save file if everything is ok so far
       if (errorMessage == null) {
-        // Get the SAML Assertion
-        String samlAssertion = signatureservice.retrieveSaml(artifact);
-        if (samlAssertion == null || samlAssertion.length() == 0) {
-          errorMessage = "SAML assertion was empty";
-        }
-
-        if (errorMessage == null) {
+        String samlAssertionString;
+        try {
           samlAssertionBytes = Base64.decodeBase64(samlAssertion.getBytes("UTF-8"));
-          String samlAssertionString = new String(samlAssertionBytes, "UTF-8");
-          signingInformation = SamlResponseHelper.getSigningInformation(samlAssertionString);
-        } else {
-          logger.error(errorMessage);
+          samlAssertionString = new String(samlAssertionBytes, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+          // Should not happen, re-throwing as RuntimeException.
+          throw new RuntimeException(e);
         }
+        signingInformation = SamlResponseHelper.getSigningInformation(samlAssertionString);
       } else {
         logger.error(errorMessage);
       }
-    } catch (Exception e) {
-      logger.error(errorMessage, e);
+    } else {
+      logger.error(errorMessage);
     }
     return signingInformation;
   }

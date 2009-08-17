@@ -31,6 +31,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
 
+import se.vgregion.kivtools.search.presentation.exceptions.VardvalException;
 import se.vgregion.kivtools.search.presentation.exceptions.VardvalRegistrationException;
 import se.vgregion.kivtools.search.presentation.exceptions.VardvalSigningException;
 import se.vgregion.kivtools.search.svc.domain.Unit;
@@ -197,7 +198,7 @@ public class RegisterOnUnitControllerTest {
   }
 
   @Test
-  public void testPostCommitRegistrationOnUnit() throws VardvalRegistrationException, VardvalSigningException, UnsupportedEncodingException {
+  public void testPostCommitRegistrationOnUnit() throws VardvalException, UnsupportedEncodingException {
     try {
       registerOnUnitController.postCommitRegistrationOnUnit(null);
       fail("NullPointerException expected");
