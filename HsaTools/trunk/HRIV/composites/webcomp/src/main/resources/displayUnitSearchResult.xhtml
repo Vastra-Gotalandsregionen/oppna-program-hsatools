@@ -85,7 +85,7 @@
 			</div>
 			<div id="search-result-caption-sort">
 				<h:outputText rendered="#{unitSearchSimpleForm.resultType lt 2 &amp;&amp; fn:length(units) gt 0}">
-					#{msg.sortHitsOn} <select name="sort" id="sort" onchange="var sortName = this.options[this.selectedIndex].value;document.searchUnitForm.elements['sortOrder'].value=sortName;document.searchUnitForm.elements['submitButton'].click();"><option value="UNIT_NAME">#{msg.unit}</option><option value="CARE_TYPE_NAME">#[msg.careType}</option></select>
+					#{msg.sortHitsOn} <select name="sort" id="sort" onchange="var sortName = this.options[this.selectedIndex].value;document.searchUnitForm.elements['sortOrder'].value=sortName;document.searchUnitForm.elements['submitButton'].click();"><option value="UNIT_NAME">#{msg.unit}</option><option value="CARE_TYPE_NAME">#{msg.careType}</option></select>
 				</h:outputText>
 			</div>
 
@@ -195,7 +195,7 @@
 					                 	</div>
 					                    
 										<h:outputText rendered="#{theUnit.showInVgrVardVal == true}">
-						                    <div class="vardval-participant">
+						                    <div class="vardval-participant-searchresult">
 						                    	<img src="resources/images/Godk_symbol.JPG" alt="#{msg.includedInVGPrimarvard}" />
 											</div>
 										</h:outputText>
