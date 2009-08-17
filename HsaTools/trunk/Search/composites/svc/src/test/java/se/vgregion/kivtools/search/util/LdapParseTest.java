@@ -57,4 +57,11 @@ public class LdapParseTest {
     assertEquals("Unexpected returned value for 7", "", LdapParse.getDayName("7"));
     assertEquals("Unexpected returned value for 10", "", LdapParse.getDayName("10"));
   }
+  @Test
+  public void testLdapBooleanConverter(){
+    assertEquals("J", LdapParse.convertBooleanToString(true));
+    assertEquals("N", LdapParse.convertBooleanToString(false));
+    assertTrue(LdapParse.convertStringToBoolean("J"));
+    assertFalse(LdapParse.convertStringToBoolean("N"));
+  }
 }

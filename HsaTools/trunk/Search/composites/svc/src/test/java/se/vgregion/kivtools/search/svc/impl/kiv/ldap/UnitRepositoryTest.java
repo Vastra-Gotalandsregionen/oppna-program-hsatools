@@ -117,6 +117,8 @@ public class UnitRepositoryTest {
     expect(mockUnit.getHsaIdentity()).andReturn("hsaId-1");
     expect(mockUnit.getHealthcareTypes()).andReturn(Arrays.asList(mockHealthcareType));
     expectLastCall().times(3);
+    expect(mockUnit.isVgrVardVal()).andReturn(true);
+    expectLastCall().anyTimes();
 
     replay(mockUnit, mockHealthcareType, mockLdapConnection, mockLdapConnectionPool, mockLdapSearchResults, mockUnitFactory);
 

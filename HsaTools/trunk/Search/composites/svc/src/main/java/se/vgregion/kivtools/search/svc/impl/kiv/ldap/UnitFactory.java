@@ -33,6 +33,7 @@ import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.svc.ldap.LdapORMHelper;
 import se.vgregion.kivtools.search.util.DisplayValueTranslator;
 import se.vgregion.kivtools.search.util.Formatter;
+import se.vgregion.kivtools.search.util.LdapParse;
 import se.vgregion.kivtools.search.util.geo.CoordinateTransformerService;
 import se.vgregion.kivtools.search.util.geo.GaussKrugerProjection;
 import se.vgregion.kivtools.search.util.geo.GeoUtil;
@@ -288,7 +289,7 @@ public class UnitFactory {
     htch.assignHealthcareTypes(unit);
 
     // Vårdval
-    unit.setVgrVardVal("J".equalsIgnoreCase(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrVardVal"))));
+    unit.setVgrVardVal(LdapParse.convertStringToBoolean(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrVardVal"))));
     assignCodeTableValuesToUnit(unit);
     return unit;
   }
