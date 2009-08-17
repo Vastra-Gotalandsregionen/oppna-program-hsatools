@@ -485,8 +485,12 @@ th.leftcol,.rightcol { /*margin-bottom: 0.5em;*/
 }
 
 .search-result .borderless .rightthreecol {
-	width: 15em;
+	width: 25em;
 	padding: 0.5em;
+}
+
+.rightaligned {
+	text-align: right;	
 }
 
 .search-result .borderless .rightfourcol { /*width: 10em;*/
@@ -965,6 +969,12 @@ div.autocomplete {
 	text-align: right;
 	padding: 2px;
 	float: left;
+}
+
+.vardval-participant-searchresult {
+	text-align: right;
+	padding: 2px;
+	float: right;
 }
 
 .confirm-registration-box {
