@@ -23,7 +23,7 @@
 
 <!--		<property name="externalApplicationURL" value="https://portal.proxy.vgregion.se/hriv" />-->
 			
-		<property name="externalApplicationURL" value="https://hittavard.vgregion.se/hriv" />
+		<property name="externalApplicationURL" value="http://hittavard.vgregion.se/hriv" />
 
 		<!-- To change from Test to prod, change test to id in the following urls -->
 		<property name="serviceUrl" value="https://id.signicat.com/std/method/vgr?method=sign" />
