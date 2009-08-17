@@ -17,39 +17,38 @@
  */
 package se.vgregion.kivtools.search.svc.domain;
 
+import java.text.Collator;
 import java.util.Comparator;
 
 import se.vgregion.kivtools.search.util.Evaluator;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
- *
- * Used to sort units by name
+ * 
+ *         Used to sort units by name
  */
 public class UnitNameComparator implements Comparator<Unit> {
 
-    /*
-     * Returns <0 if unit1<unit2 Returns 0 if unit1==unit2 Returns >0 if
-     * unit1>unit2
-     */
-    public int compare(Unit unit1, Unit unit2) {
-        if (unit1 == null) {
-            unit1 = new Unit();
-            unit1.setName("");
-        }
-        if (unit2 == null) {
-            unit2 = new Unit();
-            unit2.setName("");
-        }
-        if (Evaluator.isEmpty(unit1.getName())) {
-            unit1.setName("");
-        }
-        if (Evaluator.isEmpty(unit2.getName())) {
-            unit2.setName("");
-        }
-
-        return unit1.getName().toLowerCase().compareTo(
-                unit2.getName().toLowerCase());
+  /*
+   * Returns <0 if unit1<unit2 Returns 0 if unit1==unit2 Returns >0 if unit1>unit2
+   */
+  public int compare(Unit unit1, Unit unit2) {
+    if (unit1 == null) {
+      unit1 = new Unit();
+      unit1.setName("");
+    }
+    if (unit2 == null) {
+      unit2 = new Unit();
+      unit2.setName("");
+    }
+    if (Evaluator.isEmpty(unit1.getName())) {
+      unit1.setName("");
+    }
+    if (Evaluator.isEmpty(unit2.getName())) {
+      unit2.setName("");
     }
 
+    Collator myCollator = Collator.getInstance();
+    return myCollator.compare(unit1.getName().toLowerCase(), unit2.getName().toLowerCase());
+  }
 }
