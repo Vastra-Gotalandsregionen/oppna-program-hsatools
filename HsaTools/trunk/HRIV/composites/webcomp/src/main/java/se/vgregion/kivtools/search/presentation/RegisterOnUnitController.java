@@ -267,7 +267,11 @@ public class RegisterOnUnitController implements Serializable {
           samlAssertionBytes = Base64.decodeBase64(samlAssertion.getBytes("UTF-8"));
           String samlAssertionString = new String(samlAssertionBytes, "UTF-8");
           signingInformation = SamlResponseHelper.getSigningInformation(samlAssertionString);
+        } else {
+          logger.error(errorMessage);
         }
+      } else {
+        logger.error(errorMessage);
       }
     } catch (Exception e) {
       logger.error(errorMessage, e);
