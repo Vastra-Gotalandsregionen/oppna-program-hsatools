@@ -17,7 +17,7 @@
         http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd">
         
 	<var name="settings" bean="Search.SettingsContainer" />        
-    <var name="unitSearchSimpleForm" class="se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm" scope="flow" />
+    <var name="unitSearchSimpleForm" class="se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm" scope="flow" />
 	<var name="vardvalInfo" class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo" scope="flow" />
 
 	<start-state idref="Action.postChangeRegistration" />
@@ -31,11 +31,11 @@
 		</bean-action>
 		<transition on="success" to="Display.registrationConfirmation" />
 		<transition
-			on-exception="se.vgregion.kivtools.search.presentation.exceptions.VardvalSigningException"
+			on-exception="se.vgregion.kivtools.hriv.presentation.exceptions.VardvalSigningException"
 			to="Display.signingError">
 		</transition>
 		<transition
-			on-exception="se.vgregion.kivtools.search.presentation.exceptions.VardvalRegistrationException"
+			on-exception="se.vgregion.kivtools.hriv.presentation.exceptions.VardvalRegistrationException"
 			to="Display.registrationError">
 		</transition>
 	</action-state>

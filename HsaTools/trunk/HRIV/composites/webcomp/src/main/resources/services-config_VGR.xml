@@ -17,7 +17,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="Controller.registerOnUnit"
-		class="se.vgregion.kivtools.search.presentation.RegisterOnUnitController"
+		class="se.vgregion.kivtools.hriv.presentation.RegisterOnUnitController"
 		init-method="initEndpoint">
 <!--		<property name="externalApplicationURL" value="http://localhost:8180/HsaTools-HRIV-module-web" />-->
 
@@ -38,5 +38,4 @@
 		<property name="searchService" ref="Search.SearchService" />
 		<property name="citizenRepository" ref="Registration.citizenRepository" />
 	</bean>
-
 </beans>
