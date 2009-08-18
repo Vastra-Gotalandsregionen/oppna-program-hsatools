@@ -19,78 +19,102 @@ package se.vgregion.kivtools.search.svc.domain.values.accessibility;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class AccessibilityPackage implements Serializable {
+/**
+ * Representation of an Accessibiliity Package.
+ */
+public final class AccessibilityPackage implements Serializable {
   private static final long serialVersionUID = 1L;
   private String name = "";
   private ArrayList<ImageInfo> images = new ArrayList<ImageInfo>();
   private ArrayList<Criteria> criterias = new ArrayList<Criteria>();
   private String id;
 
-  public AccessibilityPackage(Node accessibilityPackage) {
+  /**
+   * Private constructor to prevent instantiation.
+   */
+  private AccessibilityPackage() {
+
+  }
+
+  /**
+   * Constructs a new AccessibilityPackage based on the provided XML-node.
+   * 
+   * @param node The XML-node to base the object on.
+   * @return An AccessibilityPackage populated from the provided XML-node.
+   */
+  public static AccessibilityPackage createAccessibilityPackageFromNode(Node node) {
+    AccessibilityPackage accessibilityPackage = new AccessibilityPackage();
+
     // Set id
-    NamedNodeMap attributes = accessibilityPackage.getAttributes();
-    if (attributes != null && attributes.getNamedItem("id") != null) {
-      id = attributes.getNamedItem("id").getTextContent() + "_" + System.currentTimeMillis();
+    String accessibilityPackageId = NodeHelper.getAttributeTextContent(node, "id");
+    if (accessibilityPackageId != null) {
+      accessibilityPackage.id = accessibilityPackageId + "_" + System.currentTimeMillis();
     }
 
     // Get criterias
-    NodeList accessibilityPackageChildren = accessibilityPackage.getChildNodes();
+    NodeList accessibilityPackageChildren = node.getChildNodes();
     for (int i = 0; i < accessibilityPackageChildren.getLength(); i++) {
       // If node name is objectName, set name
-      if (accessibilityPackageChildren.item(i).getNodeName().equals("objectName") || accessibilityPackageChildren.item(i).getNodeName().equals("name")) {
-        name = accessibilityPackageChildren.item(i).getTextContent();
+      if (NodeHelper.isNodeName(accessibilityPackageChildren.item(i), "objectName") || NodeHelper.isNodeName(accessibilityPackageChildren.item(i), "name")) {
+        accessibilityPackage.name = accessibilityPackageChildren.item(i).getTextContent();
       }
-      if ("images".equals(accessibilityPackageChildren.item(i).getNodeName())) {
+      if (NodeHelper.isNodeName(accessibilityPackageChildren.item(i), "images")) {
         for (int j = 0; j < accessibilityPackageChildren.item(i).getChildNodes().getLength(); j++) {
-          if ("image".equals(accessibilityPackageChildren.item(i).getChildNodes().item(j).getNodeName())) {
+          if (NodeHelper.isNodeName(accessibilityPackageChildren.item(i).getChildNodes().item(j), "image")) {
             ImageInfo imageInfo = ImageInfo.createImageInfoFromNode(accessibilityPackageChildren.item(i).getChildNodes().item(j));
-            images.add(imageInfo);
+            accessibilityPackage.images.add(imageInfo);
           }
         }
       }
-      if (accessibilityPackageChildren.item(i).getNodeName().equals("criteria")) {
+      if (NodeHelper.isNodeName(accessibilityPackageChildren.item(i), "criteria")) {
         Criteria criteria = new Criteria(accessibilityPackageChildren.item(i));
         if (!criteria.isHidden()) {
-          criterias.add(criteria);
+          accessibilityPackage.criterias.add(criteria);
         }
       }
     }
+    return accessibilityPackage;
   }
 
+  /**
+   * Getter for the id property.
+   * 
+   * @return The value of the id property.
+   */
   public String getId() {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
+  /**
+   * Getter for the name property.
+   * 
+   * @return The value of the name property.
+   */
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  /**
+   * Getter for the list of criterias this accessibility package contains.
+   * 
+   * @return The list of criterias this accessibility package contains.
+   */
+  public List<Criteria> getCriterias() {
+    return Collections.unmodifiableList(criterias);
   }
 
-  public ArrayList<Criteria> getCriterias() {
-    return criterias;
-  }
-
-  public void setCriterias(ArrayList<Criteria> criterias) {
-    this.criterias = criterias;
-  }
-
-  public ArrayList<ImageInfo> getImages() {
-    return images;
-  }
-
-  public void setImages(ArrayList<ImageInfo> images) {
-    this.images = images;
+  /**
+   * Getter for the list of images this accessibility package contains.
+   * 
+   * @return The list of images this accessibility package contains.
+   */
+  public List<ImageInfo> getImages() {
+    return Collections.unmodifiableList(images);
   }
 }
