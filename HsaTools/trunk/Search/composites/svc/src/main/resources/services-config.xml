@@ -31,7 +31,7 @@
 -->  	
 
 	<bean name="KivTools.CreateLinkLists" class="org.springframework.scheduling.quartz.JobDetailBean">
-	  <property name="jobClass" value="se.vgregion.kivtools.scheduler.LinkListGenerator" />
+	  <property name="jobClass" value="se.vgregion.kivtools.search.scheduler.LinkListGenerator" />
 	  <property name="jobDataAsMap">
 	  	<map>
 	  		<entry key="searchService" value-ref="Search.SearchService" />
