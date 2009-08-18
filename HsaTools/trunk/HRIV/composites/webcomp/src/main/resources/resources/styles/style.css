@@ -461,6 +461,7 @@ table.Employment,table.Employment th,table.Employment td {
 	width: 58.5em;
 	font-size: 1.0em;
 	margin: 0em;
+	float: left;
 }
 
 .search-result .borderless-no-width-limit {
@@ -686,6 +687,7 @@ a.unit {
 	vertical-align: middle;
 	padding: 15px;
 	font-size: 14px;
+	float: left;
 }
 
 .left {
