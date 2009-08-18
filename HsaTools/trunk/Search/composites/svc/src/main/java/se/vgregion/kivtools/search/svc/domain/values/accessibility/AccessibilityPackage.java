@@ -48,7 +48,7 @@ public class AccessibilityPackage implements Serializable {
       if ("images".equals(accessibilityPackageChildren.item(i).getNodeName())) {
         for (int j = 0; j < accessibilityPackageChildren.item(i).getChildNodes().getLength(); j++) {
           if ("image".equals(accessibilityPackageChildren.item(i).getChildNodes().item(j).getNodeName())) {
-            ImageInfo imageInfo = new ImageInfo(accessibilityPackageChildren.item(i).getChildNodes().item(j));
+            ImageInfo imageInfo = ImageInfo.createImageInfoFromNode(accessibilityPackageChildren.item(i).getChildNodes().item(j));
             images.add(imageInfo);
           }
         }

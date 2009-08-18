@@ -9,7 +9,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class BlockTest {
-  private static final Document DOC_WITH_CRITERIA = TestXmlHelper.getDocumentFromResource("testxml/doc_with_block.xml");
+  private static final Document DOC_WITH_CRITERIA = XmlHelper.getDocumentFromResource("testxml/doc_with_block.xml");
   private NodeList nodeList;
   private Block block;
 

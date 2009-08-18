@@ -8,7 +8,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 public class NodeHelperTest {
-  private static final Document DOC_WITH_CRITERIA = TestXmlHelper.getDocumentFromResource("testxml/doc_with_criteria.xml");
+  private static final Document DOC_WITH_CRITERIA = XmlHelper.getDocumentFromResource("testxml/doc_with_criteria.xml");
   private NodeList nodeList;
 
   @Before

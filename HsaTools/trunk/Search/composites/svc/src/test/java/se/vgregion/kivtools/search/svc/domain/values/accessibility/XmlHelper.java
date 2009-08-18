@@ -27,7 +27,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-public class TestXmlHelper {
+public class XmlHelper {
   public static Document getDocumentFromResource(String resourceName) {
     Document document;
     try {
