@@ -19,24 +19,18 @@ package se.vgregion.kivtools.search.svc.domain.values.accessibility;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 public class CriteriaTest {
   private static final String TEST_STRING = "test";
-  private static final Document DOC_WITH_CRITERIA = CriteriaTest.getDocumentFromResource("testxml/doc_with_criteria.xml");
+  private static final Document DOC_WITH_CRITERIA = TestXmlHelper.getDocumentFromResource("testxml/doc_with_criteria.xml");
   private NodeList nodeList;
   private Criteria criteria;
 
@@ -104,25 +98,5 @@ public class CriteriaTest {
     disabilities.add(TEST_STRING);
     criteria.setDisabilities(disabilities);
     assertEquals(1, criteria.getDisabilities().size());
-  }
-
-  private static Document getDocumentFromResource(String resourceName) {
-    Document document;
-    try {
-      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-      factory.setNamespaceAware(false);
-      factory.setValidating(false);
-      DocumentBuilder builder = factory.newDocumentBuilder();
-      InputStream inputStream = CriteriaTest.class.getClassLoader().getResourceAsStream(resourceName);
-      document = builder.parse(inputStream);
-    } catch (ParserConfigurationException e) {
-      throw new RuntimeException(e);
-    } catch (SAXException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-
-    return document;
   }
 }

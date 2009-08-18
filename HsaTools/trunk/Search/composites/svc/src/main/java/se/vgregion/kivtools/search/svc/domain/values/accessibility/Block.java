@@ -19,63 +19,87 @@ package se.vgregion.kivtools.search.svc.domain.values.accessibility;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class Block implements Serializable {
+/**
+ * Representation of a block of accessibility packages.
+ */
+public final class Block implements Serializable {
   private static final long serialVersionUID = 1L;
   private ArrayList<AccessibilityPackage> packages = new ArrayList<AccessibilityPackage>();
   private String id;
   private String name = "";
 
-  public Block(Node block) {
+  /**
+   * Private constructor to prevent instantiation.
+   */
+  private Block() {
+  }
+
+  /**
+   * Constructs a new Block based on the provided XML-node.
+   * 
+   * @param node The XML-node to base the object on.
+   * @return A Block populated from the provided XML-node.
+   */
+  public static Block createBlockFromNode(Node node) {
+    Block block = new Block();
+
     // Set id
-    NamedNodeMap attributes = block.getAttributes();
-    if (attributes != null && attributes.getNamedItem("id") != null) {
-      id = attributes.getNamedItem("id").getTextContent() + "_" + Math.random();
+    String blockId = NodeHelper.getAttributeTextContent(node, "id");
+    if (blockId != null) {
+      block.id = blockId + "_" + Math.random();
     }
 
-    if (attributes != null && attributes.getNamedItem("fkSystemObjectId") != null) {
-      id = attributes.getNamedItem("fkSystemObjectId").getTextContent() + "_" + Math.random();
+    String fkSystemObjectId = NodeHelper.getAttributeTextContent(node, "fkSystemObjectId");
+    if (fkSystemObjectId != null) {
+      block.id = fkSystemObjectId + "_" + Math.random();
     }
 
     // Get packages
-    NodeList blockChildren = block.getChildNodes();
+    NodeList blockChildren = node.getChildNodes();
     for (int i = 0; i < blockChildren.getLength(); i++) {
       // If node name is objectName, set name
-      if (blockChildren.item(i).getNodeName().equals("objectName") || blockChildren.item(i).getNodeName().equals("name")) {
-        name = blockChildren.item(i).getTextContent();
+      if (NodeHelper.isNodeName(blockChildren.item(i), "objectName") || NodeHelper.isNodeName(blockChildren.item(i), "name")) {
+        block.name = blockChildren.item(i).getTextContent();
       }
-      if (blockChildren.item(i).getNodeName().equals("package")) {
+      if (NodeHelper.isNodeName(blockChildren.item(i), "package")) {
         AccessibilityPackage accessibilityPackage = new AccessibilityPackage(blockChildren.item(i));
-        packages.add(accessibilityPackage);
+        block.packages.add(accessibilityPackage);
       }
     }
+
+    return block;
   }
 
+  /**
+   * Getter for the id property.
+   * 
+   * @return The value of the id property.
+   */
   public String getId() {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  /**
+   * Getter for the list of accessibility packages this block contains.
+   * 
+   * @return The list of accessibility packages this block contains.
+   */
+  public List<AccessibilityPackage> getPackages() {
+    return Collections.unmodifiableList(packages);
   }
 
-  public ArrayList<AccessibilityPackage> getPackages() {
-    return packages;
-  }
-
-  public void setPackages(ArrayList<AccessibilityPackage> packages) {
-    this.packages = packages;
-  }
-
+  /**
+   * Getter for the name property.
+   * 
+   * @return The value of the name property.
+   */
   public String getName() {
     return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 }

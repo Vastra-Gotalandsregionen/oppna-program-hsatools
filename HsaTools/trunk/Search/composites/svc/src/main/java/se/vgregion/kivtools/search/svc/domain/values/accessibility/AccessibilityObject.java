@@ -50,7 +50,7 @@ public class AccessibilityObject implements Serializable {
         updateStamp = subObjectChildren.item(i).getTextContent();
       }
       if (subObjectChildren.item(i).getNodeName().equals("block")) {
-        Block block = new Block(subObjectChildren.item(i));
+        Block block = Block.createBlockFromNode(subObjectChildren.item(i));
         blocks.add(block);
       }
     }

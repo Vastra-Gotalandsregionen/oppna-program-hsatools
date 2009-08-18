@@ -21,7 +21,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -62,15 +61,15 @@ public class Criteria implements Serializable {
    */
   public Criteria(Node criteria) {
     // Set name, status and type
-    String criteriaName = Criteria.getAttribute(criteria, "objectName");
+    String criteriaName = NodeHelper.getAttributeTextContent(criteria, "objectName");
     if (criteriaName != null) {
       name = criteriaName + "_" + System.currentTimeMillis();
     }
-    String status = Criteria.getAttribute(criteria, "status");
+    String status = NodeHelper.getAttributeTextContent(criteria, "status");
     if ("16".equals(status)) {
       hidden = true;
     }
-    String type = Criteria.getAttribute(criteria, "type");
+    String type = NodeHelper.getAttributeTextContent(criteria, "type");
     if ("1".equals(type)) {
       notice = true;
     }
@@ -79,16 +78,16 @@ public class Criteria implements Serializable {
     // Loop through child nodes of criteria element
     for (int i = 0; i < criteriaChildren.getLength(); i++) {
       // Set disabilities
-      if ("Disabilities".equals(criteriaChildren.item(i).getNodeName())) {
+      if (NodeHelper.isNodeName(criteriaChildren.item(i), "Disabilities")) {
         List<String> nodeDisabilities = Criteria.getDisabilities(criteriaChildren.item(i));
         disabilities.addAll(nodeDisabilities);
       }
       // Add bCriterias
-      if ("bcriteria".equals(criteriaChildren.item(i).getNodeName())) {
+      if (NodeHelper.isNodeName(criteriaChildren.item(i), "bcriteria")) {
         additionalCriterias.add(criteriaChildren.item(i).getTextContent());
       }
       // Set description
-      if ("input".equals(criteriaChildren.item(i).getNodeName())) {
+      if (NodeHelper.isNodeName(criteriaChildren.item(i), "input")) {
         description = criteriaChildren.item(i).getTextContent();
       }
     }
@@ -241,25 +240,5 @@ public class Criteria implements Serializable {
     }
 
     return disabilities;
-  }
-
-  /**
-   * Helper-method to get the text content of a named attribute from a Node.
-   * 
-   * @param node The Node to get the attribute from.
-   * @param attributeName The name of the attribute to get.
-   * @return The text content of the named attribute or null if the attribute was not found.
-   */
-  private static String getAttribute(Node node, String attributeName) {
-    String attribute = null;
-
-    NamedNodeMap attributes = node.getAttributes();
-    if (attributes != null) {
-      Node attributeNode = attributes.getNamedItem(attributeName);
-      if (attributeNode != null) {
-        attribute = attributeNode.getTextContent();
-      }
-    }
-    return attribute;
   }
 }
