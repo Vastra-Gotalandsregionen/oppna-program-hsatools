@@ -43,6 +43,6 @@ public class AccessibilityPackageTest {
     accessibilityPackage = AccessibilityPackage.createAccessibilityPackageFromNode(node);
     assertEquals("name", accessibilityPackage.getName());
     assertEquals(1, accessibilityPackage.getImages().size());
-
+    assertEquals(0, accessibilityPackage.getCriterias().size());
   }
 }
