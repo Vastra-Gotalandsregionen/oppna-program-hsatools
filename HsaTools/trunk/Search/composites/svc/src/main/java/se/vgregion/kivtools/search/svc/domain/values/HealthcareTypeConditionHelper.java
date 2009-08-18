@@ -48,7 +48,7 @@ public class HealthcareTypeConditionHelper {
 
   private static List<HealthcareType> allHealthcareTypes = new ArrayList<HealthcareType>();
   private static Set<String> allConditionKeys = new HashSet<String>();
-  private Log logger = LogFactory.getLog(this.getClass());
+  private static final Log LOGGER = LogFactory.getLog(HealthcareTypeConditionHelper.class);
 
   private String implResourcePath;
 
@@ -97,7 +97,7 @@ public class HealthcareTypeConditionHelper {
     unit.setHealthcareTypes(healthcareTypesToBeAdded);
 
     long endTimeMillis = System.currentTimeMillis();
-    logger.debug("Assigning health care type for " + unit.getHsaIdentity() + " took: " + (endTimeMillis - startTimeMillis) + " milliseconds.");
+    LOGGER.debug("Assigning health care type for " + unit.getHsaIdentity() + " took: " + (endTimeMillis - startTimeMillis) + " milliseconds.");
 
     return unit;
   }
