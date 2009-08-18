@@ -32,13 +32,6 @@ import java.io.Serializable;
 public class SikInternalException extends KivException implements Serializable{
 
     /**
-     * @param message
-     */
-    private SikInternalException(String message) {
-        super(message);
-    }
-
-    /**
      * 
      * @param obj   usually "this" then this is used to construct the qualified name of the class
      *              where the problem occurred.
@@ -49,9 +42,5 @@ public class SikInternalException extends KivException implements Serializable{
         super(SikInternalException.class.getName() + 
                 ", message=" + message + 
                 ", Method=" + obj.getClass().getName() + ".." + methodName);
-    }
-
-    private SikInternalException() {
-        super("");
     }
 }
