@@ -46,11 +46,9 @@ public class NodeHelper {
     String attribute = null;
 
     NamedNodeMap attributes = node.getAttributes();
-    if (attributes != null) {
-      Node attributeNode = attributes.getNamedItem(attributeName);
-      if (attributeNode != null) {
-        attribute = attributeNode.getTextContent();
-      }
+    Node attributeNode = attributes.getNamedItem(attributeName);
+    if (attributeNode != null) {
+      attribute = attributeNode.getTextContent();
     }
     return attribute;
   }
