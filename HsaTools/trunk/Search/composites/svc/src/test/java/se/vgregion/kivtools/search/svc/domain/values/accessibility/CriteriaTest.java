@@ -30,7 +30,7 @@ import org.w3c.dom.NodeList;
 
 public class CriteriaTest {
   private static final String TEST_STRING = "test";
-  private static final Document DOC_WITH_CRITERIA = TestXmlHelper.getDocumentFromResource("testxml/doc_with_criteria.xml");
+  private static final Document DOC_WITH_CRITERIA = XmlHelper.getDocumentFromResource("testxml/doc_with_criteria.xml");
   private NodeList nodeList;
   private Criteria criteria;
 

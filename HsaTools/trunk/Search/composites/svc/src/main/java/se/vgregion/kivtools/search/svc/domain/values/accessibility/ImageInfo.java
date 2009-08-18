@@ -22,7 +22,10 @@ import java.io.Serializable;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ImageInfo implements Serializable {
+/**
+ * Representation of an image for an accessibility package.
+ */
+public final class ImageInfo implements Serializable {
 
   private static final long serialVersionUID = 1L;
   private String url;
@@ -31,56 +34,76 @@ public class ImageInfo implements Serializable {
   private String shortDescription;
   private String longDescription;
 
-  public ImageInfo(Node imageInfo) {
-    NodeList imageChildren = imageInfo.getChildNodes();
+  /**
+   * Private constructor to prevent instantiation.
+   */
+  private ImageInfo() {
+  }
+
+  /**
+   * Constructs a new ImageInfo based on the provided XML-node.
+   * 
+   * @param node The XML-node to base the object on.
+   * @return An ImageInfo populated from the provided XML-node.
+   */
+  public static ImageInfo createImageInfoFromNode(Node node) {
+    ImageInfo imageInfo = new ImageInfo();
+
+    NodeList imageChildren = node.getChildNodes();
     // Loop through child nodes of image element
     for (int i = 0; i < imageChildren.getLength(); i++) {
       // Set url
-      if ("URL".equals(imageChildren.item(i).getNodeName())) {
-        url = imageChildren.item(i).getTextContent();
-        if (url.indexOf("small") >= 0) {
-          urlLarge = url.replaceAll("small", "large");
+      if (NodeHelper.isNodeName(imageChildren.item(i), "URL")) {
+        imageInfo.url = imageChildren.item(i).getTextContent();
+        if (imageInfo.url.indexOf("small") >= 0) {
+          imageInfo.urlLarge = imageInfo.url.replaceAll("small", "large");
         }
       }
       // Set short and long description
-      if ("ShortValue".equals(imageChildren.item(i).getNodeName())) {
-        shortDescription = imageChildren.item(i).getTextContent();
+      if (NodeHelper.isNodeName(imageChildren.item(i), "ShortValue")) {
+        imageInfo.shortDescription = imageChildren.item(i).getTextContent();
       }
-      if ("LongValue".equals(imageChildren.item(i).getNodeName())) {
-        longDescription = imageChildren.item(i).getTextContent();
+      if (NodeHelper.isNodeName(imageChildren.item(i), "LongValue")) {
+        imageInfo.longDescription = imageChildren.item(i).getTextContent();
       }
     }
+
+    return imageInfo;
   }
 
+  /**
+   * Getter for the urlLarge property.
+   * 
+   * @return The value of the urlLarge property.
+   */
   public String getUrlLarge() {
     return urlLarge;
   }
 
-  public void setUrlLarge(String urlLarge) {
-    this.urlLarge = urlLarge;
-  }
-
+  /**
+   * Getter for the url property.
+   * 
+   * @return The value of the url property.
+   */
   public String getUrl() {
     return url;
   }
 
-  public void setUrl(String url) {
-    this.url = url;
-  }
-
+  /**
+   * Getter for the shortDescription property.
+   * 
+   * @return The value of the shortDescription property.
+   */
   public String getShortDescription() {
     return shortDescription;
   }
 
-  public void setShortDescription(String shortDescription) {
-    this.shortDescription = shortDescription;
-  }
-
+  /**
+   * Getter for the longDescription property.
+   * 
+   * @return The value of the longDescription property.
+   */
   public String getLongDescription() {
     return longDescription;
-  }
-
-  public void setLongDescription(String longDescription) {
-    this.longDescription = longDescription;
   }
 }
