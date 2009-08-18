@@ -232,10 +232,7 @@ public class Criteria implements Serializable {
     for (int j = 0; j < disabilitiesElements.getLength(); j++) {
       Node disableElement = disabilitiesElements.item(j);
       if (disableElement.getNodeType() == Node.ELEMENT_NODE) {
-        String nodeName = disableElement.getNodeName();
-        if (nodeName != null) {
-          disabilities.add(nodeName);
-        }
+        disabilities.add(disableElement.getNodeName());
       }
     }
 
