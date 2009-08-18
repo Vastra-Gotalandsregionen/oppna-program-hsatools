@@ -5,14 +5,14 @@
 	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="unitDetailsEndpoint"
-		class="se.vgregion.kivtools.search.intsvc.ws.sahlgrenska.UnitDetailsEndpoint">
+		class="se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska.UnitDetailsEndpoint">
 		<constructor-arg ref="jaxbMarshaller" />
 		<constructor-arg ref="jaxbMarshaller" />
 		<property name="unitDetailsService" ref="unitDetailsService" />
 	</bean>
 
 	<bean id="unitDetailsService"
-		class="se.vgregion.kivtools.search.intsvc.ws.sahlgrenska.UnitDetailsServiceImpl">
+		class="se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska.UnitDetailsServiceImpl">
 		<property name="unitRepository" ref="Search.UnitRepository" />
 	</bean>
 
@@ -48,7 +48,7 @@
 	<bean id="Commons.FtpClient" class="org.apache.commons.net.ftp.FTPClient" />
 	<bean id="jsch" class="com.jcraft.jsch.JSch" />
 
-	<bean id="Transfer.ftp" class="se.vgregion.kivtools.search.intsvc.ws.eniro.SftpClientImpl">
+	<bean id="Transfer.ftp" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.SftpClientImpl">
 		<property name="jsch" ref="jsch" />
 		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
 		<property name="hostname" value="webbservern2" />
@@ -57,7 +57,7 @@
 		<property name="port" value="22" />
 	</bean>
 
-<!-- 	<bean id="Transfer.ftp" class="se.vgregion.kivtools.search.intsvc.ws.eniro.FtpClientImpl">
+<!-- 	<bean id="Transfer.ftp" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClientImpl">
 		<property name="ftpclient" ref="Commons.FtpClient" />
 		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
 		<property name="hostname" value="leverans.prod.eniro.net" />
@@ -68,7 +68,7 @@
 -->
 
 	<bean id="Push.Eniro"
-		class="se.vgregion.kivtools.search.intsvc.ws.eniro.InformationPusherEniro">
+		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro">
 		<property name="ftpClient" ref="Transfer.ftp" />
 		<property name="unitRepository" ref="Search.UnitRepository" />
 		<property name="lastExistingUnitsFile" value="/tmp/leuf.txt" />

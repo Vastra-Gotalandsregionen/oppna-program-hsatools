@@ -83,7 +83,7 @@
 	</filter>
 	<filter>
 		<filter-name>Character encoding</filter-name>
-		<filter-class>se.vgregion.kivtools.filters.SetCharacterEncodingFilter</filter-class>
+		<filter-class>se.vgregion.kivtools.hriv.filters.SetCharacterEncodingFilter</filter-class>
 	</filter>
 	
 	<!--
@@ -230,7 +230,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>suggestions</servlet-name>
-		<servlet-class>se.vgregion.kivtools.servlets.Suggestions</servlet-class>
+		<servlet-class>se.vgregion.kivtools.hriv.servlets.Suggestions</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
@@ -239,7 +239,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>proxy</servlet-name>
-		<servlet-class>se.vgregion.kivtools.servlets.Proxy</servlet-class>
+		<servlet-class>se.vgregion.kivtools.hriv.servlets.Proxy</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
@@ -248,7 +248,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>sitemap</servlet-name>
-		<servlet-class>se.vgregion.kivtools.servlets.Sitemap</servlet-class>
+		<servlet-class>se.vgregion.kivtools.hriv.servlets.Sitemap</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
@@ -256,7 +256,7 @@
 		</description>
 		<display-name>Sitemap</display-name>
 		<servlet-name>Sitemap</servlet-name>
-		<servlet-class>se.vgregion.kivtools.servlets.Sitemap</servlet-class>
+		<servlet-class>se.vgregion.kivtools.hriv.servlets.Sitemap</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>sitemap</servlet-name>

@@ -26,10 +26,10 @@
 	<import resource="services-config_VGR.xml"/>
 
 	<bean id="Search.HandleErrorFlowSupportBean"
-	class="se.vgregion.kivtools.search.presentation.HandleErrorFlowSupportBean"></bean>
+	class="se.vgregion.kivtools.hriv.presentation.HandleErrorFlowSupportBean"></bean>
 	
 	<bean id="Search.SearchUnitFlowSupportBean"
-		class="se.vgregion.kivtools.search.presentation.SearchUnitFlowSupportBean">
+		class="se.vgregion.kivtools.hriv.presentation.SearchUnitFlowSupportBean">
 			<property name="searchService" ref="Search.SearchService" />
 			<property name="maxSearchResult" ref="Search.MaxSearchResult"></property>
 			<property name="pageSize" value="85"></property>
@@ -38,20 +38,20 @@
 			<property name="showUnitsWithTheseHsaBussinessClassificationCodes" value="#{hsatools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes}" />
 	</bean>
 
-	<bean id="Search.SuggestionsSupportBean" class="se.vgregion.kivtools.search.presentation.SuggestionsSupportBean">
+	<bean id="Search.SuggestionsSupportBean" class="se.vgregion.kivtools.hriv.presentation.SuggestionsSupportBean">
 		<property name="searchUnitFlowSupportBean" ref="Search.SearchUnitFlowSupportBean"/>
 	</bean>
 
 	<bean id="Search.UnitSearchSimpleFormValidator"		
-		class="se.vgregion.kivtools.search.validation.UnitSearchSimpleFormValidator">
+		class="se.vgregion.kivtools.hriv.validation.UnitSearchSimpleFormValidator">
 	</bean>
 
 	<bean id="Search.UserMessageSupportBean"
-		class="se.vgregion.kivtools.search.presentation.forms.UserMessageSupportBean">
+		class="se.vgregion.kivtools.hriv.presentation.forms.UserMessageSupportBean">
 	</bean>
 	
 	<bean id="Display.DisplayUnitDetailsFlowSupportBean"
-		class="se.vgregion.kivtools.search.presentation.DisplayUnitDetailsFlowSupportBean">
+		class="se.vgregion.kivtools.hriv.presentation.DisplayUnitDetailsFlowSupportBean">
 			<property name="searchService" ref="Search.SearchService" />
 			<property name="useMvkIntegration" value="#{hsatools.hriv.webcomp.useMvk}" />
 			<property name="mvkGuid" value="#{hsatools.hriv.webcomp.mvkGuid}" />
@@ -62,7 +62,7 @@
 		<constructor-arg index="0" value="500" type="java.lang.String"/>
 	</bean>
 
-	<bean id="Search.SettingsContainer" class="se.vgregion.kivtools.search.presentation.SettingsBean" scope="prototype">
+	<bean id="Search.SettingsContainer" class="se.vgregion.kivtools.hriv.presentation.SettingsBean" scope="prototype">
 		<property name="resourceBundleInclude" value="#{hsatools.hriv.webcomp.resourceBundleInclude}" />
 		<property name="vardValInclude" value="#{hsatools.hriv.webcomp.vardValInclude}" />
 		<property name="testingMode" value="#{hsatools.hriv.webcomp.testingMode}" />
@@ -105,14 +105,14 @@
 		<property name="informationArea" value="#{hsatools.hriv.webcomp.informationArea}" />
 	</bean>
 
-	<bean id="Display.DisplayAccessibilityDatabaseBean" class="se.vgregion.kivtools.search.presentation.DisplayAccessibilityDatabaseBean">
+	<bean id="Display.DisplayAccessibilityDatabaseBean" class="se.vgregion.kivtools.hriv.presentation.DisplayAccessibilityDatabaseBean">
 			<property name="useAccessibilityDatabaseIntegration" value="#{hsatools.hriv.webcomp.useAccessibilityDatabaseIntegration}" />
 			<property name="accessibilityDatabaseIntegrationGetIdUrl" value="#{hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetIdUrl}" />
 			<property name="accessibilityDatabaseIntegrationGetInfoUrl" value="#{hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetInfoUrl}" />
 	</bean>
 
 	<bean id="propertyPlaceholderWebcomp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:se/vgregion/kivtools/search/presentation/kiv/hriv-composite-webcomp.properties" />
+		<property name="location" value="classpath:se/vgregion/kivtools/hriv/presentation/kiv/hriv-composite-webcomp.properties" />
 		<property name="placeholderPrefix" value="#{" />
 		<property name="fileEncoding" value="UTF-8" />
 	</bean>
