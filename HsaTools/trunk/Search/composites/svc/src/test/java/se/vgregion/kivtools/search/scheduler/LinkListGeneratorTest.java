@@ -14,7 +14,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.scheduler.LinkListGenerator;
 import se.vgregion.kivtools.search.svc.SearchService;
 /**
  * Made test for this class, but doesn't know if it still is used in production.

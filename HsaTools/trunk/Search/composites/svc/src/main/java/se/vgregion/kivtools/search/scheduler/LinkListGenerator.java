@@ -18,7 +18,7 @@
 /**
  * 
  */
-package se.vgregion.kivtools.scheduler;
+package se.vgregion.kivtools.search.scheduler;
 
 import java.io.File;
 import java.io.FileWriter;
