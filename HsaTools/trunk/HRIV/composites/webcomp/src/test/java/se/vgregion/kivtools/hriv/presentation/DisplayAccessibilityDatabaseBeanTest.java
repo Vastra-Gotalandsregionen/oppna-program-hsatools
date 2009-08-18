@@ -22,6 +22,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -33,7 +34,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import se.vgregion.kivtools.hriv.presentation.DisplayAccessibilityDatabaseBean;
 import se.vgregion.kivtools.hriv.presentation.forms.AccessibilityDatabaseFilterForm;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityInformation;
@@ -107,7 +107,7 @@ public class DisplayAccessibilityDatabaseBeanTest {
     bean.filterAccessibilityDatabaseInfo(unit, form);
 
     Block block = businessObject.getBlocks().get(0);
-    ArrayList<Criteria> criterias = block.getPackages().get(0).getCriterias();
+    List<Criteria> criterias = block.getPackages().get(0).getCriterias();
 
     assertFalse(criterias.get(0).getShow());
     assertTrue(criterias.get(1).getShow());

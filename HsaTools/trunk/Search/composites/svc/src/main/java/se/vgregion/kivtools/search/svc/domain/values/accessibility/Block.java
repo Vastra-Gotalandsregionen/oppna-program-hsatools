@@ -68,7 +68,7 @@ public final class Block implements Serializable {
         block.name = blockChildren.item(i).getTextContent();
       }
       if (NodeHelper.isNodeName(blockChildren.item(i), "package")) {
-        AccessibilityPackage accessibilityPackage = new AccessibilityPackage(blockChildren.item(i));
+        AccessibilityPackage accessibilityPackage = AccessibilityPackage.createAccessibilityPackageFromNode(blockChildren.item(i));
         block.packages.add(accessibilityPackage);
       }
     }
