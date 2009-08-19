@@ -19,72 +19,96 @@ package se.vgregion.kivtools.search.svc.domain.values.accessibility;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class AccessibilityObject implements Serializable {
+/**
+ * Representation of an accessibility object.
+ */
+public final class AccessibilityObject implements Serializable {
   private static final long serialVersionUID = 1L;
   private ArrayList<Block> blocks = new ArrayList<Block>();
   private String name = "";
   private String id;
   private String updateStamp;
 
-  // Create business object and sub objects
-  public AccessibilityObject(Node subObject) {
+  /**
+   * Private constructor to prevent instantiation.
+   */
+  private AccessibilityObject() {
+  }
+
+  /**
+   * Constructs a new AccessibilityObject based on the provided XML-node.
+   * 
+   * @param node The XML-node to base the object on.
+   * @return An AccessibilityObject populated from the provided XML-node.
+   */
+  public static AccessibilityObject createAccessibilityObjectFromNode(Node node) {
+    AccessibilityObject accessibilityObject = new AccessibilityObject();
+
     // Set id
-    NamedNodeMap attributes = subObject.getAttributes();
-    if (attributes != null && attributes.getNamedItem("id") != null) {
-      id = attributes.getNamedItem("id").getTextContent() + "_" + System.currentTimeMillis();
+    String accessibilityObjectId = NodeHelper.getAttributeTextContent(node, "id");
+
+    if (accessibilityObjectId != null) {
+      accessibilityObject.id = accessibilityObjectId + "_" + System.currentTimeMillis();
     }
 
     // Get blocks
-    NodeList subObjectChildren = subObject.getChildNodes();
+    NodeList subObjectChildren = node.getChildNodes();
     for (int i = 0; i < subObjectChildren.getLength(); i++) {
       // If node name is objectName or name, set name
-      if ("objectName".equals(subObjectChildren.item(i).getNodeName()) || "name".equals(subObjectChildren.item(i).getNodeName())) {
-        name = subObjectChildren.item(i).getTextContent();
+      if (NodeHelper.isNodeName(subObjectChildren.item(i), "objectName") || NodeHelper.isNodeName(subObjectChildren.item(i), "name")) {
+        accessibilityObject.name = subObjectChildren.item(i).getTextContent();
       }
-      if ("updateStamp".equals(subObjectChildren.item(i).getNodeName())) {
-        updateStamp = subObjectChildren.item(i).getTextContent();
+      if (NodeHelper.isNodeName(subObjectChildren.item(i), "updateStamp")) {
+        accessibilityObject.updateStamp = subObjectChildren.item(i).getTextContent();
       }
-      if (subObjectChildren.item(i).getNodeName().equals("block")) {
+      if (NodeHelper.isNodeName(subObjectChildren.item(i), "block")) {
         Block block = Block.createBlockFromNode(subObjectChildren.item(i));
-        blocks.add(block);
+        accessibilityObject.blocks.add(block);
       }
     }
+
+    return accessibilityObject;
   }
 
+  /**
+   * Getter for the updateStamp property.
+   * 
+   * @return The value of the updateStamp property.
+   */
   public String getUpdateStamp() {
     return updateStamp;
   }
 
-  public void setUpdateStamp(String updateStamp) {
-    this.updateStamp = updateStamp;
-  }
-
+  /**
+   * Getter for the id property.
+   * 
+   * @return The value of the id property.
+   */
   public String getId() {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
+  /**
+   * Getter for the name property.
+   * 
+   * @return The value of the name property.
+   */
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public ArrayList<Block> getBlocks() {
-    return blocks;
-  }
-
-  public void setBlocks(ArrayList<Block> blocks) {
-    this.blocks = blocks;
+  /**
+   * Getter for the list of blocks of this accessibility object.
+   * 
+   * @return A list of Block objects.
+   */
+  public List<Block> getBlocks() {
+    return Collections.unmodifiableList(blocks);
   }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+	<object>
+	</object>
+	<object id="testid">
+		<objectName>objectName</objectName>
+	</object>
+	<object>
+		<name>name</name>
+		<block></block>
+		<updateStamp>stamp1234</updateStamp>
+	</object>
+</doc>

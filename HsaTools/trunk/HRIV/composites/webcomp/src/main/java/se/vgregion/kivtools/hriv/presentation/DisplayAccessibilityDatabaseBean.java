@@ -105,20 +105,18 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
     NodeList businessObjectNodeList = doc.getElementsByTagName("businessobject");
     AccessibilityObject businessObject = null;
     for (int i = 0; i < businessObjectNodeList.getLength(); i++) {
-      businessObject = new AccessibilityObject(businessObjectNodeList.item(i));
+      businessObject = AccessibilityObject.createAccessibilityObjectFromNode(businessObjectNodeList.item(i));
     }
 
     // Get sub objects
     NodeList subObjectNodeList = doc.getElementsByTagName("subobject");
     ArrayList<AccessibilityObject> subObjects = new ArrayList<AccessibilityObject>();
     for (int i = 0; i < subObjectNodeList.getLength(); i++) {
-      AccessibilityObject subObject = new AccessibilityObject(subObjectNodeList.item(i));
+      AccessibilityObject subObject = AccessibilityObject.createAccessibilityObjectFromNode(subObjectNodeList.item(i));
       subObjects.add(subObject);
     }
 
-    AccessibilityInformation accessibilityInformation = new AccessibilityInformation();
-    accessibilityInformation.setBusinessObject(businessObject);
-    accessibilityInformation.setSubObjects(subObjects);
+    AccessibilityInformation accessibilityInformation = new AccessibilityInformation(businessObject, subObjects);
     u.setAccessibilityInformation(accessibilityInformation);
     urlConnection.disconnect();
   }
