@@ -16,21 +16,23 @@ import org.xml.sax.SAXException;
 
 import se.vgregion.kivtools.hriv.presentation.types.SigningInformation;
 
+/**
+ * Helper-class for parsing a SAML-response.
+ * 
+ * @author Jonas Liljenfeldt & Joakim Olsson
+ */
 public class SamlResponseHelper {
 
+  /**
+   * Gets signing information from a SAML-response.
+   * 
+   * @param samlAssertionString The SAML-response as a String.
+   * @return A populated SigningInformation object.
+   */
   public static SigningInformation getSigningInformation(String samlAssertionString) {
 
-    String nationalId = null;
-    try {
-      Document document = getDocument(samlAssertionString);
-      nationalId = getNationalId(document);
-    } catch (SAXException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    } catch (ParserConfigurationException e) {
-      throw new RuntimeException(e);
-    }
+    Document document = getDocument(samlAssertionString);
+    String nationalId = getNationalId(document);
     return new SigningInformation(nationalId, samlAssertionString);
   }
 
@@ -54,13 +56,21 @@ public class SamlResponseHelper {
     return nationalId;
   }
 
-  private static Document getDocument(String samlAssertionString) throws ParserConfigurationException, SAXException, IOException {
-    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-    StringReader stringReader = new StringReader(samlAssertionString);
-    InputSource inputSource = new InputSource(stringReader);
+  private static Document getDocument(String samlAssertionString) {
     Document document;
-    document = documentBuilder.parse(inputSource);
+    try {
+      DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+      StringReader stringReader = new StringReader(samlAssertionString);
+      InputSource inputSource = new InputSource(stringReader);
+      document = documentBuilder.parse(inputSource);
+    } catch (ParserConfigurationException e) {
+      throw new RuntimeException(e);
+    } catch (SAXException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     return document;
   }
 }
