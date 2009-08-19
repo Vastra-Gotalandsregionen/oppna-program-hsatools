@@ -100,6 +100,7 @@
 		<property name="geoRegion" value="#{hsatools.hriv.webcomp.geoRegion}" />
 		<property name="mobileUrl" value="#{hsatools.hriv.webcomp.mobileUrl}" />
 		<property name="informationArea" value="#{hsatools.hriv.webcomp.informationArea}" />
+		<property name="externalApplicationURL" value="#{hsatools.hriv.webcomp.externalApplicationURL}" />
 	</bean>
 
 	<bean id="Display.DisplayAccessibilityDatabaseBean" class="se.vgregion.kivtools.hriv.presentation.DisplayAccessibilityDatabaseBean">
