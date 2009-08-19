@@ -25,9 +25,6 @@
 	<!-- Import customized bean configurations for chosen project. -->
 	<import resource="services-config_VGR.xml"/>
 
-	<bean id="Search.HandleErrorFlowSupportBean"
-	class="se.vgregion.kivtools.search.presentation.HandleErrorFlowSupportBean"></bean>
-	
 	<bean id="Search.SearchUnitFlowSupportBean"
 		class="se.vgregion.kivtools.search.presentation.SearchUnitFlowSupportBean">
 			<property name="searchService" ref="Search.SearchService" />
