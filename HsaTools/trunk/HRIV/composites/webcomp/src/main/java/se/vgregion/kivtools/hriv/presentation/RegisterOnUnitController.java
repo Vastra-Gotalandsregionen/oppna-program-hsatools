@@ -131,7 +131,7 @@ public class RegisterOnUnitController implements Serializable {
 
     String ssnEncodedEncrypted = externalContext.getRequestParameterMap().get("iv-user");
 
-    String decryptedSsn = EncryptionUtil.decrypt(ssnEncodedEncrypted, "ACME1234ACME1234QWERT123");
+    String decryptedSsn = EncryptionUtil.decrypt(ssnEncodedEncrypted);
 
     // Get name from LDAP
     String name = getNameFromSsn(decryptedSsn);
