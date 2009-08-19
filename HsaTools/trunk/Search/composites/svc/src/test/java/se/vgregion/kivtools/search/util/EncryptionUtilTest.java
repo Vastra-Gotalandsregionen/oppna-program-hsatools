@@ -17,14 +17,22 @@
  */
 package se.vgregion.kivtools.search.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class EncryptionUtilTest {
   private static final String ENCRYPTED_VALUE = "GQ7WwYfjYMqyJqCRafOTPQ==";
   private static final String DECRYPTED_VALUE = "DecryptedValue";
   private static final String KEY = "ACME1234ACME1234QWERT123";
+
+  @Before
+  public void setup() {
+    System.setProperty(EncryptionUtil.KEY_PROPERTY, KEY);
+  }
 
   @Test
   public void testInstantiation() {
@@ -34,31 +42,33 @@ public class EncryptionUtilTest {
 
   @Test
   public void testEncryptNullValue() {
-    assertNull("A null-value should be returned for a null input value", EncryptionUtil.encrypt(null, KEY));
+    assertNull("A null-value should be returned for a null input value", EncryptionUtil.encrypt(null));
   }
 
   @Test
   public void testEncryptNullKey() {
-    assertNull("A null-value should be returned for a null input key", EncryptionUtil.encrypt(DECRYPTED_VALUE, null));
+    System.getProperties().remove(EncryptionUtil.KEY_PROPERTY);
+    assertNull("A null-value should be returned for a null input key", EncryptionUtil.encrypt(DECRYPTED_VALUE));
   }
 
   @Test
   public void testEncrypt() {
-    assertEquals("Unexpected encrypted value", ENCRYPTED_VALUE, EncryptionUtil.encrypt(DECRYPTED_VALUE, KEY));
+    assertEquals("Unexpected encrypted value", ENCRYPTED_VALUE, EncryptionUtil.encrypt(DECRYPTED_VALUE));
   }
 
   @Test
   public void testDecryptNullValue() {
-    assertNull("A null-value should be returned for a null input value", EncryptionUtil.decrypt(null, KEY));
+    assertNull("A null-value should be returned for a null input value", EncryptionUtil.decrypt(null));
   }
 
   @Test
   public void testDecryptNullKey() {
-    assertNull("A null-value should be returned for a null input key", EncryptionUtil.decrypt(ENCRYPTED_VALUE, null));
+    System.getProperties().remove(EncryptionUtil.KEY_PROPERTY);
+    assertNull("A null-value should be returned for a null input key", EncryptionUtil.decrypt(ENCRYPTED_VALUE));
   }
 
   @Test
   public void testDecrypt() {
-    assertEquals("Unexpected encrypted value", DECRYPTED_VALUE, EncryptionUtil.decrypt(ENCRYPTED_VALUE, KEY));
+    assertEquals("Unexpected encrypted value", DECRYPTED_VALUE, EncryptionUtil.decrypt(ENCRYPTED_VALUE));
   }
 }

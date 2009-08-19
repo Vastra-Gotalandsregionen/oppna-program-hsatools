@@ -38,15 +38,18 @@ import org.apache.commons.codec.binary.Base64;
  */
 public class EncryptionUtil {
 
+  public static final String KEY_PROPERTY = "ssnEncryptionKey";
+
   /**
    * Encrypts the provided value using the provided key.
    * 
    * @param value The value to encrypt.
-   * @param key The key to use to encrypt the value.
    * @return The encrypted Base64-encoded string.
    */
-  public static String encrypt(String value, String key) {
+  public static String encrypt(String value) {
     String encryptedString = null;
+
+    String key = System.getProperty(KEY_PROPERTY);
 
     if (value != null && key != null) {
       byte[] preSharedKey = key.getBytes();
@@ -81,11 +84,11 @@ public class EncryptionUtil {
    * Decrypts the provided value using the provided key.
    * 
    * @param value The Base64-encoded value to decrypt.
-   * @param key The key to use to decrypt the value.
    * @return The decrypted string.
    */
-  public static String decrypt(String value, String key) {
+  public static String decrypt(String value) {
     String decryptedString = null;
+    String key = System.getProperty(KEY_PROPERTY);
 
     if (value != null && key != null) {
       byte[] encryptedByteArray = Base64.decodeBase64(value.getBytes());
