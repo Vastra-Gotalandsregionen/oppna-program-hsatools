@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,8 +80,6 @@ public class MvkClient {
     } catch (MalformedURLException e) {
       logger.error("MVK url no good: " + mvkUrlString, e);
     }
-    // FIXME should not be used anymore because it destroys keystore that is used by ssl soap in VardvalService
-    // trustAllHttpsCertificates();
     HttpURLConnection urlConnection;
     BufferedInputStream in = null;
     try {
@@ -127,47 +123,5 @@ public class MvkClient {
       caseTypes.add(caseTypesNodeList.item(i).getTextContent());
     }
     u.setMvkCaseTypes(caseTypes);
-  }
-
-  public static class MiTM implements javax.net.ssl.TrustManager, javax.net.ssl.X509TrustManager {
-    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-      return null;
-    }
-
-    public boolean isServerTrusted(java.security.cert.X509Certificate[] certs) {
-      return true;
-    }
-
-    public boolean isClientTrusted(java.security.cert.X509Certificate[] certs) {
-      return true;
-    }
-
-    public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) throws java.security.cert.CertificateException {
-      return;
-    }
-
-    public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) throws java.security.cert.CertificateException {
-      return;
-    }
-  }
-
-  /**
-   * @see http://www.java-samples.com/showtutorial.php?tutorialid=211
-   */
-  private static void trustAllHttpsCertificates() {
-    // Create a trust manager that does not validate certificate chains:
-    javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[1];
-    javax.net.ssl.TrustManager tm = new MiTM();
-    trustAllCerts[0] = tm;
-    javax.net.ssl.SSLContext sc = null;
-    try {
-      sc = javax.net.ssl.SSLContext.getInstance("SSL");
-      sc.init(null, trustAllCerts, null);
-    } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
-    } catch (KeyManagementException e) {
-      e.printStackTrace();
-    }
-    javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
   }
 }

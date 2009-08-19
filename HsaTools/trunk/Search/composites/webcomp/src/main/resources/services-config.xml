@@ -47,10 +47,6 @@
 			<property name="pageSize" value="250"></property>
 	</bean>
 
-	<bean id="Search.UserMessageSupportBean"
-		class="se.vgregion.kivtools.search.presentation.forms.UserMessageSupportBean">
-	</bean>
-	
 	<bean id="Display.DisplayPersonDetailsFlowSupportBean"
 		class="se.vgregion.kivtools.search.presentation.DisplayPersonDetailsFlowSupportBean">
 			<property name="searchService" ref="Search.SearchService" />

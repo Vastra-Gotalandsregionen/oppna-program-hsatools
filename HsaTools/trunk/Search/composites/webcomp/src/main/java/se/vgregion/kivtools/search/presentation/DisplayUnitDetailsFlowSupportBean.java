@@ -35,8 +35,7 @@ import se.vgregion.kivtools.search.svc.domain.Unit;
 @SuppressWarnings("serial")
 public class DisplayUnitDetailsFlowSupportBean implements Serializable {
   private static final String CLASS_NAME = DisplayUnitDetailsFlowSupportBean.class.getName();
-
-  private Log logger = LogFactory.getLog(this.getClass());
+  private static final Log LOGGER = LogFactory.getLog(SearchPersonFlowSupportBean.class);
   private SearchService searchService;
 
   public SearchService getSearchService() {
@@ -48,28 +47,23 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
   }
 
   public Unit getUnitDetails(String hsaId) {
-    logger.info(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
+    LOGGER.info(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
     try {
       return getSearchService().getUnitByHsaId(hsaId);
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.error(e);
       return new Unit();
     }
   }
 
   public Unit getUnitByDn(String dn) {
-    logger.info(CLASS_NAME + "::getUnitDetailsByDn(dn=" + dn + ")");
+    LOGGER.info(CLASS_NAME + "::getUnitDetailsByDn(dn=" + dn + ")");
     try {
       Unit u = getSearchService().getUnitByDN(dn);
       return u;
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.error(e);
       return new Unit();
     }
   }
-
-  public void logger(String msg) {
-    logger.info(msg);
-  }
-
 }

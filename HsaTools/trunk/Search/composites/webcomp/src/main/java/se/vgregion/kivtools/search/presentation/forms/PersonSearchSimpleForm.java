@@ -22,50 +22,56 @@ package se.vgregion.kivtools.search.presentation.forms;
 
 import java.io.Serializable;
 
-import se.vgregion.kivtools.search.common.Constants;
-
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class PersonSearchSimpleForm implements Serializable {
-    private String givenName="";
-    private String sirName="";
-    private String vgrId="";
-    private String searchType=Constants.PERSON_SEARCH_TYPE_NAME;
-    public String getGivenName() {
-        return givenName;
+  private String givenName = "";
+  private String sirName = "";
+  private String vgrId = "";
+  private String searchType = "name_selected";
+
+  public String getGivenName() {
+    return givenName;
+  }
+
+  public void setGivenName(String givenName) {
+    this.givenName = givenName;
+  }
+
+  public String getSirName() {
+    return sirName;
+  }
+
+  public void setSirName(String sirName) {
+    this.sirName = sirName;
+  }
+
+  public String getVgrId() {
+    return vgrId;
+  }
+
+  public void setVgrId(String vgrId) {
+    this.vgrId = vgrId;
+  }
+
+  public String getSearchType() {
+    return searchType;
+  }
+
+  public void setSearchType(String searchType) {
+    this.searchType = searchType;
+  }
+
+  public boolean isEmpty() {
+    if ((givenName == null) && (sirName == null) && (vgrId == null)) {
+      return true;
     }
-    public void setGivenName(String givenName) {
-        this.givenName = givenName;
+    if ((givenName.trim().length() == 0) && (sirName.trim().length() == 0) && (vgrId.trim().length() == 0)) {
+      return true;
     }
-    public String getSirName() {
-        return sirName;
-    }
-    public void setSirName(String sirName) {
-        this.sirName = sirName;
-    }
-    public String getVgrId() {
-        return vgrId;
-    }
-    public void setVgrId(String vgrId) {
-        this.vgrId = vgrId;
-    }
-    
-    public String getSearchType() {
-        return searchType;
-    }
-    public void setSearchType(String searchType) {
-        this.searchType = searchType;
-    }
-    public boolean isEmpty() {
-        if ((givenName==null) && (sirName==null) && (vgrId==null)) {
-            return true;
-        }
-        if ( (givenName.trim().length() == 0) && (sirName.trim().length()==0) && (vgrId.trim().length()==0)) {
-            return true;
-        }
-        return false;
-    }
+    return false;
+  }
 }

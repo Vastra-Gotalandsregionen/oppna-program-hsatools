@@ -22,13 +22,13 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.search.common.Constants;
 import se.vgregion.kivtools.search.exceptions.IncorrectUserInputException;
 import se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper;
 
 public class UnitSearchSimpleFormValidatorTest {
 
+  private static final String SUCCESSFUL_OPERATION = "success";
   private UnitSearchSimpleFormValidator validator;
   private UnitSearchSimpleForm form;
 
@@ -57,19 +57,19 @@ public class UnitSearchSimpleFormValidatorTest {
     }
 
     form.setSearchParamValue("aa");
-    assertEquals(Constants.SUCCESSFUL_OPERATION, validator.validate(form));
+    assertEquals(SUCCESSFUL_OPERATION, validator.validate(form));
 
     form.setSearchParamValue("");
     form.setUnitName("a");
     try {
-      assertEquals(Constants.SUCCESSFUL_OPERATION, validator.validate(form));
+      assertEquals(SUCCESSFUL_OPERATION, validator.validate(form));
       fail("IncorrectUserInputException expected");
     } catch (IncorrectUserInputException e) {
       // Expected exception
     }
 
     form.setUnitName("aa");
-    assertEquals(Constants.SUCCESSFUL_OPERATION, validator.validate(form));
+    assertEquals(SUCCESSFUL_OPERATION, validator.validate(form));
 
     form.setSearchParamValue("a");
     form.setUnitName("a");

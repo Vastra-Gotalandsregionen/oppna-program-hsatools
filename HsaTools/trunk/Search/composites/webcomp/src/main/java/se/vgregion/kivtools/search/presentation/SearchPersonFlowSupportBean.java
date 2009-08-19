@@ -27,7 +27,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import se.vgregion.kivtools.search.common.Constants;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
@@ -49,8 +48,8 @@ import se.vgregion.kivtools.search.util.PagedSearchMetaDataHelper;
 @SuppressWarnings("serial")
 public class SearchPersonFlowSupportBean implements Serializable {
   private static final String CLASS_NAME = SearchPersonFlowSupportBean.class.getName();
-
-  private Log logger = LogFactory.getLog(this.getClass());
+  private static final String PERSON_SEARCH_TYPE_VGRID = "vgrid_selected";
+  private static final Log LOGGER = LogFactory.getLog(SearchPersonFlowSupportBean.class);
   private SearchService searchService;
   private int pageSize;
 
@@ -94,10 +93,10 @@ public class SearchPersonFlowSupportBean implements Serializable {
 
   protected boolean isVgrIdSearch(PersonSearchSimpleForm theForm) throws KivNoDataFoundException {
     if (theForm == null) {
-      logger.error("ERROR: " + CLASS_NAME + "::isVgrIdSearch(...) detected that theForm is null");
+      LOGGER.error("ERROR: " + CLASS_NAME + "::isVgrIdSearch(...) detected that theForm is null");
       throw new KivNoDataFoundException("Internt fel har uppst�tt.");
     }
-    if (theForm.getSearchType().trim().equalsIgnoreCase(Constants.PERSON_SEARCH_TYPE_VGRID)) {
+    if (theForm.getSearchType().trim().equalsIgnoreCase(PERSON_SEARCH_TYPE_VGRID)) {
       return true;
     }
     return false;
@@ -111,7 +110,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
    * @throws KivNoDataFoundException If no persons were found with the provided criterias.
    */
   public SikSearchResultList<Person> doSearch(PersonSearchSimpleForm theForm) throws KivNoDataFoundException {
-    logger.info(CLASS_NAME + ".doSearch()");
+    LOGGER.info(CLASS_NAME + ".doSearch()");
 
     try {
       SikSearchResultList<Person> list = new SikSearchResultList<Person>();
@@ -138,7 +137,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
       // stop measurement
       overAllTime.stop();
 
-      LogUtils.printSikSearchResultListToLog(this, "doSearch", overAllTime, logger, list);
+      LogUtils.printSikSearchResultListToLog(this, "doSearch", overAllTime, LOGGER, list);
       if (list.size() == 0) {
         throw new KivNoDataFoundException();
       }
@@ -160,7 +159,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
    * @throws KivNoDataFoundException If no matching persons are found.
    */
   public SikSearchResultList<Person> getOrganisation(String hsaIdentity, String dn) throws KivNoDataFoundException {
-    logger.info(CLASS_NAME + ".getOrganisation()");
+    LOGGER.info(CLASS_NAME + ".getOrganisation()");
 
     try {
       TimeMeasurement overAllTime = new TimeMeasurement();
@@ -188,7 +187,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
       // stop measurement
       overAllTime.stop();
 
-      LogUtils.printSikSearchResultListToLog(this, "getOrganisation", overAllTime, logger, persons);
+      LogUtils.printSikSearchResultListToLog(this, "getOrganisation", overAllTime, LOGGER, persons);
       if (persons.size() == 0) {
         throw new KivNoDataFoundException();
       }
@@ -233,12 +232,12 @@ public class SearchPersonFlowSupportBean implements Serializable {
     List<String> result = new ArrayList<String>();
     List<String> list = getAllPersonsVgrId();
     if (startIndex < 0 || startIndex > endIndex) {
-      logger.error("getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + "), Error input parameters are wrong (result list size=" + list.size() + ")");
+      LOGGER.error("getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + "), Error input parameters are wrong (result list size=" + list.size() + ")");
     } else {
       int realEndIndex = endIndex;
       if (realEndIndex > list.size() - 1) {
         // It is wrong but let's continue anyway
-        logger.error("MethodName=" + CLASS_NAME + "::" + "getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + realEndIndex + ") detected that endIndex > ");
+        LOGGER.error("MethodName=" + CLASS_NAME + "::" + "getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + realEndIndex + ") detected that endIndex > ");
         realEndIndex = list.size() - 1;
       }
       for (int position = startIndex; position <= realEndIndex; position++) {

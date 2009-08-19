@@ -22,7 +22,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.hriv.common.Constants;
 import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.hriv.validation.UnitSearchSimpleFormValidator;
 import se.vgregion.kivtools.search.exceptions.IncorrectUserInputException;
@@ -30,6 +29,7 @@ import se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper;
 
 public class UnitSearchSimpleFormValidatorTest {
 
+  private static final String SUCCESSFUL_OPERATION = "success";
   private UnitSearchSimpleFormValidator validator;
   private UnitSearchSimpleForm form;
 
@@ -42,11 +42,11 @@ public class UnitSearchSimpleFormValidatorTest {
 
   @Test
   public void testValidate() throws IncorrectUserInputException {
-    assertEquals(Constants.SUCCESSFUL_OPERATION, validator.validate(form));
+    assertEquals(SUCCESSFUL_OPERATION, validator.validate(form));
     form.setMunicipality(null);
     form.setUnitName(null);
     form.setHealthcareType(null);
-    assertEquals(Constants.SUCCESSFUL_OPERATION, validator.validate(form));
+    assertEquals(SUCCESSFUL_OPERATION, validator.validate(form));
     assertEquals("", form.getMunicipality());
     assertEquals("", form.getUnitName());
     assertEquals("0", form.getHealthcareType());

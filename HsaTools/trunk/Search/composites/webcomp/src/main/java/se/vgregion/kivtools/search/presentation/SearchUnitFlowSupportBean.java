@@ -48,8 +48,7 @@ import se.vgregion.kivtools.search.util.geo.GeoUtil;
 public class SearchUnitFlowSupportBean implements Serializable {
   private static final long serialVersionUID = 1L;
   private static final String CLASS_NAME = SearchUnitFlowSupportBean.class.getName();
-
-  private Log logger = LogFactory.getLog(this.getClass());
+  private static final Log LOGGER = LogFactory.getLog(SearchPersonFlowSupportBean.class);
   private SearchService searchService;
   private int pageSize;
 
@@ -97,7 +96,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @param theForm The form to clean.
    */
   public void cleanSearchSimpleForm(UnitSearchSimpleForm theForm) {
-    logger.info(CLASS_NAME + ".cleanSearchSimpleForm()");
+    LOGGER.info(CLASS_NAME + ".cleanSearchSimpleForm()");
     theForm.setSearchParamValue("");
     theForm.setUnitName("");
   }
@@ -111,7 +110,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @throws NoConnectionToServerException If no connection to the LDAP server could be made.
    */
   public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm) throws KivNoDataFoundException, NoConnectionToServerException {
-    logger.info(CLASS_NAME + ".doSearch()");
+    LOGGER.info(CLASS_NAME + ".doSearch()");
 
     SikSearchResultList<Unit> list = null;
     try {
@@ -129,7 +128,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
       if (list == null) {
         list = new SikSearchResultList<Unit>();
       }
-      LogUtils.printSikSearchResultListToLog(this, "doSearch", overAllTime, logger, list);
+      LogUtils.printSikSearchResultListToLog(this, "doSearch", overAllTime, LOGGER, list);
       if (list.size() == 0) {
         throw new KivNoDataFoundException();
       }
@@ -137,8 +136,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
       if (e instanceof KivNoDataFoundException) {
         throw (KivNoDataFoundException) e;
       }
-      logger.error(e.getMessage(), e);
-      e.printStackTrace();
+      LOGGER.error(e);
       list = new SikSearchResultList<Unit>();
     }
     return list;
@@ -158,7 +156,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
       if (e instanceof KivNoDataFoundException) {
         throw (KivNoDataFoundException) e;
       }
-      e.printStackTrace();
+      LOGGER.error(e);
       result = new ArrayList<String>();
     }
     return result;
@@ -187,7 +185,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
       if (e instanceof KivNoDataFoundException) {
         throw (KivNoDataFoundException) e;
       }
-      e.printStackTrace();
+      LOGGER.error(e);
       result = new ArrayList<String>();
     }
     return result;
@@ -216,7 +214,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
       if (e instanceof KivNoDataFoundException) {
         throw (KivNoDataFoundException) e;
       }
-      e.printStackTrace();
+      LOGGER.error(e);
       result = new ArrayList<PagedSearchMetaData>();
     }
     return result;
@@ -257,7 +255,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
       if (e instanceof KivNoDataFoundException) {
         throw (KivNoDataFoundException) e;
       }
-      e.printStackTrace();
+      LOGGER.error(e);
       return new ArrayList<Unit>();
     }
   }
@@ -274,14 +272,14 @@ public class SearchUnitFlowSupportBean implements Serializable {
       Unit parentUnit = getSearchService().getUnitByHsaId(parentHsaId);
       subUnits = getSearchService().getSubUnits(parentUnit, maxSearchResult);
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.error(e);
     }
     return subUnits;
   }
 
   private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm) throws Exception {
     final String methodName = CLASS_NAME + ".mapSearchCriteriaToUnit(...)";
-    logger.info(methodName);
+    LOGGER.info(methodName);
     Unit unit = new Unit();
 
     // unit name
