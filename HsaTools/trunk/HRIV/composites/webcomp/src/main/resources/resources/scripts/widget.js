@@ -59,7 +59,7 @@ function showAddress(hsaid, address, tel, careTypeName, name, distance,
 														+ '<br/>Telefon: '
 														+ tel + '<br/>';
 												if (distance != '') {
-													label += 'Avstånd till adress: ' + distance + ' km<br/>'
+													label += 'Avst&aring;nd till adress: ' + distance + ' km<br/>'
 												}
 												label += '<a href="visaenhet?hsaidentity=' + hsaid + '">Visa detaljer</a></span>'
 												marker
@@ -465,12 +465,13 @@ function closeUnitsFormValidate(address) {
 	var geocoder = new GClientGeocoder();
 	geocoder.getLatLng(address + ", sweden", function(point) {
 		if (point) {
-			// We found a matching location
-			return true;
-		} else {
+			// We found a matching location, submit the form!
+			document.forms['closeUnitsForm'].submit();
+       } else {
 			// We did not find location
 			alert("Angiven adress hittades inte, försök igen.")
-			return false;
 		}
 	});
+	
+	return false;
 }
