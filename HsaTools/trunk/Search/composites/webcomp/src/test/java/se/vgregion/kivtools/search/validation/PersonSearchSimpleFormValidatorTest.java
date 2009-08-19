@@ -5,11 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.search.common.Constants;
 import se.vgregion.kivtools.search.exceptions.IncorrectUserInputException;
 import se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm;
 
 public class PersonSearchSimpleFormValidatorTest {
+  private static final String SUCCESSFUL_OPERATION = "success";
   private PersonSearchSimpleFormValidator validator;
   private PersonSearchSimpleForm form;
 
@@ -37,7 +37,7 @@ public class PersonSearchSimpleFormValidatorTest {
     }
 
     form.setGivenName("aa");
-    assertEquals(Constants.SUCCESSFUL_OPERATION, validator.validate(form));
+    assertEquals(SUCCESSFUL_OPERATION, validator.validate(form));
 
     form.setGivenName("");
     form.setSirName("a");
@@ -49,7 +49,7 @@ public class PersonSearchSimpleFormValidatorTest {
     }
 
     form.setSirName("aa");
-    assertEquals(Constants.SUCCESSFUL_OPERATION, validator.validate(form));
+    assertEquals(SUCCESSFUL_OPERATION, validator.validate(form));
 
     form.setSirName("");
     form.setVgrId("a");
@@ -61,6 +61,6 @@ public class PersonSearchSimpleFormValidatorTest {
     }
 
     form.setVgrId("aa");
-    assertEquals(Constants.SUCCESSFUL_OPERATION, validator.validate(form));
+    assertEquals(SUCCESSFUL_OPERATION, validator.validate(form));
   }
 }

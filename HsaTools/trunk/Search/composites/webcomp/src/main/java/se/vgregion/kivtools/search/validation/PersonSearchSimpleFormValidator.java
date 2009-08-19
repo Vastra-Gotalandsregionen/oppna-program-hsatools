@@ -20,8 +20,6 @@
  */
 package se.vgregion.kivtools.search.validation;
 
-import static se.vgregion.kivtools.search.common.Constants.*;
-
 import java.io.Serializable;
 
 import org.apache.commons.logging.Log;
@@ -38,8 +36,8 @@ import se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm;
 @SuppressWarnings("serial")
 public class PersonSearchSimpleFormValidator implements Serializable {
 
+  private static final String SUCCESSFUL_OPERATION = "success";
   private Log logger = LogFactory.getLog(this.getClass());
-
   /**
    * Validates user input in a PersonSearchSimpleForm.
    * 

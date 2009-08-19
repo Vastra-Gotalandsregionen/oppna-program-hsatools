@@ -22,6 +22,8 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.Resource;
 
 /**
@@ -34,13 +36,13 @@ public class SettingsBean implements Serializable {
 
   private static final long serialVersionUID = 1L;
   private Properties settings = new Properties();
+  private static final Log LOGGER = LogFactory.getLog(SearchPersonFlowSupportBean.class);
 
   public SettingsBean(Resource resource) {
     try {
       settings.load(resource.getInputStream());
     } catch (IOException e) {
-      // Set default properties?
-      e.printStackTrace();
+      LOGGER.error(e);
     }
   }
 

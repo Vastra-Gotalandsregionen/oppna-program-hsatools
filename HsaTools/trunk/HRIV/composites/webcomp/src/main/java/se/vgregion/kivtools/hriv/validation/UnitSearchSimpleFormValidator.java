@@ -26,7 +26,6 @@ import java.io.Serializable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import se.vgregion.kivtools.hriv.common.Constants;
 import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.search.exceptions.IncorrectUserInputException;
 
@@ -36,8 +35,8 @@ import se.vgregion.kivtools.search.exceptions.IncorrectUserInputException;
 @SuppressWarnings("serial")
 public class UnitSearchSimpleFormValidator implements Serializable {
 
+  private static final String SUCCESSFUL_OPERATION = "success";
   private Log logger = LogFactory.getLog(this.getClass());
-
   /**
    * Validates and corrects user input in a UnitSearchSimpleForm.
    * 
@@ -57,15 +56,6 @@ public class UnitSearchSimpleFormValidator implements Serializable {
     if (param.getHealthcareType() == null) {
       param.setHealthcareType("0");
     }
-
-    // int paramlength = param.getMunicipality().trim().length();
-    // int unitNameLength = param.getUnitName().trim().length();
-
-    // if (paramlength == 0 && unitNameLength == 0 || paramlength == 1 && unitNameLength == 0 || paramlength == 0 && unitNameLength == 1 || paramlength == 1 && unitNameLength == 1) {
-    // throw new IncorrectUserInputException(
-    // "Ange minst tv\u00E5 tecken som s\u00F6kkriteria i ett av f\u00E4lten."
-    // );
-    // }
-    return Constants.SUCCESSFUL_OPERATION;
+    return SUCCESSFUL_OPERATION;
   }
 }

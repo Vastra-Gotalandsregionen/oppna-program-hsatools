@@ -8,7 +8,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.search.common.Constants;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
@@ -18,6 +17,7 @@ import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 
 public class SearchPersonFlowSupportBeanTest {
+  private static final String PERSON_SEARCH_TYPE_VGRID = "vgrid_selected";
   private static final String NULL = "null";
   private static final String DN = "cn=abc";
   private static final String HSA_IDENTITY = "HSA-123";
@@ -45,7 +45,7 @@ public class SearchPersonFlowSupportBeanTest {
 
     assertFalse(bean.isVgrIdSearch(form));
 
-    form.setSearchType(Constants.PERSON_SEARCH_TYPE_VGRID);
+    form.setSearchType(PERSON_SEARCH_TYPE_VGRID);
     assertTrue(bean.isVgrIdSearch(form));
   }
 

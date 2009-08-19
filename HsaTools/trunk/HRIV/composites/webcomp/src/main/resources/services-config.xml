@@ -43,10 +43,6 @@
 		class="se.vgregion.kivtools.hriv.validation.UnitSearchSimpleFormValidator">
 	</bean>
 
-	<bean id="Search.UserMessageSupportBean"
-		class="se.vgregion.kivtools.hriv.presentation.forms.UserMessageSupportBean">
-	</bean>
-	
 	<bean id="Display.DisplayUnitDetailsFlowSupportBean"
 		class="se.vgregion.kivtools.hriv.presentation.DisplayUnitDetailsFlowSupportBean">
 			<property name="searchService" ref="Search.SearchService" />

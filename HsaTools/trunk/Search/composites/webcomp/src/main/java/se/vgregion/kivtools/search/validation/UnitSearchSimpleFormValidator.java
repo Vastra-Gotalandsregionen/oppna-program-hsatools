@@ -26,7 +26,6 @@ import java.io.Serializable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import se.vgregion.kivtools.search.common.Constants;
 import se.vgregion.kivtools.search.exceptions.IncorrectUserInputException;
 import se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm;
 
@@ -36,6 +35,7 @@ import se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm;
 @SuppressWarnings("serial")
 public class UnitSearchSimpleFormValidator implements Serializable {
 
+  private static final String SUCCESSFUL_OPERATION = "success";
   private Log logger = LogFactory.getLog(this.getClass());
 
   /**
@@ -55,6 +55,6 @@ public class UnitSearchSimpleFormValidator implements Serializable {
       throw new IncorrectUserInputException("Ange minst tv\u00E5 tecken som s\u00F6kkriteria i ett av f\u00E4lten.");
     }
 
-    return Constants.SUCCESSFUL_OPERATION;
+    return SUCCESSFUL_OPERATION;
   }
 }
