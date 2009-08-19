@@ -85,6 +85,16 @@ public class SetCharacterEncodingFilterTest {
       // Expected exception
     }
 
+    filterConfig = new MockFilterConfig();
+    filterConfig.addInitParameter("ignore", "true");
+    filter.init(filterConfig);
+    try {
+      filter.doFilter(servletRequest, null, null);
+      fail("NullPointerException expected");
+    } catch (NullPointerException e) {
+      // Expected exception
+    }
+
     MockHttpServletResponse servletResponse = new MockHttpServletResponse();
     MockFilterChain filterChain = new MockFilterChain();
     filter.doFilter(servletRequest, servletResponse, filterChain);
