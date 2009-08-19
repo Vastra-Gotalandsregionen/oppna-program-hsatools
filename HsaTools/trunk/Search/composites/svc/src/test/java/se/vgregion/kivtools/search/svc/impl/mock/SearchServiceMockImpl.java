@@ -30,412 +30,397 @@ import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.AddressHelper;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
+import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
 
 public class SearchServiceMockImpl implements SearchService {
-    private Log logger = LogFactory.getLog(this.getClass());
-    private static final String CLASS_NAME = SearchServiceMockImpl.class.getName();
-    
-    private SikSearchResultList<Person> personList = new SikSearchResultList<Person>();
-    private SikSearchResultList<Unit>   unitList    = new SikSearchResultList<Unit>(); 
-    
-    public SearchServiceMockImpl() {
-        init();
+  private Log logger = LogFactory.getLog(this.getClass());
+  private static final String CLASS_NAME = SearchServiceMockImpl.class.getName();
+
+  private SikSearchResultList<Person> personList = new SikSearchResultList<Person>();
+  private SikSearchResultList<Unit> unitList = new SikSearchResultList<Unit>();
+
+  public SearchServiceMockImpl() {
+    init();
+  }
+
+  public SikSearchResultList<Employment> getEmployments(String personDn) throws Exception {
+    SikSearchResultList<Employment> employments = new SikSearchResultList<Employment>();
+    Employment e;
+
+    e = new Employment();
+    e.setHsaPublicTelephoneNumber(new PhoneNumber("031-123456"));
+    e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
+    employments.add(e);
+
+    e = new Employment();
+    e.setHsaPublicTelephoneNumber(new PhoneNumber("031-23 23 23"));
+    e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
+    employments.add(e);
+
+    e = new Employment();
+    e.setHsaPublicTelephoneNumber(new PhoneNumber("08-2283393"));
+    e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
+    employments.add(e);
+
+    e = new Employment();
+    e.setHsaPublicTelephoneNumber(new PhoneNumber("030012350"));
+    e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
+    employments.add(e);
+
+    e = new Employment();
+    e.setHsaPublicTelephoneNumber(new PhoneNumber("+46822412350"));
+    e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
+    employments.add(e);
+
+    return employments;
+  }
+
+  public Person getPersonById(String vgrId) throws Exception {
+    Person p = new Person();
+    if (vgrId.equalsIgnoreCase("anders1")) {
+      p.setGivenName("Anders");
+      p.setSn("Asplund");
+      p.setHsaMiddleName("Sandin");
+      p.setFullName("Anders Sandin Asplund");
+      p.setMail("anders.asplund@knowit.se");
+      p.setVgrId("anders1");
+    } else if (vgrId.equalsIgnoreCase("hangy2")) {
+      p.setGivenName("Hans");
+      p.setSn("Gyllensten");
+      p.setFullName("Hans Gyllensten");
+      p.setMail("hans.gyllensten@knowit.se");
+      p.setVgrId("hangy2");
+
+    } else if (vgrId.equalsIgnoreCase("pj3")) {
+      p.setGivenName("Per-Johan");
+      p.setSn("Andersson");
+      p.setFullName("Per-Johan Andersson");
+      p.setMail("per.johan@andersson@knowit.se");
+      p.setVgrId("pj3");
     }
-    
-    public SikSearchResultList<Employment> getEmployments(String personDn) throws Exception {
-        SikSearchResultList<Employment> employments = new SikSearchResultList<Employment>();
-        Employment e;
-        
-        e = new Employment();
-        e.setHsaPublicTelephoneNumber(new PhoneNumber("031-123456"));
-        e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
-        employments.add(e);
+    return p;
+  }
 
-        e = new Employment();
-        e.setHsaPublicTelephoneNumber(new PhoneNumber("031-23 23 23"));
-        e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
-        employments.add(e);
-
-        e = new Employment();
-        e.setHsaPublicTelephoneNumber(new PhoneNumber("08-2283393"));
-        e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
-        employments.add(e);
-
-        e = new Employment();
-        e.setHsaPublicTelephoneNumber(new PhoneNumber("030012350"));
-        e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
-        employments.add(e);
-
-        e = new Employment();
-        e.setHsaPublicTelephoneNumber(new PhoneNumber("+46822412350"));
-        e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
-        employments.add(e);
-        
-        return employments;
-    }
-
-    public Person getPersonById(String vgrId) throws Exception {
-        Person p = new Person();
-        if(vgrId.equalsIgnoreCase("anders1")) {
-            p.setGivenName("Anders");
-            p.setSn("Asplund");
-            p.setHsaMiddleName("Sandin");
-            p.setFullName("Anders Sandin Asplund");
-            p.setMail("anders.asplund@knowit.se");
-            p.setVgrId("anders1");
-        } else if(vgrId.equalsIgnoreCase("hangy2")) {
-            p.setGivenName("Hans");
-            p.setSn("Gyllensten");
-            p.setFullName("Hans Gyllensten");
-            p.setMail("hans.gyllensten@knowit.se");
-            p.setVgrId("hangy2");
-           
-        } else if(vgrId.equalsIgnoreCase("pj3")) {
-            p.setGivenName("Per-Johan");
-            p.setSn("Andersson");
-            p.setFullName("Per-Johan Andersson");
-            p.setMail("per.johan@andersson@knowit.se");
-            p.setVgrId("pj3");
-        }
-        return p;
-    }
-
-    public Unit getUnitByHsaId(String hsaId) throws Exception {
-        Unit u = new Unit();
-        List<String> a;
-        List<PhoneNumber> p;
-        List<String> d = new ArrayList<String>();
-        d.add("Bla bla bla");
-        d.add("Bla bla bla");
-        if(hsaId.equalsIgnoreCase("ABC001")) {
-            u.setName("VGR IT");
-            u.setHsaIdentity("ABC001");
-            p = new ArrayList<PhoneNumber>();
-            p.add(new PhoneNumber("031-123456"));
-            p.add(new PhoneNumber("031-654321"));
-            u.setHsaTelephoneNumber(p);
-            a = new ArrayList<String>();
-            a.add("Storgatan 1");
-            a.add("411 01 G�teborg");
-            u.setDescription(d);
-            u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
-            u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Omr�de 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
-        }
-        
-        else if(hsaId.equalsIgnoreCase("ABC002")) {
-            u.setName("Sahlgrenska Sjukhuset");
-            u.setHsaIdentity("ABC002");
-            p = new ArrayList<PhoneNumber>();
-            p.add(new PhoneNumber("031-123456"));
-            p.add(new PhoneNumber("031-654321"));
-            u.setHsaTelephoneNumber(p);
-            a = new ArrayList<String>();
-            a.add("Storgatan 1");
-            a.add("411 01 G�teborg");
-            u.setDescription(d);
-            u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
-            u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Omr�de 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
-        }
-        
-        else if(hsaId.equalsIgnoreCase("ABC003")) {
-            u.setName("Uddevalla v�rdcentral");
-            u.setHsaIdentity("ABC003");
-            p = new ArrayList<PhoneNumber>();
-            p.add(new PhoneNumber("031-123456"));
-            p.add(new PhoneNumber("031-654321"));
-            u.setHsaTelephoneNumber(p);
-            a = new ArrayList<String>();
-            a.add("Storgatan 1");
-            a.add("411 01 Uddevalla");
-            u.setDescription(d);
-            u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
-            u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Omr�de 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
-        }
-        return u;
+  public Unit getUnitByHsaId(String hsaId) throws Exception {
+    Unit u = new Unit();
+    List<String> a;
+    List<PhoneNumber> p;
+    List<String> d = new ArrayList<String>();
+    d.add("Bla bla bla");
+    d.add("Bla bla bla");
+    if (hsaId.equalsIgnoreCase("ABC001")) {
+      u.setName("VGR IT");
+      u.setHsaIdentity("ABC001");
+      p = new ArrayList<PhoneNumber>();
+      p.add(new PhoneNumber("031-123456"));
+      p.add(new PhoneNumber("031-654321"));
+      u.setHsaTelephoneNumber(p);
+      a = new ArrayList<String>();
+      a.add("Storgatan 1");
+      a.add("411 01 G�teborg");
+      u.setDescription(d);
+      u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
+      u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Omr�de 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
     }
 
-    public SikSearchResultList<Person> searchPersons(String givenName, String familyName) throws Exception {
-        return searchPersons(givenName, familyName, 0);
+    else if (hsaId.equalsIgnoreCase("ABC002")) {
+      u.setName("Sahlgrenska Sjukhuset");
+      u.setHsaIdentity("ABC002");
+      p = new ArrayList<PhoneNumber>();
+      p.add(new PhoneNumber("031-123456"));
+      p.add(new PhoneNumber("031-654321"));
+      u.setHsaTelephoneNumber(p);
+      a = new ArrayList<String>();
+      a.add("Storgatan 1");
+      a.add("411 01 G�teborg");
+      u.setDescription(d);
+      u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
+      u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Omr�de 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
     }
 
-    public SikSearchResultList<Person> searchPersons(String givenName,
-            String familyName, int maxSearchResult) throws Exception {
-        return personList;
+    else if (hsaId.equalsIgnoreCase("ABC003")) {
+      u.setName("Uddevalla v�rdcentral");
+      u.setHsaIdentity("ABC003");
+      p = new ArrayList<PhoneNumber>();
+      p.add(new PhoneNumber("031-123456"));
+      p.add(new PhoneNumber("031-654321"));
+      u.setHsaTelephoneNumber(p);
+      a = new ArrayList<String>();
+      a.add("Storgatan 1");
+      a.add("411 01 Uddevalla");
+      u.setDescription(d);
+      u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
+      u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Omr�de 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
     }
+    return u;
+  }
 
-    /**
-     * 
-     * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list od Persons
-     * @return
-     * @throws Exception
-     */    
-    public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws Exception {
-        SikSearchResultList<Person> tempList = new SikSearchResultList<Person>();
-        for (Person p:personList) {
-            if (p.getVgrId().indexOf(vgrId)>=0) {
-                tempList.add(p);
-            }
-        }
-        return tempList;
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName) throws Exception {
+    return searchPersons(givenName, familyName, 0);
+  }
+
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, int maxSearchResult) throws Exception {
+    return personList;
+  }
+
+  /**
+   * 
+   * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list od Persons
+   * @return
+   * @throws Exception
+   */
+  public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws Exception {
+    SikSearchResultList<Person> tempList = new SikSearchResultList<Person>();
+    for (Person p : personList) {
+      if (p.getVgrId().indexOf(vgrId) >= 0) {
+        tempList.add(p);
+      }
     }
+    return tempList;
+  }
 
-    /**
-     * 
-     * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list od Persons
-     * @return
-     * @throws Exception
-     */    
-    public SikSearchResultList<Person> searchPersons(String vgrId) throws Exception {
-        return searchPersons(vgrId, 0);
-    }
-    
+  /**
+   * 
+   * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list od Persons
+   * @return
+   * @throws Exception
+   */
+  public SikSearchResultList<Person> searchPersons(String vgrId) throws Exception {
+    return searchPersons(vgrId, 0);
+  }
 
-    public SikSearchResultList<Unit> searchUnits(Unit unit) throws Exception {
-        return searchUnits(unit, 0);
-    }
-    
-    public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws Exception {
-        return unitList;
-    }
+  public SikSearchResultList<Unit> searchUnits(Unit unit) throws Exception {
+    return searchUnits(unit, 0);
+  }
 
-    /* (non-Javadoc)
-     * @see se.vgregion.kivtools.search.svc.SearchService#getMaxNumberOfPersonHits()
-     */
-    public int getMaxNumberOfPersonHits() {
-        return 200;
-    }
+  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws Exception {
+    return unitList;
+  }
 
-    /* (non-Javadoc)
-     * @see se.vgregion.kivtools.search.svc.SearchService#getMaxNumberOfUnitHits()
-     */
-    public int getMaxNumberOfUnitHits() {
-        return 200;
-    }
+  /*
+   * (non-Javadoc)
+   * 
+   * @see se.vgregion.kivtools.search.svc.SearchService#getMaxNumberOfPersonHits()
+   */
+  public int getMaxNumberOfPersonHits() {
+    return 200;
+  }
 
-    public Person getPersonByHsaId(String hsaId) throws Exception {
-        Person p = new Person();
-        Employment e = new Employment();
-        List<Employment> em = new ArrayList<Employment>();
-        
-        logger.info(CLASS_NAME + ".getPersonByHsaId(hsaId = " + hsaId + ")");
+  /*
+   * (non-Javadoc)
+   * 
+   * @see se.vgregion.kivtools.search.svc.SearchService#getMaxNumberOfUnitHits()
+   */
+  public int getMaxNumberOfUnitHits() {
+    return 200;
+  }
 
-        p.setGivenName("Anders");
-        p.setSn("Asplund");
-        p.setHsaMiddleName("Sandin");
-        p.setFullName("Anders Sandin Asplund");
-        p.setMail("anders.asplund@knowit.se");
+  public Person getPersonByHsaId(String hsaId) throws Exception {
+    Person p = new Person();
+    Employment e = new Employment();
+    List<Employment> em = new ArrayList<Employment>();
 
-        e.setHsaPublicTelephoneNumber(new PhoneNumber("031-123456"));
-        e.setOu("VGR IT");
-        e.setTitle("Konsult");
-        em.add(e);
-        
-        e = new Employment();
-        e.setHsaPublicTelephoneNumber(new PhoneNumber("031-123456"));
-        e.setOu("Akutmottagningen");
-        e.setTitle("Sjuksk�terska");
-        em.add(e);
-        
-        p.setEmployments(em);
+    logger.info(CLASS_NAME + ".getPersonByHsaId(hsaId = " + hsaId + ")");
 
-        return p;
-    }
+    p.setGivenName("Anders");
+    p.setSn("Asplund");
+    p.setHsaMiddleName("Sandin");
+    p.setFullName("Anders Sandin Asplund");
+    p.setMail("anders.asplund@knowit.se");
 
-    public List<String> getAllPersonsId() throws Exception {
-        List<String> result = new ArrayList<String>();
-        result.add("anders1");
-        result.add("hangy2");
-        result.add("pj3");
-        return result;
-    }
+    e.setHsaPublicTelephoneNumber(new PhoneNumber("031-123456"));
+    e.setOu("VGR IT");
+    e.setTitle("Konsult");
+    em.add(e);
 
-    public List<String> getAllUnitsHsaIdentity() throws Exception {
-        List<String> result = new ArrayList<String>();
-        result.add("ABC001");
-        result.add("ABC002");
-        result.add("ABC003");
-        return result;
-    }
+    e = new Employment();
+    e.setHsaPublicTelephoneNumber(new PhoneNumber("031-123456"));
+    e.setOu("Akutmottagningen");
+    e.setTitle("Sjuksk�terska");
+    em.add(e);
 
-    public Unit getUnitByDN(String dn) throws Exception {
-        
-        Unit u = new Unit();
-        ArrayList<PhoneNumber> p;
-        ArrayList<String> a;
-        
-        u.setName("VGR IT");
-        u.setHsaIdentity("ABC001");
-        p = new ArrayList<PhoneNumber>();
-        p.add(new PhoneNumber("031-123456"));
-        p.add(new PhoneNumber("031-654321"));
-        u.setHsaTelephoneNumber(p);
-        a = new ArrayList<String>();
-        a.add("Storgatan 1");
-        a.add("411 01 G�teborg");
-        u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
-        u.setLdapDistinguishedName("VGR IT/Org C/Org B/Org A");
-        return u;
-    }
+    p.setEmployments(em);
 
-    private void init() {
-        initPersons(personList);
-        initUnits(unitList);
-    }
-    
-    private void initPersons(SikSearchResultList<Person> list) {
-        Person p = new Person();
+    return p;
+  }
 
-        p.setGivenName("Anders");
-        p.setSn("Asplund");
-        p.setHsaMiddleName("Sandin");
-        p.setFullName("Anders Sandin Asplund");
-        p.setMail("anders.asplund@knowit.se");
-        p.setDn("anders1");
-        p.setVgrId("anders1");
-        list.add(p);
-        
-        p = new Person();
-        p.setGivenName("Hans");
-        p.setSn("Gyllensten");
-        p.setFullName("Hans Gyllensten");
-        p.setMail("hans.gyllensten@knowit.se");
-        p.setDn("hangy2");
-        p.setVgrId("hangy2");
-        list.add(p);
-        
-        p = new Person();
-        p.setGivenName("Per-Johan");
-        p.setSn("Andersson");
-        p.setFullName("Per-Johan Andersson");
-        p.setMail("per.johan@andersson@knowit.se");
-        p.setDn("pj3");
-        p.setVgrId("pj3");
-        p.setDn("cn=ulfsa3,ou=Personal,o=vgr");
-        list.add(p);
-    }
-    
-    private void initUnits(SikSearchResultList<Unit> list) {
-        Unit u;
-        List<String> a;
-        List<PhoneNumber> p;
-        
-        u = new Unit();
-        u.setName("VGR IT");
-        u.setHsaIdentity("ABC001");
-        p = new ArrayList<PhoneNumber>();
-        p.add(new PhoneNumber("031-123456"));
-        p.add(new PhoneNumber("031-654321"));
-        u.setHsaTelephoneNumber(p);
-        a = new ArrayList<String>();
-        a.add("Storgatan 1");
-        a.add("411 01 G�teborg");
-        u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
-        u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
-        list.add(u);
-        
-        u = new Unit();
-        u.setHsaIdentity("ABC002");
-        u.setName("Sahlgrenska Sjukhuset");
-        p = new ArrayList<PhoneNumber>();
-        p.add(new PhoneNumber("031-123456"));
-        p.add(new PhoneNumber("031-654321"));
-        u.setHsaTelephoneNumber(p);
-        a = new ArrayList<String>();
-        a.add("Storgatan 1");
-        a.add("411 01 Göteborg");
-        u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
-        u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
-        list.add(u);
+  public List<String> getAllPersonsId() throws Exception {
+    List<String> result = new ArrayList<String>();
+    result.add("anders1");
+    result.add("hangy2");
+    result.add("pj3");
+    return result;
+  }
 
-        u = new Unit();
-        u.setHsaIdentity("ABC003");
-        u.setName("Uddevalla vårdcentral");
-        p = new ArrayList<PhoneNumber>();
-        p.add(new PhoneNumber("031-123456"));
-        p.add(new PhoneNumber("031-654321"));
-        u.setHsaTelephoneNumber(p);
-        a = new ArrayList<String>();
-        a.add("Storgatan 1");
-        a.add("411 01 Uddevalla");
-        u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
-        u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
-        list.add(u);
-        
-    }
+  public List<String> getAllUnitsHsaIdentity() throws Exception {
+    List<String> result = new ArrayList<String>();
+    result.add("ABC001");
+    result.add("ABC002");
+    result.add("ABC003");
+    return result;
+  }
 
-    /* (non-Javadoc)
-     * @see se.vgregion.kivtools.search.svc.SearchService#searchPersons(java.lang.String, java.lang.String, java.lang.String)
-     */
-    public SikSearchResultList<Person> searchPersons(String givenName,
-            String familyName, String vgrId) throws Exception {
-        // TODO Auto-generated method stub
-        return searchPersons(givenName, familyName);
-    }
+  public Unit getUnitByDN(String dn) throws Exception {
 
-    /* (non-Javadoc)
-     * @see se.vgregion.kivtools.search.svc.SearchService#searchPersons(java.lang.String, java.lang.String, java.lang.String, int)
-     */
-    public SikSearchResultList<Person> searchPersons(String givenName,
-            String familyName, String vgrId, int maxResult) throws Exception {
-        // TODO Auto-generated method stub
-        return searchPersons(givenName, familyName);
-    }
+    Unit u = new Unit();
+    ArrayList<PhoneNumber> p;
+    ArrayList<String> a;
 
-	public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws Exception {
-		// TODO Auto-generated method stub
-		// JOLI please add code for this case
-		return new SikSearchResultList<Unit>();
-	}
+    u.setName("VGR IT");
+    u.setHsaIdentity("ABC001");
+    p = new ArrayList<PhoneNumber>();
+    p.add(new PhoneNumber("031-123456"));
+    p.add(new PhoneNumber("031-654321"));
+    u.setHsaTelephoneNumber(p);
+    a = new ArrayList<String>();
+    a.add("Storgatan 1");
+    a.add("411 01 G�teborg");
+    u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
+    u.setLdapDistinguishedName("VGR IT/Org C/Org B/Org A");
+    return u;
+  }
 
-	public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
-		// TODO Auto-generated method stub
-		// JOLI please add code for this case
-		return new SikSearchResultList<Unit>();
-	}
+  private void init() {
+    initPersons(personList);
+    initUnits(unitList);
+  }
 
-	public List<HealthcareType> getHealthcareTypesList()
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  private void initPersons(SikSearchResultList<Person> list) {
+    Person p = new Person();
 
-	public List<String> getAllUnitsHsaIdentity(
-			List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    p.setGivenName("Anders");
+    p.setSn("Asplund");
+    p.setHsaMiddleName("Sandin");
+    p.setFullName("Anders Sandin Asplund");
+    p.setMail("anders.asplund@knowit.se");
+    p.setDn("anders1");
+    p.setVgrId("anders1");
+    list.add(p);
 
-	public Person getPersonByDN(DN dn) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    p = new Person();
+    p.setGivenName("Hans");
+    p.setSn("Gyllensten");
+    p.setFullName("Hans Gyllensten");
+    p.setMail("hans.gyllensten@knowit.se");
+    p.setDn("hangy2");
+    p.setVgrId("hangy2");
+    list.add(p);
 
-	public List<Employment> getEmploymentsForPerson(Person person) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    p = new Person();
+    p.setGivenName("Per-Johan");
+    p.setSn("Andersson");
+    p.setFullName("Per-Johan Andersson");
+    p.setMail("per.johan@andersson@knowit.se");
+    p.setDn("pj3");
+    p.setVgrId("pj3");
+    p.setDn("cn=ulfsa3,ou=Personal,o=vgr");
+    list.add(p);
+  }
 
-	public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  private void initUnits(SikSearchResultList<Unit> list) {
+    Unit u;
+    List<String> a;
+    List<PhoneNumber> p;
 
-	public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    u = new Unit();
+    u.setName("VGR IT");
+    u.setHsaIdentity("ABC001");
+    p = new ArrayList<PhoneNumber>();
+    p.add(new PhoneNumber("031-123456"));
+    p.add(new PhoneNumber("031-654321"));
+    u.setHsaTelephoneNumber(p);
+    a = new ArrayList<String>();
+    a.add("Storgatan 1");
+    a.add("411 01 G�teborg");
+    u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
+    u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
+    list.add(u);
 
-	public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    u = new Unit();
+    u.setHsaIdentity("ABC002");
+    u.setName("Sahlgrenska Sjukhuset");
+    p = new ArrayList<PhoneNumber>();
+    p.add(new PhoneNumber("031-123456"));
+    p.add(new PhoneNumber("031-654321"));
+    u.setHsaTelephoneNumber(p);
+    a = new ArrayList<String>();
+    a.add("Storgatan 1");
+    a.add("411 01 Göteborg");
+    u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
+    u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
+    list.add(u);
 
-	public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    u = new Unit();
+    u.setHsaIdentity("ABC003");
+    u.setName("Uddevalla vårdcentral");
+    p = new ArrayList<PhoneNumber>();
+    p.add(new PhoneNumber("031-123456"));
+    p.add(new PhoneNumber("031-654321"));
+    u.setHsaTelephoneNumber(p);
+    a = new ArrayList<String>();
+    a.add("Storgatan 1");
+    a.add("411 01 Uddevalla");
+    u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
+    u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
+    list.add(u);
+
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see se.vgregion.kivtools.search.svc.SearchService#searchPersons(java.lang.String, java.lang.String, java.lang.String)
+   */
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId) throws Exception {
+    return searchPersons(givenName, familyName);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see se.vgregion.kivtools.search.svc.SearchService#searchPersons(java.lang.String, java.lang.String, java.lang.String, int)
+   */
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult) throws Exception {
+    return searchPersons(givenName, familyName);
+  }
+
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws Exception {
+    // JOLI please add code for this case
+    return new SikSearchResultList<Unit>();
+  }
+
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+    // JOLI please add code for this case
+    return new SikSearchResultList<Unit>();
+  }
+
+  public List<HealthcareType> getHealthcareTypesList() throws Exception {
+    return null;
+  }
+
+  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+    return null;
+  }
+
+  public List<Employment> getEmploymentsForPerson(Person person) {
+    return null;
+  }
+
+  public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception {
+    return null;
+  }
+
+  public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception {
+    return null;
+  }
+
+  public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws Exception {
+    return null;
+  }
+
+  public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception {
+    return null;
+  }
 }

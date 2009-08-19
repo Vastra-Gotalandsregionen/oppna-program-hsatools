@@ -180,11 +180,6 @@ public class SearchServiceLdapImpl implements SearchService {
     return sb.toString();
   }
 
-  public Person getPersonByDN(DN dn) throws Exception {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
   public List<Employment> getEmploymentsForPerson(Person person) throws Exception {
     SikSearchResultList<Person> personWithEmployments = personRepository.searchPersons(person.getVgrId(), 0);
     List<Employment> employments = new ArrayList<Employment>();

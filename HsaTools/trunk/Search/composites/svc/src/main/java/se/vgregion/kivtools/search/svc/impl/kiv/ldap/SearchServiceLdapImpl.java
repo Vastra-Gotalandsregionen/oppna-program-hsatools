@@ -140,10 +140,6 @@ public class SearchServiceLdapImpl implements SearchService {
     return getHealthcareTypeConditionHelper().getAllHealthcareTypes();
   }
 
-  public Person getPersonByDN(DN dn) throws Exception {
-    return null;
-  }
-
   public List<Employment> getEmploymentsForPerson(Person person) {
     return null;
   }
