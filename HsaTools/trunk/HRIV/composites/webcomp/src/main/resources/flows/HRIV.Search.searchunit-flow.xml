@@ -29,7 +29,8 @@
 	<var name="userMessage" class="se.vgregion.kivtools.hriv.presentation.forms.UserMessageContainer" scope="flow"/>
 	<var name="units" class="java.util.ArrayList" scope="flow" />
 	<var name="coordinateUnits" class="java.util.ArrayList" scope="flow" />
-	<var name="maxSearchResult" bean="Search.MaxSearchResult"/>	 <var name="settings" bean="Search.SettingsContainer" /> 
+	<var name="maxSearchResult" bean="Search.MaxSearchResult"/>
+	<var name="settings" bean="Search.SettingsContainer" /> 
 	
 	<input-mapper>
 		<input-attribute name="hsaidentity" />
@@ -39,6 +40,7 @@
 		<mapping source="municipality" target="flowScope.unitSearchSimpleForm.municipality" />
 		<mapping source="resultType" target="flowScope.unitSearchSimpleForm.resultType" />
 		<mapping source="sortOrder" target="flowScope.unitSearchSimpleForm.sortOrder" />
+		<mapping source="address" target="flowScope.displayCloseUnitsSimpleForm.address" />
 	</input-mapper>
 
 	<start-state idref="Decision.startOrSearch" />
@@ -47,6 +49,7 @@
 		<if test="requestParameters.startpage!=null" then="Display.startpage" />
 		<if test="requestParameters.caretypes!=null" then="Display.caretypes" />
 		<if test="requestParameters.viewAccessibilityInfo!=null" then="Display.viewAccessibilityInfo" />
+		<if test="requestParameters.address!=null" then="Display.closeUnitsOnMap" />
 		<if test="requestParameters.hsaidentity!=null || requestParameters.dn!=null" then="Decision.displayUnitDetails" else="Search.validateSearchParams"/>
 	</decision-state>
 
@@ -76,7 +79,6 @@
 		<transition on="gotoCaretypes" to="Display.caretypes" />
 		<transition on="doSearch" to="Search.validateSearchParams" />
 		<transition on="showDetails" to="Display.unitDetailsById" />
-		<transition on="doShowCloseUnitsOnMap" to="Display.closeUnitsOnMap" />
 		<exit-actions>
 			<evaluate-action expression="flowScope.displayCloseUnitsSimpleForm.resetSearchFlag()"></evaluate-action>
 		</exit-actions>

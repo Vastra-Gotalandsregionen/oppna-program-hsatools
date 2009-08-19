@@ -71,7 +71,7 @@
 						#{rootCauseException.message}
 					</div>
 				</h:outputText>
-				<h:outputText rendered="#{fn:length(units) gt 0 or fn:length(coordinateUnits) gt 0}">
+				<h:outputText rendered="#{fn:length(units) gt 0 or displayCloseUnitsSimpleForm.searchFlag == true}">
 					<div id="about-searchinformation-container">
 						<h2><strong><h:outputText rendered="#{displayCloseUnitsSimpleForm.searchFlag == true}">#{fn:length(coordinateUnits)}</h:outputText>
 						<h:outputText rendered="#{displayCloseUnitsSimpleForm.searchFlag == false}">#{fn:length(units)}</h:outputText></strong> #{msg.hits}</h2>
