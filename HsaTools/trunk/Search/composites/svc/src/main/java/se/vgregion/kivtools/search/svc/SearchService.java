@@ -23,7 +23,6 @@ import java.util.List;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 
 /**
@@ -139,13 +138,6 @@ public interface SearchService {
    * @throws Exception
    */
   public Person getPersonById(String id) throws Exception;
-
-  /**
-   * @param dn dn for a Person
-   * @return the corresponding person
-   * @throws Exception
-   */
-  public Person getPersonByDN(DN dn) throws Exception;
 
   /**
    * @param personDn Distinguished name for a Person
