@@ -17,8 +17,12 @@ public class ConverterTest {
 
   @Test
   public void testGetIntegerArrayList() {
+    List<Integer> result = Converter.getIntegerArrayList(null);
+    assertNotNull(result);
+    assertEquals(0, result.size());
+
     List<String> input = new ArrayList<String>();
-    List<Integer> result = Converter.getIntegerArrayList(input);
+    result = Converter.getIntegerArrayList(input);
     assertNotNull(result);
     assertEquals(0, result.size());
 
