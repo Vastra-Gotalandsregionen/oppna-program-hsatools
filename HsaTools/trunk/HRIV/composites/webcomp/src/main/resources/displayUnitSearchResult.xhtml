@@ -71,7 +71,7 @@
 						#{rootCauseException.message}
 					</div>
 				</h:outputText>
-				<h:outputText rendered="#{fn:length(units) gt 0}">
+				<h:outputText rendered="#{fn:length(units) gt 0 or fn:length(coordinateUnits) gt 0}">
 					<div id="about-searchinformation-container">
 						<h2><strong><h:outputText rendered="#{displayCloseUnitsSimpleForm.searchFlag == true}">#{fn:length(coordinateUnits)}</h:outputText>
 						<h:outputText rendered="#{displayCloseUnitsSimpleForm.searchFlag == false}">#{fn:length(units)}</h:outputText></strong> #{msg.hits}</h2>
@@ -84,7 +84,7 @@
 				</h:outputText>
 			</div>
 			<div id="search-result-caption-sort">
-				<h:outputText rendered="#{unitSearchSimpleForm.resultType lt 2 &amp;&amp; fn:length(units) gt 0}">
+				<h:outputText rendered="#{unitSearchSimpleForm.resultType lt 2 and fn:length(units) gt 0}">
 					#{msg.sortHitsOn} <select name="sort" id="sort" onchange="var sortName = this.options[this.selectedIndex].value;document.searchUnitForm.elements['sortOrder'].value=sortName;document.searchUnitForm.elements['submitButton'].click();"><option value="UNIT_NAME">#{msg.unit}</option><option value="CARE_TYPE_NAME">#{msg.careType}</option></select>
 				</h:outputText>
 			</div>
@@ -98,7 +98,7 @@
 
 		<div id="print-area">
 			<div class="search-result">
-				<h:outputText rendered="#{fn:length(units) gt 0}">
+				<h:outputText rendered="#{fn:length(units) gt 0 or fn:length(coordinateUnits) gt 0}">
 					<h:outputText rendered="#{unitSearchSimpleForm.resultType gt 1}">
 						<div id="search-result-container">
 		
@@ -168,10 +168,12 @@
 							</div>
 							
 							<h:outputText rendered="#{settings.useShowCloseUnits == 'true'}">
-								#{msg.showUnitsCloseToAddress} #{settings.distanceToUnits} m): 
-								<form jsfc="h:form" id="closeUnitsForm" onsubmit="return closeUnitsFormValidate(document.forms['closeUnitsForm'].elements[0].value);">
-									<input jsfc="h:inputText" value="#{displayCloseUnitsSimpleForm.address}" name="address" size= "20" onclick="this.focus();this.select();" onkeydown="if ((event.which &amp;&amp; event.which == 13) || (event.keyCode &amp;&amp; event.keyCode == 13)) { document.forms['closeUnitsForm'].submit(); }" />
-									<input type="submit" id="submitButton" jsfc="h:commandButton" value="#{msg.showUnits}" action="doShowCloseUnitsOnMap" />
+								<br/>#{msg.showUnitsCloseToAddress} #{settings.distanceToUnits} m): 
+								<form id="closeUnitsForm" onsubmit="return closeUnitsFormValidate(document.forms['closeUnitsForm'].elements[0].value);" method="get">
+									<input type="text" name="address" id="address" value="#{displayCloseUnitsSimpleForm.address}" size="20" onclick="this.focus();this.select();" />
+									<input type="hidden" id="resultType" name="resultType" value="2" />
+									<input type="hidden" id="_flowId" name="_flowId" value="HRIV.Search.searchunit-flow" />
+									<input type="submit" id="submitButton" value="#{msg.showUnits}" />
 								</form>
 								
 								<noscript>
