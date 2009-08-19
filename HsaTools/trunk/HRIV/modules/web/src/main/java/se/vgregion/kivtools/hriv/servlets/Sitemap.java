@@ -36,6 +36,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import se.vgregion.kivtools.hriv.presentation.SearchUnitFlowSupportBean;
+import se.vgregion.kivtools.hriv.presentation.SettingsBean;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
@@ -137,21 +138,22 @@ public class Sitemap extends HttpServlet {
       fillUnits(logger);
     }
 
+    // Spring bean name is hard coded!
+    WebApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+    SettingsBean settingsBean = (SettingsBean) springContext.getBean("Search.SettingsContainer");
+
     // Using StringBuilder instead of concatenating strings improved
     // performance a lot...
     StringBuilder output = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
 
-    String scheme = request.getScheme();
-    String serverName = request.getServerName();
-    String port = String.valueOf(request.getServerPort());
-    String contextPath = request.getContextPath();
+    String externalApplicationURL = settingsBean.getExternalApplicationURL();
 
     try {
       for (UnitSitemapInformation u : siteMapInformationUnits) {
         String hsaId = u.getHsaId();
         String lastmod = "".equals(u.getModifyTimestampFormattedInW3CDatetimeFormat()) ? u.getCreateTimestampFormattedInW3CDatetimeFormat() : u.getModifyTimestampFormattedInW3CDatetimeFormat();
         output.append("<url>\n");
-        output.append("<loc>" + scheme + "://" + serverName + ":" + port + contextPath + "/" + "visaenhet?hsaidentity=" + hsaId + "</loc>\n");
+        output.append("<loc>" + externalApplicationURL + "/" + "visaenhet?hsaidentity=" + hsaId + "</loc>\n");
         output.append("<lastmod>" + lastmod + "</lastmod>\n");
         output.append("<changefreq>weekly</changefreq>\n");
         output.append("<priority>0.5</priority>\n");

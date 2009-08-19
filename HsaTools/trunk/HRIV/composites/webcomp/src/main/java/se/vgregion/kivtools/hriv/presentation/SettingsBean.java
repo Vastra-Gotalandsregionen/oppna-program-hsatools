@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 /**
  * Holds HRIV specific settings and is made available via Spring webflow under the name "settings".
  * 
@@ -72,6 +71,7 @@ public class SettingsBean implements Serializable {
   private String geoRegion;
   private String mobileUrl;
   private String informationArea;
+  private String externalApplicationURL;
 
   public SettingsBean() {
     super();
@@ -431,5 +431,13 @@ public class SettingsBean implements Serializable {
 
   public void setVardValInclude(String vardValInclude) {
     this.vardValInclude = vardValInclude;
+  }
+
+  public String getExternalApplicationURL() {
+    return externalApplicationURL;
+  }
+
+  public void setExternalApplicationURL(String externalApplicationURL) {
+    this.externalApplicationURL = externalApplicationURL;
   }
 }
