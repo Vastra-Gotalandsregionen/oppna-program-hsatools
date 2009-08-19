@@ -380,7 +380,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
   public ArrayList<Unit> getCloseUnits(DisplayCloseUnitsSimpleForm form) {
     ArrayList<Unit> closeUnits = new ArrayList<Unit>();
     if (units == null) {
-      // Units are not set, probably because the unit popuplation is not finished yet.
+      // Units are not set, probably because the unit population is not finished yet.
       return closeUnits;
     }
 
