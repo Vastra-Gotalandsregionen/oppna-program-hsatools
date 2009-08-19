@@ -80,29 +80,28 @@ public class DisplayAccessibilityDatabaseBeanTest {
 
     assertEquals("Unexpected value of formerLanguageId", "1", bean.getFormerLanguageId());
 
-    AccessibilityInformation accessibilityInformation = new AccessibilityInformation();
-
     Document doc = EMPTY_DOC;
     Node businessObjectNode = doc.getFirstChild();
-    AccessibilityObject businessObject = new AccessibilityObject(businessObjectNode);
-    accessibilityInformation.setBusinessObject(businessObject);
-
+    AccessibilityObject businessObject = AccessibilityObject.createAccessibilityObjectFromNode(businessObjectNode);
     ArrayList<AccessibilityObject> subObjects = new ArrayList<AccessibilityObject>();
-    accessibilityInformation.setSubObjects(subObjects);
 
+    AccessibilityInformation accessibilityInformation = new AccessibilityInformation(businessObject, subObjects);
     unit.setAccessibilityInformation(accessibilityInformation);
 
     bean.filterAccessibilityDatabaseInfo(unit, form);
 
     doc = DOC_WITH_SUBOBJECTS;
     businessObjectNode = doc.getElementsByTagName("businessobject").item(0);
-    businessObject = new AccessibilityObject(businessObjectNode);
+    businessObject = AccessibilityObject.createAccessibilityObjectFromNode(businessObjectNode);
 
-    accessibilityInformation.setBusinessObject(businessObject);
+    accessibilityInformation = new AccessibilityInformation(businessObject, subObjects);
+    unit.setAccessibilityInformation(accessibilityInformation);
 
     Node subObjectNode = doc.getElementsByTagName("subobject").item(0);
-    AccessibilityObject subObject = new AccessibilityObject(subObjectNode);
+    AccessibilityObject subObject = AccessibilityObject.createAccessibilityObjectFromNode(subObjectNode);
     subObjects.add(subObject);
+    accessibilityInformation = new AccessibilityInformation(businessObject, subObjects);
+    unit.setAccessibilityInformation(accessibilityInformation);
 
     bean.filterAccessibilityDatabaseInfo(unit, form);
 
