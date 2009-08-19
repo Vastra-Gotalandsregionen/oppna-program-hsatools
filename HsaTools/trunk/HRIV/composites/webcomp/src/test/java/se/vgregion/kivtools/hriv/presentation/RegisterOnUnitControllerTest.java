@@ -1,6 +1,9 @@
 package se.vgregion.kivtools.hriv.presentation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
@@ -31,7 +34,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
 
-import se.vgregion.kivtools.hriv.presentation.RegisterOnUnitController;
 import se.vgregion.kivtools.hriv.presentation.exceptions.VardvalException;
 import se.vgregion.kivtools.hriv.presentation.exceptions.VardvalRegistrationException;
 import se.vgregion.kivtools.hriv.presentation.exceptions.VardvalSigningException;
@@ -42,6 +44,7 @@ import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVår
 import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImpl;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
+import se.vgregion.kivtools.search.util.EncryptionUtil;
 
 public class RegisterOnUnitControllerTest {
 
@@ -86,6 +89,8 @@ public class RegisterOnUnitControllerTest {
     vardvalService = new VardvalServiceMock();
     searchService = new SearchServiceMock();
     signatureEndpointImpl = new SignatureEndpointImplMock();
+
+    System.setProperty(EncryptionUtil.KEY_PROPERTY, "ACME1234ACME1234QWERT123");
   }
 
   @Test
