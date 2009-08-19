@@ -17,36 +17,23 @@
  */
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
-import java.util.Iterator;
+import static org.junit.Assert.*;
+
 import java.util.List;
+
+import org.junit.Test;
 
 import se.vgregion.kivtools.search.svc.domain.values.Municipality;
 import se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper;
 
 public class MunicipalityHelperTest {
-
-  /**
-   * @param args
-   * @throws Exception
-   */
-  public static void main(String[] args) throws Exception {
-    // TODO Auto-generated method stub
+  @Test
+  public void testMunicipalityHelper() throws Exception {
     MunicipalityHelper mh = new MunicipalityHelper();
     mh.setImplResourcePath("se.vgregion.kivtools.search.svc.impl.hak.ldap.search-composite-svc-municipalities");
 
-    try {
-      List<Municipality> municipalities = mh.getAllMunicipalities();
-      for (Iterator<Municipality> i = municipalities.iterator(); i.hasNext();) {
-        System.out.println("-- New municipality --");
-        Municipality m = i.next();
-        System.out.println(m.getMunicipalityKey());
-        System.out.println(m.getMunicipalityName());
-        System.out.println(m.getMunicipalityCode());
-      }
-
-    } catch (Exception e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    List<Municipality> municipalities = mh.getAllMunicipalities();
+    assertNotNull(municipalities);
+    assertTrue(municipalities.size() > 0);
   }
 }
