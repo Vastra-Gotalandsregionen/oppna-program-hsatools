@@ -32,18 +32,7 @@
 		<flow:execution-attributes>
 			<flow:alwaysRedirectOnPause value="false"/>
 		</flow:execution-attributes>
-<!-- 
-		<flow:execution-listeners>
-			<flow:listener ref="displayPersonDetailsFlowListener" criteria="Display.displaypersondetails-flow"/>
-			<flow:listener ref="searchUnitFlowListener" criteria="Search.searchunit-flow"/>
-		</flow:execution-listeners>
- -->
  	</flow:executor>
-<!-- 
-	<bean id="displayPersonDetailsFlowListener" class="se.vgregion.kivtools.search.listeners.DisplayPersonDetailsFlowListener"></bean>
-	<bean id="searchUnitFlowListener" class="se.vgregion.kivtools.search.listeners.DisplayUnitDetailsFlowListener"></bean>
- -->
- 
 	<!-- Creates the registry of flow definitions for this application -->
 	<flow:registry id="flowRegistry">
 		<flow:location path="classpath*:/flows/*-flow.xml" />
