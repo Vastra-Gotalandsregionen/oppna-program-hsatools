@@ -72,11 +72,17 @@ public class SetCharacterEncodingFilterTest {
       // Expected exception
     }
 
+    MockHttpServletRequest servletRequest = new MockHttpServletRequest();
     MockFilterConfig filterConfig = new MockFilterConfig();
     filterConfig.addInitParameter("ignore", "false");
     filter.init(filterConfig);
+    try {
+      filter.doFilter(servletRequest, null, null);
+      fail("NullPointerException expected");
+    } catch (NullPointerException e) {
+      // Expected exception
+    }
 
-    MockHttpServletRequest servletRequest = new MockHttpServletRequest();
     servletRequest.setCharacterEncoding("ISO-8859-1");
     try {
       filter.doFilter(servletRequest, null, null);
