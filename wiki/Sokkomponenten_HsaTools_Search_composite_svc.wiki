@@ -31,45 +31,46 @@ För att skapa en ny sökkomponentimplementation, till exempel för att ansluta 
 Dessa inställningar finns i ovan nämnda properties-fil:
 
 || *Inställningens namn* || *Möjliga värden* || *Förklaring* || 
-|| kivtools.hriv.webcomp.testingMode || true/false || I testläge visas varningar när information saknas etc. || 
-|| kivtools.hriv.webcomp.useAccessibilityDatabaseIntegration || true/false || Anger om tillgänglighetsdatabasintegration ska vara aktiverad. || 
-|| kivtools.hriv.webcomp.accessibilityDatabaseIntegrationGetIdUrl || Sträng (http...) || Sökväg till webservice som levererar tillgänglighetsdatabasid utifrån ett hsaid. || 
-|| kivtools.hriv.webcomp.accessibilityDatabaseIntegrationGetInfoUrl || Sträng (http...) || Sökväg till webservice som levererar tillgänglighetsdata utifrån ett tillgänglighetsdatabasid. || 
-|| kivtools.hriv.webcomp.fallbackOnAddressForMap || true/false || Anger om adress ska användas för kartuppslagningar ifall koordinater saknas för enheten. || 
-|| kivtools.hriv.webcomp.googleMapsKey || Sträng || Google Maps-nyckeln som är giltig för den webbplats där HRIV körs. || 
-|| kivtools.hriv.webcomp.metersToCloseUnits || Heltal || Antal meter från angiven adress som mottagningen ska anses vara ”närbelägen”. || 
-|| kivtools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes || Kommaseparerad lista med giltiga värden för HsaBussinessClassificationCodes. || Enbart mottagningar som har en av de angivna värdena som HsaBussinessClassificationCode visas. Om denna inställning lämnas tom görs ingen filtrering. || 
-|| kivtools.hriv.webcomp.findRouteLinks || url1::länknamn1::tillParameterNamn;url2::länknamn2::tillParameterNamn || Lista med reselänkar som ska visas upp på detaljvyn under "Hitta resväg". Respektive url får följande tillägg så att mottagningens gatuadress skickas med som en get-parameter: ?tillParameterNamn=#{fn:trim(unit.hsaStreetAddress.street)} Om tillParameterNamn utelämnas kommmer denna även att utelämnas i de länkar som genereras. || 
-|| kivtools.hriv.webcomp.styles || Import-satser för stilmallar. Exempel: @import 'resources/styles/grids-min.css'; @import 'resources/styles/main.css' || De stilmallsimporter som ska ske. || 
-|| kivtools.hriv.webcomp.scripts || Sökvägar till script-filer || Kommaseparerad lista med sökvägar till script-filer som används förutom standard-filerna (script.js, widget.js etc). Är tänkt att göras om så att en fil pekas ut som hanterar scriptlänkningen. || 
-|| kivtools.hriv.webcomp.header || Sökväg till sidhuvud som inkluderas. || Pekar ut en fil som inkluderas som sidhuvud. || 
-|| kivtools.hriv.webcomp.footer || Sökväg till sidfot som inkluderas. || Pekar ut en fil som inkluderas som sidfot. || 
+|| hsatools.hriv.webcomp.testingMode || true/false || I testläge visas varningar när information saknas etc. || 
+|| hsatools.hriv.webcomp.useAccessibilityDatabaseIntegration || true/false || Anger om tillgänglighetsdatabasintegration ska vara aktiverad. || 
+|| hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetIdUrl || Sträng (http...) || Sökväg till webservice som levererar tillgänglighetsdatabasid utifrån ett hsaid. || 
+|| hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetInfoUrl || Sträng (http...) || Sökväg till webservice som levererar tillgänglighetsdata utifrån ett tillgänglighetsdatabasid. || 
+|| hsatools.hriv.webcomp.fallbackOnAddressForMap || true/false || Anger om adress ska användas för kartuppslagningar ifall koordinater saknas för enheten. || 
+|| hsatools.hriv.webcomp.googleMapsKey || Sträng || Google Maps-nyckeln som är giltig för den webbplats där HRIV körs. || 
+|| hsatools.hriv.webcomp.metersToCloseUnits || Heltal || Antal meter från angiven adress som mottagningen ska anses vara ”närbelägen”. || 
+|| hsatools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes || Kommaseparerad lista med giltiga värden för HsaBussinessClassificationCodes. || Enbart mottagningar som har en av de angivna värdena som HsaBussinessClassificationCode visas. Om denna inställning lämnas tom görs ingen filtrering. || 
+|| hsatools.hriv.webcomp.findRouteLinks || url1::länknamn1::tillParameterNamn;url2::länknamn2::tillParameterNamn || Lista med reselänkar som ska visas upp på detaljvyn under "Hitta resväg". Respektive url får följande tillägg så att mottagningens gatuadress skickas med som en get-parameter: ?tillParameterNamn=#{fn:trim(unit.hsaStreetAddress.street)} Om tillParameterNamn utelämnas kommmer denna även att utelämnas i de länkar som genereras. || 
+|| hsatools.hriv.webcomp.styles || Import-satser för stilmallar. Exempel: @import 'resources/styles/grids-min.css'; @import 'resources/styles/main.css' || De stilmallsimporter som ska ske. || 
+|| hsatools.hriv.webcomp.scripts || Sökvägar till script-filer || Kommaseparerad lista med sökvägar till script-filer som används förutom standard-filerna (script.js, widget.js etc). Är tänkt att göras om så att en fil pekas ut som hanterar scriptlänkningen. || 
+|| hsatools.hriv.webcomp.header || Sökväg till sidhuvud som inkluderas. || Pekar ut en fil som inkluderas som sidhuvud. || 
+|| hsatools.hriv.webcomp.footer || Sökväg till sidfot som inkluderas. || Pekar ut en fil som inkluderas som sidfot. || 
 || hsatools.hriv.webcomp.informationArea || Sökväg till sidinnehåll som inkluderas. || Pekar ut en fil som inkluderas i informationsrutan i vänsterkolumnen. || 
-|| kivtools.hriv.webcomp.startPage || Sökväg till sidinnehåll som inkluderas. || Pekar ut en fil som inkluderas på startsidan. || 
-|| kivtools.hriv.webcomp.careTypePage || Sökväg till sidinnehåll som inkluderas. || Pekar ut en fil som inkluderas på vårdtypssidan. || 
-|| kivtools.hriv.webcomp.useShowUnitCode || true/false || Anger om kodrutan som visar enhetsdetaljerwidgeten ska användas. || 
-|| kivtools.hriv.webcomp.showUnitCodeOnServer || Serverns adress där kodrutan ska visas. || Gör det möjligt att enbart visa kodrutan på en specifik server. Kodrutan kommer inte att visas om HRIV körs på en annan server. || 
-|| kivtools.hriv.webcomp.showUnitCode1 || HTML-kod som utgör första delen av kodrutan. || Koden för kodrutan har delats i två block för att kunna inkludera dynamisk information (mottagningens hsaId). || 
-|| kivtools.hriv.webcomp.showUnitCode2 || HTML-kod som utgör andra delen av kodrutan. || Andra delen av kodrutans kod som fortsätter direkt efter att mottagningens hsaid. || 
-|| kivtools.hriv.webcomp.useTrackingCode || true/false || Anger om nedanstående "spårningskod" ska användas. || 
-|| kivtools.hriv.webcomp.trackingCodeOnServer || Serverns adress där kodrutan ska visas. || Gör det möjligt att enbart inkludera ”spårningskoden” på en specifik server. Exempelvis troligt att spårningskoden inte ska köras på en testserver. || 
-|| kivtools.hriv.webcomp.trackingCode || HTML-kod som utgör spårningskoden. || Exempelvis ett anrop till Google Analytics. || 
-|| kivtools.hriv.webcomp.useListenLink || true/false || Anger om lyssningslänk för uppläsning av sidan ska presenteras. || 
-|| kivtools.hriv.webcomp.listenLinkCode1 || HTML-kod som utgör första delen av lyssningskoden. || Koden för lyssningskoden har delats i två block för att kunna inkludera dynamisk information. || 
-|| kivtools.hriv.webcomp.listenLinkCode2 || HTML-kod som utgör andra delen av lyssningskoden. || Andra delen av kodrutans kod som fortsätter direkt efter att mottagningens hsaid. || 
-|| kivtools.hriv.webcomp.usePrinting || true/false || Anger om utskriftskod ska presenteras. || 
-|| kivtools.hriv.webcomp.useMvk || true/false || Aktiverar/inaktiverar integration med Mina Vårdkontakter. || 
-|| kivtools.hriv.webcomp.mvkGuid || Sträng || Identifieringskod som tillhandahålls av Mina Vårdkontakter. || 
-|| kivtools.hriv.webcomp.mvkUrlBeforeHsaidAndGuidParams || Sträng/sökväg: http... || Sökvägen till den webbtjänst på MVK som returnerar de tjänster som finns tillgängliga för aktuell mottagning. GET-parametrar (&hsaid=...&guid=...) för guid och HSA-id läggs på. || 
-|| kivtools.hriv.webcomp.mvkLoginUrl || Sträng/sökväg: http... || Sökvägen till den mvk-sida som det länkas till ifall enheten har tjänster som erbjuds via MVK. || 
-|| kivtools.hriv.webcomp.metaAuthor || Sträng || Utgivare/författare som anges i meta-informationen. || 
-|| kivtools.hriv.webcomp.metaCopyright || Sträng || Copyrighttext som anges i meta-informationen, exempelvis "Copyright (c) Västra Götalandsregionen". || 
-|| kivtools.hriv.webcomp.startpage.title || Sträng || Titeln på startsidan. || 
-|| kivtools.hriv.webcomp.searchresult.title || Sträng || Titeln på träffresultatsidan. || 
-|| kivtools.hriv.webcomp.mainTop || Sträng || Sträng som visas överst i ”huvudinnehållet” (div-id: yui-main) på alla sidor. || 
-|| kivtools.hriv.webcomp.showLinkToIM || true/false || Om länk för editering i IM ska visas. || 
-|| kivtools.hriv.webcomp.linkToIMOnServer || Sträng || Gör det möjligt att enbart visa länken till IM på en specifik server. Kodrutan kommer inte att visas om HRIV körs på en annan server. || 
-|| kivtools.hriv.webcomp.linkToIMBase || Sträng || Login-sidan till IM som vi länkar till och skickar med sökvägen till mottagningen Base64-kodad. Exempelvis: https://kivweb.vgregion.se/nordicedge/vgr/login.jsp?loginDN= || 
-|| kivtools.hriv.webcomp.verifyV1 || Sträng || Innehåll till meta-taggen "verify-v1" som används av Google Web Toolkit (GWT) för att verifiera att man "äger" en viss webbplats. || 
-|| kivtools.hriv.webcomp.geoRegion || Sträng/kod || Region-kod som används för geometadatataggen "geo.region". Se http://en.wikipedia.org/wiki/ISO_3166-2:SE || 
-|| kivtools.hriv.webcomp.mobileUrl || Sträng || Hela servernamnet inkl domänadressen, exempelvis m.hittavard.vgregion.se, som används då gränssnittet anpassats för mobila enheter (handheld-CSS). || 
+|| hsatools.hriv.webcomp.startPage || Sökväg till sidinnehåll som inkluderas. || Pekar ut en fil som inkluderas på startsidan. || 
+|| hsatools.hriv.webcomp.careTypePage || Sökväg till sidinnehåll som inkluderas. || Pekar ut en fil som inkluderas på vårdtypssidan. || 
+|| hsatools.hriv.webcomp.useShowUnitCode || true/false || Anger om kodrutan som visar enhetsdetaljerwidgeten ska användas. || 
+|| hsatools.hriv.webcomp.showUnitCodeOnServer || Serverns adress där kodrutan ska visas. || Gör det möjligt att enbart visa kodrutan på en specifik server. Kodrutan kommer inte att visas om HRIV körs på en annan server. || 
+|| hsatools.hriv.webcomp.showUnitCode1 || HTML-kod som utgör första delen av kodrutan. || Koden för kodrutan har delats i två block för att kunna inkludera dynamisk information (mottagningens hsaId). || 
+|| hsatools.hriv.webcomp.showUnitCode2 || HTML-kod som utgör andra delen av kodrutan. || Andra delen av kodrutans kod som fortsätter direkt efter att mottagningens hsaid. || 
+|| hsatools.hriv.webcomp.useTrackingCode || true/false || Anger om nedanstående "spårningskod" ska användas. || 
+|| hsatools.hriv.webcomp.trackingCodeOnServer || Serverns adress där kodrutan ska visas. || Gör det möjligt att enbart inkludera ”spårningskoden” på en specifik server. Exempelvis troligt att spårningskoden inte ska köras på en testserver. || 
+|| hsatools.hriv.webcomp.trackingCode || HTML-kod som utgör spårningskoden. || Exempelvis ett anrop till Google Analytics. || 
+|| hsatools.hriv.webcomp.useListenLink || true/false || Anger om lyssningslänk för uppläsning av sidan ska presenteras. || 
+|| hsatools.hriv.webcomp.listenLinkCode1 || HTML-kod som utgör första delen av lyssningskoden. || Koden för lyssningskoden har delats i två block för att kunna inkludera dynamisk information. || 
+|| hsatools.hriv.webcomp.listenLinkCode2 || HTML-kod som utgör andra delen av lyssningskoden. || Andra delen av kodrutans kod som fortsätter direkt efter att mottagningens hsaid. || 
+|| hsatools.hriv.webcomp.usePrinting || true/false || Anger om utskriftskod ska presenteras. || 
+|| hsatools.hriv.webcomp.useMvk || true/false || Aktiverar/inaktiverar integration med Mina Vårdkontakter. || 
+|| hsatools.hriv.webcomp.mvkGuid || Sträng || Identifieringskod som tillhandahålls av Mina Vårdkontakter. || 
+|| hsatools.hriv.webcomp.mvkUrlBeforeHsaidAndGuidParams || Sträng/sökväg: http... || Sökvägen till den webbtjänst på MVK som returnerar de tjänster som finns tillgängliga för aktuell mottagning. GET-parametrar (&hsaid=...&guid=...) för guid och HSA-id läggs på. || 
+|| hsatools.hriv.webcomp.mvkLoginUrl || Sträng/sökväg: http... || Sökvägen till den mvk-sida som det länkas till ifall enheten har tjänster som erbjuds via MVK. || 
+|| hsatools.hriv.webcomp.metaAuthor || Sträng || Utgivare/författare som anges i meta-informationen. || 
+|| hsatools.hriv.webcomp.metaCopyright || Sträng || Copyrighttext som anges i meta-informationen, exempelvis "Copyright (c) Västra Götalandsregionen". || 
+|| hsatools.hriv.webcomp.startpage.title || Sträng || Titeln på startsidan. || 
+|| hsatools.hriv.webcomp.searchresult.title || Sträng || Titeln på träffresultatsidan. || 
+|| hsatools.hriv.webcomp.mainTop || Sträng || Sträng som visas överst i ”huvudinnehållet” (div-id: yui-main) på alla sidor. || 
+|| hsatools.hriv.webcomp.showLinkToIM || true/false || Om länk för editering i IM ska visas. || 
+|| hsatools.hriv.webcomp.linkToIMOnServer || Sträng || Gör det möjligt att enbart visa länken till IM på en specifik server. Kodrutan kommer inte att visas om HRIV körs på en annan server. || 
+|| hsatools.hriv.webcomp.linkToIMBase || Sträng || Login-sidan till IM som vi länkar till och skickar med sökvägen till mottagningen Base64-kodad. Exempelvis: https://kivweb.vgregion.se/nordicedge/vgr/login.jsp?loginDN= || 
+|| hsatools.hriv.webcomp.verifyV1 || Sträng || Innehåll till meta-taggen "verify-v1" som används av Google Web Toolkit (GWT) för att verifiera att man "äger" en viss webbplats. || 
+|| hsatools.hriv.webcomp.geoRegion || Sträng/kod || Region-kod som används för geometadatataggen "geo.region". Se http://en.wikipedia.org/wiki/ISO_3166-2:SE || 
+|| hsatools.hriv.webcomp.mobileUrl || Sträng || Hela servernamnet inkl domänadressen, exempelvis m.hittavard.vgregion.se, som används då gränssnittet anpassats för mobila enheter (handheld-CSS). || 
+|| hsatools.hriv.webcomp.externalApplicationURL || Sträng/sökväg: http... || Applikationens externa URL. ||
