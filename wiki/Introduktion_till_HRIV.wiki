@@ -1,7 +1,0 @@
-#summary Introduktion till Hitta rätt i vården-projektet
-#labels Project-HRIV,Featured
-
-= Introduktion =
-Hitta-rätt-i-vården är en Java EE-webbapplikation vars syfte är att göra det möjligt att presentera vårdrelaterad information från en [http://www.carelink.se/tjanster/hsa/ HSA]-kompatibel datakälla (läs: LDAPv3-katalog). HRIV delar viss funktionalitet med applikationen Sök-i-Katalog som har samma gränssnitt mot datakällan.
-
-Dokumentationen kring HRIV är tänkt att beskriva dess uppbyggnad och bör göra det enklare att underhålla och vidareutveckla applikationen.
