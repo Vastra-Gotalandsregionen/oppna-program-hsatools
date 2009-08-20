@@ -15,3 +15,5 @@ HsaTools-HRIV-app används för att skapa en EAR-fil.
 
 Översiktsbild med exempel från Västra Götaland:
 http://oppna-program-hsatools.googlecode.com/svn/wiki/bilder/HsaTools/HRIV/hriv_high_level_graph.png 
+
+Läs om [http://code.google.com/p/oppna-program-hsatools/wiki/Sokkomponenten_HsaTools_Search_composite_svc sökkomponentanpassningar] för en introduktion av de anpassningar som kan göras i HRIV.
