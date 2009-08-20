@@ -1,0 +1,10 @@
+#summary Ytterligare anpassningar av HRIV
+#labels HRIV
+
+=Ytterligare anpassningar av HRIV=
+
+Förutom de [http://code.google.com/p/oppna-program/wiki/Sokkomponenten_HsaTools_Search_composite_svc inställningar] som kan göras i konfigurationsfiler går det att skicka med några GET-parametrar som påverkar utseendet av HRIV.
+
+För att dölja det sidhuvud som visas i normala fall kan parametern noHeader användas. Om denna sätts till "1", det vill säga att noHeader=1 läggs på URL:en (exempelvis: http://hittavard.vgregion.se/?noHeader=1), visas inte sidhuvudet.
+
+När widgeten som används för att söka i HRIV används kan det vara smidigt att enbart returnera listan med sökträffar, då används med fördel parametern resultOnly satt till ”1”, det vill säga resultOnly=1 läggs på urlen. Exempel: http://hittavard.vgregion.se/hriv/displayUnitSearchResult.jsf?healthcareType=1&_flowId=HRIV.Search.searchunit-flow&resultOnly=1&googleMapsKey=XXXXX
