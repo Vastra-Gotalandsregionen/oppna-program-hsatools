@@ -14,4 +14,4 @@ Det mesta arbetet sker i HsaTools-HRIV-composite-webcomp, som innehåller det so
 HsaTools-HRIV-app används för att skapa en EAR-fil.
 
 Översiktsbild med exempel från Västra Götaland:
-http://oppna-program.googlecode.com/svn/wiki/bilder/HsaTools/HRIV/hriv_high_level_graph.png 
+http://oppna-program-hsatools.googlecode.com/svn/wiki/bilder/HsaTools/HRIV/hriv_high_level_graph.png 
