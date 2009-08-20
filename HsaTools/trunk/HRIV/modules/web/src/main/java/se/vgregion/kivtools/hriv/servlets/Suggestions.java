@@ -62,6 +62,8 @@ public class Suggestions extends HttpServlet implements Serializable {
 
     PrintWriter out = response.getWriter();
     out.print(output);
+    out.flush();
+    out.close();
   }
 
   /**
