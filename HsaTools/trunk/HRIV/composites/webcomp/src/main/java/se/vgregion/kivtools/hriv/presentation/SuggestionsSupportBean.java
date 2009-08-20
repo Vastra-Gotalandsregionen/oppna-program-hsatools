@@ -184,7 +184,6 @@ public class SuggestionsSupportBean {
       resultList = searchUnitFlowSupportBean.doSearch(theForm);
     } catch (KivException e) {
       // Not too much to do...
-      e.printStackTrace();
     }
     return resultList;
   }
