@@ -52,7 +52,7 @@ import se.vgregion.kivtools.search.svc.domain.Unit;
 public class Sitemap extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private static final String CLASS_NAME = Sitemap.class.getName();
-  private static final Log logger = LogFactory.getLog(Sitemap.class);
+  private static final Log LOGGER = LogFactory.getLog(Sitemap.class);
   private static ArrayList<UnitSitemapInformation> siteMapInformationUnits = new ArrayList<UnitSitemapInformation>();
   private static ServletContext servletContext;
 
@@ -71,7 +71,7 @@ public class Sitemap extends HttpServlet {
    */
   @Override
   public void init() throws ServletException {
-    logger.info(CLASS_NAME + ".init()");
+    LOGGER.info(CLASS_NAME + ".init()");
     servletContext = getServletContext();
     super.init();
 
@@ -81,7 +81,7 @@ public class Sitemap extends HttpServlet {
     createUnitsTimer.schedule(new TimerTask() {
       @Override
       public void run() {
-        Sitemap.fillUnits(logger);
+        Sitemap.fillUnits(LOGGER);
       }
       // Update list of units once in a 24 hour period. Use delay because i fails the unittest. Temporary fix.
     }, 1000, 3600000 * 24);
@@ -134,14 +134,14 @@ public class Sitemap extends HttpServlet {
    */
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    logger.info(CLASS_NAME + ".doGet()");
-    logger.debug("Starting to put together the sitemap.");
+    LOGGER.info(CLASS_NAME + ".doGet()");
+    LOGGER.debug("Starting to put together the sitemap.");
 
     long startTimeMillis = System.currentTimeMillis();
 
     // Check if list of units is populated, otherwise we fill it up!
     if (siteMapInformationUnits.size() < 1) {
-      fillUnits(logger);
+      fillUnits(LOGGER);
     }
 
     // Spring bean name is hard coded!
@@ -165,15 +165,15 @@ public class Sitemap extends HttpServlet {
         output.append("<priority>0.5</priority>\n");
         output.append("</url>\n");
 
-        logger.debug("Added unit " + hsaId);
+        LOGGER.debug("Added unit " + hsaId);
       }
     } catch (Exception e) {
-      logger.error("Something went wrong when retrieving all units.");
+      LOGGER.error("Something went wrong when retrieving all units.");
     }
 
     output.append("</urlset>");
     long endTimeMillis = System.currentTimeMillis();
-    logger.debug("Sitemap generation finished. It took: " + (endTimeMillis - startTimeMillis) / 1000 + " seconds.");
+    LOGGER.debug("Sitemap generation finished. It took: " + (endTimeMillis - startTimeMillis) / 1000 + " seconds.");
     PrintWriter pw = response.getWriter();
     pw.write(output.toString());
     pw.flush();
