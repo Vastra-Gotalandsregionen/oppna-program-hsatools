@@ -19,16 +19,7 @@
 	<bean id="Controller.registerOnUnit"
 		class="se.vgregion.kivtools.hriv.presentation.RegisterOnUnitController"
 		init-method="initEndpoint">
-		<!--
-			<property name="externalApplicationURL"
-			value="http://localhost:8180/HsaTools-HRIV-module-web" />
-		-->
-
-		<!--
-			<property name="externalApplicationURL"
-			value="https://portal.proxy.vgregion.se/hriv" />
-		-->
-
+		
 		<property name="externalApplicationURL">
 			<bean
 				class="org.springframework.beans.factory.config.PropertyPathFactoryBean">
@@ -42,22 +33,19 @@
 		</property>
 
 		<!--
-			To change from Test to prod, change test to id in the following urls
-	-->
+			To change from Test to prod, change test to id in the following urls	    -->
 		<property name="serviceUrl"
 			value="https://id.signicat.com/std/method/vgr?method=sign" />
 		<!--
-			<property name="serviceUrl"
-			value="http://kivsearch.vgregion.se:8080/testtools/Sign.jsp?method=sign"
-			/>
-	-->
+		<property name="serviceUrl"
+			value="http://kivsearch.vgregion.se:8080/testtools/Sign.jsp?method=sign" />
+		-->
 		<property name="signatureServiceEndpoint"
 			value="https://id.signicat.com/signatureservice/services/signatureservice" />
 
-		<!--		<property name="signatureServiceEndpoint"-->
 		<!--
-			value="http://kivsearch.vgregion.se:8080/testtools/ws/signatureservice/services/signatureservice"
-			/>
+		<property name="signatureServiceEndpoint"
+			value="http://kivsearch.vgregion.se:8080/testtools/ws/signatureservice/services/signatureservice" />
 		-->
 
 		<property name="vardValService" ref="Registration.vardValService" />
