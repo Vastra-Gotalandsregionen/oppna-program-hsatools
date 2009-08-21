@@ -65,10 +65,10 @@ public class EncryptionUtil {
   }
   
   /**
-   * Method for encryption and decryption of data
+   * Method for encryption and decryption of data.
    * @param encryptMode The mode to use if true encryption is used.
    * @param value The information to encrypt or decrypt.
-   * @return
+   * @return The encrypted/decrypted string.
    */
   private static String dercryptOrEncrypt(boolean encryptMode, byte[] value) {
     String key = System.getProperty(KEY_PROPERTY);
