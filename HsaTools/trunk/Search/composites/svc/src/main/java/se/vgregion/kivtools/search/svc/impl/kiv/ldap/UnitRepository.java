@@ -60,7 +60,6 @@ import com.novell.ldap.LDAPSearchResults;
 public class UnitRepository {
   public static final String KIV_SEARCH_BASE = "ou=Org,o=vgr";
   private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
-  private static final String CLASS_NAME = UnitRepository.class.getName();
   private static final String LDAP_WILD_CARD = "*";
   // an "
   private static final String LDAP_EXACT_CARD = "\"";
@@ -84,12 +83,24 @@ public class UnitRepository {
   public void setLdapConnectionPool(LdapConnectionPool lp) {
     this.theConnectionPool = lp;
   }
-
+  /**
+   * Search for unit with max result set to 0. 
+   * @param unit The unit to search for.
+   * @return List of found units.
+   * @throws Exception .
+   */
   public SikSearchResultList<Unit> searchUnits(Unit unit) throws Exception {
     // Zero means all units
     return searchUnits(unit, 0);
   }
 
+  /**
+   * Search for a unit.
+   * @param unit The unit to search for.
+   * @param sortOrder The order the search result data. 
+   * @return A list of found units.
+   * @throws Exception .
+   */
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws Exception {
     // Zero means all units
     return searchAdvancedUnits(unit, 0, sortOrder, new ArrayList<Integer>());
@@ -104,6 +115,7 @@ public class UnitRepository {
    * @param showUnitsWithTheseHsaBussinessClassificationCodes - show units for chosen HsaBussinessClassificationCodes.
    * 
    * @return - a list of found units.
+   * @throws Exception If an error occur.
    */
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
     String searchFilter = createAdvancedSearchFilter(unit, showUnitsWithTheseHsaBussinessClassificationCodes);
@@ -151,6 +163,7 @@ public class UnitRepository {
             found = true;
           }
         } catch (NumberFormatException e) {
+          logger.debug(e);
           // We simply ignore this. hsaBusinessClassificationCodes
           // should be integers, otherwise something is seriously
           // wrong.
@@ -193,7 +206,7 @@ public class UnitRepository {
                     }
                   }
                 }
-              } else if (value instanceof List) {
+              } else if (value instanceof List<?>) {
                 for (String v : conditionValues) {
                   if (((List<String>) value).contains(v)) {
                     conditionFulfilled = true;
@@ -214,17 +227,34 @@ public class UnitRepository {
       }
     }
   }
-
+  
+  /**
+   * Search for selected unit.
+   * @param unit The unit to search for.
+   * @param maxResult Max number of units to contain in the result.
+   * @return List of found units.
+   * @throws Exception .
+   */
   public SikSearchResultList<Unit> searchUnits(Unit unit, int maxResult) throws Exception {
     String searchFilter = createSearchFilter(unit);
     return searchUnits(searchFilter, LDAPConnection.SCOPE_SUB, maxResult, new UnitNameComparator());
   }
-
+  /**
+   * Fetch unit by the unit hsa id.
+   * @param hsaId The hsa id of the unit.
+   * @return The unit with the given hsa id.
+   * @throws Exception .
+   */
   public Unit getUnitByHsaId(String hsaId) throws Exception {
     String searchFilter = "(hsaIdentity=" + hsaId + ")";
     return searchUnit(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter);
   }
-
+  /**
+   * Fetch unit by the unit dn.
+   * @param dn The dn for the unit.
+   * @return The unit with the given dn.
+   * @throws Exception .
+   */
   public Unit getUnitByDN(DN dn) throws Exception {
     LDAPConnection lc = null;
     Unit u = null;
@@ -237,11 +267,20 @@ public class UnitRepository {
     }
     return u;
   }
-
+  /**
+   * Get all hsa ids to all units.
+   * @return List of hsa ids.
+   * @throws Exception .
+   */
   public List<String> getAllUnitsHsaIdentity() throws Exception {
     return getAllUnitsHsaIdentity(new ArrayList<Integer>());
   }
 
+  /**
+   * Get all units.
+   * @return List of all units.
+   * @throws Exception .
+   */
   public List<Unit> getAllUnits() throws Exception {
     List<Unit> units = new ArrayList<Unit>();
     for (String hsaId : getAllUnitsHsaIdentity()) {
@@ -252,7 +291,13 @@ public class UnitRepository {
     }
     return units;
   }
-
+  
+  /**
+   * Get all hsa ids for units with chosen bussinessClassification codes.
+   * @param showUnitsWithTheseHsaBussinessClassificationCodes List with codes.
+   * @return List of found units.
+   * @throws Exception .
+   */
   public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
     LDAPConnection lc = null;
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
@@ -291,8 +336,6 @@ public class UnitRepository {
           }
         }
       }
-    } catch (Exception e) {
-      throw e;
     } finally {
       theConnectionPool.freeConnection(lc);
     }

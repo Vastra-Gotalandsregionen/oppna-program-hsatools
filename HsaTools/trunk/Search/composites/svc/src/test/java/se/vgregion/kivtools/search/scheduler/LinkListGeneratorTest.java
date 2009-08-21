@@ -17,7 +17,7 @@ import org.junit.Test;
 import se.vgregion.kivtools.search.svc.SearchService;
 /**
  * Made test for this class, but doesn't know if it still is used in production.
- * @author david
+ * @author David
  *
  */
 public class LinkListGeneratorTest {
@@ -40,8 +40,6 @@ public class LinkListGeneratorTest {
     
     linkListGenerator = new LinkListGenerator();
     linkListGenerator.setSearchService(mockSearchService);
-    // Don't know why there is a file set property
-    linkListGenerator.setFile(new File("test"));
   }
  
   

@@ -82,17 +82,39 @@ public class PersonRepository {
   public void setLdapConnectionPool(LdapConnectionPool lp) {
     this.theConnectionPool = lp;
   }
-
+  
+  /**
+   * Search person by dn.
+   * @param dn The dn object to use to search person.
+   * @return List of persons found in search.
+   * @throws Exception .
+   */
   public List<Person> searchPersons(DN dn) throws Exception {
     // Zero means all persons
     return searchPersons(dn, 0);
   }
 
+  /**
+   * Search person by dn with chosen max result.
+   * @param dn The dn object to use to search person.
+   * @param maxResult The maximum persons in the search result.
+   * @return List of found persons.
+   * @throws Exception .
+   */
   public List<Person> searchPersons(DN dn, int maxResult) throws Exception {
     String searchFilter = "";
     return searchPersons(searchFilter, LDAPConnection.SCOPE_ONE, maxResult);
   }
 
+  /**
+   * Search for a persons.
+   * @param givenName Name of person.
+   * @param familyName Family name of person.
+   * @param vgrId Unique id for person.
+   * @param maxResult Maximum data rows in the result.
+   * @return List of found persons.
+   * @throws Exception .
+   */
   public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult) throws Exception {
     String searchFilter = createSearchPersonsFilter(givenName, familyName, vgrId);
     return searchPersons(searchFilter, LDAPConnection.SCOPE_ONE, maxResult);
@@ -101,19 +123,30 @@ public class PersonRepository {
   /**
    * 
    * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list od Persons
-   * @return
-   * @throws Exception
+   * @param maxResult Maximum index in the search result list.
+   * @return List of found persons.
+   * @throws Exception .
    */
   public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws Exception {
     String searchFilter = createSearchPersonsFilterVgrId(vgrId);
     return searchPersons(searchFilter, LDAPConnection.SCOPE_ONE, maxResult);
   }
-
+  /**
+   * Fetch a person by vgr id.
+   * @param vgrId Unique id for person.
+   * @return Found person.
+   * @throws Exception .
+   */
   public Person getPersonByVgrId(String vgrId) throws Exception {
     String searchFilter = "(objectclass=vgrUser)";
     return searchPerson("cn=" + vgrId + "," + KIV_SEARCH_BASE, LDAPConnection.SCOPE_BASE, searchFilter);
   }
 
+  /**
+   * Get all vgr id for all persons.
+   * @return List of all vgr ids.
+   * @throws Exception .
+   */
   public List<String> getAllPersonsVgrId() throws Exception {
     LDAPConnection lc = null;
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
@@ -421,6 +454,13 @@ public class PersonRepository {
     p.setHsaSpecialityName(hsaSpecialityNames);
   }
 
+  /**
+   * Get persons for chosen units.
+   * @param units The units to fetch persons from.
+   * @param maxResult Maximum result of index in the list.
+   * @return List of persons.
+   * @throws Exception .
+   */
   public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception {
     SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
     // Generate or filter condition
