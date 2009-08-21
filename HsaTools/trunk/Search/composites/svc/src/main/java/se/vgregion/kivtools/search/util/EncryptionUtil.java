@@ -17,14 +17,9 @@
  */
 package se.vgregion.kivtools.search.util;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import java.security.GeneralSecurityException;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -48,34 +43,8 @@ public class EncryptionUtil {
    */
   public static String encrypt(String value) {
     String encryptedString = null;
-
-    String key = System.getProperty(KEY_PROPERTY);
-
-    if (value != null && key != null) {
-      byte[] preSharedKey = key.getBytes();
-      SecretKey aesKey = new SecretKeySpec(preSharedKey, "DESede");
-      Cipher cipher;
-      byte[] cipherText;
-      try {
-        cipher = Cipher.getInstance("DESede/CBC/PKCS5Padding");
-        String initialVector = "vardval0";
-        IvParameterSpec ivs = new IvParameterSpec(initialVector.getBytes());
-        cipher.init(Cipher.ENCRYPT_MODE, aesKey, ivs);
-        cipherText = cipher.doFinal(value.getBytes());
-      } catch (NoSuchAlgorithmException e) {
-        throw new RuntimeException("Unable to encrypt the provided value", e);
-      } catch (NoSuchPaddingException e) {
-        throw new RuntimeException("Unable to encrypt the provided value", e);
-      } catch (InvalidKeyException e) {
-        throw new RuntimeException("Unable to encrypt the provided value", e);
-      } catch (InvalidAlgorithmParameterException e) {
-        throw new RuntimeException("Unable to encrypt the provided value", e);
-      } catch (IllegalBlockSizeException e) {
-        throw new RuntimeException("Unable to encrypt the provided value", e);
-      } catch (BadPaddingException e) {
-        throw new RuntimeException("Unable to encrypt the provided value", e);
-      }
-      encryptedString = new String(Base64.encodeBase64(cipherText));
+    if (value != null) {
+      encryptedString = dercryptOrEncrypt(true, value.getBytes());
     }
     return encryptedString;
   }
@@ -88,34 +57,45 @@ public class EncryptionUtil {
    */
   public static String decrypt(String value) {
     String decryptedString = null;
-    String key = System.getProperty(KEY_PROPERTY);
-
-    if (value != null && key != null) {
+    if (value != null) {
       byte[] encryptedByteArray = Base64.decodeBase64(value.getBytes());
-      byte[] preSharedKey = key.getBytes();
-      SecretKey aesKey = new SecretKeySpec(preSharedKey, "DESede");
-      byte[] ssnBytes = null;
-      try {
-        Cipher cipher = Cipher.getInstance("DESede/CBC/PKCS5Padding");
-        String initialVector = "vardval0";
-        IvParameterSpec ivs = new IvParameterSpec(initialVector.getBytes());
-        cipher.init(Cipher.DECRYPT_MODE, aesKey, ivs);
-        ssnBytes = cipher.doFinal(encryptedByteArray);
-      } catch (InvalidKeyException e) {
-        throw new RuntimeException("Unable to decrypt the provided value", e);
-      } catch (NoSuchAlgorithmException e) {
-        throw new RuntimeException("Unable to decrypt the provided value", e);
-      } catch (NoSuchPaddingException e) {
-        throw new RuntimeException("Unable to decrypt the provided value", e);
-      } catch (IllegalBlockSizeException e) {
-        throw new RuntimeException("Unable to decrypt the provided value", e);
-      } catch (BadPaddingException e) {
-        throw new RuntimeException("Unable to decrypt the provided value", e);
-      } catch (InvalidAlgorithmParameterException e) {
-        throw new RuntimeException("Unable to decrypt the provided value", e);
-      }
-      decryptedString = new String(ssnBytes);
+      decryptedString = dercryptOrEncrypt(false, encryptedByteArray);
     }
     return decryptedString;
+  }
+  
+  /**
+   * Method for encryption and decryption of data
+   * @param encryptMode The mode to use if true encryption is used.
+   * @param value The information to encrypt or decrypt.
+   * @return
+   */
+  private static String dercryptOrEncrypt(boolean encryptMode, byte[] value) {
+    String key = System.getProperty(KEY_PROPERTY);
+    Cipher cipher = null;
+    String result = null;
+    // Set chosen cipher mode to use.
+    int opmode = encryptMode ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE;
+    if (key != null) {
+      byte[] preSharedKey = key.getBytes();
+      byte[] ssnBytes = null;
+      SecretKey aesKey = new SecretKeySpec(preSharedKey, "DESede");
+      try {
+        cipher = Cipher.getInstance("DESede/CBC/PKCS5Padding");
+        String initialVector = "vardval0";
+        IvParameterSpec ivs = new IvParameterSpec(initialVector.getBytes());
+        cipher.init(opmode, aesKey, ivs);
+        ssnBytes = cipher.doFinal(value);
+        // If data is encrypted encode the result to base 64. 
+        if (opmode == Cipher.ENCRYPT_MODE) {
+          ssnBytes = Base64.encodeBase64(ssnBytes);
+        }
+        
+        result = new String(ssnBytes);
+      } catch (GeneralSecurityException e) {
+        throw new RuntimeException("Unable to decrypt the provided value", e);
+      }
+    }
+    return result;
   }
 }
