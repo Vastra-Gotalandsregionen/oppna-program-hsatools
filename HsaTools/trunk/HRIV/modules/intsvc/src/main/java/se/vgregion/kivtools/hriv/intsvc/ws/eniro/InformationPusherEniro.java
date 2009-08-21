@@ -19,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.apache.commons.logging.Log;
@@ -46,6 +47,11 @@ import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 
 import com.domainlanguage.time.TimePoint;
 
+/**
+ * 
+ * @author david
+ *
+ */
 public class InformationPusherEniro implements InformationPusher {
 
   private Log logger = LogFactory.getLog(this.getClass());
@@ -259,24 +265,20 @@ public class InformationPusherEniro implements InformationPusher {
       logger.error("Error in saveLastExistingUnitList", e);
     }
   }
-
+  
+  /**
+   * Trigger service for generate unit tree xml file and push it to chosen ftp server.
+   * @inheritDoc
+   */
   public void doService() {
     try {
+      // Check if there is a saved lastSynchDate. If not this is the first time and we must generate full organization.
       boolean generateFullOrg = !getLastSynchDate().after(Constants.parseStringToZuluTime("19700102000000Z"));
+      // Get units that belongs to the organization.
       List<Unit> collectedUnits = collectUnits();
-      Organization organization = null;
-      if (generateFullOrg) {
-        organization = generateOrganisationTree(collectedUnits);
-        organization.setLoadType("Full");
-        // TODO: bryt ut Full till enum
-      } else {
-        organization = generateFlatOrganization(collectedUnits);
-        organization.setLoadType("Increment");
-        // TODO: bryt ut Increment till enum
-      }
-      organization.setId(organizationId);
-      organization.setName(organizationName);
-      organization.setCountry(organizationCountry);
+      // Generate organization tree object.
+      Organization organization = generateOrganizationTree(generateFullOrg, collectedUnits);
+      // create XML presentation of organization tree object. 
       String generatedUnitDetailsXmlFile = generateUnitDetailsXmlFile(organization);
       if (organization.getUnit().size() > 0) {
         if (ftpClient.sendFile(generatedUnitDetailsXmlFile)) {
@@ -287,16 +289,40 @@ public class InformationPusherEniro implements InformationPusher {
           saveLastSynchedModifyDate(new Date(0));
         }
       }
-    } catch (Exception e) {
+    } catch (JAXBException e) {
       logger.error("Error in doService", e);
 
     }
   }
+  
+  /**
+   * Generate organization tree object.
+   * @param generateFullOrg If true full organization tree is generated.
+   * @param collectedUnits List with units that belongs to the organization
+   * @return Organization object containing units.
+   */
+  private Organization generateOrganizationTree(boolean generateFullOrg, List<Unit> collectedUnits) {
+    Organization organization;
+    if (generateFullOrg) {
+      organization = generateOrganisationTree(collectedUnits);
+      organization.setLoadType("Full");
+      // TODO: bryt ut Full till enum
+    } else {
+      organization = generateFlatOrganization(collectedUnits);
+      organization.setLoadType("Increment");
+      // TODO: bryt ut Increment till enum
+    }
+    organization.setId(organizationId);
+    organization.setName(organizationName);
+    organization.setCountry(organizationCountry);
+    return organization;
+  }
 
   /**
    * Generate xml file with newly updated units.
+   * @throws JAXBException .
    */
-  private String generateUnitDetailsXmlFile(Organization organization) throws Exception {
+  private String generateUnitDetailsXmlFile(Organization organization) throws JAXBException {
     JAXBContext context = JAXBContext.newInstance(organization.getClass());
     Marshaller marshaller = context.createMarshaller();
     StringWriter fileContent = new StringWriter();
