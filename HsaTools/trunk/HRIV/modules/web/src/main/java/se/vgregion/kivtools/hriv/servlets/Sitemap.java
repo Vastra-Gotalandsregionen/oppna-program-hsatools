@@ -57,10 +57,6 @@ public class Sitemap extends HttpServlet {
   private static ServletContext servletContext;
 
   private Timer createUnitsTimer = new Timer();
-  
-  protected static void setServletContext(ServletContext servletContext) {
-    Sitemap.servletContext = servletContext;
-  }
 
   public static ArrayList<UnitSitemapInformation> getUnits() {
     return siteMapInformationUnits;
@@ -84,7 +80,7 @@ public class Sitemap extends HttpServlet {
         Sitemap.fillUnits(LOGGER);
       }
       // Update list of units once in a 24 hour period. Use delay because i fails the unittest. Temporary fix.
-    }, 1000, 3600000 * 24);
+    }, 30000, 3600000 * 24);
   }
 
   /**

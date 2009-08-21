@@ -38,7 +38,6 @@ import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelp
 import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityInformation;
-import se.vgregion.kivtools.search.util.Constants;
 import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.Formatter;
 
@@ -54,6 +53,7 @@ import com.domainlanguage.time.TimePoint;
 public class Unit implements Serializable, Comparable<Unit> {
 
   private static final long serialVersionUID = 1L;
+  private static final String HSA_BUSINESS_CLASSIFICATION_NAME_UNKNOWN = "Ok\u00E4nd v\u00E5rdtyp";
   // 0u (e.g.Näl)
   private String ou;
   // Distinuished Name (e.g. ou=N�l,ou=Org,o=VGR)
@@ -868,7 +868,7 @@ public class Unit implements Serializable, Comparable<Unit> {
         return healthcareTypeString.substring(0, healthcareTypeString.length() - 2);
       }
     }
-    return Constants.HSA_BUSINESS_CLASSIFICATION_NAME_UNKNOWN;
+    return HSA_BUSINESS_CLASSIFICATION_NAME_UNKNOWN;
   }
 
   // VALIDATION
