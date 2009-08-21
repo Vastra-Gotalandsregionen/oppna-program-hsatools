@@ -101,11 +101,9 @@ public class SuggestionsSupportBean {
     StringBuilder suggestions = new StringBuilder();
 
     suggestions.append("<ul>");
-    if (units != null) {
-      for (Unit u : units) {
-        String description = getUnitDescriptionEncoded(u);
-        suggestions.append("<li id=\"").append(u.getHsaIdentity()).append("\">").append(description).append("</li>");
-      }
+    for (Unit u : units) {
+      String description = getUnitDescriptionEncoded(u);
+      suggestions.append("<li id=\"").append(u.getHsaIdentity()).append("\">").append(description).append("</li>");
     }
     suggestions.append("</ul>");
 
@@ -121,11 +119,9 @@ public class SuggestionsSupportBean {
   private String buildPlainText(List<Unit> units) {
     StringBuilder suggestions = new StringBuilder();
 
-    if (units != null) {
-      for (Unit u : units) {
-        String description = getUnitDescriptionEncoded(u);
-        suggestions.append(description).append("\t").append(u.getHsaIdentity()).append("\n");
-      }
+    for (Unit u : units) {
+      String description = getUnitDescriptionEncoded(u);
+      suggestions.append(description).append("\t").append(u.getHsaIdentity()).append("\n");
     }
 
     return suggestions.toString();
@@ -141,11 +137,9 @@ public class SuggestionsSupportBean {
     StringBuilder suggestions = new StringBuilder();
 
     suggestions.append("<?xml version='1.0' standalone='yes'?>\n<units>\n");
-    if (units != null) {
-      for (Unit u : units) {
-        String description = getUnitDescriptionEncoded(u);
-        suggestions.append("<unit description=\"" + description + "\" id=\"" + u.getHsaIdentity() + "\" />\n");
-      }
+    for (Unit u : units) {
+      String description = getUnitDescriptionEncoded(u);
+      suggestions.append("<unit description=\"" + description + "\" id=\"" + u.getHsaIdentity() + "\" />\n");
     }
     suggestions.append("</units>");
 
