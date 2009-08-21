@@ -37,14 +37,9 @@ import se.vgregion.kivtools.search.svc.SearchService;
 public class LinkListGenerator extends QuartzJobBean {
 
     private SearchService searchService;
-    private File file;
 
     public void setSearchService(SearchService searchService) {
         this.searchService = searchService;
-    }
-    
-    public void setFile(File file) {
-        this.file = file;
     }
 
     @Override
