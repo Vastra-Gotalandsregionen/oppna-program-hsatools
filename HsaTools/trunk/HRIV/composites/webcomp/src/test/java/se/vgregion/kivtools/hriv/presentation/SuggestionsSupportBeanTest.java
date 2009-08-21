@@ -24,27 +24,17 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.hriv.presentation.SearchUnitFlowSupportBean;
-import se.vgregion.kivtools.hriv.presentation.SuggestionsSupportBean;
 import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper;
 
-/**
- * 
- * @author argoyle
- */
 public class SuggestionsSupportBeanTest {
 
   private SuggestionsSupportBean bean;
   private MockSearchUnitFlowSupportBean searchUnitFlowSupportBean;
 
-  /**
-   * @throws java.lang.Exception
-   */
   @Before
   public void setUp() throws Exception {
     bean = new SuggestionsSupportBean();
@@ -64,6 +54,12 @@ public class SuggestionsSupportBeanTest {
   }
 
   @Test
+  public void testGetSuggestionsExceptionHandling() {
+    this.searchUnitFlowSupportBean.setExceptionToThrow(new KivException("Exception"));
+    assertEquals("Unexpected output for HTML", "<ul></ul>", bean.getSuggestions(null, "html"));
+  }
+
+  @Test
   public void testGetSuggestionsCachedMatches() {
     ArrayList<Unit> units = createUnits();
     searchUnitFlowSupportBean.setUnits(units);
@@ -76,6 +72,21 @@ public class SuggestionsSupportBeanTest {
         + "<unit description=\"M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;, M&#246;lndal\" id=\"ABC-123\" />\n" + "</units>", bean.getSuggestions("n", "xml"));
     assertEquals("Unexpected output for plain text", "Angereds v&#229;rdcentral, Angered\tXYZ-987\n" + "M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;, M&#246;lndal\tABC-123\n" + "",
         bean.getSuggestions("n", "text"));
+
+    assertEquals("Unexpected output for HTML", "<ul></ul>", bean.getSuggestions("Villa Villerkulla", "html"));
+  }
+
+  @Test
+  public void testGetSuggestionsCacheNotComplete() {
+    ArrayList<Unit> units = createUnits();
+    searchUnitFlowSupportBean.setUnits(units);
+
+    assertEquals("Unexpected output for HTML", "<ul></ul>", bean.getSuggestions(null, "html"));
+    assertEquals("Unexpected output for XML", "<?xml version='1.0' standalone='yes'?>\n<units>\n</units>", bean.getSuggestions(null, "xml"));
+    assertEquals("Unexpected output for plain text", "", bean.getSuggestions(null, "text"));
+    assertEquals("Unexpected output for HTML", "<ul></ul>", bean.getSuggestions("", "html"));
+    assertEquals("Unexpected output for XML", "<?xml version='1.0' standalone='yes'?>\n<units>\n</units>", bean.getSuggestions("", "xml"));
+    assertEquals("Unexpected output for plain text", "", bean.getSuggestions("", "text"));
   }
 
   @Test
@@ -112,14 +123,22 @@ public class SuggestionsSupportBeanTest {
   @SuppressWarnings("serial")
   class MockSearchUnitFlowSupportBean extends SearchUnitFlowSupportBean {
     private SikSearchResultList<Unit> searchResult;
+    private KivException exceptionToThrow;
 
     @Override
-    public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm) throws KivNoDataFoundException, KivException {
+    public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm) throws KivException {
+      if (this.exceptionToThrow != null) {
+        throw this.exceptionToThrow;
+      }
       return this.searchResult;
     }
 
     public void setSearchResult(SikSearchResultList<Unit> searchResult) {
       this.searchResult = searchResult;
+    }
+
+    public void setExceptionToThrow(KivException exceptionToThrow) {
+      this.exceptionToThrow = exceptionToThrow;
     }
   }
 }
