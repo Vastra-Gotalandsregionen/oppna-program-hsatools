@@ -61,8 +61,10 @@ public class Sitemap extends HttpServlet {
   public static ArrayList<UnitSitemapInformation> getUnits() {
     return siteMapInformationUnits;
   }
+
   /**
    * Create scheduler.
+   * 
    * @inheritDoc
    */
   @Override
@@ -79,12 +81,13 @@ public class Sitemap extends HttpServlet {
       public void run() {
         Sitemap.fillUnits(LOGGER);
       }
-      // Update list of units once in a 24 hour period. Use delay because i fails the unittest. Temporary fix.
+      // Update list of units once in a 24 hour period. Use delay because it fails the unit test. Temporary fix.
     }, 30000, 3600000 * 24);
   }
 
   /**
    * Populates list with all units.
+   * 
    * @param logger
    */
   protected static void fillUnits(Log logger) {
