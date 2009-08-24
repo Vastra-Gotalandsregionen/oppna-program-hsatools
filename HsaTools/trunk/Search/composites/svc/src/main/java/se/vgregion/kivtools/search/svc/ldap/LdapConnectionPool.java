@@ -175,6 +175,7 @@ public class LdapConnectionPool {
       // to get round-robin usage
       con = freeConnections.remove(0);
       if (!con.isConnectionAlive()) {
+        con.disconnect();
         logger.info("Removed bad connection from Pool");
         // Try again recursively
         con = getConnection();
