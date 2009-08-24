@@ -71,9 +71,6 @@ public class TimeMeasurement implements Serializable {
    * @return The time spent between the calls to start and stop in milli-seconds.
    */
   public Long getElapsedTimeInMillisSeconds() {
-    if (startTime == null || stopTime == null) {
-      throw new RuntimeException("TimeMeasurement.getElapsedTimeInMillisSeconds, startTime or stopTime == null");
-    }
     return stopTime - startTime;
   }
 
