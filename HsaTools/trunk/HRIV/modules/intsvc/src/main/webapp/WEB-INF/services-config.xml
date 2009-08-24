@@ -88,8 +88,8 @@
 		<!-- 10 seconds -->
 		<property name="startDelay" value="10000" />
 		<!-- repeat every 24 hours -->
-		<property name="repeatInterval" value="120000" />
-<!--		<property name="repeatInterval" value="86400000" />-->
+<!--		<property name="repeatInterval" value="120000" />-->
+		<property name="repeatInterval" value="86400000" />
 	</bean>
 
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
