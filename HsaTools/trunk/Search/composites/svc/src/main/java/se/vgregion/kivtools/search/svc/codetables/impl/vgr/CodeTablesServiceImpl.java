@@ -75,16 +75,21 @@ public class CodeTablesServiceImpl implements CodeTablesService {
   }
 
   private void populateCodeTablesMap(CodeTableName codeTableName) throws Exception {
-    LDAPSearchResults search = ldapConnectionPool.getConnection().search(codeTablesBase, LDAPConnection.SCOPE_SUB, "(cn=" + codeTableName + ")", new String[] { attribute }, false);
-    Map<String, String> codeTableContent = new HashMap<String, String>();
-    LDAPEntry entry = search.next();
-    if (entry != null) {
-      String[] codePair = entry.getAttribute(attribute).getStringValueArray();
-      for (String code : codePair) {
-        String[] codeArr = code.split(";");
-        codeTableContent.put(codeArr[0], codeArr[1]);
+    LDAPConnection connection = ldapConnectionPool.getConnection();
+    try {
+      LDAPSearchResults search = connection.search(codeTablesBase, LDAPConnection.SCOPE_SUB, "(cn=" + codeTableName + ")", new String[] { attribute }, false);
+      Map<String, String> codeTableContent = new HashMap<String, String>();
+      LDAPEntry entry = search.next();
+      if (entry != null) {
+        String[] codePair = entry.getAttribute(attribute).getStringValueArray();
+        for (String code : codePair) {
+          String[] codeArr = code.split(";");
+          codeTableContent.put(codeArr[0], codeArr[1]);
+        }
+        codeTables.put(String.valueOf(codeTableName), codeTableContent);
       }
-      codeTables.put(String.valueOf(codeTableName), codeTableContent);
+    } finally {
+      ldapConnectionPool.freeConnection(connection);
     }
   }
 
