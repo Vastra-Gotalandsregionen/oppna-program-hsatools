@@ -203,10 +203,6 @@ public class UnitFactory {
     // vgrAnsvarsnummer
     unit.setVgrAnsvarsnummer(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("vgrAnsvarsnummer")));
 
-    // FIXME remove after 20090710
-    // hsaMunicipalityName
-    // unit.setHsaMunicipalityName(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaMunicipalityName")));
-
     // Kommunkod
     unit.setHsaMunicipalityCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaMunicipalityCode")));
 
@@ -243,10 +239,6 @@ public class UnitFactory {
 
     // Drifts- & juridisk formkod
     unit.setHsaAdministrationForm(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaAdministrationForm")));
-
-    // TODO removed 20090708
-    // Drifts- & juridisk formklartext
-    // unit.setHsaAdministrationFormText(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaAdministrationFormText")));
 
     // Senast uppdaterad
     if (unitEntry.getAttribute("vgrModifyTimestamp") != null) {
