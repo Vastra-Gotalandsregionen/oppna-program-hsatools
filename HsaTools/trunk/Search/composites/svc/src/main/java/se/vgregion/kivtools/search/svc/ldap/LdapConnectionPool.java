@@ -173,9 +173,8 @@ public class LdapConnectionPool {
     if (freeConnections.size() > 0 && freeConnections.get(0) != null) {
       // Pick the first LDAPConnection in the Vector
       // to get round-robin usage
-      con = freeConnections.get(0);
-      freeConnections.remove(0);
-      if (con == null || !con.isConnectionAlive()) {
+      con = freeConnections.remove(0);
+      if (!con.isConnectionAlive()) {
         logger.info("Removed bad connection from Pool");
         // Try again recursively
         con = getConnection();
