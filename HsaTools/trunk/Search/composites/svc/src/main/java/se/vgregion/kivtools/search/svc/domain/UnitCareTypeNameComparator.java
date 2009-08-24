@@ -29,9 +29,13 @@ import java.util.Comparator;
 public class UnitCareTypeNameComparator implements Comparator<Unit> {
 
   /**
-   * Sorting by getHsaBusinessClassificationCode. We only take the first HsaBusinessClassificationCode into account and hope that the most important code is first.
    * 
-   * Algorithm: Sort by hsaBusinessClassificationName and sort the invalid ones
+   * Sorting by getHsaBusinessClassificationCode. We only take the first HsaBusinessClassificationCode into account and hope that the most important code is first. Algorithm: Sort by
+   * hsaBusinessClassificationName and sort the invalid ones
+   * 
+   * @param unit1 Unit to use in compare with.
+   * @param unit2 Unit to use in compare with.
+   * @return Returns an integer less than, equal to or greater than zero depending on whether the unit1 String is less than, equal to or greater than the unit2.
    */
   public int compare(Unit unit1, Unit unit2) {
     boolean businessCodeUnit1IsOK = true;
@@ -43,7 +47,7 @@ public class UnitCareTypeNameComparator implements Comparator<Unit> {
     try {
       // Test if unit1 has a valid BusinessClassificationName
       unit1HealthcareTypeDisplayName = unit1.getHealthcareTypes().get(0).getDisplayName();
-    } catch (Exception e) {
+    } catch (NullPointerException e) {
       // NullpointerException is possible
       businessCodeUnit1IsOK = false;
     }
@@ -51,7 +55,7 @@ public class UnitCareTypeNameComparator implements Comparator<Unit> {
     try {
       // Test if unit2 has a valid BusinessClassificationName
       unit2HealthcareTypeDisplayName = unit2.getHealthcareTypes().get(0).getDisplayName();
-    } catch (Exception e) {
+    } catch (NullPointerException e) {
       // NullpointerException is possible
       businessCodeUnit2IsOK = false;
     }
@@ -62,15 +66,16 @@ public class UnitCareTypeNameComparator implements Comparator<Unit> {
     // getHsaBusinessClassificationCode, sort by unit name.
 
     Collator myCollator = Collator.getInstance();
-
+    int compareResult;
     if (businessCodeUnit1IsOK && businessCodeUnit2IsOK) {
-      return myCollator.compare(unit1HealthcareTypeDisplayName.toLowerCase(), unit2HealthcareTypeDisplayName.toLowerCase());
+      compareResult = myCollator.compare(unit1HealthcareTypeDisplayName.toLowerCase(), unit2HealthcareTypeDisplayName.toLowerCase());
     } else if (businessCodeUnit1IsOK && !businessCodeUnit2IsOK) {
-      return -1;
+      compareResult = -1;
     } else if (!businessCodeUnit1IsOK && businessCodeUnit2IsOK) {
-      return 1;
+      compareResult = 1;
     } else {
-      return myCollator.compare(unit1.getName().toLowerCase(), unit2.getName().toLowerCase());
+      compareResult = myCollator.compare(unit1.getName().toLowerCase(), unit2.getName().toLowerCase());
     }
+    return compareResult;
   }
 }
