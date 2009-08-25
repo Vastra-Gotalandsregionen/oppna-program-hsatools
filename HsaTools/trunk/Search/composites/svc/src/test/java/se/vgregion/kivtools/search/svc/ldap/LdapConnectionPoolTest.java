@@ -100,9 +100,12 @@ public class LdapConnectionPoolTest {
     connectionPool = new LdapConnectionPoolMock();
     connectionPool.setMaxConn("1");
 
-    assertNotNull(connectionPool.getConnection());
+    LDAPConnection connection = connectionPool.getConnection();
+    assertNotNull(connection);
     connectionPool.freeConnection(null);
     assertNull(connectionPool.getConnection());
+    connectionPool.freeConnection(connection);
+    assertNotNull(connectionPool.getConnection());
   }
 
   private static class LdapConnectionPoolMock extends LdapConnectionPool {
