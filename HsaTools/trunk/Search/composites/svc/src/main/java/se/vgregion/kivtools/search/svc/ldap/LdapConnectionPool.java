@@ -152,11 +152,15 @@ public class LdapConnectionPool {
    * @param con The connection to check in
    */
   public synchronized void freeConnection(LDAPConnection con) {
-    // Put the connection at the end of the Vector
-    freeConnections.add(con);
-    checkedOut--;
-    notifyAll();
-    logger.debug("free connection, free=" + freeConnections.size() + ", checkedOut=" + checkedOut);
+    if (con == null) {
+      logger.error("Trying to free a null-connection. Fix the code!!!", new NullPointerException());
+    } else {
+      // Put the connection at the end of the Vector
+      freeConnections.add(con);
+      checkedOut--;
+      notifyAll();
+      logger.debug("free connection, free=" + freeConnections.size() + ", checkedOut=" + checkedOut);
+    }
   }
 
   /**
@@ -246,7 +250,7 @@ public class LdapConnectionPool {
    * 
    * @throws NoConnectionToServerException
    */
-  private LDAPConnection newConnection() throws LDAPException, SikInternalException, NoConnectionToServerException {
+  protected LDAPConnection newConnection() throws LDAPException, SikInternalException, NoConnectionToServerException {
     checkInit();
     LDAPConnection lc = new LDAPConnection();
     try {
