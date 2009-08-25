@@ -26,8 +26,8 @@ import org.junit.Test;
 
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
-import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 
+import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPException;
 
 public class LdapConnectionPoolTest {
@@ -92,6 +92,23 @@ public class LdapConnectionPoolTest {
       fail("SikInternalException expected");
     } catch (NoConnectionToServerException e) {
       // Expected exception
+    }
+  }
+
+  @Test
+  public void testFreeConnectionNullValues() throws Exception {
+    connectionPool = new LdapConnectionPoolMock();
+    connectionPool.setMaxConn("1");
+
+    assertNotNull(connectionPool.getConnection());
+    connectionPool.freeConnection(null);
+    assertNull(connectionPool.getConnection());
+  }
+
+  private static class LdapConnectionPoolMock extends LdapConnectionPool {
+    @Override
+    protected LDAPConnection newConnection() throws LDAPException, SikInternalException, NoConnectionToServerException {
+      return new LDAPConnection();
     }
   }
 }
