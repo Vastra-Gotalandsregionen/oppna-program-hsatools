@@ -59,18 +59,15 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
    * Look up database accessibility information for specified unit.
    * 
    * @param u The unit which should get accessibility info assigned to it.
+   * @param languageIdString The language id to use.
    */
-  public void assignAccessibilityDatabaseInfo(Unit u, AccessibilityDatabaseFilterForm accessibilityDatabaseFilterForm) {
-    // Don't reassign accessibility info, only on first visit
-    // if (u.getAccessibilityInformation() != null)
-    // return;
-
+  public void assignAccessibilityDatabaseInfo(Unit u, String languageIdString) {
     // First find out the accessibility database id
     if (!assignAccessibilityDatabaseId(u)) {
       return;
     }
 
-    int languageId = Integer.parseInt(accessibilityDatabaseFilterForm.getLanguageId());
+    int languageId = Integer.parseInt(languageIdString);
 
     String url = accessibilityDatabaseIntegrationGetInfoUrl + languageId + "&facilityId=" + u.getAccessibilityDatabaseId();
 
@@ -78,63 +75,61 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 
     // Now read the content and get accessibility info
     Document doc = DocumentHelper.getDocumentFromString(content);
-    if (doc != null) {
-      doc.normalize();
+    doc.normalize();
 
-      // Get business object (there is only one)
-      NodeList businessObjectNodeList = doc.getElementsByTagName("businessobject");
-      AccessibilityObject businessObject = null;
-      for (int i = 0; i < businessObjectNodeList.getLength(); i++) {
-        businessObject = AccessibilityObject.createAccessibilityObjectFromNode(businessObjectNodeList.item(i));
-      }
-
-      // Get sub objects
-      NodeList subObjectNodeList = doc.getElementsByTagName("subobject");
-      ArrayList<AccessibilityObject> subObjects = new ArrayList<AccessibilityObject>();
-      for (int i = 0; i < subObjectNodeList.getLength(); i++) {
-        AccessibilityObject subObject = AccessibilityObject.createAccessibilityObjectFromNode(subObjectNodeList.item(i));
-        subObjects.add(subObject);
-      }
-
-      AccessibilityInformation accessibilityInformation = new AccessibilityInformation(businessObject, subObjects);
-      u.setAccessibilityInformation(accessibilityInformation);
+    // Get business object (there is only one)
+    NodeList businessObjectNodeList = doc.getElementsByTagName("businessobject");
+    AccessibilityObject businessObject = null;
+    for (int i = 0; i < businessObjectNodeList.getLength(); i++) {
+      businessObject = AccessibilityObject.createAccessibilityObjectFromNode(businessObjectNodeList.item(i));
     }
+
+    // Get sub objects
+    NodeList subObjectNodeList = doc.getElementsByTagName("subobject");
+    ArrayList<AccessibilityObject> subObjects = new ArrayList<AccessibilityObject>();
+    for (int i = 0; i < subObjectNodeList.getLength(); i++) {
+      AccessibilityObject subObject = AccessibilityObject.createAccessibilityObjectFromNode(subObjectNodeList.item(i));
+      subObjects.add(subObject);
+    }
+
+    AccessibilityInformation accessibilityInformation = new AccessibilityInformation(businessObject, subObjects);
+    u.setAccessibilityInformation(accessibilityInformation);
   }
 
   /**
    * Find out and assign the accessibility database id.
    * 
-   * @param u return true if succeeded, false otherwise
+   * @param u The Unit to assign accessibility information to.
+   * @return true if succeeded, false otherwise
    */
   public boolean assignAccessibilityDatabaseId(Unit u) {
+    boolean result = true;
+
     // Get accessibility Id
     String url = accessibilityDatabaseIntegrationGetIdUrl + u.getHsaIdentity();
     String content = httpFetcher.fetchUrl(url);
 
     // Now read the content into a XML document and get accessibility id
     Document doc = DocumentHelper.getDocumentFromString(content);
-    if (doc != null) {
-      try {
-        NodeList ids = doc.getElementsByTagName("string");
-        for (int i = 0; i < ids.getLength(); i++) {
-          String textContent = ids.item(i).getTextContent();
-          int accessabilityId = Integer.parseInt(textContent);
-          u.setAccessibilityDatabaseId(accessabilityId);
-        }
-      } catch (NumberFormatException e) {
-        logger.error("We did not get a valid accessability database id. Skip it.");
-        return false;
+    try {
+      NodeList ids = doc.getElementsByTagName("string");
+      for (int i = 0; i < ids.getLength(); i++) {
+        String textContent = ids.item(i).getTextContent();
+        int accessabilityId = Integer.parseInt(textContent);
+        u.setAccessibilityDatabaseId(accessabilityId);
       }
-      return true;
+    } catch (NumberFormatException e) {
+      logger.error("We did not get a valid accessability database id. Skip it.");
+      result = false;
     }
-    return false;
+    return result;
   }
 
   /**
    * Filters the accessibility info depending on the form input. Eg "stairs" are maybe only relevant for some disabled individuals and not for others.
    * 
-   * @param form
-   * @param u
+   * @param u The Unit to filter accessibility information for.
+   * @param form The form with the input parameters.
    */
   public void filterAccessibilityDatabaseInfo(Unit u, AccessibilityDatabaseFilterForm form) {
     // We need to keep track of submissions in order to know when to show "no result".
@@ -142,7 +137,7 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 
     // If language has changed we need to download new data
     if (!form.getLanguageId().equals(formerLanguageId)) {
-      assignAccessibilityDatabaseInfo(u, form);
+      assignAccessibilityDatabaseInfo(u, form.getLanguageId());
       formerLanguageId = form.getLanguageId();
     }
 

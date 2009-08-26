@@ -42,23 +42,25 @@ public class DocumentHelper {
    * Parses the provided string to a W3C DOM-document.
    * 
    * @param content The string to parse.
-   * @return A populated DOM Document or null if parsing was unsuccessful.
+   * @return A populated DOM Document or an empty document if parsing was unsuccessful.
    */
   public static Document getDocumentFromString(String content) {
-    Document doc = null;
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder docBuilder;
+    DocumentBuilder docBuilder = null;
+    Document doc = null;
     try {
       docBuilder = docBuilderFactory.newDocumentBuilder();
       InputSource inputSource = new InputSource(new StringReader(content));
       doc = docBuilder.parse(inputSource);
       doc.normalize();
     } catch (ParserConfigurationException e) {
-      LOGGER.error("Error parsing xml", e);
+      throw new RuntimeException("Unable to create a DocumentBuilder", e);
     } catch (SAXException e) {
       LOGGER.error("Error parsing xml", e);
+      doc = docBuilder.newDocument();
     } catch (IOException e) {
       LOGGER.error("Error parsing xml", e);
+      doc = docBuilder.newDocument();
     }
     return doc;
   }
