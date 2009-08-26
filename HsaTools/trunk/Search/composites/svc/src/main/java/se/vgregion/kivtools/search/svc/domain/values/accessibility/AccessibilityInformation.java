@@ -28,8 +28,8 @@ import java.util.List;
 public class AccessibilityInformation implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  private AccessibilityObject businessObject;
-  private ArrayList<AccessibilityObject> subObjects;
+  private final AccessibilityObject businessObject;
+  private final ArrayList<AccessibilityObject> subObjects;
 
   /**
    * Constructs a new AccessibilityInformation with the provided business object and sub objects.

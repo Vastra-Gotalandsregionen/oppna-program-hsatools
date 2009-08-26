@@ -17,22 +17,13 @@
  */
 package se.vgregion.kivtools.hriv.presentation;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import se.vgregion.kivtools.hriv.presentation.forms.AccessibilityDatabaseFilterForm;
 import se.vgregion.kivtools.search.svc.domain.Unit;
@@ -49,8 +40,7 @@ import se.vgregion.kivtools.search.svc.domain.values.accessibility.Criteria;
  */
 @SuppressWarnings("serial")
 public class DisplayAccessibilityDatabaseBean implements Serializable {
-  private static final String CLASS_NAME = DisplayAccessibilityDatabaseBean.class.getName();
-
+  private HttpFetcher httpFetcher;
   private Log logger = LogFactory.getLog(this.getClass());
   private String useAccessibilityDatabaseIntegration;
   private String accessibilityDatabaseIntegrationGetIdUrl;
@@ -69,11 +59,8 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
    * Look up database accessibility information for specified unit.
    * 
    * @param u The unit which should get accessibility info assigned to it.
-   * @throws IOException
-   * @throws SAXException
-   * @throws ParserConfigurationException
    */
-  public void assignAccessibilityDatabaseInfo(Unit u, AccessibilityDatabaseFilterForm accessibilityDatabaseFilterForm) throws IOException, SAXException, ParserConfigurationException {
+  public void assignAccessibilityDatabaseInfo(Unit u, AccessibilityDatabaseFilterForm accessibilityDatabaseFilterForm) {
     // Don't reassign accessibility info, only on first visit
     // if (u.getAccessibilityInformation() != null)
     // return;
@@ -85,69 +72,49 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 
     int languageId = Integer.parseInt(accessibilityDatabaseFilterForm.getLanguageId());
 
-    URL url = new URL(accessibilityDatabaseIntegrationGetInfoUrl + languageId + "&facilityId=" + u.getAccessibilityDatabaseId());
-    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-    int responseCode = urlConnection.getResponseCode();
-    BufferedInputStream in;
-    if (responseCode == 200 || responseCode == 201) {
-      in = new BufferedInputStream(urlConnection.getInputStream());
-    } else {
-      in = new BufferedInputStream(urlConnection.getErrorStream());
+    String url = accessibilityDatabaseIntegrationGetInfoUrl + languageId + "&facilityId=" + u.getAccessibilityDatabaseId();
+
+    String content = httpFetcher.fetchUrl(url);
+
+    // Now read the content and get accessibility info
+    Document doc = DocumentHelper.getDocumentFromString(content);
+    if (doc != null) {
+      doc.normalize();
+
+      // Get business object (there is only one)
+      NodeList businessObjectNodeList = doc.getElementsByTagName("businessobject");
+      AccessibilityObject businessObject = null;
+      for (int i = 0; i < businessObjectNodeList.getLength(); i++) {
+        businessObject = AccessibilityObject.createAccessibilityObjectFromNode(businessObjectNodeList.item(i));
+      }
+
+      // Get sub objects
+      NodeList subObjectNodeList = doc.getElementsByTagName("subobject");
+      ArrayList<AccessibilityObject> subObjects = new ArrayList<AccessibilityObject>();
+      for (int i = 0; i < subObjectNodeList.getLength(); i++) {
+        AccessibilityObject subObject = AccessibilityObject.createAccessibilityObjectFromNode(subObjectNodeList.item(i));
+        subObjects.add(subObject);
+      }
+
+      AccessibilityInformation accessibilityInformation = new AccessibilityInformation(businessObject, subObjects);
+      u.setAccessibilityInformation(accessibilityInformation);
     }
-
-    // Now read the buffered stream and get accessibility info
-    DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-    Document doc = docBuilder.parse(in);
-    doc.normalize();
-
-    // Get business object (there is only one)
-    NodeList businessObjectNodeList = doc.getElementsByTagName("businessobject");
-    AccessibilityObject businessObject = null;
-    for (int i = 0; i < businessObjectNodeList.getLength(); i++) {
-      businessObject = AccessibilityObject.createAccessibilityObjectFromNode(businessObjectNodeList.item(i));
-    }
-
-    // Get sub objects
-    NodeList subObjectNodeList = doc.getElementsByTagName("subobject");
-    ArrayList<AccessibilityObject> subObjects = new ArrayList<AccessibilityObject>();
-    for (int i = 0; i < subObjectNodeList.getLength(); i++) {
-      AccessibilityObject subObject = AccessibilityObject.createAccessibilityObjectFromNode(subObjectNodeList.item(i));
-      subObjects.add(subObject);
-    }
-
-    AccessibilityInformation accessibilityInformation = new AccessibilityInformation(businessObject, subObjects);
-    u.setAccessibilityInformation(accessibilityInformation);
-    urlConnection.disconnect();
   }
 
   /**
    * Find out and assign the accessibility database id.
    * 
    * @param u return true if succeeded, false otherwise
-   * @throws IOException
-   * @throws SAXException
-   * @throws ParserConfigurationException
    */
   public boolean assignAccessibilityDatabaseId(Unit u) {
-    try {
-      // Get accessibility Id
-      URL url = new URL(accessibilityDatabaseIntegrationGetIdUrl + u.getHsaIdentity());
-      HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-      int responseCode = urlConnection.getResponseCode();
-      BufferedInputStream in;
-      if (responseCode == 200 || responseCode == 201) {
-        in = new BufferedInputStream(urlConnection.getInputStream());
-      } else {
-        in = new BufferedInputStream(urlConnection.getErrorStream());
-      }
+    // Get accessibility Id
+    String url = accessibilityDatabaseIntegrationGetIdUrl + u.getHsaIdentity();
+    String content = httpFetcher.fetchUrl(url);
 
-      // Now read the buffered stream into a XML document and get
-      // accessibility id
+    // Now read the content into a XML document and get accessibility id
+    Document doc = DocumentHelper.getDocumentFromString(content);
+    if (doc != null) {
       try {
-        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-        Document doc = docBuilder.parse(in);
         NodeList ids = doc.getElementsByTagName("string");
         for (int i = 0; i < ids.getLength(); i++) {
           String textContent = ids.item(i).getTextContent();
@@ -157,18 +124,8 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
       } catch (NumberFormatException e) {
         logger.error("We did not get a valid accessability database id. Skip it.");
         return false;
-      } catch (Exception e) {
-        // Most likely we could not parse the answer as a valid XML
-        // structure.
-        return false;
       }
-      urlConnection.disconnect();
       return true;
-    } catch (Exception e) {
-      // If we could not find server and get accessibility db id there is
-      // nothing we can do about it. The show must go on, handle it the
-      // same way as DisplayUnitDetailsFlowSupportBean#getUnitDetails()
-      e.printStackTrace();
     }
     return false;
   }
@@ -178,11 +135,8 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
    * 
    * @param form
    * @param u
-   * @throws ParserConfigurationException
-   * @throws SAXException
-   * @throws IOException
    */
-  public void filterAccessibilityDatabaseInfo(Unit u, AccessibilityDatabaseFilterForm form) throws IOException, SAXException, ParserConfigurationException {
+  public void filterAccessibilityDatabaseInfo(Unit u, AccessibilityDatabaseFilterForm form) {
     // We need to keep track of submissions in order to know when to show "no result".
     form.setSubmitted(true);
 
@@ -265,31 +219,19 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
     return result;
   }
 
-  public void logger(String msg) {
-    logger.info(msg);
-  }
-
-  public String getUseAccessibilityDatabaseIntegration() {
-    return useAccessibilityDatabaseIntegration;
-  }
-
   public void setUseAccessibilityDatabaseIntegration(String useAccessibilityDatabaseIntegration) {
     this.useAccessibilityDatabaseIntegration = useAccessibilityDatabaseIntegration;
-  }
-
-  public String getAccessibilityDatabaseIntegrationGetIdUrl() {
-    return accessibilityDatabaseIntegrationGetIdUrl;
   }
 
   public void setAccessibilityDatabaseIntegrationGetIdUrl(String accessibilityDatabaseIntegrationGetIdUrl) {
     this.accessibilityDatabaseIntegrationGetIdUrl = accessibilityDatabaseIntegrationGetIdUrl;
   }
 
-  public String getAccessibilityDatabaseIntegrationGetInfoUrl() {
-    return accessibilityDatabaseIntegrationGetInfoUrl;
-  }
-
   public void setAccessibilityDatabaseIntegrationGetInfoUrl(String accessibilityDatabaseIntegrationGetInfoUrl) {
     this.accessibilityDatabaseIntegrationGetInfoUrl = accessibilityDatabaseIntegrationGetInfoUrl;
+  }
+
+  public void setHttpFetcher(HttpFetcher httpFetcher) {
+    this.httpFetcher = httpFetcher;
   }
 }

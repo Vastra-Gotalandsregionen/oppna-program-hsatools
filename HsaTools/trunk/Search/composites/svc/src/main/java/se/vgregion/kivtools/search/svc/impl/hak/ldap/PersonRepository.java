@@ -107,7 +107,6 @@ public class PersonRepository {
   }
 
   public List<String> getAllPersonsVgrId() throws Exception {
-    LDAPConnection lc = null;
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     String searchFilter = "";
@@ -115,8 +114,8 @@ public class PersonRepository {
     attributes[0] = "regionName";
     List<String> result = new ArrayList<String>();
 
+    LDAPConnection lc = getLDAPConnection();
     try {
-      lc = getLDAPConnection();
       LDAPSearchResults searchResults = lc.search(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter, attributes, false, constraints);
       // fill the list from the search result
       while (searchResults.hasMore()) {
@@ -135,8 +134,6 @@ public class PersonRepository {
           }
         }
       }
-    } catch (Exception e) {
-      throw e;
     } finally {
       theConnectionPool.freeConnection(lc);
     }
@@ -145,7 +142,6 @@ public class PersonRepository {
   }
 
   private Person searchPerson(String searchBase, int searchScope, String searchFilter) throws Exception {
-    LDAPConnection lc = null;
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     Person result = new Person();
@@ -153,8 +149,8 @@ public class PersonRepository {
     // Get all attributes
     String[] attributes = null;
 
+    LDAPConnection lc = getLDAPConnection();
     try {
-      lc = getLDAPConnection();
       // return attributes and values
       result = extractSingleResult(lc.search(searchBase, searchScope, searchFilter, attributes, false, constraints));
     } finally {
@@ -169,15 +165,14 @@ public class PersonRepository {
   }
 
   private SikSearchResultList<Person> searchPersons(String baseDn, String searchFilter, int searchScope, int maxResult) throws Exception {
-    LDAPConnection lc = null;
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     SikSearchResultList<Person> result = new SikSearchResultList<Person>();
     // Get all attributes
     String[] attributes = null;
 
+    LDAPConnection lc = getLDAPConnection();
     try {
-      lc = getLDAPConnection();
       // return attributes and values
       result = extractResult(lc.search(baseDn, searchScope, searchFilter, attributes, false, constraints), maxResult);
     } finally {

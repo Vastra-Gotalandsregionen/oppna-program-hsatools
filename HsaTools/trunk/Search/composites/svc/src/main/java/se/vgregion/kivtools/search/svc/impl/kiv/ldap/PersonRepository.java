@@ -82,9 +82,10 @@ public class PersonRepository {
   public void setLdapConnectionPool(LdapConnectionPool lp) {
     this.theConnectionPool = lp;
   }
-  
+
   /**
    * Search person by dn.
+   * 
    * @param dn The dn object to use to search person.
    * @return List of persons found in search.
    * @throws Exception .
@@ -96,6 +97,7 @@ public class PersonRepository {
 
   /**
    * Search person by dn with chosen max result.
+   * 
    * @param dn The dn object to use to search person.
    * @param maxResult The maximum persons in the search result.
    * @return List of found persons.
@@ -108,6 +110,7 @@ public class PersonRepository {
 
   /**
    * Search for a persons.
+   * 
    * @param givenName Name of person.
    * @param familyName Family name of person.
    * @param vgrId Unique id for person.
@@ -131,8 +134,10 @@ public class PersonRepository {
     String searchFilter = createSearchPersonsFilterVgrId(vgrId);
     return searchPersons(searchFilter, LDAPConnection.SCOPE_ONE, maxResult);
   }
+
   /**
    * Fetch a person by vgr id.
+   * 
    * @param vgrId Unique id for person.
    * @return Found person.
    * @throws Exception .
@@ -144,11 +149,11 @@ public class PersonRepository {
 
   /**
    * Get all vgr id for all persons.
+   * 
    * @return List of all vgr ids.
    * @throws Exception .
    */
   public List<String> getAllPersonsVgrId() throws Exception {
-    LDAPConnection lc = null;
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     String searchFilter = "";
@@ -156,8 +161,8 @@ public class PersonRepository {
     attributes[0] = "vgr-id";
     List<String> result = new ArrayList<String>();
 
+    LDAPConnection lc = getLDAPConnection();
     try {
-      lc = getLDAPConnection();
       LDAPSearchResults searchResults = lc.search(KIV_SEARCH_BASE, LDAPConnection.SCOPE_ONE, searchFilter, attributes, false, constraints);
       // fill the list from the search result
       while (searchResults.hasMore()) {
@@ -176,8 +181,6 @@ public class PersonRepository {
           }
         }
       }
-    } catch (Exception e) {
-      throw e;
     } finally {
       theConnectionPool.freeConnection(lc);
     }
@@ -186,7 +189,6 @@ public class PersonRepository {
   }
 
   private Person searchPerson(String searchBase, int searchScope, String searchFilter) throws Exception {
-    LDAPConnection lc = null;
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     Person result = new Person();
@@ -194,8 +196,8 @@ public class PersonRepository {
     // Get all attributes
     String[] attributes = null;
 
+    LDAPConnection lc = getLDAPConnection();
     try {
-      lc = getLDAPConnection();
       // return attributes and values
       result = extractSingleResult(lc.search(searchBase, searchScope, searchFilter, attributes, false, constraints));
     } finally {
@@ -206,15 +208,14 @@ public class PersonRepository {
   }
 
   private SikSearchResultList<Person> searchPersons(String searchFilter, int searchScope, int maxResult) throws Exception {
-    LDAPConnection lc = null;
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     SikSearchResultList<Person> result = new SikSearchResultList<Person>();
     // Get all attributes
     String[] attributes = null;
 
+    LDAPConnection lc = getLDAPConnection();
     try {
-      lc = getLDAPConnection();
       // return attributes and values
       result = extractResult(lc.search(KIV_SEARCH_BASE, searchScope, searchFilter, attributes, false, constraints), maxResult);
     } finally {
@@ -456,6 +457,7 @@ public class PersonRepository {
 
   /**
    * Get persons for chosen units.
+   * 
    * @param units The units to fetch persons from.
    * @param maxResult Maximum result of index in the list.
    * @return List of persons.

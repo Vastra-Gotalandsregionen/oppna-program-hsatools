@@ -163,6 +163,13 @@ public class SearchUnitFlowSupportBeanTest {
 
   @Test
   public void testGetAllUnitsPageList() throws KivNoDataFoundException {
+    try {
+      bean.getAllUnitsPageList("a");
+      fail("IllegalArgumentException expected");
+    } catch (IllegalArgumentException e) {
+      // Expected exception
+    }
+
     List<PagedSearchMetaData> result = bean.getAllUnitsPageList("1");
     assertNotNull(result);
     assertEquals(0, result.size());

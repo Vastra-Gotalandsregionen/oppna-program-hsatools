@@ -39,27 +39,10 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
   private static final String CLASS_NAME = DisplayUnitDetailsFlowSupportBean.class.getName();
   private Log logger = LogFactory.getLog(this.getClass());
   private SearchService searchService;
+  private MvkClient mvkClient;
   private String accessibilityDatabaseIntegrationGetIdUrl;
   private String accessibilityDatabaseIntegrationGetInfoUrl;
   private String useMvkIntegration;
-  private String mvkGuid;
-  private String mvkUrl;
-
-  public String getMvkUrl() {
-    return mvkUrl;
-  }
-
-  public void setMvkUrl(String mvkUrl) {
-    this.mvkUrl = mvkUrl;
-  }
-
-  public String getMvkGuid() {
-    return mvkGuid;
-  }
-
-  public void setMvkGuid(String mvkGuid) {
-    this.mvkGuid = mvkGuid;
-  }
 
   public String getUseMvkIntegration() {
     return useMvkIntegration;
@@ -77,6 +60,10 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
     this.searchService = searchService;
   }
 
+  public void setMvkClient(MvkClient mvkClient) {
+    this.mvkClient = mvkClient;
+  }
+
   public Unit getUnitDetails(String hsaId) throws NoConnectionToServerException {
     logger.info(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
     Unit u = null;
@@ -92,7 +79,7 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
     }
 
     if ("true".equals(useMvkIntegration)) {
-      new MvkClient(mvkGuid, mvkUrl).assignCaseTypes(u);
+      mvkClient.assignCaseTypes(u);
     }
 
     return u;

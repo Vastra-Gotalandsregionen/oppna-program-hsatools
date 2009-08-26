@@ -27,12 +27,12 @@
 
 	<bean id="Search.SearchUnitFlowSupportBean"
 		class="se.vgregion.kivtools.hriv.presentation.SearchUnitFlowSupportBean">
-			<property name="searchService" ref="Search.SearchService" />
-			<property name="maxSearchResult" ref="Search.MaxSearchResult"></property>
-			<property name="pageSize" value="85"></property>
-			<property name="googleMapsKey" value="#{hsatools.hriv.webcomp.googleMapsKey}" />
-			<property name="meters" value="#{hsatools.hriv.webcomp.metersToCloseUnits}" />
-			<property name="showUnitsWithTheseHsaBussinessClassificationCodes" value="#{hsatools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes}" />
+		<property name="searchService" ref="Search.SearchService" />
+		<property name="maxSearchResult" ref="Search.MaxSearchResult"></property>
+		<property name="pageSize" value="85"></property>
+		<property name="googleMapsKey" value="#{hsatools.hriv.webcomp.googleMapsKey}" />
+		<property name="meters" value="#{hsatools.hriv.webcomp.metersToCloseUnits}" />
+		<property name="showUnitsWithTheseHsaBussinessClassificationCodes" value="#{hsatools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes}" />
 	</bean>
 
 	<bean id="Search.SuggestionsSupportBean" class="se.vgregion.kivtools.hriv.presentation.SuggestionsSupportBean">
@@ -43,12 +43,22 @@
 		class="se.vgregion.kivtools.hriv.validation.UnitSearchSimpleFormValidator">
 	</bean>
 
+	<bean id="Display.HttpFetcher"
+		class="se.vgregion.kivtools.hriv.presentation.HttpFetcherImpl">
+	</bean>
+	
+	<bean id="Display.MvkClient"
+		class="se.vgregion.kivtools.hriv.presentation.MvkClient">
+		<property name="httpFetcher" ref="Display.HttpFetcher" />
+		<property name="mvkGuid" value="#{hsatools.hriv.webcomp.mvkGuid}" />
+		<property name="mvkUrl" value="#{hsatools.hriv.webcomp.mvkUrlBeforeHsaidAndGuidParams}" />
+	</bean>
+	
 	<bean id="Display.DisplayUnitDetailsFlowSupportBean"
 		class="se.vgregion.kivtools.hriv.presentation.DisplayUnitDetailsFlowSupportBean">
-			<property name="searchService" ref="Search.SearchService" />
-			<property name="useMvkIntegration" value="#{hsatools.hriv.webcomp.useMvk}" />
-			<property name="mvkGuid" value="#{hsatools.hriv.webcomp.mvkGuid}" />
-			<property name="mvkUrl" value="#{hsatools.hriv.webcomp.mvkUrlBeforeHsaidAndGuidParams}" />
+		<property name="searchService" ref="Search.SearchService" />
+		<property name="useMvkIntegration" value="#{hsatools.hriv.webcomp.useMvk}" />
+		<property name="mvkClient" ref="Display.MvkClient" />
 	</bean>
 	
 	<bean id="Search.MaxSearchResult" class="java.lang.Integer" scope="prototype">
@@ -100,9 +110,10 @@
 	</bean>
 
 	<bean id="Display.DisplayAccessibilityDatabaseBean" class="se.vgregion.kivtools.hriv.presentation.DisplayAccessibilityDatabaseBean">
-			<property name="useAccessibilityDatabaseIntegration" value="#{hsatools.hriv.webcomp.useAccessibilityDatabaseIntegration}" />
-			<property name="accessibilityDatabaseIntegrationGetIdUrl" value="#{hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetIdUrl}" />
-			<property name="accessibilityDatabaseIntegrationGetInfoUrl" value="#{hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetInfoUrl}" />
+		<property name="useAccessibilityDatabaseIntegration" value="#{hsatools.hriv.webcomp.useAccessibilityDatabaseIntegration}" />
+		<property name="accessibilityDatabaseIntegrationGetIdUrl" value="#{hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetIdUrl}" />
+		<property name="accessibilityDatabaseIntegrationGetInfoUrl" value="#{hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetInfoUrl}" />
+		<property name="httpFetcher" ref="Display.HttpFetcher" />
 	</bean>
 
 	<bean id="propertyPlaceholderWebcomp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

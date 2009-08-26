@@ -17,26 +17,11 @@
  */
 package se.vgregion.kivtools.hriv.presentation;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import se.vgregion.kivtools.search.svc.domain.Unit;
 
@@ -46,75 +31,30 @@ import se.vgregion.kivtools.search.svc.domain.Unit;
  * @author Jonas Liljenfeldt, Know IT
  */
 public class MvkClient {
+  private HttpFetcher httpFetcher;
   private String mvkGuid;
   private String mvkUrl;
-  private Log logger = LogFactory.getLog(this.getClass());
-
-  public MvkClient(String mvkGuid, String mvkUrl) {
-    this.mvkGuid = mvkGuid;
-    this.mvkUrl = mvkUrl;
-  }
-
-  public String getMvkUrl() {
-    return mvkUrl;
-  }
 
   public void setMvkUrl(String mvkUrl) {
     this.mvkUrl = mvkUrl;
-  }
-
-  public String getMvkGuid() {
-    return mvkGuid;
   }
 
   public void setMvkGuid(String mvkGuid) {
     this.mvkGuid = mvkGuid;
   }
 
+  public void setHttpFetcher(HttpFetcher httpFetcher) {
+    this.httpFetcher = httpFetcher;
+  }
+
   public void assignCaseTypes(Unit u) {
     // Get accessibility info
-    URL url = null;
-    String mvkUrlString = mvkUrl + "&hsaid=" + u.getHsaIdentity() + "&guid=" + getMvkGuid();
-    try {
-      url = new URL(mvkUrlString);
-    } catch (MalformedURLException e) {
-      logger.error("MVK url no good: " + mvkUrlString, e);
-    }
-    HttpURLConnection urlConnection;
-    BufferedInputStream in = null;
-    try {
-      urlConnection = (HttpURLConnection) url.openConnection();
-      ((HttpsURLConnection) urlConnection).setHostnameVerifier(new HostnameVerifier() {
-        public boolean verify(String hostname, SSLSession session) {
-          return true;
-        }
-      });
+    String mvkUrlString = mvkUrl + "&hsaid=" + u.getHsaIdentity() + "&guid=" + mvkGuid;
 
-      int responseCode = urlConnection.getResponseCode();
-      if (responseCode == 200 || responseCode == 201) {
-        in = new BufferedInputStream(urlConnection.getInputStream());
-      } else {
-        in = new BufferedInputStream(urlConnection.getErrorStream());
-      }
-    } catch (IOException e) {
-      logger.error("Error when retrieving MVK xml response", e);
-    }
+    String content = httpFetcher.fetchUrl(mvkUrlString);
 
     // Now read the buffered stream and get mvk info
-    DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder docBuilder;
-    Document doc = null;
-    try {
-      docBuilder = docBuilderFactory.newDocumentBuilder();
-      doc = docBuilder.parse(in);
-      doc.normalize();
-    } catch (ParserConfigurationException e) {
-      logger.error("Error when parsing MVK xml response", e);
-    } catch (SAXException e) {
-      logger.error("Error when parsing MVK xml response", e);
-    } catch (IOException e) {
-      logger.error("Error when parsing MVK xml response", e);
-    }
+    Document doc = DocumentHelper.getDocumentFromString(content);
 
     // Get and assign case types
     NodeList caseTypesNodeList = doc.getElementsByTagName("casetype");
