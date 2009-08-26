@@ -26,7 +26,7 @@ import org.w3c.dom.NodeList;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 
 /**
- * Simple mvk client.
+ * Simple MVK client.
  * 
  * @author Jonas Liljenfeldt, Know IT
  */
@@ -47,9 +47,14 @@ public class MvkClient {
     this.httpFetcher = httpFetcher;
   }
 
-  public void assignCaseTypes(Unit u) {
+  /**
+   * Fetches case types from MVK and assigns them to the provided unit.
+   * 
+   * @param unit The unit to assign case types to.
+   */
+  public void assignCaseTypes(Unit unit) {
     // Get accessibility info
-    String mvkUrlString = mvkUrl + "&hsaid=" + u.getHsaIdentity() + "&guid=" + mvkGuid;
+    String mvkUrlString = mvkUrl + "&hsaid=" + unit.getHsaIdentity() + "&guid=" + mvkGuid;
 
     String content = httpFetcher.fetchUrl(mvkUrlString);
 
@@ -62,6 +67,6 @@ public class MvkClient {
     for (int i = 0; i < caseTypesNodeList.getLength(); i++) {
       caseTypes.add(caseTypesNodeList.item(i).getTextContent());
     }
-    u.setMvkCaseTypes(caseTypes);
+    unit.setMvkCaseTypes(caseTypes);
   }
 }

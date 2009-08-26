@@ -171,17 +171,4 @@ public class DisplayAccessibilityDatabaseBeanTest {
 
     return writer.toString();
   }
-
-  private static class HttpFetcherMock implements HttpFetcher {
-    private String content;
-
-    public void setContent(String content) {
-      this.content = content;
-    }
-
-    @Override
-    public String fetchUrl(String urlToFetch) {
-      return this.content;
-    }
-  }
 }
