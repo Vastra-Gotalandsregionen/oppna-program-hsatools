@@ -21,6 +21,9 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +54,7 @@ public class DisplayAccessibilityDatabaseBeanTest {
   @Before
   public void setUp() {
     httpFetcher = new HttpFetcherMock();
+    httpFetcher.setContent(DisplayAccessibilityDatabaseBeanTest.getStringFromResource("testxml/doc_with_subnodes.xml"));
     bean = new DisplayAccessibilityDatabaseBean();
     bean.setHttpFetcher(httpFetcher);
   }
@@ -78,7 +82,6 @@ public class DisplayAccessibilityDatabaseBeanTest {
     form.setSee(true);
     form.setSubstances(true);
 
-    this.httpFetcher.setContent("");
     Unit unit = new Unit();
     bean.filterAccessibilityDatabaseInfo(unit, form);
 
@@ -148,6 +151,25 @@ public class DisplayAccessibilityDatabaseBeanTest {
     }
 
     return document;
+  }
+
+  private static String getStringFromResource(String resourceName) {
+    InputStream inputStream = DisplayAccessibilityDatabaseBeanTest.class.getClassLoader().getResourceAsStream(resourceName);
+
+    Reader reader = new InputStreamReader(inputStream);
+    StringWriter writer = new StringWriter();
+
+    try {
+      char[] buffer = new char[1024];
+      int readChars = -1;
+      while ((readChars = reader.read(buffer)) > 0) {
+        writer.write(buffer, 0, readChars);
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
+    return writer.toString();
   }
 
   private static class HttpFetcherMock implements HttpFetcher {

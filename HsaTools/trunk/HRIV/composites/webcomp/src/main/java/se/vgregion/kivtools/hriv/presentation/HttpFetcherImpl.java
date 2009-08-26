@@ -69,8 +69,9 @@ public class HttpFetcherImpl implements HttpFetcher {
         StringWriter writer = new StringWriter();
 
         char[] buffer = new char[1024];
-        while (reader.read(buffer) > 0) {
-          writer.write(buffer);
+        int readChars = -1;
+        while ((readChars = reader.read(buffer)) > 0) {
+          writer.write(buffer, 0, readChars);
         }
 
         result = writer.toString();
