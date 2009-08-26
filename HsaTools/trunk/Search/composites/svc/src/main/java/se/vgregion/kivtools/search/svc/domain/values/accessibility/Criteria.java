@@ -34,8 +34,8 @@ import org.w3c.dom.NodeList;
 public class Criteria implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  private ArrayList<String> disabilities = new ArrayList<String>();
-  private ArrayList<String> additionalCriterias = new ArrayList<String>();
+  private final ArrayList<String> disabilities = new ArrayList<String>();
+  private final ArrayList<String> additionalCriterias = new ArrayList<String>();
   private String description;
   private boolean show;
   private String name = "";
@@ -139,15 +139,6 @@ public class Criteria implements Serializable {
   }
 
   /**
-   * Setter for the additionalCriterias property.
-   * 
-   * @param additionalCriterias The new value of the additionalCriterias property.
-   */
-  public void setAdditionalCriterias(ArrayList<String> additionalCriterias) {
-    this.additionalCriterias = additionalCriterias;
-  }
-
-  /**
    * Checks the notice property.
    * 
    * @return The value of the notice property.
@@ -190,15 +181,6 @@ public class Criteria implements Serializable {
    */
   public ArrayList<String> getDisabilities() {
     return disabilities;
-  }
-
-  /**
-   * Setter for the disabilities property.
-   * 
-   * @param disabilities The new value of the disabilities property.
-   */
-  public void setDisabilities(ArrayList<String> disabilities) {
-    this.disabilities = disabilities;
   }
 
   /**

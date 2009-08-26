@@ -23,7 +23,6 @@ package se.vgregion.kivtools.search.svc.ldap;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -223,26 +222,6 @@ public class LdapConnectionPool {
     }
     logger.debug("getconnection(timeout), free=" + freeConnections.size() + ", checkedOut=" + checkedOut);
     return con;
-  }
-
-  /**
-   * Closes all available connections.
-   */
-  public synchronized void release() {
-    logger.info("entering " + CLASS_NAME + "::release(), freeConnections=" + freeConnections.size() + ", checkedOut=" + checkedOut);
-    Iterator<LDAPConnection> allConnections = freeConnections.iterator();
-    while (allConnections.hasNext()) {
-      LDAPConnection con = allConnections.next();
-      try {
-        con.disconnect();
-        logger.info("Closed LdapConnection in pool ");
-        logger.debug("close physichal connection");
-      } catch (LDAPException e) {
-        logger.error("Can't close LdapConnection in pool " + e.getLDAPErrorMessage());
-      }
-    }
-    freeConnections.removeAll(freeConnections);
-    checkedOut = 0;
   }
 
   /**

@@ -31,15 +31,14 @@ import org.w3c.dom.NodeList;
 public final class AccessibilityPackage implements Serializable {
   private static final long serialVersionUID = 1L;
   private String name = "";
-  private ArrayList<ImageInfo> images = new ArrayList<ImageInfo>();
-  private ArrayList<Criteria> criterias = new ArrayList<Criteria>();
+  private final ArrayList<ImageInfo> images = new ArrayList<ImageInfo>();
+  private final ArrayList<Criteria> criterias = new ArrayList<Criteria>();
   private String id;
 
   /**
    * Private constructor to prevent instantiation.
    */
   private AccessibilityPackage() {
-
   }
 
   /**

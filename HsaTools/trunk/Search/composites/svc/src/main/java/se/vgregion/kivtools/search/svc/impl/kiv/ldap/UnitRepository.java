@@ -83,8 +83,10 @@ public class UnitRepository {
   public void setLdapConnectionPool(LdapConnectionPool lp) {
     this.theConnectionPool = lp;
   }
+
   /**
-   * Search for unit with max result set to 0. 
+   * Search for unit with max result set to 0.
+   * 
    * @param unit The unit to search for.
    * @return List of found units.
    * @throws Exception .
@@ -96,8 +98,9 @@ public class UnitRepository {
 
   /**
    * Search for a unit.
+   * 
    * @param unit The unit to search for.
-   * @param sortOrder The order the search result data. 
+   * @param sortOrder The order the search result data.
    * @return A list of found units.
    * @throws Exception .
    */
@@ -227,9 +230,10 @@ public class UnitRepository {
       }
     }
   }
-  
+
   /**
    * Search for selected unit.
+   * 
    * @param unit The unit to search for.
    * @param maxResult Max number of units to contain in the result.
    * @return List of found units.
@@ -239,8 +243,10 @@ public class UnitRepository {
     String searchFilter = createSearchFilter(unit);
     return searchUnits(searchFilter, LDAPConnection.SCOPE_SUB, maxResult, new UnitNameComparator());
   }
+
   /**
    * Fetch unit by the unit hsa id.
+   * 
    * @param hsaId The hsa id of the unit.
    * @return The unit with the given hsa id.
    * @throws Exception .
@@ -249,26 +255,29 @@ public class UnitRepository {
     String searchFilter = "(hsaIdentity=" + hsaId + ")";
     return searchUnit(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter);
   }
+
   /**
    * Fetch unit by the unit dn.
+   * 
    * @param dn The dn for the unit.
    * @return The unit with the given dn.
    * @throws Exception .
    */
   public Unit getUnitByDN(DN dn) throws Exception {
-    LDAPConnection lc = null;
     Unit u = null;
 
+    LDAPConnection lc = getLDAPConnection();
     try {
-      lc = getLDAPConnection();
       u = unitFactory.reconstitute(lc.read(dn.escape().toString()));
     } finally {
       theConnectionPool.freeConnection(lc);
     }
     return u;
   }
+
   /**
    * Get all hsa ids to all units.
+   * 
    * @return List of hsa ids.
    * @throws Exception .
    */
@@ -278,6 +287,7 @@ public class UnitRepository {
 
   /**
    * Get all units.
+   * 
    * @return List of all units.
    * @throws Exception .
    */
@@ -291,15 +301,15 @@ public class UnitRepository {
     }
     return units;
   }
-  
+
   /**
    * Get all hsa ids for units with chosen bussinessClassification codes.
+   * 
    * @param showUnitsWithTheseHsaBussinessClassificationCodes List with codes.
    * @return List of found units.
    * @throws Exception .
    */
   public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
-    LDAPConnection lc = null;
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     String searchFilter = "(|(objectclass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")(objectclass=" + Constants.OBJECT_CLASS_FUNCTION_SPECIFIC + "))";
@@ -315,8 +325,8 @@ public class UnitRepository {
     attributes[0] = "hsaIdentity";
     List<String> result = new ArrayList<String>();
 
+    LDAPConnection lc = getLDAPConnection();
     try {
-      lc = getLDAPConnection();
       LDAPSearchResults searchResults = lc.search(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter, attributes, false, constraints);
       // fill the list from the search result
       while (searchResults.hasMore()) {
@@ -345,7 +355,6 @@ public class UnitRepository {
 
   protected SikSearchResultList<Unit> searchUnits(String searchFilter, int searchScope, int maxResult, Comparator<Unit> sortOrder) throws Exception {
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
-    LDAPConnection lc = null;
     constraints.setMaxResults(0);
     // Get all attributes, including operational attribute createTimeStamp
     String[] attributes = { LDAPConnection.ALL_USER_ATTRS, "createTimeStamp" };
@@ -353,8 +362,9 @@ public class UnitRepository {
     logger.debug("LDAP search filter: " + searchFilter);
 
     SikSearchResultList<Unit> result = null;
+
+    LDAPConnection lc = getLDAPConnection();
     try {
-      lc = getLDAPConnection();
       result = extractResult(lc.search(KIV_SEARCH_BASE, searchScope, searchFilter, attributes, false, constraints), maxResult, sortOrder);
     } catch (SikInternalException e) {
       // We have no good connection to LDAP server and should be able to
@@ -368,19 +378,14 @@ public class UnitRepository {
 
   private Unit searchUnit(String searchBase, int searchScope, String searchFilter) throws Exception {
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
-    LDAPConnection lc = null;
     constraints.setMaxResults(0);
     Unit result = new Unit();
     // Get all attributes, including operational attribute createTimeStamp
     String[] attributes = { LDAPConnection.ALL_USER_ATTRS, "createTimeStamp" };
 
+    LDAPConnection lc = getLDAPConnection();
     try {
-      lc = getLDAPConnection();
       result = extractSingleResult(lc.search(searchBase, searchScope, searchFilter, attributes, false, constraints));
-    } catch (NoConnectionToServerException e) {
-      // We have no good connection to LDAP server and should be able to
-      // tell the user we have no hope of success.
-      throw e;
     } finally {
       theConnectionPool.freeConnection(lc);
     }
@@ -612,12 +617,12 @@ public class UnitRepository {
 
     filterList = new ArrayList<String>();
     addSearchFilter(filterList, Constants.LDAP_PROPERTY_UNIT_NAME, unit.getName());
-    
+
     // should be part of vgr vardval. This filter can only be used if vgrVardval is true.
     if (unit.isVgrVardVal()) {
       addSearchFilter(filterList, "vgrVardval", LdapParse.escapeLDAPSearchFilter(LdapParse.convertBooleanToString(unit.isVgrVardVal())));
     }
-    
+
     if (!Evaluator.isEmpty(orCriterias)) {
       filterList.add(orCriterias);
     }
@@ -814,9 +819,8 @@ public class UnitRepository {
   public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxResult) throws Exception {
     SikSearchResultList<Unit> subUnits = null;
     DN parentDn = parentUnit.getDn();
-    LDAPConnection ldapConnection = null;
+    LDAPConnection ldapConnection = getLDAPConnection();
     try {
-      ldapConnection = getLDAPConnection();
       subUnits = extractResult(ldapConnection.search(parentDn.toString(), LDAPConnection.SCOPE_SUB, "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")", null, false), maxResult, null);
       removeUnitParentFromList(parentUnit, subUnits);
     } finally {

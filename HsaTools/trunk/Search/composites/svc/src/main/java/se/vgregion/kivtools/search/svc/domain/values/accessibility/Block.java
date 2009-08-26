@@ -30,7 +30,7 @@ import org.w3c.dom.NodeList;
  */
 public final class Block implements Serializable {
   private static final long serialVersionUID = 1L;
-  private ArrayList<AccessibilityPackage> packages = new ArrayList<AccessibilityPackage>();
+  private final ArrayList<AccessibilityPackage> packages = new ArrayList<AccessibilityPackage>();
   private String id;
   private String name = "";
 

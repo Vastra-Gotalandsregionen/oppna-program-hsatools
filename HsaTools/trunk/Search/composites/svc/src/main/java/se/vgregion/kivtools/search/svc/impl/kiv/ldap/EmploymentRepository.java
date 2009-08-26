@@ -52,15 +52,14 @@ public class EmploymentRepository {
   }
 
   public SikSearchResultList<Employment> getEmployments(DN dn) throws Exception {
-    LDAPConnection lc = null;
     LDAPSearchResults searchResults = null;
     SikSearchResultList<Employment> result = new SikSearchResultList<Employment>();
     int maxResult = 0;
 
+    LDAPConnection lc = getLDAPConnection();
     try {
       LDAPSearchConstraints constraints = new LDAPSearchConstraints();
       constraints.setMaxResults(0);
-      lc = getLDAPConnection();
 
       searchResults = lc.search(dn.toString(), LDAPConnection.SCOPE_ONE, generateLDAPFilter(), null, false, constraints);
       result = extractResult(searchResults, maxResult);

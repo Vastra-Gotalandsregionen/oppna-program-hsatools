@@ -185,12 +185,11 @@ public class UnitRepository {
   }
 
   public Unit getUnitByDN(DN dn) throws Exception {
-    LDAPConnection lc = null;
     Unit u = null;
     String dnPath = dn.escape().toString();
 
+    LDAPConnection lc = getLDAPConnection();
     try {
-      lc = getLDAPConnection();
       u = UnitFactory.reconstitute(lc.read(dnPath));
     } finally {
       theConnectionPool.freeConnection(lc);
@@ -203,7 +202,6 @@ public class UnitRepository {
   }
 
   public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
-    LDAPConnection lc = null;
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     String searchFilter = "(|(objectclass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")(objectclass=" + Constants.OBJECT_CLASS_FUNCTION_SPECIFIC + "))";
@@ -219,8 +217,8 @@ public class UnitRepository {
     attributes[0] = "hsaIdentity";
     List<String> result = new ArrayList<String>();
 
+    LDAPConnection lc = getLDAPConnection();
     try {
-      lc = getLDAPConnection();
       LDAPSearchResults searchResults = lc.search(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter, attributes, false, constraints);
       // fill the list from the search result
       while (searchResults.hasMore()) {
@@ -239,8 +237,6 @@ public class UnitRepository {
           }
         }
       }
-    } catch (Exception e) {
-      throw e;
     } finally {
       theConnectionPool.freeConnection(lc);
     }
@@ -250,14 +246,13 @@ public class UnitRepository {
 
   private SikSearchResultList<Unit> searchUnits(String searchFilter, int searchScope, int maxResult, Comparator<Unit> sortOrder) throws Exception {
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
-    LDAPConnection lc = null;
     constraints.setMaxResults(0);
     SikSearchResultList<Unit> result = new SikSearchResultList<Unit>();
     // Get all attributes, including operational attribute createTimeStamp
     String[] attributes = { LDAPConnection.ALL_USER_ATTRS, "createTimeStamp" };
 
+    LDAPConnection lc = getLDAPConnection();
     try {
-      lc = getLDAPConnection();
       result = extractResult(lc.search(KIV_SEARCH_BASE, searchScope, searchFilter, attributes, false, constraints), maxResult, sortOrder);
     } finally {
       theConnectionPool.freeConnection(lc);
@@ -267,14 +262,13 @@ public class UnitRepository {
 
   private Unit searchUnit(String searchBase, int searchScope, String searchFilter) throws Exception {
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
-    LDAPConnection lc = null;
     constraints.setMaxResults(0);
     Unit result = new Unit();
     // Get all attributes, including operational attribute createTimeStamp
     String[] attributes = { LDAPConnection.ALL_USER_ATTRS, "createTimeStamp" };
 
+    LDAPConnection lc = getLDAPConnection();
     try {
-      lc = getLDAPConnection();
       result = extractSingleResult(lc.search(searchBase, searchScope, searchFilter, attributes, false, constraints));
     } finally {
       theConnectionPool.freeConnection(lc);

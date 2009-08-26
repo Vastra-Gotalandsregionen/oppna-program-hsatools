@@ -19,9 +19,6 @@ package se.vgregion.kivtools.search.svc.domain.values.accessibility;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-
-
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -88,15 +85,7 @@ public class CriteriaTest {
     assertTrue(criteria.isNotice());
 
     assertEquals(0, criteria.getAdditionalCriterias().size());
-    ArrayList<String> additionalCriterias = new ArrayList<String>();
-    additionalCriterias.add(TEST_STRING);
-    criteria.setAdditionalCriterias(additionalCriterias);
-    assertEquals(1, criteria.getAdditionalCriterias().size());
 
     assertEquals(0, criteria.getDisabilities().size());
-    ArrayList<String> disabilities = new ArrayList<String>();
-    disabilities.add(TEST_STRING);
-    criteria.setDisabilities(disabilities);
-    assertEquals(1, criteria.getDisabilities().size());
   }
 }
