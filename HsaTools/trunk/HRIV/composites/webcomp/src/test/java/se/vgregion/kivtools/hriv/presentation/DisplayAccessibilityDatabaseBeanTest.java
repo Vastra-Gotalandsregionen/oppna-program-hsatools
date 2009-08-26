@@ -46,10 +46,13 @@ public class DisplayAccessibilityDatabaseBeanTest {
   private static final Document DOC_WITH_SUBOBJECTS = DisplayAccessibilityDatabaseBeanTest.getDocumentFromResource("testxml/doc_with_subnodes.xml");
 
   private DisplayAccessibilityDatabaseBean bean;
+  private HttpFetcherMock httpFetcher;
 
   @Before
   public void setUp() {
+    httpFetcher = new HttpFetcherMock();
     bean = new DisplayAccessibilityDatabaseBean();
+    bean.setHttpFetcher(httpFetcher);
   }
 
   @Test
@@ -75,6 +78,7 @@ public class DisplayAccessibilityDatabaseBeanTest {
     form.setSee(true);
     form.setSubstances(true);
 
+    this.httpFetcher.setContent("");
     Unit unit = new Unit();
     bean.filterAccessibilityDatabaseInfo(unit, form);
 
@@ -144,5 +148,18 @@ public class DisplayAccessibilityDatabaseBeanTest {
     }
 
     return document;
+  }
+
+  private static class HttpFetcherMock implements HttpFetcher {
+    private String content;
+
+    public void setContent(String content) {
+      this.content = content;
+    }
+
+    @Override
+    public String fetchUrl(String urlToFetch) {
+      return this.content;
+    }
   }
 }
