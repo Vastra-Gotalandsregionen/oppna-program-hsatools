@@ -43,6 +43,15 @@ public class DocumentHelperTest {
   public void testBrokenXML() {
     String input = "<?xml version=\"1.0\" encoding=\"utf-8\"?><doc><child>content</child>";
     Document document = DocumentHelper.getDocumentFromString(input);
-    assertNull(document);
+    assertNotNull(document);
+    assertEquals(0, document.getChildNodes().getLength());
+  }
+
+  @Test
+  public void testEmptyInput() {
+    String input = "";
+    Document document = DocumentHelper.getDocumentFromString(input);
+    assertNotNull(document);
+    assertEquals(0, document.getChildNodes().getLength());
   }
 }
