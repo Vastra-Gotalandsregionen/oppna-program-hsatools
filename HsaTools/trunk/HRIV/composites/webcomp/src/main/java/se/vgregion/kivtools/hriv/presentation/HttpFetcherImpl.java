@@ -32,6 +32,8 @@ import javax.net.ssl.SSLSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.search.util.Evaluator;
+
 /**
  * Implementation of HttpFetcher that uses a HttpUrlConnection for fetching the information.
  * 
@@ -41,7 +43,7 @@ public class HttpFetcherImpl implements HttpFetcher {
   private Log logger = LogFactory.getLog(this.getClass());
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public String fetchUrl(String urlToFetch) {
@@ -59,11 +61,13 @@ public class HttpFetcherImpl implements HttpFetcher {
           ((HttpsURLConnection) urlConnection).setHostnameVerifier(new NiceHostnameVerifier());
         }
 
+        String charset = getCharsetFromContentType(urlConnection.getContentType(), "UTF-8");
+
         int responseCode = urlConnection.getResponseCode();
         if (responseCode == 200 || responseCode == 201) {
-          reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+          reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), charset));
         } else {
-          reader = new BufferedReader(new InputStreamReader(urlConnection.getErrorStream()));
+          reader = new BufferedReader(new InputStreamReader(urlConnection.getErrorStream(), charset));
         }
 
         StringWriter writer = new StringWriter();
@@ -88,9 +92,37 @@ public class HttpFetcherImpl implements HttpFetcher {
   }
 
   /**
+   * Extracts the name of the charset to use from a content type string.
+   * 
+   * @param contentType The content type string to extract charset from.
+   * @param defaultValue The default value to use if no charset can be extracted from the content type.
+   * @return The charset from the content type or the provided default value if no charset can be extracted from the content type.
+   */
+  private String getCharsetFromContentType(String contentType, String defaultValue) {
+    String charset = defaultValue;
+
+    if (!Evaluator.isEmpty(contentType)) {
+      int index = contentType.indexOf("charset=");
+      if (index != -1) {
+        int endIndex = contentType.indexOf(";", index);
+        if (endIndex == -1) {
+          charset = contentType.substring(index + 8);
+        } else {
+          charset = contentType.substring(index + 8, endIndex);
+        }
+      }
+    }
+
+    return charset;
+  }
+
+  /**
    * A Hostname verifier that is always nice and trusts everyone.
    */
   public static class NiceHostnameVerifier implements HostnameVerifier {
+    /**
+     * {@inheritDoc}
+     */
     public boolean verify(String hostname, SSLSession session) {
       return true;
     }
