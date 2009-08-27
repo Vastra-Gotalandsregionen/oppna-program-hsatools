@@ -59,15 +59,15 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
    * Look up database accessibility information for specified unit.
    * 
    * @param u The unit which should get accessibility info assigned to it.
-   * @param languageIdString The language id to use.
+   * @param form The AccessibilityDatabaseFilterForm to fetch the language id to use.
    */
-  public void assignAccessibilityDatabaseInfo(Unit u, String languageIdString) {
+  public void assignAccessibilityDatabaseInfo(Unit u, AccessibilityDatabaseFilterForm form) {
     // First find out the accessibility database id
     if (!assignAccessibilityDatabaseId(u)) {
       return;
     }
 
-    int languageId = Integer.parseInt(languageIdString);
+    int languageId = Integer.parseInt(form.getLanguageId());
 
     String url = accessibilityDatabaseIntegrationGetInfoUrl + languageId + "&facilityId=" + u.getAccessibilityDatabaseId();
 
@@ -137,7 +137,7 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 
     // If language has changed we need to download new data
     if (!form.getLanguageId().equals(formerLanguageId)) {
-      assignAccessibilityDatabaseInfo(u, form.getLanguageId());
+      assignAccessibilityDatabaseInfo(u, form);
       formerLanguageId = form.getLanguageId();
     }
 
