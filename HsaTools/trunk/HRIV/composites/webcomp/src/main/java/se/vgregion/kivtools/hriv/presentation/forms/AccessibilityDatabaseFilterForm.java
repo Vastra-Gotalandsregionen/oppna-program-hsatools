@@ -39,6 +39,7 @@ public class AccessibilityDatabaseFilterForm implements Serializable {
   private String listType = "attentive";
   // Default to Swedish
   private String languageId = "1";
+  private String formerLanguageId;
 
   private SelectItem[] listTypes = new SelectItem[] { new SelectItem("attentive", "Vad bör uppmärksammas"), new SelectItem("available", "Vad är tillgängligt") };
 
@@ -117,11 +118,15 @@ public class AccessibilityDatabaseFilterForm implements Serializable {
     this.languageId = languageId;
   }
 
-  public SelectItem[] getAvailableLanguages() {
-    return availableLanguages;
+  public void setFormerLanguageId(String formerLanguageId) {
+    this.formerLanguageId = formerLanguageId;
   }
 
-  public void setAvailableLanguages(SelectItem[] availableLanguages) {
-    this.availableLanguages = availableLanguages;
+  public String getFormerLanguageId() {
+    return formerLanguageId;
+  }
+
+  public SelectItem[] getAvailableLanguages() {
+    return availableLanguages;
   }
 }

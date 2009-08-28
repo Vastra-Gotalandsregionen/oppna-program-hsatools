@@ -60,7 +60,6 @@ public class DisplayAccessibilityDatabaseBeanTest {
     bean.setAccessibilityDatabaseIntegrationGetIdUrl("http://localhost/tdb?method=getId");
     bean.setAccessibilityDatabaseIntegrationGetInfoUrl("http://localhost/tdb?method=getInfo");
     bean.setUseAccessibilityDatabaseIntegration(Boolean.TRUE);
-    bean.setFormerLanguageId("sv");
   }
 
   @Test
@@ -85,11 +84,12 @@ public class DisplayAccessibilityDatabaseBeanTest {
     form.setMove(true);
     form.setSee(true);
     form.setSubstances(true);
+    form.setLanguageId("2");
 
     Unit unit = new Unit();
     bean.filterAccessibilityDatabaseInfo(unit, form);
 
-    assertEquals("Unexpected value of formerLanguageId", "1", bean.getFormerLanguageId());
+    assertEquals("Unexpected value of formerLanguageId", "2", form.getFormerLanguageId());
 
     Document doc = EMPTY_DOC;
     Node businessObjectNode = doc.getFirstChild();
