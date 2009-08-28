@@ -219,6 +219,17 @@ public class SettingsBeanTest {
   @Test
   public void testSetScripts() {
     assertEquals(0, bean.getScriptPaths().size());
+
+    try {
+      bean.setScripts(null);
+      fail("NullPointerException expected");
+    } catch (NullPointerException e) {
+      // Expected exception
+    }
+
+    bean.setScripts("");
+    assertEquals(0, bean.getScriptPaths().size());
+
     bean.setScripts(TEST_STRING);
     assertEquals(1, bean.getScriptPaths().size());
     assertEquals(TEST_STRING, bean.getScriptPaths().get(0));
