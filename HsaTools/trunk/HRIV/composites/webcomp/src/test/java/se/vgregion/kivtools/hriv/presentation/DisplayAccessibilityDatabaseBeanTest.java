@@ -57,6 +57,10 @@ public class DisplayAccessibilityDatabaseBeanTest {
     httpFetcher.setContent(DisplayAccessibilityDatabaseBeanTest.getStringFromResource("testxml/doc_with_subnodes.xml"));
     bean = new DisplayAccessibilityDatabaseBean();
     bean.setHttpFetcher(httpFetcher);
+    bean.setAccessibilityDatabaseIntegrationGetIdUrl("http://localhost/tdb?method=getId");
+    bean.setAccessibilityDatabaseIntegrationGetInfoUrl("http://localhost/tdb?method=getInfo");
+    bean.setUseAccessibilityDatabaseIntegration(Boolean.TRUE);
+    bean.setFormerLanguageId("sv");
   }
 
   @Test
@@ -131,6 +135,41 @@ public class DisplayAccessibilityDatabaseBeanTest {
     assertTrue(criterias.get(3).getShow());
     assertTrue(criterias.get(4).getShow());
     assertTrue(criterias.get(5).getShow());
+  }
+
+  @Test
+  public void testUseAccessibilityDatabaseIntegrationFalse() {
+    bean.setUseAccessibilityDatabaseIntegration(Boolean.FALSE);
+
+    Unit unit = new Unit();
+    AccessibilityDatabaseFilterForm form = new AccessibilityDatabaseFilterForm();
+
+    bean.filterAccessibilityDatabaseInfo(unit, form);
+    this.httpFetcher.assertLastUrlFetched(null);
+
+    bean.assignAccessibilityDatabaseId(unit);
+    this.httpFetcher.assertLastUrlFetched(null);
+
+    bean.assignAccessibilityDatabaseInfo(unit, form);
+    this.httpFetcher.assertLastUrlFetched(null);
+  }
+
+  @Test
+  public void testAssignAccessibilityDatabaseId() {
+    Unit unit = new Unit();
+    this.httpFetcher.setContent("<?xml version=\"1.0\"?><doc><string>abc</string></doc>");
+    boolean result = bean.assignAccessibilityDatabaseId(unit);
+    assertFalse(result);
+
+    this.httpFetcher.setContent("<?xml version=\"1.0\"?><doc><string>123</string></doc>");
+    result = bean.assignAccessibilityDatabaseId(unit);
+    assertTrue(result);
+    assertEquals(Integer.valueOf(123), unit.getAccessibilityDatabaseId());
+
+    this.httpFetcher.setContent("<?xml version=\"1.0\"?><doc><string>123</string><string>234</string></doc>");
+    result = bean.assignAccessibilityDatabaseId(unit);
+    assertTrue(result);
+    assertEquals(Integer.valueOf(234), unit.getAccessibilityDatabaseId());
   }
 
   private static Document getDocumentFromResource(String resourceName) {
