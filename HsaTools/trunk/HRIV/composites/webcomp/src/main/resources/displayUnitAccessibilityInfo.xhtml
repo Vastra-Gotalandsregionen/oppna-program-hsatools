@@ -41,8 +41,10 @@
 
 					<form id="filterAccessibilityInfoForm" jsfc="h:form" class="filterAccessibilityInfoForm">
 
+					<h:inputHidden id="formerLanguageId" value="#{accessibilityDatabaseFilterForm.formerLanguageId}" />
+					
 					#{msg.language}:
-					<h:selectOneRadio id="language" name="language" value="#{accessibilityDatabaseFilterForm.languageId}">
+					<h:selectOneRadio id="language" name="language" value="#{accessibilityDatabaseFilterForm.languageId}" styleClass="borderless-no-width-limit">
 						<f:selectItems value="#{accessibilityDatabaseFilterForm.availableLanguages}" />
 					</h:selectOneRadio>
 					

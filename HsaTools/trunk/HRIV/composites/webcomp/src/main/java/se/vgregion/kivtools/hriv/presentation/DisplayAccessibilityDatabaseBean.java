@@ -45,15 +45,6 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
   private Boolean useAccessibilityDatabaseIntegration = Boolean.TRUE;
   private String accessibilityDatabaseIntegrationGetIdUrl;
   private String accessibilityDatabaseIntegrationGetInfoUrl;
-  private String formerLanguageId;
-
-  public String getFormerLanguageId() {
-    return formerLanguageId;
-  }
-
-  public void setFormerLanguageId(String formerLanguageId) {
-    this.formerLanguageId = formerLanguageId;
-  }
 
   /**
    * Look up database accessibility information for specified unit.
@@ -139,9 +130,9 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
     form.setSubmitted(true);
 
     // If language has changed we need to download new data
-    if (!form.getLanguageId().equals(formerLanguageId)) {
+    if (!form.getLanguageId().equals(form.getFormerLanguageId())) {
       assignAccessibilityDatabaseInfo(u, form);
-      formerLanguageId = form.getLanguageId();
+      form.setFormerLanguageId(form.getLanguageId());
     }
 
     // Create array with selected disabilities
