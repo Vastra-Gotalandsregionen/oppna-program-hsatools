@@ -20,6 +20,7 @@ package se.vgregion.kivtools.hriv.presentation;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,12 +37,10 @@ public class SettingsBean implements Serializable {
   private boolean fallbackOnAddressForMap;
   private String googleMapsKey;
   private String distanceToUnits;
-  private String findRouteLinks;
   private String styles;
   private ArrayList<Link> findRouteLinksArray = new ArrayList<Link>();
-  private String scripts;
-  private ArrayList<String> scriptPaths = new ArrayList<String>();
   private String header;
+  private ArrayList<String> scriptPaths = new ArrayList<String>();
   private String footer;
   private String useShowUnitCode;
   private String showUnitCodeOnServer;
@@ -72,10 +71,6 @@ public class SettingsBean implements Serializable {
   private String mobileUrl;
   private String informationArea;
   private String externalApplicationURL;
-
-  public SettingsBean() {
-    super();
-  }
 
   public String getInformationArea() {
     return informationArea;
@@ -285,26 +280,23 @@ public class SettingsBean implements Serializable {
     this.header = header;
   }
 
-  public String getScripts() {
-    return scripts;
-  }
-
+  /**
+   * Splits the provided scripts-string at comma and adds each part to the list of script paths to render.
+   * 
+   * @param scripts A comma-separated string of script paths to render.
+   */
   public void setScripts(String scripts) {
+    this.scriptPaths.clear();
     List<String> tempList = Arrays.asList(scripts.split(","));
     for (String scriptPath : tempList) {
       if (scriptPath.length() > 0) {
         this.scriptPaths.add(scriptPath);
       }
     }
-    this.scripts = scripts;
   }
 
   public ArrayList<Link> getFindRouteLinksArray() {
     return findRouteLinksArray;
-  }
-
-  public void setFindRouteLinksArray(ArrayList<Link> findRouteLinksArray) {
-    this.findRouteLinksArray = findRouteLinksArray;
   }
 
   public String getStyles() {
@@ -315,16 +307,23 @@ public class SettingsBean implements Serializable {
     this.styles = styles;
   }
 
-  public String getFindRouteLinks() {
-    return findRouteLinks;
-  }
-
+  /**
+   * Splits the provided findRouteLinks at semi-colon and create new Link-objects which are added to the array of findRouteLinks.
+   * 
+   * @param findRouteLinks A string in the format href::name::optional param;href::name:optional param;...
+   */
   public void setFindRouteLinks(String findRouteLinks) {
-    this.findRouteLinks = findRouteLinks;
+    this.findRouteLinksArray.clear();
     String[] routeLinks = findRouteLinks.split(";");
     for (String routeLink : routeLinks) {
       String[] routeLinkComponents = routeLink.split("::");
-      Link l = new Link(routeLinkComponents[0], routeLinkComponents[1], routeLinkComponents.length > 2 ? routeLinkComponents[2] : "");
+      String href = routeLinkComponents[0];
+      String name = routeLinkComponents[1];
+      String toParamName = "";
+      if (routeLinkComponents.length > 2) {
+        toParamName = routeLinkComponents[2];
+      }
+      Link l = new Link(href, name, toParamName);
       addRouteLink(l);
     }
   }
@@ -354,7 +353,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getTestingModeAsString() {
-    return "" + testingMode;
+    return String.valueOf(testingMode);
   }
 
   public boolean isUseAccessibilityDatabaseIntegration() {
@@ -377,12 +376,8 @@ public class SettingsBean implements Serializable {
     findRouteLinksArray.add(l);
   }
 
-  public ArrayList<String> getScriptPaths() {
-    return scriptPaths;
-  }
-
-  public void setScriptPaths(ArrayList<String> scriptPaths) {
-    this.scriptPaths = scriptPaths;
+  public List<String> getScriptPaths() {
+    return Collections.unmodifiableList(scriptPaths);
   }
 
   public String getMainTop() {

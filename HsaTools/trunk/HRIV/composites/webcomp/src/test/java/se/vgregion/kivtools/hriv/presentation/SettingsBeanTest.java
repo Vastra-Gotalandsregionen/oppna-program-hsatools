@@ -24,9 +24,6 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.hriv.presentation.Link;
-import se.vgregion.kivtools.hriv.presentation.SettingsBean;
-
 public class SettingsBeanTest {
 
   private static final String TEST_STRING = "test";
@@ -221,9 +218,15 @@ public class SettingsBeanTest {
 
   @Test
   public void testSetScripts() {
-    assertNull(bean.getScripts());
+    assertEquals(0, bean.getScriptPaths().size());
     bean.setScripts(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getScripts());
+    assertEquals(1, bean.getScriptPaths().size());
+    assertEquals(TEST_STRING, bean.getScriptPaths().get(0));
+
+    bean.setScripts("test,test2");
+    assertEquals(2, bean.getScriptPaths().size());
+    assertEquals("test", bean.getScriptPaths().get(0));
+    assertEquals("test2", bean.getScriptPaths().get(1));
   }
 
   @Test
@@ -244,9 +247,23 @@ public class SettingsBeanTest {
 
   @Test
   public void testSetFindRouteLinks() {
-    assertNull(bean.getFindRouteLinks());
+    assertEquals(0, bean.getFindRouteLinksArray().size());
     bean.setFindRouteLinks("test::test2::test3");
-    assertEquals("test::test2::test3", bean.getFindRouteLinks());
+    ArrayList<Link> findRouteLinksArray = bean.getFindRouteLinksArray();
+    assertEquals(1, findRouteLinksArray.size());
+    assertEquals("test", findRouteLinksArray.get(0).getHref());
+    assertEquals("test2", findRouteLinksArray.get(0).getName());
+    assertEquals("test3", findRouteLinksArray.get(0).getToParamName());
+
+    bean.setFindRouteLinks("test::test2;test4::test5::test6");
+    findRouteLinksArray = bean.getFindRouteLinksArray();
+    assertEquals(2, findRouteLinksArray.size());
+    assertEquals("test", findRouteLinksArray.get(0).getHref());
+    assertEquals("test2", findRouteLinksArray.get(0).getName());
+    assertEquals("", findRouteLinksArray.get(0).getToParamName());
+    assertEquals("test4", findRouteLinksArray.get(1).getHref());
+    assertEquals("test5", findRouteLinksArray.get(1).getName());
+    assertEquals("test6", findRouteLinksArray.get(1).getToParamName());
   }
 
   @Test
@@ -266,8 +283,10 @@ public class SettingsBeanTest {
   @Test
   public void testSetTestingMode() {
     assertFalse(bean.getTestingMode());
+    assertEquals("false", bean.getTestingModeAsString());
     bean.setTestingMode(true);
     assertTrue(bean.getTestingMode());
+    assertEquals("true", bean.getTestingModeAsString());
   }
 
   @Test
@@ -282,15 +301,6 @@ public class SettingsBeanTest {
     assertNull(bean.getGoogleMapsKey());
     bean.setGoogleMapsKey(TEST_STRING);
     assertEquals(TEST_STRING, bean.getGoogleMapsKey());
-  }
-
-  @Test
-  public void testSetScriptPaths() {
-    assertNotNull(bean.getScriptPaths());
-    ArrayList<String> scriptPaths = bean.getScriptPaths();
-    assertEquals(0, bean.getScriptPaths().size());
-    scriptPaths.add(TEST_STRING);
-    assertEquals(1, bean.getScriptPaths().size());
   }
 
   @Test
@@ -333,5 +343,12 @@ public class SettingsBeanTest {
     assertNull(bean.getVardValInclude());
     bean.setVardValInclude(TEST_STRING);
     assertEquals(TEST_STRING, bean.getVardValInclude());
+  }
+
+  @Test
+  public void testExternalApplicationRL() {
+    assertNull(bean.getExternalApplicationURL());
+    bean.setExternalApplicationURL(TEST_STRING);
+    assertEquals(TEST_STRING, bean.getExternalApplicationURL());
   }
 }
