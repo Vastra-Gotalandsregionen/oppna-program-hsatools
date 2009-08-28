@@ -27,10 +27,17 @@ import java.io.Serializable;
  */
 public class Link implements Serializable {
   private static final long serialVersionUID = 1252630862103552549L;
-  private String href;
-  private String name;
-  private String toParamName;
+  private final String href;
+  private final String name;
+  private final String toParamName;
 
+  /**
+   * Constructs a new Link object.
+   * 
+   * @param href The hyperlink reference to use.
+   * @param name The name of the link.
+   * @param toParamName The to-parameter name of the link.
+   */
   public Link(String href, String name, String toParamName) {
     super();
     this.href = href;
@@ -42,23 +49,11 @@ public class Link implements Serializable {
     return toParamName;
   }
 
-  public void setToParamName(String toParamName) {
-    this.toParamName = toParamName;
-  }
-
   public String getHref() {
     return href;
   }
 
-  public void setHref(String href) {
-    this.href = href;
-  }
-
   public String getName() {
     return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 }
