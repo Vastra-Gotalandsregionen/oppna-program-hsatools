@@ -19,19 +19,21 @@
 -->
 <div id="header-tab-container" xmlns:h="http://java.sun.com/jsf/html">
 	<div id="pageHeader">
-		<div id="pageHeaderSearch">
-			<div class="headerlinks">
-				<ul>
-					<li class="toppadded"><a href="http://vard.vgregion.se/sv/Other-languages/">#{msg.otherLanguages}</a>&#160; | &#160;</li>
-					<li class="toppadded"><a href="http://vard.vgregion.se/sv/Teckenspraksfilmer/">#{msg.fingerLanguage}</a>&#160; | &#160;</li>
-					<li class="toppadded"><h:outputText rendered="#{settings.useListenLink==true}" escape="false" value="#{settings.listenLinkCode1}" />
-						<h:outputText rendered="#{settings.useListenLink==true}" value="#{facesContext.externalContext.request.queryString}" />
-						<h:outputText rendered="#{settings.useListenLink==true}" escape="false" value="#{settings.listenLinkCode2}" />
-					</li>					
-					<li class="header-search-item"><form action="http://vard.vgregion.se/sv/Sok/" method="get"><input name="quicksearchquery" id="SearchText" accesskey="4" title="#{msg.quickSearch}" class="topSearch" type="text" /><input name="Search" value="#{msg.search}" id="Search" class="standardButton marginTopFive" type="submit" /></form></li>
-				</ul>
+		<form action="http://vard.vgregion.se/sv/Sok/" method="get">
+			<div id="pageHeaderSearch">
+				<div class="headerlinks">
+					<ul>
+						<li class="toppadded"><a href="http://vard.vgregion.se/sv/Other-languages/">#{msg.otherLanguages}</a>&#160; | &#160;</li>
+						<li class="toppadded"><a href="http://vard.vgregion.se/sv/Teckenspraksfilmer/">#{msg.fingerLanguage}</a>&#160; | &#160;</li>
+						<li class="toppadded"><h:outputText rendered="#{settings.useListenLink==true}" escape="false" value="#{settings.listenLinkCode1}" />
+							<h:outputText rendered="#{settings.useListenLink==true}" value="#{facesContext.externalContext.request.queryString}" />
+							<h:outputText rendered="#{settings.useListenLink==true}" escape="false" value="#{settings.listenLinkCode2}" />
+						</li>					
+					</ul>
+					<div class="searchfield"><input name="quicksearchquery" id="SearchText" accesskey="4" title="#{msg.quickSearch}" class="topSearch" type="text" /><input name="Search" value="#{msg.search}" id="Search" class="standardButton marginTopFive" type="submit" /></div>
+				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 
 	<div id="header">
