@@ -21,7 +21,7 @@ Kortvarianten är som följer:
    * Välj Java/Code Style/Formatter och tryck på Import och importera VGR_CodeFormat.xml
    * Välj Java/Code Style/Code Templates och tryck på Import och importera VGR_CodeTemplates.xml
    * Välj Java/Code Style/Clean Up och tryck på Import och importera VGR_CleanUp.xml
- # Om man valt att installera Checkstyle-pluginen i Eclipse (http://eclipse-cs.sf.net/update) så måste man sätta upp sina projekt så att dom kontrolleras av pluginen.
+ # Om man valt att installera Checkstyle-pluginen i Eclipse (http://eclipse-cs.sf.net/update) så måste man sätta upp sina projekt så att de kontrolleras av pluginen.
    * Gå in i Properties för projektet
    * Välj Checkstyle
    * Gå till fliken Local Check Configurations
@@ -30,3 +30,5 @@ Kortvarianten är som följer:
    * Eclipse kommer nu att vilja bygga om projektet.
    * För att se eventuella checkstyle varningar, gå till Window - Show view - Other - Checkstyle - Checkstyle violations
    * Välj local
+
+Vid incheckningar, skriv lämpliga incheckningskommentarer och hänvisa om möjligt till det ärende som det gäller genom att skriva "issue X". På detta sätt får Google Code en möjlighet att länka ihop en revision av källkoden med ett ärende.
