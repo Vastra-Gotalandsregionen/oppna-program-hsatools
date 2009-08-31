@@ -68,7 +68,7 @@
 -->
 
 	<bean id="Push.Eniro"
-		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro">
+		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro" init-method="initLoadLastExistingUnitsInRepository">
 		<property name="ftpClient" ref="Transfer.ftp" />
 		<property name="unitRepository" ref="Search.UnitRepository" />
 		<property name="lastExistingUnitsFile" value="/tmp/leuf.txt" />

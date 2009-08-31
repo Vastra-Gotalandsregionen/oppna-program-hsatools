@@ -2,6 +2,7 @@ package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -50,16 +51,17 @@ import com.domainlanguage.time.TimePoint;
 /**
  * 
  * @author david
- *
+ * 
  */
 public class InformationPusherEniro implements InformationPusher {
 
+  private static final String LAST_SYNCHED_MODIFY_DATE_PROPERTY = "LastSynchedModifyDate";
+  private static final String LAST_EXISTING_UNITS_FILE_NAME = "leuf.serialized";
   private Log logger = LogFactory.getLog(this.getClass());
   private UnitRepository unitRepository;
   private String organizationCountry = "Sweden";
   private String organizationName = "VGR";
   private String organizationId = "vgr";
-  private File destinationFolder;
   private Map<String, DN> lastExistingUnits;
   private File lastExistingUnitsFile;
   private List<Unit> units;
@@ -80,11 +82,6 @@ public class InformationPusherEniro implements InformationPusher {
     this.lastExistingUnitsFile = lastExistingUnitsFile;
   }
 
-  @Required
-  public void setDestinationFolder(File destinationFolder) {
-    this.destinationFolder = destinationFolder;
-  }
-
   public void setUnitRepository(UnitRepository unitRepository) {
     this.unitRepository = unitRepository;
   }
@@ -96,28 +93,28 @@ public class InformationPusherEniro implements InformationPusher {
    * @throws Exception
    */
   private List<Unit> collectUnits() {
-    List<Unit> freshUnits = null;
+    List<Unit> modifiedUnits = null;
     try {
       units = unitRepository.getAllUnits();
       // Get units that has been created or modified
-      freshUnits = getFreshUnits(units, getLastSynchDate());
+      modifiedUnits = getCreatedMovedOrRemovedUnits(units, getLastSynchDate());
       // Get units that has been removed
-      List<Unit> removedOrMovedUnits = getRemovedOrMovedUnits(units);
-      freshUnits.addAll(removedOrMovedUnits);
+      List<Unit> removedUnits = getRemovedUnits(units);
+      modifiedUnits.addAll(removedUnits);
     } catch (Exception e) {
-      freshUnits = new ArrayList<Unit>();
+      modifiedUnits = new ArrayList<Unit>();
     }
-    return freshUnits;
+    return modifiedUnits;
   }
 
   private Date getLastSynchDate() {
     Preferences prefs = Preferences.systemNodeForPackage(getClass());
-    return new Date(prefs.getLong("LastSynchedModifyDate", 0));
+    return new Date(prefs.getLong(LAST_SYNCHED_MODIFY_DATE_PROPERTY, 0));
   }
 
   private void saveLastSynchedModifyDate(Date lastSynchedModifyDate) {
     Preferences prefs = Preferences.systemNodeForPackage(getClass());
-    prefs.putLong("LastSynchedModifyDate", lastSynchedModifyDate.getTime());
+    prefs.putLong(LAST_SYNCHED_MODIFY_DATE_PROPERTY, lastSynchedModifyDate.getTime());
   }
 
   /**
@@ -127,36 +124,72 @@ public class InformationPusherEniro implements InformationPusher {
    * @param lastSynchDate The date of the last synchronization.
    * @return A list of units which have been created/modified since the specified date.
    */
-  private List<Unit> getFreshUnits(List<Unit> unitList, Date lastSynchDate) {
-    List<Unit> freshUnits = new ArrayList<Unit>();
+  private List<Unit> getCreatedMovedOrRemovedUnits(List<Unit> unitList, Date lastSynchDate) {
+    List<Unit> createdAndMovedUnits = new ArrayList<Unit>();
     TimePoint lastSynchedModifyTimePoint = TimePoint.from(lastSynchDate);
     TimePoint temporaryLatestModifiedTimepoint = TimePoint.from(lastSynchDate);
 
     for (Unit unit : unitList) {
       if (unit != null) {
-        TimePoint modifyTimestamp = unit.getModifyTimestamp();
+        // TimePoint modifyTimestamp = unit.getModifyTimestamp();
         TimePoint createTimestamp = unit.getCreateTimestamp();
-        // Check if the unit is created or modified after last synched
-        // modify date
+        TimePoint modifyTimestamp = unit.getModifyTimestamp();
+        // Check if the unit is created, moved or modified after last synch modify date
         if (isAfterTimePoint(modifyTimestamp, lastSynchedModifyTimePoint) || isAfterTimePoint(createTimestamp, lastSynchedModifyTimePoint)) {
-          freshUnits.add(unit);
+          createdAndMovedUnits.add(unit);
           if (isAfterTimePoint(createTimestamp, lastSynchedModifyTimePoint)) {
-            unit.setNew(true);
+            DN dn = lastExistingUnits.get(unit.getHsaIdentity());
+            // No DN found so unit is new.
+            if (dn == null) {
+              unit.setNew(true);
+            } else if (!dn.equals(unit.getDn())) {
+              // Unit dn has been changed since last synch. That means moved in ldap.
+              unit.setMoved(true);
+            }
           }
         }
-
-        // Update latest in order to keep track of the latest
-        // creation/modification date in this batch
+        // Update latest in order to keep track of the latest creation/modification date in this batch
         temporaryLatestModifiedTimepoint = getLatestTimePoint(temporaryLatestModifiedTimepoint, createTimestamp);
         temporaryLatestModifiedTimepoint = getLatestTimePoint(temporaryLatestModifiedTimepoint, modifyTimestamp);
       }
     }
-
     // Latest in this batch
-    // lastSynchedModifyDate = temporaryLatestModifiedTimepoint.asJavaUtilDate();
     Preferences prefs = Preferences.systemNodeForPackage(getClass());
-    prefs.putLong("LastSynchedModifyDate", temporaryLatestModifiedTimepoint.asJavaUtilDate().getTime());
-    return freshUnits;
+    prefs.putLong(LAST_SYNCHED_MODIFY_DATE_PROPERTY, temporaryLatestModifiedTimepoint.asJavaUtilDate().getTime());
+    return createdAndMovedUnits;
+  }
+
+  /**
+   * We need to keep track of units that don't exists anymore. Compare to previous state and add virtual units that indicates the removal.
+   * 
+   * @param unitList
+   * @return
+   */
+  private List<Unit> getRemovedUnits(List<Unit> unitList) {
+    // Holds list of removed or moved units
+    List<Unit> removedOrMovedUnitsList = new ArrayList<Unit>();
+
+    // Sort to be able to perform binary search.
+    Collections.sort(unitList);
+
+    // Tag units as "moved" or "removed"
+    for (Map.Entry<String, DN> unitEntry : lastExistingUnits.entrySet()) {
+      Unit tmpUnit = new Unit();
+      tmpUnit.setHsaIdentity(unitEntry.getKey());
+      tmpUnit.setDn(unitEntry.getValue());
+
+      // Search for moved units (they exists in list of current units)
+      int unitPosition = Collections.binarySearch(unitList, tmpUnit);
+      if (unitPosition < 0) {
+        // Did not find unit in list of current units, ie removed!
+        // Create virtual unit and tag as removed.
+        Unit removedUnit = new Unit();
+        removedUnit.setHsaIdentity(unitEntry.getKey());
+        removedUnit.setRemoved(true);
+        removedOrMovedUnitsList.add(removedUnit);
+      }
+    }
+    return removedOrMovedUnitsList;
   }
 
   /**
@@ -168,9 +201,7 @@ public class InformationPusherEniro implements InformationPusher {
    */
   private boolean isAfterTimePoint(TimePoint timePointToCheck, TimePoint timePointToCheckAgainst) {
     boolean result = false;
-
     result = timePointToCheck != null && timePointToCheck.isAfter(timePointToCheckAgainst);
-
     return result;
   }
 
@@ -190,69 +221,63 @@ public class InformationPusherEniro implements InformationPusher {
   }
 
   /**
-   * We need to keep track of units that don't exists anymore or that are moved. Compare to previous state and add virtual units that indicates the removal and tag moved units as "moved".
-   * 
-   * @param unitList
-   * @return
+   * Load last existing units information when initializing spring bean.
    */
-  @SuppressWarnings("unchecked")
-  private List<Unit> getRemovedOrMovedUnits(List<Unit> unitList) {
+  public void initLoadLastExistingUnitsInRepository() {
     // Read last existing units from file
     if (lastExistingUnits == null) {
-      try {
-        // Started for the first time File not exist. Create new file
+      // Started for the first time File not exist. Create new default file
+      if (lastExistingUnitsFile == null) {
+        // Assume that default home location is used. Try to read file from home dir.
+        lastExistingUnitsFile = getDefaultLastExistingFile();
+        // Can't read default file then this is first time program is running or file has been deleted.
         if (!lastExistingUnitsFile.exists()) {
           lastExistingUnits = new HashMap<String, DN>();
+          resetLastSynchedModifyDate();
         } else {
-          FileInputStream fileInputStream = new FileInputStream(lastExistingUnitsFile);
-          ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-          lastExistingUnits = (HashMap<String, DN>) objectInputStream.readObject();
-          objectInputStream.close();
-          fileInputStream.close();
+          readFileContent();
         }
-      } catch (IOException e) {
-        logger.error("Error in getRemovedOrMovedUnits", e);
-      } catch (ClassNotFoundException e) {
-        logger.error("Error in getRemovedOrMovedUnits", e);
+      } else if (!lastExistingUnitsFile.exists()) {
+        lastExistingUnits = new HashMap<String, DN>();
+        // Remove last synch date if new file.
+        resetLastSynchedModifyDate();
+      } else if (lastExistingUnitsFile.exists()) {
+        // lastExistingUnitsFile is not set, create a default.
+        readFileContent();
       }
     }
+  }
+  
+  /**
+   * Reset the date of the latest modified entity in ldap.
+   */
+  private void resetLastSynchedModifyDate() {
+    Preferences prefs = Preferences.systemNodeForPackage(getClass());
+    prefs.remove("LastSynchedModifyDate");
+  }
 
-    // Holds list of removed or moved units
-    List<Unit> removedOrMovedUnitsList = new ArrayList<Unit>();
-
-    // Tag units as "moved" or "removed"
-    for (Map.Entry<String, DN> unitEntry : lastExistingUnits.entrySet()) {
-      Unit tmpUnit = new Unit();
-      tmpUnit.setHsaIdentity(unitEntry.getKey());
-      tmpUnit.setDn(unitEntry.getValue());
-
-      // Search for moved units (they exists in list of current units)
-      Collections.sort(unitList);
-      int unitPosition = Collections.binarySearch(unitList, tmpUnit);
-      if (unitPosition > -1) {
-        Unit unitInRepository = unitList.get(unitPosition);
-        if (!unitInRepository.getDn().toString().equals(unitEntry.getValue().toString())) {
-          // Unit has been moved
-          unitInRepository.setMoved(true);
-          removedOrMovedUnitsList.add(unitInRepository);
-        }
-      } else {
-        // Did not find unit in list of current units, ie removed!
-        // Create virtual unit and tag as removed.
-        Unit removedUnit = new Unit();
-        removedUnit.setHsaIdentity(unitEntry.getKey());
-        removedUnit.setRemoved(true);
-        removedOrMovedUnitsList.add(removedUnit);
-      }
+  @SuppressWarnings("unchecked")
+  private void readFileContent() {
+    try {
+      FileInputStream fileInputStream = new FileInputStream(lastExistingUnitsFile);
+      ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+      lastExistingUnits = (HashMap<String, DN>) objectInputStream.readObject();
+      objectInputStream.close();
+      fileInputStream.close();
+    } catch (IOException e) {
+      logger.error("Error in getLastExistingUnitsInRepository", e);
+    } catch (ClassNotFoundException e) {
+      logger.error("Error in getLastExistingUnitsInRepository", e);
     }
-
-    return removedOrMovedUnitsList;
   }
 
   private void saveLastExistingUnitList() {
     try {
       for (Unit unit : units) {
         lastExistingUnits.put(unit.getHsaIdentity(), unit.getDn());
+      }
+      if (lastExistingUnitsFile == null) {
+        lastExistingUnitsFile = getDefaultLastExistingFile();
       }
       FileOutputStream fileOutputStream = new FileOutputStream(lastExistingUnitsFile);
       ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -265,20 +290,33 @@ public class InformationPusherEniro implements InformationPusher {
       logger.error("Error in saveLastExistingUnitList", e);
     }
   }
-  
+
+  private File getDefaultLastExistingFile() {
+    if (lastExistingUnitsFile == null) {
+      String homeFolder = System.getProperty("user.home");
+      File hrivSettingsFolder = new File(homeFolder, ".hriv");
+      if (!hrivSettingsFolder.exists()) {
+        hrivSettingsFolder.mkdir();
+      }
+      lastExistingUnitsFile = new File(hrivSettingsFolder, LAST_EXISTING_UNITS_FILE_NAME);
+    }
+    return lastExistingUnitsFile;
+  }
+
   /**
    * Trigger service for generate unit tree xml file and push it to chosen ftp server.
+   * 
    * @inheritDoc
    */
   public void doService() {
     try {
       // Check if there is a saved lastSynchDate. If not this is the first time and we must generate full organization.
-      boolean generateFullOrg = !getLastSynchDate().after(Constants.parseStringToZuluTime("19700102000000Z"));
+      boolean generateFullOrg = isFullOrganizationTreeMode();
       // Get units that belongs to the organization.
       List<Unit> collectedUnits = collectUnits();
       // Generate organization tree object.
       Organization organization = generateOrganizationTree(generateFullOrg, collectedUnits);
-      // create XML presentation of organization tree object. 
+      // create XML presentation of organization tree object.
       String generatedUnitDetailsXmlFile = generateUnitDetailsXmlFile(organization);
       if (organization.getUnit().size() > 0) {
         if (ftpClient.sendFile(generatedUnitDetailsXmlFile)) {
@@ -294,9 +332,23 @@ public class InformationPusherEniro implements InformationPusher {
 
     }
   }
-  
+  /**
+   * If lastExistingUnitsFile exist, then no full organization tree should be generated.
+   * @return boolean if full organization tree should be generated.
+   */
+  private boolean isFullOrganizationTreeMode() {
+    boolean generateFullOrganizationTree = true;
+    if (lastExistingUnitsFile != null && lastExistingUnitsFile.exists()) {
+      generateFullOrganizationTree = !getLastSynchDate().after(Constants.parseStringToZuluTime("19700102000000Z"));
+    }else {
+      resetLastSynchedModifyDate();
+    }
+    return generateFullOrganizationTree;
+  }
+
   /**
    * Generate organization tree object.
+   * 
    * @param generateFullOrg If true full organization tree is generated.
    * @param collectedUnits List with units that belongs to the organization
    * @return Organization object containing units.
@@ -320,6 +372,7 @@ public class InformationPusherEniro implements InformationPusher {
 
   /**
    * Generate xml file with newly updated units.
+   * 
    * @throws JAXBException .
    */
   private String generateUnitDetailsXmlFile(Organization organization) throws JAXBException {
@@ -347,12 +400,12 @@ public class InformationPusherEniro implements InformationPusher {
 
     Unit parentUnit = null;
     if (unit.isNew()) {
-      jaxbUnit.setOperation("create");
+      jaxbUnit.setOperation(Operation.CREATE.value);
       parentUnit = getParentUnit(unit);
     } else if (unit.isRemoved()) {
-      jaxbUnit.setOperation("remove");
+      jaxbUnit.setOperation(Operation.REMOVE.value);
     } else if (unit.isMoved()) {
-      jaxbUnit.setOperation("move");
+      jaxbUnit.setOperation(Operation.MOVE.value);
       parentUnit = getParentUnit(unit);
     }
     if (parentUnit != null) {
@@ -496,8 +549,7 @@ public class InformationPusherEniro implements InformationPusher {
       try {
         parent = unitRepository.getUnitByDN(parentDn);
       } catch (Exception e) {
-        // Not necessary to log
-        // logger.error("Error in getParentUnit", e);
+        // Not necessary to log logger.error("Error in getParentUnit", e);
         parent = null;
       }
       return parent;
@@ -577,6 +629,21 @@ public class InformationPusherEniro implements InformationPusher {
         parentJaxbUnit.getUnit().add(jaxbChildUnit);
         populateUnit(jaxbChildUnit, child.getDn(), unitChildrenContainer);
       }
+    }
+  }
+
+  /**
+   * Constants for Eniro operation.
+   * 
+   * @author david
+   * 
+   */
+  private enum Operation {
+    CREATE("create"), MOVE("move"), REMOVE("remove");
+    private String value;
+
+    Operation(String value) {
+      this.value = value;
     }
   }
 }

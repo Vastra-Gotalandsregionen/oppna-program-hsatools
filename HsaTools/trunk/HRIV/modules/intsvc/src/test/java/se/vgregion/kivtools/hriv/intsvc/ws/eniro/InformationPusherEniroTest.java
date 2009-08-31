@@ -1,5 +1,7 @@
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
+import static org.junit.Assert.*;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
@@ -7,9 +9,13 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
+import java.util.TreeMap;
 import java.util.prefs.Preferences;
 
 import javax.xml.bind.JAXBContext;
@@ -37,41 +43,36 @@ import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 import com.domainlanguage.time.TimePoint;
 
 public class InformationPusherEniroTest {
-  private InformationPusherEniro informationPusher;
+  private InformationPusherEniro informationPusher = new InformationPusherEniro();;
   private static File unitExistFile = new File("unitExistList");
-  private MockFtpClient mockFtpClient;
-
+  private MockFtpClient mockFtpClient = new MockFtpClient();
+  private UnitRepositoryMock unitRepositoryMock = new UnitRepositoryMock();
+  private CodeTableMock codeTableMock = new CodeTableMock();
+ 
   @Before
   public void setUp() throws Exception {
+    resetUnitRepositoryMock();
     Preferences prefs = Preferences.systemNodeForPackage(getClass());
     prefs.remove("LastSynchedModifyDate");
     unitExistFile.delete();
-
-    setupInformationPusher();
+    codeTableMock.init();
+    
+    informationPusher.setFtpClient(mockFtpClient);
+    informationPusher.setCodeTablesService(codeTableMock);
+    informationPusher.setUnitRepository(unitRepositoryMock);
+    informationPusher.setLastExistingUnitsFile(unitExistFile);
+    // Emulate spring bean initialization
+    informationPusher.initLoadLastExistingUnitsInRepository();
   }
 
-  private void setupInformationPusher() throws Exception {
-    informationPusher = new InformationPusherEniro();
+  private void resetUnitRepositoryMock() {
+    unitRepositoryMock.clearMockUnitsMap();
+    
     List<Unit> units = getDefaultTestUnits();
     for (Unit unit : units) {
       fillMockData(unit);
+      unitRepositoryMock.addMockUnit(unit);
     }
-    UnitRepository unitRepository = createMockUnitRepositoryFull(units);
-    CodeTablesService mockCodeTableService = EasyMock.createMock(CodeTablesService.class);
-    org.easymock.EasyMock.expect(mockCodeTableService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "")).andReturn("");
-    org.easymock.EasyMock.expectLastCall().anyTimes();
-    org.easymock.EasyMock.expect(mockCodeTableService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "1604")).andReturn("test");
-    org.easymock.EasyMock.expectLastCall().anyTimes();
-    org.easymock.EasyMock.expect(mockCodeTableService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "1460")).andReturn("test2");
-    org.easymock.EasyMock.expectLastCall().anyTimes();
-    mockFtpClient = new MockFtpClient();
-    EasyMock.replay(mockCodeTableService);
-
-    informationPusher.setFtpClient(mockFtpClient);
-    informationPusher.setCodeTablesService(mockCodeTableService);
-    informationPusher.setUnitRepository(unitRepository);
-    informationPusher.setLastExistingUnitsFile(unitExistFile);
-    informationPusher.setDestinationFolder(new File("src/test"));
   }
 
   @Test
@@ -79,30 +80,25 @@ public class InformationPusherEniroTest {
     informationPusher.doService();
     Organization organizationFromXml = getOrganizationFromFile(this.mockFtpClient.getFileContent());
     Assert.assertTrue("Array should contain 4 root units", organizationFromXml.getUnit().size() == 4);
+    
     // the "new" unit.
-    List<Unit> units = getDefaultTestUnits();
-    Unit unitLeaf7 = new Unit();
-    unitLeaf7.setDn(DN.createDNFromString("ou=leaf7,ou=child5,ou=root4,ou=org,o=VGR"));
-    unitLeaf7.setName("leaf7");
-    unitLeaf7.setHsaIdentity("leaf7-id");
-
+    Unit unit16 = new Unit();
+    unit16.setDn(DN.createDNFromString("ou=unit16,ou=unit5,ou=unit1,ou=org,o=VGR"));
+    unit16.setName("unit16");
+    unit16.setHsaIdentity("unit16-id");
     String dateStr = Constants.formatDateToZuluTime(new Date());
-    unitLeaf7.setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
-    unitLeaf7.setModifyTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
-    fillMockData(unitLeaf7);
-    units.add(unitLeaf7);
-
-    informationPusher.setUnitRepository(createMockUnitRepositoryFull(units));
+    unit16.setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
+    unit16.setModifyTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
+    fillMockData(unit16);
+   
+    // add new unit to repository.
+    unitRepositoryMock.addMockUnit(unit16);
     informationPusher.doService();
+    
     organizationFromXml = getOrganizationFromFile(this.mockFtpClient.getFileContent());
     Assert.assertTrue("Array should contain 1 unit but are: " + organizationFromXml.getUnit().size(), organizationFromXml.getUnit().size() == 1);
     // HsaId 8 corresponds to child5 in unitsInRepository, i.e parent of leaf7
-    Assert.assertEquals("child5-id", organizationFromXml.getUnit().get(0).getParentUnitId());
-  }
-
-  @Test
-  public void testErrorHandlingForSaveLastSynchedModifyDateMethod() {
-    informationPusher.doService();
+    Assert.assertEquals("unit5-id", organizationFromXml.getUnit().get(0).getParentUnitId());
   }
 
   @Test
@@ -118,8 +114,7 @@ public class InformationPusherEniroTest {
       System.setErr(printStream);
       informationPusher.doService();
       System.err.println("tets");
-      String f = byteArrayOutputStream.toString();
-      f = "";
+     
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -133,9 +128,34 @@ public class InformationPusherEniroTest {
     Organization organizationFromXml = getOrganizationFromFile(this.mockFtpClient.getFileContent());
     Assert.assertTrue("Array should contain 4 root units", organizationFromXml.getUnit().size() == 4);
     // When "resetting", last synched modify date information should be read from file and thus we will not find any new units.
-    setupInformationPusher();
+    //setupInformationPusher();
+    mockFtpClient = new MockFtpClient();
+    informationPusher = new InformationPusherEniro();
+    informationPusher.setFtpClient(mockFtpClient);
+    informationPusher.setCodeTablesService(codeTableMock);
+    informationPusher.setUnitRepository(unitRepositoryMock);
+    informationPusher.setLastExistingUnitsFile(unitExistFile);
     informationPusher.doService();
     Assert.assertNull("No file should have been generated since no organizations were updated.", this.mockFtpClient.getFileContent());
+  }
+  
+  @Test
+  public void testUseDefaultLastSynchedModifyDateFile(){
+    // Delete folder before tests.
+    deleteLeufFile();
+    informationPusher.setLastExistingUnitsFile(null);
+    informationPusher.doService();
+  }
+  
+  private void deleteLeufFile(){
+    unitExistFile.delete();
+    File leuf = new File(System.getProperty("user.home") + File.separator + ".hriv", "leuf.serialized");
+    leuf.delete();
+    leuf = new File(System.getProperty("user.home"), ".hriv");
+    if (leuf.exists()) {
+      leuf.delete();
+    }
+
   }
 
   @Test
@@ -146,17 +166,41 @@ public class InformationPusherEniroTest {
     for (se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit unit : organization.getUnit()) {
       Assert.assertEquals("create", unit.getOperation());
     }
-    // Remove one unit
-    List<Unit> units = getDefaultTestUnits();
-    units.remove(0);
-    Unit unitToMove = units.get(13);
-    fillMockData(unitToMove);
-    unitToMove.setDn(DN.createDNFromString("ou=leaf6,ou=child4,ou=root4,ou=org,o=VGR"));
-    informationPusher.setUnitRepository(createMockUnitRepositoryFull(units));
+    unitRepositoryMock.removeMockUnit(DN.createDNFromString("ou=unit14,ou=unit9,ou=unit2,ou=org,o=VGR"));
     informationPusher.doService();
     organization = getOrganizationFromFile(this.mockFtpClient.getFileContent());
-    Assert.assertTrue("Organization should contain 2 units, not " + organization.getUnit().size() + ".", organization.getUnit().size() == 2);
+    Assert.assertTrue("Organization should contain 1 units, not " + organization.getUnit().size() + ".", organization.getUnit().size() == 1);
     Assert.assertEquals("remove", organization.getUnit().get(0).getOperation());
+  }
+  
+  @Test
+  public void testMoveUnitInRepository() throws Exception{
+    informationPusher.doService();
+    // Move leaf unit.
+    resetUnitRepositoryMock();
+    DN unitDnToMoveFrom = DN.createDNFromString("ou=unit10,ou=unit5,ou=unit1,ou=org,o=VGR");
+    DN unitDnToMoveTo = DN.createDNFromString("ou=unit10,ou=unit6,ou=unit1,ou=org,o=VGR");
+    Unit unit = unitRepositoryMock.getUnitByDN(unitDnToMoveFrom);
+    unitRepositoryMock.moveMockUnit(unitDnToMoveFrom, unitDnToMoveTo);
+    informationPusher.doService();
+    Organization organization = getOrganizationFromFile(this.mockFtpClient.getFileContent());
+    Assert.assertTrue("Organization should contain 1 units", organization.getUnit().size() == 1);
+    assertEquals(unit.getHsaIdentity(), organization.getUnit().get(0).getId());
+    assertEquals("move",  organization.getUnit().get(0).getOperation());
+  }
+  
+  @Test
+  public void testUpdatedUnit() throws Exception{
+    informationPusher.doService();
+    //resetUnitRepositoryMock();
+    Unit unit = unitRepositoryMock.getUnitByDN(DN.createDNFromString("ou=unit13,ou=unit8,ou=unit4,ou=org,o=VGR"));
+    Address hsaPostalAddress = unit.getHsaPostalAddress();
+    hsaPostalAddress.setStreet("New updated street");
+    setNewModifyDate(unit);
+    informationPusher.doService();
+    Organization organization = getOrganizationFromFile(this.mockFtpClient.getFileContent());
+    se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address address = (se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address) organization.getUnit().get(0).getDescriptionOrImageOrAddress().get(2);
+    assertEquals("New updated street", address.getStreetName());
   }
 
   @Test
@@ -190,6 +234,52 @@ public class InformationPusherEniroTest {
     Assert.assertTrue("Organization should contain 4 root units", organization.getUnit().size() == 4);
   }
 
+  @Test
+  public void testGenerateOrganisationTree() throws Exception {
+    informationPusher.doService();
+    Organization generatedOrganization = getOrganizationFromFile(this.mockFtpClient.getFileContent());
+
+    // Root units.
+    assertEquals("unit1-id", generatedOrganization.getUnit().get(0).getId());
+    assertEquals("unit2-id", generatedOrganization.getUnit().get(1).getId());
+    assertEquals("unit3-id", generatedOrganization.getUnit().get(2).getId());
+    assertEquals("unit4-id", generatedOrganization.getUnit().get(3).getId());
+    
+    // Child units.
+    assertEquals("unit5-id", generatedOrganization.getUnit().get(0).getUnit().get(0).getId());
+    assertEquals("unit6-id", generatedOrganization.getUnit().get(1).getUnit().get(0).getId());
+    assertEquals("unit7-id", generatedOrganization.getUnit().get(2).getUnit().get(0).getId());
+    assertEquals("unit8-id", generatedOrganization.getUnit().get(3).getUnit().get(0).getId());
+    assertEquals("unit9-id", generatedOrganization.getUnit().get(1).getUnit().get(1).getId());
+    
+    // Leaf units.
+    assertEquals("unit10-id", generatedOrganization.getUnit().get(0).getUnit().get(0).getUnit().get(0).getId());
+    assertEquals("unit11-id", generatedOrganization.getUnit().get(1).getUnit().get(0).getUnit().get(0).getId());
+    assertEquals("unit12-id", generatedOrganization.getUnit().get(2).getUnit().get(0).getUnit().get(0).getId());
+    assertEquals("unit13-id", generatedOrganization.getUnit().get(3).getUnit().get(0).getUnit().get(0).getId());
+    assertEquals("unit14-id", generatedOrganization.getUnit().get(1).getUnit().get(1).getUnit().get(0).getId());
+    assertEquals("unit15-id", generatedOrganization.getUnit().get(0).getUnit().get(0).getUnit().get(1).getId());
+    
+   
+    mockFtpClient.reset();
+    // No changes made, so no units to push.
+    informationPusher.doService();
+    generatedOrganization = getOrganizationFromFile(this.mockFtpClient.getFileContent());
+    //No file should be generated.
+    assertNull(generatedOrganization);
+    
+    deleteLeufFile();
+    mockFtpClient.reset();
+    informationPusher.doService();
+    
+    generatedOrganization = getOrganizationFromFile(this.mockFtpClient.getFileContent());
+    // Leuf file deleted so last synch is reseted and service should generate full organization tree.
+    assertEquals(4, generatedOrganization.getUnit().size());
+    
+  }
+
+  // Helper-methods
+  
   private Organization getOrganizationFromFile(String fileContent) {
     Organization organization = null;
     try {
@@ -202,37 +292,6 @@ public class InformationPusherEniroTest {
     return organization;
   }
 
-  @Test
-  public void testGenerateOrganisationTree() throws Exception {
-
-    informationPusher.setUnitRepository(createMockUnitRepositoryFull(getDefaultTestUnits()));
-    informationPusher.doService();
-    Organization generatedOrganization = getOrganizationFromFile(this.mockFtpClient.getFileContent());
-
-    int nbrOfRootUnits = 0;
-    int nbrOfChildUnits = 0;
-    int nbrOfLeafUnits = 0;
-    for (se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit unit : generatedOrganization.getUnit()) {
-      nbrOfRootUnits++;
-      Assert.assertEquals("root" + nbrOfRootUnits + "-id", unit.getId());
-      for (se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit childUnit : unit.getUnit()) {
-        nbrOfChildUnits++;
-        Assert.assertEquals("child" + nbrOfChildUnits + "-id", childUnit.getId());
-        for (int i = 0; i < childUnit.getUnit().size(); i++) {
-          nbrOfLeafUnits++;
-          se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit leafUnit = childUnit.getUnit().get(i);
-          Assert.assertEquals("leaf" + nbrOfLeafUnits + "-id", leafUnit.getId());
-        }
-
-      }
-    }
-  }
-
-  /*
-   * Not used remove 06082009 db private static se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Unit getEniroUnit(Unit domainUnit) { se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Unit
-   * eniroUnit = new se.vgregion.kivtools.search.intsvc.ws.domain.eniro.Unit(); eniroUnit.setName(domainUnit.getName()); eniroUnit.setId(domainUnit.getHsaIdentity()); return eniroUnit; }
-   */
-
   private static void setCreateAndModifyTimestampForUnit(int i, Unit unit) {
     Calendar calendar = Calendar.getInstance();
     // Newest is assumed to be the day before yesterday
@@ -244,26 +303,29 @@ public class InformationPusherEniroTest {
 
   private static List<Unit> getDefaultTestUnits() {
     // Test data for unit repository
-    Unit unitRoot1 = createUnit("root1", "root1-id", "ou=root1,ou=org,o=VGR", 1);
-    Unit unitRoot2 = createUnit("root2", "root2-id", "ou=root2,ou=org,o=VGR", 2);
-    Unit unitRoot3 = createUnit("root3", "root3-id", "ou=root3,ou=org,o=VGR", 3);
-    Unit unitRoot4 = createUnit("root4", "root4-id", "ou=root4,ou=org,o=VGR", 4);
+    // Root units.
+    Unit unitRoot1 = createUnit("unit1", "unit1-id", "ou=unit1,ou=org,o=VGR", 1);
+    Unit unitRoot2 = createUnit("unit2", "unit2-id", "ou=unit2,ou=org,o=VGR", 2);
+    Unit unitRoot3 = createUnit("unit3", "unit3-id", "ou=unit3,ou=org,o=VGR", 3);
+    Unit unitRoot4 = createUnit("unit4", "unit4-id", "ou=unit4,ou=org,o=VGR", 4);
 
-    Unit unitChild1 = createUnit("child1", "child1-id", "ou=child1,ou=root1,ou=org,o=VGR", 5);
-    Unit unitChild2 = createUnit("child2", "child2-id", "ou=child2,ou=root2,ou=org,o=VGR", 6);
-    Unit unitChild3 = createUnit("child3", "child3-id", "ou=child3,ou=root3,ou=org,o=VGR", 7);
-    Unit unitChild4 = createUnit("child4", "child4-id", "ou=child4,ou=root4,ou=org,o=VGR", 8);
-    Unit unitChild5 = createUnit("child5", "child5-id", "ou=child5,ou=root4,ou=org,o=VGR", 9);
+    // Children to root units.
+    Unit unitChild1 = createUnit("unit5", "unit5-id", "ou=unit5,ou=unit1,ou=org,o=VGR", 5);
+    Unit unitChild2 = createUnit("unit6", "unit6-id", "ou=unit6,ou=unit2,ou=org,o=VGR", 6);
+    Unit unitChild3 = createUnit("unit7", "unit7-id", "ou=unit7,ou=unit3,ou=org,o=VGR", 7);
+    Unit unitChild4 = createUnit("unit8", "unit8-id", "ou=unit8,ou=unit4,ou=org,o=VGR", 8);
+    Unit unitChild5 = createUnit("unit9", "unit9-id", "ou=unit9,ou=unit2,ou=org,o=VGR", 9);
 
-    Unit unitLeaf1 = createUnit("leaf1", "leaf1-id", "ou=leaf1,ou=child1,ou=root1,ou=org,o=VGR", 10);
-    Unit unitLeaf2 = createUnit("leaf2", "leaf2-id", "ou=leaf2,ou=child2,ou=root2,ou=org,o=VGR", 11);
-    Unit unitLeaf3 = createUnit("leaf3", "leaf3-id", "ou=leaf3,ou=child3,ou=root3,ou=org,o=VGR", 12);
-    Unit unitLeaf4 = createUnit("leaf4", "leaf4-id", "ou=leaf4,ou=child4,ou=root4,ou=org,o=VGR", 13);
-    Unit unitLeaf5 = createUnit("leaf5", "leaf5-id", "ou=leaf5,ou=child5,ou=root5,ou=org,o=VGR", 14);
-    Unit unitLeaf6 = createUnit("leaf6", "leaf6-id", "ou=leaf6,ou=child6,ou=root6,ou=org,o=VGR", 0);
+    // Leaf to children units.
+    Unit unitLeaf1 = createUnit("unit10", "unit10-id", "ou=unit10,ou=unit5,ou=unit1,ou=org,o=VGR", 10);
+    Unit unitLeaf2 = createUnit("unit11", "unit11-id", "ou=unit11,ou=unit6,ou=unit2,ou=org,o=VGR", 11);
+    Unit unitLeaf3 = createUnit("unit12", "unit12-id", "ou=unit12,ou=unit7,ou=unit3,ou=org,o=VGR", 12);
+    Unit unitLeaf4 = createUnit("unit13", "unit13-id", "ou=unit13,ou=unit8,ou=unit4,ou=org,o=VGR", 13);
+    Unit unitLeaf5 = createUnit("unit14", "unit14-id", "ou=unit14,ou=unit9,ou=unit2,ou=org,o=VGR", 14);
+    Unit unitLeaf6 = createUnit("unit15", "unit15-id", "ou=unit15,ou=unit5,ou=unit1,ou=org,o=VGR", 0);
 
     // This is to test that informationpusher can handle a unit with only modify date set.
-    unitLeaf6.setCreateTimestamp(null);
+    //unitLeaf6.setCreateTimestamp(null);
 
     return new ArrayList<Unit>(Arrays.asList(unitRoot1, unitRoot2, unitRoot3, unitRoot4, unitChild1, unitChild2, unitChild3, unitChild4, unitChild5, unitLeaf1, unitLeaf2, unitLeaf3, unitLeaf4,
         unitLeaf5, unitLeaf6));
@@ -277,19 +339,6 @@ public class InformationPusherEniroTest {
     setCreateAndModifyTimestampForUnit(i, unit);
 
     return unit;
-  }
-
-  private UnitRepository createMockUnitRepositoryFull(List<Unit> units) throws Exception {
-    UnitRepository mockUnitRepository = EasyMock.createMock(UnitRepository.class);
-    org.easymock.EasyMock.expect(mockUnitRepository.getAllUnits()).andReturn(units);
-    org.easymock.EasyMock.expectLastCall().anyTimes();
-    for (int i = 0; i < units.size(); i++) {
-      org.easymock.EasyMock.expect(mockUnitRepository.getUnitByDN(DN.createDNFromString(units.get(i).getDn().toString()))).andReturn(units.get(i));
-      org.easymock.EasyMock.expectLastCall().anyTimes();
-      fillMockData(units.get(i));
-    }
-    EasyMock.replay(mockUnitRepository);
-    return mockUnitRepository;
   }
 
   private void fillMockData(Unit unit) {
@@ -306,6 +355,8 @@ public class InformationPusherEniroTest {
     unit.setHsaBusinessClassificationCode(Arrays.asList("1604", "1460"));
   }
 
+  // Mocks
+  
   class MockFtpClient implements FtpClient {
     private String fileContent;
     private boolean returnValue = true;
@@ -322,6 +373,83 @@ public class InformationPusherEniroTest {
 
     public String getFileContent() {
       return this.fileContent;
+    }
+    
+    public void reset(){
+      fileContent = "";
+    }
+  }
+
+  class UnitRepositoryMock extends UnitRepository {
+
+    private Map<DN, Unit> mockUnits = new TreeMap<DN, Unit>(new Comparator<DN>() {
+      @Override
+      public int compare(DN o1, DN o2) {
+        return o1.compareTo(o2);
+      }
+    });
+
+    public void clearMockUnitsMap() {
+      mockUnits.clear();
+    }
+
+    public void addMockUnit(Unit mockUnit) {
+      mockUnits.put(mockUnit.getDn(), mockUnit);
+    }
+
+    public void removeMockUnit(DN unitDN) {
+      mockUnits.remove(unitDN);
+    }
+
+    public void moveMockUnit(DN fromDN, DN toDN) {
+      Unit mockUnit = mockUnits.remove(fromDN);
+      mockUnit.setDn(toDN);
+      setNewCreateDate(mockUnit);
+      addMockUnit(mockUnit);
+    }
+
+   
+
+    @Override
+    public List<Unit> getAllUnits() throws Exception {
+      return new ArrayList<Unit>(mockUnits.values());
+    }
+
+    @Override
+    public Unit getUnitByDN(DN dn) throws Exception {
+      return mockUnits.get(dn);
+    }
+  }
+  
+  private void setNewCreateDate(Unit mockUnit) {
+    Calendar calendar = Calendar.getInstance();
+    String dateStr = Constants.formatDateToZuluTime(calendar.getTime());
+    mockUnit.setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
+  }
+  
+  private void setNewModifyDate(Unit mockUnit) {
+    Calendar calendar = Calendar.getInstance();
+    String dateStr = Constants.formatDateToZuluTime(calendar.getTime());
+    mockUnit.setModifyTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
+  }
+
+  class CodeTableMock implements CodeTablesService {
+
+    Map<CodeTableName, Map<String, String>> codeTableMap = new HashMap<CodeTableName, Map<String, String>>();
+
+    @Override
+    public void init() {
+      codeTableMap.clear();
+      Map<String, String> codeValues = new HashMap<String, String>();
+      codeValues.put("", "");
+      codeValues.put("1604", "test");
+      codeValues.put("1460", "test2");
+      codeTableMap.put(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, codeValues);
+    }
+
+    @Override
+    public String getValueFromCode(CodeTableName codeTableName, String string) {
+      return codeTableMap.get(codeTableName).get(string);
     }
   }
 }
