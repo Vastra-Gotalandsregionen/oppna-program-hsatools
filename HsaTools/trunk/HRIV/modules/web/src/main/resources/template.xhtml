@@ -54,9 +54,7 @@
 		<style type="text/css" media="screen,projection">
 			<h:outputText escape="false">#{settings.styles}</h:outputText>
 		</style>
-		<style type="text/css" media="print">
-	  		@import 'resources/styles/print.css';
-		</style>	
+		<link rel="stylesheet" type="text/css" href="resources/styles/print.css" media="print" />
 		</h:outputText>
 
 		<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/autocomplete/assets/skins/sam/autocomplete.css" />
@@ -91,29 +89,29 @@
 				        	<!--  Search units widget start (dont remove this comment) --> 
 				        	<div id="forms-container">
 								<form name="searchUnitForm" id="searchUnitForm" class="search-form" method="get" action="displayUnitSearchResult.jsf">
-										<div id="firstText">
-											<label for="unitName">#{msg.unitName}</label> 
-											<input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="#{unitSearchSimpleForm.unitName}" style="width: 15em;"/>
-											<!--  Uncomment when start using YUI --> 
-											<div id="autocomplete_choices" class="autocomplete"></div>
+										<h2>#{msg.searchUnit}</h2>
+										<h3><label for="unitName">#{msg.unitName}</label></h3> 
+										<div class="autocomplete_container">
+											<input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="#{unitSearchSimpleForm.unitName}" style="width: 190px;"/>
 											<div id="acIndicator" style="display: none">
 											  <img src="resources/images/spinner.gif" alt="#{msg.inProgress}" />
-											</div> 
+											</div>
+											<!--  Uncomment when start using YUI --> 
+											<div id="autocomplete_choices" class="autocomplete"></div>
 										</div>
-									
-										<div class="text" id="healthcare-selection">
-											<label for="healthcareType">#{msg.typeOfCare} <a href="caretypes.jsp?caretypes=1"><img src="resources/images/help.gif" alt="#{msg.help}"/></a></label> 
-											<h:selectOneMenu id="healthcareType" name="healthcareType" class="search-input-field" value="#{unitSearchSimpleForm.healthcareType}">
+										<h3 class="healthcareType"><label for="healthcareType">#{msg.typeOfCare} <a href="caretypes.jsp?caretypes=1"><img src="resources/images/help.gif" alt="#{msg.help}"/></a></label></h3> 
+										<p>
+											<h:selectOneMenu id="healthcareType" name="healthcareType" class="search-input-field" value="#{unitSearchSimpleForm.healthcareType}" style="width: 195px;">
 												<f:selectItems value="#{unitSearchSimpleForm.healthcareTypeItems}" />
 											</h:selectOneMenu>
-										</div>
+										</p>
 						
-										<div class="text">
-											<label for="municipality">#{msg.whereCare}</label>
-											<h:selectOneMenu id="municipality" name="municipality" class="search-input-field" value="#{unitSearchSimpleForm.municipality}">
+										<h3 class="municipality"><label for="municipality">#{msg.whereCare}</label></h3>
+										<p>
+											<h:selectOneMenu id="municipality" name="municipality" class="search-input-field" value="#{unitSearchSimpleForm.municipality}" style="width: 195px;">
 												<f:selectItems value="#{unitSearchSimpleForm.municipalityItems}" />
 											</h:selectOneMenu>
-										</div>
+										</p>
 										
 										<div class="table-box">
 											<h:selectOneRadio id="resultType" name="resultType" value="#{unitSearchSimpleForm.resultType}" class="result-type">
@@ -121,11 +119,13 @@
 											</h:selectOneRadio>
 										</div>
 							
-										<div class="text">
-											<input type="hidden" name="noHeader" value="#{param.noHeader}" />
-											<input id="sortOrder" name="sortOrder" type="hidden" jsfc="h:inputHidden" value="#{unitSearchSimpleForm.sortOrder}" />
-											<input id="_flowId" name="_flowId" type="hidden" value="HRIV.Search.searchunit-flow" />
-											&#160;&#160;<input type="submit" id="submitButton" value="#{msg.find}" />
+										<div class="clear">
+											<p>
+												<input type="hidden" name="noHeader" value="#{param.noHeader}" />
+												<input id="sortOrder" name="sortOrder" type="hidden" jsfc="h:inputHidden" value="#{unitSearchSimpleForm.sortOrder}" />
+												<input id="_flowId" name="_flowId" type="hidden" value="HRIV.Search.searchunit-flow" />
+												&#160;&#160;<input type="submit" id="submitButton" class="standardButton" value="#{msg.find}" />
+											</p>
 										</div>
 								</form>
 							</div>

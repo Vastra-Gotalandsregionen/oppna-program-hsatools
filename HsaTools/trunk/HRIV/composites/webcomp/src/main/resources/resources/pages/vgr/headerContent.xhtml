@@ -24,8 +24,8 @@
 				<div class="headerlinks">
 					<ul>
 						<li class="toppadded"><a href="http://vard.vgregion.se/sv/Other-languages/">#{msg.otherLanguages}</a>&#160; | &#160;</li>
-						<li class="toppadded"><a href="http://vard.vgregion.se/sv/Teckenspraksfilmer/">#{msg.fingerLanguage}</a>&#160; | &#160;</li>
-						<li class="toppadded"><h:outputText rendered="#{settings.useListenLink==true}" escape="false" value="#{settings.listenLinkCode1}" />
+						<li class="toppadded"><a href="http://vard.vgregion.se/sv/Teckenspraksfilmer/">#{msg.fingerLanguage}</a></li>
+						<li class="toppadded"><h:outputText rendered="#{settings.useListenLink==true}" escape="false" value="&#160; | &#160;#{settings.listenLinkCode1}" />
 							<h:outputText rendered="#{settings.useListenLink==true}" value="#{facesContext.externalContext.request.queryString}" />
 							<h:outputText rendered="#{settings.useListenLink==true}" escape="false" value="#{settings.listenLinkCode2}" />
 						</li>					

@@ -197,15 +197,15 @@ function initAutocompleter() {
 	myAutoComp.itemSelectEvent.subscribe(itemSelectHandler);
 
 	var workingHandler = function(oSelf, sQuery, aResults) {
-		document.getElementById('acIndicator').style.padding = '2.5em 0 0 0';
-		document.getElementById('acIndicator').style.display = 'block';
+		// document.getElementById('acIndicator').style.padding = '2.5em 0 0 0';
+		document.getElementById('acIndicator').style.display = 'inline';
 		document.getElementById('healthcare-selection').style.padding = "0";
 	};
 
 	var readyHandler = function(oSelf) {
-		document.getElementById('acIndicator').style.padding = '0';
-		document.getElementById('healthcare-selection').style.padding = "2em 0 0 0";
+		// document.getElementById('acIndicator').style.padding = '0';
 		document.getElementById('acIndicator').style.display = 'none';
+		document.getElementById('healthcare-selection').style.padding = "2em 0 0 0";
 	};
 
 	var returnHandler = function(sType, aArgs) {
@@ -214,9 +214,9 @@ function initAutocompleter() {
 		var sQuery = aArgs[1];
 		var aResults = aArgs[2];
 		if (aResults.length == 0) {
-			document.getElementById('acIndicator').style.padding = '0';
-			document.getElementById('healthcare-selection').style.padding = "2em 0 0 0";
+			// document.getElementById('acIndicator').style.padding = '0';
 			document.getElementById('acIndicator').style.display = 'none';
+			document.getElementById('healthcare-selection').style.padding = "2em 0 0 0";
 		}
 	}
 
