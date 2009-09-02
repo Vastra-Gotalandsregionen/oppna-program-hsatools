@@ -108,12 +108,12 @@ public class InformationPusherEniro implements InformationPusher {
   }
 
   private Date getLastSynchDate() {
-    Preferences prefs = Preferences.systemNodeForPackage(getClass());
+    Preferences prefs = Preferences.userNodeForPackage(getClass());
     return new Date(prefs.getLong(LAST_SYNCHED_MODIFY_DATE_PROPERTY, 0));
   }
 
   private void saveLastSynchedModifyDate(Date lastSynchedModifyDate) {
-    Preferences prefs = Preferences.systemNodeForPackage(getClass());
+    Preferences prefs = Preferences.userNodeForPackage(getClass());
     prefs.putLong(LAST_SYNCHED_MODIFY_DATE_PROPERTY, lastSynchedModifyDate.getTime());
   }
 
@@ -154,7 +154,7 @@ public class InformationPusherEniro implements InformationPusher {
       }
     }
     // Latest in this batch
-    Preferences prefs = Preferences.systemNodeForPackage(getClass());
+    Preferences prefs = Preferences.userNodeForPackage(getClass());
     prefs.putLong(LAST_SYNCHED_MODIFY_DATE_PROPERTY, temporaryLatestModifiedTimepoint.asJavaUtilDate().getTime());
     return createdAndMovedUnits;
   }
@@ -252,7 +252,7 @@ public class InformationPusherEniro implements InformationPusher {
    * Reset the date of the latest modified entity in ldap.
    */
   private void resetLastSynchedModifyDate() {
-    Preferences prefs = Preferences.systemNodeForPackage(getClass());
+    Preferences prefs = Preferences.userNodeForPackage(getClass());
     prefs.remove("LastSynchedModifyDate");
   }
 
@@ -310,10 +310,13 @@ public class InformationPusherEniro implements InformationPusher {
    */
   public void doService() {
     try {
-      // Check if there is a saved lastSynchDate. If not this is the first time and we must generate full organization.
+    	long startTime = System.currentTimeMillis();
+    	// Check if there is a saved lastSynchDate. If not this is the first time and we must generate full organization.
       boolean generateFullOrg = isFullOrganizationTreeMode();
+      logger.info("Unit details pusher: Started " + (generateFullOrg ? "full" : "incremental") + " upload.");
       // Get units that belongs to the organization.
       List<Unit> collectedUnits = collectUnits();
+      logger.debug("Unit details pusher: Found " + collectedUnits.size() + " units to upload.");
       // Generate organization tree object.
       Organization organization = generateOrganizationTree(generateFullOrg, collectedUnits);
       // create XML presentation of organization tree object.
@@ -322,14 +325,17 @@ public class InformationPusherEniro implements InformationPusher {
         if (ftpClient.sendFile(generatedUnitDetailsXmlFile)) {
           // Save last synch date to file after successful commit of xml file to ftp
           saveLastExistingUnitList();
+          long endTime = System.currentTimeMillis();
+          long elapsedTime = endTime - startTime;
+          logger.info("Unit details pusher: Completed with success. Total time: " + elapsedTime / 1000 + " s.");
         } else {
           // Commit to ftp was unsuccessful. Reset the lastSynchedModifyDate
           saveLastSynchedModifyDate(new Date(0));
+          logger.error("Unit details pusher: Completed with failure.");
         }
       }
     } catch (JAXBException e) {
       logger.error("Error in doService", e);
-
     }
   }
   /**
