@@ -1,5 +1,12 @@
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketException;
@@ -7,11 +14,6 @@ import java.net.SocketException;
 import org.apache.commons.net.ftp.FTPClient;
 import org.junit.Before;
 import org.junit.Test;
-
-import se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClientImpl;
-
-import static org.easymock.classextension.EasyMock.*;
-import static org.junit.Assert.*;
 
 public class FtpClientImplTest {
 
@@ -28,7 +30,11 @@ public class FtpClientImplTest {
   public void setup() throws SocketException, IOException {
     mockFtpClient = createMock(FTPClient.class);
     mockFtpClient.connect(HOSTNAME, PORT);
+    mockFtpClient.enterLocalPassiveMode();
     expect(mockFtpClient.login(USERNAME, PASSWORD)).andReturn(true);
+    expect(mockFtpClient.getReplyString()).andReturn("FtpClient reply string");
+    expect(mockFtpClient.deleteFile(FTPDESTINATIONFILENAME)).andReturn(true);
+    // Add two more repliker
     expect(mockFtpClient.storeFile(eq(FTPDESTINATIONFILENAME), isA(InputStream.class))).andReturn(true);
     expect(mockFtpClient.logout()).andReturn(true);
     mockFtpClient.disconnect();
@@ -50,4 +56,4 @@ public class FtpClientImplTest {
   public void testSendFileWithException() {
     assertEquals(false, ftpClientImpl.sendFile(null));
   }
-}
+ }
