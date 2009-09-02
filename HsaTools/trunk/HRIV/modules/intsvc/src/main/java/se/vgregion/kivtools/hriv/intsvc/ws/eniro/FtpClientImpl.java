@@ -1,7 +1,13 @@
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import javax.net.SocketFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,7 +52,14 @@ public class FtpClientImpl implements FtpClient {
     try {
       InputStream inputStream = new ByteArrayInputStream(fileContent.getBytes("UTF-8"));
       ftpclient.connect(hostname, port);
-      ftpclient.login(username, password);
+      ftpclient.enterLocalPassiveMode();
+      boolean loginSuccess = ftpclient.login(username, password);
+      logger.debug("Unit details pusher: FTP login status: " + loginSuccess +". Server reply: " + ftpclient.getReplyString());
+      // Try to remove old file
+      boolean deleteSuccess = ftpclient.deleteFile(ftpDestinationFileName);
+      if (deleteSuccess) {
+    	  logger.debug("Unit details pusher: Deleted " + ftpDestinationFileName + " on server.");
+      }
       boolean storedSuccess = ftpclient.storeFile(ftpDestinationFileName, inputStream);
       inputStream.close();
       // Logout from the FTP Server and disconnect
