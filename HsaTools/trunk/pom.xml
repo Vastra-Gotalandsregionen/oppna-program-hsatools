@@ -208,9 +208,9 @@
 			the maven master repositories.
 		-->
 		<pluginRepository>
-			<id>Unbound Snapshots</id>
-			<name>Unbound Snapshots</name>
-			<url>http://unbound.se/maven/snapshots</url>
+			<id>oppnaprogram</id>
+			<name>oppna program repo</name>
+			<url>http://oppna-program.googlecode.com/svn/maven</url>
 		</pluginRepository>
 	</pluginRepositories>
 
