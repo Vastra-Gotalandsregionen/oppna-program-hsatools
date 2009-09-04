@@ -1,6 +1,7 @@
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -48,15 +49,15 @@ public class InformationPusherEniroTest {
   private MockFtpClient mockFtpClient = new MockFtpClient();
   private UnitRepositoryMock unitRepositoryMock = new UnitRepositoryMock();
   private CodeTableMock codeTableMock = new CodeTableMock();
- 
+
   @Before
   public void setUp() throws Exception {
     resetUnitRepositoryMock();
-    Preferences prefs = Preferences.systemNodeForPackage(getClass());
+    Preferences prefs = Preferences.userNodeForPackage(getClass());
     prefs.remove("LastSynchedModifyDate");
     unitExistFile.delete();
     codeTableMock.init();
-    
+
     informationPusher.setFtpClient(mockFtpClient);
     informationPusher.setCodeTablesService(codeTableMock);
     informationPusher.setUnitRepository(unitRepositoryMock);
@@ -67,7 +68,7 @@ public class InformationPusherEniroTest {
 
   private void resetUnitRepositoryMock() {
     unitRepositoryMock.clearMockUnitsMap();
-    
+
     List<Unit> units = getDefaultTestUnits();
     for (Unit unit : units) {
       fillMockData(unit);
@@ -80,7 +81,7 @@ public class InformationPusherEniroTest {
     informationPusher.doService();
     Organization organizationFromXml = getOrganizationFromFile(this.mockFtpClient.getFileContent());
     Assert.assertTrue("Array should contain 4 root units", organizationFromXml.getUnit().size() == 4);
-    
+
     // the "new" unit.
     Unit unit16 = new Unit();
     unit16.setDn(DN.createDNFromString("ou=unit16,ou=unit5,ou=unit1,ou=org,o=VGR"));
@@ -90,11 +91,11 @@ public class InformationPusherEniroTest {
     unit16.setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
     unit16.setModifyTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
     fillMockData(unit16);
-   
+
     // add new unit to repository.
     unitRepositoryMock.addMockUnit(unit16);
     informationPusher.doService();
-    
+
     organizationFromXml = getOrganizationFromFile(this.mockFtpClient.getFileContent());
     Assert.assertTrue("Array should contain 1 unit but are: " + organizationFromXml.getUnit().size(), organizationFromXml.getUnit().size() == 1);
     // HsaId 8 corresponds to child5 in unitsInRepository, i.e parent of leaf7
@@ -114,7 +115,7 @@ public class InformationPusherEniroTest {
       System.setErr(printStream);
       informationPusher.doService();
       System.err.println("tets");
-     
+
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -128,7 +129,7 @@ public class InformationPusherEniroTest {
     Organization organizationFromXml = getOrganizationFromFile(this.mockFtpClient.getFileContent());
     Assert.assertTrue("Array should contain 4 root units", organizationFromXml.getUnit().size() == 4);
     // When "resetting", last synched modify date information should be read from file and thus we will not find any new units.
-    //setupInformationPusher();
+    // setupInformationPusher();
     mockFtpClient = new MockFtpClient();
     informationPusher = new InformationPusherEniro();
     informationPusher.setFtpClient(mockFtpClient);
@@ -138,16 +139,16 @@ public class InformationPusherEniroTest {
     informationPusher.doService();
     Assert.assertNull("No file should have been generated since no organizations were updated.", this.mockFtpClient.getFileContent());
   }
-  
+
   @Test
-  public void testUseDefaultLastSynchedModifyDateFile(){
+  public void testUseDefaultLastSynchedModifyDateFile() {
     // Delete folder before tests.
     deleteLeufFile();
     informationPusher.setLastExistingUnitsFile(null);
     informationPusher.doService();
   }
-  
-  private void deleteLeufFile(){
+
+  private void deleteLeufFile() {
     unitExistFile.delete();
     File leuf = new File(System.getProperty("user.home") + File.separator + ".hriv", "leuf.serialized");
     leuf.delete();
@@ -172,9 +173,9 @@ public class InformationPusherEniroTest {
     Assert.assertTrue("Organization should contain 1 units, not " + organization.getUnit().size() + ".", organization.getUnit().size() == 1);
     Assert.assertEquals("remove", organization.getUnit().get(0).getOperation());
   }
-  
+
   @Test
-  public void testMoveUnitInRepository() throws Exception{
+  public void testMoveUnitInRepository() throws Exception {
     informationPusher.doService();
     // Move leaf unit.
     resetUnitRepositoryMock();
@@ -186,21 +187,23 @@ public class InformationPusherEniroTest {
     Organization organization = getOrganizationFromFile(this.mockFtpClient.getFileContent());
     Assert.assertTrue("Organization should contain 1 units", organization.getUnit().size() == 1);
     assertEquals(unit.getHsaIdentity(), organization.getUnit().get(0).getId());
-    assertEquals("move",  organization.getUnit().get(0).getOperation());
+    assertEquals("move", organization.getUnit().get(0).getOperation());
   }
-  
+
   @Test
-  public void testUpdatedUnit() throws Exception{
+  public void testUpdatedUnit() throws Exception {
     informationPusher.doService();
-    //resetUnitRepositoryMock();
+    // resetUnitRepositoryMock();
     Unit unit = unitRepositoryMock.getUnitByDN(DN.createDNFromString("ou=unit13,ou=unit8,ou=unit4,ou=org,o=VGR"));
     Address hsaPostalAddress = unit.getHsaPostalAddress();
     hsaPostalAddress.setStreet("New updated street");
     setNewModifyDate(unit);
+    unit.setNew(false);
     informationPusher.doService();
     Organization organization = getOrganizationFromFile(this.mockFtpClient.getFileContent());
     se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address address = (se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address) organization.getUnit().get(0).getDescriptionOrImageOrAddress().get(2);
     assertEquals("New updated street", address.getStreetName());
+    assertEquals("update", organization.getUnit().get(0).getOperation());
   }
 
   @Test
@@ -244,14 +247,14 @@ public class InformationPusherEniroTest {
     assertEquals("unit2-id", generatedOrganization.getUnit().get(1).getId());
     assertEquals("unit3-id", generatedOrganization.getUnit().get(2).getId());
     assertEquals("unit4-id", generatedOrganization.getUnit().get(3).getId());
-    
+
     // Child units.
     assertEquals("unit5-id", generatedOrganization.getUnit().get(0).getUnit().get(0).getId());
     assertEquals("unit6-id", generatedOrganization.getUnit().get(1).getUnit().get(0).getId());
     assertEquals("unit7-id", generatedOrganization.getUnit().get(2).getUnit().get(0).getId());
     assertEquals("unit8-id", generatedOrganization.getUnit().get(3).getUnit().get(0).getId());
     assertEquals("unit9-id", generatedOrganization.getUnit().get(1).getUnit().get(1).getId());
-    
+
     // Leaf units.
     assertEquals("unit10-id", generatedOrganization.getUnit().get(0).getUnit().get(0).getUnit().get(0).getId());
     assertEquals("unit11-id", generatedOrganization.getUnit().get(1).getUnit().get(0).getUnit().get(0).getId());
@@ -259,27 +262,26 @@ public class InformationPusherEniroTest {
     assertEquals("unit13-id", generatedOrganization.getUnit().get(3).getUnit().get(0).getUnit().get(0).getId());
     assertEquals("unit14-id", generatedOrganization.getUnit().get(1).getUnit().get(1).getUnit().get(0).getId());
     assertEquals("unit15-id", generatedOrganization.getUnit().get(0).getUnit().get(0).getUnit().get(1).getId());
-    
-   
+
     mockFtpClient.reset();
     // No changes made, so no units to push.
     informationPusher.doService();
     generatedOrganization = getOrganizationFromFile(this.mockFtpClient.getFileContent());
-    //No file should be generated.
+    // No file should be generated.
     assertNull(generatedOrganization);
-    
+
     deleteLeufFile();
     mockFtpClient.reset();
     informationPusher.doService();
-    
+
     generatedOrganization = getOrganizationFromFile(this.mockFtpClient.getFileContent());
     // Leuf file deleted so last synch is reseted and service should generate full organization tree.
     assertEquals(4, generatedOrganization.getUnit().size());
-    
+
   }
 
   // Helper-methods
-  
+
   private Organization getOrganizationFromFile(String fileContent) {
     Organization organization = null;
     try {
@@ -325,7 +327,7 @@ public class InformationPusherEniroTest {
     Unit unitLeaf6 = createUnit("unit15", "unit15-id", "ou=unit15,ou=unit5,ou=unit1,ou=org,o=VGR", 0);
 
     // This is to test that informationpusher can handle a unit with only modify date set.
-    //unitLeaf6.setCreateTimestamp(null);
+    // unitLeaf6.setCreateTimestamp(null);
 
     return new ArrayList<Unit>(Arrays.asList(unitRoot1, unitRoot2, unitRoot3, unitRoot4, unitChild1, unitChild2, unitChild3, unitChild4, unitChild5, unitLeaf1, unitLeaf2, unitLeaf3, unitLeaf4,
         unitLeaf5, unitLeaf6));
@@ -356,7 +358,7 @@ public class InformationPusherEniroTest {
   }
 
   // Mocks
-  
+
   class MockFtpClient implements FtpClient {
     private String fileContent;
     private boolean returnValue = true;
@@ -374,8 +376,8 @@ public class InformationPusherEniroTest {
     public String getFileContent() {
       return this.fileContent;
     }
-    
-    public void reset(){
+
+    public void reset() {
       fileContent = "";
     }
   }
@@ -408,8 +410,6 @@ public class InformationPusherEniroTest {
       addMockUnit(mockUnit);
     }
 
-   
-
     @Override
     public List<Unit> getAllUnits() throws Exception {
       return new ArrayList<Unit>(mockUnits.values());
@@ -420,13 +420,13 @@ public class InformationPusherEniroTest {
       return mockUnits.get(dn);
     }
   }
-  
+
   private void setNewCreateDate(Unit mockUnit) {
     Calendar calendar = Calendar.getInstance();
     String dateStr = Constants.formatDateToZuluTime(calendar.getTime());
     mockUnit.setCreateTimestamp(TimePoint.parseFrom(dateStr, "yyyyMMddHHmmss", TimeZone.getDefault()));
   }
-  
+
   private void setNewModifyDate(Unit mockUnit) {
     Calendar calendar = Calendar.getInstance();
     String dateStr = Constants.formatDateToZuluTime(calendar.getTime());

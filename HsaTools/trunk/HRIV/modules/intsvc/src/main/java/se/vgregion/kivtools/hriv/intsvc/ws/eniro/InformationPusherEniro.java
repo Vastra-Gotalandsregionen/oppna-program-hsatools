@@ -2,7 +2,6 @@ package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -131,7 +130,6 @@ public class InformationPusherEniro implements InformationPusher {
 
     for (Unit unit : unitList) {
       if (unit != null) {
-        // TimePoint modifyTimestamp = unit.getModifyTimestamp();
         TimePoint createTimestamp = unit.getCreateTimestamp();
         TimePoint modifyTimestamp = unit.getModifyTimestamp();
         // Check if the unit is created, moved or modified after last synch modify date
@@ -146,6 +144,8 @@ public class InformationPusherEniro implements InformationPusher {
               // Unit dn has been changed since last synch. That means moved in ldap.
               unit.setMoved(true);
             }
+          } else {
+            unit.setUpdated(true);
           }
         }
         // Update latest in order to keep track of the latest creation/modification date in this batch
@@ -247,7 +247,7 @@ public class InformationPusherEniro implements InformationPusher {
       }
     }
   }
-  
+
   /**
    * Reset the date of the latest modified entity in ldap.
    */
@@ -310,8 +310,8 @@ public class InformationPusherEniro implements InformationPusher {
    */
   public void doService() {
     try {
-    	long startTime = System.currentTimeMillis();
-    	// Check if there is a saved lastSynchDate. If not this is the first time and we must generate full organization.
+      long startTime = System.currentTimeMillis();
+      // Check if there is a saved lastSynchDate. If not this is the first time and we must generate full organization.
       boolean generateFullOrg = isFullOrganizationTreeMode();
       logger.info("Unit details pusher: Started " + (generateFullOrg ? "full" : "incremental") + " upload.");
       // Get units that belongs to the organization.
@@ -338,15 +338,17 @@ public class InformationPusherEniro implements InformationPusher {
       logger.error("Error in doService", e);
     }
   }
+
   /**
    * If lastExistingUnitsFile exist, then no full organization tree should be generated.
+   * 
    * @return boolean if full organization tree should be generated.
    */
   private boolean isFullOrganizationTreeMode() {
     boolean generateFullOrganizationTree = true;
     if (lastExistingUnitsFile != null && lastExistingUnitsFile.exists()) {
       generateFullOrganizationTree = !getLastSynchDate().after(Constants.parseStringToZuluTime("19700102000000Z"));
-    }else {
+    } else {
       resetLastSynchedModifyDate();
     }
     return generateFullOrganizationTree;
@@ -397,7 +399,7 @@ public class InformationPusherEniro implements InformationPusher {
    * @param jaxbUnit
    */
   private void fillJaxbUnit(Unit unit, se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit jaxbUnit) {
-    if (unit.isNew() || unit.isMoved()) {
+    if (unit.isNew() || unit.isMoved() || unit.isUpdated()) {
       fillJaxbUnitWithData(unit, jaxbUnit);
     } else {
       jaxbUnit.setId(unit.getHsaIdentity());
@@ -413,6 +415,8 @@ public class InformationPusherEniro implements InformationPusher {
     } else if (unit.isMoved()) {
       jaxbUnit.setOperation(Operation.MOVE.value);
       parentUnit = getParentUnit(unit);
+    } else if (unit.isUpdated()) {
+      jaxbUnit.setOperation(Operation.UPDATE.value);
     }
     if (parentUnit != null) {
       jaxbUnit.setParentUnitId(parentUnit.getHsaIdentity());
@@ -645,7 +649,7 @@ public class InformationPusherEniro implements InformationPusher {
    * 
    */
   private enum Operation {
-    CREATE("create"), MOVE("move"), REMOVE("remove");
+    CREATE("create"), MOVE("move"), REMOVE("remove"), UPDATE("update");
     private String value;
 
     Operation(String value) {

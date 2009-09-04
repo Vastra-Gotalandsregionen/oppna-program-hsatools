@@ -198,6 +198,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   private boolean isNew;
   private boolean isRemoved;
   private boolean isMoved;
+  private boolean isUpdated;
 
   private boolean vgrVardVal;
 
@@ -241,6 +242,14 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   public void setNew(boolean isNew) {
     this.isNew = isNew;
+  }
+
+  public boolean isUpdated() {
+    return isUpdated;
+  }
+
+  public void setUpdated(boolean isUpdated) {
+    this.isUpdated = isUpdated;
   }
 
   public String getDistanceToTarget() {
