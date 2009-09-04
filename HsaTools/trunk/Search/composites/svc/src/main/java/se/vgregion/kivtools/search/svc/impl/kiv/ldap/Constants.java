@@ -21,6 +21,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Constants specific to KIV.
+ */
 public class Constants {
   public static final String OBJECT_CLASS_UNIT_STANDARD = "organizationalUnit";
   public static final String OBJECT_CLASS_FUNCTION_STANDARD = "organizationalRole";
@@ -29,16 +32,45 @@ public class Constants {
   public static final String LDAP_PROPERTY_UNIT_NAME = "ou";
   public static final String LDAP_PROPERTY_FUNCTION_NAME = "cn";
   private static final String ZULUTIMEFORMATSTRING = "yyyyMMddHHmmss'Z'";
+  private static final String SCIENTIFICTIMEFORMATSTRING = "yyyyMMddHHmmss";
   private static final String NORMALTIMEFORMATSTRING = "dd MMMM, yyyy";
 
+  /**
+   * Formats dates in this format: yyyyMMddHHmmss.
+   * 
+   * @param date to format.
+   * @return String value of formatted date.
+   */
+  public static final String formatDateToScientificTime(Date date) {
+    return new SimpleDateFormat(SCIENTIFICTIMEFORMATSTRING).format(date);
+  }
+
+  /**
+   * Formats dates in this format: dd MMMM, yyyy.
+   * 
+   * @param date to format.
+   * @return String value of formatted date.
+   */
   public static final String formatDateToNormalTime(Date date) {
     return new SimpleDateFormat(NORMALTIMEFORMATSTRING).format(date);
   }
 
+  /**
+   * Formats dates in this format: yyyyMMddHHmmss'Z'.
+   * 
+   * @param date to format.
+   * @return String value of formatted date.
+   */
   public static final String formatDateToZuluTime(Date date) {
     return new SimpleDateFormat(ZULUTIMEFORMATSTRING).format(date);
   }
 
+  /**
+   * Parses a string formatted yyyyMMddHHmmss'Z' into a date object.
+   * 
+   * @param dateStr to parse
+   * @return Date parsed object
+   */
   public static final Date parseStringToZuluTime(String dateStr) {
     if (dateStr != null && dateStr.length() > 0) {
       try {
