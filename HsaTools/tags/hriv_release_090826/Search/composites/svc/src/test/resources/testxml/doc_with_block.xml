@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+	<block id="testid">
+		<package></package>
+	</block>
+	<block fkSystemObjectId="fkSysObjId">
+		<name>name</name>
+	</block>
+	<block>
+		<objectName>objectName</objectName>
+	</block>
+	<block>
+	</block>
+</doc>

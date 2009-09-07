@@ -1,0 +1,417 @@
+<!--
+
+    Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<ui:composition template="/template.xhtml">
+
+	<ui:define name="MetaDataContainer">
+		<h:outputText rendered="#{unit.hsaIdentity != null}">
+		<title>#{unit.name} - #{settings.title}</title>
+		</h:outputText>
+		<h:outputText rendered="#{unit.hsaIdentity == null}">
+		<title>#{settings.title}</title>
+		</h:outputText>
+		<meta name="resource-type" content="organisation" />
+		<meta name="keywords" content="Hitta-rätt-i-vården, HRIV, sök, organisation, enhet, telefonnummer, adress, #{unit.name}" /> 		
+		<meta name="date" content="#{unit.createTimestampFormatted}" /> 
+		<meta name="creation-date" content="#{unit.createTimestampFormatted}" /> 
+		<meta name="last-modified" content="#{unit.modifyTimestampFormatted}" /> 
+		<meta name="revised" content="#{unit.modifyTimestampFormatted}" /> 
+		<meta name="DC.title" content="#{unit.name} - Hitta rätt i vården" /> 
+		<meta name="DC.subject" content="Hitta-rätt-i-vården, sök, organisation, enhet, mottagning, telefonnummer, adress, ort, #{unit.name}, #{unit.locality}, #{unit.hsaMunicipalityName}" /> 
+		<h:outputText rendered="#{unit.concatenatedDescription == ''}">
+		<meta name="DC.description" content="#{unit.name}, #{unit.caretypeCustomized} i #{unit.locality} (#{unit.hsaMunicipalityName}). Telefonnummer: #{unit.hsaPublicTelephoneNumber[0].formattedPhoneNumber}" />
+		<meta name="description" content="#{unit.name}, #{unit.caretypeCustomized} i #{unit.locality} (#{unit.hsaMunicipalityName}). Telefonnummer: #{unit.hsaPublicTelephoneNumber[0].formattedPhoneNumber}" />
+		</h:outputText> 
+		<h:outputText rendered="#{unit.concatenatedDescription != ''}">
+		<meta name="DC.description" content="#{unit.concatenatedDescription}" />
+		<meta name="description" content="#{unit.concatenatedDescription}" />
+		</h:outputText> 
+      	<h:outputText rendered="#{unit.wgs84Lat!=0.0 and unit.wgs84Long!=0.0}">
+		<meta name="geo.position" content="#{unit.wgs84LatRounded} ;#{unit.wgs84LongRounded}"/>
+		</h:outputText>
+		<meta name="geo.country" content="SE" />
+		<meta name="geo.region" content="#{settings.geoRegion}" />
+		<meta name="geo.placename" lang="sv-SE" content="#{unit.hsaMunicipalityName}"/>
+		
+		<h:outputText rendered="#{unit.hsaIdentity == null}">
+		<meta name="ROBOTS" content="NOINDEX,NOFOLLOW" />
+		</h:outputText>
+		<h:outputText rendered="#{unit.hsaIdentity != null}">
+		<meta name="robots" content="ALL" /> 
+		</h:outputText>
+	</ui:define>
+
+	<ui:define name="HRIVCaptions">
+	</ui:define>
+
+	<ui:define name="MainContainer">
+	
+		<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=#{settings.googleMapsKey}" />
+	
+		<div class="yui-u search-result">
+
+		<h:outputText rendered="#{unit.hsaIdentity != null}">
+			<div id="print-element">
+				<h:outputText rendered="#{settings.showLinkToIM==true and settings.linkToIMOnServer==facesContext.externalContext.request.serverName}">
+					<a href="#{settings.linkToIMBase}#{unit.dnBase64}" class="url">#{msg.editInIM}</a>&#160; 
+				</h:outputText>
+			
+				<h:outputText rendered="#{settings.usePrinting==true}">
+					<script type="text/javascript" charset="utf-8">
+						// <![CDATA[]
+							drawPrintLabel('print-area');
+						// ]]>
+					</script>
+				</h:outputText>
+				<h:outputText rendered="#{settings.useAccessibilityDatabaseIntegration==true and unit.accessibilityDatabaseId != null}">&#160;<a href="getlink?_linkflowkey=${flowExecutionKey}&amp;_linkeventid=viewAccessibilityInfoAction&amp;unitId=#{unit.hsaIdentity}"><img src="resources/images/disabled.png" alt="Tillgänglighetsinformation"/></a></h:outputText>
+			</div>
+			<div id="print-area">
+				<!--  Display unit widget start (dont remove this comment) -->
+				<div class="vcard">
+					<div class="summary given-name fn org">
+						<h1>#{unit.name}, <span class="municipality-name">#{unit.locality}</span></h1>
+					</div>
+					
+					<h:outputText rendered="#{unit.showInVgrVardVal == true}">
+						<div class="vardval-participant">
+							<img src="resources/images/Godk_symbol_unit_details.jpg" alt="#{msg.includedInVGPrimarvard}" />
+						</div>
+					</h:outputText>
+
+					<table class="borderless">
+						<tr>
+							<th class="leftcol">
+								<span class="grey-header">#{msg.openingHours}</span>
+							</th>
+							<td class="rightfourcol">
+								<div jsfc="ui:repeat" value="#{unit.hsaSurgeryHours}" var="time">#{time.displayValue}</div>
+			                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaSurgeryHours) lt 1}">
+									<span class="warning">hsaSurgeryHours #{msg.missing}</span>
+								</h:outputText>
+							</td>
+							<th class="leftcol">
+								<span class="grey-header">#{msg.dropInHours}</span>
+							</th>
+							<td class="rightfourcol">
+								<div jsfc="ui:repeat" value="#{unit.hsaDropInHours}" var="time">#{time.displayValue}</div>
+			                 	<h:outputText rendered="#{fn:length(unit.hsaDropInHours) lt 1}">
+									#{msg.noDropIn}
+								</h:outputText>
+							</td>
+						</tr>
+             			<tr>
+             				<th class="leftcol" id="managementTextHeaderCell">
+				             	<span class="grey-header">#{msg.management}</span>
+				            </th>
+				            <td class="rightfourcol" headers="managementTextHeaderCell">
+				            	#{unit.hsaManagementText}
+			                 	<h:outputText rendered="#{settings.testingMode==true and !unit.hsaManagementTextIsValid}">
+									<span class="warning">hsaManagementText #{msg.missing}</span>
+								</h:outputText>
+				            </td>
+				            <h:outputText rendered="#{unit.showAgeIntervalAndVisitingRules}">
+								<th class="leftcol" id="visitingRuleAgeHeaderCell">
+									<span class="grey-header">#{msg.visitingRuleAge}</span>
+								</th>
+								<td class="rightfourcol" headers="visitingRuleAgeHeaderCell">
+									#{unit.hsaVisitingRuleAge}
+				                 	<h:outputText rendered="#{settings.testingMode==true and !unit.hsaVisitingRuleAgeIsValid}">
+										<span class="warning">hsaVisitingRuleAge #{msg.missing}</span>
+									</h:outputText>
+								</td>
+							</h:outputText>
+				            <h:outputText rendered="#{!unit.showAgeIntervalAndVisitingRules}">
+				            	<th></th><td></td>
+							</h:outputText>
+						</tr>
+						<h:outputText rendered="#{unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true}">
+	             			<tr>
+	             				<th class="leftcol" id="tempInfoHeaderCell">
+					             	<span class="grey-header">#{msg.temporary}<br/>#{msg.information}</span>
+					            </th>
+					            <td headers="tempInfoHeaderCell" colspan="3">
+					            	#{unit.vgrTempInfoBody}
+									<h:outputText rendered="#{unit.vgrRefInfo != ''}">
+					            	<br/>#{msg.referral}: #{unit.vgrRefInfo}
+					            	</h:outputText>
+					            </td>
+							</tr>
+						</h:outputText>
+						<h:outputText rendered="#{unit.showAgeIntervalAndVisitingRules}">
+	             			<tr>
+	             				<th class="leftcol" id="visitingRulesHeaderCell">
+					             	<span class="grey-header">#{msg.visitingRules}</span>
+					            </th>
+					            <td  class="righttwocol" headers="visitingRulesHeaderCell" colspan="3">
+					            	#{unit.hsaVisitingRules}
+				                 	<h:outputText rendered="#{settings.testingMode==true and !unit.hsaVisitingRulesIsValid}">
+										<span class="warning">hsaVisitingRules #{msg.missing}</span>
+									</h:outputText>
+					            </td>
+							</tr>
+						</h:outputText>
+					</table>
+
+					<div id="description-header" style="padding: 0px;">
+						<table class="borderless">
+							<tr>
+								<th class="leftcol">
+									<span class="grey-header">#{msg.description}</span>
+								</th>
+							</tr>
+						</table>			
+					</div>
+	
+					<div id="description-body">
+						<h:outputText rendered="#{fn:length(unit.concatenatedDescription) gt 0}">
+							<div id="description-body-short">
+								<h:outputText value="#{fn:substring(unit.concatenatedDescription, 0, 400)}..." rendered="#{fn:length(unit.concatenatedDescription) gt 400}" />
+								<h:outputText value="#{unit.concatenatedDescription}" rendered="#{fn:length(unit.concatenatedDescription) lt 401}" />
+							</div>
+							
+							<div id="description-body-long" style="display: none;">
+								<h:outputText value="#{unit.concatenatedDescription}" />
+							</div>
+						</h:outputText>
+
+		               	<h:outputText rendered="#{fn:length(unit.concatenatedDescription) lt 1 and settings.testingMode==true}">
+							<span class="warning">Fältet "beskrivning" är tomt!</span>
+	                    </h:outputText>  
+		             	
+						<div id="description-extend">
+			               	<h:outputText rendered="#{fn:length(unit.concatenatedDescription) gt 400}">
+								<div id="description-toggle-area" />
+								<script type="text/javascript" charset="utf-8">
+									// <![CDATA[]
+										drawToggleDescription();
+									// ]]>
+								</script>
+							</h:outputText>
+						</div>
+					</div>
+
+					<div class="unit-details-header">
+						<h2>#{msg.contactUs}</h2>			
+					</div>
+					
+					<div>
+						<table class="borderless">
+							<tr>
+								<th class="leftcol" id="telNumberHeaderCell">
+									<span class="grey-header">#{msg.telNo}</span>
+								</th>
+								<td class="centerthreecol" headers="telNumberHeaderCell">
+									<div jsfc="ui:repeat" value="#{unit.hsaPublicTelephoneNumber}" var="number" class="tel">
+										<span class="bold">#{number.formattedPhoneNumber}</span>
+									</div>
+				                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaPublicTelephoneNumber) lt 1}">
+										<span class="warning">hsaPublicTelephoneNumber #{msg.missing}</span>
+									</h:outputText>
+								</td>
+								<td class="rightthreecol rightaligned">
+									<h:outputText rendered="#{settings.useMvk == 'true' and fn:length(unit.mvkCaseTypes) gt 0}">
+										<p><a href="#{settings.mvkLoginUrl}" class="url"><img src="resources/images/mvk-logo.gif" alt="#{msg.mvkUnitDetails}"/> #{msg.mvkUnitDetails}</a></p>
+									</h:outputText>
+									
+									<h:outputText rendered="#{unit.showInVgrVardVal == true}">
+<!--										TODO URL should be configurable, eg via Spring -->
+										<p><a href="http://portal.proxy.vgregion.se/hriv/secure/confirmRegistrationChanges.jsp?hsaidentity=#{unit.hsaIdentity}" class="url">#{msg.chooseChangeUnitForRegistration}</a></p>
+									</h:outputText>
+								</td>			
+							</tr>
+							<tr>
+								<th class="leftcol" id="telTimeHeaderCell">
+									<span class="grey-header">#{msg.telTime}</span>
+								</th>
+								<td class="righttwocol" headers="telTimeHeaderCell">
+									<div jsfc="ui:repeat" value="#{unit.hsaTelephoneTime}" var="time">#{time.displayValue}</div>
+				                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaTelephoneTime) lt 1}">
+										<span class="warning">hsaTelephoneTime #{msg.missing}</span>
+									</h:outputText>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<a href="#{unit.labeledURI}" class="url">#{msg.websiteOfTheUnit}</a>
+				                 	<h:outputText rendered="#{settings.testingMode==true and !unit.labeledURIIsValid}">
+										<span class="warning">labeledURI #{msg.missing} #{msg.orIncorrectProtocol}</span>
+									</h:outputText>
+								</td>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="unit-details-header" id="unit-details-page-break">
+						<h2>#{msg.getHere}</h2>
+					</div>
+					
+					<div class="address" id="address-div">
+						<table class="borderless" id="address-table">
+							<tr>
+								<th class="leftcol" id="adressHeaderCell">
+									<span class="grey-header">#{msg.address}</span>
+								</th>
+								<td id="address-borderless-address">
+									<div class="adr">
+						     			<span class="street-address">#{unit.hsaStreetAddress.street}</span>
+						     			<span class="postal-code">#{unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
+						     			<span class="locality">#{unit.hsaStreetAddress.city}</span>
+					     			</div>
+					     			<span>#{unit.hsaStreetAddress.street}</span><br/>
+					     			<span>#{unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
+					     			<span>#{unit.hsaStreetAddress.city}</span>
+									<div jsfc="ui:repeat" value="#{unit.hsaStreetAddress.additionalInfo}" var="additionalInformation">
+		    	                    	#{additionalInformation}
+        			                </div>
+				                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaStreetAddress.street) lt 1}">
+										<span class="warning">hsaStreetAddress #{msg.missing} #{msg.orNotParsable}</span>
+									</h:outputText>
+								</td>
+					        </tr>
+							<tr>
+								<th class="leftcol">
+									<span class="grey-header">#{msg.routeDescription}</span>
+								</th>
+								<td class="directions-right-col">
+									<h:outputText value="#{unit.hsaRouteConcatenated}" />
+				                 	<h:outputText rendered="#{settings.testingMode==true and fn:length(unit.hsaRouteConcatenated) lt 1}">
+										<span class="warning">hsaRoute #{msg.missing}</span>
+									</h:outputText>
+								</td>
+							</tr>
+							<tr>
+								<th class="leftcol">
+									<span class="grey-header">#{msg.coordinates}</span>
+								</th>
+								<td class="directions-right-col">
+						           	<h:outputText rendered="#{unit.wgs84Lat!=0.0}">
+						     			<div class="geo">
+						     				#{msg.latitude}: <abbr class="latitude" id="abbr-latitude">
+												#{unit.wgs84LatRounded}
+											</abbr><br/> 
+											#{msg.longitude}: <abbr class="longitude" id="abbr-longitude">
+											 	#{unit.wgs84LongRounded}
+											</abbr>
+						     			</div>
+									</h:outputText>
+				                 	<h:outputText rendered="#{settings.testingMode==true and unit.wgs84Lat==0.0}">
+										<span class="warning">hsaGeographicalCoordinates #{msg.missing}</span>
+									</h:outputText>
+								</td>
+							</tr>
+							<tr>
+								<th class="leftcol">
+									<span class="grey-header">#{msg.findRoute}</span>
+								</th>
+								<td class="directions-right-col">
+				           		<ui:repeat value="#{settings.findRouteLinksArray}" var="link">
+				           			<h:outputText rendered="#{link.toParamName != ''}">
+					           			<a href="#{link.href}?#{link.toParamName}=#{fn:trim(unit.hsaStreetAddress.street)}" class="url">#{link.name}</a><br/>
+									</h:outputText>
+				           			<h:outputText rendered="#{link.toParamName == ''}">
+					           			<a href="#{link.href}" class="url">#{link.name}</a><br/>
+									</h:outputText>								
+								</ui:repeat>
+								</td>
+							</tr>							
+							<tr class="directions-row">
+								<th id="directionsFromCellHeader"></th>
+								<td id="directionsFromCellBody"></td>
+							</tr>
+							<tr class="directions-row">
+								<th id="directionsToCellHeader"></th>
+								<td id="directionsToCellBody"></td>
+							</tr>
+						</table>	
+						<script type="text/javascript" charset="utf-8">
+							// <![CDATA[]
+								drawDirectionsTableRows('#{unit.name}', '#{unit.wgs84Lat}', '#{unit.wgs84Long}', '#{fn:trim(unit.hsaStreetAddress.street)}', '#{fn:trim(unit.hsaStreetAddress.city)}');
+							// ]]>
+						</script>
+					</div>
+					
+					<div id="map-right-of-address-div">
+						<!--  Map cell start (dont remove this comment) -->
+						<div id="map"/>
+						<noscript>
+				           	<h:outputText rendered="#{unit.wgs84Lat!=0.0}">
+								<img src="http://maps.google.com/staticmap?center=#{unit.wgs84Lat},#{unit.wgs84Long}&amp;zoom=15&amp;size=350x350&amp;maptype=mobile&amp;markers=#{unit.wgs84Lat},#{unit.wgs84Long},red&amp;key=#{settings.googleMapsKey}&amp;sensor=false" alt="Karta"/>
+							</h:outputText>
+						</noscript>
+						<!--  Map cell end (dont remove this comment) -->
+					</div>
+
+					<div id="directions-container" style="display: none;">
+						<div id="dir-div" />
+						<div id="map-div-container" >
+							<div id="map-div"/>
+						</div>
+					</div>
+
+					<h:outputText rendered="#{settings.useShowUnitCode == 'true'}">
+						<h:outputText escape="false" rendered="#{settings.testingMode==true and settings.showUnitCodeOnServer == facesContext.externalContext.request.serverName}" value="#{settings.showUnitCode1}" />
+						<h:outputText escape="false" rendered="#{settings.testingMode==true and settings.showUnitCodeOnServer == facesContext.externalContext.request.serverName}" value="#{unit.hsaIdentity}" />
+						<h:outputText escape="false" rendered="#{settings.testingMode==true and settings.showUnitCodeOnServer == facesContext.externalContext.request.serverName}" value="#{settings.showUnitCode2}" />
+					</h:outputText>
+
+				</div>
+	           	<h:outputText rendered="#{unit.wgs84Lat!=0.0}">
+					<script type="text/javascript" charset="utf-8">
+						// <![CDATA[]
+							document.getElementById("map").style.height = "28em";
+							document.getElementById("map").style.width = "28em";
+							showAddressByCoordinates('#{fn:trim(unit.hsaIdentity)}', '#{unit.wgs84Lat}', '#{unit.wgs84Long}', '#{fn:trim(unit.hsaPublicTelephoneNumber[0])}', '#{fn:trim(unit.caretypeCustomized)}', '#{fn:trim(unit.name)}', '', 'true', null);
+						// ]]>
+					</script>
+				</h:outputText>			
+	           	<h:outputText rendered="#{unit.wgs84Lat==0.0 and settings.fallbackOnAddressForMap==true}">
+	           		<ui:repeat value="#{unit.hsaStreetAddress}" var="address">
+	           			<h:outputText rendered="#{fn:length(address.street) gt 0}">
+							<script type="text/javascript" charset="utf-8">
+								// <![CDATA[]
+									document.getElementById("map").style.height = "28em";
+									document.getElementById("map").style.width = "28em";
+									showAddress('#{fn:trim(unit.hsaIdentity)}', '#{fn:trim(address.street)}, #{fn:trim(address.zipCode.formattedZipCode)}, #{fn:trim(address.city)}', '#{fn:trim(unit.hsaPublicTelephoneNumber[0])}', '#{fn:trim(unit.caretypeCustomized)}', '#{fn:trim(unit.name)}', '', 'true', null);
+								// ]]>
+							</script>
+						</h:outputText>
+					</ui:repeat>
+				</h:outputText>			
+				<!--  Display unit widget end (dont remove this comment) -->
+			</div>
+
+		</h:outputText>
+
+		<h:outputText rendered="#{unit.hsaIdentity == null}">
+			<h1>#{msg.unitMissing}</h1>
+			<p>
+				#{msg.unitMissingDescription}
+			</p>
+		</h:outputText>
+		</div>
+	</ui:define>
+
+</ui:composition></div>
