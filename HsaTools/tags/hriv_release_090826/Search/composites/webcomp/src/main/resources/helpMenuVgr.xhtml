@@ -1,0 +1,38 @@
+<!--
+
+    Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<ui:composition template="/template.xhtml">
+		<ui:define name="LogoContainer">
+			<div id="logo-container">
+				<a href="index.jsp" id="logo"><img src="resources/images/logo.gif" alt="Västa Götalandsregionen - BETA" /></a>
+		    	<ul class="ulmenu">
+		            <li><a href="http://intra.vgregion.se/vgrtemplates/Start.aspx?id=164835 ">-Anmäl fel i innehållet</a></li>
+		        	<li><a href="http://intra.vgregion.se/vgrtemplates/form.aspx?id=195378">-Tyck till om Sök-i-KIV</a></li>
+		            <li><a href="https://hsahotell.carelink.sjunet.org/anonSearch/jsp/base.html">-Sök i hela Sverige</a></li>
+		            <li><a href="help.htm" onclick="return popup('help.htm')" target="_blank">-Hjälp</a></li>
+		    	</ul>
+		    </div>
+		</ui:define>
+	</ui:composition>
+</div>

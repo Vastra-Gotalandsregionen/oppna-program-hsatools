@@ -1,0 +1,42 @@
+<!--
+
+    Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<ui:composition template="/template.xhtml">
+
+	<ui:define name="MetaDataContainer">
+		<title>#{settings.title}</title>
+		<meta name="resource-type" content="organisation" />
+		<meta name="DC.description" content="Hitta-rätt-i-vården hjälper dig att att hitta information om mottagningar" /> 
+		<meta name="description" content="Hitta-rätt-i-vården hjälper dig att att hitta information om mottagningar" /> 
+		<meta name="DC.subject" content="Hitta-rätt-i-vården, sök, organisation, enhet, mottagning, telefonnummer, adress, ort" /> 
+		<meta name="robots" content="ALL" /> 
+	</ui:define>
+
+	<ui:define name="MainContainer">
+		<ui:include src="#{settings.startPage}"/>	
+	</ui:define>
+
+</ui:composition></div>

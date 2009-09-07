@@ -1,0 +1,223 @@
+<!--
+
+    Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<ui:composition	template="/template.xhtml">
+	
+		<ui:define name="HeadContainer">
+			<ui:include src="#{settingsContainer.settings.personDetailsHeadInclude}" />
+		</ui:define>
+		
+		<ui:define name="TabContainer">
+			<h2 class="structural">Sök Person</h2>
+	        <ul class="tab-container clearfix">
+				<li><a href="#" class="active">Person</a></li>
+				<li>
+					<h:outputText>
+						<a href="displayUnitSearchResult.jsf?_flowId=Search.searchunit-flow">Enhet</a>
+					</h:outputText>
+				</li>
+			</ul>
+		</ui:define>
+	
+	<ui:define name="HeaderInputFieldContainer">
+		<form id="searchPersonForm" jsfc="h:form" class="search-form">
+			<div id="formContainer">
+				<div class="textname">
+					<label for="givenName" jsfc="h:outputLabel">Förnamn</label>
+					<input id="givenName" type="text" class="search-input-name-field" value="#{personSearchSimpleForm.givenName}" jsfc="h:inputText" />
+				</div>
+				<div class="textname">
+					<label for="sirName" jsfc="h:outputLabel">Efternamn</label>
+					<input id="sirName" type="text" class="search-input-name-field" value="#{personSearchSimpleForm.sirName}" jsfc="h:inputText" />
+				</div>
+				<div class="vgrIdText">
+					<label for="vgrId" jsfc="h:outputLabel">VGR-id</label>
+					<input id="vgrId" type="text" class="search-input-vgr-field" value="#{personSearchSimpleForm.vgrId}" jsfc="h:inputText"/>
+				</div>
+				<div class="submit-area">
+					<input type="submit" action="doSearch" id="submitButton" value="Sök" jsfc="h:commandButton" />
+				</div>
+			</div>
+		</form>
+	</ui:define>
+	
+		<ui:define name="MainContainer">
+			<div class="yui-u search-result">
+				<div class="summary">
+					<h2>
+	                    <span class="given-name">#{person.givenName}</span>
+			            <h:outputText rendered="#{fn:trim(person.hsaNickName) != ''}">
+				        	"<span class="nick-name">#{person.hsaNickName}</span>"
+				        </h:outputText>		                                   
+						<span class="additional-name">#{person.hsaMiddleName}</span>
+	                    <span class="family-name">#{person.sn}</span> 
+					</h2>
+					<ui:repeat value="#{person.employments}" var="employment">
+						<div><h:outputText>#{employment.title}</h:outputText><h:outputText render="#{employment.ou != ''}">, #{employment.ou}</h:outputText></div>	
+					</ui:repeat>
+				</div>
+				<table>
+					<caption>Övergripande information</caption>
+					<tbody>
+						<tr>
+							<th id="main-e-post">E-post</th>
+							<td colspan="3" headers="main-e-post"><a href="mailto:#{person.mail}">#{person.mail}</a></td>
+						</tr>
+						<tr>
+							<th id="main-vgr-id">#{msg.userId}</th>
+							<td headers="main-vgr-id">#{person.vgrId}</td>
+							<th id="main-HSA-identitet">HSA-identitet</th>
+							<td headers="main-HSA-identitet">#{person.hsaIdentity}</td>
+						</tr> 
+						
+						<tr>
+							<th id="main-leg-yrkesgrupp">Leg. Yrkesgrupp</th>
+							<td headers="main-leg-yrkesgrupp">#{person.hsaTitle}</td>
+							<th id="main-specialitet">Specialitet</th>
+							<td headers="main-specialitet">
+								<ui:repeat value="#{person.hsaSpecialityName}" var="speciality">
+									#{speciality}
+								</ui:repeat>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div id="kiv-results">
+					<div class="tab" jsfc="ui:repeat" value="#{person.employments}" var="employment">
+						<div class="tab-hd"><h3>Anställning - #{employment.title}</h3></div>
+						<div class="tab-bd">
+
+							<ui:include src="#{settingsContainer.settings.personDetailsEmploymentsTableInclude}" />
+
+							<table>
+								<caption>Telefonnummer</caption>
+								<tbody>
+									<tr>
+										<th id="job-tjanste-telefon-#{employment.cn}">Tjänstetelefon</th>
+										
+										<td headers="job-tjanste-telefon-#{employment.cn}" colspan="5">
+											#{employment.hsaTelephoneNumbersCSVString}
+								        </td>
+										<!--  <td headers="job-tjanste-telefon-#{employment.cn}" colspan="5">#{employment.hsaTelephoneNumber.formattedPhoneNumber}</td>-->
+									</tr>
+									<tr>
+										<th id="job-publiktelefon-#{employment.cn}">Publik telefon</th>
+										<td headers="job-publiktelefon-#{employment.cn}">#{employment.hsaPublicTelephoneNumber.formattedPhoneNumber}</td>
+										<th id="job-telefontid-#{employment.cn}">Telefontid</th>
+										<td headers="job-telefontid-#{employment.cn}">
+											<div value="#{employment.hsaTelephoneTime}" var="time" jsfc="ui:repeat">
+												#{time.displayValue}
+											</div>
+										</td>
+										<th id="job-vaxeltelefon-#{employment.cn}">Växeltelefon</th>
+										<td headers="job-vaxeltelefon-#{employment.cn}">#{employment.hsaSedfSwitchboardTelephoneNo.formattedPhoneNumber}</td>
+									</tr>
+									<tr>
+										<th id="job-mobiltelefon-#{employment.cn}">Mobiltelefon</th>
+										<td headers="job-mobiltelefon-#{employment.cn}">#{employment.mobileTelephoneNumber.formattedPhoneNumber}</td>
+										<th id="job-minicall-#{employment.cn}">Minicall</th>
+										<td headers="job-minicall-#{employment.cn}">#{employment.pagerTelephoneNumber.formattedPhoneNumber}</td>
+										<th id="job-personsokare-#{employment.cn}">Personsökare</th>
+										<td headers="job-personsokare-#{employment.cn}">#{employment.hsaInternalPagerNumber.formattedPhoneNumber}</td>
+									</tr>
+									<tr>
+										<th id="job-texttelefon-#{employment.cn}">Texttelefon</th>
+										<td headers="job-texttelefon-#{employment.cn}">#{employment.hsaTextPhoneNumber.formattedPhoneNumber}</td>
+										<th id="job-faxnummer-#{employment.cn}">Faxnummer</th>
+										<td headers="job-faxnummer-#{employment.cn}">#{employment.facsimileTelephoneNumber.formattedPhoneNumber}</td>
+										<th />
+										<td />
+									</tr>
+								</tbody>
+							</table>
+							<table>
+								<caption>Adresser</caption>
+								<tbody>
+									<tr class="cols">
+										<th id="job-postadress-#{employment.cn}">Postadress</th>
+										<th id="job-internadress-#{employment.cn}">Internadress</th>
+										<th id="job-besoksadress-#{employment.cn}">Besöksadress</th>
+									</tr>
+									<tr class="cols">
+										<td headers="job-postadress-#{employment.cn}">
+			                            	<div jsfc="ui:repeat" value="#{employment.hsaPostalAddress.additionalInfo}" var="additionalInformation">
+			                            		#{additionalInformation}
+			                            	</div>
+				                			<div>#{employment.hsaPostalAddress.street}</div>
+				                			<span>#{employment.hsaPostalAddress.zipCode.formattedZipCode}</span>
+				                			<span>#{employment.hsaPostalAddress.city}</span>
+										</td>
+										<td headers="job-internadress-#{employment.cn}">
+			                            	<div jsfc="ui:repeat" value="#{employment.hsaInternalAddress.additionalInfo}" var="additionalInformation">
+			                            		#{additionalInformation}
+			                            	</div>
+				                			<div>#{employment.hsaInternalAddress.street}</div>
+				                			<span>#{employment.hsaInternalAddress.zipCode.formattedZipCode}</span>
+				                			<span>#{employment.hsaInternalAddress.city}</span>
+										</td>
+										<td headers="job-besoksadress-#{employment.cn}">
+			                            	<div jsfc="ui:repeat" value="#{employment.hsaStreetAddress.additionalInfo}" var="additionalInformation">
+			                            		#{additionalInformation}
+			                            	</div>
+				                			<div>#{employment.hsaStreetAddress.street}</div>
+				                			<span>#{employment.hsaStreetAddress.zipCode.formattedZipCode}</span>
+				                			<span>#{employment.hsaStreetAddress.city}</span>
+										</td>
+									</tr>
+									<tr class="cols">
+										<th id="job-fakturaadress-#{employment.cn}">Fakturadress</th>
+										<th id="job-leveransadress-#{employment.cn}">Leveransadress</th>
+										<th colspan="2"></th>
+									</tr>
+									<tr class="cols">
+										<td headers="job-fakturaadress-#{employment.cn}">
+			                            	<div jsfc="ui:repeat" value="#{employment.hsaSedfInvoiceAddress.additionalInfo}" var="additionalInformation">
+			                            		#{additionalInformation}
+			                            	</div>
+				                			<div>#{employment.hsaSedfInvoiceAddress.street}</div>
+				                			<span>#{employment.hsaSedfInvoiceAddress.zipCode.formattedZipCode}</span>
+				                			<span>#{employment.hsaSedfInvoiceAddress.city}</span>
+										</td>
+										<td headers="job-leveransadress-#{employment.cn}">
+			                            	<div jsfc="ui:repeat" value="#{employment.hsaSedfDeliveryAddress.additionalInfo}" var="additionalInformation">
+			                            		#{additionalInformation}
+			                            	</div>
+				                			<div>#{employment.hsaSedfDeliveryAddress.street}</div>
+				                			<span>#{employment.hsaSedfDeliveryAddress.zipCode.formattedZipCode}</span>
+				                			<span>#{employment.hsaSedfDeliveryAddress.city}</span>
+										</td>
+										<td colspan="2"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+
+	</ui:composition>
+</div>
