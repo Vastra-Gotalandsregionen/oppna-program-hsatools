@@ -63,7 +63,7 @@ public class FtpClientImpl implements FtpClient {
       boolean loginSuccess = ftpclient.login(username, password);
       logger.debug("Unit details pusher: FTP login status: " + loginSuccess + ". Server reply: " + ftpclient.getReplyString());
       // Try to remove old file. Deletion should not be necessary but try to just in case something went wrong.
-      boolean deleteSuccess = ftpclient.deleteFile(ftpDestinationFileName);
+      boolean deleteSuccess = ftpclient.deleteFile(ftpDestinationFileName + "-uploading.xml");
       if (deleteSuccess) {
         logger.debug("Unit details pusher: Deleted " + ftpDestinationFileName + " on server.");
       }
