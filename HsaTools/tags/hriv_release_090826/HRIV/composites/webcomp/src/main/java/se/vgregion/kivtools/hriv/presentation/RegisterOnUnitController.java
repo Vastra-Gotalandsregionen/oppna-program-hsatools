@@ -149,10 +149,10 @@ public class RegisterOnUnitController implements Serializable {
       }
       Unit currentUnit = null;
       Unit upcomingUnit = null;
-      if (vardvalInfo.getCurrentHsaId() != null) {
+      if (!Evaluator.isEmpty(vardvalInfo.getCurrentHsaId())) {
         currentUnit = searchService.getUnitByHsaId(vardvalInfo.getCurrentHsaId());
       }
-      if (vardvalInfo.getUpcomingHsaId() != null) {
+      if (!Evaluator.isEmpty(vardvalInfo.getUpcomingHsaId())) {
         upcomingUnit = searchService.getUnitByHsaId(vardvalInfo.getUpcomingHsaId());
       }
 
