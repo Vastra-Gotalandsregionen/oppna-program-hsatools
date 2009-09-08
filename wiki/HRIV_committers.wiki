@@ -31,4 +31,4 @@ Kortvarianten är som följer:
    * För att se eventuella checkstyle varningar, gå till Window - Show view - Other - Checkstyle - Checkstyle violations
    * Välj local
 
-Vid incheckningar, skriv lämpliga incheckningskommentarer och hänvisa om möjligt till det ärende som det gäller genom att skriva "issue X". På detta sätt får Google Code en möjlighet att länka ihop en revision av källkoden med ett ärende.
+Vid incheckningar, skriv lämpliga incheckningskommentarer och hänvisa om möjligt till det ärende som det gäller genom att skriva "issue X". På detta sätt får Google Code en möjlighet att länka ihop en revision av källkoden med ett ärende. Mer info i GoogleCode-hjälpen: http://code.google.com/p/support/wiki/IssueTracker#Integration_with_version_control
