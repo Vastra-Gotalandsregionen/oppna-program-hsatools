@@ -330,7 +330,7 @@ public class PersonRepository {
 
     String searchFilter = "(&(objectclass=hkatPerson)";
 
-    // addSearchFilter(filterList , "regionName", vgrId);
+    addSearchFilter(filterList , "regionName", vgrId);
 
     addMultipleAttributes(filterList, givenName, "givenName", "rsvFirstNames");
 
