@@ -87,7 +87,7 @@ public class CodeTablesTest {
   @Ignore
   public void testAgainstRealLDAPConnection() throws UnsupportedEncodingException, NoConnectionToServerException, SikInternalException, LDAPException {
     ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("services-config.xml");
-    LdapConnectionPool ldapConnectionPool = (LdapConnectionPool) applicationContext.getBean("Search.LdapConnectionPool");
+    LdapConnectionPool ldapConnectionPool = (LdapConnectionPool) applicationContext.getBean("Search_LdapConnectionPool");
     ((CodeTablesServiceImpl) codeTablesService).setLdapConnectionPool(ldapConnectionPool);
     Assert.assertEquals("Landsting/Region", codeTablesService.getValueFromCode(CodeTableName.HSA_MANAGEMENT_CODE, "1"));
   }

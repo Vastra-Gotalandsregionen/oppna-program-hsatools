@@ -30,6 +30,7 @@ import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.svc.domain.values.Municipality;
 import se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper;
+import se.vgregion.kivtools.search.util.Evaluator;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
@@ -40,18 +41,15 @@ public class UnitSearchSimpleForm implements Serializable {
   private String unitName = "";
   private String municipality = "";
   private String healthcareType = "";
-  private String c = "";
   private String resultType = "1";
   private String sortOrder = "UNIT_NAME";
   private SelectItem[] resultTypeItems = new SelectItem[] { new SelectItem("1", "Lista"), new SelectItem("2", "Karta") };
 
-  private List<HealthcareType> healthcareTypeList;
   private SelectItem[] healthcareTypeItems;
-  private List<Municipality> municipalityList;
   private SelectItem[] municipalityItems;
 
   {
-    healthcareTypeList = new HealthcareTypeConditionHelper().getAllHealthcareTypes();
+    List<HealthcareType> healthcareTypeList = new HealthcareTypeConditionHelper().getAllHealthcareTypes();
     List<SelectItem> htcTempList = new ArrayList<SelectItem>();
     htcTempList.add(new SelectItem("0", "Alla typer av v\u00E5rd"));
     for (HealthcareType htc : healthcareTypeList) {
@@ -63,7 +61,7 @@ public class UnitSearchSimpleForm implements Serializable {
       healthcareTypeItems[i] = htcTempList.get(i);
     }
 
-    municipalityList = new MunicipalityHelper().getAllMunicipalities();
+    List<Municipality> municipalityList = new MunicipalityHelper().getAllMunicipalities();
     List<SelectItem> mTempList = new ArrayList<SelectItem>();
     mTempList.add(new SelectItem("", "V\u00E4lj kommun"));
     for (Municipality m : municipalityList) {
@@ -79,97 +77,101 @@ public class UnitSearchSimpleForm implements Serializable {
     return municipalityItems;
   }
 
-  public void setMunicipalityItems(SelectItem[] municipalityItems) {
-    this.municipalityItems = municipalityItems;
-  }
-
   public String getUnitName() {
     return unitName;
   }
 
+  /**
+   * Setter for the unit name to search for. Only sets the property if the provided value is not null.
+   * 
+   * @param unitName The unit name to search for.
+   */
   public void setUnitName(String unitName) {
-    this.unitName = unitName;
+    if (unitName != null) {
+      this.unitName = unitName;
+    }
   }
 
   public String getMunicipality() {
     return municipality;
   }
 
+  /**
+   * Setter for the municipality to search for. Only sets the property if the provided value is not null.
+   * 
+   * @param municipality The municipality to search for.
+   */
   public void setMunicipality(String municipality) {
-    this.municipality = municipality;
+    if (municipality != null) {
+      this.municipality = municipality;
+    }
   }
 
+  /**
+   * Checks if the form is empty.
+   * 
+   * @return True if the form is empty, otherwise false.
+   */
   public boolean isEmpty() {
-    if (unitName == null && municipality == null && healthcareType == null) {
-      return true;
-    }
-    if (unitName.trim().length() == 0 && municipality.trim().length() == 0 && healthcareType.trim().length() == 0) {
-      return true;
-    }
-    return false;
+    boolean empty = true;
+
+    empty &= Evaluator.isEmpty(unitName);
+    empty &= Evaluator.isEmpty(municipality);
+    empty &= Evaluator.isEmpty(healthcareType);
+
+    return empty;
   }
 
   public String getHealthcareType() {
     return healthcareType;
   }
 
+  /**
+   * Setter for the healthcare type to search for. Only sets the property if the provided value is not null.
+   * 
+   * @param healthcareType The healthcare type to search for.
+   */
   public void setHealthcareType(String healthcareType) {
-    this.healthcareType = healthcareType;
-  }
-
-  public String getC() {
-    return c;
-  }
-
-  public void setC(String c) {
-    this.c = c;
+    if (healthcareType != null) {
+      this.healthcareType = healthcareType;
+    }
   }
 
   public String getResultType() {
     return resultType;
   }
 
+  /**
+   * Setter for the result type to return. Only sets the property if the provided value is not null.
+   * 
+   * @param resultType The result type to return.
+   */
   public void setResultType(String resultType) {
-    this.resultType = resultType;
+    if (resultType != null) {
+      this.resultType = resultType;
+    }
   }
 
   public SelectItem[] getResultTypeItems() {
     return resultTypeItems;
   }
 
-  public void setResultTypeItems(SelectItem[] resultTypeItems) {
-    this.resultTypeItems = resultTypeItems;
-  }
-
   public String getSortOrder() {
     return sortOrder;
   }
 
+  /**
+   * Setter for the sort order to use. Only sets the property if the provided value is not null.
+   * 
+   * @param sortOrder The sort order to use.
+   */
   public void setSortOrder(String sortOrder) {
-    this.sortOrder = sortOrder;
-  }
-
-  public List<HealthcareType> getHealthcareTypeList() {
-    return healthcareTypeList;
-  }
-
-  public void setHealthcareTypeList(List<HealthcareType> healthcareTypeList) {
-    this.healthcareTypeList = healthcareTypeList;
+    if (sortOrder != null) {
+      this.sortOrder = sortOrder;
+    }
   }
 
   public SelectItem[] getHealthcareTypeItems() {
     return healthcareTypeItems;
-  }
-
-  public void setHealthcareTypeItems(SelectItem[] healthcareTypeItems) {
-    this.healthcareTypeItems = healthcareTypeItems;
-  }
-
-  public List<Municipality> getMunicipalityList() {
-    return municipalityList;
-  }
-
-  public void setMunicipalityList(List<Municipality> municipalityList) {
-    this.municipalityList = municipalityList;
   }
 }

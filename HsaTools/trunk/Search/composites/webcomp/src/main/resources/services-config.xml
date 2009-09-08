@@ -26,38 +26,38 @@
 <!--	<import resource="services-config_LTH.xml"/>-->
 	<import resource="services-config_VGR.xml"/>
 
-	<bean id="Search.SearchUnitFlowSupportBean"
+	<bean id="Search_SearchUnitFlowSupportBean"
 		class="se.vgregion.kivtools.search.presentation.SearchUnitFlowSupportBean">
-			<property name="searchService" ref="Search.SearchService" />
-			<property name="maxSearchResult" ref="Search.MaxSearchResult"></property>
+			<property name="searchService" ref="Search_SearchService" />
+			<property name="maxSearchResult" ref="Search_MaxSearchResult"></property>
 			<property name="pageSize" value="85"></property>
 	</bean>
 
-	<bean id="Search.UnitSearchSimpleFormValidator"		
+	<bean id="Search_UnitSearchSimpleFormValidator"		
 		class="se.vgregion.kivtools.search.validation.UnitSearchSimpleFormValidator">
 	</bean>
 
-	<bean id="Search.PersonSearchSimpleFormValidator"		
+	<bean id="Search_PersonSearchSimpleFormValidator"		
 		class="se.vgregion.kivtools.search.validation.PersonSearchSimpleFormValidator">
 	</bean>
 
-	<bean id="Search.SearchPersonFlowSupportBean"
+	<bean id="Search_SearchPersonFlowSupportBean"
 		class="se.vgregion.kivtools.search.presentation.SearchPersonFlowSupportBean">
-			<property name="searchService" ref="Search.SearchService" />
-			<property name="maxSearchResult" ref="Search.MaxSearchResult"></property>
+			<property name="searchService" ref="Search_SearchService" />
+			<property name="maxSearchResult" ref="Search_MaxSearchResult"></property>
 			<property name="pageSize" value="250"></property>
 	</bean>
 
-	<bean id="Display.DisplayPersonDetailsFlowSupportBean"
+	<bean id="Display_DisplayPersonDetailsFlowSupportBean"
 		class="se.vgregion.kivtools.search.presentation.DisplayPersonDetailsFlowSupportBean">
-			<property name="searchService" ref="Search.SearchService" />
+			<property name="searchService" ref="Search_SearchService" />
 	</bean>
-	<bean id="Display.DisplayUnitDetailsFlowSupportBean"
+	<bean id="Display_DisplayUnitDetailsFlowSupportBean"
 		class="se.vgregion.kivtools.search.presentation.DisplayUnitDetailsFlowSupportBean">
-			<property name="searchService" ref="Search.SearchService" />
+			<property name="searchService" ref="Search_SearchService" />
 	</bean>
 	
-	<bean id="Search.MaxSearchResult" class="java.lang.Integer" scope="prototype">
+	<bean id="Search_MaxSearchResult" class="java.lang.Integer" scope="prototype">
 		<constructor-arg index="0" value="200" type="java.lang.String"/>
 	</bean>
 </beans>

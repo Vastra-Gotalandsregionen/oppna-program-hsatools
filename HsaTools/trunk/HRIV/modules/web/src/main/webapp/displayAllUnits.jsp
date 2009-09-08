@@ -25,7 +25,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <% 
-request.getRequestDispatcher("displayAllUnits.jsf?_flowId=Display.displayAllUnits-flow").forward(request, response);
+request.getRequestDispatcher("Display.displayAllUnits-flow.flow").forward(request, response);
 %>
 </head>
 <body>

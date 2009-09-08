@@ -49,7 +49,7 @@ public class SuggestionsTest {
     WebApplicationContext webApplicationContextmock = createMock(WebApplicationContext.class);
     suggestionsSupportBeanMock = createMock(SuggestionsSupportBean.class);
     expect(servletContextMock.getAttribute("org.springframework.web.context.WebApplicationContext.ROOT")).andReturn(webApplicationContextmock);
-    expect(webApplicationContextmock.getBean("Search.SuggestionsSupportBean")).andReturn(suggestionsSupportBeanMock);
+    expect(webApplicationContextmock.getBean("Search_SuggestionsSupportBean")).andReturn(suggestionsSupportBeanMock);
     expect(servletConfigMock.getServletContext()).andReturn(servletContextMock);
     
     

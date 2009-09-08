@@ -25,8 +25,8 @@
 <title>Länklista över enheter</title>
 </head>
 <body>
-	<ui:repeat value="#{hsaIdentities}" var="hsaId">
-		<div><a href="visaenhet?hsaidentity=#{hsaId}">#{hsaId}</a></div>
+	<ui:repeat value="${hsaIdentities}" var="hsaId">
+		<div><a href="visaenhet?hsaidentity=${hsaId}">${hsaId}</a></div>
 	</ui:repeat>
 </body>
 </html>

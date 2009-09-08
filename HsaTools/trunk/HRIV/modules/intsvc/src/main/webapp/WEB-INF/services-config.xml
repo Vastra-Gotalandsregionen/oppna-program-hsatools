@@ -13,7 +13,7 @@
 
 	<bean id="unitDetailsService"
 		class="se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska.UnitDetailsServiceImpl">
-		<property name="unitRepository" ref="Search.UnitRepository" />
+		<property name="unitRepository" ref="Search_UnitRepository" />
 	</bean>
 
 	<bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
@@ -44,11 +44,11 @@
 		<property name="xsd" value="classpath:wsdl/unit_details_ws.xsd" />
 	</bean>
 
-	<bean id="Commons.FtpsClient" class="org.apache.commons.net.ftp.FTPSClient" />
-	<bean id="Commons.FtpClient" class="org.apache.commons.net.ftp.FTPClient" />
+	<bean id="Commons_FtpsClient" class="org.apache.commons.net.ftp.FTPSClient" />
+	<bean id="Commons_FtpClient" class="org.apache.commons.net.ftp.FTPClient" />
 	<bean id="jsch" class="com.jcraft.jsch.JSch" />
 
-	<bean id="Transfer.ftp" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.SftpClientImpl">
+	<bean id="Transfer_ftp" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.SftpClientImpl">
 		<property name="jsch" ref="jsch" />
 		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
 		<property name="hostname" value="hostname" />
@@ -57,8 +57,8 @@
 		<property name="port" value="22" />
 	</bean>
 
-<!-- 	<bean id="Transfer.ftp" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClientImpl">
-		<property name="ftpclient" ref="Commons.FtpClient" />
+<!-- 	<bean id="Transfer_ftp" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClientImpl">
+		<property name="ftpclient" ref="Commons_FtpClient" />
 		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
 		<property name="hostname" value="hostname" />
 		<property name="username" value="username" />
@@ -67,17 +67,17 @@
 	</bean>
 -->
 
-	<bean id="Push.Eniro"
+	<bean id="Push_Eniro"
 		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro" init-method="initLoadLastExistingUnitsInRepository">
-		<property name="ftpClient" ref="Transfer.ftp" />
-		<property name="unitRepository" ref="Search.UnitRepository" />
+		<property name="ftpClient" ref="Transfer_ftp" />
+		<property name="unitRepository" ref="Search_UnitRepository" />
 		<property name="lastExistingUnitsFile" value="/tmp/leuf.txt" />
-		<property name="codeTablesService" ref="Search.CodeTablesService" />
+		<property name="codeTablesService" ref="Search_CodeTablesService" />
 	</bean>
 
 	<bean id="jobDetailUnitDetailsPusher"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="Push.Eniro" />
+		<property name="targetObject" ref="Push_Eniro" />
 		<property name="targetMethod" value="doService" />
 		<property name="concurrent" value="false" />
 	</bean>

@@ -1,7 +1,7 @@
            								<td class="org" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-	           								<a href="visaenhetdn?dn=#{employment.vgrStrukturPerson.ancestors[fn:length(employment.vgrStrukturPerson.ancestors)-1].urlEncoded}">
+	           								<a href="visaenhetdn?dn=${employment.vgrStrukturPerson.ancestors[fn:length(employment.vgrStrukturPerson.ancestors)-1].urlEncoded}">
 	           									<span class="organization-unit">
-		           									#{employment.vgrStrukturPerson.ancestors[fn:length(employment.vgrStrukturPerson.ancestors)-1].unitName}
+		           									${employment.vgrStrukturPerson.ancestors[fn:length(employment.vgrStrukturPerson.ancestors)-1].unitName}
 	           									</span>
 	           								</a>
            								</td>

@@ -26,7 +26,7 @@
 	<meta http-equiv="Cache-Control" content="no-cache" />
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<jsp:forward page="displayPersonSearchResult.jsf?_flowId=Search.searchperson-flow"/>
+	<jsp:forward page="Search.searchperson-flow.flow"/>
 </head>
 <body></body>
 </html>

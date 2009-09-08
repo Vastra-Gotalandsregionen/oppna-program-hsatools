@@ -14,21 +14,14 @@
 <flow xmlns="http://www.springframework.org/schema/webflow"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
-        http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd">
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+    start-state="Action.postChangeRegistration">
         
-	<var name="settings" bean="Search.SettingsContainer" />        
-    <var name="unitSearchSimpleForm" class="se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm" scope="flow" />
-	<var name="vardvalInfo" class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo" scope="flow" />
+    <var name="unitSearchSimpleForm" class="se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm" />
+	<var name="vardvalInfo" class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo" />
 
-	<start-state idref="Action.postChangeRegistration" />
-	
 	<action-state id="Action.postChangeRegistration">
-		<bean-action bean="Controller.registerOnUnit" method="postCommitRegistrationOnUnit">
-			<method-arguments>
-				<argument expression="externalContext"/>
-			</method-arguments>
-			<method-result name="vardvalInfo" scope="flow" />
-		</bean-action>
+		<evaluate expression="Controller_registerOnUnit.postCommitRegistrationOnUnit(externalContext)" result="flowScope.vardvalInfo" />
 		<transition on="success" to="Display.registrationConfirmation" />
 		<transition
 			on-exception="se.vgregion.kivtools.hriv.presentation.exceptions.VardvalSigningException"

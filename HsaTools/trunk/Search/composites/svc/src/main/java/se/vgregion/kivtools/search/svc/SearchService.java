@@ -23,7 +23,6 @@ import java.util.List;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 
 /**
  * @author Hans and Anders
@@ -170,23 +169,6 @@ public interface SearchService {
    * @throws Exception
    */
   public List<String> getAllPersonsId() throws Exception;
-
-  /**
-   * Returns a list of all persons employed at a Unit
-   * 
-   * @param hsaIdentity the hsaId of the Unit
-   * @return
-   * @throws Exception
-   */
-  // public SikSearchResultList<Person> getAllPersonsInUnitById(String hsaIdentity) throws Exception;
-
-  /**
-   * Returns a list of all caretypes that is used for current implementation.
-   * 
-   * @return A list of HealthcareType objects.
-   * @throws Exception
-   */
-  public List<HealthcareType> getHealthcareTypesList() throws Exception;
 
   /**
    * Gets a list of employments for the provided person.

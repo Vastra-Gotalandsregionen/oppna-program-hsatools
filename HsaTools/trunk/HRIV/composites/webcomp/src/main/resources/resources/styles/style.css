@@ -452,7 +452,7 @@ table.Employment,table.Employment th,table.Employment td {
 
 .search-result .borderless {
 	border: 0em;
-	width: 58.5em;
+	width: 55.5em;
 	font-size: 1.0em;
 	margin: 0em;
 	float: left;
@@ -660,7 +660,7 @@ a.unit {
 }
 
 #map-div {
-	width: 58em;
+	width: 55em;
 	height: 40em;
 }
 

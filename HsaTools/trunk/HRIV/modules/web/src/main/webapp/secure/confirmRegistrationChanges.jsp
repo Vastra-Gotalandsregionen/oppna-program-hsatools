@@ -31,7 +31,7 @@
 	String ssnFromWebSeal = request.getHeader("iv-user");
 	String cipherTextStringBase64Encoded = EncryptionUtil.encrypt(ssnFromWebSeal);
 	String cipherTextStringBase64EncodedURLEncoded = URLEncoder.encode(cipherTextStringBase64Encoded, "ISO-8859-1");
-	String url = response.encodeRedirectURL("http://hittavard.vgregion.se/hriv/confirmRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnit-flow&hsaidentity="
+	String url = response.encodeRedirectURL("http://hittavard.vgregion.se/hriv/HRIV.registrationOnUnit-flow.flow?hsaidentity="
 			+ request.getParameter("hsaidentity") + "&iv-user=" + cipherTextStringBase64EncodedURLEncoded);
 	response.sendRedirect(url);
 %>

@@ -28,14 +28,14 @@
 <!--	<import resource="services-config_LTH.xml"/>-->
 
 <!-- Search service mock implementation 
- 	<bean id="Search.SearchService" class="se.vgregion.kivtools.search.svc.impl.mock.SearchServiceMockImpl" />
+ 	<bean id="Search_SearchService" class="se.vgregion.kivtools.search.svc.impl.mock.SearchServiceMockImpl" />
 -->  	
 
-	<bean name="KivTools.CreateLinkLists" class="org.springframework.scheduling.quartz.JobDetailBean">
+	<bean name="KivTools_CreateLinkLists" class="org.springframework.scheduling.quartz.JobDetailBean">
 	  <property name="jobClass" value="se.vgregion.kivtools.search.scheduler.LinkListGenerator" />
 	  <property name="jobDataAsMap">
 	  	<map>
-	  		<entry key="searchService" value-ref="Search.SearchService" />
+	  		<entry key="searchService" value-ref="Search_SearchService" />
 	  		<entry key="file" value="units.html" />
 	  	</map>
 	  </property>

@@ -21,29 +21,24 @@
 <flow xmlns="http://www.springframework.org/schema/webflow"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
-        http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd">
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+    start-state="Decision.startOrSearch">
 
-	<var name="unitSearchSimpleForm" class="se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm" scope="flow" />
-	<var name="displayCloseUnitsSimpleForm" class="se.vgregion.kivtools.hriv.presentation.forms.DisplayCloseUnitsSimpleForm" scope="flow" />
-	<var name="accessibilityDatabaseFilterForm" class="se.vgregion.kivtools.hriv.presentation.forms.AccessibilityDatabaseFilterForm" scope="flow" />
-	<var name="userMessage" class="se.vgregion.kivtools.hriv.presentation.forms.UserMessageContainer" scope="flow"/>
-	<var name="units" class="java.util.ArrayList" scope="flow" />
-	<var name="coordinateUnits" class="java.util.ArrayList" scope="flow" />
-	<var name="maxSearchResult" bean="Search.MaxSearchResult"/>
-	<var name="settings" bean="Search.SettingsContainer" /> 
+	<var name="unitSearchSimpleForm" class="se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm" />
+	<var name="displayCloseUnitsSimpleForm" class="se.vgregion.kivtools.hriv.presentation.forms.DisplayCloseUnitsSimpleForm" />
+	<var name="accessibilityDatabaseFilterForm" class="se.vgregion.kivtools.hriv.presentation.forms.AccessibilityDatabaseFilterForm" />
+	<var name="userMessage" class="se.vgregion.kivtools.hriv.presentation.forms.UserMessageContainer" />
+	<var name="units" class="java.util.ArrayList" />
+	<var name="coordinateUnits" class="java.util.ArrayList" />
 	
-	<input-mapper>
-		<input-attribute name="hsaidentity" />
-		<input-attribute name="dn" />
-		<mapping source="unitName" target="flowScope.unitSearchSimpleForm.unitName" />
-		<mapping source="healthcareType" target="flowScope.unitSearchSimpleForm.healthcareType" />
-		<mapping source="municipality" target="flowScope.unitSearchSimpleForm.municipality" />
-		<mapping source="resultType" target="flowScope.unitSearchSimpleForm.resultType" />
-		<mapping source="sortOrder" target="flowScope.unitSearchSimpleForm.sortOrder" />
-		<mapping source="address" target="flowScope.displayCloseUnitsSimpleForm.address" />
-	</input-mapper>
-
-	<start-state idref="Decision.startOrSearch" />
+	<input name="hsaidentity" />
+	<input name="dn" />
+	<input name="unitName" value="flowScope.unitSearchSimpleForm.unitName" />
+	<input name="healthcareType" value="flowScope.unitSearchSimpleForm.healthcareType" />
+	<input name="municipality" value="flowScope.unitSearchSimpleForm.municipality" />
+	<input name="resultType" value="flowScope.unitSearchSimpleForm.resultType" />
+	<input name="sortOrder" value="flowScope.unitSearchSimpleForm.sortOrder" />
+	<input name="address" value="flowScope.displayCloseUnitsSimpleForm.address" />
 
 	<decision-state id="Decision.startOrSearch">
 		<if test="requestParameters.startpage!=null" then="Display.startpage" />
@@ -66,22 +61,17 @@
 	</view-state>
 
 	<view-state id="Display.closeUnitsOnMap" view="/displayUnitSearchResult.xhtml">
-		<entry-actions>
-			<bean-action bean="Search.SearchUnitFlowSupportBean" method="getCloseUnits">
-				<method-arguments>
-					<argument expression="flowScope.displayCloseUnitsSimpleForm" />
-				</method-arguments>
-				<method-result name="coordinateUnits" scope="flow" />
-			</bean-action>
-			<evaluate-action expression="flowScope.displayCloseUnitsSimpleForm.setSearchFlag()"></evaluate-action>
-		</entry-actions>
+		<on-entry>
+			<evaluate expression="Search_SearchUnitFlowSupportBean.getCloseUnits(flowScope.displayCloseUnitsSimpleForm)" result="flowScope.coordinateUnits" />
+			<evaluate expression="flowScope.displayCloseUnitsSimpleForm.setSearchFlag()" />
+		</on-entry>
 		<transition on="gotoStartpage" to="Display.startpage" />
 		<transition on="gotoCaretypes" to="Display.caretypes" />
 		<transition on="doSearch" to="Search.validateSearchParams" />
 		<transition on="showDetails" to="Display.unitDetailsById" />
-		<exit-actions>
-			<evaluate-action expression="flowScope.displayCloseUnitsSimpleForm.resetSearchFlag()"></evaluate-action>
-		</exit-actions>
+		<on-exit>
+			<evaluate expression="flowScope.displayCloseUnitsSimpleForm.resetSearchFlag()" />
+		</on-exit>
 	</view-state>
 
 	<view-state id="Search.displayUnitSearchResultResultOnly" view="/displayUnitSearchResultListOnly.xhtml">
@@ -92,25 +82,15 @@
 	</view-state>
 
 	<action-state id="Search.validateSearchParams">
-		<evaluate-action name="clearList" expression="flowScope.units.clear()" />
-		<bean-action bean="Search.UnitSearchSimpleFormValidator" method="validate">
-			<method-arguments>
-				<argument expression="flowScope.unitSearchSimpleForm" />
-			</method-arguments>
-		</bean-action>
+		<evaluate expression="flowScope.units.clear()" />
 		<transition on="success" to="Search.searchUnit" />
 		<transition on-exception="se.vgregion.kivtools.search.exceptions.IncorrectUserInputException"
 					to="Search.displayUnitSearchResult">
 		</transition>
-	</action-state>	
+	</action-state>
 	
 	<action-state id="Search.searchUnit">
-		<bean-action bean="Search.SearchUnitFlowSupportBean" method="doSearch">
-			<method-arguments>
-				<argument expression="flowScope.unitSearchSimpleForm" />
-			</method-arguments>
-			<method-result name="units" scope="flow" />
-		</bean-action>
+		<evaluate expression="Search_SearchUnitFlowSupportBean.doSearch(flowScope.unitSearchSimpleForm)" result="flowScope.units"/>
 
 		<transition on="success" to="Decision.resultFormatChooser" />
 		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
@@ -124,19 +104,10 @@
 	</decision-state>
 
 	<view-state id="Display.unitDetailsById" view="/displayUnitDetails.xhtml">
-		<entry-actions>
-			<bean-action bean="Display.DisplayUnitDetailsFlowSupportBean" method="getUnitDetails">
-				<method-arguments>
-					<argument expression="flowScope.hsaidentity" parameter-type="java.lang.String"/>
-				</method-arguments>
-				<method-result name="unit" scope="flow"/>
-			</bean-action>
-			<bean-action bean="Display.DisplayAccessibilityDatabaseBean" method="assignAccessibilityDatabaseId">
-				<method-arguments>
-					<argument expression="flowScope.unit" parameter-type="se.vgregion.kivtools.search.svc.domain.Unit"/>
-				</method-arguments>
-			</bean-action>
-		</entry-actions>
+		<on-entry>
+			<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitDetails(flowScope.hsaidentity)" result="flowScope.unit"/>
+			<evaluate expression="Display_DisplayAccessibilityDatabaseBean.assignAccessibilityDatabaseId(flowScope.unit)" />
+		</on-entry>
 		<transition on="doCancel" to="Search.displayUnitSearchResult"></transition>
 		<transition on="doSearch" to="Search.validateSearchParams" />
 		<transition on="gotoStartpage" to="Display.startpage" />
@@ -153,20 +124,10 @@
 	</view-state>
 
 	<action-state id="Filter.accessibilityInfo">
-		<entry-actions>
-			<bean-action bean="Display.DisplayAccessibilityDatabaseBean" method="assignAccessibilityDatabaseInfo">
-				<method-arguments>
-					<argument expression="flowScope.unit" parameter-type="se.vgregion.kivtools.search.svc.domain.Unit"/>
-					<argument expression="flowScope.accessibilityDatabaseFilterForm" />
-				</method-arguments>
-			</bean-action>
-		</entry-actions>
-		<bean-action bean="Display.DisplayAccessibilityDatabaseBean" method="filterAccessibilityDatabaseInfo">
-			<method-arguments>
-				<argument expression="flowScope.unit" parameter-type="se.vgregion.kivtools.search.svc.domain.Unit"/>
-				<argument expression="flowScope.accessibilityDatabaseFilterForm" />
-			</method-arguments>
-		</bean-action>
+		<on-entry>
+			<evaluate expression="Display_DisplayAccessibilityDatabaseBean.assignAccessibilityDatabaseInfo(flowScope.unit, flowScope.accessibilityDatabaseFilterForm)" />
+		</on-entry>
+		<evaluate expression="Display_DisplayAccessibilityDatabaseBean.filterAccessibilityDatabaseInfo(flowScope.unit, flowScope.accessibilityDatabaseFilterForm)" />
 		<transition on="success" to="Display.viewAccessibilityInfo" />
 	</action-state>
 
@@ -187,7 +148,6 @@
 	</view-state>
 
 	<global-transitions>
-		<transition on-exception="java.lang.Exception"
-			to="Search.ErrorHandle" />
+		<transition on-exception="java.lang.Exception" to="Search.ErrorHandle" />
 	</global-transitions>
 </flow>

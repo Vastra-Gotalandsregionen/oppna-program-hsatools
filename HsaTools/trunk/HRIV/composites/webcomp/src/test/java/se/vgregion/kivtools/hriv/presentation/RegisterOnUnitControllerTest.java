@@ -1,9 +1,6 @@
 package se.vgregion.kivtools.hriv.presentation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
@@ -194,8 +191,7 @@ public class RegisterOnUnitControllerTest {
     registerOnUnitController.setSignatureService(signatureEndpointImpl);
     String redirectUrl = registerOnUnitController.preCommitRegistrationOnUnit(vardvalInfo, externalContext);
     assertNotNull(redirectUrl);
-    assertEquals("http://signicat.com&documentArtifact=dummy-artifact&target=http%3A%2F%2Flocalhost%2FconfirmationRegistrationChanges.jsf%3F_flowId%3DHRIV.registrationOnUnitPostSign-flow",
-        redirectUrl);
+    assertEquals("http://signicat.com&documentArtifact=dummy-artifact&target=http%3A%2F%2Flocalhost%2FHRIV.registrationOnUnitPostSign-flow.flow", redirectUrl);
   }
 
   @Test

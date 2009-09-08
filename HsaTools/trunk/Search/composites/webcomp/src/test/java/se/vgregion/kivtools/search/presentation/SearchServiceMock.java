@@ -31,7 +31,6 @@ import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 
 public class SearchServiceMock implements SearchService {
   private int maxSearchResults = -1;
@@ -182,11 +181,6 @@ public class SearchServiceMock implements SearchService {
 
   @Override
   public List<Employment> getEmploymentsForPerson(Person person) throws Exception {
-    return null;
-  }
-
-  @Override
-  public List<HealthcareType> getHealthcareTypesList() throws Exception {
     return null;
   }
 

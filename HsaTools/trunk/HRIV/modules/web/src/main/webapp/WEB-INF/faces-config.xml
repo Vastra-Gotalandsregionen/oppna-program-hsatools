@@ -25,28 +25,18 @@
 
 <faces-config>
 	<application>
-		<navigation-handler>
-			org.springframework.webflow.executor.jsf.FlowNavigationHandler
-		</navigation-handler>
-		<variable-resolver>
-			org.springframework.webflow.executor.jsf.DelegatingFlowVariableResolver
-		</variable-resolver>
 		<view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
 	</application>
 
 	<lifecycle>
-	  <!-- Debug utility for JSF, can be used for setting breakpoints and
-	       checking request parameters
-	  <phase-listener>se.vgr.javg.support.jsf.DebugPhaseListener</phase-listener>
-	  -->
-	  
-	  <!-- JAVG support for using GET-links with JSF/Webflow -->
-	  <phase-listener>
-	    se.vgr.javg.support.webflow.v1.GetLinkFlowResumerPhaseListener
-	  </phase-listener>
-	  
-	  <phase-listener>
-		  org.springframework.webflow.executor.jsf.FlowPhaseListener
-	  </phase-listener>
+		<!--
+			Debug utility for JSF, can be used for setting breakpoints and
+			checking request parameters
+			<phase-listener>se.vgr.javg.support.jsf.DebugPhaseListener</phase-listener>
+		-->
+
+		<phase-listener>
+			se.vgr.javg.support.webflow.v2.EventIdPhaseListener
+		</phase-listener>
 	</lifecycle>
 </faces-config>

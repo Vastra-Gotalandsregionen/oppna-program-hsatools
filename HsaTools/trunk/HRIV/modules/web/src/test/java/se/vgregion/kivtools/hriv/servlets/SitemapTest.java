@@ -64,10 +64,10 @@ public class SitemapTest {
     makeThreadSafe(servletConfigMock, true);
     makeThreadSafe(searchUnitFlowSupportBeanMock, true);
     
-    expect(webApplicationContextmock.getBean("Search.SearchUnitFlowSupportBean")).andReturn(searchUnitFlowSupportBeanMock);
+    expect(webApplicationContextmock.getBean("Search_SearchUnitFlowSupportBean")).andReturn(searchUnitFlowSupportBeanMock);
     expectLastCall().anyTimes();
     
-    expect(webApplicationContextmock.getBean("Search.SearchService")).andReturn(searchServiceMock);
+    expect(webApplicationContextmock.getBean("Search_SearchService")).andReturn(searchServiceMock);
     expectLastCall().anyTimes();
     
     searchUnitFlowSupportBeanMock.setSearchService(searchServiceMock);
@@ -88,7 +88,7 @@ public class SitemapTest {
     searchUnitFlowSupportBeanMock.setUnitsCacheComplete(true);
     expectLastCall().anyTimes();
 
-    expect(webApplicationContextmock.getBean("Search.SettingsContainer")).andReturn(SettingsBeanMock);
+    expect(webApplicationContextmock.getBean("Search_SettingsContainer")).andReturn(SettingsBeanMock);
     expectLastCall().anyTimes();
     
     expect(servletConfigMock.getServletContext()).andReturn(servletContextMock);

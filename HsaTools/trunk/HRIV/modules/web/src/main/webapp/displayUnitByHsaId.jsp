@@ -24,12 +24,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<% String hsaIdentity = request.getParameter("hsaidentity");%>
-<jsp:forward page="displayUnitDetails.jsf?_flowId=HRIV.Search.searchunit-flow">
-   <jsp:param name="hsaidentity" value="<%=hsaIdentity %>" />
-</jsp:forward>
+<%
+request.getRequestDispatcher("/HRIV.Search.searchunit-flow.flow").forward(request, response);
+%>
 </head>
 <body>
-<a href="displayUnitDetails.jsf?_flowId=HRIV.Search.searchunit-flow&hsaidentity=<%= request.getParameter("hsaidentity") %>">Get card</a>
+<a href="HRIV.Search.searchunit-flow.flow?hsaidentity=<%= request.getParameter("hsaidentity") %>">Get card</a>
 </body>
 </html>

@@ -24,7 +24,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <% 
-request.getRequestDispatcher("displayAllUnits.jsf?_flowId=Display.displayRangeOfUnits-flow").forward(request, response);
+request.getRequestDispatcher("Display.displayRangeOfUnits-flow.flow").forward(request, response);
 %>
 </head>
 <body>

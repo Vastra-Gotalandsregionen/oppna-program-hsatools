@@ -24,18 +24,12 @@
 
 <faces-config>
 	<application>
-		<navigation-handler>
-			org.springframework.webflow.executor.jsf.FlowNavigationHandler
-		</navigation-handler>
-		<variable-resolver>
-			org.springframework.webflow.executor.jsf.DelegatingFlowVariableResolver
-		</variable-resolver>
 		<view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
 	</application>
 
 	<lifecycle>
 		<phase-listener>
-			org.springframework.webflow.executor.jsf.FlowPhaseListener
+			se.vgr.javg.support.webflow.v2.EventIdPhaseListener
 		</phase-listener>
 	</lifecycle>
 </faces-config>

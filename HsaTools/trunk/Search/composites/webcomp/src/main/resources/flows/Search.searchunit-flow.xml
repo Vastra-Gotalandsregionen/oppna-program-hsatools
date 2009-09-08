@@ -21,22 +21,17 @@
 <flow xmlns="http://www.springframework.org/schema/webflow"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
-        http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd">
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="Decision.displayUnitDetails">
 
-	<var name="unitSearchSimpleForm" class="se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm" scope="flow" />
-	<var name="userMessage" class="se.vgregion.kivtools.search.presentation.forms.UserMessageContainer" scope="flow"/>
-	<var name="units" class="java.util.ArrayList" scope="flow" />
-	<var name="maxSearchResult" bean="Search.MaxSearchResult"/>
-	<var name="settingsContainer" bean="Search.SettingsContainer" />
+	<var name="unitSearchSimpleForm" class="se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm" />
+	<var name="userMessage" class="se.vgregion.kivtools.search.presentation.forms.UserMessageContainer" />
+	<var name="units" class="java.util.ArrayList" />
 	
-	<input-mapper>
-		<input-attribute name="hsaidentity" />
-		<input-attribute name="parentHsaIdentity" />
-		<input-attribute name="dn" />
-	</input-mapper>
+	<input name="hsaidentity" />
+	<input name="parentHsaIdentity" />
+	<input name="dn" />
 	
-	<start-state idref="Decision.displayUnitDetails" />
-
 	<decision-state id="Decision.displayUnitDetails">
 		<if test="requestParameters.parentHsaIdentity!=null" then="Display.subUnitsById"/>
 		<if test="requestParameters.hsaidentity!=null" then="Display.unitDetailsById"/>
@@ -49,12 +44,8 @@
 	</view-state>
 
 	<action-state id="Search.validateSearchParams">
-		<evaluate-action name="clearList" expression="flowScope.units.clear()" />
-		<bean-action bean="Search.UnitSearchSimpleFormValidator" method="validate">
-			<method-arguments>
-				<argument expression="flowScope.unitSearchSimpleForm" />
-			</method-arguments>
-		</bean-action>
+		<evaluate expression="flowScope.units.clear()" />
+		<evaluate expression="Search_UnitSearchSimpleFormValidator.validate(flowScope.unitSearchSimpleForm)" />
 		<transition on="success" to="Search.searchUnit" />
 		<transition on-exception="se.vgregion.kivtools.search.exceptions.IncorrectUserInputException"
 					to="Search.displayUnitSearchResult">
@@ -62,12 +53,7 @@
 	</action-state>	
 
 	<action-state id="Search.searchUnit">
-		<bean-action bean="Search.SearchUnitFlowSupportBean" method="doSearch">
-			<method-arguments>
-				<argument expression="flowScope.unitSearchSimpleForm" />
-			</method-arguments>
-			<method-result name="units" scope="flow" />
-		</bean-action>
+		<evaluate expression="Search_SearchUnitFlowSupportBean.doSearch(flowScope.unitSearchSimpleForm)" result="flowScope.units" />
 		<transition on="success" to="Search.displayUnitSearchResult" />
 		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
 					to="Search.displayUnitSearchResult">
@@ -75,28 +61,18 @@
 	</action-state>
 
 	<view-state id="Display.unitDetailsById" view="/displayUnitDetails.xhtml">
-		<entry-actions>
-			<bean-action bean="Display.DisplayUnitDetailsFlowSupportBean" method="getUnitDetails">
-				<method-arguments>
-					<argument expression="flowScope.hsaidentity" parameter-type="java.lang.String"/>
-				</method-arguments>
-				<method-result name="unit" scope="flow"/>
-			</bean-action>
-		</entry-actions>
+		<on-entry>
+			<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitDetails(flowScope.hsaidentity)" result="flowScope.unit"/>
+		</on-entry>
 		<transition on="doCancel" to="Search.displayUnitSearchResult"></transition>
 		<transition on="doSearch" to="Search.validateSearchParams" />
 		<transition on="displayUnit" to="Display.unitDetailsByDn" />
 	</view-state>
 	
 	<view-state id="Display.unitDetailsByDn" view="/displayUnitDetails.xhtml">
-		<entry-actions>
-			<bean-action bean="Display.DisplayUnitDetailsFlowSupportBean" method="getUnitByDn">
-				<method-arguments>
-					<argument expression="flowScope.dn" parameter-type="java.lang.String"/>
-				</method-arguments>
-				<method-result name="unit" scope="flow"/>
-			</bean-action>
-		</entry-actions>
+		<on-entry>
+			<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitByDn(flowScope.dn)" result="flowScope.unit" />
+		</on-entry>
 		<transition on="doCancel" to="Search.displayUnitSearchResult"></transition>
 		<transition on="doSearch" to="Search.validateSearchParams" />
 		<transition on="displayUnit" to="Display.unitDetailsByDn" />
@@ -107,12 +83,7 @@
 	</view-state>
 
 	<action-state id="Display.subUnitsById">
-		<bean-action bean="Search.SearchUnitFlowSupportBean" method="getSubUnits">
-			<method-arguments>
-					<argument expression="flowScope.parentHsaIdentity" parameter-type="java.lang.String"/>
-			</method-arguments>
-			<method-result name="units" scope="flow" />
-		</bean-action>
+		<evaluate expression="Search_SearchUnitFlowSupportBean.getSubUnits(flowScope.parentHsaIdentity)" result="flowScope.units"/>
 		<transition on="success" to="Search.displayUnitSearchResult" />
 		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
 					to="Search.displayUnitSearchResult">
@@ -121,7 +92,6 @@
 
 
 	<global-transitions>
-		<transition on-exception="java.lang.Exception"
-			to="Search.ErrorHandle" />
+		<transition on-exception="java.lang.Exception" to="Search.ErrorHandle" />
 	</global-transitions>
 </flow>

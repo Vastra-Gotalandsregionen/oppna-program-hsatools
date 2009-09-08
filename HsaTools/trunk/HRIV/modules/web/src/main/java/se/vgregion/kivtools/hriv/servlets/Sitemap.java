@@ -97,10 +97,10 @@ public class Sitemap extends HttpServlet {
     WebApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
 
     // Spring bean name (Search.SearchUnitFlowSupportBea) is hard coded!
-    SearchUnitFlowSupportBean sb = (SearchUnitFlowSupportBean) springContext.getBean("Search.SearchUnitFlowSupportBean");
+    SearchUnitFlowSupportBean sb = (SearchUnitFlowSupportBean) springContext.getBean("Search_SearchUnitFlowSupportBean");
 
-    // Spring bean name (Search.SearchService) is hard coded!
-    sb.setSearchService((SearchService) springContext.getBean("Search.SearchService"));
+    // Spring bean name (Search_SearchService) is hard coded!
+    sb.setSearchService((SearchService) springContext.getBean("Search_SearchService"));
     List<String> allUnitsHsaId;
     ArrayList<Unit> allUnits = new ArrayList<Unit>();
     siteMapInformationUnits.clear();
@@ -145,7 +145,7 @@ public class Sitemap extends HttpServlet {
 
     // Spring bean name is hard coded!
     WebApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
-    SettingsBean settingsBean = (SettingsBean) springContext.getBean("Search.SettingsContainer");
+    SettingsBean settingsBean = (SettingsBean) springContext.getBean("Search_SettingsContainer");
 
     // Using StringBuilder instead of concatenating strings improved
     // performance a lot...

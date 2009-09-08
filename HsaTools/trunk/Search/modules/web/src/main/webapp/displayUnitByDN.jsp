@@ -24,7 +24,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <% 
-request.getRequestDispatcher("displayUnitDetails.jsf?_flowId=Search.searchunit-flow").forward(request, response);
+request.getRequestDispatcher("Search.searchunit-flow.flow").forward(request, response);
 %>
 </head>
 <body>
