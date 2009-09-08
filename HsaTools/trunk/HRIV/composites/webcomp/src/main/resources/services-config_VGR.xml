@@ -16,6 +16,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+	<bean id="propertyPlaceholderWebcomp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:se/vgregion/kivtools/hriv/presentation/kiv/hriv-composite-webcomp.properties" />
+		<property name="placeholderPrefix" value="#{" />
+		<property name="fileEncoding" value="UTF-8" />
+	</bean>
+
 	<bean id="Controller.registerOnUnit"
 		class="se.vgregion.kivtools.hriv.presentation.RegisterOnUnitController"
 		init-method="initEndpoint">

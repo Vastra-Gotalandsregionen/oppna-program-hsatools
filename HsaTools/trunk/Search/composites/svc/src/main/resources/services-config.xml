@@ -25,6 +25,7 @@
 
 	<!-- Import customized bean configurations for chosen project. -->
 	<import resource="services-config_VGR.xml"/>
+<!--	<import resource="services-config_LTH.xml"/>-->
 
 <!-- Search service mock implementation 
  	<bean id="Search.SearchService" class="se.vgregion.kivtools.search.svc.impl.mock.SearchServiceMockImpl" />
