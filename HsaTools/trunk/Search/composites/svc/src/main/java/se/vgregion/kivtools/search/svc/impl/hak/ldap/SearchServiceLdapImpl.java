@@ -29,7 +29,6 @@ import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 
 /**
@@ -137,10 +136,6 @@ public class SearchServiceLdapImpl implements SearchService {
 
   public void setHealthcareTypeConditionHelper(HealthcareTypeConditionHelper healthcareTypeConditionHelper) {
     this.healthcareTypeConditionHelper = healthcareTypeConditionHelper;
-  }
-
-  public List<HealthcareType> getHealthcareTypesList() throws Exception {
-    return getHealthcareTypeConditionHelper().getAllHealthcareTypes();
   }
 
   /**

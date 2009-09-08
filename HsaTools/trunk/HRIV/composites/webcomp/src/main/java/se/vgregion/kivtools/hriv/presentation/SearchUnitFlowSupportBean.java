@@ -233,9 +233,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
   private Comparator<Unit> evaluateSortOrder(UnitSearchSimpleForm theForm) throws KivException {
     Comparator<Unit> sortOrder = null;
     String s = theForm.getSortOrder();
-    if (s == null) {
-      throw new KivException("No sort order specified. MethodName=" + this.getClass().getName() + "::doSearch(...)");
-    } else if (s.trim().equalsIgnoreCase("UNIT_NAME")) {
+    if (s.trim().equalsIgnoreCase("UNIT_NAME")) {
       sortOrder = new UnitNameComparator();
     } else if (s.trim().equalsIgnoreCase("CARE_TYPE_NAME")) {
       sortOrder = new UnitCareTypeNameComparator();

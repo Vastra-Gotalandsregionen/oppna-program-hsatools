@@ -28,15 +28,15 @@
 	<body>
 
 	<!-- Could not specify dynamic attribute where resource bundle was specified in settings file -->
-	<ui:include src="#{settingsContainer.settings.resourceBundleInclude}" />
+	<ui:include src="${Search_SettingsContainer.settings.resourceBundleInclude}" />
 
 	<div class="clearfix" id="header">
 	   	<div id="header-container">
-		   	<ui:include src="#{settingsContainer.settings.headerMenuInclude}"/>
+		   	<ui:include src="${Search_SettingsContainer.settings.headerMenuInclude}"/>
 	
 		    <div id="header-info-container">
 		        <div id="header-tab-container">
-		        	<h1><h:outputText value="#{settingsContainer.settings.title}" /></h1>
+		        	<h1><h:outputText value="${Search_SettingsContainer.settings.title}" /></h1>
 		        	<ui:insert name="TabContainer"></ui:insert>
 		        </div>
 		        <div id="header-input-field-container">

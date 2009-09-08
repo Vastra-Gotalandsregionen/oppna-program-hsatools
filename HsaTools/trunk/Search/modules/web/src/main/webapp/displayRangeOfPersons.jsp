@@ -24,7 +24,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <% 
-request.getRequestDispatcher("displayAllPersons.jsf?_flowId=Display.displayRangeOfPersons-flow").forward(request, response);
+request.getRequestDispatcher("Display.displayRangeOfPersons-flow.flow").forward(request, response);
 %>
 </head>
 <body>

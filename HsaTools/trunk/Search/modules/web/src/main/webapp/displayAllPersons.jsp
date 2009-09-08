@@ -24,7 +24,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <% 
-request.getRequestDispatcher("displayAllPersons.jsf?_flowId=Display.displayAllPersons-flow").forward(request, response);
+request.getRequestDispatcher("Display.displayAllPersons-flow.flow").forward(request, response);
 %>
 </head>
 <body>

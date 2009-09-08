@@ -74,8 +74,8 @@ public class AddressExplorer {
     BeanFactory factory = appContext;
 
     AddressExplorer ae = new AddressExplorer();
-    ae.setSearchService((SearchService) factory.getBean("Search.SearchService"));
-    ae.setTheConnectionPool((LdapConnectionPool) factory.getBean("Search.LdapConnectionPool"));
+    ae.setSearchService((SearchService) factory.getBean("Search_SearchService"));
+    ae.setTheConnectionPool((LdapConnectionPool) factory.getBean("Search_LdapConnectionPool"));
     ae.printStreetAddressReport();
   }
 

@@ -22,16 +22,17 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
+<!--	<html><head><title>Fel</title></head><body>Något gick fel</body></html>-->
 	<ui:composition template="/template.xhtml">
 		<ui:define name="MetaDataContainer">
 			<meta name="ROBOTS" content="NOINDEX,NOFOLLOW" />
 		</ui:define>
 		<ui:define name="MainContainer">
 			<div class="yui-u search-result">
-				<h1>#{msg.errorMessage}</h1>
-				<h2 id="message-container">#{rootCauseException.message}</h2>
+				<h1>${msg.errorMessage}</h1>
+				<h2 id="message-container">${rootCauseException.message}</h2>
 	
-				<span class="informal">#{msg.errorMessageForDebuggingPurpose}: #{stateException.message}</span>
+				<span class="informal">${msg.errorMessageForDebuggingPurpose}: ${stateException.message}</span>
 			</div>
 		</ui:define>
 	</ui:composition>

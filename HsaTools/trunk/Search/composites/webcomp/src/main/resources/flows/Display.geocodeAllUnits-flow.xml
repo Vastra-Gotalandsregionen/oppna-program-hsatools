@@ -21,24 +21,15 @@
 <flow xmlns="http://www.springframework.org/schema/webflow"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
-        http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd">
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+    start-state="Display.getAllUnitsPageListGeocoded">
 
-	<input-mapper>
-		<input-attribute name="googleKey" />
-	</input-mapper>
+	<input name="googleKey" />
 
-	<start-state idref="Display.getAllUnitsPageListGeocoded" />
-	
 	<action-state id="Display.getAllUnitsPageListGeocoded">
-		<bean-action bean="Search.SearchUnitFlowSupportBean" method="getAllUnitsGeocoded">
-			<method-arguments>
-				<argument expression="flowScope.googleKey" parameter-type="java.lang.String"/>
-			</method-arguments>
-			<method-result name="unitsGeocoded" scope="flow"/>
-		</bean-action>
-		<transition on="success" to="Display.showAllUnitsPagedGeocoded"></transition>
+		<evaluate expression="Search_SearchUnitFlowSupportBean.getAllUnitsGeocoded(flowScope.googleKey)" result="flowScope.unitsGeocoded" />
+		<transition on="success" to="Display.showAllUnitsPagedGeocoded" />
 	</action-state>
 
 	<end-state id="Display.showAllUnitsPagedGeocoded" view="/displayPagedUnitLinkListGeocoded.xhtml"/>
-
 </flow>

@@ -26,47 +26,43 @@
 	<import resource="services-config_VGR.xml"/>
 <!--	<import resource="services-config_LTH.xml"/>-->
 
-	<bean id="Search.SearchUnitFlowSupportBean"
+	<bean id="Search_SearchUnitFlowSupportBean"
 		class="se.vgregion.kivtools.hriv.presentation.SearchUnitFlowSupportBean">
-		<property name="searchService" ref="Search.SearchService" />
-		<property name="maxSearchResult" ref="Search.MaxSearchResult"></property>
+		<property name="searchService" ref="Search_SearchService" />
+		<property name="maxSearchResult" ref="Search_MaxSearchResult"></property>
 		<property name="pageSize" value="85"></property>
 		<property name="googleMapsKey" value="#{hsatools.hriv.webcomp.googleMapsKey}" />
 		<property name="meters" value="#{hsatools.hriv.webcomp.metersToCloseUnits}" />
 		<property name="showUnitsWithTheseHsaBussinessClassificationCodes" value="#{hsatools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes}" />
 	</bean>
 
-	<bean id="Search.SuggestionsSupportBean" class="se.vgregion.kivtools.hriv.presentation.SuggestionsSupportBean">
-		<property name="searchUnitFlowSupportBean" ref="Search.SearchUnitFlowSupportBean"/>
+	<bean id="Search_SuggestionsSupportBean" class="se.vgregion.kivtools.hriv.presentation.SuggestionsSupportBean">
+		<property name="searchUnitFlowSupportBean" ref="Search_SearchUnitFlowSupportBean"/>
 	</bean>
 
-	<bean id="Search.UnitSearchSimpleFormValidator"		
-		class="se.vgregion.kivtools.hriv.validation.UnitSearchSimpleFormValidator">
-	</bean>
-
-	<bean id="Display.HttpFetcher"
+	<bean id="Display_HttpFetcher"
 		class="se.vgregion.kivtools.hriv.presentation.HttpFetcherImpl">
 	</bean>
 	
-	<bean id="Display.MvkClient"
+	<bean id="Display_MvkClient"
 		class="se.vgregion.kivtools.hriv.presentation.MvkClient">
-		<property name="httpFetcher" ref="Display.HttpFetcher" />
+		<property name="httpFetcher" ref="Display_HttpFetcher" />
 		<property name="mvkGuid" value="#{hsatools.hriv.webcomp.mvkGuid}" />
 		<property name="mvkUrl" value="#{hsatools.hriv.webcomp.mvkUrlBeforeHsaidAndGuidParams}" />
 	</bean>
 	
-	<bean id="Display.DisplayUnitDetailsFlowSupportBean"
+	<bean id="Display_DisplayUnitDetailsFlowSupportBean"
 		class="se.vgregion.kivtools.hriv.presentation.DisplayUnitDetailsFlowSupportBean">
-		<property name="searchService" ref="Search.SearchService" />
+		<property name="searchService" ref="Search_SearchService" />
 		<property name="useMvkIntegration" value="#{hsatools.hriv.webcomp.useMvk}" />
-		<property name="mvkClient" ref="Display.MvkClient" />
+		<property name="mvkClient" ref="Display_MvkClient" />
 	</bean>
 	
-	<bean id="Search.MaxSearchResult" class="java.lang.Integer" scope="prototype">
+	<bean id="Search_MaxSearchResult" class="java.lang.Integer" scope="prototype">
 		<constructor-arg index="0" value="500" type="java.lang.String"/>
 	</bean>
 
-	<bean id="Search.SettingsContainer" class="se.vgregion.kivtools.hriv.presentation.SettingsBean" scope="prototype">
+	<bean id="Search_SettingsContainer" class="se.vgregion.kivtools.hriv.presentation.SettingsBean" scope="prototype">
 		<property name="resourceBundleInclude" value="#{hsatools.hriv.webcomp.resourceBundleInclude}" />
 		<property name="vardValInclude" value="#{hsatools.hriv.webcomp.vardValInclude}" />
 		<property name="testingMode" value="#{hsatools.hriv.webcomp.testingMode}" />
@@ -110,10 +106,10 @@
 		<property name="externalApplicationURL" value="#{hsatools.hriv.webcomp.externalApplicationURL}" />
 	</bean>
 
-	<bean id="Display.DisplayAccessibilityDatabaseBean" class="se.vgregion.kivtools.hriv.presentation.DisplayAccessibilityDatabaseBean">
+	<bean id="Display_DisplayAccessibilityDatabaseBean" class="se.vgregion.kivtools.hriv.presentation.DisplayAccessibilityDatabaseBean">
 		<property name="useAccessibilityDatabaseIntegration" value="#{hsatools.hriv.webcomp.useAccessibilityDatabaseIntegration}" />
 		<property name="accessibilityDatabaseIntegrationGetIdUrl" value="#{hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetIdUrl}" />
 		<property name="accessibilityDatabaseIntegrationGetInfoUrl" value="#{hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetInfoUrl}" />
-		<property name="httpFetcher" ref="Display.HttpFetcher" />
+		<property name="httpFetcher" ref="Display_HttpFetcher" />
 	</bean>
 </beans>

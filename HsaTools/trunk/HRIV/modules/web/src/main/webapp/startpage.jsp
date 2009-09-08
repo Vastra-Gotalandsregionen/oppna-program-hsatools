@@ -25,7 +25,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <% 
-request.getRequestDispatcher("startpage.jsf?_flowId=HRIV.Search.searchunit-flow").forward(request, response);
+request.getRequestDispatcher("startpage-flow.flow").forward(request, response);
 %>
 </head>
 <body>

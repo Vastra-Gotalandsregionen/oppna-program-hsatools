@@ -17,14 +17,6 @@
 		<artifactId>HsaTools-Search</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-	<properties>
-		<keystore.type>pkcs12</keystore.type>
-		<keystore>HRIVclient.p12</keystore>
-		<keystore.password>vardval</keystore.password>
-		<truststore.type>jks</truststore.type>
-		<truststore>vardval.jks</truststore>
-		<truststore.password>vardval</truststore.password>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>HsaTools</groupId>

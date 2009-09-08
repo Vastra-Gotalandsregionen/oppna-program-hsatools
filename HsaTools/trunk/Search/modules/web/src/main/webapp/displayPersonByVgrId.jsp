@@ -23,12 +23,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<% String vgrId = request.getParameter("vgrid");%>
-<jsp:forward page="displayPersonDetails.jsf?_flowId=Search.searchperson-flow">
-   <jsp:param name="vgrid" value="<%=vgrId%>" />
-</jsp:forward>
+<jsp:forward page="Search.searchperson-flow.flow" />
 </head>
 <body>
-<a href="displayPersonDetails.jsf?_flowId=Search.searchperson-flow&vgrId=<%= request.getParameter("vgrid") %>">get person card</a>
+<a href="Search.searchperson-flow.flow&vgrId=<%= request.getParameter("vgrid") %>">get person card</a>
 </body>
 </html>

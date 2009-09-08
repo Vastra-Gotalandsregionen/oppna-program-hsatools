@@ -246,7 +246,7 @@ function showUnit(rootUrl, hsaId, showMap) {
 
 function searchUnits(rootUrl, webappName, municipalityId, resultOnly, googleMapsKey) {
 	//For external: var url = 'proxy?url=' + rootUrl + '/' + webappName + '/startpage.jsp?startpage=1';
-	var url = rootUrl + '/' + webappName + '/getlink?_flowId=HRIV.Search.searchunit-flow&startpage=1';
+	var url = rootUrl + '/' + webappName + '/HRIV.Search.searchunit-flow.flow&startpage=1';
 	new Ajax.Request(url, {
 	  method: 'get',
 	  onSuccess: function(transport) {

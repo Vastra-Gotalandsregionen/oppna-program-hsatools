@@ -27,8 +27,8 @@
 <title>Stegad Länklista över personer</title>
 </head>
 <body>
-	<ui:repeat value="#{personPagedSearchMetaData}" var="metaData">
-		<div><a href="visapersoner_range?#{metaData.asLink}">Personer #{metaData.startIndex} till #{metaData.endIndex}</a></div>
+	<ui:repeat value="${personPagedSearchMetaData}" var="metaData">
+		<div><a href="visapersoner_range?${metaData.asLink}">Personer ${metaData.startIndex} till ${metaData.endIndex}</a></div>
 	</ui:repeat>
 </body>
 </html>

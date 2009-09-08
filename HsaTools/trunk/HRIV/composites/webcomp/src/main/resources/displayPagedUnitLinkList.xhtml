@@ -27,8 +27,8 @@
 <title>Stegad Länklista över enheter</title>
 </head>
 <body>
-	<ui:repeat value="#{unitPagedSearchMetaData}" var="metaData">
-		<div><a href="visaenheter_range?#{metaData.asLink}">Enheter #{metaData.startIndex} till #{metaData.endIndex}</a></div>
+	<ui:repeat value="${unitPagedSearchMetaData}" var="metaData">
+		<div><a href="visaenheter_range?${metaData.asLink}">Enheter ${metaData.startIndex} till ${metaData.endIndex}</a></div>
 	</ui:repeat>
 </body>
 </html>

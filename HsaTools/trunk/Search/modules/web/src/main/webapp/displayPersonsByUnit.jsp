@@ -23,12 +23,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<% String hsaIdentity = request.getParameter("hsaidentity");%>
-<jsp:forward page="displayPersonSearchResult.jsf?_flowId=Search.searchperson-flow">
-   <jsp:param name="hsaidentity" value="<%=hsaIdentity %>" />
-</jsp:forward>
+<jsp:forward page="Search.searchperson-flow.flow" />
 </head>
 <body>
-<a href="displayPersonSearchResult.jsf?_flowId=Search.searchperson-flow&hsaidentity=<%= request.getParameter("hsaidentity") %>">Get persons</a>
+<a href="Search.searchperson-flow.flow&hsaidentity=<%= request.getParameter("hsaidentity") %>">Get persons</a>
 </body>
 </html>

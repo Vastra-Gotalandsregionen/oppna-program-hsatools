@@ -23,12 +23,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<% String hsaIdentity = request.getParameter("parentHsaIdentity");%>
-<jsp:forward page="displayUnitSearchResult.jsf?_flowId=Search.searchunit-flow">
-   <jsp:param name="parentHsaIdentity" value="<%=hsaIdentity %>" />
-</jsp:forward>
+<jsp:forward page="Search.searchunit-flow.flow" />
 </head>
 <body>
-<a href="displayUnitSearchResult.jsf?_flowId=Search.searchunit-flow&parentHsaIdentity=<%= request.getParameter("parentHsaIdentity") %>">Get persons</a>
+<a href="Search.searchunit-flow.flow&parentHsaIdentity=<%= request.getParameter("parentHsaIdentity") %>">Get persons</a>
 </body>
 </html>

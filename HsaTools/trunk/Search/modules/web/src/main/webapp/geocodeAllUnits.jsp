@@ -24,7 +24,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <% 
-request.getRequestDispatcher("displayPagedUnitLinkListGeocoded.jsf?_flowId=Display.geocodeAllUnits-flow").forward(request, response);
+request.getRequestDispatcher("Display.geocodeAllUnits-flow.flow").forward(request, response);
 %>
 </head>
 <body>

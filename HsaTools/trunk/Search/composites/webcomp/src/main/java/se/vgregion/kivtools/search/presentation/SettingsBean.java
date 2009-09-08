@@ -35,9 +35,14 @@ import org.springframework.core.io.Resource;
 public class SettingsBean implements Serializable {
 
   private static final long serialVersionUID = 1L;
-  private Properties settings = new Properties();
   private static final Log LOGGER = LogFactory.getLog(SearchPersonFlowSupportBean.class);
+  private Properties settings = new Properties();
 
+  /**
+   * Constructs a new SettingsBean using the provided Resource.
+   * 
+   * @param resource The Resource to read settings from.
+   */
   public SettingsBean(Resource resource) {
     try {
       settings.load(resource.getInputStream());

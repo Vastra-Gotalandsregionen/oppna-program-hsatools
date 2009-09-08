@@ -27,7 +27,7 @@
 	<ui:composition template="/template.xhtml">
 
 	<ui:define name="MetaDataContainer">
-		<title>#{settings.title}</title>
+		<title>${Search_SettingsContainer.title}</title>
 		<meta name="resource-type" content="organisation" />
 		<meta name="DC.description" content="Hitta-rätt-i-vården hjälper dig att att hitta information om mottagningar" /> 
 		<meta name="description" content="Hitta-rätt-i-vården hjälper dig att att hitta information om mottagningar" /> 
@@ -36,7 +36,7 @@
 	</ui:define>
 
 	<ui:define name="MainContainer">
-		<ui:include src="#{settings.startPage}"/>	
+		<ui:include src="${Search_SettingsContainer.startPage}"/>	
 	</ui:define>
 
 </ui:composition></div>

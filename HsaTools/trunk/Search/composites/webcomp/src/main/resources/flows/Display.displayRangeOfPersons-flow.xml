@@ -21,26 +21,16 @@
 <flow xmlns="http://www.springframework.org/schema/webflow"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
-        http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd">
-
-	<input-mapper>
-		<input-attribute name="startIndex" />
-		<input-attribute name="endIndex" />
-	</input-mapper>
-
-	<start-state idref="Display.getRangePersonsPageList" />
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="Display.getRangePersonsPageList">
+	
+	<input name="startIndex" />
+	<input name="endIndex" />
 
 	<action-state id="Display.getRangePersonsPageList">
-		<bean-action bean="Search.SearchPersonFlowSupportBean" method="getRangePersonsVgrIdPageList">
-			<method-arguments>
-				<argument expression="flowScope.startIndex" parameter-type="java.lang.Integer"/>
-				<argument expression="flowScope.endIndex" parameter-type="java.lang.Integer"/>
-			</method-arguments>
-			<method-result name="vgrIds" scope="flow"/>
-		</bean-action>
+		<evaluate expression="Search_SearchPersonFlowSupportBean.getRangePersonsVgrIdPageList(flowScope.startIndex, flowScope.endIndex)" result="flowScope.vgrIds" />
 		<transition on="success" to="Display.showRangePersons"></transition>
 	</action-state>
 
 	<end-state id="Display.showRangePersons" view="/displayPersonLinkList.xhtml"/>
-
 </flow>

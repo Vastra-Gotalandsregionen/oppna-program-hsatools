@@ -28,8 +28,8 @@
 		</ui:define>
 		<ui:define name="HeaderInputFieldContainer"></ui:define>
 		<ui:define name="MainContainer">
-			<h2 id="message-container">#{stateException.message}</h2>
-			<h3 id="message-container">#{rootCauseException.message}</h3>
+			<h2 id="message-container">${stateException.message}</h2>
+			<h3 id="message-container">${rootCauseException.message}</h3>
 		</ui:define>
 	</ui:composition>
 </div>

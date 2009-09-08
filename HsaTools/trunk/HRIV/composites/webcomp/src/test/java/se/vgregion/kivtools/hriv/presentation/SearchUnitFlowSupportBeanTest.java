@@ -263,13 +263,13 @@ public class SearchUnitFlowSupportBeanTest {
   public void testEvaluateSortOrder() throws KivException {
     form.setUnitName("ABC");
 
-    form.setSortOrder(null);
-    SikSearchResultList<Unit> result = bean.doSearch(form);
-    assertNotNull(result);
-    assertEquals(0, result.size());
+    // form.setSortOrder(null);
+    // SikSearchResultList<Unit> result = bean.doSearch(form);
+    // assertNotNull(result);
+    // assertEquals(0, result.size());
 
     form.setSortOrder("XYZ");
-    result = bean.doSearch(form);
+    SikSearchResultList<Unit> result = bean.doSearch(form);
     assertNotNull(result);
     assertEquals(0, result.size());
 

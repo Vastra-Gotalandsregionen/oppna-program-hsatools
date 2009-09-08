@@ -210,7 +210,7 @@ public class RegisterOnUnitController implements Serializable {
     externalContext.getSessionMap().put("artifact", artifact);
 
     // Construct redirect url
-    String targetUrl = externalApplicationURL + "/confirmationRegistrationChanges.jsf?_flowId=HRIV.registrationOnUnitPostSign-flow";
+    String targetUrl = externalApplicationURL + "/HRIV.registrationOnUnitPostSign-flow.flow";
 
     // Redirect user to Signicat
     redirectUrl = serviceUrl + "&documentArtifact=" + artifact + "&target=" + encodeTargetUrl(targetUrl);

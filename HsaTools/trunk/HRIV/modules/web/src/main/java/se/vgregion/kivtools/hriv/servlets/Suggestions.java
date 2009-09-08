@@ -52,7 +52,7 @@ public class Suggestions extends HttpServlet implements Serializable {
 
     // Spring bean name is hard coded!
     WebApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
-    SuggestionsSupportBean suggestionsSupportBean = (SuggestionsSupportBean) springContext.getBean("Search.SuggestionsSupportBean");
+    SuggestionsSupportBean suggestionsSupportBean = (SuggestionsSupportBean) springContext.getBean("Search_SuggestionsSupportBean");
 
     String outputFormat = request.getParameter("output");
 

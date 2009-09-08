@@ -27,22 +27,21 @@ public class MunicipalityHelper {
   private static final String MUNICIPALITY_CODE_KEY = "hsatools.search.svc.impl.municipalitycode";
   private static final String MUNICIPALITY_NAME_KEY = "hsatools.search.svc.impl.municipalityname";
 
-  private static List<Municipality> allMunicipalities;
-
-  private String implResourcePath;
+  private static final List<Municipality> ALL_MUNICIPALITIES = new ArrayList<Municipality>();
+  private static boolean initialized;
 
   public List<Municipality> getAllMunicipalities() {
-    return allMunicipalities;
+    return ALL_MUNICIPALITIES;
   }
 
-  private Enumeration<String> getAllConfigPars() {
-    ResourceBundle bundle = ResourceBundle.getBundle(getImplResourcePath());
+  private Enumeration<String> getAllConfigPars(String implResourcePath) {
+    ResourceBundle bundle = ResourceBundle.getBundle(implResourcePath);
     return bundle.getKeys();
   }
 
-  private String getConfigParByKey(String key) {
+  private String getConfigParByKey(String implResourcePath, String key) {
     String rv = "";
-    ResourceBundle bundle = ResourceBundle.getBundle(getImplResourcePath());
+    ResourceBundle bundle = ResourceBundle.getBundle(implResourcePath);
     String value = bundle.getString(key);
     if (value != null) {
       rv = value;
@@ -50,36 +49,30 @@ public class MunicipalityHelper {
     return rv;
   }
 
-  public String getImplResourcePath() {
-    return implResourcePath;
-  }
-
-  public void setImplResourcePath(String implResourcePath) {
-    this.implResourcePath = implResourcePath;
-
-    Enumeration<String> allKeys = getAllConfigPars();
-    String currentKey;
-    String currentName;
-    Municipality currentMunicipality;
-    int currentIndex;
-    int beginPos;
-    while (allKeys.hasMoreElements()) {
-      currentKey = allKeys.nextElement();
-      if (currentKey.startsWith(MUNICIPALITY_CODE_KEY)) {
-        beginPos = currentKey.indexOf('_');
-        currentIndex = Integer.parseInt(currentKey.substring(beginPos + 1));
-        currentName = getConfigParByKey(MUNICIPALITY_NAME_KEY + "_" + currentIndex);
-        currentMunicipality = new Municipality();
-        currentMunicipality.setMunicipalityKey(currentKey);
-        currentMunicipality.setMunicipalityName(currentName);
-        String code = getConfigParByKey(MUNICIPALITY_CODE_KEY + "_" + currentIndex);
-        currentMunicipality.setMunicipalityCode(code);
-        if (allMunicipalities == null) {
-          allMunicipalities = new ArrayList<Municipality>();
+  public synchronized void setImplResourcePath(String implResourcePath) {
+    if (!initialized) {
+      Enumeration<String> allKeys = getAllConfigPars(implResourcePath);
+      String currentKey;
+      String currentName;
+      Municipality currentMunicipality;
+      int currentIndex;
+      int beginPos;
+      while (allKeys.hasMoreElements()) {
+        currentKey = allKeys.nextElement();
+        if (currentKey.startsWith(MUNICIPALITY_CODE_KEY)) {
+          beginPos = currentKey.indexOf('_');
+          currentIndex = Integer.parseInt(currentKey.substring(beginPos + 1));
+          currentName = getConfigParByKey(implResourcePath, MUNICIPALITY_NAME_KEY + "_" + currentIndex);
+          currentMunicipality = new Municipality();
+          currentMunicipality.setMunicipalityKey(currentKey);
+          currentMunicipality.setMunicipalityName(currentName);
+          String code = getConfigParByKey(implResourcePath, MUNICIPALITY_CODE_KEY + "_" + currentIndex);
+          currentMunicipality.setMunicipalityCode(code);
+          ALL_MUNICIPALITIES.add(currentMunicipality);
         }
-        allMunicipalities.add(currentMunicipality);
       }
+      Collections.sort(ALL_MUNICIPALITIES);
+      initialized = true;
     }
-    Collections.sort(allMunicipalities);
   }
 }

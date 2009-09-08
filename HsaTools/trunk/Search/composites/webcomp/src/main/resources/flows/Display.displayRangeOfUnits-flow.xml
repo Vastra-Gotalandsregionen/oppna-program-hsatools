@@ -21,26 +21,16 @@
 <flow xmlns="http://www.springframework.org/schema/webflow"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
-        http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd">
-
-	<input-mapper>
-		<input-attribute name="startIndex" />
-		<input-attribute name="endIndex" />
-	</input-mapper>
-
-	<start-state idref="Display.getRangeUnitsPageList" />
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="Display.getRangeUnitsPageList">
+	
+	<input name="startIndex" />
+	<input name="endIndex" />
 
 	<action-state id="Display.getRangeUnitsPageList">
-		<bean-action bean="Search.SearchUnitFlowSupportBean" method="getRangeUnitsPageList">
-			<method-arguments>
-				<argument expression="flowScope.startIndex" parameter-type="java.lang.Integer"/>
-				<argument expression="flowScope.endIndex" parameter-type="java.lang.Integer"/>
-			</method-arguments>
-			<method-result name="hsaIdentities" scope="flow"/>
-		</bean-action>
+		<evaluate expression="Search_SearchUnitFlowSupportBean.getRangeUnitsPageList(flowScope.startIndex, flowScope.endIndex)" result="flowScope.hsaIdentities" />
 		<transition on="success" to="Display.showRangeUnits"></transition>
 	</action-state>
 
 	<end-state id="Display.showRangeUnits" view="/displayUnitLinkList.xhtml"/>
-
 </flow>

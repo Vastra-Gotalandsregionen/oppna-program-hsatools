@@ -22,7 +22,7 @@
 		<property name="fileEncoding" value="UTF-8" />
 	</bean>
 
-	<bean id="Controller.registerOnUnit"
+	<bean id="Controller_registerOnUnit"
 		class="se.vgregion.kivtools.hriv.presentation.RegisterOnUnitController"
 		init-method="initEndpoint">
 		
@@ -30,7 +30,7 @@
 			<bean
 				class="org.springframework.beans.factory.config.PropertyPathFactoryBean">
 				<property name="targetObject">
-					<ref bean="Search.SettingsContainer" />
+					<ref bean="Search_SettingsContainer" />
 				</property>
 				<property name="propertyPath">
 					<value>externalApplicationURL</value>
@@ -46,16 +46,16 @@
 		<property name="serviceUrl"
 			value="http://kivsearch.vgregion.se:8080/testtools/Sign.jsp?method=sign" />
 		-->
+			
 		<property name="signatureServiceEndpoint"
 			value="https://id.signicat.com/signatureservice/services/signatureservice" />
-
 		<!--
 		<property name="signatureServiceEndpoint"
 			value="http://kivsearch.vgregion.se:8080/testtools/ws/signatureservice/services/signatureservice" />
 		-->
 
-		<property name="vardValService" ref="Registration.vardValService" />
-		<property name="searchService" ref="Search.SearchService" />
-		<property name="citizenRepository" ref="Registration.citizenRepository" />
+		<property name="vardValService" ref="Registration_vardValService" />
+		<property name="searchService" ref="Search_SearchService" />
+		<property name="citizenRepository" ref="Registration_citizenRepository" />
 	</bean>
 </beans>

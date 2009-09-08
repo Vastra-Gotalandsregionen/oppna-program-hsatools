@@ -36,7 +36,7 @@ public class HealthcareTypeConditionHelperTest {
   @Before
   public void setUp() throws Exception {
     helper = new HealthcareTypeConditionHelper();
-    helper.getAllHealthcareTypes().clear();
+    helper.resetInternalCache();
     unit = new Unit();
   }
 
@@ -61,18 +61,20 @@ public class HealthcareTypeConditionHelperTest {
     assertNotNull(helper.getAllHealthcareTypes());
     assertEquals(0, helper.getAllHealthcareTypes().size());
 
+    helper.resetInternalCache();
+
     helper.setImplResourcePath("test.healthcaretypeconditionhelper.one_property");
     assertNotNull(helper.getAllHealthcareTypes());
     assertEquals(1, helper.getAllHealthcareTypes().size());
 
-    // Exposing internal state. Try to make this more internal.
-    helper.getAllHealthcareTypes().clear();
+    helper.resetInternalCache();
 
     helper.setImplResourcePath("test.healthcaretypeconditionhelper.two_properties");
     assertNotNull(helper.getAllHealthcareTypes());
     assertEquals(2, helper.getAllHealthcareTypes().size());
 
-    helper.getAllHealthcareTypes().clear();
+    helper.resetInternalCache();
+
     helper.setImplResourcePath("test.healthcaretypeconditionhelper.one_property_plus_subindex");
     assertNotNull(helper.getAllHealthcareTypes());
     assertEquals(1, helper.getAllHealthcareTypes().size());

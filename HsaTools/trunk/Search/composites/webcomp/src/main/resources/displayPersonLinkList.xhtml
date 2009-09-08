@@ -27,8 +27,8 @@
 <title>Länklista över personer</title>
 </head>
 <body>
-	<ui:repeat value="#{vgrIds}" var="vgrId">
-		<div><a href="visaperson?vgrid=#{vgrId}">#{vgrId}</a></div>
+	<ui:repeat value="${vgrIds}" var="vgrId">
+		<div><a href="visaperson?vgrid=${vgrId}">${vgrId}</a></div>
 	</ui:repeat>
 </body>
 </html>

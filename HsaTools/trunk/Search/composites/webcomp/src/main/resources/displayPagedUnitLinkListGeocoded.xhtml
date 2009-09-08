@@ -31,9 +31,9 @@
 </style>
 </head>
 <body>
-	<ui:repeat value="#{unitsGeocoded}" var="unit">
-		<h:outputText rendered="#{unit.rt90X == '-1'}"><span class="error"><h:outputText value="#{unit.hsaIdentity}" />,X:<h:outputText value="#{unit.rt90X}" />,Y:<h:outputText value="#{unit.rt90Y}" /> <!-- WGS84: <h:outputText value="#{unit.wgs84Lat}" />,<h:outputText value="#{unit.wgs84Long}" /> --><br/></span></h:outputText>
-		<h:outputText rendered="#{unit.rt90X != '-1'}"><h:outputText value="#{unit.hsaIdentity}" />,X:<h:outputText value="#{unit.rt90X}" />,Y:<h:outputText value="#{unit.rt90Y}" /> <!-- WGS84: <h:outputText value="#{unit.wgs84Lat}" />,<h:outputText value="#{unit.wgs84Long}" /> --><br/></h:outputText>
+	<ui:repeat value="${unitsGeocoded}" var="unit">
+		<h:outputText rendered="${unit.rt90X == '-1'}"><span class="error"><h:outputText value="${unit.hsaIdentity}" />,X:<h:outputText value="${unit.rt90X}" />,Y:<h:outputText value="${unit.rt90Y}" /> <!-- WGS84: <h:outputText value="${unit.wgs84Lat}" />,<h:outputText value="${unit.wgs84Long}" /> --><br/></span></h:outputText>
+		<h:outputText rendered="${unit.rt90X != '-1'}"><h:outputText value="${unit.hsaIdentity}" />,X:<h:outputText value="${unit.rt90X}" />,Y:<h:outputText value="${unit.rt90Y}" /> <!-- WGS84: <h:outputText value="${unit.wgs84Lat}" />,<h:outputText value="${unit.wgs84Long}" /> --><br/></h:outputText>
 	</ui:repeat>
 </body>
 </html>
