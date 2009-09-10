@@ -286,7 +286,7 @@ public class PersonRepository {
     employment.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("facsimileTelephoneNumber"))));
     employment.setLabeledUri(LdapORMHelper.getSingleValue(personEntry.getAttribute("labeledUri")));
 
-    employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaTitle")));
+    employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("title")));
     /*
      * Deprecated 2009-04-21 if (!"".equals(personEntry.getAttribute("title"))) employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("title")));
      */
