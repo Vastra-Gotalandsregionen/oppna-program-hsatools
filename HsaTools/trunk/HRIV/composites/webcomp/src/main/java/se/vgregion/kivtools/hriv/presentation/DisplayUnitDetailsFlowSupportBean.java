@@ -65,7 +65,7 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
   }
 
   public Unit getUnitDetails(String hsaId) throws NoConnectionToServerException {
-    logger.info(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
+    logger.debug(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
     Unit u = null;
     try {
       u = getSearchService().getUnitByHsaId(hsaId);
@@ -83,10 +83,6 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
     }
 
     return u;
-  }
-
-  public void logger(String msg) {
-    logger.info(msg);
   }
 
   public String getAccessibilityDatabaseIntegrationGetIdUrl() {

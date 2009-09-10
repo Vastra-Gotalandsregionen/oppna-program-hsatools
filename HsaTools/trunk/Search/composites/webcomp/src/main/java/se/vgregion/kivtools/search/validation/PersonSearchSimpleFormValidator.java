@@ -38,6 +38,7 @@ public class PersonSearchSimpleFormValidator implements Serializable {
 
   private static final String SUCCESSFUL_OPERATION = "success";
   private Log logger = LogFactory.getLog(this.getClass());
+
   /**
    * Validates user input in a PersonSearchSimpleForm.
    * 
@@ -46,7 +47,7 @@ public class PersonSearchSimpleFormValidator implements Serializable {
    * @throws IncorrectUserInputException if the validation fails.
    */
   public String validate(PersonSearchSimpleForm param) throws IncorrectUserInputException {
-    logger.info(this.getClass().getName() + ".validate()");
+    logger.debug(this.getClass().getName() + ".validate()");
 
     // if data is entered in a field it must contain at least 2 chars
     int givenNameLength = param.getGivenName().trim().length();

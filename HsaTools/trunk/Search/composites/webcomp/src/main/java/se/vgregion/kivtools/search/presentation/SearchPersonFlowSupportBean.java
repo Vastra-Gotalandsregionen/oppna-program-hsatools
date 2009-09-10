@@ -110,7 +110,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
    * @throws KivNoDataFoundException If no persons were found with the provided criterias.
    */
   public SikSearchResultList<Person> doSearch(PersonSearchSimpleForm theForm) throws KivNoDataFoundException {
-    LOGGER.info(CLASS_NAME + ".doSearch()");
+    LOGGER.debug(CLASS_NAME + ".doSearch()");
 
     try {
       SikSearchResultList<Person> list = new SikSearchResultList<Person>();
@@ -159,7 +159,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
    * @throws KivNoDataFoundException If no matching persons are found.
    */
   public SikSearchResultList<Person> getOrganisation(String hsaIdentity, String dn) throws KivNoDataFoundException {
-    LOGGER.info(CLASS_NAME + ".getOrganisation()");
+    LOGGER.debug(CLASS_NAME + ".getOrganisation()");
 
     try {
       TimeMeasurement overAllTime = new TimeMeasurement();

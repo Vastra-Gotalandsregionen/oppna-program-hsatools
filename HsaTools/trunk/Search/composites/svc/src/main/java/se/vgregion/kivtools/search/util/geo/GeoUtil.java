@@ -56,7 +56,7 @@ public class GeoUtil {
    * @see http://geo-google.sourceforge.net/usage.html
    */
   public int[] geocodeToRT90(Address hsaStreetAddress, String googleKey) throws Exception {
-    logger.info(CLASS_NAME + ".geocodeToRT90()");
+    logger.debug(CLASS_NAME + ".geocodeToRT90()");
 
     int[] rt90Coordinates = null;
     double[] wgs84Coordinates = geocodeToWGS84FromHsaAddress(hsaStreetAddress, googleKey);
@@ -115,7 +115,7 @@ public class GeoUtil {
    * @return An array of WGS84 coordinates.
    */
   public double[] geocodeToWGS84FromHsaAddress(Address hsaStreetAddress, String googleKey) {
-    logger.info(CLASS_NAME + ".geocodeToWGS84()");
+    logger.debug(CLASS_NAME + ".geocodeToWGS84()");
     // We can't do anything if we don't have at least a street name, zip code or city.
     if (hsaStreetAddress == null || Evaluator.isEmpty(hsaStreetAddress.getStreet()) && Evaluator.isEmpty(hsaStreetAddress.getZipCode().getZipCode()) && Evaluator.isEmpty(hsaStreetAddress.getCity())) {
       return null;

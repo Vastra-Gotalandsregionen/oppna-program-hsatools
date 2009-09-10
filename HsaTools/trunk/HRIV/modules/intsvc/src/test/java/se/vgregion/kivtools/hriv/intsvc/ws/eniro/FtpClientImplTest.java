@@ -1,8 +1,6 @@
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,12 +33,21 @@ public class FtpClientImplTest {
 
   @Test
   public void testSendFile() {
-    assertEquals(ftpClientImpl.sendFile(FILE_CONTENT), true);
+    boolean result = ftpClientImpl.sendFile(FILE_CONTENT);
+
+    // Verify result from sendFile
+    assertTrue(result);
+
+    // Verify connection-information
     assertEquals(USERNAME, mockFtpClient.username);
     assertEquals(PASSWORD, mockFtpClient.password);
     assertEquals(HOSTNAME, mockFtpClient.hostname);
     assertEquals(PORT, mockFtpClient.port);
+
+    // Verify filename of uploaded file
     assertEquals(FTPDESTINATIONFILENAME + "-uploading.xml", mockFtpClient.oldFilename);
+
+    // Verify that uploaded file was renamed correctly
     assertTrue(mockFtpClient.newFilename.matches(FTPDESTINATIONFILENAME + "-[0-9]{14}\\.xml"));
   }
 

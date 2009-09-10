@@ -96,7 +96,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @param theForm The form to clean.
    */
   public void cleanSearchSimpleForm(UnitSearchSimpleForm theForm) {
-    LOGGER.info(CLASS_NAME + ".cleanSearchSimpleForm()");
+    LOGGER.debug(CLASS_NAME + ".cleanSearchSimpleForm()");
     theForm.setSearchParamValue("");
     theForm.setUnitName("");
   }
@@ -110,7 +110,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @throws NoConnectionToServerException If no connection to the LDAP server could be made.
    */
   public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm) throws KivNoDataFoundException, NoConnectionToServerException {
-    LOGGER.info(CLASS_NAME + ".doSearch()");
+    LOGGER.debug(CLASS_NAME + ".doSearch()");
 
     SikSearchResultList<Unit> list = null;
     try {
@@ -279,7 +279,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
 
   private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm) throws Exception {
     final String methodName = CLASS_NAME + ".mapSearchCriteriaToUnit(...)";
-    LOGGER.info(methodName);
+    LOGGER.debug(methodName);
     Unit unit = new Unit();
 
     // unit name

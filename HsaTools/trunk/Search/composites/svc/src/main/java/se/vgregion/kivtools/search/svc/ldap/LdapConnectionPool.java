@@ -68,7 +68,7 @@ public class LdapConnectionPool {
    * Constructs a new LdapConnectionPool.
    */
   public LdapConnectionPool() {
-    logger.info("entering " + CLASS_NAME + "::LdapConnectionPool(), freeConnections=" + freeConnections.size() + ", checkedOut=" + checkedOut);
+    logger.debug("entering " + CLASS_NAME + "::LdapConnectionPool(), freeConnections=" + freeConnections.size() + ", checkedOut=" + checkedOut);
   }
 
   protected String getLdapHost() {

@@ -47,7 +47,7 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
   }
 
   public Unit getUnitDetails(String hsaId) {
-    LOGGER.info(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
+    LOGGER.debug(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
     try {
       return getSearchService().getUnitByHsaId(hsaId);
     } catch (Exception e) {
@@ -57,7 +57,7 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
   }
 
   public Unit getUnitByDn(String dn) {
-    LOGGER.info(CLASS_NAME + "::getUnitDetailsByDn(dn=" + dn + ")");
+    LOGGER.debug(CLASS_NAME + "::getUnitDetailsByDn(dn=" + dn + ")");
     try {
       Unit u = getSearchService().getUnitByDN(dn);
       return u;

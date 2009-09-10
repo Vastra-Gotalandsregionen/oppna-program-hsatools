@@ -222,7 +222,7 @@ public class SearchServiceMockImpl implements SearchService {
     Employment e = new Employment();
     List<Employment> em = new ArrayList<Employment>();
 
-    logger.info(CLASS_NAME + ".getPersonByHsaId(hsaId = " + hsaId + ")");
+    logger.debug(CLASS_NAME + ".getPersonByHsaId(hsaId = " + hsaId + ")");
 
     p.setGivenName("Anders");
     p.setSn("Asplund");
