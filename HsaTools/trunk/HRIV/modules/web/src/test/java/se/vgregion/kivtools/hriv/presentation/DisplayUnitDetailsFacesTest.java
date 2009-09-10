@@ -19,31 +19,39 @@ package se.vgregion.kivtools.hriv.presentation;
 
 import static org.junit.Assert.*;
 
-import org.junit.BeforeClass;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
-import com.steeplesoft.jsf.facestester.FacesPage;
-import com.steeplesoft.jsf.facestester.FacesTester;
+import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
+import se.vgregion.kivtools.search.svc.domain.Unit;
 
-public class DisplayUnitDetailsFacesTest {
-  private static FacesTester facesTester;
+public class DisplayUnitDetailsFacesTest extends FacesTesterBase {
+  private Unit unit;
 
-  @BeforeClass
-  public static void setUp() {
-    facesTester = new FacesTester();
+  @Before
+  public void setUp() {
+    unit = createUnit();
   }
 
   @Test
-  @Ignore
   public void testRender() {
-    FacesPage page = facesTester.requestPage("/HRIV.Search.searchunit-flow.flow&hsaidentity=SE2321000131-E000000006301");
-    assertNotNull(page);
-    assertTrue(page.isRendered());
+    this.addBean("unit", unit);
+    this.addBean("unitSearchSimpleForm", new UnitSearchSimpleForm());
+    Document page = this.renderPage("/displayUnitDetails.xhtml");
 
-    String renderedPage = page.getRenderedPage();
-    System.out.println(renderedPage);
+    Node summaryHeader = this.getNodeByExpression(page, "//div[@id='print-area']/div/div/h1");
+    assertEquals("<h1>Akutklinik, <span class=\"municipality-name\">Angered</span></h1>", this.getNodeContent(summaryHeader));
 
-    assertTrue(renderedPage.indexOf("<h1>Akutklinik, <span class=\"municipality-name\">Kungälv</span></h1>") != -1);
+    // System.out.println(this.getNodeContent(page));
+  }
+
+  private Unit createUnit() {
+    Unit unit = new Unit();
+    unit.setHsaIdentity("ABC-123");
+    unit.setName("Akutklinik");
+    unit.setLocality("Angered");
+    return unit;
   }
 }
