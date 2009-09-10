@@ -21,6 +21,7 @@
 		<spring.fw.version>2.5.5</spring.fw.version>
 		<apache.cxf.version>2.1.2</apache.cxf.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.profilename>VGR</maven.profilename>
 	</properties>
 
 	<modules>
@@ -221,4 +222,19 @@
 			<layout>legacy</layout>
 		</repository>
 	</repositories>
+	
+	<profiles>
+		<profile>
+			<id>VGR</id>
+			<properties>
+				<maven.profilename>VGR</maven.profilename>
+			</properties>
+		</profile>
+		<profile>
+			<id>LTH</id>
+			<properties>
+				<maven.profilename>LTH</maven.profilename>
+			</properties>
+		</profile>
+	</profiles>
 </project>

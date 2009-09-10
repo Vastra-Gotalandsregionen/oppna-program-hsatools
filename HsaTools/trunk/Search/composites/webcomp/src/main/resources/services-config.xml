@@ -23,8 +23,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<!-- Import customized bean configurations for chosen project. -->
-<!--	<import resource="services-config_LTH.xml"/>-->
-	<import resource="services-config_VGR.xml"/>
+	<import resource="services-config_${maven.profilename}.xml"/>
 
 	<bean id="Search_SearchUnitFlowSupportBean"
 		class="se.vgregion.kivtools.search.presentation.SearchUnitFlowSupportBean">
