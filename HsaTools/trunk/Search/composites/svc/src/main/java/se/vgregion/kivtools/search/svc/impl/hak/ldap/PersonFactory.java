@@ -96,7 +96,7 @@ public class PersonFactory {
     person.setHsaLanguageKnowledgeText(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaLanguageKnowledgeText")));
 
     // Legitimerade Yrkesgrupper e.g Biomedicinsk analytiker
-    person.setHsaTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaTitle")));
+    person.setHsaTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("title")));
 
     // hsaPersonPrescriptionCode
     person.setHsaPersonPrescriptionCode(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaPersonPrescriptionCode")));
