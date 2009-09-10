@@ -55,7 +55,6 @@ import com.novell.ldap.LDAPSearchResults;
 public class PersonRepository {
   private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
   private static final String KIV_SEARCH_BASE = "OU=Landstinget Halland,DC=lthallandhsa,DC=se";
-  private static final String READ_BASE = "DC=lthallandhsa,DC=se";
   private static final String CLASS_NAME = PersonRepository.class.getName();
   private static final String LDAP_WILD_CARD = "*";
   // an "
@@ -330,31 +329,12 @@ public class PersonRepository {
 
     String searchFilter = "(&(objectclass=hkatPerson)";
 
-    addSearchFilter(filterList , "regionName", vgrId);
+    addSearchFilter(filterList, "regionName", vgrId);
 
     addMultipleAttributes(filterList, givenName, "givenName", "rsvFirstNames");
 
     // let's do some special handling of sn
-    addMultipleAttributes(filterList, familyName, "sn", "rsvFirstNames");
-
-    if (filterList.isEmpty()) {
-      return null;
-    }
-    for (String s : filterList) {
-      searchFilter += s;
-    }
-    searchFilter += ")";
-    return searchFilter;
-  }
-
-  private String createSearchPersonsFilter(String givenName, String familyName) throws Exception {
-    List<String> filterList = new ArrayList<String>();
-
-    String searchFilter = "(&(objectclass=vgrUser)";
-    addMultipleAttributes(filterList, givenName, "givenName", "hsaNickName");
-
-    // let's do some special handling of sn
-    addMultipleAttributes(filterList, familyName, "sn", "hsaMiddleName");
+    addMultipleAttributes(filterList, familyName, "sn", "middleName");
 
     if (filterList.isEmpty()) {
       return null;
