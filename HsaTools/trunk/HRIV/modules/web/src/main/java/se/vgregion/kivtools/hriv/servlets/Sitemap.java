@@ -133,7 +133,7 @@ public class Sitemap extends HttpServlet {
    */
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    LOGGER.info(CLASS_NAME + ".doGet()");
+    LOGGER.debug(CLASS_NAME + ".doGet()");
     LOGGER.debug("Starting to put together the sitemap.");
 
     long startTimeMillis = System.currentTimeMillis();

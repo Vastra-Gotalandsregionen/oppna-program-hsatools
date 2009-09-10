@@ -41,7 +41,7 @@ public class LogUtilsTest {
     private List<Object> loggedMessages = new ArrayList<Object>();
 
     @Override
-    public void info(Object message) {
+    public void debug(Object message) {
       this.loggedMessages.add(message);
     }
 
@@ -52,7 +52,7 @@ public class LogUtilsTest {
     // Unimplemented methods
 
     @Override
-    public void debug(Object message) {
+    public void info(Object message) {
     }
 
     @Override

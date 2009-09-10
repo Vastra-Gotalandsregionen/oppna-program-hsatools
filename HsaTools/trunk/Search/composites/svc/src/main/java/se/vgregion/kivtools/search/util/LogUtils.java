@@ -43,11 +43,11 @@ public class LogUtils {
    * @throws SikInternalException If anything goes wrong.
    */
   public static void printSikSearchResultListToLog(Object obj, String methodName, TimeMeasurement overallTime, Log logger, SikSearchResultList<?> list) throws SikInternalException {
-    logger.info("*********************************************************");
-    logger.info("Time measurements: " + obj.getClass().getSimpleName() + "::" + methodName);
-    logger.info("Total number of hits=" + list.getTotalNumberOfFoundItems());
-    logger.info("Overall elapsed time=" + overallTime.getElapsedTimeInMillisSeconds() + " milli seconds");
-    logger.info("Datasource elapsed time=" + list.getTotalDataSourceSearchTimeInMilliSeconds() + " milli seconds");
-    logger.info("*********************************************************");
+    logger.debug("*********************************************************");
+    logger.debug("Time measurements: " + obj.getClass().getSimpleName() + "::" + methodName);
+    logger.debug("Total number of hits=" + list.getTotalNumberOfFoundItems());
+    logger.debug("Overall elapsed time=" + overallTime.getElapsedTimeInMillisSeconds() + " milli seconds");
+    logger.debug("Datasource elapsed time=" + list.getTotalDataSourceSearchTimeInMilliSeconds() + " milli seconds");
+    logger.debug("*********************************************************");
   }
 }

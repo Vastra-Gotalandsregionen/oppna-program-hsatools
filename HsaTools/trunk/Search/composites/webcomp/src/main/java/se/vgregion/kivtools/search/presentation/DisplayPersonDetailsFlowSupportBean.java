@@ -46,7 +46,7 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
   }
 
   public Person getPersonDetails(String vgrId) {
-    LOGGER.info(CLASS_NAME + "::getPersonDetails(vgrId=" + vgrId + ")");
+    LOGGER.debug(CLASS_NAME + "::getPersonDetails(vgrId=" + vgrId + ")");
     try {
       Person person = getSearchService().getPersonById(vgrId);
       if (person.getEmployments() == null) {

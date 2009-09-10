@@ -173,7 +173,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @param theForm The form to clean.
    */
   public void cleanSearchSimpleForm(UnitSearchSimpleForm theForm) {
-    logger.info(CLASS_NAME + ".cleanSearchSimpleForm()");
+    logger.debug(CLASS_NAME + ".cleanSearchSimpleForm()");
     theForm.setMunicipality("");
     theForm.setUnitName("");
     theForm.setHealthcareType("");
@@ -187,7 +187,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @throws KivException If there are any problems during the search.
    */
   public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm) throws KivException {
-    logger.info(CLASS_NAME + ".doSearch()");
+    logger.debug(CLASS_NAME + ".doSearch()");
 
     try {
       TimeMeasurement overAllTime = new TimeMeasurement();
@@ -322,8 +322,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
   }
 
   private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm) throws Exception {
-    final String methodName = CLASS_NAME + ".mapSearchCriteriaToUnit(...)";
-    logger.info(methodName);
+    logger.debug(CLASS_NAME + ".mapSearchCriteriaToUnit(...)");
     Unit unit = new Unit();
 
     // unit name

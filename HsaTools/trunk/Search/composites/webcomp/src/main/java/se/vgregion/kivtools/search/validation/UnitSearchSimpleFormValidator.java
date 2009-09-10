@@ -46,7 +46,7 @@ public class UnitSearchSimpleFormValidator implements Serializable {
    * @throws IncorrectUserInputException if the validation fails.
    */
   public String validate(UnitSearchSimpleForm param) throws IncorrectUserInputException {
-    logger.info(this.getClass().getName() + ".validate()");
+    logger.debug(this.getClass().getName() + ".validate()");
 
     int paramlength = param.getSearchParamValue().trim().length();
     int unitNameLength = param.getUnitName().trim().length();
