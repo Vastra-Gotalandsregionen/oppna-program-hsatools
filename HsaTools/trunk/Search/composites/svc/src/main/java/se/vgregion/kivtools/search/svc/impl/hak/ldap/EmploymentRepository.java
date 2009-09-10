@@ -39,7 +39,7 @@ import com.novell.ldap.LDAPSearchResults;
 public class EmploymentRepository {
   private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
   private static final String CLASS_NAME = EmploymentRepository.class.getName();
-  private static final String ALL_EMPLOYMENT_FILTER = "(objectclass=vgrAnstallning)";
+  private static final String ALL_EMPLOYMENT_FILTER = "(objectclass=hkatPerson)";
   private LdapConnectionPool theConnectionPool;
 
   public void setLdapConnectionPool(LdapConnectionPool lp) {
