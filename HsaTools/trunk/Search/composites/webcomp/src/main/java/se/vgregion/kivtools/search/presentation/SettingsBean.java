@@ -37,6 +37,33 @@ public class SettingsBean implements Serializable {
   private static final long serialVersionUID = 1L;
   private static final Log LOGGER = LogFactory.getLog(SearchPersonFlowSupportBean.class);
   private Properties settings = new Properties();
+  private String useTrackingCode;
+  private String trackingCodeOnServer;
+  private String trackingCode;
+
+  public String getUseTrackingCode() {
+    return useTrackingCode;
+  }
+
+  public void setUseTrackingCode(String useTrackingCode) {
+    this.useTrackingCode = useTrackingCode;
+  }
+
+  public String getTrackingCodeOnServer() {
+    return trackingCodeOnServer;
+  }
+
+  public void setTrackingCodeOnServer(String trackingCodeOnServer) {
+    this.trackingCodeOnServer = trackingCodeOnServer;
+  }
+
+  public String getTrackingCode() {
+    return trackingCode;
+  }
+
+  public void setTrackingCode(String trackingCode) {
+    this.trackingCode = trackingCode;
+  }
 
   /**
    * Constructs a new SettingsBean using the provided Resource.
