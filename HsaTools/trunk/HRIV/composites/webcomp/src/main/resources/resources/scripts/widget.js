@@ -376,18 +376,18 @@ function searchUnits(url, rootUrl, webappName, municipalityId, resultOnly,
 					.split(/Search units widget end[^>]*>/i)[0];
 
 			// Update care types link
-			var toBeReplacedExpression = 'a href="getlink';
+			var toBeReplacedExpression = 'a href="';
 			var toBeReplaced = new RegExp(toBeReplacedExpression, "g");
-			var toReplaceExpression = 'a href=' + rootUrl + '/' + webappName
-					+ '/getlink';
+			var toReplaceExpression = 'a href="' + rootUrl + '/' + webappName
+					+ '/';
 			search_area_from_response = search_area_from_response.replace(
 					toBeReplaced, toReplaceExpression);
 
 			// Update search form
-			var toBeReplacedExpression = 'action="displayUnitSearchResult.jsf[;jsessionid=,0-9,A-Z]*';
+			var toBeReplacedExpression = 'action="HRIV.Search.searchunit-flow.flow[;jsessionid=,0-9,A-Z]*';
 			var toBeReplaced = new RegExp(toBeReplacedExpression, "g");
 			var toReplaceExpression = 'action="' + rootUrl + '/' + webappName
-					+ '/displayUnitSearchResult.jsf?googleMapsKey='
+					+ '/HRIV.Search.searchunit-flow.flow?googleMapsKey='
 					+ googleMapsKey + '&resultOnly=' + resultOnly;
 			search_area_from_response = search_area_from_response.replace(
 					toBeReplaced, toReplaceExpression);
@@ -400,6 +400,7 @@ function searchUnits(url, rootUrl, webappName, municipalityId, resultOnly,
 						municipalityId + "\"", municipalityId
 								+ "\" selected=\"selected\"");
 			}
+			
 			search_units.innerHTML = search_area_from_response;
 		}
 	}
