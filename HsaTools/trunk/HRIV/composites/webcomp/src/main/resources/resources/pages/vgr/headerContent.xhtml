@@ -17,20 +17,21 @@
       Boston, MA 02111-1307  USA
 
 -->
-<div id="header-tab-container" xmlns:h="http://java.sun.com/jsf/html">
+<h:outputText xmlns:h="http://java.sun.com/jsf/html" rendered="true">
 	<div id="pageHeader">
 		<form action="http://vard.vgregion.se/sv/Sok/" method="get">
 			<div id="pageHeaderSearch">
 				<div class="headerlinks">
 					<ul>
-						<li class="toppadded"><a href="http://vard.vgregion.se/sv/Other-languages/">${msg.otherLanguages}</a>&#160; | &#160;</li>
-						<li class="toppadded"><a href="http://vard.vgregion.se/sv/Teckenspraksfilmer/">${msg.fingerLanguage}</a></li>
-						<li class="toppadded"><h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" escape="false" value="&#160; | &#160;${Search_SettingsContainer.listenLinkCode1}" />
+						<li><a href="http://vard.vgregion.se/sv/Other-languages/">${msg.otherLanguages}</a>&#160; | &#160;</li>
+						<li><a href="http://vard.vgregion.se/sv/Teckenspraksfilmer/">${msg.fingerLanguage}</a></li>
+						<li><h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" escape="false" value="&#160; | &#160;${Search_SettingsContainer.listenLinkCode1}" />
 							<h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" value="${facesContext.externalContext.request.queryString}" />
 							<h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" escape="false" value="${Search_SettingsContainer.listenLinkCode2}" />
 						</li>					
 					</ul>
-					<div class="searchfield"><input name="quicksearchquery" id="SearchText" accesskey="4" title="${msg.quickSearch}" class="topSearch" type="text" /><input name="Search" value="${msg.search}" id="Search" class="standardButton marginTopFive" type="submit" /></div>
+					<input name="quicksearchquery" id="SearchText" accesskey="4" title="${msg.quickSearch}" class="topSearch" type="text" />
+					<input name="Search" value="${msg.search}" id="Search" class="standardButton marginTopFive" type="submit" />
 				</div>
 			</div>
 		</form>
@@ -55,4 +56,4 @@
 		</ul>
 	</div>
 	<a name="top" />
-</div>
+</h:outputText>

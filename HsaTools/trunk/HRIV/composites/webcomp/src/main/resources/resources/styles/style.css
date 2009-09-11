@@ -731,15 +731,6 @@ a.unit {
 }
 
 #forms-container {
-	/* 
-	padding-top: -0.5em;
-	padding-left: 0.65em;
-	padding-right: 0.7em;
-	margin: 0em;
-	height: 25.5em;
-	border: 0.2em solid #FFFFFF;
-	width: 23em;
-	*/
 	font-weight: bold;
 	margin-bottom: 0.4em;
 	margin-top: -0.5em;
@@ -799,45 +790,11 @@ a.unit {
 
 #forms-container .standardButton {
 	background: #FFFFFF;
+	color: #333;
+	border: 3px double #999;
 	margin-top: 0.3em;
 	padding: 0px 3px;
-	
-	/*
-	margin-left: -6px;
-	font-size: 1.2em;
-	*/
 }
-
-/* Auto complete styling 
-div.autocomplete {
-	width: auto ! important;
-	background-color: white;
-	border: 1px solid #888;
-	margin: 0px;
-	margin-bottom: 0.5em;
-	padding: 0px;
-	font-size: 1.2em;
-}
-
-div.autocomplete ul {
-	list-style-type: none;
-	margin: 0px;
-	padding: 0px;
-}
-
-div.autocomplete ul li.selected {
-	background-color: #ffb;
-}
-
-div.autocomplete ul li {
-	list-style-type: none;
-	display: block;
-	margin: 0;
-	padding: 2px;
-	font-size: 1em;
-	cursor: pointer;
-}
-*/
 
 /* ------------ BEGIN YUI AC */ 
 .autocomplete_container {
