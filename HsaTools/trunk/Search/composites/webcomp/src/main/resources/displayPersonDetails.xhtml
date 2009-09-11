@@ -66,19 +66,7 @@
 	
 		<ui:define name="MainContainer">
 			<div class="yui-u search-result">
-				<div class="summary">
-					<h2>
-	                    <span class="given-name">${person.givenName}</span>
-			            <h:outputText rendered="${fn:trim(person.hsaNickName) != ''}">
-				        	"<span class="nick-name">${person.hsaNickName}</span>"
-				        </h:outputText>		                                   
-						<span class="additional-name">${person.hsaMiddleName}</span>
-	                    <span class="family-name">${person.sn}</span> 
-					</h2>
-					<ui:repeat value="${person.employments}" var="employment">
-						<div><h:outputText>${employment.title}</h:outputText><h:outputText render="${employment.ou != ''}">, ${employment.ou}</h:outputText></div>	
-					</ui:repeat>
-				</div>
+				<ui:include src="${Search_SettingsContainer.settings.personDetailsSummaryInclude}" />
 				<table>
 					<caption>Övergripande information</caption>
 					<tbody>
