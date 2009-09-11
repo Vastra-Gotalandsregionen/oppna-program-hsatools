@@ -22,7 +22,17 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+	<bean id="propertyPlaceholderWebcomp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:resources/settings/lth/sik-composite-webcomp.properties" />
+		<property name="placeholderPrefix" value="#{" />
+		<property name="fileEncoding" value="UTF-8" />
+	</bean>
+	
+	
 	<bean id="Search_SettingsContainer" class="se.vgregion.kivtools.search.presentation.SettingsBean" scope="prototype">
 		<constructor-arg index="0" value="classpath:resources/settings/lth/sik-composite-webcomp.properties"/>
+		<property name="useTrackingCode" value="#{google.useTrackingCode}" />
+		<property name="trackingCodeOnServer" value="#{google.trackingCodeOnServer}" />
+		<property name="trackingCode" value="#{google.trackingCode}" />
 	</bean>
 </beans>
