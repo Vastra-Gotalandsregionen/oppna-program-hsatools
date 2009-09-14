@@ -38,6 +38,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import se.vgregion.kivtools.hriv.presentation.forms.AccessibilityDatabaseFilterForm;
+import se.vgregion.kivtools.hriv.util.HttpFetcherMock;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityInformation;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityObject;

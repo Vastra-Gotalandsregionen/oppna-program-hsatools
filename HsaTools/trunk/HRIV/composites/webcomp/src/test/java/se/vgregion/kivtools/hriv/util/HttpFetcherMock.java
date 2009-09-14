@@ -15,9 +15,10 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-package se.vgregion.kivtools.hriv.presentation;
+package se.vgregion.kivtools.hriv.util;
 
 import static org.junit.Assert.*;
+import se.vgregion.kivtools.hriv.util.HttpFetcher;
 
 public class HttpFetcherMock implements HttpFetcher {
   private String content = "";

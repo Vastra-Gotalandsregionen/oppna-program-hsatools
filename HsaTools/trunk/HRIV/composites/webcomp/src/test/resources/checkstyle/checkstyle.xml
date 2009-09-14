@@ -13,6 +13,7 @@
 		<module name="JavadocMethod">
 			<property name="scope" value="public" />
 			<property name="allowMissingPropertyJavadoc" value="true" />
+			<property name="allowUndeclaredRTE" value="true"/>
 		</module>
 		<module name="JavadocType" />
 		<module name="JavadocStyle" />
