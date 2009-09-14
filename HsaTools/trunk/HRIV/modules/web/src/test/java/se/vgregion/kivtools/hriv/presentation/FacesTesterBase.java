@@ -20,6 +20,7 @@ package se.vgregion.kivtools.hriv.presentation;
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -73,6 +74,8 @@ public class FacesTesterBase {
 
     xPath = XPathFactory.newInstance().newXPath();
 
+    String pathToWebXml = new File(".").getAbsoluteFile().getParentFile().getAbsolutePath() + "/src/test/webapp";
+    System.setProperty("facestester.webAppPath", pathToWebXml);
     facesTester = new FacesTester();
     sessionMap = facesTester.getFacesContext().getExternalContext().getSessionMap();
   }
