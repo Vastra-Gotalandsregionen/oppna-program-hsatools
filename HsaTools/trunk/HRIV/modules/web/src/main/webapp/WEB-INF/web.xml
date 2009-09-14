@@ -70,26 +70,6 @@
 		<param-value>true</param-value>
 	</context-param>
 	
-<!--	<context-param>-->
-<!--		<param-name>org.apache.myfaces.ALLOW_JAVASCRIPT</param-name>-->
-<!--		<param-value>false</param-value>-->
-<!--	</context-param>-->
-<!--	-->
-<!--	<context-param>-->
-<!--		<param-name>org.apache.myfaces.DETECT_JAVASCRIPT</param-name>-->
-<!--		<param-value>false</param-value>-->
-<!--	</context-param>-->
-<!--	-->
-<!--	<context-param>-->
-<!--		<param-name>org.apache.myfaces.PRETTY_HTML</param-name>-->
-<!--		<param-value>true</param-value>-->
-<!--	</context-param>-->
-<!--	-->
-<!--	<context-param>-->
-<!--		<param-name>org.apache.myfaces.AUTO_SCROLL</param-name>-->
-<!--		<param-value>true</param-value>-->
-<!--	</context-param>-->
-	
 	<filter>
 		<filter-name>Character encoding</filter-name>
 		<filter-class>se.vgregion.kivtools.hriv.filters.SetCharacterEncodingFilter</filter-class>
@@ -107,22 +87,15 @@
 			<param-value>false</param-value>
 		</init-param>
 	</filter>
-	<!--
-		MyFaces listener that starts up the JSF engine by reading
-		faces-config.xml
-	-->
-<!--	<listener>-->
-<!--		<listener-class>-->
-<!--			org.apache.myfaces.webapp.StartupServletContextListener</listener-class>-->
-<!--	</listener>-->
+
 	<!--
 		Bootstraps the root Spring Web Application Context, responsible for
 		deploying managed beans defined in the configuration files above.
 		These beans represent the services used by the JSF application.
 	-->
-<!--	<listener>-->
-<!--		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
-<!--	</listener>-->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 	<!--
 		Used to be able to specify session arguments in services-config.xml
 	-->
