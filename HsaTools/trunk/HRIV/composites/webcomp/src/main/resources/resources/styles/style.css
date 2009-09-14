@@ -377,6 +377,10 @@ h3.person {
 	color: #333;
 }
 
+.vcard .given-name a {
+	text-decoration: underline;
+}
+
 .vcard td.tel .type,.vcard .tel .type,.adr-container .type {
 	display: none;
 }
