@@ -93,6 +93,11 @@
 			<param-value>false</param-value>
 		</init-param>
 	</filter>
+	
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<!-- Bootstraps the root Spring Web Application Context, responsible for deploying managed beans
 		defined in the configuration files above.  These beans represent the services used by the JSF application. -->
