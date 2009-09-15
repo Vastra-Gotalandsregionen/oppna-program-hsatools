@@ -138,7 +138,7 @@
 			value="http://kivsearch.vgregion.se:8080/testtools/ws/VardvalService/VardvalService.svc" />
 		-->
 		<property name="webserviceEndpoint"
-			value="https://utv-vardval.vgregion.se/vardvalservice/VardvalService.svc" />
+			value="https://vardval.vgregion.se/vardvalservice/VardvalService.svc" />
 	</bean>
 
 	<bean id="Registration_citizenRepository"
