@@ -1,0 +1,157 @@
+<!--
+
+    Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<ui:composition template="/template.xhtml">
+
+	<ui:define name="HeadContainer">
+		<ui:include src="${Search_SettingsContainer.settings.generalHeadInclude}" />
+	</ui:define>
+
+	<ui:define name="TabContainer">
+		<h1 class="structural">Sök Enhet</h1>
+        <ul class="tab-container clearfix">
+			<li>
+				<h:outputText>
+					<a href="Search.searchperson-flow.flow">Person</a>
+				</h:outputText>
+			</li>
+			<li><a href="#" class="active">Enhet</a></li>
+		</ul>
+	</ui:define>
+
+	<ui:define name="HeaderInputFieldContainer">
+		<form id="searchUnitForm" jsfc="h:form" class="search-form">
+			<div id="formContainer">
+				<div class="text">
+					<label for="searchUnitForm:unitName">Enhet</label>
+					<input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="${unitSearchSimpleForm.unitName}" />
+					<span class="info">Ange namn på enhet du vill söka efter</span>
+				</div>
+			
+				<div class="text">
+					<label for="searchUnitForm:TextBoxCity">Var</label>
+					<input id="TextBoxCity" type="text" class="search-input-field" jsfc="h:inputText" value="${unitSearchSimpleForm.searchParamValue}" />
+					<span class="info">Söker i Besöksadress, Postadress, Kommun</span>
+				</div>
+	
+				<div class="submit-area">
+					<input type="submit" id="submitButton" jsfc="h:commandButton" value="Sök" action="doSearch" />
+				</div>
+			</div>
+		</form>
+	</ui:define>
+
+
+	<ui:define name="MainContainer">
+        <div class="clearfix">
+			<h:outputText rendered="${fn:trim(rootCauseException.message) != ''}">
+				<h2 id="error-reporting-container">
+					${rootCauseException.message}
+				</h2>
+			</h:outputText>
+			<h:outputText rendered="${fn:length(units) gt 0}">
+				<h2 id="about-searchinformation-container">
+					<strong>${fn:length(units)}</strong> träffar
+				</h2>
+			</h:outputText>
+			<h:outputText rendered="${fn:length(units) >= Search_MaxSearchResult}">
+				<p id="search-warning-container">
+					Din sökning har genererat allt för många träffar. I resultatlistan nedan visas de ${Search_MaxSearchResult} första träffarna. Prova att skriva ett mer detaljerat sökord. Tips: Om du skriver tecknet " runt orden så blir det exakt sökning. (Exempel: "IT-Samordning")
+				</p>
+			</h:outputText>
+		</div>
+		<h:outputText rendered="${fn:length(units) gt 0}">
+			<ul id="search-result-container">
+				<ui:repeat value="${units}" var="theUnit">
+					<li>
+		                <div class="vcard clearfix" id="hcard-${theUnit.hsaIdentity}">
+		                 	<div class="single-row clearfix">
+	                            	<h3 class="given-name fn org">
+		                            	<a href="visaenhet?hsaidentity=${theUnit.hsaIdentity}">
+											${theUnit.name}
+										</a>
+		                            </h3>
+		                 	</div>
+		                    
+	                        <div class="adr three-col">
+	                            <div class="description">Besöksadress</div>
+	                            <span class="type">parcel</span>
+	                           	<ui:repeat value="${theUnit.hsaStreetAddress}" var="address">
+	                            	<ui:repeat value="${address.additionalInfo}" var="additionalInformation">	                            		
+			                			<div class="extended-address">${additionalInformation}</div>
+				                	</ui:repeat>
+		                			<div class="street-address">${address.street}</div>
+		                			<span class="postal-code">${address.zipCode.formattedZipCode}</span>
+		                			<span class="locality">${address.city}</span>
+			                	</ui:repeat>
+	                        </div>
+	                        
+	                        <div class="adr three-col">
+	                            <div class="description">Postadress
+	                            	<h:outputText rendered="${theUnit.hsaPostalAddress.hasVcardData}">
+	                            		<a href="http://www.hitta.se/SearchCombi.aspx?var=${theUnit.hsaPostalAddress.encodedAddress}">
+	                            			Karta
+	                            		</a>
+	                            	</h:outputText>
+	                            </div>
+	                            <span class="type">postal</span>
+	                           	<ui:repeat value="${theUnit.hsaPostalAddress}" var="address">
+	                            	<ui:repeat value="${address.additionalInfo}" var="additionalInformation">	                            		
+			                			<div class="extended-address">${additionalInformation}</div>
+				                	</ui:repeat>
+		                			<div class="street-address">${address.street}</div>
+		                			<span class="postal-code">${address.zipCode.formattedZipCode}</span>
+		                			<span class="locality">${address.city}</span>
+			                	</ui:repeat>
+	                        </div>
+	
+	                        <div class="three-col">
+	                            <div class="description">Telefon</div>
+	                            <h:outputText rendered="${fn:trim(theUnit.hsaPublicTelephoneNumber[0])!=''}">
+									<ui:repeat value="${theUnit.hsaPublicTelephoneNumber}" var="phone">
+			    	            		<div class="tel"><span class="type">Work</span><span class="value">${phone.formattedPhoneNumber}</span></div>
+			        	        	</ui:repeat>
+	                            </h:outputText>
+	                            <h:outputText rendered="${fn:trim(theUnit.hsaPublicTelephoneNumber[0])==''}">
+			    	            		<div class="tel"><span class="type">Work</span><span class="value">${theUnit.hsaSedfSwitchboardTelephoneNo.formattedPhoneNumber}</span></div>
+	                            </h:outputText>
+	                        </div>
+	                        
+	                        <div class="organization-hierarchy single-row">
+								<ui:repeat value="${theUnit.dn.ancestors}" var="ancestorDn">
+									<a href="visaenhetdn?dn=${ancestorDn.urlEncoded}">${ancestorDn.unitName}</a>, 
+								</ui:repeat>
+								<a href="visaenhetdn?dn=${theUnit.dn.administration.urlEncoded}">${theUnit.dn.administration.unitName}</a> 
+	                    	</div>
+	                    </div>
+	
+					</li>
+				</ui:repeat>
+			</ul>
+		</h:outputText>
+	</ui:define>
+
+</ui:composition></div>

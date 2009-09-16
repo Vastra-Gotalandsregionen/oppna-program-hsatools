@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="Decision.displayUnitDetails">
+
+	<var name="unitSearchSimpleForm" class="se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm" />
+	<var name="userMessage" class="se.vgregion.kivtools.search.presentation.forms.UserMessageContainer" />
+	<var name="units" class="java.util.ArrayList" />
+	
+	<input name="hsaidentity" />
+	<input name="parentHsaIdentity" />
+	<input name="dn" />
+	
+	<decision-state id="Decision.displayUnitDetails">
+		<if test="requestParameters.parentHsaIdentity!=null" then="Display.subUnitsById"/>
+		<if test="requestParameters.hsaidentity!=null" then="Display.unitDetailsById"/>
+		<if test="requestParameters.dn!=null" then="Display.unitDetailsByDn" else="Search.displayUnitSearchResult"/>
+	</decision-state>
+
+	<view-state id="Search.displayUnitSearchResult" view="/displayUnitSearchResult.xhtml">
+		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="showDetails" to="Display.unitDetailsById" />
+	</view-state>
+
+	<action-state id="Search.validateSearchParams">
+		<evaluate expression="flowScope.units.clear()" />
+		<evaluate expression="Search_UnitSearchSimpleFormValidator.validate(flowScope.unitSearchSimpleForm)" />
+		<transition on="success" to="Search.searchUnit" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.IncorrectUserInputException"
+					to="Search.displayUnitSearchResult">
+		</transition>
+	</action-state>	
+
+	<action-state id="Search.searchUnit">
+		<evaluate expression="Search_SearchUnitFlowSupportBean.doSearch(flowScope.unitSearchSimpleForm)" result="flowScope.units" />
+		<transition on="success" to="Search.displayUnitSearchResult" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
+					to="Search.displayUnitSearchResult">
+		</transition>
+	</action-state>
+
+	<view-state id="Display.unitDetailsById" view="/displayUnitDetails.xhtml">
+		<on-entry>
+			<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitDetails(flowScope.hsaidentity)" result="flowScope.unit"/>
+		</on-entry>
+		<transition on="doCancel" to="Search.displayUnitSearchResult"></transition>
+		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="displayUnit" to="Display.unitDetailsByDn" />
+	</view-state>
+	
+	<view-state id="Display.unitDetailsByDn" view="/displayUnitDetails.xhtml">
+		<on-entry>
+			<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitByDn(flowScope.dn)" result="flowScope.unit" />
+		</on-entry>
+		<transition on="doCancel" to="Search.displayUnitSearchResult"></transition>
+		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="displayUnit" to="Display.unitDetailsByDn" />
+	</view-state>
+
+	<view-state id="Search.ErrorHandle" view="/displayError.xhtml">
+		<transition on="confirm" to="Search.displayUnitSearchResult" />
+	</view-state>
+
+	<action-state id="Display.subUnitsById">
+		<evaluate expression="Search_SearchUnitFlowSupportBean.getSubUnits(flowScope.parentHsaIdentity)" result="flowScope.units"/>
+		<transition on="success" to="Search.displayUnitSearchResult" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
+					to="Search.displayUnitSearchResult">
+		</transition>
+	</action-state>
+
+
+	<global-transitions>
+		<transition on-exception="java.lang.Exception" to="Search.ErrorHandle" />
+	</global-transitions>
+</flow>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+    start-state="Decision.displayPersonDetails">
+
+	<var name="personSearchSimpleForm" class="se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm" />
+	<var name="persons" class="java.util.ArrayList" />
+	<var name="userMessage" class="se.vgregion.kivtools.search.presentation.forms.UserMessageContainer" />
+	
+	<!-- Get person with specified vgrId -->
+	<input name="vgrid" />
+
+	<!-- Find all persons in unit described by hsaIdentity or dn-->
+	<input name="hsaidentity" />
+	<input name="dn" />
+
+	<!-- No input parameter shows new search screen -->
+
+	<decision-state id="Decision.displayPersonDetails">		
+		<if test="requestParameters.vgrid!=null" then="Display.personDetails" />
+		<if test="requestParameters.dn!=null" then="Display.unitOrganisation" />
+		<if test="requestParameters.hsaidentity!=null" then="Display.unitOrganisation" else="Search.displayPersonSearchResult"/>
+	</decision-state>
+	
+	<view-state id="Search.displayPersonSearchResult" view="/displayPersonSearchResult.xhtml">
+		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="showDetails" to="Display.personDetails" />
+	</view-state>
+
+	<action-state id="Search.validateSearchParams">
+		<evaluate expression="flowScope.persons.clear()" />
+		<evaluate expression="Search_PersonSearchSimpleFormValidator.validate(flowScope.personSearchSimpleForm)" />
+		<transition on="success" to="Search.searchPerson" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.IncorrectUserInputException"
+					to="Search.displayPersonSearchResult">
+		</transition>
+	</action-state>
+
+	<action-state id="Search.searchPerson">
+		<evaluate expression="Search_SearchPersonFlowSupportBean.doSearch(flowScope.personSearchSimpleForm)" result="flowScope.persons" />
+		<transition on="success" to="Search.displayPersonSearchResult" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
+					to="Search.displayPersonSearchResult">
+		</transition>
+	</action-state>
+	
+	<view-state id="Display.personDetails" view="/displayPersonDetails.xhtml">
+		<on-entry>
+			<evaluate expression="Display_DisplayPersonDetailsFlowSupportBean.getPersonDetails(flowScope.vgrid)" result="flowScope.person" />
+		</on-entry>
+		<transition on="doCancel" to="Search.displayPersonSearchResult" />
+		<transition on="doSearch" to="Search.validateSearchParams" />
+	</view-state>	
+	
+	<action-state id="Display.unitOrganisation">
+		<evaluate expression="Search_SearchPersonFlowSupportBean.getOrganisation(flowScope.hsaidentity, flowScope.dn)" result="flowScope.persons" />
+		<transition on="success" to="Search.displayPersonSearchResult" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
+					to="Search.displayPersonSearchResult">
+		</transition>
+	</action-state>
+	
+	<view-state id="Search.ErrorHandle" view="/displayError.xhtml">
+		<transition on="confirm" to="Search.displayPersonSearchResult" />
+	</view-state>
+
+	<global-transitions>
+		<transition on-exception="java.lang.Exception"
+			to="Search.ErrorHandle" />
+	</global-transitions>
+</flow>

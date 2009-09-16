@@ -1,0 +1,160 @@
+<!--
+      Copyright 2009 Västa Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="sv-SE" xml:lang="sv-SE" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<head>
+		<ui:insert name="MetaDataContainer"></ui:insert>
+		<meta name="verify-v1" content="${Search_SettingsContainer.verifyV1}" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+		<meta http-equiv="Content-Language" content="se" /> 
+		<meta http-equiv="expires" content="-1" /> 
+		<meta http-equiv="imagetoolbar" content="false" />
+		<meta name="classification" content="Administration" /> 
+		<meta name="rating" content="Safe For Kids" /> 
+		<meta name="doc-type" content="Public" /> 
+		<meta name="doc-class" content="Completed" /> 
+		<meta name="doc-rights" content="Copywritten Work" /> 
+		<meta name="MSSmartTagsPreventParsing" content="true" /> 
+		<meta name="language" content="Svenska" /> 
+		<meta name="author" content="${Search_SettingsContainer.metaAuthor}" /> 
+		<meta name="copyright" content="${Search_SettingsContainer.metaCopyright}" /> 
+		<meta name="omnifind" content="Hitta-rätt-i-vården" /> 
+		<meta name="DC.publisher" content="${Search_SettingsContainer.metaAuthor}" /> 
+		<meta name="DC.rights" content="${Search_SettingsContainer.metaCopyright}" /> 
+		<meta name="DC.type" scheme="DCTERMS.DCMIType" content="Text" /> 
+		<meta name="DC.language" scheme="DCTERMS.RFC1766" content="sv" /> 
+		<meta name="DC.format" content="text/html; charset=utf-8" /> 
+		<link rel="schema.DCTERMS" href="http://purl.org/dc/terms/" /> 
+		<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+		
+		<h:outputText rendered="${facesContext.externalContext.request.serverName == Search_SettingsContainer.mobileUrl}">
+		<link rel="stylesheet" type="text/css" href="resources/styles/handheld.css" media="screen" />
+		<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+		</h:outputText>
+
+		<h:outputText rendered="${facesContext.externalContext.request.serverName != Search_SettingsContainer.mobileUrl}">
+		<style type="text/css" media="screen,projection">
+			<h:outputText escape="false">${Search_SettingsContainer.styles}</h:outputText>
+		</style>
+		<link rel="stylesheet" type="text/css" href="resources/styles/print.css" media="print" />
+		</h:outputText>
+
+		<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/autocomplete/assets/skins/sam/autocomplete.css" />
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/yahoo-dom-event/yahoo-dom-event.js" />
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/datasource/datasource-min.js" />
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/autocomplete/autocomplete-min.js" />
+		<script type="text/javascript" src="resources/scripts/utilities.js" />
+		<script type="text/javascript" src="resources/scripts/script.js" />
+		<script type="text/javascript" src="resources/scripts/widget.js" />
+   		<ui:repeat value="${Search_SettingsContainer.scriptPaths}" var="script">
+			<script type="text/javascript" src="${script}" />
+		</ui:repeat>
+		<link rel="Shortcut Icon" type="image/ico" href="resources/images/favicon.ico" />
+	</head>
+	<body onunload="GUnload()" class="yui-skin-sam">
+	
+	<!-- Could not specify dynamic attribute where resource bundle was specified in settings file -->
+	<ui:include src="${Search_SettingsContainer.resourceBundleInclude}" />
+	
+		<div id="wrapper">
+			<div id="custom-doc">
+				<h:outputText rendered="${param.noHeader != '1'}">
+					<ui:include src="${Search_SettingsContainer.header}"/>
+	        	</h:outputText>
+				<div id="bd">
+			        <div id="hriv-captions">
+						<ui:insert name="HrivCaptions" />
+			        </div>
+					
+					<div id="search-column">
+				        <div id="header-input-field-container">
+				        	<div class="boxinside">
+					        	<!--  Search units widget start (dont remove this comment) --> 
+					        	<div id="forms-container">
+									<form name="searchUnitForm" id="searchUnitForm" class="search-form" method="get" action="HRIV.Search.searchunit-flow.flow">
+											<h2>${msg.searchUnit}</h2>
+											<h3><label for="unitName">${msg.unitName}</label></h3> 
+											<div class="autocomplete_container">
+												<input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="${unitSearchSimpleForm.unitName}" style="width: 190px;"/>
+												<div id="acIndicator" style="display: none">
+												  <img src="resources/images/spinner.gif" alt="${msg.inProgress}" />
+												</div>
+												<div id="autocomplete_choices" class="autocomplete"></div>
+											</div>
+											<h3 class="healthcareType"><label for="healthcareType">${msg.typeOfCare} <a href="caretypes.jsp?caretypes=1"><img src="resources/images/help.gif" alt="${msg.help}"/></a></label></h3> 
+											<p>
+												<h:selectOneMenu id="healthcareType" name="healthcareType" class="search-input-field" value="${unitSearchSimpleForm.healthcareType}" style="width: 195px;">
+													<f:selectItems value="${unitSearchSimpleForm.healthcareTypeItems}" />
+												</h:selectOneMenu>
+											</p>
+							
+											<h3 class="municipality"><label for="municipality">${msg.whereCare}</label></h3>
+											<p>
+												<h:selectOneMenu id="municipality" name="municipality" class="search-input-field" value="${unitSearchSimpleForm.municipality}" style="width: 195px;">
+													<f:selectItems value="${unitSearchSimpleForm.municipalityItems}" />
+												</h:selectOneMenu>
+											</p>
+											
+											<div class="table-box">
+												<h:selectOneRadio id="resultType" name="resultType" value="${unitSearchSimpleForm.resultType}" class="result-type">
+													<f:selectItems value="${unitSearchSimpleForm.resultTypeItems}" />
+												</h:selectOneRadio>
+											</div>
+								
+											<div class="clear">
+												<p>
+													<input type="hidden" name="noHeader" value="${param.noHeader}" />
+													<input id="sortOrder" name="sortOrder" type="hidden" jsfc="h:inputHidden" value="${unitSearchSimpleForm.sortOrder}" />
+													<input type="submit" id="submitButton" class="standardButton" value="${msg.find}" />
+												</p>
+											</div>
+									</form>
+								</div>
+					        	<!--  Search units widget end (dont remove this comment) -->
+								<script type="text/javascript" charset="utf-8">
+									// <![CDATA[]
+										initAutocompleter();
+									// ]]>
+								</script>
+				        	</div>
+				
+					        <div id="information-container">
+								<ui:include src="${Search_SettingsContainer.informationArea}"/>
+					        </div>
+				        </div>
+					</div>
+					
+					<div id="main-column">
+						<div id="yui-main">
+						    <h:outputText escape="false" value="${Search_SettingsContainer.mainTop}" />	 
+							<ui:insert name="MainContainer"></ui:insert>
+						</div>
+					</div>
+				</div>
+				<ui:include src="${Search_SettingsContainer.footer}"/>
+			</div>
+		</div>
+
+		<h:outputText rendered="${Search_SettingsContainer.useTrackingCode == 'true'}">
+			<h:outputText escape="false" rendered="${facesContext.externalContext.request.serverName == Search_SettingsContainer.trackingCodeOnServer}" value="${Search_SettingsContainer.trackingCode}" />
+		</h:outputText>
+	</body>
+</html>
