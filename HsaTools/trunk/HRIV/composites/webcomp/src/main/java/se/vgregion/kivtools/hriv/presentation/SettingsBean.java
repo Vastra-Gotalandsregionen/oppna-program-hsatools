@@ -71,6 +71,7 @@ public class SettingsBean implements Serializable {
   private String mobileUrl;
   private String informationArea;
   private String externalApplicationURL;
+  private String favIcon;
 
   public String getInformationArea() {
     return informationArea;
@@ -435,4 +436,22 @@ public class SettingsBean implements Serializable {
   public void setExternalApplicationURL(String externalApplicationURL) {
     this.externalApplicationURL = externalApplicationURL;
   }
+
+    /**
+     * Returns URL for favourite icon
+     *
+     * @return the favIcon
+     */
+    public String getFavIcon() {
+        return favIcon;
+    }
+
+    /**
+     * Sets URL for favourite icon
+     *
+     * @param favIcon the favIcon to set
+     */
+    public void setFavIcon(String favIcon) {
+        this.favIcon = favIcon;
+    }
 }

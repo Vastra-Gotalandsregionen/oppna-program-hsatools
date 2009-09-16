@@ -719,11 +719,11 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   public void setHsaVisitingRuleAge(String hsaVisitingRuleAge) {
     if ("0-99".equals(hsaVisitingRuleAge)) {
-      this.hsaVisitingRuleAge = "Alla åldrar";
+      this.hsaVisitingRuleAge = "Alla \u00E5ldrar";
     } else if (hsaVisitingRuleAge.endsWith("-99")) {
-      this.hsaVisitingRuleAge = hsaVisitingRuleAge.substring(0, hsaVisitingRuleAge.indexOf("-")) + " år eller äldre";
+      this.hsaVisitingRuleAge = hsaVisitingRuleAge.substring(0, hsaVisitingRuleAge.indexOf("-")) + " \u00E5r eller \u00E4ldre";
     } else if (!"".equals(hsaVisitingRuleAge)) {
-      this.hsaVisitingRuleAge = hsaVisitingRuleAge + " år";
+      this.hsaVisitingRuleAge = hsaVisitingRuleAge + " \u00E5r";
     } else {
       this.hsaVisitingRuleAge = hsaVisitingRuleAge;
     }

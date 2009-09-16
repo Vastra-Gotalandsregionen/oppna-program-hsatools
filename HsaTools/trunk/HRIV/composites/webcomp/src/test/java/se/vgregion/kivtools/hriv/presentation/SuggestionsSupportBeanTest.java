@@ -114,8 +114,13 @@ public class SuggestionsSupportBeanTest {
     unit2.setHsaIdentity("XYZ-987");
     unit2.setName("Angereds vårdcentral");
     unit2.setLocality("Angered");
+    Unit unit3 = new Unit();
+    unit3.setHsaIdentity("JKL-654");
+    unit3.setName("Slottsskogens vårdcentral");
+    unit3.setLocality(null);
     units.add(unit1);
     units.add(unit2);
+    units.add(unit3);
 
     return units;
   }
