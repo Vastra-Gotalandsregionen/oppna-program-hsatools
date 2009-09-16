@@ -17,6 +17,7 @@
  */
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -30,8 +31,8 @@ import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.UnitNameComparator;
-import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
+import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 import se.vgregion.kivtools.search.util.Evaluator;
@@ -51,12 +52,11 @@ import com.novell.ldap.LDAPSearchResults;
  * 
  */
 public class UnitRepository {
-  public static final String KIV_SEARCH_BASE = "OU=Landstinget Halland,DC=lthallandhsa,DC=se";
   private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
+  public static final String KIV_SEARCH_BASE = "OU=Landstinget Halland,DC=lthallandhsa,DC=se";
   // private static final String READ_BASE = "DC=lthallandhsa,DC=se";
   private static final String CLASS_NAME = UnitRepository.class.getName();
   private static final String LDAP_WILD_CARD = "*";
-  // an "
   private static final String LDAP_EXACT_CARD = "\"";
 
   private LdapConnectionPool theConnectionPool;
@@ -281,10 +281,11 @@ public class UnitRepository {
    * 
    * @return
    * @throws LDAPException
+   * @throws UnsupportedEncodingException
    * @throws NoConnectionToServerException
    * @throws SikInternalException
    */
-  private LDAPConnection getLDAPConnection() throws LDAPException, NoConnectionToServerException, SikInternalException {
+  private LDAPConnection getLDAPConnection() throws LDAPException, UnsupportedEncodingException, NoConnectionToServerException, SikInternalException {
     LDAPConnection lc = theConnectionPool.getConnection(POOL_WAIT_TIME_MILLISECONDS);
     if (lc == null) {
       throw new SikInternalException(this, "getLDAPConnection()", "Could not get a connection after waiting " + POOL_WAIT_TIME_MILLISECONDS + " ms.");
@@ -349,7 +350,7 @@ public class UnitRepository {
    * @return A LDAP search string for search among functions
    * @throws Exception
    */
-  String makeFunctionSearchStringFromUnitSearchString(String unitSearchString) {
+  String makeFunctionSearchStringFromUnitSearchString(String unitSearchString) throws Exception {
     String functionSearchString = Formatter.replaceStringInString(unitSearchString, Constants.OBJECT_CLASS_UNIT_SPECIFIC, Constants.OBJECT_CLASS_FUNCTION_SPECIFIC);
     functionSearchString = Formatter.replaceStringInString(functionSearchString, Constants.OBJECT_CLASS_UNIT_STANDARD, Constants.OBJECT_CLASS_FUNCTION_STANDARD);
     functionSearchString = Formatter.replaceStringInString(functionSearchString, Constants.LDAP_PROPERTY_UNIT_NAME + "=", Constants.LDAP_PROPERTY_FUNCTION_NAME + "=");
@@ -496,9 +497,11 @@ public class UnitRepository {
     // (&(par3=value3)(par4=value4
     String andCriterias = makeAnd(filterList);
     // ))
+    /* BT 090528 Do not return null, it can be a search for all units
     if (Evaluator.isEmpty(andCriterias)) {
       return null;
     }
+    */
     searchFilter = searchFilter + andCriterias + ")";
     return searchFilter;
   }
@@ -512,7 +515,7 @@ public class UnitRepository {
    * 
    * @throws Exception
    */
-  private void addSearchFilter(List<String> filterList, String searchField, String searchValue) {
+  private void addSearchFilter(List<String> filterList, String searchField, String searchValue) throws Exception {
     if (!Evaluator.isEmpty(searchValue)) {
       searchValue = searchValue.trim();
       if (isExactMatchFilter(searchValue)) {
@@ -535,7 +538,7 @@ public class UnitRepository {
    * 
    * @throws Exception
    */
-  void addAddressSearchFilter(List<String> filterList, String searchField, String searchValue) {
+  void addAddressSearchFilter(List<String> filterList, String searchField, String searchValue) throws Exception {
     if (!Evaluator.isEmpty(searchValue)) {
       searchValue = searchValue.trim();
       if (isExactMatchFilter(searchValue)) {
