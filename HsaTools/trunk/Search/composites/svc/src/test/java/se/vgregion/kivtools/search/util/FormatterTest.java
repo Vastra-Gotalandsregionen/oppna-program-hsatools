@@ -21,6 +21,13 @@ public class FormatterTest {
     assertEquals("Vårdcentral Angered, Göteborg", Formatter.concatenate("Vårdcentral Angered", "Göteborg", ""));
 
     assertEquals("Empty string expected for null List", "", Formatter.concatenate((List) null));
+
+    assertEquals("Empty string expected for null String values", "", Formatter.concatenate("", null));
+    assertEquals("Empty string expected for null String values", "", Formatter.concatenate(null, null));
+    assertEquals("Empty string expected for null String values", "Göteborg", Formatter.concatenate(null, "Göteborg"));
+    assertEquals("Empty string expected for null String values", "Göteborg", Formatter.concatenate("Göteborg", null));
+    assertEquals("Empty string expected for null String values", "Göteborg", Formatter.concatenate("Göteborg", null, null, null));
+
     List<String> list = new ArrayList<String>();
     list.add("Vårdcentral Angered");
     list.add("Angered");

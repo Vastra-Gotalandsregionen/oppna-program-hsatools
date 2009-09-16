@@ -1,6 +1,6 @@
 <!--
 
-    Copyright 2009 Västa Götalandsregionen
+    Copyright 2009 VÃ¤sta GÃ¶talandsregionen
 
       This library is free software; you can redistribute it and/or modify
       it under the terms of version 2.1 of the GNU Lesser General Public
@@ -17,68 +17,80 @@
       Boston, MA 02111-1307  USA
 
 -->
-	    <div class="search-result">
-			<h1>Typer av vård</h1>
-			<br/>			
-	    	<div id="caretype-col1">
-				<h3>Akutmottagning</h3>
-				<p>En mottagning som är öppen dygnet runt och som inte kräver tidbokning, ofta belägen på ett sjukhus.</p>
-				<br/>
-				
-				<h3>Gynekologi</h3>
-				<p>Till en gynmottagning kan man vända sig om man vill göra en rutinmässig gynundersökning, om man har underlivsbesvär eller vill göra en utredning av ofrivillig barnlöshet.</p>
-				<br/>
-				
-				<h3>Mödravårdscentral, MVC</h3>
-				<p>Ger förebyggande hälsovård och stöd under graviditeten och efter förlossningen. Även preventivmedels-rådgivning och gynekologisk cellprovtagning ingår.</p>
-				<br/>
+<div class="search-result">
+    <h1>#{msg.careTypes}</h1>
 
-				<h3>Sjukhus</h3>
-				<p>Här hittar du kontaktvägen till själva sjukhusenheterna. Vården på själva sjukhusen hittar du under Sjukhusmottagningar och Akutmottagningar.</p>
-				<br/>
-
-				<h3>Vårdcentral, VC</h3>
-				<p>Är den första mottagning man ska kontakta vid sjukdom och mindre skador.</p>
-				<br/>
-			</div>
-
-	    	<div id="caretype-col3">
-				<h3>Barn- och ungdomsmedicin</h3>
-				<p>På de barn- och ungdomsmedicinska mottagningarna erbjuds barn och ungdomar medicinsk utredning, behandling och rådgivning.</p>
-				<br/>
-				
-				<h3>Mottagningar på sjukhus</h3>
-				<p>Har specialistkompetens och resurser för att kunna undersöka, behandla och vårda patienter med sjukdomar eller skador som en vanlig läkarmottagning inte kan ta hand om.</p>
-				<br/>
-				
-				<h3>Psykiatri</h3>
-				<p>Inom denna medicinska specialitet diagnostiserar och behandlar man psykiska störningar. Både läkemedel och psykoterapi används i behandlingen.</p>
-				<br/>
-				
-				<h3>Ungdomsmottagning</h3>
-				<p>Är en rådgivningsbyrå för ungdomar. Här kan man även få en gynekologisk undersökning.</p>
-				<br/>
-		    </div>
-
-	    	<div id="caretype-col2">
-				<h3>Barnavårdscentral, BVC</h3>
-				<p>Barnavårdscentralen ingår i barnhälsovården och är till för alla barn mellan 0 och 6 år. Här kan du få råd och stöd i frågor som gäller ditt barns vård, hälsa och utveckling.</p>
-				<br/>
-				
-				<h3>Jourcentral, JC</h3>
-				<p>Hit vänder man sig när vårdcentralen är stängd och man inte kan vänta till nästa dag med sitt besök.</p>
-				<br/>
-				
-				<h3>Privata vårdgivare</h3>
-				<p>Hos de privata vårdgivare med vanlig patientavgift, gäller samma villkor för patientavgifter och regler för högkostnadsskydd som inom den offentliga vården. Vårdgivare utan avtal bestämmer själva vilka patientavgifter som ska tas ut.</p>
-				<br/>
-
-				<h3>Tandvård</h3>
-				<p>Behandlar och förebygger problem med tänder, munhåla, käkleder och tuggmuskler.</p>
-				<br/>
-
-				<h3>Övriga mottagningar</h3>
-				<p>Mottagningar som inte tillhör sjukhusens organisationer.</p>
-				<br/>
-			</div>				
-		</div>
+    <table class="borderless" id="caretypes">
+        <tr>
+            <td>
+                <h2>#{msg.careUnit}</h2>
+                <p>#{msg.careUnitDescription}</p>
+            </td>
+            <td>
+                <h2>#{msg.bvc}</h2>
+                <p>#{msg.bvcDescription}</p>
+            </td>
+            <td>
+                <h2>#{msg.bloodCentral}</h2>
+                <p>#{msg.bloodCentralDescription}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2>#{msg.districtNurse}</h2>
+                <p>#{msg.districtNurseDescription}</p>
+            </td>
+            <td>
+                <h2>#{msg.disability}</h2>
+                <p>#{msg.disabilityDescription}</p>
+            </td>
+            <td>
+                <h2>#{msg.jour}</h2>
+                <p>#{msg.jourDescription}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2>#{msg.birth}</h2>
+                <p>#{msg.birthDescription}</p>
+            </td>
+            <td>
+                <h2>#{msg.patient}</h2>
+                <p>#{msg.patientDescription}</p>
+            </td>
+            <td>
+                <h2>#{msg.psychiatry}</h2>
+                <p>#{msg.psychiatryDescription}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2>#{msg.physiotherapy}</h2>
+                <p>#{msg.physiotherapyDescription}</p>
+            </td>
+            <td>
+                <h2>#{msg.unitsAtHospitals}</h2>
+                <p>#{msg.unitsAtHospitalsDescription}</p>
+            </td>
+            <td>
+                <h2>#{msg.dentalCare}</h2>
+                <p>#{msg.dentalCareDescription}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2>#{msg.youthUnit}</h2>
+                <p>#{msg.youthUnitDescription}</p>
+            </td>
+            <td>
+                <h2>#{msg.careOption}</h2>
+                <p>#{msg.careOptionDescription}</p>
+            </td>
+            <td>
+                <h2>#{msg.miscUnits}</h2>
+                <p>#{msg.miscUnitsDescription}</p>
+            </td>
+            <td />
+        </tr>
+    </table>
+</div>
