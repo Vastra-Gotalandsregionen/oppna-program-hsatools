@@ -17,8 +17,10 @@
       Boston, MA 02111-1307  USA
 
 -->
-<div id="footer-container" xmlns:h="http://java.sun.com/jsf/html">
+<h:outputText xmlns:h="http://java.sun.com/jsf/html" rendered="true">
 	<div class="footerholder">
+		<div id="footbordertopLeft"><p class="footertextmini"> </p></div>
+		<div id="footbordertopRight"><p class="footertextmini"> </p></div>
 		<div id="footerleft">
 			<p class="footertext">${msg.publishedBy}: ${msg.careDesk} &#160;&#160;&#160;&#160;<a href="mailto:vardredaktion@vgregion.se" class="mail-link">vardredaktion@vgregion.se</a></p>
 		</div>
@@ -33,4 +35,4 @@
 			<div class="left"><p class="marginTopFive"><a href="#top" class="url">${msg.toTop}</a> ${msg.infoMaster}: <a href="mailto:vardredaktion@vgregion.se">Margreth Jonson</a>. ${msg.pageIsPartOf} <a href="http://www.vgregion.se/"><strong>www.vgregion.se</strong></a>. <h:outputText escape="false" value=" ${msg.mobileVersion}" /></p></div>
 		</div>
 	</div>
-</div>
+</h:outputText>
