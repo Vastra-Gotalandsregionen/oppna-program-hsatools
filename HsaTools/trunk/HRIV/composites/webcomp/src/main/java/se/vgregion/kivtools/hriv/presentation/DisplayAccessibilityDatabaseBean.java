@@ -26,6 +26,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 import se.vgregion.kivtools.hriv.presentation.forms.AccessibilityDatabaseFilterForm;
+import se.vgregion.kivtools.hriv.util.DocumentHelper;
 import se.vgregion.kivtools.hriv.util.HttpFetcher;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityInformation;
