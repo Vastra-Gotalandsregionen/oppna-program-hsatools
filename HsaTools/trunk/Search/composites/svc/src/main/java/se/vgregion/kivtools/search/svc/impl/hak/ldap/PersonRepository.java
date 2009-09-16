@@ -108,10 +108,10 @@ public class PersonRepository {
   public List<String> getAllPersonsVgrId() throws Exception {
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
-    String searchFilter = "";
+    String searchFilter = "(objectClass=hkatPerson)";
     String[] attributes = new String[1];
     attributes[0] = "regionName";
-    List<String> result = new ArrayList<String>();
+    Map<String, String> result = new HashMap<String, String>();
 
     LDAPConnection lc = getLDAPConnection();
     try {
@@ -122,7 +122,7 @@ public class PersonRepository {
           LDAPEntry nextEntry = searchResults.next();
           LDAPAttribute attribute = nextEntry.getAttribute(attributes[0]);
           if (attribute != null) {
-            result.add(attribute.getStringValue());
+            result.put(attribute.getStringValue(), attribute.getStringValue());
           }
         } catch (LDAPException e) {
           if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
@@ -137,7 +137,7 @@ public class PersonRepository {
       theConnectionPool.freeConnection(lc);
     }
 
-    return result;
+    return new ArrayList<String>(result.keySet());
   }
 
   private Person searchPerson(String searchBase, int searchScope, String searchFilter) throws Exception {
