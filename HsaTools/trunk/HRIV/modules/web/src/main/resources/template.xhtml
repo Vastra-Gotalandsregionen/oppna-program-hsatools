@@ -1,5 +1,5 @@
 <!--
-      Copyright 2009 Västa Götalandsregionen
+      Copyright 2009 Västra Götalandsregionen
 
       This library is free software; you can redistribute it and/or modify
       it under the terms of version 2.1 of the GNU Lesser General Public
@@ -67,7 +67,7 @@
    		<ui:repeat value="${Search_SettingsContainer.scriptPaths}" var="script">
 			<script type="text/javascript" src="${script}" />
 		</ui:repeat>
-		<link rel="Shortcut Icon" type="image/ico" href="resources/images/favicon.ico" />
+		<link rel="Shortcut Icon" type="image/ico" href="${Search_SettingsContainer.favIcon}" />
 	</head>
 	<body onunload="GUnload()" class="yui-skin-sam">
 	
