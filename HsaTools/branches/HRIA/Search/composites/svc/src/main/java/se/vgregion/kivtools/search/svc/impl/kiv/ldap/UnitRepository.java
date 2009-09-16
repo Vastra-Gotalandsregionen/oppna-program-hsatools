@@ -225,7 +225,7 @@ public class UnitRepository {
         }
       }
 
-      if (!found) {
+      if (found) {
         units.remove(units.get(j));
       }
     }

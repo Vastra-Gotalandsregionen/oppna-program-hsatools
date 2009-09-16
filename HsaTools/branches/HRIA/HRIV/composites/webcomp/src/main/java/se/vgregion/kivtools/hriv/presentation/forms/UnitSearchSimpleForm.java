@@ -51,11 +51,11 @@ public class UnitSearchSimpleForm implements Serializable {
   {
     List<HealthcareType> healthcareTypeList = new HealthcareTypeConditionHelper().getAllHealthcareTypes();
     List<SelectItem> htcTempList = new ArrayList<SelectItem>();
-    htcTempList.add(new SelectItem("0", "Alla typer av v\u00E5rd"));
-    for (HealthcareType htc : healthcareTypeList) {
-      String value = htc.getIndex().toString();
-      htcTempList.add(new SelectItem(value, htc.getDisplayName()));
-    }
+    htcTempList.add(new SelectItem("0", "Alla typer av administration"));
+    // for (HealthcareType htc : healthcareTypeList) {
+    // String value = htc.getIndex().toString();
+    // htcTempList.add(new SelectItem(value, htc.getDisplayName()));
+    // }
     healthcareTypeItems = new SelectItem[htcTempList.size()];
     for (int i = 0; i < htcTempList.size(); i++) {
       healthcareTypeItems[i] = htcTempList.get(i);
