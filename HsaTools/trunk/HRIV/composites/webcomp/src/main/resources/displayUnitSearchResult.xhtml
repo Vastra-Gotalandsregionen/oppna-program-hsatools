@@ -203,8 +203,7 @@
 										</h:outputText>
 
 				                        <div class="unit-description">
-											<h:outputText value="${fn:substring(theUnit.concatenatedDescription, 0, 400)}..." rendered="${fn:length(theUnit.concatenatedDescription) gt 400}" />
-											<h:outputText value="${theUnit.concatenatedDescription}" rendered="${fn:length(theUnit.concatenatedDescription) lt 401}" />
+											<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.getTextWithEllipsis(theUnit.concatenatedDescription, 400))}" />
 							               	<h:outputText rendered="${fn:length(theUnit.concatenatedDescription) lt 1 and Search_SettingsContainer.testingMode==true}">
 												<span class="warning">${msg.missingDescription}</span>
 					                        </h:outputText>  

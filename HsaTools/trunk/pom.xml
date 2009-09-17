@@ -225,6 +225,9 @@
     <profiles>
         <profile>
             <id>VGR</id>
+            <activation>
+            	<activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <maven.profilename>VGR</maven.profilename>
             </properties>

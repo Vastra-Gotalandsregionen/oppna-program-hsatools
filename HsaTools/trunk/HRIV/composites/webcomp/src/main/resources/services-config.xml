@@ -112,4 +112,6 @@
 		<property name="accessibilityDatabaseIntegrationGetInfoUrl" value="#{hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetInfoUrl}" />
 		<property name="httpFetcher" ref="Display_HttpFetcher" />
 	</bean>
+	
+	<bean id="presentationHelper" class="se.vgregion.kivtools.hriv.presentation.PresentationHelper" />
 </beans>
