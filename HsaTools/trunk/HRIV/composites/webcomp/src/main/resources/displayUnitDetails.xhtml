@@ -188,12 +188,11 @@
 					<div id="description-body">
 						<h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 0}">
 							<div id="description-body-short">
-								<h:outputText value="${fn:substring(unit.concatenatedDescription, 0, 400)}..." rendered="${fn:length(unit.concatenatedDescription) gt 400}" />
-								<h:outputText value="${unit.concatenatedDescription}" rendered="${fn:length(unit.concatenatedDescription) lt 401}" />
+								<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.getTextWithEllipsis(unit.concatenatedDescription, 400))}" />
 							</div>
 							
 							<div id="description-body-long" style="display: none;">
-								<h:outputText value="${unit.concatenatedDescription}" />
+								<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.concatenatedDescription)}" />
 							</div>
 						</h:outputText>
 
