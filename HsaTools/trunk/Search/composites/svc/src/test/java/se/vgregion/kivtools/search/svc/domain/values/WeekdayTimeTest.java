@@ -17,6 +17,8 @@
  */
 package se.vgregion.kivtools.search.svc.domain.values;
 
+import java.util.ArrayList;
+import java.util.List;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -24,18 +26,48 @@ import org.junit.Test;
 import se.vgregion.kivtools.search.exceptions.InvalidFormatException;
 
 public class WeekdayTimeTest {
-  @Test
-  public void testEqualsWeekdayTime() throws InvalidFormatException {
-    WeekdayTime weekdayTime = new WeekdayTime(1, 1, 1, 1, 1, 1);
 
-    assertFalse(weekdayTime.equals(null));
+    @Test
+    public void testEqualsWeekdayTime() throws InvalidFormatException {
+        WeekdayTime weekdayTime = new WeekdayTime(1, 1, 1, 1, 1, 1);
 
-    assertFalse(weekdayTime.equals(""));
+        assertFalse(weekdayTime.equals(null));
 
-    WeekdayTime other = new WeekdayTime(2, 2, 2, 2, 2, 2);
-    assertFalse(weekdayTime.equals(other));
+        assertFalse(weekdayTime.equals(""));
 
-    other = new WeekdayTime(1, 1, 1, 1, 1, 1);
-    assertTrue(weekdayTime.equals(other));
-  }
+        WeekdayTime other = new WeekdayTime(2, 2, 2, 2, 2, 2);
+        assertFalse(weekdayTime.equals(other));
+
+        other = new WeekdayTime(1, 1, 1, 1, 1, 1);
+        assertTrue(weekdayTime.equals(other));
+    }
+
+    /**
+     * Test of createWeekdayTimeList method, of class WeekdayTime.
+     */
+    @Test
+    public void testCreateWeekdayTimeList() throws InvalidFormatException {
+
+        List<String> saveValues = new ArrayList();
+        saveValues.add("1-5#13:00#16:30");
+        saveValues.add("1-5#08:00#12:00");
+        List<WeekdayTime> expResult = new ArrayList<WeekdayTime>();
+        expResult.add(new WeekdayTime("1-5#08:00#12:00"));
+        expResult.add(new WeekdayTime("1-5#13:00#16:30"));
+
+        // Build a String for expected result
+        StringBuffer exp = new StringBuffer();
+        for (WeekdayTime wdt : expResult) {
+            exp.append(wdt.getDisplayValue());
+        }
+
+        // Build a String for actual result
+        List<WeekdayTime> result = WeekdayTime.createWeekdayTimeList(saveValues);
+        // Build a String for expected result
+        StringBuffer res = new StringBuffer();
+        for (WeekdayTime wdt : result) {
+            res.append(wdt.getDisplayValue());
+        }
+        assertEquals("WeekdayTimes should be sorted on day/time", exp.toString(), res.toString());
+    }
 }
