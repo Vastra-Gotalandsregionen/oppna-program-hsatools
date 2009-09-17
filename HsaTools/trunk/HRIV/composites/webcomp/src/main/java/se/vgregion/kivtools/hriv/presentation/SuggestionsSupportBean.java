@@ -208,21 +208,27 @@ public class SuggestionsSupportBean {
 
     // å
     result = result.replace("\u00E5", "&#229;");
+    result = result.replace("å", "&#229;");
 
     // ä
     result = result.replace("\u00E4", "&#228;");
+    result = result.replace("ä", "&#228;");
 
     // ö
     result = result.replace("\u00F6", "&#246;");
+    result = result.replace("ö", "&#246;");
 
     // Å
     result = result.replace("\u00C5", "&#197;");
+    result = result.replace("Å", "&#197;");
 
     // Ä
     result = result.replace("\u00C4", "&#196;");
+    result = result.replace("Ä", "&#196;");
 
     // Ö
     result = result.replace("\u00D6", "&#214;");
+    result = result.replace("Ö", "&#214;");
 
     return result;
   }
