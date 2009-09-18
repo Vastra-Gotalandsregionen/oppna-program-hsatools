@@ -20,6 +20,7 @@ package se.vgregion.kivtools.hriv.presentation;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -36,6 +37,7 @@ public class DisplayUnitDetailsFacesTest extends FacesTesterBase {
   }
 
   @Test
+  @Ignore
   public void testRender() {
     this.addBean("unit", unit);
     this.addBean("unitSearchSimpleForm", new UnitSearchSimpleForm());
