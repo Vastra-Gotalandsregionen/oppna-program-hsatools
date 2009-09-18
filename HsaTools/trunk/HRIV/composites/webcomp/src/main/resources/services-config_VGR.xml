@@ -62,7 +62,7 @@
 	<bean id="fileUtil" class="se.vgregion.kivtools.hriv.util.FileUtilImpl" />
 	
 	<bean id="rssContentCache" class="se.vgregion.kivtools.hriv.presentation.RssContentCache" init-method="reloadRssCache">
-		<property name="rssUrl" value="http://vardval.vgregion.se" />
+		<property name="rssUrl" value="http://bblfish.net/blog/blog.atom" />
 		<property name="httpFetcher" ref="Display_HttpFetcher" />
 		<property name="fileUtil" ref="fileUtil" />
 	</bean>
