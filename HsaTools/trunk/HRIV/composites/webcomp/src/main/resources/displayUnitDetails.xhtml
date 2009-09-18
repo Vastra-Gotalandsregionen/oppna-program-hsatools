@@ -107,7 +107,7 @@
 								<span class="grey-header">${msg.openingHours}</span>
 							</th>
 							<td class="rightfourcol">
-								<div jsfc="ui:repeat" value="${unit.hsaSurgeryHours}" var="time">${time.displayValue}</div>
+								<div jsfc="ui:repeat" value="${unit.hsaSurgeryHours}" var="time" class="paragraph">${time.displayValue}</div>
 			                 	<h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaSurgeryHours) lt 1}">
 									<span class="warning">hsaSurgeryHours ${msg.missing}</span>
 								</h:outputText>
@@ -116,7 +116,7 @@
 								<span class="grey-header">${msg.dropInHours}</span>
 							</th>
 							<td class="rightfourcol">
-								<div jsfc="ui:repeat" value="${unit.hsaDropInHours}" var="time">${time.displayValue}</div>
+								<div jsfc="ui:repeat" value="${unit.hsaDropInHours}" var="time" class="paragraph">${time.displayValue}</div>
 			                 	<h:outputText rendered="${fn:length(unit.hsaDropInHours) lt 1}">
 									${msg.noDropIn}
 								</h:outputText>
@@ -126,7 +126,7 @@
              				<th class="leftcol" id="managementTextHeaderCell">
 				             	<span class="grey-header">${msg.management}</span>
 				            </th>
-				            <td class="rightfourcol" headers="managementTextHeaderCell">
+				            <td class="rightfourcol paragraph" headers="managementTextHeaderCell">
 				            	${unit.hsaManagementText}
 			                 	<h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaManagementTextIsValid}">
 									<span class="warning">hsaManagementText ${msg.missing}</span>
@@ -136,7 +136,7 @@
 								<th class="leftcol" id="visitingRuleAgeHeaderCell">
 									<span class="grey-header">${msg.visitingRuleAge}</span>
 								</th>
-								<td class="rightfourcol" headers="visitingRuleAgeHeaderCell">
+								<td class="rightfourcol paragraph" headers="visitingRuleAgeHeaderCell">
 									${unit.hsaVisitingRuleAge}
 				                 	<h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaVisitingRuleAgeIsValid}">
 										<span class="warning">hsaVisitingRuleAge ${msg.missing}</span>
@@ -152,7 +152,7 @@
 	             				<th class="leftcol" id="tempInfoHeaderCell">
 					             	<span class="grey-header">${msg.temporary}<br/>${msg.information}</span>
 					            </th>
-					            <td headers="tempInfoHeaderCell" colspan="3">
+					            <td headers="tempInfoHeaderCell" colspan="3" class="paragraph">
 					            	${unit.vgrTempInfoBody}
 									<h:outputText rendered="${unit.vgrRefInfo != ''}">
 					            	<br/>${msg.referral}: ${unit.vgrRefInfo}
@@ -165,7 +165,7 @@
 	             				<th class="leftcol" id="visitingRulesHeaderCell">
 					             	<span class="grey-header">${msg.visitingRules}</span>
 					            </th>
-					            <td  class="righttwocol" headers="visitingRulesHeaderCell" colspan="3">
+					            <td class="righttwocol paragraph" headers="visitingRulesHeaderCell" colspan="3">
 					            	${unit.hsaVisitingRules}
 				                 	<h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaVisitingRulesIsValid}">
 										<span class="warning">hsaVisitingRules ${msg.missing}</span>
@@ -187,11 +187,11 @@
 	
 					<div id="description-body">
 						<h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 0}">
-							<div id="description-body-short">
+							<div id="description-body-short" class="paragraph">
 								<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.getTextWithEllipsis(unit.concatenatedDescription, 400))}" />
 							</div>
 							
-							<div id="description-body-long" style="display: none;">
+							<div id="description-body-long" style="display: none;" class="paragraph">
 								<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.concatenatedDescription)}" />
 							</div>
 						</h:outputText>
@@ -223,7 +223,7 @@
 									<span class="grey-header">${msg.telNo}</span>
 								</th>
 								<td class="centerthreecol" headers="telNumberHeaderCell">
-									<div jsfc="ui:repeat" value="${unit.hsaPublicTelephoneNumber}" var="number" class="tel">
+									<div jsfc="ui:repeat" value="${unit.hsaPublicTelephoneNumber}" var="number" class="tel paragraph">
 										<span class="bold">${number.formattedPhoneNumber}</span>
 									</div>
 				                 	<h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaPublicTelephoneNumber) lt 1}">
@@ -246,7 +246,7 @@
 									<span class="grey-header">${msg.telTime}</span>
 								</th>
 								<td class="righttwocol" headers="telTimeHeaderCell">
-									<div jsfc="ui:repeat" value="${unit.hsaTelephoneTime}" var="time">${time.displayValue}</div>
+									<div jsfc="ui:repeat" value="${unit.hsaTelephoneTime}" var="time" class="paragraph">${time.displayValue}</div>
 				                 	<h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaTelephoneTime) lt 1}">
 										<span class="warning">hsaTelephoneTime ${msg.missing}</span>
 									</h:outputText>
@@ -273,7 +273,7 @@
 								<th class="leftcol" id="adressHeaderCell">
 									<span class="grey-header">${msg.address}</span>
 								</th>
-								<td id="address-borderless-address">
+								<td id="address-borderless-address" class="paragraph">
 									<div class="adr">
 						     			<span class="street-address">${unit.hsaStreetAddress.street}</span>
 						     			<span class="postal-code">${unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
@@ -294,7 +294,7 @@
 								<th class="leftcol">
 									<span class="grey-header">${msg.routeDescription}</span>
 								</th>
-								<td class="directions-right-col">
+								<td class="directions-right-col paragraph">
 									<h:outputText value="${unit.hsaRouteConcatenated}" />
 				                 	<h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaRouteConcatenated) lt 1}">
 										<span class="warning">hsaRoute ${msg.missing}</span>
@@ -305,7 +305,7 @@
 								<th class="leftcol">
 									<span class="grey-header">${msg.coordinates}</span>
 								</th>
-								<td class="directions-right-col">
+								<td class="directions-right-col paragraph">
 						           	<h:outputText rendered="${unit.wgs84Lat!=0.0}">
 						     			<div class="geo">
 						     				${msg.latitude}: <abbr class="latitude" id="abbr-latitude">
@@ -338,7 +338,7 @@
 							</tr>							
 							<tr class="directions-row">
 								<th id="directionsFromCellHeader"></th>
-								<td id="directionsFromCellBody"></td>
+								<td id="directionsFromCellBody" class="paragraph"></td>
 							</tr>
 							<tr class="directions-row">
 								<th id="directionsToCellHeader"></th>

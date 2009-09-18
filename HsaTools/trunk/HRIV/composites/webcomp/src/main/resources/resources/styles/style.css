@@ -276,6 +276,7 @@
 
 #search-result-caption-text h2 {
 	font-size: 1em;
+	color: #666;
 }
 
 #search-result-caption-sort {
@@ -310,7 +311,7 @@ h3.fn {
 }
 
 .hits-header {
-	color: #000;
+	color: #666;
 	font-size: 1.1em;
 	padding-bottom: 0em;
 	font-weight: bold;
@@ -329,6 +330,12 @@ h3.person {
 	width: 1.5em;
 	float: left;
 	padding-top: 0.5em;
+}
+
+.vcard .paragraph {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 0.92em;
+	color: #222;
 }
 
 .vcard div.single-row {
@@ -350,6 +357,9 @@ h3.person {
 }
 
 .vcard .unit-description {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 0.9em;
+	color: #222;
 	float: left;
 	padding-top: 0.5em;
 	padding-right: 1em;
@@ -374,11 +384,14 @@ h3.person {
 }
 
 .vcard a {
-	color: #333;
+	color: #222;
+	font-size: 0.92em;
 }
 
 .vcard .given-name a {
 	text-decoration: underline;
+	color: #666;
+	font-size: 1em;
 }
 
 .vcard td.tel .type,.vcard .tel .type,.adr-container .type {
@@ -443,20 +456,21 @@ table.Employment,table.Employment th,table.Employment td {
 /* Details page */
 .unit-details-header {
 	margin-top: 1em;
-	/*background-color: #dee9d4;*/
-	background-color: #F3F1F2;
+	/*background-color: #dee9d4;
+	background-color: #F3F1F2;*/
 	font-size: 1.2em;
 	clear: both;
 }
 
 .unit-details-header h2,.unit-details-header h3 {
 	margin-left: 0.2em;
-	font-size: 1.2em;
+	font-size: 1.1em;
+	color: #666;
 }
 
 .grey-header {
-	color: #444;
-	font-size: 1.2em;
+	color: #333;
+	font-size: 1.05em;
 	font-weight: bold;
 }
 
@@ -615,7 +629,8 @@ th.leftcol,.rightcol { /*margin-bottom: 0.5em;*/
 }
 
 .summary h1 {
-	font-size: 1.8em;
+	font-size: 2em;
+	color: #333;
 }
 
 .summary .location {
@@ -998,6 +1013,7 @@ div.autocomplete {
 
 #map-right-of-address-div {
 	float: right;
+	border: 1px solid #ccc;
 }
 
 #startpage-intro {
