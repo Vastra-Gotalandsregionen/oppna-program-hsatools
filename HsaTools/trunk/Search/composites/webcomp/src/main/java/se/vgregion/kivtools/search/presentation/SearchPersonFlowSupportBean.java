@@ -145,7 +145,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
     } catch (KivNoDataFoundException e) {
       throw e;
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.error(e);
       return new SikSearchResultList<Person>();
     }
   }
@@ -196,7 +196,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
       if (e instanceof KivNoDataFoundException) {
         throw (KivNoDataFoundException) e;
       }
-      e.printStackTrace();
+      LOGGER.error(e);
       return new SikSearchResultList<Person>();
     }
   }
@@ -215,7 +215,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
       if (e instanceof KivNoDataFoundException) {
         throw (KivNoDataFoundException) e;
       }
-      e.printStackTrace();
+      LOGGER.error(e);
       return new ArrayList<String>();
     }
   }
@@ -270,7 +270,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
       if (e instanceof KivNoDataFoundException) {
         throw (KivNoDataFoundException) e;
       }
-      e.printStackTrace();
+      LOGGER.error(e);
       result = new ArrayList<PagedSearchMetaData>();
     }
     return result;
@@ -291,7 +291,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
       subUnits.add(parentUnit);
       persons = getSearchService().getPersonsForUnits(subUnits, maxSearchResult);
     } catch (Exception e) {
-      e.printStackTrace();
+      LOGGER.error(e);
     }
     return persons;
   }
