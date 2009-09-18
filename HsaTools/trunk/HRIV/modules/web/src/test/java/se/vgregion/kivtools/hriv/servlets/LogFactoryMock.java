@@ -15,7 +15,7 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-package se.vgregion.kivtools.hriv.presentation;
+package se.vgregion.kivtools.hriv.servlets;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogConfigurationException;
@@ -25,7 +25,7 @@ public class LogFactoryMock extends LogFactory {
   private Log log;
   
   public static LogFactoryMock createInstance(){
-    System.setProperty("org.apache.commons.logging.LogFactory", "se.vgregion.kivtools.hriv.presentation.LogFactoryMock");
+    System.setProperty("org.apache.commons.logging.LogFactory", "se.vgregion.kivtools.hriv.servlets.LogFactoryMock");
     LogFactory.releaseAll();
     return (LogFactoryMock) LogFactory.getFactory();
   }

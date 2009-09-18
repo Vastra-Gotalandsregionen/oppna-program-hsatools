@@ -231,19 +231,17 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<description>
-		</description>
-		<display-name>Sitemap</display-name>
-		<servlet-name>Sitemap</servlet-name>
-		<servlet-class>se.vgregion.kivtools.hriv.servlets.Sitemap</servlet-class>
+		<display-name>Logout</display-name>
+		<servlet-name>Logout</servlet-name>
+		<servlet-class>se.vgregion.kivtools.hriv.servlets.Logout</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>sitemap</servlet-name>
 		<url-pattern>/sitemap</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>Sitemap</servlet-name>
-		<url-pattern>/Sitemap</url-pattern>
+		<servlet-name>Logout</servlet-name>
+		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
 	
 	<error-page>
