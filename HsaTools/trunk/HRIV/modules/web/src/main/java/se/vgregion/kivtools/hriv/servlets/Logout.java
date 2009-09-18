@@ -2,8 +2,6 @@ package se.vgregion.kivtools.hriv.servlets;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +21,6 @@ public class Logout extends HttpServlet {
    */
   public Logout() {
     super();
-    // TODO Auto-generated constructor stub
   }
 
   /**
@@ -40,14 +37,10 @@ public class Logout extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) {
     request.getSession().invalidate();
-    RequestDispatcher requestDispatcher = request.getRequestDispatcher("startpage.jsp?startpage=1");
     try {
-      requestDispatcher.forward(request, response);
-    } catch (ServletException e) {
-      LOG.error(e);
+      response.sendRedirect("startpage.jsp?startpage=1");
     } catch (IOException e) {
       LOG.error(e);
     }
   }
-
 }
