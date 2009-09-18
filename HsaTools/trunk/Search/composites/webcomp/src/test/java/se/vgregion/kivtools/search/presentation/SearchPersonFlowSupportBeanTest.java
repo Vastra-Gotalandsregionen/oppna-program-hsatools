@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
@@ -15,6 +17,8 @@ import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.util.LogFactoryMock;
+import se.vgregion.kivtools.search.util.LogMock;
 
 public class SearchPersonFlowSupportBeanTest {
   private static final String PERSON_SEARCH_TYPE_VGRID = "vgrid_selected";
@@ -24,7 +28,16 @@ public class SearchPersonFlowSupportBeanTest {
   private SearchPersonFlowSupportBean bean;
   private PersonSearchSimpleForm form;
   private SearchServiceMock searchService;
+  private static LogFactoryMock logFactoryMock;
+  private static Log log;
 
+  @BeforeClass
+  public static void setLogger(){
+    logFactoryMock = LogFactoryMock.createInstance();
+    log = new LogMock();
+    logFactoryMock.setLog(log);
+  }
+  
   @Before
   public void setUp() throws Exception {
     bean = new SearchPersonFlowSupportBean();
