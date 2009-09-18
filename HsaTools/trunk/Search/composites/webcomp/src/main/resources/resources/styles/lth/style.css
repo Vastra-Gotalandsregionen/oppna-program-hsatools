@@ -34,12 +34,15 @@
 #header-input-field-container {
 	clear:both;
 	padding:3px 6px;
+	height:52px;
 	background:#fff;
 	border-left:1px solid #dce2ea;
 	border-right:1px solid #dce2ea;
 }
 #header-input-field-container span {display:block;}
 #header-input-field-container div {text-align:left;}
+
+table {font-size:1em;}
 
 /*
 =Forms
@@ -49,6 +52,9 @@
 	width:240px;
 	margin-right:10px;
 }
+/* Fix margin for IE6 */
+* html .search-form .text {margin:0;}
+
 .search-form .textname {
 	float:left;
 	width:205px;
@@ -102,7 +108,7 @@
 }
 .tab-container a:hover,
 .tab-container a:focus,
-.tab-container a:active {background-color:#eee;}
+.tab-container a:active {text-decoration:underline;}
 .tab-container .active:link,
 .tab-container .active:visited {
 	background:#1751a9 url(../../images/lth/tab.gif) repeat-x;
