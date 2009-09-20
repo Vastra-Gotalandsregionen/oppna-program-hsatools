@@ -1220,6 +1220,14 @@ public class Unit implements Serializable, Comparable<Unit> {
     return hsaBusinessClassificationCode;
   }
 
+  /**
+   * Overloaded to support LTH
+   * @return business classification code
+   */
+  public List<String> getBusinessClassificationCode() {
+    return hsaBusinessClassificationCode;
+  }
+
   public void setHsaBusinessClassificationCode(List<String> hsaBusinessClassificationCode) {
     this.hsaBusinessClassificationCode = hsaBusinessClassificationCode;
   }
