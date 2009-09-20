@@ -520,7 +520,7 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
         String dayString;
         switch (day) {
             case 1:
-                dayString = "Måndag";
+                dayString = "M\u00E5ndag";
                 break;
             case 2:
                 dayString = "Tisdag";
@@ -535,13 +535,13 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
                 dayString = "Fredag";
                 break;
             case 6:
-                dayString = "Lördag";
+                dayString = "L\u00F6rdag";
                 break;
             case 7:
-                dayString = "Söndag";
+                dayString = "S\u00F6ndag";
                 break;
             case 0:
-                dayString = "Söndag";
+                dayString = "S\u00F6ndag";
                 break;
             default:
                 dayString = "";

@@ -22,14 +22,14 @@
 }
 
 .yui-skin-sam .yui-ac-input {
-	position: absolute;
+	position:static !important;
 	width: 100%;
 }
 
 .yui-skin-sam .yui-ac-container {
 	position: absolute;
-	top: 1.6em;
 	width: 100%;
+	left:0;
 }
 
 .yui-skin-sam .yui-ac-content {

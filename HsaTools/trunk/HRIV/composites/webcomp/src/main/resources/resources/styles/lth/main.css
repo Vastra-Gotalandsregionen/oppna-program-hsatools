@@ -1,26 +1,9 @@
-/**
- * Copyright 2009 Västa Götalandsregionen
- *
- *   This library is free software; you can redistribute it and/or modify
- *   it under the terms of version 2.1 of the GNU Lesser General Public
- *   License as published by the Free Software Foundation.
- *
- *   This library is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU Lesser General Public License for more details.
- *
- *   You should have received a copy of the GNU Lesser General Public
- *   License along with this library; if not, write to the
- *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
- *   Boston, MA 02111-1307  USA
- */
 /*@import "jqModal.css";	/* Replace this with YUI later on */
 
 /*
 main.css: The global stylesheet, used for screen and projection media types
 
-Icons by Mark James (http://www.famfamfam.com/lab/icons/silk/) distributed under a CC license (http://creativecommons.org/licenses/by/2.5/) 
+Icons by Mark James (http://www.famfamfam.com/lab/icons/silk/) distributed under a CC license (http://creativecommons.org/licenses/by/2.5/)
 
 */
 
@@ -131,7 +114,7 @@ caption.structural {
 	margin:6px 18px 18px;
 	padding:0;
 	background:#fff;
-
+	clear:both;
 }
 
 /* Added for integration with vard.vgregion.se */
@@ -144,7 +127,7 @@ body {
 }
 /*p
 {
-	margin-bottom:0.2em; 
+	margin-bottom:0.2em;
 	line-height:1.5em;
 	margin-top:0em;
 }*/
@@ -203,13 +186,13 @@ ol li a
 	list-style-type:none;
 }
 /* #centercontent a{
-	
+
 	display:inline;
 	font:1.1em  Helvetica, sans-serif;
 	line-height:1.5em;
-	color:#225ec6; 
+	color:#225ec6;
 	background:url(../VGRImages/arrow-green.gif) left top;
-	background-repeat:no-repeat; 
+	background-repeat:no-repeat;
 	padding: 0 0 0 0.7em;
 }*/
 
@@ -248,13 +231,13 @@ a:hover{
 {
 	display:none;
 }
-.paddingFemPx { 
+.paddingFemPx {
 	padding-left:0.5em;
 }
-.paddingTioPx { 
+.paddingTioPx {
 	padding-left:1em;
 }
-.noMarginBottom { 
+.noMarginBottom {
 	margin-bottom:0;
 }
 .noMarginTop {
@@ -294,7 +277,7 @@ display:inline;
 .boxrub {
 	margin: 0.8em 0em 0.5em 1em;
 	padding:0;/**/
-	font: normal 1.8em Arial, Helvetica, sans-serif; 
+	font: normal 1.8em Arial, Helvetica, sans-serif;
 	color:#225ec6;
 }
 
@@ -325,7 +308,7 @@ display:inline;
 	background-color:#deedf7;
 }
 
-/* * html #wrapper {  /* For IE6 */ 
+/* * html #wrapper {  /* For IE6 */
 	/*width:100.6em;
 	padding:0 0.4em 0 0.2em;
 	margin: 0 auto;
@@ -349,7 +332,7 @@ display:inline;
 	height:8.8em;
 	width:94.2em;
 }
-#header h1 {	
+#header h1 {
 	display:none;
 	font-size:0.1em;
 }
@@ -373,13 +356,13 @@ div.headimageholder img {
 }
 
 #menucontainer ul {
-	list-style-type: none;	
+	list-style-type: none;
 	padding: 0;
 	margin:0;
 	clear: both;
 }
 #menucontainer ul li {
-	float: left;	
+	float: left;
 }
 #menucontainer ul li a.first {
 	border-left: none;
@@ -417,7 +400,7 @@ div.headimageholder img {
 	background-color:#fff;
 	float:left;
 }
-/** html div#box1 {  IE Hack  
+/** html div#box1 {  IE Hack
 	width:14.2em;
 	wid\th:14.2em;
 }*/
@@ -450,11 +433,6 @@ div.headimageholder img {
 	background-color:#fff;
 	width:24.6em;
 }
-.boxinside {
-	border:solid 0.2em #fff; 
-	width:24.4em;
-}
-
 .banner {
  width:auto;
  }
@@ -462,10 +440,20 @@ html>/**/body .banner {
  width:100%;
  }
 
+#main-column {
+	float:right;
+	width:53.5em;
+}
+
 
 							/* -----  LEFT BOXES ------ */
 
-				
+
+#search-column {
+	float:left;
+	width:18em;
+}
+
 #boxleftholder {
 	float: left;
 	margin-bottom: -1500em;       /******** Ändrat 080110 *********/
@@ -477,9 +465,9 @@ html>/**/body .banner {
 
 html[xmlns*=""] body:last-child #boxleftholder {  /* Hack för SAFARI */
 
-	display: table;			
-	
-} 
+	display: table;
+
+}
 
 
 #boxleft {
@@ -487,9 +475,9 @@ html[xmlns*=""] body:last-child #boxleftholder {  /* Hack för SAFARI */
 	border: 0.2em solid #fff;
 	width: 24.6em;
 }
-				
+
 #boxleft1 {
-	background-color:#deedf7; 
+	background-color:#deedf7;
 	float: left;
 	width: 24.8em;
 	margin-bottom:0.2em;
@@ -498,15 +486,15 @@ html[xmlns*=""] body:last-child #boxleftholder {  /* Hack för SAFARI */
 
 #boxleft2 {
 	float: left;
-	background-color:#deedf7; 
+	background-color:#deedf7;
 	width: 24.8em;
 	margin-bottom:0.2em;
-	border: 0.1em solid #91adb4;	
+	border: 0.1em solid #91adb4;
 }
 
 #boxleft3 {
 	float: left;
-	background-color:#deedf7; 
+	background-color:#deedf7;
 	margin-bottom: -1500em;       /******** Ändrat 080110 *********/
 	padding-bottom: 1500em;      /******** Ändrat 080110 *********/
 	width: 24.8em;
@@ -515,7 +503,7 @@ html[xmlns*=""] body:last-child #boxleftholder {  /* Hack för SAFARI */
 }
 #boxleft3inside {
 	float: left;
-	background-color:#deedf7; 
+	background-color:#deedf7;
 	margin-bottom: -1500em;       /******** Ändrat 080110 *********/
 	padding-bottom: 1500em;      /******** Ändrat 080110 *********/
 	width: 24.4em;
@@ -534,11 +522,11 @@ html[xmlns*=""] body:last-child #boxleftholder {  /* Hack för SAFARI */
 	margin-bottom: -1500em;       /******** Ändrat 080110 *********/
 	padding-bottom: 1500em;      /******** Ändrat 080110 *********/
 	width: 25em;
-	display: block;	
+	display: block;
 }
 
 #boxright1 {
-	background-color:#deedf7; 
+	background-color:#deedf7;
 	float: left;
 	width: 24.8em;
 	margin-bottom:0.2em;
@@ -546,25 +534,25 @@ html[xmlns*=""] body:last-child #boxleftholder {  /* Hack för SAFARI */
 }
 #boxright2 {
 	float: left;
-	background-color:#deedf7; 
+	background-color:#deedf7;
 	width: 24.8em;
 	margin-bottom:0.2em;
-	border: 0.1em solid #91adb4;	
+	border: 0.1em solid #91adb4;
 }
 #boxright3 {
 	float: left;
-	background-color:#deedf7; 
+	background-color:#deedf7;
 	width: 24.8em;
 	margin-bottom:0.2em;
-	border: 0.1em solid #91adb4;	
+	border: 0.1em solid #91adb4;
 }
 
 #boxrightFeatures {				/* NY BOX 080609: BOX FÖR HANDIKAPPSTILLÄGG */
 	float: left;
-	background-color:#deedf7; 
+	background-color:#deedf7;
 	width: 24.8em;
 	margin-bottom:0.2em;
-	border: 0.1em solid #91adb4;	
+	border: 0.1em solid #91adb4;
 }
 
 #boxrightFeatures .boxinside p {
@@ -580,7 +568,7 @@ html[xmlns*=""] body:last-child #boxleftholder {  /* Hack för SAFARI */
 
 #boxright4 {
 	float: left;
-	background-color:#deedf7; 
+	background-color:#deedf7;
 	margin-bottom: -1500em;       /******** Ändrat 080110 *********/
 	padding-bottom: 1500em;      /******** Ändrat 080110 *********/
 	width: 24.8em;
@@ -592,12 +580,12 @@ html[xmlns*=""] body:last-child #boxleftholder {  /* Hack för SAFARI */
 }
 
 #boxright3 h2,               /******** Ändrat 20071112  *********/
-#boxright1 h2, 
+#boxright1 h2,
 #boxright2 h2,
-#boxright4 h2,                
-#boxinside h2, 
-#boxleft3 h2, 
-#boxleft2 h2, 
+#boxright4 h2,
+#boxinside h2,
+#boxleft3 h2,
+#boxleft2 h2,
 #boxleft1 h2   {
     padding-left: 1em;
 	padding-right:0.7em;
@@ -627,11 +615,11 @@ html[xmlns*=""] body:last-child #boxleftholder {  /* Hack för SAFARI */
 */
 #boxright4inside {
 	float: left;
-	background-color:#deedf7; 
+	background-color:#deedf7;
 	margin-bottom: -1500em;       /******** Ändrat 080110 *********/
 	padding-bottom: 1500em;      /******** Ändrat 080110 *********/
 	padding-top:0em;
-	width: 24.4em;	
+	width: 24.4em;
 	border-left: 0.2em solid #fff;
 	border-right: 0.2em solid #fff;
 	border-top: 0.2em solid #fff;
@@ -663,7 +651,7 @@ html[xmlns*=""] body:last-child #boxleftholder {  /* Hack för SAFARI */
 	padding-bottom: 1500em;      /******** Ändrat 080110 *********/
 }
 				/* --------------  LEFT BOXES CONTENT ---------------- */
-				
+
 .phoneimageholder {
 
 }
@@ -684,9 +672,9 @@ div.phoneimageholder img {
 .tematextrub {
 	margin:0 0 0 0;
 	font: bold 1.0em  Helvetica, sans-serif;
-	color:#3e3e3e; 
+	color:#3e3e3e;
 	background:url(../VGRImages/arrow-green.gif) left top;
-	background-repeat:no-repeat; 
+	background-repeat:no-repeat;
 	padding: 0 0 0.5em 0.7em;
 }
 .tematext {
@@ -726,11 +714,11 @@ div.phoneimageholder img {
 	text-decoration: underline;
 }
 #boxmiddle {
-	background-color:#fff; 
+	background-color:#fff;
 	float: left;
 	/*padding-bottom: 2000em;   Ändrat 080110
 	margin-bottom: -2000em;*/
-	width: 43em; 
+	width: 43em;
 }
 .boxmiddleWideTop {
 	float:left;
@@ -761,7 +749,7 @@ div.phoneimageholder img {
 	color:#000;
 	padding-left:0;
 	margin-bottom:1em;
-	padding-bottom:0.5em;	
+	padding-bottom:0.5em;
 	border-bottom: dotted 0.1em #ccc;
 }
 .common-news-field a{
@@ -773,7 +761,7 @@ div.phoneimageholder img {
 }
 .newsrub {
 	font: bold 1.0em  Helvetica, sans-serif;
-	color:#3e3e3e; 
+	color:#3e3e3e;
 	/*background:url(../VGRImages/arrow-green.gif) left center no-repeat;*/
 	padding: 0 0 0 0;
 	margin-top:0;
@@ -835,9 +823,9 @@ div.imageholder img {
 .searchtext {
 	margin:0 0 0 2em;
 	font: bold 1.0em  Helvetica, sans-serif;
-	color:#3e3e3e; 
+	color:#3e3e3e;
 	/*background:url(../VGRImages/arrow-green.gif) left top;
-	background-repeat:no-repeat; 
+	background-repeat:no-repeat;
 	padding: 0 0 0 0.7em;*/
 	margin-bottom:0;
 	padding-bottom:0;
@@ -854,7 +842,7 @@ div.imageholder img {
 				/* --------------      FOOTER       -------------------*/
 				/* --------------                   -------------------*/
 
-/** html #wrapFooter {  /* For IE6 */ 
+/** html #wrapFooter {  /* For IE6 */
 	/*width:94.3em;
 }
 *:first-child+html #wrapFooter
@@ -862,7 +850,7 @@ div.imageholder img {
 	/* for IE7 */
 /*	width:94.1em;
 }*/
-	
+
 .footerholder {
 	clear: both;
 	display:block;
@@ -873,10 +861,10 @@ div.imageholder img {
 }
 
 #upper-footerholder a {
-	color: #fff;	
+	color: #fff;
 }
 #bottom-footerholder a {
-	color: #000;	
+	color: #000;
 }
 
 #footerleft {
@@ -957,7 +945,7 @@ div.imageholder img {
 .mail-link {
 	color:#fff;
 }
-.bottomLogo { 
+.bottomLogo {
 	margin-right:1.5em;
 }
 
@@ -1003,32 +991,32 @@ div.imageholder img {
 	display:block;
 	font:1.1em  Helvetica, sans-serif;
 	/*line-height:1.5em;*/
-	color:#225ec6; 
+	color:#225ec6;
 	background:url(../VGRImages/arrow-green.gif) left top;
-	background-repeat:no-repeat; 
+	background-repeat:no-repeat;
 	padding: 0 0 0 0.7em;
 	margin-bottom:0.6em;
 }
 .arrowLinkGreen a{
-	color:#225ec6; 
+	color:#225ec6;
 }
 /*
 .vardmottagningar {
-	float:left; 
+	float:left;
 	width:17.3em;
 }
 
 .besoksadress {
-	float:left; 
+	float:left;
 	width:13.2em;
 }
 
 .telefonnummer {
-	float:left; 
+	float:left;
 	width:9em;
 }
 .resultHolder {
-	border-bottom: dotted .1em #bed8bb; 
+	border-bottom: dotted .1em #bed8bb;
 	float:left;
 	width:98%;
 }
@@ -1150,7 +1138,7 @@ background:url(../VGRImages/pollen-bg.gif) top right no-repeat;
 {
 	color:#448150;
 	font: bold 1.2em Arial, Helvetica, sans-serif;
-	
+
 }
 
 #centercontent ul {
@@ -1231,13 +1219,13 @@ background:url(../VGRImages/pollen-bg.gif) top right no-repeat;
 
 .SearchResultHeader
 {
-	 padding-bottom: 10px; 
+	 padding-bottom: 10px;
 	 padding-top: 10px;
 }
 
 .SearchResultLeftColumn
 {
-	width: 10%;	
+	width: 10%;
 	float:left;
 }
 .SearchResultRightColumn
@@ -1250,4 +1238,3 @@ background:url(../VGRImages/pollen-bg.gif) top right no-repeat;
 {
 	display:none;
 }
-
