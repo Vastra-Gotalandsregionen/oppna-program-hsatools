@@ -157,7 +157,7 @@
                                         </td>
                                     </tr>
                                 </h:outputText>
-								<h:outputText rendered="${unit.vgrRefInfo != ''}">
+								<h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true and unit.vgrRefInfo != ''}">
                                 	<tr>
                                 		<th class="leftcol" id="refInfoHeaderCell">
                                 			<span class="grey-header">${msg.referral}</span>
