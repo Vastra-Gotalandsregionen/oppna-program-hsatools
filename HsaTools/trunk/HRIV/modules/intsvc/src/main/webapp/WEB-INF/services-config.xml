@@ -18,7 +18,7 @@
 
 	<bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
 		<property name="contextPath"
-			value="se.vgregion.kivtools.search.intsvc.ws.domain.sahlgrenska" />
+			value="se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska" />
 	</bean>
 
 	<bean
@@ -70,7 +70,7 @@
 	<bean id="Push_Eniro"
 		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro" init-method="initLoadLastExistingUnitsInRepository">
 		<property name="ftpClient" ref="Transfer_ftp" />
-		<property name="unitRepository" ref="Search_UnitRepository" />
+		<property name="ldapTemplate" ref="ldapTemplate2" />
 		<property name="lastExistingUnitsFile" value="/tmp/leuf.txt" />
 		<property name="codeTablesService" ref="Search_CodeTablesService" />
 	</bean>
@@ -99,5 +99,17 @@
 				<ref bean="simpleTriggerUnitDetailsPusher" />
 			</list>
 		</property>
+	</bean>
+	
+	<!-- Spring ldap -->
+	<bean id="contextSource2" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://kivldap01.vgregion.se:389" />
+		<property name="base" value="ou=Org,o=vgr" />
+		<property name="userDn" value="cn=sokso1,ou=Resurs,o=VGR" />
+		<property name="password" value="6wuz8zab" />
+		<property name="pooled" value="true" />
+	</bean>
+	<bean id="ldapTemplate2" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSource2" />
 	</bean>
 </beans>

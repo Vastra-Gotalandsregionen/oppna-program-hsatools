@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StringWriter;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -15,8 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.prefs.Preferences;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -25,25 +22,14 @@ import javax.xml.bind.Marshaller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.ldap.filter.EqualsFilter;
+import org.springframework.ldap.filter.OrFilter;
 
-import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
-import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Description;
-import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.EAliasType;
+import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.EniroUnitMapper;
+import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Organization;
-import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneType;
-import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.AddressType.GeoCoordinates;
-import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
-import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.Locality;
-import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.Management;
-import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.VisitingConditions;
-import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
-import se.vgregion.kivtools.search.svc.domain.values.DN;
-import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
-import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 
 import com.domainlanguage.time.TimePoint;
 
@@ -57,32 +43,60 @@ public class InformationPusherEniro implements InformationPusher {
   private static final String LAST_SYNCHED_MODIFY_DATE_PROPERTY = "LastSynchedModifyDate";
   private static final String LAST_EXISTING_UNITS_FILE_NAME = "leuf.serialized";
   private Log logger = LogFactory.getLog(this.getClass());
-  private UnitRepository unitRepository;
   private String organizationCountry = "Sweden";
   private String organizationName = "VGR";
   private String organizationId = "vgr";
-  private Map<String, DN> lastExistingUnits;
+  private Map<String, String> lastExistingUnits;
   private File lastExistingUnitsFile;
-  private List<Unit> units;
+  private List<UnitComposition> units;
   private FtpClient ftpClient;
-  private CodeTablesService codeTablesService;
+  private LdapTemplate ldapTemplate;
+  private String parentDn;
+
+  /**
+   * Constants for Eniro operation.
+   * 
+   * @author David Bennehult & Joakim Olsson
+   * 
+   */
+  private enum Operation {
+    CREATE("create"), MOVE("move"), REMOVE("remove"), UPDATE("update");
+    private String value;
+
+    Operation(String value) {
+      this.value = value;
+    }
+  }
+  
+  /**
+   * 
+   * @author david
+   *
+   */
+  private enum  LOAD_TYPE {
+    FULL("Full"), INCREMENT("Increment");
+    private String value;
+    private LOAD_TYPE(String value) {
+      this.value = value;
+    }
+  }
+
+  @Required
+  public void setParentDn(String parentDn) {
+    this.parentDn = parentDn;
+  }
 
   @Required
   public void setFtpClient(FtpClient ftpClient) {
     this.ftpClient = ftpClient;
   }
 
-  @Required
-  public void setCodeTablesService(CodeTablesService codeTablesService) {
-    this.codeTablesService = codeTablesService;
-  }
-
   public void setLastExistingUnitsFile(File lastExistingUnitsFile) {
     this.lastExistingUnitsFile = lastExistingUnitsFile;
   }
 
-  public void setUnitRepository(UnitRepository unitRepository) {
-    this.unitRepository = unitRepository;
+  public void setLdapTemplate(LdapTemplate ldapTemplate) {
+    this.ldapTemplate = ldapTemplate;
   }
 
   /**
@@ -91,18 +105,14 @@ public class InformationPusherEniro implements InformationPusher {
    * @return
    * @throws Exception
    */
-  private List<Unit> collectUnits() {
-    List<Unit> modifiedUnits = null;
-    try {
-      units = unitRepository.getAllUnits();
-      // Get units that has been created or modified
-      modifiedUnits = getCreatedMovedOrRemovedUnits(units, getLastSynchDate());
-      // Get units that has been removed
-      List<Unit> removedUnits = getRemovedUnits(units);
-      modifiedUnits.addAll(removedUnits);
-    } catch (Exception e) {
-      modifiedUnits = new ArrayList<Unit>();
-    }
+  private List<UnitComposition> collectUnits() {
+    List<UnitComposition> modifiedUnits = null;
+    units = getUnitsFromLdap();
+    // Get units that has been created or modified
+    modifiedUnits = getCreatedMovedOrRemovedUnits(units, getLastSynchDate());
+    // Get units that has been removed
+    List<UnitComposition> removedUnits = getRemovedUnits(units);
+    modifiedUnits.addAll(removedUnits);
     return modifiedUnits;
   }
 
@@ -123,29 +133,29 @@ public class InformationPusherEniro implements InformationPusher {
    * @param lastSynchDate The date of the last synchronization.
    * @return A list of units which have been created/modified since the specified date.
    */
-  private List<Unit> getCreatedMovedOrRemovedUnits(List<Unit> unitList, Date lastSynchDate) {
-    List<Unit> createdAndMovedUnits = new ArrayList<Unit>();
+  private List<UnitComposition> getCreatedMovedOrRemovedUnits(List<UnitComposition> unitList, Date lastSynchDate) {
+    List<UnitComposition> createdAndMovedUnits = new ArrayList<UnitComposition>();
     TimePoint lastSynchedModifyTimePoint = TimePoint.from(lastSynchDate);
     TimePoint temporaryLatestModifiedTimepoint = TimePoint.from(lastSynchDate);
 
-    for (Unit unit : unitList) {
+    for (UnitComposition unit : unitList) {
       if (unit != null) {
-        TimePoint createTimestamp = unit.getCreateTimestamp();
-        TimePoint modifyTimestamp = unit.getModifyTimestamp();
+        TimePoint createTimestamp = unit.getCreateTimePoint();
+        TimePoint modifyTimestamp = unit.getModifyTimePoint();
         // Check if the unit is created, moved or modified after last synch modify date
         if (isAfterTimePoint(modifyTimestamp, lastSynchedModifyTimePoint) || isAfterTimePoint(createTimestamp, lastSynchedModifyTimePoint)) {
           createdAndMovedUnits.add(unit);
           if (isAfterTimePoint(createTimestamp, lastSynchedModifyTimePoint)) {
-            DN dn = lastExistingUnits.get(unit.getHsaIdentity());
+            String dn = lastExistingUnits.get(unit.getEniroUnit().getId());
             // No DN found so unit is new.
             if (dn == null) {
-              unit.setNew(true);
+              unit.getEniroUnit().setOperation(Operation.CREATE.value);
             } else if (!dn.equals(unit.getDn())) {
               // Unit dn has been changed since last synch. That means moved in ldap.
-              unit.setMoved(true);
+              unit.getEniroUnit().setOperation(Operation.MOVE.value);
             }
           } else {
-            unit.setUpdated(true);
+            unit.getEniroUnit().setOperation(Operation.UPDATE.value);
           }
         }
         // Update latest in order to keep track of the latest creation/modification date in this batch
@@ -165,31 +175,34 @@ public class InformationPusherEniro implements InformationPusher {
    * @param unitList
    * @return
    */
-  private List<Unit> getRemovedUnits(List<Unit> unitList) {
+  private List<UnitComposition> getRemovedUnits(List<UnitComposition> unitList) {
     // Holds list of removed or moved units
-    List<Unit> removedOrMovedUnitsList = new ArrayList<Unit>();
+    List<UnitComposition> removedOrMovedUnitsList = new ArrayList<UnitComposition>();
 
     // Sort to be able to perform binary search.
     Collections.sort(unitList);
 
     // Tag units as "moved" or "removed"
-    for (Map.Entry<String, DN> unitEntry : lastExistingUnits.entrySet()) {
-      Unit tmpUnit = new Unit();
-      tmpUnit.setHsaIdentity(unitEntry.getKey());
-      tmpUnit.setDn(unitEntry.getValue());
+    for (Map.Entry<String, String> unitEntry : lastExistingUnits.entrySet()) {
+      UnitComposition unitComposition = new UnitComposition();
+      unitComposition.setDn(unitEntry.getValue().toString());
+
+      unitComposition.getEniroUnit().setId(unitEntry.getKey());
 
       // Search for moved units (they exists in list of current units)
-      int unitPosition = Collections.binarySearch(unitList, tmpUnit);
+      int unitPosition = Collections.binarySearch(unitList, unitComposition);
       if (unitPosition < 0) {
         // Did not find unit in list of current units, ie removed!
         // Create virtual unit and tag as removed.
-        Unit removedUnit = new Unit();
-        removedUnit.setHsaIdentity(unitEntry.getKey());
-        removedUnit.setRemoved(true);
-        removedOrMovedUnitsList.add(removedUnit);
+        UnitComposition tmp = new UnitComposition();
+        tmp.getEniroUnit().setId(unitEntry.getKey());
+        tmp.getEniroUnit().setOperation(Operation.REMOVE.value);
+        removedOrMovedUnitsList.add(tmp);
       }
     }
+
     return removedOrMovedUnitsList;
+
   }
 
   /**
@@ -232,13 +245,13 @@ public class InformationPusherEniro implements InformationPusher {
         lastExistingUnitsFile = getDefaultLastExistingFile();
         // Can't read default file then this is first time program is running or file has been deleted.
         if (!lastExistingUnitsFile.exists()) {
-          lastExistingUnits = new HashMap<String, DN>();
+          lastExistingUnits = new HashMap<String, String>();
           resetLastSynchedModifyDate();
         } else {
           readFileContent();
         }
       } else if (!lastExistingUnitsFile.exists()) {
-        lastExistingUnits = new HashMap<String, DN>();
+        lastExistingUnits = new HashMap<String, String>();
         // Remove last synch date if new file.
         resetLastSynchedModifyDate();
       } else if (lastExistingUnitsFile.exists()) {
@@ -261,7 +274,7 @@ public class InformationPusherEniro implements InformationPusher {
     try {
       FileInputStream fileInputStream = new FileInputStream(lastExistingUnitsFile);
       ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-      lastExistingUnits = (HashMap<String, DN>) objectInputStream.readObject();
+      lastExistingUnits = (HashMap<String, String>) objectInputStream.readObject();
       objectInputStream.close();
       fileInputStream.close();
     } catch (IOException e) {
@@ -273,8 +286,8 @@ public class InformationPusherEniro implements InformationPusher {
 
   private void saveLastExistingUnitList() {
     try {
-      for (Unit unit : units) {
-        lastExistingUnits.put(unit.getHsaIdentity(), unit.getDn());
+      for (UnitComposition unit : units) {
+        lastExistingUnits.put(unit.getEniroUnit().getId(), unit.getDn());
       }
       if (lastExistingUnitsFile == null) {
         lastExistingUnitsFile = getDefaultLastExistingFile();
@@ -313,9 +326,13 @@ public class InformationPusherEniro implements InformationPusher {
       long startTime = System.currentTimeMillis();
       // Check if there is a saved lastSynchDate. If not this is the first time and we must generate full organization.
       boolean generateFullOrg = isFullOrganizationTreeMode();
-      logger.info("Unit details pusher: Started " + (generateFullOrg ? "full" : "incremental") + " upload.");
+      if (generateFullOrg) {
+        logger.info("Unit details pusher: Started full upload.");
+      }else {
+        logger.info("Unit details pusher: Started incrementa upload.");
+      }
       // Get units that belongs to the organization.
-      List<Unit> collectedUnits = collectUnits();
+      List<UnitComposition> collectedUnits = collectUnits();
       logger.debug("Unit details pusher: Found " + collectedUnits.size() + " units to upload.");
       // Generate organization tree object.
       Organization organization = generateOrganizationTree(generateFullOrg, collectedUnits);
@@ -361,16 +378,14 @@ public class InformationPusherEniro implements InformationPusher {
    * @param collectedUnits List with units that belongs to the organization
    * @return Organization object containing units.
    */
-  private Organization generateOrganizationTree(boolean generateFullOrg, List<Unit> collectedUnits) {
+  private Organization generateOrganizationTree(boolean generateFullOrg, List<UnitComposition> collectedUnits) {
     Organization organization;
     if (generateFullOrg) {
       organization = generateOrganisationTree(collectedUnits);
-      organization.setLoadType("Full");
-      // TODO: bryt ut Full till enum
+      organization.setLoadType(LOAD_TYPE.FULL.value);
     } else {
       organization = generateFlatOrganization(collectedUnits);
-      organization.setLoadType("Increment");
-      // TODO: bryt ut Increment till enum
+      organization.setLoadType(LOAD_TYPE.INCREMENT.value);
     }
     organization.setId(organizationId);
     organization.setName(organizationName);
@@ -393,203 +408,27 @@ public class InformationPusherEniro implements InformationPusher {
   }
 
   /**
-   * Transfer unit state to jaxb representation of unit.
-   * 
-   * @param unit
-   * @param jaxbUnit
-   */
-  private void fillJaxbUnit(Unit unit, se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit jaxbUnit) {
-    if (unit.isNew() || unit.isMoved() || unit.isUpdated()) {
-      fillJaxbUnitWithData(unit, jaxbUnit);
-    } else {
-      jaxbUnit.setId(unit.getHsaIdentity());
-      jaxbUnit.setName(unit.getName());
-    }
-
-    Unit parentUnit = null;
-    if (unit.isNew()) {
-      jaxbUnit.setOperation(Operation.CREATE.value);
-      parentUnit = getParentUnit(unit);
-    } else if (unit.isRemoved()) {
-      jaxbUnit.setOperation(Operation.REMOVE.value);
-    } else if (unit.isMoved()) {
-      jaxbUnit.setOperation(Operation.MOVE.value);
-      parentUnit = getParentUnit(unit);
-    } else if (unit.isUpdated()) {
-      jaxbUnit.setOperation(Operation.UPDATE.value);
-    }
-    if (parentUnit != null) {
-      jaxbUnit.setParentUnitId(parentUnit.getHsaIdentity());
-    }
-  }
-
-  private se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit fillJaxbUnitWithData(Unit unit, se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit jaxbUnit) {
-    jaxbUnit.setId(unit.getHsaIdentity());
-    jaxbUnit.setName(unit.getName());
-
-    // Description
-    Description description = new Description();
-    description.setValue(unit.getConcatenatedDescription());
-    jaxbUnit.getDescriptionOrImageOrAddress().add(description);
-
-    // Set unitWs street address
-    Address streetAddress = new Address();
-    streetAddress.setType("Visit");
-    // address.setLabel(value);
-    setStreetNameAndNumberForAddress(streetAddress, unit.getHsaStreetAddress().getStreet());
-    List<String> streetPostCodes = streetAddress.getPostCode();
-    streetPostCodes.add(unit.getHsaStreetAddress().getZipCode().toString());
-    streetAddress.setCity(unit.getHsaStreetAddress().getCity());
-    GeoCoordinates streetGeoCoordinates = new GeoCoordinates();
-    streetGeoCoordinates.setXpos(BigInteger.valueOf(unit.getRt90X()));
-    streetGeoCoordinates.setYpos(BigInteger.valueOf(unit.getRt90Y()));
-    streetAddress.setGeoCoordinates(streetGeoCoordinates);
-    jaxbUnit.getDescriptionOrImageOrAddress().add(streetAddress);
-
-    // Set unitWs postal address
-    Address postalAddress = new Address();
-    postalAddress.setType("Post");
-    // address.setLabel(value);
-    setStreetNameAndNumberForAddress(postalAddress, unit.getHsaPostalAddress().getStreet());
-    postalAddress.getPostCode().add(unit.getHsaPostalAddress().getZipCode().toString());
-    postalAddress.setCity(unit.getHsaPostalAddress().getCity());
-    GeoCoordinates postalGeoCoordinates = new GeoCoordinates();
-    postalGeoCoordinates.setXpos(BigInteger.valueOf(unit.getRt90X()));
-    postalGeoCoordinates.setYpos(BigInteger.valueOf(unit.getRt90Y()));
-    postalAddress.setGeoCoordinates(postalGeoCoordinates);
-    jaxbUnit.getDescriptionOrImageOrAddress().add(postalAddress);
-
-    // Set telephone
-    TelephoneType telephoneType = new TelephoneType();
-    for (PhoneNumber phoneNumber : unit.getHsaPublicTelephoneNumber()) {
-      telephoneType.getTelephoneNumber().add(phoneNumber.getPhoneNumber());
-
-    }
-    // Telephone hours
-    String telephoneHoursConcatenated = "";
-    for (WeekdayTime telephoneHoursInfo : unit.getHsaTelephoneTime()) {
-      telephoneHoursConcatenated += telephoneHoursInfo.getDisplayValue() + ", ";
-    }
-    telephoneHoursConcatenated = stripEndingCommaAndSpace(telephoneHoursConcatenated);
-    telephoneType.setTelephoneHours(telephoneHoursConcatenated);
-    jaxbUnit.getDescriptionOrImageOrAddress().add(telephoneType);
-
-    // Set URL
-    EAliasType unitWeb = new EAliasType();
-    unitWeb.setLabel("Mottagningens webbplats");
-    unitWeb.setType("URL");
-    unitWeb.setAlias(unit.getLabeledURI());
-    jaxbUnit.getDescriptionOrImageOrAddress().add(unitWeb);
-
-    // Set visiting rules
-    VisitingConditions visitingConditions = new VisitingConditions();
-    visitingConditions.setVisitingRules(unit.getHsaVisitingRules());
-
-    // Drop in hours
-    String dropInConcatenated = "";
-    for (WeekdayTime dropInInfo : unit.getHsaDropInHours()) {
-      dropInConcatenated += dropInInfo.getDisplayValue() + ", ";
-    }
-    dropInConcatenated = stripEndingCommaAndSpace(dropInConcatenated);
-    visitingConditions.setDropInHours(dropInConcatenated);
-
-    // Visiting hours
-    String visitingHoursConcatenated = "";
-    for (WeekdayTime visitingHoursInfo : unit.getHsaSurgeryHours()) {
-      visitingHoursConcatenated += visitingHoursInfo.getDisplayValue() + ", ";
-    }
-    visitingHoursConcatenated = stripEndingCommaAndSpace(visitingHoursConcatenated);
-    visitingConditions.setVisitingHours(visitingHoursConcatenated);
-    jaxbUnit.getDescriptionOrImageOrAddress().add(visitingConditions);
-
-    // Management
-    Management management = new Management();
-    management.setValue(unit.getHsaManagementText());
-    jaxbUnit.setManagement(management);
-
-    // Business classification
-    List<String> businessClassifications = unit.getHsaBusinessClassificationCode();
-
-    for (String businessClassificationCode : businessClassifications) {
-      BusinessClassification businessClassification = new BusinessClassification();
-      String bcName = codeTablesService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, businessClassificationCode);
-      businessClassification.setBCName(bcName);
-      businessClassification.setBCCode(businessClassificationCode);
-      jaxbUnit.getDescriptionOrImageOrAddress().add(businessClassification);
-    }
-
-    // Location
-    Locality locality = new Locality();
-    locality.setValue(unit.getHsaMunicipalityName());
-    // TODO set attribut beroende på om stadsdel eller kommun
-    jaxbUnit.getDescriptionOrImageOrAddress().add(locality);
-
-    return jaxbUnit;
-  }
-
-  private void setStreetNameAndNumberForAddress(Address address, String hsaAddress) {
-    Pattern patternStreetName = Pattern.compile("\\D+");
-    Matcher matcherStreetName = patternStreetName.matcher(hsaAddress);
-    Pattern patternStreetNb = Pattern.compile("\\d+\\w*");
-    Matcher matcherStreetNb = patternStreetNb.matcher(hsaAddress);
-
-    if (matcherStreetName.find()) {
-      String streetName = matcherStreetName.group().trim();
-      address.setStreetName(streetName);
-    }
-    if (matcherStreetNb.find()) {
-      String streetNb = matcherStreetNb.group();
-      address.setStreetNumber(streetNb);
-    }
-  }
-
-  private String stripEndingCommaAndSpace(String inputString) {
-    String result = inputString;
-    if (result.endsWith(", ")) {
-      result = result.substring(0, result.length() - 2);
-    }
-    return result;
-  }
-
-  private Unit getParentUnit(Unit unit) {
-    DN dn = unit.getDn();
-    DN parentDn = dn.getParentDN(2);
-    if (parentDn != null) {
-      Unit parent;
-      try {
-        parent = unitRepository.getUnitByDN(parentDn);
-      } catch (Exception e) {
-        // Not necessary to log logger.error("Error in getParentUnit", e);
-        parent = null;
-      }
-      return parent;
-    } else {
-      return null;
-    }
-  }
-
-  /**
    * For full unit detail pushes.
    * 
    * @param unitList The units to populate the Organization object with.
    * @return An Organization object populated from the provided units.
    */
-  public Organization generateOrganisationTree(List<Unit> unitList) {
-    Map<DN, Unit> unitContainer = new HashMap<DN, Unit>();
-    Map<DN, List<Unit>> unitChildrenContainer = new HashMap<DN, List<Unit>>();
-    List<Unit> rootUnits = new ArrayList<Unit>();
-    for (Unit unit : unitList) {
-      DN dn = unit.getDn();
+  public Organization generateOrganisationTree(List<UnitComposition> unitList) {
+    Map<String, UnitComposition> unitContainer = new HashMap<String, UnitComposition>();
+    HashMap<String, List<UnitComposition>> unitChildrenContainer = new HashMap<String, List<UnitComposition>>();
+    List<UnitComposition> rootUnits = new ArrayList<UnitComposition>();
+    for (UnitComposition unit : unitList) {
+      String dn = unit.getDn();
       if (dn != null) {
-        DN parentDn = dn.getParentDN(2);
+        String unitParentDn = unit.getParentDn();
         unitContainer.put(dn, unit);
-        if (parentDn == null) {
+        if (parentDn.equals(unitParentDn)) { 
           rootUnits.add(unit);
         } else {
-          List<Unit> childrenList = unitChildrenContainer.get(parentDn);
+          List<UnitComposition> childrenList = unitChildrenContainer.get(unitParentDn);
           if (childrenList == null) {
-            childrenList = new ArrayList<Unit>();
-            unitChildrenContainer.put(parentDn, childrenList);
+            childrenList = new ArrayList<UnitComposition>();
+            unitChildrenContainer.put(unitParentDn, childrenList);
           }
           childrenList.add(unit);
         }
@@ -597,11 +436,9 @@ public class InformationPusherEniro implements InformationPusher {
     }
 
     Organization organization = new Organization();
-    for (Unit rootUnit : rootUnits) {
-      se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit jaxbRootUnit = new se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit();
-      fillJaxbUnit(rootUnit, jaxbRootUnit);
-      populateUnit(jaxbRootUnit, rootUnit.getDn(), unitChildrenContainer);
-      organization.getUnit().add(jaxbRootUnit);
+    for (UnitComposition rootUnit : rootUnits) {
+      populateUnit(rootUnit, rootUnit.getDn(), unitChildrenContainer);
+      organization.getUnit().add(rootUnit.getEniroUnit());
     }
 
     return organization;
@@ -613,12 +450,10 @@ public class InformationPusherEniro implements InformationPusher {
    * @param collectedUnits
    * @return Organization with a unit list of created,removed or modified units
    */
-  private Organization generateFlatOrganization(List<Unit> collectedUnits) {
+  private Organization generateFlatOrganization(List<UnitComposition> collectedUnits) {
     Organization organization = new Organization();
-    for (Unit unit : collectedUnits) {
-      se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit jaxbUnit = new se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit();
-      fillJaxbUnit(unit, jaxbUnit);
-      organization.getUnit().add(jaxbUnit);
+    for (UnitComposition unit : collectedUnits) {
+      organization.getUnit().add(unit.getEniroUnit());
     }
     return organization;
   }
@@ -629,31 +464,42 @@ public class InformationPusherEniro implements InformationPusher {
    * @param dn DN of parent unit
    * @param unitChildrenContainer Map holding parent - children relations
    */
-  private void populateUnit(se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit parentJaxbUnit, DN dn, Map<DN, List<Unit>> unitChildrenContainer) {
+  private void populateUnit(UnitComposition parentUnit, String dn, Map<String, List<UnitComposition>> unitChildrenContainer) {
     // Get children for current parent
-    List<Unit> childUnits = unitChildrenContainer.get(dn);
+    List<UnitComposition> childUnits = unitChildrenContainer.get(dn);
     if (childUnits != null) {
-      for (Unit child : childUnits) {
-        se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit jaxbChildUnit = new se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit();
-        fillJaxbUnit(child, jaxbChildUnit);
-        parentJaxbUnit.getUnit().add(jaxbChildUnit);
-        populateUnit(jaxbChildUnit, child.getDn(), unitChildrenContainer);
+      for (UnitComposition child : childUnits) {
+        parentUnit.getEniroUnit().getUnit().add(child.getEniroUnit());
+        populateUnit(child, child.getDn(), unitChildrenContainer);
       }
     }
   }
 
-  /**
-   * Constants for Eniro operation.
-   * 
-   * @author david
-   * 
-   */
-  private enum Operation {
-    CREATE("create"), MOVE("move"), REMOVE("remove"), UPDATE("update");
-    private String value;
+  private List<UnitComposition> getUnitsFromLdap() {
+    OrFilter filter = new OrFilter();
+    filter.or(new EqualsFilter("objectClass", "vgrOrganizationalUnit"));
+    filter.or(new EqualsFilter("objectClass", "vgrOrganizationalRole"));
+    filter.or(new EqualsFilter("objectClass", "organizationalUnit"));
+    @SuppressWarnings("unchecked")
+    List<UnitComposition> unitsList = ldapTemplate.search("", filter.encode(), new EniroUnitMapper());
+    setParentIdsForUnits(unitsList);
+    return unitsList;
+  }
 
-    Operation(String value) {
-      this.value = value;
+  private void setParentIdsForUnits(List<UnitComposition> compositions) {
+
+    Map<String, UnitComposition> unitsMap = new HashMap<String, UnitComposition>();
+
+    for (UnitComposition unitComposition : compositions) {
+      unitsMap.put(unitComposition.getDn(), unitComposition);
     }
+
+    for (UnitComposition unitComposition : compositions) {
+      UnitComposition parentUnit = unitsMap.get(unitComposition.getParentDn());
+      if (parentUnit != null) {
+        unitComposition.getEniroUnit().setParentUnitId(parentUnit.getEniroUnit().getId());
+      }
+    }
+
   }
 }
