@@ -496,7 +496,7 @@ table.Employment,table.Employment th,table.Employment td {
 }
 
 th.leftcol,.rightcol { /*margin-bottom: 0.5em;*/
-	width: 100px ! important;
+	width: 130px ! important;
 }
 
 .search-result .borderless .righttwocol { /* width: 50em; */
@@ -1003,7 +1003,7 @@ div.autocomplete {
 }
 
 #address-table {
-	width: 30em;
+	width: 27em;
 }
 
 #address-div {

@@ -150,16 +150,23 @@
                                 <h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true}">
                                     <tr>
                                         <th class="leftcol" id="tempInfoHeaderCell">
-                                            <span class="grey-header">${msg.temporary}<br/>${msg.information}</span>
+                                            <span class="grey-header">${msg.temporary} ${msg.information}</span>
                                         </th>
                                         <td headers="tempInfoHeaderCell" colspan="3" class="paragraph">
-					            	${unit.vgrTempInfoBody}
-                                            <h:outputText rendered="${unit.vgrRefInfo != ''}">
-                                                <br/>${msg.referral}: ${unit.vgrRefInfo}
-                                            </h:outputText>
+					            			<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.vgrTempInfoBody)}" />
                                         </td>
                                     </tr>
                                 </h:outputText>
+								<h:outputText rendered="${unit.vgrRefInfo != ''}">
+                                	<tr>
+                                		<th class="leftcol" id="refInfoHeaderCell">
+                                			<span class="grey-header">${msg.referral}</span>
+                                		</th>
+                                		<td>
+                                			<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.vgrRefInfo)}" />
+                                		</td>
+                                	</tr>
+                                </h:outputText>                                
                                 <h:outputText rendered="${unit.showAgeIntervalAndVisitingRules}">
                                     <tr>
                                         <th class="leftcol" id="visitingRulesHeaderCell">
