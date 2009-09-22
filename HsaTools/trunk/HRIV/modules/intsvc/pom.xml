@@ -100,7 +100,6 @@
 							<generatePackage>
 								se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska
 							</generatePackage>
-							<generateDirectory>src/main/java</generateDirectory>
 							<schemaDirectory>
 								${basedir}/../../../Search/composites/schema/src/main/resources/wsdl/
 							</schemaDirectory>
@@ -124,7 +123,6 @@
 							<generatePackage>
 								se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro
 							</generatePackage>
-							<generateDirectory>src/main/java</generateDirectory>
 							<schemaDirectory>
 								${basedir}/../../../Search/composites/schema/src/main/resources/wsdl/
 							</schemaDirectory>
