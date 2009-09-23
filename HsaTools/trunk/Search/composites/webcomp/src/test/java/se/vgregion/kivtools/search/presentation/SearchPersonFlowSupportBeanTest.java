@@ -5,11 +5,12 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
@@ -17,8 +18,6 @@ import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.util.LogFactoryMock;
-import se.vgregion.kivtools.search.util.LogMock;
 
 public class SearchPersonFlowSupportBeanTest {
   private static final String PERSON_SEARCH_TYPE_VGRID = "vgrid_selected";
@@ -29,15 +28,17 @@ public class SearchPersonFlowSupportBeanTest {
   private PersonSearchSimpleForm form;
   private SearchServiceMock searchService;
   private static LogFactoryMock logFactoryMock;
-  private static Log log;
 
   @BeforeClass
-  public static void setLogger(){
+  public static void setLogger() {
     logFactoryMock = LogFactoryMock.createInstance();
-    log = new LogMock();
-    logFactoryMock.setLog(log);
   }
-  
+
+  @AfterClass
+  public static void afterClass() {
+    LogFactoryMock.resetInstance();
+  }
+
   @Before
   public void setUp() throws Exception {
     bean = new SearchPersonFlowSupportBean();
@@ -54,6 +55,7 @@ public class SearchPersonFlowSupportBeanTest {
       fail("KivNoDataFoundException expected");
     } catch (KivNoDataFoundException e) {
       // Expected exception
+      assertEquals("ERROR: se.vgregion.kivtools.search.presentation.SearchPersonFlowSupportBean::isVgrIdSearch(...) detected that theForm is null\n", logFactoryMock.getError(true));
     }
 
     assertFalse(bean.isVgrIdSearch(form));
@@ -67,6 +69,7 @@ public class SearchPersonFlowSupportBeanTest {
     SikSearchResultList<Person> result = bean.doSearch(null);
     assertNotNull(result);
     assertEquals(0, result.size());
+    assertEquals("java.lang.NullPointerException\n", logFactoryMock.getError(true));
 
     try {
       bean.doSearch(form);
@@ -106,6 +109,7 @@ public class SearchPersonFlowSupportBeanTest {
     SikSearchResultList<Person> result = bean.getPersonsForUnitsRecursive(null);
     assertNotNull(result);
     assertEquals(0, result.size());
+    assertEquals("java.lang.NullPointerException\n", logFactoryMock.getError(true));
 
     result = bean.getPersonsForUnitsRecursive(HSA_IDENTITY);
     assertNotNull(result);
@@ -170,10 +174,14 @@ public class SearchPersonFlowSupportBeanTest {
     assertNotNull(result);
     assertEquals(1, result.size());
 
+    // Reset error log
+    logFactoryMock.getError(true);
+
     bean.setSearchService(null);
     result = bean.getOrganisation(null, DN);
     assertNotNull(result);
     assertEquals(0, result.size());
+    assertEquals("java.lang.NullPointerException\n", logFactoryMock.getError(true));
   }
 
   @Test
@@ -191,10 +199,11 @@ public class SearchPersonFlowSupportBeanTest {
     }
 
     searchService.clearExceptionsToThrow();
-    searchService.addExceptionToThrow(new Exception());
+    searchService.addExceptionToThrow(new Exception("Dummy exception"));
     result = bean.getAllPersonsVgrId();
     assertNotNull(result);
     assertEquals(0, result.size());
+    assertEquals("java.lang.Exception: Dummy exception\n", logFactoryMock.getError(true));
   }
 
   @Test
@@ -202,14 +211,18 @@ public class SearchPersonFlowSupportBeanTest {
     List<String> result = bean.getRangePersonsVgrIdPageList(-1, -1);
     assertNotNull(result);
     assertEquals(0, result.size());
+    assertEquals("getRangeUnitsPageList(startIndex=-1, endIndex=-1), Error input parameters are wrong (result list size=0)\n", logFactoryMock.getError(true));
 
     result = bean.getRangePersonsVgrIdPageList(2, 1);
     assertNotNull(result);
     assertEquals(0, result.size());
+    assertEquals("getRangeUnitsPageList(startIndex=2, endIndex=1), Error input parameters are wrong (result list size=0)\n", logFactoryMock.getError(true));
 
     result = bean.getRangePersonsVgrIdPageList(0, 0);
     assertNotNull(result);
     assertEquals(0, result.size());
+    assertEquals("MethodName=se.vgregion.kivtools.search.presentation.SearchPersonFlowSupportBean::getRangeUnitsPageList(startIndex=0, endIndex=0) detected that endIndex > \n", logFactoryMock
+        .getError(true));
 
     List<String> allPersonsId = new ArrayList<String>();
     allPersonsId.add("abc-123");
@@ -232,6 +245,7 @@ public class SearchPersonFlowSupportBeanTest {
     List<PagedSearchMetaData> result = bean.getAllPersonsVgrIdPageList(null);
     assertNotNull(result);
     assertEquals(0, result.size());
+    assertEquals("java.lang.IllegalArgumentException: pageSize must be greater than zero\n", logFactoryMock.getError(true));
 
     result = bean.getAllPersonsVgrIdPageList("1");
     assertNotNull(result);
