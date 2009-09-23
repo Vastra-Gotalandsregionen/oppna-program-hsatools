@@ -216,6 +216,7 @@
                         <configuration>
                             <excludes>
                                 <exclude>**/vardval/*</exclude>
+                                <exclude>**/*$*</exclude>
                             </excludes>
                         </configuration>
                     </plugin>

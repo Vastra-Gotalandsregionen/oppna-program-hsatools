@@ -20,23 +20,17 @@ package se.vgregion.kivtools.hriv.presentation;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.mocks.file.FileUtilMock;
 import se.vgregion.kivtools.util.file.FileUtilException;
 
 public class RssContentCacheTest {
-  private static LogMock logMock = new LogMock();
-
   private RssContentCache rssContentCache;
   private HttpFetcherMock httpFetcherMock;
   private FileUtilMock fileUtilMock;
@@ -44,13 +38,11 @@ public class RssContentCacheTest {
   private File defaultCacheFile;
   private File userSpecifiedHrivSettingsFolder;
   private File userSpecifiedCacheFile;
+  private static LogFactoryMock factory;
 
   @BeforeClass
   public static void beforeClass() {
-    System.setProperty("org.apache.commons.logging.LogFactory", "se.vgregion.kivtools.hriv.presentation.LogFactoryMock");
-    LogFactory.releaseAll();
-    LogFactoryMock factory = (LogFactoryMock) LogFactory.getFactory();
-    factory.setLog(logMock);
+    factory = LogFactoryMock.createInstance();
   }
 
   @Before
@@ -68,15 +60,9 @@ public class RssContentCacheTest {
     rssContentCache.setRssUrl("http://testurl");
   }
 
-  @After
-  public void tearDown() {
-    RssContentCacheTest.logMock.messageObject.clear();
-  }
-
   @AfterClass
   public static void afterClass() {
-    System.clearProperty("org.apache.commons.logging.LogFactory");
-    LogFactory.releaseAll();
+    LogFactoryMock.resetInstance();
   }
 
   @Test
@@ -153,93 +139,6 @@ public class RssContentCacheTest {
   public void testExceptionHandling() {
     fileUtilMock.setExceptionToThrow(new FileUtilException());
     rssContentCache.reloadRssCache();
-    assertEquals(2, logMock.messageObject.size());
-    assertEquals("Could not read RSS Content Cache from file", logMock.messageObject.get(0));
-    assertEquals("Could not write RSS Content Cache to file", logMock.messageObject.get(1));
-  }
-
-  static class LogMock implements Log {
-    private List<Object> messageObject = new ArrayList<Object>();
-
-    @Override
-    public void error(Object message, Throwable t) {
-      this.messageObject.add(message);
-    }
-
-    // Not implemented methods
-
-    @Override
-    public void debug(Object message) {
-    }
-
-    @Override
-    public void debug(Object message, Throwable t) {
-    }
-
-    @Override
-    public void error(Object message) {
-    }
-
-    @Override
-    public void fatal(Object message) {
-    }
-
-    @Override
-    public void fatal(Object message, Throwable t) {
-    }
-
-    @Override
-    public void info(Object message) {
-    }
-
-    @Override
-    public void info(Object message, Throwable t) {
-    }
-
-    @Override
-    public boolean isDebugEnabled() {
-      return true;
-    }
-
-    @Override
-    public boolean isErrorEnabled() {
-      return true;
-    }
-
-    @Override
-    public boolean isFatalEnabled() {
-      return true;
-    }
-
-    @Override
-    public boolean isInfoEnabled() {
-      return true;
-    }
-
-    @Override
-    public boolean isTraceEnabled() {
-      return true;
-    }
-
-    @Override
-    public boolean isWarnEnabled() {
-      return true;
-    }
-
-    @Override
-    public void trace(Object message) {
-    }
-
-    @Override
-    public void trace(Object message, Throwable t) {
-    }
-
-    @Override
-    public void warn(Object message) {
-    }
-
-    @Override
-    public void warn(Object message, Throwable t) {
-    }
+    assertEquals("Could not read RSS Content Cache from file\nCould not write RSS Content Cache to file\n", factory.getError(true));
   }
 }
