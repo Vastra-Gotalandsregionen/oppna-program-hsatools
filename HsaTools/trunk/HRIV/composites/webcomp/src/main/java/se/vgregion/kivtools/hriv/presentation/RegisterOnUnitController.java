@@ -31,7 +31,7 @@ import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointIm
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
 import se.vgregion.kivtools.search.util.EncryptionUtil;
-import se.vgregion.kivtools.search.util.Evaluator;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Controller class for the process when a citizen registers on a unit.
@@ -54,7 +54,7 @@ public class RegisterOnUnitController implements Serializable {
    * Initializes the webservice endpoint for the signature service.
    */
   public void initEndpoint() {
-    if (!Evaluator.isEmpty(signatureServiceEndpoint)) {
+    if (!StringUtil.isEmpty(signatureServiceEndpoint)) {
       BindingProvider bindingProvider = (BindingProvider) signatureservice;
       Map<String, Object> requestContext = bindingProvider.getRequestContext();
       requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, signatureServiceEndpoint);
@@ -149,10 +149,10 @@ public class RegisterOnUnitController implements Serializable {
       }
       Unit currentUnit = null;
       Unit upcomingUnit = null;
-      if (!Evaluator.isEmpty(vardvalInfo.getCurrentHsaId())) {
+      if (!StringUtil.isEmpty(vardvalInfo.getCurrentHsaId())) {
         currentUnit = searchService.getUnitByHsaId(vardvalInfo.getCurrentHsaId());
       }
-      if (!Evaluator.isEmpty(vardvalInfo.getUpcomingHsaId())) {
+      if (!StringUtil.isEmpty(vardvalInfo.getUpcomingHsaId())) {
         upcomingUnit = searchService.getUnitByHsaId(vardvalInfo.getUpcomingHsaId());
       }
 
@@ -298,7 +298,7 @@ public class RegisterOnUnitController implements Serializable {
     if (errorMessage == null) {
       // Get the SAML Assertion
       String samlAssertion = signatureservice.retrieveSaml(artifact);
-      if (Evaluator.isEmpty(samlAssertion)) {
+      if (StringUtil.isEmpty(samlAssertion)) {
         errorMessage = "SAML assertion was empty";
       }
 

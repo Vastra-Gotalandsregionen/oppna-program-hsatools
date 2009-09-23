@@ -20,7 +20,7 @@ package se.vgregion.kivtools.search.svc.domain.values.accessibility;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import se.vgregion.kivtools.search.util.Evaluator;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Helper-class for getting information from XML Node objects.
@@ -39,7 +39,7 @@ public class NodeHelper {
     if (node == null) {
       throw new IllegalArgumentException("A node must be supplied");
     }
-    if (Evaluator.isEmpty(attributeName)) {
+    if (StringUtil.isEmpty(attributeName)) {
       throw new IllegalArgumentException("An attributeName must be supplied");
     }
 
@@ -64,7 +64,7 @@ public class NodeHelper {
     if (node == null) {
       throw new IllegalArgumentException("A node must be supplied");
     }
-    if (Evaluator.isEmpty(name)) {
+    if (StringUtil.isEmpty(name)) {
       throw new IllegalArgumentException("A name must be supplied");
     }
 

@@ -28,6 +28,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.util.StringUtil;
+
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
  * 
@@ -105,7 +107,7 @@ public class Formatter {
      * @return The list of strings that was passed in with the parts of the chopped up inputstring added to it.
      */
     public static List<String> chopUpStringToList(List<String> list, String inputString, String delimiter) {
-        if (!Evaluator.isEmpty(inputString) && !Evaluator.isEmpty(delimiter)) {
+        if (!StringUtil.isEmpty(inputString) && !StringUtil.isEmpty(delimiter)) {
             int length = inputString.length();
             int beginIndex = 0;
             int endIndex = inputString.indexOf(delimiter, beginIndex);
@@ -117,13 +119,13 @@ public class Formatter {
                     endIndex = inputString.indexOf(delimiter, beginIndex);
                     if (endIndex < 0) {
                         leftPart = inputString.substring(beginIndex, length);
-                        if (!Evaluator.isEmpty(leftPart)) {
+                        if (!StringUtil.isEmpty(leftPart)) {
                             list.add(leftPart);
                         }
                     } else {
                         // hello
                         leftPart = inputString.substring(beginIndex, endIndex);
-                        if (!Evaluator.isEmpty(leftPart)) {
+                        if (!StringUtil.isEmpty(leftPart)) {
                             list.add(leftPart);
                         }
                     }

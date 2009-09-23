@@ -20,7 +20,7 @@ package se.vgregion.kivtools.search.svc.domain.values;
 import java.io.Serializable;
 
 import se.vgregion.kivtools.search.interfaces.IsEmptyMarker;
-import se.vgregion.kivtools.search.util.Evaluator;
+import se.vgregion.kivtools.util.StringUtil;
 
 public class Municipality implements IsEmptyMarker, Serializable, Comparable<Municipality> {
 
@@ -59,7 +59,7 @@ public class Municipality implements IsEmptyMarker, Serializable, Comparable<Mun
   }
 
   public boolean isEmpty() {
-    return Evaluator.isEmpty(municipalityName);
+    return StringUtil.isEmpty(municipalityName);
   }
 
   public int compareTo(Municipality o) {

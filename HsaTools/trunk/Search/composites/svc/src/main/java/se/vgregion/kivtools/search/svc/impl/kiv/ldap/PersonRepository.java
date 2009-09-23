@@ -37,8 +37,8 @@ import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
-import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.Formatter;
+import se.vgregion.kivtools.util.StringUtil;
 
 import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPConnection;
@@ -312,9 +312,9 @@ public class PersonRepository {
    * @throws Exception
    */
   private void addSearchFilter(List<String> filterList, String searchField, String searchValue) throws Exception {
-    if (!Evaluator.isEmpty(searchValue)) {
+    if (!StringUtil.isEmpty(searchValue)) {
       String value = createSearchFilterItem(searchField, searchValue);
-      if (!Evaluator.isEmpty(value)) {
+      if (!StringUtil.isEmpty(value)) {
         filterList.add(value);
       }
     }
@@ -330,7 +330,7 @@ public class PersonRepository {
    * @throws Exception
    */
   private String createSearchFilterItem(String searchField, String searchValue) {
-    if (!Evaluator.isEmpty(searchValue)) {
+    if (!StringUtil.isEmpty(searchValue)) {
       searchValue = searchValue.trim();
       if (isExactMatchFilter(searchValue)) {
         // remove "
@@ -351,7 +351,7 @@ public class PersonRepository {
   }
 
   private boolean isExactMatchFilter(String searchValue) {
-    if (Evaluator.isEmpty(searchValue)) {
+    if (StringUtil.isEmpty(searchValue)) {
       return false;
     }
     // it has to be at least one character between the " e.g. "a" for an exact match
@@ -379,7 +379,7 @@ public class PersonRepository {
    * @throws Exception
    */
   private void addMultipleAttributes(List<String> filterList, String searchValue, String attribute1, String attribute2) throws Exception {
-    if (!Evaluator.isEmpty(searchValue)) {
+    if (!StringUtil.isEmpty(searchValue)) {
       searchValue = searchValue.trim();
       if (isExactMatchFilter(searchValue)) {
         // handling of exact match

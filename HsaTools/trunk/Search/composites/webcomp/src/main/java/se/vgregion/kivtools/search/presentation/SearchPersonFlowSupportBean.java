@@ -36,9 +36,9 @@ import se.vgregion.kivtools.search.svc.TimeMeasurement;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.LogUtils;
 import se.vgregion.kivtools.search.util.PagedSearchMetaDataHelper;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Support bean for the Search Person flow.
@@ -167,7 +167,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
       overAllTime.start();
       SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
 
-      if (Evaluator.isEmpty(hsaIdentity)) {
+      if (StringUtil.isEmpty(hsaIdentity)) {
         SikSearchResultList<Person> personsWithoutEmploymentsList = getSearchService().searchPersonsByDn(dn, maxSearchResult);
         for (Person p : personsWithoutEmploymentsList) {
           SikSearchResultList<Person> searchPersons = getSearchService().searchPersons(p.getVgrId(), maxSearchResult);
@@ -258,7 +258,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
     List<PagedSearchMetaData> result;
     try {
       List<String> personVgrIdList = getSearchService().getAllPersonsId();
-      if (Evaluator.isInteger(pageSizeString)) {
+      if (StringUtil.isInteger(pageSizeString)) {
         int temp = Integer.parseInt(pageSizeString);
         if (temp > pageSize) {
           // we can only increase the page size

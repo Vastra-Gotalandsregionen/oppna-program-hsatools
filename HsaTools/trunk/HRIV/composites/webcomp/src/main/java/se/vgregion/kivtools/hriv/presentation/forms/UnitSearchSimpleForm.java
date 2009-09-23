@@ -30,7 +30,7 @@ import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.svc.domain.values.Municipality;
 import se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper;
-import se.vgregion.kivtools.search.util.Evaluator;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
@@ -113,9 +113,9 @@ public class UnitSearchSimpleForm implements Serializable {
   public boolean isEmpty() {
     boolean empty = true;
 
-    empty &= Evaluator.isEmpty(unitName);
-    empty &= Evaluator.isEmpty(municipality);
-    empty &= Evaluator.isEmpty(healthcareType);
+    empty &= StringUtil.isEmpty(unitName);
+    empty &= StringUtil.isEmpty(municipality);
+    empty &= StringUtil.isEmpty(healthcareType);
 
     return empty;
   }

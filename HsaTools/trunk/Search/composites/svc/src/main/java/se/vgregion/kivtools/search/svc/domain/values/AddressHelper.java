@@ -26,6 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import se.vgregion.kivtools.search.util.Evaluator;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
@@ -66,7 +67,7 @@ public class AddressHelper implements Serializable {
    */
   private static boolean isStreet(String text) {
     boolean result = false;
-    if (!Evaluator.isEmpty(text)) {
+    if (!StringUtil.isEmpty(text)) {
       for (String validSuffix : AddressHelper.VALID_STREET_SUFFIX) {
         result |= text.toLowerCase().contains(validSuffix);
       }
@@ -96,7 +97,7 @@ public class AddressHelper implements Serializable {
 
         // last item should be city
         String temp = additionalInfo.get(size - 1);
-        if (Evaluator.containsNoNumbers(temp)) {
+        if (StringUtil.containsNoNumbers(temp)) {
           address.setCity(temp);
           foundCity = true;
           // remove city from list
@@ -249,7 +250,7 @@ public class AddressHelper implements Serializable {
 
               String city = getCity(zipAndCity);
               address.setCity(city);
-              foundCity = !Evaluator.isEmpty(city);
+              foundCity = !StringUtil.isEmpty(city);
 
               if (foundZipCode) {
                 // ok remove this row
@@ -287,7 +288,7 @@ public class AddressHelper implements Serializable {
       int position;
       position = getCityPosition(tempCity);
       tempCity = tempCity.substring(position);
-      if (!Evaluator.isEmpty(tempCity)) {
+      if (!StringUtil.isEmpty(tempCity)) {
         city = tempCity;
       }
     }
@@ -304,11 +305,11 @@ public class AddressHelper implements Serializable {
     String tempZip = zipAndCity.replaceAll(" ", "");
     String zip = null;
 
-    if (tempZip.length() == ZIPCODE_LENGTH && Evaluator.containsOnlyNumbers(tempZip, false)) {
+    if (tempZip.length() == ZIPCODE_LENGTH && StringUtil.containsOnlyNumbers(tempZip, false)) {
       zip = tempZip;
     } else if (tempZip.length() > ZIPCODE_LENGTH) {
       tempZip = tempZip.substring(0, ZIPCODE_LENGTH);
-      if (Evaluator.containsOnlyNumbers(tempZip, false)) {
+      if (StringUtil.containsOnlyNumbers(tempZip, false)) {
         // ok we have a postalCode here...
         zip = tempZip;
       }
@@ -333,7 +334,7 @@ public class AddressHelper implements Serializable {
       int tempSize = temp.length();
       if (tempSize == ZIPCODE_LENGTH) {
         // there might be a zipCode here
-        if (Evaluator.containsOnlyNumbers(temp, false)) {
+        if (StringUtil.containsOnlyNumbers(temp, false)) {
           // ok we have a postalCode here...
           foundRow = row;
           break;
@@ -342,7 +343,7 @@ public class AddressHelper implements Serializable {
         if (tempSize > ZIPCODE_LENGTH) {
           // there might be a zipCode here
           String tempZip = temp.substring(0, ZIPCODE_LENGTH);
-          if (Evaluator.containsOnlyNumbers(tempZip, false)) {
+          if (StringUtil.containsOnlyNumbers(tempZip, false)) {
             // ok we have a postalCode here...
             foundRow = row;
           }
@@ -385,11 +386,11 @@ public class AddressHelper implements Serializable {
     boolean leadingDigits = true;
     for (int i = 0; i < zipAndCity.length() && leadingDigits; i++) {
       String c = zipAndCity.substring(i, i + 1);
-      if (Evaluator.isEmpty(c)) {
+      if (StringUtil.isEmpty(c)) {
         position++;
         continue;
       }
-      if (Evaluator.isInteger(c)) {
+      if (StringUtil.isInteger(c)) {
         position++;
       } else {
         leadingDigits = false;

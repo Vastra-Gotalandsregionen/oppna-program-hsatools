@@ -41,9 +41,9 @@ import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
-import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.search.util.LdapParse;
+import se.vgregion.kivtools.util.StringUtil;
 
 import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPConnection;
@@ -582,7 +582,7 @@ public class UnitRepository {
 
     filterList = new ArrayList<String>();
     addSearchFilter(filterList, Constants.LDAP_PROPERTY_UNIT_NAME, unit.getName());
-    if (!Evaluator.isEmpty(orCriterias)) {
+    if (!StringUtil.isEmpty(orCriterias)) {
       filterList.add(orCriterias);
     }
 
@@ -590,7 +590,7 @@ public class UnitRepository {
 
     // (&(par3=value3)(par4=value4))
     String andCriterias = makeAnd(filterList);
-    if (Evaluator.isEmpty(andCriterias)) {
+    if (StringUtil.isEmpty(andCriterias)) {
       return searchFilter;
     }
     searchFilter = "(" + searchFilter + andCriterias + ")";
@@ -623,7 +623,7 @@ public class UnitRepository {
       addSearchFilter(filterList, "vgrVardval", LdapParse.escapeLDAPSearchFilter(LdapParse.convertBooleanToString(unit.isVgrVardVal())));
     }
 
-    if (!Evaluator.isEmpty(orCriterias)) {
+    if (!StringUtil.isEmpty(orCriterias)) {
       filterList.add(orCriterias);
     }
 
@@ -636,7 +636,7 @@ public class UnitRepository {
 
     // (&(par3=value3)(par4=value4))
     String andCriterias = makeAnd(filterList);
-    if (Evaluator.isEmpty(andCriterias)) {
+    if (StringUtil.isEmpty(andCriterias)) {
       return "";
     }
     searchFilter = searchFilter + andCriterias + ")";
@@ -653,7 +653,7 @@ public class UnitRepository {
    * @throws Exception
    */
   private void addSearchFilter(List<String> filterList, String searchField, String searchValue) {
-    if (!Evaluator.isEmpty(searchValue)) {
+    if (!StringUtil.isEmpty(searchValue)) {
       searchValue = searchValue.trim();
       if (isExactMatchFilter(searchValue)) {
         // remove "
@@ -676,7 +676,7 @@ public class UnitRepository {
    * @throws Exception
    */
   void addAddressSearchFilter(List<String> filterList, String searchField, String searchValue) {
-    if (!Evaluator.isEmpty(searchValue)) {
+    if (!StringUtil.isEmpty(searchValue)) {
       searchValue = searchValue.trim();
       if (isExactMatchFilter(searchValue)) {
         // remove "
@@ -742,7 +742,7 @@ public class UnitRepository {
   }
 
   private boolean isExactMatchFilter(String searchValue) {
-    if (Evaluator.isEmpty(searchValue)) {
+    if (StringUtil.isEmpty(searchValue)) {
       return false;
     }
     // it has to be at least one character between the " e.g. "a" for an

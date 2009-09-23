@@ -26,4 +26,18 @@
 		<module>modules/web</module>
 		<module>applications/Search</module>
 	</modules>
+	<dependencies>
+		<dependency>
+			<groupId>HsaTools</groupId>
+			<artifactId>HsaTools-Utils</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>HsaTools</groupId>
+			<artifactId>HsaTools-Mocks</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>

@@ -30,69 +30,6 @@ import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
  */
 public final class Evaluator {
   /**
-   * Checks if the provided string is an integer.
-   * 
-   * @param string The string to check.
-   * @return True if the provided string is an integer, otherwise false.
-   */
-  public static boolean isInteger(String string) {
-    boolean integer = true;
-    try {
-      Integer.parseInt(string);
-    } catch (NumberFormatException e) {
-      integer = false;
-    }
-    return integer;
-  }
-
-  /**
-   * Checks if the provided string is a boolean.
-   * 
-   * @param string The string to check.
-   * @return True if the provided string is either of the strings "true" or "false", otherwise false.
-   */
-  public static boolean isBoolean(String string) {
-    return Boolean.TRUE.toString().equals(string) || Boolean.FALSE.toString().equals(string);
-  }
-
-  /**
-   * Checks if the provided string is a double.
-   * 
-   * @param string The string to check.
-   * @return True if the provided string is a double.
-   */
-  public static boolean isDouble(String string) {
-    boolean result = true;
-    if (isEmpty(string)) {
-      result = false;
-    } else {
-      try {
-        Double.parseDouble(string);
-      } catch (NumberFormatException e) {
-        result = false;
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Checks if the provided string is empty.
-   * 
-   * @param string The string to check.
-   * @return True if the provided string is empty, null or only contains whitespace.
-   */
-  public static boolean isEmpty(String string) {
-    boolean empty = false;
-
-    if (string == null) {
-      empty = true;
-    } else {
-      empty = string.trim().equalsIgnoreCase("");
-    }
-    return empty;
-  }
-
-  /**
    * Checks if the provided object implementing IsEmptyMarker is empty.
    * 
    * @param obj The object implementing the IsEmptyMarker interface.
@@ -100,57 +37,6 @@ public final class Evaluator {
    */
   public static boolean isEmpty(IsEmptyMarker obj) {
     return obj.isEmpty();
-  }
-
-  /**
-   * Checks if the provided string is a negative number.
-   * 
-   * @param string The string to check.
-   * @return True if the provided string is a number and less than 0, otherwise false.
-   */
-  public static boolean isNegative(String string) {
-    boolean negative = false;
-
-    if (isDouble(string)) {
-      double d = Double.parseDouble(string);
-      if (d < 0) {
-        negative = true;
-      }
-    }
-
-    return negative;
-  }
-
-  /**
-   * Checks if the provided string is a double.
-   * 
-   * @param string The string to check.
-   * @param emptyAndNullIsOk Decides if null and empty strings should return true or false.
-   * @return True if the provided string is a valid double or if the provided string is null or empty and the emptyOrNullOk is set to true, otherwise false.
-   */
-  public static boolean checkDouble(String string, boolean emptyAndNullIsOk) {
-    boolean result = false;
-
-    result |= isEmpty(string) && emptyAndNullIsOk;
-    result |= isDouble(string);
-
-    return result;
-  }
-
-  /**
-   * Converts the provided string to a boolean.
-   * 
-   * @param string The string to convert.
-   * @return True if the provided string is "true", otherwise false.
-   */
-  public static boolean stringToBoolean(String string) {
-    boolean result = false;
-
-    if (isBoolean(string)) {
-      result = Boolean.parseBoolean(string);
-    }
-
-    return result;
   }
 
   /**
@@ -230,49 +116,5 @@ public final class Evaluator {
    */
   public static boolean isEmpty(List<String> list) {
     return isEmptyList(list);
-  }
-
-  /**
-   * Checks if the provided string contains any numeric characters.
-   * 
-   * @param string The string to check.
-   * @return True if the provided string is free from numeric characters, otherwise false.
-   */
-  public static boolean containsNoNumbers(String string) {
-    boolean result = true;
-
-    if (isEmpty(string)) {
-      result = false;
-    } else {
-      for (int i = 0; i < string.length(); i++) {
-        // If we find a non-digit character we return false.
-        result &= !Character.isDigit(string.charAt(i));
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Checks if the provided string contains only numeric characters.
-   * 
-   * @param string The string to check.
-   * @param ignoreWhiteSpace True if any whitespace in the string should be ignored.
-   * @return True if the provided string consists of only numeric characters, otherwise false.
-   */
-  public static boolean containsOnlyNumbers(String string, boolean ignoreWhiteSpace) {
-    boolean result = true;
-
-    // It can't contain only numbers if it's null or empty...
-    if (isEmpty(string)) {
-      result = false;
-    } else {
-      for (int i = 0; i < string.length(); i++) {
-        // If we find a non-digit character we return false.
-        if (!Character.isDigit(string.charAt(i))) {
-          result &= Character.isWhitespace(string.charAt(i)) && ignoreWhiteSpace;
-        }
-      }
-    }
-    return result;
   }
 }

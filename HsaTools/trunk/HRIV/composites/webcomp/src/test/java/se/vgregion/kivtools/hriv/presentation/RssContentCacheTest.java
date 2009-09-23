@@ -31,8 +31,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import se.vgregion.kivtools.hriv.util.FileUtilException;
-import se.vgregion.kivtools.hriv.util.HttpFetcherMock;
+import se.vgregion.kivtools.mocks.file.FileUtilMock;
+import se.vgregion.kivtools.util.file.FileUtilException;
 
 public class RssContentCacheTest {
   private static LogMock logMock = new LogMock();

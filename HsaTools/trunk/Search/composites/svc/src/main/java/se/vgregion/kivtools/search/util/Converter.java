@@ -20,6 +20,8 @@ package se.vgregion.kivtools.search.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.vgregion.kivtools.util.StringUtil;
+
 /**
  * Utility class for converting.
  * 
@@ -38,7 +40,7 @@ public class Converter {
     ArrayList<Integer> integerArrayList = new ArrayList<Integer>();
     if (strings != null) {
       for (String s : strings) {
-        if (Evaluator.isInteger(s)) {
+        if (StringUtil.isInteger(s)) {
           integerArrayList.add(Integer.parseInt(s));
         }
       }

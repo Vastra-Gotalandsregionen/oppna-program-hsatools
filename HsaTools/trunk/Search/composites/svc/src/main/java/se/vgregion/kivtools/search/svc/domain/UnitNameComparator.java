@@ -20,7 +20,7 @@ package se.vgregion.kivtools.search.svc.domain;
 import java.text.Collator;
 import java.util.Comparator;
 
-import se.vgregion.kivtools.search.util.Evaluator;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
@@ -41,10 +41,10 @@ public class UnitNameComparator implements Comparator<Unit> {
       unit2 = new Unit();
       unit2.setName("");
     }
-    if (Evaluator.isEmpty(unit1.getName())) {
+    if (StringUtil.isEmpty(unit1.getName())) {
       unit1.setName("");
     }
-    if (Evaluator.isEmpty(unit2.getName())) {
+    if (StringUtil.isEmpty(unit2.getName())) {
       unit2.setName("");
     }
 
