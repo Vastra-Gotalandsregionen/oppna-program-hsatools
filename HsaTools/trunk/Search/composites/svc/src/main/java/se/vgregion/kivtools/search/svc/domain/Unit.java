@@ -40,6 +40,7 @@ import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityInformation;
 import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.Formatter;
+import se.vgregion.kivtools.util.StringUtil;
 
 import com.domainlanguage.time.TimePoint;
 
@@ -883,14 +884,14 @@ public class Unit implements Serializable, Comparable<Unit> {
   // VALIDATION
   // ***************
   public boolean getNameIsValid() {
-    if (Evaluator.isEmpty(getName())) {
+    if (StringUtil.isEmpty(getName())) {
       return false;
     }
     return true;
   }
 
   public boolean getHsaMunicapilatyNameIsValid() {
-    if (Evaluator.isEmpty(getHsaMunicipalityName())) {
+    if (StringUtil.isEmpty(getHsaMunicipalityName())) {
       return false;
     }
     return true;
@@ -932,14 +933,14 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public boolean getHsaGeographicalCoordinatesIsValid() {
-    if (Evaluator.isEmpty(getHsaGeographicalCoordinates())) {
+    if (StringUtil.isEmpty(getHsaGeographicalCoordinates())) {
       return false;
     }
     return true;
   }
 
   public boolean getLabeledURIIsValid() {
-    if (Evaluator.isEmpty(getLabeledURI()) || !(getLabeledURI().startsWith("http://") || getLabeledURI().startsWith("https://"))) {
+    if (StringUtil.isEmpty(getLabeledURI()) || !(getLabeledURI().startsWith("http://") || getLabeledURI().startsWith("https://"))) {
       return false;
     }
     return true;
@@ -953,7 +954,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public boolean getVgrOrganizationalRoleIsValid() {
-    if (Evaluator.isEmpty(getVgrOrganizationalRole())) {
+    if (StringUtil.isEmpty(getVgrOrganizationalRole())) {
       return false;
     }
     return true;
@@ -967,28 +968,28 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public boolean getHsaVisitingRuleAgeIsValid() {
-    if (Evaluator.isEmpty(getHsaVisitingRuleAge())) {
+    if (StringUtil.isEmpty(getHsaVisitingRuleAge())) {
       return false;
     }
     return true;
   }
 
   public boolean getHsaVisitingRulesIsValid() {
-    if (Evaluator.isEmpty(getHsaVisitingRules())) {
+    if (StringUtil.isEmpty(getHsaVisitingRules())) {
       return false;
     }
     return true;
   }
 
   public boolean getVgrCareTypeIsValid() {
-    if (Evaluator.isEmpty(getVgrCareType())) {
+    if (StringUtil.isEmpty(getVgrCareType())) {
       return false;
     }
     return true;
   }
 
   public boolean getHsaManagementTextIsValid() {
-    if (Evaluator.isEmpty(getHsaManagementText())) {
+    if (StringUtil.isEmpty(getHsaManagementText())) {
       return false;
     }
     return true;

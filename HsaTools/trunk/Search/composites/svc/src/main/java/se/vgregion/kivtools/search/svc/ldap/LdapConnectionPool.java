@@ -30,7 +30,7 @@ import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
-import se.vgregion.kivtools.search.util.Evaluator;
+import se.vgregion.kivtools.util.StringUtil;
 
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPException;
@@ -120,7 +120,7 @@ public class LdapConnectionPool {
    * @param maxConn The maximum number of connections.
    */
   public void setMaxConn(String maxConn) {
-    if (!Evaluator.isInteger(maxConn)) {
+    if (!StringUtil.isInteger(maxConn)) {
       logger.warn("maxConn=" + maxConn + ", should be a number. Is defaulted to " + MAX_CONN_DEFAULT);
       this.maxConn = MAX_CONN_DEFAULT;
     } else {
@@ -130,13 +130,13 @@ public class LdapConnectionPool {
 
   private void checkInit() throws SikInternalException {
     String methodName = "::checkInit()";
-    if (Evaluator.isEmpty(ldapHost)) {
+    if (StringUtil.isEmpty(ldapHost)) {
       throw new SikInternalException(this, methodName, "ldapHost is not initialized.");
     }
-    if (Evaluator.isEmpty(loginDN)) {
+    if (StringUtil.isEmpty(loginDN)) {
       throw new SikInternalException(this, methodName, "loginDN is not initialized.");
     }
-    if (Evaluator.isEmpty(password)) {
+    if (StringUtil.isEmpty(password)) {
       throw new SikInternalException(this, methodName, "password is not initialized.");
     }
     if (maxConn == NOT_INITIALIZED) {

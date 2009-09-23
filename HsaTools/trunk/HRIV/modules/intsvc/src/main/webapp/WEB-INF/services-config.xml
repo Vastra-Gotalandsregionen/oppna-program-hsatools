@@ -67,12 +67,15 @@
 	</bean>
 -->
 
+	<bean id="fileUtil" class="se.vgregion.kivtools.util.file.FileUtilImpl" />
+	
 	<bean id="Push_Eniro"
 		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro" init-method="initLoadLastExistingUnitsInRepository">
 		<property name="ftpClient" ref="Transfer_ftp" />
 		<property name="ldapTemplate" ref="ldapTemplate2" />
 		<property name="lastExistingUnitsFile" value="/tmp/leuf.txt" />
 		<property name="codeTablesService" ref="Search_CodeTablesService" />
+		<property name="fileUtil" ref="fileUtil" />
 	</bean>
 
 	<bean id="jobDetailUnitDetailsPusher"

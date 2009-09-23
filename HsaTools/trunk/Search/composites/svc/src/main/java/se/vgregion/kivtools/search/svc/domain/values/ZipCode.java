@@ -22,7 +22,7 @@ package se.vgregion.kivtools.search.svc.domain.values;
 
 import java.io.Serializable;
 
-import se.vgregion.kivtools.search.util.Evaluator;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * @author Anders Asplund - KnowIT
@@ -38,7 +38,7 @@ public class ZipCode implements Serializable, Comparable<ZipCode> {
   }
 
   public static boolean isValid(String zipCode) {
-    return Evaluator.containsOnlyNumbers(zipCode, true) && zipCode.replaceAll(" ", "").length() == 5;
+    return StringUtil.containsOnlyNumbers(zipCode, true) && zipCode.replaceAll(" ", "").length() == 5;
   }
 
   public String getZipCode() {

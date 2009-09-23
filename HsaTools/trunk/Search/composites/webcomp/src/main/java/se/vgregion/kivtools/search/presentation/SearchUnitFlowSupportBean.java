@@ -35,10 +35,10 @@ import se.vgregion.kivtools.search.svc.TimeMeasurement;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.Address;
 import se.vgregion.kivtools.search.svc.domain.values.AddressHelper;
-import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.LogUtils;
 import se.vgregion.kivtools.search.util.PagedSearchMetaDataHelper;
 import se.vgregion.kivtools.search.util.geo.GeoUtil;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Support bean for the Search Unit flow.
@@ -202,7 +202,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
     List<PagedSearchMetaData> result;
     try {
       List<String> unitHsaIdList = getSearchService().getAllUnitsHsaIdentity();
-      if (Evaluator.isInteger(pageSizeString)) {
+      if (StringUtil.isInteger(pageSizeString)) {
         int temp = Integer.parseInt(pageSizeString);
         if (temp > pageSize) {
           // we can only increase the page size

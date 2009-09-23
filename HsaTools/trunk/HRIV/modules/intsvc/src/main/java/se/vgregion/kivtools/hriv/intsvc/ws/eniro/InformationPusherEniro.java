@@ -1,11 +1,6 @@
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,6 +25,8 @@ import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.EniroUnitMapper;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Organization;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
+import se.vgregion.kivtools.util.file.FileUtil;
+import se.vgregion.kivtools.util.file.FileUtilException;
 
 import com.domainlanguage.time.TimePoint;
 
@@ -52,6 +49,7 @@ public class InformationPusherEniro implements InformationPusher {
   private FtpClient ftpClient;
   private LdapTemplate ldapTemplate;
   private String parentDn;
+  private FileUtil fileUtil;
 
   /**
    * Constants for Eniro operation.
@@ -67,15 +65,16 @@ public class InformationPusherEniro implements InformationPusher {
       this.value = value;
     }
   }
-  
+
   /**
    * 
    * @author david
-   *
+   * 
    */
-  private enum  LOAD_TYPE {
+  private enum LOAD_TYPE {
     FULL("Full"), INCREMENT("Increment");
     private String value;
+
     private LOAD_TYPE(String value) {
       this.value = value;
     }
@@ -97,6 +96,10 @@ public class InformationPusherEniro implements InformationPusher {
 
   public void setLdapTemplate(LdapTemplate ldapTemplate) {
     this.ldapTemplate = ldapTemplate;
+  }
+
+  public void setFileUtil(FileUtil fileUtil) {
+    this.fileUtil = fileUtil;
   }
 
   /**
@@ -244,17 +247,17 @@ public class InformationPusherEniro implements InformationPusher {
         // Assume that default home location is used. Try to read file from home dir.
         lastExistingUnitsFile = getDefaultLastExistingFile();
         // Can't read default file then this is first time program is running or file has been deleted.
-        if (!lastExistingUnitsFile.exists()) {
+        if (!fileUtil.fileExists(lastExistingUnitsFile)) {
           lastExistingUnits = new HashMap<String, String>();
           resetLastSynchedModifyDate();
         } else {
           readFileContent();
         }
-      } else if (!lastExistingUnitsFile.exists()) {
+      } else if (!fileUtil.fileExists(lastExistingUnitsFile)) {
         lastExistingUnits = new HashMap<String, String>();
         // Remove last synch date if new file.
         resetLastSynchedModifyDate();
-      } else if (lastExistingUnitsFile.exists()) {
+      } else if (fileUtil.fileExists(lastExistingUnitsFile)) {
         // lastExistingUnitsFile is not set, create a default.
         readFileContent();
       }
@@ -272,14 +275,8 @@ public class InformationPusherEniro implements InformationPusher {
   @SuppressWarnings("unchecked")
   private void readFileContent() {
     try {
-      FileInputStream fileInputStream = new FileInputStream(lastExistingUnitsFile);
-      ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-      lastExistingUnits = (HashMap<String, String>) objectInputStream.readObject();
-      objectInputStream.close();
-      fileInputStream.close();
-    } catch (IOException e) {
-      logger.error("Error in getLastExistingUnitsInRepository", e);
-    } catch (ClassNotFoundException e) {
+      lastExistingUnits = fileUtil.readObjectFromFile(lastExistingUnitsFile);
+    } catch (FileUtilException e) {
       logger.error("Error in getLastExistingUnitsInRepository", e);
     }
   }
@@ -292,14 +289,9 @@ public class InformationPusherEniro implements InformationPusher {
       if (lastExistingUnitsFile == null) {
         lastExistingUnitsFile = getDefaultLastExistingFile();
       }
-      FileOutputStream fileOutputStream = new FileOutputStream(lastExistingUnitsFile);
-      ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-      objectOutputStream.writeObject(lastExistingUnits);
-      objectOutputStream.flush();
-      objectOutputStream.close();
-      fileOutputStream.flush();
-      fileOutputStream.close();
-    } catch (IOException e) {
+
+      fileUtil.writeObjectToFile(lastExistingUnitsFile, lastExistingUnits);
+    } catch (FileUtilException e) {
       logger.error("Error in saveLastExistingUnitList", e);
     }
   }
@@ -308,9 +300,7 @@ public class InformationPusherEniro implements InformationPusher {
     if (lastExistingUnitsFile == null) {
       String homeFolder = System.getProperty("user.home");
       File hrivSettingsFolder = new File(homeFolder, ".hriv");
-      if (!hrivSettingsFolder.exists()) {
-        hrivSettingsFolder.mkdir();
-      }
+      fileUtil.createDirectoryIfNoExist(hrivSettingsFolder);
       lastExistingUnitsFile = new File(hrivSettingsFolder, LAST_EXISTING_UNITS_FILE_NAME);
     }
     return lastExistingUnitsFile;
@@ -328,7 +318,7 @@ public class InformationPusherEniro implements InformationPusher {
       boolean generateFullOrg = isFullOrganizationTreeMode();
       if (generateFullOrg) {
         logger.info("Unit details pusher: Started full upload.");
-      }else {
+      } else {
         logger.info("Unit details pusher: Started incrementa upload.");
       }
       // Get units that belongs to the organization.
@@ -363,7 +353,7 @@ public class InformationPusherEniro implements InformationPusher {
    */
   private boolean isFullOrganizationTreeMode() {
     boolean generateFullOrganizationTree = true;
-    if (lastExistingUnitsFile != null && lastExistingUnitsFile.exists()) {
+    if (fileUtil.fileExists(lastExistingUnitsFile)) {
       generateFullOrganizationTree = !getLastSynchDate().after(Constants.parseStringToZuluTime("19700102000000Z"));
     } else {
       resetLastSynchedModifyDate();
@@ -422,7 +412,7 @@ public class InformationPusherEniro implements InformationPusher {
       if (dn != null) {
         String unitParentDn = unit.getParentDn();
         unitContainer.put(dn, unit);
-        if (parentDn.equals(unitParentDn)) { 
+        if (parentDn.equals(unitParentDn)) {
           rootUnits.add(unit);
         } else {
           List<UnitComposition> childrenList = unitChildrenContainer.get(unitParentDn);

@@ -45,10 +45,10 @@ import se.vgregion.kivtools.search.svc.domain.values.Address;
 import se.vgregion.kivtools.search.svc.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
-import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.LogUtils;
 import se.vgregion.kivtools.search.util.PagedSearchMetaDataHelper;
 import se.vgregion.kivtools.search.util.geo.GeoUtil;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * @author hangy2, Hans Gyllensten / KnowIT
@@ -311,7 +311,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
    */
   public List<PagedSearchMetaData> getAllUnitsPageList(String pageSizeString) throws KivNoDataFoundException {
     List<String> unitHsaIdList = getAllUnitsHsaIdentity(true);
-    if (Evaluator.isInteger(pageSizeString)) {
+    if (StringUtil.isInteger(pageSizeString)) {
       int temp = Integer.parseInt(pageSizeString);
       if (temp > pageSize) {
         // we can only increase the page size

@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.Formatter;
+import se.vgregion.kivtools.util.StringUtil;
 
 import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.util.Base64;
@@ -43,7 +43,7 @@ public class LdapORMHelper {
       return "";
     }
     String s = values.get(0);
-    if (Evaluator.isEmpty(s)) {
+    if (StringUtil.isEmpty(s)) {
       return "";
     }
     return s;

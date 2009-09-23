@@ -15,13 +15,30 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-package se.vgregion.kivtools.hriv.util;
+package se.vgregion.kivtools.hriv.presentation;
 
-/**
- * Fetches content from a HTTP-server.
- * 
- * @author argoyle
- */
-public interface HttpFetcher {
-  public String fetchUrl(String urlToFetch);
+import static org.junit.Assert.*;
+import se.vgregion.kivtools.util.http.HttpFetcher;
+
+public class HttpFetcherMock implements HttpFetcher {
+  private String content = "";
+  private String lastUrlFetched;
+
+  public void setContent(String content) {
+    if (content == null) {
+      this.content = "";
+    } else {
+      this.content = content;
+    }
+  }
+
+  public void assertLastUrlFetched(String expected) {
+    assertEquals("Unexpected URL called", expected, this.lastUrlFetched);
+  }
+
+  @Override
+  public String fetchUrl(String urlToFetch) {
+    this.lastUrlFetched = urlToFetch;
+    return this.content;
+  }
 }

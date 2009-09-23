@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 import se.vgregion.kivtools.search.interfaces.IsEmptyMarker;
-import se.vgregion.kivtools.search.util.Evaluator;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * @author Anders Asplund - KnowIT
@@ -159,7 +159,7 @@ public class PhoneNumber implements Serializable, Comparable<PhoneNumber>, IsEmp
   }
 
   public boolean isEmpty() {
-    return Evaluator.isEmpty(phoneNumber);
+    return StringUtil.isEmpty(phoneNumber);
   }
 
   @Override

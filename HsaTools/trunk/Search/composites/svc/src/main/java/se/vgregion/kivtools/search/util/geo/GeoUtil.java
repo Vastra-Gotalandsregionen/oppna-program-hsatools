@@ -33,7 +33,7 @@ import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.Address;
-import se.vgregion.kivtools.search.util.Evaluator;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Handles coordinate operations.
@@ -117,7 +117,7 @@ public class GeoUtil {
   public double[] geocodeToWGS84FromHsaAddress(Address hsaStreetAddress, String googleKey) {
     logger.debug(CLASS_NAME + ".geocodeToWGS84()");
     // We can't do anything if we don't have at least a street name, zip code or city.
-    if (hsaStreetAddress == null || Evaluator.isEmpty(hsaStreetAddress.getStreet()) && Evaluator.isEmpty(hsaStreetAddress.getZipCode().getZipCode()) && Evaluator.isEmpty(hsaStreetAddress.getCity())) {
+    if (hsaStreetAddress == null || StringUtil.isEmpty(hsaStreetAddress.getStreet()) && StringUtil.isEmpty(hsaStreetAddress.getZipCode().getZipCode()) && StringUtil.isEmpty(hsaStreetAddress.getCity())) {
       return null;
     }
     String address = hsaStreetAddress.getStreet().trim() + ", " + hsaStreetAddress.getZipCode().getFormattedZipCode().toString().trim() + " " + hsaStreetAddress.getCity().trim() + ", sweden";
@@ -130,7 +130,7 @@ public class GeoUtil {
    */
   public static int[] parseRT90HsaString(String rt90String) {
     int[] result = null;
-    if (!Evaluator.isEmpty(rt90String)) {
+    if (!StringUtil.isEmpty(rt90String)) {
       if (rt90String.indexOf("X:") >= 0 && rt90String.indexOf("Y:") >= 0) {
         int rt90X = Integer.parseInt(rt90String.substring(3, 10));
         int rt90Y = Integer.parseInt(rt90String.substring(15));

@@ -27,13 +27,13 @@ import org.w3c.dom.NodeList;
 
 import se.vgregion.kivtools.hriv.presentation.forms.AccessibilityDatabaseFilterForm;
 import se.vgregion.kivtools.hriv.util.DocumentHelper;
-import se.vgregion.kivtools.hriv.util.HttpFetcher;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityInformation;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityObject;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityPackage;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.Block;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.Criteria;
+import se.vgregion.kivtools.util.http.HttpFetcher;
 
 /**
  * Support for accessibility information for units.

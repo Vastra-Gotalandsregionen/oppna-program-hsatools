@@ -31,6 +31,7 @@ import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
+import se.vgregion.kivtools.util.StringUtil;
 
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPEntry;
@@ -86,7 +87,7 @@ public class AddressExplorer {
     int invalidUnits = 0;
     for (Unit u : units) {
       out.print(u.getHsaIdentity() + ": ");
-      if (!Evaluator.isEmpty(u.getHsaStreetAddress().getStreet()) && !Evaluator.isEmpty(u.getHsaStreetAddress().getCity())) {
+      if (!StringUtil.isEmpty(u.getHsaStreetAddress().getStreet()) && !StringUtil.isEmpty(u.getHsaStreetAddress().getCity())) {
         out.print("OK! ");
         out.println(u.getHsaStreetAddress().getStreet().trim() + ", " + u.getHsaStreetAddress().getZipCode() + " " + u.getHsaStreetAddress().getCity() + "\n");
       } else {

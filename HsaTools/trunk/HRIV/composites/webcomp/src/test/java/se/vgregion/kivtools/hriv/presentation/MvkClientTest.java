@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.hriv.util.HttpFetcherMock;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 
 public class MvkClientTest {

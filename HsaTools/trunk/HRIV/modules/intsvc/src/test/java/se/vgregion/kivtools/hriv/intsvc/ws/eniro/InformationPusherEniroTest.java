@@ -1,7 +1,6 @@
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -31,6 +30,7 @@ import org.springframework.ldap.core.LdapTemplate;
 
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Organization;
+import se.vgregion.kivtools.mocks.file.FileUtilMock;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 
 import com.domainlanguage.time.TimePoint;
@@ -40,6 +40,7 @@ public class InformationPusherEniroTest {
   private static File unitExistFile = new File("unitExistList");
   private MockFtpClient mockFtpClient = new MockFtpClient();
   private LdapTemplateMock ldapTemplateMock = new LdapTemplateMock();
+  private FileUtilMock fileUtilMock = new FileUtilMock();
 
   @Before
   public void setUp() throws Exception {
@@ -51,18 +52,18 @@ public class InformationPusherEniroTest {
     informationPusher.setFtpClient(mockFtpClient);
     informationPusher.setLastExistingUnitsFile(unitExistFile);
     informationPusher.setParentDn("ou=org,o=VGR");
+    informationPusher.setFileUtil(fileUtilMock);
     // Emulate spring bean initialization
     informationPusher.initLoadLastExistingUnitsInRepository();
   }
-  
+
   @AfterClass
-  public static void tearDown(){
+  public static void tearDown() {
     unitExistFile.delete();
     String homeFolder = System.getProperty("user.home");
     File hrivSettingsFolder = new File(homeFolder, ".hriv");
     hrivSettingsFolder.delete();
   }
-  
 
   @Test
   public void testIncrementalSynchronization() throws Exception {
@@ -122,6 +123,7 @@ public class InformationPusherEniroTest {
     informationPusher.setFtpClient(mockFtpClient);
     informationPusher.setLdapTemplate(ldapTemplateMock);
     informationPusher.setLastExistingUnitsFile(unitExistFile);
+    informationPusher.setFileUtil(fileUtilMock);
     informationPusher.initLoadLastExistingUnitsInRepository();
     informationPusher.doService();
     Assert.assertNull("No file should have been generated since no organizations were updated.", this.mockFtpClient.getFileContent());
@@ -136,14 +138,7 @@ public class InformationPusherEniroTest {
   }
 
   private void deleteLeufFile() {
-    unitExistFile.delete();
-    File leuf = new File(System.getProperty("user.home") + File.separator + ".hriv", "leuf.serialized");
-    leuf.delete();
-    leuf = new File(System.getProperty("user.home"), ".hriv");
-    if (leuf.exists()) {
-      leuf.delete();
-    }
-
+    fileUtilMock.setContent(null);
   }
 
   @Test
@@ -357,7 +352,7 @@ public class InformationPusherEniroTest {
     public List search(String base, String filter, AttributesMapper mapper) {
       return unitComposite;
     }
-    
+
     @Override
     public List search(String base, String filter, ContextMapper mapper) {
       return unitComposite;

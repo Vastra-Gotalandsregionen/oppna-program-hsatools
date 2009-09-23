@@ -28,8 +28,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import se.vgregion.kivtools.search.interfaces.IsEmptyMarker;
-import se.vgregion.kivtools.search.util.Evaluator;
 import se.vgregion.kivtools.search.util.Formatter;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Represents an adress entry.
@@ -92,13 +92,13 @@ public class Address implements Serializable, IsEmptyMarker {
   public boolean isEmpty() {
     boolean empty = true;
 
-    empty &= Evaluator.isEmpty(street);
-    empty &= Evaluator.isEmpty(zipCode.getZipCode());
-    empty &= Evaluator.isEmpty(city);
+    empty &= StringUtil.isEmpty(street);
+    empty &= StringUtil.isEmpty(zipCode.getZipCode());
+    empty &= StringUtil.isEmpty(city);
 
     if (additionalInfo != null && additionalInfo.size() > 0) {
       for (int i = 0; i < additionalInfo.size(); i++) {
-        empty &= Evaluator.isEmpty(additionalInfo.get(i));
+        empty &= StringUtil.isEmpty(additionalInfo.get(i));
       }
     }
     return empty;
@@ -203,7 +203,7 @@ public class Address implements Serializable, IsEmptyMarker {
    * @return True if the address has data in street, zipcode and city, otherwise false.
    */
   public boolean getHasVcardData() {
-    if (Evaluator.isEmpty(street) || Evaluator.isEmpty(zipCode.getZipCode()) || Evaluator.isEmpty(city)) {
+    if (StringUtil.isEmpty(street) || StringUtil.isEmpty(zipCode.getZipCode()) || StringUtil.isEmpty(city)) {
       return false;
     }
     return true;

@@ -23,10 +23,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import se.vgregion.kivtools.hriv.util.FileUtil;
-import se.vgregion.kivtools.hriv.util.FileUtilException;
-import se.vgregion.kivtools.hriv.util.HttpFetcher;
-import se.vgregion.kivtools.search.util.Evaluator;
+import se.vgregion.kivtools.util.StringUtil;
+import se.vgregion.kivtools.util.file.FileUtil;
+import se.vgregion.kivtools.util.file.FileUtilException;
+import se.vgregion.kivtools.util.http.HttpFetcher;
 
 /**
  * Cache-implementation for RSS content.
@@ -82,9 +82,9 @@ public class RssContentCache {
    */
   private void loadRssContent() {
     String content = this.httpFetcher.fetchUrl(rssUrl);
-    if (!Evaluator.isEmpty(content)) {
+    if (!StringUtil.isEmpty(content)) {
       rssContentReference.set(content);
-    } else if (Evaluator.isEmpty(rssContentReference.get())) {
+    } else if (StringUtil.isEmpty(rssContentReference.get())) {
       loadRssContentFromFile();
     }
   }

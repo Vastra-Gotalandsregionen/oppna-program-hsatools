@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import se.vgregion.kivtools.search.interfaces.IsEmptyMarker;
-import se.vgregion.kivtools.search.util.Evaluator;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Represents a health care type (eg Jourcentral) that can be selected eg when searching for units.
@@ -79,7 +79,7 @@ public class HealthcareType implements IsEmptyMarker, Serializable, Comparable<H
   }
 
   public boolean isEmpty() {
-    return Evaluator.isEmpty(displayName);
+    return StringUtil.isEmpty(displayName);
   }
 
   public void setIndex(Integer index) {
