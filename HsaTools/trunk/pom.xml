@@ -27,6 +27,8 @@
     <modules>
         <module>HRIV</module>
         <module>Search</module>
+        <module>Utils</module>
+        <module>Mocks</module>
     </modules>
 
     <build>
