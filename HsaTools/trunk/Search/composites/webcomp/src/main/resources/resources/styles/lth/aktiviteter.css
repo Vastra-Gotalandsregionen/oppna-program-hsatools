@@ -1,0 +1,64 @@
+/* Activity list */
+
+.activities {
+	margin:0 0 2em;
+	padding:6px 8px 8px;
+	background:#eee;
+	border:1px solid #ddd;
+}
+.activities caption {
+	padding:0 0 5px;
+	font-size:1.2em;
+	border-color:#bbb;
+}
+.activities caption span {
+	padding-left:10px;
+	color:#666;
+	font-weight:normal;
+}
+.activities table {
+	width:100%;
+	margin:0;
+	background:#fff;
+}
+.activities th {
+	background:#000 url(../../images/lth/tab.gif) repeat-x;
+	color:#fff;
+}
+.activities .alt,
+.activities .alt .start-time {background-color:#f1f9ff;}
+.activities .code {width:10em;}
+.activities .code span {
+	padding:2px 4px;
+	background:#555;
+	color:#fff;
+	font-weight:bold;
+}
+.activities .status {
+	width:3.5em;
+	text-align:center;
+}
+.activities .sign {
+	width:6em;
+	color:#777;
+}
+.activities td {border-color:#deecf6;}
+.activities tbody td {padding:8px 5px;}
+.activities .start-time {
+	width:13em;
+	background:url(../../images/lth/arrow_right.png) no-repeat 100% 8px;
+}
+.activities .start-time span {
+	display:block;
+	padding:0 20px 0 0;
+}
+.activities .end-time {
+	width:12em;
+	font-weight:bold;
+}
+.sms-link {
+	display:block;
+	margin-top:3px;
+	padding:2px 0 2px 20px;
+	background:url(../../images/lth/phone.png) no-repeat 0 50%;
+}
