@@ -17,6 +17,7 @@
  */
 package se.vgregion.kivtools.search.userevent;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -24,7 +25,9 @@ import java.util.Date;
  * 
  * @author David Bennehult & Joakim Olsson
  */
-public class UserEventInfo {
+public class UserEventInfo implements Serializable {
+  private static final long serialVersionUID = -3878573201077056386L;
+
   private final String status;
   private final String code;
   private final Date fromDateTime;

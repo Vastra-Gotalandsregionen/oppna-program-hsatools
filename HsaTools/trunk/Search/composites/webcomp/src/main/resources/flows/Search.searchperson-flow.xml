@@ -68,6 +68,7 @@
 	<view-state id="Display.personDetails" view="/displayPersonDetails.xhtml">
 		<on-entry>
 			<evaluate expression="Display_DisplayPersonDetailsFlowSupportBean.getPersonDetails(flowScope.vgrid)" result="flowScope.person" />
+			<evaluate expression="userEventService.retrieveUserEvents(person.givenName, person.sn, person.employments.get(0).hsaPublicTelephoneNumber.phoneNumber, person.employments.get(0).mobileTelephoneNumber.phoneNumber)" result="flowScope.userEvents" />
 		</on-entry>
 		<transition on="doCancel" to="Search.displayPersonSearchResult" />
 		<transition on="doSearch" to="Search.validateSearchParams" />

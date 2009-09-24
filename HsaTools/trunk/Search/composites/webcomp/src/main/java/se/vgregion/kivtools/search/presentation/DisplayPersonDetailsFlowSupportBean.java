@@ -35,11 +35,8 @@ import se.vgregion.kivtools.search.svc.domain.Person;
 public class DisplayPersonDetailsFlowSupportBean implements Serializable {
   private static final String CLASS_NAME = DisplayPersonDetailsFlowSupportBean.class.getName();
   private static final Log LOGGER = LogFactory.getLog(SearchPersonFlowSupportBean.class);
-  private SearchService searchService;
 
-  public SearchService getSearchService() {
-    return searchService;
-  }
+  private SearchService searchService;
 
   public void setSearchService(SearchService searchService) {
     this.searchService = searchService;
@@ -48,9 +45,9 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
   public Person getPersonDetails(String vgrId) {
     LOGGER.debug(CLASS_NAME + "::getPersonDetails(vgrId=" + vgrId + ")");
     try {
-      Person person = getSearchService().getPersonById(vgrId);
+      Person person = searchService.getPersonById(vgrId);
       if (person.getEmployments() == null) {
-        List<Employment> employments = getSearchService().getEmploymentsForPerson(person);
+        List<Employment> employments = searchService.getEmploymentsForPerson(person);
         person.setEmployments(employments);
       }
       return person;
