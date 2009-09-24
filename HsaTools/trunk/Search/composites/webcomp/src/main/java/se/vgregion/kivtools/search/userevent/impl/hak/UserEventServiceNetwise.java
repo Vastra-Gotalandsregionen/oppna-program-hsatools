@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.search.userevent.UserEventInfo;
 import se.vgregion.kivtools.search.userevent.UserEventService;
+import se.vgregion.kivtools.search.util.netwise.NetwiseServicesUtil;
 import se.vgregion.kivtools.search.ws.domain.hak.netwise.event.ArrayOfEvent;
 import se.vgregion.kivtools.search.ws.domain.hak.netwise.event.Event;
 import se.vgregion.kivtools.search.ws.domain.hak.netwise.event.Resultset;
@@ -38,7 +39,7 @@ import se.vgregion.kivtools.search.ws.domain.hak.netwise.event.UserEventSoap;
  * 
  * @author David Bennehult & Joakim Olsson
  */
-public class UserEventServiceNetwise implements UserEventService {
+public class UserEventServiceNetwise extends NetwiseServicesUtil implements UserEventService {
   private static final Log LOG = LogFactory.getLog(UserEventServiceNetwise.class);
 
   private UserEventSoap service;
@@ -54,8 +55,8 @@ public class UserEventServiceNetwise implements UserEventService {
   public List<UserEventInfo> retrieveUserEvents(String firstName, String surname, String telephoneNumber, String mobileNumber) {
     List<UserEventInfo> userEvents = new ArrayList<UserEventInfo>();
 
-    String requestedTelephoneNumber = cleanPhoneNumber(telephoneNumber);
-    String requestedMobileNumber = cleanPhoneNumber(mobileNumber);
+    String requestedTelephoneNumber = NetwiseServicesUtil.cleanPhoneNumber(telephoneNumber);
+    String requestedMobileNumber = NetwiseServicesUtil.cleanPhoneNumber(mobileNumber);
 
     Resultset resultset = service.getResultsetFromPersonInfo(requestedTelephoneNumber, requestedMobileNumber, firstName, firstName);
 
@@ -64,19 +65,6 @@ public class UserEventServiceNetwise implements UserEventService {
     userEvents = populateUserEvents(eventList);
 
     return userEvents;
-  }
-
-  /**
-   * Helper-method for cleaning up phone numbers to the format expected by the webservice.
-   * 
-   * @param phoneNumber The phone number to clean up.
-   * @return The phone number with any leading +46 replaced with a 0 and in the format xxx-xxxxxx (eg. 070-123456).
-   */
-  private String cleanPhoneNumber(String phoneNumber) {
-    String result = phoneNumber.replaceFirst("^\\+46", "0");
-    result = result.replaceAll("[- ]", "");
-    result = result.replaceFirst("^(.{3})(.*)$", "$1-$2");
-    return result;
   }
 
   /**
