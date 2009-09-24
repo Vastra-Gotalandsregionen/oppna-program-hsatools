@@ -9,6 +9,11 @@ import se.vgregion.kivtools.search.ws.domain.hak.netwise.event.UserEventSoap;
 public class UserEventServiceFactoryNetwiseTest {
 
   @Test
+  public void testInstance(){
+    assertNotNull(new UserEventServiceFactoryNetwise());
+  }
+  
+  @Test
   public void testGetUserEventSoap() {
     UserEventSoap userEventSoap = UserEventServiceFactoryNetwise.getUserEventSoap();
     assertNotNull(userEventSoap);

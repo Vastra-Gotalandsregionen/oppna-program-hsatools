@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
+	<!--
 
-    Copyright 2009 Västra Götalandsregionen
-
-      This library is free software; you can redistribute it and/or modify
-      it under the terms of version 2.1 of the GNU Lesser General Public
-      License as published by the Free Software Foundation.
-
-      This library is distributed in the hope that it will be useful,
-      but WITHOUT ANY WARRANTY; without even the implied warranty of
-      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-      GNU Lesser General Public License for more details.
-
-      You should have received a copy of the GNU Lesser General Public
-      License along with this library; if not, write to the
-      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
-      Boston, MA 02111-1307  USA
-
--->
+		Copyright 2009 Västra Götalandsregionen This library is free software;
+		you can redistribute it and/or modify it under the terms of version
+		2.1 of the GNU Lesser General Public License as published by the Free
+		Software Foundation. This library is distributed in the hope that it
+		will be useful, but WITHOUT ANY WARRANTY; without even the implied
+		warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+		the GNU Lesser General Public License for more details. You should
+		have received a copy of the GNU Lesser General Public License along
+		with this library; if not, write to the Free Software Foundation,
+		Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+	-->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="propertyPlaceholderWebcomp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:resources/settings/lth/sik-composite-webcomp.properties" />
+	<bean id="propertyPlaceholderWebcomp"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="classpath:resources/settings/lth/sik-composite-webcomp.properties" />
 		<property name="placeholderPrefix" value="#{" />
 		<property name="fileEncoding" value="UTF-8" />
 	</bean>
-	
-	
-	<bean id="Search_SettingsContainer" class="se.vgregion.kivtools.search.presentation.SettingsBean" scope="prototype">
-		<constructor-arg index="0" value="classpath:resources/settings/lth/sik-composite-webcomp.properties"/>
+
+
+	<bean id="Search_SettingsContainer" class="se.vgregion.kivtools.search.presentation.SettingsBean"
+		scope="prototype">
+		<constructor-arg index="0"
+			value="classpath:resources/settings/lth/sik-composite-webcomp.properties" />
 		<property name="useTrackingCode" value="#{google.useTrackingCode}" />
 		<property name="trackingCodeOnServer" value="#{google.trackingCodeOnServer}" />
 		<property name="trackingCode" value="#{google.trackingCode}" />
 	</bean>
-	
+
 	<bean id="userEventService"
 		class="se.vgregion.kivtools.search.userevent.impl.hak.UserEventServiceNetwise">
 		<property name="service">
 			<bean
 				class="se.vgregion.kivtools.search.userevent.impl.hak.UserEventServiceFactoryNetwise"
 				factory-method="getUserEventSoap" />
+		</property>
+	</bean>
+
+	<bean id="smsRedirectService"
+		class="se.vgregion.kivtools.search.sms.impl.hak.SmsRedirectServiceNetwise">
+		<property name="smsRedirectSoap">
+			<bean
+				class="se.vgregion.kivtools.search.sms.impl.hak.SmsRedirectServiceFactory"
+				factory-method="getSmsRedirectSoap" />
 		</property>
 	</bean>
 </beans>

@@ -158,6 +158,12 @@
 		<url-pattern>*.flow</url-pattern>
 	</servlet-mapping>
   
+  	<servlet-mapping>
+		<servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
+		<url-pattern>*.servlet</url-pattern>
+	</servlet-mapping>
+  
+  
 	<!--  Servlet used as workaround for non-working actionlinks i jsf -->
 	<servlet>
 		<servlet-name>Display Person By VgrId</servlet-name>
