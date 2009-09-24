@@ -25,7 +25,7 @@ import java.util.Date;
  * 
  * @author David Bennehult & Joakim Olsson
  */
-public class UserEventInfo implements Serializable {
+public final class UserEventInfo implements Serializable {
   private static final long serialVersionUID = -3878573201077056386L;
 
   private final String status;
@@ -77,7 +77,17 @@ public class UserEventInfo implements Serializable {
   public String getSignature() {
     return signature;
   }
-
+  
+  /**
+   * 
+   * @param status status string code
+   * @param code string 
+   * @param fromDateTime date 
+   * @param toDateTime date
+   * @param information string 
+   * @param signature string
+   * @return a UserEventInfo object
+   */
   public static UserEventInfo createUserEventInfo(String status, String code, Date fromDateTime, Date toDateTime, String information, String signature) {
     return new UserEventInfo(status, code, new Date(fromDateTime.getTime()), new Date(toDateTime.getTime()), information, signature);
   }

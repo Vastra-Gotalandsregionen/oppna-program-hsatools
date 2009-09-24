@@ -3,7 +3,12 @@ package se.vgregion.kivtools.search.sms.impl.hak;
 import se.vgregion.kivtools.search.sms.SmsRedirectService;
 import se.vgregion.kivtools.search.util.netwise.NetwiseServicesUtil;
 import se.vgregion.kivtools.search.ws.domain.hak.netwise.sms.SMSRedirectSoap;
-
+/**
+ * Class implementing Netwise sms service.
+ * 
+ * @author David Bennehult
+ *
+ */
 public class SmsRedirectServiceNetwise implements SmsRedirectService {
 
   private SMSRedirectSoap smsRedirectSoap;
