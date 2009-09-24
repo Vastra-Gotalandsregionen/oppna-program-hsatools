@@ -27,7 +27,7 @@
 	<var name="personSearchSimpleForm" class="se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm" />
 	<var name="persons" class="java.util.ArrayList" />
 	<var name="userMessage" class="se.vgregion.kivtools.search.presentation.forms.UserMessageContainer" />
-	
+	<var name="currentDate" class="java.util.Date"/>
 	<!-- Get person with specified vgrId -->
 	<input name="vgrid" />
 
