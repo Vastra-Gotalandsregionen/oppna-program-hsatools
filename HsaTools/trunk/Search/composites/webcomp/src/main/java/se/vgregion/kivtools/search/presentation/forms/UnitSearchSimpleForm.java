@@ -24,33 +24,41 @@ import java.io.Serializable;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class UnitSearchSimpleForm implements Serializable {
-    private String unitName="";
-    private String searchParamValue="";
-    
-    public String getUnitName() {
-        return unitName;
-    }
-    public void setUnitName(String unitName) {
-        this.unitName = unitName;
-    }
-    public String getSearchParamValue() {
-        return searchParamValue;
-    }
-    public void setSearchParamValue(String searchParamValue) {
-        this.searchParamValue = searchParamValue;
-    }
+  private String unitName = "";
+  private String searchParamValue = "";
 
-    public boolean isEmpty() {
-        if ((unitName==null) && (searchParamValue==null)) {
-            return true;
-        }
-        if ( (unitName.trim().length() == 0) && (searchParamValue.trim().length()==0) ) {
-            return true;
-        }
-        return false;
+  public String getUnitName() {
+    return unitName;
+  }
+
+  public void setUnitName(String unitName) {
+    this.unitName = unitName;
+  }
+
+  public String getSearchParamValue() {
+    return searchParamValue;
+  }
+
+  public void setSearchParamValue(String searchParamValue) {
+    this.searchParamValue = searchParamValue;
+  }
+
+  /**
+   * 
+   * @return true if unitName and searchParamValue is null or empty.
+   */
+  public boolean isEmpty() {
+    boolean isEmpty = false;
+    if ((unitName == null) && (searchParamValue == null)) {
+      isEmpty = true;
     }
+    if ((unitName.trim().length() == 0) && (searchParamValue.trim().length() == 0)) {
+      isEmpty = true;
+    }
+    return isEmpty;
+  }
 }

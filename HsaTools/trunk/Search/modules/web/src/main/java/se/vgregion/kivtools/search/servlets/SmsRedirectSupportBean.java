@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import se.vgregion.kivtools.search.sms.SmsRedirectService;
 
+/**
+ * 
+ * @author David Bennehult & Joakim Olsson
+ *
+ */
 @Controller
 public class SmsRedirectSupportBean {
 
@@ -19,7 +24,11 @@ public class SmsRedirectSupportBean {
   public void setSmsRedirectService(SmsRedirectService smsRedirectService) {
     this.smsRedirectService = smsRedirectService;
   }
-
+  /**
+   * 
+   * @param mobileNumber to use for fetch url
+   * @return url for redirect.
+   */
   @RequestMapping("/sms/send.servlet")
   public String sendSms(@RequestParam("mobileNumber") String mobileNumber) {
     String url = smsRedirectService.retrieveSmsRedirectUrl(mobileNumber);

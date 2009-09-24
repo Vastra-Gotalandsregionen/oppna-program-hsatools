@@ -65,13 +65,18 @@ public class PersonSearchSimpleForm implements Serializable {
     this.searchType = searchType;
   }
 
+  /**
+   * 
+   * @return true if givenName, sirName and vgrId is null or empty.
+   */
   public boolean isEmpty() {
+    boolean isEmpty = false;
     if ((givenName == null) && (sirName == null) && (vgrId == null)) {
-      return true;
+      isEmpty =  true;
     }
     if ((givenName.trim().length() == 0) && (sirName.trim().length() == 0) && (vgrId.trim().length() == 0)) {
-      return true;
+      isEmpty =  true;
     }
-    return false;
+    return isEmpty;
   }
 }

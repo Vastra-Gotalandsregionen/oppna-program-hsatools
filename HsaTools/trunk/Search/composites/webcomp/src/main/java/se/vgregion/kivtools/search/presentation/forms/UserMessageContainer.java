@@ -24,31 +24,47 @@ import java.io.Serializable;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
- *
+ * 
  */
-public class UserMessageContainer implements Serializable{
-    private String userMessage = "";
+public class UserMessageContainer implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+  private String userMessage = "";
 
-    public String getUserMessage() {
-        return userMessage;
-    }
+  public String getUserMessage() {
+    return userMessage;
+  }
 
-    public void setUserMessage(String userMessage) {
-        this.userMessage = userMessage;
-    }
-    
-    public void clear() {
-        userMessage = "";
-    }
-    
-    public String getConsumeUserMessage() {
-        String s = userMessage;
-        clear();
-        return s;
-    }
+  public void setUserMessage(String userMessage) {
+    this.userMessage = userMessage;
+  }
 
-    public void addUserMessage(String userMessage) {
-        this.userMessage += userMessage;
-    }
-        
+  /**
+   * clear userMessage to "".
+   */
+  public void clear() {
+    userMessage = "";
+  }
+
+  /**
+   * 
+   * @return userMessage and clear it after returning.
+   */
+  public String getConsumeUserMessage() {
+    String s = userMessage;
+    clear();
+    return s;
+  }
+
+  /**
+   * Append userMessage param to current userMessage in UserMessageContainer.
+   * 
+   * @param message to append.
+   */
+  public void addUserMessage(String message) {
+    this.userMessage += message;
+  }
+
 }
