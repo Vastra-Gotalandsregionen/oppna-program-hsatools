@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västa Götalandsregionen
+ * Copyright 2009 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -20,8 +20,14 @@ package se.vgregion.kivtools.util.http;
 /**
  * Fetches content from a HTTP-server.
  * 
- * @author argoyle
+ * @author Joakim Olsson
  */
 public interface HttpFetcher {
+  /**
+   * Fetches the content of the provided URL as a String.
+   * 
+   * @param urlToFetch The URL to fetch.
+   * @return The content of the provided URL.
+   */
   public String fetchUrl(String urlToFetch);
 }
