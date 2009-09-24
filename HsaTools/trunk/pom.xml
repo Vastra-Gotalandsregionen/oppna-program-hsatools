@@ -75,6 +75,8 @@
                             <exclude>**/ws/domain/**/*.class</exclude>
                             <exclude>**/ws/domain/*.class</exclude>
                             <exclude>**/ws/signicat/**/*.class</exclude>
+                            <exclude>se/vgregon/kivtools/mocks/*.class</exclude>
+                            <exclude>se/vgregon/kivtools/mocks/**/*.class</exclude>
                         </excludes>
                     </instrumentation>
                 </configuration>
