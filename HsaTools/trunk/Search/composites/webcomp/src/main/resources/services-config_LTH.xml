@@ -35,4 +35,13 @@
 		<property name="trackingCodeOnServer" value="#{google.trackingCodeOnServer}" />
 		<property name="trackingCode" value="#{google.trackingCode}" />
 	</bean>
+	
+	<bean id="userEventService"
+		class="se.vgregion.kivtools.search.userevent.impl.hak.UserEventServiceNetwise">
+		<property name="service">
+			<bean
+				class="se.vgregion.kivtools.search.userevent.impl.hak.UserEventServiceFactoryNetwise"
+				factory-method="getUserEventSoap" />
+		</property>
+	</bean>
 </beans>

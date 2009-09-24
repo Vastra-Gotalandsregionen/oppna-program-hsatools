@@ -54,35 +54,54 @@ public class UserEventServiceNetwise implements UserEventService {
   public List<UserEventInfo> retrieveUserEvents(String firstName, String surname, String telephoneNumber, String mobileNumber) {
     List<UserEventInfo> userEvents = new ArrayList<UserEventInfo>();
 
-    Resultset resultset = service.getResultsetFromPersonInfo(telephoneNumber, mobileNumber, firstName, firstName);
+    String requestedTelephoneNumber = cleanPhoneNumber(telephoneNumber);
+    String requestedMobileNumber = cleanPhoneNumber(mobileNumber);
 
-    // TODO: Add error handling
+    Resultset resultset = service.getResultsetFromPersonInfo(requestedTelephoneNumber, requestedMobileNumber, firstName, firstName);
 
     ArrayOfEvent eventList = resultset.getEventList();
-    List<Event> events = eventList.getEvent();
 
-    userEvents = populateUserEvents(events);
+    userEvents = populateUserEvents(eventList);
 
     return userEvents;
   }
 
   /**
-   * @param events
-   * @return
+   * Helper-method for cleaning up phone numbers to the format expected by the webservice.
+   * 
+   * @param phoneNumber The phone number to clean up.
+   * @return The phone number with any leading +46 replaced with a 0 and in the format xxx-xxxxxx (eg. 070-123456).
    */
-  private List<UserEventInfo> populateUserEvents(List<Event> events) {
+  private String cleanPhoneNumber(String phoneNumber) {
+    String result = phoneNumber.replaceFirst("^\\+46", "0");
+    result = result.replaceAll("[- ]", "");
+    result = result.replaceFirst("^(.{3})(.*)$", "$1-$2");
+    return result;
+  }
+
+  /**
+   * Converts the SOAP ArrayOfEvent-object to a list of UserEventInfo-objects.
+   * 
+   * @param eventList The ArrayOfEvent-object to convert.
+   * @return A list of UserEventInfo-objects or an empty list of no ArrayOfEvent-object was provided.
+   */
+  private List<UserEventInfo> populateUserEvents(ArrayOfEvent eventList) {
     List<UserEventInfo> userEvents = new ArrayList<UserEventInfo>();
 
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+    if (eventList != null) {
+      List<Event> events = eventList.getEvent();
 
-    for (Event event : events) {
-      try {
-        Date fromDateTime = format.parse(event.getFrom());
-        Date toDateTime = format.parse(event.getTo());
+      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 
-        userEvents.add(UserEventInfo.createUserEventInfo(event.getStatus(), event.getCode(), fromDateTime, toDateTime, event.getInformation(), event.getSignature()));
-      } catch (ParseException e) {
-        LOG.error("Unable to parse date from event object", e);
+      for (Event event : events) {
+        try {
+          Date fromDateTime = format.parse(event.getFrom());
+          Date toDateTime = format.parse(event.getTo());
+
+          userEvents.add(UserEventInfo.createUserEventInfo(event.getStatus(), event.getCode(), fromDateTime, toDateTime, event.getInformation(), event.getSignature()));
+        } catch (ParseException e) {
+          LOG.error("Unable to parse date from event object", e);
+        }
       }
     }
 

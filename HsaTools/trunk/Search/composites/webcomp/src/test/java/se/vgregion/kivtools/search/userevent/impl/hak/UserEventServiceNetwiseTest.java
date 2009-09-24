@@ -59,7 +59,7 @@ public class UserEventServiceNetwiseTest {
 
   @Test
   public void testRetrievalNoEvents() {
-    List<UserEventInfo> userEvents = userEventServiceNetwise.retrieveUserEvents(null, null, null, null);
+    List<UserEventInfo> userEvents = userEventServiceNetwise.retrieveUserEvents(null, null, "", "");
     assertNotNull(userEvents);
     assertEquals(0, userEvents.size());
   }
@@ -70,7 +70,7 @@ public class UserEventServiceNetwiseTest {
     userEventSoapMock.setEvents(events);
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-    List<UserEventInfo> userEvents = userEventServiceNetwise.retrieveUserEvents("Kalle", "Kula", "031-123456", "070-123456");
+    List<UserEventInfo> userEvents = userEventServiceNetwise.retrieveUserEvents("Kalle", "Kula", "+4631123456", "+4670123456");
     assertEquals(2, userEvents.size());
     assertEquals(CODE, userEvents.get(0).getCode());
     assertEquals(STATUS, userEvents.get(0).getStatus());
@@ -79,6 +79,7 @@ public class UserEventServiceNetwiseTest {
     assertEquals(format.parse(FROM_TIME), userEvents.get(0).getFromDateTime());
     assertEquals(format.parse(TO_TIME), userEvents.get(0).getToDateTime());
     assertEquals("Unable to parse date from event object\n", logFactoryMock.getError(true));
+    userEventSoapMock.assertMobilePhone("070-123456");
   }
 
   private List<Event> createEvents() {
@@ -105,13 +106,23 @@ public class UserEventServiceNetwiseTest {
 
   public class UserEventSoapMock implements UserEventSoap {
     private List<Event> events = Collections.emptyList();
+    private String requestedMobileNumber;
 
     public void setEvents(List<Event> events) {
       this.events = events;
     }
 
+    /**
+     * @param string
+     */
+    public void assertMobilePhone(String string) {
+      assertEquals(string, requestedMobileNumber);
+    }
+
     @Override
     public Resultset getResultsetFromPersonInfo(String telno, String cordless, String firstName, String lastName) {
+      this.requestedMobileNumber = cordless;
+
       Resultset resultset = new Resultset();
       ArrayOfEvent arrayOfEvent = new ArrayOfEvent();
       arrayOfEvent.getEvent().addAll(this.events);
