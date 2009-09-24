@@ -7,6 +7,11 @@ import java.io.File;
 import se.vgregion.kivtools.util.file.FileUtil;
 import se.vgregion.kivtools.util.file.FileUtilException;
 
+/**
+ * Mock FileUtil implementation to use during unit testing.
+ * 
+ * @author David Bennehult & Joakim Olsson
+ */
 public class FileUtilMock implements FileUtil {
   private Object content;
   private File fileRead;
@@ -22,18 +27,38 @@ public class FileUtilMock implements FileUtil {
     this.exceptionToThrow = exceptionToThrow;
   }
 
+  /**
+   * Asserts that the content written is correct.
+   * 
+   * @param expected The expected content.
+   */
   public void assertContent(Object expected) {
     assertEquals(expected, content);
   }
 
+  /**
+   * Asserts that the file that has been read is the correct file.
+   * 
+   * @param file The expected file object.
+   */
   public void assertFileRead(File file) {
     assertEquals(file, fileRead);
   }
 
+  /**
+   * Asserts that the file that has been written is the correct file.
+   * 
+   * @param file The expected file object.
+   */
   public void assertFileWrite(File file) {
     assertEquals(file, fileWrite);
   }
 
+  /**
+   * Asserts that the directory that has been created is the correct file.
+   * 
+   * @param file The expected file object.
+   */
   public void assertDirCreated(File file) {
     assertEquals(file, dirCreated);
   }
@@ -75,6 +100,7 @@ public class FileUtilMock implements FileUtil {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public <T> T readObjectFromFile(File file) {
     fileRead = file;
     return (T) content;

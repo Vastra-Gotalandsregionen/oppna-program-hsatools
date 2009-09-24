@@ -18,19 +18,29 @@
 package se.vgregion.kivtools.mocks;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogConfigurationException;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * Mock LogFactory to use when testing logging of errors etc.
+ * 
+ * @author David Bennehult & Joakim Olsson
+ */
 public class LogFactoryMock extends LogFactory {
-  StringBuilder info = new StringBuilder();
-  StringBuilder debug = new StringBuilder();
-  StringBuilder warning = new StringBuilder();
-  StringBuilder error = new StringBuilder();
-  StringBuilder trace = new StringBuilder();
-  StringBuilder fatal = new StringBuilder();
+  private StringBuilder info = new StringBuilder();
+  private StringBuilder debug = new StringBuilder();
+  private StringBuilder warning = new StringBuilder();
+  private StringBuilder error = new StringBuilder();
+  private StringBuilder trace = new StringBuilder();
+  private StringBuilder fatal = new StringBuilder();
 
   private Log log = new LogMock();
 
+  /**
+   * Creates an instance of the LogFactoryMock and sets the system property LogFactory looks at to find the correct LogFactory to return when a factory is requested and releases all instances to make
+   * sure that a LogFactoryMock is returned.
+   * 
+   * @return An instance of LogFactoryMock.
+   */
   public static LogFactoryMock createInstance() {
     LogFactoryMock.resetInstance();
     System.setProperty("org.apache.commons.logging.LogFactory", "se.vgregion.kivtools.mocks.LogFactoryMock");
@@ -38,11 +48,20 @@ public class LogFactoryMock extends LogFactory {
     return (LogFactoryMock) LogFactory.getFactory();
   }
 
+  /**
+   * Resets the system property LogFactory looks at to find the correct LogFactory to return when a factory is requested and releases all instances.
+   */
   public static void resetInstance() {
     System.clearProperty("org.apache.commons.logging.LogFactory");
     LogFactory.releaseAll();
   }
 
+  /**
+   * Gets everything that has been logged using info.
+   * 
+   * @param clear Set to true to clear what has been previously logged.
+   * @return Everything that has been logged using info.
+   */
   public String getInfo(boolean clear) {
     String result = this.info.toString();
 
@@ -52,6 +71,12 @@ public class LogFactoryMock extends LogFactory {
     return result;
   }
 
+  /**
+   * Gets everything that has been logged using debug.
+   * 
+   * @param clear Set to true to clear what has been previously logged.
+   * @return Everything that has been logged using debug.
+   */
   public String getDebug(boolean clear) {
     String result = this.debug.toString();
 
@@ -61,6 +86,12 @@ public class LogFactoryMock extends LogFactory {
     return result;
   }
 
+  /**
+   * Gets everything that has been logged using warn.
+   * 
+   * @param clear Set to true to clear what has been previously logged.
+   * @return Everything that has been logged using warn.
+   */
   public String getWarning(boolean clear) {
     String result = this.warning.toString();
 
@@ -70,6 +101,12 @@ public class LogFactoryMock extends LogFactory {
     return result;
   }
 
+  /**
+   * Gets everything that has been logged using error.
+   * 
+   * @param clear Set to true to clear what has been previously logged.
+   * @return Everything that has been logged using error.
+   */
   public String getError(boolean clear) {
     String result = this.error.toString();
 
@@ -79,6 +116,12 @@ public class LogFactoryMock extends LogFactory {
     return result;
   }
 
+  /**
+   * Gets everything that has been logged using fatal.
+   * 
+   * @param clear Set to true to clear what has been previously logged.
+   * @return Everything that has been logged using fatal.
+   */
   public String getFatal(boolean clear) {
     String result = this.fatal.toString();
 
@@ -88,6 +131,12 @@ public class LogFactoryMock extends LogFactory {
     return result;
   }
 
+  /**
+   * Gets everything that has been logged using trace.
+   * 
+   * @param clear Set to true to clear what has been previously logged.
+   * @return Everything that has been logged using trace.
+   */
   public String getTrace(boolean clear) {
     String result = this.trace.toString();
 
@@ -99,12 +148,12 @@ public class LogFactoryMock extends LogFactory {
 
   @Override
   @SuppressWarnings("unchecked")
-  public Log getInstance(Class clazz) throws LogConfigurationException {
+  public Log getInstance(Class clazz) {
     return log;
   }
 
   @Override
-  public Log getInstance(String name) throws LogConfigurationException {
+  public Log getInstance(String name) {
     return log;
   }
 
@@ -132,6 +181,9 @@ public class LogFactoryMock extends LogFactory {
   public void setAttribute(String name, Object value) {
   }
 
+  /**
+   * Mock Log-class used by the LogFactoryMock.
+   */
   private class LogMock implements Log {
 
     @Override
