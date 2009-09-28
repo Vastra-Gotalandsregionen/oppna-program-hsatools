@@ -630,10 +630,8 @@ a.rss,#nav-supp a.rss {
 
 #search-result-caption {
     padding: 0.5em;
-    float: right;
-    width: 73%;
 }
-
+#print-area {clear:both;}
 #search-result-caption-text {
     float: left;
 }

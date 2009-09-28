@@ -34,7 +34,6 @@
 
 <!--  
 -->
-
 	<bean id="Search_SearchService" class="se.vgregion.kivtools.search.svc.impl.hak.ldap.SearchServiceLdapImpl">
 		<property name="personRepository" ref="Search_PersonRepository"></property>
 		<property name="unitRepository" ref="Search_UnitRepository"></property>

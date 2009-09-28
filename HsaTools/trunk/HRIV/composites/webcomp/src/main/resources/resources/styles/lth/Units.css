@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2009 Västa Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -38,7 +38,7 @@ input, select, textarea {
 	text-align: right;
 	margin-top:0.5em;
 	margin-right:0.1em;
-	
+
 }
 input.quicksearchinput {
 	margin-right:0.2em;
@@ -49,11 +49,11 @@ input.quicksearchinput {
 
 }
 #TopHolderKris {
-	PADDING-RIGHT: 1em; 
-	MARGIN-TOP: 1em; 
-	PADDING-LEFT: 1em; 
-	PADDING-TOP: 0.5em; 
-	HEIGHT: 4em; 
+	PADDING-RIGHT: 1em;
+	MARGIN-TOP: 1em;
+	PADDING-LEFT: 1em;
+	PADDING-TOP: 0.5em;
+	HEIGHT: 4em;
 	BACKGROUND-COLOR: #ffffff
 }
 
@@ -134,7 +134,7 @@ a.TopHeaderIcon {
 #NavigationHolder LI a:hover {
 	text-decoration:underline;
 }
-	
+
 
 .TopWide {
 	padding-top: 0.5em;
@@ -159,14 +159,14 @@ a.TopHeaderIcon {
 	color:#000000;
 	font-weight:bold;
 }
-#MenuSelections 
+#MenuSelections
 {
 	padding:0px;
 	FLOAT: left;
 	WIDTH: 61em;
 	PADDING-TOP: 0.2em;
 	BACKGROUND-COLOR: #1e5cc4;
-	
+
 	padding-bottom: 0.4em;
 	padding-left:0px;
 	padding-right:0px;
@@ -175,7 +175,7 @@ a.TopHeaderIcon {
 	background-position:bottom;
 }
 
-#TopMenuItems UL 
+#TopMenuItems UL
 {
 	margin:0em;
 	padding: 0em;
@@ -227,11 +227,11 @@ a.TopHeaderIcon {
 	background-color: #FFFFFF;
 	margin-top:-1px;
 }
-.BorderLine 
+.BorderLine
 {
 	border-top:solid 1px #000;
 }
-* html .BorderLine 
+* html .BorderLine
 {
 	border-top:0px;
 }
@@ -241,7 +241,7 @@ a.TopHeaderIcon {
 	margin-top: 0.2em;
 	float:left;
 	background-color: #FFFFFF;
-	margin-bottom:0.5em;	
+	margin-bottom:0.5em;
 
 }
 
@@ -261,7 +261,7 @@ a.TopHeaderIcon {
 	border-top-width: 1px;
 	border-top-style: solid;
 	border-top-color: #adadad;
-	
+
 }
 #StartPLeftCol H1 {
 	font-size:1.0em;
@@ -280,7 +280,7 @@ a.TopHeaderIcon {
 }
 #StartPLeftCol a:link, #StartPLeftCol a:visited {
 	text-decoration:none;
-	color:#000000;	
+	color:#000000;
 }
 #StartPLeftCol a:hover {
 	text-decoration:underline;
@@ -312,7 +312,7 @@ a.TopHeaderIcon {
 }
 .Right {
 	float:right;
-	text-align: right;	
+	text-align: right;
 	padding-right: 0.5em;
 }
 
@@ -392,7 +392,7 @@ a.TopHeaderIcon {
 	border-top-width: 1px;
 	border-top-style: solid;
 	border-top-color: #adadad;
-	height: 310px;	
+	height: 310px;
 }
 #StartPMidCol H1 {
 	font-size:1.0em;
@@ -508,7 +508,7 @@ a.TopHeaderIcon {
 	border-right-color: #adadad;
 	border-top-width: 1px;
 	border-top-style: solid;
-	border-top-color: #adadad;	
+	border-top-color: #adadad;
 }
 #StartPRightColBottom H1 {
 	font-size:1.0em;
@@ -536,8 +536,8 @@ a.TopHeaderIcon {
 	width:12em;
 }
 .FormList .ButtonHolder {
-	text-align:right; 
-	padding-right:0.5em; 
+	text-align:right;
+	padding-right:0.5em;
 	padding-bottom:0.5em;
 	margin-top:0.2em;
 }
@@ -564,7 +564,7 @@ a.TopHeaderIcon {
 	padding-right: 0.3em;
 }
 .ColHolderNarrow {
-	float:left;	
+	float:left;
 }
 .ColEndSmall {
 	float:left;
@@ -601,7 +601,7 @@ a.TopHeaderIcon {
 
 /*Puffeditorer*/
 .PuffEditorContent {
-	
+
 	padding-left: 0.6em;
 	padding-top: 0.5em;
 	padding-right:0.6em;
@@ -614,11 +614,11 @@ a.TopHeaderIcon {
 	padding: 0px;
 }
 .PuffEditorContentSmall {
-	
+
 	vertical-align:middle;
 	padding-top:0.5em;
 }
-.PuffEditorContentSmall img 
+.PuffEditorContentSmall img
 {
 	padding-bottom: 0.5em;
 }
@@ -808,7 +808,7 @@ a.TopHeaderIcon {
 
 #Content a:hover {
 	color:#000;
-	text-decoration:underline;	
+	text-decoration:underline;
 }
 
 .ContentMargin {
@@ -819,7 +819,7 @@ a.TopHeaderIcon {
 /*#Content P {
 	padding:0em;
 	margin:0em;
-}*/	
+}*/
 #Content H1.Normal{
 	margin-top: 0.9em;
 	padding-bottom: 0.5em;
@@ -870,11 +870,11 @@ H4 {
 #Content .InfoLineNarrow {
 	font-size:0.9em;
 	float: left;
-	width: 99%;	
+	width: 99%;
 }
 #Content .InfoImageHolder {
 	padding-bottom:0.3em;
-	
+
 }
 .ExtraEditor {
 	padding-top:0.5em;
@@ -968,7 +968,7 @@ H1.PageName{
 	text-align: right;
 }
 
-.ListDownloadItems .OrderLink 
+.ListDownloadItems .OrderLink
 {
 	float:right;
 	width:1em;
@@ -1209,10 +1209,10 @@ h1.BlueBoxLine {
 	border: 1px solid #000000;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
-	padding-top:0px; 
+	padding-top:0px;
 	padding-bottom:0px;
 }
-	
+
 /*Nyhetslista-kliniksida*/
 #Content .LJFilter {
 	background-color: #1e5cc4;
@@ -1243,16 +1243,16 @@ h1.BlueBoxLine {
 	background-color: #1e5cc4;
 	color: #FFFFFF;
 	font-weight: bold;
-	margin-bottom: 0.2em;	
+	margin-bottom: 0.2em;
     width: 100%;
     height:2.1em;
     padding-top:0.3em;
-  
+
     border: 1px solid #000000;
 }
 
 .LJFilter h1 {
-	font-size:0.2em;	
+	font-size:0.2em;
 }
 
 /* Lediga jobb */
@@ -1297,7 +1297,7 @@ h1.BlueBoxLine {
 	background-color: #1e5cc4;
 }
 /*Nyhetslista-nyhetsarkiv/kriswebb*/
-#NewsAndEditor 
+#NewsAndEditor
 {
 	margin-bottom:0.8em;
 }
@@ -1333,7 +1333,7 @@ h1.BlueBoxLine {
 	list-style-type:none;
 	width: 100%;
 	float: left;
-	padding: 0.3em 0em 0.3em 0em;	
+	padding: 0.3em 0em 0.3em 0em;
 }
 #NewsList li ul {
 	padding:0em;
@@ -1358,7 +1358,7 @@ h1.BlueBoxLine {
 	padding-right: 0.5em;
 }
 #NewsList .NewsDateLineBreak {
-	width:95%; 
+	width:95%;
 }
 #NewsList .NewsContentSmall {
 	float:right;
@@ -1373,7 +1373,7 @@ h1.BlueBoxLine {
 	font-size:1em;
 	padding:1em 0em 0em;
 	margin:0em;
-}	
+}
 #EditorHolderSmall {
 	padding-left: 0.5em;
 	margin-bottom:0.4em;
@@ -1382,14 +1382,14 @@ h1.BlueBoxLine {
 }
 #EditorHolderSmall a:link, #EditorHolderSmall a:visited {
 	color:#000;
-	text-decoration:underline;	
+	text-decoration:underline;
 }
 #EditorHolderWide {
-	
+
 }
 #EditorHolderWide a:link, #EditorHolderWide a:visited {
 	color:#000;
-	text-decoration:underline;	
+	text-decoration:underline;
 }
 
 /*Nyhetslista-kliniksida*/
@@ -1458,7 +1458,7 @@ h1.BlueBoxLine {
 	padding-right: 0.5em;
 }
 #NewsListChanged .NewsDateLineBreak {
-	width:95%; 
+	width:95%;
 }
 #NewsListChanged .NewsContentSmall {
 	float:right;
@@ -1471,13 +1471,13 @@ h1.BlueBoxLine {
 	font-size:1em;
 	padding:0em 0em 0em;
 	margin:0em;
-}	
+}
 #EditorHolderSmallNewsListChanged {
 	padding-left: 0.5em;
 	padding-top: 1em;
-}	
+}
 #EditorHolderWideNewsListChanged {
-	
+
 }
 
 
@@ -1494,7 +1494,7 @@ h1.BlueBoxLine {
 	border-left-color: #000000;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	border-bottom-color: #000000;	
+	border-bottom-color: #000000;
 }
 #RightContent H1 {
 	background-color:#1e5cc4;
@@ -1591,7 +1591,7 @@ h1.BlueBoxLine {
 	padding-right: 0.5em;
 }
 #NewsListUrgent .NewsDateLineBreak {
-	width:95%; 
+	width:95%;
 }
 #NewsListUrgent .NewsContentSmall {
 	float:right;
@@ -1606,7 +1606,7 @@ h1.BlueBoxLine {
 	margin-bottom:0.5em;
 }
 
-/*krissida-nyhetslistning*/	
+/*krissida-nyhetslistning*/
 
 #Emergency {
 	clear: both;
@@ -1707,11 +1707,11 @@ input.buttonwidth
 /* footer med utskriftsinfo som bara ska visas vid utskrift */
 .UserPrintInfo
 {
-	display: none;	
+	display: none;
 }
 
-/* used in "apply for job-form" and "intrest-form"*/ 
-#FormRightColumn{ 
+/* used in "apply for job-form" and "intrest-form"*/
+#FormRightColumn{
 	/* This class might not be used any more */
 	float:right;
 	width:200px
@@ -1719,7 +1719,7 @@ input.buttonwidth
 #jobformholder
 {
 	padding-bottom: 0.5em;
-	margin-bottom: 1.7em;	
+	margin-bottom: 1.7em;
 }
 #jobformholder .jobformlistitem
 {
@@ -1750,28 +1750,28 @@ input.buttonwidth
 /* Floats */
 .FloatLeft {
 	float:left;
-}                            
+}
 
-.FloatRight 
+.FloatRight
 {
 	float:right;
-}                            
+}
 
 /* CareGiver */
 .CareGiver {
 	border-left-width: 8px;
 	border-left-style: solid;
 	border-left-color: #ff9900;
-    border-right-width: 8px;                         
-    border-right-style: solid;                        
+    border-right-width: 8px;
+    border-right-style: solid;
 	border-right-color: #ff9900;
-    padding-right: 5px;                         
+    padding-right: 5px;
 	padding-left: 5px;
 }
 
 /* Fix for Firefox */
 #Content Table{
-   
+
 }
 
 /* For VoteControl */
@@ -1800,7 +1800,7 @@ input.buttonwidth
 
 }
 
-.WhiteLink:hover 
+.WhiteLink:hover
 {
 	text-decoration:underline;
 	color:#FFFFFF;
@@ -1829,14 +1829,14 @@ input.buttonwidth
 .listbreak {
 	margin-top:1px;
 	font-size:1px;
-	
+
 }
 .BannerColumnLeft {
-	float:left; 
+	float:left;
 	width:0.3em;
 	margin-right:0.3;
 }
-.BannerColumnRight { 
+.BannerColumnRight {
 	margin-left:1.0em;
 }
 
@@ -1849,7 +1849,7 @@ input.buttonwidth
 /*Wrapper för snabbval i högerblock*/
 .RightBlockSpeedSelection img
 {
-	
+
 }
 
 /*Används för att få "mellanrum" i pagefooter*/
@@ -1895,12 +1895,12 @@ input.buttonwidth
 	margin: 0px;
 	padding: 0px;
 }
-.PictureBannerMargin 
+.PictureBannerMargin
 {
 	margin-left:0.5em;
 	margin-right:0.5em;
 }
-.ListWithArrow LI 
+.ListWithArrow LI
 {
 	margin: 0px;
 	padding: 0px 0px 0px 8px;
@@ -1909,7 +1909,7 @@ input.buttonwidth
 	list-style-type: none;
 	background-position: 0px 8px;
 }
-.ListWithoutArrow LI 
+.ListWithoutArrow LI
 {
 	margin: 0px;
 	padding: 0px 0px 0px 8px;
@@ -1917,7 +1917,7 @@ input.buttonwidth
 	list-style-type: none;
 	background-position: 0px 8px;
 }
-.ListWithArrowDirectionLeft LI 
+.ListWithArrowDirectionLeft LI
 {
 	margin: 0px;
 	padding: 0px 0px 0px 8px;
@@ -1948,8 +1948,8 @@ input.buttonwidth
 }
 /* Mellanrubrik */
 h3, .heading3
-{	
-	font-size: 1em; 
+{
+	font-size: 1em;
 	font-family: Arial;
 	font-weight: bold;
 	margin-bottom: -1.5em;
@@ -1960,11 +1960,11 @@ h3, .heading3
 	float:left;
 	padding-top:1em;
 	margin-bottom:3em;
-	
+
 }
 
 /* fix for font-size in XForms */
-Table 
+Table
 {
 	font-size:1em;
 }
@@ -1972,9 +1972,9 @@ Table
 
 /* class to clear both sides used for xforms */
  .clearbothSpecial {
- 	clear: both;	
+ 	clear: both;
  }
- 
+
  /* reset the textarea width to be able to use the xfom defined column width*/
  .clearbothSpecial textarea {
  	width:auto;
@@ -1991,7 +1991,7 @@ Table
 {
 	background-image: url(..../images/lth_images/arrow.gif);
 	background-repeat: no-repeat;
-	list-style:none;	
+	list-style:none;
 	background-position: 0.0em 0.6em;
 	padding-left:0.6em;
 }
@@ -2015,7 +2015,7 @@ Table
 	background-image:none;
 }
 
-.BrochureListDownloadItems .OrderLink 
+.BrochureListDownloadItems .OrderLink
 {
 	float:right;
 	width:1em;
@@ -2031,8 +2031,8 @@ Table
 	float: left;
 	width: 98%;
 }
-.BrochureListDownloadItems LI UL 
-{	
+.BrochureListDownloadItems LI UL
+{
 	padding:0em;
 	margin:0em;
 }
@@ -2057,7 +2057,7 @@ Table
 	border: 1px solid #000000;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
-	padding-top:0px; 
+	padding-top:0px;
 	padding-bottom:0px;
 }
 /* För bannertext i picturebanner */
@@ -2079,7 +2079,7 @@ Table
 
 /*class used on a <br> tag to fix height on divs that contains pictures */
 .brclear
-{	
+{
 	clear:both;
 }
 
@@ -2092,7 +2092,7 @@ Table
 
 #healthCareContent a:link, #healthCareContent a:visited {
 	text-decoration:underline;
-	color:#000000;	
+	color:#000000;
 }
 #healthCareContent a:hover {
 	text-decoration:underline;
@@ -2105,7 +2105,7 @@ Table
 
 .BrochureListDownloadItemsHolder
 {
-	padding-bottom:0.8em;	
+	padding-bottom:0.8em;
 }
 
 #searchpageinnerholder
@@ -2117,12 +2117,12 @@ Table
 #search-suggest {}
 		#search-suggest .search-suggest-word { background: url(../images/lth_images/misc_icon_question_mark.gif) left no-repeat; padding-left: 22px; margin: 12px 0 12px 0;}
 		#search-suggest .search-suggest-word a { text-decoration: underline; }
-		#search-suggest .search-suggest-word a:hover { text-decoration: none; } 		
+		#search-suggest .search-suggest-word a:hover { text-decoration: none; }
 		#search-suggest .search-suggest-page { border: solid 1px #fe7c08; padding: 6px; }
 		#search-suggest .search-suggest-page a { text-decoration: none; }
 		#search-suggest .search-suggest-page a strong { display: block; }
 		#search-suggest .search-suggest-page a:hover { text-decoration: underline; }
-		
+
 .rightfloating
 {
 	float: right;

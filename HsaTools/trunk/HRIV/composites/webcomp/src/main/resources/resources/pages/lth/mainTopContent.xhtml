@@ -1,0 +1,21 @@
+<div xmlns:h="http://java.sun.com/jsf/html" 
+     xmlns:f="http://java.sun.com/jsf/core"
+     id="acc-services">
+    <ul class="cf">
+        <li id="rs-wrapper">
+        <h:outputLink value="http://app.readspeaker.com/cgi-bin/rsent"
+                      onclick="readspeaker(this.href,'webreader-audio'); return false;"
+                      id="rs-play" accesskey="L">
+            <f:param name="customerid" value="4331" />
+            <f:param name="voice" value="elin22k" />
+            <f:param name="lang" value="sv_se" />
+            <f:param name="readid" value="yui-main" />
+            <f:param name="url" value="${facesContext.externalContext.request.requestURL}?${facesContext.externalContext.request.queryString}" />
+            <h:outputText value="Lyssna på sidan" />
+        </h:outputLink>
+        </li>
+        <li class="print">
+            <a href="#" onclick="printElementLTH('print-area');">Skriv ut sidan</a>
+        </li>
+    </ul>
+</div>
