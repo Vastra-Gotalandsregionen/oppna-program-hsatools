@@ -146,7 +146,9 @@
 
                     <div id="main-column">
                         <div id="yui-main">
-                            <h:outputText escape="false" value="${Search_SettingsContainer.mainTop}" />
+                            <h:outputText rendered="${Search_SettingsContainer.mainTop != null }">
+                                <ui:include src="${Search_SettingsContainer.mainTop}"/>
+                            </h:outputText>
                             <ui:insert name="MainContainer"></ui:insert>
                         </div>
                     </div>
