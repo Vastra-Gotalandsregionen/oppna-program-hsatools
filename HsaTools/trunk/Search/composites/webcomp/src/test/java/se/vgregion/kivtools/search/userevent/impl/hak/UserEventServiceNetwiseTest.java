@@ -70,7 +70,7 @@ public class UserEventServiceNetwiseTest {
     List<Event> events = createEvents();
     userEventSoapMock.setEvents(events);
 
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     List<UserEventInfo> userEvents = userEventServiceNetwise.retrieveUserEvents("Kalle", "Kula", "+4631123456", "+4670123456");
     assertEquals(3, userEvents.size());
     assertEquals(CODE, userEvents.get(0).getCode());

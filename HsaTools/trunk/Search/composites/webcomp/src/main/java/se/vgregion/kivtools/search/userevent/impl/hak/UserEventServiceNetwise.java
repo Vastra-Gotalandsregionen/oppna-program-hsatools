@@ -79,7 +79,7 @@ public class UserEventServiceNetwise implements UserEventService {
     if (eventList != null) {
       List<Event> events = eventList.getEvent();
 
-      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
       for (Event event : events) {
         try {
