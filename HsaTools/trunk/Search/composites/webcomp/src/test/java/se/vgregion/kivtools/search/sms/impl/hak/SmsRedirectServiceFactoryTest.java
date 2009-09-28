@@ -2,7 +2,9 @@ package se.vgregion.kivtools.search.sms.impl.hak;
 
 import static org.junit.Assert.*;
 
-import org.junit.Ignore;
+import java.io.File;
+import java.net.MalformedURLException;
+
 import org.junit.Test;
 
 public class SmsRedirectServiceFactoryTest {
@@ -13,8 +15,8 @@ public class SmsRedirectServiceFactoryTest {
   }
 
   @Test
-  @Ignore
-  public void testGetSmsRedirectSoap() {
-    assertNotNull(SmsRedirectServiceFactory.getSmsRedirectSoap());
+  public void testGetSmsRedirectSoap() throws MalformedURLException {
+    File wsdlFile = new File("../schema/src/main/resources/wsdl/Netwise_SMSRedirect_HAK.wsdl");
+    assertNotNull(SmsRedirectServiceFactory.getSmsRedirectSoap(wsdlFile.toURI().toString(), "http://lina.lthalland.se/", "SMSRedirect"));
   }
 }

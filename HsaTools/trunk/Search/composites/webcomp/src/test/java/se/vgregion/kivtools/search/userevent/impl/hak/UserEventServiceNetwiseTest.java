@@ -28,6 +28,7 @@ public class UserEventServiceNetwiseTest {
   private static final String FROM_TIME = "2009-09-09 12:00";
   private static final String TO_TIME = "2009-09-09 17:00";
   private static final String BAD_TIME = "200909091700";
+  private static final String UNTIL_FURTHER_NOTICE = "TV";
 
   private static LogFactoryMock logFactoryMock;
 
@@ -65,13 +66,13 @@ public class UserEventServiceNetwiseTest {
   }
 
   @Test
-  public void testRetrievalTwoEvents() throws ParseException {
+  public void testRetrievalThreeEvents() throws ParseException {
     List<Event> events = createEvents();
     userEventSoapMock.setEvents(events);
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
     List<UserEventInfo> userEvents = userEventServiceNetwise.retrieveUserEvents("Kalle", "Kula", "+4631123456", "+4670123456");
-    assertEquals(2, userEvents.size());
+    assertEquals(3, userEvents.size());
     assertEquals(CODE, userEvents.get(0).getCode());
     assertEquals(STATUS, userEvents.get(0).getStatus());
     assertEquals(INFORMATION, userEvents.get(0).getInformation());
@@ -101,6 +102,10 @@ public class UserEventServiceNetwiseTest {
     event3.setFrom(FROM_TIME);
     event3.setTo(BAD_TIME);
     events.add(event3);
+    Event event4 = new Event();
+    event4.setFrom(FROM_TIME);
+    event4.setTo(UNTIL_FURTHER_NOTICE);
+    events.add(event4);
     return events;
   }
 
