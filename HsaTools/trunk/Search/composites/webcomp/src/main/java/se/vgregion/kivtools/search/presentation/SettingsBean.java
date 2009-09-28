@@ -41,6 +41,19 @@ public class SettingsBean implements Serializable {
   private String trackingCodeOnServer;
   private String trackingCode;
 
+  /**
+   * Constructs a new SettingsBean using the provided Resource.
+   * 
+   * @param resource The Resource to read settings from.
+   */
+  public SettingsBean(Resource resource) {
+    try {
+      settings.load(resource.getInputStream());
+    } catch (IOException e) {
+      LOGGER.error(e);
+    }
+  }
+
   public String getUseTrackingCode() {
     return useTrackingCode;
   }
@@ -63,19 +76,6 @@ public class SettingsBean implements Serializable {
 
   public void setTrackingCode(String trackingCode) {
     this.trackingCode = trackingCode;
-  }
-
-  /**
-   * Constructs a new SettingsBean using the provided Resource.
-   * 
-   * @param resource The Resource to read settings from.
-   */
-  public SettingsBean(Resource resource) {
-    try {
-      settings.load(resource.getInputStream());
-    } catch (IOException e) {
-      LOGGER.error(e);
-    }
   }
 
   public Map<Object, Object> getSettings() {

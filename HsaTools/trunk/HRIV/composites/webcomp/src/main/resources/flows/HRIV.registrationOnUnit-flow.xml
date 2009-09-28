@@ -54,6 +54,6 @@
 	</view-state>
 
 	<end-state id="Redirect.backToUnit"
-		view="externalRedirect:/displayUnitDetails.jsf?_flowId=HRIV.Search.searchunit-flow&amp;hsaidentity=${flowScope.hsaidentity}" />
+		view="flowRedirect:HRIV.Search.searchunit-flow?hsaidentity=${flowScope.hsaidentity}" />
 	<end-state id="Redirect.toSignatureService" view="externalRedirect:${flowScope.redirectUrl}" />
 </flow>

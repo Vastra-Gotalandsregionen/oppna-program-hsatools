@@ -15,7 +15,6 @@ import org.junit.Test;
 
 import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.search.userevent.UserEventInfo;
-import se.vgregion.kivtools.search.util.netwise.NetwiseServicesUtil;
 import se.vgregion.kivtools.search.ws.domain.hak.netwise.event.ArrayOfEvent;
 import se.vgregion.kivtools.search.ws.domain.hak.netwise.event.Event;
 import se.vgregion.kivtools.search.ws.domain.hak.netwise.event.Resultset;
@@ -54,7 +53,7 @@ public class UserEventServiceNetwiseTest {
 
   @Test
   public void testInstantiation() {
-    NetwiseServicesUtil userEventServiceNetwise = new UserEventServiceNetwise();
+    UserEventServiceNetwise userEventServiceNetwise = new UserEventServiceNetwise();
     assertNotNull(userEventServiceNetwise);
   }
 

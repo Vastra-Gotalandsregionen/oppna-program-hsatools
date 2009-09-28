@@ -25,7 +25,6 @@
 	start-state="Decision.displayUnitDetails">
 
 	<var name="unitSearchSimpleForm" class="se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm" />
-	<var name="userMessage" class="se.vgregion.kivtools.search.presentation.forms.UserMessageContainer" />
 	<var name="units" class="java.util.ArrayList" />
 	
 	<input name="hsaidentity" />

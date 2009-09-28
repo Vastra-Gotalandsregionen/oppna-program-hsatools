@@ -88,6 +88,7 @@
 									<goal>wsimport</goal>
 								</goals>
 								<configuration>
+									<wsdlLocation>http://wslina.lthalland.se/SMSRedirect.asmx?WSDL</wsdlLocation>
 									<wsdlFiles>
 										<wsdlFile>Netwise_SMSRedirect_HAK.wsdl</wsdlFile>
 									</wsdlFiles>
@@ -102,6 +103,7 @@
 									<goal>wsimport</goal>
 								</goals>
 								<configuration>
+									<wsdlLocation>http://wslina.lthalland.se/UserEvent.asmx?WSDL</wsdlLocation>
 									<wsdlFiles>
 										<wsdlFile>Netwise_UserEvent_HAK.wsdl</wsdlFile>
 									</wsdlFiles>
