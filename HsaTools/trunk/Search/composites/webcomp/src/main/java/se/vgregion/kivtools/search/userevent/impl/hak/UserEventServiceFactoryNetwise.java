@@ -17,6 +17,11 @@
  */
 package se.vgregion.kivtools.search.userevent.impl.hak;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.xml.namespace.QName;
+
 import se.vgregion.kivtools.search.ws.domain.hak.netwise.event.UserEvent;
 import se.vgregion.kivtools.search.ws.domain.hak.netwise.event.UserEventSoap;
 
@@ -26,7 +31,16 @@ import se.vgregion.kivtools.search.ws.domain.hak.netwise.event.UserEventSoap;
  * @author Joakim Olsson
  */
 public class UserEventServiceFactoryNetwise {
-  public static UserEventSoap getUserEventSoap() {
-    return new UserEvent().getUserEventSoap();
+  /**
+   * Return default UserEventSoap object.
+   * 
+   * @param wsdlLocation The URL to use to find the WSDL.
+   * @param namespace The namespace for the webservice.
+   * @param qNameLocalPart The local part of the Qualified Name to use for the WSDL.
+   * @return UserEventSoap object.
+   * @throws MalformedURLException if the provided wsdlLocation is not a valid URL.
+   */
+  public static UserEventSoap getUserEventSoap(String wsdlLocation, String namespace, String qNameLocalPart) throws MalformedURLException {
+    return new UserEvent(new URL(wsdlLocation), new QName(namespace, qNameLocalPart)).getUserEventSoap();
   }
 }

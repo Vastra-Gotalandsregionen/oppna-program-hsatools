@@ -84,8 +84,10 @@ public class UserEventServiceNetwise implements UserEventService {
       for (Event event : events) {
         try {
           Date fromDateTime = format.parse(event.getFrom());
-          Date toDateTime = format.parse(event.getTo());
-
+          Date toDateTime = null;
+          if (!"TV".equals(event.getTo())) {
+            toDateTime = format.parse(event.getTo());
+          }
           userEvents.add(UserEventInfo.createUserEventInfo(event.getStatus(), event.getCode(), fromDateTime, toDateTime, event.getInformation(), event.getSignature()));
         } catch (ParseException e) {
           LOG.error("Unable to parse date from event object", e);

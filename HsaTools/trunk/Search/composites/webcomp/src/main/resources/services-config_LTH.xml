@@ -39,16 +39,24 @@
 		<property name="service">
 			<bean
 				class="se.vgregion.kivtools.search.userevent.impl.hak.UserEventServiceFactoryNetwise"
-				factory-method="getUserEventSoap" />
+				factory-method="getUserEventSoap">
+				<constructor-arg value="http://wslina.lthalland.se/UserEvent.asmx?WSDL"/>
+				<constructor-arg value="http://lina.lthalland.se/"/>
+				<constructor-arg value="UserEvent"/>
+			</bean>
 		</property>
 	</bean>
 
-	<bean id="smsRedirectService"
+	<bean id="smsRedirectService"  
 		class="se.vgregion.kivtools.search.sms.impl.hak.SmsRedirectServiceNetwise">
 		<property name="smsRedirectSoap">
 			<bean
 				class="se.vgregion.kivtools.search.sms.impl.hak.SmsRedirectServiceFactory"
-				factory-method="getSmsRedirectSoap" />
+				factory-method="getSmsRedirectSoap" >
+				<constructor-arg value="http://wslina.lthalland.se/SMSRedirect.asmx?WSDL"/>
+				<constructor-arg value="http://lina.lthalland.se/"/>
+				<constructor-arg value="SMSRedirect"/>
+			</bean>
 		</property>
 	</bean>
 </beans>
