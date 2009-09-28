@@ -260,9 +260,9 @@ function searchUnits(rootUrl, webappName, municipalityId, resultOnly, googleMaps
 		search_area_from_response = search_area_from_response.replace(toBeReplaced, toReplaceExpression);
 		
 		//Update search form
-		var toBeReplacedExpression = 'action="displayUnitSearchResult.jsf[;jsessionid=,0-9,A-Z]*';
+		var toBeReplacedExpression = 'action="Search.searchunit-flow.flow[;jsessionid=,0-9,A-Z]*';
 		var toBeReplaced = new RegExp(toBeReplacedExpression, "g");
-		var toReplaceExpression = 'action="' + rootUrl + '/' + webappName + '/displayUnitSearchResult.jsf?googleMapsKey=' + googleMapsKey + '&resultOnly=' + resultOnly;
+		var toReplaceExpression = 'action="' + rootUrl + '/' + webappName + '/Search.searchunit-flow.flow?googleMapsKey=' + googleMapsKey + '&resultOnly=' + resultOnly;
 		search_area_from_response = search_area_from_response.replace(toBeReplaced, toReplaceExpression);
 
 		var search_units = $('search-units');

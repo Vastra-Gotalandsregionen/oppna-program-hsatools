@@ -24,8 +24,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
-import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
@@ -106,10 +106,9 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * 
    * @param theForm The form with the search criterias.
    * @return A list of matching units.
-   * @throws KivNoDataFoundException If no units were found with the provided criterias.
-   * @throws NoConnectionToServerException If no connection to the LDAP server could be made.
+   * @throws KivException If no units were found with the provided criterias or if no connection to the LDAP server could be made.
    */
-  public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm) throws KivNoDataFoundException, NoConnectionToServerException {
+  public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm) throws KivException {
     LOGGER.debug(CLASS_NAME + ".doSearch()");
 
     SikSearchResultList<Unit> list = null;
@@ -181,10 +180,9 @@ public class SearchUnitFlowSupportBean implements Serializable {
       for (int position = startIndex; position <= endIndex; position++) {
         result.add(list.get(position));
       }
+    } catch (KivNoDataFoundException e) {
+      throw e;
     } catch (Exception e) {
-      if (e instanceof KivNoDataFoundException) {
-        throw (KivNoDataFoundException) e;
-      }
       LOGGER.error(e);
       result = new ArrayList<String>();
     }
@@ -210,10 +208,9 @@ public class SearchUnitFlowSupportBean implements Serializable {
         }
       }
       result = PagedSearchMetaDataHelper.buildPagedSearchMetaData(unitHsaIdList, pageSize);
+    } catch (KivNoDataFoundException e) {
+      throw e;
     } catch (Exception e) {
-      if (e instanceof KivNoDataFoundException) {
-        throw (KivNoDataFoundException) e;
-      }
       LOGGER.error(e);
       result = new ArrayList<PagedSearchMetaData>();
     }
@@ -251,10 +248,9 @@ public class SearchUnitFlowSupportBean implements Serializable {
         }
       }
       return allUnitsWithPositionInfo;
+    } catch (KivNoDataFoundException e) {
+      throw e;
     } catch (Exception e) {
-      if (e instanceof KivNoDataFoundException) {
-        throw (KivNoDataFoundException) e;
-      }
       LOGGER.error(e);
       return new ArrayList<Unit>();
     }

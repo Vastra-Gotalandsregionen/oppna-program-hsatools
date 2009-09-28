@@ -39,7 +39,7 @@ import se.vgregion.kivtools.search.ws.domain.hak.netwise.event.UserEventSoap;
  * 
  * @author David Bennehult & Joakim Olsson
  */
-public class UserEventServiceNetwise extends NetwiseServicesUtil implements UserEventService {
+public class UserEventServiceNetwise implements UserEventService {
   private static final Log LOG = LogFactory.getLog(UserEventServiceNetwise.class);
 
   private UserEventSoap service;

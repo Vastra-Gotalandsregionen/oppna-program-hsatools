@@ -4,7 +4,7 @@ package se.vgregion.kivtools.search.util.netwise;
  * Helper class for Netwise services.
  * 
  * @author Joakim Olsson
- *
+ * 
  */
 public class NetwiseServicesUtil {
 
@@ -20,5 +20,4 @@ public class NetwiseServicesUtil {
     result = result.replaceFirst("^(.{3})(.*)$", "$1-$2");
     return result;
   }
-
 }

@@ -46,6 +46,12 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
     this.searchService = searchService;
   }
 
+  /**
+   * Retrieves details for the unit with the provided hsaIdentity.
+   * 
+   * @param hsaId The hsaIdentity for the unit to retrieve details for.
+   * @return A Unit object populated with the details for the unit with the provided hsaIdentity.
+   */
   public Unit getUnitDetails(String hsaId) {
     LOGGER.debug(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
     try {
@@ -56,6 +62,12 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
     }
   }
 
+  /**
+   * Retrieves details for the unit with the provided dn.
+   * 
+   * @param dn The dn for the unit to retrieve details for.
+   * @return A Unit object populated with the details for the unit with the provided dn.
+   */
   public Unit getUnitByDn(String dn) {
     LOGGER.debug(CLASS_NAME + "::getUnitDetailsByDn(dn=" + dn + ")");
     try {

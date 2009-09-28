@@ -77,16 +77,17 @@ public final class UserEventInfo implements Serializable {
   public String getSignature() {
     return signature;
   }
-  
+
   /**
+   * Creates a new UserEventInfo object using the provided fields.
    * 
-   * @param status status string code
-   * @param code string 
-   * @param fromDateTime date 
-   * @param toDateTime date
-   * @param information string 
-   * @param signature string
-   * @return a UserEventInfo object
+   * @param status The status to use for this UserEventInfo.
+   * @param code The code to use for this UserEventInfo.
+   * @param fromDateTime The fromDateTime to use for this UserEventInfo.
+   * @param toDateTime The toDateTime to use for this UserEventInfo.
+   * @param information The information to use for this UserEventInfo.
+   * @param signature The signature to use for this UserEventInfo.
+   * @return A fully populated UserEventInfo object.
    */
   public static UserEventInfo createUserEventInfo(String status, String code, Date fromDateTime, Date toDateTime, String information, String signature) {
     return new UserEventInfo(status, code, new Date(fromDateTime.getTime()), new Date(toDateTime.getTime()), information, signature);

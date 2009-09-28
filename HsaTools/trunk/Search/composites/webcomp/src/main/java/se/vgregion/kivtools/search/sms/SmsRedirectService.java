@@ -1,18 +1,18 @@
 package se.vgregion.kivtools.search.sms;
 
 /**
- * Interface for sms service functionality.
+ * Interface for SMS service functionality.
  * 
  * @author David Bennehult & Joakim Olsson
- *
+ * 
  */
 public interface SmsRedirectService {
 
   /**
-   * Will lookup url to use for sending sms to specified mobile number.
+   * Retrieves the URL to use for sending SMS to the specified mobile number.
    * 
-   * @param mobileNumber Mobile phone number for retrieve specified url.
-   * @return the url to use for sms service. 
+   * @param mobileNumber Mobile phone number to retrieve SMS URL for.
+   * @return the URL to use for sending SMS.
    */
   public String retrieveSmsRedirectUrl(String mobileNumber);
 }
