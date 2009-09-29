@@ -2,6 +2,11 @@ package se.vgregion.kivtools.hriv.presentation.forms;
 
 import java.io.Serializable;
 
+/**
+ * Form for the registration confirmation page.
+ * 
+ * @author Jonas Liljenfeldt & David Bennehult
+ */
 public class RegistrationConfirmationForm implements Serializable {
   private static final long serialVersionUID = 1L;
 

@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
@@ -34,6 +37,8 @@ import se.vgregion.kivtools.search.util.Formatter;
  * @author Joakim Olsson
  */
 public class SuggestionsSupportBean {
+  private static final Log LOG = LogFactory.getLog(SuggestionsSupportBean.class);
+
   private SearchUnitFlowSupportBean searchUnitFlowSupportBean;
 
   /**
@@ -178,6 +183,7 @@ public class SuggestionsSupportBean {
       resultList = searchUnitFlowSupportBean.doSearch(theForm);
     } catch (KivException e) {
       // Not too much to do...
+      LOG.debug("Unable to perform search.", e);
     }
     return resultList;
   }

@@ -23,7 +23,6 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +46,7 @@ public class Suggestions extends HttpServlet implements Serializable {
    * {@inheritDoc}
    */
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String userInputUnitName = getUserInput(request);
 
     // Spring bean name is hard coded!
@@ -103,7 +102,7 @@ public class Suggestions extends HttpServlet implements Serializable {
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     doPost(req, resp);
   }
 }

@@ -30,18 +30,18 @@ import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 
 /**
+ * Support bean for the display unit details flow.
+ * 
  * @author hangy2 , Hans Gyllensten / KnowIT
  * @author Jonas Liljenfeldt, Know IT
- * 
  */
-@SuppressWarnings("serial")
 public class DisplayUnitDetailsFlowSupportBean implements Serializable {
+  private static final long serialVersionUID = 7930671677796612164L;
   private static final String CLASS_NAME = DisplayUnitDetailsFlowSupportBean.class.getName();
+
   private Log logger = LogFactory.getLog(this.getClass());
   private SearchService searchService;
   private MvkClient mvkClient;
-  private String accessibilityDatabaseIntegrationGetIdUrl;
-  private String accessibilityDatabaseIntegrationGetInfoUrl;
   private String useMvkIntegration;
 
   public String getUseMvkIntegration() {
@@ -52,10 +52,6 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
     this.useMvkIntegration = useMvkIntegration;
   }
 
-  public SearchService getSearchService() {
-    return searchService;
-  }
-
   public void setSearchService(SearchService searchService) {
     this.searchService = searchService;
   }
@@ -64,11 +60,18 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
     this.mvkClient = mvkClient;
   }
 
+  /**
+   * Retrieves details for the unit with the provided hsaIdentity.
+   * 
+   * @param hsaId The hsaIdentity of the unit to retrieve details for.
+   * @return A populated Unit object.
+   * @throws NoConnectionToServerException if no connection to the server can be established.
+   */
   public Unit getUnitDetails(String hsaId) throws NoConnectionToServerException {
     logger.debug(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
     Unit u = null;
     try {
-      u = getSearchService().getUnitByHsaId(hsaId);
+      u = searchService.getUnitByHsaId(hsaId);
     } catch (NoConnectionToServerException e) {
       // We have no good connection to LDAP server and should be able to
       // tell the user we have no hope of success.
@@ -83,21 +86,5 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
     }
 
     return u;
-  }
-
-  public String getAccessibilityDatabaseIntegrationGetIdUrl() {
-    return accessibilityDatabaseIntegrationGetIdUrl;
-  }
-
-  public void setAccessibilityDatabaseIntegrationGetIdUrl(String accessibilityDatabaseIntegrationGetIdUrl) {
-    this.accessibilityDatabaseIntegrationGetIdUrl = accessibilityDatabaseIntegrationGetIdUrl;
-  }
-
-  public String getAccessibilityDatabaseIntegrationGetInfoUrl() {
-    return accessibilityDatabaseIntegrationGetInfoUrl;
-  }
-
-  public void setAccessibilityDatabaseIntegrationGetInfoUrl(String accessibilityDatabaseIntegrationGetInfoUrl) {
-    this.accessibilityDatabaseIntegrationGetInfoUrl = accessibilityDatabaseIntegrationGetInfoUrl;
   }
 }

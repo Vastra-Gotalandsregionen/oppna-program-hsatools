@@ -21,6 +21,11 @@ import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 
+/**
+ * Service implementation for the webservice for retrieving unit information.
+ * 
+ * @author Jonas Liljenfelt & David Bennehult
+ */
 public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> {
 
   private UnitRepository unitRepository;
@@ -30,6 +35,9 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
     this.unitRepository = unitRepository;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public Organization getUnitDetails(String hsaIdentity) {
     Organization organization = objectFactory.createOrganization();
     if (hsaIdentity != null && !"".equals(hsaIdentity)) {
@@ -151,10 +159,12 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
   }
 
   private String stripEndingCommaAndSpace(String inputString) {
-    if (inputString.endsWith(", ")) {
-      inputString = inputString.substring(0, inputString.length() - 2);
+    String result = inputString;
+
+    if (result.endsWith(", ")) {
+      result = result.substring(0, result.length() - 2);
     }
-    return inputString;
+    return result;
   }
 
   private void setStreetNameAndNumberForAddress(Address address, String hsaAddress) {

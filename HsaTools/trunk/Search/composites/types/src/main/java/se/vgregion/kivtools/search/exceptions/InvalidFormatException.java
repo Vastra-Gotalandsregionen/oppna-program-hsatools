@@ -25,6 +25,11 @@ public class InvalidFormatException extends Exception {
 
   private static final long serialVersionUID = -1563818733230370743L;
 
+  /**
+   * Constructs an InvalidFormatException using the provided message.
+   * 
+   * @param message The specific message describing the problem.
+   */
   public InvalidFormatException(String message) {
     super(message);
   }

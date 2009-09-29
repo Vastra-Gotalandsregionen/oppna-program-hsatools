@@ -28,8 +28,9 @@ import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 
 /**
- * @author hangy2 , Hans Gyllensten / KnowIT
+ * Support bean for displaying person details.
  * 
+ * @author hangy2 , Hans Gyllensten / KnowIT
  */
 @SuppressWarnings("serial")
 public class DisplayPersonDetailsFlowSupportBean implements Serializable {
@@ -42,6 +43,12 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
     this.searchService = searchService;
   }
 
+  /**
+   * Retrieves person details for the provided vgrId.
+   * 
+   * @param vgrId The unique identifier for the person to retrieve details for.
+   * @return A populated Person-object.
+   */
   public Person getPersonDetails(String vgrId) {
     LOGGER.debug(CLASS_NAME + "::getPersonDetails(vgrId=" + vgrId + ")");
     try {

@@ -23,7 +23,6 @@ import java.io.Serializable;
  * Holds form input when displaying close units.
  * 
  * @author Jonas Liljenfeldt, Know IT
- * 
  */
 public class DisplayCloseUnitsSimpleForm implements Serializable {
 
@@ -43,10 +42,16 @@ public class DisplayCloseUnitsSimpleForm implements Serializable {
     this.address = address;
   }
 
+  /**
+   * Sets the search flag to true.
+   */
   public void setSearchFlag() {
     searchFlag = true;
   }
 
+  /**
+   * Resets the search flag to false.
+   */
   public void resetSearchFlag() {
     searchFlag = false;
   }

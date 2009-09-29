@@ -7,8 +7,9 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
 import com.domainlanguage.time.TimePoint;
 
 /**
- * @author David Bennehult & Joakim Olsson
+ * Container for a unit which also hold some meta data about the unit which is used by the InformationPusherEniro-service.
  * 
+ * @author David Bennehult & Joakim Olsson
  */
 public class UnitComposition implements Comparable<UnitComposition> {
 
@@ -45,6 +46,11 @@ public class UnitComposition implements Comparable<UnitComposition> {
     this.dn = dn;
   }
 
+  /**
+   * Gets the distinguished name of the units parent.
+   * 
+   * @return The distinguished name of the units parent.
+   */
   public String getParentDn() {
     String value = "";
     if (!"".equals(dn)) {
@@ -58,6 +64,5 @@ public class UnitComposition implements Comparable<UnitComposition> {
   @Override
   public int compareTo(UnitComposition o) {
     return this.eniroUnit.getId().compareTo(o.getEniroUnit().getId());
-    // return this.dn.compareTo(o.dn);
   }
 }

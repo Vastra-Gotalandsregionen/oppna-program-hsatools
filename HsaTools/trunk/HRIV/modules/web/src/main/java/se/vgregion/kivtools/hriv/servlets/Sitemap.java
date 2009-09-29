@@ -63,9 +63,10 @@ public class Sitemap extends HttpServlet {
   }
 
   /**
-   * Create scheduler.
+   * Create scheduler during servlet initialization.
    * 
-   * @inheritDoc
+   * @throws ServletException if an exception occurs that interrupts the servlet's normal operation.
+   * 
    */
   @Override
   public void init() throws ServletException {
@@ -132,7 +133,7 @@ public class Sitemap extends HttpServlet {
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     LOGGER.debug(CLASS_NAME + ".doGet()");
     LOGGER.debug("Starting to put together the sitemap.");
 

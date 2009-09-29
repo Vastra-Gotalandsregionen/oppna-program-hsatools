@@ -6,7 +6,6 @@ import java.io.InputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
@@ -79,7 +78,7 @@ public class SftpClientImpl implements FtpClient {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public boolean sendFile(String fileContent) {
     try {

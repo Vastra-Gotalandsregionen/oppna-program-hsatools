@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +43,7 @@ public class Proxy extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   @Override
-  public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+  public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
     URL url = null;
     String user = null;
     String password = null;

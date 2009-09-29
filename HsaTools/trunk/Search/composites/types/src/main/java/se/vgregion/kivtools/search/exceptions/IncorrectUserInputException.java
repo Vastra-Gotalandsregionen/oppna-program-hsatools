@@ -22,23 +22,27 @@ package se.vgregion.kivtools.search.exceptions;
 
 import java.io.Serializable;
 
-
 /**
+ * Exception to throw when incorrect user input is found during validation.
+ * 
  * @author Anders Asplund - KnowIT
- *
  */
 @SuppressWarnings("serial")
-public class IncorrectUserInputException extends KivException implements Serializable{
+public class IncorrectUserInputException extends KivException implements Serializable {
 
-    /**
-     * @param message
-     */
-    public IncorrectUserInputException(String message) {
-        super(message);
-    }
+  /**
+   * Constructs a IncorrectUserInputException using the provided message.
+   * 
+   * @param message The specific message describing the problem.
+   */
+  public IncorrectUserInputException(String message) {
+    super(message);
+  }
 
-    public IncorrectUserInputException() {
-//        super(getUserMessageBundle().getString("sv.vgregion.kivtools.IncorrectUserInput"));
-        super("Du m\u00E5ste fylla i minst ett av f\u00E4lten.");
-    }
+  /**
+   * Constructs a IncorrectUserInputException using a default message.
+   */
+  public IncorrectUserInputException() {
+    super("Du m\u00E5ste fylla i minst ett av f\u00E4lten.");
+  }
 }

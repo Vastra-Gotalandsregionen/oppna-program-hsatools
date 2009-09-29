@@ -28,6 +28,13 @@ public class UnitSitemapInformation {
   private String modifyTimestampFormattedInW3CDatetimeFormat;
   private String createTimestampFormattedInW3CDatetimeFormat;
 
+  /**
+   * Constructs a new UnitSitemapInformation using the provided values.
+   * 
+   * @param hsaId The hsaIdentity of the unit.
+   * @param modifyTimestampFormattedInW3CDatetimeFormat The timestamp when the unit was last modified.
+   * @param createTimestampFormattedInW3CDatetimeFormat The timestamp when the unit was created.
+   */
   public UnitSitemapInformation(String hsaId, String modifyTimestampFormattedInW3CDatetimeFormat, String createTimestampFormattedInW3CDatetimeFormat) {
     super();
     this.hsaId = hsaId;
