@@ -22,23 +22,28 @@ package se.vgregion.kivtools.search.exceptions;
 
 import java.io.Serializable;
 
-
 /**
+ * Exception to throw when a connection to the LDAP-server cannot be established.
+ * 
  * @author Hans Gyllensten, KnowIT
  * @author Jonas Liljenfeldt, Know IT
- *
  */
 @SuppressWarnings("serial")
-public class NoConnectionToServerException extends KivException implements Serializable{
+public class NoConnectionToServerException extends KivException implements Serializable {
 
-    /**
-     * @param message
-     */
-    public NoConnectionToServerException(String message) {
-        super(message);
-    }
+  /**
+   * Constructs a NoConnectionToServerException using the provided message.
+   * 
+   * @param message The specific message describing the problem.
+   */
+  public NoConnectionToServerException(String message) {
+    super(message);
+  }
 
-    public NoConnectionToServerException() {
-        super("Ingen anslutning till servern. Var god f\u00F6rs\u00F6k senare.");
-    }
+  /**
+   * Constructs a NoConnectionToServerException using a default message.
+   */
+  public NoConnectionToServerException() {
+    super("Ingen anslutning till servern. Var god f\u00F6rs\u00F6k senare.");
+  }
 }

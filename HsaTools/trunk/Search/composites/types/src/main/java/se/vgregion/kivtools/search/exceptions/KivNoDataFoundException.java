@@ -22,22 +22,27 @@ package se.vgregion.kivtools.search.exceptions;
 
 import java.io.Serializable;
 
-
 /**
+ * Exception to throw when no data can be found in the LDAP-tree.
+ * 
  * @author Hans Gyllensten - KnowIT
- *
  */
 @SuppressWarnings("serial")
-public class KivNoDataFoundException extends KivException implements Serializable{
+public class KivNoDataFoundException extends KivException implements Serializable {
 
-    /**
-     * @param message
-     */
-    public KivNoDataFoundException(String message) {
-        super(message);
-    }
+  /**
+   * Constructs a KivNoDataFoundException using the provided message.
+   * 
+   * @param message The specific message describing the problem.
+   */
+  public KivNoDataFoundException(String message) {
+    super(message);
+  }
 
-    public KivNoDataFoundException() {
-        super("S\u00F6kningen resulterade inte i n\u00E5gra tr\u00E4ffar.");
-    }
+  /**
+   * Constructs a KivNoDataFoundException using a default message.
+   */
+  public KivNoDataFoundException() {
+    super("S\u00F6kningen resulterade inte i n\u00E5gra tr\u00E4ffar.");
+  }
 }

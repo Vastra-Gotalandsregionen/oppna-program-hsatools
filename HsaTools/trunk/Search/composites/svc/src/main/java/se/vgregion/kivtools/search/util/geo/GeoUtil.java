@@ -117,7 +117,8 @@ public class GeoUtil {
   public double[] geocodeToWGS84FromHsaAddress(Address hsaStreetAddress, String googleKey) {
     logger.debug(CLASS_NAME + ".geocodeToWGS84()");
     // We can't do anything if we don't have at least a street name, zip code or city.
-    if (hsaStreetAddress == null || StringUtil.isEmpty(hsaStreetAddress.getStreet()) && StringUtil.isEmpty(hsaStreetAddress.getZipCode().getZipCode()) && StringUtil.isEmpty(hsaStreetAddress.getCity())) {
+    if (hsaStreetAddress == null || StringUtil.isEmpty(hsaStreetAddress.getStreet()) && StringUtil.isEmpty(hsaStreetAddress.getZipCode().getZipCode())
+        && StringUtil.isEmpty(hsaStreetAddress.getCity())) {
       return null;
     }
     String address = hsaStreetAddress.getStreet().trim() + ", " + hsaStreetAddress.getZipCode().getFormattedZipCode().toString().trim() + " " + hsaStreetAddress.getCity().trim() + ", sweden";

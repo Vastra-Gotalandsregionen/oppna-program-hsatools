@@ -23,21 +23,24 @@ package se.vgregion.kivtools.search.exceptions;
 import java.io.Serializable;
 
 /**
+ * Base checked exception for KIV.
+ * 
  * @author Anders Asplund - KnowIT
- *
  */
 @SuppressWarnings("serial")
 public class KivException extends Exception implements Serializable {
-//    private static ResourceBundle userMessageBundle = ResourceBundle.getBundle("UserMessages");
 
-    public KivException(String message) {
-        super(message);
-    }
+  /**
+   * Constructs a KivException using the provided message.
+   * 
+   * @param message The specific message describing the problem.
+   */
+  public KivException(String message) {
+    super(message);
+  }
 
-//    protected static ResourceBundle getUserMessageBundle() {
-//        return userMessageBundle;
-//    }    
-    public String toString() {
-        return getMessage();
-    }
+  @Override
+  public String toString() {
+    return getMessage();
+  }
 }

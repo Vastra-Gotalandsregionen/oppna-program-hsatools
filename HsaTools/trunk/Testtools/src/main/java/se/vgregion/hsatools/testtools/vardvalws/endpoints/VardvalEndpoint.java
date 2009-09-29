@@ -18,14 +18,25 @@ import se.vgregion.hsatools.testtools.vardvalws.ws.domain.SetVårdvalRequest;
 import se.vgregion.hsatools.testtools.vardvalws.ws.domain.SetVårdvalResponse;
 import se.vgregion.hsatools.testtools.vardvalws.ws.domain.VårdvalEntry;
 
+/**
+ * Spring-implementation of the Vardval endpoint for the test-service.
+ * 
+ * @author David Bennehult & Joakim Olsson
+ */
 public class VardvalEndpoint extends AbstractMarshallingPayloadEndpoint {
 
   private ObjectFactory objectFactory = new ObjectFactory();
-  
+
+  /**
+   * Constructs a new VardvalEndpoint with the provided marshallers.
+   * 
+   * @param marshaller The marshaller to use when marshalling from POJO's to XML.
+   * @param unmarshaller The marshaller to use when unmarshalling from XML to POJO's.
+   */
   public VardvalEndpoint(Marshaller marshaller, Unmarshaller unmarshaller) {
     super(marshaller, unmarshaller);
   }
-  
+
   @Override
   protected Object invokeInternal(Object requestObject) throws Exception {
     Object response = null;

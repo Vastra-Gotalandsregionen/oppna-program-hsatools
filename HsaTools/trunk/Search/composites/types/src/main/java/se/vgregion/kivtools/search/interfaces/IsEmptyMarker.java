@@ -21,9 +21,15 @@
 package se.vgregion.kivtools.search.interfaces;
 
 /**
+ * Marker-interface to use for classes which should be possible to check for emptiness.
+ * 
  * @author hangy2 , Hans Gyllensten / KnowIT
- *
  */
 public interface IsEmptyMarker {
-    public boolean isEmpty();
+  /**
+   * Checks if the object is empty.
+   * 
+   * @return True if the object is empty, otherwise false.
+   */
+  public boolean isEmpty();
 }

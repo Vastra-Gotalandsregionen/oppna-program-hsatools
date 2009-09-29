@@ -22,25 +22,22 @@ package se.vgregion.kivtools.search.exceptions;
 
 import java.io.Serializable;
 
-
 /**
+ * Exception mostly used from the LDAP-integration layer.
+ * 
  * @author Hans Gyllensten - KnowIT
- *
  */
-
 @SuppressWarnings("serial")
-public class SikInternalException extends KivException implements Serializable{
+public class SikInternalException extends KivException implements Serializable {
 
-    /**
-     * 
-     * @param obj   usually "this" then this is used to construct the qualified name of the class
-     *              where the problem occurred.
-     * @param methodName
-     * @param message
-     */
-    public SikInternalException(Object obj, String methodName, String message) {        
-        super(SikInternalException.class.getName() + 
-                ", message=" + message + 
-                ", Method=" + obj.getClass().getName() + ".." + methodName);
-    }
+  /**
+   * Constructs a new SikInternalException with the provided values.
+   * 
+   * @param obj usually "this" then this is used to construct the qualified name of the class where the problem occurred.
+   * @param methodName The name of the method that threw the exception.
+   * @param message The specific message describing the problem.
+   */
+  public SikInternalException(Object obj, String methodName, String message) {
+    super(SikInternalException.class.getName() + ", message=" + message + ", Method=" + obj.getClass().getName() + ".." + methodName);
+  }
 }

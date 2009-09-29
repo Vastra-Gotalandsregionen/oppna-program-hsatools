@@ -437,21 +437,21 @@ public class SettingsBean implements Serializable {
     this.externalApplicationURL = externalApplicationURL;
   }
 
-    /**
-     * Returns URL for favourite icon
-     *
-     * @return the favIcon
-     */
-    public String getFavIcon() {
-        return favIcon;
-    }
+  /**
+   * Returns URL for favourite icon.
+   * 
+   * @return the favIcon
+   */
+  public String getFavIcon() {
+    return favIcon;
+  }
 
-    /**
-     * Sets URL for favourite icon
-     *
-     * @param favIcon the favIcon to set
-     */
-    public void setFavIcon(String favIcon) {
-        this.favIcon = favIcon;
-    }
+  /**
+   * Sets URL for favourite icon.
+   * 
+   * @param favIcon the favIcon to set
+   */
+  public void setFavIcon(String favIcon) {
+    this.favIcon = favIcon;
+  }
 }

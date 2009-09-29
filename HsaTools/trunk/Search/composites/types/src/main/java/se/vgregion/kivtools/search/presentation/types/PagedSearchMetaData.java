@@ -23,10 +23,12 @@ package se.vgregion.kivtools.search.presentation.types;
 import java.io.Serializable;
 
 /**
- * @author hangy2 , Hans Gyllensten / KnowIT
+ * POJO describing meta data for a specific page in a paged search.
  * 
+ * @author hangy2 , Hans Gyllensten / KnowIT
  */
 public class PagedSearchMetaData implements Serializable {
+  private static final long serialVersionUID = 7591443288898242356L;
   private int startIndex;
   private int endIndex;
 
@@ -46,6 +48,11 @@ public class PagedSearchMetaData implements Serializable {
     this.endIndex = endIndex;
   }
 
+  /**
+   * Gets the pages meta data as HTML link parameters.
+   * 
+   * @return The pages meta data as HTML link parameters.
+   */
   public String getAsLink() {
     StringBuffer buf = new StringBuffer("startIndex=");
     buf.append(startIndex);
