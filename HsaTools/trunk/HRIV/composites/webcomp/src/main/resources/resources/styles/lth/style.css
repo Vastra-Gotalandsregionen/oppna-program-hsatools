@@ -496,8 +496,8 @@ a.rss,#nav-supp a.rss {
 .table-box {
     width: 13em;
     float: left;
-    font-size: 1.1em;
 }
+.table-box label {font-size:0.8em;}
 
 .rtc td {
     border: none;
