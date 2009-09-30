@@ -1,5 +1,6 @@
 package se.vgregion.kivtools.search.svc.domain;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.easymock.classextension.EasyMock;
@@ -92,6 +93,21 @@ public class UnitCareTypeNameComparatorTest {
     EasyMock.replay(mockUnit1, mockUnit2, mockHealthcareType1, mockHealthcareType2);
     compareResult = unitCareTypeNameComparator.compare(mockUnit1, mockUnit2);
     Assert.assertEquals(-1, compareResult);
+  }
+
+    /**
+   * Test that two of the same Healthcare types returns true
+   */
+  @Test
+  public void testCompareWithIndexOutOfBoundsException() {
+
+    // Test for HEALTHCARE_TYPE_DISPLAY_NAME_1 as empty list and HEALTHCARE_TYPE_DISPLAY_NAME_2 is not
+    EasyMock.expect(mockHealthcareType2.getDisplayName()).andReturn(HEALTHCARE_TYPE_DISPLAY_NAME_2);
+    EasyMock.expect(mockUnit1.getHealthcareTypes()).andReturn(new ArrayList());
+    EasyMock.expect(mockUnit2.getHealthcareTypes()).andReturn(Arrays.asList(mockHealthcareType2));
+    EasyMock.replay(mockUnit1, mockUnit2, mockHealthcareType1, mockHealthcareType2);
+    int compareResult = unitCareTypeNameComparator.compare(mockUnit1, mockUnit2);
+    Assert.assertEquals(1, compareResult);
   }
 
 }
