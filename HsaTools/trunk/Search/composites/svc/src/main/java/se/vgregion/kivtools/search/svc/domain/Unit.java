@@ -210,6 +210,9 @@ public class Unit implements Serializable, Comparable<Unit> {
   private Integer accessibilityDatabaseId;
   private AccessibilityInformation accessibilityInformation;
 
+  private boolean showAgeInterval;
+  private boolean showVisitingRules;
+  
   public Unit() {
   }
 
@@ -386,6 +389,7 @@ public class Unit implements Serializable, Comparable<Unit> {
     // dnString =
     // "CN=Hedvig h Blomfrö,OU=Falkenbergsnämnden,OU=Förtroendevalda,OU=Landstinget  Halland,DC=hkat,DC=lthalland,DC=com"
     // ;
+//    String dnStringBase64Encoded = new String(Base64.encodeBase64(dnString.getBytes(java.nio.charset.Charset.defaultCharset().name()), true));
     String dnStringBase64Encoded = new String(Base64.encodeBase64(dnString.getBytes("ISO-8859-1"), true));
     return dnStringBase64Encoded;
   }
@@ -1299,27 +1303,12 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   /**
-   * Checks if the age interval and visiting rules should be shown for this unit.
-   * 
-   * @return True if the age interval and visiting rules should be shown, otherwise false.
-   */
-  public boolean isShowAgeIntervalAndVisitingRules() {
-    boolean show = true;
-
-    show &= !hasHealthcareType("Barnavårdscentral");
-    show &= !hasHealthcareType("Vårdcentral");
-    show &= !hasHealthcareType("Jourcentral");
-
-    return show;
-  }
-
-  /**
    * Helper method for checking if a unit has a specific healthcare type.
    * 
    * @param healthcareType The specific healthcare type to look for.
    * @return True if the unit has the provided healthcare type, otherwise false.
    */
-  private boolean hasHealthcareType(String healthcareType) {
+  public boolean hasHealthcareType(String healthcareType) {
     boolean result = false;
 
     if (healthcareType != null && getHealthcareTypes() != null) {
@@ -1331,4 +1320,32 @@ public class Unit implements Serializable, Comparable<Unit> {
     }
     return result;
   }
+
+    /**
+     * @return the showAgeInterval
+     */
+    public boolean isShowAgeInterval() {
+        return showAgeInterval;
+    }
+
+    /**
+     * @param showAgeInterval the showAgeInterval to set
+     */
+    public void setShowAgeInterval(boolean showAgeInterval) {
+        this.showAgeInterval = showAgeInterval;
+    }
+
+    /**
+     * @return the showVisitingRules
+     */
+    public boolean isShowVisitingRules() {
+        return showVisitingRules;
+    }
+
+    /**
+     * @param showVisitingRules the showVisitingRules to set
+     */
+    public void setShowVisitingRules(boolean showVisitingRules) {
+        this.showVisitingRules = showVisitingRules;
+    }
 }
