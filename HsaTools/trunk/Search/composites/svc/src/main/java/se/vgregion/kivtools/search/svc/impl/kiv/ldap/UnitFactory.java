@@ -283,6 +283,16 @@ public class UnitFactory {
     // Vårdval
     unit.setVgrVardVal(LdapParse.convertStringToBoolean(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrVardVal"))));
     assignCodeTableValuesToUnit(unit);
+
+    // Rule for showing visiting rules
+    boolean show = false;
+    show &= !unit.hasHealthcareType("Barnavårdscentral");
+    show &= !unit.hasHealthcareType("Vårdcentral");
+    show &= !unit.hasHealthcareType("Jourcentral");
+    unit.setShowVisitingRules(show);
+    // VGR has the same rule for age interval
+    unit.setShowAgeInterval(show);
+    
     return unit;
   }
 

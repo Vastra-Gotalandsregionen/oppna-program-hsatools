@@ -268,6 +268,11 @@ public class UnitFactory {
         HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
         htch.assignHealthcareTypes(unit);
 
+        // Show age interval?
+        unit.setShowAgeInterval(unit.getHsaVisitingRuleAgeIsValid());
+        // We always show visiting rules
+        unit.setShowVisitingRules(true);
+        
         return unit;
     }
 

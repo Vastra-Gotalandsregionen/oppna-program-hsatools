@@ -46,6 +46,9 @@ public class UnitTest {
     unit.setHealthcareTypes(healthcareTypes);
   }
 
+  /* The tests commented below should probably go into a unit test for UnitFactory
+    TODO: Move into UnitFactoryTest.java
+
   @Test
   public void testIsShowAgeIntervalAndVisitingRulesNoHealtcareType() {
     assertTrue("Age interval and visiting rules should be displayed for a unit without healtcare types BVC, VC and JC", unit.isShowAgeIntervalAndVisitingRules());
@@ -87,7 +90,7 @@ public class UnitTest {
     healthcareTypes.add(healthcareType);
     assertTrue("Unit should show info regarding vardval if it is of type Vårdcentral and is part of VGR Vardval", unit.isShowInVgrVardVal());
   }
-
+*/
   @Test
   public void testGetDnBase64() throws UnsupportedEncodingException {
     DN dn = DN.createDNFromString("CN=Hedvig h Blomfrö,OU=Falkenbergsnämnden,OU=Förtroendevalda,OU=Landstinget  Halland,DC=hkat,DC=lthalland,DC=com");

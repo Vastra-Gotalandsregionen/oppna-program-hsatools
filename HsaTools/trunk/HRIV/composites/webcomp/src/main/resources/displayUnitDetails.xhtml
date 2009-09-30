@@ -132,7 +132,8 @@
                                             <span class="warning">hsaManagementText ${msg.missing}</span>
                                         </h:outputText>
                                     </td>
-                                    <h:outputText rendered="${unit.showAgeIntervalAndVisitingRules}">
+                                    <!-- Besöksregler -->
+                                    <h:outputText rendered="${unit.showAgeInterval}">
                                         <th class="leftcol" id="visitingRuleAgeHeaderCell">
                                             <span class="grey-header">${msg.visitingRuleAge}</span>
                                         </th>
@@ -143,7 +144,7 @@
                                             </h:outputText>
                                         </td>
                                     </h:outputText>
-                                    <h:outputText rendered="${!unit.showAgeIntervalAndVisitingRules}">
+                                    <h:outputText rendered="${!unit.showAgeInterval}">
                                         <th></th><td></td>
                                     </h:outputText>
                                 </tr>
@@ -153,21 +154,22 @@
                                             <span class="grey-header">${msg.temporary} ${msg.information}</span>
                                         </th>
                                         <td headers="tempInfoHeaderCell" colspan="3" class="paragraph">
-					            			<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.vgrTempInfoBody)}" />
+                                            <h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.vgrTempInfoBody)}" />
                                         </td>
                                     </tr>
                                 </h:outputText>
-								<h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true and unit.vgrRefInfo != ''}">
-                                	<tr>
-                                		<th class="leftcol" id="refInfoHeaderCell">
-                                			<span class="grey-header">${msg.referral}</span>
-                                		</th>
-                                		<td>
-                                			<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.vgrRefInfo)}" />
-                                		</td>
-                                	</tr>
+                                <h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true and unit.vgrRefInfo != ''}">
+                                    <tr>
+                                        <th class="leftcol" id="refInfoHeaderCell">
+                                            <span class="grey-header">${msg.referral}</span>
+                                        </th>
+                                        <td>
+                                            <h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.vgrRefInfo)}" />
+                                        </td>
+                                    </tr>
                                 </h:outputText>                                
-                                <h:outputText rendered="${unit.showAgeIntervalAndVisitingRules}">
+                                <!-- Besöksregler -->
+                                <h:outputText rendered="${unit.showVisitingRules}">
                                     <tr>
                                         <th class="leftcol" id="visitingRulesHeaderCell">
                                             <span class="grey-header">${msg.visitingRules}</span>
