@@ -20,6 +20,7 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 import java.util.Comparator;
 import java.util.List;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Employment;
@@ -51,23 +52,23 @@ public class SearchServiceLdapImpl implements SearchService {
     this.employmentRepository = employmentRepository;
   }
 
-  public List<String> getAllPersonsId() throws Exception {
+  public List<String> getAllPersonsId() throws KivException {
     return this.personRepository.getAllPersonsVgrId();
   }
 
-  public List<String> getAllUnitsHsaIdentity() throws Exception {
+  public List<String> getAllUnitsHsaIdentity() throws KivException {
     return this.unitRepository.getAllUnitsHsaIdentity();
   }
 
-  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return this.unitRepository.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBussinessClassificationCodes);
   }
 
-  public SikSearchResultList<Employment> getEmployments(String personDn) throws Exception {
+  public SikSearchResultList<Employment> getEmployments(String personDn) throws KivException {
     return employmentRepository.getEmployments(DN.createDNFromString(personDn));
   }
 
-  public Person getPersonById(String vgrId) throws Exception {
+  public Person getPersonById(String vgrId) throws KivException {
     Person person = personRepository.getPersonByVgrId(vgrId);
     if (person != null) {
       person.setEmployments(employmentRepository.getEmployments(DN.createDNFromString(person.getDn())));
@@ -75,15 +76,15 @@ public class SearchServiceLdapImpl implements SearchService {
     return person;
   }
 
-  public Unit getUnitByHsaId(String hsaId) throws Exception {
+  public Unit getUnitByHsaId(String hsaId) throws KivException {
     return unitRepository.getUnitByHsaId(hsaId);
   }
 
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId) throws KivException {
     return personRepository.searchPersons(givenName, familyName, vgrId, 0);
   }
 
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult) throws KivException {
     return personRepository.searchPersons(givenName, familyName, vgrId, maxResult);
   }
 
@@ -91,9 +92,9 @@ public class SearchServiceLdapImpl implements SearchService {
    * 
    * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list of Persons
    * @return
-   * @throws Exception
+   * @throws KivException
    */
-  public SikSearchResultList<Person> searchPersons(String vgrId) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String vgrId) throws KivException {
     return personRepository.searchPersons(vgrId, 0);
   }
 
@@ -101,29 +102,29 @@ public class SearchServiceLdapImpl implements SearchService {
    * 
    * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list of Persons
    * @return
-   * @throws Exception
+   * @throws KivException
    */
-  public SikSearchResultList<Person> searchPersons(String vgrId, int maxSearchResult) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String vgrId, int maxSearchResult) throws KivException {
     return personRepository.searchPersons(vgrId, maxSearchResult);
   }
 
-  public SikSearchResultList<Unit> searchUnits(Unit unit) throws Exception {
+  public SikSearchResultList<Unit> searchUnits(Unit unit) throws KivException {
     return unitRepository.searchUnits(unit);
   }
 
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws Exception {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws KivException {
     return unitRepository.searchAdvancedUnits(unit, sortOrder);
   }
 
-  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws Exception {
+  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws KivException {
     return unitRepository.searchUnits(unit, maxSearchResult);
   }
 
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return unitRepository.searchAdvancedUnits(unit, maxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
   }
 
-  public Unit getUnitByDN(String dn) throws Exception {
+  public Unit getUnitByDN(String dn) throws KivException {
     return unitRepository.getUnitByDN(DN.createDNFromString(dn));
   }
 
@@ -139,19 +140,19 @@ public class SearchServiceLdapImpl implements SearchService {
     return null;
   }
 
-  public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception {
+  public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws KivException {
     return personRepository.getPersonsForUnits(units, maxResult);
   }
 
-  public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception {
+  public SikSearchResultList<Person> searchPersonsByDn(String dn) throws KivException {
     return null;
   }
 
-  public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception {
+  public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws KivException {
     return null;
   }
 
-  public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws Exception {
+  public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws KivException {
     return unitRepository.getSubUnits(parentUnit, maxSearchResult);
   }
 }

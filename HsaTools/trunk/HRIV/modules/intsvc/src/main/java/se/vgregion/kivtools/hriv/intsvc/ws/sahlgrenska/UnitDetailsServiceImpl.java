@@ -15,6 +15,7 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.UnitType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.AddressType.GeoCoordinates;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.UnitType.Locality;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.UnitType.VisitingConditions;
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
@@ -44,7 +45,7 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
       Unit unit = null;
       try {
         unit = unitRepository.getUnitByHsaId(hsaIdentity);
-      } catch (Exception e) {
+      } catch (KivException e) {
         e.printStackTrace();
       }
       organization.getUnit().add(generateWebServiceUnit(unit));

@@ -52,10 +52,9 @@ public class GeoUtil {
    * @param hsaStreetAddress The address to geocode.
    * @param googleKey The Google Maps key to use.
    * @return RT90Coordinates: element #0 = latitude, #1 = longitude
-   * @throws Exception If anything goes wrong.
    * @see http://geo-google.sourceforge.net/usage.html
    */
-  public int[] geocodeToRT90(Address hsaStreetAddress, String googleKey) throws Exception {
+  public int[] geocodeToRT90(Address hsaStreetAddress, String googleKey) {
     logger.debug(CLASS_NAME + ".geocodeToRT90()");
 
     int[] rt90Coordinates = null;

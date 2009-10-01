@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
@@ -70,21 +71,21 @@ public class PersonRepository {
     this.theConnectionPool = lp;
   }
 
-  public List<Person> searchPersonsByDn(String dn) throws Exception {
+  public List<Person> searchPersonsByDn(String dn) throws KivException {
     // Zero means all persons
     return searchPersonsByDn(dn, 0);
   }
 
-  public List<Person> searchPersonsByDn(String dn, int maxResult) throws Exception {
+  public List<Person> searchPersonsByDn(String dn, int maxResult) throws KivException {
     String searchFilter = "(objectClass=hkatPerson)";
     return searchPersons(dn, searchFilter, LDAPConnection.SCOPE_SUB, maxResult);
   }
 
-  public SikSearchResultList<Person> getAllPersonsInUnit(String hsaIdentity, int maxResult) throws Exception {
+  public SikSearchResultList<Person> getAllPersonsInUnit(String hsaIdentity, int maxResult) throws KivException {
     return searchPersons("(hsaIdentity=" + hsaIdentity + ")", LDAPConnection.SCOPE_SUB, maxResult);
   }
 
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult) throws KivException {
     String searchFilter = createSearchPersonsFilter(givenName, familyName, vgrId);
     return searchPersons(searchFilter, LDAPConnection.SCOPE_SUB, maxResult);
   }
@@ -93,19 +94,19 @@ public class PersonRepository {
    * 
    * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list od Persons
    * @return
-   * @throws Exception
+   * @throws KivException
    */
-  public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws KivException {
     String searchFilter = createSearchPersonsFilterVgrId(vgrId);
     return searchPersons(searchFilter, LDAPConnection.SCOPE_SUB, maxResult);
   }
 
-  public Person getPersonByVgrId(String vgrId) throws Exception {
+  public Person getPersonByVgrId(String vgrId) throws KivException {
     String searchFilter = "(&(objectclass=hkatPerson)(regionName=" + vgrId + "))";
     return searchPerson(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter);
   }
 
-  public List<String> getAllPersonsVgrId() throws Exception {
+  public List<String> getAllPersonsVgrId() throws KivException {
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     String searchFilter = "(objectClass=hkatPerson)";
@@ -113,34 +114,37 @@ public class PersonRepository {
     attributes[0] = "regionName";
     Map<String, String> result = new HashMap<String, String>();
 
-    LDAPConnection lc = getLDAPConnection();
     try {
-      LDAPSearchResults searchResults = lc.search(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter, attributes, false, constraints);
-      // fill the list from the search result
-      while (searchResults.hasMore()) {
-        try {
-          LDAPEntry nextEntry = searchResults.next();
-          LDAPAttribute attribute = nextEntry.getAttribute(attributes[0]);
-          if (attribute != null) {
-            result.put(attribute.getStringValue(), attribute.getStringValue());
-          }
-        } catch (LDAPException e) {
-          if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
-            break;
-          } else {
-            // take next Unit
-            continue;
+      LDAPConnection lc = getLDAPConnection();
+      try {
+        LDAPSearchResults searchResults = lc.search(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter, attributes, false, constraints);
+        // fill the list from the search result
+        while (searchResults.hasMore()) {
+          try {
+            LDAPEntry nextEntry = searchResults.next();
+            LDAPAttribute attribute = nextEntry.getAttribute(attributes[0]);
+            if (attribute != null) {
+              result.put(attribute.getStringValue(), attribute.getStringValue());
+            }
+          } catch (LDAPException e) {
+            if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
+              break;
+            } else {
+              // take next Unit
+              continue;
+            }
           }
         }
+      } finally {
+        theConnectionPool.freeConnection(lc);
       }
-    } finally {
-      theConnectionPool.freeConnection(lc);
+    } catch (LDAPException e) {
+      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
     }
-
     return new ArrayList<String>(result.keySet());
   }
 
-  private Person searchPerson(String searchBase, int searchScope, String searchFilter) throws Exception {
+  private Person searchPerson(String searchBase, int searchScope, String searchFilter) throws KivException {
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     Person result = new Person();
@@ -148,34 +152,42 @@ public class PersonRepository {
     // Get all attributes
     String[] attributes = null;
 
-    LDAPConnection lc = getLDAPConnection();
     try {
-      // return attributes and values
-      result = extractSingleResult(lc.search(searchBase, searchScope, searchFilter, attributes, false, constraints));
-    } finally {
-      theConnectionPool.freeConnection(lc);
+      LDAPConnection lc = getLDAPConnection();
+      try {
+        // return attributes and values
+        result = extractSingleResult(lc.search(searchBase, searchScope, searchFilter, attributes, false, constraints));
+      } finally {
+        theConnectionPool.freeConnection(lc);
+      }
+    } catch (LDAPException e) {
+      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
     }
 
     return result;
   }
 
-  private SikSearchResultList<Person> searchPersons(String searchFilter, int searchScope, int maxResult) throws Exception {
+  private SikSearchResultList<Person> searchPersons(String searchFilter, int searchScope, int maxResult) throws KivException {
     return searchPersons(KIV_SEARCH_BASE, searchFilter, searchScope, maxResult);
   }
 
-  private SikSearchResultList<Person> searchPersons(String baseDn, String searchFilter, int searchScope, int maxResult) throws Exception {
+  private SikSearchResultList<Person> searchPersons(String baseDn, String searchFilter, int searchScope, int maxResult) throws KivException {
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     SikSearchResultList<Person> result = new SikSearchResultList<Person>();
     // Get all attributes
     String[] attributes = null;
 
-    LDAPConnection lc = getLDAPConnection();
     try {
-      // return attributes and values
-      result = extractResult(lc.search(baseDn, searchScope, searchFilter, attributes, false, constraints), maxResult);
-    } finally {
-      theConnectionPool.freeConnection(lc);
+      LDAPConnection lc = getLDAPConnection();
+      try {
+        // return attributes and values
+        result = extractResult(lc.search(baseDn, searchScope, searchFilter, attributes, false, constraints), maxResult);
+      } finally {
+        theConnectionPool.freeConnection(lc);
+      }
+    } catch (LDAPException e) {
+      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
     }
 
     return result;
@@ -324,7 +336,7 @@ public class PersonRepository {
     return lc;
   }
 
-  String createSearchPersonsFilter(String givenName, String familyName, String vgrId) throws Exception {
+  String createSearchPersonsFilter(String givenName, String familyName, String vgrId) throws KivException {
     List<String> filterList = new ArrayList<String>();
 
     String searchFilter = "(&(objectclass=hkatPerson)";
@@ -346,7 +358,7 @@ public class PersonRepository {
     return searchFilter;
   }
 
-  private String createSearchPersonsFilterVgrId(String vgrId) throws Exception {
+  private String createSearchPersonsFilterVgrId(String vgrId) throws KivException {
     String searchFilter = "(&(objectclass=hkatPerson)";
     searchFilter += createSearchFilterItem("regionName", vgrId);
     searchFilter += ")";
@@ -356,9 +368,9 @@ public class PersonRepository {
   /**
    * Add a search filter value to the filterList. e.g. searchField=givenName searchValue=hans result=(givenName=*hans*)
    * 
-   * @throws Exception
+   * @throws KivException
    */
-  private void addSearchFilter(List<String> filterList, String searchField, String searchValue) throws Exception {
+  private void addSearchFilter(List<String> filterList, String searchField, String searchValue) throws KivException {
     if (!StringUtil.isEmpty(searchValue)) {
       String value = createSearchFilterItem(searchField, searchValue);
       if (!StringUtil.isEmpty(value)) {
@@ -424,9 +436,9 @@ public class PersonRepository {
    * @param filterList
    * @param searchField
    * @param searchValue
-   * @throws Exception
+   * @throws KivException
    */
-  private void addMultipleAttributes(List<String> filterList, String searchValue, String attribute1, String attribute2) throws Exception {
+  private void addMultipleAttributes(List<String> filterList, String searchValue, String attribute1, String attribute2) throws KivException {
     if (!StringUtil.isEmpty(searchValue)) {
       searchValue = searchValue.trim();
       if (isExactMatchFilter(searchValue)) {
@@ -450,10 +462,10 @@ public class PersonRepository {
         // List<String> list = Arrays.asList(searchValue.split(" "));
         int listSize = list.size();
         if (listSize == 0) {
-          throw new Exception("Detected list.size==0 should never be possible! methodname=" + CLASS_NAME + "addPersonGivenName()");
+          throw new KivException("Detected list.size==0 should never be possible! methodname=" + CLASS_NAME + "addPersonGivenName()");
         }
         if (listSize == 1) {
-          throw new Exception("Detected list.size==1 should never be possible! methodname=" + CLASS_NAME + "addPersonGivenName()");
+          throw new KivException("Detected list.size==1 should never be possible! methodname=" + CLASS_NAME + "addPersonGivenName()");
         }
         // not a single value! Search in fullname!
         String filterResult = "";

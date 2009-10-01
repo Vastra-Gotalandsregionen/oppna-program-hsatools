@@ -17,7 +17,6 @@
  */
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -29,6 +28,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
@@ -52,7 +52,6 @@ import com.novell.ldap.LDAPSearchResults;
 /**
  * @author Anders and Hans, Know IT
  * @author Jonas Liljenfeldt, Know IT
- * 
  */
 public class UnitRepository {
   public static final String KIV_SEARCH_BASE = "OU=Landstinget Halland,DC=lthallandhsa,DC=se";
@@ -69,12 +68,12 @@ public class UnitRepository {
     this.theConnectionPool = lp;
   }
 
-  public SikSearchResultList<Unit> searchUnits(Unit unit) throws Exception {
+  public SikSearchResultList<Unit> searchUnits(Unit unit) throws KivException {
     // Zero means all units
     return searchUnits(unit, 0);
   }
 
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws Exception {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws KivException {
     // Zero means all units
     return searchAdvancedUnits(unit, 0, sortOrder, new ArrayList<Integer>());
   }
@@ -84,7 +83,7 @@ public class UnitRepository {
    * 
    * @param showUnitsWithTheseHsaBussinessClassificationCodes
    */
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     String searchFilter = createAdvancedSearchFilter(unit, showUnitsWithTheseHsaBussinessClassificationCodes);
     SikSearchResultList<Unit> units = searchUnits(searchFilter, LDAPConnection.SCOPE_SUB, maxResult, sortOrder);
 
@@ -177,35 +176,39 @@ public class UnitRepository {
     }
   }
 
-  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxResult) throws Exception {
+  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxResult) throws KivException {
     String searchFilter = createSearchFilter(unit);
     // String searchFilter = createUnitSearchFilter(unit);
     return searchUnits(searchFilter, LDAPConnection.SCOPE_SUB, maxResult, new UnitNameComparator());
   }
 
-  public Unit getUnitByHsaId(String hsaId) throws Exception {
+  public Unit getUnitByHsaId(String hsaId) throws KivException {
     String searchFilter = "(hsaIdentity=" + hsaId + ")";
     return searchUnit(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter);
   }
 
-  public Unit getUnitByDN(DN dn) throws Exception {
+  public Unit getUnitByDN(DN dn) throws KivException {
     Unit u = null;
     String dnPath = dn.escape().toString();
 
-    LDAPConnection lc = getLDAPConnection();
     try {
-      u = UnitFactory.reconstitute(lc.read(dnPath));
-    } finally {
-      theConnectionPool.freeConnection(lc);
+      LDAPConnection lc = getLDAPConnection();
+      try {
+        u = UnitFactory.reconstitute(lc.read(dnPath));
+      } finally {
+        theConnectionPool.freeConnection(lc);
+      }
+    } catch (LDAPException e) {
+      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
     }
     return u;
   }
 
-  public List<String> getAllUnitsHsaIdentity() throws Exception {
+  public List<String> getAllUnitsHsaIdentity() throws KivException {
     return getAllUnitsHsaIdentity(new ArrayList<Integer>());
   }
 
-  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     String searchFilter = "(|(objectclass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")(objectclass=" + Constants.OBJECT_CLASS_FUNCTION_SPECIFIC + "))";
@@ -221,62 +224,76 @@ public class UnitRepository {
     attributes[0] = "hsaIdentity";
     List<String> result = new ArrayList<String>();
 
-    LDAPConnection lc = getLDAPConnection();
     try {
-      LDAPSearchResults searchResults = lc.search(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter, attributes, false, constraints);
-      // fill the list from the search result
-      while (searchResults.hasMore()) {
-        try {
-          LDAPEntry nextEntry = searchResults.next();
-          LDAPAttribute attribute = nextEntry.getAttribute(attributes[0]);
-          if (attribute != null) {
-            result.add(attribute.getStringValue());
-          }
-        } catch (LDAPException e) {
-          if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
-            break;
-          } else {
-            // take next Unit
-            continue;
+      LDAPConnection lc = getLDAPConnection();
+      try {
+        LDAPSearchResults searchResults = lc.search(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter, attributes, false, constraints);
+        // fill the list from the search result
+        while (searchResults.hasMore()) {
+          try {
+            LDAPEntry nextEntry = searchResults.next();
+            LDAPAttribute attribute = nextEntry.getAttribute(attributes[0]);
+            if (attribute != null) {
+              result.add(attribute.getStringValue());
+            }
+          } catch (LDAPException e) {
+            if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
+              break;
+            } else {
+              // take next Unit
+              continue;
+            }
           }
         }
+      } finally {
+        theConnectionPool.freeConnection(lc);
       }
-    } finally {
-      theConnectionPool.freeConnection(lc);
+    } catch (LDAPException e) {
+      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
     }
 
     return result;
   }
 
-  private SikSearchResultList<Unit> searchUnits(String searchFilter, int searchScope, int maxResult, Comparator<Unit> sortOrder) throws Exception {
+  private SikSearchResultList<Unit> searchUnits(String searchFilter, int searchScope, int maxResult, Comparator<Unit> sortOrder) throws KivException {
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     SikSearchResultList<Unit> result = new SikSearchResultList<Unit>();
     // Get all attributes, including operational attribute createTimeStamp
     String[] attributes = { LDAPConnection.ALL_USER_ATTRS, "createTimeStamp" };
 
-    LDAPConnection lc = getLDAPConnection();
     try {
-      result = extractResult(lc.search(KIV_SEARCH_BASE, searchScope, searchFilter, attributes, false, constraints), maxResult, sortOrder);
-    } finally {
-      theConnectionPool.freeConnection(lc);
+      LDAPConnection lc = getLDAPConnection();
+      try {
+        result = extractResult(lc.search(KIV_SEARCH_BASE, searchScope, searchFilter, attributes, false, constraints), maxResult, sortOrder);
+      } finally {
+        theConnectionPool.freeConnection(lc);
+      }
+    } catch (LDAPException e) {
+      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
     }
+
     return result;
   }
 
-  private Unit searchUnit(String searchBase, int searchScope, String searchFilter) throws Exception {
+  private Unit searchUnit(String searchBase, int searchScope, String searchFilter) throws KivException {
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     Unit result = new Unit();
     // Get all attributes, including operational attribute createTimeStamp
     String[] attributes = { LDAPConnection.ALL_USER_ATTRS, "createTimeStamp" };
 
-    LDAPConnection lc = getLDAPConnection();
     try {
-      result = extractSingleResult(lc.search(searchBase, searchScope, searchFilter, attributes, false, constraints));
-    } finally {
-      theConnectionPool.freeConnection(lc);
+      LDAPConnection lc = getLDAPConnection();
+      try {
+        result = extractSingleResult(lc.search(searchBase, searchScope, searchFilter, attributes, false, constraints));
+      } finally {
+        theConnectionPool.freeConnection(lc);
+      }
+    } catch (LDAPException e) {
+      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
     }
+
     return result;
   }
 
@@ -285,11 +302,10 @@ public class UnitRepository {
    * 
    * @return
    * @throws LDAPException
-   * @throws UnsupportedEncodingException
    * @throws NoConnectionToServerException
    * @throws SikInternalException
    */
-  private LDAPConnection getLDAPConnection() throws LDAPException, UnsupportedEncodingException, NoConnectionToServerException, SikInternalException {
+  private LDAPConnection getLDAPConnection() throws LDAPException, NoConnectionToServerException, SikInternalException {
     LDAPConnection lc = theConnectionPool.getConnection(POOL_WAIT_TIME_MILLISECONDS);
     if (lc == null) {
       throw new SikInternalException(this, "getLDAPConnection()", "Could not get a connection after waiting " + POOL_WAIT_TIME_MILLISECONDS + " ms.");
@@ -297,11 +313,15 @@ public class UnitRepository {
     return lc;
   }
 
-  private Unit extractSingleResult(LDAPSearchResults searchResults) throws Exception {
-    return UnitFactory.reconstitute(searchResults.next());
+  private Unit extractSingleResult(LDAPSearchResults searchResults) throws KivException {
+    try {
+      return UnitFactory.reconstitute(searchResults.next());
+    } catch (LDAPException e) {
+      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
+    }
   }
 
-  private SikSearchResultList<Unit> extractResult(LDAPSearchResults searchResults, int maxResult, Comparator<Unit> sortOrder) throws Exception {
+  private SikSearchResultList<Unit> extractResult(LDAPSearchResults searchResults, int maxResult, Comparator<Unit> sortOrder) throws KivException {
     SikSearchResultList<Unit> result = new SikSearchResultList<Unit>();
     while (searchResults.hasMore()) {
       try {
@@ -354,7 +374,7 @@ public class UnitRepository {
    * @return A LDAP search string for search among functions
    * @throws Exception
    */
-  String makeFunctionSearchStringFromUnitSearchString(String unitSearchString) throws Exception {
+  String makeFunctionSearchStringFromUnitSearchString(String unitSearchString) throws KivException {
     String functionSearchString = Formatter.replaceStringInString(unitSearchString, Constants.OBJECT_CLASS_UNIT_SPECIFIC, Constants.OBJECT_CLASS_FUNCTION_SPECIFIC);
     functionSearchString = Formatter.replaceStringInString(functionSearchString, Constants.OBJECT_CLASS_UNIT_STANDARD, Constants.OBJECT_CLASS_FUNCTION_STANDARD);
     functionSearchString = Formatter.replaceStringInString(functionSearchString, Constants.LDAP_PROPERTY_UNIT_NAME + "=", Constants.LDAP_PROPERTY_FUNCTION_NAME + "=");
@@ -368,7 +388,7 @@ public class UnitRepository {
    * @return
    * @throws Exception
    */
-  String createSearchFilter(Unit unit) throws Exception {
+  String createSearchFilter(Unit unit) throws KivException {
     // create a plain unit search filter
     String unitSearchString = createUnitSearchFilter(unit);
 
@@ -392,7 +412,7 @@ public class UnitRepository {
    * @return
    * @throws Exception
    */
-  String createAdvancedSearchFilter(Unit unit, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+  String createAdvancedSearchFilter(Unit unit, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     // create a plain unit search filter
     String unitSearchString = createAdvancedUnitSearchFilter(unit);
 
@@ -412,7 +432,7 @@ public class UnitRepository {
     return orCriterias;
   }
 
-  private String makeShowUnitsWithTheseHsaBussinessClassificationCodesString(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+  private String makeShowUnitsWithTheseHsaBussinessClassificationCodesString(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     List<String> filterList = new ArrayList<String>();
 
     for (Integer id : showUnitsWithTheseHsaBussinessClassificationCodes) {
@@ -436,7 +456,7 @@ public class UnitRepository {
     return orCriterias;
   }
 
-  String createUnitSearchFilter(Unit unit) throws Exception {
+  String createUnitSearchFilter(Unit unit) throws KivException {
     List<String> filterList = new ArrayList<String>();
 
     String searchFilter = "&(objectclass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")";
@@ -469,7 +489,7 @@ public class UnitRepository {
     return searchFilter;
   }
 
-  String createAdvancedUnitSearchFilter(Unit unit) throws Exception {
+  String createAdvancedUnitSearchFilter(Unit unit) throws KivException {
     List<String> filterList = new ArrayList<String>();
 
     String searchFilter = "(&(objectclass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")";
@@ -515,9 +535,9 @@ public class UnitRepository {
    * 
    * e.g. searchField=givenName searchValue="hans-erik" result=(givenName=hans-erik)
    * 
-   * @throws Exception
+   * @throws KivException
    */
-  private void addSearchFilter(List<String> filterList, String searchField, String searchValue) throws Exception {
+  private void addSearchFilter(List<String> filterList, String searchField, String searchValue) throws KivException {
     if (!StringUtil.isEmpty(searchValue)) {
       searchValue = searchValue.trim();
       if (isExactMatchFilter(searchValue)) {
@@ -538,9 +558,9 @@ public class UnitRepository {
    * e.g. searchField=hsaPostalAddress searchValue="uddevalla" result= (|(hsaPostalAddress =*uddevalla*$*$*$*$*$*)(hsaPostalAddress=*$*uddevalla*$*$*$*$*) (hsaPostalAddress
    * =*$*$*uddevalla*$*$*$*)(hsaPostalAddress=*$*$*$*uddevalla*$*$*) (hsaPostalAddress =*$*$*$*$*uddevalla*$*)(hsaPostalAddress=*$*$*$*$*$*uddevalla*))
    * 
-   * @throws Exception
+   * @throws KivException
    */
-  void addAddressSearchFilter(List<String> filterList, String searchField, String searchValue) throws Exception {
+  void addAddressSearchFilter(List<String> filterList, String searchField, String searchValue) throws KivException {
     if (!StringUtil.isEmpty(searchValue)) {
       searchValue = searchValue.trim();
       if (isExactMatchFilter(searchValue)) {

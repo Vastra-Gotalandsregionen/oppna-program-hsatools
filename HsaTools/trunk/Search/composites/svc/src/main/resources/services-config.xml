@@ -36,6 +36,7 @@
 	  	<map>
 	  		<entry key="searchService" value-ref="Search_SearchService" />
 	  		<entry key="file" value="units.html" />
+	  		<entry key="fileUtil" value-ref="fileUtil" />
 	  	</map>
 	  </property>
 	</bean>

@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
@@ -58,7 +59,7 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
         person.setEmployments(employments);
       }
       return person;
-    } catch (Exception e) {
+    } catch (KivException e) {
       LOGGER.error(e);
       return new Person();
     }

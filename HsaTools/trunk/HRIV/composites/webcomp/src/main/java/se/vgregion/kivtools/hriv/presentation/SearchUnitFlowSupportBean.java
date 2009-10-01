@@ -211,14 +211,12 @@ public class SearchUnitFlowSupportBean implements Serializable {
         throw new KivNoDataFoundException();
       }
       return list;
-    } catch (Exception e) {
-      if (e instanceof NoConnectionToServerException) {
-        throw (NoConnectionToServerException) e;
-      }
-      if (e instanceof KivNoDataFoundException) {
-        throw (KivNoDataFoundException) e;
-      }
-      e.printStackTrace();
+    } catch (NoConnectionToServerException e) {
+      throw e;
+    } catch (KivNoDataFoundException e) {
+      throw e;
+    } catch (KivException e) {
+      logger.debug(e.getMessage(), e);
       return new SikSearchResultList<Unit>();
     }
   }
@@ -258,11 +256,10 @@ public class SearchUnitFlowSupportBean implements Serializable {
       } else {
         allUnits = getSearchService().getAllUnitsHsaIdentity();
       }
-    } catch (Exception e) {
-      if (e instanceof KivNoDataFoundException) {
-        throw (KivNoDataFoundException) e;
-      }
-      e.printStackTrace();
+    } catch (KivNoDataFoundException e) {
+      throw e;
+    } catch (KivException e) {
+      logger.debug(e.getMessage(), e);
       allUnits = new ArrayList<String>();
     }
 
@@ -321,7 +318,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
     return PagedSearchMetaDataHelper.buildPagedSearchMetaData(unitHsaIdList, pageSize);
   }
 
-  private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm) throws Exception {
+  private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm) {
     logger.debug(CLASS_NAME + ".mapSearchCriteriaToUnit(...)");
     Unit unit = new Unit();
 

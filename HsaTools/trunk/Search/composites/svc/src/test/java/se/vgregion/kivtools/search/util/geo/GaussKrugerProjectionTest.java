@@ -17,15 +17,15 @@ public class GaussKrugerProjectionTest {
   public void testInstantiation() throws Exception {
     try {
       new GaussKrugerProjection(null);
-      fail("Exception expected");
-    } catch (Exception e) {
+      fail("IllegalArgumentException expected");
+    } catch (IllegalArgumentException e) {
       // Expected exception
     }
 
     try {
       new GaussKrugerProjection("ABC");
-      fail("Exception expected");
-    } catch (Exception e) {
+      fail("IllegalArgumentException expected");
+    } catch (IllegalArgumentException e) {
       // Expected exception
     }
 

@@ -9,8 +9,6 @@ import java.io.InputStream;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.hriv.intsvc.ws.eniro.SftpClientImpl;
-
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -58,9 +56,35 @@ public class SftpClientImplTest {
   public void testSendFile() {
     assertEquals(true, sftpClientImpl.sendFile(FILE_CONTENT));
   }
-  
+
   @Test
-  public void testSendFileWithException() {
-    assertEquals(false, sftpClientImpl.sendFile(null));
+  public void testSendFileWithJschException() throws Exception {
+    mockJSch = createMock(JSch.class);
+    expect(mockJSch.getSession(USERNAME, HOSTNAME, PORT)).andThrow(new JSchException());
+    replay(mockJSch);
+
+    sftpClientImpl.setJsch(mockJSch);
+
+    assertEquals(false, sftpClientImpl.sendFile(FILE_CONTENT));
+  }
+
+  @Test
+  public void testSendFileWithSftpException() throws Exception {
+    mockJSch = createMock(JSch.class);
+    mockSession = createMock(Session.class);
+    mockChannelSftp = createMock(ChannelSftp.class);
+    expect(mockJSch.getSession(USERNAME, HOSTNAME, PORT)).andReturn(mockSession);
+    mockSession.setPassword(PASSWORD);
+    mockSession.setConfig(STRICTHOSTKEYCHECKING, STRICTHOSTKEYCHECKING_VALUE);
+    mockSession.connect();
+    expect(mockSession.openChannel("sftp")).andReturn(mockChannelSftp);
+    mockChannelSftp.connect();
+    mockChannelSftp.put(isA(InputStream.class), eq(FTPDESTINATIONFILENAME));
+    expectLastCall().andThrow(new SftpException(1, "Test"));
+    replay(mockJSch, mockSession, mockChannelSftp);
+
+    sftpClientImpl.setJsch(mockJSch);
+
+    assertEquals(false, sftpClientImpl.sendFile(FILE_CONTENT));
   }
 }

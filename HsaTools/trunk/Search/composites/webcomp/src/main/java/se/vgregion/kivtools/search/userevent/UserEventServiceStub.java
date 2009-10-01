@@ -40,7 +40,7 @@ public class UserEventServiceStub implements UserEventService {
     if (!StringUtil.isEmpty(firstName)) {
       events.add(UserEventInfo.createUserEventInfo("ejvidarekopplad", "möte", new Date(), new Date(), "Möte resten av dagen", "/Kalle"));
       events.add(UserEventInfo.createUserEventInfo("vidarekopplad", "gåttfördagen", new Date(), new Date(), "Gått för dagen", "/Kalle"));
-      events.add(UserEventInfo.createUserEventInfo("ejvidarekopplad", "sjuk", new Date(), new Date(), "Hemma med snuva", "/Kalle"));
+      events.add(UserEventInfo.createUserEventInfo("ejvidarekopplad", "sjuk", new Date(), null, "Hemma med snuva", "/Kalle"));
     }
 
     return events;

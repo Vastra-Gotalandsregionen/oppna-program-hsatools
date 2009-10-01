@@ -15,9 +15,6 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-/**
- * 
- */
 package se.vgregion.kivtools.search.presentation;
 
 import java.io.Serializable;
@@ -27,6 +24,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
@@ -144,7 +142,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
       return list;
     } catch (KivNoDataFoundException e) {
       throw e;
-    } catch (Exception e) {
+    } catch (KivException e) {
       LOGGER.error(e);
       return new SikSearchResultList<Person>();
     }
@@ -192,10 +190,9 @@ public class SearchPersonFlowSupportBean implements Serializable {
         throw new KivNoDataFoundException();
       }
       return persons;
-    } catch (Exception e) {
-      if (e instanceof KivNoDataFoundException) {
-        throw (KivNoDataFoundException) e;
-      }
+    } catch (KivNoDataFoundException e) {
+      throw e;
+    } catch (KivException e) {
       LOGGER.error(e);
       return new SikSearchResultList<Person>();
     }
@@ -211,10 +208,9 @@ public class SearchPersonFlowSupportBean implements Serializable {
     try {
       List<String> listOfVgrIds = getSearchService().getAllPersonsId();
       return listOfVgrIds;
-    } catch (Exception e) {
-      if (e instanceof KivNoDataFoundException) {
-        throw (KivNoDataFoundException) e;
-      }
+    } catch (KivNoDataFoundException e) {
+      throw e;
+    } catch (KivException e) {
       LOGGER.error(e);
       return new ArrayList<String>();
     }
@@ -266,10 +262,9 @@ public class SearchPersonFlowSupportBean implements Serializable {
         }
       }
       result = PagedSearchMetaDataHelper.buildPagedSearchMetaData(personVgrIdList, pageSize);
-    } catch (Exception e) {
-      if (e instanceof KivNoDataFoundException) {
-        throw (KivNoDataFoundException) e;
-      }
+    } catch (KivNoDataFoundException e) {
+      throw e;
+    } catch (KivException e) {
       LOGGER.error(e);
       result = new ArrayList<PagedSearchMetaData>();
     }
@@ -290,7 +285,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
       // Add parent to list
       subUnits.add(parentUnit);
       persons = getSearchService().getPersonsForUnits(subUnits, maxSearchResult);
-    } catch (Exception e) {
+    } catch (KivException e) {
       LOGGER.error(e);
     }
     return persons;

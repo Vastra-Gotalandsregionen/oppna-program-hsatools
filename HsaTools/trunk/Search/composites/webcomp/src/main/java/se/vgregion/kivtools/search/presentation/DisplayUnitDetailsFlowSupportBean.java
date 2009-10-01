@@ -15,9 +15,6 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-/**
- * 
- */
 package se.vgregion.kivtools.search.presentation;
 
 import java.io.Serializable;
@@ -25,12 +22,12 @@ import java.io.Serializable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
- * 
  */
 @SuppressWarnings("serial")
 public class DisplayUnitDetailsFlowSupportBean implements Serializable {
@@ -56,7 +53,7 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
     LOGGER.debug(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
     try {
       return getSearchService().getUnitByHsaId(hsaId);
-    } catch (Exception e) {
+    } catch (KivException e) {
       LOGGER.error(e);
       return new Unit();
     }
@@ -73,7 +70,7 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
     try {
       Unit u = getSearchService().getUnitByDN(dn);
       return u;
-    } catch (Exception e) {
+    } catch (KivException e) {
       LOGGER.error(e);
       return new Unit();
     }

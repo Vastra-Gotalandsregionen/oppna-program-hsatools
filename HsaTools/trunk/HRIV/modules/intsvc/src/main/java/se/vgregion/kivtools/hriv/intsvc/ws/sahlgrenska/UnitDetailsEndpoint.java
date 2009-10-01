@@ -32,18 +32,12 @@ public class UnitDetailsEndpoint extends AbstractMarshallingPayloadEndpoint {
   }
 
   @Override
-  protected Object invokeInternal(Object request) throws Exception {
+  protected Object invokeInternal(Object request) {
     UnitRequest unitRequest = (UnitRequest) request;
     Organization organization = null;
-    try {
-      organization = unitDetailsService.getUnitDetails(unitRequest.getHsaIdentity());
-    } catch (Exception e) {
-      // Couldn't fetch any organization create an empty to return
-      organization = new Organization();
-    }
+    organization = unitDetailsService.getUnitDetails(unitRequest.getHsaIdentity());
     UnitResponse response = new UnitResponse();
     response.setOrganization(organization);
     return response;
   }
-
 }

@@ -1,6 +1,6 @@
 package se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.*;
 
 import org.easymock.classextension.EasyMock;
 import org.junit.Assert;
@@ -13,9 +13,6 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Organization;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Unit;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.UnitRequest;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.UnitResponse;
-import se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska.UnitDetailsEndpoint;
-import se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska.UnitDetailsService;
-import se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska.UnitDetailsServiceImpl;
 
 public class UnitDetailsEndpointTest {
   UnitDetailsEndpoint unitDetailsEndpoint;
@@ -45,16 +42,6 @@ public class UnitDetailsEndpointTest {
     // Test with invalid id
     // unitResponse = (UnitResponse) unitDetailsEndpoint.invokeInternal(unitRequest_invalid_id);
     // Assert.assertEquals("", unitResponse.getOrganization().getUnit().get(0).getId());
-
-  }
-  @Test
-  public void testInvokeInternalWithException() throws Exception{
-    // This will generate an exception
-    unitDetailsEndpoint.setUnitDetailsService(null);
-    UnitRequest unitRequest = new UnitRequest();
-    UnitResponse  unitResponse = (UnitResponse) unitDetailsEndpoint.invokeInternal(unitRequest);
-    // Should return an empty organisaton with no values set.
-    assertEquals(null, unitResponse.getOrganization().getName());
   }
 
   // Create a mock object with a containing a unit with the unitId parameter
@@ -65,7 +52,7 @@ public class UnitDetailsEndpointTest {
     unit.setId(unitId);
     organization.getUnit().add(unit);
     UnitDetailsService<Organization> unitDetailsServiceMock = EasyMock.createMock(UnitDetailsServiceImpl.class);
-    EasyMock.expect(unitDetailsServiceMock.getUnitDetails(unitId)).andReturn(organization);
+    expect(unitDetailsServiceMock.getUnitDetails(unitId)).andReturn(organization);
     EasyMock.replay(unitDetailsServiceMock);
     return unitDetailsServiceMock;
   }

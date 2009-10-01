@@ -34,6 +34,12 @@ import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 public class EvaluatorTest {
 
   @Test
+  public void testInstantiation() {
+    Evaluator evaluator = new Evaluator();
+    assertNotNull(evaluator);
+  }
+
+  @Test
   public void testIsEmptyIsEmptyMarker() {
     IsEmptyMarker marker = new IsEmptyMarkerMock(false);
     assertFalse(Evaluator.isEmpty(marker));

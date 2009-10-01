@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.AddressHelper;
@@ -46,7 +47,6 @@ import com.novell.ldap.LDAPEntry;
 /**
  * @author Anders and Hans, Know IT
  * @author Jonas Liljenfeldt, Know IT
- * 
  */
 public class UnitFactory {
 
@@ -71,7 +71,7 @@ public class UnitFactory {
     this.displayValueTranslator = displayValueTranslator;
   }
 
-  public Unit reconstitute(LDAPEntry unitEntry) throws Exception {
+  public Unit reconstitute(LDAPEntry unitEntry) throws KivException {
     Unit unit = new Unit();
     if (unitEntry == null) {
       return unit;

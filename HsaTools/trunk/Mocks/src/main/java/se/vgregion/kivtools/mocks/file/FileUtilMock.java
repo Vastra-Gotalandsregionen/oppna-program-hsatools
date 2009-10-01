@@ -82,6 +82,15 @@ public class FileUtilMock implements FileUtil {
   }
 
   @Override
+  public void writeFile(String fileName, String fileContent) {
+    if (exceptionToThrow != null) {
+      throw exceptionToThrow;
+    }
+    fileWrite = new File(fileName);
+    content = fileContent;
+  }
+
+  @Override
   public void createDirectoryIfNoExist(File directory) {
     dirCreated = directory;
   }
@@ -117,10 +126,6 @@ public class FileUtilMock implements FileUtil {
   @Override
   public String readFile(String fileName) {
     return null;
-  }
-
-  @Override
-  public void writeFile(String fileName, String fileContent) {
   }
 
   @Override

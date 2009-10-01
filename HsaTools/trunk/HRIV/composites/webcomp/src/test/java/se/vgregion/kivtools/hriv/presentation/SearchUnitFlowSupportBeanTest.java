@@ -73,9 +73,12 @@ public class SearchUnitFlowSupportBeanTest {
 
   @Test
   public void testDoSearch() throws Exception {
-    SikSearchResultList<Unit> result = bean.doSearch(null);
-    assertNotNull(result);
-    assertEquals(0, result.size());
+    try {
+      SikSearchResultList<Unit> result = bean.doSearch(null);
+      fail("NullPointerException expected");
+    } catch (NullPointerException e) {
+      // Expected exception
+    }
 
     try {
       bean.doSearch(form);
@@ -97,7 +100,7 @@ public class SearchUnitFlowSupportBeanTest {
     unit.setHsaIdentity("ABC-123");
     this.searchService.addUnit(unit);
     form.setHealthcareType("1");
-    result = bean.doSearch(form);
+    SikSearchResultList<Unit> result = bean.doSearch(form);
     assertNotNull(result);
     assertEquals(1, result.size());
 
@@ -125,7 +128,7 @@ public class SearchUnitFlowSupportBeanTest {
     }
 
     this.searchService.clearExceptionsToThrow();
-    this.searchService.addExceptionToThrow(new Exception());
+    this.searchService.addExceptionToThrow(new KivException("Test"));
     result = bean.getAllUnitsHsaIdentity();
     assertNotNull(result);
     assertEquals(0, result.size());
@@ -201,7 +204,7 @@ public class SearchUnitFlowSupportBeanTest {
     }
 
     searchService.clearExceptionsToThrow();
-    searchService.addExceptionToThrow(new Exception());
+    searchService.addExceptionToThrow(new KivException("Test"));
     result = bean.getAllUnitsPageList("1");
     assertNotNull(result);
     assertEquals(0, result.size());

@@ -25,6 +25,7 @@ import java.io.Serializable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
@@ -76,8 +77,8 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
       // We have no good connection to LDAP server and should be able to
       // tell the user we have no hope of success.
       throw e;
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (KivException e) {
+      logger.debug(e.getMessage(), e);
       return new Unit();
     }
 

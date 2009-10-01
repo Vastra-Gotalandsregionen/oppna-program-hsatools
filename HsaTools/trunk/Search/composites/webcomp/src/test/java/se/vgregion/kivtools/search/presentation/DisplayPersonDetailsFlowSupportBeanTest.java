@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
@@ -40,8 +41,12 @@ public class DisplayPersonDetailsFlowSupportBeanTest {
   }
 
   @Test
-  public void testExceptionHandling() {
-    displayPersonDetailsFlowSupportBean.setSearchService(null);
+  public void testExceptionHandling() throws Exception {
+    SearchService searchServiceMock = createMock(SearchService.class);
+    expect(searchServiceMock.getPersonById(VGR_ID)).andThrow(new KivException("Test"));
+    replay(searchServiceMock);
+    displayPersonDetailsFlowSupportBean.setSearchService(searchServiceMock);
+
     assertNotNull(displayPersonDetailsFlowSupportBean.getPersonDetails(VGR_ID));
   }
 }
