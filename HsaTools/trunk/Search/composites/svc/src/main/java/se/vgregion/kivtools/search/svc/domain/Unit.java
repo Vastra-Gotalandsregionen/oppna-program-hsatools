@@ -30,6 +30,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.search.svc.domain.values.Address;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
@@ -55,9 +57,11 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   private static final long serialVersionUID = 1L;
   private static final String HSA_BUSINESS_CLASSIFICATION_NAME_UNKNOWN = "Ok\u00E4nd v\u00E5rdtyp";
+  private static final Log LOG = LogFactory.getLog(Unit.class);
+
   // 0u (e.g.Näl)
   private String ou;
-  // Distinuished Name (e.g. ou=N�l,ou=Org,o=VGR)
+  // Distinuished Name (e.g. ou=Näl,ou=Org,o=VGR)
   private DN dn;
   // Enhetens namn
   private String name;
@@ -79,7 +83,6 @@ public class Unit implements Serializable, Comparable<Unit> {
   private String vgrAO3kod;
   // Ansvarsområdeskodens namn
   private String vgrAO3kodText;
-  // FIXME Should be Integer?
   private List<String> hsaBusinessClassificationCode;
   private List<String> hsaBusinessClassificationText;
   // Kommunkod
@@ -196,10 +199,6 @@ public class Unit implements Serializable, Comparable<Unit> {
   // units
   private String distanceToTarget;
   private List<String> mvkCaseTypes;
-  private boolean isNew;
-  private boolean isRemoved;
-  private boolean isMoved;
-  private boolean isUpdated;
 
   private boolean vgrVardVal;
 
@@ -212,9 +211,6 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   private boolean showAgeInterval;
   private boolean showVisitingRules;
-  
-  public Unit() {
-  }
 
   public boolean isVgrVardVal() {
     return vgrVardVal;
@@ -222,38 +218,6 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   public void setVgrVardVal(boolean vgrVardVal) {
     this.vgrVardVal = vgrVardVal;
-  }
-
-  public boolean isMoved() {
-    return isMoved;
-  }
-
-  public void setMoved(boolean isMoved) {
-    this.isMoved = isMoved;
-  }
-
-  public boolean isRemoved() {
-    return isRemoved;
-  }
-
-  public void setRemoved(boolean isRemoved) {
-    this.isRemoved = isRemoved;
-  }
-
-  public boolean isNew() {
-    return isNew;
-  }
-
-  public void setNew(boolean isNew) {
-    this.isNew = isNew;
-  }
-
-  public boolean isUpdated() {
-    return isUpdated;
-  }
-
-  public void setUpdated(boolean isUpdated) {
-    this.isUpdated = isUpdated;
   }
 
   public String getDistanceToTarget() {
@@ -384,13 +348,20 @@ public class Unit implements Serializable, Comparable<Unit> {
     this.dn = dn;
   }
 
-  public String getDnBase64() throws UnsupportedEncodingException {
+  /**
+   * Gets the DN as a Base64-encoded string.
+   * 
+   * @return The units DN as a Base64-encoded string.
+   */
+  public String getDnBase64() {
     String dnString = dn.toString();
-    // dnString =
-    // "CN=Hedvig h Blomfrö,OU=Falkenbergsnämnden,OU=Förtroendevalda,OU=Landstinget  Halland,DC=hkat,DC=lthalland,DC=com"
-    // ;
-//    String dnStringBase64Encoded = new String(Base64.encodeBase64(dnString.getBytes(java.nio.charset.Charset.defaultCharset().name()), true));
-    String dnStringBase64Encoded = new String(Base64.encodeBase64(dnString.getBytes("ISO-8859-1"), true));
+    String dnStringBase64Encoded;
+    try {
+      dnStringBase64Encoded = new String(Base64.encodeBase64(dnString.getBytes("ISO-8859-1"), true));
+    } catch (UnsupportedEncodingException e) {
+      // Should not happen. Re-throwing as RuntimeException.
+      throw new RuntimeException(e);
+    }
     return dnStringBase64Encoded;
   }
 
@@ -588,8 +559,8 @@ public class Unit implements Serializable, Comparable<Unit> {
     this.description = description;
   }
 
-  public void setInternalDescription(List<String> description) {
-    this.internalDescription = description;
+  public void setInternalDescription(List<String> internalDescription) {
+    this.internalDescription = internalDescription;
   }
 
   public List<PhoneNumber> getHsaTelephoneNumber() {
@@ -688,30 +659,36 @@ public class Unit implements Serializable, Comparable<Unit> {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + (hsaIdentity == null ? 0 : hsaIdentity.hashCode());
+    if (hsaIdentity == null) {
+      result = prime * result;
+    } else {
+      result = prime * result + hsaIdentity.hashCode();
+    }
     return result;
   }
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    Unit other = (Unit) obj;
-    if (hsaIdentity == null) {
-      if (other.hsaIdentity != null) {
-        return false;
+    boolean result = true;
+    if (this != obj) {
+      if (obj == null) {
+        result = false;
+      } else {
+        if (getClass() != obj.getClass()) {
+          result = false;
+        } else {
+          Unit other = (Unit) obj;
+          if (hsaIdentity == null) {
+            if (other.hsaIdentity != null) {
+              result = false;
+            }
+          } else if (!hsaIdentity.equals(other.hsaIdentity)) {
+            result = false;
+          }
+        }
       }
-    } else if (!hsaIdentity.equals(other.hsaIdentity)) {
-      return false;
     }
-    return true;
+    return result;
   }
 
   public void setHsaManagementText(String hsaManagementText) {
@@ -722,6 +699,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return hsaVisitingRuleAge;
   }
 
+  /**
+   * Setter for the hsaVisitingRuleAge property. Converts the value from the LDAP-value to a more human readable form.
+   * 
+   * @param hsaVisitingRuleAge The LDAP-value for the hsaVisitingRuleAge property.
+   */
   public void setHsaVisitingRuleAge(String hsaVisitingRuleAge) {
     if ("0-99".equals(hsaVisitingRuleAge)) {
       this.hsaVisitingRuleAge = "Alla \u00E5ldrar";
@@ -746,6 +728,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return vgrTempInfo;
   }
 
+  /**
+   * Setter for the vgrTempInfo property. The provided value is parsed and the result populates the fields vgrTempInfoStart, vgrTempInfoEnd and vgrTempInfoBody as well.
+   * 
+   * @param vgrTempInfo The new value for vgrTempInfo.
+   */
   public void setVgrTempInfo(String vgrTempInfo) {
     this.vgrTempInfo = vgrTempInfo;
     if ("".equals(vgrTempInfo) || !vgrTempInfo.contains("-") || vgrTempInfo.length() < 19) {
@@ -769,8 +756,8 @@ public class Unit implements Serializable, Comparable<Unit> {
         // earlier
         setVgrTempInfoStart(cal.getTime());
       } catch (ParseException e) {
-        // KIV validates this field. Nothing we can do if it is
-        // incorrect.
+        // KIV validates this field. Nothing we can do if it is incorrect.
+        LOG.error("Unable to parse provided startdate as a date", e);
       }
     } else {
       return;
@@ -789,8 +776,8 @@ public class Unit implements Serializable, Comparable<Unit> {
         cal.add(Calendar.DAY_OF_YEAR, 1);
         setVgrTempInfoEnd(cal.getTime());
       } catch (ParseException e) {
-        // KIV validates this field. Nothing we can do if it is
-        // incorrect.
+        // KIV validates this field. Nothing we can do if it is incorrect.
+        LOG.error("Unable to parse provided enddate as a date", e);
       }
       // Message
       setVgrTempInfoBody(vgrTempInfo.substring(vgrTempInfo.indexOf(" ") + 1));
@@ -1321,31 +1308,19 @@ public class Unit implements Serializable, Comparable<Unit> {
     return result;
   }
 
-    /**
-     * @return the showAgeInterval
-     */
-    public boolean isShowAgeInterval() {
-        return showAgeInterval;
-    }
+  public boolean isShowAgeInterval() {
+    return showAgeInterval;
+  }
 
-    /**
-     * @param showAgeInterval the showAgeInterval to set
-     */
-    public void setShowAgeInterval(boolean showAgeInterval) {
-        this.showAgeInterval = showAgeInterval;
-    }
+  public void setShowAgeInterval(boolean showAgeInterval) {
+    this.showAgeInterval = showAgeInterval;
+  }
 
-    /**
-     * @return the showVisitingRules
-     */
-    public boolean isShowVisitingRules() {
-        return showVisitingRules;
-    }
+  public boolean isShowVisitingRules() {
+    return showVisitingRules;
+  }
 
-    /**
-     * @param showVisitingRules the showVisitingRules to set
-     */
-    public void setShowVisitingRules(boolean showVisitingRules) {
-        this.showVisitingRules = showVisitingRules;
-    }
+  public void setShowVisitingRules(boolean showVisitingRules) {
+    this.showVisitingRules = showVisitingRules;
+  }
 }
