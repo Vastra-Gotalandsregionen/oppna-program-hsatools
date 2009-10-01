@@ -1,6 +1,3 @@
-/**
- * 
- */
 package se.vgregion.kivtools.hriv.intsvc.ldap.eniro;
 
 import java.util.HashMap;
