@@ -15,9 +15,6 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-/**
- * 
- */
 package se.vgregion.kivtools.search.svc.domain.values;
 
 import java.io.Serializable;
@@ -30,7 +27,6 @@ import java.util.List;
 
 /**
  * @author Anders Asplund - KnowIT
- * 
  */
 public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
 
@@ -265,10 +261,6 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
     try {
       return URLEncoder.encode(this.toString(), "UTF-8");
     } catch (UnsupportedEncodingException e) {
-      System.out.println("Exception in method=" + this.getClass().getName() + "::getUrlEncoded(), Exception=" + e.toString()
-          + ", this could be caused due to the fact that the environment variable env.kivtools.server.istomcat is not set.");
-      return this.toString().replace("=", "%3D");
-    } catch (Exception e) {
       System.out.println("Exception in method=" + this.getClass().getName() + "::getUrlEncoded(), Exception=" + e.toString()
           + ", this could be caused due to the fact that the environment variable env.kivtools.server.istomcat is not set.");
       return this.toString().replace("=", "%3D");

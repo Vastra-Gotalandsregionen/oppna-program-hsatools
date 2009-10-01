@@ -37,6 +37,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import se.vgregion.kivtools.hriv.presentation.SearchUnitFlowSupportBean;
 import se.vgregion.kivtools.hriv.presentation.SettingsBean;
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
@@ -122,7 +123,7 @@ public class Sitemap extends HttpServlet {
       sb.setUnitsCacheComplete(true);
     } catch (KivNoDataFoundException e1) {
       logger.error("Something went wrong when retrieving all units.");
-    } catch (Exception e) {
+    } catch (KivException e) {
       logger.error("Something went wrong when retrieving all units.");
     }
     long endTimeMillis = System.currentTimeMillis();
@@ -154,21 +155,17 @@ public class Sitemap extends HttpServlet {
 
     String externalApplicationURL = settingsBean.getExternalApplicationURL();
 
-    try {
-      for (UnitSitemapInformation u : siteMapInformationUnits) {
-        String hsaId = u.getHsaId();
-        String lastmod = "".equals(u.getModifyTimestampFormattedInW3CDatetimeFormat()) ? u.getCreateTimestampFormattedInW3CDatetimeFormat() : u.getModifyTimestampFormattedInW3CDatetimeFormat();
-        output.append("<url>\n");
-        output.append("<loc>" + externalApplicationURL + "/" + "visaenhet?hsaidentity=" + hsaId + "</loc>\n");
-        output.append("<lastmod>" + lastmod + "</lastmod>\n");
-        output.append("<changefreq>weekly</changefreq>\n");
-        output.append("<priority>0.5</priority>\n");
-        output.append("</url>\n");
+    for (UnitSitemapInformation u : siteMapInformationUnits) {
+      String hsaId = u.getHsaId();
+      String lastmod = "".equals(u.getModifyTimestampFormattedInW3CDatetimeFormat()) ? u.getCreateTimestampFormattedInW3CDatetimeFormat() : u.getModifyTimestampFormattedInW3CDatetimeFormat();
+      output.append("<url>\n");
+      output.append("<loc>" + externalApplicationURL + "/" + "visaenhet?hsaidentity=" + hsaId + "</loc>\n");
+      output.append("<lastmod>" + lastmod + "</lastmod>\n");
+      output.append("<changefreq>weekly</changefreq>\n");
+      output.append("<priority>0.5</priority>\n");
+      output.append("</url>\n");
 
-        LOGGER.debug("Added unit " + hsaId);
-      }
-    } catch (Exception e) {
-      LOGGER.error("Something went wrong when retrieving all units.");
+      LOGGER.debug("Added unit " + hsaId);
     }
 
     output.append("</urlset>");

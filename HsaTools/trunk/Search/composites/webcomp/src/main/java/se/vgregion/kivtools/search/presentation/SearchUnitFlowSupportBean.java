@@ -131,10 +131,9 @@ public class SearchUnitFlowSupportBean implements Serializable {
       if (list.size() == 0) {
         throw new KivNoDataFoundException();
       }
-    } catch (Exception e) {
-      if (e instanceof KivNoDataFoundException) {
-        throw (KivNoDataFoundException) e;
-      }
+    } catch (KivNoDataFoundException e) {
+      throw e;
+    } catch (KivException e) {
       LOGGER.error(e);
       list = new SikSearchResultList<Unit>();
     }
@@ -151,10 +150,9 @@ public class SearchUnitFlowSupportBean implements Serializable {
     List<String> result;
     try {
       result = getSearchService().getAllUnitsHsaIdentity();
-    } catch (Exception e) {
-      if (e instanceof KivNoDataFoundException) {
-        throw (KivNoDataFoundException) e;
-      }
+    } catch (KivNoDataFoundException e) {
+      throw e;
+    } catch (KivException e) {
       LOGGER.error(e);
       result = new ArrayList<String>();
     }
@@ -182,7 +180,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
       }
     } catch (KivNoDataFoundException e) {
       throw e;
-    } catch (Exception e) {
+    } catch (KivException e) {
       LOGGER.error(e);
       result = new ArrayList<String>();
     }
@@ -210,7 +208,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
       result = PagedSearchMetaDataHelper.buildPagedSearchMetaData(unitHsaIdList, pageSize);
     } catch (KivNoDataFoundException e) {
       throw e;
-    } catch (Exception e) {
+    } catch (KivException e) {
       LOGGER.error(e);
       result = new ArrayList<PagedSearchMetaData>();
     }
@@ -250,7 +248,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
       return allUnitsWithPositionInfo;
     } catch (KivNoDataFoundException e) {
       throw e;
-    } catch (Exception e) {
+    } catch (KivException e) {
       LOGGER.error(e);
       return new ArrayList<Unit>();
     }
@@ -267,13 +265,13 @@ public class SearchUnitFlowSupportBean implements Serializable {
     try {
       Unit parentUnit = getSearchService().getUnitByHsaId(parentHsaId);
       subUnits = getSearchService().getSubUnits(parentUnit, maxSearchResult);
-    } catch (Exception e) {
+    } catch (KivException e) {
       LOGGER.error(e);
     }
     return subUnits;
   }
 
-  private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm) throws Exception {
+  private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm) {
     final String methodName = CLASS_NAME + ".mapSearchCriteriaToUnit(...)";
     LOGGER.debug(methodName);
     Unit unit = new Unit();

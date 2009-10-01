@@ -21,10 +21,12 @@ import se.vgregion.kivtools.hriv.presentation.exceptions.VardvalException;
 import se.vgregion.kivtools.hriv.presentation.exceptions.VardvalRegistrationException;
 import se.vgregion.kivtools.hriv.presentation.exceptions.VardvalSigningException;
 import se.vgregion.kivtools.hriv.presentation.types.SigningInformation;
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 import se.vgregion.kivtools.search.svc.registration.CitizenRepository;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImpl;
 import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImplService;
@@ -166,7 +168,10 @@ public class RegisterOnUnitController implements Serializable {
     } catch (SOAPFaultException sfe) {
       externalContext.getSessionMap().put("selectedUnitId", selectedUnitId);
       throw new VardvalRegistrationException(sfe.getMessage());
-    } catch (Exception e) {
+    } catch (KivException e) {
+      externalContext.getSessionMap().put("selectedUnitId", selectedUnitId);
+      throw new VardvalRegistrationException(bundle.getString("registrationInvalidUnit"));
+    } catch (IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage e) {
       externalContext.getSessionMap().put("selectedUnitId", selectedUnitId);
       throw new VardvalRegistrationException(bundle.getString("registrationInvalidUnit"));
     }

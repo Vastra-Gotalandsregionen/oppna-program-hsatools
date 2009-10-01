@@ -119,9 +119,9 @@ public class GaussKrugerProjection implements CoordinateTransformerService {
    * Constructor with specified gon.
    * 
    * @param gon Specified Gon
-   * @throws Exception If an unknown Gon is specified.
+   * @throws IllegalArgumentException If an unknown Gon is specified.
    */
-  public GaussKrugerProjection(String gon) throws Exception {
+  public GaussKrugerProjection(String gon) {
     if (gon != null) {
       if (gon.equals("2.5V")) {
         cm = CM_25V;
@@ -154,10 +154,10 @@ public class GaussKrugerProjection implements CoordinateTransformerService {
         fn = FN_5O;
         fe = FE_5O;
       } else {
-        throw new Exception("Specified Gon isn't recognized");
+        throw new IllegalArgumentException("Specified Gon isn't recognized: " + gon);
       }
     } else {
-      throw new Exception("Specified Gon isn't recognized");
+      throw new IllegalArgumentException("Specified Gon isn't recognized: " + gon);
     }
     this.initialize();
   }

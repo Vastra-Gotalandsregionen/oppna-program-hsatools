@@ -3,6 +3,7 @@ package se.vgregion.hsatools.testtools.vardvalws.endpoints;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -38,7 +39,7 @@ public class VardvalEndpoint extends AbstractMarshallingPayloadEndpoint {
   }
 
   @Override
-  protected Object invokeInternal(Object requestObject) throws Exception {
+  protected Object invokeInternal(Object requestObject) {
     Object response = null;
     String ssn = null;
     String unitId = null;
@@ -59,7 +60,14 @@ public class VardvalEndpoint extends AbstractMarshallingPayloadEndpoint {
       String currentUnitId = Service.getUnit(ssn);
       Service.setUnit(ssn, unitId);
 
-      XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar((GregorianCalendar) Calendar.getInstance());
+      DatatypeFactory datatypeFactory;
+      try {
+        datatypeFactory = DatatypeFactory.newInstance();
+      } catch (DatatypeConfigurationException e) {
+        // Should not happen. Re-throwing as RuntimeException.
+        throw new RuntimeException(e);
+      }
+      XMLGregorianCalendar xmlGregorianCalendar = datatypeFactory.newXMLGregorianCalendar((GregorianCalendar) Calendar.getInstance());
       VårdvalEntry currentVardvalEntry = objectFactory.createVårdvalEntry();
       currentVardvalEntry.setPersonnummer(ssn);
       currentVardvalEntry.setGiltigFrån(xmlGregorianCalendar);
@@ -77,5 +85,4 @@ public class VardvalEndpoint extends AbstractMarshallingPayloadEndpoint {
     }
     return response;
   }
-
 }

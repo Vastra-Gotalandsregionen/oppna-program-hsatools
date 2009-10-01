@@ -15,11 +15,9 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-/**
- * 
- */
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
@@ -34,7 +32,6 @@ import com.novell.ldap.LDAPSearchResults;
 
 /**
  * @author Anders Asplund - KnowIT
- * 
  */
 public class EmploymentRepository {
   private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
@@ -46,25 +43,28 @@ public class EmploymentRepository {
     this.theConnectionPool = lp;
   }
 
-  public SikSearchResultList<Employment> getEmployments(DN dn) throws Exception {
+  public SikSearchResultList<Employment> getEmployments(DN dn) throws KivException {
     LDAPSearchResults searchResults = null;
     SikSearchResultList<Employment> result = new SikSearchResultList<Employment>();
     int maxResult = 0;
 
-    LDAPConnection lc = getLDAPConnection();
     try {
-      LDAPSearchConstraints constraints = new LDAPSearchConstraints();
-      constraints.setMaxResults(0);
+      LDAPConnection lc = getLDAPConnection();
+      try {
+        LDAPSearchConstraints constraints = new LDAPSearchConstraints();
+        constraints.setMaxResults(0);
 
-      searchResults = lc.search(dn.toString(), LDAPConnection.SCOPE_ONE, ALL_EMPLOYMENT_FILTER, null, false, constraints);
-      result = extractResult(searchResults, maxResult);
+        searchResults = lc.search(dn.toString(), LDAPConnection.SCOPE_ONE, ALL_EMPLOYMENT_FILTER, null, false, constraints);
+        result = extractResult(searchResults, maxResult);
 
-    } finally {
-      theConnectionPool.freeConnection(lc);
+      } finally {
+        theConnectionPool.freeConnection(lc);
+      }
+    } catch (LDAPException e) {
+      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
     }
 
     return result;
-
   }
 
   private SikSearchResultList<Employment> extractResult(LDAPSearchResults searchResults, int maxResult) throws LDAPException {

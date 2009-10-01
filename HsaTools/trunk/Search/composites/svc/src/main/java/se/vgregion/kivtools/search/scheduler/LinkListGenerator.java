@@ -15,20 +15,17 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-/**
- * 
- */
 package se.vgregion.kivtools.search.scheduler;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.StringWriter;
 import java.util.List;
 
 import org.quartz.JobExecutionContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
+import se.vgregion.kivtools.util.file.FileUtil;
 
 /**
  * @author Anders Asplund - KnowIT
@@ -36,48 +33,42 @@ import se.vgregion.kivtools.search.svc.SearchService;
  */
 public class LinkListGenerator extends QuartzJobBean {
 
-    private SearchService searchService;
+  private SearchService searchService;
+  private FileUtil fileUtil;
 
-    public void setSearchService(SearchService searchService) {
-        this.searchService = searchService;
+  public void setSearchService(SearchService searchService) {
+    this.searchService = searchService;
+  }
+
+  public void setFileUtil(FileUtil fileUtil) {
+    this.fileUtil = fileUtil;
+  }
+
+  @Override
+  public void executeInternal(JobExecutionContext context) {
+    try {
+      StringWriter units = new StringWriter();
+      List<String> ids = this.searchService.getAllUnitsHsaIdentity();
+      units.write("<html><head><title>Lista med enheter</title></head><body>");
+      for (String id : ids) {
+        units.write("<div><a href=\"http://kivsearch.vgregion.se/kivsearch/visaenhet?hsaidentity=" + id + "\">" + id + "</a></div>");
+      }
+      units.write("</body></html>");
+
+      this.fileUtil.writeFile("units.html", units.toString());
+
+      StringWriter users = new StringWriter();
+
+      ids = this.searchService.getAllPersonsId();
+      users.write("<html><head><title>Lista med anv�ndare</title></head><body>");
+      for (String id : ids) {
+        users.write("<div><a href=\"http://kivsearch.vgregion.se/kivsearch/visaenhet?hsaidentity=" + id + "\">" + id + "</a></div>");
+      }
+      users.write("</body></html>");
+
+      this.fileUtil.writeFile("users.html", users.toString());
+    } catch (KivException e) {
+      e.printStackTrace();
     }
-
-    @Override
-    public void executeInternal(JobExecutionContext context) {
-        try {
-            FileWriter file = openFile("units.html");            
-            List<String> ids = this.searchService.getAllUnitsHsaIdentity();
-            file.write("<html><head><title>Lista med enheter</title></head><body>");
-            for (String id : ids) {
-                file.write("<div><a href=\"http://kivsearch.vgregion.se/kivsearch/visaenhet?hsaidentity="
-                            + id + "\">" + id + "</a></div>");
-            }
-            file.write("</body></html>");
-            file.close();
-
-            file = openFile("users.html");            
-            ids = this.searchService.getAllPersonsId();
-            file.write("<html><head><title>Lista med anv�ndare</title></head><body>");
-            for (String id : ids) {
-                file.write("<div><a href=\"http://kivsearch.vgregion.se/kivsearch/visaenhet?hsaidentity="
-                            + id + "\">" + id + "</a></div>");
-            }
-            file.write("</body></html>");
-            file.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private FileWriter openFile(String fileName) throws IOException {
-        File f = new File(System.getProperty("user.dir"), fileName);
-        if (!f.createNewFile()) {
-            f.delete();
-            if (!f.createNewFile()) {
-                throw new IOException("Could not create file.");
-            }
-        }
-        return new FileWriter(f);
-    }
+  }
 }

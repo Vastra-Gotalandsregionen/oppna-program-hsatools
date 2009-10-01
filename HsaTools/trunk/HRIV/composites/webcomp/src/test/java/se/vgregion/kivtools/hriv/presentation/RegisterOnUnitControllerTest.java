@@ -34,6 +34,7 @@ import org.w3c.dom.UserDataHandler;
 import se.vgregion.kivtools.hriv.presentation.exceptions.VardvalException;
 import se.vgregion.kivtools.hriv.presentation.exceptions.VardvalRegistrationException;
 import se.vgregion.kivtools.hriv.presentation.exceptions.VardvalSigningException;
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.registration.CitizenRepository;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage;
@@ -116,13 +117,10 @@ public class RegisterOnUnitControllerTest {
     }
 
     registerOnUnitController.setCitizenRepository(citizenRepository);
-    try {
-      registerOnUnitController.getUnitRegistrationInformation(externalContext, null);
-      fail("VardvalRegistrationException expected");
-    } catch (VardvalRegistrationException e) {
-      // Expected exception
-    }
 
+    searchService.addExceptionToThrow(new KivException("Test"));
+
+    registerOnUnitController.setSearchService(searchService);
     registerOnUnitController.setVardValService(vardvalService);
     try {
       registerOnUnitController.getUnitRegistrationInformation(externalContext, null);
@@ -131,7 +129,18 @@ public class RegisterOnUnitControllerTest {
       // Expected exception
     }
 
-    registerOnUnitController.setSearchService(searchService);
+    searchService.clearExceptionsToThrow();
+
+    vardvalService.exceptionToThrow = new IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage("Test", null);
+    try {
+      registerOnUnitController.getUnitRegistrationInformation(externalContext, null);
+      fail("VardvalRegistrationException expected");
+    } catch (VardvalRegistrationException e) {
+      // Expected exception
+    }
+
+    vardvalService.exceptionToThrow = null;
+
     VardvalInfo registrationInformation = registerOnUnitController.getUnitRegistrationInformation(externalContext, null);
     assertNotNull(registrationInformation);
     assertEquals("197407185656", registrationInformation.getSsn());

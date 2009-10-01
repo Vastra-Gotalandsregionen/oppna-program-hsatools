@@ -20,6 +20,7 @@ package se.vgregion.kivtools.search.svc;
 import java.util.Comparator;
 import java.util.List;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
@@ -35,14 +36,14 @@ public interface SearchService {
    * 
    * @return A List of Units
    */
-  public SikSearchResultList<Unit> searchUnits(Unit unit) throws Exception;
+  public SikSearchResultList<Unit> searchUnits(Unit unit) throws KivException;
 
   /**
    * @param unit OBS! for parameters of type Address (e.g. hsaPostalAddress) the criteria is considered to be in AdditionalInfo
    * 
    * @return A List of Units
    */
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws Exception;
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws KivException;
 
   /**
    * @param unit
@@ -50,7 +51,7 @@ public interface SearchService {
    * 
    * @return A List of Units
    */
-  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws Exception;
+  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws KivException;
 
   /**
    * @param unit
@@ -58,68 +59,68 @@ public interface SearchService {
    * 
    * @return A List of Units
    */
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception;
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException;
 
   /**
    * @param hsaId hsaId for a Unit
    * @return the corresponding Unit
-   * @throws Exception
+   * @throws KivException
    */
-  public Unit getUnitByHsaId(String hsaId) throws Exception;
+  public Unit getUnitByHsaId(String hsaId) throws KivException;
 
   /**
    * @param dn dn for a Unit
    * @return the corresponding Unit
-   * @throws Exception
+   * @throws KivException
    */
-  public Unit getUnitByDN(String dn) throws Exception;
+  public Unit getUnitByDN(String dn) throws KivException;
 
   /**
    * 
    * @param parentUnit
    * @return A list of sub units to the parent unit
-   * @throws Exception
+   * @throws KivException
    */
-  public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws Exception;
+  public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws KivException;
 
   /**
    * @param dn is the distinguished name of the organizational unit that the person works for.
    * @return A list of matching persons.
-   * @throws Exception
+   * @throws KivException
    */
-  public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception;
+  public SikSearchResultList<Person> searchPersonsByDn(String dn) throws KivException;
 
   /**
    * @param dn is the distinguished name of the organizational unit that the person works for.
    * @param maxSearchResult max number of returned items in the result list
    * @return A list of matching persons.
-   * @throws Exception
+   * @throws KivException
    */
-  public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception;
+  public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws KivException;
 
   /**
    * @param id is complete or part of a person identifier. That is why this method can return a list. E.g. in case of VGR the id is a vgrId
    * @return A list of matching persons.
-   * @throws Exception
+   * @throws KivException
    */
-  public SikSearchResultList<Person> searchPersons(String id) throws Exception;
+  public SikSearchResultList<Person> searchPersons(String id) throws KivException;
 
   /**
    * @param id is complete or part of a person identifier. That is why this method can return a list. E.g. in case of VGR the id is a vgrId
    * @param maxSearchResult max number of returned items in the result list
    * @return A list of matching persons.
-   * @throws Exception
+   * @throws KivException
    */
-  public SikSearchResultList<Person> searchPersons(String id, int maxSearchResult) throws Exception;
+  public SikSearchResultList<Person> searchPersons(String id, int maxSearchResult) throws KivException;
 
   /**
    * @param id can be a complete or parts of a vgrId. That is why we can return a list of Persons. E.g. in case of VGR the id is a (part of) a vgrId
    * @param givenName
    * @param familyName
    * @return A list of matching persons.
-   * @throws Exception
+   * @throws KivException
    */
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id) throws Exception;
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id) throws KivException;
 
   /**
    * @param id can be a complete or parts of a vgrId. That is why we can return a list of Persons
@@ -127,64 +128,64 @@ public interface SearchService {
    * @param familyName
    * @param maxResult max number of returned items in the result list
    * @return A list of matching persons.
-   * @throws Exception
+   * @throws KivException
    */
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id, int maxResult) throws Exception;
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id, int maxResult) throws KivException;
 
   /**
    * @param id person id for the Person (E.g vgrId in case of VGR)
    * @return The Person matching the search criteria (must be exactly one)
-   * @throws Exception
+   * @throws KivException
    */
-  public Person getPersonById(String id) throws Exception;
+  public Person getPersonById(String id) throws KivException;
 
   /**
    * @param personDn Distinguished name for a Person
    * @return The Person matching the personDn
-   * @throws Exception
+   * @throws KivException
    */
-  public SikSearchResultList<Employment> getEmployments(String personDn) throws Exception;
+  public SikSearchResultList<Employment> getEmployments(String personDn) throws KivException;
 
   /**
    * Returns a list with hsaIdentities of all Units and functions.
    * 
    * @return A list of hsaIdentities.
-   * @throws Exception
+   * @throws KivException
    */
-  public List<String> getAllUnitsHsaIdentity() throws Exception;
+  public List<String> getAllUnitsHsaIdentity() throws KivException;
 
   /**
    * Returns a list with hsaIdentities of all Units and functions filtered with showUnitsWithTheseHsaBussinessClassificationCodes.
    * 
    * @param showUnitsWithTheseHsaBussinessClassificationCodes
    * @return A list of hsaIdentities.
-   * @throws Exception
+   * @throws KivException
    */
-  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception;
+  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException;
 
   /**
    * Returns a list of unique identifiers for all persons. E.g. vgrId in case of VGR
    * 
    * @return A list of unique identifiers for all persons.
-   * @throws Exception
+   * @throws KivException
    */
-  public List<String> getAllPersonsId() throws Exception;
+  public List<String> getAllPersonsId() throws KivException;
 
   /**
    * Gets a list of employments for the provided person.
    * 
    * @param person The person to get employments for.
    * @return A list of employments.
-   * @throws Exception If something goes wrong.
+   * @throws KivException If something goes wrong.
    */
-  public List<Employment> getEmploymentsForPerson(Person person) throws Exception;
+  public List<Employment> getEmploymentsForPerson(Person person) throws KivException;
 
   /**
    * Returns a list of all persons employed at unit(s).
    * 
    * @param units
    * @return A list of persons employed at the provided units.
-   * @throws Exception
+   * @throws KivException
    */
-  public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception;
+  public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws KivException;
 }

@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.UnitNameComparator;
@@ -21,7 +21,6 @@ import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 
-import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPEntry;
 import com.novell.ldap.LDAPException;
@@ -59,7 +58,7 @@ public class UnitRepositoryTest {
     result.add(resultUnit);
     unitRepository = new UnitRepository() {
       @Override
-      protected SikSearchResultList<Unit> searchUnits(String searchFilter, int searchScope, int maxResult, Comparator<Unit> sortOrder) throws Exception {
+      protected SikSearchResultList<Unit> searchUnits(String searchFilter, int searchScope, int maxResult, Comparator<Unit> sortOrder) throws KivException {
         return result;
       }
     };
@@ -83,7 +82,7 @@ public class UnitRepositoryTest {
    * 
    * @throws Exception
    */
-  //TODO make a good search filter to use 
+  // TODO make a good search filter to use
   @Test
   public void testSearchAdvancedUnitsMethod() throws Exception {
 
@@ -136,7 +135,7 @@ public class UnitRepositoryTest {
    * 
    * @throws Exception
    */
-  //TODO make a good search filter to use 
+  // TODO make a good search filter to use
   @Test
   public void testSearchUnitsMethod() throws Exception {
 
@@ -168,50 +167,12 @@ public class UnitRepositoryTest {
     assertEquals(1, searchUnitsResult.size());
   }
 
-  @Test
-  public void testGetAllUnits() throws Exception {
-    
-    Unit resultUnit = new Unit();
-    resultUnit.setName("resultUnit");
-    resultUnit.setHsaIdentity("SE2321000131-E000000000110");
-    resultUnit.setHsaBusinessClassificationCode(Arrays.asList("3"));
-    setReturnResultforUnitfactory(resultUnit);
-    
-    
-    UnitRepository unitRepository = new UnitRepository();
-    unitRepository.setLdapConnectionPool(mockLdapConnectionPool);
-    unitRepository.setUnitFactory(mockUnitFactory);
-
-    // Create LDAPAttribute
-    LDAPAttribute mockLdapAttribute = createMock(LDAPAttribute.class);
-    expect(mockLdapAttribute.getStringValue()).andReturn("SE2321000131-E000000000110");
-
-    // Create LDAPEntry mock.
-    LDAPEntry mockLdapEntry = createMock(LDAPEntry.class);
-    expect(mockLdapEntry.getAttribute("hsaIdentity")).andReturn(mockLdapAttribute);
-
-    LDAPSearchResults mockLdapSearchResults = createMock(LDAPSearchResults.class);
-    expect(mockLdapSearchResults.hasMore()).andReturn(true);
-    expect(mockLdapSearchResults.next()).andReturn(mockLdapEntry);
-    expectLastCall().times(2);
-    expect(mockLdapSearchResults.hasMore()).andReturn(false);
-
-    // Set search parameters for match a return o found unit.
-    setSearchParamsForMock(mockLdapSearchResults, UnitRepository.KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, "", new String[] { "hsaIdentity" });
-    // Set search parameters for match a return o found unit.
-    setSearchParamsForMock(mockLdapSearchResults, UnitRepository.KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, "(hsaIdentity=SE2321000131-E000000000110)", new String[] { "*", "createTimeStamp" });
-
-    replay(mockLdapAttribute, mockLdapEntry, mockLdapSearchResults, mockUnitFactory, mockLdapConnection, mockLdapConnectionPool);
-    List<Unit> allUnitsList = unitRepository.getAllUnits();
-    assertEquals(1, allUnitsList.size());
-  }
-
   private void setReturnResultforUnitfactory(Unit resultUnit) throws Exception {
     expect(mockUnitFactory.reconstitute(isA(LDAPEntry.class))).andReturn(resultUnit);
   }
 
   private void setSearchParamsForMock(LDAPSearchResults mockLdapSearchResults, String base, int scope, String filter, String[] attrs) throws LDAPException {
-    //TODO make a good search filter to use, remove isA(String.class) with filter param
+    // TODO make a good search filter to use, remove isA(String.class) with filter param
     expect(mockLdapConnection.search(eq(UnitRepository.KIV_SEARCH_BASE), eq(LDAPConnection.SCOPE_SUB), isA(String.class), aryEq(attrs), eq(false), isA(LDAPSearchConstraints.class))).andReturn(
         mockLdapSearchResults);
   }
@@ -223,5 +184,4 @@ public class UnitRepositoryTest {
     expect(mockLdapSearchResults.hasMore()).andReturn(false);
     return mockLdapSearchResults;
   }
-
 }

@@ -25,6 +25,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
@@ -64,9 +65,12 @@ public class SearchUnitFlowSupportBeanTest {
 
   @Test
   public void testDoSearch() throws Exception {
-    SikSearchResultList<Unit> result = bean.doSearch(null);
-    assertNotNull(result);
-    assertEquals(0, result.size());
+    try {
+      SikSearchResultList<Unit> result = bean.doSearch(null);
+      fail("NullPointerException expected");
+    } catch (NullPointerException e) {
+      // Expected exception
+    }
 
     try {
       bean.doSearch(form);
@@ -86,9 +90,14 @@ public class SearchUnitFlowSupportBeanTest {
     Unit unit = new Unit();
     unit.setHsaIdentity("ABC-123");
     this.searchService.addUnit(unit);
-    result = bean.doSearch(form);
+    SikSearchResultList<Unit> result = bean.doSearch(form);
     assertNotNull(result);
     assertEquals(1, result.size());
+
+    this.searchService.addExceptionToThrow(new KivException("Test"));
+    result = bean.doSearch(form);
+    assertNotNull(result);
+    assertEquals(0, result.size());
   }
 
   @Test
@@ -106,7 +115,7 @@ public class SearchUnitFlowSupportBeanTest {
     }
 
     this.searchService.clearExceptionsToThrow();
-    this.searchService.addExceptionToThrow(new Exception());
+    this.searchService.addExceptionToThrow(new KivException("Test"));
     result = bean.getAllUnitsHsaIdentity();
     assertNotNull(result);
     assertEquals(0, result.size());
@@ -144,11 +153,14 @@ public class SearchUnitFlowSupportBeanTest {
 
   @Test
   public void testGetAllUnitsPageList() throws KivNoDataFoundException {
-    List<PagedSearchMetaData> result = bean.getAllUnitsPageList(null);
-    assertNotNull(result);
-    assertEquals(0, result.size());
+    try {
+      List<PagedSearchMetaData> result = bean.getAllUnitsPageList(null);
+      fail("IllegalArgumentException expected");
+    } catch (IllegalArgumentException e) {
+      assertEquals("pageSize must be greater than zero", e.getMessage());
+    }
 
-    result = bean.getAllUnitsPageList("1");
+    List<PagedSearchMetaData> result = bean.getAllUnitsPageList("1");
     assertNotNull(result);
     assertEquals(0, result.size());
 
@@ -173,7 +185,7 @@ public class SearchUnitFlowSupportBeanTest {
     }
 
     searchService.clearExceptionsToThrow();
-    searchService.addExceptionToThrow(new Exception());
+    searchService.addExceptionToThrow(new KivException("Test"));
     result = bean.getAllUnitsPageList("1");
     assertNotNull(result);
     assertEquals(0, result.size());
@@ -224,7 +236,7 @@ public class SearchUnitFlowSupportBeanTest {
 
     this.searchService.clearExceptionsToThrow();
     this.searchService.addExceptionToThrow(null);
-    this.searchService.addExceptionToThrow(new Exception());
+    this.searchService.addExceptionToThrow(new KivException("Test"));
     result = bean.getAllUnitsGeocoded(null);
     assertNotNull(result);
     assertEquals(0, result.size());
@@ -236,7 +248,7 @@ public class SearchUnitFlowSupportBeanTest {
     assertNotNull(result);
     assertEquals(0, result.size());
 
-    this.searchService.addExceptionToThrow(new Exception());
+    this.searchService.addExceptionToThrow(new KivException("Test"));
     result = bean.getSubUnits(null);
     assertNotNull(result);
     assertEquals(0, result.size());

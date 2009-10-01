@@ -3,6 +3,7 @@ package se.vgregion.kivtools.search.svc.codetables.impl.vgr;
 import java.util.HashMap;
 import java.util.Map;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.LDAPRuntimeExcepton;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
@@ -10,13 +11,13 @@ import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPEntry;
+import com.novell.ldap.LDAPException;
 import com.novell.ldap.LDAPSearchResults;
 
 /**
  * Class that handles code, text pairing of ldap values.
  * 
  * @author David & Jonas
- * 
  */
 public class CodeTablesServiceImpl implements CodeTablesService {
 
@@ -60,42 +61,45 @@ public class CodeTablesServiceImpl implements CodeTablesService {
   }
 
   /**
-   * 
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public void init() {
     codeTables.clear();
     for (CodeTableName codeTableName : CodeTableName.values()) {
       try {
         populateCodeTablesMap(codeTableName);
-      } catch (Exception e) {
+      } catch (KivException e) {
         throw new LDAPRuntimeExcepton(e.getMessage());
       }
     }
   }
 
-  private void populateCodeTablesMap(CodeTableName codeTableName) throws Exception {
-    LDAPConnection connection = ldapConnectionPool.getConnection();
+  private void populateCodeTablesMap(CodeTableName codeTableName) throws KivException {
     try {
-      LDAPSearchResults search = connection.search(codeTablesBase, LDAPConnection.SCOPE_SUB, "(cn=" + codeTableName + ")", new String[] { attribute }, false);
-      Map<String, String> codeTableContent = new HashMap<String, String>();
-      LDAPEntry entry = search.next();
-      if (entry != null) {
-        String[] codePair = entry.getAttribute(attribute).getStringValueArray();
-        for (String code : codePair) {
-          String[] codeArr = code.split(";");
-          codeTableContent.put(codeArr[0], codeArr[1]);
+      LDAPConnection connection = ldapConnectionPool.getConnection();
+      try {
+        LDAPSearchResults search = connection.search(codeTablesBase, LDAPConnection.SCOPE_SUB, "(cn=" + codeTableName + ")", new String[] { attribute }, false);
+        Map<String, String> codeTableContent = new HashMap<String, String>();
+        LDAPEntry entry = search.next();
+        if (entry != null) {
+          String[] codePair = entry.getAttribute(attribute).getStringValueArray();
+          for (String code : codePair) {
+            String[] codeArr = code.split(";");
+            codeTableContent.put(codeArr[0], codeArr[1]);
+          }
+          codeTables.put(String.valueOf(codeTableName), codeTableContent);
         }
-        codeTables.put(String.valueOf(codeTableName), codeTableContent);
+      } finally {
+        ldapConnectionPool.freeConnection(connection);
       }
-    } finally {
-      ldapConnectionPool.freeConnection(connection);
+    } catch (LDAPException e) {
+      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
     }
   }
 
   /**
+   * {@inheritDoc}
    * 
-   * @inheritDoc
    * @param codeTableName - CodeTableName enum.
    * @param code - String code.
    * @return String
@@ -108,5 +112,4 @@ public class CodeTablesServiceImpl implements CodeTablesService {
     }
     return value;
   }
-
 }

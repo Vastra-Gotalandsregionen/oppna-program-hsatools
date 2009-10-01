@@ -1,5 +1,6 @@
 package se.vgregion.hsatools.testtools.signicatws.endpoints;
 
+import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 
 import org.apache.commons.codec.binary.Base64;
@@ -56,7 +57,7 @@ public class SignicatEndpoint extends AbstractMarshallingPayloadEndpoint {
   }
 
   @Override
-  protected Object invokeInternal(Object requestObject) throws Exception {
+  protected Object invokeInternal(Object requestObject) {
     if (requestObject instanceof RegisterDocument) {
       RegisterDocumentResponse response = new RegisterDocumentResponse();
       String artifact = "artifact_" + System.nanoTime();
@@ -68,10 +69,14 @@ public class SignicatEndpoint extends AbstractMarshallingPayloadEndpoint {
       String ssn = Service.getSignature(artifact);
       String responseText = MessageFormat.format(SAML, ssn);
       RetrieveSamlResponse response = new RetrieveSamlResponse();
-      byte[] encodeBase64 = Base64.encodeBase64(responseText.getBytes("utf-8"));
-      response.setRetrieveSamlReturn(new String(encodeBase64, "utf-8"));
+      try {
+        byte[] encodeBase64 = Base64.encodeBase64(responseText.getBytes("utf-8"));
+        response.setRetrieveSamlReturn(new String(encodeBase64, "utf-8"));
+      } catch (UnsupportedEncodingException e) {
+        // Should not happen. Re-throwing as RuntimeException.
+        throw new RuntimeException(e);
+      }
       return response;
     }
   }
-
 }

@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Employment;
@@ -45,7 +46,7 @@ public class SearchServiceMockImpl implements SearchService {
     init();
   }
 
-  public SikSearchResultList<Employment> getEmployments(String personDn) throws Exception {
+  public SikSearchResultList<Employment> getEmployments(String personDn) throws KivException {
     SikSearchResultList<Employment> employments = new SikSearchResultList<Employment>();
     Employment e;
 
@@ -77,7 +78,7 @@ public class SearchServiceMockImpl implements SearchService {
     return employments;
   }
 
-  public Person getPersonById(String vgrId) throws Exception {
+  public Person getPersonById(String vgrId) throws KivException {
     Person p = new Person();
     if (vgrId.equalsIgnoreCase("anders1")) {
       p.setGivenName("Anders");
@@ -103,7 +104,7 @@ public class SearchServiceMockImpl implements SearchService {
     return p;
   }
 
-  public Unit getUnitByHsaId(String hsaId) throws Exception {
+  public Unit getUnitByHsaId(String hsaId) throws KivException {
     Unit u = new Unit();
     List<String> a;
     List<PhoneNumber> p;
@@ -157,11 +158,11 @@ public class SearchServiceMockImpl implements SearchService {
     return u;
   }
 
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName) throws KivException {
     return searchPersons(givenName, familyName, 0);
   }
 
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, int maxSearchResult) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, int maxSearchResult) throws KivException {
     return personList;
   }
 
@@ -169,9 +170,9 @@ public class SearchServiceMockImpl implements SearchService {
    * 
    * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list od Persons
    * @return
-   * @throws Exception
+   * @throws KivException
    */
-  public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws KivException {
     SikSearchResultList<Person> tempList = new SikSearchResultList<Person>();
     for (Person p : personList) {
       if (p.getVgrId().indexOf(vgrId) >= 0) {
@@ -185,17 +186,17 @@ public class SearchServiceMockImpl implements SearchService {
    * 
    * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list od Persons
    * @return
-   * @throws Exception
+   * @throws KivException
    */
-  public SikSearchResultList<Person> searchPersons(String vgrId) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String vgrId) throws KivException {
     return searchPersons(vgrId, 0);
   }
 
-  public SikSearchResultList<Unit> searchUnits(Unit unit) throws Exception {
+  public SikSearchResultList<Unit> searchUnits(Unit unit) throws KivException {
     return searchUnits(unit, 0);
   }
 
-  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws Exception {
+  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws KivException {
     return unitList;
   }
 
@@ -246,7 +247,7 @@ public class SearchServiceMockImpl implements SearchService {
     return p;
   }
 
-  public List<String> getAllPersonsId() throws Exception {
+  public List<String> getAllPersonsId() throws KivException {
     List<String> result = new ArrayList<String>();
     result.add("anders1");
     result.add("hangy2");
@@ -254,7 +255,7 @@ public class SearchServiceMockImpl implements SearchService {
     return result;
   }
 
-  public List<String> getAllUnitsHsaIdentity() throws Exception {
+  public List<String> getAllUnitsHsaIdentity() throws KivException {
     List<String> result = new ArrayList<String>();
     result.add("ABC001");
     result.add("ABC002");
@@ -262,7 +263,7 @@ public class SearchServiceMockImpl implements SearchService {
     return result;
   }
 
-  public Unit getUnitByDN(String dn) throws Exception {
+  public Unit getUnitByDN(String dn) throws KivException {
 
     Unit u = new Unit();
     ArrayList<PhoneNumber> p;
@@ -373,7 +374,7 @@ public class SearchServiceMockImpl implements SearchService {
    * 
    * @see se.vgregion.kivtools.search.svc.SearchService#searchPersons(java.lang.String, java.lang.String, java.lang.String)
    */
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId) throws KivException {
     return searchPersons(givenName, familyName);
   }
 
@@ -382,16 +383,16 @@ public class SearchServiceMockImpl implements SearchService {
    * 
    * @see se.vgregion.kivtools.search.svc.SearchService#searchPersons(java.lang.String, java.lang.String, java.lang.String, int)
    */
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult) throws KivException {
     return searchPersons(givenName, familyName);
   }
 
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws Exception {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws KivException {
     // JOLI please add code for this case
     return new SikSearchResultList<Unit>();
   }
 
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     // JOLI please add code for this case
     return new SikSearchResultList<Unit>();
   }
@@ -400,7 +401,7 @@ public class SearchServiceMockImpl implements SearchService {
     return null;
   }
 
-  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return null;
   }
 
@@ -408,19 +409,19 @@ public class SearchServiceMockImpl implements SearchService {
     return null;
   }
 
-  public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception {
+  public SikSearchResultList<Person> searchPersonsByDn(String dn) throws KivException {
     return null;
   }
 
-  public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception {
+  public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws KivException {
     return null;
   }
 
-  public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws Exception {
+  public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws KivException {
     return null;
   }
 
-  public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception {
+  public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws KivException {
     return null;
   }
 }

@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Employment;
@@ -39,7 +40,7 @@ public class SearchServiceMock implements SearchService {
   private Map<String, SikSearchResultList<Employment>> employments = new HashMap<String, SikSearchResultList<Employment>>();
   private Map<String, Unit> units = new HashMap<String, Unit>();
   private Map<String, SikSearchResultList<Person>> personsForUnit = new HashMap<String, SikSearchResultList<Person>>();
-  private List<Exception> exceptionsToThrow = new ArrayList<Exception>();
+  private List<KivException> exceptionsToThrow = new ArrayList<KivException>();
   private List<String> allPersonsId = Collections.emptyList();
   private List<String> allUnitsId = Collections.emptyList();
 
@@ -69,7 +70,7 @@ public class SearchServiceMock implements SearchService {
     this.allUnitsId = allUnitsId;
   }
 
-  public void addExceptionToThrow(Exception exception) {
+  public void addExceptionToThrow(KivException exception) {
     this.exceptionsToThrow.add(exception);
   }
 
@@ -78,7 +79,7 @@ public class SearchServiceMock implements SearchService {
     this.exceptionCallCount = 0;
   }
 
-  private void throwExceptionIfApplicable() throws Exception {
+  private void throwExceptionIfApplicable() throws KivException {
     if (exceptionsToThrow.size() > 0) {
       if (exceptionsToThrow.size() == 1) {
         throw exceptionsToThrow.get(0);
@@ -92,13 +93,15 @@ public class SearchServiceMock implements SearchService {
   }
 
   @Override
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id, int maxResult) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id, int maxResult) throws KivException {
+    throwExceptionIfApplicable();
     this.maxSearchResults = maxResult;
     return persons;
   }
 
   @Override
-  public SikSearchResultList<Employment> getEmployments(String personDn) throws Exception {
+  public SikSearchResultList<Employment> getEmployments(String personDn) throws KivException {
+    throwExceptionIfApplicable();
     SikSearchResultList<Employment> result;
     if (employments.containsKey(personDn)) {
       result = employments.get(personDn);
@@ -109,19 +112,19 @@ public class SearchServiceMock implements SearchService {
   }
 
   @Override
-  public Unit getUnitByHsaId(String hsaId) throws Exception {
+  public Unit getUnitByHsaId(String hsaId) throws KivException {
     throwExceptionIfApplicable();
     return units.get(hsaId);
   }
 
   @Override
-  public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws Exception {
+  public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws KivException {
     throwExceptionIfApplicable();
     return new SikSearchResultList<Unit>();
   }
 
   @Override
-  public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws Exception {
+  public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws KivException {
     SikSearchResultList<Person> result = new SikSearchResultList<Person>();
     if (units != null) {
       for (Unit unit : units) {
@@ -135,23 +138,23 @@ public class SearchServiceMock implements SearchService {
   }
 
   @Override
-  public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws Exception {
+  public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws KivException {
     return this.persons;
   }
 
   @Override
-  public SikSearchResultList<Person> searchPersons(String id, int maxSearchResult) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String id, int maxSearchResult) throws KivException {
     return this.persons;
   }
 
   @Override
-  public List<String> getAllPersonsId() throws Exception {
+  public List<String> getAllPersonsId() throws KivException {
     throwExceptionIfApplicable();
     return this.allPersonsId;
   }
 
   @Override
-  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws Exception {
+  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws KivException {
     throwExceptionIfApplicable();
     this.maxSearchResults = maxSearchResult;
     return new SikSearchResultList<Unit>(this.units.values());
@@ -162,7 +165,7 @@ public class SearchServiceMock implements SearchService {
   }
 
   @Override
-  public List<String> getAllUnitsHsaIdentity() throws Exception {
+  public List<String> getAllUnitsHsaIdentity() throws KivException {
     throwExceptionIfApplicable();
     return this.allUnitsId;
   }
@@ -170,52 +173,52 @@ public class SearchServiceMock implements SearchService {
   // Dummy implementations
 
   @Override
-  public SikSearchResultList<Person> searchPersonsByDn(String dn) throws Exception {
+  public SikSearchResultList<Person> searchPersonsByDn(String dn) throws KivException {
     return null;
   }
 
   @Override
-  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return null;
   }
 
   @Override
-  public List<Employment> getEmploymentsForPerson(Person person) throws Exception {
+  public List<Employment> getEmploymentsForPerson(Person person) throws KivException {
     return null;
   }
 
   @Override
-  public Person getPersonById(String id) throws Exception {
+  public Person getPersonById(String id) throws KivException {
     return null;
   }
 
   @Override
-  public Unit getUnitByDN(String dn) throws Exception {
+  public Unit getUnitByDN(String dn) throws KivException {
     return null;
   }
 
   @Override
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws Exception {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws KivException {
     return null;
   }
 
   @Override
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws Exception {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return null;
   }
 
   @Override
-  public SikSearchResultList<Person> searchPersons(String id) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String id) throws KivException {
     return null;
   }
 
   @Override
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id) throws Exception {
+  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id) throws KivException {
     return null;
   }
 
   @Override
-  public SikSearchResultList<Unit> searchUnits(Unit unit) throws Exception {
+  public SikSearchResultList<Unit> searchUnits(Unit unit) throws KivException {
     return null;
   }
 }

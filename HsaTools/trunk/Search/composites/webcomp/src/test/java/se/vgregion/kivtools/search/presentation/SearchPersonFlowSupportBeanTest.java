@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import se.vgregion.kivtools.mocks.LogFactoryMock;
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
@@ -21,7 +22,6 @@ import se.vgregion.kivtools.search.svc.domain.Unit;
 
 public class SearchPersonFlowSupportBeanTest {
   private static final String PERSON_SEARCH_TYPE_VGRID = "vgrid_selected";
-  private static final String NULL = "null";
   private static final String DN = "cn=abc";
   private static final String HSA_IDENTITY = "HSA-123";
   private SearchPersonFlowSupportBean bean;
@@ -66,10 +66,12 @@ public class SearchPersonFlowSupportBeanTest {
 
   @Test
   public void testDoSearch() throws KivNoDataFoundException {
-    SikSearchResultList<Person> result = bean.doSearch(null);
-    assertNotNull(result);
-    assertEquals(0, result.size());
-    assertEquals("java.lang.NullPointerException\n", logFactoryMock.getError(true));
+    try {
+      bean.doSearch(null);
+      fail("NullPointerException expected");
+    } catch (NullPointerException e) {
+      // Expected exception
+    }
 
     try {
       bean.doSearch(form);
@@ -90,7 +92,7 @@ public class SearchPersonFlowSupportBeanTest {
     Person person = new Person();
     persons.add(person);
     searchService.setPersons(persons);
-    result = bean.doSearch(form);
+    SikSearchResultList<Person> result = bean.doSearch(form);
     assertNotNull(result);
     assertEquals(1, result.size());
 
@@ -102,30 +104,33 @@ public class SearchPersonFlowSupportBeanTest {
     result = bean.doSearch(form);
     assertNotNull(result);
     assertEquals(1, result.size());
+
+    searchService.addExceptionToThrow(new KivException("Test"));
+    result = bean.doSearch(form);
+    assertNotNull(result);
+    assertEquals(0, result.size());
+    assertEquals("Test\n", logFactoryMock.getError(true));
   }
 
   @Test
   public void testGetPersonsForUnitsRecursive() {
-    SikSearchResultList<Person> result = bean.getPersonsForUnitsRecursive(null);
-    assertNotNull(result);
-    assertEquals(0, result.size());
-    assertEquals("java.lang.NullPointerException\n", logFactoryMock.getError(true));
-
-    result = bean.getPersonsForUnitsRecursive(HSA_IDENTITY);
-    assertNotNull(result);
-    assertEquals(0, result.size());
+    try {
+      SikSearchResultList<Person> result = bean.getPersonsForUnitsRecursive(null);
+      fail("NullPointerException expected");
+    } catch (NullPointerException e) {
+      // Expected exception
+    }
 
     Unit unit = new Unit();
     unit.setHsaIdentity(HSA_IDENTITY);
     searchService.addUnit(unit);
-    result = bean.getPersonsForUnitsRecursive(HSA_IDENTITY);
+    SikSearchResultList<Person> result = bean.getPersonsForUnitsRecursive(HSA_IDENTITY);
     assertNotNull(result);
     assertEquals(0, result.size());
 
-    bean.setSearchService(null);
-    result = bean.getPersonsForUnitsRecursive(null);
-    assertNotNull(result);
-    assertEquals(0, result.size());
+    searchService.addExceptionToThrow(new KivException("Test"));
+    bean.getPersonsForUnitsRecursive(HSA_IDENTITY);
+    assertEquals("Test\n", logFactoryMock.getError(true));
   }
 
   @Test
@@ -152,13 +157,6 @@ public class SearchPersonFlowSupportBeanTest {
     assertNotNull(result);
     assertEquals(1, result.size());
 
-    try {
-      bean.getOrganisation(HSA_IDENTITY, null);
-      fail("KivNoDataFoundException expected");
-    } catch (KivNoDataFoundException e) {
-      // Expected exception
-    }
-
     Unit unit = new Unit();
     unit.setHsaIdentity(HSA_IDENTITY);
     searchService.addUnit(unit);
@@ -174,14 +172,13 @@ public class SearchPersonFlowSupportBeanTest {
     assertNotNull(result);
     assertEquals(1, result.size());
 
-    // Reset error log
-    logFactoryMock.getError(true);
-
-    bean.setSearchService(null);
-    result = bean.getOrganisation(null, DN);
+    searchService.addExceptionToThrow(null);
+    searchService.addExceptionToThrow(null);
+    searchService.addExceptionToThrow(new KivException("Test"));
+    result = bean.getOrganisation(HSA_IDENTITY, null);
     assertNotNull(result);
     assertEquals(0, result.size());
-    assertEquals("java.lang.NullPointerException\n", logFactoryMock.getError(true));
+    assertEquals("Test\n", logFactoryMock.getError(true));
   }
 
   @Test
@@ -199,11 +196,11 @@ public class SearchPersonFlowSupportBeanTest {
     }
 
     searchService.clearExceptionsToThrow();
-    searchService.addExceptionToThrow(new Exception("Dummy exception"));
+    searchService.addExceptionToThrow(new KivException("Dummy exception"));
     result = bean.getAllPersonsVgrId();
     assertNotNull(result);
     assertEquals(0, result.size());
-    assertEquals("java.lang.Exception: Dummy exception\n", logFactoryMock.getError(true));
+    assertEquals("Dummy exception\n", logFactoryMock.getError(true));
   }
 
   @Test
@@ -242,12 +239,15 @@ public class SearchPersonFlowSupportBeanTest {
 
   @Test
   public void testGetAllPersonsVgrIdPageList() throws KivNoDataFoundException {
-    List<PagedSearchMetaData> result = bean.getAllPersonsVgrIdPageList(null);
-    assertNotNull(result);
-    assertEquals(0, result.size());
-    assertEquals("java.lang.IllegalArgumentException: pageSize must be greater than zero\n", logFactoryMock.getError(true));
+    try {
+      bean.getAllPersonsVgrIdPageList(null);
+      fail("IllegalArgumentException expected");
+    } catch (IllegalArgumentException e) {
+      // Expected exception
+      assertEquals("pageSize must be greater than zero", e.getMessage());
+    }
 
-    result = bean.getAllPersonsVgrIdPageList("1");
+    List<PagedSearchMetaData> result = bean.getAllPersonsVgrIdPageList("1");
     assertNotNull(result);
     assertEquals(0, result.size());
 
@@ -272,7 +272,7 @@ public class SearchPersonFlowSupportBeanTest {
     }
 
     searchService.clearExceptionsToThrow();
-    searchService.addExceptionToThrow(new Exception());
+    searchService.addExceptionToThrow(new KivException("Test"));
     result = bean.getAllPersonsVgrIdPageList("1");
     assertNotNull(result);
     assertEquals(0, result.size());
