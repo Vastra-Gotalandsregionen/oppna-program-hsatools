@@ -15,9 +15,6 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-/**
- * 
- */
 package se.vgregion.kivtools.search.presentation.forms;
 
 import java.io.Serializable;
@@ -71,11 +68,11 @@ public class PersonSearchSimpleForm implements Serializable {
    */
   public boolean isEmpty() {
     boolean isEmpty = false;
-    if ((givenName == null) && (sirName == null) && (vgrId == null)) {
-      isEmpty =  true;
+    if (givenName == null && sirName == null && vgrId == null) {
+      isEmpty = true;
     }
-    if ((givenName.trim().length() == 0) && (sirName.trim().length() == 0) && (vgrId.trim().length() == 0)) {
-      isEmpty =  true;
+    if (givenName.trim().length() == 0 && sirName.trim().length() == 0 && vgrId.trim().length() == 0) {
+      isEmpty = true;
     }
     return isEmpty;
   }

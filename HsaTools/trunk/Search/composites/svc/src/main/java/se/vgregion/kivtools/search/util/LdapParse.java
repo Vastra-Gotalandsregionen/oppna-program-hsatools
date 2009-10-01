@@ -15,9 +15,6 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-/**
- * 
- */
 package se.vgregion.kivtools.search.util;
 
 import java.util.HashMap;
@@ -94,8 +91,10 @@ public class LdapParse {
     }
     return sb.toString();
   }
+
   /**
    * Convert boolean value to string value used in ldap.
+   * 
    * @param b boolean value to convert to string.
    * @return J for true and N for false value.
    */
@@ -106,8 +105,10 @@ public class LdapParse {
     }
     return value;
   }
+
   /**
    * Convert string to boolean.
+   * 
    * @param booleanStr ldap boolean string to convert.
    * @return true for "J" otherwise false.
    */

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package se.vgregion.kivtools.hriv.intsvc.ldap.eniro;
 
 import java.util.Enumeration;
@@ -11,11 +8,11 @@ import javax.naming.Name;
 class NameMock implements Name {
 
   String value;
-  
+
   NameMock(String value) {
     this.value = value;
   }
-  
+
   /**
    * 
    */
@@ -90,12 +87,12 @@ class NameMock implements Name {
   public boolean startsWith(Name n) {
     return false;
   }
-  
+
   @Override
   public Object clone() {
     return null;
   }
-  
+
   @Override
   public String toString() {
     return value;

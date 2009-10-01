@@ -15,9 +15,6 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-/**
- * 
- */
 package se.vgregion.kivtools.search.presentation.forms;
 
 import java.io.Serializable;
@@ -53,10 +50,10 @@ public class UnitSearchSimpleForm implements Serializable {
    */
   public boolean isEmpty() {
     boolean isEmpty = false;
-    if ((unitName == null) && (searchParamValue == null)) {
+    if (unitName == null && searchParamValue == null) {
       isEmpty = true;
     }
-    if ((unitName.trim().length() == 0) && (searchParamValue.trim().length() == 0)) {
+    if (unitName.trim().length() == 0 && searchParamValue.trim().length() == 0) {
       isEmpty = true;
     }
     return isEmpty;
