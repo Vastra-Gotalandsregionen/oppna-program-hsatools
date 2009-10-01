@@ -28,12 +28,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.search.exceptions.InvalidFormatException;
 import se.vgregion.kivtools.search.svc.domain.values.Address;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
@@ -47,17 +44,6 @@ public class UnitTest {
 
   private Unit unit;
   private List<HealthcareType> healthcareTypes;
-  private static LogFactoryMock logFactoryMock;
-
-  @BeforeClass
-  public static void beforeClass() {
-    logFactoryMock = LogFactoryMock.createInstance();
-  }
-
-  @AfterClass
-  public static void afterClass() {
-    LogFactoryMock.resetInstance();
-  }
 
   @Before
   public void setUp() {
@@ -658,12 +644,10 @@ public class UnitTest {
     assertEquals("012345678901234567-", unit.getVgrTempInfo());
     unit.setVgrTempInfo("aaaabbcc-ddddeeff temp temp");
     assertEquals("aaaabbcc-ddddeeff temp temp", unit.getVgrTempInfo());
-    assertEquals("Unable to parse provided startdate as a date\nUnable to parse provided enddate as a date\n", logFactoryMock.getError(true));
     unit.setVgrTempInfo("20090108-temp temp temp temp");
     assertEquals("20090108-temp temp temp temp", unit.getVgrTempInfo());
     assertEquals(format.parse("20090101"), unit.getVgrTempInfoStart());
     assertEquals("temp temp temp", unit.getVgrTempInfoBody());
-    assertEquals("Unable to parse provided enddate as a date\n", logFactoryMock.getError(true));
     unit.setVgrTempInfo("20090108-20090118 temp temp temp");
     assertEquals("20090108-20090118 temp temp temp", unit.getVgrTempInfo());
     assertEquals(format.parse("20090119"), unit.getVgrTempInfoEnd());
