@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<bean id="eniroPropertyPlaceholder"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:eniroSettings.properties" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+
+
+
 
 	<bean id="unitDetailsEndpoint"
 		class="se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska.UnitDetailsEndpoint">
@@ -48,7 +59,8 @@
 	<bean id="Commons_FtpClient" class="org.apache.commons.net.ftp.FTPClient" />
 	<bean id="jsch" class="com.jcraft.jsch.JSch" />
 
-	<bean id="Transfer_ftp" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.SftpClientImpl">
+	<bean id="Transfer_ftp"
+		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.SftpClientImpl">
 		<property name="jsch" ref="jsch" />
 		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
 		<property name="hostname" value="hostname" />
@@ -57,25 +69,34 @@
 		<property name="port" value="22" />
 	</bean>
 
-<!-- 	<bean id="Transfer_ftp" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClientImpl">
-		<property name="ftpclient" ref="Commons_FtpClient" />
-		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
-		<property name="hostname" value="hostname" />
-		<property name="username" value="username" />
-		<property name="password" value="password" />
-		<property name="port" value="21" />
-	</bean>
--->
+	<!--
+		<bean id="Transfer_ftp"
+		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClientImpl">
+		<property name="ftpclient" ref="Commons_FtpClient" /> <property
+		name="ftpDestinationFileName" value="vgrUnitsTest.xml" /> <property
+		name="hostname" value="hostname" /> <property name="username"
+		value="username" /> <property name="password" value="password" />
+		<property name="port" value="21" /> </bean>
+	-->
 
 	<bean id="fileUtil" class="se.vgregion.kivtools.util.file.FileUtilImpl" />
-	
+
+	<bean id="eniroOrganisationBuilder"
+		class="se.vgregion.kivtools.hriv.intsvc.ldap.eniro.EniroOrganisationBuilder">
+		<property name="rootUnits" value="${rootUnitsToInclude}" />
+		<property name="careCenter" value="${careCenterLabel}" />
+		<property name="otherCare" value="${otherCareLabel}" />
+	</bean>
+
 	<bean id="Push_Eniro"
-		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro" init-method="initLoadLastExistingUnitsInRepository">
+		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro">
 		<property name="ftpClient" ref="Transfer_ftp" />
 		<property name="ldapTemplate" ref="ldapTemplate2" />
-		<property name="lastExistingUnitsFile" value="/tmp/leuf.txt" />
-		<property name="codeTablesService" ref="Search_CodeTablesService" />
-		<property name="fileUtil" ref="fileUtil" />
+		<property name="allowedUnitBusinessClassificationCodes"
+			value="${allowedUnitBusinessClassificationCodes}" />
+		<property name="otherCareTypeBusinessCodes" value="${businessCodesForOtherCareTypes}" />
+		<property name="eniroOrganisationBuilder" ref="eniroOrganisationBuilder" />
+
 	</bean>
 
 	<bean id="jobDetailUnitDetailsPusher"
@@ -91,7 +112,7 @@
 		<!-- 10 seconds -->
 		<property name="startDelay" value="10000" />
 		<!-- repeat every 24 hours -->
-<!--		<property name="repeatInterval" value="120000" />-->
+		<!--		<property name="repeatInterval" value="120000" />-->
 		<property name="repeatInterval" value="86400000" />
 	</bean>
 
@@ -103,7 +124,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- Spring ldap -->
 	<bean id="contextSource2" class="org.springframework.ldap.core.support.LdapContextSource">
 		<property name="url" value="ldap://kivldap01.vgregion.se:389" />

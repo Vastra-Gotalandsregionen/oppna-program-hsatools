@@ -13,6 +13,8 @@ public class UnitCompositionTest {
   public void setup() {
     unitComposition = new UnitComposition();
     unitComposition.setDn("ou=unit,ou=parent,o=organisation");
+    //unitComposition.setCreateTimePoint(null);
+    //unitComposition.setModifyTimePoint(null);
   }
 
   @Test
