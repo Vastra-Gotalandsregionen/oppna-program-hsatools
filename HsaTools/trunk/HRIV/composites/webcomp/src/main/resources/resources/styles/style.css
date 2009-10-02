@@ -283,14 +283,12 @@
 	text-align: right;
 	width: 20em;
 	font-size: 1.5em;
-	/*top: 50%;*/
 }
 
 #search-result-container li {
 	margin: 0 0 0.5em;
 	padding: 1em;
 	border: 0.1em solid #bcbcbc;
-	/*float: right;*/ /*width: 55em;*/
 }
 
 #search-result-container li.selected-item {
@@ -477,7 +475,7 @@ table.Employment,table.Employment th,table.Employment td {
 
 .search-result .borderless {
 	border: 0em;
-	width: 55.5em;
+	width: 67.6em;
 	font-size: 1.0em;
 	margin: 0em;
 	float: left;
