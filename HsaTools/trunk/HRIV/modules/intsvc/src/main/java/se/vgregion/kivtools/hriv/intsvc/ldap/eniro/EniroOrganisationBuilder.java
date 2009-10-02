@@ -50,6 +50,7 @@ public class EniroOrganisationBuilder {
     HashMap<String, Unit> rootunits = new HashMap<String, Unit>();
 
     Organization organization = new Organization();
+    organization.setLoadType("Full");
     // Create care center unit.
     Unit careCenterUnit = new Unit();
     careCenterUnit.setName(careCenter);
