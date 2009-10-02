@@ -17,15 +17,30 @@
  */
 package se.vgregion.kivtools.hriv.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.w3c.dom.Document;
+import se.vgregion.kivtools.mocks.LogFactoryMock;
 
-import se.vgregion.kivtools.hriv.util.DocumentHelper;
 
 public class DocumentHelperTest {
 
+  private static LogFactoryMock logFactoryMock;
+
+  @BeforeClass
+  public static void setup(){
+    logFactoryMock = LogFactoryMock.createInstance();
+  }
+  
+  @AfterClass
+  public static void afterClass() {
+    LogFactoryMock.resetInstance();
+  }
+  
   @Test
   public void testInstantiation() {
     DocumentHelper documentHelper = new DocumentHelper();
@@ -43,10 +58,12 @@ public class DocumentHelperTest {
 
   @Test
   public void testBrokenXML() {
+    logFactoryMock.getError(true);
     String input = "<?xml version=\"1.0\" encoding=\"utf-8\"?><doc><child>content</child>";
     Document document = DocumentHelper.getDocumentFromString(input);
     assertNotNull(document);
     assertEquals(0, document.getChildNodes().getLength());
+    //assertEquals("Error parsing xml\n", logFactoryMock.getError(true));
   }
 
   @Test
@@ -55,5 +72,6 @@ public class DocumentHelperTest {
     Document document = DocumentHelper.getDocumentFromString(input);
     assertNotNull(document);
     assertEquals(0, document.getChildNodes().getLength());
+    //assertEquals("Error parsing xml\n", logFactoryMock.getError(true));
   }
 }

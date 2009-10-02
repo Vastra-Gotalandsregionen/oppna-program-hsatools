@@ -43,7 +43,11 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
   public void setSearchService(SearchService searchService) {
     this.searchService = searchService;
   }
-
+  /**
+   * Person details for given person.
+   * @param vgrId id for the person to get details for.
+   * @return person object.
+   */
   /**
    * Retrieves person details for the provided vgrId.
    * 

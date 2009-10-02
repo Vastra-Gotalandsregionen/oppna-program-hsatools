@@ -1,13 +1,21 @@
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
-import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.junit.Assert.assertEquals;
 
 import java.io.InputStream;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import se.vgregion.kivtools.mocks.LogFactoryMock;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
@@ -28,6 +36,17 @@ public class SftpClientImplTest {
   private JSch mockJSch;
   private Session mockSession;
   private ChannelSftp mockChannelSftp;
+  private static LogFactoryMock logFactoryMock;
+
+  @BeforeClass
+  public static void setupClass() {
+    logFactoryMock = LogFactoryMock.createInstance();
+  }
+
+  @AfterClass
+  public static void afterClass() {
+    LogFactoryMock.resetInstance();
+  }
 
   @Before
   public void setup() throws JSchException, SftpException {
@@ -50,6 +69,7 @@ public class SftpClientImplTest {
     sftpClientImpl.setPassword(PASSWORD);
     sftpClientImpl.setUsername(USERNAME);
     sftpClientImpl.setPort(PORT);
+    logFactoryMock.getError(true);
   }
 
   @Test
@@ -86,5 +106,6 @@ public class SftpClientImplTest {
     sftpClientImpl.setJsch(mockJSch);
 
     assertEquals(false, sftpClientImpl.sendFile(FILE_CONTENT));
+    assertEquals("Error in SftpClient\n", logFactoryMock.getError(true));
   }
 }
