@@ -111,6 +111,12 @@ public class SearchUnitFlowSupportBeanTest {
     } catch (NoConnectionToServerException e) {
       // Expected exception
     }
+
+    this.searchService.clearExceptionsToThrow();
+
+    form.setShowAll("true");
+    bean.doSearch(form);
+    this.searchService.assertMaxSearchResults(Integer.MAX_VALUE);
   }
 
   @Test

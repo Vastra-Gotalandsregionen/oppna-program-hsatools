@@ -196,8 +196,11 @@ public class SearchUnitFlowSupportBean implements Serializable {
         Unit u = mapSearchCriteriaToUnit(theForm);
 
         Comparator<Unit> sortOrder = evaluateSortOrder(theForm);
-
-        list = getSearchService().searchAdvancedUnits(u, maxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
+        int effectiveMaxSearchResult = maxSearchResult;
+        if ("true".equals(theForm.getShowAll())) {
+          effectiveMaxSearchResult = Integer.MAX_VALUE;
+        }
+        list = getSearchService().searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
       }
 
       // stop measurement

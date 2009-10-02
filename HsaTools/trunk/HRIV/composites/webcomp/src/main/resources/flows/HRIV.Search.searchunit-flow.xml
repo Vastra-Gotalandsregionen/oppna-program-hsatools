@@ -37,6 +37,7 @@
 	<input name="municipality" value="flowScope.unitSearchSimpleForm.municipality" />
 	<input name="resultType" value="flowScope.unitSearchSimpleForm.resultType" />
 	<input name="sortOrder" value="flowScope.unitSearchSimpleForm.sortOrder" />
+	<input name="showAll" value="flowScope.unitSearchSimpleForm.showAll" />
 	<input name="address" value="flowScope.displayCloseUnitsSimpleForm.address" />
 
 	<decision-state id="Decision.startOrSearch">

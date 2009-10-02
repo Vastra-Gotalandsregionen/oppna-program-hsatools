@@ -126,4 +126,15 @@ public class UnitSearchSimpleFormTest {
     assertNotNull(form.getHealthcareTypeItems());
     assertTrue(form.getHealthcareTypeItems().length > 0);
   }
+
+  @Test
+  public void testShowAll() {
+    assertNull(form.getShowAll());
+
+    form.setShowAll("true");
+    assertEquals("true", form.getShowAll());
+
+    form.setShowAll("false");
+    assertEquals("false", form.getShowAll());
+  }
 }
