@@ -19,9 +19,12 @@ package se.vgregion.kivtools.search.presentation.forms;
 
 import java.io.Serializable;
 
+import se.vgregion.kivtools.util.StringUtil;
+
 /**
- * @author hangy2 , Hans Gyllensten / KnowIT
+ * Search form for unit search.
  * 
+ * @author hangy2 , Hans Gyllensten / KnowIT
  */
 @SuppressWarnings("serial")
 public class UnitSearchSimpleForm implements Serializable {
@@ -45,17 +48,16 @@ public class UnitSearchSimpleForm implements Serializable {
   }
 
   /**
+   * Checks if the form is empty.
    * 
    * @return true if unitName and searchParamValue is null or empty.
    */
   public boolean isEmpty() {
-    boolean isEmpty = false;
-    if (unitName == null && searchParamValue == null) {
-      isEmpty = true;
-    }
-    if (unitName.trim().length() == 0 && searchParamValue.trim().length() == 0) {
-      isEmpty = true;
-    }
+    boolean isEmpty = true;
+
+    isEmpty &= StringUtil.isEmpty(unitName);
+    isEmpty &= StringUtil.isEmpty(searchParamValue);
+
     return isEmpty;
   }
 }
