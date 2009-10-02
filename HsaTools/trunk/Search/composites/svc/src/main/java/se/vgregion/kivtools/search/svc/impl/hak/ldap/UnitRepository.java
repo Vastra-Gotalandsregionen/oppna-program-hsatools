@@ -115,6 +115,7 @@ public class UnitRepository {
           // We simply ignore this. hsaBusinessClassificationCodes
           // should be integers, otherwise something is seriously
           // wrong.
+          logger.error("Unable to parse hsaBusinessClassificationCode", e);
         }
       }
 
