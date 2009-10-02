@@ -17,6 +17,7 @@
  */
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,7 +56,7 @@ import com.novell.ldap.LDAPException;
  * 
  */
 public class TestUnitRepository {
-  UnitRepository ur = null;
+  UnitRepository unitRepository = null;
 
   @BeforeClass
   public static void runBeforeClass() {
@@ -70,20 +71,20 @@ public class TestUnitRepository {
   @Before
   public void runBeforeEveryTest() {
     // run for each time before every test cases
-    ur = new UnitRepository();
+    unitRepository = new UnitRepository();
   }
 
   @After
   public void runAfterEveryTest() {
     // run for each time after every test cases
-    ur = null;
+    unitRepository = null;
   }
 
   @Test
   public void testBuildAddressSearch() {
     String correctResult = "(|(hsaPostalAddress=*uddevalla*$*$*$*$*$*)(hsaPostalAddress=*$*uddevalla*$*$*$*$*)" + "(hsaPostalAddress=*$*$*uddevalla*$*$*$*)(hsaPostalAddress=*$*$*$*uddevalla*$*$*)"
         + "(hsaPostalAddress=*$*$*$*$*uddevalla*$*)(hsaPostalAddress=*$*$*$*$*$*uddevalla*))";
-    String temp = ur.buildAddressSearch("hsaPostalAddress", "*uddevalla*");
+    String temp = unitRepository.buildAddressSearch("hsaPostalAddress", "*uddevalla*");
     Assert.assertEquals(correctResult, temp);
   }
 
@@ -118,7 +119,7 @@ public class TestUnitRepository {
     Unit unit = new Unit();
     unit.setName("barn- och ungdoms");
     unit.setHsaMunicipalityName("Borås");
-    String temp = ur.createSearchFilter(unit);
+    String temp = unitRepository.createSearchFilter(unit);
     Assert.assertEquals(correctResult.toString(), temp);
   }
 
@@ -135,7 +136,7 @@ public class TestUnitRepository {
     Unit unit = new Unit();
     unit.setName("barn- och ungdomsvård");
     unit.setHsaMunicipalityCode("1490");
-    String temp = ur.createAdvancedSearchFilter(unit, new ArrayList<Integer>());
+    String temp = unitRepository.createAdvancedSearchFilter(unit, new ArrayList<Integer>());
     Assert.assertEquals(correctResult.toString(), temp);
   }
 
@@ -158,7 +159,7 @@ public class TestUnitRepository {
     ht.setConditions(conditions);
     healthcareTypeList.add(ht);
     unit.setHealthcareTypes(healthcareTypeList);
-    String temp = ur.createAdvancedSearchFilter(unit, new ArrayList<Integer>());
+    String temp = unitRepository.createAdvancedSearchFilter(unit, new ArrayList<Integer>());
     Assert.assertEquals(correctResult.toString(), temp);
   }
 
@@ -173,35 +174,16 @@ public class TestUnitRepository {
     correctResult.append("(|(&(objectclass=vgrOrganizationalUnit)(&(ou=*ambulans*)))(&(objectclass=vgrOrganizationalRole)(&(cn=*ambulans*))))");
     Unit unit = new Unit();
     unit.setName("ambulans");
-    String temp = ur.createAdvancedSearchFilter(unit, new ArrayList<Integer>());
+    String temp = unitRepository.createAdvancedSearchFilter(unit, new ArrayList<Integer>());
     Assert.assertEquals(correctResult.toString(), temp);
   }
-
-  @Test
-  public void testAssignCodeTableValuesToUnit() {
-    try {
-      Unit u = new Unit();
-      u.setHsaManagementCode("1");
-      Method assignCodeTableValuesToUnitMethod = ur.getClass().getDeclaredMethod("assignCodeTableValuesToUnit", Unit.class);
-      assignCodeTableValuesToUnitMethod.setAccessible(true);
-      // Assign code table mock
-      CodeTablesServiceImpl codeTablesService = new CodeTablesServiceImpl();
-      codeTablesService.setLdapConnectionPool(new CodeTablesTest.LdapConnectionPoolMock());
-      codeTablesService.init();
-      ur.setCodeTablesService(codeTablesService);
-      assignCodeTableValuesToUnitMethod.invoke(ur, u);
-      Assert.assertEquals("Landsting/Region", u.getHsaManagementText());
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
+ 
   // Test fetching sub units for a chosen unit
   @Test
   public void testGetSubUnits() throws Exception {
-    ur = new UnitRepository();
+    unitRepository = new UnitRepository();
     UnitFactory unitFactory = new UnitFactory();
-    ur.setUnitFactory(unitFactory);
+    unitRepository.setUnitFactory(unitFactory);
     unitFactory.setCodeTablesService(new CodeTablesServiceImpl());
     DisplayValueTranslator displayValueTranslator = new DisplayValueTranslator();
     displayValueTranslator.setTranslationMap(new HashMap<String, String>());
@@ -212,7 +194,7 @@ public class TestUnitRepository {
     parentUnit.setHsaIdentity("parent");
     parentUnit.setDn(DN.createDNFromString(base));
     // Set Ldap connetion mock for the UnitRepository
-    ur.setLdapConnectionPool(new LdapConnectionPoolMock(generateLdapConnectionMock(base, filter)));
+    unitRepository.setLdapConnectionPool(new LdapConnectionPoolMock(generateLdapConnectionMock(base, filter)));
 
     SikSearchResultList<Unit> subUnits = new SikSearchResultList<Unit>();
     Unit subUnit1 = new Unit();
@@ -226,8 +208,7 @@ public class TestUnitRepository {
     subUnits.add(subUnit2);
 
     SikSearchResultList<Unit> subUnitsResult = null;
-    ur.setCodeTablesService(new CodeTablesServiceImpl());
-    subUnitsResult = ur.getSubUnits(parentUnit, 2);
+    subUnitsResult = unitRepository.getSubUnits(parentUnit, 2);
 
     Unit returndUnit1 = subUnitsResult.get(0);
     Unit returndUnit2 = subUnitsResult.get(1);

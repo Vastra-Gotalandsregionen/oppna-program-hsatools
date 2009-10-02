@@ -17,16 +17,24 @@
  */
 package se.vgregion.kivtools.hriv.presentation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import se.vgregion.kivtools.hriv.presentation.forms.DisplayCloseUnitsSimpleForm;
 import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
+import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
@@ -41,6 +49,17 @@ public class SearchUnitFlowSupportBeanTest {
   private SearchUnitFlowSupportBean bean;
   private UnitSearchSimpleForm form;
   private DisplayCloseUnitsSimpleForm displayCloseUnitsSimpleForm;
+  private static LogFactoryMock logfactoryMock;
+
+  @BeforeClass
+  public static void setupClass() {
+    logfactoryMock = LogFactoryMock.createInstance();
+  }
+
+  @AfterClass
+  public static void afterClass() {
+    LogFactoryMock.resetInstance();
+  }
 
   @Before
   public void setUp() throws Exception {

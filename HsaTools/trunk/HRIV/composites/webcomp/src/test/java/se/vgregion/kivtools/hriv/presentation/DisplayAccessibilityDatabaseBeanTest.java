@@ -31,13 +31,16 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import se.vgregion.kivtools.hriv.presentation.forms.AccessibilityDatabaseFilterForm;
+import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityInformation;
 import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityObject;
@@ -47,9 +50,20 @@ import se.vgregion.kivtools.search.svc.domain.values.accessibility.Criteria;
 public class DisplayAccessibilityDatabaseBeanTest {
   private static final Document EMPTY_DOC = DisplayAccessibilityDatabaseBeanTest.getDocumentFromResource("testxml/emptydoc.xml");
   private static final Document DOC_WITH_SUBOBJECTS = DisplayAccessibilityDatabaseBeanTest.getDocumentFromResource("testxml/doc_with_subnodes.xml");
+  private static LogFactoryMock logFactoryMock;
 
   private DisplayAccessibilityDatabaseBean bean;
   private HttpFetcherMock httpFetcher;
+
+  @BeforeClass
+  public static void setup() {
+    logFactoryMock = LogFactoryMock.createInstance();
+  }
+
+  @AfterClass
+  public static void afterClass() {
+    LogFactoryMock.resetInstance();
+  }
 
   @Before
   public void setUp() {

@@ -21,9 +21,12 @@ import static org.junit.Assert.*;
 
 import java.io.UnsupportedEncodingException;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 
@@ -33,6 +36,17 @@ import com.novell.ldap.LDAPException;
 public class LdapConnectionPoolTest {
 
   private LdapConnectionPool connectionPool;
+  private static LogFactoryMock logFactoryMock;
+
+  @BeforeClass
+  public static void setupClass() {
+    logFactoryMock = LogFactoryMock.createInstance();
+  }
+  
+  @AfterClass
+  public static void afterClass() {
+    LogFactoryMock.resetInstance();
+  }
 
   @Before
   public void setUp() throws Exception {
@@ -91,7 +105,7 @@ public class LdapConnectionPoolTest {
       connectionPool.getConnection();
       fail("SikInternalException expected");
     } catch (NoConnectionToServerException e) {
-      // Expected exception
+      assertEquals("Can't create a new connection for ldapHost=localhost, ldapport=389\n", logFactoryMock.getError(true));
     }
   }
 

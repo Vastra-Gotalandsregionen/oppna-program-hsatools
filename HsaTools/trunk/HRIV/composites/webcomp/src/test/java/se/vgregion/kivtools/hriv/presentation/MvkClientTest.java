@@ -1,15 +1,31 @@
 package se.vgregion.kivtools.hriv.presentation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 
 public class MvkClientTest {
+  private static LogFactoryMock logFactoryMock;
   private MvkClient mvkClient;
   private HttpFetcherMock httpFetcher;
+
+  @BeforeClass
+  public static void setup() {
+    logFactoryMock = LogFactoryMock.createInstance();
+  }
+
+  @AfterClass
+  public static void afterClass() {
+    LogFactoryMock.resetInstance();
+  }
 
   @Before
   public void setUp() throws Exception {
@@ -37,6 +53,7 @@ public class MvkClientTest {
 
     Unit unit = new Unit();
     unit.setHsaIdentity("ABC-123");
+    this.httpFetcher.setContent("<xml></xml>");
     this.mvkClient.assignCaseTypes(unit);
     this.httpFetcher.assertLastUrlFetched("http://localhost?mvk=1&hsaid=ABC-123&guid=uid123");
 

@@ -1,14 +1,20 @@
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketException;
 
 import org.apache.commons.net.ftp.FTPClient;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import se.vgregion.kivtools.mocks.LogFactoryMock;
 
 public class FtpClientImplTest {
   private FtpClientImpl ftpClientImpl = new FtpClientImpl();
@@ -19,6 +25,7 @@ public class FtpClientImplTest {
   private static int PORT = 21;
   private static String USERNAME = "username";
   private static String PASSWORD = "password";
+  private static LogFactoryMock logFactoryMock;
 
   @Before
   public void setup() throws SocketException, IOException {
@@ -29,6 +36,16 @@ public class FtpClientImplTest {
     ftpClientImpl.setPassword(PASSWORD);
     ftpClientImpl.setUsername(USERNAME);
     ftpClientImpl.setPort(PORT);
+  }
+  
+  @BeforeClass
+  public static void beforeClass(){
+    logFactoryMock = LogFactoryMock.createInstance();
+  }
+  
+  @AfterClass
+  public static void afterClass() {
+    LogFactoryMock.resetInstance();
   }
 
   @Test
@@ -60,6 +77,7 @@ public class FtpClientImplTest {
   public void testSendFileWithIOException() {
     mockFtpClient.throwIOException = true;
     assertFalse(ftpClientImpl.sendFile("hej"));
+    assertEquals("Error in SftpClient\n", logFactoryMock.getError(true));
   }
 
   class FtpClientMock extends FTPClient {

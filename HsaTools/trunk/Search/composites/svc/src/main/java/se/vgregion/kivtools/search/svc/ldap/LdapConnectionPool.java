@@ -238,15 +238,14 @@ public class LdapConnectionPool {
 
       logger.debug("create physichal connection");
     } catch (LDAPException e) {
-      logger.error("Can't create a new connection for ldapHost=" + ldapHost + ", ldapport=" + ldapport + ", exception=" + e.getLDAPErrorMessage());
-      e.printStackTrace();
+      logger.error("Can't create a new connection for ldapHost=" + ldapHost + ", ldapport=" + ldapport, e);
       if (e.getResultCode() == LDAPException.CONNECT_ERROR) {
         throw new NoConnectionToServerException();
       }
       throw e;
     } catch (UnsupportedEncodingException e) {
       // This should never happen
-      logger.error("Can't create a new connection for ldapHost=" + ldapHost + ", ldapport=" + ldapport + ", exception=" + e.getMessage());
+      logger.error("Can't create a new connection for ldapHost=" + ldapHost + ", ldapport=" + ldapport, e);
       throw new RuntimeException(e);
     }
     return lc;
