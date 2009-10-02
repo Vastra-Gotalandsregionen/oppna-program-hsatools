@@ -51,17 +51,17 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
   /**
    * Look up database accessibility information for specified unit.
    * 
-   * @param u The unit which should get accessibility info assigned to it.
+   * @param unit The unit which should get accessibility info assigned to it.
    * @param form The AccessibilityDatabaseFilterForm to fetch the language id to use.
    */
-  public void assignAccessibilityDatabaseInfo(Unit u, AccessibilityDatabaseFilterForm form) {
+  public void assignAccessibilityDatabaseInfo(Unit unit, AccessibilityDatabaseFilterForm form) {
     if (this.useAccessibilityDatabaseIntegration) {
       // First find out the accessibility database id
-      if (assignAccessibilityDatabaseId(u)) {
+      if (assignAccessibilityDatabaseId(unit)) {
 
         int languageId = Integer.parseInt(form.getLanguageId());
 
-        String url = accessibilityDatabaseIntegrationGetInfoUrl + languageId + "&facilityId=" + u.getAccessibilityDatabaseId();
+        String url = accessibilityDatabaseIntegrationGetInfoUrl + languageId + "&facilityId=" + unit.getAccessibilityDatabaseId();
 
         String content = httpFetcher.fetchUrl(url);
 
@@ -85,7 +85,7 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
         }
 
         AccessibilityInformation accessibilityInformation = new AccessibilityInformation(businessObject, subObjects);
-        u.setAccessibilityInformation(accessibilityInformation);
+        unit.setAccessibilityInformation(accessibilityInformation);
       }
     }
   }
