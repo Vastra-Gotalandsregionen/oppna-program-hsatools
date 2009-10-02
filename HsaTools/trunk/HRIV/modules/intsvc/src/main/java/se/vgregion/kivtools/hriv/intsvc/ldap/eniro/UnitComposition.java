@@ -3,39 +3,38 @@ package se.vgregion.kivtools.hriv.intsvc.ldap.eniro;
 import org.springframework.ldap.core.DistinguishedName;
 
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
-
-import com.domainlanguage.time.TimePoint;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Container for a unit which also hold some meta data about the unit which is used by the InformationPusherEniro-service.
  * 
  * @author David Bennehult & Joakim Olsson
  */
-public class UnitComposition implements Comparable<UnitComposition> {
+public class UnitComposition{
 
+  /**
+   * 
+   * @author david
+   * 
+   */
+  enum UnitType {
+    CARE_CENTER, OTHER_CARE;
+  }
+  
   private Unit eniroUnit = new Unit();
-  private TimePoint createTimePoint;
-  private TimePoint modifyTimePoint;
   private String dn;
+  private UnitType careType;
+  
+  public UnitType getCareType() {
+    return careType;
+  }
+
+  public void setCareType(UnitType careType) {
+    this.careType = careType;
+  }
 
   public Unit getEniroUnit() {
     return eniroUnit;
-  }
-
-  public TimePoint getCreateTimePoint() {
-    return createTimePoint;
-  }
-
-  public void setCreateTimePoint(TimePoint createTimePoint) {
-    this.createTimePoint = createTimePoint;
-  }
-
-  public TimePoint getModifyTimePoint() {
-    return modifyTimePoint;
-  }
-
-  public void setModifyTimePoint(TimePoint modifyTimePoint) {
-    this.modifyTimePoint = modifyTimePoint;
   }
 
   public String getDn() {
@@ -53,16 +52,11 @@ public class UnitComposition implements Comparable<UnitComposition> {
    */
   public String getParentDn() {
     String value = "";
-    if (!"".equals(dn)) {
+    if (!StringUtil.isEmpty(dn)) {
       DistinguishedName distinguishedName = new DistinguishedName(dn);
       distinguishedName.removeLast();
       value = distinguishedName.toString();
     }
     return value;
-  }
-
-  @Override
-  public int compareTo(UnitComposition o) {
-    return this.eniroUnit.getId().compareTo(o.getEniroUnit().getId());
   }
 }
