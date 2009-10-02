@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 import javax.naming.directory.SearchControls;
 import javax.xml.bind.JAXBContext;
@@ -16,7 +15,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.LdapTemplate;
 
@@ -30,7 +28,7 @@ public class InformationPusherEniroTest {
   private FtpClientMock mockFtpClient = new FtpClientMock();
   private LdapTemplateMock ldapTemplateMock = new LdapTemplateMock();
   private static LogFactoryMock logFactoryMock;
-  private final String EXPECTED_FILECONTENT = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Organization><Unit><Name>Vårdcentral</Name></Unit><Unit><Name>Övrig primärvård</Name></Unit></Organization>";
+  private final String EXPECTED_FILECONTENT = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Organization LoadType=\"Full\"><Unit><Name>Vårdcentral</Name></Unit><Unit><Name>Övrig primärvård</Name></Unit></Organization>";
 
   @BeforeClass
   public static void beforeClass() {
