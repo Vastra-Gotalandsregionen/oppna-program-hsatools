@@ -19,9 +19,12 @@ package se.vgregion.kivtools.search.presentation.forms;
 
 import java.io.Serializable;
 
+import se.vgregion.kivtools.util.StringUtil;
+
 /**
- * @author hangy2 , Hans Gyllensten / KnowIT
+ * Search form for person search.
  * 
+ * @author hangy2 , Hans Gyllensten / KnowIT
  */
 @SuppressWarnings("serial")
 public class PersonSearchSimpleForm implements Serializable {
@@ -63,17 +66,17 @@ public class PersonSearchSimpleForm implements Serializable {
   }
 
   /**
+   * Checks if the form is empty.
    * 
    * @return true if givenName, sirName and vgrId is null or empty.
    */
   public boolean isEmpty() {
-    boolean isEmpty = false;
-    if (givenName == null && sirName == null && vgrId == null) {
-      isEmpty = true;
-    }
-    if (givenName.trim().length() == 0 && sirName.trim().length() == 0 && vgrId.trim().length() == 0) {
-      isEmpty = true;
-    }
+    boolean isEmpty = true;
+
+    isEmpty &= StringUtil.isEmpty(givenName);
+    isEmpty &= StringUtil.isEmpty(sirName);
+    isEmpty &= StringUtil.isEmpty(vgrId);
+
     return isEmpty;
   }
 }
