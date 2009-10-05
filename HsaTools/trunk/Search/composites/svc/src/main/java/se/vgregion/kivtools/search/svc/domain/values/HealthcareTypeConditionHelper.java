@@ -162,12 +162,12 @@ public class HealthcareTypeConditionHelper {
     return conditionFulfilled;
   }
 
-  private Enumeration<String> getAllHealthcareConditionConfigurationKeys(String implResourcePath) {
+  private static Enumeration<String> getAllHealthcareConditionConfigurationKeys(String implResourcePath) {
     ResourceBundle bundle = ResourceBundle.getBundle(implResourcePath);
     return bundle.getKeys();
   }
 
-  private String getHealthcareConditionValueByKey(String implResourcePath, String key) {
+  private static String getHealthcareConditionValueByKey(String implResourcePath, String key) {
     String rv = "";
     ResourceBundle bundle = ResourceBundle.getBundle(implResourcePath);
     String value = bundle.getString(key);
@@ -182,26 +182,30 @@ public class HealthcareTypeConditionHelper {
    * 
    * @param implResourcePath The package path to the properties-file containing healthcare type conditions.
    */
-  public synchronized void setImplResourcePath(String implResourcePath) {
+  public void setImplResourcePath(String implResourcePath) {
+    HealthcareTypeConditionHelper.initialize(implResourcePath);
+  }
+
+  private static synchronized void initialize(String resourcePath) {
     if (!initialized) {
 
-      Enumeration<String> allKeys = getAllHealthcareConditionConfigurationKeys(implResourcePath);
+      Enumeration<String> allKeys = getAllHealthcareConditionConfigurationKeys(resourcePath);
 
       // Get indexes
       Set<Integer> indexes = getIndexes(allKeys);
 
       // Get sub indexes
-      Map<Integer, Integer> indexesAndsubIndexes = getIndexMap(implResourcePath, indexes);
+      Map<Integer, Integer> indexesAndsubIndexes = getIndexMap(resourcePath, indexes);
 
       // Iterate through all condition keys and condition values, build health
       // care types and corresponding conditions
-      buildInternalCache(implResourcePath, indexesAndsubIndexes);
+      buildInternalCache(resourcePath, indexesAndsubIndexes);
 
       initialized = true;
     }
   }
 
-  protected synchronized void resetInternalCache() {
+  protected static synchronized void resetInternalCache() {
     ALL_HEALTHCARE_TYPES.clear();
     HealthcareTypeConditionHelper.initialized = false;
   }
@@ -213,7 +217,7 @@ public class HealthcareTypeConditionHelper {
    * 
    * @param indexesAndsubIndexes The map of indexes and subindexes to base the cache on.
    */
-  private void buildInternalCache(String implResourcePath, Map<Integer, Integer> indexesAndsubIndexes) {
+  private static void buildInternalCache(String implResourcePath, Map<Integer, Integer> indexesAndsubIndexes) {
     for (Entry<Integer, Integer> entry : indexesAndsubIndexes.entrySet()) {
       HealthcareType htc = new HealthcareType(entry.getKey());
 
@@ -245,7 +249,7 @@ public class HealthcareTypeConditionHelper {
    * @param indexes The set of indexes to base the map on.
    * @return A map of indexes and subindexes.
    */
-  private Map<Integer, Integer> getIndexMap(String implResourcePath, Set<Integer> indexes) {
+  private static Map<Integer, Integer> getIndexMap(String implResourcePath, Set<Integer> indexes) {
     Enumeration<String> allKeys;
     String currentConditionKey;
     Map<Integer, Integer> indexesAndsubIndexes = new HashMap<Integer, Integer>();
@@ -273,7 +277,7 @@ public class HealthcareTypeConditionHelper {
    * @param allKeys The enumeration of keys to build the index set from.
    * @return The index set of the provided enumeration of keys.
    */
-  private Set<Integer> getIndexes(Enumeration<String> allKeys) {
+  private static Set<Integer> getIndexes(Enumeration<String> allKeys) {
     String currentConditionKey;
     int currentIndex;
     int beginPos;

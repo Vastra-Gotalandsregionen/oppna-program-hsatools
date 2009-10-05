@@ -35,6 +35,7 @@ import se.vgregion.kivtools.search.exceptions.InvalidFormatException;
 import se.vgregion.kivtools.search.svc.domain.values.Address;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
+import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 
@@ -661,5 +662,41 @@ public class UnitTest {
     assertEquals(TEST, unit.getVgrRefInfo());
     unit.setVgrRefInfo(TEST2);
     assertEquals(TEST2, unit.getVgrRefInfo());
+  }
+
+  @Test
+  public void testFormattedAncestor() {
+    try {
+      unit.getFormattedAncestor();
+      fail("NullPointerException expected");
+    } catch (NullPointerException e) {
+      // Expected exception
+    }
+
+    unit.setHsaIdentity("123-ABC");
+    assertEquals("", unit.getFormattedAncestor());
+
+    unit.setHsaIdentity("123-FGH");
+    // Make sure that HealthcareTypeConditionHelper is reset to it's correct state.
+    HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper() {
+      {
+        super.resetInternalCache();
+        super.setImplResourcePath("se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-healthcare-type-conditions");
+      }
+    };
+
+    ArrayList<HealthcareType> healthcareTypes = new ArrayList<HealthcareType>();
+    HealthcareType healtcareType = healthcareTypeConditionHelper.getHealthcareTypeByName("Sjukhus");
+    healthcareTypes.add(healtcareType);
+    unit.setHealthcareTypes(healthcareTypes);
+    assertEquals("", unit.getFormattedAncestor());
+
+    healthcareTypes.clear();
+    healtcareType = healthcareTypeConditionHelper.getHealthcareTypeByName("Akutmottagning");
+    healthcareTypes.add(healtcareType);
+    unit.setHealthcareTypes(healthcareTypes);
+    DN dn = DN.createDNFromString("ou=SubUnit,ou=AncestorUnit,o=VGR");
+    unit.setDn(dn);
+    assertEquals(", tillhör AncestorUnit", unit.getFormattedAncestor());
   }
 }

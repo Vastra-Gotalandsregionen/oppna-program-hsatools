@@ -859,6 +859,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return concatenatedDescription;
   }
 
+  /**
+   * Gets the units healthcare types as a comma separated string.
+   * 
+   * @return The units healthcare types as a comma separated string.
+   */
   public String getCaretypeCustomized() {
     if (healthcareTypes != null) {
       String healthcareTypeString = "";
@@ -874,6 +879,12 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   // VALIDATION
   // ***************
+
+  /**
+   * Checks if the units name is valid.
+   * 
+   * @return True if the units name is not empty, otherwise false.
+   */
   public boolean getNameIsValid() {
     if (StringUtil.isEmpty(getName())) {
       return false;
@@ -881,6 +892,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units municipality name is valid.
+   * 
+   * @return True if the units municipality name is not empty, otherwise false.
+   */
   public boolean getHsaMunicapilatyNameIsValid() {
     if (StringUtil.isEmpty(getHsaMunicipalityName())) {
       return false;
@@ -888,6 +904,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units street address is valid.
+   * 
+   * @return True if the units street address is set and is not empty, otherwise false.
+   */
   public boolean getHsaStreetAddressIsValid() {
     if (getHsaStreetAddress() == null || getHsaStreetAddress().isEmpty()) {
       return false;
@@ -895,6 +916,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units surgery hours is valid.
+   * 
+   * @return True if the units surgery hours is not empty, otherwise false.
+   */
   public boolean getHsaSurgeryHoursIsValid() {
     if (Evaluator.isEmptyWeekDayTime(getHsaSurgeryHours())) {
       return false;
@@ -902,6 +928,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units drop in hours is valid.
+   * 
+   * @return True if the units drop in hours is not empty, otherwise false.
+   */
   public boolean getHsaDropInHoursIsValid() {
     if (Evaluator.isEmptyWeekDayTime(getHsaDropInHours())) {
       return false;
@@ -909,6 +940,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units public telephone number is valid.
+   * 
+   * @return True if the units public telephone number is not empty, otherwise false.
+   */
   public boolean getHsaPublicTelephoneNumberIsValid() {
     if (Evaluator.isEmptyPhoneNumber(getHsaPublicTelephoneNumber())) {
       return false;
@@ -916,6 +952,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units telephone time is valid.
+   * 
+   * @return True if the units telephone time is not empty, otherwise false.
+   */
   public boolean getHsaTelephoneTimeIsValid() {
     if (Evaluator.isEmptyWeekDayTime(getHsaTelephoneTime())) {
       return false;
@@ -923,6 +964,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units geographical coordinates is valid.
+   * 
+   * @return True if the units geographical coordinates is not empty, otherwise false.
+   */
   public boolean getHsaGeographicalCoordinatesIsValid() {
     if (StringUtil.isEmpty(getHsaGeographicalCoordinates())) {
       return false;
@@ -930,6 +976,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units labeled URI is valid.
+   * 
+   * @return True if the units labeled URI is not empty, otherwise false.
+   */
   public boolean getLabeledURIIsValid() {
     if (StringUtil.isEmpty(getLabeledURI()) || !(getLabeledURI().startsWith("http://") || getLabeledURI().startsWith("https://"))) {
       return false;
@@ -937,6 +988,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units description is valid.
+   * 
+   * @return True if the units description is not empty, otherwise false.
+   */
   public boolean getDescriptionIsValid() {
     if (Evaluator.isEmpty(getDescription())) {
       return false;
@@ -944,6 +1000,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units organizational role is valid.
+   * 
+   * @return True if the units organizational role is not empty, otherwise false.
+   */
   public boolean getVgrOrganizationalRoleIsValid() {
     if (StringUtil.isEmpty(getVgrOrganizationalRole())) {
       return false;
@@ -951,6 +1012,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units business classification name is valid.
+   * 
+   * @return True if the units business classification name is not empty, otherwise false.
+   */
   public boolean getHsaBusinessClassificationNameIsValid() {
     if (Evaluator.isEmptyBusinessClassification(healthcareTypes)) {
       return false;
@@ -958,6 +1024,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units visiting rule age is valid.
+   * 
+   * @return True if the units visiting rule age is not empty, otherwise false.
+   */
   public boolean getHsaVisitingRuleAgeIsValid() {
     if (StringUtil.isEmpty(getHsaVisitingRuleAge())) {
       return false;
@@ -965,6 +1036,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units visiting rules are valid.
+   * 
+   * @return True if the units visiting rules are not empty, otherwise false.
+   */
   public boolean getHsaVisitingRulesIsValid() {
     if (StringUtil.isEmpty(getHsaVisitingRules())) {
       return false;
@@ -972,6 +1048,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units care type is valid.
+   * 
+   * @return True if the units care type is not empty, otherwise false.
+   */
   public boolean getVgrCareTypeIsValid() {
     if (StringUtil.isEmpty(getVgrCareType())) {
       return false;
@@ -979,6 +1060,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return true;
   }
 
+  /**
+   * Checks if the units management text is valid.
+   * 
+   * @return True if the units management text is not empty, otherwise false.
+   */
   public boolean getHsaManagementTextIsValid() {
     if (StringUtil.isEmpty(getHsaManagementText())) {
       return false;
@@ -1055,6 +1141,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return modifyTimestamp;
   }
 
+  /**
+   * Gets the units modify timestamp as a formatted string.
+   * 
+   * @return The units modify timestamp as a formatted string (yyyy-MM-dd HH:mm:ss).
+   */
   public String getModifyTimestampFormatted() {
     if (modifyTimestamp != null) {
       return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(modifyTimestamp.asJavaUtilDate());
@@ -1063,6 +1154,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     }
   }
 
+  /**
+   * Gets the units modify timestamp as a W3C-formatted string.
+   * 
+   * @return The units modify timestamp as a W3C-formatted string (yyyy-MM-dd'T'HH:mm:ssZ).
+   */
   public String getModifyTimestampFormattedInW3CDatetimeFormat() {
     if (modifyTimestamp != null) {
       String timeStamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(modifyTimestamp.asJavaUtilDate());
@@ -1080,6 +1176,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     this.createTimestamp = createTimestamp;
   }
 
+  /**
+   * Gets the units create timestamp as a formatted string.
+   * 
+   * @return The units create timestamp as a formatted string (yyyy-MM-dd HH:mm:ss).
+   */
   public String getCreateTimestampFormatted() {
     if (createTimestamp != null) {
       return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(createTimestamp.asJavaUtilDate());
@@ -1088,6 +1189,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     }
   }
 
+  /**
+   * Gets the units create timestamp as a W3C-formatted string.
+   * 
+   * @return The units create timestamp as a W3C-formatted string (yyyy-MM-dd'T'HH:mm:ssZ).
+   */
   public String getCreateTimestampFormattedInW3CDatetimeFormat() {
     if (createTimestamp != null) {
       String timeStamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(createTimestamp.asJavaUtilDate());
@@ -1174,6 +1280,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return hsaRoute;
   }
 
+  /**
+   * Setter for the hsaRoute property. Also sets the hsaRouteConcatenated property.
+   * 
+   * @param hsaRoutelist The list of strings the hsaRoute consists of.
+   */
   public void setHsaRoute(List<String> hsaRoutelist) {
     this.hsaRoute = hsaRoutelist;
     if (hsaRoutelist != null && hsaRoutelist.size() > 0) {
@@ -1194,7 +1305,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   /**
    * Returns comma separated list of assigned health care types.
    * 
-   * @return
+   * @return A list of HealthcareType objects where all but the last one have a comma appended to it's display name.
    */
   public List<HealthcareType> getHealthcareTypesCustomized() {
     List<HealthcareType> healthcareTypesCustomized = new ArrayList<HealthcareType>();
@@ -1245,21 +1356,26 @@ public class Unit implements Serializable, Comparable<Unit> {
     return mvkCaseTypes;
   }
 
+  /**
+   * Gets the units ancestor as a nicely formatted string.
+   * 
+   * @return the units ancestor as a nicely formatted string or an empty string if hsaIdentity does not contain the letter F or if the units is a hospital.
+   */
   public String getFormattedAncestor() {
+    String formattedAncestor = "";
     // Should be safe to use this condition as that is specified by HSA standard.
     if (hsaIdentity.indexOf("F") > 0) {
       // Hospitals should not be included
       HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper();
       if (!getHealthcareTypes().contains(healthcareTypeConditionHelper.getHealthcareTypeByName("Sjukhus"))) {
-        return ", tillhör " + dn.getAncestor(1).getUnitName();
-      } else {
-        return "";
+        formattedAncestor = ", tillhör " + dn.getAncestor(1).getUnitName();
       }
-    } else {
-      return "";
     }
+
+    return formattedAncestor;
   }
 
+  @Override
   public int compareTo(Unit o) {
     return this.hsaIdentity.compareTo(o.getHsaIdentity());
   }
