@@ -77,7 +77,7 @@ public class FtpClientImpl implements FtpClient {
       ftpclient.disconnect();
       return success;
     } catch (IOException e) {
-      logger.error("Error in SftpClient", e);
+      logger.error("Error in FtpClient", e);
     }
     return false;
   }

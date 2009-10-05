@@ -80,10 +80,11 @@ public class EniroOrganisationBuilder {
         } else if (unitComposition.getCareType() == UnitType.OTHER_CARE) {
           // Current unit is a leaf to unit of typ "otherCare".
           otherCareUnit.getUnit().add(unitComposition.getEniroUnit());
-        } else {
-          // Current unit couldn't be put under any unit type.
-          System.out.println("Enhet som inte mappas: id=" + unitComposition.getEniroUnit().getId()+ " Dn="  + unitComposition.getDn());
         }
+//        else {
+//          // Current unit couldn't be put under any unit type.
+//          System.out.println("Enhet som inte mappas: id=" + unitComposition.getEniroUnit().getId()+ " Dn="  + unitComposition.getDn());
+//        }
       }
     }
     
