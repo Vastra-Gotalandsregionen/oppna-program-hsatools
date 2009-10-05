@@ -41,6 +41,7 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Generates a sitemap for HRIV.
@@ -157,7 +158,7 @@ public class Sitemap extends HttpServlet {
 
     for (UnitSitemapInformation u : siteMapInformationUnits) {
       String hsaId = u.getHsaId();
-      String lastmod = "".equals(u.getModifyTimestampFormattedInW3CDatetimeFormat()) ? u.getCreateTimestampFormattedInW3CDatetimeFormat() : u.getModifyTimestampFormattedInW3CDatetimeFormat();
+      String lastmod = getLastModifiedDateTime(u);
       output.append("<url>\n");
       output.append("<loc>" + externalApplicationURL + "/" + "visaenhet?hsaidentity=" + hsaId + "</loc>\n");
       output.append("<lastmod>" + lastmod + "</lastmod>\n");
@@ -175,5 +176,22 @@ public class Sitemap extends HttpServlet {
     pw.write(output.toString());
     pw.flush();
     pw.close();
+  }
+
+  /**
+   * Helper method to get the last modified date/time in W3C format for a unit.
+   * 
+   * @param unitInformation The unit information to get the last modified date/time from.
+   * @return The modify timestamp if set, otherwise the creation timestamp.
+   */
+  private String getLastModifiedDateTime(UnitSitemapInformation unitInformation) {
+    String lastModified = null;
+
+    if (StringUtil.isEmpty(unitInformation.getModifyTimestampFormattedInW3CDatetimeFormat())) {
+      lastModified = unitInformation.getCreateTimestampFormattedInW3CDatetimeFormat();
+    } else {
+      lastModified = unitInformation.getModifyTimestampFormattedInW3CDatetimeFormat();
+    }
+    return lastModified;
   }
 }
