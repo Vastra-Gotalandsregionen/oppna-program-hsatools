@@ -1,10 +1,10 @@
 package se.vgregion.kivtools.search.svc.domain;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import static org.junit.Assert.*;
 
-import org.easymock.classextension.EasyMock;
-import org.junit.Assert;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,101 +13,84 @@ import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 /**
  * 
  * @author david
- *
+ * 
  */
 public class UnitCareTypeNameComparatorTest {
-  private static String HEALTHCARE_TYPE_DISPLAY_NAME_1 = "unitDisplayName1";
-  private static String HEALTHCARE_TYPE_DISPLAY_NAME_2 = "unitDisplayName2";
-  UnitCareTypeNameComparator unitCareTypeNameComparator;
-  Unit mockUnit1;
-  Unit mockUnit2;
-  HealthcareType mockHealthcareType1;
-  HealthcareType mockHealthcareType2;
+  private static final String HEALTHCARE_TYPE1 = "HealthcareType1";
+  private static final String UNIT_NAME = "UnitName";
+
+  UnitCareTypeNameComparator comparator;
+  Unit unit1;
+  Unit unit2;
+  private HealthcareType healthcareType1;
 
   @Before
   public void setup() {
-    unitCareTypeNameComparator = new UnitCareTypeNameComparator();
-    mockUnit1 = EasyMock.createMock(Unit.class);
-    mockUnit2 = EasyMock.createMock(Unit.class);
-    mockHealthcareType1 = EasyMock.createMock(HealthcareType.class);
-    mockHealthcareType2 = EasyMock.createMock(HealthcareType.class);
+    comparator = new UnitCareTypeNameComparator();
+    unit1 = new Unit();
+    unit2 = new Unit();
+    healthcareType1 = new HealthcareType();
+    healthcareType1.setDisplayName(HEALTHCARE_TYPE1);
   }
 
-  /**
-   * Test that two different Healthcare types returns false
-   */
   @Test
-  public void testCompareDifferent() {
-    EasyMock.expect(mockHealthcareType1.getDisplayName()).andReturn(HEALTHCARE_TYPE_DISPLAY_NAME_1);
-    EasyMock.expect(mockHealthcareType2.getDisplayName()).andReturn(HEALTHCARE_TYPE_DISPLAY_NAME_2);
-    EasyMock.expect(mockUnit1.getHealthcareTypes()).andReturn(Arrays.asList(mockHealthcareType1));
-    EasyMock.expect(mockUnit2.getHealthcareTypes()).andReturn(Arrays.asList(mockHealthcareType2));
-    EasyMock.replay(mockUnit1, mockUnit2, mockHealthcareType1, mockHealthcareType2);
-    int compareResult = unitCareTypeNameComparator.compare(mockUnit1, mockUnit2);
-    Assert.assertEquals(-1, compareResult);
-  }
-  
-  /**
-   * Test that two of the same Healthcare types returns true
-   */
-  @Test
-  public void testCompareSame() {
-    EasyMock.expect(mockHealthcareType1.getDisplayName()).andReturn(HEALTHCARE_TYPE_DISPLAY_NAME_1);
-    EasyMock.expect(mockHealthcareType2.getDisplayName()).andReturn(HEALTHCARE_TYPE_DISPLAY_NAME_1);
-    EasyMock.expect(mockUnit1.getHealthcareTypes()).andReturn(Arrays.asList(mockHealthcareType1));
-    EasyMock.expect(mockUnit2.getHealthcareTypes()).andReturn(Arrays.asList(mockHealthcareType2));
-    EasyMock.replay(mockUnit1, mockUnit2, mockHealthcareType1, mockHealthcareType2);
-    int compareResult = unitCareTypeNameComparator.compare(mockUnit1, mockUnit2);
-    Assert.assertEquals(0, compareResult);
-  }
-  
-  /**
-   * Test that two of the same Healthcare types returns true
-   */
-  @Test
-  public void testCompareWithNullException() {
-    
-    // Test for HEALTHCARE_TYPE_DISPLAY_NAME_1 as null and HEALTHCARE_TYPE_DISPLAY_NAME_2 is not
-    EasyMock.expect(mockHealthcareType2.getDisplayName()).andReturn(HEALTHCARE_TYPE_DISPLAY_NAME_2);
-    EasyMock.expect(mockUnit1.getHealthcareTypes()).andReturn(null);
-    EasyMock.expect(mockUnit2.getHealthcareTypes()).andReturn(Arrays.asList(mockHealthcareType2));
-    EasyMock.replay(mockUnit1, mockUnit2, mockHealthcareType1, mockHealthcareType2);
-    int compareResult = unitCareTypeNameComparator.compare(mockUnit1, mockUnit2);
-    Assert.assertEquals(1, compareResult);
-    
-    // Test for HEALTHCARE_TYPE_DISPLAY_NAME_2 as null and HEALTHCARE_TYPE_DISPLAY_NAME_1 is not
-    EasyMock.reset(mockUnit1, mockUnit2, mockHealthcareType1, mockHealthcareType2);
-    EasyMock.expect(mockHealthcareType1.getDisplayName()).andReturn(HEALTHCARE_TYPE_DISPLAY_NAME_1);
-    EasyMock.expect(mockUnit1.getHealthcareTypes()).andReturn(Arrays.asList(mockHealthcareType1));
-    EasyMock.expect(mockUnit2.getHealthcareTypes()).andReturn(null);
-    EasyMock.replay(mockUnit1, mockUnit2, mockHealthcareType1, mockHealthcareType2);
-    compareResult = unitCareTypeNameComparator.compare(mockUnit1, mockUnit2);
-    Assert.assertEquals(-1, compareResult);
-    
-    // Test for HEALTHCARE_TYPE_DISPLAY_NAME_2 as null and HEALTHCARE_TYPE_DISPLAY_NAME_1 is null
-    EasyMock.reset(mockUnit1, mockUnit2, mockHealthcareType1, mockHealthcareType2);
-    EasyMock.expect(mockUnit1.getName()).andReturn("unitName1");
-    EasyMock.expect(mockUnit2.getName()).andReturn("unitName2");
-    EasyMock.expect(mockUnit1.getHealthcareTypes()).andReturn(null);
-    EasyMock.expect(mockUnit2.getHealthcareTypes()).andReturn(null);
-    EasyMock.replay(mockUnit1, mockUnit2, mockHealthcareType1, mockHealthcareType2);
-    compareResult = unitCareTypeNameComparator.compare(mockUnit1, mockUnit2);
-    Assert.assertEquals(-1, compareResult);
+  public void testEmptyUnits() {
+    try {
+      comparator.compare(unit1, unit2);
+      fail("NullPointerException expected");
+    } catch (NullPointerException e) {
+      // Expected exception
+    }
   }
 
-    /**
-   * Test that two of the same Healthcare types returns true
-   */
   @Test
-  public void testCompareWithIndexOutOfBoundsException() {
+  public void testUnitName() {
+    unit1.setName(UNIT_NAME);
+    unit2.setName(UNIT_NAME);
 
-    // Test for HEALTHCARE_TYPE_DISPLAY_NAME_1 as empty list and HEALTHCARE_TYPE_DISPLAY_NAME_2 is not
-    EasyMock.expect(mockHealthcareType2.getDisplayName()).andReturn(HEALTHCARE_TYPE_DISPLAY_NAME_2);
-    EasyMock.expect(mockUnit1.getHealthcareTypes()).andReturn(new ArrayList());
-    EasyMock.expect(mockUnit2.getHealthcareTypes()).andReturn(Arrays.asList(mockHealthcareType2));
-    EasyMock.replay(mockUnit1, mockUnit2, mockHealthcareType1, mockHealthcareType2);
-    int compareResult = unitCareTypeNameComparator.compare(mockUnit1, mockUnit2);
-    Assert.assertEquals(1, compareResult);
+    int result = comparator.compare(unit1, unit2);
+    assertEquals(0, result);
   }
 
+  @Test
+  public void testEmptyHealthcareTypes() {
+    unit1.setHealthcareTypes(new ArrayList<HealthcareType>());
+    unit2.setHealthcareTypes(new ArrayList<HealthcareType>());
+    unit1.setName(UNIT_NAME);
+    unit2.setName(UNIT_NAME);
+
+    int result = comparator.compare(unit1, unit2);
+    assertEquals(0, result);
+  }
+
+  @Test
+  public void testSameHealthcareType() {
+    List<HealthcareType> healthcareTypes = new ArrayList<HealthcareType>();
+    healthcareTypes.add(healthcareType1);
+    unit1.setHealthcareTypes(healthcareTypes);
+    unit2.setHealthcareTypes(healthcareTypes);
+
+    int result = comparator.compare(unit1, unit2);
+    assertEquals(0, result);
+  }
+
+  @Test
+  public void testEmptyUnit1() {
+    List<HealthcareType> healthcareTypes = new ArrayList<HealthcareType>();
+    healthcareTypes.add(healthcareType1);
+    unit2.setHealthcareTypes(healthcareTypes);
+
+    int result = comparator.compare(unit1, unit2);
+    assertEquals(1, result);
+  }
+
+  @Test
+  public void testEmptyUnit2() {
+    List<HealthcareType> healthcareTypes = new ArrayList<HealthcareType>();
+    healthcareTypes.add(healthcareType1);
+    unit1.setHealthcareTypes(healthcareTypes);
+
+    int result = comparator.compare(unit1, unit2);
+    assertEquals(-1, result);
+  }
 }
