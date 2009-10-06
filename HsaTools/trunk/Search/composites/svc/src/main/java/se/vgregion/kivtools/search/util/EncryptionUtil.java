@@ -63,9 +63,10 @@ public class EncryptionUtil {
     }
     return decryptedString;
   }
-  
+
   /**
    * Method for encryption and decryption of data.
+   * 
    * @param encryptMode The mode to use if true encryption is used.
    * @param value The information to encrypt or decrypt.
    * @return The encrypted/decrypted string.
@@ -74,8 +75,13 @@ public class EncryptionUtil {
     String key = System.getProperty(KEY_PROPERTY);
     Cipher cipher = null;
     String result = null;
+
     // Set chosen cipher mode to use.
-    int opmode = encryptMode ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE;
+    int opmode = Cipher.DECRYPT_MODE;
+    if (encryptMode) {
+      opmode = Cipher.ENCRYPT_MODE;
+    }
+
     if (key != null) {
       byte[] preSharedKey = key.getBytes();
       byte[] ssnBytes = null;
@@ -86,11 +92,11 @@ public class EncryptionUtil {
         IvParameterSpec ivs = new IvParameterSpec(initialVector.getBytes());
         cipher.init(opmode, aesKey, ivs);
         ssnBytes = cipher.doFinal(value);
-        // If data is encrypted encode the result to base 64. 
+        // If data is encrypted encode the result to base 64.
         if (opmode == Cipher.ENCRYPT_MODE) {
           ssnBytes = Base64.encodeBase64(ssnBytes);
         }
-        
+
         result = new String(ssnBytes);
       } catch (GeneralSecurityException e) {
         throw new RuntimeException("Unable to decrypt the provided value", e);

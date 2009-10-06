@@ -19,7 +19,7 @@ package se.vgregion.kivtools.search.svc.domain.values;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Test;
@@ -27,21 +27,11 @@ import org.junit.Test;
 public class DNTest {
 
   @Test
-  public void testEqualsObjectEmptyDN() {
-    DN dn = new DN();
-    assertTrue(dn.equals(dn));
-    assertFalse(dn.equals(null));
-    assertFalse(dn.equals(""));
-
-    DN other = new DN();
-    assertTrue(dn.equals(other));
-    other = new DN(getList("cn=a"), null, null, null);
-    assertFalse(dn.equals(other));
-  }
-
-  @Test
-  public void testEqualsPopulatedDN() {
+  public void testEquals() {
     DN dn = DN.createDNFromString("cn=a");
+    assertFalse(dn.equals(null));
+    assertFalse(dn.equals(this));
+
     DN other = DN.createDNFromString("cn=b");
     assertFalse(dn.equals(other));
 
@@ -53,24 +43,152 @@ public class DNTest {
     other = DN.createDNFromString("cn=a,dc=a,o=b");
     assertFalse(dn.equals(other));
 
-    dn = DN.createDNFromString("cn=a,dc=a,o=a,ou=a");
-    other = DN.createDNFromString("cn=a,dc=a,o=a,ou=b");
+    dn = DN.createDNFromString("cn=a,ou=a,dc=a,o=a");
+    other = DN.createDNFromString("cn=a,ou=b,dc=a,o=a");
     assertFalse(dn.equals(other));
 
-    dn = DN.createDNFromString("cn=a,dc=a,o=a,ou=a");
-    other = DN.createDNFromString("cn=a,dc=a,o=a,ou=a");
+    dn = DN.createDNFromString("cn=a,ou=a,dc=a,o=a");
+    other = DN.createDNFromString("cn=a,ou=a,dc=a,o=a");
     assertTrue(dn.equals(other));
+
+    dn = DN.createDNFromString("cn=a,ou=a");
+    other = DN.createDNFromString("cn=a,ou=b,dc=a,o=a");
+    assertFalse(dn.equals(other));
   }
 
-  private List<String> getList(String... strings) {
-    List<String> list = new ArrayList<String>();
+  @Test
+  public void testEscape() {
+    DN dn = DN.createDNFromString("cn=a,ou=a,dc=a,o=a");
+    assertEquals("cn=a,ou=a,dc=a,o=a", dn.escape().toString());
+    dn = DN.createDNFromString("cn=a\\,b,ou=a\\,b,dc=a\\,b,o=a");
+    assertEquals("cn=a\\,b,ou=a\\,b,dc=a\\,b,o=a", dn.escape().toString());
+  }
 
-    if (strings != null) {
-      for (String string : list) {
-        list.add(string);
-      }
+  @Test
+  public void testGetIsUnitAndAdministrationOnSameLevel() {
+    DN dn = DN.createDNFromString("cn=a,ou=a,dc=a,o=a");
+    assertEquals("true", dn.getIsUnitAndAdministrationOnSameLevel());
+    dn = DN.createDNFromString("cn=a,ou=a,ou=b,ou=c,dc=a,o=a");
+    assertEquals("false", dn.getIsUnitAndAdministrationOnSameLevel());
+  }
+
+  @Test
+  public void testGetAdministration() {
+    DN dn = DN.createDNFromString("cn=a,ou=a,dc=a,o=a");
+    assertNull(dn.getAdministration());
+    dn = DN.createDNFromString("cn=a,ou=a,ou=b,dc=a,o=a");
+    assertEquals(dn, dn.getAdministration());
+    dn = DN.createDNFromString("cn=a,ou=a,ou=b,ou=c,dc=a,o=a");
+    assertEquals("ou=b,ou=c,dc=a,o=a", dn.getAdministration().toString());
+  }
+
+  @Test
+  public void testGetUnitName() {
+    DN dn = DN.createDNFromString("cn=a,ou=a,dc=a,o=a");
+    assertEquals("a", dn.getUnitName());
+    dn = DN.createDNFromString("cn=a,dc=a,o=a");
+    assertEquals("", dn.getUnitName());
+  }
+
+  @Test
+  public void testGetUnit() {
+    DN dn = DN.createDNFromString("cn=a,dc=a,o=a");
+    assertNull("", dn.getUnit());
+    dn = DN.createDNFromString("cn=a,ou=a,dc=a,o=a");
+    assertEquals("ou=a,dc=a,o=a", dn.getUnit().toString());
+    dn = DN.createDNFromString("cn=a,ou=a,dc=a,dc=a");
+    assertEquals("ou=a,dc=a,dc=a", dn.getUnit().toString());
+  }
+
+  @Test
+  public void testGetParentDN() {
+    DN dn = DN.createDNFromString("cn=a,dc=a,o=a");
+    DN parentDn = dn.getParentDN();
+    assertEquals("dc=a,o=a", parentDn.toString());
+
+    dn = DN.createDNFromString("cn=a,cn=b,dc=a,o=a");
+    parentDn = dn.getParentDN();
+    assertEquals("cn=b,dc=a,o=a", parentDn.toString());
+
+    dn = DN.createDNFromString("ou=a,dc=a,o=a");
+    parentDn = dn.getParentDN();
+    assertEquals("dc=a,o=a", parentDn.toString());
+
+    dn = DN.createDNFromString("dc=a,dc=b,o=a");
+    parentDn = dn.getParentDN();
+    assertNull(parentDn);
+  }
+
+  @Test
+  public void testGetAncestors() {
+    DN dn = DN.createDNFromString("cn=a,ou=a,ou=b,ou=c,dc=a,o=a");
+
+    List<DN> ancestors = dn.getAncestors();
+    assertNotNull(ancestors);
+    assertEquals(1, ancestors.size());
+    assertEquals(1, ancestors.get(0).getPosition());
+
+    dn = DN.createDNFromString("cn=a,ou=a,dc=a,o=a");
+    ancestors = dn.getAncestors();
+    assertNull(ancestors);
+  }
+
+  @Test
+  public void testGetAncestor() {
+    DN dn = DN.createDNFromString("cn=a,ou=a,ou=b,ou=c,dc=a,o=a");
+    DN ancestor = dn.getAncestor(0);
+    assertEquals(dn, ancestor);
+
+    ancestor = dn.getAncestor(-2);
+    assertEquals("ou=c,dc=a,o=a", ancestor.toString());
+
+    ancestor = dn.getAncestor(2);
+    assertEquals("ou=b,ou=c,dc=a,o=a", ancestor.toString());
+  }
+
+  @Test
+  public void testGetUrlEncoded() {
+    DN dn = DN.createDNFromString("cn=a,ou=a,ou=b,ou=c,dc=a,o=a");
+    String result = dn.getUrlEncoded();
+    assertEquals("cn%3Da%2Cou%3Da%2Cou%3Db%2Cou%3Dc%2Cdc%3Da%2Co%3Da", result);
+  }
+
+  @Test
+  public void testIterator() {
+    DN dn = DN.createDNFromString("cn=a,ou=a,dc=a,o=a");
+    Iterator<DN> iterator = dn.iterator();
+    assertTrue(iterator.hasNext());
+    assertEquals("cn=a,ou=a,dc=a,o=a", iterator.next().toString());
+    assertTrue(iterator.hasNext());
+    assertEquals("ou=a,dc=a,o=a", iterator.next().toString());
+    assertTrue(iterator.hasNext());
+    assertEquals("dc=a,o=a", iterator.next().toString());
+    assertFalse(iterator.hasNext());
+    assertNull(iterator.next());
+
+    try {
+      iterator.remove();
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException e) {
+      // Expected exception
     }
 
-    return list;
+    dn = DN.createDNFromString("cn=a,ou=a,dc=a");
+    iterator = dn.iterator();
+    assertTrue(iterator.hasNext());
+    assertEquals("cn=a,ou=a,dc=a", iterator.next().toString());
+    assertTrue(iterator.hasNext());
+    assertEquals("ou=a,dc=a", iterator.next().toString());
+    assertTrue(iterator.hasNext());
+    assertEquals("dc=a", iterator.next().toString());
+    assertFalse(iterator.hasNext());
+  }
+
+  @Test
+  public void testHashCode() {
+    DN dn = DN.createDNFromString("");
+
+    int hashCode = dn.hashCode();
+    assertEquals(954274, hashCode);
   }
 }

@@ -22,6 +22,9 @@ import java.io.Serializable;
 import se.vgregion.kivtools.search.interfaces.IsEmptyMarker;
 import se.vgregion.kivtools.util.StringUtil;
 
+/**
+ * Municipality representation.
+ */
 public class Municipality implements IsEmptyMarker, Serializable, Comparable<Municipality> {
 
   private static final long serialVersionUID = 1L;
@@ -51,17 +54,23 @@ public class Municipality implements IsEmptyMarker, Serializable, Comparable<Mun
     return municipalityKey;
   }
 
+  /**
+   * Setter for the municipalityKey property. Also sets the index.
+   * 
+   * @param municipalityKey The new value for the municipalityKey property.
+   */
   public void setMunicipalityKey(String municipalityKey) {
     this.municipalityKey = municipalityKey;
     int indexPos = municipalityKey.indexOf("_") + 1;
-    Integer index = Integer.parseInt(municipalityKey.substring(indexPos));
-    this.setIndex(index);
+    Integer parsedIndex = Integer.parseInt(municipalityKey.substring(indexPos));
+    this.setIndex(parsedIndex);
   }
 
   public boolean isEmpty() {
     return StringUtil.isEmpty(municipalityName);
   }
 
+  @Override
   public int compareTo(Municipality o) {
     return this.getIndex().compareTo(o.getIndex());
   }

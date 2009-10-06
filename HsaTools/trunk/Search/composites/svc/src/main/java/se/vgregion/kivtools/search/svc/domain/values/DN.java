@@ -21,41 +21,64 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import se.vgregion.kivtools.util.StringUtil;
+
 /**
+ * A Distinguished Name implementation.
+ * 
  * @author Anders Asplund - KnowIT
  */
-public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
+public final class DN implements Serializable, Iterable<DN> {
 
   private static final int ADMINISTRATION = -3;
   private static final long serialVersionUID = 1L;
-  private List<String> cn;
-  private List<String> ou;
-  private List<String> dc;
-  private String o;
+  private final List<String> cn;
+  private final List<String> ou;
+  private final List<String> dc;
+  private final String o;
   // Position of administration
   // Used for formatting ancestors in web gui
-  private int position;
+  private final int position;
 
+  /**
+   * Constructs a new DN instance using the provided fields.
+   * 
+   * @param cn The list of common names to use.
+   * @param ou The list of organizational units to use.
+   * @param dc The list of domain components to use.
+   * @param o The organization to use.
+   */
   public DN(List<String> cn, List<String> ou, List<String> dc, String o) {
-    this.cn = cn == null ? new ArrayList<String>() : cn;
-    this.ou = ou == null ? new ArrayList<String>() : ou;
-    this.dc = dc == null ? new ArrayList<String>() : dc;
-    this.o = o == null ? "" : o;
-  }
-
-  public DN() {
-    super();
+    this.cn = defensiveCopy(cn);
+    this.ou = defensiveCopy(ou);
+    this.dc = defensiveCopy(dc);
+    this.o = StringUtil.emptyStringIfNull(o);
+    this.position = 0;
   }
 
   /**
+   * Constructs a new DN instance using the provided DN as a base but sets the DN's position to the provided value.
    * 
-   * @param dnString
-   * @return Returns a new DN object
+   * @param originalDn The DN to base the new DN on.
+   * @param position The new value for position for this DN.
+   */
+  private DN(DN originalDn, int position) {
+    this.cn = defensiveCopy(originalDn.cn);
+    this.ou = defensiveCopy(originalDn.ou);
+    this.dc = defensiveCopy(originalDn.dc);
+    this.o = originalDn.o;
+    this.position = position;
+  }
+
+  /**
+   * Creates a DN instance using the provided string.
    * 
+   * @param dnString The DN-string to base the DN instance on.
+   * @return Returns a new DN object.
    */
   public static DN createDNFromString(String dnString) {
 
@@ -63,16 +86,16 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
     List<String> ou = new ArrayList<String>();
     List<String> dc = new ArrayList<String>();
     String o = "";
-    dnString = dnString.replace("\\", "");
-    String[] org = dnString.split(",?.?.=");
+    String cleanDnString = dnString.replace("\\", "");
+    String[] org = cleanDnString.split(",?.?.=");
     String domain = "";
     int start = 0;
     int end = 0;
 
     for (int i = 0; i < org.length; i++) {
       if (org[i] != null && !org[i].equals("")) {
-        end = dnString.indexOf(org[i], start) - 1;
-        domain = dnString.substring(start, end);
+        end = cleanDnString.indexOf(org[i], start) - 1;
+        domain = cleanDnString.substring(start, end);
         if (domain.equalsIgnoreCase("cn")) {
           cn.add(org[i]);
         } else if (domain.equalsIgnoreCase("ou")) {
@@ -83,39 +106,43 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
           o = org[i];
         }
 
-        start = dnString.indexOf(",", org[i].length() + end) + 1;
+        start = cleanDnString.indexOf(",", org[i].length() + end) + 1;
       }
     }
 
     return new DN(cn, ou, dc, o);
   }
 
+  /**
+   * Escapes any comma in the DN's common names, organizational units and domain components.
+   * 
+   * @return A new DN with commas escaped.
+   */
   public DN escape() {
-    DN aDN = DN.createDNFromString(this.toString());
+    List<String> newCn = new ArrayList<String>();
+    List<String> newOu = new ArrayList<String>();
+    List<String> newDc = new ArrayList<String>();
 
-    for (int i = 0; i < aDN.cn.size(); i++) {
-      aDN.cn.set(i, aDN.cn.get(i).replace(",", "\\,"));
+    for (String oldCn : cn) {
+      newCn.add(oldCn.replace(",", "\\,"));
     }
 
-    for (int i = 0; i < aDN.ou.size(); i++) {
-      aDN.ou.set(i, aDN.ou.get(i).replace(",", "\\,"));
+    for (String oldOu : ou) {
+      newOu.add(oldOu.replace(",", "\\,"));
     }
 
-    for (int i = 0; i < aDN.dc.size(); i++) {
-      aDN.dc.set(i, aDN.dc.get(i).replace(",", "\\,"));
+    for (String oldDc : dc) {
+      newDc.add(oldDc.replace(",", "\\,"));
     }
 
-    return aDN;
+    return new DN(newCn, newOu, newDc, o);
   }
 
-  public int compare(DN dn1, DN dn2) {
-    return dn1.toString().compareTo(dn2.toString());
-  }
-
-  public int compareTo(DN anotherDn) {
-    return this.toString().compareTo(anotherDn.toString());
-  }
-
+  /**
+   * Checks if a unit is at the same level as it's administration.
+   * 
+   * @return The string "true" if the unit is at the same level as it's administration, otherwise the string "false".
+   */
   public String getIsUnitAndAdministrationOnSameLevel() {
     // HAGY fix, for taking care of
     boolean temp = this.ou.size() <= 2;
@@ -123,19 +150,36 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
     return "" + temp;
   }
 
+  /**
+   * Gets the units administration.
+   * 
+   * @return null if the unit is above the administration level, the unit itself if the unit is at the administration level and an ancestor at the administration level otherwise.
+   */
   public DN getAdministration() {
+    DN administration;
+
     switch (this.ou.size()) {
       case 0:
       case 1:
-        return null;
+        administration = null;
+        break;
       case 2:
         // HAGY fix, before return null;
-        return this;
+        administration = this;
+        break;
       default:
-        return this.getAncestor(ADMINISTRATION);
+        administration = this.getAncestor(ADMINISTRATION);
+        break;
     }
+
+    return administration;
   }
 
+  /**
+   * Getter for the unit name for this DN.
+   * 
+   * @return The value of the first organizational unit.
+   */
   public String getUnitName() {
     if (this.ou.size() == 0) {
       return "";
@@ -143,6 +187,11 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
     return this.ou.get(0);
   }
 
+  /**
+   * Getter for the unit for this DN.
+   * 
+   * @return The DN for the unit-part of this DN.
+   */
   public DN getUnit() {
     if (this.ou.size() == 0) {
       return null;
@@ -171,14 +220,24 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
     return DN.createDNFromString(tmpStr);
   }
 
+  /**
+   * Gets this DN's parent DN.
+   * 
+   * @param rootLevel The minimum level of the organizational unit.
+   * @return The DN's parent DN or null if no common names or organizational units exists.
+   */
   public DN getParentDN(int rootLevel) {
     List<String> theCN = this.cn;
     List<String> theOU = this.ou;
     List<String> theDC = this.dc;
 
-    if (theCN != null && theCN.size() > 0) {
-      theCN = theCN.size() < 2 ? new ArrayList<String>() : theCN.subList(1, theCN.size());
-    } else if (theOU != null && theOU.size() > rootLevel) {
+    if (theCN.size() > 0) {
+      if (theCN.size() < 2) {
+        theCN = new ArrayList<String>();
+      } else {
+        theCN = theCN.subList(1, theCN.size());
+      }
+    } else if (theOU.size() > rootLevel) {
       theOU = getOuWithoutUnit();
     } else {
       return null;
@@ -191,29 +250,32 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
   }
 
   /**
-   * @param generations
-   * @return returns the specified number of generations.
+   * Gets a list of all the DN's ancestor DN's.
+   * 
+   * @return returns a list of all the DN's ancestor DN's.
    */
   public List<DN> getAncestors() {
     return getAncestors(1, ADMINISTRATION);
   }
 
   /**
-   * @param generations
-   * @return returns the specified number of generations.
+   * Gets a list of the DN's ancestors starting with the provided fromGeneration and ending at the provided toGeneration.
    * 
-   *         Use 0 for all generations. A positive number to get an exact count of generations. A negative number to get all generations except for the last n generations.
+   * @param fromGeneration The first generation to return.
+   * @param toGeneration The last generation to return.
+   * @return returns a list of the DN's ancestors starting with the provided fromGeneration and ending at the provided toGeneration.
    */
   public List<DN> getAncestors(int fromGeneration, int toGeneration) {
+    int currentFromGeneration = fromGeneration;
     List<DN> ancestors = new ArrayList<DN>();
     DN parent = this.getParentDN();
 
-    int position = 1;
+    int currentPosition = 1;
     while (parent != null) {
-      parent.setPosition(position++);
-      if (--fromGeneration <= 0) {
-        ancestors.add(parent);
+      if (--currentFromGeneration <= 0) {
+        ancestors.add(new DN(parent, currentPosition));
       }
+      currentPosition++;
       parent = parent.getParentDN();
     }
 
@@ -228,10 +290,11 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
   }
 
   /**
-   * @param generations
-   * @return returns the specified number of generations.
+   * Gets the DN for a specific generation ancestor of this DN.
    * 
-   *         Use 0 for all generations. A positive number to get an exact count of generations. A negative number to get all generations except for the last n generations.
+   * @param generation The generation to get. Use 0 for all generations. A positive number to get an exact count of generations. A negative number to get all generations except for the last n
+   *          generations.
+   * @return returns the DN of the specified ancestor.
    */
   public DN getAncestor(int generation) {
     if (generation == 0) {
@@ -245,9 +308,13 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
       parent = parent.getParentDN();
     }
 
-    generation = generation < 0 ? generation + ancestors.size() : generation - 1;
-
-    return ancestors.get(generation);
+    int generationToGet = generation;
+    if (generationToGet < 0) {
+      generationToGet += ancestors.size();
+    } else {
+      generationToGet--;
+    }
+    return ancestors.get(generationToGet);
 
   }
 
@@ -304,18 +371,21 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
     return this.ou.subList(1, this.ou.size());
   }
 
+  @Override
   public Iterator<DN> iterator() {
     return new DNIterator();
   }
 
+  /**
+   * Iterator for the DN class. Iterates over the DN and its ancestors.
+   */
   private class DNIterator implements Iterator<DN> {
     private int cnPoint;
     private int ouPoint;
-    private int dcPoint;
     private String oPoint = o;
 
     public boolean hasNext() {
-      return cn != null && cnPoint < cn.size() || ou != null && ouPoint < ou.size() || oPoint != null;
+      return cnPoint < cn.size() || ouPoint < ou.size() || oPoint != null;
     }
 
     public DN next() {
@@ -340,31 +410,27 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
     }
 
     public void remove() {
+      throw new UnsupportedOperationException("Remove is not implemented");
     }
-
   }
 
   public int getPosition() {
     return position;
   }
 
-  public void setPosition(int position) {
-    this.position = position;
-  }
-
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + (cn == null ? 0 : cn.hashCode());
-    result = prime * result + (dc == null ? 0 : dc.hashCode());
-    result = prime * result + (o == null ? 0 : o.hashCode());
-    result = prime * result + (ou == null ? 0 : ou.hashCode());
+    result = prime * result + cn.hashCode();
+    result = prime * result + dc.hashCode();
+    result = prime * result + o.hashCode();
+    result = prime * result + ou.hashCode();
     return result;
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   @Override
   public boolean equals(Object obj) {
@@ -378,10 +444,10 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
         } else {
           DN other = (DN) obj;
 
-          equal &= isEqual(cn, other.cn);
-          equal &= isEqual(dc, other.dc);
-          equal &= isEqual(o, other.o);
-          equal &= isEqual(ou, other.ou);
+          equal &= cn.equals(other.cn);
+          equal &= dc.equals(other.dc);
+          equal &= o.equals(other.o);
+          equal &= ou.equals(other.ou);
         }
       }
     }
@@ -389,42 +455,17 @@ public class DN implements Serializable, Comparator<DN>, Iterable<DN> {
   }
 
   /**
-   * Helper-method which checks if two lists of strings are equal. Two nulls are considered equal as well.
+   * Helper method for performing defensive copying of lists of strings.
    * 
-   * @param first The first list of strings to compare.
-   * @param second The second list of strings to compare.
-   * @return True if the two lists are equal or if both are null.
+   * @param original The list of strings to copy.
+   * @return A new list containing the strings from the original list.
    */
-  private boolean isEqual(List<String> first, List<String> second) {
-    boolean equal = true;
+  private List<String> defensiveCopy(List<String> original) {
+    List<String> copy = new ArrayList<String>();
 
-    if (first == null) {
-      if (second != null) {
-        equal = false;
-      }
-    } else {
-      equal = first.equals(second);
+    if (original != null) {
+      copy.addAll(original);
     }
-    return equal;
-  }
-
-  /**
-   * Helper-method which checks if two strings are equal. Two nulls are considered equal as well.
-   * 
-   * @param first The first string to compare.
-   * @param second The second string to compare.
-   * @return True if the two strings are equal or if both are null.
-   */
-  private boolean isEqual(String first, String second) {
-    boolean equal = true;
-
-    if (first == null) {
-      if (second != null) {
-        equal = false;
-      }
-    } else {
-      equal = first.equals(second);
-    }
-    return equal;
+    return Collections.unmodifiableList(copy);
   }
 }

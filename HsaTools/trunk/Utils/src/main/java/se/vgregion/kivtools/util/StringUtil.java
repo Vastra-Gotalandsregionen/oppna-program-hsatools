@@ -18,8 +18,9 @@
 package se.vgregion.kivtools.util;
 
 /**
+ * Utility methods for String handling.
  * 
- * @author argoyle
+ * @author Joakim Olsson
  */
 public class StringUtil {
 
@@ -127,6 +128,22 @@ public class StringUtil {
         }
       }
     }
+    return result;
+  }
+
+  /**
+   * Makes sure that the returned string is not null.
+   * 
+   * @param string The string to return if not null.
+   * @return Returns the provided string if not null, otherwise an empty string.
+   */
+  public static String emptyStringIfNull(String string) {
+    String result = string;
+
+    if (result == null) {
+      result = "";
+    }
+
     return result;
   }
 }
