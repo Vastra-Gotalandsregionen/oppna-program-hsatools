@@ -6,6 +6,12 @@ import org.junit.Test;
 
 public class StringUtilTest {
   @Test
+  public void testInstantiation() {
+    StringUtil stringUtil = new StringUtil();
+    assertNotNull(stringUtil);
+  }
+
+  @Test
   public void testIsInteger() {
     assertFalse(StringUtil.isInteger(null));
     assertFalse(StringUtil.isInteger(""));
@@ -68,5 +74,11 @@ public class StringUtilTest {
     assertFalse(StringUtil.containsOnlyNumbers("a  b", true));
     assertFalse(StringUtil.containsOnlyNumbers("1 2 3    4", false));
     assertTrue(StringUtil.containsOnlyNumbers("1 2 3    4", true));
+  }
+
+  @Test
+  public void testEmptyStringIfNull() {
+    assertEquals("", StringUtil.emptyStringIfNull(null));
+    assertEquals("test", StringUtil.emptyStringIfNull("test"));
   }
 }

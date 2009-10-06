@@ -35,9 +35,7 @@ import com.domainlanguage.time.TimePoint;
  * 
  * @author hangy2 , Hans Gyllensten / KnowIT
  * @author Anders Asplund / KnowIT
- * 
  */
-
 public class Employment implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -276,6 +274,11 @@ public class Employment implements Serializable {
     this.name = name;
   }
 
+  /**
+   * Getter for the hsaTelephoneNumber property.
+   * 
+   * @return The first of the hsaTelephoneNumbers or null if the property is not set.
+   */
   public PhoneNumber getHsaTelephoneNumber() {
     if (!hsaTelephoneNumber.isEmpty()) {
       return hsaTelephoneNumber.get(0);
@@ -302,8 +305,8 @@ public class Employment implements Serializable {
     return this.hsaTelephoneNumber;
   }
 
-  public void setHsaTelephoneNumbers(List<PhoneNumber> hsaTelephoneNumber) {
-    this.hsaTelephoneNumber = hsaTelephoneNumber;
+  public void setHsaTelephoneNumbers(List<PhoneNumber> hsaTelephoneNumbers) {
+    this.hsaTelephoneNumber = hsaTelephoneNumbers;
   }
 
   public PhoneNumber getHsaPublicTelephoneNumber() {
@@ -386,6 +389,12 @@ public class Employment implements Serializable {
     this.employmentPeriod = employmentPeriod;
   }
 
+  /**
+   * Setter for the employmentPeriod property.
+   * 
+   * @param startDate The start date of the employment period.
+   * @param stopDate The stop date of the employment period.
+   */
   public void setEmploymentPeriod(TimePoint startDate, TimePoint stopDate) {
     setEmploymentPeriod(TimeInterval.over(startDate, stopDate));
   }
