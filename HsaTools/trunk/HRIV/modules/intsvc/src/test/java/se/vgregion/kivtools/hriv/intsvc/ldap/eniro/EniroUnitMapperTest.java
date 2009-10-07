@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
+import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
 
 public class EniroUnitMapperTest {
 
@@ -27,6 +28,17 @@ public class EniroUnitMapperTest {
   public void testMapFromContext() {
     UnitComposition unitComposition = (UnitComposition) eniroUnitMapper.mapFromContext(dirContextOperationsMock);
     assertNotNull(unitComposition);
+    assertEquals("id1", unitComposition.getEniroUnit().getId());
+    assertEquals("name", unitComposition.getEniroUnit().getName());
+    BusinessClassification businessClassification = null;
+    for (Object info: unitComposition.getEniroUnit().getTextOrImageOrAddress()) {
+      if (info instanceof BusinessClassification) {
+        businessClassification = (BusinessClassification) info;
+      }
+    }
+    assertEquals("1",businessClassification.getBCCode());
+    assertEquals("", businessClassification.getBCName());
+    
     
     //Test function unit with cn instead of ou.
     dirContextOperationsMock.setAttributeValue("ou", null);
@@ -58,5 +70,6 @@ public class EniroUnitMapperTest {
     dirContextOperationsMock.addAttributeValue("hsaGeographicalCoordinates", "X: 6414080, Y: 1276736");
     dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1");
     dirContextOperationsMock.addAttributeValue("hsaSedfDeliveryAddress", ldapAddressValue);
+    dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1");
   }
 }
