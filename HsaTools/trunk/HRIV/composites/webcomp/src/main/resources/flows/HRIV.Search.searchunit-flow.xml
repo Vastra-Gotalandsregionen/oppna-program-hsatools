@@ -116,6 +116,10 @@
 	</view-state>
 	
 	<view-state id="Display.viewAccessibilityInfo" view="/displayUnitAccessibilityInfo.xhtml">
+		<on-entry>
+			<evaluate expression="Display_DisplayAccessibilityDatabaseBean.getMessageBundle(flowScope.accessibilityDatabaseFilterForm.languageId)" result="flowScope.msgLocalized"/>
+		</on-entry>
+		<transition on="changeLanguage" to="Display.viewAccessibilityInfo" />
 		<transition on="goBack" to="Display.unitDetailsById" />
 		<transition on="doFilter" to="Filter.accessibilityInfo" />
 		<transition on="gotoStartpage" to="Display.startpage" />

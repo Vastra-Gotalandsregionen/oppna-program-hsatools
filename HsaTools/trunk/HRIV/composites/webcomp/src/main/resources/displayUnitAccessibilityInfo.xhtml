@@ -36,56 +36,60 @@
 				<h1>${msg.accessibilityInfo} ${msg.for} ${unit.name}</h1>
 
 				<div class="FloatBox">
-					<a href="HRIV.Search.searchunit-flow.flow&amp;hsaidentity=${unit.hsaIdentity}"><img src="resources/images/control_play_blue.png" alt=""/> ${msg.backToUnitDetails}</a><br/><br/>
+					<a href="HRIV.Search.searchunit-flow.flow?hsaidentity=${unit.hsaIdentity}"><img src="resources/images/control_play_blue.png" alt=""/> ${msg.backToUnitDetails}</a><br/><br/>
 
 
 					<form id="filterAccessibilityInfoForm" jsfc="h:form" class="filterAccessibilityInfoForm">
 
 					<h:inputHidden id="formerLanguageId" value="${accessibilityDatabaseFilterForm.formerLanguageId}" />
-					
-					${msg.language}:
-					<h:selectOneRadio id="language" name="language" value="${accessibilityDatabaseFilterForm.languageId}" styleClass="borderless-no-width-limit">
+					<h:commandButton
+			            id="changeLanguage"
+			            value="Change language"
+			            action="changeLanguage" style="display: none;"/>
+					<span class="filterAccessibilityInfoFormContent">${msg.language}:</span>
+					<h:selectOneRadio id="language" name="language" value="${accessibilityDatabaseFilterForm.languageId}" styleClass="borderless-no-width-limit filterAccessibilityInfoFormContent" onchange="document.getElementById('filterAccessibilityInfoForm:changeLanguage').click();">
 						<f:selectItems value="${accessibilityDatabaseFilterForm.availableLanguages}" />
 					</h:selectOneRadio>
 					
-						<table class="borderless">
+						<table id="accessibilitySelection" class="borderless">
 							<tr>
-								<td>
+								<td class="accessibilitySelectionCell">
 									<div class="FloatLeft TDBSearch">
-										<img src="resources/images/icoHear.gif" border="0" alt="${msg.hardToHear}"/><input id="hear" type="checkbox" jsfc="h:selectBooleanCheckbox" name="hear" value="${accessibilityDatabaseFilterForm.hear}" /><label for="hear">${msg.hardToHear}.</label>
+										<img src="resources/images/icoHear.gif" border="0" alt="${msgLocalized.hearing}"/><input id="hear" type="checkbox" jsfc="h:selectBooleanCheckbox" name="hear" value="${accessibilityDatabaseFilterForm.hear}" /><label for="hear">${msgLocalized.hearing}.</label>
 									</div>
 									<div class="FloatLeft TDBSearch">
-										<img src="resources/images/icoSee.gif" border="0" alt="${msg.hardToSee}"/><input id="see" type="checkbox" jsfc="h:selectBooleanCheckbox" name="see" value="${accessibilityDatabaseFilterForm.see}" /><label for="see">${msg.hardToSee}.</label>
+										<img src="resources/images/icoSee.gif" border="0" alt="${msgLocalized.visual}"/><input id="see" type="checkbox" jsfc="h:selectBooleanCheckbox" name="see" value="${accessibilityDatabaseFilterForm.see}" /><label for="see">${msgLocalized.visual}.</label>
 									</div>
 									<div class="FloatLeft TDBSearch">
-										<img src="resources/images/icoMove.gif" border="0" alt="${msg.hardToMove}"/><input id="move" type="checkbox" jsfc="h:selectBooleanCheckbox" name="move" value="${accessibilityDatabaseFilterForm.move}" /><label for="move">${msg.hardToMove}.</label>
+										<img src="resources/images/icoMove.gif" border="0" alt="${msgLocalized.mobility}"/><input id="move" type="checkbox" jsfc="h:selectBooleanCheckbox" name="move" value="${accessibilityDatabaseFilterForm.move}" /><label for="move">${msgLocalized.mobility}.</label>
 									</div>
 								</td>
 								<td>
 									<div class="FloatLeft TDBSearch">
-										<img src="resources/images/icoSubstances.gif" border="0" alt="${msg.hardToDealWithSomeSubstances}"/><input id="substances" type="checkbox" jsfc="h:selectBooleanCheckbox" name="substances" value="${accessibilityDatabaseFilterForm.substances}" /><label for="substances">${msg.hardToDealWithSomeSubstances}.</label>
+										<img src="resources/images/icoSubstances.gif" border="0" alt="${msgLocalized.substance}"/><input id="substances" type="checkbox" jsfc="h:selectBooleanCheckbox" name="substances" value="${accessibilityDatabaseFilterForm.substances}" /><label for="substances">${msgLocalized.substance}.</label>
 									</div>
 									<div class="FloatLeft TDBSearch">
-										<img src="resources/images/icoInformation.gif" border="0" alt="${msg.hardToProcessInfo}"/><input id="info" type="checkbox" jsfc="h:selectBooleanCheckbox" name="info" value="${accessibilityDatabaseFilterForm.info}" /><label for="info">${msg.hardToProcessInfo}.</label>
+										<img src="resources/images/icoInformation.gif" border="0" alt="${msgLocalized.learning}"/><input id="info" type="checkbox" jsfc="h:selectBooleanCheckbox" name="info" value="${accessibilityDatabaseFilterForm.info}" /><label for="info">${msgLocalized.learning}.</label>
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td colspan="2">
 									<div id="list-type-instructions">
-										${msg.accessibilityInstructionNotice}.<br/>
-										${msg.accessibilityInstructionAccessible}.
+										${msgLocalized.descriptionNotice}.<br/>
+										${msgLocalized.descriptionAccessible}.
 									</div>
 									<div class="borderless-container">									
 										<h:selectOneRadio id="resultType" name="listType" value="${accessibilityDatabaseFilterForm.listType}">
-											<f:selectItems value="${accessibilityDatabaseFilterForm.listTypes}" />
+											<f:selectItem itemValue="attentive" itemLabel="${msgLocalized.aware}" />
+											<f:selectItem itemValue="available" itemLabel="${msgLocalized.accessible}" />
 										</h:selectOneRadio>
 									</div>
 								</td>
 							</tr>
 						</table>
 						
-						<input type="submit" id="submitButton" jsfc="h:commandButton" value="${msg.showChosenInfo}" action="doFilter" />
+						<input type="submit" id="submitButton" jsfc="h:commandButton" value="${msgLocalized.show}" action="doFilter" />
 					</form>
 				</div>
 				

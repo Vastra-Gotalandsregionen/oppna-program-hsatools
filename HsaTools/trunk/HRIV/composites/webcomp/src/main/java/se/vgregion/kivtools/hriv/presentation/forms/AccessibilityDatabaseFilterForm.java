@@ -38,18 +38,8 @@ public class AccessibilityDatabaseFilterForm implements Serializable {
   private String languageId = "1";
   private String formerLanguageId;
 
-  private SelectItem[] listTypes = new SelectItem[] { new SelectItem("attentive", "Vad bör uppmärksammas"), new SelectItem("available", "Vad är tillgängligt") };
-
-  private SelectItem[] availableLanguages = new SelectItem[] { new SelectItem("1", "Svenska"), new SelectItem("2", "Engelska"), /* new SelectItem("3", "Franska"), */new SelectItem("4", "Tyska"),
+  private SelectItem[] availableLanguages = new SelectItem[] { new SelectItem("1", "Svenska"), new SelectItem("2", "English"), /* new SelectItem("3", "Française"), */new SelectItem("4", "Deutsch"),
       new SelectItem("5", "Lättläst svenska"), };
-
-  public SelectItem[] getListTypes() {
-    return listTypes;
-  }
-
-  public void setListTypes(SelectItem[] listTypes) {
-    this.listTypes = listTypes;
-  }
 
   public Boolean getHear() {
     return hear;
