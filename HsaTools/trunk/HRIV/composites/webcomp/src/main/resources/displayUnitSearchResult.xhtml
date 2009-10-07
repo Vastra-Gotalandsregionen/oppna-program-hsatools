@@ -74,10 +74,10 @@
 				<h:outputText rendered="${fn:length(units) gt 0 or displayCloseUnitsSimpleForm.searchFlag == true}">
 					<div id="about-searchinformation-container">
 						<h2><strong><h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == true}">${fn:length(coordinateUnits)}</h:outputText>
-						<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == false}">${fn:length(units)}</h:outputText></strong> ${msg.hits}</h2>
+						<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == false}">${units.getTotalNumberOfFoundItems()}</h:outputText></strong> ${msg.hits}</h2>
 					</div>
 				</h:outputText>
-				<h:outputText rendered="${fn:length(units) >= Search_MaxSearchResult and 'true' != unitSearchSimpleForm.showAll}">
+				<h:outputText rendered="${units.getTotalNumberOfFoundItems() >= Search_MaxSearchResult and 'true' != unitSearchSimpleForm.showAll}">
 					<div id="error-reporting-container">
 						${msg.firstHits1} ${Search_MaxSearchResult} ${msg.firstHits2}.<br/>
 						<h:outputLink value="${facesContext.externalContext.request.requestURL}?${facesContext.externalContext.request.queryString}&amp;showAll=true" styleClass="url">${msg.showAll}</h:outputLink>
