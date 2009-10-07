@@ -121,11 +121,22 @@ public class UnitRepository {
    */
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     String searchFilter = createAdvancedSearchFilter(unit, showUnitsWithTheseHsaBussinessClassificationCodes);
-    SikSearchResultList<Unit> units = searchUnits(searchFilter, LDAPConnection.SCOPE_SUB, maxResult, sortOrder);
+    // Perform search without limit since the information will be filtered
+    SikSearchResultList<Unit> units = searchUnits(searchFilter, LDAPConnection.SCOPE_SUB, Integer.MAX_VALUE, sortOrder);
 
     removeUnallowedUnits(units, showUnitsWithTheseHsaBussinessClassificationCodes);
 
     removeOutdatedUnits(units);
+
+    int numberOfHits = units.size();
+
+    // Make sure that only a subset is returned
+    if (numberOfHits > maxResult) {
+      units = new SikSearchResultList<Unit>(units.subList(1, maxResult));
+    }
+
+    // Set the total number of found items on the returned result set
+    units.setTotalNumberOfFoundItems(numberOfHits);
 
     return units;
   }
