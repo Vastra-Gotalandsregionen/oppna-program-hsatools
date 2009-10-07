@@ -26,6 +26,7 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -184,6 +185,29 @@ public class DisplayAccessibilityDatabaseBeanTest {
     result = bean.assignAccessibilityDatabaseId(unit);
     assertTrue(result);
     assertEquals(Integer.valueOf(234), unit.getAccessibilityDatabaseId());
+  }
+
+  @Test
+  public void testGetMessageBundle() {
+    // Swedish
+    Properties bundle = bean.getMessageBundle(1);
+    assertNotNull(bundle);
+    assertEquals("Svårt att höra", bundle.getProperty("hearing"));
+
+    // English
+    bundle = bean.getMessageBundle(2);
+    assertNotNull(bundle);
+    assertEquals("Hearing impaired", bundle.getProperty("hearing"));
+
+    // Deutsch
+    bundle = bean.getMessageBundle(4);
+    assertNotNull(bundle);
+    assertEquals("Hearing impaired", bundle.getProperty("hearing"));
+
+    // Easily read swedish
+    bundle = bean.getMessageBundle(5);
+    assertNotNull(bundle);
+    assertEquals("Svårt att höra", bundle.getProperty("hearing"));
   }
 
   private static Document getDocumentFromResource(String resourceName) {

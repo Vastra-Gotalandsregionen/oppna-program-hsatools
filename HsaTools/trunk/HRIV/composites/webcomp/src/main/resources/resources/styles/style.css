@@ -41,7 +41,7 @@
 
 #main-column {
 	float: right;
-	width: 68em;
+	width: 65.8em;
 }
 
 #search-column {
@@ -245,7 +245,7 @@
 
 .search-result {
 	float: left;
-	width: 67.6em;
+	width: 65.6em;
 	padding: 0.1em;
 	font-size: 1em;
 	margin: 0.1em;
@@ -256,14 +256,14 @@
 	padding: 0em;
 	list-style: none;
 	list-style-type: none;
-	width: 67.2em;
+	width: 65.2em;
 	font-size: 1em;
 }
 
 #search-result-caption {
 	padding: 0.5em;
 	float: left;
-	width: 66em;
+	width: 64em;
 }
 
 #search-result-caption-text {
@@ -452,6 +452,7 @@ table.Employment,table.Employment th,table.Employment td {
 /* Details page */
 .unit-details-header {
 	margin-top: 1em;
+	background-color: #F3F1F2;
 	font-size: 1em;
 	clear: both;
 }
@@ -474,7 +475,7 @@ table.Employment,table.Employment th,table.Employment td {
 
 .search-result .borderless {
 	border: 0em;
-	width: 67.6em;
+	width: 65.6em;
 	font-size: 1.0em;
 	margin: 0em;
 	float: left;
@@ -744,7 +745,7 @@ a.unit {
 	padding: 0 0 0 0.5em;
 	font-size: 1.2em;
 	margin: 0em;
-	width: 19em;
+	width: 20.95em;
 }
 
 .information-area .url {
@@ -1051,8 +1052,16 @@ div.autocomplete {
 	padding: 1em;
 }
 
-.filterAccessibilityInfoForm {
+.filterAccessibilityInfoFormContent {
 	font-size: 1.1em;
+}
+
+#accessibilitySelection td label, #list-type-instructions {
+	font-size: 1.1em;
+}
+
+.accessibilitySelectionCell {
+	width: 30%;
 }
 
 .FloatBox a {

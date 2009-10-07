@@ -17,11 +17,16 @@
  */
 package se.vgregion.kivtools.hriv.presentation;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -160,6 +165,47 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
         updateCriteriasInAccesibilityObject(subObject, selectedDisabilities, attentive);
       }
     }
+  }
+
+  /**
+   * Gets the message bundle for the provided language.
+   * 
+   * @param languageId The id of the language to get a message bundle for.
+   * @return The message bundle for the provided language id.
+   */
+  public Properties getMessageBundle(int languageId) {
+    Properties properties = null;
+
+    switch (languageId) {
+      case 1:
+        // Fall through
+      case 5:
+        properties = loadProperties("tdb_messages.properties");
+        break;
+      default:
+        properties = loadProperties("tdb_messages_en.properties");
+    }
+
+    return properties;
+  }
+
+  /**
+   * Helper method for reading properties-files. Removes the need to catch IOException in calling code.
+   * 
+   * @param resource The name of the resource to read.
+   * @return A populated Properties object or null if the provided resource could not be read.
+   */
+  private Properties loadProperties(String resource) {
+    Properties properties = null;
+
+    try {
+      Resource res = new UrlResource(this.getClass().getResource(resource));
+      properties = PropertiesLoaderUtils.loadProperties(res);
+    } catch (IOException e) {
+      logger.debug("Unable to read properties file for resource '" + resource + "'");
+    }
+
+    return properties;
   }
 
   /**
