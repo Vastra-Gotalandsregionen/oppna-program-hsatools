@@ -17,6 +17,7 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Hours;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.AddressType.GeoCoordinates;
+import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
 import se.vgregion.kivtools.util.StringUtil;
 
 /**
@@ -29,7 +30,7 @@ public class EniroUnitMapper implements ContextMapper {
 
   /**
    * 
-   * @param businessClassificationCodes for non care center.
+   * @param businessClassificationCodes for select non care centers.
    */
   public EniroUnitMapper(List<String> businessClassificationCodes) {
     this.nonCareCenter = businessClassificationCodes;
@@ -89,7 +90,16 @@ public class EniroUnitMapper implements ContextMapper {
     unit.setName(getUnitName(dirContextOperations));
     unit.getTextOrImageOrAddress().add(generateAddress(dirContextOperations));
     unit.getTextOrImageOrAddress().add(getPublicTelephoneType(dirContextOperations));
+    unit.getTextOrImageOrAddress().add(createBusinessClassification(dirContextOperations.getStringAttribute("hsaBusinessClassificationCode")));
     return unitComposition;
+  }
+
+  private BusinessClassification createBusinessClassification(String businesClassificationCode) {
+    BusinessClassification businesClassification = new BusinessClassification();
+    businesClassification.setBCCode(businesClassificationCode);
+    //TODO: implement functionality for getting bsName
+    businesClassification.setBCName("");
+    return businesClassification;
   }
 
   private String getUnitName(DirContextOperations dirContextOperations) {
@@ -168,7 +178,7 @@ public class EniroUnitMapper implements ContextMapper {
     unitComposition.setDn(dirContextOperations.getDn().toString());
     String bsCode = dirContextOperations.getStringAttribute("hsaBusinessClassificationCode");
     if (nonCareCenter.contains(bsCode)) {
-      unitComposition.setCareType(se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition.UnitType.OTHER_CARE);
+      unitComposition.setCareType(UnitType.OTHER_CARE);
     } else {
       unitComposition.setCareType(UnitType.CARE_CENTER);
     }
@@ -207,7 +217,7 @@ public class EniroUnitMapper implements ContextMapper {
 
       address.getPostCode().add(addressFields[4]);
       address.setCity(addressFields[5]);
-    } 
+    }
     return address;
   }
 }

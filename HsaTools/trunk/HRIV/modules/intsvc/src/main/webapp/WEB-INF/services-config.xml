@@ -12,9 +12,6 @@
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 	</bean>
 
-
-
-
 	<bean id="unitDetailsEndpoint"
 		class="se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska.UnitDetailsEndpoint">
 		<constructor-arg ref="jaxbMarshaller" />
@@ -59,25 +56,26 @@
 	<bean id="Commons_FtpClient" class="org.apache.commons.net.ftp.FTPClient" />
 	<bean id="jsch" class="com.jcraft.jsch.JSch" />
 
-	<bean id="Transfer_ftp"
-		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.SftpClientImpl">
-		<property name="jsch" ref="jsch" />
-		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
-		<property name="hostname" value="hostname" />
-		<property name="username" value="username" />
-		<property name="password" value="password" />
-		<property name="port" value="22" />
-	</bean>
+<!--	<bean id="Transfer_ftp"-->
+<!--		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.SftpClientImpl">-->
+<!--		<property name="jsch" ref="jsch" />-->
+<!--		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />-->
+<!--		<property name="hostname" value="hostname" />-->
+<!--		<property name="username" value="username" />-->
+<!--		<property name="password" value="password" />-->
+<!--		<property name="port" value="22" />-->
+<!--	</bean>-->
 
-	<!--
-		<bean id="Transfer_ftp"
-		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClientImpl">
-		<property name="ftpclient" ref="Commons_FtpClient" /> <property
-		name="ftpDestinationFileName" value="vgrUnitsTest.xml" /> <property
-		name="hostname" value="hostname" /> <property name="username"
-		value="username" /> <property name="password" value="password" />
-		<property name="port" value="21" /> </bean>
-	-->
+
+	<bean id="Transfer_ftp" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClientImpl">
+		<property name="ftpclient" ref="Commons_FtpClient" />
+		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
+		<property name="hostname" value="leverans.prod.eniro.net" />
+		<property name="username" value="ftp_vgrtest" />
+		<property name="password" value="Vgt3p4sw" />
+		<property name="port" value="21" />
+	</bean>
+	
 
 	<bean id="fileUtil" class="se.vgregion.kivtools.util.file.FileUtilImpl" />
 
