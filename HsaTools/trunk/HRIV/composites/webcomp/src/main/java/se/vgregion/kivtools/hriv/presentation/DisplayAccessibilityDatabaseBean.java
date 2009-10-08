@@ -182,6 +182,9 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
       case 5:
         properties = loadProperties("tdb_messages.properties");
         break;
+      case 4:
+        properties = loadProperties("tdb_messages_de.properties");
+        break;
       default:
         properties = loadProperties("tdb_messages_en.properties");
     }
