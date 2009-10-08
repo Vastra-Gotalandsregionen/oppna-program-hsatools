@@ -10,5 +10,10 @@
 		<objectName>objectName</objectName>
 	</block>
 	<block>
+		<package>
+			<criteria status="15"></criteria>
+		</package>
+		<package>
+		</package>
 	</block>
 </doc>

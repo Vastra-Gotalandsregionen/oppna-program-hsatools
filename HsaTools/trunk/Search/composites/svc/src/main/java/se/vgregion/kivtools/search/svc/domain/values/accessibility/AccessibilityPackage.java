@@ -116,4 +116,19 @@ public final class AccessibilityPackage implements Serializable {
   public List<ImageInfo> getImages() {
     return Collections.unmodifiableList(images);
   }
+
+  /**
+   * Checks if this AccessibilityPackage has at least one visible criteria.
+   * 
+   * @return True if any of the criterias in this AccessibilityPackage is visible, otherwise false.
+   */
+  public boolean hasVisibleCriterias() {
+    boolean visibleCriterias = false;
+
+    for (Criteria criteria : this.criterias) {
+      visibleCriterias |= criteria.getShow();
+    }
+
+    return visibleCriterias;
+  }
 }
