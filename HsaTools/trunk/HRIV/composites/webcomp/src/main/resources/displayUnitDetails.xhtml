@@ -268,7 +268,7 @@
                                     <tr>
                                         <td colspan="2">
                                             <h:outputText rendered="${unit.labeledURIIsValid}">
-                                                <a href="${unit.labeledURI}" class="url">${msg.websiteOfTheUnit}</a>
+                                                <p><a href="${unit.labeledURI}" class="url">${msg.websiteOfTheUnit}</a></p>
                                             </h:outputText>
                                             <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.labeledURIIsValid}">
                                                 <span class="warning">labeledURI ${msg.missing} ${msg.orIncorrectProtocol}</span>

@@ -347,6 +347,7 @@ h3.person {
 	float: right;
 	width: 42%;
 	font-size: 1.1em;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 .tel-containter,.adr-container {
