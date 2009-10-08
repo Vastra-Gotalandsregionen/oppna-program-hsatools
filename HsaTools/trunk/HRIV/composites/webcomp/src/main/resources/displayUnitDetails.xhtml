@@ -150,20 +150,24 @@
                                 </tr>
                                 <h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true}">
                                     <tr>
-                                        <th class="leftcol" id="tempInfoHeaderCell">
+                                        <th colspan="4" id="tempInfoHeaderCell">
                                             <span class="grey-header">${msg.temporary} ${msg.information}</span>
                                         </th>
-                                        <td headers="tempInfoHeaderCell" colspan="3" class="paragraph">
+                                    </tr>
+                                    <tr>
+                                        <td headers="tempInfoHeaderCell" colspan="4" class="paragraph">
                                             <h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.vgrTempInfoBody)}" />
                                         </td>
                                     </tr>
                                 </h:outputText>
                                 <h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true and unit.vgrRefInfo != ''}">
                                     <tr>
-                                        <th class="leftcol" id="refInfoHeaderCell">
+                                        <th colspan="4" id="refInfoHeaderCell">
                                             <span class="grey-header">${msg.referral}</span>
                                         </th>
-                                        <td class="paragraph">
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="paragraph">
                                             <h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.vgrRefInfo)}" />
                                         </td>
                                     </tr>
