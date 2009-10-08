@@ -1067,3 +1067,7 @@ div.autocomplete {
 .FloatBox a {
 	font-size: 1.1em;
 }
+
+#contactTable {
+	float: none;
+}
