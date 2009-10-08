@@ -15,4 +15,9 @@
 		</images>
 		<criteria status="16"></criteria>
 	</package>
+	<package>
+		<name>name</name>
+		<criteria status="15"></criteria>
+		<criteria status="15"></criteria>
+	</package>
 </doc>

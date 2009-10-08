@@ -42,4 +42,15 @@ public class BlockTest {
     assertNotNull(block.getName());
     assertEquals("objectName", block.getName());
   }
+
+  @Test
+  public void testHasVisiblePackages() {
+    Node node = nodeList.item(3);
+    block = Block.createBlockFromNode(node);
+    assertEquals(2, block.getPackages().size());
+    assertFalse(block.hasVisiblePackages());
+
+    block.getPackages().get(0).getCriterias().get(0).setShow(true);
+    assertTrue(block.hasVisiblePackages());
+  }
 }

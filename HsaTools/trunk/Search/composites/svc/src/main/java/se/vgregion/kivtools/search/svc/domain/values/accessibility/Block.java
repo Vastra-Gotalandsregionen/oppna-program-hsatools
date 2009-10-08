@@ -102,4 +102,19 @@ public final class Block implements Serializable {
   public String getName() {
     return name;
   }
+
+  /**
+   * Checks if this Block has at least one visible accessibility package.
+   * 
+   * @return True if any of the accessibility packages in this Block is visible, otherwise false.
+   */
+  public boolean hasVisiblePackages() {
+    boolean visiblePackages = false;
+
+    for (AccessibilityPackage accessibilityPackage : this.packages) {
+      visiblePackages |= accessibilityPackage.hasVisibleCriterias();
+    }
+
+    return visiblePackages;
+  }
 }

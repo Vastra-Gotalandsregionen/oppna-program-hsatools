@@ -99,68 +99,82 @@
 				<div id="accessibilityInfo">
 					<div jsfc="ui:repeat" value="${unit.accessibilityInformation.businessObject}"
 						var="businessObject" class="accessibilityInfoItem"><b>${businessObject.name}</b> [${businessObject.updateStamp}]<br/>
-						<ul jsfc="ui:repeat" value="${businessObject.blocks}"
-							var="block" class="accessibilityInfoItem">
-							<script type="text/javascript" charset="utf-8">
-								// <![CDATA[]
-									writeImage('${block.id}', '${block.name}');
-								// ]]>
-							</script>
-							<div class="accessibilityItemShowable" id="${block.id}">
-								<ul jsfc="ui:repeat" value="${block.packages}"
-								var="package" class="accessibilityBlockItem"><li>${package.name}<br/>
-									&nbsp;<ui:repeat value="${package.images}" var="image">
-										<h:outputText rendered="${image.urlLarge != null}">
-											<img src="${image.urlLarge}" alt="${image.shortDescription}" /><br/>
-											${image.longDescription}<br/><br/>
-										</h:outputText>
-									</ui:repeat> </li>
-									<ul jsfc="ui:repeat" value="${package.criterias}"
-									var="criteria" class="accessibilityCriteriaItem">
-										<h:outputText rendered="${criteria.show==true}">
-											<li>${criteria.description}</li>
-											<ul jsfc="ui:repeat" value="${criteria.additionalCriterias}" var="additionalCriteria">
-												<li>${additionalCriteria}</li>
-											</ul>
-										</h:outputText>
-									</ul>
+						<ui:repeat value="${businessObject.blocks}" var="block">
+							<h:outputText rendered="${block.hasVisiblePackages() == 'true'}">
+								<ul class="accessibilityInfoItem">
+									<script type="text/javascript" charset="utf-8">
+										// <![CDATA[]
+											writeImage('${block.id}', '${block.name}');
+										// ]]>
+									</script>
+									<div class="accessibilityItemShowable" id="${block.id}">
+										<ui:repeat value="${block.packages}" var="package">
+											<h:outputText rendered="${package.hasVisibleCriterias() == 'true'}">
+												<ul class="accessibilityBlockItem">
+													<li>${package.name}<br/>
+													&nbsp;<ui:repeat value="${package.images}" var="image">
+														<h:outputText rendered="${image.urlLarge != null}">
+															<img src="${image.urlLarge}" alt="${image.shortDescription}" /><br/>
+															${image.longDescription}<br/><br/>
+														</h:outputText>
+													</ui:repeat> </li>
+													<ul jsfc="ui:repeat" value="${package.criterias}"
+													var="criteria" class="accessibilityCriteriaItem">
+														<h:outputText rendered="${criteria.show==true}">
+															<li>${criteria.description}</li>
+															<ul jsfc="ui:repeat" value="${criteria.additionalCriterias}" var="additionalCriteria">
+																<li>${additionalCriteria}</li>
+															</ul>
+														</h:outputText>
+													</ul>
+												</ul>
+											</h:outputText>
+										</ui:repeat>
+									</div>
 								</ul>
-							</div>
-						</ul>
+							</h:outputText>
+						</ui:repeat>
 					</div>
 					
 					<br/>
 	
 					<div jsfc="ui:repeat" value="${unit.accessibilityInformation.subObjects}"
 						var="subObject" class="accessibilityInfoItem"><b>${subObject.name}</b><br/>
-						<ul jsfc="ui:repeat" value="${subObject.blocks}"
-							var="block" class="accessibilityInfoItem">
-							<script type="text/javascript" charset="utf-8">
-								// <![CDATA[]
-									writeImage('${block.id}', '${block.name}');
-								// ]]>
-							</script>
-							<div class="accessibilityItemShowable" id="${block.id}">
-								<ul jsfc="ui:repeat" value="${block.packages}"
-								var="package" class="accessibilityBlockItem"><li>${package.name}<br/>
-									&nbsp;<ui:repeat value="${package.images}" var="image">
-										<h:outputText rendered="${image.urlLarge != null}">
-											<img src="${image.urlLarge}" alt="${image.shortDescription}" /><br/>
-											${image.longDescription}<br/><br/>
-										</h:outputText>
-									</ui:repeat> </li>
-									<ul jsfc="ui:repeat" value="${package.criterias}"
-									var="criteria" class="accessibilityCriteriaItem">
-										<h:outputText rendered="${criteria.show==true}">
-											<li>${criteria.description}</li>
-											<ul jsfc="ui:repeat" value="${criteria.additionalCriterias}" var="additionalCriteria">
-												<li>${additionalCriteria}</li>
-											</ul>
-										</h:outputText>
-									</ul>
+						<ui:repeat value="${subObject.blocks}" var="block">
+							<h:outputText rendered="${block.hasVisiblePackages() == 'true'}">
+								<ul class="accessibilityInfoItem">
+									<script type="text/javascript" charset="utf-8">
+										// <![CDATA[]
+											writeImage('${block.id}', '${block.name}');
+										// ]]>
+									</script>
+									<div class="accessibilityItemShowable" id="${block.id}">
+										<ui:repeat value="${block.packages}" var="package">
+											<h:outputText rendered="${package.hasVisibleCriterias() == 'true'}">
+												<ul class="accessibilityBlockItem">
+													<li>${package.name}<br/>
+													&nbsp;<ui:repeat value="${package.images}" var="image">
+														<h:outputText rendered="${image.urlLarge != null}">
+															<img src="${image.urlLarge}" alt="${image.shortDescription}" /><br/>
+															${image.longDescription}<br/><br/>
+														</h:outputText>
+													</ui:repeat> </li>
+													<ul jsfc="ui:repeat" value="${package.criterias}"
+													var="criteria" class="accessibilityCriteriaItem">
+														<h:outputText rendered="${criteria.show==true}">
+															<li>${criteria.description}</li>
+															<ul jsfc="ui:repeat" value="${criteria.additionalCriterias}" var="additionalCriteria">
+																<li>${additionalCriteria}</li>
+															</ul>
+														</h:outputText>
+													</ul>
+												</ul>
+											</h:outputText>
+										</ui:repeat>
+									</div>
 								</ul>
-							</div>
-						</ul>
+							</h:outputText>
+						</ui:repeat>
 						<br/>
 					</div>
 					

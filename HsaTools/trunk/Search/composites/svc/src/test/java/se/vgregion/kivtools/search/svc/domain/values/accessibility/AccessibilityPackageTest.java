@@ -45,4 +45,15 @@ public class AccessibilityPackageTest {
     assertEquals(1, accessibilityPackage.getImages().size());
     assertEquals(0, accessibilityPackage.getCriterias().size());
   }
+
+  @Test
+  public void testHasVisibleCriterias() {
+    Node node = nodeList.item(3);
+    accessibilityPackage = AccessibilityPackage.createAccessibilityPackageFromNode(node);
+    assertEquals(2, accessibilityPackage.getCriterias().size());
+    assertFalse(accessibilityPackage.hasVisibleCriterias());
+
+    accessibilityPackage.getCriterias().get(0).setShow(true);
+    assertTrue(accessibilityPackage.hasVisibleCriterias());
+  }
 }
