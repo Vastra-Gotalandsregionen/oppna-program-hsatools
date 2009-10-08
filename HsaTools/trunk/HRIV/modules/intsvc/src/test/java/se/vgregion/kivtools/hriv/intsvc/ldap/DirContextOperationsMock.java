@@ -1,4 +1,4 @@
-package se.vgregion.kivtools.hriv.intsvc.ldap.eniro;
+package se.vgregion.kivtools.hriv.intsvc.ldap;
 
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -20,7 +20,7 @@ import javax.naming.directory.SearchResult;
 
 import org.springframework.ldap.core.DirContextOperations;
 
-class DirContextOperationsMock implements DirContextOperations {
+public class DirContextOperationsMock implements DirContextOperations {
 
   Map<String, Object> attributes = new HashMap<String, Object>();
   private Name dn;

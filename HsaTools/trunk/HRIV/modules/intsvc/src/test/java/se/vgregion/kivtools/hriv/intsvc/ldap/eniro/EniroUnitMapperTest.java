@@ -8,6 +8,7 @@ import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.hriv.intsvc.ldap.DirContextOperationsMock;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
 
