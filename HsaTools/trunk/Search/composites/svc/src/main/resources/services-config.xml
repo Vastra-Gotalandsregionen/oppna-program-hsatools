@@ -30,6 +30,8 @@
  	<bean id="Search_SearchService" class="se.vgregion.kivtools.search.svc.impl.mock.SearchServiceMockImpl" />
 -->  	
 
+	<bean id="fileUtil" class="se.vgregion.kivtools.util.file.FileUtilImpl" />
+	
 	<bean name="KivTools_CreateLinkLists" class="org.springframework.scheduling.quartz.JobDetailBean">
 	  <property name="jobClass" value="se.vgregion.kivtools.search.scheduler.LinkListGenerator" />
 	  <property name="jobDataAsMap">
