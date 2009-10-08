@@ -1,0 +1,75 @@
+/**
+ * Copyright 2009 Västra Götalandsregionen
+ *
+ *   This library is free software; you can redistribute it and/or modify
+ *   it under the terms of version 2.1 of the GNU Lesser General Public
+ *   License as published by the Free Software Foundation.
+ *
+ *   This library is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public
+ *   License along with this library; if not, write to the
+ *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ *   Boston, MA 02111-1307  USA
+ */
+.yui-skin-sam .yui-ac {
+	position: relative;
+	font-family: arial;
+	font-size: 110%;
+}
+
+.yui-skin-sam .yui-ac-input {
+	position:static !important;
+	width: 100%;
+}
+
+.yui-skin-sam .yui-ac-container {
+	position: absolute;
+	width: 100%;
+	left:0;
+}
+
+.yui-skin-sam .yui-ac-content {
+	position: absolute;
+	width: 100%;
+	border: 1px solid #808080;
+	background: #fff;
+	overflow: hidden;
+	z-index: 9050;
+}
+
+.yui-skin-sam .yui-ac-shadow {
+	position: absolute;
+	margin: .3em;
+	width: 100%;
+	background: #000;
+	-moz-opacity: 0.10;
+	opacity: .10;
+	filter: alpha(opacity = 10);
+	z-index: 9049;
+}
+
+.yui-skin-sam .yui-ac-content ul {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.yui-skin-sam .yui-ac-content li {
+	margin: 0;
+	padding: 2px 5px;
+	cursor: default;
+	white-space: nowrap;
+}
+
+.yui-skin-sam .yui-ac-content li.yui-ac-prehighlight {
+	background: #B3D4FF;
+}
+
+.yui-skin-sam .yui-ac-content li.yui-ac-highlight {
+	background: #426FD9;
+	color: #FFF;
+}

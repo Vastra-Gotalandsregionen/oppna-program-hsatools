@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://lina.lthalland.se/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://lina.lthalland.se/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://lina.lthalland.se/">
+      <s:element name="GetNRecNoFromPersonInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="telno" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cordless" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="firstName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lastName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNRecNoFromPersonInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetNRecNoFromPersonInfoResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNRecNoFromTelNo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="telno" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNRecNoFromTelNoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetNRecNoFromTelNoResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNRecNoFromCordLess">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cordless" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNRecNoFromCordLessResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetNRecNoFromCordLessResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNRecNoFromName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="firstName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lastName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNRecNoFromNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetNRecNoFromNameResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEventListFromNRecNo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="nRecno" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEventListFromNRecNoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetEventListFromNRecNoResult" type="tns:ArrayOfEvent" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfEvent">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Event" nillable="true" type="tns:Event" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Event">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="from" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="to" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="information" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="signature" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetEventListFromPersonInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="telno" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cordless" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="firstName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lastName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEventListFromPersonInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetEventListFromPersonInfoResult" type="tns:ArrayOfEvent" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetResultsetFromPersonInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="telno" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cordless" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="firstName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lastName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetResultsetFromPersonInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetResultsetFromPersonInfoResult" type="tns:Resultset" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Resultset">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="errorCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="eventList" type="tns:ArrayOfEvent" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetNRecNoFromPersonInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNRecNoFromPersonInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetNRecNoFromPersonInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNRecNoFromPersonInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNRecNoFromTelNoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNRecNoFromTelNo" />
+  </wsdl:message>
+  <wsdl:message name="GetNRecNoFromTelNoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNRecNoFromTelNoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNRecNoFromCordLessSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNRecNoFromCordLess" />
+  </wsdl:message>
+  <wsdl:message name="GetNRecNoFromCordLessSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNRecNoFromCordLessResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNRecNoFromNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNRecNoFromName" />
+  </wsdl:message>
+  <wsdl:message name="GetNRecNoFromNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNRecNoFromNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetEventListFromNRecNoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetEventListFromNRecNo" />
+  </wsdl:message>
+  <wsdl:message name="GetEventListFromNRecNoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetEventListFromNRecNoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetEventListFromPersonInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetEventListFromPersonInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetEventListFromPersonInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetEventListFromPersonInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetResultsetFromPersonInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetResultsetFromPersonInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetResultsetFromPersonInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetResultsetFromPersonInfoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="UserEventSoap">
+    <wsdl:operation name="GetNRecNoFromPersonInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Finds a single nRecno that matches given personal information</wsdl:documentation>
+      <wsdl:input message="tns:GetNRecNoFromPersonInfoSoapIn" />
+      <wsdl:output message="tns:GetNRecNoFromPersonInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNRecNoFromTelNo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Finds a single nRecno that matches a given telno</wsdl:documentation>
+      <wsdl:input message="tns:GetNRecNoFromTelNoSoapIn" />
+      <wsdl:output message="tns:GetNRecNoFromTelNoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNRecNoFromCordLess">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Finds a single nRecno that matches a given cordless</wsdl:documentation>
+      <wsdl:input message="tns:GetNRecNoFromCordLessSoapIn" />
+      <wsdl:output message="tns:GetNRecNoFromCordLessSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNRecNoFromName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Finds a single nRecno that matches a given name</wsdl:documentation>
+      <wsdl:input message="tns:GetNRecNoFromNameSoapIn" />
+      <wsdl:output message="tns:GetNRecNoFromNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEventListFromNRecNo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return</wsdl:documentation>
+      <wsdl:input message="tns:GetEventListFromNRecNoSoapIn" />
+      <wsdl:output message="tns:GetEventListFromNRecNoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEventListFromPersonInfo">
+      <wsdl:input message="tns:GetEventListFromPersonInfoSoapIn" />
+      <wsdl:output message="tns:GetEventListFromPersonInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetResultsetFromPersonInfo">
+      <wsdl:input message="tns:GetResultsetFromPersonInfoSoapIn" />
+      <wsdl:output message="tns:GetResultsetFromPersonInfoSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UserEventSoap" type="tns:UserEventSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetNRecNoFromPersonInfo">
+      <soap:operation soapAction="http://lina.lthalland.se/GetNRecNoFromPersonInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNRecNoFromTelNo">
+      <soap:operation soapAction="http://lina.lthalland.se/GetNRecNoFromTelNo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNRecNoFromCordLess">
+      <soap:operation soapAction="http://lina.lthalland.se/GetNRecNoFromCordLess" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNRecNoFromName">
+      <soap:operation soapAction="http://lina.lthalland.se/GetNRecNoFromName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEventListFromNRecNo">
+      <soap:operation soapAction="http://lina.lthalland.se/GetEventListFromNRecNo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEventListFromPersonInfo">
+      <soap:operation soapAction="http://lina.lthalland.se/GetEventListFromPersonInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetResultsetFromPersonInfo">
+      <soap:operation soapAction="http://lina.lthalland.se/GetResultsetFromPersonInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="UserEventSoap12" type="tns:UserEventSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetNRecNoFromPersonInfo">
+      <soap12:operation soapAction="http://lina.lthalland.se/GetNRecNoFromPersonInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNRecNoFromTelNo">
+      <soap12:operation soapAction="http://lina.lthalland.se/GetNRecNoFromTelNo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNRecNoFromCordLess">
+      <soap12:operation soapAction="http://lina.lthalland.se/GetNRecNoFromCordLess" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNRecNoFromName">
+      <soap12:operation soapAction="http://lina.lthalland.se/GetNRecNoFromName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEventListFromNRecNo">
+      <soap12:operation soapAction="http://lina.lthalland.se/GetEventListFromNRecNo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEventListFromPersonInfo">
+      <soap12:operation soapAction="http://lina.lthalland.se/GetEventListFromPersonInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetResultsetFromPersonInfo">
+      <soap12:operation soapAction="http://lina.lthalland.se/GetResultsetFromPersonInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UserEvent">
+    <wsdl:port name="UserEventSoap" binding="tns:UserEventSoap">
+      <soap:address location="http://wslina.lthalland.se/UserEvent.asmx" />
+    </wsdl:port>
+    <wsdl:port name="UserEventSoap12" binding="tns:UserEventSoap12">
+      <soap12:address location="http://wslina.lthalland.se/UserEvent.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

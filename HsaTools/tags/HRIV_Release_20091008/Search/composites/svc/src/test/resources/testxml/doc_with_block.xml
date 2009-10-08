@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+	<block id="testid">
+		<package></package>
+	</block>
+	<block fkSystemObjectId="fkSysObjId">
+		<name>name</name>
+	</block>
+	<block>
+		<objectName>objectName</objectName>
+	</block>
+	<block>
+		<package>
+			<criteria status="15"></criteria>
+		</package>
+		<package>
+		</package>
+	</block>
+</doc>

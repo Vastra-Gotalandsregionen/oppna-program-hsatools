@@ -1,0 +1,481 @@
+/**
+ * Copyright 2009 Västa Götalandsregionen
+ *
+ *   This library is free software; you can redistribute it and/or modify
+ *   it under the terms of version 2.1 of the GNU Lesser General Public
+ *   License as published by the Free Software Foundation.
+ *
+ *   This library is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public
+ *   License along with this library; if not, write to the
+ *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ *   Boston, MA 02111-1307  USA
+ */
+/* Easy clearing of floats (see http://positioniseverything.net/easyclearing.html) */
+.cf:after {display:block;clear:both;height:0;visibility:hidden;content:".";}
+.cf {display:inline-block;}
+* html .cf {height:1px;}
+.cf {display:block;}
+
+/* Structural elements, not visible when CSS is enabled */
+.structural {
+	position:absolute;
+	left:-9999px;
+}
+
+/* Start pages */
+
+#Wrapper {
+	background:#fff url(http://www.lthalland.se/lth_images/i/bg-leftshade.gif) repeat-y;
+	padding-left:11px;
+	width: 64em;
+}
+#Main {
+	background:#fff url(http://www.lthalland.se/lth_images/i/bg-rightshade.gif) 100% 0 repeat-y;
+	padding-right:11px;
+	width: 64em;
+}
+.startfw #Main {width:94.2em;}
+
+.startfw,
+.startfw #Main #PageFooter,
+.startfw #Main #MainContent,
+.startfw #Main #TopHolder {width:94.2em !important;}
+#SearchHolder,
+.startfw #SearchHolder {
+	float:right;
+	width:40%;
+	margin:0;
+	padding:0 0 0.8em;
+}
+#MainContent {background:#fff;}
+.startfw #MainContent {
+	margin:0;
+	padding:0;
+}
+
+a:link,
+a:visited {
+	color:#000;
+	text-decoration:underline;
+}
+.startfw a:hover,
+.startfw a:focus,
+.startfw a:active {background:#d0e8f8;}
+
+#content-primary {
+	float:left;
+	width:60.5em;
+	margin:0;
+}
+#content-secondary {
+	float:right;
+	width:18.4em;
+	margin-right:1.6em;
+	padding-top:1.7em;
+}
+
+/* Header */
+
+#TopHolder {background:#fff;}
+#header-sub {
+	float:right;
+	width:42em;
+	margin-right:1.7em;
+	background:url(http://www.lthalland.se/lth_images/i/bg-headplate-right.png) 100% 100% no-repeat;
+	color:#004287;
+}
+.startfw #header-sub {width:60.2em;}
+#header-sub-inner {
+	position:relative;
+	margin-right:10px;
+	background:url(http://www.lthalland.se/lth_images/i/bg-headplate-left.png) 0 100% no-repeat;
+}
+#header-sub strong,
+#header-sub h1 {
+	display:block;
+	position:absolute;
+	bottom:10px;
+	left:10px;
+	margin:0;
+	width:50%;
+	font-size:1.2em;
+	text-align:left;
+}
+#header-sub a.back {
+	display:block;
+	float:right;
+	margin:35px 0 0;
+	padding:10px 5px 10px 24px;
+	background:url(http://www.lthalland.se/lth_images/i/icn-back-white.gif) 0 50% no-repeat;
+	color:#004287;
+	text-decoration:underline;
+}
+
+#LogoHolder {
+	padding:20px 20px 10px 1.7em;
+	background:#fff;
+}
+#LogoHolder a {display:block;}
+#LogoHolder a:hover,
+#LogoHolder a:focus,
+#LogoHolder a:active {background:none;}
+#LogoHolder a:focus,
+#LogoHolder a:active {outline:1px dotted #000;}
+#IconsHolder,
+#SearchHolder {
+	float:none;
+}
+#aspnetForm {margin:0;}
+
+/* Footer */
+
+#PageFooter {
+	clear:both;
+	float:none;
+	background:#fff url(http://www.lthalland.se/lth_images/i/foliage.gif) 0 100% repeat-x;
+}
+
+#nav-page {background:#0853bc url(http://www.lthalland.se/lth_images/i/bg-heading-grad.gif) repeat-x;}
+#nav-page ul {
+	margin:0;
+	padding:4px 1.7em;
+	list-style:none;
+}
+#nav-page li {
+	float:left;
+	margin-right:12px;
+	padding:4px 12px 4px 6px;
+}
+#nav-page .first {border-right:1px solid #6396d7;}
+#nav-page .last {
+	float:right;
+	margin:0;
+	padding-right:0;
+}
+#nav-page a:link,
+#nav-page a:visited {
+	color:#fff;
+	text-decoration:underline;
+	font-weight:bold;
+}
+#nav-page a:hover,
+#nav-page a:focus,
+#nav-page a:active {
+	background:#00328d;
+}
+#nav-page .top,
+#nav-page .back {
+	padding-left:24px;
+	background-position:0 50%;
+	background-repeat: no-repeat;
+}
+#nav-page .top {background-image:url(http://www.lthalland.se/lth_images/i/icn-up.gif);}
+#nav-page .back {background-image:url(http://www.lthalland.se/lth_images/i/icn-back.gif);}
+
+#PageFooter a {
+	color:#000;
+	text-decoration:underline;
+}
+
+/* Main navigation */
+
+#nav-main {
+	clear:both;
+	padding-top:0.85em;
+}
+#nav-main ul,
+#nav-sub ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+	font-weight:bold;
+}
+#nav-main ul {background:url(http://www.lthalland.se/lth_images/i/bg-navmain.gif) 0 100% repeat-x;}
+#nav-main li,
+#nav-sub li {
+	float:left;
+	margin:0 0 0 0.85em;
+}
+#nav-main li.sel {
+	background:#d0e8f8 url(http://www.lthalland.se/lth_images/i/bg-tab.gif) repeat-x;
+	border:1px solid #b9c8dc;
+	border-bottom:none;
+}
+#nav-main li a {
+	display:block;
+	float:left;
+	padding:0.5em 0.6em;
+	color:#444;
+	text-decoration:none;
+}
+#nav-main li.sel a {
+	padding:0.5em 0.85em;
+	color:#004287;
+}
+#nav-main li a:hover,
+#nav-main li a:focus,
+#nav-main li a:active {
+	color:#002;
+	background:none;
+	text-decoration:underline;
+}
+
+/* Sub navigation */
+
+#nav-sub {
+	margin:0 0 0.2em;
+	background:#d0e8f8 url(http://www.lthalland.se/lth_images/i/bg-navsub.gif) 0 100% repeat-x;
+	font-size:0.94em;
+	border-bottom:1px solid #80aace;
+}
+#nav-sub li.sel {
+	background:#0853bc url(http://www.lthalland.se/lth_images/i/bg-heading-grad.gif) repeat-x;
+}
+#nav-sub li a {
+	display:block;
+	float:left;
+	padding:0.5em 0.6em;
+	color:#004287;
+	text-decoration:none;
+}
+#nav-sub li.sel a,
+#nav-sub li.sel a:hover,
+#nav-sub li.sel a:focus,
+#nav-sub li.sel a:active {color:#fff;}
+#nav-sub li a:hover,
+#nav-sub li a:focus,
+#nav-sub li a:active {
+	color:#002;
+	background:none;
+	text-decoration:underline;
+}
+
+/* Address */
+#address {
+	float:left;
+	width:75%;
+	padding:1.7em 0;
+	font-style:normal;
+}
+#address .org {font-weight:bold;}
+#address .street-address {display:block;}
+#address .col {
+	float:left;
+	width:18.4em;
+	margin-left:1.7em;
+	border-right:1px solid #ddd;
+}
+
+/* Supplemental navigation */
+#nav-supp {
+	padding:1em 0;
+	text-align:right;
+}
+#nav-supp ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+#nav-supp li {
+	display:inline;
+	margin:0 0 0 1.1em;
+	font-size:0.94em;
+}
+#nav-supp a {
+	padding-left:14px;
+	color:#000;
+	background:url(http://www.lthalland.se/lth_images/i/icn-raquo.gif) 0 50% no-repeat;
+	text-decoration:underline;
+}
+
+#nav-supp-2 {
+	float:right;
+	margin-right:1.7em;
+	padding-top:1.7em;
+	text-align:right;
+}
+#nav-supp-2 a {display:block;}
+
+/* Modules */
+
+#content-primary .m {
+	float:left;
+	overflow:hidden;
+	margin:0 0 1.7em 1.7em;
+	padding-top:1.7em;
+	border-top:1px solid #e2e9f3;
+}
+#content-primary .m-holder-1 .m {
+	width:58.4em;
+	border:none;
+}
+#content-primary .m-holder-2 .m {width:28.4em;}
+#content-primary .m-holder-3 .m {width:18.4em;}
+
+#content-secondary .m {
+	width:100%;
+	overflow:hidden;
+	margin:0 0 1.7em;
+}
+
+.m h2 {
+	margin:0 0 0.8em;
+	color:#00628d;
+	font-size:1.5em;
+}
+.m h3 {
+	margin:0;
+	padding:0;
+	font-size:1.1em;
+}
+.m-editor a:focus img,
+.m-editor a:active img {outline:1px dotted #000;}
+.m-editor img {
+	display:block;
+	margin-bottom:0.7em;
+}
+
+/* RSS and news lists */
+
+.m-listnews ul,
+.m-listlinks ul {
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+.m-listnews li {
+	margin-bottom:0.8em;
+	padding-bottom:0.8em;
+	border-bottom:1px dotted #ddd;
+}
+.m-listnews p,
+.m-listlinks p {margin:0;}
+.m-listnews .date {
+	color:#777;
+	font-size:0.94em;
+}
+
+/* Link lists */
+
+.m-listlinks h2,
+.m-editor .m-h h2,
+.m-webbis h2 {
+	padding:0.5em 0.7em;
+	background:#d0e8f8;
+	border-top:1px solid #a3c2de;
+	font-size:1.1em;
+}
+.m-listlinks h2 {margin:0;}
+.m-listlinks li {
+	margin:0;
+	padding:0.7em 0.7em 0.7em 0;
+	border-bottom:1px solid #f6dec5;
+}
+.m-listlinks li.alt {
+	background-color:#fff2cf;
+}
+.m-listlinks li img {
+	float:left;
+	margin:0 0.7em 0 0;
+}
+.noimg ul li {
+	padding-left:28px;
+	background-image:url(http://www.lthalland.se/lth_images/i/icn-star.gif);
+	background-position:0.7em 0.8em;
+	background-repeat:no-repeat;
+}
+
+/* Find care */
+
+.m-findcare h2 {
+	margin:0;
+	padding:0.7em 0.7em 0.5em;
+	color:#fff;
+	background:#0853bc url(http://www.lthalland.se/lth_images/i/bg-heading-grad.gif) repeat-x;
+	border-bottom:1px solid #fff;
+	font-size:1.1em;
+}
+.m-findcare .m-c {
+	padding:1em;
+	background:#cae2f6;
+}
+.m-findcare select {width:98%;}
+.m-findcare label {display:block;}
+.m-findcare .select {margin-bottom:0.7em;}
+.m-findcare .submit-area {
+	padding-bottom:1em;
+	border-bottom:1px solid #a6c4dd;
+	text-align:right;
+}
+
+
+/* Map navigation */
+.m-findcare .map {
+	position:relative;
+	width:184px;
+	height:203px;
+	margin:12px auto 0;
+	background:url(/lth_images/map/halland.gif) no-repeat 0 0;
+}
+.m-findcare .map-overlay {
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:url(/lth_images/map/areas.gif) no-repeat 0 0;
+}
+
+/* Banners */
+
+#content-secondary .m-banners {margin-bottom:0.9em;}
+.m-banners a {
+	display:block;
+	margin-bottom:0.8em;
+}
+
+/* Link buttons */
+.m-webbis a.btn {
+	display:block;
+	float:left;
+	width:94px;
+	margin:0.8em 0 0 0.8em;
+	background:url(http://www.lthalland.se/lth_images/i/btn-top.gif) 0 0 no-repeat;
+	text-decoration:none;
+}
+.m-webbis a.btn span {
+	display:block;
+	padding:5px 0 7px;
+	background:url(http://www.lthalland.se/lth_images/i/btn-bottom.gif) 0 100% no-repeat;
+	text-align:center;
+}
+.m-webbis a.btn:hover {text-decoration:underline;background-color:transparent;}
+
+/* VCard for right column */
+
+#unit-contact h1 {margin:0 !important;}
+#unit-contact .vcard {
+	padding:0.7em;
+	background:#fff url(http://www.lthalland.se/lth_images/i/bg-vcard.gif) 100% 0 no-repeat;
+	font-size:0.94em;
+}
+#unit-contact .vcard div {margin-bottom:0.8em;}
+#unit-contact .vcard .org {
+	border-bottom:1px dotted #ddd;
+	font-size:1.1em;
+	font-weight:bold;
+}
+#unit-contact .adr strong {display:block;}
+#unit-contact .vcard a {
+	color:#000;
+	text-decoration:underline;
+}
+#unit-contact .vcard a.email {
+	background:url(http://www.lthalland.se/lth_images/i/icn-mail.gif) 0 50% no-repeat;
+	padding:0.2em 0 0.2em 22px;
+}

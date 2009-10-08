@@ -1,0 +1,163 @@
+<!--
+
+    Copyright 2009 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<ui:composition	template="/template.xhtml">
+
+	<ui:define name="HeadContainer">
+		<ui:include src="${Search_SettingsContainer.settings.generalHeadInclude}" />
+	</ui:define>
+	
+	<ui:define name="TabContainer">
+
+		<h1 class="structural">Sök Person</h1>
+		<ul class="tab-container clearfix">
+			<li><a href="#" class="active">Person</a></li>
+			<li>
+				<h:outputText>
+					<a href="Search.searchunit-flow.flow">Enhet</a>
+				</h:outputText>
+			</li>
+
+		</ul>
+		
+	</ui:define>
+
+
+	<ui:define name="HeaderInputFieldContainer">
+		<h:form id="searchPersonForm" class="search-form">
+			<div id="formContainer">
+				<div class="textname">
+					<h:outputLabel for="givenName">Förnamn</h:outputLabel>
+					<h:inputText id="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" />
+				</div>
+				<div class="textname">
+					<h:outputLabel for="sirName">Efternamn</h:outputLabel>
+					<h:inputText id="sirName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.sirName}" />
+				</div>
+				<div class="vgrIdText">
+					<h:outputLabel for="vgrId">${msg.userId}</h:outputLabel>
+					<h:inputText id="vgrId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.vgrId}" />
+				</div>
+				<div class="submit-area">
+					<h:commandButton type="submit" action="doSearch" id="submitButton" value="Sök" />
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="MainContainer">
+        <div class="clearfix">
+			<h:outputText rendered="${fn:trim(rootCauseException.message) != ''}">
+				<h2 id="error-reporting-container">
+					${rootCauseException.message}
+				</h2>
+			</h:outputText>
+			<h:outputText rendered="${fn:length(persons) gt 0}">
+				<h2 id="about-searchinformation-container">
+					<strong>${fn:length(persons)}</strong> träffar
+				</h2>
+			</h:outputText>
+			<h:outputText rendered="${fn:length(persons) >= Search_MaxSearchResult}">
+				<p id="search-warning-container">
+					Din sökning har genererat allt för många träffar. I resultatlistan nedan visas de ${Search_MaxSearchResult} första träffarna. Prova att skriva ett mer detaljerat sökord. Tips: Om du skriver tecknet " runt orden så blir det exakt sökning. (Exempel: "Andersson")
+				</p>
+			</h:outputText>
+		</div>
+		
+		<h:outputText rendered="${fn:length(persons) gt 0}">
+			<ul id="search-result-container">
+				<ui:repeat value="${persons}" var="aPerson">
+					<li>
+		                <div class="vcard clearfix" id="hcard-${aPerson.hsaIdentity}">
+	                        <div class="clearfix">
+								<div class="three-col">
+		                            	<h3 class="fn n person">
+			                            	<a href="visaperson?vgrid=${aPerson.vgrId}">
+			                                   <span class="additional-name">${aPerson.hsaMiddleName}</span>
+			                                   <span class="family-name">${aPerson.sn}</span>, 
+			                                   <span class="given-name">${aPerson.givenName}</span>
+									           <h:outputText rendered="${fn:trim(aPerson.hsaNickName) != ''}">
+										       	 "<span class="nick-name">${aPerson.hsaNickName}</span>"
+										       </h:outputText>		                                   
+			                                 </a>
+			                            </h3>
+	                           </div>
+	
+			                    <div class="three-col email-container">
+			                        <span class="description">E-post:</span>
+			                         <a href="mailto:${aPerson.mail}"><span class="email">${aPerson.mail}</span></a>
+			                    </div>
+			                    <div class="vgrId-container">
+									<span class="description">${msg.userId}:</span>
+									${aPerson.vgrId}
+			                    </div>
+	
+		                    </div>       
+	
+							<div class="single-row">
+							    <table class="Employment">
+							    	<caption class="structural">Anställningar</caption>
+							        <thead>
+								        <tr>
+								            <th scope="col">${msg.employmentTitle}</th>
+								            <th scope="col">Enhet</th>
+								            <th scope="col">Förvaltning</th>
+								            <th scope="col">Telefon</th>
+								        </tr>
+							        </thead>
+							        <tbody>
+									<ui:repeat value="${aPerson.employments}" var="employment">
+								        <tr>
+								            <td class="title">${employment.title}</td>
+								            <td class="org">
+		           								<a href="visaenhetdn?dn=${employment.vgrStrukturPerson.unit.urlEncoded}">
+		           									<span class="organization-unit">
+			           								${employment.vgrStrukturPerson.unitName}
+		           									</span>
+		           								</a>
+								            </td>
+											<ui:include src="${Search_SettingsContainer.settings.personDetailsAncestorListInclude}" />
+								            <h:outputText rendered="${fn:trim(employment.hsaTelephoneNumber) != ''}">
+									            <td class="tel"><span class="type">Work</span><span class="value">${employment.hsaTelephoneNumber.formattedPhoneNumber}</span></td>
+									        </h:outputText>
+								            <h:outputText rendered="${fn:trim(employment.hsaTelephoneNumber) == ''}">
+									            <h:outputText rendered="${fn:trim(employment.hsaSedfSwitchboardTelephoneNo) != ''}">
+										            <td class="tel"><span class="type">Work</span><span class="value">${employment.hsaSedfSwitchboardTelephoneNo.formattedPhoneNumber} (växel)</span></td>
+									            </h:outputText>
+								            </h:outputText>
+								        </tr>
+								    </ui:repeat>
+							        </tbody>
+							    </table>
+		                    </div>
+		            	</div>
+					</li>
+				</ui:repeat>
+			</ul>
+		</h:outputText>
+	</ui:define>
+</ui:composition>
+</div>

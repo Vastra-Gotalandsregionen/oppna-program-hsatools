@@ -1,0 +1,185 @@
+/**
+ * Copyright 2009 Västra Götalandsregionen
+ *
+ *   This library is free software; you can redistribute it and/or modify
+ *   it under the terms of version 2.1 of the GNU Lesser General Public
+ *   License as published by the Free Software Foundation.
+ *
+ *   This library is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public
+ *   License along with this library; if not, write to the
+ *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ *   Boston, MA 02111-1307  USA
+ */
+/*
+print.css: Used for printing
+*/
+
+/* Hide tabs */
+.tab-hd,
+.yui-nav {display:none;}
+/* Show the content of all tabs */
+.yui-navset .yui-content .tab-bd {
+	display:block !important;
+	margin:1em 0;
+}
+
+/*
+=Reset
+*/
+blockquote,body,caption,div,dl,dt,dd,form,fieldset,h1,h2,h3,h4,h5,h6,html,li,ul,ol,p,pre,textarea,table,td,th {
+	margin:0;
+	padding:0;
+	vertical-align: baseline;
+}
+address,dl,fieldset,p,pre,ul,ol,table {margin:0 0 1em;}
+ul,ol,dd {margin-left:40px;}
+td ul,td ol {margin-left:15px;}
+ol ul,ul ol,ul ul,ol ol,td ul,td ol {margin-bottom:0;}
+blockquote {
+	margin:1em 40px;
+	font-style:italic;
+}
+dt {font-weight:bold;}
+table {
+	width:100%;
+	border-collapse:collapse;
+	border-spacing:0;
+}
+table,th,td {border:1px solid #999;}
+th,td {padding:2px 3px;}
+caption,th {
+	font-weight:bold;
+	text-align:left;
+}
+img {border:none;}
+html,body {
+	color:#000;
+	background:#fff;
+}
+body {font:11pt/1.4 Helvetica,Arial,sans-serif;}
+code,
+kbd,
+pre {font-family:Monaco, Courier, "Courier New", Tahoma;}
+h1,h2,h3,h4,h5,h6 {
+	color:#000;
+	font:bold 1em/1.0 Arial, Helvetica, sans-serif;
+}
+h1 {
+	margin:0 0 0.6em;
+	font-size:1.8em;
+}
+h2 {
+	margin:0 0 0.5em;
+	font-size:1.5em;
+}
+h3 {
+	margin:0 0 0.5em;
+	font-size:1.1em;
+}
+h4 {
+	margin:0 0 0.5em;
+	text-transform:uppercase;
+}
+h5 {font-style:italic;}
+h6 {
+	font-weight:normal;
+	font-style:italic;
+}
+legend {color:#333;}
+a:link,
+a:visited,
+a:hover,
+a:focus,
+a:active {color:#000;}
+
+/* Easy clearing of floats (see http://positioniseverything.net/easyclearing.html) */
+.cf:after {display:block;clear:both;height:0;visibility:hidden;content:".";}
+.cf {display:inline-block;}
+* html .cf {height:1px;}
+.cf {display:block;}
+
+/* System messages */
+.error,
+.confirmation {
+	border:2px solid;
+	margin:.5em 0;
+}
+
+/* Structural elements, not visible when CSS is enabled */
+.structural {
+	position:absolute;
+	left:-9999px;
+}
+
+/*
+=Print style
+*/
+
+#LogoHolder {margin-bottom:2em;}
+#LogoHolder img {border:none;}
+#information-container {
+	color:#a00;
+	font-style:italic;
+}
+
+#header-sub,
+#nav-main,
+#nav-sub,
+#breadcrumb,
+#forms-container,
+#acc-services,
+#nav-supp-2,
+#nav-page,
+#search-result-caption-sort,
+.vcard span.type {display:none;}
+
+.vcard {margin-bottom:1em;
+}
+.tel-header,
+.adr-header {
+	margin-top:1em;
+	font-weight:bold;
+}
+
+#plan-trip-row1, #plan-trip-row2 {
+	display: none;
+}
+
+.adr {
+	display: none;	
+}
+
+#header-tab-container, #footer-container, #information-container, #print-element {
+	display: none;	
+}
+
+/*
+body {
+	visibility: hidden;
+} */
+
+#kundo_button_container {
+	display: none;	
+}
+
+#yui-main, #startpage-intro {
+	visibility: visible;
+}
+
+#unit-details-page-break {
+	page-break-before: always;	
+} 
+
+.directions-row {
+	display: none;	
+}
+
+#map-div {
+	width: 100%;
+	height: 100%;
+}
