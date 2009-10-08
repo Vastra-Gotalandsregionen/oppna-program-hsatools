@@ -202,7 +202,7 @@ public class DisplayAccessibilityDatabaseBeanTest {
     // Deutsch
     bundle = bean.getMessageBundle(4);
     assertNotNull(bundle);
-    assertEquals("Hearing impaired", bundle.getProperty("hearing"));
+    assertEquals("Schwerhörig", bundle.getProperty("hearing"));
 
     // Easily read swedish
     bundle = bean.getMessageBundle(5);
