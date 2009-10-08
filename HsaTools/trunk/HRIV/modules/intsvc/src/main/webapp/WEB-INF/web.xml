@@ -24,6 +24,21 @@
 	</listener>
 
 	<servlet>
+		<servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath*:/services-config.xml WEB-INF/services-config.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		<servlet-mapping>
+		<servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
 		<servlet-name>spring-ws</servlet-name>
 		<servlet-class>
 			org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>

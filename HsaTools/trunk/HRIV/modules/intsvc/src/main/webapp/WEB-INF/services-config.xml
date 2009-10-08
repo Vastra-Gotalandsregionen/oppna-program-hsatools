@@ -4,7 +4,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+	<context:component-scan base-package="se.vgregion.kivtools.hriv.intsvc.restServices" />
+
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 
 	<bean id="eniroPropertyPlaceholder"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -56,15 +64,19 @@
 	<bean id="Commons_FtpClient" class="org.apache.commons.net.ftp.FTPClient" />
 	<bean id="jsch" class="com.jcraft.jsch.JSch" />
 
-<!--	<bean id="Transfer_ftp"-->
-<!--		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.SftpClientImpl">-->
-<!--		<property name="jsch" ref="jsch" />-->
-<!--		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />-->
-<!--		<property name="hostname" value="hostname" />-->
-<!--		<property name="username" value="username" />-->
-<!--		<property name="password" value="password" />-->
-<!--		<property name="port" value="22" />-->
-<!--	</bean>-->
+	<!--	<bean id="Transfer_ftp"-->
+	<!--
+		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.SftpClientImpl">
+	-->
+	<!--		<property name="jsch" ref="jsch" />-->
+	<!--
+		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
+	-->
+	<!--		<property name="hostname" value="hostname" />-->
+	<!--		<property name="username" value="username" />-->
+	<!--		<property name="password" value="password" />-->
+	<!--		<property name="port" value="22" />-->
+	<!--	</bean>-->
 
 
 	<bean id="Transfer_ftp" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClientImpl">
@@ -75,7 +87,7 @@
 		<property name="password" value="Vgt3p4sw" />
 		<property name="port" value="21" />
 	</bean>
-	
+
 
 	<bean id="fileUtil" class="se.vgregion.kivtools.util.file.FileUtilImpl" />
 
@@ -89,7 +101,7 @@
 	<bean id="Push_Eniro"
 		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro">
 		<property name="ftpClient" ref="Transfer_ftp" />
-		<property name="ldapTemplate" ref="ldapTemplate2" />
+		<property name="ldapTemplate" ref="ldapTemplateOrganisation" />
 		<property name="allowedUnitBusinessClassificationCodes"
 			value="${allowedUnitBusinessClassificationCodes}" />
 		<property name="otherCareTypeBusinessCodes" value="${businessCodesForOtherCareTypes}" />
@@ -123,15 +135,32 @@
 		</property>
 	</bean>
 
+	<bean id="personalRecordService"
+		class="se.vgregion.kivtools.hriv.intsvc.restservices.personalrecordservice.PersonalRecordService">
+		<property name="ldapTemplate" ref="ldapTemplatePerson" />
+	</bean>
+
 	<!-- Spring ldap -->
-	<bean id="contextSource2" class="org.springframework.ldap.core.support.LdapContextSource">
+	<bean id="contextSourceOrganisation" class="org.springframework.ldap.core.support.LdapContextSource">
 		<property name="url" value="ldap://kivldap01.vgregion.se:389" />
 		<property name="base" value="ou=Org,o=vgr" />
 		<property name="userDn" value="cn=sokso1,ou=Resurs,o=VGR" />
 		<property name="password" value="6wuz8zab" />
 		<property name="pooled" value="true" />
 	</bean>
-	<bean id="ldapTemplate2" class="org.springframework.ldap.core.LdapTemplate">
-		<constructor-arg ref="contextSource2" />
+	<bean id="ldapTemplateOrganisation" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSourceOrganisation" />
+	</bean>
+	
+		<!-- Spring ldap -->
+	<bean id="contextSourcePerson" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://kivldap01.vgregion.se:389" />
+		<property name="base" value="ou=Personal,o=vgr" />
+		<property name="userDn" value="cn=sokso1,ou=Resurs,o=VGR" />
+		<property name="password" value="6wuz8zab" />
+		<property name="pooled" value="true" />
+	</bean>
+	<bean id="ldapTemplatePerson" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSourcePerson" />
 	</bean>
 </beans>

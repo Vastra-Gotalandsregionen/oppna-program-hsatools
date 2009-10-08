@@ -2,6 +2,9 @@ package se.vgregion.kivtools.hriv.intsvc.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
+import java.io.IOException;
 
 import org.junit.Test;
 import org.springframework.test.annotation.ExpectedException;
@@ -22,7 +25,7 @@ public class XmlMarshallerTest {
     assertEquals(EXPECTED_XML_RESULT, generateXmlContentOfObject);
   }
 
-  @ExpectedException(RuntimeException.class)
+  @Test(expected = RuntimeException.class)
   public void testExceptionHandling() {
     XmlMarshaller.generateXmlContentOfObject(new String());
   }
