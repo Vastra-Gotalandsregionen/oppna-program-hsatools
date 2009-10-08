@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://vgregion.se/hriv/schemas" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:hr="http://vgregion.se/hriv/schemas"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="UnitRequest">
+        <xs:complexType>
+		    <xs:sequence>
+		        <xs:element name="hsaIdentity" type="xs:string"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="UnitResponse">
+        <xs:complexType>
+		    <xs:sequence>
+		        <xs:element ref="hr:Organization"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+	<xs:element name="Organization">
+		<xs:annotation>
+			<xs:documentation>The organization is the top node
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Country">
+					<xs:annotation>
+						<xs:documentation>Defines the country for the organization
+							and it's parts using the two character notation defined by ISO
+							3166-1.</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="2" />
+							<xs:maxLength value="2" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element ref="hr:Id">
+					<xs:annotation>
+						<xs:documentation>An official identity of the organization
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="hr:Name">
+					<xs:annotation>
+						<xs:documentation>The name of the organization
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="hr:Unit" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Description">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Name" type="xs:string" nillable="false" />
+	<xs:element name="Label" type="xs:string" />
+	<xs:complexType name="AddressType">
+		<xs:sequence>
+			<xs:element name="isConcatenated" type="xs:boolean" />
+			<xs:element name="concatenatedAddress" type="xs:string" />
+			<xs:element name="Type">
+				<xs:annotation>
+					<xs:documentation>The type of address given the fixed options
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Visit" />
+						<xs:enumeration value="Goods" />
+						<xs:enumeration value="Delivery" />
+						<xs:enumeration value="Post" />
+						<xs:enumeration value="Billing" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="GeoCoordinates" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Geographical coordinates according to
+						the RT90 format</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Xpos" type="xs:NMTOKENS" />
+						<xs:element name="Ypos" type="xs:NMTOKENS" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element ref="hr:Label" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Can represent name, title, unitname or other
+						lables of the address</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name of the street or location
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetNumber" type="xs:string"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The number of the street or location. Can
+						contain any notation of the number such as intervals and letters.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Floor" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The floor number or name.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Box" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Post box number or name.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PostCode" type="xs:NMTOKENS" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Post/zip code as a number.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="City" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The city.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="E-alias" type="hr:E-aliasType" />
+	<xs:element name="Telephone" type="hr:TelephoneType" />
+	<xs:element name="Address">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="hr:AddressType" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Id" type="xs:string" />
+	<xs:complexType name="TelephoneType">
+		<xs:sequence>
+			<xs:element name="Type">
+				<xs:annotation>
+					<xs:documentation>The type of number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Mobile" />
+						<xs:enumeration value="Fixed" />
+						<xs:enumeration value="Fax" />
+						<xs:enumeration value="Switch" />
+						<xs:enumeration value="Other" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element ref="hr:Label" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A label shortly describing the number
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AreaCode" type="xs:NMTOKENS" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Area code if applicable</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TelephoneNumber" type="xs:NMTOKENS">
+				<xs:annotation>
+					<xs:documentation>The number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="E-aliasType">
+		<xs:sequence>
+			<xs:element name="Type">
+				<xs:annotation>
+					<xs:documentation>The type of alias.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="URL" />
+						<xs:enumeration value="E-mail" />
+						<xs:enumeration value="E-id" />
+						<xs:enumeration value="Other" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element ref="hr:Label" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A label shortly describing the alias.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Alias">
+				<xs:annotation>
+					<xs:documentation>The actual address or alias.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UnitType">
+		<xs:sequence>
+			<xs:element ref="hr:Id">
+				<xs:annotation>
+					<xs:documentation>An official identity of the unit
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="hr:Name">
+				<xs:annotation>
+					<xs:documentation>The name of the unit</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="hr:Description" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Free text description of the unit or
+						information related to the unit</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Image" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="hr:Label" />
+						<xs:element name="Filename" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element ref="hr:Address" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Represents an address
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="hr:Telephone" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Telephone contact information related to
+						the unit.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="hr:E-alias" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Contact information related to the unit
+						such as e-mail, web addresses etc.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VisitingConditions" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Details of visiting conditions.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:all>
+						<xs:element name="TelephoneHours" type="xs:string"
+							minOccurs="0" />
+						<xs:element name="VisitingHours" type="xs:string"
+							minOccurs="0" />
+						<xs:element name="DropInHours" type="xs:string"
+							minOccurs="0" />
+						<xs:element name="VisitingRules" type="xs:string"
+							minOccurs="0" />
+					</xs:all>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MvkEnable" type="xs:boolean" />
+			<xs:element name="Management" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of management form,
+						company type, ownership etc.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BusinessClassification" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Label of what the unit's business is about
+						such as "day care center", hospital etc.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Person" type="hr:PersonType" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Official person related to the unit.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Locality" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A locality for the unit such as city district, a
+						name or the area where it is located etc.  </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element ref="hr:Unit" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Unit">
+		<xs:annotation>
+			<xs:documentation>The unit can represent an organizational unit or
+				level or a logical unit as well as a placeholder in a logical
+				information hierarchy</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="hr:UnitType" />
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="PersonType">
+		<xs:sequence>
+			<xs:element ref="hr:Id">
+				<xs:annotation>
+					<xs:documentation>An official identity of the person.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="hr:Name">
+				<xs:annotation>
+					<xs:documentation>The person's name.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="hr:Label" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Short description, title etc. of the person
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="hr:Address" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The person's adderss if applicable.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="hr:Telephone" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The person's telephone contact information.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="hr:E-alias" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The person's e-mail, web address, skype
+						address or other alias.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

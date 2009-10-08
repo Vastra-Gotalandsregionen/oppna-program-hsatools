@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+	<imageinfo>
+	</imageinfo>
+	<imageinfo>
+		<URL>http://image.url.com</URL>
+		<ShortValue>shortDesc</ShortValue>
+		<LongValue>longDesc</LongValue>
+	</imageinfo>
+	<imageinfo>
+		<URL>http://small.image.url.com/small_image.png</URL>
+	</imageinfo>
+</doc>

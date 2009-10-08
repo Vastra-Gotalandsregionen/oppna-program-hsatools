@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+	<package>
+	</package>
+	<package id="testid">
+		<objectName>objectName</objectName>
+		<images>
+		</images>
+		<criteria></criteria>
+	</package>
+	<package>
+		<name>name</name>
+		<images>
+			<image></image>
+		</images>
+		<criteria status="16"></criteria>
+	</package>
+	<package>
+		<name>name</name>
+		<criteria status="15"></criteria>
+		<criteria status="15"></criteria>
+	</package>
+</doc>

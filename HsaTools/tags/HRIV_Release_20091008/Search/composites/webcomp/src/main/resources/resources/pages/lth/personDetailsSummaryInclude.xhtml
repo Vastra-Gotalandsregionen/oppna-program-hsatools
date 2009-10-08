@@ -1,0 +1,17 @@
+
+<div class="summary" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+					<h2>
+	                    <span class="given-name">${person.givenName}</span>
+			            <h:outputText rendered="${fn:trim(person.hsaNickName) != ''}">
+				        	"<span class="nick-name">${person.hsaNickName}</span>"
+				        </h:outputText>		                                   
+						<span class="additional-name">${person.hsaMiddleName}</span>
+	                    <span class="family-name">${person.sn}</span> 
+					</h2>
+					<ui:repeat value="${person.employments}" var="employment">
+						<div><h:outputText>${employment.title}</h:outputText><h:outputText render="${employment.vgrStrukturPerson.ancestors != null}">, ${employment.vgrStrukturPerson.ancestors[0].unitName}</h:outputText></div>	
+					</ui:repeat>
+					<h:outputText rendered="${not empty userEvents}">
+						<a href="#list-activities">Visa dagens aktiviteter</a>
+					</h:outputText>
+					</div>

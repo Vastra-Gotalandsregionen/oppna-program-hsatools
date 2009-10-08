@@ -1,0 +1,295 @@
+/* Header */
+#logo-container {
+	width:590px;
+	padding:10px 0;
+	margin:0 auto;
+}
+#logo-container ul {float:right;margin:0;list-style:none;}
+#logo {float:left;margin-right:30px;}
+#header {background:#f1f9ff url(../../images/lth/header.gif) 0 100% repeat-x;}
+#header-container {
+	width:850px;
+	margin:0 auto;
+}
+#header-tab-container {
+	text-align:left;
+	padding-top:10px;
+	float:left;
+}
+#header-info-container {
+	width:600px;
+	clear:both;
+	font-size:0.94em;
+	margin:0 auto;
+}
+#head-sub-region {
+	background-color:#eee;
+}
+#head-sub-region-info {
+	margin:0 auto;
+	padding:2px 0;
+	width:890px;
+	text-align:right;
+}
+#header-input-field-container {
+	clear:both;
+	padding:3px 6px;
+	height:52px;
+	background:#fff;
+	border-left:1px solid #dce2ea;
+	border-right:1px solid #dce2ea;
+}
+#header-input-field-container span {display:block;}
+#header-input-field-container div {text-align:left;}
+
+table {font-size:1em;}
+
+/*
+=Forms
+*/
+.search-form .text {
+	float:left;
+	width:240px;
+	margin-right:10px;
+}
+/* Fix margin for IE6 */
+* html .search-form .text {margin:0;}
+
+.search-form .textname {
+	float:left;
+	width:205px;
+	margin-right:10px;
+}
+
+.search-form .vgrIdText {
+	float:left;
+	width:60px;
+	margin-right:10px;
+}
+.search-form .submit-area {
+	float:left;
+	padding-top:1.45em;
+}
+.search-form label {
+	display:block;
+	font-weight:bold;
+}
+.search-form label.info {
+	color:#333;
+	font-weight:normal;
+}
+.text input {width:240px;}
+
+.textname .search-input-name-field {width:205px;}
+
+.search-input-vgr-field {
+	width:55px;
+}
+/* Tabs */
+.tab-container {
+	width:600px;
+	margin:0;
+	border-bottom:4px solid #1751a9;
+}
+.tab-container li {
+	list-style-type:none;
+	float:left;
+}
+.tab-container a:link,
+.tab-container a:visited {
+	float:left;
+	text-decoration:none;
+	padding:0.4em 1em 0.4em;
+	margin:0 4px;
+	color:#000;
+	background-color:#fff;
+	border:1px solid #1751a9;
+	border-bottom:none;
+}
+.tab-container a:hover,
+.tab-container a:focus,
+.tab-container a:active {text-decoration:underline;}
+.tab-container .active:link,
+.tab-container .active:visited {
+	background:#1751a9 url(../../images/lth/tab.gif) repeat-x;
+	color:#fff;
+	font-weight:bold;
+	border:1px solid #1751a9;
+	border-bottom:none;
+}
+.tab-container .main-last-item:link,
+.tab-container .main-last-item:visited {border:none;}
+.tab-container input.btn {
+	background-color:#E6E6E6;
+	font-size:1em;
+	border:0px solid;
+	padding-top:0.4em;
+	padding-bottom:0.45em;
+	margin:0;
+}
+#custom-doc {
+	clear:both;
+	margin:0 auto;
+	padding-bottom:12px;
+	text-align:left;
+	width:890px;
+	min-width:600px;
+}
+
+/* Search result */
+h2.about-searchinformation-container {
+	padding-top:5px;
+	padding-bottom:5px;
+	font-weight:normal;
+}
+.error-reporting-container {float:right;}
+#search-result-container {
+	margin:6px 0;
+	padding:0 0 2px;
+	border-top:1px solid #e8eaf0;
+	list-style:none;
+}
+#search-result-container li {
+	margin:0 0 5px;
+	padding:10px;
+	border:1px solid #bcbcbc;
+}
+#search-result-container li.selected-item {
+	padding:6px 6px 11px 11px;
+	border:5px solid #8dbaf5;
+	border-width:5px 5px 0 0;
+	background:url(../../images/selected_search_Item_bg.gif) no-repeat bottom left;
+}
+h3.fn {
+	color:#0033CC;
+	display:block;
+	font-size:13pt;
+	padding-bottom:0em;
+}
+h3.person {
+	width:15em;
+	float:left;
+	padding-top:5px;
+}
+.vcard div.single-row {clear:both;}
+.organization-hierarchy {padding-top:1em;}
+.vcard div.two-col {
+	float:left;
+	padding-right:1em;
+}
+.vcard div.three-col {
+	float:left;
+	padding-right:1em;
+	width:30%;
+}
+.vcard .description,
+table.Employment th {
+	color:#000;
+	font-weight:bold;
+}
+.vcard .description a {
+	font-size:8pt;
+	font-weight:lighter;
+}
+.vcard td.tel .type,
+.vcard .tel .type,
+.vcard .adr .type {display:none;}
+.vcard div.email-container {line-height:2.4em;}
+.vcard div.email-container div {float:left;}
+.vcard div.vgrId-container {line-height:2.4em;float:left;padding-left:165px;}
+table.Employment {width:auto;}
+table.Employment th {
+	background-color:#FFF;
+	font-size:1em;
+}
+table.Employment td.title {width:15em;}
+table.Employment td.org {width:20em;}
+table.Employment,
+table.Employment th,
+table.Employment td {border-bottom:none;}
+
+/*Paging*/
+#pager-container {
+	padding-top:5px;
+	font-size:1.1em;
+}
+#pager-container inactive {color:#b9b9b9;}
+#pager-containerr a.page-link {color:#000;}
+#pager-container .active-page {color:#0033cc;}
+
+/*General*/
+.bold {font-weight:bold;}
+#logo-container ul {
+	text-align:left;
+}
+#logo-container li {
+	display:inline;
+	margin-right:10px;
+	font-size:0.94em;
+}
+
+/*
+=Single-result
+*/
+.back {
+	float:left;
+	margin-bottom:0.5em;
+}
+.back a {
+	padding:3px 0 3px 20px;
+	background:url(../../images/control_rewind.gif) no-repeat 0 50%;
+	font-size:0.94em;
+}
+.last-updated {
+	margin-bottom:0.5em;
+	font-style:italic;
+	font-size:0.94em;
+	text-align:right;
+}
+.summary {
+	clear:both;
+	margin-bottom:1.5em;
+}
+.summary h2 {margin:0.75em 0 0.25em;}
+.summary .location {
+	margin:0 0 0.5em;
+	font-weight:bold;
+}
+.summary .description {
+	margin-bottom:0.5em;
+}
+.show-persons a {
+	padding:3px 0 3px 20px;
+	background:url(../../images/zoom.gif) no-repeat 0 50%;
+}
+.search-result table {
+	margin-bottom:1.5em;
+	border:1px solid #ddd;
+}
+.search-result caption {
+	padding:3px 6px;
+	color:#333;
+}
+.search-result th {
+	border:1px solid #ddd;
+	border-width:1px 0 1px 1px;
+	background:transparent;
+	font-size:0.94em;
+}
+.search-result td {
+	border:1px solid #ddd;
+	border-width:0 0 1px;
+}
+
+.search-result .cols th {border-width:1px 0 0 1px;}
+.search-result .cols td {border-width:0 1px;}
+a.unit {
+	padding:3px 0 3px 20px;
+	background:url(../../images/zoom.gif) no-repeat 0 50%;
+}
+
+.ulmenu {margin-bottom:0px;}
+.info{width:270px;}
+
+
+

@@ -1,0 +1,55 @@
+<h:outputText rendered="${not empty userEvents}" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<div class="activities" id="list-activities">
+	<table>
+		<caption>Dagens aktiviteter <span><h:outputText
+						value="${currentDate}">
+						<f:convertDateTime dateStyle="short"
+							timeZone="CET" type="date" />
+					</h:outputText></span></caption>
+		<thead>
+			<tr>
+				<th scope="col">Status</th>
+				<th scope="col">Kod</th>
+				<th scope="col">Från</th>
+				<th scope="col">Till</th>
+				<th scope="col">Information</th>
+				<th scope="col">Sign</th>
+			</tr>
+		</thead>
+		<tbody>
+			<ui:repeat value="${userEvents}" var="userEvent">
+
+				<tr>
+					<td class="status">
+						<h:outputText rendered="${not empty userEvent.status}">
+							<h:outputText rendered="${userEvent.status == 'vidarekopplad'}">
+								<img src="resources/images/lth/phone-red.png" alt="${msg.callTransferred}"/>
+							</h:outputText>
+							<h:outputText rendered="${userEvent.status == 'ejvidarekopplad'}">
+								<img src="resources/images/lth/phone-grey.png" alt="${msg.callNotTransferred}"/>
+							</h:outputText>
+						</h:outputText>
+					</td>
+					<td class="code"><span>${userEvent.code}</span></td>
+					<td class="start-time"><span><h:outputText
+						value="${userEvent.fromDateTime}">
+						<f:convertDateTime dateStyle="short" timeStyle="short"
+							timeZone="CET" type="both" />
+					</h:outputText></span></td>
+					<td class="end-time"><span><h:outputText rendered="${not empty userEvent.toDateTime}"
+						value="${userEvent.toDateTime}">
+						<f:convertDateTime dateStyle="short" timeStyle="short"
+							timeZone="CET" type="both" />
+					</h:outputText><h:outputText rendered="${empty userEvent.toDateTime}" value="${msg.untilFurtherNotice}"/></span></td>
+					<td>${userEvent.information}</td>
+					<td class="sign">${userEvent.signature}</td>
+				</tr>
+			</ui:repeat>
+
+		</tbody>
+	</table>
+	</div>
+</h:outputText>

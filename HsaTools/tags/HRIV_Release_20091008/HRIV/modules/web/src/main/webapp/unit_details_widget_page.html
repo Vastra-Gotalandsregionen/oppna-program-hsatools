@@ -1,0 +1,51 @@
+<!--
+      Copyright 2009 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+-->
+<html>
+<head>
+<title>Unit details widget Demo</title>
+<link type="text/css" rel="stylesheet"
+	href="http://hittavard.vgregion.se/hriv/resources/styles/main.css" />
+<link type="text/css" rel="stylesheet"
+	href="http://hittavard.vgregion.se/hriv/resources/styles/style.css" />
+</head>
+<body>
+<h1>Demo-sida f&ouml;r att visa upp enhetsdetaljer-widget</h1>
+
+<!-- Display unit widget START -->
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.7.0/build/yahoo/yahoo-min.js&2.7.0/build/event/event-min.js&2.7.0/build/connection/connection-min.js"></script> 
+<!-- Replace key with your Google key -->
+<script type="text/javascript"
+	src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAsj7OTaHyEfNXhETUKuAVeBStFeF4n64ejGN5IPknXd-RNbYWcBREjFsf4BWmaarbveYhRN4pqE33og">
+	
+</script>
+<script type="text/javascript" src="http://hittavard.vgregion.se/hriv/resources/scripts/widget.js"> </script>
+<!--  <script type="text/javascript" src="http://localhost:8180/HsaTools-HRIV-module-web/resources/scripts/widget.js"> </script> -->
+<script type="text/javascript" charset="utf-8">
+	/*
+	Unite details will be inserted in div with id "unit-detail"
+	Param 1: Server address where HRIV is located.
+	Param 2: HSA id of unit which should be shown.
+	Param 3: Show map (1=yes, 0=no)
+	 */
+	showUnitExternal('proxy', 'url', 'http://hittavard.vgregion.se/hriv', 'SE2321000131-E000000002437', '1');
+	//showUnitExternal('proxy', 'url', 'http://localhost:8180/HsaTools-HRIV-module-web', 'SE2321000131-E000000002437', '0');
+</script>
+
+<div id="unit-detail" style="width: 920px;" /><!-- Display unit widget END -->
+</body>
+</html>

@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+	<!--
+		This is the web composite Maven POM. Template version: 1.0-SNAPSHOT
+		Generation time : 2008-06-09 13:23:02 CEST
+	-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+  <!--<groupId> groupId IS DEFINED BY PARENT </groupId>-->
+	<artifactId> HsaTools-HRIV-composite-webcomp </artifactId>
+	<packaging>jar</packaging>
+	<name>HsaTools-HRIV-composite-webcomp</name>
+  <!--<version> version IS DEFINED BY PARENT </version>-->
+	<parent>
+		<groupId>HsaTools</groupId>
+		<artifactId>HsaTools-HRIV</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>services-config.xml</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>services-config.xml</exclude>
+				</excludes>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>2.5.6</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+    <profiles>
+        <profile>
+            <id>LTH</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/RegisterOnUnitController.java</exclude>
+                            </excludes>
+                            <testExcludes>
+                                <exclude>**/RegisterOnUnitControllerTest.java</exclude>
+                            </testExcludes>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/RegisterOnUnitControllerTest.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
