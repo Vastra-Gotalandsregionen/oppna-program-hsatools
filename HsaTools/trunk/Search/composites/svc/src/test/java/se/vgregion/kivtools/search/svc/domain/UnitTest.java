@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,6 +39,8 @@ import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
+
+import com.domainlanguage.time.TimePoint;
 
 public class UnitTest {
   private static final String TEST = "TEST";
@@ -698,5 +701,27 @@ public class UnitTest {
     DN dn = DN.createDNFromString("ou=SubUnit,ou=AncestorUnit,o=VGR");
     unit.setDn(dn);
     assertEquals(", tillhör AncestorUnit", unit.getFormattedAncestor());
+  }
+
+  @Test
+  public void testCreateTimestamp() {
+    assertNull(unit.getCreateTimestamp());
+    assertEquals("", unit.getCreateTimestampFormatted());
+    assertEquals("", unit.getCreateTimestampFormattedInW3CDatetimeFormat());
+
+    unit.setCreateTimestamp(TimePoint.parseFrom("20090101120102", "yyyyMMddHHmmss", TimeZone.getDefault()));
+    assertEquals("2009-01-01 12:01:02", unit.getCreateTimestampFormatted());
+    assertEquals("2009-01-01T12:01:02+01:00", unit.getCreateTimestampFormattedInW3CDatetimeFormat());
+  }
+
+  @Test
+  public void testModifyTimestamp() {
+    assertNull(unit.getModifyTimestamp());
+    assertEquals("", unit.getModifyTimestampFormatted());
+    assertEquals("", unit.getModifyTimestampFormattedInW3CDatetimeFormat());
+
+    unit.setModifyTimestamp(TimePoint.parseFrom("20090101120102", "yyyyMMddHHmmss", TimeZone.getDefault()));
+    assertEquals("2009-01-01 12:01:02", unit.getModifyTimestampFormatted());
+    assertEquals("2009-01-01T12:01:02+01:00", unit.getModifyTimestampFormattedInW3CDatetimeFormat());
   }
 }

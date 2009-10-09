@@ -18,11 +18,9 @@
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
 
-import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.AddressHelper;
@@ -38,10 +36,9 @@ import se.vgregion.kivtools.search.util.LdapParse;
 import se.vgregion.kivtools.search.util.geo.CoordinateTransformerService;
 import se.vgregion.kivtools.search.util.geo.GaussKrugerProjection;
 import se.vgregion.kivtools.search.util.geo.GeoUtil;
+import se.vgregion.kivtools.util.StringUtil;
 
 import com.domainlanguage.time.TimePoint;
-import com.novell.ldap.LDAPAttribute;
-import com.novell.ldap.LDAPAttributeSet;
 import com.novell.ldap.LDAPEntry;
 
 /**
@@ -71,7 +68,7 @@ public class UnitFactory {
     this.displayValueTranslator = displayValueTranslator;
   }
 
-  public Unit reconstitute(LDAPEntry unitEntry) throws KivException {
+  public Unit reconstitute(LDAPEntry unitEntry) {
     Unit unit = new Unit();
     if (unitEntry == null) {
       return unit;
@@ -85,7 +82,7 @@ public class UnitFactory {
     } else if (temp.equalsIgnoreCase(Constants.OBJECT_CLASS_FUNCTION_SPECIFIC) || temp.equalsIgnoreCase(Constants.OBJECT_CLASS_FUNCTION_STANDARD)) {
       unit.setIsUnit(false);
     } else {
-      Exception e = new Exception("Detected unknown objectClass=" + unit.getObjectClass() + " in " + UnitFactory.class.getName() + "::reconstitute()");
+      throw new RuntimeException("Detected unknown objectClass=" + unit.getObjectClass() + " in " + UnitFactory.class.getName() + "::reconstitute()");
     }
 
     unit.setDn(DN.createDNFromString(unitEntry.getDN()));
@@ -126,7 +123,13 @@ public class UnitFactory {
     unit.setLocality(LdapORMHelper.getSingleValue(unitEntry.getAttribute("l")));
 
     // labeledURI
-    unit.setLabeledURI(LdapORMHelper.getSingleValue(unitEntry.getAttribute("labeledUri")));
+    String labeledURI = LdapORMHelper.getSingleValue(unitEntry.getAttribute("labeledUri"));
+    labeledURI = fixURI(labeledURI);
+    unit.setLabeledURI(labeledURI);
+
+    String vgrLabeledURI = LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrLabeledURI"));
+    vgrLabeledURI = fixURI(vgrLabeledURI);
+    unit.setInternalWebsite(vgrLabeledURI);
 
     // vgrInternalSedfInvoiceAddress
     unit.setVgrInternalSedfInvoiceAddress(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrInternalSedfInvoiceAddress")));
@@ -240,6 +243,8 @@ public class UnitFactory {
     // Drifts- & juridisk formkod
     unit.setHsaAdministrationForm(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaAdministrationForm")));
 
+    unit.setContractCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrAvtalskod")));
+
     // Senast uppdaterad
     if (unitEntry.getAttribute("vgrModifyTimestamp") != null) {
       unit.setModifyTimestamp(TimePoint.parseFrom(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrModifyTimestamp")), "yyyyMMddHHmmss", TimeZone.getDefault()));
@@ -286,14 +291,30 @@ public class UnitFactory {
 
     // Rule for showing visiting rules
     boolean show = false;
-    show &= !unit.hasHealthcareType("Barnavårdscentral");
-    show &= !unit.hasHealthcareType("Vårdcentral");
-    show &= !unit.hasHealthcareType("Jourcentral");
+    show |= unit.hasHealthcareType("Barnavårdscentral");
+    show |= unit.hasHealthcareType("Vårdcentral");
+    show |= unit.hasHealthcareType("Jourcentral");
     unit.setShowVisitingRules(show);
     // VGR has the same rule for age interval
     unit.setShowAgeInterval(show);
-    
+
     return unit;
+  }
+
+  /**
+   * Prepends "http://" if the provided URI isn't a correct URI.
+   * 
+   * @param uri The URI to fix.
+   * @return The provided URI if already correct, otherwise the provided URI with "http://" prepended.
+   */
+  private String fixURI(String uri) {
+    String fixedUri = uri;
+    // Do some simple validation/fixing
+    if (!StringUtil.isEmpty(uri) && !(uri.startsWith("http://") || uri.startsWith("https://"))) {
+      fixedUri = "http://" + uri;
+    }
+
+    return fixedUri;
   }
 
   /**
@@ -318,14 +339,5 @@ public class UnitFactory {
     unit.setVgrCareTypeText(vgrCareTypeText);
     String municipalityName = codeTablesService.getValueFromCode(CodeTableName.HSA_MUNICIPALITY_CODE, unit.getHsaMunicipalityCode());
     unit.setHsaMunicipalityName(municipalityName);
-  }
-
-  public void printAllAttributes(LDAPEntry entry) {
-    LDAPAttributeSet mySet = entry.getAttributeSet();
-    for (Iterator<LDAPAttribute> myIterator = mySet.iterator(); myIterator.hasNext();) {
-      LDAPAttribute attr = myIterator.next();
-      System.out.println("attr=" + attr.getName() + ", value=" + attr.getStringValue());
-    }
-    System.out.println("*******************");
   }
 }

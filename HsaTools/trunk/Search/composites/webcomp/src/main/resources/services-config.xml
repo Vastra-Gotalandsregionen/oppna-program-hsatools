@@ -59,5 +59,7 @@
 	<bean id="Search_MaxSearchResult" class="java.lang.Integer" scope="prototype">
 		<constructor-arg index="0" value="200" type="java.lang.String"/>
 	</bean>
+	
+	<bean id="presentationHelper" class="se.vgregion.kivtools.util.presentation.PresentationHelper" />
 </beans>
 
