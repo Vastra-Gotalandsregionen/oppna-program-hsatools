@@ -1,4 +1,5 @@
-	<div xmlns:ui="http://java.sun.com/jsf/facelets">
+	<div xmlns:ui="http://java.sun.com/jsf/facelets"
+		 xmlns:h="http://java.sun.com/jsf/html">
 		<table>
 			<caption>Övrig information</caption>
 			<tbody>
@@ -28,6 +29,19 @@
 					</td>
 					<th id="kommunnamn">Kommunnamn</th>
 					<td headers="kommunnamn">${unit.hsaMunicipalityName}</td>
+				</tr>
+				<tr>
+					<th id="main-vardval-klartext">${msg.careSelection}</th>
+					<td headers="main-vardval-klartext">
+						<h:outputText rendered="${unit.vgrVardVal == 'true'}">${msg.yes}</h:outputText>
+						<h:outputText rendered="${unit.vgrVardVal == 'false'}">${msg.no}</h:outputText>
+					</td>
+					<th id="contract-code">${msg.contractCode}</th>
+					<td headers="contract-code">${unit.contractCode}</td>
+				</tr>
+				<tr>
+					<th id="main-management-klartext">${msg.management}</th>
+					<td headers="main-management-klartext" colspan="3">${unit.hsaManagementText}</td>
 				</tr>
 			</tbody>
 		</table>

@@ -113,5 +113,5 @@
 		<property name="httpFetcher" ref="Display_HttpFetcher" />
 	</bean>
 	
-	<bean id="presentationHelper" class="se.vgregion.kivtools.hriv.presentation.PresentationHelper" />
+	<bean id="presentationHelper" class="se.vgregion.kivtools.util.presentation.PresentationHelper" />
 </beans>

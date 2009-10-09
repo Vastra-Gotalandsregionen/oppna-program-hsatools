@@ -212,6 +212,9 @@ public class Unit implements Serializable, Comparable<Unit> {
   private boolean showAgeInterval;
   private boolean showVisitingRules;
 
+  private String internalWebsite;
+  private String contractCode;
+
   public boolean isVgrVardVal() {
     return vgrVardVal;
   }
@@ -1438,5 +1441,21 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   public void setShowVisitingRules(boolean showVisitingRules) {
     this.showVisitingRules = showVisitingRules;
+  }
+
+  public String getInternalWebsite() {
+    return internalWebsite;
+  }
+
+  public void setInternalWebsite(String internalWebsite) {
+    this.internalWebsite = internalWebsite;
+  }
+
+  public String getContractCode() {
+    return contractCode;
+  }
+
+  public void setContractCode(String contractCode) {
+    this.contractCode = contractCode;
   }
 }
