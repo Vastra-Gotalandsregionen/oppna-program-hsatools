@@ -1,0 +1,20 @@
+#labels SIK,Featured
+=PersonalRecord REST service=
+
+Servicen används för att hämta ut namnuppgifter för ett visst användarid.
+
+Strukturen på webservicen är följande;
+[_domännamn_]/[_sökväg_]/rest/personalrecord/{*användarid*}
+där *användarid* är parametern som används av webservicen för att söka upp person information.
+
+t.ex. kan url till webservicen se ut som följande;
+http://hittavard.vgregion.se/hrivws/rest/personalrecord/*davbe1*
+
+Om tjänsten hittar personinformation för ett visst användarid kommer ett ifyllt personRecord xml att returneras. Skulle personinformation inte hittas returneras ett tomt personRecord element.
+{{{
+<personRecord>
+    <fullName>[Fullständiga namnet på en person]</fullName>
+    <firstName>[Förnamn]</firstName>
+    <lastName>[Efternamn]</lastName>
+</personRecord>
+}}}
