@@ -1,5 +1,5 @@
 #labels SIK,Featured
-=PersonalRecord REST service=
+=!PersonalRecord REST service=
 
 Servicen används för att hämta ut namnuppgifter för ett visst användarid.
 
