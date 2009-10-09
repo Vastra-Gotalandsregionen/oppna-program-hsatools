@@ -20,44 +20,19 @@ import com.novell.ldap.LDAPSearchResults;
  * @author David & Jonas
  */
 public class CodeTablesServiceImpl implements CodeTablesService {
+  private static final String CODE_TABLES_BASE = "ou=listor,ou=System,o=VGR";
 
   private Map<String, Map<String, String>> codeTables = new HashMap<String, Map<String, String>>();
-  private String codeTablesBase = "ou=listor,ou=System,o=VGR";
   private String attribute = "description";
   private LdapConnectionPool ldapConnectionPool;
 
   /**
    * Set LdapConnectionPool to use for codeTable service.
    * 
-   * @param ldapConnectionPool - LdapConnectionPool to use in CodeTable service.
+   * @param ldapConnectionPool LdapConnectionPool to use in CodeTable service.
    */
   public void setLdapConnectionPool(LdapConnectionPool ldapConnectionPool) {
     this.ldapConnectionPool = ldapConnectionPool;
-  }
-
-  /**
-   * 
-   * @return String of codetable base.
-   */
-  public String getCodeTablesBase() {
-    return codeTablesBase;
-  }
-
-  /**
-   * Set the String codetabel base.
-   * 
-   * @param codeTablesBase - String.
-   */
-  public void setCodeTablesBase(String codeTablesBase) {
-    this.codeTablesBase = codeTablesBase;
-  }
-
-  /**
-   * 
-   * @param codeTables - Map&lt;String, Map&lt;String, String&gt;&gt;
-   */
-  public void setCodeTables(Map<String, Map<String, String>> codeTables) {
-    this.codeTables = codeTables;
   }
 
   /**
@@ -78,14 +53,16 @@ public class CodeTablesServiceImpl implements CodeTablesService {
     try {
       LDAPConnection connection = ldapConnectionPool.getConnection();
       try {
-        LDAPSearchResults search = connection.search(codeTablesBase, LDAPConnection.SCOPE_SUB, "(cn=" + codeTableName + ")", new String[] { attribute }, false);
+        LDAPSearchResults search = connection.search(CODE_TABLES_BASE, LDAPConnection.SCOPE_SUB, "(cn=" + codeTableName + ")", new String[] { attribute }, false);
         Map<String, String> codeTableContent = new HashMap<String, String>();
         LDAPEntry entry = search.next();
         if (entry != null) {
           String[] codePair = entry.getAttribute(attribute).getStringValueArray();
           for (String code : codePair) {
             String[] codeArr = code.split(";");
-            codeTableContent.put(codeArr[0], codeArr[1]);
+            if (codeArr.length >= 2) {
+              codeTableContent.put(codeArr[0], codeArr[1]);
+            }
           }
           codeTables.put(String.valueOf(codeTableName), codeTableContent);
         }

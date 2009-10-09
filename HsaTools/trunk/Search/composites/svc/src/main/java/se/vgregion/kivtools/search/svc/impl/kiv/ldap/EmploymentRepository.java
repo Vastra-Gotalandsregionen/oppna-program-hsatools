@@ -23,6 +23,7 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
+import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
@@ -42,9 +43,14 @@ public class EmploymentRepository {
   private static final String ALL_EMPLOYMENT_FILTER = "(&(objectclass=vgrAnstallning)(|(!(hsaEndDate=*))(hsaEndDate>=%1$s))(hsaStartDate<=%1$s))";
 
   private LdapConnectionPool theConnectionPool;
+  private CodeTablesService codeTablesService;
 
   public void setLdapConnectionPool(LdapConnectionPool lp) {
     this.theConnectionPool = lp;
+  }
+
+  public void setCodeTablesService(CodeTablesService codeTablesService) {
+    this.codeTablesService = codeTablesService;
   }
 
   public SikSearchResultList<Employment> getEmployments(DN dn) throws KivException {
@@ -77,7 +83,7 @@ public class EmploymentRepository {
     int count = 0;
     while (searchResults.hasMore() && (++count < maxResult || maxResult == 0)) {
       try {
-        result.add(EmploymentFactory.reconstitute(searchResults.next()));
+        result.add(EmploymentFactory.reconstitute(searchResults.next(), codeTablesService));
       } catch (LDAPException e) {
         if (e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
           throw e;

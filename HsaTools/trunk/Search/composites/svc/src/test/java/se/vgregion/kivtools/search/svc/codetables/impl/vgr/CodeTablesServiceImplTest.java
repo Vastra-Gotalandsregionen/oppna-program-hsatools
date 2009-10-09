@@ -1,6 +1,7 @@
-package se.vgregion.kivtools.search.svc.codetables;
+package se.vgregion.kivtools.search.svc.codetables.impl.vgr;
 
-import java.io.UnsupportedEncodingException;
+import static org.junit.Assert.*;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -8,13 +9,10 @@ import java.util.Map.Entry;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
-import se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl;
 import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
@@ -24,13 +22,16 @@ import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPException;
 
-public class CodeTablesTest {
+public class CodeTablesServiceImplTest {
 
-  private static CodeTablesService codeTablesService;
+  private static CodeTablesServiceImpl codeTablesService;
   private static String[] managementCodeAttributes = { "1;Landsting/Region", "2;Kommun", "3;Statlig", "4;Privat, vårdavtal", "5;Privat, enl lag om läkarvårdsersättning" };
   private static String[] specialityCodeAttributes = { "1000;Europaläkare, allmänpraktiserande läkare", "10100;Kirurgi", "10101;Urologi", "10102;Barn- och ungdomskirurgi" };
   private static String[] vgrAO3KodAttributes = { "010;Moderförvaltning;10", "020;Regionstyrelsen (ägarutskott, arkivnämnd, regiongem. förv.org- och verks);10", "030;Revisorskollegiet",
       "040;Patientnämnd U-a, Borås, Gbg o Mariestad" };
+  private static String[] hsaLanguageKnowledgeCode = { "* SWE;* Svenska", "----------------------------------", "AAR;Afar" };
+  private static String[] paTitleCode = { "104510;Ledning, kultur, turism och fritid", "105010;Ledning, tekniskt arbete", "105510;Ledning, räddningstjänst" };
+
   private static String[] vgrCareTypeAttributes = { "01;Öppenvård", "02;Slutenvård", "03;Hemsjukvård" };
   private static Map<String, String[]> attributeLists = new HashMap<String, String[]>();
   static {
@@ -38,27 +39,14 @@ public class CodeTablesTest {
     attributeLists.put(CodeTableName.HSA_SPECIALITY_CODE.name(), specialityCodeAttributes);
     attributeLists.put(CodeTableName.VGR_AO3_CODE.name(), vgrAO3KodAttributes);
     attributeLists.put(CodeTableName.VGR_CARE_TYPE.name(), vgrCareTypeAttributes);
+    attributeLists.put(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE.name(), hsaLanguageKnowledgeCode);
+    attributeLists.put(CodeTableName.PA_TITLE_CODE.name(), paTitleCode);
   }
 
   @BeforeClass
   public static void setup() {
     codeTablesService = new CodeTablesServiceImpl();
-    ((CodeTablesServiceImpl) codeTablesService).setLdapConnectionPool(new LdapConnectionPoolMock());
-  }
-
-  // Generate LDAPConnectionMock and fill it with search alternatives
-  public static LDAPConnectionMock generateConnectionMock() {
-    LDAPConnectionMock connectionMock = new LDAPConnectionMock();
-    CodeTablesServiceImpl codeTablesServiceImpl = new CodeTablesServiceImpl();
-    for (Entry<String, String[]> attributeListEntry : attributeLists.entrySet()) {
-      LinkedList<LDAPEntryMock> ldapEntries = new LinkedList<LDAPEntryMock>();
-      LDAPEntryMock entryMock = new LDAPEntryMock();
-      entryMock.addAttribute("description", attributeListEntry.getValue());
-      ldapEntries.add(entryMock);
-      connectionMock.addLdapEntries(new SearchCondition(codeTablesServiceImpl.getCodeTablesBase(), LDAPConnection.SCOPE_SUB, "(cn=" + CodeTableName.valueOf(attributeListEntry.getKey()) + ")"),
-          ldapEntries);
-    }
-    return connectionMock;
+    codeTablesService.setLdapConnectionPool(new LdapConnectionPoolMock());
   }
 
   @Test
@@ -82,14 +70,27 @@ public class CodeTablesTest {
     }
   }
 
-  // Test with a real Ldap connection
   @Test
-  @Ignore
-  public void testAgainstRealLDAPConnection() throws UnsupportedEncodingException, NoConnectionToServerException, SikInternalException, LDAPException {
-    ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("services-config.xml");
-    LdapConnectionPool ldapConnectionPool = (LdapConnectionPool) applicationContext.getBean("Search_LdapConnectionPool");
-    ((CodeTablesServiceImpl) codeTablesService).setLdapConnectionPool(ldapConnectionPool);
-    Assert.assertEquals("Landsting/Region", codeTablesService.getValueFromCode(CodeTableName.HSA_MANAGEMENT_CODE, "1"));
+  public void testLanguageKnowledgeCode() {
+    assertEquals("* Svenska", codeTablesService.getValueFromCode(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, "* SWE"));
+  }
+
+  @Test
+  public void testPaTitleCode() {
+    assertEquals("Ledning, tekniskt arbete", codeTablesService.getValueFromCode(CodeTableName.PA_TITLE_CODE, "105010"));
+  }
+
+  // Generate LDAPConnectionMock and fill it with search alternatives
+  public static LDAPConnectionMock generateConnectionMock() {
+    LDAPConnectionMock connectionMock = new LDAPConnectionMock();
+    for (Entry<String, String[]> attributeListEntry : attributeLists.entrySet()) {
+      LinkedList<LDAPEntryMock> ldapEntries = new LinkedList<LDAPEntryMock>();
+      LDAPEntryMock entryMock = new LDAPEntryMock();
+      entryMock.addAttribute("description", attributeListEntry.getValue());
+      ldapEntries.add(entryMock);
+      connectionMock.addLdapEntries(new SearchCondition("ou=listor,ou=System,o=VGR", LDAPConnection.SCOPE_SUB, "(cn=" + CodeTableName.valueOf(attributeListEntry.getKey()) + ")"), ldapEntries);
+    }
+    return connectionMock;
   }
 
   public static class LdapConnectionPoolMock extends LdapConnectionPool {
@@ -98,5 +99,4 @@ public class CodeTablesTest {
       return generateConnectionMock();
     }
   }
-
 }

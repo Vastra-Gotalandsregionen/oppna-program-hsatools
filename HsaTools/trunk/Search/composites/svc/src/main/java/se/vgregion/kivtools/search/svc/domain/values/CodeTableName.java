@@ -7,8 +7,27 @@ package se.vgregion.kivtools.search.svc.domain.values;
  * 
  */
 public enum CodeTableName {
-  HSA_ADMINISTRATION_FORM("list_hsaAdministrationForm"), HSA_BUSINESSCLASSIFICATION_CODE("list_hsaBusinessClassificationCode"), HSA_COUNTY_CODE("list_hsaCountyCode"), HSA_MUNICIPALITY_CODE(
-      "list_hsaMunicipalityCode"), HSA_MANAGEMENT_CODE("list_hsaManagementCode"), HSA_SPECIALITY_CODE("list_hsaSpecialityCode"), VGR_AO3_CODE("list_vgrAO3kod"), VGR_CARE_TYPE("list_vgrCareType");
+  /** Administration Form. */
+  HSA_ADMINISTRATION_FORM("list_hsaAdministrationForm"),
+  /** Business classification code. */
+  HSA_BUSINESSCLASSIFICATION_CODE("list_hsaBusinessClassificationCode"),
+  /** County code. */
+  HSA_COUNTY_CODE("list_hsaCountyCode"),
+  /** Municipality code. */
+  HSA_MUNICIPALITY_CODE("list_hsaMunicipalityCode"),
+  /** Management code. */
+  HSA_MANAGEMENT_CODE("list_hsaManagementCode"),
+  /** Speciality code. */
+  HSA_SPECIALITY_CODE("list_hsaSpecialityCode"),
+  /** AO3 code (responsibility area code). */
+  VGR_AO3_CODE("list_vgrAO3kod"),
+  /** Care type. */
+  VGR_CARE_TYPE("list_vgrCareType"),
+  /** Language knowledge. */
+  HSA_LANGUAGE_KNOWLEDGE_CODE("list_hsaLanguageKnowledgeCode"),
+  /** Employment titles. */
+  PA_TITLE_CODE("list_paTitleCode");
+
   private final String codeTableName;
 
   private CodeTableName(String s) {

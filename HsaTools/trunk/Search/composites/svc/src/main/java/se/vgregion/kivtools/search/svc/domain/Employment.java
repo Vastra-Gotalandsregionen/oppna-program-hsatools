@@ -114,6 +114,10 @@ public class Employment implements Serializable {
   // Telefontid
   private List<WeekdayTime> hsaTelephoneTime;
 
+  private String locality;
+
+  private String position;
+
   public String getCn() {
     return cn;
   }
@@ -405,5 +409,21 @@ public class Employment implements Serializable {
 
   public void setVgrStrukturPerson(DN vgrStrukturPerson) {
     this.vgrStrukturPerson = vgrStrukturPerson;
+  }
+
+  public String getLocality() {
+    return locality;
+  }
+
+  public void setLocality(String locality) {
+    this.locality = locality;
+  }
+
+  public void setPosition(String position) {
+    this.position = position;
+  }
+
+  public String getPosition() {
+    return position;
   }
 }

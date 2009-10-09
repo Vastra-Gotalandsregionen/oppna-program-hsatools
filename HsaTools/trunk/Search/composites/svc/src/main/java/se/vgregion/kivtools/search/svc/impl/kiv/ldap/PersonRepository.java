@@ -32,7 +32,6 @@ import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.PersonNameComparator;
 import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 import se.vgregion.kivtools.search.util.Formatter;
@@ -238,8 +237,7 @@ public class PersonRepository {
     if (searchResults == null) {
       return null;
     }
-    Person p = PersonFactory.reconstitute(searchResults.next());
-    assignCodeTableValuesToPerson(p);
+    Person p = PersonFactory.reconstitute(searchResults.next(), codeTablesService);
     return p;
   }
 
@@ -250,8 +248,7 @@ public class PersonRepository {
     SikSearchResultList<Person> result = new SikSearchResultList<Person>();
     while (searchResults.hasMore()) {
       try {
-        Person p = PersonFactory.reconstitute(searchResults.next());
-        assignCodeTableValuesToPerson(p);
+        Person p = PersonFactory.reconstitute(searchResults.next(), codeTablesService);
         result.add(p);
       } catch (LDAPException e) {
         if (e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
@@ -446,20 +443,6 @@ public class PersonRepository {
         filterList.add(filterResult);
       }
     }
-  }
-
-  /**
-   * Uses code table service in order to lookup text value for "coded values".
-   * 
-   * @param p The person which should get looked up values assigned.
-   */
-  private void assignCodeTableValuesToPerson(Person p) {
-    List<String> hsaSpecialityNames = new ArrayList<String>();
-    for (String hsaSpecialityCode : p.getHsaSpecialityCode()) {
-      String codeName = codeTablesService.getValueFromCode(CodeTableName.HSA_SPECIALITY_CODE, hsaSpecialityCode);
-      hsaSpecialityNames.add(codeName);
-    }
-    p.setHsaSpecialityName(hsaSpecialityNames);
   }
 
   /**

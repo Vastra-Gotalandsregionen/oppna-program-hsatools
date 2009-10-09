@@ -28,8 +28,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LdapConnectionPoolMock;
@@ -60,6 +62,7 @@ public class TestPersonRepository {
   public void runBeforeEveryTest() {
     // run for each time before every test cases
     repo = new PersonRepository();
+    repo.setCodeTablesService(new CodeTablesServiceMock());
   }
 
   @After
@@ -167,5 +170,16 @@ public class TestPersonRepository {
       ldapEntries.add(entryMock);
     }
     return ldapEntries;
+  }
+
+  class CodeTablesServiceMock implements CodeTablesService {
+    @Override
+    public String getValueFromCode(CodeTableName codeTableName, String string) {
+      return "Translated " + string;
+    }
+
+    @Override
+    public void init() {
+    }
   }
 }
