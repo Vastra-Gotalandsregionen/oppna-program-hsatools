@@ -1,4 +1,4 @@
-package se.vgregion.kivtools.search.servlets;
+package se.vgregion.kivtools.search.servlets.hak;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
