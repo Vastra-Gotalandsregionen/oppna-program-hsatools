@@ -1,0 +1,120 @@
+package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
+import se.vgregion.kivtools.search.svc.domain.Employment;
+import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
+import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
+
+public class EmploymentFactoryTest {
+  private static final String TEST = "Test";
+  private static final String EXPECTED_LIST_RESULT = "[" + TEST + "]";
+  private static final String TEST_DN = "ou=Test,ou=Org,o=vgr";
+  private static final String TEST_TIME = "1-5#08:30#10:00";
+  private LDAPEntryMock ldapEntry;
+
+  @Before
+  public void setUp() throws Exception {
+    ldapEntry = new LDAPEntryMock();
+    ldapEntry.addAttribute("cn", TEST);
+    ldapEntry.addAttribute("ou", TEST);
+    ldapEntry.addAttribute("hsaPersonIdentityNumber", TEST);
+    ldapEntry.addAttribute("vgrOrgRel", TEST);
+    ldapEntry.addAttribute("vgrStrukturPerson", TEST_DN);
+    ldapEntry.addAttribute("vgrAnsvarsnummer", TEST);
+    ldapEntry.addAttribute("hsaStartDate", TEST);
+    ldapEntry.addAttribute("hsaEndDate", TEST);
+    ldapEntry.addAttribute("hsaSedfInvoiceAddress", TEST);
+    ldapEntry.addAttribute("hsaStreetAddress", TEST);
+    ldapEntry.addAttribute("hsaInternalAddress", TEST);
+    ldapEntry.addAttribute("hsaPostalAddress", TEST);
+    ldapEntry.addAttribute("hsaSedfDeliveryAddress", TEST);
+    ldapEntry.addAttribute("facsimileTelephoneNumber", TEST);
+    ldapEntry.addAttribute("postalCode", TEST);
+    ldapEntry.addAttribute("labeledUri", TEST);
+    ldapEntry.addAttribute("vgrAnstform", TEST);
+    ldapEntry.addAttribute("title", TEST);
+    ldapEntry.addAttribute("vgrFormansgrupp", TEST);
+    ldapEntry.addAttribute("hsaSedfSwitchboardTelephoneNo", TEST);
+    ldapEntry.addAttribute("vgrAO3kod", TEST);
+    ldapEntry.addAttribute("organizationalUnitName", TEST);
+    ldapEntry.addAttribute("hsaTelephoneNumber", TEST);
+    ldapEntry.addAttribute("hsaPublicTelephoneNumber", TEST);
+    ldapEntry.addAttribute("mobileTelephoneNumber", TEST);
+    ldapEntry.addAttribute("hsaInternalPagerNumber", TEST);
+    ldapEntry.addAttribute("pagerTelephoneNumber", TEST);
+    ldapEntry.addAttribute("hsaTextPhoneNumber", TEST);
+    ldapEntry.addAttribute("modifyTimestamp", TEST);
+    ldapEntry.addAttribute("modifyersName", TEST);
+    ldapEntry.addAttribute("hsaTelephoneTime", TEST_TIME);
+    ldapEntry.addAttribute("description", TEST);
+    ldapEntry.addAttribute("l", TEST);
+    ldapEntry.addAttribute("paTitleCode", TEST);
+  }
+
+  @Test
+  public void testInstantiation() {
+    EmploymentFactory employmentFactory = new EmploymentFactory();
+    assertNotNull(employmentFactory);
+  }
+
+  @Test
+  public void testNullLDAPEntry() {
+    Employment employment = EmploymentFactory.reconstitute(null, null);
+    assertNotNull(employment);
+
+  }
+
+  @Test
+  public void testReconstitute() {
+    Employment employment = EmploymentFactory.reconstitute(ldapEntry, new CodeTablesServiceMock());
+    assertEquals(TEST, employment.getCn());
+    assertEquals(TEST, employment.getOu());
+    assertEquals(TEST, employment.getHsaPersonIdentityNumber());
+    assertEquals(TEST, employment.getVgrOrgRel());
+    assertEquals(TEST_DN, employment.getVgrStrukturPerson().toString());
+    assertEquals(TEST, employment.getVgrAnsvarsnummer());
+    assertNotNull(employment.getEmploymentPeriod());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaSedfInvoiceAddress().getAdditionalInfo().toString());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaStreetAddress().getAdditionalInfo().toString());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaInternalAddress().getAdditionalInfo().toString());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaPostalAddress().getAdditionalInfo().toString());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaSedfDeliveryAddress().getAdditionalInfo().toString());
+    assertEquals(TEST, employment.getFacsimileTelephoneNumber().toString());
+    assertEquals(TEST, employment.getZipCode().getZipCode());
+    assertEquals(TEST, employment.getLabeledUri());
+    assertEquals(TEST, employment.getVgrAnstform());
+    assertEquals(TEST, employment.getTitle());
+    assertEquals(TEST, employment.getVgrFormansgrupp());
+    assertEquals(TEST, employment.getHsaSedfSwitchboardTelephoneNo().toString());
+    assertEquals(TEST, employment.getVgrAO3kod());
+    assertEquals(TEST, employment.getOu());
+    assertEquals(TEST, employment.getHsaTelephoneNumber().toString());
+    assertEquals(TEST, employment.getHsaPublicTelephoneNumber().toString());
+    assertEquals(TEST, employment.getMobileTelephoneNumber().toString());
+    assertEquals(TEST, employment.getHsaInternalPagerNumber().toString());
+    assertEquals(TEST, employment.getPagerTelephoneNumber().toString());
+    assertEquals(TEST, employment.getHsaTextPhoneNumber().toString());
+    assertNotNull(employment.getModifyTimestamp());
+    assertEquals(TEST, employment.getModifyersName());
+    assertEquals("Måndag-Fredag 08:30-10:00", employment.getHsaTelephoneTime().get(0).getDisplayValue());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getDescription().toString());
+    assertEquals(TEST, employment.getLocality());
+    assertEquals("Translated " + TEST, employment.getPosition());
+  }
+
+  class CodeTablesServiceMock implements CodeTablesService {
+    @Override
+    public String getValueFromCode(CodeTableName codeTableName, String string) {
+      return "Translated " + string;
+    }
+
+    @Override
+    public void init() {
+    }
+  }
+}

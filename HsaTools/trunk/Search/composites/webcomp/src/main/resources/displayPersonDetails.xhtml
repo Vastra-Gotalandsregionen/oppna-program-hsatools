@@ -91,6 +91,14 @@
 								</ui:repeat>
 							</td>
 						</tr>
+						<tr>
+							<th id="main-language-knowledge">${msg.languageKnowledge}</th>
+							<td colspan="3" headers="main-language-knowledge">
+								<ui:repeat value="${person.hsaLanguageKnowledgeText}" var="language">
+									${language}
+								</ui:repeat>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 				<div id="kiv-results">
@@ -178,7 +186,7 @@
 									<tr class="cols">
 										<th id="job-fakturaadress-${employment.cn}">Fakturadress</th>
 										<th id="job-leveransadress-${employment.cn}">Leveransadress</th>
-										<th colspan="2"></th>
+										<th>${msg.locality}</th>
 									</tr>
 									<tr class="cols">
 										<td headers="job-fakturaadress-${employment.cn}">
@@ -197,7 +205,9 @@
 				                			<span>${employment.hsaSedfDeliveryAddress.zipCode.formattedZipCode}</span>
 				                			<span>${employment.hsaSedfDeliveryAddress.city}</span>
 										</td>
-										<td colspan="2"></td>
+										<td>
+											<span>${employment.locality}</span>
+										</td>
 									</tr>
 								</tbody>
 							</table>

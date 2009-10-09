@@ -19,8 +19,10 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
 import java.util.TimeZone;
 
+import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.values.AddressHelper;
+import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
@@ -36,7 +38,7 @@ import com.novell.ldap.LDAPEntry;
  */
 public class EmploymentFactory {
 
-  public static Employment reconstitute(LDAPEntry employmentEntry) {
+  public static Employment reconstitute(LDAPEntry employmentEntry, CodeTablesService codeTablesService) {
     Employment employment = new Employment();
 
     if (employmentEntry == null) {
@@ -122,6 +124,12 @@ public class EmploymentFactory {
     employment.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(employmentEntry.getAttribute("hsaTelephoneTime"))));
 
     employment.setDescription(LdapORMHelper.getMultipleValues(employmentEntry.getAttribute("description")));
+
+    // Locality
+    employment.setLocality(LdapORMHelper.getSingleValue(employmentEntry.getAttribute("l")));
+
+    String paTitleCode = LdapORMHelper.getSingleValue(employmentEntry.getAttribute("paTitleCode"));
+    employment.setPosition(codeTablesService.getValueFromCode(CodeTableName.PA_TITLE_CODE, paTitleCode));
 
     return employment;
   }

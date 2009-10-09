@@ -17,8 +17,6 @@
  */
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -35,7 +33,6 @@ import org.junit.Test;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.codetables.CodeTablesTest;
 import se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
@@ -177,7 +174,7 @@ public class TestUnitRepository {
     String temp = unitRepository.createAdvancedSearchFilter(unit, new ArrayList<Integer>());
     Assert.assertEquals(correctResult.toString(), temp);
   }
- 
+
   // Test fetching sub units for a chosen unit
   @Test
   public void testGetSubUnits() throws Exception {

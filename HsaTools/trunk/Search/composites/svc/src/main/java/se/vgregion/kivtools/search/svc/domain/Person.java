@@ -88,6 +88,9 @@ public class Person implements Serializable {
   // List of Employment objects
   private List<Employment> employments;
 
+  private String locality;
+  private String employmentTitle;
+
   public String getDn() {
     return dn;
   }
@@ -296,6 +299,12 @@ public class Person implements Serializable {
     this.employmentPeriod = employmentPeriod;
   }
 
+  /**
+   * Sets the persons employment period using the provided start and end dates.
+   * 
+   * @param startDate The start date of the employment period.
+   * @param stopDate The end date of the employment period.
+   */
   public void setEmploymentPeriod(TimePoint startDate, TimePoint stopDate) {
     setEmploymentPeriod(TimeInterval.over(startDate, stopDate));
   }

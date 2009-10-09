@@ -17,9 +17,13 @@
  */
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimeZone;
 
+import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Person;
+import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.ldap.LdapORMHelper;
 
 import com.domainlanguage.time.TimePoint;
@@ -37,7 +41,7 @@ public class PersonFactory {
    * @param personEntry
    * @return Person
    */
-  public static Person reconstitute(LDAPEntry personEntry) {
+  public static Person reconstitute(LDAPEntry personEntry, CodeTablesService codeTablesService) {
     Person person = new Person();
 
     if (personEntry == null) {
@@ -88,11 +92,13 @@ public class PersonFactory {
     // E-postadress (e.g. jessica.isegran@vgregion.se)
     person.setMail(LdapORMHelper.getSingleValue(personEntry.getAttribute("mail")));
 
-    // Specialitetskod klartext e.g. Klinisk cytologi , Klinisk patologi
-    person.setHsaSpecialityName(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaSpecialityName")));
-
     // Specialitetskod e.g. 1024 , 1032
-    person.setHsaSpecialityCode(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaSpecialityCode")));
+    List<String> hsaSpecialityCode = LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaSpecialityCode"));
+    person.setHsaSpecialityCode(hsaSpecialityCode);
+
+    List<String> hsaSpecialityName = translateCodeTables(hsaSpecialityCode, CodeTableName.HSA_SPECIALITY_CODE, codeTablesService);
+    // Specialitetskod klartext e.g. Klinisk cytologi , Klinisk patologi
+    person.setHsaSpecialityName(hsaSpecialityName);
 
     // Ansvarsomr�des kod e.g. 602, 785
     person.setVgrAO3kod(LdapORMHelper.getMultipleValues(personEntry.getAttribute("vgrAO3kod")));
@@ -101,10 +107,12 @@ public class PersonFactory {
     person.setVgrAnsvarsnummer(LdapORMHelper.getMultipleValues(personEntry.getAttribute("vgrAnsvarsnummer")));
 
     // List of Languages that the person speaks e.g. PL, RO
-    person.setHsaLanguageKnowledgeCode(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaLanguageKnowledgeCode")));
+    List<String> hsaLanguageKnowledgeCode = LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaLanguageKnowledgeCode"));
+    person.setHsaLanguageKnowledgeCode(hsaLanguageKnowledgeCode);
 
+    List<String> hsaLanguageKnowledgeText = translateCodeTables(hsaLanguageKnowledgeCode, CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, codeTablesService);
     // List of Languages that the person speaks e.g. Polska, Romanska
-    person.setHsaLanguageKnowledgeText(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaLanguageKnowledgeText")));
+    person.setHsaLanguageKnowledgeText(hsaLanguageKnowledgeText);
 
     // Legitimerade Yrkesgrupper e.g Biomedicinsk analytiker
     person.setHsaTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaTitle")));
@@ -117,5 +125,21 @@ public class PersonFactory {
         LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaEndDate")), ""/* TODO Add pattern */, TimeZone.getDefault()));
 
     return person;
+  }
+
+  /**
+   * Translates codes to a more readable form using the provided CodeTablesService.
+   * 
+   * @param codes The list of codes to translate.
+   * @param codeTable The actual code table to use for translation.
+   * @param codeTablesService The code tables service implementation to use.
+   */
+  private static List<String> translateCodeTables(List<String> codes, CodeTableName codeTable, CodeTablesService codeTablesService) {
+    List<String> translations = new ArrayList<String>();
+    for (String code : codes) {
+      String translation = codeTablesService.getValueFromCode(codeTable, code);
+      translations.add(translation);
+    }
+    return translations;
   }
 }
