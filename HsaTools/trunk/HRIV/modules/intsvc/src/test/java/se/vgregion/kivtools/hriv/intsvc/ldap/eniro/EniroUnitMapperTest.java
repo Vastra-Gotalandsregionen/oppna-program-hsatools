@@ -1,7 +1,6 @@
 package se.vgregion.kivtools.hriv.intsvc.ldap.eniro;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
@@ -17,7 +16,7 @@ public class EniroUnitMapperTest {
   private EniroUnitMapper eniroUnitMapper;
   private DirContextOperationsMock dirContextOperationsMock;
   private String ldapAddressValue = "$$Baker street 221$$123 45$London";
-  
+
   @Before
   public void setup() {
     eniroUnitMapper = new EniroUnitMapper(Arrays.asList("1"));
@@ -31,17 +30,17 @@ public class EniroUnitMapperTest {
     assertNotNull(unitComposition);
     assertEquals("id1", unitComposition.getEniroUnit().getId());
     assertEquals("name", unitComposition.getEniroUnit().getName());
+    assertEquals("locality", unitComposition.getEniroUnit().getLocality());
     BusinessClassification businessClassification = null;
-    for (Object info: unitComposition.getEniroUnit().getTextOrImageOrAddress()) {
+    for (Object info : unitComposition.getEniroUnit().getTextOrImageOrAddress()) {
       if (info instanceof BusinessClassification) {
         businessClassification = (BusinessClassification) info;
       }
     }
-    assertEquals("1",businessClassification.getBCCode());
+    assertEquals("1", businessClassification.getBCCode());
     assertEquals("", businessClassification.getBCName());
-    
-    
-    //Test function unit with cn instead of ou.
+
+    // Test function unit with cn instead of ou.
     dirContextOperationsMock.setAttributeValue("ou", null);
     dirContextOperationsMock.addAttributeValue("cn", "name");
     unitComposition = (UnitComposition) eniroUnitMapper.mapFromContext(dirContextOperationsMock);
@@ -56,7 +55,7 @@ public class EniroUnitMapperTest {
     dirContextOperationsMock.setDn(new NameMock("dn"));
     unitComposition = (UnitComposition) eniroUnitMapper.mapFromContext(dirContextOperationsMock);
     assertNotNull(unitComposition);
-    
+
   }
 
   private void setAttributeMocks() {
@@ -72,5 +71,6 @@ public class EniroUnitMapperTest {
     dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1");
     dirContextOperationsMock.addAttributeValue("hsaSedfDeliveryAddress", ldapAddressValue);
     dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1");
+    dirContextOperationsMock.addAttributeValue("l", "locality");
   }
 }

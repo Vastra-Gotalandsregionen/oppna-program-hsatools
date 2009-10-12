@@ -87,6 +87,7 @@ public class EniroUnitMapper implements ContextMapper {
     // Fill unit with data.
     Unit unit = unitComposition.getEniroUnit();
     unit.setId(dirContextOperations.getStringAttribute("hsaIdentity"));
+    unit.setLocality(dirContextOperations.getStringAttribute("l"));
     unit.setName(getUnitName(dirContextOperations));
     unit.getTextOrImageOrAddress().add(generateAddress(dirContextOperations));
     unit.getTextOrImageOrAddress().add(getPublicTelephoneType(dirContextOperations));
@@ -97,7 +98,7 @@ public class EniroUnitMapper implements ContextMapper {
   private BusinessClassification createBusinessClassification(String businesClassificationCode) {
     BusinessClassification businesClassification = new BusinessClassification();
     businesClassification.setBCCode(businesClassificationCode);
-    //TODO: implement functionality for getting bsName
+    // TODO: implement functionality for getting bsName
     businesClassification.setBCName("");
     return businesClassification;
   }
