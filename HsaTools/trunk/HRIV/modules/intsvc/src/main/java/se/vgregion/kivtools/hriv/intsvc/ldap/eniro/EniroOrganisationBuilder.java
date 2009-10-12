@@ -51,6 +51,7 @@ public class EniroOrganisationBuilder {
 
     Organization organization = new Organization();
     organization.setLoadType("Full");
+    organization.setType("Municipality");
     // Create care center unit.
     Unit careCenterUnit = new Unit();
     careCenterUnit.setName(careCenter);
@@ -81,13 +82,13 @@ public class EniroOrganisationBuilder {
           // Current unit is a leaf to unit of typ "otherCare".
           otherCareUnit.getUnit().add(unitComposition.getEniroUnit());
         }
-//        else {
-//          // Current unit couldn't be put under any unit type.
-//          System.out.println("Enhet som inte mappas: id=" + unitComposition.getEniroUnit().getId()+ " Dn="  + unitComposition.getDn());
-//        }
+        // else {
+        // // Current unit couldn't be put under any unit type.
+        // System.out.println("Enhet som inte mappas: id=" + unitComposition.getEniroUnit().getId()+ " Dn=" + unitComposition.getDn());
+        // }
       }
     }
-    
+
     // Go through all subUnits and add them to their locality under "careCenter" unit.
     for (Entry<String, List<Unit>> units : subunits.entrySet()) {
       Unit localityUnit = new Unit();
