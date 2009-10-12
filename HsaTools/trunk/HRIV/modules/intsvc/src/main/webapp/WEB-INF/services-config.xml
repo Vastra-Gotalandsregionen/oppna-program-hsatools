@@ -20,6 +20,12 @@
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 	</bean>
 
+	<bean id="eniroLoginPropertyPlaceholder"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:eniroLoginSettings.properties" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+
 	<bean id="unitDetailsEndpoint"
 		class="se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska.UnitDetailsEndpoint">
 		<constructor-arg ref="jaxbMarshaller" />
@@ -78,16 +84,14 @@
 	<!--		<property name="port" value="22" />-->
 	<!--	</bean>-->
 
-
 	<bean id="Transfer_ftp" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClientImpl">
 		<property name="ftpclient" ref="Commons_FtpClient" />
 		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
-		<property name="hostname" value="leverans.prod.eniro.net" />
-		<property name="username" value="ftp_vgrtest" />
-		<property name="password" value="Vgt3p4sw" />
+		<property name="hostname" value="${eniroHostname}" />
+		<property name="username" value="${eniroUser}" />
+		<property name="password" value="${eniroPassword}" />
 		<property name="port" value="21" />
 	</bean>
-
 
 	<bean id="fileUtil" class="se.vgregion.kivtools.util.file.FileUtilImpl" />
 
@@ -106,7 +110,6 @@
 			value="${allowedUnitBusinessClassificationCodes}" />
 		<property name="otherCareTypeBusinessCodes" value="${businessCodesForOtherCareTypes}" />
 		<property name="eniroOrganisationBuilder" ref="eniroOrganisationBuilder" />
-
 	</bean>
 
 	<bean id="jobDetailUnitDetailsPusher"
