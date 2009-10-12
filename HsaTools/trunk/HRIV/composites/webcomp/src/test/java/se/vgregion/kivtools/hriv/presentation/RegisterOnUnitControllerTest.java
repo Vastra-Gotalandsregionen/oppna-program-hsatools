@@ -100,6 +100,40 @@ public class RegisterOnUnitControllerTest {
   }
 
   @Test
+  public void testGetCurrentUnitRegistrationInformation() throws VardvalRegistrationException {
+    try {
+      registerOnUnitController.getCurrentUnitRegistrationInformation(null);
+      fail("NullPointerException expected");
+    } catch (NullPointerException e) {
+      // Expected exception
+    }
+
+    request.setParameter("iv-user", "5V+qllX2lLqSyG1ctsNo4A==");
+    registerOnUnitController.setCitizenRepository(citizenRepository);
+    registerOnUnitController.setSearchService(searchService);
+    registerOnUnitController.setVardValService(vardvalService);
+    searchService.addExceptionToThrow(new KivException("Test"));
+    VardvalInfo vardvalInfo = new VardvalInfo();
+    vardvalInfo.setCurrentHsaId(CURRENT_UNIT_ID);
+    vardvalInfo.setUpcomingHsaId(UPCOMING_UNIT_ID);
+    this.vardvalService.setVardvalInfo(vardvalInfo);
+
+    try {
+      registerOnUnitController.getCurrentUnitRegistrationInformation(externalContext);
+      fail("VardvalRegistrationException expected");
+    } catch (VardvalRegistrationException e) {
+      // Expected exception
+    }
+
+    searchService.clearExceptionsToThrow();
+    VardvalInfo registrationInformation = registerOnUnitController.getCurrentUnitRegistrationInformation(externalContext);
+    assertNotNull(registrationInformation);
+    assertEquals("197407185656", registrationInformation.getSsn());
+    assertNull(registrationInformation.getSelectedUnitId());
+    assertNull(registrationInformation.getName());
+  }
+
+  @Test
   public void testGetUnitRegistrationInformation() throws VardvalRegistrationException {
     try {
       registerOnUnitController.getUnitRegistrationInformation(null, null);

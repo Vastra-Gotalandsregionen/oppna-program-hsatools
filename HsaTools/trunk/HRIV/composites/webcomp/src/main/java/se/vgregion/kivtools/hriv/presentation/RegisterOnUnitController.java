@@ -122,15 +122,13 @@ public class RegisterOnUnitController implements Serializable {
   }
 
   /**
-   * Prepare "confirm step" in registration process.
+   * Retrieves the citizens current unit selection.
    * 
    * @param externalContext The JSF external context.
-   * @param selectedUnitId The hsaIdentity of the selected unit to register on.
    * @return A populated VardvalInfo object.
    * @throws VardvalRegistrationException If there is a problem looking up the citizens current unit selection.
    */
-  public VardvalInfo getUnitRegistrationInformation(ExternalContext externalContext, String selectedUnitId) throws VardvalRegistrationException {
-
+  public VardvalInfo getCurrentUnitRegistrationInformation(ExternalContext externalContext) throws VardvalRegistrationException {
     String ssnEncodedEncrypted = externalContext.getRequestParameterMap().get("iv-user");
 
     String decryptedSsn = EncryptionUtil.decrypt(ssnEncodedEncrypted);
@@ -144,11 +142,6 @@ public class RegisterOnUnitController implements Serializable {
     try {
       vardvalInfo = vardValService.getVardval(decryptedSsn);
 
-      // Lookup unit names in order to show real names instead of hsa ids
-      Unit selectedUnit = searchService.getUnitByHsaId(selectedUnitId);
-      if (selectedUnit != null) {
-        vardvalInfo.setSelectedUnitName(selectedUnit.getName());
-      }
       Unit currentUnit = null;
       Unit upcomingUnit = null;
       if (!StringUtil.isEmpty(vardvalInfo.getCurrentHsaId())) {
@@ -166,18 +159,42 @@ public class RegisterOnUnitController implements Serializable {
         vardvalInfo.setUpcomingUnitName(upcomingUnit.getName());
       }
     } catch (SOAPFaultException sfe) {
-      externalContext.getSessionMap().put("selectedUnitId", selectedUnitId);
       throw new VardvalRegistrationException(sfe.getMessage());
     } catch (KivException e) {
-      externalContext.getSessionMap().put("selectedUnitId", selectedUnitId);
       throw new VardvalRegistrationException(bundle.getString("registrationInvalidUnit"));
     } catch (IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage e) {
-      externalContext.getSessionMap().put("selectedUnitId", selectedUnitId);
       throw new VardvalRegistrationException(bundle.getString("registrationInvalidUnit"));
     }
     vardvalInfo.setName(name);
     vardvalInfo.setSsn(decryptedSsn);
+    return vardvalInfo;
+  }
+
+  /**
+   * Prepare "confirm step" in registration process.
+   * 
+   * @param externalContext The JSF external context.
+   * @param selectedUnitId The hsaIdentity of the selected unit to register on.
+   * @return A populated VardvalInfo object.
+   * @throws VardvalRegistrationException If there is a problem looking up the citizens current unit selection.
+   */
+  public VardvalInfo getUnitRegistrationInformation(ExternalContext externalContext, String selectedUnitId) throws VardvalRegistrationException {
+    VardvalInfo vardvalInfo = getCurrentUnitRegistrationInformation(externalContext);
+
+    try {
+      // Lookup unit names in order to show real names instead of hsa ids
+      Unit selectedUnit = searchService.getUnitByHsaId(selectedUnitId);
+      if (selectedUnit != null) {
+        vardvalInfo.setSelectedUnitName(selectedUnit.getName());
+      }
+    } catch (KivException e) {
+      throw new VardvalRegistrationException(bundle.getString("registrationInvalidUnit"));
+    } finally {
+      externalContext.getSessionMap().put("selectedUnitId", selectedUnitId);
+    }
+
     vardvalInfo.setSelectedUnitId(selectedUnitId);
+
     return vardvalInfo;
   }
 
