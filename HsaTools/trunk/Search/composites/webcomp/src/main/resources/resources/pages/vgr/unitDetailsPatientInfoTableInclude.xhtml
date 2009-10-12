@@ -1,0 +1,40 @@
+<table xmlns:ui="http://java.sun.com/jsf/facelets"
+	   xmlns:h="http://java.sun.com/jsf/html">
+	<caption>${msg.patientInformation}</caption>
+	<tbody>
+		<tr>
+			<th id="openingHours">${msg.openingHours}</th>
+			<td headers="openingHours"><div jsfc="ui:repeat" value="${unit.hsaSurgeryHours}" var="time" class="paragraph">${time.displayValue}</div></td>
+			<th id="visitingHours">${msg.visitingHours}</th>
+			<td headers="visitingHours"><div jsfc="ui:repeat" value="${unit.visitingHours}" var="time" class="paragraph">${time.displayValue}</div></td>
+		</tr>
+		<tr>
+			<th id="dropInHours">${msg.dropInHours}</th>
+			<td headers="dropInHours"><div jsfc="ui:repeat" value="${unit.hsaDropInHours}" var="time" class="paragraph">${time.displayValue}</div></td>
+			<th id="visitingRuleAge">${msg.visitingRuleAge}</th>
+			<td headers="visitingRuleAge">${unit.hsaVisitingRuleAge}</td>
+		</tr>
+		<tr>
+			<th id="visitingRuleReferral">${msg.visitingRuleReferral}</th>
+			<td headers="visitingRuleReferral" colspan="3">${unit.visitingRuleReferral}</td>
+		</tr>
+		<tr class="cols">
+			<th id="visitingRules" colspan="6">${msg.visitingRules}</th>
+		</tr>
+		<tr class="cols">
+			<td headers="visitingRules" colspan="6">${unit.hsaVisitingRules}</td>
+		</tr>
+		<tr class="cols">
+			<th id="temporaryInformation" colspan="6">${msg.temporaryInformation}</th>
+		</tr>
+		<tr class="cols">
+			<td headers="temporaryInformation" colspan="6"><h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.vgrTempInfoBody)}" /></td>
+		</tr>
+		<tr class="cols">
+			<th id="referralInformation" colspan="6">${msg.referralInformation}</th>
+		</tr>
+		<tr class="cols">
+			<td headers="referralInformation" colspan="6"><h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.vgrRefInfo)}" /></td>
+		</tr>
+	</tbody>
+</table>

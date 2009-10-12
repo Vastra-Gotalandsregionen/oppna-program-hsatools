@@ -182,6 +182,9 @@ public class UnitFactory {
     // hsaSurgeryHours
     unit.setHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaSurgeryHours"))));
 
+    // hsaVisitingHours
+    unit.setVisitingHours(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaVisitingHours"))));
+
     // hsaDropInHours
     unit.setHsaDropInHours(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaDropInHours"))));
 
@@ -244,6 +247,8 @@ public class UnitFactory {
     unit.setHsaAdministrationForm(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaAdministrationForm")));
 
     unit.setContractCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrAvtalskod")));
+
+    unit.setVisitingRuleReferral(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaVisitingRuleReferral")));
 
     // Senast uppdaterad
     if (unitEntry.getAttribute("vgrModifyTimestamp") != null) {
