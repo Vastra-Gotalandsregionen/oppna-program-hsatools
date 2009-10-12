@@ -169,6 +169,7 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   private List<WeekdayTime> hsaSurgeryHours;
   private List<WeekdayTime> hsaDropInHours;
+  private List<WeekdayTime> visitingHours;
   private String vgrOrganizationalRole;
   // Detta skall vara businessClass i ldap
   private String hsaManagementText;
@@ -214,6 +215,7 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   private String internalWebsite;
   private String contractCode;
+  private String visitingRuleReferral;
 
   public boolean isVgrVardVal() {
     return vgrVardVal;
@@ -1457,5 +1459,21 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   public void setContractCode(String contractCode) {
     this.contractCode = contractCode;
+  }
+
+  public List<WeekdayTime> getVisitingHours() {
+    return visitingHours;
+  }
+
+  public void setVisitingHours(List<WeekdayTime> visitingHours) {
+    this.visitingHours = visitingHours;
+  }
+
+  public String getVisitingRuleReferral() {
+    return visitingRuleReferral;
+  }
+
+  public void setVisitingRuleReferral(String visitingRuleReferral) {
+    this.visitingRuleReferral = visitingRuleReferral;
   }
 }

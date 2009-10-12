@@ -107,6 +107,8 @@ public class UnitFactoryTest {
     ldapEntry.addAttribute("vgrVardVal", TEST);
     ldapEntry.addAttribute("vgrAvtalskod", TEST);
     ldapEntry.addAttribute("vgrLabeledURI", TEST);
+    ldapEntry.addAttribute("hsaVisitingHours", TEST_TIME);
+    ldapEntry.addAttribute("hsaVisitingRuleReferral", TEST);
   }
 
   @Test
@@ -189,6 +191,8 @@ public class UnitFactoryTest {
     assertTrue(unit.isShowAgeInterval());
     assertEquals(TEST, unit.getContractCode());
     assertEquals("http://" + TEST, unit.getInternalWebsite());
+    assertEquals(EXPECTED_HOURS, unit.getVisitingHours().get(0).getDisplayValue());
+    assertEquals(TEST, unit.getVisitingRuleReferral());
   }
 
   @Test
