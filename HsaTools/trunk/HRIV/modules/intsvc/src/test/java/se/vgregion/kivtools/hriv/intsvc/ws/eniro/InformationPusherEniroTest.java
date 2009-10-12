@@ -1,6 +1,6 @@
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.StringReader;
 import java.util.Arrays;
@@ -28,7 +28,7 @@ public class InformationPusherEniroTest {
   private FtpClientMock mockFtpClient = new FtpClientMock();
   private LdapTemplateMock ldapTemplateMock = new LdapTemplateMock();
   private static LogFactoryMock logFactoryMock;
-  private final String EXPECTED_FILECONTENT = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Organization LoadType=\"Full\"><Unit><Name>Vårdcentral</Name></Unit><Unit><Name>Övrig primärvård</Name></Unit></Organization>";
+  private final String EXPECTED_FILECONTENT = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Organization Type=\"Municipality\" LoadType=\"Full\"><Unit><Name>Vårdcentral</Name></Unit><Unit><Name>Övrig primärvård</Name></Unit></Organization>";
 
   @BeforeClass
   public static void beforeClass() {
@@ -47,8 +47,8 @@ public class InformationPusherEniroTest {
     informationPusher.setLdapTemplate(ldapTemplateMock);
     informationPusher.setFtpClient(mockFtpClient);
     informationPusher.setEniroOrganisationBuilder(eniroOrganisationBuilder);
-    informationPusher.setAllowedUnitBusinessClassificationCodes(new String[]{"1","2"});
-    informationPusher.setOtherCareTypeBusinessCodes(new String[]{"3","4"});
+    informationPusher.setAllowedUnitBusinessClassificationCodes(new String[] { "1", "2" });
+    informationPusher.setOtherCareTypeBusinessCodes(new String[] { "3", "4" });
 
   }
 
