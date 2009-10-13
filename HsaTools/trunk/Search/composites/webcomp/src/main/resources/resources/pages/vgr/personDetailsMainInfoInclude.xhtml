@@ -1,0 +1,36 @@
+<table xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<caption>Övergripande information</caption>
+	<tbody>
+		<tr>
+			<th id="main-e-post">E-post</th>
+			<td colspan="3" headers="main-e-post"><a href="mailto:${person.mail}">${person.mail}</a></td>
+		</tr>
+		<tr>
+			<th id="main-vgr-id">${msg.userId}</th>
+			<td headers="main-vgr-id">${person.vgrId}</td>
+			<th id="main-HSA-identitet">HSA-identitet</th>
+			<td headers="main-HSA-identitet">${person.hsaIdentity}</td>
+		</tr> 
+		
+		<tr>
+			<th id="main-leg-yrkesgrupp">Leg. Yrkesgrupp</th>
+			<td headers="main-leg-yrkesgrupp">${person.hsaTitle}</td>
+			<th id="main-specialitet">Specialitet</th>
+			<td headers="main-specialitet">
+				<ui:repeat value="${person.hsaSpecialityName}" var="speciality">
+					${speciality}
+				</ui:repeat>
+			</td>
+		</tr>
+		<tr>
+			<th id="main-language-knowledge">${msg.languageKnowledge}</th>
+			<td colspan="3" headers="main-language-knowledge">
+				<ui:repeat value="${person.hsaLanguageKnowledgeText}" var="language">
+					${language}
+				</ui:repeat>
+			</td>
+		</tr>
+	</tbody>
+</table>

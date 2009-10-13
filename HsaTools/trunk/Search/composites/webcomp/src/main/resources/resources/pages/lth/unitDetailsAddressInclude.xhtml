@@ -1,0 +1,61 @@
+<table xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html">
+	<caption>Adresser</caption>
+	<tbody>
+		<tr class="cols">
+			<th id="postadress">Postadress</th>
+			<th id="internadress">Internadress</th>
+			<th id="besoksadress">Besöksadress</th>
+		</tr>
+		<tr class="cols">
+			<td headers="postadress">
+				<div jsfc="ui:repeat" value="${unit.hsaPostalAddress.additionalInfo}" var="additionalInformation">
+					${additionalInformation}
+				</div>
+				<div>${unit.hsaPostalAddress.street}</div>
+				<span>${unit.hsaPostalAddress.zipCode.formattedZipCode}</span>
+				<span>${unit.hsaPostalAddress.city}</span>
+			</td>
+			<td headers="internadress">
+				<div jsfc="ui:repeat" value="${unit.hsaInternalAddress.additionalInfo}" var="additionalInformation">
+					${additionalInformation}
+				</div>
+				<div>${unit.hsaInternalAddress.street}</div>
+				<span>${unit.hsaInternalAddress.zipCode.formattedZipCode}</span>
+				<span>${unit.hsaInternalAddress.city}</span>
+			</td>
+			<td headers="besoksadress">
+				<div jsfc="ui:repeat" value="${unit.hsaStreetAddress.additionalInfo}" var="additionalInformation">
+					${additionalInformation}
+				</div>
+				<div>${unit.hsaStreetAddress.street}</div>
+				<span>${unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
+				<span>${unit.hsaStreetAddress.city}</span>
+			</td>
+		</tr>
+		<tr class="cols">
+			<th id="fatkuraadress">Fakturaadress</th>
+			<th id="leveransadress">Leveransadress</th>
+			<th></th>
+		</tr>
+		<tr class="cols">
+			<td headers="fatkuraadress">
+				<div jsfc="ui:repeat" value="${unit.hsaSedfInvoiceAddress.additionalInfo}" var="additionalInformation">
+					${additionalInformation}
+				</div>
+				<div>${unit.hsaSedfInvoiceAddress.street}</div>
+				<span>${unit.hsaSedfInvoiceAddress.zipCode.formattedZipCode}</span>
+				<span>${unit.hsaSedfInvoiceAddress.city}</span>
+			</td>
+			<td headers="leveransadress">
+				<div jsfc="ui:repeat" value="${unit.hsaSedfDeliveryAddress.additionalInfo}" var="additionalInformation">
+					${additionalInformation}
+				</div>
+				<div>${unit.hsaSedfDeliveryAddress.street}</div>
+				<span>${unit.hsaSedfDeliveryAddress.zipCode.formattedZipCode}</span>
+				<span>${unit.hsaSedfDeliveryAddress.city}</span>
+			</td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>

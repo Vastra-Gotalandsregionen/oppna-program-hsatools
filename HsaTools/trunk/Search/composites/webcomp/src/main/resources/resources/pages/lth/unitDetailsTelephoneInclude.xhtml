@@ -1,0 +1,38 @@
+<table xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html">
+	<caption>Telefonnummer</caption>
+	<tbody>
+		<tr>
+			<th id="publiktelefon">Publiktelefon</th>
+			<td headers="publiktelefon">
+				<div jsfc="ui:repeat" value="${unit.hsaPublicTelephoneNumber}" var="number">
+					${number.formattedPhoneNumber}
+				</div>
+			</td>
+			<th id="telefontid">Telefontid</th>
+			<td headers="telefontid">
+				<div jsfc="ui:repeat" value="${unit.hsaTelephoneTime}" var="time">
+					${time.displayValue}
+				</div>
+			</td>
+			<th id="vaxeltelefon">Växeltelefon</th>
+			<td headers="vaxeltelefon">${unit.hsaSedfSwitchboardTelephoneNo.formattedPhoneNumber}</td>
+		</tr>
+		<tr>
+			<th id="mobiltelefon">Mobiltelefon</th>
+			<td headers="mobiltelefon">${unit.mobileTelephoneNumber.formattedPhoneNumber}</td>
+			<th id="personsokare">Personsökare</th>
+			<td headers="personsokare">${unit.hsaInternalPagerNumber.formattedPhoneNumber}</td>
+			<th id="minicall">Minicall</th>
+			<td headers="minicall">${unit.pagerTelephoneNumber.formattedPhoneNumber}</td>
+		</tr>
+		<tr>
+			<th id="texttelefon">Texttelefon</th>
+			<td headers="texttelefon">${unit.hsaTextPhoneNumber.formattedPhoneNumber}</td>
+			<th id="faxnummer">Faxnummer</th>
+			<td headers="faxnummer">${unit.facsimileTelephoneNumber.formattedPhoneNumber}</td>
+			<th />
+			<td />
+		</tr>
+	</tbody>
+</table>
