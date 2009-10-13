@@ -62,7 +62,7 @@
 	<bean id="fileUtil" class="se.vgregion.kivtools.util.file.FileUtilImpl" />
 	
 	<bean id="rssContentCache" class="se.vgregion.kivtools.hriv.presentation.RssContentCache" init-method="reloadRssCache">
-		<property name="rssUrl" value="http://oppna-program-hsatools.googlecode.com/files/hittavard_startsida.htm" />
+		<property name="rssUrl" value="http://vard.vgregion.se/Documents/hittavard_start.htm" />
 		<property name="httpFetcher" ref="Display_HttpFetcher" />
 		<property name="fileUtil" ref="fileUtil" />
 	</bean>
