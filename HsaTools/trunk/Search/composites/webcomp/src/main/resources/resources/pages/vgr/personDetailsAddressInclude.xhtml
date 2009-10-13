@@ -1,0 +1,64 @@
+<table xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<caption>Adresser</caption>
+	<tbody>
+		<tr class="cols">
+			<th id="job-postadress-${employment.cn}">Postadress</th>
+			<th id="job-internadress-${employment.cn}">Internadress</th>
+			<th id="job-besoksadress-${employment.cn}">Besöksadress</th>
+		</tr>
+		<tr class="cols">
+			<td headers="job-postadress-${employment.cn}">
+                        	<div jsfc="ui:repeat" value="${employment.hsaPostalAddress.additionalInfo}" var="additionalInformation">
+                        		${additionalInformation}
+                        	</div>
+             			<div>${employment.hsaPostalAddress.street}</div>
+             			<span>${employment.hsaPostalAddress.zipCode.formattedZipCode}</span>
+             			<span>${employment.hsaPostalAddress.city}</span>
+			</td>
+			<td headers="job-internadress-${employment.cn}">
+                        	<div jsfc="ui:repeat" value="${employment.hsaInternalAddress.additionalInfo}" var="additionalInformation">
+                        		${additionalInformation}
+                        	</div>
+             			<div>${employment.hsaInternalAddress.street}</div>
+             			<span>${employment.hsaInternalAddress.zipCode.formattedZipCode}</span>
+             			<span>${employment.hsaInternalAddress.city}</span>
+			</td>
+			<td headers="job-besoksadress-${employment.cn}">
+                        	<div jsfc="ui:repeat" value="${employment.hsaStreetAddress.additionalInfo}" var="additionalInformation">
+                        		${additionalInformation}
+                        	</div>
+             			<div>${employment.hsaStreetAddress.street}</div>
+             			<span>${employment.hsaStreetAddress.zipCode.formattedZipCode}</span>
+             			<span>${employment.hsaStreetAddress.city}</span>
+			</td>
+		</tr>
+		<tr class="cols">
+			<th id="job-fakturaadress-${employment.cn}">Fakturadress</th>
+			<th id="job-leveransadress-${employment.cn}">Leveransadress</th>
+			<th>${msg.locality}</th>
+		</tr>
+		<tr class="cols">
+			<td headers="job-fakturaadress-${employment.cn}">
+                        	<div jsfc="ui:repeat" value="${employment.hsaSedfInvoiceAddress.additionalInfo}" var="additionalInformation">
+                        		${additionalInformation}
+                        	</div>
+             			<div>${employment.hsaSedfInvoiceAddress.street}</div>
+             			<span>${employment.hsaSedfInvoiceAddress.zipCode.formattedZipCode}</span>
+             			<span>${employment.hsaSedfInvoiceAddress.city}</span>
+			</td>
+			<td headers="job-leveransadress-${employment.cn}">
+                        	<div jsfc="ui:repeat" value="${employment.hsaSedfDeliveryAddress.additionalInfo}" var="additionalInformation">
+                        		${additionalInformation}
+                        	</div>
+             			<div>${employment.hsaSedfDeliveryAddress.street}</div>
+             			<span>${employment.hsaSedfDeliveryAddress.zipCode.formattedZipCode}</span>
+             			<span>${employment.hsaSedfDeliveryAddress.city}</span>
+			</td>
+			<td>
+				<span>${employment.locality}</span>
+			</td>
+		</tr>
+	</tbody>
+</table>

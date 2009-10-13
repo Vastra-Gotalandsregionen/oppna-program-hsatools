@@ -67,40 +67,7 @@
 		<ui:define name="MainContainer">
 			<div class="yui-u search-result">
 				<ui:include src="${Search_SettingsContainer.settings.personDetailsSummaryInclude}" />
-				<table>
-					<caption>Övergripande information</caption>
-					<tbody>
-						<tr>
-							<th id="main-e-post">E-post</th>
-							<td colspan="3" headers="main-e-post"><a href="mailto:${person.mail}">${person.mail}</a></td>
-						</tr>
-						<tr>
-							<th id="main-vgr-id">${msg.userId}</th>
-							<td headers="main-vgr-id">${person.vgrId}</td>
-							<th id="main-HSA-identitet">HSA-identitet</th>
-							<td headers="main-HSA-identitet">${person.hsaIdentity}</td>
-						</tr> 
-						
-						<tr>
-							<th id="main-leg-yrkesgrupp">Leg. Yrkesgrupp</th>
-							<td headers="main-leg-yrkesgrupp">${person.hsaTitle}</td>
-							<th id="main-specialitet">Specialitet</th>
-							<td headers="main-specialitet">
-								<ui:repeat value="${person.hsaSpecialityName}" var="speciality">
-									${speciality}
-								</ui:repeat>
-							</td>
-						</tr>
-						<tr>
-							<th id="main-language-knowledge">${msg.languageKnowledge}</th>
-							<td colspan="3" headers="main-language-knowledge">
-								<ui:repeat value="${person.hsaLanguageKnowledgeText}" var="language">
-									${language}
-								</ui:repeat>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<ui:include src="${Search_SettingsContainer.settings.personDetailsMainInfoInclude}" />
 				<div id="kiv-results">
 					<div class="tab" jsfc="ui:repeat" value="${person.employments}" var="employment">
 						<div class="tab-hd"><h3>Anställning - ${employment.title}</h3></div>
@@ -149,68 +116,7 @@
 									</tr>
 								</tbody>
 							</table>
-							<table>
-								<caption>Adresser</caption>
-								<tbody>
-									<tr class="cols">
-										<th id="job-postadress-${employment.cn}">Postadress</th>
-										<th id="job-internadress-${employment.cn}">Internadress</th>
-										<th id="job-besoksadress-${employment.cn}">Besöksadress</th>
-									</tr>
-									<tr class="cols">
-										<td headers="job-postadress-${employment.cn}">
-			                            	<div jsfc="ui:repeat" value="${employment.hsaPostalAddress.additionalInfo}" var="additionalInformation">
-			                            		${additionalInformation}
-			                            	</div>
-				                			<div>${employment.hsaPostalAddress.street}</div>
-				                			<span>${employment.hsaPostalAddress.zipCode.formattedZipCode}</span>
-				                			<span>${employment.hsaPostalAddress.city}</span>
-										</td>
-										<td headers="job-internadress-${employment.cn}">
-			                            	<div jsfc="ui:repeat" value="${employment.hsaInternalAddress.additionalInfo}" var="additionalInformation">
-			                            		${additionalInformation}
-			                            	</div>
-				                			<div>${employment.hsaInternalAddress.street}</div>
-				                			<span>${employment.hsaInternalAddress.zipCode.formattedZipCode}</span>
-				                			<span>${employment.hsaInternalAddress.city}</span>
-										</td>
-										<td headers="job-besoksadress-${employment.cn}">
-			                            	<div jsfc="ui:repeat" value="${employment.hsaStreetAddress.additionalInfo}" var="additionalInformation">
-			                            		${additionalInformation}
-			                            	</div>
-				                			<div>${employment.hsaStreetAddress.street}</div>
-				                			<span>${employment.hsaStreetAddress.zipCode.formattedZipCode}</span>
-				                			<span>${employment.hsaStreetAddress.city}</span>
-										</td>
-									</tr>
-									<tr class="cols">
-										<th id="job-fakturaadress-${employment.cn}">Fakturadress</th>
-										<th id="job-leveransadress-${employment.cn}">Leveransadress</th>
-										<th>${msg.locality}</th>
-									</tr>
-									<tr class="cols">
-										<td headers="job-fakturaadress-${employment.cn}">
-			                            	<div jsfc="ui:repeat" value="${employment.hsaSedfInvoiceAddress.additionalInfo}" var="additionalInformation">
-			                            		${additionalInformation}
-			                            	</div>
-				                			<div>${employment.hsaSedfInvoiceAddress.street}</div>
-				                			<span>${employment.hsaSedfInvoiceAddress.zipCode.formattedZipCode}</span>
-				                			<span>${employment.hsaSedfInvoiceAddress.city}</span>
-										</td>
-										<td headers="job-leveransadress-${employment.cn}">
-			                            	<div jsfc="ui:repeat" value="${employment.hsaSedfDeliveryAddress.additionalInfo}" var="additionalInformation">
-			                            		${additionalInformation}
-			                            	</div>
-				                			<div>${employment.hsaSedfDeliveryAddress.street}</div>
-				                			<span>${employment.hsaSedfDeliveryAddress.zipCode.formattedZipCode}</span>
-				                			<span>${employment.hsaSedfDeliveryAddress.city}</span>
-										</td>
-										<td>
-											<span>${employment.locality}</span>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+							<ui:include src="${Search_SettingsContainer.settings.personDetailsAddressInclude}" />
 						</div>
 					</div>
 				</div>

@@ -71,32 +71,33 @@
 					<h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 0}">
 						<div class="tab">
 							<div class="tab-hd"><h3>Extern beskrivning</h3></div>
-							<div class="tab-bd">
-								<div class="description">
-									<h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 0}">
-										<div name="description-body-short">
-											<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.getTextWithEllipsis(unit.concatenatedDescription, 1024))}" />
-										</div>
-										
-										<div name="description-body-long" style="display: none;">
-											<h:outputText value="${unit.concatenatedDescription}" />
-										</div>
-									</h:outputText>
-			
-					               	<h:outputText rendered="${fn:length(unit.concatenatedDescription) lt 1 and Search_SettingsContainer.testingMode==true}">
-										<span class="warning">Fältet "beskrivning" är tomt!</span>
-				                    </h:outputText>  
-					             	
-									<div name="description-extend">
-						               	<h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 1024}">
-											<div name="description-toggle-area" />
-											<script type="text/javascript" charset="utf-8">
-												// <![CDATA[]
-													drawToggleDescription();
-												// ]]>
-											</script>
+								<div class="tab-bd">
+									<div class="description">
+										<h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 0}">
+											<div name="description-body-short">
+												<h:outputText value="${fn:substring(unit.concatenatedDescription, 0, 400)}..." rendered="${fn:length(unit.concatenatedDescription) gt 400}" />
+												<h:outputText value="${unit.concatenatedDescription}" rendered="${fn:length(unit.concatenatedDescription) lt 401}" />
+											</div>
+											
+											<div name="description-body-long" style="display: none;">
+												<h:outputText value="${unit.concatenatedDescription}" />
+											</div>
 										</h:outputText>
-									</div>
+				
+						               	<h:outputText rendered="${fn:length(unit.concatenatedDescription) lt 1 and Search_SettingsContainer.testingMode==true}">
+											<span class="warning">Fältet "beskrivning" är tomt!</span>
+					                    </h:outputText>  
+						             	
+										<div name="description-extend">
+							               	<h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 400}">
+												<div name="description-toggle-area" />
+												<script type="text/javascript" charset="utf-8">
+													// <![CDATA[]
+														drawToggleDescription();
+													// ]]>
+												</script>
+											</h:outputText>
+										</div>
 								</div>
 							</div>
 						</div>
@@ -105,32 +106,33 @@
 					<h:outputText rendered="${fn:length(unit.internalConcatenatedDescription) gt 0}">
 						<div class="tab">
 							<div class="tab-hd"><h3>Intern beskrivning</h3></div>
-							<div class="tab-bd">
-								<div class="description">
-									<h:outputText rendered="${fn:length(unit.internalConcatenatedDescription) gt 0}">
-										<div name="description-body-short">
-											<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.getTextWithEllipsis(unit.internalConcatenatedDescription, 1024))}" />
-										</div>
-										
-										<div name="description-body-long" style="display: none;">
-											<h:outputText value="${unit.internalConcatenatedDescription}" />
-										</div>
-									</h:outputText>
-			
-					               	<h:outputText rendered="${fn:length(unit.internalConcatenatedDescription) lt 1 and Search_SettingsContainer.testingMode==true}">
-										<span class="warning">Fältet "beskrivning" är tomt!</span>
-				                    </h:outputText>  
-					             	
-									<div name="description-extend">
-						               	<h:outputText rendered="${fn:length(unit.internalConcatenatedDescription) gt 1024}">
-											<div name="description-toggle-area" />
-											<script type="text/javascript" charset="utf-8">
-												// <![CDATA[]
-													drawToggleDescription();
-												// ]]>
-											</script>
+								<div class="tab-bd">
+									<div class="description">
+										<h:outputText rendered="${fn:length(unit.internalConcatenatedDescription) gt 0}">
+											<div name="description-body-short">
+												<h:outputText value="${fn:substring(unit.internalConcatenatedDescription, 0, 400)}..." rendered="${fn:length(unit.internalConcatenatedDescription) gt 400}" />
+												<h:outputText value="${unit.internalConcatenatedDescription}" rendered="${fn:length(unit.internalConcatenatedDescription) lt 401}" />
+											</div>
+											
+											<div name="description-body-long" style="display: none;">
+												<h:outputText value="${unit.internalConcatenatedDescription}" />
+											</div>
 										</h:outputText>
-									</div>
+				
+						               	<h:outputText rendered="${fn:length(unit.internalConcatenatedDescription) lt 1 and Search_SettingsContainer.testingMode==true}">
+											<span class="warning">Fältet "beskrivning" är tomt!</span>
+					                    </h:outputText>  
+						             	
+										<div name="description-extend">
+							               	<h:outputText rendered="${fn:length(unit.internalConcatenatedDescription) gt 400}">
+												<div name="description-toggle-area" />
+												<script type="text/javascript" charset="utf-8">
+													// <![CDATA[]
+														drawToggleDescription();
+													// ]]>
+												</script>
+											</h:outputText>
+										</div>
 								</div>
 							</div>
 						</div>
@@ -140,141 +142,11 @@
 					<ui:include src="${Search_SettingsContainer.settings.unitDetailsShowOrganisationInclude}" />
 				</h:outputText>
 			</div>
-			<table>
-				<caption>Övergripande information</caption>
-				<tbody>
-					<tr>
-						<th id="main-e-post">E-post</th>
-						<td headers="main-e-post"><a href="mailto:${unit.mail}">${unit.mail}</a></td>
-						<th id="main-extern-hemsida">${msg.externalWebsite}</th>
-						<td headers="main-extern-hemsida"><a href="${unit.labeledURI}">${unit.labeledURI}</a></td>
-					</tr>
-					<tr>
-						<th></th>
-						<td></td>
-						<th id="main-intern-hemsida">${msg.internalWebsite}</th>
-						<td headers="main-intern-hemsida"><a href="${unit.internalWebsite}">${unit.internalWebsite}</a></td>
-					</tr>
-				</tbody>
-			</table>
-			<table>
-				<caption>Telefonnummer</caption>
-				<tbody>
-					<tr>
-						<th id="tjanstetelefon">${msg.serviceTelephone}</th>
-						<td headers="tjanstetelefon">
-							<div jsfc="ui:repeat" value="${unit.hsaTelephoneNumber}" var="number">
-								${number.formattedPhoneNumber}
-							</div>
-						</td>
-						<th colspan="4"></th>
-					</tr>
-					<tr>
-						<th id="publiktelefon">Publiktelefon</th>
-						<td headers="publiktelefon">
-							<div jsfc="ui:repeat" value="${unit.hsaPublicTelephoneNumber}" var="number">
-								${number.formattedPhoneNumber}
-							</div>
-						</td>
-						<th id="telefontid">Telefontid</th>
-						<td headers="telefontid">
-							<div jsfc="ui:repeat" value="${unit.hsaTelephoneTime}" var="time">
-								${time.displayValue}
-							</div>
-						</td>
-						<th id="vaxeltelefon">Växeltelefon</th>
-						<td headers="vaxeltelefon">${unit.hsaSedfSwitchboardTelephoneNo.formattedPhoneNumber}</td>
-					</tr>
-					<tr>
-						<th id="mobiltelefon">Mobiltelefon</th>
-						<td headers="mobiltelefon">${unit.mobileTelephoneNumber.formattedPhoneNumber}</td>
-						<th id="personsokare">Personsökare</th>
-						<td headers="personsokare">${unit.hsaInternalPagerNumber.formattedPhoneNumber}</td>
-						<th id="minicall">Minicall</th>
-						<td headers="minicall">${unit.pagerTelephoneNumber.formattedPhoneNumber}</td>
-					</tr>
-					<tr>
-						<th id="texttelefon">Texttelefon</th>
-						<td headers="texttelefon">${unit.hsaTextPhoneNumber.formattedPhoneNumber}</td>
-						<th id="faxnummer">Faxnummer</th>
-						<td headers="faxnummer">${unit.facsimileTelephoneNumber.formattedPhoneNumber}</td>
-						<th />
-						<td />
-					</tr>
-				</tbody>
-			</table>
-			<table>
-				<caption>Adresser</caption>
-				<tbody>
-					<tr class="cols">
-						<th id="postadress">Postadress</th>
-						<th id="internadress">Internadress</th>
-						<th id="besoksadress">Besöksadress</th>
-					</tr>
-					<tr class="cols">
-						<td headers="postadress">
-							<div jsfc="ui:repeat" value="${unit.hsaPostalAddress.additionalInfo}" var="additionalInformation">
-    	                    	${additionalInformation}
-        	                </div>
-            	 			<div>${unit.hsaPostalAddress.street}</div>
-             				<span>${unit.hsaPostalAddress.zipCode.formattedZipCode}</span>
-             				<span>${unit.hsaPostalAddress.city}</span>
-						</td>
-						<td headers="internadress">
-                          	<div jsfc="ui:repeat" value="${unit.hsaInternalAddress.additionalInfo}" var="additionalInformation">
-                          		${additionalInformation}
-                          	</div>
-	               			<div>${unit.hsaInternalAddress.street}</div>
-	               			<span>${unit.hsaInternalAddress.zipCode.formattedZipCode}</span>
-	               			<span>${unit.hsaInternalAddress.city}</span>
-						</td>
-						<td headers="besoksadress">
-                           	<div jsfc="ui:repeat" value="${unit.hsaStreetAddress.additionalInfo}" var="additionalInformation">
-                           		${additionalInformation}
-                           	</div>
-                			<div>${unit.hsaStreetAddress.street}</div>
-                			<span>${unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
-                			<span>${unit.hsaStreetAddress.city}</span>
-						</td>
-					</tr>
-					<tr class="cols">
-						<th id="fakturaadress">Fakturaadress</th>
-						<th id="leveransadress">Leveransadress</th>
-						<th id="locality">${msg.locality}</th>
-					</tr>
-					<tr class="cols">
-						<td headers="fakturaadress">
-                           	<div jsfc="ui:repeat" value="${unit.hsaSedfInvoiceAddress.additionalInfo}" var="additionalInformation">
-                           		${additionalInformation}
-                           	</div>
-                			<div>${unit.hsaSedfInvoiceAddress.street}</div>
-                			<span>${unit.hsaSedfInvoiceAddress.zipCode.formattedZipCode}</span>
-                			<span>${unit.hsaSedfInvoiceAddress.city}</span>
-						</td>
-						<td headers="leveransadress">
-                           	<div jsfc="ui:repeat" value="${unit.hsaSedfDeliveryAddress.additionalInfo}" var="additionalInformation">
-                           		${additionalInformation}
-                           	</div>
-                			<div>${unit.hsaSedfDeliveryAddress.street}</div>
-                			<span>${unit.hsaSedfDeliveryAddress.zipCode.formattedZipCode}</span>
-                			<span>${unit.hsaSedfDeliveryAddress.city}</span>
-						</td>
-						<td>${unit.locality}</td>
-					</tr>
-					<tr class="cols">
-						<th id="drivingdirections" colspan="3">${msg.drivingDirections}</th>
-					</tr>
-					<tr class="cols">
-						<td headers="drivingdirections" colspan="3">
-                           	<div jsfc="ui:repeat" value="${unit.hsaRoute}" var="direction">
-                           		${direction}
-                           	</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<ui:include src="${Search_SettingsContainer.settings.unitDetailsMainInfoInclude}" />
+			<ui:include src="${Search_SettingsContainer.settings.unitDetailsTelephoneInclude}" />
+			<ui:include src="${Search_SettingsContainer.settings.unitDetailsAddressInclude}" />
 			<ui:include src="${Search_SettingsContainer.settings.unitDetailsMiscInfoTableInclude}" />
-			<ui:include src="${Search_SettingsContainer.settings.unitDetailsPatientInfoTableInclude}" />
 		</div>
 	</ui:define>
+
 </ui:composition></div>

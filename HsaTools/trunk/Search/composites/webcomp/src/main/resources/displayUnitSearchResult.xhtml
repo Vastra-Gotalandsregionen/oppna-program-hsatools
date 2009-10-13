@@ -82,6 +82,9 @@
 					Din sökning har genererat allt för många träffar. I resultatlistan nedan visas de ${Search_MaxSearchResult} första träffarna. Prova att skriva ett mer detaljerat sökord. Tips: Om du skriver tecknet " runt orden så blir det exakt sökning. (Exempel: "IT-Samordning")
 				</p>
 			</h:outputText>
+			<h:outputText rendered="${fn:trim(rootCauseException.message) == '' and fn:length(units) eq 0}">
+				<ui:include src="${Search_SettingsContainer.settings.siteInformationInclude}" />
+			</h:outputText>
 		</div>
 		<h:outputText rendered="${fn:length(units) gt 0}">
 			<ul id="search-result-container">
