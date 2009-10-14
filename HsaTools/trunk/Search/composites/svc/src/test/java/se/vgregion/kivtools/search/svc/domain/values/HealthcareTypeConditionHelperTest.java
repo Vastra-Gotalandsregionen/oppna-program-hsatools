@@ -36,7 +36,7 @@ public class HealthcareTypeConditionHelperTest {
   @Before
   public void setUp() throws Exception {
     helper = new HealthcareTypeConditionHelper();
-    helper.resetInternalCache();
+    HealthcareTypeConditionHelper.resetInternalCache();
     unit = new Unit();
   }
 
@@ -61,19 +61,19 @@ public class HealthcareTypeConditionHelperTest {
     assertNotNull(helper.getAllHealthcareTypes());
     assertEquals(0, helper.getAllHealthcareTypes().size());
 
-    helper.resetInternalCache();
+    HealthcareTypeConditionHelper.resetInternalCache();
 
     helper.setImplResourcePath("test.healthcaretypeconditionhelper.one_property");
     assertNotNull(helper.getAllHealthcareTypes());
     assertEquals(1, helper.getAllHealthcareTypes().size());
 
-    helper.resetInternalCache();
+    HealthcareTypeConditionHelper.resetInternalCache();
 
     helper.setImplResourcePath("test.healthcaretypeconditionhelper.two_properties");
     assertNotNull(helper.getAllHealthcareTypes());
     assertEquals(2, helper.getAllHealthcareTypes().size());
 
-    helper.resetInternalCache();
+    HealthcareTypeConditionHelper.resetInternalCache();
 
     helper.setImplResourcePath("test.healthcaretypeconditionhelper.one_property_plus_subindex");
     assertNotNull(helper.getAllHealthcareTypes());
@@ -228,7 +228,7 @@ public class HealthcareTypeConditionHelperTest {
     healthcareType = helper.getHealthcareTypeByName("Vårdcentral");
     assertNotNull(healthcareType);
     assertEquals("1502", healthcareType.getConditions().get("hsaBusinessClassificationCode"));
-    assertEquals("JA", healthcareType.getConditions().get("vgrVardval"));
+    assertEquals("J", healthcareType.getConditions().get("vgrVardval"));
     assertTrue(healthcareType.isFiltered());
     assertEquals(Integer.valueOf(18), healthcareType.getIndex());
 
