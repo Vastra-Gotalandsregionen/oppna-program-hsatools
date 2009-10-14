@@ -12,6 +12,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Implementation of FtpClient for the SFTP protocol.
@@ -85,7 +86,7 @@ public class SftpClientImpl implements FtpClient {
    */
   public boolean sendFile(String fileContent) {
     try {
-      InputStream inputStream = new ByteArrayInputStream(fileContent.getBytes("UTF-8"));
+      InputStream inputStream = new ByteArrayInputStream(StringUtil.getBytes(fileContent, "UTF-8"));
       Session session = jsch.getSession(username, hostname, port);
       session.setPassword(password);
       session.setConfig("StrictHostKeyChecking", "no");
@@ -100,9 +101,6 @@ public class SftpClientImpl implements FtpClient {
       logger.error("Error in SftpClient", e);
     } catch (SftpException e) {
       logger.error("Error in SftpClient", e);
-    } catch (UnsupportedEncodingException e) {
-      // Should not happen. Re-throwing as RuntimeException
-      throw new RuntimeException(e);
     }
     return false;
   }

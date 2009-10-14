@@ -47,6 +47,8 @@
 							</wsdlUrls>
 							<packageName>se.vgregion.hsatools.testtools.vardvalws.ws.domain</packageName>
 							<extension>true</extension>
+							<sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
+							<staleFile>${project.build.directory}/generated-sources/jaxws/stale/.staleFlagVardval</staleFile>
 						</configuration>
 					</execution>
 					<!--  Signicat -->
@@ -60,6 +62,8 @@
 								<wsdlUrl>https://id.signicat.com/signatureservice/services/signatureservice?wsdl</wsdlUrl>
 							</wsdlUrls>
 							<packageName>se.vgregion.hsatools.testtools.signicatws.ws.domain</packageName>
+							<sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
+							<staleFile>${project.build.directory}/generated-sources/jaxws/stale/.staleFlagSignicat</staleFile>
 						</configuration>
 					</execution>
 				</executions>
@@ -105,6 +109,11 @@
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>HsaTools</groupId>
+			<artifactId>HsaTools-Utils</artifactId>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

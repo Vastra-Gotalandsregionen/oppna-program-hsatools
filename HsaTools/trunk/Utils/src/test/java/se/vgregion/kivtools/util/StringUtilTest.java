@@ -1,5 +1,8 @@
 package se.vgregion.kivtools.util;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+import java.util.Collections;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -81,4 +84,23 @@ public class StringUtilTest {
     assertEquals("", StringUtil.emptyStringIfNull(null));
     assertEquals("test", StringUtil.emptyStringIfNull("test"));
   }
+
+	@Test
+	public void testGetBytes() throws UnsupportedEncodingException {
+		assertTrue(Arrays.equals("test".getBytes("UTF-8"), StringUtil.getBytes("test", "UTF-8")));
+	}
+	@Test(expected=RuntimeException.class)
+	public void testGetBytesException() {
+		StringUtil.getBytes("test", "INVALID_ENCODING");
+	}
+
+	@Test
+	public void testGetString() throws UnsupportedEncodingException {
+		assertEquals("test", StringUtil.getString("test".getBytes("UTF-8"), "UTF-8"));
+	}
+
+	@Test(expected=RuntimeException.class)
+	public void testGetStringException() {
+		StringUtil.getString(new byte[1], "INVALID_ENCODING");
+	}
 }

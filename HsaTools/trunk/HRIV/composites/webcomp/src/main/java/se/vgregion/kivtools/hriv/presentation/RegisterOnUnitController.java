@@ -284,12 +284,7 @@ public class RegisterOnUnitController implements Serializable {
   }
 
   private byte[] encodeRegistrationData(String registrationData) {
-    try {
-      return Base64.encodeBase64(registrationData.getBytes("UTF-8"));
-    } catch (UnsupportedEncodingException e) {
-      // Should not happen
-      throw new RuntimeException(e);
-    }
+		return Base64.encodeBase64(StringUtil.getBytes(registrationData, "UTF-8"));
   }
 
   private SigningInformation handleSamlResponse(ExternalContext externalContext) {
@@ -326,13 +321,8 @@ public class RegisterOnUnitController implements Serializable {
 
       if (errorMessage == null) {
         String samlAssertionString;
-        try {
-          samlAssertionBytes = Base64.decodeBase64(samlAssertion.getBytes("UTF-8"));
-          samlAssertionString = new String(samlAssertionBytes, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-          // Should not happen, re-throwing as RuntimeException.
-          throw new RuntimeException(e);
-        }
+				samlAssertionBytes = Base64.decodeBase64(StringUtil.getBytes(samlAssertion, "UTF-8"));
+				samlAssertionString = StringUtil.getString(samlAssertionBytes, "UTF-8");
         signingInformation = SamlResponseHelper.getSigningInformation(samlAssertionString);
       } else {
         logger.error(errorMessage);

@@ -43,6 +43,7 @@ import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointIm
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
 import se.vgregion.kivtools.search.util.EncryptionUtil;
+import se.vgregion.kivtools.util.StringUtil;
 
 public class RegisterOnUnitControllerTest {
 
@@ -265,7 +266,7 @@ public class RegisterOnUnitControllerTest {
       // Expected exception
     }
 
-    signatureEndpointImpl.setSamlResponse(new String(Base64.encodeBase64(getSamlResponseWithoutSsn().getBytes("UTF-8"))));
+    signatureEndpointImpl.setSamlResponse(new String(Base64.encodeBase64(StringUtil.getBytes(getSamlResponseWithoutSsn(), "UTF-8"))));
     try {
       registerOnUnitController.postCommitRegistrationOnUnit(externalContext);
       fail("VardvalSigningException expected");
@@ -273,7 +274,7 @@ public class RegisterOnUnitControllerTest {
       // Expected exception
     }
 
-    signatureEndpointImpl.setSamlResponse(new String(Base64.encodeBase64(getCompleteSamlResponse().getBytes("UTF-8"))));
+    signatureEndpointImpl.setSamlResponse(new String(Base64.encodeBase64(StringUtil.getBytes(getCompleteSamlResponse(), "UTF-8"))));
     try {
       registerOnUnitController.postCommitRegistrationOnUnit(externalContext);
       fail("VardvalSigningException expected");
@@ -282,7 +283,7 @@ public class RegisterOnUnitControllerTest {
     }
 
     sessionMap.put("ssn", "188803099368");
-    signatureEndpointImpl.setSamlResponse(new String(Base64.encodeBase64(getCompleteSamlResponse().getBytes("UTF-8"))));
+    signatureEndpointImpl.setSamlResponse(new String(Base64.encodeBase64(StringUtil.getBytes(getCompleteSamlResponse(), "UTF-8"))));
     try {
       registerOnUnitController.postCommitRegistrationOnUnit(externalContext);
       fail("NullPointerException expected");

@@ -251,6 +251,8 @@
                                     </wsdlUrls>
                                     <packageName>se.vgregion.kivtools.search.svc.ws.domain.vardval</packageName>
                                     <extension>true</extension>
+				    <sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
+				    <staleFile>${project.build.directory}/generated-sources/jaxws/stale/.staleFlagVardval</staleFile>
                                 </configuration>
                             </execution>
 					<!--  Signicat -->
@@ -264,6 +266,8 @@
                                         <wsdlUrl>https://id.signicat.com/signatureservice/services/signatureservice?wsdl</wsdlUrl>
                                     </wsdlUrls>
                                     <packageName>se.vgregion.kivtools.search.svc.ws.signicat.signature</packageName>
+				    <sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
+				    <staleFile>${project.build.directory}/generated-sources/jaxws/stale/.staleFlagSignicat</staleFile>
                                 </configuration>
                             </execution>
                         </executions>

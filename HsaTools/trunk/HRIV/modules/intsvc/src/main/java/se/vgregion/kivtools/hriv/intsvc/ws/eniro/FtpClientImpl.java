@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPClient;
 
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Ftp client used for uploading files to ftp server.
@@ -57,7 +58,7 @@ public class FtpClientImpl implements FtpClient {
     }
     boolean success;
     try {
-      InputStream inputStream = new ByteArrayInputStream(fileContent.getBytes("UTF-8"));
+      InputStream inputStream = new ByteArrayInputStream(StringUtil.getBytes(fileContent, "UTF-8"));
       ftpclient.connect(hostname, port);
       ftpclient.enterLocalPassiveMode();
       boolean loginSuccess = ftpclient.login(username, password);

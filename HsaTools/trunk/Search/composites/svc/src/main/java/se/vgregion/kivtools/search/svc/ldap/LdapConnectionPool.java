@@ -234,7 +234,7 @@ public class LdapConnectionPool {
       lc.connect(ldapHost, ldapport);
 
       // bind to the server
-      lc.bind(ldapVersion, loginDN, password.getBytes("UTF8"));
+      lc.bind(ldapVersion, loginDN, StringUtil.getBytes(password, "UTF8"));
 
       logger.debug("create physichal connection");
     } catch (LDAPException e) {
@@ -243,10 +243,6 @@ public class LdapConnectionPool {
         throw new NoConnectionToServerException();
       }
       throw e;
-    } catch (UnsupportedEncodingException e) {
-      // This should never happen
-      logger.error("Can't create a new connection for ldapHost=" + ldapHost + ", ldapport=" + ldapport, e);
-      throw new RuntimeException(e);
     }
     return lc;
   }

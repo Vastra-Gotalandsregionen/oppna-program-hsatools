@@ -48,6 +48,7 @@ import org.xml.sax.SAXException;
 
 import com.steeplesoft.jsf.facestester.FacesPage;
 import com.steeplesoft.jsf.facestester.FacesTester;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * 
@@ -96,11 +97,7 @@ public class FacesTesterBase {
 
   private Document getDocumentFromString(String string) {
     ByteArrayInputStream inputStream;
-    try {
-      inputStream = new ByteArrayInputStream(string.getBytes("UTF-8"));
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
-    }
+		inputStream = new ByteArrayInputStream(StringUtil.getBytes(string, "UTF-8"));
     Document document;
     try {
       document = documentBuilder.parse(inputStream, null);
