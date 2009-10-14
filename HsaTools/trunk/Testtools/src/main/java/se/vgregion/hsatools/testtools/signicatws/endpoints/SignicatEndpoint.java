@@ -13,6 +13,7 @@ import se.vgregion.hsatools.testtools.signicatws.ws.domain.RegisterDocument;
 import se.vgregion.hsatools.testtools.signicatws.ws.domain.RegisterDocumentResponse;
 import se.vgregion.hsatools.testtools.signicatws.ws.domain.RetrieveSaml;
 import se.vgregion.hsatools.testtools.signicatws.ws.domain.RetrieveSamlResponse;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Endpoint-class for the Signicat Webservice endpoint testtool.
@@ -69,13 +70,8 @@ public class SignicatEndpoint extends AbstractMarshallingPayloadEndpoint {
       String ssn = Service.getSignature(artifact);
       String responseText = MessageFormat.format(SAML, ssn);
       RetrieveSamlResponse response = new RetrieveSamlResponse();
-      try {
-        byte[] encodeBase64 = Base64.encodeBase64(responseText.getBytes("utf-8"));
-        response.setRetrieveSamlReturn(new String(encodeBase64, "utf-8"));
-      } catch (UnsupportedEncodingException e) {
-        // Should not happen. Re-throwing as RuntimeException.
-        throw new RuntimeException(e);
-      }
+      byte[] encodeBase64 = Base64.encodeBase64(StringUtil.getBytes(responseText, "utf-8"));
+      response.setRetrieveSamlReturn(StringUtil.getString(encodeBase64, "utf-8"));
       return response;
     }
   }

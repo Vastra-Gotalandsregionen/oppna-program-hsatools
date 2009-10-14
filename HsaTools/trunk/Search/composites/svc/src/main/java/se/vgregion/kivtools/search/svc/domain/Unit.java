@@ -361,12 +361,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   public String getDnBase64() {
     String dnString = dn.toString();
     String dnStringBase64Encoded;
-    try {
-      dnStringBase64Encoded = new String(Base64.encodeBase64(dnString.getBytes("ISO-8859-1"), true));
-    } catch (UnsupportedEncodingException e) {
-      // Should not happen. Re-throwing as RuntimeException.
-      throw new RuntimeException(e);
-    }
+		dnStringBase64Encoded = new String(Base64.encodeBase64(StringUtil.getBytes(dnString, "ISO-8859-1"), true));
     return dnStringBase64Encoded;
   }
 
