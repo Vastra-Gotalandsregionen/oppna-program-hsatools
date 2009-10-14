@@ -36,9 +36,10 @@ public class AddressHelper implements Serializable {
 
   // to any special address info
   private static final List<String> VALID_STREET_SUFFIX = new LinkedList<String>();
+  private static final List<String> EXCEPTIONED_STREET_SUFFIX = new LinkedList<String>();
   private static final int ZIPCODE_LENGTH = 5;
 
-  // Define all valid street suffix
+  // Define all valid street suffix as well as all exceptioned street suffix
   static {
     VALID_STREET_SUFFIX.add("gata");
     VALID_STREET_SUFFIX.add("v\u00E4g");
@@ -54,6 +55,12 @@ public class AddressHelper implements Serializable {
     VALID_STREET_SUFFIX.add("dalslands sjukhus");
     VALID_STREET_SUFFIX.add("stig");
     VALID_STREET_SUFFIX.add("centrum");
+
+    EXCEPTIONED_STREET_SUFFIX.add("bruna str\u00E5ket");
+    EXCEPTIONED_STREET_SUFFIX.add("vita str\u00E5ket");
+    EXCEPTIONED_STREET_SUFFIX.add("r\u00F6da str\u00E5ket");
+    EXCEPTIONED_STREET_SUFFIX.add("gr\u00F6na str\u00E5ket");
+    EXCEPTIONED_STREET_SUFFIX.add("bl\u00E5 str\u00E5ket");
   }
 
   /**
@@ -64,11 +71,29 @@ public class AddressHelper implements Serializable {
    */
   private static boolean isStreet(String text) {
     boolean result = false;
+
+    result |= containsListWord(text, VALID_STREET_SUFFIX);
+    result &= !containsListWord(text, EXCEPTIONED_STREET_SUFFIX);
+
+    return result;
+  }
+
+  /**
+   * Helper-method to check if a string contains any of the words in the provided list of words.
+   * 
+   * @param text The string to check.
+   * @param words The list of words to check against.
+   * @return True if the string contains any of the words in the provided list, otherwise false.
+   */
+  private static boolean containsListWord(String text, List<String> words) {
+    boolean result = false;
+
     if (!StringUtil.isEmpty(text)) {
-      for (String validSuffix : AddressHelper.VALID_STREET_SUFFIX) {
-        result |= text.toLowerCase().contains(validSuffix);
+      for (String word : words) {
+        result |= text.toLowerCase().contains(word);
       }
     }
+
     return result;
   }
 

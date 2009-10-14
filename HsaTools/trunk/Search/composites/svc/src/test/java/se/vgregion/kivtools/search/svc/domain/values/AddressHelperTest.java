@@ -31,6 +31,7 @@ public class AddressHelperTest {
   private static final String ZIPCODE_FORMATTED = "412 63";
   private static final String ZIPCODE = "41263";
   private static final String STREET = "Storgatan 1";
+  private static final String EXCEPTIONED_STREET = "Röda stråket";
 
   @Test
   public void testConvertToStreetAddress() {
@@ -143,5 +144,19 @@ public class AddressHelperTest {
     assertEquals("Unexpected value for zipcode", ZIPCODE, address.getZipCode().getZipCode());
     assertEquals("Unexpected value for city", CITY, address.getCity());
     assertNull("Unexpected value for additional information", address.getAdditionalInfoToString());
+  }
+
+  @Test
+  public void testStreetAddressWithExceptionedWord() {
+    List<String> origAddress = new ArrayList<String>();
+    origAddress.add(STREET);
+    origAddress.add(ZIPCODE_CITY);
+    origAddress.add(EXCEPTIONED_STREET);
+    Address address = AddressHelper.convertToStreetAddress(origAddress);
+    assertNotNull("An address should have been created", address);
+    assertEquals("Unexpected value for street", STREET, address.getStreet());
+    assertEquals("Unexpected value for zipcode", ZIPCODE, address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", CITY, address.getCity());
+    assertEquals("Unexpected value for additionalInfo", EXCEPTIONED_STREET, address.getAdditionalInfoToString());
   }
 }
