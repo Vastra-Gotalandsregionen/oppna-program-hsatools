@@ -94,9 +94,9 @@ public class EniroOrganisationBuilder {
     // Go through all subUnits and add them to their locality under "careCenter" unit.
     for (Entry<String, List<Unit>> units : subunits.entrySet()) {
       Unit localityUnit = new Unit();
-			String cleanedDnString = cleanDnString(units.getKey());
+      String cleanedDnString = cleanDnString(units.getKey());
       localityUnit.setName(cleanedDnString);
-			localityUnit.setId(cleanedDnString);
+      localityUnit.setId(cleanedDnString);
       localityUnit.getUnit().addAll(units.getValue());
       careCenterUnit.getUnit().add(localityUnit);
     }

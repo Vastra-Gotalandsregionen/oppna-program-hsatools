@@ -20,7 +20,6 @@ package se.vgregion.kivtools.search.svc.domain;
 import geo.google.datamodel.GeoCoordinate;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -361,7 +360,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   public String getDnBase64() {
     String dnString = dn.toString();
     String dnStringBase64Encoded;
-		dnStringBase64Encoded = new String(Base64.encodeBase64(StringUtil.getBytes(dnString, "ISO-8859-1"), true));
+    dnStringBase64Encoded = new String(Base64.encodeBase64(StringUtil.getBytes(dnString, "ISO-8859-1"), true));
     return dnStringBase64Encoded;
   }
 
