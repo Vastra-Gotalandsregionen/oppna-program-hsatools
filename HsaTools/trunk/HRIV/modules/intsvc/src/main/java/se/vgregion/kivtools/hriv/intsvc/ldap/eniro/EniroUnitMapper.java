@@ -42,7 +42,7 @@ public class EniroUnitMapper implements ContextMapper {
    * 
    */
   enum ADDRESS_TYPE {
-    GOODS("goods"), DELIVERY("delivery"), POST("post"), BILLING("billing");
+    GOODS("goods"), DELIVERY("delivery"), POST("post"), BILLING("billing"), VISIT("visit");
     private String value;
 
     ADDRESS_TYPE(String value) {
@@ -89,8 +89,14 @@ public class EniroUnitMapper implements ContextMapper {
     unit.setId(dirContextOperations.getStringAttribute("hsaIdentity"));
     unit.setLocality(dirContextOperations.getStringAttribute("l"));
     unit.setName(getUnitName(dirContextOperations));
-    unit.getTextOrImageOrAddress().add(generateAddress(dirContextOperations));
-    unit.getTextOrImageOrAddress().add(getPublicTelephoneType(dirContextOperations));
+    Address address = generateAddress(dirContextOperations);
+    if (address != null) {
+      unit.getTextOrImageOrAddress().add(address);
+    }
+    TelephoneType telephone = getPublicTelephoneType(dirContextOperations);
+    if (telephone != null) {
+      unit.getTextOrImageOrAddress().add(telephone);
+    }
     unit.getTextOrImageOrAddress().add(createBusinessClassification(dirContextOperations.getStringAttribute("hsaBusinessClassificationCode")));
     return unitComposition;
   }
@@ -144,19 +150,27 @@ public class EniroUnitMapper implements ContextMapper {
   }
 
   private TelephoneType getPublicTelephoneType(DirContextOperations dirContextOperations) {
-    TelephoneType telephoneType = new TelephoneType();
-    telephoneType.setType(PHONE_TYPE.FIXED.value);
-    telephoneType.getHours().add(generateHoursObject(dirContextOperations.getStringAttribute("hsaTelephoneTime")));
+    String publicTelephoneNumber = dirContextOperations.getStringAttribute("hsaPublicTelephoneNumber");
+    TelephoneType telephoneType = null;
+
+    if (!StringUtil.isEmpty(publicTelephoneNumber)) {
+      telephoneType = new TelephoneType();
+      telephoneType.setType(PHONE_TYPE.FIXED.value);
+      telephoneType.getTelephoneNumber().add(publicTelephoneNumber);
+      telephoneType.getHours().add(generateHoursObject(dirContextOperations.getStringAttribute("hsaTelephoneTime")));
+    }
     return telephoneType;
   }
 
   private Address generateAddress(DirContextOperations dirContextOperations) {
     Address address = createBaseAddress(dirContextOperations.getStringAttribute("hsaSedfDeliveryAddress"));
-    address.getHours().add(generateHoursObject(dirContextOperations.getStringAttribute("hsaSurgeryHours")));
-    // Set address type
-    address.setType(ADDRESS_TYPE.DELIVERY.value);
-    // Get geoCoordinates
-    address.setGeoCoordinates(generateGeoCoordinatesObject(dirContextOperations.getStringAttribute("hsaGeographicalCoordinates")));
+    if (address != null) {
+      address.getHours().add(generateHoursObject(dirContextOperations.getStringAttribute("hsaSurgeryHours")));
+      // Set address type
+      address.setType(ADDRESS_TYPE.VISIT.value);
+      // Get geoCoordinates
+      address.setGeoCoordinates(generateGeoCoordinatesObject(dirContextOperations.getStringAttribute("hsaGeographicalCoordinates")));
+    }
     return address;
   }
 
@@ -195,29 +209,29 @@ public class EniroUnitMapper implements ContextMapper {
   // }
 
   private Address createBaseAddress(String hsaAddress) {
-    if (hsaAddress == null) {
-      return new Address();
-    }
-    String[] addressFields = hsaAddress.split("\\$");
-    Address address = new Address();
-    if (addressFields.length == 6) {
-      // Take out street name and street number.
-      Pattern patternStreetName = Pattern.compile("\\D+");
-      Matcher matcherStreetName = patternStreetName.matcher(addressFields[2]);
-      Pattern patternStreetNb = Pattern.compile("\\d+\\w*");
-      Matcher matcherStreetNb = patternStreetNb.matcher(addressFields[2]);
+    Address address = null;
+    if (hsaAddress != null) {
+      String[] addressFields = hsaAddress.split("\\$");
+      address = new Address();
+      if (addressFields.length == 6) {
+        // Take out street name and street number.
+        Pattern patternStreetName = Pattern.compile("\\D+");
+        Matcher matcherStreetName = patternStreetName.matcher(addressFields[2]);
+        Pattern patternStreetNb = Pattern.compile("\\d+\\w*");
+        Matcher matcherStreetNb = patternStreetNb.matcher(addressFields[2]);
 
-      if (matcherStreetName.find()) {
-        String streetName = matcherStreetName.group().trim();
-        address.setStreetName(streetName);
-      }
-      if (matcherStreetNb.find()) {
-        String streetNb = matcherStreetNb.group();
-        address.setStreetNumber(streetNb);
-      }
+        if (matcherStreetName.find()) {
+          String streetName = matcherStreetName.group().trim();
+          address.setStreetName(streetName);
+        }
+        if (matcherStreetNb.find()) {
+          String streetNb = matcherStreetNb.group();
+          address.setStreetNumber(streetNb);
+        }
 
-      address.getPostCode().add(addressFields[4]);
-      address.setCity(addressFields[5]);
+        address.getPostCode().add(addressFields[4]);
+        address.setCity(addressFields[5]);
+      }
     }
     return address;
   }
