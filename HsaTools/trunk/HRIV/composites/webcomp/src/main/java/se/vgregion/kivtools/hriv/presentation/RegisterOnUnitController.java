@@ -26,10 +26,6 @@ import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 import se.vgregion.kivtools.search.svc.registration.CitizenRepository;
-import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage;
-import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
-import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImpl;
-import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImplService;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
 import se.vgregion.kivtools.search.util.EncryptionUtil;
@@ -284,7 +280,7 @@ public class RegisterOnUnitController implements Serializable {
   }
 
   private byte[] encodeRegistrationData(String registrationData) {
-		return Base64.encodeBase64(StringUtil.getBytes(registrationData, "UTF-8"));
+    return Base64.encodeBase64(StringUtil.getBytes(registrationData, "UTF-8"));
   }
 
   private SigningInformation handleSamlResponse(ExternalContext externalContext) {
@@ -321,8 +317,8 @@ public class RegisterOnUnitController implements Serializable {
 
       if (errorMessage == null) {
         String samlAssertionString;
-				samlAssertionBytes = Base64.decodeBase64(StringUtil.getBytes(samlAssertion, "UTF-8"));
-				samlAssertionString = StringUtil.getString(samlAssertionBytes, "UTF-8");
+        samlAssertionBytes = Base64.decodeBase64(StringUtil.getBytes(samlAssertion, "UTF-8"));
+        samlAssertionString = StringUtil.getString(samlAssertionBytes, "UTF-8");
         signingInformation = SamlResponseHelper.getSigningInformation(samlAssertionString);
       } else {
         logger.error(errorMessage);

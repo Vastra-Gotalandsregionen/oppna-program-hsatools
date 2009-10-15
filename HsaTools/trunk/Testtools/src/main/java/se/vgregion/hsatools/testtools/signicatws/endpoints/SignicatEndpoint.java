@@ -1,6 +1,5 @@
 package se.vgregion.hsatools.testtools.signicatws.endpoints;
 
-import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 
 import org.apache.commons.codec.binary.Base64;

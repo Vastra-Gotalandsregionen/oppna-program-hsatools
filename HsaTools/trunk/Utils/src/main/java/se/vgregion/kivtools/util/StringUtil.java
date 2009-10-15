@@ -18,8 +18,6 @@
 package se.vgregion.kivtools.util;
 
 import java.io.UnsupportedEncodingException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Utility methods for String handling.
@@ -151,33 +149,35 @@ public class StringUtil {
     return result;
   }
 
-	/**
-	 * Gets the contents of a string as a byte-array using the provided encoding.
-	 * @param string The string to get as a byte-array.
-	 * @param encoding The encoding to use.
-	 * @return The contents of the provided string as a byte-array.
-	 * @throws RuntimeException If an unsupported encoding is provided.
-	 */
+  /**
+   * Gets the contents of a string as a byte-array using the provided encoding.
+   * 
+   * @param string The string to get as a byte-array.
+   * @param encoding The encoding to use.
+   * @return The contents of the provided string as a byte-array.
+   * @throws RuntimeException If an unsupported encoding is provided.
+   */
   public static byte[] getBytes(String string, String encoding) {
-		try {
-			return string.getBytes(encoding);
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
+    try {
+      return string.getBytes(encoding);
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
-	/**
-	 * Creates a new String using the provided byte-array using the provided encoding.
-	 * @param bytes The byte-array to create a String from.
-	 * @param encoding The encoding to use.
-	 * @return A new String based on the provided byte-array.
-	 * @throws RuntimeException If an unsupported encoding is provided.
-	 */
-	public static String getString(byte[] bytes, String encoding){
-		try {
-			return new String(bytes, encoding);
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-	}
+  /**
+   * Creates a new String using the provided byte-array using the provided encoding.
+   * 
+   * @param bytes The byte-array to create a String from.
+   * @param encoding The encoding to use.
+   * @return A new String based on the provided byte-array.
+   * @throws RuntimeException If an unsupported encoding is provided.
+   */
+  public static String getString(byte[] bytes, String encoding) {
+    try {
+      return new String(bytes, encoding);
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

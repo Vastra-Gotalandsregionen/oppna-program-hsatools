@@ -2,17 +2,17 @@ package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import se.vgregion.kivtools.util.StringUtil;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
-import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Implementation of FtpClient for the SFTP protocol.
