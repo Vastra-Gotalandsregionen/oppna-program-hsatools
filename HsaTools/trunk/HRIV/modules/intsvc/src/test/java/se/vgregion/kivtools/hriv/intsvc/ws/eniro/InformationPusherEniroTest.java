@@ -28,7 +28,7 @@ public class InformationPusherEniroTest {
   private FtpClientMock mockFtpClient = new FtpClientMock();
   private LdapTemplateMock ldapTemplateMock = new LdapTemplateMock();
   private static LogFactoryMock logFactoryMock;
-  private final String EXPECTED_FILECONTENT = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Organization Type=\"Municipality\" LoadType=\"Full\"><Unit><Name>Vårdcentral</Name></Unit><Unit><Name>Övrig primärvård</Name></Unit></Organization>";
+  private final String EXPECTED_FILECONTENT = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Organization Type=\"Municipality\" LoadType=\"Full\"><Unit><Id>Vårdcentral</Id><Name>Vårdcentral</Name></Unit><Unit><Id>Övrig primärvård</Id><Name>Övrig primärvård</Name></Unit></Organization>";
 
   @BeforeClass
   public static void beforeClass() {
@@ -49,7 +49,6 @@ public class InformationPusherEniroTest {
     informationPusher.setEniroOrganisationBuilder(eniroOrganisationBuilder);
     informationPusher.setAllowedUnitBusinessClassificationCodes(new String[] { "1", "2" });
     informationPusher.setOtherCareTypeBusinessCodes(new String[] { "3", "4" });
-
   }
 
   @AfterClass

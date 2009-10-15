@@ -55,10 +55,12 @@ public class EniroOrganisationBuilder {
     // Create care center unit.
     Unit careCenterUnit = new Unit();
     careCenterUnit.setName(careCenter);
+    careCenterUnit.setId(careCenter);
     organization.getUnit().add(careCenterUnit);
     // Create other care unit.
     Unit otherCareUnit = new Unit();
     otherCareUnit.setName(otherCare);
+    otherCareUnit.setId(otherCare);
     organization.getUnit().add(otherCareUnit);
 
     for (UnitComposition unitComposition : unitCompositions) {
@@ -92,7 +94,9 @@ public class EniroOrganisationBuilder {
     // Go through all subUnits and add them to their locality under "careCenter" unit.
     for (Entry<String, List<Unit>> units : subunits.entrySet()) {
       Unit localityUnit = new Unit();
-      localityUnit.setName(cleanDnString(units.getKey()));
+			String cleanedDnString = cleanDnString(units.getKey());
+      localityUnit.setName(cleanedDnString);
+			localityUnit.setId(cleanedDnString);
       localityUnit.getUnit().addAll(units.getValue());
       careCenterUnit.getUnit().add(localityUnit);
     }
