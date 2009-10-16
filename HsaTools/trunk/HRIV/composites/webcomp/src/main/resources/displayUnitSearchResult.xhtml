@@ -203,12 +203,25 @@
 											</div>
 										</h:outputText>
 
-				                        <div class="unit-description">
-											<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.getTextWithEllipsis(theUnit.concatenatedDescription, 400))}" />
-							               	<h:outputText rendered="${fn:length(theUnit.concatenatedDescription) lt 1 and Search_SettingsContainer.testingMode==true}">
-												<span class="warning">${msg.missingDescription}</span>
-					                        </h:outputText>  
-			 	                        </div>
+										<h:outputText rendered="${theUnit.vgrTempInfoBody == '' or theUnit.shouldVgrTempInfoBeShown == false}">
+					                        <div class="unit-description">
+												<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.getTextWithEllipsis(theUnit.concatenatedDescription, 400))}" />
+								               	<h:outputText rendered="${fn:length(theUnit.concatenatedDescription) lt 1 and Search_SettingsContainer.testingMode==true}">
+													<span class="warning">${msg.missingDescription}</span>
+						                        </h:outputText>  
+				 	                        </div>
+										</h:outputText>
+				                        
+						            	<h:outputText rendered="${theUnit.vgrTempInfoBody != '' and theUnit.shouldVgrTempInfoBeShown == true}" >
+					                        <div class="unit-tempinfo">
+							            		<div class="heading">${msg.temporary} ${msg.information}</div>
+								            	<div class="paragraph"><h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(theUnit.vgrTempInfoBody)}" /></div>
+								            	<h:outputText rendered="${theUnit.vgrTempInfoBody != '' and theUnit.shouldVgrTempInfoBeShown == true and theUnit.vgrRefInfo != ''}" >
+								            		<div class="heading refinfo">${msg.referral}</div>
+								            		<div class="paragraph"><h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(theUnit.vgrRefInfo)}" /></div>
+								            	</h:outputText>
+					                        </div>
+						            	</h:outputText>
 				                        
 				                        <div class="tel-adr-container">
 					                        <div class="tel-container">

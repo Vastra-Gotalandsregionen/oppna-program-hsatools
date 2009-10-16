@@ -365,6 +365,16 @@ h3.person {
 	height: 100%;
 }
 
+.vcard .unit-tempinfo {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #222;
+	float: left;
+	padding-top: 0.5em;
+	padding-right: 1em;
+	width: 53%;
+	height: 100%;
+}
+
 .vcard div.three-col {
 	float: left;
 	padding-right: 1em;
@@ -405,6 +415,15 @@ h3.person {
 
 .vcard .adr {
 	display: none;
+}
+
+.vcard .heading {
+	font-size: 1.25em;
+	font-weight: bold;
+}
+
+.vcard .refinfo {
+	padding-top: 0.5em;
 }
 
 .tel-header {

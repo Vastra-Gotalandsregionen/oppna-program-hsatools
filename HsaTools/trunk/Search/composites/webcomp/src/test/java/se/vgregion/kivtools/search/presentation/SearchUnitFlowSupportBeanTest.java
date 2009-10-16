@@ -34,6 +34,8 @@ import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.Address;
 
 public class SearchUnitFlowSupportBeanTest {
+  private static final String GOOGLE_MAPS_KEY = "ABQIAAAAsj7OTaHyEfNXhETUKuAVeBStFeF4n64ejGN5IPknXd-RNbYWcBREjFsf4BWmaarbveYhRN4pqE33og";
+
   private SearchServiceMock searchService;
   private SearchUnitFlowSupportBean bean;
   private UnitSearchSimpleForm form;
@@ -193,7 +195,7 @@ public class SearchUnitFlowSupportBeanTest {
 
   @Test
   public void testGetAllUnitsGeocoded() throws KivNoDataFoundException {
-    List<Unit> result = bean.getAllUnitsGeocoded(null);
+    List<Unit> result = bean.getAllUnitsGeocoded(GOOGLE_MAPS_KEY);
     assertNotNull(result);
     assertEquals(0, result.size());
 
@@ -203,7 +205,7 @@ public class SearchUnitFlowSupportBeanTest {
     Unit unit = new Unit();
     unit.setHsaIdentity("ABC-123");
     this.searchService.addUnit(unit);
-    result = bean.getAllUnitsGeocoded(null);
+    result = bean.getAllUnitsGeocoded(GOOGLE_MAPS_KEY);
     assertNotNull(result);
     assertEquals(0, result.size());
 
@@ -211,7 +213,7 @@ public class SearchUnitFlowSupportBeanTest {
     address.setStreet("Storgatan 1");
     address.setCity("Göteborg");
     unit.setHsaStreetAddress(address);
-    result = bean.getAllUnitsGeocoded(null);
+    result = bean.getAllUnitsGeocoded(GOOGLE_MAPS_KEY);
     assertNotNull(result);
     assertEquals(1, result.size());
     assertFalse(-1 == unit.getRt90X());
@@ -219,7 +221,7 @@ public class SearchUnitFlowSupportBeanTest {
 
     address.setStreet("xyz123");
     address.setCity("abc123");
-    result = bean.getAllUnitsGeocoded(null);
+    result = bean.getAllUnitsGeocoded(GOOGLE_MAPS_KEY);
     assertNotNull(result);
     assertEquals(1, result.size());
     assertEquals(-1, unit.getRt90X());
@@ -228,7 +230,7 @@ public class SearchUnitFlowSupportBeanTest {
     this.searchService.addExceptionToThrow(null);
     this.searchService.addExceptionToThrow(new KivNoDataFoundException());
     try {
-      result = bean.getAllUnitsGeocoded(null);
+      result = bean.getAllUnitsGeocoded(GOOGLE_MAPS_KEY);
       fail("KivNoDataFoundException expected");
     } catch (KivNoDataFoundException e) {
       // Expected exception
@@ -237,7 +239,7 @@ public class SearchUnitFlowSupportBeanTest {
     this.searchService.clearExceptionsToThrow();
     this.searchService.addExceptionToThrow(null);
     this.searchService.addExceptionToThrow(new KivException("Test"));
-    result = bean.getAllUnitsGeocoded(null);
+    result = bean.getAllUnitsGeocoded(GOOGLE_MAPS_KEY);
     assertNotNull(result);
     assertEquals(0, result.size());
   }
