@@ -12,6 +12,8 @@ import se.vgregion.kivtools.search.svc.domain.values.Address;
 import se.vgregion.kivtools.search.svc.domain.values.ZipCode;
 
 public class GeoUtilTest {
+  private static final String GOOGLE_MAPS_KEY = "ABQIAAAAsj7OTaHyEfNXhETUKuAVeBStFeF4n64ejGN5IPknXd-RNbYWcBREjFsf4BWmaarbveYhRN4pqE33og";
+
   private GeoUtil geoUtil;
 
   @Before
@@ -29,16 +31,16 @@ public class GeoUtilTest {
     assertNull(wgs84);
 
     address.setStreet("Storgatan 1");
-    wgs84 = geoUtil.geocodeToWGS84FromHsaAddress(address, null);
+    wgs84 = geoUtil.geocodeToWGS84FromHsaAddress(address, GOOGLE_MAPS_KEY);
     assertNotNull(wgs84);
 
     address.setStreet("Dubbelfnuttvägen 123");
-    wgs84 = geoUtil.geocodeToWGS84FromHsaAddress(address, null);
+    wgs84 = geoUtil.geocodeToWGS84FromHsaAddress(address, GOOGLE_MAPS_KEY);
     assertNull(wgs84);
 
     address.setStreet("");
     address.setZipCode(new ZipCode("47293"));
-    wgs84 = geoUtil.geocodeToWGS84FromHsaAddress(address, null);
+    wgs84 = geoUtil.geocodeToWGS84FromHsaAddress(address, GOOGLE_MAPS_KEY);
     assertNull(wgs84);
 
   }
@@ -53,7 +55,7 @@ public class GeoUtilTest {
     assertNull(rt90);
 
     address.setStreet("Storgatan 1");
-    rt90 = geoUtil.geocodeToRT90(address, null);
+    rt90 = geoUtil.geocodeToRT90(address, GOOGLE_MAPS_KEY);
     assertNotNull(rt90);
   }
 
@@ -168,27 +170,27 @@ public class GeoUtilTest {
     assertEquals(0, closeUnits.size());
 
     try {
-      closeUnits = geoUtil.getCloseUnits("Storgatan 1, Göteborg", null, 10000, null);
+      closeUnits = geoUtil.getCloseUnits("Storgatan 1, Göteborg", null, 10000, GOOGLE_MAPS_KEY);
       fail("NullPointerException expected");
     } catch (NullPointerException e) {
       // Expected exception
     }
 
     ArrayList<Unit> allUnits = new ArrayList<Unit>();
-    closeUnits = geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, null);
+    closeUnits = geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, GOOGLE_MAPS_KEY);
     assertEquals(0, closeUnits.size());
 
     Unit unit = new Unit();
     allUnits.add(unit);
-    closeUnits = geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, null);
+    closeUnits = geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, GOOGLE_MAPS_KEY);
     assertEquals(0, closeUnits.size());
 
     geoUtil.setGeoCoordinate(unit, new double[] { 1.234, 2.345 });
-    closeUnits = geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, null);
+    closeUnits = geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, GOOGLE_MAPS_KEY);
     assertEquals(0, closeUnits.size());
 
     geoUtil.setGeoCoordinate(unit, new double[] { 57.694, 11.945 });
-    closeUnits = geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, null);
+    closeUnits = geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, GOOGLE_MAPS_KEY);
     assertEquals(1, closeUnits.size());
   }
 }
