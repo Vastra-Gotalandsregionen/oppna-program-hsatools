@@ -87,7 +87,8 @@ public class EniroUnitMapper implements ContextMapper {
     // Fill unit with data.
     Unit unit = unitComposition.getEniroUnit();
     unit.setId(dirContextOperations.getStringAttribute("hsaIdentity"));
-    unit.setLocality(dirContextOperations.getStringAttribute("l"));
+    // unit.setLocality(dirContextOperations.getStringAttribute("l"));
+    unit.setLocality("Göteborg");
     unit.setName(getUnitName(dirContextOperations));
     Address address = generateAddress(dirContextOperations);
     if (address != null) {

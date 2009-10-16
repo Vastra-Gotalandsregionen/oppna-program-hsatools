@@ -15,10 +15,11 @@ import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * 
- * @author David Bennehutl & Joakim Olsson
+ * @author David Bennehult & Joakim Olsson
  * 
  */
 public class EniroOrganisationBuilder {
+  private static final String FIXED_LOCALITY = "Göteborg";
 
   private List<String> rootUnitDns;
   private String careCenter;
@@ -55,12 +56,14 @@ public class EniroOrganisationBuilder {
     // Create care center unit.
     Unit careCenterUnit = new Unit();
     careCenterUnit.setName(careCenter);
-    careCenterUnit.setId(careCenter);
+    careCenterUnit.setId(replaceSpecialCharacters(careCenter));
+    careCenterUnit.setLocality(FIXED_LOCALITY);
     organization.getUnit().add(careCenterUnit);
     // Create other care unit.
     Unit otherCareUnit = new Unit();
     otherCareUnit.setName(otherCare);
-    otherCareUnit.setId(otherCare);
+    otherCareUnit.setId(replaceSpecialCharacters(otherCare));
+    otherCareUnit.setLocality(FIXED_LOCALITY);
     organization.getUnit().add(otherCareUnit);
 
     for (UnitComposition unitComposition : unitCompositions) {
@@ -142,4 +145,30 @@ public class EniroOrganisationBuilder {
     return list;
   }
 
+  private String replaceSpecialCharacters(String input) {
+    String result = input;
+
+    // å
+    result = result.replace("\u00E5", "a");
+
+    // ä
+    result = result.replace("\u00E4", "a");
+
+    // ö
+    result = result.replace("\u00F6", "o");
+
+    // Å
+    result = result.replace("\u00C5", "A");
+
+    // Ä
+    result = result.replace("\u00C4", "A");
+
+    // Ö
+    result = result.replace("\u00D6", "O");
+
+    // Space
+    result = result.replace(" ", "_");
+
+    return result;
+  }
 }
