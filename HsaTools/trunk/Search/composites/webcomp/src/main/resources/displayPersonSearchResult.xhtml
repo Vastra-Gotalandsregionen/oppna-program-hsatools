@@ -47,25 +47,7 @@
 
 
 	<ui:define name="HeaderInputFieldContainer">
-		<h:form id="searchPersonForm" class="search-form">
-			<div id="formContainer">
-				<div class="textname">
-					<h:outputLabel for="givenName">Förnamn</h:outputLabel>
-					<h:inputText id="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" />
-				</div>
-				<div class="textname">
-					<h:outputLabel for="sirName">Efternamn</h:outputLabel>
-					<h:inputText id="sirName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.sirName}" />
-				</div>
-				<div class="vgrIdText">
-					<h:outputLabel for="vgrId">${msg.userId}</h:outputLabel>
-					<h:inputText id="vgrId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.vgrId}" />
-				</div>
-				<div class="submit-area">
-					<h:commandButton type="submit" action="doSearch" id="submitButton" value="Sök" />
-				</div>
-			</div>
-		</h:form>
+      <ui:include src="${Search_SettingsContainer.settings.personSearchInclude}" />
 	</ui:define>
 
 	<ui:define name="MainContainer">

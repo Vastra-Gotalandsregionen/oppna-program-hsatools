@@ -20,8 +20,12 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map.Entry;
 
+import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
+import org.springframework.ldap.filter.Filter;
+import org.springframework.ldap.filter.LikeFilter;
 import org.springframework.ldap.filter.OrFilter;
 
 import se.vgregion.kivtools.search.exceptions.KivException;
@@ -32,8 +36,11 @@ import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.PersonNameComparator;
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion.SearchCriterion;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.util.StringUtil;
 
@@ -462,5 +469,56 @@ public class PersonRepository {
     }
     persons = searchPersons(filter.encode(), LDAPConnection.SCOPE_ONE, maxResult);
     return persons;
+  }
+
+  public SikSearchResultList<Person> searchPersons(SearchPersonCriterion person, int maxResult) throws KivException {
+    return searchPersons(generateFreeTextSearchFilter(person).encode(), LDAPConnection.SCOPE_ONE, maxResult);
+  }
+
+  private Filter generateFreeTextSearchFilter(SearchPersonCriterion person) {
+    AndFilter andFilter = new AndFilter();
+    andFilter.and(new EqualsFilter("objectclass", "vgrUser"));
+    OrFilter orFilter = null;
+    for (Entry<SearchCriterion, String> criterion : person.getAllSearchCriterions().entrySet()) {
+      switch (criterion.getKey()) {
+        case GIVEN_NAME:
+          orFilter = new OrFilter();
+          orFilter.or(new LikeFilter(criterion.getKey().toString(), "*" + criterion.getValue() + "*"));
+          orFilter.or(new LikeFilter("hsaNickName", "*" + criterion.getValue() + "*"));
+          andFilter.and(orFilter);
+          break;
+        case SURNAME:
+          orFilter = new OrFilter();
+          orFilter.or(new LikeFilter(criterion.getKey().toString(), "*" + criterion.getValue() + "*"));
+          orFilter.or(new LikeFilter("hsaMiddleName", "*" + criterion.getValue() + "*"));
+          andFilter.and(orFilter);
+          break;
+        case SPECIALITY_AREA_CODE:
+          andFilter.and(generateOrFilterFromList(CodeTableName.HSA_SPECIALITY_CODE, criterion));
+          break;
+        case PROFESSION:
+          andFilter.and(generateOrFilterFromList(CodeTableName.HSA_TITLE, criterion));
+          break;
+        case LANGUAGE_KNOWLEDGE_CODE:
+          andFilter.and(generateOrFilterFromList(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, criterion));
+          break;
+        case ADMINISTRATION:
+          andFilter.and(generateOrFilterFromList(CodeTableName.VGR_AO3_CODE, criterion));
+          break;
+        default:
+          andFilter.and(new LikeFilter(criterion.getKey().toString(), "*" + criterion.getValue() + "*"));
+      }
+    }
+    return andFilter;
+
+  }
+
+  private Filter generateOrFilterFromList(CodeTableName codeTableName, Entry<SearchCriterion, String> criterion) {
+    List<String> codeFromTextValues = codeTablesService.getCodeFromTextValue(codeTableName, criterion.getValue());
+    OrFilter orFilter = new OrFilter();
+    for (String value : codeFromTextValues) {
+      orFilter.or(new LikeFilter(criterion.getKey().toString(), value));
+    }
+    return orFilter;
   }
 }

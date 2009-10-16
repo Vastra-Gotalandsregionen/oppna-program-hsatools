@@ -48,8 +48,8 @@ public class PersonSearchSimpleFormValidator implements Serializable {
 
     // if data is entered in a field it must contain at least 2 chars
     int givenNameLength = param.getGivenName().trim().length();
-    int sirNameLength = param.getSirName().trim().length();
-    int vgrIdLength = param.getVgrId().trim().length();
+    int sirNameLength = param.getSurname().trim().length();
+    int vgrIdLength = param.getUserId().trim().length();
 
     if (givenNameLength == 0 && sirNameLength == 0 && vgrIdLength == 0) {
       throw new IncorrectUserInputException("Var v\u00E4nlig och fyll i s\u00F6kkriteria i n\u00E5got av f\u00E4lten.");

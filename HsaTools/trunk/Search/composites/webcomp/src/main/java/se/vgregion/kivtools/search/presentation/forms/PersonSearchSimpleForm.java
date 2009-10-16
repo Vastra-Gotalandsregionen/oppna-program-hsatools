@@ -26,12 +26,19 @@ import se.vgregion.kivtools.util.StringUtil;
  * 
  * @author hangy2 , Hans Gyllensten / KnowIT
  */
-@SuppressWarnings("serial")
 public class PersonSearchSimpleForm implements Serializable {
+  private static final long serialVersionUID = 254420680562201343L;
   private String givenName = "";
-  private String sirName = "";
-  private String vgrId = "";
+  private String surname = "";
+  private String userId = "";
   private String searchType = "name_selected";
+  private String administration;
+  private String employedAtUnit;
+  private String profession;
+  private String employmentTitle;
+  private String email;
+  private String specialityArea;
+  private String languageKnowledge;
 
   public String getGivenName() {
     return givenName;
@@ -41,20 +48,20 @@ public class PersonSearchSimpleForm implements Serializable {
     this.givenName = givenName;
   }
 
-  public String getSirName() {
-    return sirName;
+  public String getSurname() {
+    return surname;
   }
 
-  public void setSirName(String sirName) {
-    this.sirName = sirName;
+  public void setSurname(String surname) {
+    this.surname = surname;
   }
 
-  public String getVgrId() {
-    return vgrId;
+  public String getUserId() {
+    return userId;
   }
 
-  public void setVgrId(String vgrId) {
-    this.vgrId = vgrId;
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 
   public String getSearchType() {
@@ -63,6 +70,62 @@ public class PersonSearchSimpleForm implements Serializable {
 
   public void setSearchType(String searchType) {
     this.searchType = searchType;
+  }
+
+  public String getAdministration() {
+    return administration;
+  }
+
+  public void setAdministration(String administration) {
+    this.administration = administration;
+  }
+
+  public String getEmployedAtUnit() {
+    return employedAtUnit;
+  }
+
+  public void setEmployedAtUnit(String employedAtUnit) {
+    this.employedAtUnit = employedAtUnit;
+  }
+
+  public String getProfession() {
+    return profession;
+  }
+
+  public void setProfession(String profession) {
+    this.profession = profession;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getSpecialityArea() {
+    return specialityArea;
+  }
+
+  public void setSpecialityArea(String specialityArea) {
+    this.specialityArea = specialityArea;
+  }
+
+  public String getLanguageKnowledge() {
+    return languageKnowledge;
+  }
+
+  public void setLanguageKnowledge(String languageKnowledge) {
+    this.languageKnowledge = languageKnowledge;
+  }
+
+  public String getEmploymentTitle() {
+    return employmentTitle;
+  }
+
+  public void setEmploymentTitle(String employmentTitle) {
+    this.employmentTitle = employmentTitle;
   }
 
   /**
@@ -74,8 +137,8 @@ public class PersonSearchSimpleForm implements Serializable {
     boolean isEmpty = true;
 
     isEmpty &= StringUtil.isEmpty(givenName);
-    isEmpty &= StringUtil.isEmpty(sirName);
-    isEmpty &= StringUtil.isEmpty(vgrId);
+    isEmpty &= StringUtil.isEmpty(surname);
+    isEmpty &= StringUtil.isEmpty(userId);
 
     return isEmpty;
   }

@@ -110,7 +110,7 @@ public class UnitSearchSimpleFormTest {
   @Test
   public void testSetSortOrder() {
     assertNotNull(form.getSortOrder());
-    assertEquals("UNIT_NAME", form.getSortOrder());
+    assertEquals("EMPLOYMENT_AT_UNIT", form.getSortOrder());
 
     form.setSortOrder("CARETYPE");
     assertNotNull(form.getSortOrder());

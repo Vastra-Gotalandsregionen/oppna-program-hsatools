@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -233,6 +234,11 @@ public class UnitFactoryTest {
 
     @Override
     public void init() {
+    }
+
+    @Override
+    public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
+      return null;
     }
   }
 }

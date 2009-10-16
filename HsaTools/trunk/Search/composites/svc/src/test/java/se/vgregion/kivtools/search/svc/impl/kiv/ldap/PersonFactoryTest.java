@@ -2,6 +2,8 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -97,6 +99,11 @@ public class PersonFactoryTest {
 
     @Override
     public void init() {
+    }
+
+    @Override
+    public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
+      return null;
     }
   }
 }

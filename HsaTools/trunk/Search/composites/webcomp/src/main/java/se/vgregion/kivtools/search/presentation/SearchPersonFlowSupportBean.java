@@ -34,6 +34,8 @@ import se.vgregion.kivtools.search.svc.TimeMeasurement;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion.SearchCriterion;
 import se.vgregion.kivtools.search.util.LogUtils;
 import se.vgregion.kivtools.search.util.PagedSearchMetaDataHelper;
 import se.vgregion.kivtools.util.StringUtil;
@@ -43,14 +45,12 @@ import se.vgregion.kivtools.util.StringUtil;
  * 
  * @author Anders Asplund - KnowIt
  */
-@SuppressWarnings("serial")
 public class SearchPersonFlowSupportBean implements Serializable {
+  private static final long serialVersionUID = -6525334748535093644L;
   private static final String CLASS_NAME = SearchPersonFlowSupportBean.class.getName();
-  private static final String PERSON_SEARCH_TYPE_VGRID = "vgrid_selected";
   private static final Log LOGGER = LogFactory.getLog(SearchPersonFlowSupportBean.class);
   private SearchService searchService;
   private int pageSize;
-
   private int maxSearchResult;
 
   /**
@@ -89,17 +89,6 @@ public class SearchPersonFlowSupportBean implements Serializable {
     this.pageSize = pageSize;
   }
 
-  protected boolean isVgrIdSearch(PersonSearchSimpleForm theForm) throws KivNoDataFoundException {
-    if (theForm == null) {
-      LOGGER.error("ERROR: " + CLASS_NAME + "::isVgrIdSearch(...) detected that theForm is null");
-      throw new KivNoDataFoundException("Internt fel har uppst�tt.");
-    }
-    if (theForm.getSearchType().trim().equalsIgnoreCase(PERSON_SEARCH_TYPE_VGRID)) {
-      return true;
-    }
-    return false;
-  }
-
   /**
    * Searches for persons by the criterias specified in the provided form.
    * 
@@ -115,14 +104,13 @@ public class SearchPersonFlowSupportBean implements Serializable {
       TimeMeasurement overAllTime = new TimeMeasurement();
       // start measurement
       overAllTime.start();
-      if (!theForm.isEmpty()) {
+      SearchPersonCriterion searchPersonCriterion = createSearchPersonCriterion(theForm);
+      if (!searchPersonCriterion.isEmpty()) {
         // perform a search
-        list = getSearchService().searchPersons(theForm.getGivenName(), theForm.getSirName(), theForm.getVgrId(), maxSearchResult);
+        list = getSearchService().searchPersons(searchPersonCriterion, maxSearchResult);
       }
       // fetch all employments
-      /*
-       * Not done this way in HAK implementation. Employment info is on person entry.
-       */
+      // Not done this way in HAK implementation. Employment info is on person entry.
       SikSearchResultList<Employment> empList = null;
       for (Person pers : list) {
         empList = getSearchService().getEmployments(pers.getDn());
@@ -146,6 +134,21 @@ public class SearchPersonFlowSupportBean implements Serializable {
       LOGGER.error(e);
       return new SikSearchResultList<Person>();
     }
+  }
+
+  private SearchPersonCriterion createSearchPersonCriterion(PersonSearchSimpleForm personSearchSimpleForm) {
+    SearchPersonCriterion searchPersonCriterion = new SearchPersonCriterion();
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.GIVEN_NAME, personSearchSimpleForm.getGivenName());
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.SURNAME, personSearchSimpleForm.getSurname());
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.ADMINISTRATION, personSearchSimpleForm.getAdministration());
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.E_MAIL, personSearchSimpleForm.getEmail());
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.SPECIALITY_AREA_CODE, personSearchSimpleForm.getSpecialityArea());
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_TITEL, personSearchSimpleForm.getEmploymentTitle());
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.LANGUAGE_KNOWLEDGE_CODE, personSearchSimpleForm.getLanguageKnowledge());
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.PROFESSION, personSearchSimpleForm.getProfession());
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_AT_UNIT, personSearchSimpleForm.getEmployedAtUnit());
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.USER_ID, personSearchSimpleForm.getUserId());
+    return searchPersonCriterion;
   }
 
   /**

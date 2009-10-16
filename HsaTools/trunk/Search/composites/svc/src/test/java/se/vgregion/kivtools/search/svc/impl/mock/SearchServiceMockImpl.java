@@ -34,6 +34,7 @@ import se.vgregion.kivtools.search.svc.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
 
 public class SearchServiceMockImpl implements SearchService {
   private Log logger = LogFactory.getLog(this.getClass());
@@ -422,6 +423,11 @@ public class SearchServiceMockImpl implements SearchService {
   }
 
   public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws KivException {
+    return null;
+  }
+
+  @Override
+  public SikSearchResultList<Person> searchPersons(SearchPersonCriterion person, int maxResult) throws KivException {
     return null;
   }
 }
