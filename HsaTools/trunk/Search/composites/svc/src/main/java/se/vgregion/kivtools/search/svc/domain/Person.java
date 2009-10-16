@@ -29,9 +29,9 @@ import com.domainlanguage.time.TimePoint;
  * @author hangy2
  * 
  */
-@SuppressWarnings("serial")
 public class Person implements Serializable {
 
+  private static final long serialVersionUID = 5871109117451532341L;
   // Distinuished Name (e.g. cn=hangy2,ou=Personal,o=VGR)
   private String dn;
   // Common Name, Hela Namnet (e.g. rogul999)
@@ -63,8 +63,6 @@ public class Person implements Serializable {
   private List<String> vgrAnstform;
 
   private TimeInterval employmentPeriod;
-  // private String hsaStartDate; // Anställnings start datum (e.g. 19850226230000Z)
-  // private String endStartDate; // Anställnings start datum (e.g. 19850226230000Z)
   // HSA identitet (e.g. SE2321000131-P000000101458)
   private String hsaIdentity;
   // E-postadress (e.g. jessica.isegran@vgregion.se)
@@ -87,9 +85,6 @@ public class Person implements Serializable {
   private String hsaPersonPrescriptionCode;
   // List of Employment objects
   private List<Employment> employments;
-
-  private String locality;
-  private String employmentTitle;
 
   public String getDn() {
     return dn;
@@ -194,22 +189,6 @@ public class Person implements Serializable {
   public void setVgrAnstform(List<String> vgrAnstform) {
     this.vgrAnstform = vgrAnstform;
   }
-
-  // public String getHsaStartDate() {
-  // return hsaStartDate;
-  // }
-  //
-  // public void setHsaStartDate(String hsaStartDate) {
-  // this.hsaStartDate = hsaStartDate;
-  // }
-  //
-  // public String getEndStartDate() {
-  // return endStartDate;
-  // }
-  //
-  // public void setEndStartDate(String endStartDate) {
-  // this.endStartDate = endStartDate;
-  // }
 
   public String getHsaIdentity() {
     return hsaIdentity;

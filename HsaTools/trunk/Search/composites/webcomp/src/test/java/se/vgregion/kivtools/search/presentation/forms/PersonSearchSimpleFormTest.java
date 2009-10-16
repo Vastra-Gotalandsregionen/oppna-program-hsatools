@@ -19,24 +19,24 @@ public class PersonSearchSimpleFormTest {
   @Test
   public void testIsEmpty() {
     form.setGivenName(null);
-    form.setSirName(null);
-    form.setVgrId(null);
+    form.setSurname(null);
+    form.setUserId(null);
 
     assertTrue(form.isEmpty());
     form.setGivenName(TEST);
     assertFalse(form.isEmpty());
-    form.setSirName(TEST);
+    form.setSurname(TEST);
     assertFalse(form.isEmpty());
-    form.setVgrId(TEST);
+    form.setUserId(TEST);
     assertFalse(form.isEmpty());
 
     form.setGivenName(SPACE);
-    form.setSirName(SPACE);
-    form.setVgrId(SPACE);
+    form.setSurname(SPACE);
+    form.setUserId(SPACE);
     assertTrue(form.isEmpty());
     form.setGivenName(TEST);
     assertFalse(form.isEmpty());
-    form.setSirName(TEST);
+    form.setSurname(TEST);
     assertFalse(form.isEmpty());
     form.setGivenName(SPACE);
     assertFalse(form.isEmpty());

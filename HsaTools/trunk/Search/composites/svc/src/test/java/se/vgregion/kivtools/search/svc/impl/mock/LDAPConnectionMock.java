@@ -1,5 +1,7 @@
 package se.vgregion.kivtools.search.svc.impl.mock;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -13,62 +15,77 @@ import com.novell.ldap.LDAPSearchResults;
 
 public class LDAPConnectionMock extends LDAPConnection {
 
-	Map<SearchCondition, LinkedList<LDAPEntryMock>> availableSearchEntries = new HashMap<SearchCondition, LinkedList<LDAPEntryMock>>();
+  private String filter;
+  private Map<SearchCondition, LinkedList<LDAPEntryMock>> availableSearchEntries = new HashMap<SearchCondition, LinkedList<LDAPEntryMock>>();
+  private Map<String, LDAPSearchResults> searchResults = new HashMap<String, LDAPSearchResults>();
+  private LDAPException ldapException;
 
-	public Map<SearchCondition, LinkedList<LDAPEntryMock>> getAvailableSearchEntries() {
-		return availableSearchEntries;
-	}
+  public void setLdapException(LDAPException ldapException) {
+    this.ldapException = ldapException;
+  }
 
-	public void addLdapEntries(SearchCondition searchCondition, LinkedList<LDAPEntryMock> ldapEntries) {
-		availableSearchEntries.put(searchCondition, ldapEntries);
-	}
+  public void addLDAPSearchResults(String filter, LDAPSearchResultsMock ldapSearchResultsMock) {
+    searchResults.put(filter, ldapSearchResultsMock);
+  }
 
-	@Override
-	public LDAPSearchResults search(String base, int scope, String filter, String[] attrs, boolean typesOnly) throws LDAPException {
-		return search(base, scope, filter, attrs, typesOnly, new LDAPSearchConstraints());
-	}
+  public void assertFilter(String expectedFilter) {
+    assertEquals(expectedFilter, filter);
+  }
 
-	@Override
-	public LDAPSearchResults search(String base, int scope, String filter, String[] attrs, boolean typesOnly, LDAPSearchConstraints constraints) throws LDAPException {
-		SearchCondition searchCondition = new SearchCondition(base, scope, filter);
-		LDAPSearchResults results = new TestLDAPSearchResults(searchCondition);
-		return results;
-	}
+  public Map<SearchCondition, LinkedList<LDAPEntryMock>> getAvailableSearchEntries() {
+    return availableSearchEntries;
+  }
 
-	@Override
-	public LDAPSearchQueue search(String arg0, int arg1, String arg2, String[] arg3, boolean arg4, LDAPSearchQueue arg5, LDAPSearchConstraints arg6) throws LDAPException {
-		// TODO Auto-generated method stub
-		return super.search(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-	}
+  public void addLdapEntries(SearchCondition searchCondition, LinkedList<LDAPEntryMock> ldapEntries) {
+    availableSearchEntries.put(searchCondition, ldapEntries);
+  }
 
-	@Override
-	public LDAPSearchQueue search(String base, int scope, String filter, String[] attrs, boolean typesOnly, LDAPSearchQueue queue) throws LDAPException {
-		// TODO Auto-generated method stub
-		return super.search(base, scope, filter, attrs, typesOnly, queue);
-	}
+  @Override
+  public LDAPSearchResults search(String base, int scope, String filter, String[] attrs, boolean typesOnly) throws LDAPException {
+    return search(base, scope, filter, attrs, typesOnly, new LDAPSearchConstraints());
+  }
 
-	class TestLDAPSearchResults extends LDAPSearchResults {
+  @Override
+  public LDAPSearchResults search(String base, int scope, String filter, String[] attrs, boolean typesOnly, LDAPSearchConstraints constraints) throws LDAPException {
+    if (ldapException != null) {
+      throw ldapException;
+    }
+    this.filter = filter;
+    return searchResults.get(filter);
+  }
 
-		private SearchCondition searchCondition;
+  @Override
+  public LDAPSearchQueue search(String arg0, int arg1, String arg2, String[] arg3, boolean arg4, LDAPSearchQueue arg5, LDAPSearchConstraints arg6) throws LDAPException {
+    return super.search(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+  }
 
-		public TestLDAPSearchResults(SearchCondition searchCondition) {
-			this.searchCondition = searchCondition;
-		}
+  @Override
+  public LDAPSearchQueue search(String base, int scope, String filter, String[] attrs, boolean typesOnly, LDAPSearchQueue queue) throws LDAPException {
+    return super.search(base, scope, filter, attrs, typesOnly, queue);
+  }
 
-		@Override
-		public LDAPEntry next() throws LDAPException {
-			LinkedList<LDAPEntryMock> ldapEntries = availableSearchEntries.get(searchCondition);
-			return ldapEntries != null ? ldapEntries.removeFirst() : null;
-		}
+  class TestLDAPSearchResults extends LDAPSearchResults {
 
-		@Override
-		public boolean hasMore() {
-			LinkedList<LDAPEntryMock> ldapEntries = availableSearchEntries.get(searchCondition);
-			if (ldapEntries != null) {
-				return ldapEntries.size() > 0;
-			} else {
-				return false;
-			}
-		}
-	}
+    private SearchCondition searchCondition;
+
+    public TestLDAPSearchResults(SearchCondition searchCondition) {
+      this.searchCondition = searchCondition;
+    }
+
+    @Override
+    public LDAPEntry next() throws LDAPException {
+      LinkedList<LDAPEntryMock> ldapEntries = availableSearchEntries.get(searchCondition);
+      return ldapEntries != null ? ldapEntries.removeFirst() : null;
+    }
+
+    @Override
+    public boolean hasMore() {
+      LinkedList<LDAPEntryMock> ldapEntries = availableSearchEntries.get(searchCondition);
+      if (ldapEntries != null) {
+        return ldapEntries.size() > 0;
+      } else {
+        return false;
+      }
+    }
+  }
 }

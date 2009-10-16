@@ -10,6 +10,18 @@ public class LDAPEntryMock extends LDAPEntry {
   private String dn = "";
   private Map<String, LDAPAttribute> attributes = new HashMap<String, LDAPAttribute>();
 
+  public LDAPEntryMock() {
+  
+  }
+  
+  public LDAPEntryMock(String key, String[] values){
+    attributes.put(key, new LDAPAttribute(key, values));
+  }
+  
+  public LDAPEntryMock(String key, String value) {
+    attributes.put(key, new LDAPAttribute(key, value));
+  }
+  
   public void addAttribute(String key, String value) {
     attributes.put(key, new LDAPAttribute(key, value));
   }

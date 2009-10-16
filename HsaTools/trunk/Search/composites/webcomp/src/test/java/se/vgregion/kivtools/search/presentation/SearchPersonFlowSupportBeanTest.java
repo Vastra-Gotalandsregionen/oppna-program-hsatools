@@ -1,6 +1,8 @@
 package se.vgregion.kivtools.search.presentation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,6 @@ import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 
 public class SearchPersonFlowSupportBeanTest {
-  private static final String PERSON_SEARCH_TYPE_VGRID = "vgrid_selected";
   private static final String DN = "cn=abc";
   private static final String HSA_IDENTITY = "HSA-123";
   private SearchPersonFlowSupportBean bean;
@@ -46,22 +47,6 @@ public class SearchPersonFlowSupportBeanTest {
     searchService = new SearchServiceMock();
 
     bean.setSearchService(searchService);
-  }
-
-  @Test
-  public void testIsVgrIdSearch() throws KivNoDataFoundException {
-    try {
-      bean.isVgrIdSearch(null);
-      fail("KivNoDataFoundException expected");
-    } catch (KivNoDataFoundException e) {
-      // Expected exception
-      assertEquals("ERROR: se.vgregion.kivtools.search.presentation.SearchPersonFlowSupportBean::isVgrIdSearch(...) detected that theForm is null\n", logFactoryMock.getError(true));
-    }
-
-    assertFalse(bean.isVgrIdSearch(form));
-
-    form.setSearchType(PERSON_SEARCH_TYPE_VGRID);
-    assertTrue(bean.isVgrIdSearch(form));
   }
 
   @Test
@@ -115,7 +100,7 @@ public class SearchPersonFlowSupportBeanTest {
   @Test
   public void testGetPersonsForUnitsRecursive() {
     try {
-      SikSearchResultList<Person> result = bean.getPersonsForUnitsRecursive(null);
+      bean.getPersonsForUnitsRecursive(null);
       fail("NullPointerException expected");
     } catch (NullPointerException e) {
       // Expected exception

@@ -1,0 +1,19 @@
+<h:form id="searchPersonForm" class="search-form" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<div id="formContainer">
+		<div class="textname">
+			<h:outputLabel for="givenName">Förnamn</h:outputLabel>
+			<h:inputText id="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" />
+		</div>
+		<div class="textname">
+			<h:outputLabel for="surname">Efternamn</h:outputLabel>
+			<h:inputText id="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" />
+		</div>
+		<div class="vgrIdText">
+			<h:outputLabel for="vgrId">${msg.userId}</h:outputLabel>
+			<h:inputText id="vgrId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.userId}" />
+		</div>
+		<div class="submit-area">
+			<h:commandButton type="submit" action="doSearch" id="submitButton" value="Sök" />
+		</div>
+	</div>
+</h:form>

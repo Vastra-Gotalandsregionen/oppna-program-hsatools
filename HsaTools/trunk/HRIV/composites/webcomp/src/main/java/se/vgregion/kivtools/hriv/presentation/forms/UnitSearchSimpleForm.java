@@ -39,7 +39,7 @@ public class UnitSearchSimpleForm implements Serializable {
   private String municipality = "";
   private String healthcareType = "";
   private String resultType = "1";
-  private String sortOrder = "UNIT_NAME";
+  private String sortOrder = "EMPLOYMENT_AT_UNIT";
   private String showAll;
   private SelectItem[] resultTypeItems = new SelectItem[] { new SelectItem("1", "Lista"), new SelectItem("2", "Karta") };
 

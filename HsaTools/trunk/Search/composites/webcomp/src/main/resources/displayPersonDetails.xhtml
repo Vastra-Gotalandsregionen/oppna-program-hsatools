@@ -50,12 +50,12 @@
 					<input id="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" jsfc="h:inputText" />
 				</div>
 				<div class="textname">
-					<label for="sirName" jsfc="h:outputLabel">Efternamn</label>
-					<input id="sirName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.sirName}" jsfc="h:inputText" />
+					<label for="surname" jsfc="h:outputLabel">Efternamn</label>
+					<input id="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" jsfc="h:inputText" />
 				</div>
-				<div class="vgrIdText">
-					<label for="vgrId" jsfc="h:outputLabel">${msg.userId}</label>
-					<input id="vgrId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.vgrId}" jsfc="h:inputText"/>
+				<div class="userIdText">
+					<label for="userId" jsfc="h:outputLabel">${msg.userId}</label>
+					<input id="userId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.userId}" jsfc="h:inputText"/>
 				</div>
 				<div class="submit-area">
 					<input type="submit" action="doSearch" id="submitButton" value="Sök" jsfc="h:commandButton" />

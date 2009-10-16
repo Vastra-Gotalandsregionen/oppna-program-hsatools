@@ -40,7 +40,7 @@ public class PersonSearchSimpleFormValidatorTest {
     assertEquals(SUCCESSFUL_OPERATION, validator.validate(form));
 
     form.setGivenName("");
-    form.setSirName("a");
+    form.setSurname("a");
     try {
       validator.validate(form);
       fail("Expected IncorrectUserInputException");
@@ -48,11 +48,11 @@ public class PersonSearchSimpleFormValidatorTest {
       // Expected exception
     }
 
-    form.setSirName("aa");
+    form.setSurname("aa");
     assertEquals(SUCCESSFUL_OPERATION, validator.validate(form));
 
-    form.setSirName("");
-    form.setVgrId("a");
+    form.setSurname("");
+    form.setUserId("a");
     try {
       validator.validate(form);
       fail("Expected IncorrectUserInputException");
@@ -60,7 +60,7 @@ public class PersonSearchSimpleFormValidatorTest {
       // Expected exception
     }
 
-    form.setVgrId("aa");
+    form.setUserId("aa");
     assertEquals(SUCCESSFUL_OPERATION, validator.validate(form));
   }
 }

@@ -24,6 +24,7 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
 
 /**
  * @author Hans and Anders
@@ -131,6 +132,16 @@ public interface SearchService {
    * @throws KivException
    */
   public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id, int maxResult) throws KivException;
+
+  /**
+   * Searches for persons matching information in the provided person object.
+   * 
+   * @param person Object containing the information to search for.
+   * @param maxResult Max number of returned items in the result list.
+   * @return A list of matching persons.
+   * @throws KivException If no data is found. 
+   */
+  public SikSearchResultList<Person> searchPersons(SearchPersonCriterion person, int maxResult) throws KivException;
 
   /**
    * @param id person id for the Person (E.g vgrId in case of VGR)

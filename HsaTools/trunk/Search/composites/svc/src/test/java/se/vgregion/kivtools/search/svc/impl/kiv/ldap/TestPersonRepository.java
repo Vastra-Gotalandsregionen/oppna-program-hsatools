@@ -34,6 +34,7 @@ import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
+import se.vgregion.kivtools.search.svc.impl.mock.LDAPSearchResultsMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LdapConnectionPoolMock;
 import se.vgregion.kivtools.search.svc.impl.mock.SearchCondition;
 
@@ -147,6 +148,11 @@ public class TestPersonRepository {
     String searchCondition = generateUnitSearchCondition(units);
     LinkedList<LDAPEntryMock> ldapEntries = generatePersonLdapEntries(persons);
     LDAPConnectionMock connectionMock = new LDAPConnectionMock();
+    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
+    for (LDAPEntryMock ldapEntryMock : ldapEntries) {
+      ldapSearchResultsMock.addLDAPEntry(ldapEntryMock);
+    }
+    connectionMock.addLDAPSearchResults("(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4))", ldapSearchResultsMock);
     connectionMock.addLdapEntries(new SearchCondition(PersonRepository.KIV_SEARCH_BASE, LDAPConnection.SCOPE_ONE, searchCondition), ldapEntries);
     repo.setLdapConnectionPool(new LdapConnectionPoolMock(connectionMock));
     repo.setUnitFkField("vgrOrgRel");
@@ -180,6 +186,11 @@ public class TestPersonRepository {
 
     @Override
     public void init() {
+    }
+
+    @Override
+    public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
+      return null;
     }
   }
 }

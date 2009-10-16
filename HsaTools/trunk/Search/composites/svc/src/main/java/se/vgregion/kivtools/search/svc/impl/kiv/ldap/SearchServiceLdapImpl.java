@@ -28,6 +28,7 @@ import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
 
 /**
  * @author Anders Asplund, Know IT
@@ -154,5 +155,10 @@ public class SearchServiceLdapImpl implements SearchService {
 
   public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws KivException {
     return unitRepository.getSubUnits(parentUnit, maxSearchResult);
+  }
+
+  @Override
+  public SikSearchResultList<Person> searchPersons(SearchPersonCriterion person, int maxResult) throws KivException {
+    return personRepository.searchPersons(person, maxResult);
   }
 }

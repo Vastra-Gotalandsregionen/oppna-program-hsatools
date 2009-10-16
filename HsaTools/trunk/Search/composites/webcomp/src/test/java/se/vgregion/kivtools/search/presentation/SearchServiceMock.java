@@ -32,6 +32,7 @@ import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.Person;
 import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
 
 public class SearchServiceMock implements SearchService {
   private int maxSearchResults = -1;
@@ -220,5 +221,12 @@ public class SearchServiceMock implements SearchService {
   @Override
   public SikSearchResultList<Unit> searchUnits(Unit unit) throws KivException {
     return null;
+  }
+
+  @Override
+  public SikSearchResultList<Person> searchPersons(SearchPersonCriterion person, int maxResult) throws KivException {
+    throwExceptionIfApplicable();
+    this.maxSearchResults = maxResult;
+    return persons;
   }
 }

@@ -301,7 +301,7 @@ public class SearchUnitFlowSupportBeanTest {
     assertNotNull(result);
     assertEquals(0, result.size());
 
-    form.setSortOrder("UNIT_NAME");
+    form.setSortOrder("EMPLOYMENT_AT_UNIT");
     try {
       bean.doSearch(form);
       fail("KivNoDataFoundException expected");

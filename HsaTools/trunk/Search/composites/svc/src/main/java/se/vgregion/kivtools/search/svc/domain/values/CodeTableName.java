@@ -26,7 +26,9 @@ public enum CodeTableName {
   /** Language knowledge. */
   HSA_LANGUAGE_KNOWLEDGE_CODE("list_hsaLanguageKnowledgeCode"),
   /** Employment titles. */
-  PA_TITLE_CODE("list_paTitleCode");
+  PA_TITLE_CODE("list_paTitleCode"), 
+  /** Profession title */
+  HSA_TITLE("list_hsaTitle");
 
   private final String codeTableName;
 

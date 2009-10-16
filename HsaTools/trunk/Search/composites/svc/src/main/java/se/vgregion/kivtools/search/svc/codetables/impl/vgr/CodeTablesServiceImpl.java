@@ -1,7 +1,10 @@
 package se.vgregion.kivtools.search.svc.codetables.impl.vgr;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.LDAPRuntimeExcepton;
@@ -62,6 +65,8 @@ public class CodeTablesServiceImpl implements CodeTablesService {
             String[] codeArr = code.split(";");
             if (codeArr.length >= 2) {
               codeTableContent.put(codeArr[0], codeArr[1]);
+            }else {
+              codeTableContent.put(codeArr[0], codeArr[0]);
             }
           }
           codeTables.put(String.valueOf(codeTableName), codeTableContent);
@@ -88,5 +93,24 @@ public class CodeTablesServiceImpl implements CodeTablesService {
       value = chosenCodeTable.get(code);
     }
     return value;
+  }
+
+  /**
+   * Look up corresponding code(s) for given text value. 
+   * @param codeTableName To use for look up code.
+   * @param textValue That should correspond to a specific code or codes.
+   * @return A list of found codes from code table.
+   */
+  public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
+    List<String> code = new ArrayList<String>();
+    Map<String, String> chosenCodeTable = codeTables.get(String.valueOf(codeTableName));
+    if (chosenCodeTable.containsValue(textValue)) {
+      for (Entry<String, String> entry : chosenCodeTable.entrySet()) {
+        if (entry.getValue().equals(textValue)) {
+          code.add(entry.getKey());
+        }
+      }
+    }
+    return code;
   }
 }

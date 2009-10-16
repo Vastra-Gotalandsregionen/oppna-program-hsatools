@@ -39,6 +39,7 @@ import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
+import se.vgregion.kivtools.search.svc.impl.mock.LDAPSearchResultsMock;
 import se.vgregion.kivtools.search.svc.impl.mock.SearchCondition;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 import se.vgregion.kivtools.search.util.DisplayValueTranslator;
@@ -231,7 +232,10 @@ public class TestUnitRepository {
 
     subUnitLdapEntries.add(subUnitEntry1);
     subUnitLdapEntries.add(subUnitEntry2);
-
+    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
+    ldapSearchResultsMock.addLDAPEntry(subUnitEntry1);
+    ldapSearchResultsMock.addLDAPEntry(subUnitEntry2);
+    ldapConnectionMock.addLDAPSearchResults("(objectClass=vgrOrganizationalUnit)", ldapSearchResultsMock);
     ldapConnectionMock.addLdapEntries(new SearchCondition(base, LDAPConnection.SCOPE_SUB, filter), subUnitLdapEntries);
 
     return ldapConnectionMock;
