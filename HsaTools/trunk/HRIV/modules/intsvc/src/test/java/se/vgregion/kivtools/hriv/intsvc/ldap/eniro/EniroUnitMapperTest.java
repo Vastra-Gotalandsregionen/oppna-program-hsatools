@@ -33,7 +33,7 @@ public class EniroUnitMapperTest {
     assertNotNull(unitComposition);
     assertEquals("id1", unitComposition.getEniroUnit().getId());
     assertEquals("name", unitComposition.getEniroUnit().getName());
-    assertEquals("locality", unitComposition.getEniroUnit().getLocality());
+    assertEquals("Göteborg", unitComposition.getEniroUnit().getLocality());
     BusinessClassification businessClassification = null;
     for (Object info : unitComposition.getEniroUnit().getTextOrImageOrAddress()) {
       // Make sure that no address is created.
@@ -49,7 +49,7 @@ public class EniroUnitMapperTest {
     assertEquals("1", businessClassification.getBCCode());
     assertEquals("", businessClassification.getBCName());
   }
-   
+
   @Test
   public void testMapCn() {
     // Test function unit with cn instead of ou.
