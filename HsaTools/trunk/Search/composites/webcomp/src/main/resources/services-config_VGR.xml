@@ -28,5 +28,8 @@
 	
 	<bean id="userEventService"
 		class="se.vgregion.kivtools.search.userevent.UserEventServiceStub" />
+		
+	<bean id="smsRedirectService"  
+		class="se.vgregion.kivtools.search.sms.SmsRedirectServiceStub" />
 </beans>
 
