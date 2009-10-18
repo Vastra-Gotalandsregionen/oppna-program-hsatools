@@ -1,6 +1,6 @@
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -41,9 +41,12 @@ public class PersonRepositoryTest {
     ldapConnectionPoolMock = new LdapConnectionPoolMock(ldapConnectionMock);
     LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
     ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
-    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(title=*employmentTitle*)(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2)))", ldapSearchResultsMock);
+    ldapConnectionMock
+        .addLDAPSearchResults(
+            "(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(title=*employmentTitle*)(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2)))",
+            ldapSearchResultsMock);
     personRepository.setLdapConnectionPool(ldapConnectionPoolMock);
-   
+
     for (Entry<String, String[]> attributeListEntry : attributeLists.entrySet()) {
       LinkedList<LDAPEntryMock> ldapEntries = new LinkedList<LDAPEntryMock>();
       LDAPEntryMock entryMock = new LDAPEntryMock();
@@ -54,41 +57,42 @@ public class PersonRepositoryTest {
 
   @Test
   public void testSearchPersons() throws KivException {
-    
+
     SearchPersonCriterion searchPersonCriterion = new SearchPersonCriterion();
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.GIVEN_NAME,"Kalle");
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.SURNAME,"Svensson");
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.GIVEN_NAME, "Kalle");
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.SURNAME, "Svensson");
     SikSearchResultList<Person> searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
     ldapConnectionMock.assertFilter("(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*)))");
-   
+
     CodeTableServiceMock codeTableServiceMock = new CodeTableServiceMock();
     codeTableServiceMock.addListToMap(CodeTableName.HSA_SPECIALITY_CODE, Arrays.asList("specialityCode"));
     codeTableServiceMock.addListToMap(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, Arrays.asList("languageCode"));
     codeTableServiceMock.addListToMap(CodeTableName.HSA_TITLE, Arrays.asList("profGroup"));
     codeTableServiceMock.addListToMap(CodeTableName.VGR_AO3_CODE, Arrays.asList("administration1,administration2".split(",")));
-    
+
     personRepository.setCodeTablesService(codeTableServiceMock);
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.USER_ID,"vgr-id");
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_TITEL,"employmentTitle");
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_AT_UNIT,"unitName");
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.SPECIALITY_AREA_CODE,"speciality");
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.PROFESSION,"profGroup");
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.USER_ID, "vgr-id");
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_TITEL, "employmentTitle");
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_AT_UNIT, "unitName");
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.SPECIALITY_AREA_CODE, "speciality");
+    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.PROFESSION, "profGroup");
     searchPersonCriterion.addSearchCriterionValue(SearchCriterion.LANGUAGE_KNOWLEDGE_CODE, "langKnowledgeCode");
     searchPersonCriterion.addSearchCriterionValue(SearchCriterion.E_MAIL, "email");
     searchPersonCriterion.addSearchCriterionValue(SearchCriterion.ADMINISTRATION, "administration");
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
-    ldapConnectionMock.assertFilter("(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(title=*employmentTitle*)(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2)))");
+    ldapConnectionMock
+        .assertFilter("(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(title=*employmentTitle*)(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2)))");
     assertEquals(1, searchPersons.size());
   }
-  
+
   class CodeTableServiceMock implements CodeTablesService {
 
     private Map<CodeTableName, List<String>> codeTables = new HashMap<CodeTableName, List<String>>();
-    
-    public void addListToMap(CodeTableName key,List<String> list){
+
+    public void addListToMap(CodeTableName key, List<String> list) {
       codeTables.put(key, list);
     }
-    
+
     @Override
     public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
       return codeTables.get(codeTableName);
@@ -102,7 +106,10 @@ public class PersonRepositoryTest {
     @Override
     public void init() {
     }
-    
-  }
 
+    @Override
+    public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
+      return null;
+    }
+  }
 }

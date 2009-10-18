@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import se.vgregion.kivtools.search.sms.SmsRedirectService;
 
 /**
+ * Support bean for redirection to a page for sending SMS.
  * 
  * @author David Bennehult & Joakim Olsson
- *
  */
 @Controller
 public class SmsRedirectSupportBean {
-
 
   @Qualifier("smsRedirectService")
   private SmsRedirectService smsRedirectService;
@@ -24,10 +23,12 @@ public class SmsRedirectSupportBean {
   public void setSmsRedirectService(SmsRedirectService smsRedirectService) {
     this.smsRedirectService = smsRedirectService;
   }
+
   /**
+   * Performs a redirect to the page returned by the SmsRedirectService for the mobile number in the request.
    * 
-   * @param mobileNumber to use for fetch url
-   * @return url for redirect.
+   * @param mobileNumber The mobile number to use for fetch url.
+   * @return a Spring redirect-view to the url returned by the SmsRedirectService.
    */
   @RequestMapping("/sms/send.servlet")
   public String sendSms(@RequestParam("mobileNumber") String mobileNumber) {

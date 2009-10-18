@@ -192,5 +192,10 @@ public class TestPersonRepository {
     public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
       return null;
     }
+
+    @Override
+    public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
+      return null;
+    }
   }
 }
