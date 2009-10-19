@@ -1,6 +1,8 @@
 package se.vgregion.kivtools.search.presentation;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -39,16 +41,27 @@ public class SuggestionBean {
    */
   @RequestMapping("/suggestions.servlet")
   public String getSuggestions(HttpServletResponse response, @RequestParam("fieldKey") String fieldKey, @RequestParam("value") String value) throws IOException {
+    String decodedValue = decodeUserInput(value);
     CodeTableName codeTable = CodeTableName.valueOf(fieldKey);
-    List<String> codeValues = codeTablesService.getValuesFromTextValue(codeTable, value);
+    List<String> codeValues = codeTablesService.getValuesFromTextValue(codeTable, decodedValue);
 
     String suggestionsXml = buildXml(codeValues);
 
+    response.setCharacterEncoding("UTF-8");
     response.getWriter().write(suggestionsXml);
 
     return null;
   }
 
+  private String decodeUserInput(String input) {
+    try {
+      return URLDecoder.decode(input, "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      // Should not happen. Re-throwing as RuntimeException.
+      throw new RuntimeException(e);
+    }
+  }
+  
   /**
    * Builds an XML-string from the provided suggestions.
    * 
@@ -60,7 +73,7 @@ public class SuggestionBean {
     suggestionsXml.append("<?xml version='1.0' standalone='yes'?>\n");
     suggestionsXml.append("<suggestions>\n");
     for (String suggestion : suggestions) {
-      suggestionsXml.append("<suggestion>" + suggestion + "</suggestion>\n");
+      suggestionsXml.append("<suggestion description=\"" + suggestion + "\" />\n");
     }
     suggestionsXml.append("</suggestions>");
     return suggestionsXml.toString();

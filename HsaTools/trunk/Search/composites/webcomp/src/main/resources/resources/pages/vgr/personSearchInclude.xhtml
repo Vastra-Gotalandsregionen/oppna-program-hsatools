@@ -1,48 +1,83 @@
 <h:form id="searchPersonForm" class="search-form" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-	<div id="formContainer">
-		<div class="textname">
-			<h:outputLabel for="givenName">Förnamn</h:outputLabel>
-			<h:inputText id="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" />
-		</div>
-		<div class="textname">
-			<h:outputLabel for="surname">Efternamn</h:outputLabel>
-			<h:inputText id="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" />
-		</div>
-		<div class="userIdText">
-			<h:outputLabel for="userId">${msg.userId}</h:outputLabel>
-			<h:inputText id="userId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.userId}" />
-		</div>
-		<div class="submit-area">
-			<h:commandButton type="submit" action="doSearch" id="submitButton" value="Sök" />
-		</div>
-	</div>
-  
-  <div class="textname">
-      <h:outputLabel for="administration">${msg.administration}</h:outputLabel>
-      <h:inputText id="administration" type="text" class="search-input-name-field" value="${personSearchSimpleForm.administration}" />
-  </div>
-  <div class="">
-      <h:outputLabel for="employedAtUnit">${msg.employedAtUnit}</h:outputLabel>
-      <h:inputText id="employedAtUnit" type="text" class="search-input-name-field" value="${personSearchSimpleForm.employedAtUnit}" />
-  </div>
-  <div class="textname">
-      <h:outputLabel for="employmentTitle">${msg.employmentTitle}</h:outputLabel>
-      <h:inputText id="employmentTitle" type="text" class="search-input-name-field" value="${personSearchSimpleForm.employmentTitle}" />
-  </div>
-  <div class="">
-      <h:outputLabel for="email">${msg.email}</h:outputLabel>
-      <h:inputText id="email" type="text" class="search-input-name-field" value="${personSearchSimpleForm.email}" />
-  </div>
-  <div class="textname">
-      <h:outputLabel for="profession">${msg.profession}</h:outputLabel>
-      <h:inputText id="profession" type="text" class="search-input-name-field" value="${personSearchSimpleForm.profession}" />
-  </div>
-  <div class="">
-      <h:outputLabel for="specialityArea">${msg.specialityArea}</h:outputLabel>
-      <h:inputText id="specialityArea" type="text" class="search-input-name-field" value="${personSearchSimpleForm.specialityArea}" />
-  </div>
-  <div class="">
-      <h:outputLabel for="languageKnowledge">${msg.languageKnowledge}</h:outputLabel>
-      <h:inputText id="languageKnowledge" type="text" class="search-input-name-field" value="${personSearchSimpleForm.languageKnowledge}" />
-  </div>
+    <div id="formContainer">
+        <div class="formRow">
+    		<div class="textname">
+    			<h:outputLabel for="givenName">Förnamn</h:outputLabel>
+    			<h:inputText id="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" />
+    		</div>
+    		<div class="textname">
+    			<h:outputLabel for="surname">Efternamn</h:outputLabel>
+    			<h:inputText id="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" />
+    		</div>
+    		<div class="userIdText">
+    			<h:outputLabel for="userId">${msg.userId}</h:outputLabel>
+    			<h:inputText id="userId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.userId}" />
+    		</div>
+    		<div class="submit-area">
+    			<h:commandButton type="submit" action="doSearch" id="submitButton" value="Sök" />
+    		</div>
+        </div>
+        <div id="advanced_search">  
+            <div class="formRow">
+                <div class="textname">
+                    <h:outputLabel for="administration">${msg.administration}</h:outputLabel>
+                    <div class="autocomplete_container">
+                        <h:inputText id="administration" type="text" class="search-input-name-field" value="${personSearchSimpleForm.administration}" />
+                        <div id="autocomplete_searchPersonForm:administration" class="autocomplete"></div>
+                    </div>
+                </div>
+                <div class="textname">
+                    <h:outputLabel for="employedAtUnit">${msg.employedAtUnit}</h:outputLabel>
+                    <h:inputText id="employedAtUnit" type="text" class="search-input-name-field" value="${personSearchSimpleForm.employedAtUnit}" />
+                </div>
+            </div>
+            <div class="formRow">
+                <div class="textname">
+                    <h:outputLabel for="employmentTitle">${msg.title}</h:outputLabel>
+                    <div class="autocomplete_container">
+                        <h:inputText id="employmentTitle" type="text" class="search-input-name-field" value="${personSearchSimpleForm.employmentTitle}" />
+                        <div id="autocomplete_searchPersonForm:employmentTitle" class="autocomplete"></div>
+                    </div>
+                </div>
+                <div class="textname">
+                    <h:outputLabel for="email">${msg.email}</h:outputLabel>
+                    <h:inputText id="email" type="text" class="search-input-name-field" value="${personSearchSimpleForm.email}" />
+                </div>
+            </div>
+            <div class="formRow">
+                <div class="textname">
+                    <h:outputLabel for="profession">${msg.profession}</h:outputLabel>
+                    <div class="autocomplete_container">
+                        <h:inputText id="profession" type="text" class="search-input-name-field" value="${personSearchSimpleForm.profession}" />
+                        <div id="autocomplete_searchPersonForm:profession" class="autocomplete"></div>
+                    </div>
+                </div>
+                <div class="textname">
+                    <h:outputLabel for="specialityArea">${msg.specialityArea}</h:outputLabel>
+                    <div class="autocomplete_container">
+                        <h:inputText id="specialityArea" type="text" class="search-input-name-field" value="${personSearchSimpleForm.specialityArea}" />
+                        <div id="autocomplete_searchPersonForm:specialityArea" class="autocomplete"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="formRow">
+                <div class="textname">
+                    <h:outputLabel for="languageKnowledge">${msg.languageKnowledge}</h:outputLabel>
+                    <div class="autocomplete_container">
+                        <h:inputText id="languageKnowledge" type="text" class="search-input-name-field" value="${personSearchSimpleForm.languageKnowledge}" />
+                        <div id="autocomplete_searchPersonForm:languageKnowledge" class="autocomplete"></div>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript" charset="utf-8">
+                // <![CDATA[]
+                        initAutocompleter('searchPersonForm:administration', 'VGR_AO3_CODE');
+                        initAutocompleter('searchPersonForm:employmentTitle', 'PA_TITLE_CODE');
+                        initAutocompleter('searchPersonForm:profession', 'HSA_TITLE');
+                        initAutocompleter('searchPersonForm:specialityArea', 'HSA_SPECIALITY_CODE');
+                        initAutocompleter('searchPersonForm:languageKnowledge', 'HSA_LANGUAGE_KNOWLEDGE_CODE');
+                // ]]>
+            </script>
+        </div>
+    </div>
 </h:form>

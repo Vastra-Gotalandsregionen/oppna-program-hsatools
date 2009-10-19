@@ -64,6 +64,11 @@
 	margin-right:10px;
 }
 
+.search-form .formRow {
+	clear: both;
+	height: 4em;
+}
+
 .search-form .userIdText {
 	float:left;
 	width:60px;
@@ -83,11 +88,18 @@
 }
 .text input {width:240px;}
 
-.textname .search-input-name-field {width:205px;}
+.textname .search-input-name-field {
+	width:205px;
+	border-bottom-color: #D8EBFB;
+	border-right-color: #D8EBFB;
+}
 
 .search-input-vgr-field {
 	width:55px;
+	border-bottom-color: #D8EBFB;
+	border-right-color: #D8EBFB;
 }
+
 /* Tabs */
 .tab-container {
 	width:550px;
@@ -299,3 +311,48 @@ a.unit {
 }
 
 
+/* ------------ BEGIN YUI AC */ 
+
+.autocomplete_container {
+	height: 1.3em;
+}
+
+/*
+#acIndicator {
+	position: absolute;
+	top: 1px;
+	left: 196px;
+}
+*/
+
+div.autocomplete {
+	margin: 0px;
+	margin-bottom: 0.5em;
+	padding: 0px;
+	font-size: 1.2em;
+}
+
+.yui-ac-content {
+	width: auto !important;
+}
+
+.yui-ac-bd ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.yui-ac-bd ul li.selected {
+	background-color: #ffb;
+}
+
+.yui-ac-bd ul li {
+	list-style-type: none;
+	display: block;
+	margin: 0;
+	padding: 2px;
+	font-size: 1em;
+	cursor: pointer;
+}
+
+/*--------------- END YUI AC */

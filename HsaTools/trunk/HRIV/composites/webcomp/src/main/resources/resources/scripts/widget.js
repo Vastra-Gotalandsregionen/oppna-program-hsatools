@@ -146,11 +146,6 @@ function getDirections(to, from) {
 	directions.load(trip);
 }
 
-function drawAutoCompleteDiv() {
-	document
-			.write('<div id="autocomplete_choices" class="autocomplete"></div>');
-}
-
 // yui autocompletion
 function initAutocompleter() {
 	var myDS = new YAHOO.util.XHRDataSource("suggestions");
