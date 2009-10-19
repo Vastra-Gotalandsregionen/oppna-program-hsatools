@@ -3,14 +3,14 @@ package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPClient;
 
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 import se.vgregion.kivtools.util.StringUtil;
+import se.vgregion.kivtools.util.time.TimeUtil;
+import se.vgregion.kivtools.util.time.TimeUtil.DateTimeFormat;
 
 /**
  * Ftp client used for uploading files to ftp server.
@@ -70,7 +70,7 @@ public class FtpClientImpl implements FtpClient {
       }
       success = ftpclient.storeFile(ftpDestinationFileName + "-uploading.xml", inputStream);
       if (success) {
-        success = ftpclient.rename(ftpDestinationFileName + "-uploading.xml", ftpDestinationFileName + "-" + Constants.formatDateToScientificTime(new Date()) + ".xml");
+        success = ftpclient.rename(ftpDestinationFileName + "-uploading.xml", ftpDestinationFileName + "-" + TimeUtil.getCurrentTimeFormatted(DateTimeFormat.SCIENTIFIC_TIME) + ".xml");
       }
       inputStream.close();
       // Logout from the FTP Server and disconnect

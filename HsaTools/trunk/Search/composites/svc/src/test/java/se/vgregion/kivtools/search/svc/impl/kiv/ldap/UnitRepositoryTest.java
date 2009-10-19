@@ -20,6 +20,7 @@ import se.vgregion.kivtools.search.svc.domain.UnitNameComparator;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
+import se.vgregion.kivtools.util.time.TimeUtil;
 
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPEntry;
@@ -72,7 +73,7 @@ public class UnitRepositoryTest {
     assertEquals(1, resultList.size());
 
     // hsaEndDate set to a "past date", ie unit should NOT be returned.
-    resultUnit.setHsaEndDate(Constants.parseStringToZuluTime("20090101000000Z"));
+    resultUnit.setHsaEndDate(TimeUtil.parseStringToZuluTime("20090101000000Z"));
     resultList = unitRepository.searchAdvancedUnits(new Unit(), 1, null, Arrays.asList(1));
     assertEquals(0, resultList.size());
   }

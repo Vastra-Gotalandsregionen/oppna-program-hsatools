@@ -102,68 +102,73 @@ function getDirections(to, from) {
 	directions.load(trip);
 }
 
-function drawAutoCompleteDiv() {
-	document.write('<div id="autocomplete_choices" class="autocomplete"></div>');
-}
-
-function initAutocompleter() {
-	/* Not yet... */
-	var myDS = new YAHOO.util.XHRDataSource("suggestions"); 
+//yui autocompletion
+function initAutocompleter(fieldName, codeTable) {
+	var myDS = new YAHOO.util.XHRDataSource("suggestions.servlet");
 	myDS.responseType = YAHOO.util.XHRDataSource.TYPE_XML;
 	myDS.scriptQueryAppend = "output=xml";
-	myDS.responseSchema = { 
-       resultNode: 'unit', 
-       fields: ['name','id']             
-    };
-    /**/
-	
-	/* For output=text: 	myDS.responseSchema = {		recordDelim :"\n", 		fieldDelim :"\t"	}; */
-	
-	/* Not yet... */
-	var myAutoComp = new YAHOO.widget.AutoComplete("unitName","autocomplete_choices", myDS);
-	myAutoComp.resultTypeList = false; 
-	myAutoComp.formatResult = function(oResultData, sQuery, sResultMatch) { 
-		return (sResultMatch + oResultData.name); 
+	myDS.responseSchema = {
+		fields: ['description'],
+		resultNode : 'suggestion'
+	};
+
+	var myAutoComp = new YAHOO.widget.AutoComplete(fieldName,
+			"autocomplete_" + fieldName, myDS);
+	myAutoComp.resultTypeList = false;
+	myAutoComp.formatResult = function(oResultData, sQuery, sResultMatch) {
+		var query = sQuery.toLowerCase();
+		var description = sResultMatch;
+		var descriptionMatchIndex = description.toLowerCase().indexOf(query);
+		var displayDescription;
+
+		if (descriptionMatchIndex > -1) {
+			displayDescription = highlightMatch(description, query,
+					descriptionMatchIndex);
+		}
+		return displayDescription;
 	}
 
 	myAutoComp.autoHighlight = false;
-	myAutoComp.minQueryLength = 2; 
-	myAutoComp.maxResultsDisplayed = 50; 
+	myAutoComp.minQueryLength = 2;
+	myAutoComp.maxResultsDisplayed = 50;
+	myAutoComp.typeAhead = true;
+	myAutoComp.useIFrame = true;
 
-	// define your itemSelect handler function:
-	var itemSelectHandler = function(sType, aArgs) { 
-		var oMyAcInstance = aArgs[0]; 
-		var selectedItem = aArgs[1]; // the <li> element selected in the suggestion container 
-		var oData = aArgs[2]; // object literal of data for the result
-		var hsaId = oData.id;
-		if (hsaId != '') {
-			document.location = "visaenhet?hsaidentity=" + hsaId;
+	myAutoComp.generateRequest = function(sQuery) {
+		return "?value=" + sQuery + "&fieldKey=" + codeTable;
+	};
+	
+	var workingHandler = function(oSelf, sQuery, aResults) {
+		//document.getElementById('acIndicator_' + fieldName).style.display = 'inline';
+		//document.getElementById('healthcare-selection').style.padding = "0";
+	};
+
+	var readyHandler = function(oSelf) {
+		//document.getElementById('acIndicator_' + fieldName).style.display = 'none';
+		//document.getElementById('healthcare-selection').style.padding = "2em 0 0 0";
+	};
+
+	var returnHandler = function(sType, aArgs) {
+		// Do not spin when we can not find a match.
+		var oAutoComp2 = aArgs[0];
+		var sQuery = aArgs[1];
+		var aResults = aArgs[2];
+		if (aResults.length == 0) {
+			//document.getElementById('acIndicator_' + fieldName).style.display = 'none';
+			//document.getElementById('healthcare-selection').style.padding = "2em 0 0 0";
 		}
-	};  
-	myAutoComp.itemSelectEvent.subscribe(itemSelectHandler);
-	
-	/* */
-	
-	/* Standard formatting
-	myAutoComp.formatResult = function(oResultData, sQuery, sResultMatch) {
-		var sMarkup = (sResultMatch) ? sResultMatch : "";
-		return sMarkup;
-	};*/
-		
-	/*
-	new Ajax.Autocompleter("unitName", "autocomplete_choices", "suggestions", {
-		minChars: 2, 
-		indicator: 'indicator1',
-		afterUpdateElement: goDirectlyToUnitFromAutocompleteList
-	});
-	*/
+	}
+
+	//myAutoComp.dataRequestEvent.subscribe(workingHandler);
+	//myAutoComp.containerExpandEvent.subscribe(readyHandler);
+	//myAutoComp.dataReturnEvent.subscribe(returnHandler);
 }
 
-function goDirectlyToUnitFromAutocompleteList(inputField, selectedItem) {
-	hsaId = selectedItem.id;
-	if (hsaId != '') {
-		document.location = "visaenhet?hsaidentity=" + hsaId;
-	}
+// Helper function for the formatter
+function highlightMatch(full, snippet, matchindex) {
+	return full.substring(0, matchindex) + "<strong>"
+			+ full.substr(matchindex, snippet.length) + "</strong>"
+			+ full.substring(matchindex + snippet.length);
 }
 
 function drawToggleDescription() {

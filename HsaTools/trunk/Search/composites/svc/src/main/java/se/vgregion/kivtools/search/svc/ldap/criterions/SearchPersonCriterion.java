@@ -15,26 +15,31 @@ import se.vgregion.kivtools.util.StringUtil;
  */
 public class SearchPersonCriterion {
 
+  /**
+   * Enumeration of searchable criterions.
+   * 
+   * @author David Bennehult
+   */
   public enum SearchCriterion {
-    /** given name */
+    /** given name. */
     GIVEN_NAME("givenName"),
-    /** surname */
+    /** surname. */
     SURNAME("sn"),
-    /** Employment title */
-    EMPLOYMENT_TITEL("title"),
-    /** user id  */
+    /** Employment title. */
+    EMPLOYMENT_TITEL("paTitleCode"),
+    /** user id. */
     USER_ID("vgr-id"),
-    /** Unit name */
+    /** Unit name. */
     EMPLOYMENT_AT_UNIT("vgrStrukturPerson"),
-    /** hsaSpecialityCode */
+    /** hsaSpecialityCode. */
     SPECIALITY_AREA_CODE("hsaSpecialityCode"),
-    /** user profession */
+    /** user profession. */
     PROFESSION("hsaTitle"),
-    /** mail */
+    /** mail. */
     E_MAIL("mail"),
-    /** hsaLanguageKnowledgeCode */
+    /** hsaLanguageKnowledgeCode. */
     LANGUAGE_KNOWLEDGE_CODE("hsaLanguageKnowledgeCode"),
-    /** administration */
+    /** administration. */
     ADMINISTRATION("vgrAO3kod");
 
     private String value;
@@ -51,6 +56,11 @@ public class SearchPersonCriterion {
 
   private SortedMap<SearchCriterion, String> searchCriterions = new TreeMap<SearchCriterion, String>();
 
+  /**
+   * Adds criterion values to the search criterion if provided value is not empty.
+   * @param criterion The criterion to add value for.
+   * @param value The value to add for the provided criterion.
+   */
   public void addSearchCriterionValue(SearchCriterion criterion, String value) {
     if (!StringUtil.isEmpty(value)) {
       searchCriterions.put(criterion, value);
@@ -58,7 +68,7 @@ public class SearchPersonCriterion {
   }
 
   /**
-   * Get all search criterion
+   * Get all search criterion.
    * 
    * @return A unmodifiable map of all search criterion.
    */

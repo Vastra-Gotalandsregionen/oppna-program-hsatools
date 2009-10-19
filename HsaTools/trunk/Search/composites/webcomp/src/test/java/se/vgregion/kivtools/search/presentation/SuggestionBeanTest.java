@@ -51,7 +51,7 @@ public class SuggestionBeanTest {
 
     suggestionBean.getSuggestions(httpServletResponse, CodeTableName.VGR_AO3_CODE.name(), "test");
     String suggestions = httpServletResponse.getContentAsString();
-    assertEquals("<?xml version='1.0' standalone='yes'?>\n<suggestions>\n<suggestion>Test1</suggestion>\n<suggestion>Test2</suggestion>\n</suggestions>", suggestions);
+    assertEquals("<?xml version='1.0' standalone='yes'?>\n<suggestions>\n<suggestion description=\"Test1\" />\n<suggestion description=\"Test2\" />\n</suggestions>", suggestions);
   }
 
   class CodeTableServiceMock implements CodeTablesService {

@@ -15,26 +15,20 @@
 			<td headers="visitingRuleAge">${unit.hsaVisitingRuleAge}</td>
 		</tr>
 		<tr>
-			<th id="visitingRuleReferral">${msg.visitingRuleReferral}</th>
-			<td headers="visitingRuleReferral" colspan="3">${unit.visitingRuleReferral}</td>
+			<th id="visitingRuleReferral" colspan="2">${msg.visitingRuleReferral}</th>
+			<th id="visitingRules" colspan="2">${msg.visitingRules}</th>
 		</tr>
 		<tr class="cols">
-			<th id="visitingRules" colspan="6">${msg.visitingRules}</th>
+			<td headers="visitingRuleReferral" colspan="2">${unit.visitingRuleReferral}</td>
+			<td headers="visitingRules" colspan="62">${unit.hsaVisitingRules}</td>
 		</tr>
 		<tr class="cols">
-			<td headers="visitingRules" colspan="6">${unit.hsaVisitingRules}</td>
+			<th id="temporaryInformation" colspan="2">${msg.temporaryInformation}</th>
+			<th id="referralInformation" colspan="2">${msg.referralInformation}</th>
 		</tr>
 		<tr class="cols">
-			<th id="temporaryInformation" colspan="6">${msg.temporaryInformation}</th>
-		</tr>
-		<tr class="cols">
-			<td headers="temporaryInformation" colspan="6"><h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.vgrTempInfoBody)}" /></td>
-		</tr>
-		<tr class="cols">
-			<th id="referralInformation" colspan="6">${msg.referralInformation}</th>
-		</tr>
-		<tr class="cols">
-			<td headers="referralInformation" colspan="6"><h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.vgrRefInfo)}" /></td>
+			<td headers="temporaryInformation" colspan="2"><h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.vgrTempInfoBody)}" /></td>
+			<td headers="referralInformation" colspan="2"><h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(unit.vgrRefInfo)}" /></td>
 		</tr>
 	</tbody>
 </table>

@@ -17,8 +17,6 @@
  */
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import java.util.Date;
-
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
@@ -27,6 +25,8 @@ import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.domain.Employment;
 import se.vgregion.kivtools.search.svc.domain.values.DN;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
+import se.vgregion.kivtools.util.time.TimeUtil;
+import se.vgregion.kivtools.util.time.TimeUtil.DateTimeFormat;
 
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPException;
@@ -115,7 +115,7 @@ public class EmploymentRepository {
    * Create LDAP filter string with a condition that hsaEndDate must be greater or equal current date.
    */
   private String generateLDAPFilter() {
-    String zuluTime = Constants.formatDateToZuluTime(new Date());
+    String zuluTime = TimeUtil.getCurrentTimeFormatted(DateTimeFormat.ZULU_TIME);
     String filterString = String.format(ALL_EMPLOYMENT_FILTER, zuluTime);
     return filterString;
   }

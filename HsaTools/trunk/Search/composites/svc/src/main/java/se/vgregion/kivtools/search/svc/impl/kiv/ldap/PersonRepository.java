@@ -22,10 +22,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.Filter;
+import org.springframework.ldap.filter.GreaterThanOrEqualsFilter;
+import org.springframework.ldap.filter.LessThanOrEqualsFilter;
 import org.springframework.ldap.filter.LikeFilter;
+import org.springframework.ldap.filter.NotPresentFilter;
 import org.springframework.ldap.filter.OrFilter;
 
 import se.vgregion.kivtools.search.exceptions.KivException;
@@ -43,6 +47,8 @@ import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion.SearchCriterion;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.util.StringUtil;
+import se.vgregion.kivtools.util.time.TimeUtil;
+import se.vgregion.kivtools.util.time.TimeUtil.DateTimeFormat;
 
 import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPConnection;
@@ -238,6 +244,53 @@ public class PersonRepository {
     }
 
     return result;
+  }
+
+  private Filter getPersonDNsByEmployment(String searchFilter, int searchScope, int maxResult) throws KivException {
+    LDAPSearchConstraints constraints = new LDAPSearchConstraints();
+    constraints.setMaxResults(0);
+    OrFilter filter = new OrFilter();
+    // Get all attributes
+    String[] attributes = null;
+
+    try {
+      LDAPConnection lc = getLDAPConnection();
+      try {
+        // return attributes and values
+        List<String> personDNs = extractDNStrings(lc.search(KIV_SEARCH_BASE, searchScope, searchFilter, attributes, false, constraints), maxResult);
+        for (String dn : personDNs) {
+          DistinguishedName personDn = new DistinguishedName(dn);
+          personDn.removeLast();
+          filter.or(new EqualsFilter("vgr-id", personDn.removeLast().getValue()));
+        }
+      } finally {
+        theConnectionPool.freeConnection(lc);
+      }
+    } catch (LDAPException e) {
+      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
+    }
+
+    return filter;
+  }
+  
+  private ArrayList<String> extractDNStrings(LDAPSearchResults searchResults, int maxResult) throws LDAPException {
+      if (searchResults == null) {
+        return null;
+      }
+      ArrayList<String> result = new ArrayList<String>();
+      while (searchResults.hasMore()) {
+        try {
+          String p = searchResults.next().getDN();
+          result.add(p);
+        } catch (LDAPException e) {
+          if (e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
+            throw e;
+          } else {
+            continue;
+          }
+        }
+      }
+      return result;
   }
 
   private Person extractSingleResult(LDAPSearchResults searchResults) throws LDAPException {
@@ -472,52 +525,84 @@ public class PersonRepository {
   }
 
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterion person, int maxResult) throws KivException {
-    return searchPersons(generateFreeTextSearchFilter(person).encode(), LDAPConnection.SCOPE_ONE, maxResult);
+    Filter employmentFilter = null;
+    if (person.getAllSearchCriterions().containsKey(SearchCriterion.EMPLOYMENT_TITEL)) {
+      employmentFilter = getPersonDNsByEmployment(generateFreeTextSearchEmploymentFilter(person).encode(), LDAPConnection.SCOPE_SUB, Integer.MAX_VALUE);
+    }
+
+    AndFilter searchPersonFilter = generateFreeTextSearchPersonFilter(person);
+    if (employmentFilter != null) {
+      searchPersonFilter.and(employmentFilter);
+    }
+    
+    return searchPersons(searchPersonFilter.encode(), LDAPConnection.SCOPE_ONE, maxResult);
   }
 
-  private Filter generateFreeTextSearchFilter(SearchPersonCriterion person) {
-    AndFilter andFilter = new AndFilter();
-    andFilter.and(new EqualsFilter("objectclass", "vgrUser"));
-    OrFilter orFilter = null;
+  private Filter generateFreeTextSearchEmploymentFilter(SearchPersonCriterion person) {
+    AndFilter employmentFilter = new AndFilter();
+    employmentFilter.and(new EqualsFilter("objectclass", "vgrAnstallning"));
+    // Start date today or earlier
+    String today = TimeUtil.getCurrentTimeFormatted(DateTimeFormat.ZULU_TIME);
+    employmentFilter.and(new LessThanOrEqualsFilter("hsaStartDate", today));
+
+    OrFilter employmentEndDateFilter = new OrFilter();
+    // Either no end date
+    employmentEndDateFilter.or(new NotPresentFilter("hsaEndDate"));
+    // Or end date either today or late
+    employmentEndDateFilter.or(new GreaterThanOrEqualsFilter("hsaEndDate", today));
+
+    employmentFilter.and(employmentEndDateFilter);
+
+    // Add paTitleCode to employmentFilter instead of andFilter since it's an employment attribute
+    employmentFilter.and(generateOrFilterFromList(CodeTableName.PA_TITLE_CODE, SearchCriterion.EMPLOYMENT_TITEL, person.getAllSearchCriterions().get(SearchCriterion.EMPLOYMENT_TITEL)));
+
+    return employmentFilter;
+  }
+
+  private AndFilter generateFreeTextSearchPersonFilter(SearchPersonCriterion person) {
+    AndFilter userFilter = new AndFilter();
+    userFilter.and(new EqualsFilter("objectclass", "vgrUser"));
     for (Entry<SearchCriterion, String> criterion : person.getAllSearchCriterions().entrySet()) {
       switch (criterion.getKey()) {
         case GIVEN_NAME:
-          orFilter = new OrFilter();
-          orFilter.or(new LikeFilter(criterion.getKey().toString(), "*" + criterion.getValue() + "*"));
-          orFilter.or(new LikeFilter("hsaNickName", "*" + criterion.getValue() + "*"));
-          andFilter.and(orFilter);
+          OrFilter firstNameFilter = new OrFilter();
+          firstNameFilter.or(new LikeFilter(criterion.getKey().toString(), "*" + criterion.getValue() + "*"));
+          firstNameFilter.or(new LikeFilter("hsaNickName", "*" + criterion.getValue() + "*"));
+          userFilter.and(firstNameFilter);
           break;
         case SURNAME:
-          orFilter = new OrFilter();
-          orFilter.or(new LikeFilter(criterion.getKey().toString(), "*" + criterion.getValue() + "*"));
-          orFilter.or(new LikeFilter("hsaMiddleName", "*" + criterion.getValue() + "*"));
-          andFilter.and(orFilter);
+          OrFilter surnameFilter = new OrFilter();
+          surnameFilter.or(new LikeFilter(criterion.getKey().toString(), "*" + criterion.getValue() + "*"));
+          surnameFilter.or(new LikeFilter("hsaMiddleName", "*" + criterion.getValue() + "*"));
+          userFilter.and(surnameFilter);
           break;
         case SPECIALITY_AREA_CODE:
-          andFilter.and(generateOrFilterFromList(CodeTableName.HSA_SPECIALITY_CODE, criterion));
+          userFilter.and(generateOrFilterFromList(CodeTableName.HSA_SPECIALITY_CODE, criterion.getKey(), criterion.getValue()));
           break;
         case PROFESSION:
-          andFilter.and(generateOrFilterFromList(CodeTableName.HSA_TITLE, criterion));
+          userFilter.and(generateOrFilterFromList(CodeTableName.HSA_TITLE, criterion.getKey(), criterion.getValue()));
           break;
         case LANGUAGE_KNOWLEDGE_CODE:
-          andFilter.and(generateOrFilterFromList(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, criterion));
+          userFilter.and(generateOrFilterFromList(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, criterion.getKey(), criterion.getValue()));
           break;
         case ADMINISTRATION:
-          andFilter.and(generateOrFilterFromList(CodeTableName.VGR_AO3_CODE, criterion));
+          userFilter.and(generateOrFilterFromList(CodeTableName.VGR_AO3_CODE, criterion.getKey(), criterion.getValue()));
+          break;
+        case EMPLOYMENT_TITEL:
+          // Do nothing, since employment title is located on vgrAnstallning.
           break;
         default:
-          andFilter.and(new LikeFilter(criterion.getKey().toString(), "*" + criterion.getValue() + "*"));
+          userFilter.and(new LikeFilter(criterion.getKey().toString(), "*" + criterion.getValue() + "*"));
       }
     }
-    return andFilter;
-
+    return userFilter;
   }
 
-  private Filter generateOrFilterFromList(CodeTableName codeTableName, Entry<SearchCriterion, String> criterion) {
-    List<String> codeFromTextValues = codeTablesService.getCodeFromTextValue(codeTableName, criterion.getValue());
+  private Filter generateOrFilterFromList(CodeTableName codeTableName, SearchCriterion criterion, String criterionValue) {
+    List<String> codeFromTextValues = codeTablesService.getCodeFromTextValue(codeTableName, criterionValue);
     OrFilter orFilter = new OrFilter();
     for (String value : codeFromTextValues) {
-      orFilter.or(new LikeFilter(criterion.getKey().toString(), value));
+      orFilter.or(new LikeFilter(criterion.toString(), value));
     }
     return orFilter;
   }

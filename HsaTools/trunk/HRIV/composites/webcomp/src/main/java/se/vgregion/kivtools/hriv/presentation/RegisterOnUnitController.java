@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
-import java.util.Date;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -24,7 +23,6 @@ import se.vgregion.kivtools.hriv.presentation.types.SigningInformation;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
 import se.vgregion.kivtools.search.svc.registration.CitizenRepository;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
@@ -34,6 +32,8 @@ import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
 import se.vgregion.kivtools.search.util.EncryptionUtil;
 import se.vgregion.kivtools.util.StringUtil;
+import se.vgregion.kivtools.util.time.TimeUtil;
+import se.vgregion.kivtools.util.time.TimeUtil.DateTimeFormat;
 
 /**
  * Controller class for the process when a citizen registers on a unit.
@@ -211,10 +211,9 @@ public class RegisterOnUnitController implements Serializable {
    */
   public String preCommitRegistrationOnUnit(VardvalInfo vardvalInfo, ExternalContext externalContext) {
     String redirectUrl = "";
-    Date date = new Date();
     String documentText = bundle.getString("registrationDocumentText");
-    String registrationData = MessageFormat.format(documentText, vardvalInfo.getName(), vardvalInfo.getSsn(), vardvalInfo.getSelectedUnitName(), vardvalInfo.getSelectedUnitId(), Constants
-        .formatDateToNormalTime(date));
+    String registrationData = MessageFormat.format(documentText, vardvalInfo.getName(), vardvalInfo.getSsn(), vardvalInfo.getSelectedUnitName(), vardvalInfo.getSelectedUnitId(), TimeUtil
+        .getCurrentTimeFormatted(DateTimeFormat.NORMAL_TIME));
 
     byte[] base64encoded = encodeRegistrationData(registrationData);
     String mimeType = "text/plain";

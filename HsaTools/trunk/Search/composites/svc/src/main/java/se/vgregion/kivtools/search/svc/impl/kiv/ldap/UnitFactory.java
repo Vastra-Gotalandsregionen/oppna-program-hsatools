@@ -37,6 +37,7 @@ import se.vgregion.kivtools.search.util.geo.CoordinateTransformerService;
 import se.vgregion.kivtools.search.util.geo.GaussKrugerProjection;
 import se.vgregion.kivtools.search.util.geo.GeoUtil;
 import se.vgregion.kivtools.util.StringUtil;
+import se.vgregion.kivtools.util.time.TimeUtil;
 
 import com.domainlanguage.time.TimePoint;
 import com.novell.ldap.LDAPEntry;
@@ -177,7 +178,7 @@ public class UnitFactory {
     unit.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaTelephoneTime"))));
 
     // hsaEndDate
-    unit.setHsaEndDate(Constants.parseStringToZuluTime(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaEndDate"))));
+    unit.setHsaEndDate(TimeUtil.parseStringToZuluTime(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaEndDate"))));
 
     // hsaSurgeryHours
     unit.setHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaSurgeryHours"))));
