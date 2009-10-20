@@ -140,14 +140,16 @@ public class SearchPersonFlowSupportBean implements Serializable {
     SearchPersonCriterion searchPersonCriterion = new SearchPersonCriterion();
     searchPersonCriterion.addSearchCriterionValue(SearchCriterion.GIVEN_NAME, personSearchSimpleForm.getGivenName());
     searchPersonCriterion.addSearchCriterionValue(SearchCriterion.SURNAME, personSearchSimpleForm.getSurname());
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.ADMINISTRATION, personSearchSimpleForm.getAdministration());
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.E_MAIL, personSearchSimpleForm.getEmail());
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.SPECIALITY_AREA_CODE, personSearchSimpleForm.getSpecialityArea());
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_TITEL, personSearchSimpleForm.getEmploymentTitle());
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.LANGUAGE_KNOWLEDGE_CODE, personSearchSimpleForm.getLanguageKnowledge());
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.PROFESSION, personSearchSimpleForm.getProfession());
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_AT_UNIT, personSearchSimpleForm.getEmployedAtUnit());
     searchPersonCriterion.addSearchCriterionValue(SearchCriterion.USER_ID, personSearchSimpleForm.getUserId());
+    if (!"simple".equals(personSearchSimpleForm.getSearchType())) {
+      searchPersonCriterion.addSearchCriterionValue(SearchCriterion.ADMINISTRATION, personSearchSimpleForm.getAdministration());
+      searchPersonCriterion.addSearchCriterionValue(SearchCriterion.E_MAIL, personSearchSimpleForm.getEmail());
+      searchPersonCriterion.addSearchCriterionValue(SearchCriterion.SPECIALITY_AREA_CODE, personSearchSimpleForm.getSpecialityArea());
+      searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_TITEL, personSearchSimpleForm.getEmploymentTitle());
+      searchPersonCriterion.addSearchCriterionValue(SearchCriterion.LANGUAGE_KNOWLEDGE_CODE, personSearchSimpleForm.getLanguageKnowledge());
+      searchPersonCriterion.addSearchCriterionValue(SearchCriterion.PROFESSION, personSearchSimpleForm.getProfession());
+      searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_AT_UNIT, personSearchSimpleForm.getEmployedAtUnit());
+    }
     return searchPersonCriterion;
   }
 

@@ -1,4 +1,8 @@
-<h:form id="searchPersonForm" class="search-form" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:form id="searchPersonForm" class="search-form"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+		xmlns:c="http://java.sun.com/jstl/core">
     <div id="formContainer">
         <div class="formRow">
     		<div class="textname">
@@ -19,7 +23,18 @@
           
            </div>
         
-        <div id="advanced_search" class="advanced_search">  
+   		<c:set var="displaySimple" value="none"/>
+   		<c:set var="displayAdvanced" value="none"/>
+   		<c:choose>
+   			<c:when test="${personSearchSimpleForm.searchType eq 'simple'}">
+	   			<c:set var="displaySimple" value="block"/>
+   			</c:when>
+   			<c:otherwise>
+	   			<c:set var="displayAdvanced" value="block"/>
+   			</c:otherwise>
+   		</c:choose>
+
+        <div id="advanced_search" class="advanced_search" style="display: ${displayAdvanced};">
            <div class="formRow">
                 <div class="textname">
                     <h:outputLabel for="administration">${msg.administration}</h:outputLabel>
@@ -68,6 +83,7 @@
                     </div>
                 </div>
             </div>
+            <h:inputHidden id="searchType" value="${personSearchSimpleForm.searchType}" />
             <script type="text/javascript" charset="utf-8">
                 // <![CDATA[]
                         initAutocompleter('searchPersonForm:administration', 'VGR_AO3_CODE');
@@ -79,8 +95,8 @@
         </div>
          <div class="search-advanced-link">
           <a class="search-advanced-link" onclick="return toggleAdvancedPersonSearch();" href="#">
-                <span id="advancedLinkText" >${msg.advancedSearch}</span>
-                <span id="simpleLinkText">${msg.simpleSearch}</span>
+            <span id="advancedLinkText" style="display: ${displaySimple};">${msg.advancedSearch}</span>
+            <span id="simpleLinkText" style="display: ${displayAdvanced};">${msg.simpleSearch}</span>
            </a>
          </div>
     </div>

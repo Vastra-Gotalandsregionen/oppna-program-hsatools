@@ -31,7 +31,7 @@ public class PersonSearchSimpleForm implements Serializable {
   private String givenName = "";
   private String surname = "";
   private String userId = "";
-  private String searchType = "name_selected";
+  private String searchType = "simple";
   private String administration;
   private String employedAtUnit;
   private String profession;
