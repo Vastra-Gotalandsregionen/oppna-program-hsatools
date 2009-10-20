@@ -1,9 +1,6 @@
 package se.vgregion.kivtools.util.time;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -38,13 +35,13 @@ public class TimeUtilTest {
   public void tearDown() {
     TimeUtil.reset();
   }
-  
+
   @Test
   public void testInstantiation() {
     TimeUtil timeUtil = new TimeUtil();
     assertNotNull(timeUtil);
   }
-  
+
   @Test
   public void testAsMillis() {
     assertEquals(1253370228000L, TimeUtil.asMillis());
@@ -64,7 +61,9 @@ public class TimeUtilTest {
     result = TimeUtil.formatDate(TimeUtil.asDate(), DateTimeFormat.SCIENTIFIC_TIME);
     assertEquals("20090919162348", result);
     result = TimeUtil.formatDate(TimeUtil.asDate(), DateTimeFormat.NORMAL_TIME);
-    assertEquals("19 september, 2009", result);
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM, yyyy");
+    String expected = dateFormat.format(calendar.getTime());
+    assertEquals(expected, result);
   }
 
   @Test
@@ -74,7 +73,9 @@ public class TimeUtilTest {
     result = TimeUtil.getCurrentTimeFormatted(DateTimeFormat.SCIENTIFIC_TIME);
     assertEquals("20090919162348", result);
     result = TimeUtil.getCurrentTimeFormatted(DateTimeFormat.NORMAL_TIME);
-    assertEquals("19 september, 2009", result);
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM, yyyy");
+    String expected = dateFormat.format(calendar.getTime());
+    assertEquals(expected, result);
   }
 
   @Test
@@ -82,19 +83,19 @@ public class TimeUtilTest {
     Date parsedDate = TimeUtil.parseStringToZuluTime("20090919162348Z");
     assertEquals(calendar.getTime(), parsedDate);
   }
-  
+
   @Test
   public void testParseStringToZuluTimeUnparseableDate() {
     Date parsedDate = TimeUtil.parseStringToZuluTime("2xx90x19162348Z");
     assertNull(parsedDate);
   }
-  
+
   @Test
   public void testDateTimeFormatToString() {
     String result = DateTimeFormat.ZULU_TIME.toString();
     assertEquals("yyyyMMddHHmmss'Z'", result);
   }
-  
+
   @Test
   public void testDefaultTimeSource() {
     TimeUtil.reset();
