@@ -58,7 +58,11 @@
 			<td>${unit.locality}</td>
 		</tr>
 		<tr class="cols">
-			<th id="drivingdirections" colspan="3">${msg.drivingDirections}</th>
+			<th id="drivingdirections" colspan="3">${msg.drivingDirections} 
+                <h:outputText rendered="${unit.hsaPostalAddress.hasVcardData}">
+                    <a href="http://www.hitta.se/SearchCombi.aspx?var=${unit.hsaPostalAddress.encodedAddress}">${msg.map}</a>
+                 </h:outputText>
+            </th>
 		</tr>
 		<tr class="cols">
 			<td headers="drivingdirections" colspan="3">
