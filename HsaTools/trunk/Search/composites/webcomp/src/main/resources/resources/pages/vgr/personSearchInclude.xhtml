@@ -16,9 +16,11 @@
     		<div class="submit-area">
     			<h:commandButton type="submit" action="doSearch" id="submitButton" value="Sök" />
     		</div>
-        </div>
-        <div id="advanced_search">  
-            <div class="formRow">
+          
+           </div>
+        
+        <div id="advanced_search" class="advanced_search">  
+           <div class="formRow">
                 <div class="textname">
                     <h:outputLabel for="administration">${msg.administration}</h:outputLabel>
                     <div class="autocomplete_container">
@@ -79,5 +81,11 @@
                 // ]]>
             </script>
         </div>
+         <div class="search-advanced-link">
+          <a class="search-advanced-link" onclick="return toggleAdvancedPersonSearch();" href="#">
+                <span id="advancedLinkText" >${msg.advancedSearch}</span>
+                <span id="simpleLinkText">${msg.simpleSearch}</span>
+           </a>
+         </div>
     </div>
 </h:form>
