@@ -272,25 +272,25 @@ public class PersonRepository {
 
     return filter;
   }
-  
+
   private ArrayList<String> extractDNStrings(LDAPSearchResults searchResults, int maxResult) throws LDAPException {
-      if (searchResults == null) {
-        return null;
-      }
-      ArrayList<String> result = new ArrayList<String>();
-      while (searchResults.hasMore()) {
-        try {
-          String p = searchResults.next().getDN();
-          result.add(p);
-        } catch (LDAPException e) {
-          if (e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
-            throw e;
-          } else {
-            continue;
-          }
+    if (searchResults == null) {
+      return null;
+    }
+    ArrayList<String> result = new ArrayList<String>();
+    while (searchResults.hasMore()) {
+      try {
+        String p = searchResults.next().getDN();
+        result.add(p);
+      } catch (LDAPException e) {
+        if (e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
+          throw e;
+        } else {
+          continue;
         }
       }
-      return result;
+    }
+    return result;
   }
 
   private Person extractSingleResult(LDAPSearchResults searchResults) throws LDAPException {
@@ -524,6 +524,14 @@ public class PersonRepository {
     return persons;
   }
 
+  /**
+   * Search for persons matching the provided SearchPersonCriterion.
+   * 
+   * @param person The SearchPersonCriterion to match persons against.
+   * @param maxResult The maximum number of records to return.
+   * @return A list of Person-objects or an empty list if no records where found.
+   * @throws KivException If there is a problem during the search.
+   */
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterion person, int maxResult) throws KivException {
     Filter employmentFilter = null;
     if (person.getAllSearchCriterions().containsKey(SearchCriterion.EMPLOYMENT_TITEL)) {
@@ -534,7 +542,7 @@ public class PersonRepository {
     if (employmentFilter != null) {
       searchPersonFilter.and(employmentFilter);
     }
-    
+
     return searchPersons(searchPersonFilter.encode(), LDAPConnection.SCOPE_ONE, maxResult);
   }
 
@@ -553,8 +561,8 @@ public class PersonRepository {
 
     employmentFilter.and(employmentEndDateFilter);
 
-    // Add paTitleCode to employmentFilter instead of andFilter since it's an employment attribute
-    employmentFilter.and(generateOrFilterFromList(CodeTableName.PA_TITLE_CODE, SearchCriterion.EMPLOYMENT_TITEL, person.getAllSearchCriterions().get(SearchCriterion.EMPLOYMENT_TITEL)));
+    // Add title to employmentFilter instead of andFilter since it's an employment attribute
+    employmentFilter.and(new LikeFilter(SearchCriterion.EMPLOYMENT_TITEL.toString(), "*" + person.getAllSearchCriterions().get(SearchCriterion.EMPLOYMENT_TITEL) + "*"));
 
     return employmentFilter;
   }
