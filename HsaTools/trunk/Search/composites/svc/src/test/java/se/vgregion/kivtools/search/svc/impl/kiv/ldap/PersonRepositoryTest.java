@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,10 +25,8 @@ import se.vgregion.kivtools.search.svc.impl.mock.LDAPSearchResultsMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LdapConnectionPoolMock;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion.SearchCriterion;
-import se.vgregion.kivtools.util.StringUtil;
 import se.vgregion.kivtools.util.time.TimeSource;
 import se.vgregion.kivtools.util.time.TimeUtil;
-import se.vgregion.kivtools.util.time.TimeUtil.DateTimeFormat;
 
 public class PersonRepositoryTest {
 
@@ -70,11 +67,9 @@ public class PersonRepositoryTest {
     LDAPEntryMock ldapEntryMock = new LDAPEntryMock();
     ldapEntryMock.setDn("cn=12345,cn=anama,ou=Personal,o=vgr");
     ldapSearchResultsMock.addLDAPEntry(ldapEntryMock);
-    ldapConnectionMock
-        .addLDAPSearchResults(
-            "(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(paTitleCode=employmentTitle))",
-            ldapSearchResultsMock);
-    
+    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(title=*employmentTitle*))",
+        ldapSearchResultsMock);
+
     personRepository.setLdapConnectionPool(ldapConnectionPoolMock);
     personRepository.setCodeTablesService(getCodeTableServiceMock());
 
@@ -90,7 +85,7 @@ public class PersonRepositoryTest {
   public void tearDown() {
     TimeUtil.reset();
   }
-  
+
   @Test
   public void testEmploymentTitleSearch() throws KivException {
     SearchPersonCriterion searchPersonCriterion = new SearchPersonCriterion();

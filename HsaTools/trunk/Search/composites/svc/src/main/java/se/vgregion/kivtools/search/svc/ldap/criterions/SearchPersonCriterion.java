@@ -26,7 +26,7 @@ public class SearchPersonCriterion {
     /** surname. */
     SURNAME("sn"),
     /** Employment title. */
-    EMPLOYMENT_TITEL("paTitleCode"),
+    EMPLOYMENT_TITEL("title"),
     /** user id. */
     USER_ID("vgr-id"),
     /** Unit name. */
@@ -58,6 +58,7 @@ public class SearchPersonCriterion {
 
   /**
    * Adds criterion values to the search criterion if provided value is not empty.
+   * 
    * @param criterion The criterion to add value for.
    * @param value The value to add for the provided criterion.
    */
