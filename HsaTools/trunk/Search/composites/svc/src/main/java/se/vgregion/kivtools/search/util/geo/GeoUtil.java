@@ -31,8 +31,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.Address;
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.Address;
 import se.vgregion.kivtools.util.StringUtil;
 
 /**

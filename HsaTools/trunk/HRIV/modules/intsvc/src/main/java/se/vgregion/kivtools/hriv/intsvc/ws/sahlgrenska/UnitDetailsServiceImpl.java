@@ -15,11 +15,11 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.UnitType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.AddressType.GeoCoordinates;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.UnitType.Locality;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.UnitType.VisitingConditions;
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.HealthcareType;
+import se.vgregion.kivtools.search.domain.values.PhoneNumber;
+import se.vgregion.kivtools.search.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
-import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
-import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 
 /**
@@ -134,7 +134,7 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
     return unitWs;
   }
 
-  private void setAddress(se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Unit unitWs, se.vgregion.kivtools.search.svc.domain.values.Address address, String addressType, Unit unit) {
+  private void setAddress(se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Unit unitWs, se.vgregion.kivtools.search.domain.values.Address address, String addressType, Unit unit) {
     // Set unitWs street address
     Address wsAddress = objectFactory.createAddress();
 

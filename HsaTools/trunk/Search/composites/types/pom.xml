@@ -1,24 +1,59 @@
 <?xml version="1.0"?>
-<!--
-This is the Integration Service (Webservice, Messaging, ...) Maven POM.
-
-
-Template version: 1.0-SNAPSHOT
-Generation time : 2007-10-09 10:07:02 CEST
--->
+	<!--
+		This is the Integration Service (Webservice, Messaging, ...) Maven
+		POM. Template version: 1.0-SNAPSHOT Generation time : 2007-10-09
+		10:07:02 CEST
+	-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <!--<groupId> groupId IS DEFINED BY PARENT </groupId>-->
-  <artifactId>HsaTools-Search-composite-types</artifactId>
-  <packaging>jar</packaging>
-  <name>HsaTools-Search-composite-types</name>
-  <!--<version> version IS DEFINED BY PARENT </version>-->
-  
-  <parent>
-    <groupId>HsaTools</groupId>
-    <artifactId>HsaTools-Search</artifactId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<!--<groupId> groupId IS DEFINED BY PARENT </groupId>-->
+	<artifactId>HsaTools-Search-composite-types</artifactId>
+	<packaging>jar</packaging>
+	<name>HsaTools-Search-composite-types</name>
+	<!--<version> version IS DEFINED BY PARENT </version>-->
 
+	<parent>
+		<groupId>HsaTools</groupId>
+		<artifactId>HsaTools-Search</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>HsaTools</groupId>
+			<artifactId>HsaTools-Utils</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<!-- Google Maps Geocoding -->
+		<dependency>
+			<groupId>geoGoogle</groupId>
+			<artifactId>geoGoogle</artifactId>
+			<version>1.5.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.xml</groupId>
+					<artifactId>jaxb-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.xml.bind</groupId>
+					<artifactId>jaxb-impl</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Used for Base64 encoding signature -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.3</version>
+		</dependency>
+		
+        <dependency>
+            <groupId>com.domain</groupId>
+            <artifactId>TimeAndMoney</artifactId>
+            <version>0.5.1</version>
+        </dependency>
+	</dependencies>
 </project>

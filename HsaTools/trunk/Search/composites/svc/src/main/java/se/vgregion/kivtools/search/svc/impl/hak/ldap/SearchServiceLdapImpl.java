@@ -23,14 +23,14 @@ import java.util.List;
 
 import org.apache.commons.lang.NotImplementedException;
 
+import se.vgregion.kivtools.search.domain.Employment;
+import se.vgregion.kivtools.search.domain.Person;
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.DN;
+import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.domain.Employment;
-import se.vgregion.kivtools.search.svc.domain.Person;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.DN;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
 
 /**

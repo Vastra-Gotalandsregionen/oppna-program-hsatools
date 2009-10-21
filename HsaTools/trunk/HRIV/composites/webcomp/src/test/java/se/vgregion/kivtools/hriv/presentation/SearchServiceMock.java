@@ -26,12 +26,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import se.vgregion.kivtools.search.domain.Employment;
+import se.vgregion.kivtools.search.domain.Person;
+import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.domain.Employment;
-import se.vgregion.kivtools.search.svc.domain.Person;
-import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
 
 public class SearchServiceMock implements SearchService {

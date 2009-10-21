@@ -22,9 +22,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.domain.values.MunicipalityHelper;
 import se.vgregion.kivtools.search.exceptions.IncorrectUserInputException;
 import se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm;
-import se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper;
 
 public class UnitSearchSimpleFormValidatorTest {
 

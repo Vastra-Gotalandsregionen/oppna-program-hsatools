@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
+import se.vgregion.kivtools.search.domain.Person;
+import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
-import se.vgregion.kivtools.search.svc.domain.Person;
-import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.ldap.LdapORMHelper;
 
 import com.domainlanguage.time.TimePoint;

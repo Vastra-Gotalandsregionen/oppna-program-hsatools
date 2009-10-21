@@ -9,7 +9,7 @@ import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.Filter;
 import org.springframework.ldap.filter.OrFilter;
 
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
+import se.vgregion.kivtools.search.domain.values.HealthcareType;
 
 /**
  * 

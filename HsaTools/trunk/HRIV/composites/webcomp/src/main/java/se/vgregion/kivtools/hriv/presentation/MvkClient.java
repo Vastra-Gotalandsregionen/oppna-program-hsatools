@@ -23,8 +23,8 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import se.vgregion.kivtools.hriv.util.DocumentHelper;
-import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.util.dom.DocumentHelper;
 import se.vgregion.kivtools.util.http.HttpFetcher;
 
 /**

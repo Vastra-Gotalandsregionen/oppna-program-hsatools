@@ -19,14 +19,14 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
 import java.util.TimeZone;
 
+import se.vgregion.kivtools.search.domain.Employment;
+import se.vgregion.kivtools.search.domain.values.AddressHelper;
+import se.vgregion.kivtools.search.domain.values.CodeTableName;
+import se.vgregion.kivtools.search.domain.values.DN;
+import se.vgregion.kivtools.search.domain.values.PhoneNumber;
+import se.vgregion.kivtools.search.domain.values.WeekdayTime;
+import se.vgregion.kivtools.search.domain.values.ZipCode;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
-import se.vgregion.kivtools.search.svc.domain.Employment;
-import se.vgregion.kivtools.search.svc.domain.values.AddressHelper;
-import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
-import se.vgregion.kivtools.search.svc.domain.values.DN;
-import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
-import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
-import se.vgregion.kivtools.search.svc.domain.values.ZipCode;
 import se.vgregion.kivtools.search.svc.ldap.LdapORMHelper;
 
 import com.domainlanguage.time.TimePoint;

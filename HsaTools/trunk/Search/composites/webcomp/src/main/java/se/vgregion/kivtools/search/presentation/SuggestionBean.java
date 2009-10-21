@@ -12,8 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
-import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 
 /**
  * Bean which provides suggestions for a type-ahead field.

@@ -13,12 +13,12 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.HealthcareType;
+import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.UnitNameComparator;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
+import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 import se.vgregion.kivtools.util.time.TimeUtil;
 

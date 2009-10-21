@@ -17,9 +17,6 @@
  */
 package se.vgregion.kivtools.search.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -135,51 +132,5 @@ public class Formatter {
       }
     }
     return list;
-  }
-
-  /**
-   * Concatenates an arbitrary amount of strings into a nicely formatted concatenated string. Skips empty stringPart elements.
-   * 
-   * @param stringParts The strings to concatenate.
-   * @return The concatenated strings.
-   */
-  public static String concatenate(String... stringParts) {
-    StringBuilder concatenatedString = new StringBuilder();
-    if (stringParts != null) {
-
-      List<String> stringPartsList = new ArrayList<String>(Arrays.asList(stringParts));
-      concatenatedString.append(Formatter.concatenate(stringPartsList));
-    }
-    return concatenatedString.toString();
-  }
-
-  /**
-   * Concatenates an arbitrary amount of strings into a nicely formatted concatenated string. Skips empty stringPart elements.
-   * 
-   * @param stringParts The list of strings to concatenate.
-   * @return The concatenated strings.
-   */
-  public static String concatenate(List<String> stringParts) {
-    StringBuilder concatenatedString = new StringBuilder();
-    if (stringParts != null) {
-
-      List<String> stringPartsList = new ArrayList<String>(stringParts);
-      for (Iterator<String> iterator = stringPartsList.iterator(); iterator.hasNext();) {
-        String stringPart = iterator.next();
-        if ("".equals(stringPart)) {
-          iterator.remove();
-        }
-      }
-
-      for (int i = 0; i < stringPartsList.size(); i++) {
-        if (stringPartsList.get(i) != null) {
-          concatenatedString.append(stringPartsList.get(i).trim());
-          if (i < stringPartsList.size() - 1 && stringPartsList.get(i + 1) != null) {
-            concatenatedString.append(", ");
-          }
-        }
-      }
-    }
-    return concatenatedString.toString();
   }
 }

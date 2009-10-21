@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
-import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 
 public class SuggestionBeanTest {
 

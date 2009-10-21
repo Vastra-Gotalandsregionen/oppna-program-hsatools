@@ -29,7 +29,7 @@ import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Organization;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
 import se.vgregion.kivtools.mocks.LogFactoryMock;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
+import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.util.StringUtil;
 
 public class OrganisationPrinterTest {

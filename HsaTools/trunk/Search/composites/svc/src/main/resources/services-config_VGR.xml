@@ -56,12 +56,12 @@
 		<property name="codeTablesService" ref="Search_CodeTablesService" />
 	</bean>
 	<bean id="Search_HealthcareTypeConditionHelper"
-		class="se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper">
+		class="se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper">
 		<property name="implResourcePath"
 			value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-healthcare-type-conditions"></property>
 	</bean>
 	<bean id="Search_MunicipalityHelper"
-		class="se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper">
+		class="se.vgregion.kivtools.search.domain.values.MunicipalityHelper">
 		<property name="implResourcePath"
 			value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-municipalities"></property>
 	</bean>

@@ -6,7 +6,7 @@ import org.springframework.ldap.core.support.LdapContextSource;
 
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClient;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
+import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 
 public class LdapEniroIntergrationTest {
 

@@ -37,10 +37,10 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import se.vgregion.kivtools.hriv.presentation.SearchUnitFlowSupportBean;
 import se.vgregion.kivtools.hriv.presentation.SettingsBean;
+import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.svc.SearchService;
-import se.vgregion.kivtools.search.svc.domain.Unit;
 import se.vgregion.kivtools.util.StringUtil;
 
 /**

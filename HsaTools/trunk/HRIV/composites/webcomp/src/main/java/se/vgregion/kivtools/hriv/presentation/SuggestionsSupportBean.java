@@ -25,11 +25,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
+import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.UnitNameComparator;
-import se.vgregion.kivtools.search.util.Formatter;
+import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Support-bean for the Suggestions-servlet.
@@ -197,7 +197,7 @@ public class SuggestionsSupportBean {
   private String getUnitDescriptionEncoded(Unit unit) {
     String name = unit.getName();
     String locality = unit.getLocality();
-    String description = htmlEncodeSwedishCharacters(Formatter.concatenate(name, locality));
+    String description = htmlEncodeSwedishCharacters(StringUtil.concatenate(name, locality));
     return description;
   }
 

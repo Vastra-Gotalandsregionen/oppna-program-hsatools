@@ -29,9 +29,9 @@ import com.domainlanguage.time.TimePoint;
 import se.vgregion.kivtools.hriv.presentation.SearchUnitFlowSupportBean;
 import se.vgregion.kivtools.hriv.presentation.SettingsBean;
 import se.vgregion.kivtools.hriv.servlets.Sitemap;
+import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.svc.SearchService;
-import se.vgregion.kivtools.search.svc.domain.Unit;
 
 public class SitemapTest {
 

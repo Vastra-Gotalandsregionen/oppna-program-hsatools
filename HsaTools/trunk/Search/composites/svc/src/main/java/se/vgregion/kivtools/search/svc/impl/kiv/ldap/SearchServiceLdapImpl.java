@@ -20,14 +20,14 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 import java.util.Comparator;
 import java.util.List;
 
+import se.vgregion.kivtools.search.domain.Employment;
+import se.vgregion.kivtools.search.domain.Person;
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.DN;
+import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.domain.Employment;
-import se.vgregion.kivtools.search.svc.domain.Person;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.DN;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
 
 /**

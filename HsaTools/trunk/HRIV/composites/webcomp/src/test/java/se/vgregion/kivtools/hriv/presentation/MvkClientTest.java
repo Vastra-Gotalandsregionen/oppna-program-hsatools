@@ -10,7 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import se.vgregion.kivtools.mocks.LogFactoryMock;
-import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.domain.Unit;
 
 public class MvkClientTest {
   private static LogFactoryMock logFactoryMock;

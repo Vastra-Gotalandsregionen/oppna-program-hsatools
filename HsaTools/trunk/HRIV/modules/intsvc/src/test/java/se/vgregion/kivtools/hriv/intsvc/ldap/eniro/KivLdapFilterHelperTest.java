@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ldap.filter.Filter;
 
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
+import se.vgregion.kivtools.search.domain.values.HealthcareType;
 
 public class KivLdapFilterHelperTest {
 

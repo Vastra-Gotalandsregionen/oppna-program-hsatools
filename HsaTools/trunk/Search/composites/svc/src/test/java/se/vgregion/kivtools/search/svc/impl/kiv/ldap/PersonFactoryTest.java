@@ -7,9 +7,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.domain.Person;
+import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
-import se.vgregion.kivtools.search.svc.domain.Person;
-import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
 
 public class PersonFactoryTest {

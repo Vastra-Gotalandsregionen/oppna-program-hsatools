@@ -23,8 +23,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import se.vgregion.kivtools.search.svc.domain.values.Municipality;
-import se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper;
+import se.vgregion.kivtools.search.domain.values.Municipality;
+import se.vgregion.kivtools.search.domain.values.MunicipalityHelper;
 
 public class MunicipalityHelperTest {
   @Test

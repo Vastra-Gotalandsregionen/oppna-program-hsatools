@@ -23,13 +23,13 @@ import java.util.TimeZone;
 
 import org.apache.commons.lang.WordUtils;
 
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.AddressHelper;
+import se.vgregion.kivtools.search.domain.values.DN;
+import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
+import se.vgregion.kivtools.search.domain.values.PhoneNumber;
+import se.vgregion.kivtools.search.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.AddressHelper;
-import se.vgregion.kivtools.search.svc.domain.values.DN;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
-import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
-import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.svc.ldap.LdapORMHelper;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.search.util.geo.CoordinateTransformerService;

@@ -28,10 +28,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.domain.Person;
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
-import se.vgregion.kivtools.search.svc.domain.Person;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPSearchResultsMock;
