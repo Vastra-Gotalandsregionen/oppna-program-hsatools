@@ -25,10 +25,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.MunicipalityHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper;
 
 public class SuggestionsSupportBeanTest {
 

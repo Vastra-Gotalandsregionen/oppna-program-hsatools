@@ -22,9 +22,9 @@ import java.io.Serializable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
-import se.vgregion.kivtools.search.svc.domain.Unit;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT

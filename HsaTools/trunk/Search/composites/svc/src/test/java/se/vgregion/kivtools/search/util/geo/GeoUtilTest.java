@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.Address;
-import se.vgregion.kivtools.search.svc.domain.values.ZipCode;
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.Address;
+import se.vgregion.kivtools.search.domain.values.ZipCode;
 
 public class GeoUtilTest {
   private static final String GOOGLE_MAPS_KEY = "ABQIAAAAsj7OTaHyEfNXhETUKuAVeBStFeF4n64ejGN5IPknXd-RNbYWcBREjFsf4BWmaarbveYhRN4pqE33og";

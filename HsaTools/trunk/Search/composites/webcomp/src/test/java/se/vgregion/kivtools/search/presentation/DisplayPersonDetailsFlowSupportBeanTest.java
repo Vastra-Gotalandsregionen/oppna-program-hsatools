@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.domain.Employment;
+import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
-import se.vgregion.kivtools.search.svc.domain.Employment;
-import se.vgregion.kivtools.search.svc.domain.Person;
 
 public class DisplayPersonDetailsFlowSupportBeanTest {
 

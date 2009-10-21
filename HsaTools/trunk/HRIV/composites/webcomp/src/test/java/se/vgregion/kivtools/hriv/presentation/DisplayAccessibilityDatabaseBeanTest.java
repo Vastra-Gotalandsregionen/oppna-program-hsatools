@@ -42,11 +42,11 @@ import org.xml.sax.SAXException;
 
 import se.vgregion.kivtools.hriv.presentation.forms.AccessibilityDatabaseFilterForm;
 import se.vgregion.kivtools.mocks.LogFactoryMock;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityInformation;
-import se.vgregion.kivtools.search.svc.domain.values.accessibility.AccessibilityObject;
-import se.vgregion.kivtools.search.svc.domain.values.accessibility.Block;
-import se.vgregion.kivtools.search.svc.domain.values.accessibility.Criteria;
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.accessibility.AccessibilityInformation;
+import se.vgregion.kivtools.search.domain.values.accessibility.AccessibilityObject;
+import se.vgregion.kivtools.search.domain.values.accessibility.Block;
+import se.vgregion.kivtools.search.domain.values.accessibility.Criteria;
 
 public class DisplayAccessibilityDatabaseBeanTest {
   private static final Document EMPTY_DOC = DisplayAccessibilityDatabaseBeanTest.getDocumentFromResource("testxml/emptydoc.xml");

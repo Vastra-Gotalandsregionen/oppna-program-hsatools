@@ -35,14 +35,14 @@ import org.junit.Test;
 import se.vgregion.kivtools.hriv.presentation.forms.DisplayCloseUnitsSimpleForm;
 import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.mocks.LogFactoryMock;
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
+import se.vgregion.kivtools.search.domain.values.MunicipalityHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
-import se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper;
 
 public class SearchUnitFlowSupportBeanTest {
   private SearchServiceMock searchService;

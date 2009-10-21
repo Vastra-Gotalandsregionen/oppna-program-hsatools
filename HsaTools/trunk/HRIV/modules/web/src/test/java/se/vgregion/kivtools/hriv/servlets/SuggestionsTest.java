@@ -20,7 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import se.vgregion.kivtools.hriv.presentation.SuggestionsSupportBean;
 import se.vgregion.kivtools.hriv.servlets.Suggestions;
-import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.domain.Unit;
 
 public class SuggestionsTest {
 

@@ -13,14 +13,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import se.vgregion.kivtools.mocks.LogFactoryMock;
+import se.vgregion.kivtools.search.domain.Employment;
+import se.vgregion.kivtools.search.domain.Person;
+import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.domain.Employment;
-import se.vgregion.kivtools.search.svc.domain.Person;
-import se.vgregion.kivtools.search.svc.domain.Unit;
 
 public class SearchPersonFlowSupportBeanTest {
   private static final String DN = "cn=abc";

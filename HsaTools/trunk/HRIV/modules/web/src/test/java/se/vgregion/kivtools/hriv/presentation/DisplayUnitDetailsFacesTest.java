@@ -26,7 +26,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
-import se.vgregion.kivtools.search.svc.domain.Unit;
+import se.vgregion.kivtools.search.domain.Unit;
 
 public class DisplayUnitDetailsFacesTest extends FacesTesterBase {
   private Unit unit;

@@ -23,10 +23,10 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareTypeConditionHelper;
-import se.vgregion.kivtools.search.svc.domain.values.Municipality;
-import se.vgregion.kivtools.search.svc.domain.values.MunicipalityHelper;
+import se.vgregion.kivtools.search.domain.values.HealthcareType;
+import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
+import se.vgregion.kivtools.search.domain.values.Municipality;
+import se.vgregion.kivtools.search.domain.values.MunicipalityHelper;
 import se.vgregion.kivtools.util.StringUtil;
 
 /**

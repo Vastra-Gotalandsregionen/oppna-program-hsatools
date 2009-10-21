@@ -19,7 +19,7 @@ package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
 import java.util.TimeZone;
 
-import se.vgregion.kivtools.search.svc.domain.Person;
+import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.svc.ldap.LdapORMHelper;
 
 import com.domainlanguage.time.TimePoint;

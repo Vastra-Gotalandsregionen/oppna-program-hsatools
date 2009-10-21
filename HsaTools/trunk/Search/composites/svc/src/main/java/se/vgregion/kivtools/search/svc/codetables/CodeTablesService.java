@@ -2,7 +2,7 @@ package se.vgregion.kivtools.search.svc.codetables;
 
 import java.util.List;
 
-import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
+import se.vgregion.kivtools.search.domain.values.CodeTableName;
 
 /**
  * Provides mapping between codes and descriptions for values.

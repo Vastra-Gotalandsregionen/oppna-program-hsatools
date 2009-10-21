@@ -25,13 +25,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.Address;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.Address;
 
 public class SearchUnitFlowSupportBeanTest {
   private static final String GOOGLE_MAPS_KEY = "ABQIAAAAsj7OTaHyEfNXhETUKuAVeBStFeF4n64ejGN5IPknXd-RNbYWcBREjFsf4BWmaarbveYhRN4pqE33og";

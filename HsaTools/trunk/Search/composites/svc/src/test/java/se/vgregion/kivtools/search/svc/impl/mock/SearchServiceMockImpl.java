@@ -24,16 +24,16 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.search.domain.Employment;
+import se.vgregion.kivtools.search.domain.Person;
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.AddressHelper;
+import se.vgregion.kivtools.search.domain.values.DN;
+import se.vgregion.kivtools.search.domain.values.HealthcareType;
+import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.domain.Employment;
-import se.vgregion.kivtools.search.svc.domain.Person;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.AddressHelper;
-import se.vgregion.kivtools.search.svc.domain.values.DN;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
-import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
 
 public class SearchServiceMockImpl implements SearchService {
@@ -52,27 +52,27 @@ public class SearchServiceMockImpl implements SearchService {
     Employment e;
 
     e = new Employment();
-    e.setHsaPublicTelephoneNumber(new PhoneNumber("031-123456"));
+    e.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("031-123456"));
     e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
     employments.add(e);
 
     e = new Employment();
-    e.setHsaPublicTelephoneNumber(new PhoneNumber("031-23 23 23"));
+    e.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("031-23 23 23"));
     e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
     employments.add(e);
 
     e = new Employment();
-    e.setHsaPublicTelephoneNumber(new PhoneNumber("08-2283393"));
+    e.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("08-2283393"));
     e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
     employments.add(e);
 
     e = new Employment();
-    e.setHsaPublicTelephoneNumber(new PhoneNumber("030012350"));
+    e.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("030012350"));
     e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
     employments.add(e);
 
     e = new Employment();
-    e.setHsaPublicTelephoneNumber(new PhoneNumber("+46822412350"));
+    e.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("+46822412350"));
     e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
     employments.add(e);
 
@@ -116,8 +116,8 @@ public class SearchServiceMockImpl implements SearchService {
       u.setName("VGR IT");
       u.setHsaIdentity("ABC001");
       p = new ArrayList<PhoneNumber>();
-      p.add(new PhoneNumber("031-123456"));
-      p.add(new PhoneNumber("031-654321"));
+      p.add(PhoneNumber.createPhoneNumber("031-123456"));
+      p.add(PhoneNumber.createPhoneNumber("031-654321"));
       u.setHsaTelephoneNumber(p);
       a = new ArrayList<String>();
       a.add("Storgatan 1");
@@ -131,8 +131,8 @@ public class SearchServiceMockImpl implements SearchService {
       u.setName("Sahlgrenska Sjukhuset");
       u.setHsaIdentity("ABC002");
       p = new ArrayList<PhoneNumber>();
-      p.add(new PhoneNumber("031-123456"));
-      p.add(new PhoneNumber("031-654321"));
+      p.add(PhoneNumber.createPhoneNumber("031-123456"));
+      p.add(PhoneNumber.createPhoneNumber("031-654321"));
       u.setHsaTelephoneNumber(p);
       a = new ArrayList<String>();
       a.add("Storgatan 1");
@@ -146,8 +146,8 @@ public class SearchServiceMockImpl implements SearchService {
       u.setName("Uddevalla v�rdcentral");
       u.setHsaIdentity("ABC003");
       p = new ArrayList<PhoneNumber>();
-      p.add(new PhoneNumber("031-123456"));
-      p.add(new PhoneNumber("031-654321"));
+      p.add(PhoneNumber.createPhoneNumber("031-123456"));
+      p.add(PhoneNumber.createPhoneNumber("031-654321"));
       u.setHsaTelephoneNumber(p);
       a = new ArrayList<String>();
       a.add("Storgatan 1");
@@ -232,13 +232,13 @@ public class SearchServiceMockImpl implements SearchService {
     p.setFullName("Anders Sandin Asplund");
     p.setMail("anders.asplund@knowit.se");
 
-    e.setHsaPublicTelephoneNumber(new PhoneNumber("031-123456"));
+    e.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("031-123456"));
     e.setOu("VGR IT");
     e.setTitle("Konsult");
     em.add(e);
 
     e = new Employment();
-    e.setHsaPublicTelephoneNumber(new PhoneNumber("031-123456"));
+    e.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("031-123456"));
     e.setOu("Akutmottagningen");
     e.setTitle("Sjuksk�terska");
     em.add(e);
@@ -273,8 +273,8 @@ public class SearchServiceMockImpl implements SearchService {
     u.setName("VGR IT");
     u.setHsaIdentity("ABC001");
     p = new ArrayList<PhoneNumber>();
-    p.add(new PhoneNumber("031-123456"));
-    p.add(new PhoneNumber("031-654321"));
+    p.add(PhoneNumber.createPhoneNumber("031-123456"));
+    p.add(PhoneNumber.createPhoneNumber("031-654321"));
     u.setHsaTelephoneNumber(p);
     a = new ArrayList<String>();
     a.add("Storgatan 1");
@@ -330,8 +330,8 @@ public class SearchServiceMockImpl implements SearchService {
     u.setName("VGR IT");
     u.setHsaIdentity("ABC001");
     p = new ArrayList<PhoneNumber>();
-    p.add(new PhoneNumber("031-123456"));
-    p.add(new PhoneNumber("031-654321"));
+    p.add(PhoneNumber.createPhoneNumber("031-123456"));
+    p.add(PhoneNumber.createPhoneNumber("031-654321"));
     u.setHsaTelephoneNumber(p);
     a = new ArrayList<String>();
     a.add("Storgatan 1");
@@ -344,8 +344,8 @@ public class SearchServiceMockImpl implements SearchService {
     u.setHsaIdentity("ABC002");
     u.setName("Sahlgrenska Sjukhuset");
     p = new ArrayList<PhoneNumber>();
-    p.add(new PhoneNumber("031-123456"));
-    p.add(new PhoneNumber("031-654321"));
+    p.add(PhoneNumber.createPhoneNumber("031-123456"));
+    p.add(PhoneNumber.createPhoneNumber("031-654321"));
     u.setHsaTelephoneNumber(p);
     a = new ArrayList<String>();
     a.add("Storgatan 1");
@@ -358,8 +358,8 @@ public class SearchServiceMockImpl implements SearchService {
     u.setHsaIdentity("ABC003");
     u.setName("Uddevalla vårdcentral");
     p = new ArrayList<PhoneNumber>();
-    p.add(new PhoneNumber("031-123456"));
-    p.add(new PhoneNumber("031-654321"));
+    p.add(PhoneNumber.createPhoneNumber("031-123456"));
+    p.add(PhoneNumber.createPhoneNumber("031-654321"));
     u.setHsaTelephoneNumber(p);
     a = new ArrayList<String>();
     a.add("Storgatan 1");

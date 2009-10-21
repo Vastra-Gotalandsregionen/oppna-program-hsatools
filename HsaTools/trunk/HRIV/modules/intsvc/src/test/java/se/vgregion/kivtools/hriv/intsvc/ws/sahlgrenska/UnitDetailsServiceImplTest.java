@@ -13,15 +13,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Organization;
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.Address;
+import se.vgregion.kivtools.search.domain.values.CodeTableName;
+import se.vgregion.kivtools.search.domain.values.HealthcareType;
+import se.vgregion.kivtools.search.domain.values.PhoneNumber;
+import se.vgregion.kivtools.search.domain.values.WeekdayTime;
+import se.vgregion.kivtools.search.domain.values.ZipCode;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
-import se.vgregion.kivtools.search.svc.domain.Unit;
-import se.vgregion.kivtools.search.svc.domain.values.Address;
-import se.vgregion.kivtools.search.svc.domain.values.CodeTableName;
-import se.vgregion.kivtools.search.svc.domain.values.HealthcareType;
-import se.vgregion.kivtools.search.svc.domain.values.PhoneNumber;
-import se.vgregion.kivtools.search.svc.domain.values.WeekdayTime;
-import se.vgregion.kivtools.search.svc.domain.values.ZipCode;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 
 public class UnitDetailsServiceImplTest {
@@ -140,7 +140,7 @@ public class UnitDetailsServiceImplTest {
       unit.setDescription(Arrays.asList("En trevlig mottagning"));
       unit.setHsaStreetAddress(addressList.get(i));
       unit.setHsaPostalAddress(addressList.get(i));
-      unit.setHsaPublicTelephoneNumber(Arrays.asList(new PhoneNumber("1111")));
+      unit.setHsaPublicTelephoneNumber(Arrays.asList(PhoneNumber.createPhoneNumber("1111")));
       unit.setLabeledURI("http://unit");
       unit.setHsaVisitingRules("Ingen parfym tack");
       unit.setHsaDropInHours(Arrays.asList(new WeekdayTime(1, 5, 8, 0, 17, 0), new WeekdayTime(6, 6, 10, 0, 14, 0), new WeekdayTime(7, 7, 10, 0, 12, 0)));
