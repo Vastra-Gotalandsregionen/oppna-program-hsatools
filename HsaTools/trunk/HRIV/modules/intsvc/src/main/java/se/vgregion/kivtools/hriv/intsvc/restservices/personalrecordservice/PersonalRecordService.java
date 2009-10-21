@@ -43,6 +43,7 @@ public class PersonalRecordService {
     String userId = getPersonId(request.getPathInfo());
     PersonalRecord personRecord = getPersonRecordFromLdap(userId);
     String generateXmlContentOfObject = XmlMarshaller.generateXmlContentOfObject(personRecord);
+    response.setCharacterEncoding("UTF-8");
     response.getWriter().write(generateXmlContentOfObject);
     return null;
   }
@@ -56,7 +57,7 @@ public class PersonalRecordService {
         // person not found return empty personalRecord object
         person = new PersonalRecord();
       }
-    } 
+    }
     if (person == null) {
       person = new PersonalRecord();
     }
