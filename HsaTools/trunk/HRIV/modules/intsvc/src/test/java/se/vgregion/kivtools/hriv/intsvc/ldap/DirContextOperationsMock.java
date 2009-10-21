@@ -20,6 +20,8 @@ import javax.naming.directory.SearchResult;
 
 import org.springframework.ldap.core.DirContextOperations;
 
+import se.vgregion.kivtools.util.StringUtil;
+
 public class DirContextOperationsMock implements DirContextOperations {
 
   Map<String, Object> attributes = new HashMap<String, Object>();
@@ -81,7 +83,12 @@ public class DirContextOperationsMock implements DirContextOperations {
 
   @Override
   public String[] getStringAttributes(String name) {
-    return null;
+    String[] strings = null;
+    String string = (String) attributes.get(name);
+    if (!StringUtil.isEmpty(string)) {
+      strings = string.split("\\$");
+    }
+    return strings;
   }
 
   @Override

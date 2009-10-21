@@ -16,7 +16,7 @@ public class EniroUnitMapperTest {
 
   private EniroUnitMapper eniroUnitMapper;
   private DirContextOperationsMock dirContextOperationsMock;
-  private String ldapAddressValue = "$$Baker street 221$$123 45$London";
+  private String ldapAddressValue = "Smörslottsgatan 1$416 85 Göteborg$Centralkliniken, plan 2$Östra sjukhuset";
 
   @Before
   public void setup() {
@@ -55,16 +55,18 @@ public class EniroUnitMapperTest {
     // Test function unit with cn instead of ou.
     dirContextOperationsMock.setAttributeValue("ou", null);
     dirContextOperationsMock.addAttributeValue("cn", "name");
-    dirContextOperationsMock.addAttributeValue("hsaSedfDeliveryAddress", ldapAddressValue);
+    dirContextOperationsMock.addAttributeValue("hsaStreetAddress", ldapAddressValue);
     dirContextOperationsMock.addAttributeValue("hsaGeographicalCoordinates", "X: 6414080, Y: 1276736");
     UnitComposition unitComposition = (UnitComposition) eniroUnitMapper.mapFromContext(dirContextOperationsMock);
     assertNotNull(unitComposition);
     Address address = (Address) unitComposition.getEniroUnit().getTextOrImageOrAddress().get(0);
-    assertEquals("Baker street", address.getStreetName());
-    assertEquals("221", address.getStreetNumber());
-    assertEquals("123 45", address.getPostCode().get(0));
-    assertEquals("London", address.getCity());
+    assertEquals("Smörslottsgatan", address.getStreetName());
+    assertEquals("1", address.getStreetNumber());
+    assertEquals("416 85", address.getPostCode().get(0));
+    assertEquals("Göteborg", address.getCity());
+    assertEquals("Centralkliniken, plan 2, Östra sjukhuset", address.getRoute());
     assertEquals("visit", address.getType());
+    assertEquals(2, address.getHours().size());
   }
 
   @Test
@@ -84,7 +86,7 @@ public class EniroUnitMapperTest {
     dirContextOperationsMock.setDn(new NameMock("dn"));
     dirContextOperationsMock.addAttributeValue("hsaIdentity", "id1");
     dirContextOperationsMock.addAttributeValue("ou", "name");
-    dirContextOperationsMock.addAttributeValue("hsaSurgeryHours", "1-5#08:00#17:00");
+    dirContextOperationsMock.addAttributeValue("hsaSurgeryHours", "1#08:00#19:00$2-5#08:00#17:00");
     dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1");
     dirContextOperationsMock.addAttributeValue("l", "locality");
   }
