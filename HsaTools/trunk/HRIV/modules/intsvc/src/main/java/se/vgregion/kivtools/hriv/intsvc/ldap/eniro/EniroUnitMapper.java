@@ -1,5 +1,7 @@
 package se.vgregion.kivtools.hriv.intsvc.ldap.eniro;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,6 +20,7 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.AddressType.GeoCoordinates;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
+import se.vgregion.kivtools.search.domain.values.AddressHelper;
 import se.vgregion.kivtools.util.StringUtil;
 
 /**
@@ -120,34 +123,43 @@ public class EniroUnitMapper implements ContextMapper {
   }
 
   /**
-   * Generate a Hours object from string of type [fromDay]-[toDay]#[fromHour]#[toHour], e.g 1-5#08:00#17:00.
+   * Generate a Hours object from string of type [fromDay]-[toDay]#[fromHour]#[toHour], e.g 1-5#08:00#17:00. Multiple hours are separated in the string with a dollar-sign.
    * 
-   * @param value - string
-   * @return generated Hour object
+   * @param value The hours-string in the above format.
+   * @return The list of generated Hours objects.
    */
-  private Hours generateHoursObject(String value) {
-    Hours hours = new Hours();
-    if (!StringUtil.isEmpty(value)) {
-      String[] hoursInfo = value.split("#");
+  private List<Hours> generateHoursObjects(String[] values) {
+    List<Hours> hoursList = new ArrayList<Hours>();
 
-      if (hoursInfo.length == 3) {
-        String[] dayFromAndTo = hoursInfo[0].split("-");
-        hours.setType(HOURS_TYPE.VISIT.value);
-        hours.setDayFrom(Integer.valueOf(dayFromAndTo[0]));
-        hours.setDayTo(Integer.valueOf(dayFromAndTo[1]));
-        try {
-          String fromTime = hoursInfo[1];
-          String toTime = hoursInfo[2];
-          XMLGregorianCalendar fromTimeGreg = DatatypeFactory.newInstance().newXMLGregorianCalendar("2000-01-20T" + fromTime + ":00Z");
-          XMLGregorianCalendar toTimeGreg = DatatypeFactory.newInstance().newXMLGregorianCalendar("2000-01-20T" + toTime + ":00Z");
-          hours.setTimeFrom(fromTimeGreg);
-          hours.setTimeTo(toTimeGreg);
-        } catch (DatatypeConfigurationException e) {
-          e.printStackTrace();
+    for (int i = 0; values != null && i < values.length; i++) {
+      Hours hours = new Hours();
+      if (!StringUtil.isEmpty(values[i])) {
+        String[] hoursInfo = values[i].split("#");
+
+        if (hoursInfo.length == 3) {
+          String[] dayFromAndTo = hoursInfo[0].split("-");
+          hours.setType(HOURS_TYPE.VISIT.value);
+          hours.setDayFrom(Integer.valueOf(dayFromAndTo[0]));
+          if (dayFromAndTo.length > 1) {
+            hours.setDayTo(Integer.valueOf(dayFromAndTo[1]));
+          } else {
+            hours.setDayTo(Integer.valueOf(dayFromAndTo[0]));
+          }
+          try {
+            String fromTime = hoursInfo[1];
+            String toTime = hoursInfo[2];
+            XMLGregorianCalendar fromTimeGreg = DatatypeFactory.newInstance().newXMLGregorianCalendar("2000-01-20T" + fromTime + ":00Z");
+            XMLGregorianCalendar toTimeGreg = DatatypeFactory.newInstance().newXMLGregorianCalendar("2000-01-20T" + toTime + ":00Z");
+            hours.setTimeFrom(fromTimeGreg);
+            hours.setTimeTo(toTimeGreg);
+          } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+          }
         }
+        hoursList.add(hours);
       }
     }
-    return hours;
+    return hoursList;
   }
 
   private TelephoneType getPublicTelephoneType(DirContextOperations dirContextOperations) {
@@ -158,15 +170,15 @@ public class EniroUnitMapper implements ContextMapper {
       telephoneType = new TelephoneType();
       telephoneType.setType(PHONE_TYPE.FIXED.value);
       telephoneType.getTelephoneNumber().add(publicTelephoneNumber);
-      telephoneType.getHours().add(generateHoursObject(dirContextOperations.getStringAttribute("hsaTelephoneTime")));
+      telephoneType.getHours().addAll(generateHoursObjects(dirContextOperations.getStringAttributes("hsaTelephoneTime")));
     }
     return telephoneType;
   }
 
   private Address generateAddress(DirContextOperations dirContextOperations) {
-    Address address = createBaseAddress(dirContextOperations.getStringAttribute("hsaSedfDeliveryAddress"));
+    Address address = createBaseAddress(dirContextOperations.getStringAttribute("hsaStreetAddress"));
     if (address != null) {
-      address.getHours().add(generateHoursObject(dirContextOperations.getStringAttribute("hsaSurgeryHours")));
+      address.getHours().addAll(generateHoursObjects(dirContextOperations.getStringAttributes("hsaSurgeryHours")));
       // Set address type
       address.setType(ADDRESS_TYPE.VISIT.value);
       // Get geoCoordinates
@@ -213,25 +225,27 @@ public class EniroUnitMapper implements ContextMapper {
     Address address = null;
     if (hsaAddress != null) {
       String[] addressFields = hsaAddress.split("\\$");
+      se.vgregion.kivtools.search.domain.values.Address streetAddress = AddressHelper.convertToStreetAddress(Arrays.asList(addressFields));
+
       address = new Address();
-      if (addressFields.length == 6) {
-        // Take out street name and street number.
-        Pattern patternStreetName = Pattern.compile("\\D+");
-        Matcher matcherStreetName = patternStreetName.matcher(addressFields[2]);
-        Pattern patternStreetNb = Pattern.compile("\\d+\\w*");
-        Matcher matcherStreetNb = patternStreetNb.matcher(addressFields[2]);
+      address.setStreetName(streetAddress.getStreet());
+      address.getPostCode().add(streetAddress.getZipCode().getFormattedZipCode().getZipCode());
+      address.setCity(streetAddress.getCity());
+      address.setRoute(streetAddress.getConcatenatedAdditionalInfo());
 
-        if (matcherStreetName.find()) {
-          String streetName = matcherStreetName.group().trim();
-          address.setStreetName(streetName);
-        }
-        if (matcherStreetNb.find()) {
-          String streetNb = matcherStreetNb.group();
-          address.setStreetNumber(streetNb);
-        }
+      // Take out street name and street number.
+      Pattern patternStreetName = Pattern.compile("\\D+");
+      Matcher matcherStreetName = patternStreetName.matcher(streetAddress.getStreet());
+      Pattern patternStreetNb = Pattern.compile("\\d+\\w*");
+      Matcher matcherStreetNb = patternStreetNb.matcher(streetAddress.getStreet());
 
-        address.getPostCode().add(addressFields[4]);
-        address.setCity(addressFields[5]);
+      if (matcherStreetName.find()) {
+        String streetName = matcherStreetName.group().trim();
+        address.setStreetName(streetName);
+      }
+      if (matcherStreetNb.find()) {
+        String streetNb = matcherStreetNb.group();
+        address.setStreetNumber(streetNb);
       }
     }
     return address;
