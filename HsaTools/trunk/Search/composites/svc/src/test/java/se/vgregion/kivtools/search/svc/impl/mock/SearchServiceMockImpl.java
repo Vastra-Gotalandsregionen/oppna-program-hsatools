@@ -34,7 +34,7 @@ import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 
 public class SearchServiceMockImpl implements SearchService {
   private Log logger = LogFactory.getLog(this.getClass());
@@ -427,7 +427,7 @@ public class SearchServiceMockImpl implements SearchService {
   }
 
   @Override
-  public SikSearchResultList<Person> searchPersons(SearchPersonCriterion person, int maxResult) throws KivException {
+  public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
     return null;
   }
 }

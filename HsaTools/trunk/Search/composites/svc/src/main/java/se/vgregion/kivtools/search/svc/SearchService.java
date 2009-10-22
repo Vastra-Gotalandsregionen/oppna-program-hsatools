@@ -24,7 +24,7 @@ import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 
 /**
  * @author Hans and Anders
@@ -32,20 +32,6 @@ import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
  * 
  */
 public interface SearchService {
-  /**
-   * @param unit OBS! for parameters of type Address (e.g. hsaPostalAddress) the criteria is considered to be in AdditionalInfo
-   * 
-   * @return A List of Units
-   */
-  public SikSearchResultList<Unit> searchUnits(Unit unit) throws KivException;
-
-  /**
-   * @param unit OBS! for parameters of type Address (e.g. hsaPostalAddress) the criteria is considered to be in AdditionalInfo
-   * 
-   * @return A List of Units
-   */
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws KivException;
-
   /**
    * @param unit
    * @param maxSearchResult OBS! for parameters of type Address (e.g. hsaPostalAddress) the criteria is considered to be in AdditionalInfo
@@ -86,25 +72,11 @@ public interface SearchService {
 
   /**
    * @param dn is the distinguished name of the organizational unit that the person works for.
-   * @return A list of matching persons.
-   * @throws KivException
-   */
-  public SikSearchResultList<Person> searchPersonsByDn(String dn) throws KivException;
-
-  /**
-   * @param dn is the distinguished name of the organizational unit that the person works for.
    * @param maxSearchResult max number of returned items in the result list
    * @return A list of matching persons.
    * @throws KivException
    */
   public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws KivException;
-
-  /**
-   * @param id is complete or part of a person identifier. That is why this method can return a list. E.g. in case of VGR the id is a vgrId
-   * @return A list of matching persons.
-   * @throws KivException
-   */
-  public SikSearchResultList<Person> searchPersons(String id) throws KivException;
 
   /**
    * @param id is complete or part of a person identifier. That is why this method can return a list. E.g. in case of VGR the id is a vgrId
@@ -115,33 +87,14 @@ public interface SearchService {
   public SikSearchResultList<Person> searchPersons(String id, int maxSearchResult) throws KivException;
 
   /**
-   * @param id can be a complete or parts of a vgrId. That is why we can return a list of Persons. E.g. in case of VGR the id is a (part of) a vgrId
-   * @param givenName
-   * @param familyName
-   * @return A list of matching persons.
-   * @throws KivException
-   */
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id) throws KivException;
-
-  /**
-   * @param id can be a complete or parts of a vgrId. That is why we can return a list of Persons
-   * @param givenName
-   * @param familyName
-   * @param maxResult max number of returned items in the result list
-   * @return A list of matching persons.
-   * @throws KivException
-   */
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id, int maxResult) throws KivException;
-
-  /**
    * Searches for persons matching information in the provided person object.
    * 
    * @param person Object containing the information to search for.
    * @param maxResult Max number of returned items in the result list.
    * @return A list of matching persons.
-   * @throws KivException If no data is found. 
+   * @throws KivException If no data is found.
    */
-  public SikSearchResultList<Person> searchPersons(SearchPersonCriterion person, int maxResult) throws KivException;
+  public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException;
 
   /**
    * @param id person id for the Person (E.g vgrId in case of VGR)

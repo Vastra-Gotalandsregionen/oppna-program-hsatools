@@ -72,45 +72,6 @@ public class TestPersonRepository {
     repo = null;
   }
 
-  /**
-   * Combined test
-   * 
-   * @throws Exception
-   */
-  @Test
-  public void testcreateSearchPersonsFilter1() throws Exception {
-    StringBuffer correctResult = new StringBuffer();
-    correctResult.append("(&(objectclass=vgrUser)(vgr-id=*hanac*)(|(givenName=*hans*)(hsaNickName=*hans*))(|(sn=*ackerot*)(hsaMiddleName=*ackerot*)))");
-    String temp = repo.createSearchPersonsFilter("hans", "ackerot", "hanac");
-    Assert.assertEquals(correctResult.toString(), temp);
-  }
-
-  /**
-   * Combined test
-   * 
-   * @throws Exception
-   */
-  @Test
-  public void testcreateSearchPersonsFilter2() throws Exception {
-    StringBuffer correctResult = new StringBuffer();
-    correctResult.append("(&(objectclass=vgrUser)(|(givenName=*hans*)(hsaNickName=*hans*)))");
-    String temp = repo.createSearchPersonsFilter("hans", "", "");
-    Assert.assertEquals(correctResult.toString(), temp);
-  }
-
-  /**
-   * Combined test
-   * 
-   * @throws Exception
-   */
-  @Test
-  public void testcreateSearchPersonsFilter3() throws Exception {
-    StringBuffer correctResult = new StringBuffer();
-    correctResult.append("(&(objectclass=vgrUser)(vgr-id=*ana*))");
-    String temp = repo.createSearchPersonsFilter("", "", "ana");
-    Assert.assertEquals(correctResult.toString(), temp);
-  }
-
   @Test
   public void testGetPersonsForUnits() throws Exception {
     setLdapConnectionMock();
