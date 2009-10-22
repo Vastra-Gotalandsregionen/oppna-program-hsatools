@@ -32,7 +32,7 @@ import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 
 public class SearchServiceMock implements SearchService {
   private int maxSearchResults = -1;
@@ -91,13 +91,6 @@ public class SearchServiceMock implements SearchService {
         }
       }
     }
-  }
-
-  @Override
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id, int maxResult) throws KivException {
-    throwExceptionIfApplicable();
-    this.maxSearchResults = maxResult;
-    return persons;
   }
 
   @Override
@@ -171,12 +164,14 @@ public class SearchServiceMock implements SearchService {
     return this.allUnitsId;
   }
 
-  // Dummy implementations
-
   @Override
-  public SikSearchResultList<Person> searchPersonsByDn(String dn) throws KivException {
-    return null;
+  public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
+    throwExceptionIfApplicable();
+    this.maxSearchResults = maxResult;
+    return persons;
   }
+
+  // Dummy implementations
 
   @Override
   public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
@@ -199,34 +194,7 @@ public class SearchServiceMock implements SearchService {
   }
 
   @Override
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws KivException {
-    return null;
-  }
-
-  @Override
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return null;
-  }
-
-  @Override
-  public SikSearchResultList<Person> searchPersons(String id) throws KivException {
-    return null;
-  }
-
-  @Override
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String id) throws KivException {
-    return null;
-  }
-
-  @Override
-  public SikSearchResultList<Unit> searchUnits(Unit unit) throws KivException {
-    return null;
-  }
-
-  @Override
-  public SikSearchResultList<Person> searchPersons(SearchPersonCriterion person, int maxResult) throws KivException {
-    throwExceptionIfApplicable();
-    this.maxSearchResults = maxResult;
-    return persons;
   }
 }

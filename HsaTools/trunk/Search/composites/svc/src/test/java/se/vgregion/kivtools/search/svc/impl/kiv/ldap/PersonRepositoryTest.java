@@ -23,8 +23,7 @@ import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPSearchResultsMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LdapConnectionPoolMock;
-import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
-import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion.SearchCriterion;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.util.time.TimeSource;
 import se.vgregion.kivtools.util.time.TimeUtil;
 
@@ -88,28 +87,28 @@ public class PersonRepositoryTest {
 
   @Test
   public void testEmploymentTitleSearch() throws KivException {
-    SearchPersonCriterion searchPersonCriterion = new SearchPersonCriterion();
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_TITEL, "employmentTitle");
+    SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
+    searchPersonCriterion.setEmploymentTitle("employmentTitle");
     SikSearchResultList<Person> searchPersons = personRepository.searchPersons(searchPersonCriterion, 1);
     ldapConnectionMock.assertFilter("(&(objectclass=vgrUser)(vgr-id=anama))");
   }
 
   @Test
   public void testSearchPersons() throws KivException {
-    SearchPersonCriterion searchPersonCriterion = new SearchPersonCriterion();
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.GIVEN_NAME, "Kalle");
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.SURNAME, "Svensson");
+    SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
+    searchPersonCriterion.setGivenName("Kalle");
+    searchPersonCriterion.setSurname("Svensson");
     SikSearchResultList<Person> searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
     ldapConnectionMock.assertFilter("(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*)))");
 
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.USER_ID, "vgr-id");
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_TITEL, "employmentTitle");
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_AT_UNIT, "unitName");
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.SPECIALITY_AREA_CODE, "speciality");
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.PROFESSION, "profGroup");
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.LANGUAGE_KNOWLEDGE_CODE, "langKnowledgeCode");
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.E_MAIL, "email");
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.ADMINISTRATION, "administration");
+    searchPersonCriterion.setUserId("vgr-id");
+    searchPersonCriterion.setEmploymentTitle("employmentTitle");
+    searchPersonCriterion.setEmployedAtUnit("unitName");
+    searchPersonCriterion.setSpecialityArea("speciality");
+    searchPersonCriterion.setProfession("profGroup");
+    searchPersonCriterion.setLanguageKnowledge("langKnowledgeCode");
+    searchPersonCriterion.setEmail("email");
+    searchPersonCriterion.setAdministration("administration");
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
     ldapConnectionMock
         .assertFilter("(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(vgr-id=anama))");

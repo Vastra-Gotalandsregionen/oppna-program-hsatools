@@ -34,8 +34,7 @@ import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.TimeMeasurement;
-import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion;
-import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterion.SearchCriterion;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.search.util.LogUtils;
 import se.vgregion.kivtools.search.util.PagedSearchMetaDataHelper;
 import se.vgregion.kivtools.util.StringUtil;
@@ -104,7 +103,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
       TimeMeasurement overAllTime = new TimeMeasurement();
       // start measurement
       overAllTime.start();
-      SearchPersonCriterion searchPersonCriterion = createSearchPersonCriterion(theForm);
+      SearchPersonCriterions searchPersonCriterion = createSearchPersonCriterion(theForm);
       if (!searchPersonCriterion.isEmpty()) {
         // perform a search
         list = getSearchService().searchPersons(searchPersonCriterion, maxSearchResult);
@@ -136,19 +135,19 @@ public class SearchPersonFlowSupportBean implements Serializable {
     }
   }
 
-  private SearchPersonCriterion createSearchPersonCriterion(PersonSearchSimpleForm personSearchSimpleForm) {
-    SearchPersonCriterion searchPersonCriterion = new SearchPersonCriterion();
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.GIVEN_NAME, personSearchSimpleForm.getGivenName());
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.SURNAME, personSearchSimpleForm.getSurname());
-    searchPersonCriterion.addSearchCriterionValue(SearchCriterion.USER_ID, personSearchSimpleForm.getUserId());
+  private SearchPersonCriterions createSearchPersonCriterion(PersonSearchSimpleForm personSearchSimpleForm) {
+    SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
+    searchPersonCriterion.setGivenName(personSearchSimpleForm.getGivenName());
+    searchPersonCriterion.setSurname(personSearchSimpleForm.getSurname());
+    searchPersonCriterion.setUserId(personSearchSimpleForm.getUserId());
     if (!"simple".equals(personSearchSimpleForm.getSearchType())) {
-      searchPersonCriterion.addSearchCriterionValue(SearchCriterion.ADMINISTRATION, personSearchSimpleForm.getAdministration());
-      searchPersonCriterion.addSearchCriterionValue(SearchCriterion.E_MAIL, personSearchSimpleForm.getEmail());
-      searchPersonCriterion.addSearchCriterionValue(SearchCriterion.SPECIALITY_AREA_CODE, personSearchSimpleForm.getSpecialityArea());
-      searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_TITEL, personSearchSimpleForm.getEmploymentTitle());
-      searchPersonCriterion.addSearchCriterionValue(SearchCriterion.LANGUAGE_KNOWLEDGE_CODE, personSearchSimpleForm.getLanguageKnowledge());
-      searchPersonCriterion.addSearchCriterionValue(SearchCriterion.PROFESSION, personSearchSimpleForm.getProfession());
-      searchPersonCriterion.addSearchCriterionValue(SearchCriterion.EMPLOYMENT_AT_UNIT, personSearchSimpleForm.getEmployedAtUnit());
+      searchPersonCriterion.setAdministration(personSearchSimpleForm.getAdministration());
+      searchPersonCriterion.setEmail(personSearchSimpleForm.getEmail());
+      searchPersonCriterion.setSpecialityArea(personSearchSimpleForm.getSpecialityArea());
+      searchPersonCriterion.setEmploymentTitle(personSearchSimpleForm.getEmploymentTitle());
+      searchPersonCriterion.setLanguageKnowledge(personSearchSimpleForm.getLanguageKnowledge());
+      searchPersonCriterion.setProfession(personSearchSimpleForm.getProfession());
+      searchPersonCriterion.setEmployedAtUnit(personSearchSimpleForm.getEmployedAtUnit());
     }
     return searchPersonCriterion;
   }

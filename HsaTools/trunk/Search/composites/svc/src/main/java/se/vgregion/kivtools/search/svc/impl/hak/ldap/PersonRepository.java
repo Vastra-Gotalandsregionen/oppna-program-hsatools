@@ -24,6 +24,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.springframework.ldap.filter.AndFilter;
+import org.springframework.ldap.filter.EqualsFilter;
+import org.springframework.ldap.filter.LikeFilter;
+import org.springframework.ldap.filter.OrFilter;
+
 import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.values.AddressHelper;
@@ -38,6 +43,7 @@ import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.comparators.PersonNameComparator;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 import se.vgregion.kivtools.search.svc.ldap.LdapORMHelper;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.util.StringUtil;
 
@@ -71,11 +77,6 @@ public class PersonRepository {
     this.theConnectionPool = lp;
   }
 
-  public List<Person> searchPersonsByDn(String dn) throws KivException {
-    // Zero means all persons
-    return searchPersonsByDn(dn, 0);
-  }
-
   public List<Person> searchPersonsByDn(String dn, int maxResult) throws KivException {
     String searchFilter = "(objectClass=hkatPerson)";
     return searchPersons(dn, searchFilter, LDAPConnection.SCOPE_SUB, maxResult);
@@ -83,11 +84,6 @@ public class PersonRepository {
 
   public SikSearchResultList<Person> getAllPersonsInUnit(String hsaIdentity, int maxResult) throws KivException {
     return searchPersons("(hsaIdentity=" + hsaIdentity + ")", LDAPConnection.SCOPE_SUB, maxResult);
-  }
-
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult) throws KivException {
-    String searchFilter = createSearchPersonsFilter(givenName, familyName, vgrId);
-    return searchPersons(searchFilter, LDAPConnection.SCOPE_SUB, maxResult);
   }
 
   /**
@@ -204,7 +200,7 @@ public class PersonRepository {
     if (searchResults == null) {
       return null;
     }
-    clearCashedValues();
+    clearCachedValues();
     SikSearchResultList<Person> result = new SikSearchResultList<Person>();
 
     while (searchResults.hasMore()) {
@@ -237,7 +233,7 @@ public class PersonRepository {
   }
 
   // Clear the list and map from old values
-  private void clearCashedValues() {
+  private void clearCachedValues() {
     personRedundancyCheck.clear();
     personEmploymentsMap.clear();
   }
@@ -284,7 +280,7 @@ public class PersonRepository {
     empList.add(employment);
   }
 
-  public static Employment extractEmployment(LDAPEntry personEntry) {
+  private static Employment extractEmployment(LDAPEntry personEntry) {
     Employment employment = new Employment();
 
     employment.setCn(LdapORMHelper.getSingleValue(personEntry.getAttribute("cn")));
@@ -336,47 +332,11 @@ public class PersonRepository {
     return lc;
   }
 
-  String createSearchPersonsFilter(String givenName, String familyName, String vgrId) throws KivException {
-    List<String> filterList = new ArrayList<String>();
-
-    String searchFilter = "(&(objectclass=hkatPerson)";
-
-    addSearchFilter(filterList, "regionName", vgrId);
-
-    addMultipleAttributes(filterList, givenName, "givenName", "rsvFirstNames");
-
-    // let's do some special handling of sn
-    addMultipleAttributes(filterList, familyName, "sn", "middleName");
-
-    if (filterList.isEmpty()) {
-      return null;
-    }
-    for (String s : filterList) {
-      searchFilter += s;
-    }
-    searchFilter += ")";
-    return searchFilter;
-  }
-
   private String createSearchPersonsFilterVgrId(String vgrId) throws KivException {
     String searchFilter = "(&(objectclass=hkatPerson)";
     searchFilter += createSearchFilterItem("regionName", vgrId);
     searchFilter += ")";
     return searchFilter;
-  }
-
-  /**
-   * Add a search filter value to the filterList. e.g. searchField=givenName searchValue=hans result=(givenName=*hans*)
-   * 
-   * @throws KivException
-   */
-  private void addSearchFilter(List<String> filterList, String searchField, String searchValue) throws KivException {
-    if (!StringUtil.isEmpty(searchValue)) {
-      String value = createSearchFilterItem(searchField, searchValue);
-      if (!StringUtil.isEmpty(value)) {
-        filterList.add(value);
-      }
-    }
   }
 
   /**
@@ -425,79 +385,38 @@ public class PersonRepository {
   }
 
   /**
-   * Special handling for givenName example: attribute1=givenName, attribute2=hsaNickName
+   * Search for persons matching the provided SearchPersonCriterion.
    * 
-   * e.g. searchValue = "hasse" return (|(givenName="hasse")(hsaNickName="hasse"))
-   * 
-   * e.g. searchValue = hasse return (|(givenName=*hasse*)(hsaNickName=*hasse*))
-   * 
-   * e.g. searchValue = hasse hans return (&(|(givenName=*hasse*)(hsaNickName=* hasse*))(|(givenName=*hans*)(hsaNickName=*hans*)))
-   * 
-   * @param filterList
-   * @param searchField
-   * @param searchValue
-   * @throws KivException
+   * @param person The SearchPersonCriterion to match persons against.
+   * @param maxResult The maximum number of records to return.
+   * @return A list of Person-objects or an empty list if no records where found.
+   * @throws KivException If there is a problem during the search.
    */
-  private void addMultipleAttributes(List<String> filterList, String searchValue, String attribute1, String attribute2) throws KivException {
-    if (!StringUtil.isEmpty(searchValue)) {
-      searchValue = searchValue.trim();
-      if (isExactMatchFilter(searchValue)) {
-        // handling of exact match
-        // ***********************
-        // remove exact match marker
-        searchValue = Formatter.replaceStringInString(searchValue, LDAP_EXACT_CARD, "");
-        String temp = "(|(" + attribute1 + "=" + searchValue + ")(" + attribute2 + "=" + searchValue + "))";
-        filterList.add(temp);
-        return;
-      } else {
-        if (searchValue.indexOf(" ") < 0) {
-          // single value
-          searchValue = "(|(" + attribute1 + "=" + LDAP_WILD_CARD + searchValue + LDAP_WILD_CARD + ")" + "(" + attribute2 + "=" + LDAP_WILD_CARD + searchValue + LDAP_WILD_CARD + "))";
-          filterList.add(searchValue);
-          return;
-        }
+  public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
+    AndFilter searchPersonFilter = generateFreeTextSearchPersonFilter(person);
 
-        List<String> list = new ArrayList<String>();
-        list = Formatter.chopUpStringToList(list, searchValue, " ");
-        // List<String> list = Arrays.asList(searchValue.split(" "));
-        int listSize = list.size();
-        if (listSize == 0) {
-          throw new KivException("Detected list.size==0 should never be possible! methodname=" + CLASS_NAME + "addPersonGivenName()");
-        }
-        if (listSize == 1) {
-          throw new KivException("Detected list.size==1 should never be possible! methodname=" + CLASS_NAME + "addPersonGivenName()");
-        }
-        // not a single value! Search in fullname!
-        String filterResult = "";
+    return searchPersons(searchPersonFilter.encode(), LDAPConnection.SCOPE_SUB, maxResult);
+  }
 
-        StringBuffer buf = new StringBuffer("");
-        for (String s : list) {
-          buf.append("(|");
-
-          // (attribute2=*value*)
-          buf.append("(");
-          buf.append(attribute2);
-          buf.append("=");
-          buf.append(LDAP_WILD_CARD);
-          buf.append(s);
-          buf.append(LDAP_WILD_CARD);
-          buf.append(")");
-
-          // (attribute1=*value*)
-          buf.append("(");
-          buf.append(attribute1);
-          buf.append("=");
-          buf.append(LDAP_WILD_CARD);
-          buf.append(s);
-          buf.append(LDAP_WILD_CARD);
-          buf.append(")");
-
-          buf.append(")");
-        }
-        String temp = buf.toString();
-        filterResult = "(&" + temp + ")";
-        filterList.add(filterResult);
-      }
+  private AndFilter generateFreeTextSearchPersonFilter(SearchPersonCriterions person) {
+    AndFilter userFilter = new AndFilter();
+    userFilter.and(new EqualsFilter("objectclass", "hkatPerson"));
+    if (!StringUtil.isEmpty(person.getUserId())) {
+      userFilter.and(new LikeFilter("regionName", "*" + person.getUserId() + "*"));
     }
+    if (!StringUtil.isEmpty(person.getGivenName())) {
+      OrFilter firstNameFilter = new OrFilter();
+      firstNameFilter.or(new LikeFilter("givenName", "*" + person.getGivenName() + "*"));
+      firstNameFilter.or(new LikeFilter("rsvFirstNames", "*" + person.getGivenName() + "*"));
+      userFilter.and(firstNameFilter);
+    }
+    if (!StringUtil.isEmpty(person.getSurname())) {
+      OrFilter surnameFilter = new OrFilter();
+      surnameFilter.or(new LikeFilter("sn", "*" + person.getSurname() + "*"));
+      surnameFilter.or(new LikeFilter("middleName", "*" + person.getSurname() + "*"));
+      userFilter.and(surnameFilter);
+    }
+
+    return userFilter;
   }
 }
