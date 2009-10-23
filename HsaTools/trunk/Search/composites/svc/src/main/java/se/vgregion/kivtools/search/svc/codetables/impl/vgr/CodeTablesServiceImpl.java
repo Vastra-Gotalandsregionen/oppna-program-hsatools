@@ -26,7 +26,7 @@ import com.novell.ldap.LDAPSearchResults;
 public class CodeTablesServiceImpl implements CodeTablesService {
   private static final String CODE_TABLES_BASE = "ou=listor,ou=System,o=VGR";
 
-  private Map<String, Map<String, String>> codeTables = new ConcurrentHashMap<String, Map<String, String>>();
+  private Map<CodeTableName,Map<String,String>> codeTables = new ConcurrentHashMap<CodeTableName, Map<String, String>>();
   private String attribute = "description";
   private LdapConnectionPool ldapConnectionPool;
 
@@ -40,7 +40,7 @@ public class CodeTablesServiceImpl implements CodeTablesService {
   }
 
   /**
-   * {@inheritDoc}
+   * Initializes the code table service.
    */
   public void init() {
     codeTables.clear();
@@ -70,7 +70,7 @@ public class CodeTablesServiceImpl implements CodeTablesService {
               codeTableContent.put(codeArr[0], codeArr[0]);
             }
           }
-          codeTables.put(String.valueOf(codeTableName), codeTableContent);
+          codeTables.put(codeTableName, codeTableContent);
         }
       } finally {
         ldapConnectionPool.freeConnection(connection);
@@ -80,11 +80,9 @@ public class CodeTablesServiceImpl implements CodeTablesService {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public String getValueFromCode(CodeTableName codeTableName, String code) {
-    Map<String, String> chosenCodeTable = codeTables.get(String.valueOf(codeTableName));
+    Map<String, String> chosenCodeTable = codeTables.get(codeTableName);
     String value = "";
     if (chosenCodeTable != null) {
       value = chosenCodeTable.get(code);
@@ -92,13 +90,11 @@ public class CodeTablesServiceImpl implements CodeTablesService {
     return value;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
     String stringToMatch = textValue.toLowerCase();
     List<String> codes = new ArrayList<String>();
-    Map<String, String> chosenCodeTable = codeTables.get(String.valueOf(codeTableName));
+    Map<String, String> chosenCodeTable = codeTables.get(codeTableName);
     for (Entry<String, String> entry : chosenCodeTable.entrySet()) {
       if (entry.getValue().toLowerCase().contains(stringToMatch)) {
         codes.add(entry.getKey());
@@ -107,19 +103,22 @@ public class CodeTablesServiceImpl implements CodeTablesService {
     return codes;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
     String stringToMatch = textValue.toLowerCase();
     List<String> values = new ArrayList<String>();
-    Map<String, String> chosenCodeTable = codeTables.get(String.valueOf(codeTableName));
+    Map<String, String> chosenCodeTable = codeTables.get(codeTableName);
     for (String value : chosenCodeTable.values()) {
       if (value.toLowerCase().contains(stringToMatch)) {
         values.add(value);
       }
     }
     return values;
+  }
+
+  @Override
+  public List<String> getAllValuesItemsFromCodeTable(String codeTable) {
+    return new ArrayList<String>(codeTables.get(CodeTableName.valueOf(codeTable)).values());
   }
 }

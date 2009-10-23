@@ -77,11 +77,25 @@ public class PersonRepository {
     this.theConnectionPool = lp;
   }
 
+  /**
+   * 
+   * @param dn To search for persons.
+   * @param maxResult Maximum result of the result list.
+   * @return List of found persons.
+   * @throws KivException If something goes wrong.
+   */
   public List<Person> searchPersonsByDn(String dn, int maxResult) throws KivException {
     String searchFilter = "(objectClass=hkatPerson)";
     return searchPersons(dn, searchFilter, LDAPConnection.SCOPE_SUB, maxResult);
   }
 
+  /**
+   * 
+   * @param hsaIdentity To search for persons.
+   * @param maxResult Maximum result of the result list.
+   * @return List of found persons.
+   * @throws KivException If something goes wrong.
+   */
   public SikSearchResultList<Person> getAllPersonsInUnit(String hsaIdentity, int maxResult) throws KivException {
     return searchPersons("(hsaIdentity=" + hsaIdentity + ")", LDAPConnection.SCOPE_SUB, maxResult);
   }
@@ -89,19 +103,30 @@ public class PersonRepository {
   /**
    * 
    * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list od Persons
-   * @return
-   * @throws KivException
+   * @param maxResult Maximum result of the result list.
+   * @return List of found persons.
+   * @throws KivException If something goes wrong
    */
   public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws KivException {
     String searchFilter = createSearchPersonsFilterVgrId(vgrId);
     return searchPersons(searchFilter, LDAPConnection.SCOPE_SUB, maxResult);
   }
 
+  /**
+   * 
+   * @param vgrId Id of the person to get.
+   * @return Person.
+   * @throws KivException If something goes wrong.
+   */
   public Person getPersonByVgrId(String vgrId) throws KivException {
     String searchFilter = "(&(objectclass=hkatPerson)(regionName=" + vgrId + "))";
     return searchPerson(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter);
   }
-
+/**
+ * 
+ * @return List of all persons ids.
+ * @throws KivException If something goes wrong.
+ */
   public List<String> getAllPersonsVgrId() throws KivException {
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
@@ -123,7 +148,8 @@ public class PersonRepository {
               result.put(attribute.getStringValue(), attribute.getStringValue());
             }
           } catch (LDAPException e) {
-            if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
+            if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT
+                || e.getResultCode() == LDAPException.CONNECT_ERROR) {
               break;
             } else {
               // take next Unit
@@ -296,7 +322,8 @@ public class PersonRepository {
 
     employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("title")));
     /*
-     * Deprecated 2009-04-21 if (!"".equals(personEntry.getAttribute("title"))) employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("title")));
+     * Deprecated 2009-04-21 if (!"".equals(personEntry.getAttribute("title")))
+     * employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("title")));
      */
 
     employment.setDescription(LdapORMHelper.getMultipleValues(personEntry.getAttribute("description")));
@@ -308,7 +335,8 @@ public class PersonRepository {
     employment.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaInternalPagerNumber"))));
     // employment.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("pagerTelephoneNumber"))));
     employment.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaTextPhoneNumber"))));
-    employment.setModifyTimestamp(TimePoint.parseFrom(LdapORMHelper.getSingleValue(personEntry.getAttribute("whenChanged")), ""/* TODO Add pattern */, TimeZone.getDefault()));
+    employment.setModifyTimestamp(TimePoint.parseFrom(LdapORMHelper.getSingleValue(personEntry.getAttribute("whenChanged")), ""/* TODO Add pattern */, TimeZone
+        .getDefault()));
     // employment.setModifyersName(LdapORMHelper.getSingleValue(personEntry.getAttribute("modifyersName")));
     employment.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaTelephoneTime"))));
     employment.setVgrStrukturPerson(DN.createDNFromString(LdapORMHelper.getSingleValue(personEntry.getAttribute("distinguishedName"))));

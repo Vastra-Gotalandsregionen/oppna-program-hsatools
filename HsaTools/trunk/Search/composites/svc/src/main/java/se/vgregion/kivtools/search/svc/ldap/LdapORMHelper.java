@@ -33,7 +33,12 @@ import com.novell.ldap.util.Base64;
  */
 public class LdapORMHelper {
   private static final String KIV_NEW_LINE_DELIMITER = "$";
-
+  /**
+   * Return {@link String} value from an LDAPAttribute.
+   * 
+   * @param attribute Attribute to get value from.
+   * @return String attribute value.
+   */
   public static String getSingleValue(LDAPAttribute attribute) {
     List<String> values = getValues(attribute);
     if (values == null) {
@@ -45,7 +50,11 @@ public class LdapORMHelper {
     }
     return s;
   }
-
+ /**
+  * 
+  * @param attribute Attribute to get value from.
+  * @return List of attribute values.
+  */
   public static List<String> getMultipleValues(LDAPAttribute attribute) {
     List<String> values = getValues(attribute);
     if (values == null) {

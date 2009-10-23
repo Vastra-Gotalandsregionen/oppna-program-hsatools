@@ -48,7 +48,7 @@ public class UnitSearchSimpleFormValidatorTest {
       // Expected exception
     }
 
-    form.setSearchParamValue("a");
+    form.setLocation("a");
     try {
       validator.validate(form);
       fail("IncorrectUserInputException expected");
@@ -56,10 +56,10 @@ public class UnitSearchSimpleFormValidatorTest {
       // Expected exception
     }
 
-    form.setSearchParamValue("aa");
+    form.setLocation("aa");
     assertEquals(SUCCESSFUL_OPERATION, validator.validate(form));
 
-    form.setSearchParamValue("");
+    form.setLocation("");
     form.setUnitName("a");
     try {
       assertEquals(SUCCESSFUL_OPERATION, validator.validate(form));
@@ -71,7 +71,7 @@ public class UnitSearchSimpleFormValidatorTest {
     form.setUnitName("aa");
     assertEquals(SUCCESSFUL_OPERATION, validator.validate(form));
 
-    form.setSearchParamValue("a");
+    form.setLocation("a");
     form.setUnitName("a");
     try {
       validator.validate(form);

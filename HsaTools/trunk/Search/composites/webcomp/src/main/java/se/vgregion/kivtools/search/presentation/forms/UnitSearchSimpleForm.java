@@ -26,10 +26,55 @@ import se.vgregion.kivtools.util.StringUtil;
  * 
  * @author hangy2 , Hans Gyllensten / KnowIT
  */
-@SuppressWarnings("serial")
 public class UnitSearchSimpleForm implements Serializable {
+  private static final long serialVersionUID = -6941443014284342343L;
+  private String searchType = "simple";
   private String unitName = "";
-  private String searchParamValue = "";
+  private String location = "";
+  private String administrationName;
+  private String liableCode;
+  private String businessClassificationName;
+  private String careTypeName;
+
+  public String getSearchType() {
+    return searchType;
+  }
+
+  public void setSearchType(String searchType) {
+    this.searchType = searchType;
+  }
+
+  public String getAdministrationName() {
+    return administrationName;
+  }
+
+  public void setAdministrationName(String administrationName) {
+    this.administrationName = administrationName;
+  }
+
+  public String getLiableCode() {
+    return liableCode;
+  }
+
+  public void setLiableCode(String liableCode) {
+    this.liableCode = liableCode;
+  }
+
+  public String getBusinessClassificationName() {
+    return businessClassificationName;
+  }
+
+  public void setBusinessClassificationName(String businessClassificationName) {
+    this.businessClassificationName = businessClassificationName;
+  }
+
+  public String getCareTypeName() {
+    return careTypeName;
+  }
+
+  public void setCareTypeName(String careTypeName) {
+    this.careTypeName = careTypeName;
+  }
 
   public String getUnitName() {
     return unitName;
@@ -39,12 +84,12 @@ public class UnitSearchSimpleForm implements Serializable {
     this.unitName = unitName;
   }
 
-  public String getSearchParamValue() {
-    return searchParamValue;
+  public String getLocation() {
+    return location;
   }
 
-  public void setSearchParamValue(String searchParamValue) {
-    this.searchParamValue = searchParamValue;
+  public void setLocation(String location) {
+    this.location = location;
   }
 
   /**
@@ -56,7 +101,11 @@ public class UnitSearchSimpleForm implements Serializable {
     boolean isEmpty = true;
 
     isEmpty &= StringUtil.isEmpty(unitName);
-    isEmpty &= StringUtil.isEmpty(searchParamValue);
+    isEmpty &= StringUtil.isEmpty(location);
+    isEmpty &= StringUtil.isEmpty(administrationName);
+    isEmpty &= StringUtil.isEmpty(liableCode);
+    isEmpty &= StringUtil.isEmpty(businessClassificationName);
+    isEmpty &= StringUtil.isEmpty(careTypeName);
 
     return isEmpty;
   }

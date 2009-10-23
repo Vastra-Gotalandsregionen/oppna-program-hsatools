@@ -15,7 +15,11 @@ import se.vgregion.kivtools.search.svc.ws.domain.vardval.ObjectFactory;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalRequest;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalResponse;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalEntry;
-
+/**
+ * 
+ * @author David Bennehult, Jonas Liljenfeld och Joakim Olsson.
+ *
+ */
 public class VardvalServiceImpl implements VardvalService {
 
   private ObjectFactory objectFactory = new ObjectFactory();
@@ -25,7 +29,10 @@ public class VardvalServiceImpl implements VardvalService {
   public void setService(IVårdvalService service) {
     this.service = service;
   }
-
+/**
+ * Sets endpoint for the webservice. webserviceEndpoint variable is used.
+ * @throws KeyStoreException .
+ */
   public void setEndpoint() throws KeyStoreException {
     BindingProvider bindingProvider = (BindingProvider) service;
     Map<String, Object> requestContext = bindingProvider.getRequestContext();

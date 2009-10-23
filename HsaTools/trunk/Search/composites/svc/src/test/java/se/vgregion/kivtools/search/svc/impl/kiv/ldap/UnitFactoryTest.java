@@ -233,16 +233,17 @@ public class UnitFactoryTest {
     }
 
     @Override
-    public void init() {
-    }
-
-    @Override
     public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
       return null;
     }
 
     @Override
     public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
+      return null;
+    }
+
+    @Override
+    public List<String> getAllValuesItemsFromCodeTable(String codeTableName) {
       return null;
     }
   }

@@ -29,6 +29,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.ldap.filter.Filter;
 
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.DN;
@@ -42,6 +43,7 @@ import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPSearchResultsMock;
 import se.vgregion.kivtools.search.svc.impl.mock.SearchCondition;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 import se.vgregion.kivtools.search.util.DisplayValueTranslator;
 
 import com.novell.ldap.LDAPConnection;
@@ -80,10 +82,10 @@ public class TestUnitRepository {
 
   @Test
   public void testBuildAddressSearch() {
-    String correctResult = "(|(hsaPostalAddress=*uddevalla*$*$*$*$*$*)(hsaPostalAddress=*$*uddevalla*$*$*$*$*)" + "(hsaPostalAddress=*$*$*uddevalla*$*$*$*)(hsaPostalAddress=*$*$*$*uddevalla*$*$*)"
-        + "(hsaPostalAddress=*$*$*$*$*uddevalla*$*)(hsaPostalAddress=*$*$*$*$*$*uddevalla*))";
-    String temp = unitRepository.buildAddressSearch("hsaPostalAddress", "*uddevalla*");
-    Assert.assertEquals(correctResult, temp);
+    String correctResult = "(|(hsaPostalAddress=*uddevalla*$*$*$*$*$*)(hsaPostalAddress=*$*uddevalla*$*$*$*$*)(hsaPostalAddress=*$*$*uddevalla*$*$*$*)(hsaPostalAddress=*$*$*$*uddevalla*$*$*)"  
+    		        + "(hsaPostalAddress=*$*$*$*$*uddevalla*$*)(hsaPostalAddress=*$*$*$*$*$*uddevalla*))";
+    Filter temp = unitRepository.buildAddressSearch("hsaPostalAddress", "*uddevalla*");
+    Assert.assertEquals(correctResult, temp.encode());
   }
 
   /**
@@ -114,10 +116,11 @@ public class TestUnitRepository {
     correctResult.append("(hsaStreetAddress=*$*$*$*Borås*$*$*)(hsaStreetAddress=*$*$*$*$*Borås*$*)");
     correctResult.append("(hsaStreetAddress=*$*$*$*$*$*Borås*))))))");
 
+    SearchUnitCriterions searchUnitCriterions = new SearchUnitCriterions();
     Unit unit = new Unit();
-    unit.setName("barn- och ungdoms");
-    unit.setHsaMunicipalityName("Borås");
-    String temp = unitRepository.createSearchFilter(unit);
+    searchUnitCriterions.setUnitName("barn- och ungdoms");
+    searchUnitCriterions.setLocation("Borås");
+    String temp = unitRepository.createSearchFilter(searchUnitCriterions);
     Assert.assertEquals(correctResult.toString(), temp);
   }
 

@@ -17,6 +17,10 @@
  */
 package se.vgregion.kivtools.util.presentation;
 
+import java.util.List;
+
+import javax.faces.model.SelectItem;
+
 /**
  * Helper-class for handling presentation logic etc.
  * 
@@ -59,5 +63,24 @@ public class PresentationHelper {
       result = text.substring(0, length) + "...";
     }
     return result;
+  }
+  
+  /**
+   * Converts a list of strings to an array of SelectItems with both value and label set to the value of the string.
+   * @param strings The list of strings to convert.
+   * @return An array of SelectItems.
+   */
+  public SelectItem[] getSelectItemsFromStrings(List<String> strings) {
+    SelectItem[] selectItems = new SelectItem[0];
+    if (strings != null) {
+      selectItems = new SelectItem[strings.size()];
+      
+      int i = 0;
+      for (String string : strings) {
+        SelectItem selectItem = new SelectItem(string, string);
+        selectItems[i++] = selectItem;
+      }
+    }
+    return selectItems;
   }
 }

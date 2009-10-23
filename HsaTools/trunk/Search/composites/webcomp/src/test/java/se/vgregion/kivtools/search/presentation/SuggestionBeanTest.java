@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
+import se.vgregion.kivtools.search.presentation.kiv.SuggestionBean;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 
 public class SuggestionBeanTest {
@@ -69,12 +70,13 @@ public class SuggestionBeanTest {
     }
 
     @Override
-    public void init() {
+    public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
+      return descriptionValues;
     }
 
     @Override
-    public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
-      return descriptionValues;
+    public List<String> getAllValuesItemsFromCodeTable(String codeTableName) {
+      return null;
     }
   }
 }

@@ -1,25 +1,38 @@
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.aryEq;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
+import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
+import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
+import se.vgregion.kivtools.search.svc.impl.mock.LDAPSearchResultsMock;
+import se.vgregion.kivtools.search.svc.impl.mock.LdapConnectionPoolMock;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 import se.vgregion.kivtools.util.time.TimeUtil;
 
 import com.novell.ldap.LDAPConnection;
@@ -63,6 +76,54 @@ public class UnitRepositoryTest {
         return result;
       }
     };
+  }
+
+  @Test
+  public void testSearchUnit() throws KivException {
+    // Create test unit.
+    SearchUnitCriterions searchUnitCriterions = new SearchUnitCriterions();
+    searchUnitCriterions.setUnitName("unitName");
+    searchUnitCriterions.setLocation("municipalityName");
+
+
+    // Create ldapConnectionMock.
+    
+    unitRepository = new UnitRepository();
+    LDAPConnectionMock ldapConnectionMock = new LDAPConnectionMock();
+    String expectedFilter = "(|(&(objectclass=vgrOrganizationalUnit)(&(ou=*unitName*)(|(hsaMunicipalityName=*municipalityName*)(|(hsaPostalAddress=*municipalityName*$*$*$*$*$*)(hsaPostalAddress=*$*municipalityName*$*$*$*$*)(hsaPostalAddress=*$*$*municipalityName*$*$*$*)(hsaPostalAddress=*$*$*$*municipalityName*$*$*)(hsaPostalAddress=*$*$*$*$*municipalityName*$*)(hsaPostalAddress=*$*$*$*$*$*municipalityName*))(|(hsaStreetAddress=*municipalityName*$*$*$*$*$*)(hsaStreetAddress=*$*municipalityName*$*$*$*$*)(hsaStreetAddress=*$*$*municipalityName*$*$*$*)(hsaStreetAddress=*$*$*$*municipalityName*$*$*)(hsaStreetAddress=*$*$*$*$*municipalityName*$*)(hsaStreetAddress=*$*$*$*$*$*municipalityName*)))))(&(objectclass=vgrOrganizationalRole)(&(cn=*unitName*)(|(hsaMunicipalityName=*municipalityName*)(|(hsaPostalAddress=*municipalityName*$*$*$*$*$*)(hsaPostalAddress=*$*municipalityName*$*$*$*$*)(hsaPostalAddress=*$*$*municipalityName*$*$*$*)(hsaPostalAddress=*$*$*$*municipalityName*$*$*)(hsaPostalAddress=*$*$*$*$*municipalityName*$*)(hsaPostalAddress=*$*$*$*$*$*municipalityName*))(|(hsaStreetAddress=*municipalityName*$*$*$*$*$*)(hsaStreetAddress=*$*municipalityName*$*$*$*$*)(hsaStreetAddress=*$*$*municipalityName*$*$*$*)(hsaStreetAddress=*$*$*$*municipalityName*$*$*)(hsaStreetAddress=*$*$*$*$*municipalityName*$*)(hsaStreetAddress=*$*$*$*$*$*municipalityName*))))))";
+    ldapConnectionMock.addLDAPSearchResults(expectedFilter, new LDAPSearchResultsMock());
+
+    LdapConnectionPoolMock ldapConnectionPoolMock = new LdapConnectionPoolMock(ldapConnectionMock);
+    unitRepository.setLdapConnectionPool(ldapConnectionPoolMock);
+    SikSearchResultList<Unit> searchUnits = unitRepository.searchUnits(searchUnitCriterions, 0);
+    ldapConnectionMock.assertFilter(expectedFilter);
+  }
+
+  @Test
+  public void testSearchUnitOtherParams() throws KivException {
+    // Create test unit.
+
+    SearchUnitCriterions searchUnitCriterions = new SearchUnitCriterions();
+    searchUnitCriterions.setAdministrationName("01");
+    searchUnitCriterions.setLiableCode("1");
+    searchUnitCriterions.setBusinessClassificationName("1505");
+    searchUnitCriterions.setCareTypeName("01");
+
+    // Create ldapConnectionMock.
+    CodeTableMock codeTableMock = new CodeTableMock();
+    codeTableMock.values.put(CodeTableName.VGR_AO3_CODE, "01");
+    codeTableMock.values.put(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "1505");
+    codeTableMock.values.put(CodeTableName.VGR_CARE_TYPE, "01");
+    unitRepository = new UnitRepository();
+    unitRepository.setCodeTablesService(codeTableMock);
+    LDAPConnectionMock ldapConnectionMock = new LDAPConnectionMock();
+    String expectedFilter = "(|(&(objectclass=vgrOrganizationalUnit)(&(vgrAO3kod=01)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1505)(vgrCareType=01)))(&(objectclass=vgrOrganizationalRole)(&(vgrAO3kod=01)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1505)(vgrCareType=01))))";
+    ldapConnectionMock.addLDAPSearchResults(expectedFilter, new LDAPSearchResultsMock());
+
+    LdapConnectionPoolMock ldapConnectionPoolMock = new LdapConnectionPoolMock(ldapConnectionMock);
+    unitRepository.setLdapConnectionPool(ldapConnectionPoolMock);
+    SikSearchResultList<Unit> searchUnits = unitRepository.searchUnits(searchUnitCriterions, 0);
+    ldapConnectionMock.assertFilter(expectedFilter);
   }
 
   @Test
@@ -154,17 +215,20 @@ public class UnitRepositoryTest {
     // Set search parameters for match a return o found unit.
     setSearchParamsForMock(mockLdapSearchResults, UnitRepository.KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, "", new String[] { "*", "createTimeStamp" });
 
-    Unit resultUnit = new Unit();
-    resultUnit.setName("resultUnit");
-    resultUnit.setHsaIdentity("SE2321000131-E000000000110");
-    resultUnit.setHsaBusinessClassificationCode(Arrays.asList("3"));
+    SearchUnitCriterions searchUnitCriterions = new SearchUnitCriterions();
+    searchUnitCriterions.setUnitName("resultUnit");
+    searchUnitCriterions.setUnitId("SE2321000131-E000000000110");
+    searchUnitCriterions.setBusinessClassificationName("3");
     setReturnResultforUnitfactory(resultUnit);
 
+    CodeTableMock codeTableMock = new CodeTableMock();
+    codeTableMock.values.put(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "3");
     UnitRepository unitRepository = new UnitRepository();
+    unitRepository.setCodeTablesService(codeTableMock);
     unitRepository.setLdapConnectionPool(mockLdapConnectionPool);
     unitRepository.setUnitFactory(mockUnitFactory);
     replay(mockLdapEntry, mockLdapSearchResults, mockUnitFactory, mockLdapConnection, mockLdapConnectionPool);
-    SikSearchResultList<Unit> searchUnitsResult = unitRepository.searchUnits(unitToSearchFor);
+    SikSearchResultList<Unit> searchUnitsResult = unitRepository.searchUnits(searchUnitCriterions);
     assertEquals(1, searchUnitsResult.size());
   }
 
@@ -184,5 +248,30 @@ public class UnitRepositoryTest {
     expect(mockLdapSearchResults.next()).andReturn(mockLdapEntry);
     expect(mockLdapSearchResults.hasMore()).andReturn(false);
     return mockLdapSearchResults;
+  }
+  
+  private class CodeTableMock implements CodeTablesService{
+
+    private Map<CodeTableName, String> values = new HashMap<CodeTableName, String>();
+    
+    @Override
+    public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
+      return Arrays.asList(values.get(codeTableName));
+    }
+
+    @Override
+    public String getValueFromCode(CodeTableName codeTableName, String code) {
+      return null;
+    }
+
+    @Override
+    public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
+      return null;
+    }
+
+    @Override
+    public List<String> getAllValuesItemsFromCodeTable(String codeTableName) {
+      return null;
+    }
   }
 }

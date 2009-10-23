@@ -21,25 +21,19 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.domain.values.DN;
-import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 
 public class SearchServiceMockImpl implements SearchService {
-  private Log logger = LogFactory.getLog(this.getClass());
-  private static final String CLASS_NAME = SearchServiceMockImpl.class.getName();
-
   private SikSearchResultList<Person> personList = new SikSearchResultList<Person>();
   private SikSearchResultList<Unit> unitList = new SikSearchResultList<Unit>();
 
@@ -47,6 +41,7 @@ public class SearchServiceMockImpl implements SearchService {
     init();
   }
 
+  @Override
   public SikSearchResultList<Employment> getEmployments(String personDn) throws KivException {
     SikSearchResultList<Employment> employments = new SikSearchResultList<Employment>();
     Employment e;
@@ -79,6 +74,7 @@ public class SearchServiceMockImpl implements SearchService {
     return employments;
   }
 
+  @Override
   public Person getPersonById(String vgrId) throws KivException {
     Person p = new Person();
     if (vgrId.equalsIgnoreCase("anders1")) {
@@ -105,6 +101,7 @@ public class SearchServiceMockImpl implements SearchService {
     return p;
   }
 
+  @Override
   public Unit getUnitByHsaId(String hsaId) throws KivException {
     Unit u = new Unit();
     List<String> a;
@@ -159,20 +156,13 @@ public class SearchServiceMockImpl implements SearchService {
     return u;
   }
 
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName) throws KivException {
-    return searchPersons(givenName, familyName, 0);
-  }
-
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, int maxSearchResult) throws KivException {
-    return personList;
-  }
-
   /**
    * 
    * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list od Persons
    * @return
    * @throws KivException
    */
+  @Override
   public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws KivException {
     SikSearchResultList<Person> tempList = new SikSearchResultList<Person>();
     for (Person p : personList) {
@@ -183,71 +173,12 @@ public class SearchServiceMockImpl implements SearchService {
     return tempList;
   }
 
-  /**
-   * 
-   * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list od Persons
-   * @return
-   * @throws KivException
-   */
-  public SikSearchResultList<Person> searchPersons(String vgrId) throws KivException {
-    return searchPersons(vgrId, 0);
-  }
-
-  public SikSearchResultList<Unit> searchUnits(Unit unit) throws KivException {
-    return searchUnits(unit, 0);
-  }
-
-  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws KivException {
+  @Override
+  public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions unit, int maxSearchResult) throws KivException {
     return unitList;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see se.vgregion.kivtools.search.svc.SearchService#getMaxNumberOfPersonHits()
-   */
-  public int getMaxNumberOfPersonHits() {
-    return 200;
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see se.vgregion.kivtools.search.svc.SearchService#getMaxNumberOfUnitHits()
-   */
-  public int getMaxNumberOfUnitHits() {
-    return 200;
-  }
-
-  public Person getPersonByHsaId(String hsaId) throws Exception {
-    Person p = new Person();
-    Employment e = new Employment();
-    List<Employment> em = new ArrayList<Employment>();
-
-    logger.debug(CLASS_NAME + ".getPersonByHsaId(hsaId = " + hsaId + ")");
-
-    p.setGivenName("Anders");
-    p.setSn("Asplund");
-    p.setHsaMiddleName("Sandin");
-    p.setFullName("Anders Sandin Asplund");
-    p.setMail("anders.asplund@knowit.se");
-
-    e.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("031-123456"));
-    e.setOu("VGR IT");
-    e.setTitle("Konsult");
-    em.add(e);
-
-    e = new Employment();
-    e.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("031-123456"));
-    e.setOu("Akutmottagningen");
-    e.setTitle("Sjuksk�terska");
-    em.add(e);
-
-    p.setEmployments(em);
-
-    return p;
-  }
-
+  @Override
   public List<String> getAllPersonsId() throws KivException {
     List<String> result = new ArrayList<String>();
     result.add("anders1");
@@ -256,6 +187,7 @@ public class SearchServiceMockImpl implements SearchService {
     return result;
   }
 
+  @Override
   public List<String> getAllUnitsHsaIdentity() throws KivException {
     List<String> result = new ArrayList<String>();
     result.add("ABC001");
@@ -264,6 +196,7 @@ public class SearchServiceMockImpl implements SearchService {
     return result;
   }
 
+  @Override
   public Unit getUnitByDN(String dn) throws KivException {
 
     Unit u = new Unit();
@@ -370,58 +303,33 @@ public class SearchServiceMockImpl implements SearchService {
 
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see se.vgregion.kivtools.search.svc.SearchService#searchPersons(java.lang.String, java.lang.String, java.lang.String)
-   */
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId) throws KivException {
-    return searchPersons(givenName, familyName);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see se.vgregion.kivtools.search.svc.SearchService#searchPersons(java.lang.String, java.lang.String, java.lang.String, int)
-   */
-  public SikSearchResultList<Person> searchPersons(String givenName, String familyName, String vgrId, int maxResult) throws KivException {
-    return searchPersons(givenName, familyName);
-  }
-
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, Comparator<Unit> sortOrder) throws KivException {
-    // JOLI please add code for this case
-    return new SikSearchResultList<Unit>();
-  }
-
+  @Override
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     // JOLI please add code for this case
     return new SikSearchResultList<Unit>();
   }
 
-  public List<HealthcareType> getHealthcareTypesList() throws Exception {
-    return null;
-  }
-
+  @Override
   public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return null;
   }
 
+  @Override
   public List<Employment> getEmploymentsForPerson(Person person) {
     return null;
   }
 
-  public SikSearchResultList<Person> searchPersonsByDn(String dn) throws KivException {
-    return null;
-  }
-
+  @Override
   public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws KivException {
     return null;
   }
 
+  @Override
   public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws KivException {
     return null;
   }
 
+  @Override
   public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws KivException {
     return null;
   }

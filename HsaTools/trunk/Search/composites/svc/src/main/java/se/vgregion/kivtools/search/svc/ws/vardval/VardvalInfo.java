@@ -3,6 +3,12 @@ package se.vgregion.kivtools.search.svc.ws.vardval;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Pojo used in vardval web service.
+ * 
+ * @author David Bennehult, Jonas Liljenfeld och Joakim Olsson.
+ * 
+ */
 public class VardvalInfo implements Serializable {
 
   private static final long serialVersionUID = 1L;

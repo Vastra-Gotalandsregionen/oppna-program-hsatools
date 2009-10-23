@@ -29,6 +29,7 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 
 /**
  * @author Anders Asplund, Know IT
@@ -53,22 +54,47 @@ public class SearchServiceLdapImpl implements SearchService {
     this.employmentRepository = employmentRepository;
   }
 
+  /**
+   * 
+   * {@inheritDoc}
+   */
+  @Override
   public List<String> getAllPersonsId() throws KivException {
     return this.personRepository.getAllPersonsVgrId();
   }
 
+  /**
+   * 
+   * {@inheritDoc}
+   */
+  @Override
   public List<String> getAllUnitsHsaIdentity() throws KivException {
     return this.unitRepository.getAllUnitsHsaIdentity();
   }
 
+  /**
+   * 
+   * {@inheritDoc}
+   */
+  @Override
   public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return this.unitRepository.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBussinessClassificationCodes);
   }
 
+  /**
+   * 
+   * {@inheritDoc}
+   */
+  @Override
   public SikSearchResultList<Employment> getEmployments(String personDn) throws KivException {
     return employmentRepository.getEmployments(DN.createDNFromString(personDn));
   }
 
+  /**
+   * 
+   * {@inheritDoc}
+   */
+  @Override
   public Person getPersonById(String vgrId) throws KivException {
     Person person = personRepository.getPersonByVgrId(vgrId);
     if (person != null) {
@@ -77,52 +103,93 @@ public class SearchServiceLdapImpl implements SearchService {
     return person;
   }
 
+  /**
+   * 
+   * {@inheritDoc}
+   */
+  @Override
   public Unit getUnitByHsaId(String hsaId) throws KivException {
     return unitRepository.getUnitByHsaId(hsaId);
   }
 
   /**
+   * {@inheritDoc}
    * 
    * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list of Persons
-   * @return
-   * @throws KivException
+   * 
    */
+  @Override
   public SikSearchResultList<Person> searchPersons(String vgrId, int maxSearchResult) throws KivException {
     return personRepository.searchPersons(vgrId, maxSearchResult);
   }
 
-  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws KivException {
-    return unitRepository.searchUnits(unit, maxSearchResult);
+  /**
+   * 
+   * {@inheritDoc}
+   */
+  @Override
+  public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions searchUnitCriterions, int maxSearchResult) throws KivException {
+    return unitRepository.searchUnits(searchUnitCriterions, maxSearchResult);
   }
 
+  /**
+   * 
+   * {@inheritDoc}
+   */
+  @Override
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return unitRepository.searchAdvancedUnits(unit, maxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
   }
 
+  /**
+   * 
+   * {@inheritDoc}
+   */
+  @Override
   public Unit getUnitByDN(String dn) throws KivException {
     return unitRepository.getUnitByDN(DN.createDNFromString(dn));
   }
 
-  public HealthcareTypeConditionHelper getHealthcareTypeConditionHelper() {
-    return healthcareTypeConditionHelper;
-  }
-
+  /**
+   * 
+   * {@inheritDoc}
+   */
   public void setHealthcareTypeConditionHelper(HealthcareTypeConditionHelper healthcareTypeConditionHelper) {
     this.healthcareTypeConditionHelper = healthcareTypeConditionHelper;
   }
 
+  /**
+   * 
+   * {@inheritDoc}
+   */
+  @Override
   public List<Employment> getEmploymentsForPerson(Person person) {
     return null;
   }
 
+  /**
+   * 
+   * {@inheritDoc}
+   */
+  @Override
   public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws KivException {
     return personRepository.getPersonsForUnits(units, maxResult);
   }
 
+  /**
+   * 
+   * {@inheritDoc}
+   */
+  @Override
   public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws KivException {
     return null;
   }
 
+  /**
+   * 
+   * {@inheritDoc}
+   */
+  @Override
   public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws KivException {
     return unitRepository.getSubUnits(parentUnit, maxSearchResult);
   }

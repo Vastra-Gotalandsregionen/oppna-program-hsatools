@@ -19,6 +19,11 @@ package se.vgregion.kivtools.util.presentation;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.model.SelectItem;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -71,5 +76,31 @@ public class PresentationHelperTest {
   @Test(expected = IllegalArgumentException.class)
   public void testGetTextWithEllipsisLengthLessThanOne() {
     helper.getTextWithEllipsis("", 0);
+  }
+  
+  @Test
+  public void testGetSelectItemsFromStringNullList() {
+    SelectItem[] selectItems = helper.getSelectItemsFromStrings(null);
+    assertNotNull(selectItems);
+    assertEquals(0, selectItems.length);
+  }
+  
+  @Test
+  public void testGetSelectItemsFromStringEmptyList() {
+    SelectItem[] selectItems = helper.getSelectItemsFromStrings(new ArrayList<String>());
+    assertNotNull(selectItems);
+    assertEquals(0, selectItems.length);
+  }
+  
+  @Test
+  public void testGetSelectItemsFromString() {
+    List<String> strings = new ArrayList<String>();
+    strings.add("test1");
+    strings.add("test2");
+    SelectItem[] selectItems = helper.getSelectItemsFromStrings(strings);
+    assertNotNull(selectItems);
+    assertEquals(2, selectItems.length);
+    assertEquals("test1", selectItems[0].getValue());
+    assertEquals("test2", selectItems[1].getLabel());
   }
 }

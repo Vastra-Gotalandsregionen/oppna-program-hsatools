@@ -51,7 +51,11 @@ public class LDAPConnectionMock extends LDAPConnection {
       throw ldapException;
     }
     this.filter = filter;
-    return searchResults.get(filter);
+    LDAPSearchResults ldapSearchResults = searchResults.get(filter);
+    if (ldapSearchResults == null) {
+      ldapSearchResults = new LDAPSearchResultsMock();
+    }
+    return ldapSearchResults;
   }
 
   @Override

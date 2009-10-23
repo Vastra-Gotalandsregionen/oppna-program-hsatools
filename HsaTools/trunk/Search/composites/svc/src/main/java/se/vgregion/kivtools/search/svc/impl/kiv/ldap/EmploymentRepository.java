@@ -52,7 +52,12 @@ public class EmploymentRepository {
   public void setCodeTablesService(CodeTablesService codeTablesService) {
     this.codeTablesService = codeTablesService;
   }
-
+/**
+ * 
+ * @param dn Dn of the employments.
+ * @return A list of employments.
+ * @throws KivException If something goes wrong.
+ */
   public SikSearchResultList<Employment> getEmployments(DN dn) throws KivException {
     LDAPSearchResults searchResults = null;
     SikSearchResultList<Employment> result = new SikSearchResultList<Employment>();

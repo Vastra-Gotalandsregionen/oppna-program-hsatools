@@ -39,25 +39,7 @@
 	</ui:define>
 
 	<ui:define name="HeaderInputFieldContainer">
-		<form id="searchUnitForm" jsfc="h:form" class="search-form">
-			<div id="formContainer">
-		        <div class="text">
-					<label for="searchUnitForm:unitName">Enhet</label>
-					<input id="unitName" type="text" jsfc="h:inputText" value="${unitSearchSimpleForm.unitName}" />
-					<label for="searchUnitForm:unitName" class="info">Ange namn på enhet du vill söka efter</label>
-				</div>
-			
-				<div class="text">
-					<label for="searchUnitForm:TextBoxCity">Var</label>
-					<input id="TextBoxCity" type="text" jsfc="h:inputText" value="${unitSearchSimpleForm.searchParamValue}" />
-					<label for="searchUnitForm:TextBoxCity" class="info">Söker i Besöksadress, Postadress, Kommun</label>
-				</div>
-	
-				<div class="submit-area">
-					<input type="submit" id="submitButton" jsfc="h:commandButton" value="Sök" action="doSearch" />
-				</div>
-			</div>
-		</form>
+		<ui:include src="${Search_SettingsContainer.settings.unitSearchInclude}" />
 	</ui:define>
 
 

@@ -1,0 +1,24 @@
+<h:form id="searchUnitForm" class="search-form"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+		xmlns:c="http://java.sun.com/jstl/core">
+    <div id="formContainer">
+  		<div class="text">
+			<label for="searchUnitForm:unitName">Enhet</label>
+			<input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="${unitSearchSimpleForm.unitName}" />
+			<span class="info">Ange namn på enhet du vill söka efter</span>
+		</div>
+		
+		<div class="text">
+			<label for="searchUnitForm:location">Var</label>
+			<input id="location" type="text" class="search-input-field" jsfc="h:inputText" value="${unitSearchSimpleForm.location}" />
+			<span class="info">Söker i Besöksadress, Postadress, Kommun</span>
+		</div>
+
+		<div class="submit-area">
+			<input type="submit" id="submitButton" jsfc="h:commandButton" value="Sök" action="doSearch" />
+	    </div>
+    </div>
+</h:form>

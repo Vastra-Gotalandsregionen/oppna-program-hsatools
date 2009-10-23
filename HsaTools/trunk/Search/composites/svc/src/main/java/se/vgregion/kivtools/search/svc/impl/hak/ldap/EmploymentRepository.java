@@ -42,7 +42,12 @@ public class EmploymentRepository {
   public void setLdapConnectionPool(LdapConnectionPool lp) {
     this.theConnectionPool = lp;
   }
-
+  /**
+   * 
+   * @param dn Dn of employments to search for.
+   * @return List of found employments.
+   * @throws KivException If something goes wrong.
+   */
   public SikSearchResultList<Employment> getEmployments(DN dn) throws KivException {
     LDAPSearchResults searchResults = null;
     SikSearchResultList<Employment> result = new SikSearchResultList<Employment>();
