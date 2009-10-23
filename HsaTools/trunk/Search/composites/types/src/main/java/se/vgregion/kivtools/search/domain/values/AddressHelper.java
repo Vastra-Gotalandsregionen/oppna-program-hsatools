@@ -61,6 +61,7 @@ public class AddressHelper implements Serializable {
     EXCEPTIONED_STREET_SUFFIX.add("r\u00F6da str\u00E5ket");
     EXCEPTIONED_STREET_SUFFIX.add("gr\u00F6na str\u00E5ket");
     EXCEPTIONED_STREET_SUFFIX.add("bl\u00E5 str\u00E5ket");
+    EXCEPTIONED_STREET_SUFFIX.add("gula str\u00E5ket");
   }
 
   /**
