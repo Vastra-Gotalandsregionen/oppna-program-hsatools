@@ -12,13 +12,15 @@
     <groupId>HsaTools</groupId>
     <artifactId>HsaTools-system</artifactId>
     <packaging>pom</packaging>
-    <name>${project.artifactId}</name>
     <version>1.0-SNAPSHOT</version>
+
+    <name>HsaTools-system</name>
+    <description>HsaTools-system</description>
 
 	<!-- common library versions -->
     <properties>
         <javg.version>1.2-SNAPSHOT</javg.version>
-        <spring.fw.version>2.5.5</spring.fw.version>
+        <spring.fw.version>2.5.6</spring.fw.version>
         <apache.cxf.version>2.1.2</apache.cxf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.profilename>VGR</maven.profilename>
@@ -48,12 +50,10 @@
                 <artifactId>maven-eclipse-plugin</artifactId>
                 <configuration>
                     <additionalProjectnatures>
-                        <projectnature> org.springframework.ide.eclipse.core.springnature
-                        </projectnature>
+                        <projectnature> org.springframework.ide.eclipse.core.springnature</projectnature>
                     </additionalProjectnatures>
                     <additionalBuildcommands>
-                        <buildcommand> org.springframework.ide.eclipse.core.springbuilder
-                        </buildcommand>
+                        <buildcommand> org.springframework.ide.eclipse.core.springbuilder</buildcommand>
                     </additionalBuildcommands>
                 </configuration>
             </plugin>
@@ -116,56 +116,422 @@
 				-->
                 <version>2.4-atlassian-2-SNAPSHOT</version>
                 <configuration>
-                    <configLocation>
-						${basedir}/src/test/resources/checkstyle/checkstyle.xml
-                    </configLocation>
-                    <suppressionsLocation>
-						${basedir}/src/test/resources/checkstyle/checkstyle-suppressions.xml
-                    </suppressionsLocation>
+                    <configLocation>${basedir}/src/test/resources/checkstyle/checkstyle.xml</configLocation>
+                    <suppressionsLocation>${basedir}/src/test/resources/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
                     <propertyExpansion>project_loc=${basedir}</propertyExpansion>
                 </configuration>
             </plugin>
         </plugins>
     </reporting>
 
+	<dependencyManagement>
+        <dependencies>
+        	<!-- HsaTools artifacts -->
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>HsaTools-Search-composite-svc</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+	
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>HsaTools-Search-composite-webcomp</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>HsaTools-Search-composite-types</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>HsaTools-Search-composite-schema</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>HsaTools-Search-module-web</artifactId>
+				<version>${project.version}</version>
+				<type>war</type>
+			</dependency>
+	
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>HsaTools-HRIV-composite-webcomp</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+		    <dependency>
+		      <groupId>${project.groupId}</groupId>
+		      <artifactId>HsaTools-HRIV-module-web</artifactId>
+		      <version>${project.version}</version>
+		      <type>war</type>
+		    </dependency>
+
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>HsaTools-Utils</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+	
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>HsaTools-Mocks</artifactId>
+				<version>${project.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- VGR Reference Architecture -->	
+			<dependency>
+				<groupId>se.vgr.javg</groupId>
+				<artifactId>javg-rt-support</artifactId>
+				<version>${javg.version}</version>
+			</dependency>
+	
+			<!-- Logging -->
+	        <dependency>
+	            <groupId>log4j</groupId>
+	            <artifactId>log4j</artifactId>
+	            <version>1.2.14</version>
+	        </dependency>
+
+			<!-- Test -->
+	        <dependency>
+	            <groupId>junit</groupId>
+	            <artifactId>junit</artifactId>
+	            <version>4.7</version>
+	            <scope>test</scope>
+	        </dependency>
+	
+	        <dependency>
+	            <groupId>org.easymock</groupId>
+	            <artifactId>easymock</artifactId>
+	            <version>2.4</version>
+	            <scope>test</scope>
+	        </dependency>
+	
+	        <dependency>
+	            <groupId>org.easymock</groupId>
+	            <artifactId>easymockclassextension</artifactId>
+	            <version>2.4</version>
+	            <scope>test</scope>
+	        </dependency>
+	
+			<!-- Apache Commons -->
+	        <dependency>
+	            <groupId>commons-logging</groupId>
+	            <artifactId>commons-logging</artifactId>
+	            <version>1.1.1</version>
+	        </dependency>
+	
+	        <dependency>
+	            <groupId>commons-collections</groupId>
+	            <artifactId>commons-collections</artifactId>
+	            <version>3.2.1</version>
+	        </dependency>
+
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.3</version>
+			</dependency>
+	
+	        <dependency>
+	            <groupId>commons-io</groupId>
+	            <artifactId>commons-io</artifactId>
+	            <version>1.3.1</version>
+	        </dependency>
+
+	        <dependency>
+	            <groupId>commons-lang</groupId>
+	            <artifactId>commons-lang</artifactId>
+	            <version>2.3</version>
+	        </dependency>
+
+	        <dependency>
+	            <groupId>commons-httpclient</groupId>
+	            <artifactId>commons-httpclient</artifactId>
+	            <version>3.1-beta1</version>
+	        </dependency>
+
+			<dependency>
+				<groupId>commons-net</groupId>
+				<artifactId>commons-net</artifactId>
+				<version>2.0</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Spring Framework -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.fw.version}</version>
+			</dependency>
+	
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.fw.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>2.5.6.SEC01</version>
+			</dependency>
+	
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.fw.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.fw.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.springframework.webflow</groupId>
+				<artifactId>spring-webflow</artifactId>
+				<version>2.0.8.RELEASE</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.webflow</groupId>
+				<artifactId>spring-faces</artifactId>
+				<version>2.0.8.RELEASE</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.fw.version}</version>
+			</dependency>
+
+	        <dependency>
+	            <groupId>org.springframework</groupId>
+	            <artifactId>spring-context-support</artifactId>
+	            <version>${spring.fw.version}</version>
+	        </dependency>
+
+	        <dependency>
+	            <groupId>org.springframework</groupId>
+	            <artifactId>spring-tx</artifactId>
+	            <version>${spring.fw.version}</version>
+	        </dependency>
+
+	        <dependency>
+	            <groupId>org.springframework.ldap</groupId>
+	            <artifactId>spring-ldap-core</artifactId>
+	            <version>1.3.0.RELEASE</version>
+	        </dependency>
+
+			<dependency>
+				<groupId>org.springframework.ws</groupId>
+				<artifactId>spring-oxm-tiger</artifactId>
+				<version>1.5.7</version>
+			</dependency>
+	
+			<dependency>
+				<groupId>org.springframework.ws</groupId>
+				<artifactId>spring-ws-core</artifactId>
+				<version>1.5.7</version>
+			</dependency>
+	
+			<dependency>
+				<groupId>org.springframework.ws</groupId>
+				<artifactId>spring-ws-core-tiger</artifactId>
+				<version>1.5.7</version>
+			</dependency>
+	
+			<!-- Servlet, Taglibs, EL and JSF -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>2.5</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>taglibs</groupId>
+				<artifactId>standard</artifactId>
+				<version>1.1.2</version>
+			</dependency>
+
+		    <dependency>
+		    	<groupId>org.jboss.el</groupId>
+		    	<artifactId>jboss-el</artifactId>
+		    	<version>2.0.2.CR1</version>
+		    	<exclusions>
+		    		<exclusion>
+		    			<groupId>javax.el</groupId>
+		    			<artifactId>el-api</artifactId>
+		    		</exclusion>
+		    	</exclusions>
+		    </dependency>
+
+			<dependency>
+				<groupId>javax.faces</groupId>
+				<artifactId>jsf-api</artifactId>
+				<version>1.2_13</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>javax.faces</groupId>
+				<artifactId>jsf-impl</artifactId>
+				<version>1.2_13</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.sun.facelets</groupId>
+				<artifactId>jsf-facelets</artifactId>
+				<version>1.1.15.B1</version>
+				<scope>compile</scope>
+			</dependency>
+			
+			<!-- Misc -->
+			<dependency>
+				<groupId>geoGoogle</groupId>
+				<artifactId>geoGoogle</artifactId>
+				<version>1.5.0</version>
+				<exclusions>
+					<exclusion>
+						<groupId>javax.xml</groupId>
+						<artifactId>jaxb-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.sun.xml.bind</groupId>
+						<artifactId>jaxb-impl</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+	
+	        <dependency>
+	            <groupId>com.domain</groupId>
+	            <artifactId>TimeAndMoney</artifactId>
+	            <version>0.5.1</version>
+	        </dependency>
+
+	        <dependency>
+	            <groupId>org.openldap</groupId>
+	            <artifactId>jldap</artifactId>
+	            <version>200710</version>
+	        </dependency>
+
+	        <dependency>
+	            <groupId>quartz</groupId>
+	            <artifactId>quartz</artifactId>
+	            <version>1.5.2</version>
+	        </dependency>
+
+	        <dependency>
+	            <groupId>com.jcraft</groupId>
+	            <artifactId>jsch</artifactId>
+	            <version>0.1.41</version>
+	        </dependency>
+
+	        <dependency>
+	            <groupId>javax.xml.soap</groupId>
+	            <artifactId>saaj-api</artifactId>
+	            <version>1.3</version>
+	        </dependency>
+
+	        <dependency>
+	            <groupId>com.sun.xml.bind</groupId>
+	            <artifactId>jaxb-impl</artifactId>
+	            <version>2.0.3</version>
+	            <scope>provided</scope>
+	            <exclusions>
+	                <exclusion>
+	                    <groupId>javax.xml.bind</groupId>
+	                    <artifactId>jaxb-api</artifactId>
+	                </exclusion>
+	            </exclusions>
+	        </dependency>
+
+	        <dependency>
+	            <groupId>javax.xml.bind</groupId>
+	            <artifactId>jaxb-api</artifactId>
+	            <version>2.1</version>
+	            <scope>provided</scope>
+	        </dependency>
+
+			<dependency>
+				<groupId>jdom</groupId>
+				<artifactId>jdom</artifactId>
+				<version>1.0</version>
+			</dependency>
+	
+			<dependency>
+				<groupId>jaxen</groupId>
+				<artifactId>jaxen</artifactId>
+				<version>full</version>
+			</dependency>
+		
+			<dependency>
+				<groupId>net.sourceforge.jwebunit</groupId>
+				<artifactId>jwebunit-core</artifactId>
+				<version>2.2</version>
+				<scope>test</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>net.sourceforge.jwebunit</groupId>
+				<artifactId>jwebunit-htmlunit-plugin</artifactId>
+				<version>2.2</version>
+				<scope>test</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.steeplesoft.jsf.facestester</groupId>
+				<artifactId>facestester-core</artifactId>
+				<version>0.4-SNAPSHOT</version>
+				<scope>test</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.steeplesoft.jsf.facestester</groupId>
+				<artifactId>facestester-connector-mojarra-jsf1.2</artifactId>
+				<version>0.4-SNAPSHOT</version>
+				<scope>test</scope>
+			</dependency>
+        </dependencies>
+	</dependencyManagement>
+    
     <dependencies>
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.14</version>
         </dependency>
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.7</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
-            <version>2.4</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymockclassextension</artifactId>
-            <version>2.4</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
         </dependency>
 
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>3.2.1</version>
         </dependency>
     </dependencies>
 
@@ -189,6 +555,7 @@
                 <enabled>true</enabled>
             </releases>
         </pluginRepository>
+        
 		<!--
 			Temporary repository until a "real" 2.4-SNAPSHOT is available from
 			the maven master repositories.
@@ -198,18 +565,24 @@
             <name>oppna program repo</name>
             <url>http://oppna-program.googlecode.com/svn/maven</url>
         </pluginRepository>
+        
+        <pluginRepository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net Maven 2 Repository</name>
+            <url>http://download.java.net/maven/2</url>
+        </pluginRepository>
     </pluginRepositories>
 
     <repositories>
         <repository>
+            <id>oppnaprogram</id>
+            <name>oppna program repo</name>
+            <url>http://oppna-program.googlecode.com/svn/maven</url>
             <releases>
                 <updatePolicy>never</updatePolicy>
                 <checksumPolicy>warn</checksumPolicy>
                 <enabled>true</enabled>
             </releases>
-            <id>oppnaprogram</id>
-            <name>oppna program repo</name>
-            <url>http://oppna-program.googlecode.com/svn/maven</url>
         </repository>
 
         <repository>
@@ -224,6 +597,29 @@
             <url>http://download.java.net/maven/1/</url>
             <layout>legacy</layout>
         </repository>
+        
+		<repository>
+			<id>JBOSS</id>
+			<name>JBoss Repository</name>
+			<url>http://repository.jboss.org/maven2/</url>
+		</repository>
+		
+        <repository>
+            <id>geogoogle</id>
+            <name>geogoogle repo</name>
+            <url>http://www.cs.drexel.edu/~zl25/maven2/repo</url>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        
+        <repository>
+			<id>Codehaus</id>
+			<name>Codehaus repository</name>
+			<url>http://repository.codehaus.org/</url>
+		</repository>
     </repositories>
 	
     <profiles>
