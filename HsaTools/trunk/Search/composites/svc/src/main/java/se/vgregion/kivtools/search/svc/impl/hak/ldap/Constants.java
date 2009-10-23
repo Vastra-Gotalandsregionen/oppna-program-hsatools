@@ -16,7 +16,11 @@
  *   Boston, MA 02111-1307  USA
  */
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
-
+/**
+ * 
+ * Constants to use in LDAP classes.
+ *
+ */
 public class Constants {
   public static final String OBJECT_CLASS_UNIT_STANDARD = "organizationalUnit";
   public static final String OBJECT_CLASS_FUNCTION_STANDARD = "organizationalRole";

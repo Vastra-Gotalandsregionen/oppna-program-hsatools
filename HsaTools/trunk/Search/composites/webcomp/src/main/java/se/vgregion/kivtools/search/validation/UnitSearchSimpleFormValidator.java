@@ -48,7 +48,7 @@ public class UnitSearchSimpleFormValidator implements Serializable {
   public String validate(UnitSearchSimpleForm param) throws IncorrectUserInputException {
     logger.debug(this.getClass().getName() + ".validate()");
 
-    int paramlength = param.getSearchParamValue().trim().length();
+    int paramlength = param.getLocation().trim().length();
     int unitNameLength = param.getUnitName().trim().length();
 
     if (!(paramlength >= 2 || unitNameLength >= 2)) {

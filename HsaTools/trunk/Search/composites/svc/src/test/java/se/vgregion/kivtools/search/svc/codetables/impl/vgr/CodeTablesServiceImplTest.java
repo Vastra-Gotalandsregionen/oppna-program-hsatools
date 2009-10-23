@@ -115,6 +115,17 @@ public class CodeTablesServiceImplTest {
     assertListContentEqual(codes, "Landsting/Region", "Statlig");
   }
 
+  @Test
+  public void testGetAllValueItemsFromCodeTable() {
+    List<String> allValuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.PA_TITLE_CODE.name());
+    assertNotNull(allValuesItemsFromCodeTable);
+  }
+  
+  @Test(expected=IllegalArgumentException.class)
+  public void testGetAllValueItemsFromCodeTableException() {
+    codeTablesService.getAllValuesItemsFromCodeTable("noValidCodeTable");
+  }
+  
   private void assertListContentEqual(List<String> actualStrings, String... expectedStrings) {
     for (String actualString : actualStrings) {
       boolean found = false;

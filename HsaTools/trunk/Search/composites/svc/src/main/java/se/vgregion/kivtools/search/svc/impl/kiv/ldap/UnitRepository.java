@@ -29,8 +29,14 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.ldap.filter.AndFilter;
+import org.springframework.ldap.filter.EqualsFilter;
+import org.springframework.ldap.filter.Filter;
+import org.springframework.ldap.filter.LikeFilter;
+import org.springframework.ldap.filter.OrFilter;
 
 import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
@@ -41,6 +47,7 @@ import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.search.util.LdapParse;
 import se.vgregion.kivtools.util.StringUtil;
@@ -86,13 +93,13 @@ public class UnitRepository {
   /**
    * Search for unit with max result set to 0.
    * 
-   * @param unit The unit to search for.
+   * @param searchUnitCriterions The unit to search for.
    * @return List of found units.
    * @throws KivException .
    */
-  public SikSearchResultList<Unit> searchUnits(Unit unit) throws KivException {
+  public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions searchUnitCriterions) throws KivException {
     // Zero means all units
-    return searchUnits(unit, 0);
+    return searchUnits(searchUnitCriterions, 0);
   }
 
   /**
@@ -119,7 +126,8 @@ public class UnitRepository {
    * @return - a list of found units.
    * @throws KivException If an error occur.
    */
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxResult, Comparator<Unit> sortOrder,
+      List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     String searchFilter = createAdvancedSearchFilter(unit, showUnitsWithTheseHsaBussinessClassificationCodes);
     // Perform search without limit since the information will be filtered
     SikSearchResultList<Unit> units = searchUnits(searchFilter, LDAPConnection.SCOPE_SUB, Integer.MAX_VALUE, sortOrder);
@@ -244,13 +252,13 @@ public class UnitRepository {
   /**
    * Search for selected unit.
    * 
-   * @param unit The unit to search for.
+   * @param searchUnitCriterions The unit to search for.
    * @param maxResult Max number of units to contain in the result.
    * @return List of found units.
    * @throws KivException .
    */
-  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxResult) throws KivException {
-    String searchFilter = createSearchFilter(unit);
+  public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions searchUnitCriterions, int maxResult) throws KivException {
+    String searchFilter = createSearchFilter(searchUnitCriterions);
     return searchUnits(searchFilter, LDAPConnection.SCOPE_SUB, maxResult, new UnitNameComparator());
   }
 
@@ -336,7 +344,8 @@ public class UnitRepository {
               result.add(attribute.getStringValue());
             }
           } catch (LDAPException e) {
-            if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
+            if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT
+                || e.getResultCode() == LDAPException.CONNECT_ERROR) {
               // break;
               throw new NoConnectionToServerException();
             } else {
@@ -428,6 +437,7 @@ public class UnitRepository {
   }
 
   private SikSearchResultList<Unit> extractResult(LDAPSearchResults searchResults, int maxResult, Comparator<Unit> sortOrder) throws KivException {
+    Comparator<Unit> sortOrderCurrent = sortOrder;
     SikSearchResultList<Unit> result = new SikSearchResultList<Unit>();
     while (searchResults.hasMore()) {
       try {
@@ -460,12 +470,12 @@ public class UnitRepository {
       }
     }
 
-    if (sortOrder == null) {
+    if (sortOrderCurrent == null) {
       // No sort order was supplied, default to sorting on unit name.
-      sortOrder = new UnitNameComparator();
+      sortOrderCurrent = new UnitNameComparator();
     }
 
-    Collections.sort(resultNoDuplicates, sortOrder);
+    Collections.sort(resultNoDuplicates, sortOrderCurrent);
     int resultCount = resultNoDuplicates.size();
     if (resultNoDuplicates.size() > maxResult && maxResult != 0) {
       resultNoDuplicates = new SikSearchResultList<Unit>(resultNoDuplicates.subList(0, maxResult));
@@ -483,22 +493,25 @@ public class UnitRepository {
    * @throws Exception
    */
   String makeFunctionSearchStringFromUnitSearchString(String unitSearchString) {
-    String functionSearchString = Formatter.replaceStringInString(unitSearchString, Constants.OBJECT_CLASS_UNIT_SPECIFIC, Constants.OBJECT_CLASS_FUNCTION_SPECIFIC);
-    functionSearchString = Formatter.replaceStringInString(functionSearchString, Constants.OBJECT_CLASS_UNIT_STANDARD, Constants.OBJECT_CLASS_FUNCTION_STANDARD);
-    functionSearchString = Formatter.replaceStringInString(functionSearchString, Constants.LDAP_PROPERTY_UNIT_NAME + "=", Constants.LDAP_PROPERTY_FUNCTION_NAME + "=");
+    String functionSearchString = Formatter.replaceStringInString(unitSearchString, Constants.OBJECT_CLASS_UNIT_SPECIFIC,
+        Constants.OBJECT_CLASS_FUNCTION_SPECIFIC);
+    functionSearchString = Formatter
+        .replaceStringInString(functionSearchString, Constants.OBJECT_CLASS_UNIT_STANDARD, Constants.OBJECT_CLASS_FUNCTION_STANDARD);
+    functionSearchString = Formatter.replaceStringInString(functionSearchString, Constants.LDAP_PROPERTY_UNIT_NAME + "=", Constants.LDAP_PROPERTY_FUNCTION_NAME
+        + "=");
     return functionSearchString;
   }
 
   /**
    * create search filter that search for both Units (and Functions).
    * 
-   * @param unit
+   * @param searchUnitCriterions
    * @return
    * @throws KivException
    */
-  String createSearchFilter(Unit unit) throws KivException {
+  String createSearchFilter(SearchUnitCriterions searchUnitCriterions) throws KivException {
     // create a plain unit search filter
-    String unitSearchString = createUnitSearchFilter(unit);
+    String unitSearchString = createUnitSearchFilter(searchUnitCriterions);
 
     // create a plain function search filter
     String functionSearchString = makeFunctionSearchStringFromUnitSearchString(unitSearchString);
@@ -541,13 +554,15 @@ public class UnitRepository {
   }
 
   /**
-   * Filter the units in a way that only units with a valid hsaBusinessClassificationCode or that should be matched by an unfiltered health care type is included.
+   * Filter the units in a way that only units with a valid hsaBusinessClassificationCode or that should be matched by an unfiltered health care type is
+   * included.
    * 
    * @param showUnitsWithTheseHsaBussinessClassificationCodes
    * @return
    * @throws KivException
    */
-  private String makeShowUnitsWithTheseHsaBussinessClassificationCodesString(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
+  private String makeShowUnitsWithTheseHsaBussinessClassificationCodesString(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes)
+      throws KivException {
     long startTimeMillis = System.currentTimeMillis();
     List<String> filterList = new ArrayList<String>();
 
@@ -580,36 +595,65 @@ public class UnitRepository {
     return orCriterias;
   }
 
-  String createUnitSearchFilter(Unit unit) throws KivException {
+  String createUnitSearchFilter(SearchUnitCriterions searchUnitCriterions) throws KivException {
     List<String> filterList = new ArrayList<String>();
 
-    String searchFilter = "&(objectclass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")";
+    AndFilter andFilter = new AndFilter();
+    andFilter.and(new EqualsFilter("objectclass", Constants.OBJECT_CLASS_UNIT_SPECIFIC));
+    AndFilter andFilter2 = new AndFilter();
 
-    // or criterias
-    addSearchFilter(filterList, "hsaMunicipalityName", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
-
-    // a bit special...
-    addAddressSearchFilter(filterList, "hsaPostalAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
-
-    addAddressSearchFilter(filterList, "hsaStreetAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
-    // (|(par1=value1)(par2=value2))
-    String orCriterias = makeOr(filterList);
-
-    filterList = new ArrayList<String>();
-    addSearchFilter(filterList, Constants.LDAP_PROPERTY_UNIT_NAME, unit.getName());
-    if (!StringUtil.isEmpty(orCriterias)) {
-      filterList.add(orCriterias);
+    // Create or hsaIdentity
+    if (!StringUtil.isEmpty(searchUnitCriterions.getUnitId())) {
+      OrFilter orHsaIdentity = new OrFilter();
+      orHsaIdentity.or(createSearchFilter("hsaIdentity", searchUnitCriterions.getUnitId()));
+      andFilter2.and(orHsaIdentity);
     }
-
-    addSearchFilter(filterList, "hsaIdentity", unit.getHsaIdentity());
-
-    // (&(par3=value3)(par4=value4))
-    String andCriterias = makeAnd(filterList);
-    if (StringUtil.isEmpty(andCriterias)) {
-      return searchFilter;
+    if (!StringUtil.isEmpty(searchUnitCriterions.getUnitName())) {
+      OrFilter orUnitName = new OrFilter();
+      orUnitName.or(createSearchFilter(Constants.LDAP_PROPERTY_UNIT_NAME, searchUnitCriterions.getUnitName()));
+      andFilter2.and(orUnitName);
     }
-    searchFilter = "(" + searchFilter + andCriterias + ")";
-    return searchFilter;
+    if (!StringUtil.isEmpty(searchUnitCriterions.getAdministrationName())) {
+      Filter orFilter = generateOrFilterFromList(CodeTableName.VGR_AO3_CODE, LDAPUnitAttributes.ADMINISTRATION, searchUnitCriterions.getAdministrationName());
+      andFilter2.and(orFilter);
+    }
+    if (!StringUtil.isEmpty(searchUnitCriterions.getLiableCode())) {
+      andFilter2.and(createSearchFilter("vgrAnsvarsnummer", searchUnitCriterions.getLiableCode()));
+    }
+    if (!StringUtil.isEmpty(searchUnitCriterions.getBusinessClassificationName())) {
+      Filter orFilter = generateOrFilterFromList(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, LDAPUnitAttributes.BUSINESS_CLASSIFICATION_CODE,
+          searchUnitCriterions.getBusinessClassificationName());
+      andFilter2.and(orFilter);
+    }
+    if (!StringUtil.isEmpty(searchUnitCriterions.getCareTypeName())) {
+      Filter orFilter = generateOrFilterFromList(CodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, searchUnitCriterions.getCareTypeName());
+      andFilter2.and(orFilter);
+    }
+    // create or criteria
+    if (!StringUtil.isEmpty(searchUnitCriterions.getLocation())) {
+      OrFilter orMunicipalityAndAddresses = new OrFilter();
+      OrFilter orMunicipalityName = new OrFilter();
+      orMunicipalityName.or(createSearchFilter("hsaMunicipalityName", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation())));
+      // Create or criteria a bit special...
+      OrFilter orPostalAddress = (OrFilter) addAddressSearchFilter(filterList, "hsaPostalAddress", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions
+          .getLocation()));
+      // Create or criteria
+      OrFilter orStreetAddress = (OrFilter) addAddressSearchFilter(filterList, "hsaStreetAddress", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions
+          .getLocation()));
+      orMunicipalityAndAddresses.or(orMunicipalityName).or(orPostalAddress).or(orStreetAddress);
+      andFilter2.and(orMunicipalityAndAddresses);
+    }
+    andFilter.and(andFilter2);
+    return andFilter.encode();
+  }
+
+  private Filter generateOrFilterFromList(CodeTableName codeTableName, LDAPUnitAttributes criterion, String criterionValue) {
+    List<String> codeFromTextValues = codeTablesService.getCodeFromTextValue(codeTableName, criterionValue);
+    OrFilter orFilter = new OrFilter();
+    for (String value : codeFromTextValues) {
+      orFilter.or(new LikeFilter(criterion.toString(), value));
+    }
+    return orFilter;
   }
 
   String createAdvancedUnitSearchFilter(Unit unit) throws KivException {
@@ -666,90 +710,92 @@ public class UnitRepository {
    * e.g. searchField=givenName searchValue="hans-erik" result=(givenName=hans-erik)
    */
   private void addSearchFilter(List<String> filterList, String searchField, String searchValue) {
-    if (!StringUtil.isEmpty(searchValue)) {
-      searchValue = searchValue.trim();
-      if (isExactMatchFilter(searchValue)) {
+    String searchValueCurrent = searchValue;
+    if (!StringUtil.isEmpty(searchValueCurrent)) {
+      searchValueCurrent = searchValueCurrent.trim();
+      if (isExactMatchFilter(searchValueCurrent)) {
         // remove "
-        searchValue = Formatter.replaceStringInString(searchValue, LDAP_EXACT_CARD, "");
+        searchValueCurrent = Formatter.replaceStringInString(searchValueCurrent, LDAP_EXACT_CARD, "");
         // exact match
-        filterList.add("(" + searchField + "=" + searchValue.trim() + ")");
+        filterList.add("(" + searchField + "=" + searchValueCurrent.trim() + ")");
       } else {
         // change spaces to wildcards
-        searchValue = Formatter.replaceStringInString(searchValue, " ", LDAP_WILD_CARD);
-        searchValue = Formatter.replaceStringInString(searchValue, "-", LDAP_WILD_CARD);
-        filterList.add("(" + searchField + "=" + LDAP_WILD_CARD + searchValue + LDAP_WILD_CARD + ")");
+        searchValueCurrent = Formatter.replaceStringInString(searchValueCurrent, " ", LDAP_WILD_CARD);
+        searchValueCurrent = Formatter.replaceStringInString(searchValueCurrent, "-", LDAP_WILD_CARD);
+        filterList.add("(" + searchField + "=" + LDAP_WILD_CARD + searchValueCurrent + LDAP_WILD_CARD + ")");
       }
     }
   }
 
   /**
-   * e.g. searchField=hsaPostalAddress searchValue="uddevalla" result= (|(hsaPostalAddress =*uddevalla*$*$*$*$*$*)(hsaPostalAddress=*$*uddevalla*$*$*$*$*) (hsaPostalAddress
-   * =*$*$*uddevalla*$*$*$*)(hsaPostalAddress=*$*$*$*uddevalla*$*$*) (hsaPostalAddress =*$*$*$*$*uddevalla*$*)(hsaPostalAddress=*$*$*$*$*$*uddevalla*))
+   * e.g. searchField=givenName searchValue=hans result=(givenName=*hans*)
+   * 
+   * e.g. searchField=givenName searchValue=hans-erik result=(givenName=*hans*erik*)
+   * 
+   * e.g. searchField=givenName searchValue="hans-erik" result=(givenName=hans-erik)
    */
-  void addAddressSearchFilter(List<String> filterList, String searchField, String searchValue) {
-    if (!StringUtil.isEmpty(searchValue)) {
-      searchValue = searchValue.trim();
-      if (isExactMatchFilter(searchValue)) {
+  private Filter createSearchFilter(String searchField, String searchValue) {
+    String currentSearchValue = searchValue;
+    Filter filter = null;
+    if (!StringUtil.isEmpty(currentSearchValue)) {
+      currentSearchValue = currentSearchValue.trim();
+      if (isExactMatchFilter(currentSearchValue)) {
         // remove "
-        searchValue = Formatter.replaceStringInString(searchValue, LDAP_EXACT_CARD, "");
-        String temp = buildAddressSearch(searchField, searchValue);
-        // exact match
-        filterList.add(temp);
+        currentSearchValue = Formatter.replaceStringInString(currentSearchValue, LDAP_EXACT_CARD, "");
+        filter = new EqualsFilter(searchField, currentSearchValue.trim());
       } else {
         // change spaces to wildcards
-        searchValue = Formatter.replaceStringInString(searchValue, " ", LDAP_WILD_CARD);
-        searchValue = Formatter.replaceStringInString(searchValue, "-", LDAP_WILD_CARD);
-        searchValue = LDAP_WILD_CARD + searchValue + LDAP_WILD_CARD;
-        String temp = buildAddressSearch(searchField, searchValue);
-        // wildcard match
-        filterList.add(temp);
+        currentSearchValue = Formatter.replaceStringInString(currentSearchValue, " ", LDAP_WILD_CARD);
+        currentSearchValue = Formatter.replaceStringInString(currentSearchValue, "-", LDAP_WILD_CARD);
+        filter = new LikeFilter(searchField, LDAP_WILD_CARD + currentSearchValue + LDAP_WILD_CARD);
       }
     }
+    return filter;
   }
 
   /**
-   * e.g. searchField=hsaPostalAddress searchValue="*uddevalla*" result= (|(hsaPostalAddress =*uddevalla*$*$*$*$*$*)(hsaPostalAddress=*$*uddevalla*$*$*$*$*) (hsaPostalAddress
-   * =*$*$*uddevalla*$*$*$*)(hsaPostalAddress=*$*$*$*uddevalla*$*$*) (hsaPostalAddress =*$*$*$*$*uddevalla*$*)(hsaPostalAddress=*$*$*$*$*$*uddevalla*))
-   **/
-  String buildAddressSearch(String searchField, String searchValue) {
-    StringBuffer buf = new StringBuffer();
-    buf.append("(|(");
-    buf.append(searchField);
-    buf.append("=");
-    buf.append(searchValue);
-    buf.append("$*$*$*$*$*)");
+   * e.g. searchField=hsaPostalAddress searchValue="uddevalla" result= (|(hsaPostalAddress =*uddevalla*$*$*$*$*$*)(hsaPostalAddress=*$*uddevalla*$*$*$*$*)
+   * (hsaPostalAddress =*$*$*uddevalla*$*$*$*)(hsaPostalAddress=*$*$*$*uddevalla*$*$*) (hsaPostalAddress
+   * =*$*$*$*$*uddevalla*$*)(hsaPostalAddress=*$*$*$*$*$*uddevalla*))
+   */
+  Filter addAddressSearchFilter(List<String> filterList, String searchField, String searchValue) {
+    String searchValueCurrent = searchValue;
+    Filter temp = null;
+    if (!StringUtil.isEmpty(searchValueCurrent)) {
+      searchValueCurrent = searchValueCurrent.trim();
+      if (isExactMatchFilter(searchValueCurrent)) {
+        // remove "
+        searchValueCurrent = Formatter.replaceStringInString(searchValueCurrent, LDAP_EXACT_CARD, "");
+        temp = buildAddressSearch(searchField, searchValueCurrent);
+        // exact match
+        filterList.add(temp.encode());
+      } else {
+        // change spaces to wildcards
+        searchValueCurrent = Formatter.replaceStringInString(searchValueCurrent, " ", LDAP_WILD_CARD);
+        searchValueCurrent = Formatter.replaceStringInString(searchValueCurrent, "-", LDAP_WILD_CARD);
+        searchValueCurrent = LDAP_WILD_CARD + searchValueCurrent + LDAP_WILD_CARD;
+        temp = buildAddressSearch(searchField, searchValueCurrent);
+        // wildcard match
+        filterList.add(temp.encode());
+      }
+    }
+    return temp;
+  }
 
-    buf.append("(");
-    buf.append(searchField);
-    buf.append("=*$");
-    buf.append(searchValue);
-    buf.append("$*$*$*$*)");
+  Filter buildAddressSearch(String searchField, String searchValue) {
+    // StringBuffer buf = new StringBuffer();
+    OrFilter orFilter = new OrFilter();
+    for (int i = 0; i < 12; i += 2) {
+      StringBuffer buf2 = new StringBuffer("*$*$*$*$*$*");
+      buf2.replace(i, i + 1, searchValue);
+      if (isExactMatchFilter(searchValue)) {
+        orFilter.or(new EqualsFilter(searchField, buf2.toString()));
+      } else {
+        orFilter.or(new LikeFilter(searchField, buf2.toString()));
+      }
+    }
 
-    buf.append("(");
-    buf.append(searchField);
-    buf.append("=*$*$");
-    buf.append(searchValue);
-    buf.append("$*$*$*)");
-
-    buf.append("(");
-    buf.append(searchField);
-    buf.append("=*$*$*$");
-    buf.append(searchValue);
-    buf.append("$*$*)");
-
-    buf.append("(");
-    buf.append(searchField);
-    buf.append("=*$*$*$*$");
-    buf.append(searchValue);
-    buf.append("$*)");
-
-    buf.append("(");
-    buf.append(searchField);
-    buf.append("=*$*$*$*$*$");
-    buf.append(searchValue);
-    buf.append("))");
-
-    return buf.toString();
+    return orFilter;
   }
 
   private boolean isExactMatchFilter(String searchValue) {
@@ -825,7 +871,7 @@ public class UnitRepository {
    * @param parentUnit - unit to get subunits for
    * @param maxResult - maximum of unit to be return in the result
    * @return A list of subunits for current unit.
-   * @throws KivException
+   * @throws KivException If something goes wrong doing search.
    */
   public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxResult) throws KivException {
     SikSearchResultList<Unit> subUnits = null;
@@ -834,7 +880,8 @@ public class UnitRepository {
     try {
       LDAPConnection ldapConnection = getLDAPConnection();
       try {
-        subUnits = extractResult(ldapConnection.search(parentDn.toString(), LDAPConnection.SCOPE_SUB, "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")", null, false), maxResult, null);
+        subUnits = extractResult(ldapConnection.search(parentDn.toString(), LDAPConnection.SCOPE_SUB, "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC
+            + ")", null, false), maxResult, null);
         removeUnitParentFromList(parentUnit, subUnits);
       } finally {
         theConnectionPool.freeConnection(ldapConnection);

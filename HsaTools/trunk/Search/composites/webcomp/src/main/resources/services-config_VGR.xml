@@ -31,5 +31,9 @@
 		
 	<bean id="smsRedirectService"  
 		class="se.vgregion.kivtools.search.sms.SmsRedirectServiceStub" />
+    
+    <bean id="suggestionBean" class="se.vgregion.kivtools.search.presentation.kiv.SuggestionBean">
+      <property name="codeTablesService" ref="Search_CodeTablesService" />
+    </bean>
 </beans>
 

@@ -58,10 +58,10 @@ public class SearchUnitFlowSupportBeanTest {
       // Expected exception
     }
 
-    form.setSearchParamValue("ABC");
+    form.setLocation("ABC");
     form.setUnitName("DEF");
     bean.cleanSearchSimpleForm(form);
-    assertEquals("", form.getSearchParamValue());
+    assertEquals("", form.getLocation());
     assertEquals("", form.getUnitName());
   }
 

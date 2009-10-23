@@ -1,4 +1,4 @@
-package se.vgregion.kivtools.search.presentation;
+package se.vgregion.kivtools.search.presentation.kiv;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -25,7 +25,6 @@ public class SuggestionBean {
 
   private CodeTablesService codeTablesService;
 
-  @Autowired
   public void setCodeTablesService(CodeTablesService codeTablesService) {
     this.codeTablesService = codeTablesService;
   }

@@ -68,7 +68,11 @@ public class UnitFactory {
   public void setDisplayValueTranslator(DisplayValueTranslator displayValueTranslator) {
     this.displayValueTranslator = displayValueTranslator;
   }
-
+/**
+ * 
+ * @param unitEntry LDAPEntry to reconstitute.
+ * @return A unit object.
+ */
   public Unit reconstitute(LDAPEntry unitEntry) {
     Unit unit = new Unit();
     if (unitEntry == null) {

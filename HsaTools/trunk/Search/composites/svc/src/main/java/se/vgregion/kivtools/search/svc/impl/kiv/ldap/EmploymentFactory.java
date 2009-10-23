@@ -37,7 +37,12 @@ import com.novell.ldap.LDAPEntry;
  * 
  */
 public class EmploymentFactory {
-
+/**
+ * 
+ * @param employmentEntry LDAPEntry to reconstituted.
+ * @param codeTablesService To be used in the reconstitution.
+ * @return Employment object
+ */
   public static Employment reconstitute(LDAPEntry employmentEntry, CodeTablesService codeTablesService) {
     Employment employment = new Employment();
 

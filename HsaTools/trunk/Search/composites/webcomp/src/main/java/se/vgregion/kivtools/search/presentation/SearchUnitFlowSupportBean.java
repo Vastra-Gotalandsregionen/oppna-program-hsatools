@@ -25,8 +25,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.search.domain.Unit;
-import se.vgregion.kivtools.search.domain.values.Address;
-import se.vgregion.kivtools.search.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
@@ -35,6 +33,7 @@ import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.TimeMeasurement;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 import se.vgregion.kivtools.search.util.LogUtils;
 import se.vgregion.kivtools.search.util.PagedSearchMetaDataHelper;
 import se.vgregion.kivtools.search.util.geo.GeoUtil;
@@ -97,7 +96,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
    */
   public void cleanSearchSimpleForm(UnitSearchSimpleForm theForm) {
     LOGGER.debug(CLASS_NAME + ".cleanSearchSimpleForm()");
-    theForm.setSearchParamValue("");
+    theForm.setLocation("");
     theForm.setUnitName("");
   }
 
@@ -118,7 +117,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
       // start measurement
       overAllTime.start();
       if (!theForm.isEmpty()) {
-        Unit u = mapSearchCriteriaToUnit(theForm);
+        SearchUnitCriterions u = mapSearchCriterias(theForm);
         list = getSearchService().searchUnits(u, maxSearchResult);
       }
       // stop measurement
@@ -271,29 +270,15 @@ public class SearchUnitFlowSupportBean implements Serializable {
     return subUnits;
   }
 
-  private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm) {
-    final String methodName = CLASS_NAME + ".mapSearchCriteriaToUnit(...)";
-    LOGGER.debug(methodName);
-    Unit unit = new Unit();
+  private SearchUnitCriterions mapSearchCriterias(UnitSearchSimpleForm theForm) {
+    SearchUnitCriterions searchUnitCriterions = new SearchUnitCriterions();
 
-    // unit name
-    unit.setName(theForm.getUnitName());
-
-    // hsaStreetAddress
-    List<String> list = new ArrayList<String>();
-    list.add(theForm.getSearchParamValue());
-    unit.setHsaStreetAddress(AddressHelper.convertToAddress(list));
-
-    // hsaPostalAddress
-    list = new ArrayList<String>();
-    list.add(theForm.getSearchParamValue());
-    Address adress = new Address();
-    // we stuff in the text in the additionalInfo
-    adress.setAdditionalInfo(list);
-    unit.setHsaPostalAddress(adress);
-
-    // hsaMunicipalityName
-    unit.setHsaMunicipalityName(theForm.getSearchParamValue());
-    return unit;
+    searchUnitCriterions.setUnitName(theForm.getUnitName());
+    searchUnitCriterions.setLocation(theForm.getLocation());
+    searchUnitCriterions.setAdministrationName(theForm.getAdministrationName());
+    searchUnitCriterions.setLiableCode(theForm.getLiableCode());
+    searchUnitCriterions.setBusinessClassificationName(theForm.getBusinessClassificationName());
+    searchUnitCriterions.setCareTypeName(theForm.getCareTypeName());
+    return searchUnitCriterions;
   }
 }

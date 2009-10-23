@@ -27,11 +27,11 @@ import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.DN;
-import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
+import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 
 /**
  * @author Anders Asplund - Know It
@@ -39,11 +39,9 @@ import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
  */
 @SuppressWarnings("unchecked")
 public class SearchServiceLdapImpl implements SearchService {
-
   private PersonRepository personRepository;
   private UnitRepository unitRepository;
   private EmploymentRepository employmentRepository;
-  private HealthcareTypeConditionHelper healthcareTypeConditionHelper;
 
   public void setPersonRepository(PersonRepository personRepository) {
     this.personRepository = personRepository;
@@ -57,63 +55,64 @@ public class SearchServiceLdapImpl implements SearchService {
     this.employmentRepository = employmentRepository;
   }
 
+  @Override
   public List<String> getAllPersonsId() throws KivException {
     return this.personRepository.getAllPersonsVgrId();
   }
 
+  @Override
   public List<String> getAllUnitsHsaIdentity() throws KivException {
     return this.unitRepository.getAllUnitsHsaIdentity();
   }
 
+  @Override
   public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return this.unitRepository.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBussinessClassificationCodes);
   }
 
+  @Override
   public SikSearchResultList<Employment> getEmployments(String personDn) throws KivException {
     return employmentRepository.getEmployments(DN.createDNFromString(personDn));
   }
 
+  @Override
   public Person getPersonById(String vgrId) throws KivException {
     Person person = personRepository.getPersonByVgrId(vgrId);
     return person;
   }
 
+  @Override
   public Unit getUnitByHsaId(String hsaId) throws KivException {
     return unitRepository.getUnitByHsaId(hsaId);
   }
 
-  /**
-   * 
-   * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list of Persons
-   * @return
-   * @throws KivException
-   */
+  @Override
   public SikSearchResultList<Person> searchPersons(String vgrId, int maxSearchResult) throws KivException {
     return personRepository.searchPersons(vgrId, maxSearchResult);
   }
 
-  public SikSearchResultList<Unit> searchUnits(Unit unit, int maxSearchResult) throws KivException {
-    return unitRepository.searchUnits(unit, maxSearchResult);
+  @Override
+  public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions unit, int maxSearchResult) throws KivException {
+     return unitRepository.searchUnits(unit, maxSearchResult);
   }
 
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
+  @Override
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder,
+      List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return unitRepository.searchAdvancedUnits(unit, maxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
   }
 
+  @Override
   public Unit getUnitByDN(String dn) throws KivException {
     return unitRepository.getUnitByDN(DN.createDNFromString(dn));
   }
 
-  public void setHealthcareTypeConditionHelper(HealthcareTypeConditionHelper healthcareTypeConditionHelper) {
-    this.healthcareTypeConditionHelper = healthcareTypeConditionHelper;
-  }
-
   /**
-   * Filters the query, prevents ldap injection.
+   * Escapes the filter string, prevents ldap injection.
    * 
-   * @param filter
+   * @param filter The filter string to escape.
    * @see http://www.owasp.org/index.php/Preventing_LDAP_Injection_in_Java
-   * @return escaped ldap search filter
+   * @return escaped ldap search filter.
    */
   public static final String escapeLDAPSearchFilter(String filter) {
     if (filter == null) {
@@ -145,6 +144,7 @@ public class SearchServiceLdapImpl implements SearchService {
     return sb.toString();
   }
 
+  @Override
   public List<Employment> getEmploymentsForPerson(Person person) throws KivException {
     SikSearchResultList<Person> personWithEmployments = personRepository.searchPersons(person.getVgrId(), 0);
     List<Employment> employments = new ArrayList<Employment>();
@@ -154,6 +154,7 @@ public class SearchServiceLdapImpl implements SearchService {
     return employments;
   }
 
+  @Override
   public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws KivException {
     Unit u = null;
     if (units.size() > 0) {
@@ -162,12 +163,14 @@ public class SearchServiceLdapImpl implements SearchService {
     return personRepository.getAllPersonsInUnit(u.getHsaIdentity(), maxResult);
   }
 
+  @Override
   public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws KivException {
     List persons = personRepository.searchPersonsByDn(dn, maxSearchResult);
     SikSearchResultList<Person> personsSearchList = new SikSearchResultList<Person>(persons);
     return personsSearchList;
   }
 
+  @Override
   public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws KivException {
     throw new NotImplementedException("Not used by LTH.");
   }

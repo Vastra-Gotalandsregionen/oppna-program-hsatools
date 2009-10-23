@@ -144,11 +144,12 @@ public class PersonRepositoryTest {
     }
 
     @Override
-    public void init() {
+    public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
+      return null;
     }
 
     @Override
-    public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
+    public List<String> getAllValuesItemsFromCodeTable(String codeTableName) {
       return null;
     }
   }

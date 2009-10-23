@@ -12,11 +12,6 @@ import se.vgregion.kivtools.search.domain.values.CodeTableName;
 public interface CodeTablesService {
 
   /**
-   * Initializes the code table service.
-   */
-  void init();
-
-  /**
    * Retrieves the description for the provided code in the table identified by the provided code table name.
    * 
    * @param codeTableName The name of the code table to use for the lookup.
@@ -42,4 +37,13 @@ public interface CodeTablesService {
    * @return A list of descriptions for the entries where the description matched the provided value.
    */
   List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue);
+
+  /**
+   * This method will return all item values for a chosen code table.
+   * 
+   * @param codeTableName Name of the code table to get value items from.
+   * @return A list of all value items for chosen code table.
+   * @throws IllegalArgumentException If an invalid code table name is used.
+   */
+  List<String> getAllValuesItemsFromCodeTable(String codeTableName);
 }

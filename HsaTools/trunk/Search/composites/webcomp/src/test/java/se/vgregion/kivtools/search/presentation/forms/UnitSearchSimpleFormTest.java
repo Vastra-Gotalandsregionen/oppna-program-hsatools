@@ -18,20 +18,20 @@ public class UnitSearchSimpleFormTest {
   @Test
   public void testIsEmpty() {
     form.setUnitName(null);
-    form.setSearchParamValue(null);
+    form.setLocation(null);
 
     assertTrue(form.isEmpty());
     form.setUnitName(TEST);
     assertFalse(form.isEmpty());
-    form.setSearchParamValue(TEST);
+    form.setLocation(TEST);
     assertFalse(form.isEmpty());
 
     form.setUnitName(SPACE);
-    form.setSearchParamValue(SPACE);
+    form.setLocation(SPACE);
     assertTrue(form.isEmpty());
     form.setUnitName(TEST);
     assertFalse(form.isEmpty());
-    form.setSearchParamValue(TEST);
+    form.setLocation(TEST);
     assertFalse(form.isEmpty());
     form.setUnitName(SPACE);
     assertFalse(form.isEmpty());
