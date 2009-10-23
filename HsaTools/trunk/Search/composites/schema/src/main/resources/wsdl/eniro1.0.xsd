@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2007 (http://www.altova.com) by Mattias Ericsson (Eniro Sweden AB) -->
-<!-- Version: 0.8 -->
+<!-- Version: 1.0 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified">
 	<xs:element name="Organization">
 		<xs:annotation>
@@ -128,7 +128,7 @@
 					<xs:documentation>Description of visiting rules.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Route" minOccurs="0">
+			<xs:element name="Route" type="xs:string" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The description of the route to this location</xs:documentation>
 				</xs:annotation>
@@ -238,7 +238,7 @@
 					<xs:documentation>Defines the id of the parent unit if exist. Used only in incremental updates where a list of units are provided.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="WorkplaceCode" minOccurs="0">
+			<xs:element name="WorkplaceCode" type="xs:string" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Defines the workplace id if it exists. This corresponds to the CFAR number from SCB in Sweden.</xs:documentation>
 				</xs:annotation>
@@ -275,7 +275,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
-				<xs:element name="Text" minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Text" type="xs:string" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Free text (not business description) to describe parts of the unit.</xs:documentation>
 					</xs:annotation>
