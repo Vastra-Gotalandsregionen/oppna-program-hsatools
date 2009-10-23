@@ -5,47 +5,41 @@
 	-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<!--<groupId> groupId IS DEFINED BY PARENT </groupId>-->
-	<artifactId>HsaTools-Search-module-web</artifactId>
-	<packaging>war</packaging>
-	<name>HsaTools-Search-module-web</name>
-	<!--<version> version IS DEFINED BY PARENT </version>-->
-
 	<parent>
 		<groupId>HsaTools</groupId>
 		<artifactId>HsaTools-Search</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>HsaTools-Search-module-web</artifactId>
+	<packaging>war</packaging>
+	<name>HsaTools-Search-module-web</name>
+
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>HsaTools-Search-composite-webcomp</artifactId>
-			<!-- version IS DEFINED BY PARENT -->
-			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>se.vgr.javg</groupId>
 			<artifactId>javg-rt-support</artifactId>
-			<version>${javg.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
-			<version>1.1.2</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.webflow</groupId>
 			<artifactId>spring-webflow</artifactId>
-			<version>2.0.8.RELEASE</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.webflow</groupId>
 			<artifactId>spring-faces</artifactId>
-			<version>2.0.8.RELEASE</version>
 		</dependency>
 		<!--
 			We use a Servlet Filter from spring-web to control UTF-8 encodings.
@@ -54,72 +48,31 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>${spring.fw.version}</version>
 		</dependency>
 		
 	    <dependency>
 	    	<groupId>org.jboss.el</groupId>
 	    	<artifactId>jboss-el</artifactId>
-	    	<version>2.0.2.CR1</version>
-	    	<exclusions>
-	    		<exclusion>
-	    			<groupId>javax.el</groupId>
-	    			<artifactId>el-api</artifactId>
-	    		</exclusion>
-	    	</exclusions>
 	    </dependency>
 		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-			<scope>provided</scope>
 		</dependency>
-		
-<!--		<dependency>-->
-<!--			<groupId>org.apache.myfaces.core</groupId>-->
-<!--			<artifactId>myfaces-api</artifactId>-->
-<!--			<version>1.2.7</version>-->
-<!--			<scope>compile</scope>-->
-<!--		</dependency>-->
-<!---->
-<!--		<dependency>-->
-<!--			<groupId>org.apache.myfaces.core</groupId>-->
-<!--			<artifactId>myfaces-impl</artifactId>-->
-<!--			<version>1.2.7</version>-->
-<!--			<scope>compile</scope>-->
-<!--		</dependency>-->
 		
 		<dependency>
 			<groupId>javax.faces</groupId>
 			<artifactId>jsf-api</artifactId>
-			<version>1.2_13</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>javax.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
-			<version>1.2_13</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.sun.facelets</groupId>
 			<artifactId>jsf-facelets</artifactId>
-			<version>1.1.15.B1</version>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
-	<repositories>
-	  	<repository>
-	  		<id>java.net.1</id>
-	  		<name>Java.net Repository Maven 1 Legacy</name>
-	  		<url>http://download.java.net/maven/1</url>
-	  		<layout>legacy</layout>
-	  	</repository>
-		<repository>
-			<id>JBOSS</id>
-			<name>JBoss Repository</name>
-			<url>http://repository.jboss.org/maven2/</url>
-		</repository>
-	</repositories>
 </project>
