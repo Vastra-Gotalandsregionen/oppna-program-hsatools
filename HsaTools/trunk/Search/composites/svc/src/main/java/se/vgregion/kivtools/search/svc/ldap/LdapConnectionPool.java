@@ -159,8 +159,7 @@ public class LdapConnectionPool {
   }
 
   /**
-   * Checks out a connection from the pool. If no free connection is available, a new connection is created unless the max number of connections has been reached. If a free connection has been closed
-   * by the database, it's removed from the pool and this method is called again recursively.
+   * Checks out a connection from the pool.
    * 
    * @return An LDAPConnection from the pool.
    * @throws NoConnectionToServerException if it wasn't possible to connect to the server.
@@ -168,6 +167,25 @@ public class LdapConnectionPool {
    * @throws SikInternalException if any of the init-parameters are not set.
    */
   public synchronized LDAPConnection getConnection() throws LDAPException, NoConnectionToServerException, SikInternalException {
+    LDAPConnection con = internalGetConnection();
+    if (con != null) {
+      checkedOut++;
+    }
+    logger.debug("get connection, free=" + freeConnections.size() + ", checkedOut=" + checkedOut);
+    return con;
+  }
+
+  /**
+   * Internal method that performs the actual checkout of connections from the pool and verifying that the connection is alive before returning it to the client. If no free connection is available, a
+   * new connection is created unless the max number of connections has been reached. If a free connection has been closed by the database, it's removed from the pool and this method is called again
+   * recursively.
+   * 
+   * @return An LDAPConnection from the pool.
+   * @throws NoConnectionToServerException if it wasn't possible to connect to the server.
+   * @throws LDAPException if there is a problem connecting to the LDAP server.
+   * @throws SikInternalException if any of the init-parameters are not set.
+   */
+  private LDAPConnection internalGetConnection() throws LDAPException, NoConnectionToServerException, SikInternalException {
     LDAPConnection con = null;
     if (freeConnections.size() > 0 && freeConnections.get(0) != null) {
       // Pick the first LDAPConnection in the Vector
@@ -177,15 +195,11 @@ public class LdapConnectionPool {
         con.disconnect();
         logger.info("Removed bad connection from Pool");
         // Try again recursively
-        con = getConnection();
+        con = internalGetConnection();
       }
     } else if (maxConn == 0 || checkedOut < maxConn) {
       con = newConnection();
     }
-    if (con != null) {
-      checkedOut++;
-    }
-    logger.debug("get connection, free=" + freeConnections.size() + ", checkedOut=" + checkedOut);
     return con;
   }
 
@@ -205,7 +219,7 @@ public class LdapConnectionPool {
 
     long startTime = new Date().getTime();
     LDAPConnection con;
-    while ((con = getConnection()) == null) {
+    while ((con = internalGetConnection()) == null) {
       try {
         wait(timeout);
       } catch (InterruptedException e) {
@@ -215,6 +229,9 @@ public class LdapConnectionPool {
         // Timeout has expired
         return null;
       }
+    }
+    if (con != null) {
+      checkedOut++;
     }
     logger.debug("getconnection(timeout), free=" + freeConnections.size() + ", checkedOut=" + checkedOut);
     return con;

@@ -42,7 +42,7 @@ public class LdapConnectionPoolTest {
   public static void setupClass() {
     logFactoryMock = LogFactoryMock.createInstance();
   }
-  
+
   @AfterClass
   public static void afterClass() {
     LogFactoryMock.resetInstance();
@@ -107,6 +107,17 @@ public class LdapConnectionPoolTest {
     } catch (NoConnectionToServerException e) {
       assertEquals("Can't create a new connection for ldapHost=localhost, ldapport=389\n", logFactoryMock.getError(true));
     }
+  }
+
+  @Test
+  public void testGetConnectionWithTimeout() throws Exception {
+    connectionPool = new LdapConnectionPoolMock();
+    connectionPool.setMaxConn("1");
+
+    LDAPConnection connection = connectionPool.getConnection(1000);
+    assertNotNull(connection);
+    LDAPConnection connection2 = connectionPool.getConnection(1000);
+    assertNull(connection2);
   }
 
   @Test
