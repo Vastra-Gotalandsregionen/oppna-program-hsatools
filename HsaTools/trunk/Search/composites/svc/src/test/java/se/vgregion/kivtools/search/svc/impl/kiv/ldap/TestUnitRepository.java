@@ -34,20 +34,17 @@ import org.springframework.ldap.filter.Filter;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
-import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
-import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPSearchResultsMock;
+import se.vgregion.kivtools.search.svc.impl.mock.LdapConnectionPoolMock;
 import se.vgregion.kivtools.search.svc.impl.mock.SearchCondition;
-import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 import se.vgregion.kivtools.search.util.DisplayValueTranslator;
 
 import com.novell.ldap.LDAPConnection;
-import com.novell.ldap.LDAPException;
 
 /**
  * @author hangy2 , Hans Gyllensten / KnowIT
@@ -82,8 +79,8 @@ public class TestUnitRepository {
 
   @Test
   public void testBuildAddressSearch() {
-    String correctResult = "(|(hsaPostalAddress=*uddevalla*$*$*$*$*$*)(hsaPostalAddress=*$*uddevalla*$*$*$*$*)(hsaPostalAddress=*$*$*uddevalla*$*$*$*)(hsaPostalAddress=*$*$*$*uddevalla*$*$*)"  
-    		        + "(hsaPostalAddress=*$*$*$*$*uddevalla*$*)(hsaPostalAddress=*$*$*$*$*$*uddevalla*))";
+    String correctResult = "(|(hsaPostalAddress=*uddevalla*$*$*$*$*$*)(hsaPostalAddress=*$*uddevalla*$*$*$*$*)(hsaPostalAddress=*$*$*uddevalla*$*$*$*)(hsaPostalAddress=*$*$*$*uddevalla*$*$*)"
+        + "(hsaPostalAddress=*$*$*$*$*uddevalla*$*)(hsaPostalAddress=*$*$*$*$*$*uddevalla*))";
     Filter temp = unitRepository.buildAddressSearch("hsaPostalAddress", "*uddevalla*");
     Assert.assertEquals(correctResult, temp.encode());
   }
@@ -242,20 +239,5 @@ public class TestUnitRepository {
     ldapConnectionMock.addLdapEntries(new SearchCondition(base, LDAPConnection.SCOPE_SUB, filter), subUnitLdapEntries);
 
     return ldapConnectionMock;
-
-  }
-
-  public static class LdapConnectionPoolMock extends LdapConnectionPool {
-
-    private LDAPConnectionMock connectionMock;
-
-    public LdapConnectionPoolMock(LDAPConnectionMock connectionMock) {
-      this.connectionMock = connectionMock;
-    }
-
-    @Override
-    public synchronized LDAPConnection getConnection() throws LDAPException, NoConnectionToServerException, SikInternalException {
-      return connectionMock;
-    }
   }
 }
