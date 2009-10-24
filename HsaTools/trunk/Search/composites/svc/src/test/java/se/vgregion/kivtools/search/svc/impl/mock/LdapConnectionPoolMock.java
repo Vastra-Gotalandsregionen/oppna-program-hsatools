@@ -19,4 +19,9 @@ public class LdapConnectionPoolMock extends LdapConnectionPool {
   public synchronized LDAPConnection getConnection() throws LDAPException, NoConnectionToServerException, SikInternalException {
     return connectionMock;
   }
+
+  @Override
+  public synchronized LDAPConnection getConnection(long timeout) throws LDAPException, NoConnectionToServerException, SikInternalException {
+    return connectionMock;
+  }
 }
