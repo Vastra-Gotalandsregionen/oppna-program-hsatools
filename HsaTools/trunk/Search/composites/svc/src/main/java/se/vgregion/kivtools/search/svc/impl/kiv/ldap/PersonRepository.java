@@ -132,7 +132,8 @@ public class PersonRepository {
               result.add(attribute.getStringValue());
             }
           } catch (LDAPException e) {
-            if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
+            if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT
+                || e.getResultCode() == LDAPException.CONNECT_ERROR) {
               break;
             } else {
               // take next Unit
@@ -307,38 +308,37 @@ public class PersonRepository {
    * e.g. searchField=givenName searchValue="hans-erik" result=(givenName=hans-erik)
    */
   private String createSearchFilterItem(String searchField, String searchValue) {
-    if (!StringUtil.isEmpty(searchValue)) {
-      searchValue = searchValue.trim();
-      if (isExactMatchFilter(searchValue)) {
+    String searchFilter = "";
+    String currentSearchValue = searchValue;
+    if (!StringUtil.isEmpty(currentSearchValue)) {
+      currentSearchValue = currentSearchValue.trim();
+      if (isExactMatchFilter(currentSearchValue)) {
         // remove "
-        searchValue = Formatter.replaceStringInString(searchValue, LDAP_EXACT_CARD, "");
+        currentSearchValue = Formatter.replaceStringInString(currentSearchValue, LDAP_EXACT_CARD, "");
         // exact match
         // filterList.add("(" + searchField + "=" + searchValue.trim() + ")");
         // exact match
-        return "(" + searchField + "=" + searchValue.trim() + ")";
+        searchFilter = "(" + searchField + "=" + currentSearchValue.trim() + ")";
       } else {
         // change spaces to wildcards
-        searchValue = Formatter.replaceStringInString(searchValue, " ", LDAP_WILD_CARD);
-        searchValue = Formatter.replaceStringInString(searchValue, "-", LDAP_WILD_CARD);
+        currentSearchValue = Formatter.replaceStringInString(currentSearchValue, " ", LDAP_WILD_CARD);
+        currentSearchValue = Formatter.replaceStringInString(currentSearchValue, "-", LDAP_WILD_CARD);
         // filterList.add("(" + searchField + "=" + LDAP_WILD_CARD + searchValue + LDAP_WILD_CARD + ")");
-        return "(" + searchField + "=" + LDAP_WILD_CARD + searchValue + LDAP_WILD_CARD + ")";
+        searchFilter = "(" + searchField + "=" + LDAP_WILD_CARD + currentSearchValue + LDAP_WILD_CARD + ")";
       }
     }
-    return "";
+    return searchFilter;
   }
 
   private boolean isExactMatchFilter(String searchValue) {
-    if (StringUtil.isEmpty(searchValue)) {
-      return false;
-    }
-    // it has to be at least one character between the " e.g. "a" for an exact match
-    if (searchValue.length() <= 2) {
-      return false;
-    }
-    if (searchValue.startsWith(LDAP_EXACT_CARD) && searchValue.endsWith(LDAP_EXACT_CARD)) {
-      return true;
-    }
-    return false;
+    boolean isExactMatch = false;
+      // it has to be at least one character between the " e.g. "a" for an exact match
+      if (searchValue.length() <= 2) {
+        isExactMatch = false;
+      }else if (searchValue.startsWith(LDAP_EXACT_CARD) && searchValue.endsWith(LDAP_EXACT_CARD)) {
+        isExactMatch = true;
+      }
+    return isExactMatch;
   }
 
   /**
@@ -435,7 +435,8 @@ public class PersonRepository {
       userFilter.and(new LikeFilter(LDAPPersonAttributes.E_MAIL.toString(), "*" + person.getEmail() + "*"));
     }
     if (!StringUtil.isEmpty(person.getLanguageKnowledge())) {
-      userFilter.and(generateOrFilterFromList(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, LDAPPersonAttributes.LANGUAGE_KNOWLEDGE_CODE, person.getLanguageKnowledge()));
+      userFilter.and(generateOrFilterFromList(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, LDAPPersonAttributes.LANGUAGE_KNOWLEDGE_CODE, person
+          .getLanguageKnowledge()));
     }
     if (!StringUtil.isEmpty(person.getAdministration())) {
       userFilter.and(generateOrFilterFromList(CodeTableName.VGR_AO3_CODE, LDAPPersonAttributes.ADMINISTRATION, person.getAdministration()));

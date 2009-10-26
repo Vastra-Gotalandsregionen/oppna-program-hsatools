@@ -114,6 +114,16 @@ public class PersonRepositoryTest {
         .assertFilter("(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(vgr-id=anama))");
     assertEquals(1, searchPersons.size());
   }
+  
+  @Test
+  public void testSearchPersonsWithvgrId() throws KivException {
+    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=vgrUser)(vgr-id=*1*))", new LDAPSearchResultsMock());
+    personRepository.searchPersons("", 1);
+    personRepository.searchPersons("1", 1);
+    ldapConnectionMock.assertFilter("(&(objectclass=vgrUser)(vgr-id=*1*))");
+    personRepository.searchPersons("\"1\"", 1);
+    ldapConnectionMock.assertFilter("(&(objectclass=vgrUser)(vgr-id=1))");
+  }
 
   private CodeTablesService getCodeTableServiceMock() {
     CodeTableServiceMock codeTableServiceMock = new CodeTableServiceMock();
