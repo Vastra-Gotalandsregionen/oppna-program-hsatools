@@ -1,6 +1,6 @@
 package se.vgregion.kivtools.search.svc.impl.mock;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -16,6 +16,7 @@ import com.novell.ldap.LDAPSearchResults;
 public class LDAPConnectionMock extends LDAPConnection {
 
   private String filter;
+  private String baseDn;
   private Map<SearchCondition, LinkedList<LDAPEntryMock>> availableSearchEntries = new HashMap<SearchCondition, LinkedList<LDAPEntryMock>>();
   private Map<String, LDAPSearchResults> searchResults = new HashMap<String, LDAPSearchResults>();
   private LDAPException ldapException;
@@ -30,6 +31,10 @@ public class LDAPConnectionMock extends LDAPConnection {
 
   public void assertFilter(String expectedFilter) {
     assertEquals(expectedFilter, filter);
+  }
+
+  public void assertBaseDn(String expectedBaseDn) {
+    assertEquals(expectedBaseDn, baseDn);
   }
 
   public Map<SearchCondition, LinkedList<LDAPEntryMock>> getAvailableSearchEntries() {
@@ -51,6 +56,7 @@ public class LDAPConnectionMock extends LDAPConnection {
       throw ldapException;
     }
     this.filter = filter;
+    this.baseDn = base;
     LDAPSearchResults ldapSearchResults = searchResults.get(filter);
     if (ldapSearchResults == null) {
       ldapSearchResults = new LDAPSearchResultsMock();

@@ -19,6 +19,7 @@ package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,7 @@ import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.comparators.PersonNameComparator;
+import se.vgregion.kivtools.search.svc.comparators.PersonNameWeightedComparator;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 import se.vgregion.kivtools.search.svc.ldap.LdapORMHelper;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
@@ -86,7 +88,7 @@ public class PersonRepository {
    */
   public List<Person> searchPersonsByDn(String dn, int maxResult) throws KivException {
     String searchFilter = "(objectClass=hkatPerson)";
-    return searchPersons(dn, searchFilter, LDAPConnection.SCOPE_SUB, maxResult);
+    return searchPersons(dn, searchFilter, LDAPConnection.SCOPE_SUB, maxResult, new PersonNameComparator());
   }
 
   /**
@@ -97,7 +99,7 @@ public class PersonRepository {
    * @throws KivException If something goes wrong.
    */
   public SikSearchResultList<Person> getAllPersonsInUnit(String hsaIdentity, int maxResult) throws KivException {
-    return searchPersons("(hsaIdentity=" + hsaIdentity + ")", LDAPConnection.SCOPE_SUB, maxResult);
+    return searchPersons("(hsaIdentity=" + hsaIdentity + ")", LDAPConnection.SCOPE_SUB, maxResult, new PersonNameComparator());
   }
 
   /**
@@ -109,7 +111,7 @@ public class PersonRepository {
    */
   public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws KivException {
     String searchFilter = createSearchPersonsFilterVgrId(vgrId);
-    return searchPersons(searchFilter, LDAPConnection.SCOPE_SUB, maxResult);
+    return searchPersons(searchFilter, LDAPConnection.SCOPE_SUB, maxResult, new PersonNameComparator());
   }
 
   /**
@@ -122,11 +124,12 @@ public class PersonRepository {
     String searchFilter = "(&(objectclass=hkatPerson)(regionName=" + vgrId + "))";
     return searchPerson(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter);
   }
-/**
- * 
- * @return List of all persons ids.
- * @throws KivException If something goes wrong.
- */
+
+  /**
+   * 
+   * @return List of all persons ids.
+   * @throws KivException If something goes wrong.
+   */
   public List<String> getAllPersonsVgrId() throws KivException {
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
@@ -148,8 +151,7 @@ public class PersonRepository {
               result.put(attribute.getStringValue(), attribute.getStringValue());
             }
           } catch (LDAPException e) {
-            if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT
-                || e.getResultCode() == LDAPException.CONNECT_ERROR) {
+            if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
               break;
             } else {
               // take next Unit
@@ -189,11 +191,11 @@ public class PersonRepository {
     return result;
   }
 
-  private SikSearchResultList<Person> searchPersons(String searchFilter, int searchScope, int maxResult) throws KivException {
-    return searchPersons(KIV_SEARCH_BASE, searchFilter, searchScope, maxResult);
+  private SikSearchResultList<Person> searchPersons(String searchFilter, int searchScope, int maxResult, Comparator<Person> sortOrder) throws KivException {
+    return searchPersons(KIV_SEARCH_BASE, searchFilter, searchScope, maxResult, sortOrder);
   }
 
-  private SikSearchResultList<Person> searchPersons(String baseDn, String searchFilter, int searchScope, int maxResult) throws KivException {
+  private SikSearchResultList<Person> searchPersons(String baseDn, String searchFilter, int searchScope, int maxResult, Comparator<Person> sortOrder) throws KivException {
     LDAPSearchConstraints constraints = new LDAPSearchConstraints();
     constraints.setMaxResults(0);
     SikSearchResultList<Person> result = new SikSearchResultList<Person>();
@@ -211,6 +213,19 @@ public class PersonRepository {
     } catch (LDAPException e) {
       throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
     }
+
+    // Sort results
+    Collections.sort(result, sortOrder);
+
+    // Cut result to correct size
+    int resultCount = result.size();
+    if (result.size() > maxResult && maxResult != 0) {
+      result = new SikSearchResultList<Person>(result.subList(0, maxResult));
+    }
+
+    // connect employment list to each person still in the list
+    connectEmploymentListToPerson(result);
+    result.setTotalNumberOfFoundItems(resultCount);
 
     return result;
   }
@@ -247,14 +262,6 @@ public class PersonRepository {
         }
       }
     }
-    Collections.sort(result, new PersonNameComparator());
-    int resultCount = result.size();
-    if (result.size() > maxResult && maxResult != 0) {
-      result = new SikSearchResultList<Person>(result.subList(0, maxResult));
-    }
-    // connect employment list to each person in the list
-    connectEmploymentListToPerson(result);
-    result.setTotalNumberOfFoundItems(resultCount);
     return result;
   }
 
@@ -322,8 +329,7 @@ public class PersonRepository {
 
     employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("title")));
     /*
-     * Deprecated 2009-04-21 if (!"".equals(personEntry.getAttribute("title")))
-     * employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("title")));
+     * Deprecated 2009-04-21 if (!"".equals(personEntry.getAttribute("title"))) employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("title")));
      */
 
     employment.setDescription(LdapORMHelper.getMultipleValues(personEntry.getAttribute("description")));
@@ -335,8 +341,7 @@ public class PersonRepository {
     employment.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaInternalPagerNumber"))));
     // employment.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("pagerTelephoneNumber"))));
     employment.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaTextPhoneNumber"))));
-    employment.setModifyTimestamp(TimePoint.parseFrom(LdapORMHelper.getSingleValue(personEntry.getAttribute("whenChanged")), ""/* TODO Add pattern */, TimeZone
-        .getDefault()));
+    employment.setModifyTimestamp(TimePoint.parseFrom(LdapORMHelper.getSingleValue(personEntry.getAttribute("whenChanged")), ""/* TODO Add pattern */, TimeZone.getDefault()));
     // employment.setModifyersName(LdapORMHelper.getSingleValue(personEntry.getAttribute("modifyersName")));
     employment.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaTelephoneTime"))));
     employment.setVgrStrukturPerson(DN.createDNFromString(LdapORMHelper.getSingleValue(personEntry.getAttribute("distinguishedName"))));
@@ -423,7 +428,7 @@ public class PersonRepository {
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
     AndFilter searchPersonFilter = generateFreeTextSearchPersonFilter(person);
 
-    return searchPersons(searchPersonFilter.encode(), LDAPConnection.SCOPE_SUB, maxResult);
+    return searchPersons(searchPersonFilter.encode(), LDAPConnection.SCOPE_SUB, maxResult, new PersonNameWeightedComparator(person.getGivenName(), person.getSurname()));
   }
 
   private AndFilter generateFreeTextSearchPersonFilter(SearchPersonCriterions person) {
