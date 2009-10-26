@@ -2,6 +2,8 @@ package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,5 +47,30 @@ public class PersonRepositoryTest {
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
     ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(regionName=*kalsve01*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
     assertEquals(1, searchPersons.size());
+  }
+
+  @Test
+  public void testSearchPersonsByDn() throws KivException {
+    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
+    LDAPEntryMock entry1 = new LDAPEntryMock();
+    entry1.addAttribute("givenName", "Kalle");
+    entry1.addAttribute("sn", "Kula");
+    entry1.addAttribute("cn", "cn=Kalle Kula");
+    LDAPEntryMock entry2 = new LDAPEntryMock();
+    entry2.addAttribute("givenName", "Anders");
+    entry2.addAttribute("sn", "Ask");
+    entry2.addAttribute("cn", "Anders Ask");
+
+    ldapSearchResultsMock.addLDAPEntry(entry1);
+    ldapSearchResultsMock.addLDAPEntry(entry2);
+
+    ldapConnectionMock.addLDAPSearchResults("(objectClass=hkatPerson)", ldapSearchResultsMock);
+
+    List<Person> searchPersons = personRepository.searchPersonsByDn("CN=Anders Ask,OU=Länssjukhuset i Halmstad,OU=Landstinget Halland,DC=lthallandhsa,DC=se", 10);
+    ldapConnectionMock.assertFilter("(objectClass=hkatPerson)");
+    ldapConnectionMock.assertBaseDn("CN=Anders Ask,OU=Länssjukhuset i Halmstad,OU=Landstinget Halland,DC=lthallandhsa,DC=se");
+    assertEquals(2, searchPersons.size());
+    assertEquals("Anders", searchPersons.get(0).getGivenName());
+    assertEquals("Kalle", searchPersons.get(1).getGivenName());
   }
 }
