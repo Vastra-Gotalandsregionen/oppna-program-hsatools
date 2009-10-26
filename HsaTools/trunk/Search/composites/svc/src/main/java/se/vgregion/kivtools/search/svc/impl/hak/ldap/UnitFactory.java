@@ -35,6 +35,7 @@ import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.search.util.geo.CoordinateTransformerService;
 import se.vgregion.kivtools.search.util.geo.GaussKrugerProjection;
 import se.vgregion.kivtools.search.util.geo.GeoUtil;
+import se.vgregion.kivtools.util.StringUtil;
 
 import com.domainlanguage.time.TimePoint;
 import com.novell.ldap.LDAPEntry;
@@ -72,12 +73,17 @@ public class UnitFactory {
 
     // OU
     unit.setOu(LdapORMHelper.getSingleValue(unitEntry.getAttribute("ou")));
-
-    // organizationalUnitName
-    // change \, to ,
-    String orgName = Formatter.replaceStringInString(unit.getOu(), "\\,", ",");
-    // special
-    unit.setName(orgName);
+    if (!StringUtil.isEmpty(unit.getOu())) {
+      // organizationalUnitName
+      // change \, to ,
+      String orgName = Formatter.replaceStringInString(unit.getOu(), "\\,", ",");
+      // special
+      unit.setName(orgName);
+    } else {
+      String cn = LdapORMHelper.getSingleValue(unitEntry.getAttribute("cn"));
+      cn = Formatter.replaceStringInString(cn, "\\,", ",");
+      unit.setName(cn);
+    }
 
     // organizationalUnitNameShort
     unit.setOrganizationalUnitNameShort(LdapORMHelper.getSingleValue(unitEntry.getAttribute("organizationalUnitNameShort")));
@@ -267,11 +273,11 @@ public class UnitFactory {
     HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
     htch.assignHealthcareTypes(unit);
 
-        // Show age interval?
-        unit.setShowAgeInterval(unit.getHsaVisitingRuleAgeIsValid());
-        // We always show visiting rules
-        unit.setShowVisitingRules(true);
-        
+    // Show age interval?
+    unit.setShowAgeInterval(unit.getHsaVisitingRuleAgeIsValid());
+    // We always show visiting rules
+    unit.setShowVisitingRules(true);
+
     return unit;
   }
 
