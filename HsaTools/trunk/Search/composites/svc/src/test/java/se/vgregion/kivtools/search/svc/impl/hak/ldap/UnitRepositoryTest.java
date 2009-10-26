@@ -1,8 +1,7 @@
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.EasyMock.*;
+import static org.easymock.classextension.EasyMock.*;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -10,20 +9,17 @@ import java.util.Comparator;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.novell.ldap.LDAPConnection;
-
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.impl.hak.ldap.UnitFactory;
-import se.vgregion.kivtools.search.svc.impl.hak.ldap.UnitRepository;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPSearchResultsMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LdapConnectionPoolMock;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 
+import com.novell.ldap.LDAPConnection;
 
 public class UnitRepositoryTest {
   private UnitRepository unitRepository;
@@ -68,12 +64,11 @@ public class UnitRepositoryTest {
     searchUnitCriterions.setUnitName("unitName");
     searchUnitCriterions.setLocation("municipalityName");
 
-
     // Create ldapConnectionMock.
-    
+
     unitRepository = new UnitRepository();
     LDAPConnectionMock ldapConnectionMock = new LDAPConnectionMock();
-    String expectedFilter = "(|(&(objectclass=organizationalUnit)(&(ou=*unitName*)(|(municipalityName=*municipalityName*)(|(postalAddress=*municipalityName*$*$*$*$*$*)(postalAddress=*$*municipalityName*$*$*$*$*)(postalAddress=*$*$*municipalityName*$*$*$*)(postalAddress=*$*$*$*municipalityName*$*$*)(postalAddress=*$*$*$*$*municipalityName*$*)(postalAddress=*$*$*$*$*$*municipalityName*))(|(streetAddress=*municipalityName*$*$*$*$*$*)(streetAddress=*$*municipalityName*$*$*$*$*)(streetAddress=*$*$*municipalityName*$*$*$*)(streetAddress=*$*$*$*municipalityName*$*$*)(streetAddress=*$*$*$*$*municipalityName*$*)(streetAddress=*$*$*$*$*$*municipalityName*)))))(&(objectclass=organizationalRole)(&(cn=*unitName*)(|(municipalityName=*municipalityName*)(|(postalAddress=*municipalityName*$*$*$*$*$*)(postalAddress=*$*municipalityName*$*$*$*$*)(postalAddress=*$*$*municipalityName*$*$*$*)(postalAddress=*$*$*$*municipalityName*$*$*)(postalAddress=*$*$*$*$*municipalityName*$*)(postalAddress=*$*$*$*$*$*municipalityName*))(|(streetAddress=*municipalityName*$*$*$*$*$*)(streetAddress=*$*municipalityName*$*$*$*$*)(streetAddress=*$*$*municipalityName*$*$*$*)(streetAddress=*$*$*$*municipalityName*$*$*)(streetAddress=*$*$*$*$*municipalityName*$*)(streetAddress=*$*$*$*$*$*municipalityName*))))))";
+    String expectedFilter = "(|(&(objectclass=organizationalUnit)(&(ou=*unitName*)(|(municipalityName=*municipalityName*)(postalAddress=*municipalityName*)(streetAddress=*municipalityName*))))(&(objectclass=organizationalRole)(&(cn=*unitName*)(|(municipalityName=*municipalityName*)(postalAddress=*municipalityName*)(streetAddress=*municipalityName*)))))";
     ldapConnectionMock.addLDAPSearchResults(expectedFilter, new LDAPSearchResultsMock());
 
     LdapConnectionPoolMock ldapConnectionPoolMock = new LdapConnectionPoolMock(ldapConnectionMock);
