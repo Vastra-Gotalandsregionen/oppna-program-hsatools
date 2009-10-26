@@ -38,7 +38,8 @@ public class PersonFactory {
   /**
    * Reconstitutes a person object from an LDAPEntry.
    * 
-   * @param personEntry
+   * @param personEntry LDAPEntry to reconstitute.
+   * @param codeTablesService CodeTableService to use in reconstitute.
    * @return Person
    */
   public static Person reconstitute(LDAPEntry personEntry, CodeTablesService codeTablesService) {

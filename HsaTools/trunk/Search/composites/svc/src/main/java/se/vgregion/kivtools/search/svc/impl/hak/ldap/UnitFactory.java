@@ -50,7 +50,7 @@ public class UnitFactory {
    * 
    * @param unitEntry The LDAPEntry to reconstitute the unit from.
    * @return A complete Unit based on the provided LDAPEntry.
-   * @throws KivException
+   * @throws KivException If something goes wrong.
    */
   public static Unit reconstitute(LDAPEntry unitEntry) throws KivException {
     Unit unit = new Unit();
