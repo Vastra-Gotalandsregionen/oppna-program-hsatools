@@ -464,27 +464,31 @@ public class UnitRepository {
   }
 
   private String makeShowUnitsWithTheseHsaBussinessClassificationCodesString(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
-    List<String> filterList = new ArrayList<String>();
+    String filter = "";
+    if (showUnitsWithTheseHsaBussinessClassificationCodes.size() > 0) {
+      List<String> filterList = new ArrayList<String>();
 
-    for (Integer id : showUnitsWithTheseHsaBussinessClassificationCodes) {
-      addSearchFilter(filterList, "businessClassificationCode", "\"" + String.valueOf(id) + "\"");
+      for (Integer id : showUnitsWithTheseHsaBussinessClassificationCodes) {
+        addSearchFilter(filterList, "businessClassificationCode", "\"" + String.valueOf(id) + "\"");
+      }
+
+      /*
+       * Include unfiltered health care conditions without taking showUnitsWithTheseHsaBussinessClassificationCodes into consideration.
+       */
+
+      // Get all health care types that are unfiltered
+      HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
+      List<HealthcareType> allUnfilteredHealthcareTypes = htch.getAllUnfilteredHealthCareTypes();
+
+      // For every unfiltered health care type, generate a sufficient
+      // condition
+      addHealthCareTypeConditions(filterList, allUnfilteredHealthcareTypes);
+
+      // (|(par1=value1)(par2=value2))
+      filter = makeOr(filterList);
     }
 
-    /*
-     * Include unfiltered health care conditions without taking showUnitsWithTheseHsaBussinessClassificationCodes into consideration.
-     */
-
-    // Get all health care types that are unfiltered
-    HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
-    List<HealthcareType> allUnfilteredHealthcareTypes = htch.getAllUnfilteredHealthCareTypes();
-
-    // For every unfiltered health care type, generate a sufficient
-    // condition
-    addHealthCareTypeConditions(filterList, allUnfilteredHealthcareTypes);
-
-    // (|(par1=value1)(par2=value2))
-    String orCriterias = makeOr(filterList);
-    return orCriterias;
+    return filter;
   }
 
   String createUnitSearchFilter(SearchUnitCriterions searchUnitCriterions) throws KivException {
