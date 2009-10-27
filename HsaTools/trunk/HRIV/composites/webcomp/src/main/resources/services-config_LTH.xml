@@ -36,7 +36,6 @@
         <property name="personRepository" ref="Search_PersonRepository"></property>
         <property name="unitRepository" ref="Search_UnitRepository"></property>
         <property name="employmentRepository" ref="Search_EmploymentRepository"></property>
-        <property name="healthcareTypeConditionHelper" ref="Search_HealthcareTypeConditionHelper"></property>
     </bean>
     <bean id="Search_PersonRepository"
 		class="se.vgregion.kivtools.search.svc.impl.hak.ldap.PersonRepository">
