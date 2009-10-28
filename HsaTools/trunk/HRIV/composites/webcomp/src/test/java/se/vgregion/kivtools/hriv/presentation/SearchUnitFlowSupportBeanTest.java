@@ -17,12 +17,7 @@
  */
 package se.vgregion.kivtools.hriv.presentation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -301,7 +296,7 @@ public class SearchUnitFlowSupportBeanTest {
     assertNotNull(result);
     assertEquals(0, result.size());
 
-    form.setSortOrder("EMPLOYMENT_AT_UNIT");
+    form.setSortOrder("UNIT_NAME");
     try {
       bean.doSearch(form);
       fail("KivNoDataFoundException expected");
