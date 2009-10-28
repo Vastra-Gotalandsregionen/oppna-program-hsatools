@@ -64,9 +64,10 @@ public class PresentationHelper {
     }
     return result;
   }
-  
+
   /**
    * Converts a list of strings to an array of SelectItems with both value and label set to the value of the string.
+   * 
    * @param strings The list of strings to convert.
    * @return An array of SelectItems.
    */
@@ -74,7 +75,7 @@ public class PresentationHelper {
     SelectItem[] selectItems = new SelectItem[0];
     if (strings != null) {
       selectItems = new SelectItem[strings.size()];
-      
+
       int i = 0;
       for (String string : strings) {
         SelectItem selectItem = new SelectItem(string, string);
@@ -82,5 +83,21 @@ public class PresentationHelper {
       }
     }
     return selectItems;
+  }
+
+  /**
+   * Escapes special characters in the provided string for use in an XHTML page. The characters currently replaced are &quot; (&amp;quot;), &amp; (&amp;amp;), &lt; (&amp;lt;) and &gt; (&amp;gt;).
+   * 
+   * @param input The input string to replace characters in.
+   * @return The provided input with the appropriate characters replaced by their XML entities.
+   */
+  public static String escapeXhtml(String input) {
+    String result = input;
+    // Must replace & first since it will break other replacements otherwise.
+    result = result.replaceAll("&", "&amp;");
+    result = result.replaceAll("\"", "&quot;");
+    result = result.replaceAll("<", "&lt;");
+    result = result.replaceAll(">", "&gt;");
+    return result;
   }
 }

@@ -27,8 +27,6 @@ import javax.faces.model.SelectItem;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.util.presentation.PresentationHelper;
-
 public class PresentationHelperTest {
   private PresentationHelper helper;
 
@@ -77,21 +75,21 @@ public class PresentationHelperTest {
   public void testGetTextWithEllipsisLengthLessThanOne() {
     helper.getTextWithEllipsis("", 0);
   }
-  
+
   @Test
   public void testGetSelectItemsFromStringNullList() {
     SelectItem[] selectItems = helper.getSelectItemsFromStrings(null);
     assertNotNull(selectItems);
     assertEquals(0, selectItems.length);
   }
-  
+
   @Test
   public void testGetSelectItemsFromStringEmptyList() {
     SelectItem[] selectItems = helper.getSelectItemsFromStrings(new ArrayList<String>());
     assertNotNull(selectItems);
     assertEquals(0, selectItems.length);
   }
-  
+
   @Test
   public void testGetSelectItemsFromString() {
     List<String> strings = new ArrayList<String>();
@@ -102,5 +100,20 @@ public class PresentationHelperTest {
     assertEquals(2, selectItems.length);
     assertEquals("test1", selectItems[0].getValue());
     assertEquals("test2", selectItems[1].getLabel());
+  }
+
+  @Test
+  public void testEscapeXhtmlNoReplaces() {
+    String input = "test";
+    String result = PresentationHelper.escapeXhtml(input);
+    assertEquals(input, result);
+  }
+
+  @Test
+  public void testEscapeXhtml() {
+    String input = "\"&<>";
+    String expected = "&quot;&amp;&lt;&gt;";
+    String result = PresentationHelper.escapeXhtml(input);
+    assertEquals(expected, result);
   }
 }
