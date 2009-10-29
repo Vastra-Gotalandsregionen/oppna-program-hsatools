@@ -7,36 +7,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import se.vgregion.kivtools.util.StringUtil;
-
 public class FormatterTest {
   @Test
   public void testInstantiation() {
     Formatter formatter = new Formatter();
     assertNotNull(formatter);
-  }
-
-  @Test
-  public void testConcatenate() {
-    assertEquals("Vårdcentral Angered, Angered", StringUtil.concatenate("Vårdcentral Angered", "Angered"));
-    assertEquals("Vårdcentral Angered, Göteborg, Angered", StringUtil.concatenate("Vårdcentral Angered", "Göteborg", "Angered"));
-    assertEquals("Vårdcentral Angered, Göteborg", StringUtil.concatenate("Vårdcentral Angered", "Göteborg", ""));
-
-    assertEquals("Empty string expected for null List", "", StringUtil.concatenate((List) null));
-
-    assertEquals("Empty string expected for null String values", "", StringUtil.concatenate("", null));
-    assertEquals("Empty string expected for null String values", "", StringUtil.concatenate(null, null));
-    assertEquals("Empty string expected for null String values", "Göteborg", StringUtil.concatenate(null, "Göteborg"));
-    assertEquals("Empty string expected for null String values", "Göteborg", StringUtil.concatenate("Göteborg", null));
-    assertEquals("Empty string expected for null String values", "Göteborg", StringUtil.concatenate("Göteborg", null, null, null));
-
-    List<String> list = new ArrayList<String>();
-    list.add("Vårdcentral Angered");
-    list.add("Angered");
-    assertEquals("Unexpected result", "Vårdcentral Angered, Angered", StringUtil.concatenate(list));
-
-    list.add("   Sverige   ");
-    assertEquals("Unexpected result", "Vårdcentral Angered, Angered, Sverige", StringUtil.concatenate(list));
   }
 
   @Test
