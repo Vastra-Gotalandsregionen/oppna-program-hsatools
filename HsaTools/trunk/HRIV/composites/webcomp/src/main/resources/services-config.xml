@@ -64,6 +64,7 @@
 	<bean id="Search_SettingsContainer" class="se.vgregion.kivtools.hriv.presentation.SettingsBean" scope="prototype">
 		<property name="resourceBundleInclude" value="#{hsatools.hriv.webcomp.resourceBundleInclude}" />
 		<property name="vardValInclude" value="#{hsatools.hriv.webcomp.vardValInclude}" />
+		<property name="googleMapInitInclude" value="#{hsatools.hriv.webcomp.googleMapInitInclude}" />
 		<property name="testingMode" value="#{hsatools.hriv.webcomp.testingMode}" />
 		<property name="useAccessibilityDatabaseIntegration" value="#{hsatools.hriv.webcomp.useAccessibilityDatabaseIntegration}" />
 		<property name="fallbackOnAddressForMap" value="#{hsatools.hriv.webcomp.fallbackOnAddressForMap}" />
