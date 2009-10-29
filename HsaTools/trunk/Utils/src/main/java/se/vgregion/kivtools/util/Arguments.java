@@ -17,6 +17,8 @@
  */
 package se.vgregion.kivtools.util;
 
+import java.util.List;
+
 /**
  * Methods for verifying method arguments.
  */
@@ -39,11 +41,25 @@ public class Arguments {
    * 
    * @param parameterName The name of the parameter that is verified.
    * @param parameterValue The value of the parameter that is verified.
-   * @throws IllegalArgumentException if the provided parameter value is not null or empty.
+   * @throws IllegalArgumentException if the provided parameter value is null or empty.
    */
   public static final void notEmpty(final String parameterName, final String parameterValue) {
     notNull(parameterName, parameterValue);
     if (parameterValue.trim().length() == 0) {
+      throw new IllegalArgumentException("Parameter " + parameterName + " is empty.");
+    }
+  }
+
+  /**
+   * Verifies that the provided list is not null or empty.
+   * 
+   * @param parameterName The name of the parameter that is verified.
+   * @param parameterValue The value of the parameter that is verified.
+   * @throws IllegalArgumentException if the provided parameter value is null or empty.
+   */
+  public static final void notEmpty(final String parameterName, final List<?> parameterValue) {
+    notNull(parameterName, parameterValue);
+    if (parameterValue.size() == 0) {
       throw new IllegalArgumentException("Parameter " + parameterName + " is empty.");
     }
   }

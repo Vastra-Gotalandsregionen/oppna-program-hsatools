@@ -101,6 +101,9 @@ public class FileUtilImplTest {
     fileUtilImpl.writeObjectToFile(TARGET_TESTFILE, mapToReadWrite);
     Map<String, Object> readMap = fileUtilImpl.readObjectFromFile(TARGET_TESTFILE);
     assertEquals(mapToReadWrite, readMap);
+    // Test with File-object as well.
+    readMap = fileUtilImpl.readObjectFromFile(new File(TARGET_TESTFILE));
+    assertEquals(mapToReadWrite, readMap);
   }
 
   @Test(expected = FileUtilException.class)

@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.codec.binary.Base64;
+
 /**
  * Utility methods for String handling.
  * 
@@ -183,6 +185,16 @@ public class StringUtil {
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  /**
+   * Encodes the provided string using Base64-encoding.
+   * 
+   * @param string The string to encode.
+   * @return The provided string Base64-encoded.
+   */
+  public static String base64Encode(String string) {
+    return getString(Base64.encodeBase64(getBytes(string, "ISO-8859-1"), true), "ISO-8859-1");
   }
 
   /**
