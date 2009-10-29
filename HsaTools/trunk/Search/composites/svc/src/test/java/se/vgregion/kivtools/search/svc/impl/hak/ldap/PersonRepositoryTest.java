@@ -47,6 +47,7 @@ public class PersonRepositoryTest {
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
     ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(regionName=*kalsve01*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
     assertEquals(1, searchPersons.size());
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
@@ -72,5 +73,6 @@ public class PersonRepositoryTest {
     assertEquals(2, searchPersons.size());
     assertEquals("Anders", searchPersons.get(0).getGivenName());
     assertEquals("Kalle", searchPersons.get(1).getGivenName());
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 }

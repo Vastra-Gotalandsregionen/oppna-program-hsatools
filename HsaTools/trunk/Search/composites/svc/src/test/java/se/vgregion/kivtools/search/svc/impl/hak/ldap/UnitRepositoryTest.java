@@ -18,8 +18,17 @@ import se.vgregion.kivtools.search.svc.impl.mock.LdapConnectionPoolMock;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 
 public class UnitRepositoryTest {
+  private UnitRepository unitRepository;
+  private LDAPConnectionMock ldapConnectionMock;
+  private LdapConnectionPoolMock ldapConnectionPoolMock;
+
   @Before
   public void setUp() throws Exception {
+    unitRepository = new UnitRepository();
+    ldapConnectionMock = new LDAPConnectionMock();
+    ldapConnectionPoolMock = new LdapConnectionPoolMock(ldapConnectionMock);
+    unitRepository.setLdapConnectionPool(ldapConnectionPoolMock);
+
     // Instantiate HealthcareTypeConditionHelper
     HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper();
     healthcareTypeConditionHelper.setImplResourcePath("se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-healthcare-type-conditions");
@@ -34,8 +43,6 @@ public class UnitRepositoryTest {
 
     // Create ldapConnectionMock.
 
-    UnitRepository unitRepository = new UnitRepository();
-    LDAPConnectionMock ldapConnectionMock = new LDAPConnectionMock();
     String expectedFilter = "(|(&(objectclass=organizationalUnit)(&(ou=*unitName*)(|(municipalityName=*municipalityName*)(postalAddress=*municipalityName*)(streetAddress=*municipalityName*))))(&(objectclass=organizationalRole)(&(cn=*unitName*)(|(municipalityName=*municipalityName*)(postalAddress=*municipalityName*)(streetAddress=*municipalityName*)))))";
     ldapConnectionMock.addLDAPSearchResults(expectedFilter, new LDAPSearchResultsMock());
 
@@ -44,12 +51,11 @@ public class UnitRepositoryTest {
     SikSearchResultList<Unit> searchUnits = unitRepository.searchUnits(searchUnitCriterions, 0);
     ldapConnectionMock.assertFilter(expectedFilter);
     assertEquals(0, searchUnits.size());
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
   public void testGetAllUnitsHsaIdentity() throws KivException {
-    UnitRepository unitRepository = new UnitRepository();
-    LDAPConnectionMock ldapConnectionMock = new LDAPConnectionMock();
     String expectedFilter = "(&(|(objectclass=organizationalUnit)(objectclass=organizationalRole)))";
     LDAPSearchResultsMock ldapSearchResults = new LDAPSearchResultsMock();
     ldapSearchResults.addLDAPEntry(new LDAPEntryMock("hsaIdentity", "ABC-123"));
@@ -61,5 +67,6 @@ public class UnitRepositoryTest {
     ldapConnectionMock.assertFilter(expectedFilter);
     assertEquals(1, allUnitsHsaIdentity.size());
     assertEquals("ABC-123", allUnitsHsaIdentity.get(0));
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 }
