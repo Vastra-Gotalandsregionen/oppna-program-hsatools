@@ -1,4 +1,4 @@
-package se.vgregion.kivtools.hriv.intsvc.ldap;
+package se.vgregion.kivtools.mocks.ldap;
 
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -22,9 +22,14 @@ import org.springframework.ldap.core.DirContextOperations;
 
 import se.vgregion.kivtools.util.StringUtil;
 
+/**
+ * Mock-class to use when unit testing Spring LDAP ContextMapper-implementations.
+ * 
+ * @author David Bennehult
+ */
 public class DirContextOperationsMock implements DirContextOperations {
 
-  Map<String, Object> attributes = new HashMap<String, Object>();
+  private Map<String, Object> attributes = new HashMap<String, Object>();
   private Name dn;
 
   @Override
@@ -33,47 +38,8 @@ public class DirContextOperationsMock implements DirContextOperations {
   }
 
   @Override
-  public void addAttributeValue(String name, Object value, boolean addIfDuplicateExists) {
-  }
-
-  @Override
-  public SortedSet getAttributeSortedStringSet(String name) {
-    return null;
-  }
-
-  @Override
-  public Attributes getAttributes() {
-    return null;
-  }
-
-  @Override
   public Name getDn() {
     return dn;
-  }
-
-  @Override
-  public String getNameInNamespace() {
-    return null;
-  }
-
-  @Override
-  public String[] getNamesOfModifiedAttributes() {
-    return null;
-  }
-
-  @Override
-  public Object getObjectAttribute(String name) {
-    return null;
-  }
-
-  @Override
-  public Object[] getObjectAttributes(String name) {
-    return null;
-  }
-
-  @Override
-  public String getReferralUrl() {
-    return null;
   }
 
   @Override
@@ -92,37 +58,17 @@ public class DirContextOperationsMock implements DirContextOperations {
   }
 
   @Override
-  public boolean isReferral() {
-    return false;
-  }
-
-  @Override
-  public boolean isUpdateMode() {
-    return false;
-  }
-
-  @Override
-  public void removeAttributeValue(String name, Object value) {
-  }
-
-  @Override
   public void setAttributeValue(String name, Object value) {
     attributes.remove(name);
     attributes.put(name, value);
   }
 
   @Override
-  public void setAttributeValues(String name, Object[] values) {
-  }
-
-  @Override
-  public void setAttributeValues(String name, Object[] values, boolean orderMatters) {
-  }
-
-  @Override
   public void setDn(Name dn) {
     this.dn = dn;
   }
+
+  // Unimplemented methods
 
   @Override
   public void update() {
@@ -384,4 +330,65 @@ public class DirContextOperationsMock implements DirContextOperations {
     return null;
   }
 
+  @Override
+  public void addAttributeValue(String name, Object value, boolean addIfDuplicateExists) {
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public SortedSet getAttributeSortedStringSet(String name) {
+    return null;
+  }
+
+  @Override
+  public Attributes getAttributes() {
+    return null;
+  }
+
+  @Override
+  public String getNameInNamespace() {
+    return null;
+  }
+
+  @Override
+  public String[] getNamesOfModifiedAttributes() {
+    return null;
+  }
+
+  @Override
+  public Object getObjectAttribute(String name) {
+    return null;
+  }
+
+  @Override
+  public Object[] getObjectAttributes(String name) {
+    return null;
+  }
+
+  @Override
+  public String getReferralUrl() {
+    return null;
+  }
+
+  @Override
+  public boolean isReferral() {
+    return false;
+  }
+
+  @Override
+  public boolean isUpdateMode() {
+    return false;
+  }
+
+  @Override
+  public void removeAttributeValue(String name, Object value) {
+  }
+
+  @Override
+  public void setAttributeValues(String name, Object[] values) {
+  }
+
+  @Override
+  public void setAttributeValues(String name, Object[] values, boolean orderMatters) {
+  }
 }

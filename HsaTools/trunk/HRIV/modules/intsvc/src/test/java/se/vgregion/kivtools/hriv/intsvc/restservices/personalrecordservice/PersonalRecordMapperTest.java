@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.hriv.intsvc.ldap.DirContextOperationsMock;
+import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
 
 public class PersonalRecordMapperTest {
 
