@@ -32,6 +32,7 @@ public class SettingsBean implements Serializable {
   private static final long serialVersionUID = 246274450053259084L;
   private String resourceBundleInclude;
   private String vardValInclude;
+  private String googleMapInitInclude;
   private boolean testingMode;
   private boolean useAccessibilityDatabaseIntegration;
   private boolean fallbackOnAddressForMap;
@@ -453,5 +454,13 @@ public class SettingsBean implements Serializable {
    */
   public void setFavIcon(String favIcon) {
     this.favIcon = favIcon;
+  }
+
+  public void setGoogleMapInitInclude(String googleMapInitInclude) {
+    this.googleMapInitInclude = googleMapInitInclude;
+  }
+
+  public String getGoogleMapInitInclude() {
+    return googleMapInitInclude;
   }
 }
