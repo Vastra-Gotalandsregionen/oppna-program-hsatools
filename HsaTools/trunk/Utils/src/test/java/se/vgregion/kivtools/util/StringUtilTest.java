@@ -1,9 +1,11 @@
 package se.vgregion.kivtools.util;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
-import java.util.Collections;
 import static org.junit.Assert.*;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -85,22 +87,54 @@ public class StringUtilTest {
     assertEquals("test", StringUtil.emptyStringIfNull("test"));
   }
 
-	@Test
-	public void testGetBytes() throws UnsupportedEncodingException {
-		assertTrue(Arrays.equals("test".getBytes("UTF-8"), StringUtil.getBytes("test", "UTF-8")));
-	}
-	@Test(expected=RuntimeException.class)
-	public void testGetBytesException() {
-		StringUtil.getBytes("test", "INVALID_ENCODING");
-	}
+  @Test
+  public void testGetBytes() throws UnsupportedEncodingException {
+    assertTrue(Arrays.equals("test".getBytes("UTF-8"), StringUtil.getBytes("test", "UTF-8")));
+  }
 
-	@Test
-	public void testGetString() throws UnsupportedEncodingException {
-		assertEquals("test", StringUtil.getString("test".getBytes("UTF-8"), "UTF-8"));
-	}
+  @Test(expected = RuntimeException.class)
+  public void testGetBytesException() {
+    StringUtil.getBytes("test", "INVALID_ENCODING");
+  }
 
-	@Test(expected=RuntimeException.class)
-	public void testGetStringException() {
-		StringUtil.getString(new byte[1], "INVALID_ENCODING");
-	}
+  @Test
+  public void testGetString() throws UnsupportedEncodingException {
+    assertEquals("test", StringUtil.getString("test".getBytes("UTF-8"), "UTF-8"));
+  }
+
+  @Test(expected = RuntimeException.class)
+  public void testGetStringException() {
+    StringUtil.getString(new byte[1], "INVALID_ENCODING");
+  }
+
+  @Test
+  public void testBase64Encode() {
+    String input = "cn=Hedvig h Blomfrö,ou=Falkenbergsnämnden,ou=Förtroendevalda,ou=Landstinget  Halland,dc=hkat,dc=lthalland,dc=com";
+    String expected = "Y249SGVkdmlnIGggQmxvbWZy9ixvdT1GYWxrZW5iZXJnc27kbW5kZW4sb3U9RvZydHJvZW5kZXZh\r\nbGRhLG91PUxhbmRzdGluZ2V0ICBIYWxsYW5kLGRjPWhrYXQsZGM9bHRoYWxsYW5kLGRjPWNvbQ==\r\n";
+    String result = StringUtil.base64Encode(input);
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testConcatenate() {
+    assertEquals("Vårdcentral Angered, Angered", StringUtil.concatenate("Vårdcentral Angered", "Angered"));
+    assertEquals("Vårdcentral Angered, Göteborg, Angered", StringUtil.concatenate("Vårdcentral Angered", "Göteborg", "Angered"));
+    assertEquals("Vårdcentral Angered, Göteborg", StringUtil.concatenate("Vårdcentral Angered", "Göteborg", ""));
+
+    assertEquals("Empty string expected for null List", "", StringUtil.concatenate((List) null));
+
+    assertEquals("Empty string expected for null String values", "", StringUtil.concatenate("", null));
+    assertEquals("Empty string expected for null String values", "", StringUtil.concatenate(null, null));
+    assertEquals("Empty string expected for null String values", "Göteborg", StringUtil.concatenate(null, "Göteborg"));
+    assertEquals("Empty string expected for null String values", "Göteborg", StringUtil.concatenate("Göteborg", null));
+    assertEquals("Empty string expected for null String values", "Göteborg", StringUtil.concatenate("Göteborg", null, null, null));
+
+    List<String> list = new ArrayList<String>();
+    list.add("Vårdcentral Angered");
+    list.add("Angered");
+    assertEquals("Unexpected result", "Vårdcentral Angered, Angered", StringUtil.concatenate(list));
+
+    list.add("   Sverige   ");
+    assertEquals("Unexpected result", "Vårdcentral Angered, Angered, Sverige", StringUtil.concatenate(list));
+  }
 }

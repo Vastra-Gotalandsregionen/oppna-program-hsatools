@@ -17,5 +17,25 @@
             <groupId>javax.faces</groupId>
             <artifactId>jsf-api</artifactId>
         </dependency>
+        
+        <dependency>
+        	<groupId>org.springframework</groupId>
+        	<artifactId>spring-context-support</artifactId>
+        </dependency>
+        
+        <dependency>
+        	<groupId>javax.mail</groupId>
+        	<artifactId>mail</artifactId>
+        </dependency>
+        
+        <dependency>
+        	<groupId>javax.activation</groupId>
+        	<artifactId>activation</artifactId>
+        </dependency>
+        
+        <dependency>
+        	<groupId>commons-codec</groupId>
+        	<artifactId>commons-codec</artifactId>
+        </dependency>
 	</dependencies>
 </project>

@@ -2,6 +2,9 @@ package se.vgregion.kivtools.util;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 public class ArgumentsTest {
@@ -27,9 +30,9 @@ public class ArgumentsTest {
   }
 
   @Test
-  public void testNotEmptyWithNullValue() {
+  public void testNotEmptyWithNullString() {
     try {
-      Arguments.notEmpty("paramName", null);
+      Arguments.notEmpty("paramName", (String) null);
       fail("IllegalArgumentException expected");
     } catch (IllegalArgumentException e) {
       assertEquals("Unexpected exception text", "Parameter paramName is null.", e.getMessage());
@@ -57,7 +60,34 @@ public class ArgumentsTest {
   }
 
   @Test
-  public void testNotEmptyValidValue() {
+  public void testNotEmptyValidString() {
     Arguments.notEmpty("paramName", "  aa\t\n");
+  }
+
+  @Test
+  public void testNotEmptyNullList() {
+    try {
+      Arguments.notEmpty("paramName", (List<?>) null);
+      fail("IllegalArgumentException expected");
+    } catch (IllegalArgumentException e) {
+      assertEquals("Unexpected exception text", "Parameter paramName is null.", e.getMessage());
+    }
+  }
+
+  @Test
+  public void testNotEmptyWithEmptyList() {
+    try {
+      Arguments.notEmpty("paramName", new ArrayList<String>());
+      fail("IllegalArgumentException expected");
+    } catch (IllegalArgumentException e) {
+      assertEquals("Unexpected exception text", "Parameter paramName is empty.", e.getMessage());
+    }
+  }
+
+  @Test
+  public void testNotEmptyWithValidList() {
+    List<String> list = new ArrayList<String>();
+    list.add("test");
+    Arguments.notEmpty("paramName", list);
   }
 }
