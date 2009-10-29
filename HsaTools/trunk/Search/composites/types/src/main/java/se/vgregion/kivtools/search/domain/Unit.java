@@ -28,7 +28,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -357,10 +356,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return The units DN as a Base64-encoded string.
    */
   public String getDnBase64() {
-    String dnString = dn.toString();
-    String dnStringBase64Encoded;
-    dnStringBase64Encoded = new String(Base64.encodeBase64(StringUtil.getBytes(dnString, "ISO-8859-1"), true));
-    return dnStringBase64Encoded;
+    return StringUtil.base64Encode(dn.toString());
   }
 
   public String getName() {
