@@ -2,8 +2,9 @@ package se.vgregion.kivtools.search.svc.impl.mock;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import com.novell.ldap.LDAPConnection;
@@ -17,8 +18,9 @@ public class LDAPConnectionMock extends LDAPConnection {
 
   private String filter;
   private String baseDn;
-  private Map<SearchCondition, LinkedList<LDAPEntryMock>> availableSearchEntries = new HashMap<SearchCondition, LinkedList<LDAPEntryMock>>();
   private Map<String, LDAPSearchResults> searchResults = new HashMap<String, LDAPSearchResults>();
+  private Map<String, LDAPEntry> dnEntryMap = new HashMap<String, LDAPEntry>();
+  private final List<String> readEntries = new ArrayList<String>();
   private LDAPException ldapException;
 
   public void setLdapException(LDAPException ldapException) {
@@ -29,6 +31,10 @@ public class LDAPConnectionMock extends LDAPConnection {
     searchResults.put(filter, ldapSearchResultsMock);
   }
 
+  public void addLDAPEntry(String dn, LDAPEntry entry) {
+    this.dnEntryMap.put(dn, entry);
+  }
+
   public void assertFilter(String expectedFilter) {
     assertEquals(expectedFilter, filter);
   }
@@ -37,12 +43,12 @@ public class LDAPConnectionMock extends LDAPConnection {
     assertEquals(expectedBaseDn, baseDn);
   }
 
-  public Map<SearchCondition, LinkedList<LDAPEntryMock>> getAvailableSearchEntries() {
-    return availableSearchEntries;
+  public void assertEntryRead(String dn) {
+    assertTrue("DN " + dn + " was not read", readEntries.contains(dn));
   }
 
-  public void addLdapEntries(SearchCondition searchCondition, LinkedList<LDAPEntryMock> ldapEntries) {
-    availableSearchEntries.put(searchCondition, ldapEntries);
+  public void resetReadEntries() {
+    readEntries.clear();
   }
 
   @Override
@@ -74,28 +80,12 @@ public class LDAPConnectionMock extends LDAPConnection {
     return super.search(base, scope, filter, attrs, typesOnly, queue);
   }
 
-  class TestLDAPSearchResults extends LDAPSearchResults {
-
-    private SearchCondition searchCondition;
-
-    public TestLDAPSearchResults(SearchCondition searchCondition) {
-      this.searchCondition = searchCondition;
-    }
-
-    @Override
-    public LDAPEntry next() throws LDAPException {
-      LinkedList<LDAPEntryMock> ldapEntries = availableSearchEntries.get(searchCondition);
-      return ldapEntries != null ? ldapEntries.removeFirst() : null;
-    }
-
-    @Override
-    public boolean hasMore() {
-      LinkedList<LDAPEntryMock> ldapEntries = availableSearchEntries.get(searchCondition);
-      if (ldapEntries != null) {
-        return ldapEntries.size() > 0;
-      } else {
-        return false;
-      }
-    }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public LDAPEntry read(String dn) throws LDAPException {
+    readEntries.add(dn);
+    return dnEntryMap.get(dn);
   }
 }

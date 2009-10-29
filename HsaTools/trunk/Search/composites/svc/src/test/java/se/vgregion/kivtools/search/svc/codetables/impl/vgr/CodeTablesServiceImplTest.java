@@ -24,12 +24,13 @@ public class CodeTablesServiceImplTest {
   private static String[] paTitleCode = { "104510;Ledning, kultur, turism och fritid", "105010;Ledning, tekniskt arbete", "105510;Ledning, räddningstjänst" };
   private static String[] hsaTitleCode = { "1;Doctor" };
   private static LDAPConnectionMock ldapConnectionMock;
+  private LdapConnectionPoolMock ldapConnectionPoolMock;
 
   @Before
   public void setup() {
     codeTablesService = new CodeTablesServiceImpl();
     ldapConnectionMock = new LDAPConnectionMock();
-    LdapConnectionPoolMock ldapConnectionPoolMock = new LdapConnectionPoolMock(ldapConnectionMock);
+    ldapConnectionPoolMock = new LdapConnectionPoolMock(ldapConnectionMock);
     codeTablesService.setLdapConnectionPool(ldapConnectionPoolMock);
     for (CodeTableName codeTableName : CodeTableName.values()) {
       LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
@@ -58,21 +59,25 @@ public class CodeTablesServiceImplTest {
     } catch (LDAPRuntimeExcepton e) {
       assertEquals("An error occured in communication with the LDAP server. Message: Success", e.getMessage());
     }
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
   public void testLanguageKnowledgeCode() {
     assertEquals("* Svenska", codeTablesService.getValueFromCode(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, "* SWE"));
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
   public void testPaTitleCode() {
     assertEquals("Ledning, tekniskt arbete", codeTablesService.getValueFromCode(CodeTableName.PA_TITLE_CODE, "105010"));
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
   public void testHsaTitle() {
     assertEquals("Doctor", codeTablesService.getValueFromCode(CodeTableName.HSA_TITLE, "1"));
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
@@ -80,12 +85,14 @@ public class CodeTablesServiceImplTest {
     List<String> codes = codeTablesService.getCodeFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "Landsting/Region");
     assertEquals(1, codes.size());
     assertEquals("1", codes.get(0));
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
   public void testGetCodeFromTextValueNoMatch() {
     List<String> codes = codeTablesService.getCodeFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "Test123Test");
     assertEquals(0, codes.size());
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
@@ -93,6 +100,7 @@ public class CodeTablesServiceImplTest {
     List<String> codes = codeTablesService.getCodeFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "st");
     assertEquals(2, codes.size());
     assertListContentEqual(codes, "1", "3");
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
@@ -100,12 +108,14 @@ public class CodeTablesServiceImplTest {
     List<String> codes = codeTablesService.getValuesFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "Landsting/Region");
     assertEquals(1, codes.size());
     assertEquals("Landsting/Region", codes.get(0));
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
   public void testGetValuesFromTextValueNoMatch() {
     List<String> codes = codeTablesService.getValuesFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "Test123Test");
     assertEquals(0, codes.size());
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
@@ -113,19 +123,21 @@ public class CodeTablesServiceImplTest {
     List<String> codes = codeTablesService.getValuesFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "st");
     assertEquals(2, codes.size());
     assertListContentEqual(codes, "Landsting/Region", "Statlig");
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
   public void testGetAllValueItemsFromCodeTable() {
     List<String> allValuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.PA_TITLE_CODE.name());
     assertNotNull(allValuesItemsFromCodeTable);
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
-  
-  @Test(expected=IllegalArgumentException.class)
+
+  @Test(expected = IllegalArgumentException.class)
   public void testGetAllValueItemsFromCodeTableException() {
     codeTablesService.getAllValuesItemsFromCodeTable("noValidCodeTable");
   }
-  
+
   private void assertListContentEqual(List<String> actualStrings, String... expectedStrings) {
     for (String actualString : actualStrings) {
       boolean found = false;
@@ -134,5 +146,6 @@ public class CodeTablesServiceImplTest {
       }
       assertTrue("Unexpected string '" + actualString + "'", found);
     }
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 }

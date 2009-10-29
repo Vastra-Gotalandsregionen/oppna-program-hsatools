@@ -29,7 +29,7 @@ import se.vgregion.kivtools.search.util.geo.GaussKrugerProjection;
  * 
  * @author Jonas Liljenfeldt, Know IT
  */
-public class TestGaussKrugerProjection {
+public class GaussKrugerProjectionTest {
 
 	@Test
 	public void testGetRT90() throws Exception {
