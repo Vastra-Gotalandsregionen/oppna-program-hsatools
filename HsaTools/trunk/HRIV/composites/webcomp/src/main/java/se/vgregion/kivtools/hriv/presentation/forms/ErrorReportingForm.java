@@ -15,20 +15,33 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-package se.vgregion.kivtools.search.svc;
+package se.vgregion.kivtools.hriv.presentation.forms;
+
+import java.io.Serializable;
 
 /**
- * Service for reporting errors in the LDAP directory to the responsible editors for the unit or person.
+ * Form for the error reporting form.
  * 
  * @author Joakim Olsson
  */
-public interface ErrorReportingService {
-  /**
-   * Report an error for the unit or person with the provided DN. The provided report text is sent as an email to the responsible editors for the unit or person.
-   * 
-   * @param dn The DN of the unit or person to report an error for.
-   * @param reportText The text to send with the error report.
-   * @param detailLink A link to the detail-page of the unit or person.
-   */
-  void reportError(String dn, String reportText, String detailLink);
+public class ErrorReportingForm implements Serializable {
+  private static final long serialVersionUID = 4722529549724169901L;
+  private String dn;
+  private String reportText;
+
+  public String getDn() {
+    return dn;
+  }
+
+  public void setDn(String dn) {
+    this.dn = dn;
+  }
+
+  public String getReportText() {
+    return reportText;
+  }
+
+  public void setReportText(String reportText) {
+    this.reportText = reportText;
+  }
 }

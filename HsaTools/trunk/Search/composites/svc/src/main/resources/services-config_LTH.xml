@@ -24,7 +24,7 @@
 	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 <!-- Use this mock-injection if connection to hak is disabled 
- 	<bean id="Search_SearchService" class="se.vgregion.kivtools.search.svc.impl.hak.ldap.mock.SearchServiceMockImpl" />
+ 	<bean id="Search_SearchService" class="se.vgregion.kivtools.search.svc.impl.mock.SearchServiceMockImpl" />
 -->
 <!-- Use this block of injections if connection to hak is enabled
 	<bean id="Search_SearchService" class="se.vgregion.kivtools.search.svc.impl.hak.ldap.SearchServiceNovellLdapImpl">
@@ -69,14 +69,41 @@
 	</bean>
 
 	<!-- LDAP connection settings  -->
-	<bean id="propertyPlaceholder"
+	<bean id="propertyPlaceholderLdapConnectionProperties"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:se/vgregion/kivtools/search/svc/impl/hak/ldap/search-composite-svc-connection.properties" />
+		<property name="location"
+			value="classpath:se/vgregion/kivtools/search/svc/impl/hak/ldap/search-composite-svc-connection.properties" />
+		<property name="fileEncoding" value="UTF-8" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
 	</bean>
- 	
- 	<!-- Not used like this anymore. getParentDN can take the admin level as a parameter. Make sure it is handled correctly. 
-	<bean class="se.vgregion.kivtools.search.domain.values.DN" lazy-init="false">
-		<property name="administrationLevel" value="-2" />
+
+	<bean id="springMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="engerix.lthalland.se" />
 	</bean>
-	 -->
+	
+	<!-- Use this in production. Change in errorReportingService-bean. -->
+	<bean id="emailSender" class="se.vgregion.kivtools.util.email.EmailSenderSpringImpl">
+		<property name="mailSender" ref="springMailSender" />
+	</bean>
+	
+	<bean id="contextSourceResponsibleEditor" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://${hsatools.search.svc.ldap.ldaphost}" />
+		<property name="base" value="" />
+		<property name="userDn" value="${hsatools.search.svc.ldap.logindn}" />
+		<property name="password" value="${hsatools.search.svc.ldap.password}" />
+		<property name="pooled" value="true" />
+	</bean>
+
+	<bean id="ldapTemplateResponsibleEditor" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSourceResponsibleEditor" />
+	</bean>
+
+	<bean id="responsibleEditorEmailFinder" class="se.vgregion.kivtools.search.svc.impl.hak.ResponsibleEditorEmailFinderImpl">
+		<property name="ldapTemplate" ref="ldapTemplateResponsibleEditor" />
+	</bean>
+	
+	<bean id="errorReportingService" class="se.vgregion.kivtools.search.svc.impl.hak.ErrorReportingServiceImpl">
+		<property name="emailSender" ref="emailSender" />
+		<property name="responsibleEditorEmailFinder" ref="responsibleEditorEmailFinder" />
+	</bean>
 </beans>

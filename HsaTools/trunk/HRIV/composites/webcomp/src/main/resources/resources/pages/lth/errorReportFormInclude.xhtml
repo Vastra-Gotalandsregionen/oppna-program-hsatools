@@ -1,0 +1,49 @@
+<div id="unit-details-report" xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html">
+	<div class="report-form">
+		<h2>${msg.reportError}</h2>
+		<h:form id="errorReportingForm">
+			<h:inputHidden id="dn" value="${errorReportingForm.dn}" />
+			<input type="hidden" name="detailLink" value="${Search_SettingsContainer.externalApplicationURL}/hriv/visaenhet?hsaidentity=${unit.hsaIdentity}" />
+			<div class="cf">
+				<div class="text">
+				    <h:outputLabel for="reportText">${msg.describeError}</h:outputLabel>
+					<h:inputTextarea cols="40" rows="24" id="reportText" value="${errorReportingForm.reportText}" />
+				</div>
+				<script>
+					var RecaptchaOptions = {
+					   theme: 'custom',
+					   lang: 'en',
+					   custom_theme_widget: 'recaptcha_widget'
+					};
+				</script>
+				<div id="recaptcha_widget">
+					<div id="recaptcha_image"></div>
+					<h:outputText rendered="${errorReportDone == 'failure'}">
+						<div style="color:red;">${msg.captchaInputError}</div>
+					</h:outputText>
+					<label for="recaptcha_response_field">
+						<span class="recaptcha_only_if_image">${msg.captchaInputWords}</span>
+						<span style="display:none" class="recaptcha_only_if_audio">${msg.captchaInputNumbers}</span>
+					</label>
+					<input type="text" id="recaptcha_response_field" name="recaptcha_response_field" />
+					<div class="recaptcha_links cf">
+						<div class="recaptcha-reload"><a href="javascript:Recaptcha.reload()">${msg.captchaShowOtherImage}</a></div>
+						<div style="display:none" class="recaptcha_only_if_image"><a href="javascript:Recaptcha.switch_type('audio')">${msg.captchaAudioChallenge}</a></div>
+						<div style="display:none" class="recaptcha_only_if_audio"><a href="javascript:Recaptcha.switch_type('image')">${msg.captchaImageChallenge}</a></div>
+						<div class="recaptcha-help"><a href="javascript:Recaptcha.showhelp()">${msg.captchaHelp}</a></div>
+					</div>
+				</div>
+				<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6LdVEQkAAAAAAIDobQneYChQGUWq0j4O-ti0l5ug&amp;lang=en"></script>
+
+				<noscript>
+				  <iframe src="http://api.recaptcha.net/noscript?k=6LdVEQkAAAAAAIDobQneYChQGUWq0j4O-ti0l5ug&amp;lang=en" height="300" width="500" frameborder="0"></iframe><br />
+				  <textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+				  <input type='hidden' name='recaptcha_response_field' value='manual_challenge' />
+				</noscript>
+			</div>
+			<div class="submit-area"><h:commandButton id="doSubmitErrorReport" value="${msg.sendErrorReport}" action="doSubmitErrorReport"/></div>
+		</h:form>
+	</div>
+</div>

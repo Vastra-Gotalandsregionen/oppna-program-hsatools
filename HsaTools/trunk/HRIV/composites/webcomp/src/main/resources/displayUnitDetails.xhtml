@@ -72,6 +72,7 @@
             <script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${Search_SettingsContainer.googleMapsKey}" />
 
             <div class="yui-u search-result">
+                <ui:include src="${Search_SettingsContainer.errorReportConfirmInclude}" />
 
                 <h:outputText rendered="${unit.hsaIdentity != null}">
                     <div id="print-element">
@@ -394,6 +395,7 @@
                         </div>
                         <ui:include src="${Search_SettingsContainer.googleMapInitInclude}" />
                         <!--  Display unit widget end (dont remove this comment) -->
+                        <ui:include src="${Search_SettingsContainer.errorReportFormInclude}" />
                     </div>
 
                 </h:outputText>

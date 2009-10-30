@@ -27,19 +27,22 @@ public class ErrorReportingFlowSupportBeanTest {
 
   @Test
   public void testReportError() {
-    errorReportingFlowSupportBean.reportError("TestDn", "Test");
+    errorReportingFlowSupportBean.reportError("TestDn", "Test", "TestDetailLink");
     assertEquals("TestDn", errorReportingService.dn);
     assertEquals("Test", errorReportingService.reportText);
+    assertEquals("TestDetailLink", errorReportingService.detailLink);
   }
 
   private static class ErrorReportingServiceMock implements ErrorReportingService {
     private String dn;
     private String reportText;
+    private String detailLink;
 
     @Override
-    public void reportError(String dn, String reportText) {
+    public void reportError(String dn, String reportText, String detailLink) {
       this.dn = dn;
       this.reportText = reportText;
+      this.detailLink = detailLink;
     }
   }
 }
