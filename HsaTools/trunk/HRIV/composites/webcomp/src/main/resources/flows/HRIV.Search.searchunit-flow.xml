@@ -27,6 +27,7 @@
 	<var name="unitSearchSimpleForm" class="se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm" />
 	<var name="displayCloseUnitsSimpleForm" class="se.vgregion.kivtools.hriv.presentation.forms.DisplayCloseUnitsSimpleForm" />
 	<var name="accessibilityDatabaseFilterForm" class="se.vgregion.kivtools.hriv.presentation.forms.AccessibilityDatabaseFilterForm" />
+	<var name="errorReportingForm" class="se.vgregion.kivtools.hriv.presentation.forms.ErrorReportingForm" />
 	<var name="units" class="java.util.ArrayList" />
 	<var name="coordinateUnits" class="java.util.ArrayList" />
 	
@@ -45,6 +46,7 @@
 		<if test="requestParameters.caretypes!=null" then="Display.caretypes" />
 		<if test="requestParameters.viewAccessibilityInfo!=null" then="Display.viewAccessibilityInfo" />
 		<if test="requestParameters.address!=null" then="Display.closeUnitsOnMap" />
+		<if test="errorReportingForm.reportText!=null" then="Error.report"/>
 		<if test="requestParameters.hsaidentity!=null || requestParameters.dn!=null" then="Decision.displayUnitDetails" else="Search.validateSearchParams"/>
 	</decision-state>
 
@@ -107,12 +109,16 @@
 		<on-entry>
 			<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitDetails(flowScope.hsaidentity)" result="flowScope.unit"/>
 			<evaluate expression="Display_DisplayAccessibilityDatabaseBean.assignAccessibilityDatabaseId(flowScope.unit)" />
+			<set name="errorReportingForm.dn" value="flowScope.unit.dn.toString()" />
+			<set name="errorReportingForm.reportText" value="flowScope.savedReportText" />
+			<set name="flowScope.errorReportingPossible" value="true" />
 		</on-entry>
 		<transition on="doCancel" to="Search.displayUnitSearchResult"></transition>
 		<transition on="doSearch" to="Search.validateSearchParams" />
 		<transition on="gotoStartpage" to="Display.startpage" />
 		<transition on="gotoCaretypes" to="Display.caretypes" />
 		<transition on="viewAccessibilityInfoAction" to="Display.viewAccessibilityInfo" />
+		<transition on="doSubmitErrorReport" to="Error.report" />
 	</view-state>
 	
 	<view-state id="Display.viewAccessibilityInfo" view="/displayUnitAccessibilityInfo.xhtml">
@@ -150,6 +156,16 @@
 		<transition on="gotoCaretypes" to="Display.caretypes" />
 		<transition on="gotoStartpage" to="Display.startpage" />
 	</view-state>
+
+	<action-state id="Error.report">
+		<evaluate expression="errorReportingFlowSupportBean.reportError(errorReportingForm.dn, errorReportingForm.reportText, requestParameters.detailLink, requestParameters.recaptcha_challenge_field, requestParameters.recaptcha_response_field, externalContext.nativeRequest.remoteAddr)" result="flowScope.errorReportDone" />
+		<transition on="success" to="Display.unitDetailsById" >
+			<set name="flowScope.savedReportText" value="null" />
+		</transition>
+		<transition on="failure" to="Display.unitDetailsById" >
+			<set name="flowScope.savedReportText" value="errorReportingForm.reportText" />
+		</transition>
+	</action-state>
 
 	<global-transitions>
 		<transition on-exception="java.lang.Exception" to="Search.ErrorHandle" />

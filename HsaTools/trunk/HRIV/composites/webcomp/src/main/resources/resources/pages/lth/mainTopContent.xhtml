@@ -17,5 +17,10 @@
         <li class="print">
             <a href="#" onclick="printElementLTH('print-area');">Skriv ut sidan</a>
         </li>
+        <h:outputText rendered="${errorReportingPossible == true}">
+	        <li class="report-link">
+	        	<a href="#unit-details-report">${msg.reportError}</a>
+	        </li>
+        </h:outputText>
     </ul>
 </div>

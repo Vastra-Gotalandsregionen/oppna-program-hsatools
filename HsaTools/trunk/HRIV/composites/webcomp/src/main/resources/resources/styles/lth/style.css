@@ -1228,3 +1228,73 @@ div.autocomplete ul li {
 #startpage-intro {
     width: 50%;
 }
+
+/* Report errors */
+#unit-details-report {
+	clear:both;
+	padding-top:30px;
+}
+#unit-details-report .report-form {
+	padding:10px 12px;
+	background:#fff2cf;
+	border-top:1px solid #f6dec5;
+}
+#unit-details-report h2 {
+	margin:0 0 10px;
+	padding-left:20px;
+	background:url(../../images/lth/i/icn-report.gif) no-repeat 0 50%;
+}
+#unit-details-report form {
+	padding:8px 10px;
+	background:#fff;
+	border-top:1px solid #f6dec5;
+}
+#unit-details-report label {display:block;}
+#unit-details-report .text textarea {
+	width:270px;
+	height:11em;
+}
+#unit-details-report .text {
+	float:left;
+	width:45%;
+	margin:0 0 10px;
+}
+#unit-details-report .submit-area {
+	padding-top:8px;
+	border-top:1px solid #ddd;
+}
+#unit-details-report #recaptcha_widget {
+	float:right;
+	width:52%;
+	margin:0 0 10px 0;
+	padding:5px;
+}
+#unit-details-report #recaptcha_image {
+	margin:0 0 10px;
+	background:#fff;
+	border:1px solid #ccc;
+}
+#unit-details-report .recaptcha_links {clear:both;}
+#unit-details-report .recaptcha_links div {
+	float:left;
+	margin:0 20px 0 0;
+	padding-top:8px;
+}
+#unit-details-report .recaptcha-reload a {
+	padding:2px 0 2px 20px;
+	background:url(../../images/lth/i/icn-reload.gif) no-repeat 0 50%;
+}
+#unit-details-report .recaptcha-help a {
+	padding:2px 0 2px 20px;
+	background:url(../../images/lth/i/icn-help.gif) no-repeat 0 50%;
+}
+.report-success {
+	margin:0 0 20px;
+	padding:10px;
+	background:#dff3d6;
+	border:1px solid #c6e4b8;
+}
+#acc-services .report-link a {
+    padding: 0 0 0 18px;
+    background: url(../../images/lth/i/icn-report.gif) no-repeat 0 50%;
+}

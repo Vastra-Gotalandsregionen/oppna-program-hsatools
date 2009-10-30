@@ -379,4 +379,18 @@ public class SettingsBeanTest {
     bean.setGoogleMapInitInclude(TEST_STRING);
     assertEquals(TEST_STRING, bean.getGoogleMapInitInclude());
   }
+
+  @Test
+  public void testErrorReportFormInclude() {
+    assertNull(bean.getErrorReportFormInclude());
+    bean.setErrorReportFormInclude(TEST_STRING);
+    assertEquals(TEST_STRING, bean.getErrorReportFormInclude());
+  }
+
+  @Test
+  public void testErrorReportConfirmInclude() {
+    assertNull(bean.getErrorReportConfirmInclude());
+    bean.setErrorReportConfirmInclude(TEST_STRING);
+    assertEquals(TEST_STRING, bean.getErrorReportConfirmInclude());
+  }
 }

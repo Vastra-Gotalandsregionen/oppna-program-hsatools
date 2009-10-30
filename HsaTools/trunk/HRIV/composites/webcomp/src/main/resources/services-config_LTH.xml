@@ -71,11 +71,23 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:se/vgregion/kivtools/search/svc/impl/hak/ldap/search-composite-svc-connection.properties" />
     </bean>
-
- 	<!-- Not used like this anymore. getParentDN can take the admin level as a parameter. Make sure it is handled correctly.
-	<bean class="se.vgregion.kivtools.search.domain.values.DN" lazy-init="false">
-		<property name="administrationLevel" value="-2" />
+	
+	<bean id="reCaptcha" class="net.tanesha.recaptcha.ReCaptchaImpl">
+		<property name="privateKey" value="${hsatools.search.svc.recaptcha.privatekey}" />
+		<property name="publicKey" value="${hsatools.search.svc.recaptcha.publickey}" />
+		<property name="recaptchaServer" value="http://api.recaptcha.net" />
+		<!-- Or, if you want to use SSL, then use this:
+		<property name="recaptchaServer" value="http://secure-api.recaptcha.net" />
+		-->
+		<property name="includeNoscript" value="false" />
 	</bean>
-	 -->
+	
+	<bean id="captchaValidator" class="se.vgregion.kivtools.hriv.presentation.validation.CaptchaValidatorRecaptchaImpl">
+		<property name="recaptcha" ref="reCaptcha" />
+	</bean>
 
+	<bean id="errorReportingFlowSupportBean" class="se.vgregion.kivtools.hriv.presentation.ErrorReportingFlowSupportBean">
+		<property name="errorReportingService" ref="errorReportingService" />
+		<property name="captchaValidator" ref="captchaValidator" />
+	</bean>
 </beans>

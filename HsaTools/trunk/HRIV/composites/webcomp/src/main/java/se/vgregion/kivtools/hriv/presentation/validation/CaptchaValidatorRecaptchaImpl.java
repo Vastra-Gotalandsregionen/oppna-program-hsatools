@@ -15,20 +15,30 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-package se.vgregion.kivtools.search.svc;
+package se.vgregion.kivtools.hriv.presentation.validation;
+
+import net.tanesha.recaptcha.ReCaptcha;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 
 /**
- * Service for reporting errors in the LDAP directory to the responsible editors for the unit or person.
+ * Implementation of the CaptchaValidator interface based on recaptcha.net's service.
  * 
  * @author Joakim Olsson
  */
-public interface ErrorReportingService {
+public class CaptchaValidatorRecaptchaImpl implements CaptchaValidator {
+  private ReCaptcha recaptcha;
+
   /**
-   * Report an error for the unit or person with the provided DN. The provided report text is sent as an email to the responsible editors for the unit or person.
-   * 
-   * @param dn The DN of the unit or person to report an error for.
-   * @param reportText The text to send with the error report.
-   * @param detailLink A link to the detail-page of the unit or person.
+   * {@inheritDoc}
    */
-  void reportError(String dn, String reportText, String detailLink);
+  @Override
+  public boolean validate(String captchaChallenge, String captchaResponse, String remoteAddress) {
+    ReCaptchaResponse response = recaptcha.checkAnswer(remoteAddress, captchaChallenge, captchaResponse);
+
+    return response.isValid();
+  }
+
+  public void setRecaptcha(ReCaptcha recaptcha) {
+    this.recaptcha = recaptcha;
+  }
 }

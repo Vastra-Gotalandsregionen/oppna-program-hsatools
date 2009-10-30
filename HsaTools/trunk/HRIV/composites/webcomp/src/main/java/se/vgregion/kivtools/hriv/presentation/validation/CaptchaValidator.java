@@ -15,20 +15,22 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-package se.vgregion.kivtools.search.svc;
+package se.vgregion.kivtools.hriv.presentation.validation;
 
 /**
- * Service for reporting errors in the LDAP directory to the responsible editors for the unit or person.
+ * Validator for CAPTCHA responses.
  * 
  * @author Joakim Olsson
  */
-public interface ErrorReportingService {
+public interface CaptchaValidator {
   /**
-   * Report an error for the unit or person with the provided DN. The provided report text is sent as an email to the responsible editors for the unit or person.
+   * Validates the users response to a CAPTCHA.
    * 
-   * @param dn The DN of the unit or person to report an error for.
-   * @param reportText The text to send with the error report.
-   * @param detailLink A link to the detail-page of the unit or person.
+   * @param captchaChallenge The captcha challenge the user received.
+   * @param captchaResponse The users response to validate.
+   * @param remoteAddress The users IP-address.
+   * 
+   * @return True if the response was correct, otherwise false.
    */
-  void reportError(String dn, String reportText, String detailLink);
+  boolean validate(String captchaChallenge, String captchaResponse, String remoteAddress);
 }

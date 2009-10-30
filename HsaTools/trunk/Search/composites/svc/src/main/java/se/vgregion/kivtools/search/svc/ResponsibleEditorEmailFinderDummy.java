@@ -17,18 +17,20 @@
  */
 package se.vgregion.kivtools.search.svc;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
- * Service for reporting errors in the LDAP directory to the responsible editors for the unit or person.
  * 
- * @author Joakim Olsson
+ * @author argoyle
  */
-public interface ErrorReportingService {
+public class ResponsibleEditorEmailFinderDummy implements ResponsibleEditorEmailFinder {
+
   /**
-   * Report an error for the unit or person with the provided DN. The provided report text is sent as an email to the responsible editors for the unit or person.
-   * 
-   * @param dn The DN of the unit or person to report an error for.
-   * @param reportText The text to send with the error report.
-   * @param detailLink A link to the detail-page of the unit or person.
+   * {@inheritDoc}
    */
-  void reportError(String dn, String reportText, String detailLink);
+  @Override
+  public List<String> findResponsibleEditors(String dn) {
+    return Arrays.asList("test@test.com");
+  }
 }

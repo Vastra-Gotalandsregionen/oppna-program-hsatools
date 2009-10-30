@@ -100,7 +100,7 @@
 	</action-state>
 
 	<action-state id="Error.report">
-		<evaluate expression="errorReportingFlowSupportBean.reportError(errorReportingForm.dn, errorReportingForm.reportText)" result="flowScope.errorReportDone" />
+		<evaluate expression="errorReportingFlowSupportBean.reportError(errorReportingForm.dn, errorReportingForm.reportText, requestParameters.detailLink)" result="flowScope.errorReportDone" />
 		<transition to="Display.unitDetailsByDn" />
 	</action-state>
 

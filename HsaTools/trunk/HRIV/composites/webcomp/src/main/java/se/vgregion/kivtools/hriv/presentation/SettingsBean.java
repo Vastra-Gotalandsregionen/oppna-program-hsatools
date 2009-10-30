@@ -33,6 +33,8 @@ public class SettingsBean implements Serializable {
   private String resourceBundleInclude;
   private String vardValInclude;
   private String googleMapInitInclude;
+  private String errorReportFormInclude;
+  private String errorReportConfirmInclude;
   private boolean testingMode;
   private boolean useAccessibilityDatabaseIntegration;
   private boolean fallbackOnAddressForMap;
@@ -462,5 +464,21 @@ public class SettingsBean implements Serializable {
 
   public String getGoogleMapInitInclude() {
     return googleMapInitInclude;
+  }
+
+  public void setErrorReportFormInclude(String errorReportFormInclude) {
+    this.errorReportFormInclude = errorReportFormInclude;
+  }
+
+  public String getErrorReportFormInclude() {
+    return errorReportFormInclude;
+  }
+
+  public void setErrorReportConfirmInclude(String errorReportConfirmInclude) {
+    this.errorReportConfirmInclude = errorReportConfirmInclude;
+  }
+
+  public String getErrorReportConfirmInclude() {
+    return errorReportConfirmInclude;
   }
 }
