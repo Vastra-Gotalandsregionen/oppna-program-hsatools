@@ -16,6 +16,7 @@ import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 
 public class SuggestionBeanTest {
 
+  private static final String RESULT = "<?xml version='1.0' standalone='yes'?>\n<suggestions>\n<suggestion description=\"Test1\" />\n<suggestion description=\"Test2\" />\n</suggestions>";
   private SuggestionBean suggestionBean;
   private CodeTableServiceMock codeTableServiceMock;
   private MockHttpServletResponse httpServletResponse;
@@ -26,33 +27,50 @@ public class SuggestionBeanTest {
     codeTableServiceMock = new CodeTableServiceMock();
     suggestionBean.setCodeTablesService(codeTableServiceMock);
     httpServletResponse = new MockHttpServletResponse();
-  }
+    codeTableServiceMock.descriptionValues.add("Test1");
+    codeTableServiceMock.descriptionValues.add("Test2");
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testGetSuggestionsInvalidCodeTable() throws IOException {
-    suggestionBean.getSuggestions(httpServletResponse, "", "");
   }
 
   @Test(expected = NullPointerException.class)
   public void testGetSuggestionsNullCodeTable() throws IOException {
-    suggestionBean.getSuggestions(httpServletResponse, null, null);
+    suggestionBean.getSuggestionsForSpeciality(httpServletResponse, null);
   }
 
   @Test
   public void testGetSuggestionsEmptyValue() throws IOException {
-    suggestionBean.getSuggestions(httpServletResponse, CodeTableName.VGR_AO3_CODE.name(), "");
+    suggestionBean.setCodeTablesService(new CodeTableServiceMock());
+    suggestionBean.getSuggestionsForAdministration(httpServletResponse, "");
     String suggestions = httpServletResponse.getContentAsString();
     assertEquals("<?xml version='1.0' standalone='yes'?>\n<suggestions>\n</suggestions>", suggestions);
   }
 
   @Test
-  public void testGetSuggestionsValidValue() throws IOException {
-    codeTableServiceMock.descriptionValues.add("Test1");
-    codeTableServiceMock.descriptionValues.add("Test2");
-
-    suggestionBean.getSuggestions(httpServletResponse, CodeTableName.VGR_AO3_CODE.name(), "test");
+  public void testSuggestionsForProfession() throws IOException {
+    suggestionBean.getSuggestionsForProfession(httpServletResponse, "test");
     String suggestions = httpServletResponse.getContentAsString();
-    assertEquals("<?xml version='1.0' standalone='yes'?>\n<suggestions>\n<suggestion description=\"Test1\" />\n<suggestion description=\"Test2\" />\n</suggestions>", suggestions);
+    assertEquals(RESULT, suggestions);
+  }
+
+  @Test
+  public void testSuggestionsForLanguageKnowledge() throws IOException {
+    suggestionBean.getSuggestionsForLanguageKnowledge(httpServletResponse, "test");
+    String suggestions = httpServletResponse.getContentAsString();
+    assertEquals(RESULT, suggestions);
+  }
+
+  @Test
+  public void testSuggestionsForSpeciality() throws IOException {
+    suggestionBean.getSuggestionsForSpeciality(httpServletResponse, "test");
+    String suggestions = httpServletResponse.getContentAsString();
+    assertEquals(RESULT, suggestions);
+  }
+
+  @Test
+  public void testGetSuggestionsAdministration() throws IOException {
+    suggestionBean.getSuggestionsForAdministration(httpServletResponse, "test");
+    String suggestions = httpServletResponse.getContentAsString();
+    assertEquals(RESULT, suggestions);
   }
 
   class CodeTableServiceMock implements CodeTablesService {

@@ -164,3 +164,14 @@ function drawToggleDescription() {
 			e[i].innerHTML = '<a href="#" class="url" onclick="toggleExtendDescription();"><img name="description-toggle-image" alt="" src="resources/images/bullet_toggle_plus.png"/><span name="toggle-extend-description-link-span">Utöka beskrivning om mottagning</span></a>';
 	}
 }
+
+function clearInputs(){
+    var inputs = document.getElementsByTagName("input");
+    for(var c = 0; c < inputs.length; c++){
+    	
+    	  if(inputs[c].type == "text"){
+    		  inputs[c].value = "";
+         }
+    	
+    }
+}
