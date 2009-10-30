@@ -1,0 +1,17 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html">
+	<div id="unit-details-report">
+		<div class="report-form">
+			<h2>${msg.reportError}</h2>
+			<h:form id="errorReportingForm">
+		<h:inputHidden id="dn" value="${errorReportingForm.dn}" />
+				<div class="text">
+				    <h:outputLabel for="reportText">${msg.describeError}</h:outputLabel>
+					<h:inputTextarea cols="40" rows="24" id="reportText" value="${errorReportingForm.reportText}" />
+				</div>
+				<div class="submit-area"><h:commandButton id="doSubmitErrorReport" value="${msg.sendErrorReport}" action="doSubmitErrorReport"/></div>
+			</h:form>
+		</div>
+	</div>
+</div>

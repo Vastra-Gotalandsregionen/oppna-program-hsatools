@@ -45,6 +45,7 @@
 
 	<ui:define name="MainContainer">
 		<div class="yui-u search-result">
+            <ui:include src="${Search_SettingsContainer.settings.errorReportConfirmInclude}" />
 			<div class="summary">
 				<h2>${unit.name}</h2>
 				<ui:include src="${Search_SettingsContainer.settings.unitDetailsAncestorListInclude}" />
@@ -129,6 +130,7 @@
 			<ui:include src="${Search_SettingsContainer.settings.unitDetailsAddressInclude}" />
 			<ui:include src="${Search_SettingsContainer.settings.unitDetailsMiscInfoTableInclude}" />
             <ui:include src="${Search_SettingsContainer.settings.unitDetailsPatientInfoTableInclude}" />
+            <ui:include src="${Search_SettingsContainer.settings.errorReportFormInclude}" />
 		</div>
 	</ui:define>
 

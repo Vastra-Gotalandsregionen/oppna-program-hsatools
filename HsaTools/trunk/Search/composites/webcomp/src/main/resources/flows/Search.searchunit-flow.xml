@@ -25,6 +25,7 @@
 	start-state="Decision.displayUnitDetails">
 
 	<var name="unitSearchSimpleForm" class="se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm" />
+	<var name="errorReportingForm" class="se.vgregion.kivtools.search.presentation.forms.ErrorReportingForm" />
 	<var name="units" class="java.util.ArrayList" />
 	
 	<input name="hsaidentity" />
@@ -32,6 +33,7 @@
 	<input name="dn" />
 	
 	<decision-state id="Decision.displayUnitDetails">
+		<if test="errorReportingForm.reportText!=null" then="Error.report"/>
 		<if test="requestParameters.parentHsaIdentity!=null" then="Display.subUnitsById"/>
 		<if test="requestParameters.hsaidentity!=null" then="Display.unitDetailsById"/>
 		<if test="requestParameters.dn!=null" then="Display.unitDetailsByDn" else="Search.displayUnitSearchResult"/>
@@ -62,19 +64,27 @@
 	<view-state id="Display.unitDetailsById" view="/displayUnitDetails.xhtml">
 		<on-entry>
 			<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitDetails(flowScope.hsaidentity)" result="flowScope.unit"/>
+			<set name="errorReportingForm.dn" value="flowScope.unit.dn.toString()" />
+			<set name="errorReportingForm.reportText" value="null" />
+			<set name="flowScope.dn" value="flowScope.unit.dn.toString()" />
 		</on-entry>
 		<transition on="doCancel" to="Search.displayUnitSearchResult"></transition>
 		<transition on="doSearch" to="Search.validateSearchParams" />
 		<transition on="displayUnit" to="Display.unitDetailsByDn" />
+		<transition on="doSubmitErrorReport" to="Error.report" />
 	</view-state>
 	
 	<view-state id="Display.unitDetailsByDn" view="/displayUnitDetails.xhtml">
 		<on-entry>
 			<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitByDn(flowScope.dn)" result="flowScope.unit" />
+			<set name="errorReportingForm.dn" value="flowScope.unit.dn.toString()" />
+			<set name="errorReportingForm.reportText" value="null" />
+			<set name="flowScope.dn" value="flowScope.unit.dn.toString()" />
 		</on-entry>
 		<transition on="doCancel" to="Search.displayUnitSearchResult"></transition>
 		<transition on="doSearch" to="Search.validateSearchParams" />
 		<transition on="displayUnit" to="Display.unitDetailsByDn" />
+		<transition on="doSubmitErrorReport" to="Error.report" />
 	</view-state>
 
 	<view-state id="Search.ErrorHandle" view="/displayError.xhtml">
@@ -89,6 +99,10 @@
 		</transition>
 	</action-state>
 
+	<action-state id="Error.report">
+		<evaluate expression="errorReportingFlowSupportBean.reportError(errorReportingForm.dn, errorReportingForm.reportText)" result="flowScope.errorReportDone" />
+		<transition to="Display.unitDetailsByDn" />
+	</action-state>
 
 	<global-transitions>
 		<transition on-exception="java.lang.Exception" to="Search.ErrorHandle" />

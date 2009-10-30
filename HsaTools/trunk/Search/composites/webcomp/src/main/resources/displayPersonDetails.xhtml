@@ -25,7 +25,6 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	
 	<ui:composition	template="/template.xhtml">
-	
 		<ui:define name="HeadContainer">
 			<ui:include src="${Search_SettingsContainer.settings.personDetailsHeadInclude}" />
 		</ui:define>
@@ -42,37 +41,37 @@
 			</ul>
 		</ui:define>
 	
-	<ui:define name="HeaderInputFieldContainer">
-		<form id="searchPersonForm" jsfc="h:form" class="search-form">
-			<div id="formContainer">
-				<div class="textname">
-					<label for="givenName" jsfc="h:outputLabel">Förnamn</label>
-					<input id="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" jsfc="h:inputText" />
+		<ui:define name="HeaderInputFieldContainer">
+			<form id="searchPersonForm" jsfc="h:form" class="search-form">
+				<div id="formContainer">
+					<div class="textname">
+						<label for="givenName" jsfc="h:outputLabel">Förnamn</label>
+						<input id="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" jsfc="h:inputText" />
+					</div>
+					<div class="textname">
+						<label for="surname" jsfc="h:outputLabel">Efternamn</label>
+						<input id="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" jsfc="h:inputText" />
+					</div>
+					<div class="userIdText">
+						<label for="userId" jsfc="h:outputLabel">${msg.userId}</label>
+						<input id="userId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.userId}" jsfc="h:inputText"/>
+					</div>
+					<div class="submit-area">
+						<input type="submit" action="doSearch" id="submitButton" value="Sök" jsfc="h:commandButton" />
+					</div>
 				</div>
-				<div class="textname">
-					<label for="surname" jsfc="h:outputLabel">Efternamn</label>
-					<input id="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" jsfc="h:inputText" />
-				</div>
-				<div class="userIdText">
-					<label for="userId" jsfc="h:outputLabel">${msg.userId}</label>
-					<input id="userId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.userId}" jsfc="h:inputText"/>
-				</div>
-				<div class="submit-area">
-					<input type="submit" action="doSearch" id="submitButton" value="Sök" jsfc="h:commandButton" />
-				</div>
-			</div>
-		</form>
-	</ui:define>
+			</form>
+		</ui:define>
 	
 		<ui:define name="MainContainer">
 			<div class="yui-u search-result">
+	            <ui:include src="${Search_SettingsContainer.settings.errorReportConfirmInclude}" />
 				<ui:include src="${Search_SettingsContainer.settings.personDetailsSummaryInclude}" />
 				<ui:include src="${Search_SettingsContainer.settings.personDetailsMainInfoInclude}" />
 				<div id="kiv-results">
 					<div class="tab" jsfc="ui:repeat" value="${person.employments}" var="employment">
 						<div class="tab-hd"><h3>Anställning - ${employment.title}</h3></div>
 						<div class="tab-bd">
-
 							<ui:include src="${Search_SettingsContainer.settings.personDetailsEmploymentsTableInclude}" />
 
 							<table>
@@ -84,7 +83,6 @@
 										<td headers="job-tjanste-telefon-${employment.cn}" colspan="5">
 											${employment.hsaTelephoneNumbersCSVString}
 								        </td>
-										<!--  <td headers="job-tjanste-telefon-${employment.cn}" colspan="5">${employment.hsaTelephoneNumber.formattedPhoneNumber}</td>-->
 									</tr>
 									<tr>
 										<th id="job-publiktelefon-${employment.cn}">Publik telefon</th>
@@ -121,8 +119,8 @@
 					</div>
 				</div>
 				<ui:include src="${Search_SettingsContainer.settings.userEventInfoInclude}" />
+	            <ui:include src="${Search_SettingsContainer.settings.errorReportFormInclude}" />
 			</div>
 		</ui:define>
-
 	</ui:composition>
 </div>
