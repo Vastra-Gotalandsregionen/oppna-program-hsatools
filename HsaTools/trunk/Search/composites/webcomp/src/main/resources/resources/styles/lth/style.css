@@ -291,5 +291,49 @@ a.unit {
 .ulmenu {margin-bottom:0px;}
 .info{width:270px;}
 
-
-
+/* Report errors */
+#unit-details-report {
+	clear:both;
+	text-align:center
+}
+#unit-details-report .report-form {
+	width:450px;
+	margin:0 auto;
+	padding:10px 12px;
+	background:#fff2cf;
+	border-top:1px solid #f6dec5;
+	text-align:left;
+}
+#unit-details-report h2 {
+	margin:0 0 10px;
+	padding-left:20px;
+	background:url(../../images/lth/icn-report.gif) no-repeat 0 50%;
+}
+#unit-details-report form {
+	padding:8px 10px;
+	background:#fff;
+	border-top:1px solid #f6dec5;
+}
+#unit-details-report label {display:block;}
+#unit-details-report .text textarea {
+	width:400px;
+	height:11em;
+}
+#unit-details-report .text {
+	margin:0 0 10px;
+}
+#unit-details-report .submit-area {
+	padding-top:8px;
+	border-top:1px solid #ddd;
+}
+.report-success {
+	margin:20px 0;
+	padding:10px;
+	background:#dff3d6;
+	border:1px solid #c6e4b8;
+}
+.report-success p {margin:0;}
+a.report-link {
+    padding: 0 0 0 18px;
+    background: url(../../images/lth/icn-report.gif) no-repeat 0 50%;
+}

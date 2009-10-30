@@ -25,6 +25,7 @@
     start-state="Decision.displayPersonDetails">
 
 	<var name="personSearchSimpleForm" class="se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm" />
+	<var name="errorReportingForm" class="se.vgregion.kivtools.search.presentation.forms.ErrorReportingForm" />
 	<var name="persons" class="java.util.ArrayList" />
 	<var name="currentDate" class="java.util.Date"/>
 	<!-- Get person with specified vgrId -->
@@ -37,6 +38,7 @@
 	<!-- No input parameter shows new search screen -->
 
 	<decision-state id="Decision.displayPersonDetails">		
+		<if test="errorReportingForm.reportText!=null" then="Error.report"/>
 		<if test="requestParameters.vgrid!=null" then="Display.personDetails" />
 		<if test="requestParameters.dn!=null" then="Display.unitOrganisation" />
 		<if test="requestParameters.hsaidentity!=null" then="Display.unitOrganisation" else="Search.displayPersonSearchResult"/>
@@ -68,9 +70,13 @@
 		<on-entry>
 			<evaluate expression="Display_DisplayPersonDetailsFlowSupportBean.getPersonDetails(flowScope.vgrid)" result="flowScope.person" />
 			<evaluate expression="userEventService.retrieveUserEvents(person.givenName, person.sn, person.employments.get(0).hsaPublicTelephoneNumber.phoneNumber, person.employments.get(0).mobileTelephoneNumber.phoneNumber)" result="flowScope.userEvents" />
+			<set name="errorReportingForm.dn" value="flowScope.person.dn" />
+			<set name="errorReportingForm.reportText" value="null" />
+			<set name="flowScope.vgrid" value="flowScope.person.vgrId" />
 		</on-entry>
 		<transition on="doCancel" to="Search.displayPersonSearchResult" />
 		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="doSubmitErrorReport" to="Error.report" />
 	</view-state>	
 	
 	<action-state id="Display.unitOrganisation">
@@ -84,6 +90,11 @@
 	<view-state id="Search.ErrorHandle" view="/displayError.xhtml">
 		<transition on="confirm" to="Search.displayPersonSearchResult" />
 	</view-state>
+
+	<action-state id="Error.report">
+		<evaluate expression="errorReportingFlowSupportBean.reportError(errorReportingForm.dn, errorReportingForm.reportText)" result="flowScope.errorReportDone" />
+		<transition to="Display.personDetails" />
+	</action-state>
 
 	<global-transitions>
 		<transition on-exception="java.lang.Exception"

@@ -22,8 +22,17 @@
 			value="classpath:resources/settings/lth/sik-composite-webcomp.properties" />
 		<property name="placeholderPrefix" value="#{" />
 		<property name="fileEncoding" value="UTF-8" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
 	</bean>
 
+	<bean id="propertyPlaceholderLdapConnectionProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="classpath:se/vgregion/kivtools/search/svc/impl/hak/ldap/search-composite-svc-connection.properties" />
+		<property name="placeholderPrefix" value="#{" />
+		<property name="fileEncoding" value="UTF-8" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
 
 	<bean id="Search_SettingsContainer" class="se.vgregion.kivtools.search.presentation.SettingsBean"
 		scope="prototype">
@@ -58,5 +67,42 @@
 				<constructor-arg value="SMSRedirect"/>
 			</bean>
 		</property>
+	</bean>
+
+	<bean id="contextSourceResponsibleEditor" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://#{hsatools.search.svc.ldap.ldaphost}" />
+		<property name="base" value="" />
+		<property name="userDn" value="#{hsatools.search.svc.ldap.logindn}" />
+		<property name="password" value="#{hsatools.search.svc.ldap.password}" />
+		<property name="pooled" value="true" />
+	</bean>
+
+	<bean id="ldapTemplateResponsibleEditor" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSourceResponsibleEditor" />
+	</bean>
+
+	<bean id="springMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="engerix.lthalland.se" />
+	</bean>
+	
+	<bean id="responsibleEditorEmailFinder" class="se.vgregion.kivtools.search.svc.impl.hak.ResponsibleEditorEmailFinderImpl">
+		<property name="ldapTemplate" ref="ldapTemplateResponsibleEditor" />
+	</bean>
+	
+	<!-- Use this in production. Change in errorReportingService-bean. -->
+	<bean id="emailSender" class="se.vgregion.kivtools.util.email.EmailSenderSpringImpl">
+		<property name="mailSender" ref="springMailSender" />
+	</bean>
+	
+	<!-- Used temporarily to not spam the responsible editors during testing -->
+	<bean id="emailLogger" class="se.vgregion.kivtools.util.email.EmailLoggerImpl" />
+	
+	<bean id="errorReportingService" class="se.vgregion.kivtools.search.svc.impl.hak.ErrorReportingServiceImpl">
+		<property name="emailSender" ref="emailLogger" />
+		<property name="responsibleEditorEmailFinder" ref="responsibleEditorEmailFinder" />
+	</bean>
+	
+	<bean id="errorReportingFlowSupportBean" class="se.vgregion.kivtools.search.presentation.ErrorReportingFlowSupportBean">
+		<property name="errorReportingService" ref="errorReportingService" />
 	</bean>
 </beans>
