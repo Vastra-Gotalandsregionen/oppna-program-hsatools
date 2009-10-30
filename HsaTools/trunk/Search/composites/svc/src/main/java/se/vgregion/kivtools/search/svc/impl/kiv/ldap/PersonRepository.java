@@ -332,12 +332,12 @@ public class PersonRepository {
 
   private boolean isExactMatchFilter(String searchValue) {
     boolean isExactMatch = false;
-      // it has to be at least one character between the " e.g. "a" for an exact match
-      if (searchValue.length() <= 2) {
-        isExactMatch = false;
-      }else if (searchValue.startsWith(LDAP_EXACT_CARD) && searchValue.endsWith(LDAP_EXACT_CARD)) {
-        isExactMatch = true;
-      }
+    // it has to be at least one character between the " e.g. "a" for an exact match
+    if (searchValue.length() <= 2) {
+      isExactMatch = false;
+    } else if (searchValue.startsWith(LDAP_EXACT_CARD) && searchValue.endsWith(LDAP_EXACT_CARD)) {
+      isExactMatch = true;
+    }
     return isExactMatch;
   }
 
@@ -447,8 +447,12 @@ public class PersonRepository {
   private Filter generateOrFilterFromList(CodeTableName codeTableName, LDAPPersonAttributes criterion, String criterionValue) {
     List<String> codeFromTextValues = codeTablesService.getCodeFromTextValue(codeTableName, criterionValue);
     OrFilter orFilter = new OrFilter();
-    for (String value : codeFromTextValues) {
-      orFilter.or(new LikeFilter(criterion.toString(), value));
+    if (codeFromTextValues.size() > 0) {
+      for (String value : codeFromTextValues) {
+        orFilter.or(new LikeFilter(criterion.toString(), value));
+      }
+    } else {
+      orFilter.or(new EqualsFilter(criterion.toString(), "NO_VALID_CODE_TABLE_CODE_FOUND"));
     }
     return orFilter;
   }

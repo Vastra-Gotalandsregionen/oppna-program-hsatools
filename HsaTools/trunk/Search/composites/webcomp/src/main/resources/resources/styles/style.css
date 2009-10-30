@@ -30,7 +30,7 @@
 }
 
 #header-container {
-	width: 930px;
+	width: 950px;
 	margin: 0 auto;
 }
 
@@ -451,6 +451,7 @@ div.autocomplete {
 	margin-bottom: 0.5em;
 	padding: 0px;
 	font-size: 1.2em;
+	z-index: 150000;
 }
 
 .yui-ac-content {

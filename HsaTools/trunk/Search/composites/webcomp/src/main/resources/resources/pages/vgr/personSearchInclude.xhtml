@@ -7,20 +7,28 @@
         <div class="formRow">
     		<div class="textname">
     			<h:outputLabel for="givenName">Förnamn</h:outputLabel>
-    			<h:inputText id="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" />
+    		    <div>	
+                  <h:inputText id="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" />
+                </div>
     		</div>
     		<div class="textname">
     			<h:outputLabel for="surname">Efternamn</h:outputLabel>
-    			<h:inputText id="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" />
+                <div>
+    			 <h:inputText id="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" />
+                </div>
     		</div>
     		<div class="userIdText">
     			<h:outputLabel for="userId">${msg.userId}</h:outputLabel>
-    			<h:inputText id="userId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.userId}" />
+                <div>
+    			 <h:inputText id="userId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.userId}" />
+                </div>
     		</div>
     		<div class="submit-area">
     			<h:commandButton type="submit" action="doSearch" id="submitButton" value="Sök" />
     		</div>
-          
+            <div class="submit-area">
+                <h:commandButton type="submit" onclick="clearInputs()" id="submitButton" value="Rensa" />
+            </div>
            </div>
         
    		<c:set var="displaySimple" value="none"/>
@@ -51,11 +59,15 @@
             <div class="formRow">
                 <div class="textname">
                     <h:outputLabel for="employmentTitle">${msg.title}</h:outputLabel>
-                    <h:inputText id="employmentTitle" type="text" class="search-input-name-field" value="${personSearchSimpleForm.employmentTitle}" />
+                    <div>
+                      <h:inputText id="employmentTitle" type="text" class="search-input-name-field" value="${personSearchSimpleForm.employmentTitle}" />
+                    </div>
                 </div>
                 <div class="textname">
                     <h:outputLabel for="email">${msg.email}</h:outputLabel>
-                    <h:inputText id="email" type="text" class="search-input-name-field" value="${personSearchSimpleForm.email}" />
+                    <div>
+                      <h:inputText id="email" type="text" class="search-input-name-field" value="${personSearchSimpleForm.email}" />
+                    </div>                    
                 </div>
             </div>
             <div class="formRow">
