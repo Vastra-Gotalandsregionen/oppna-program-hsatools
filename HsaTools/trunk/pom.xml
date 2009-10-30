@@ -507,6 +507,12 @@
 				<version>0.4-SNAPSHOT</version>
 				<scope>test</scope>
 			</dependency>
+			
+			<dependency>
+                <groupId>net.tanesha.recaptcha4j</groupId>
+                <artifactId>recaptcha4j</artifactId>
+                <version>0.0.7</version>
+        	</dependency>
         </dependencies>
 	</dependencyManagement>
     
@@ -626,6 +632,11 @@
 			<id>Codehaus</id>
 			<name>Codehaus repository</name>
 			<url>http://repository.codehaus.org/</url>
+		</repository>
+		
+		<repository>
+			<id>taneshanet</id>
+			<url>http://tanesha.net/maven2</url>
 		</repository>
     </repositories>
 	
