@@ -46,7 +46,7 @@
            <div class="formRow">
                 <div class="textname">
                     <h:outputLabel for="administration">${msg.administration}</h:outputLabel>
-                    <div class="autocomplete_container">
+                    <div class="autocomplete_container" id="administration_container">
                         <h:inputText id="administration" type="text" class="search-input-name-field" value="${personSearchSimpleForm.administration}" />
                         <div id="autocomplete_searchPersonForm:administration" class="autocomplete"></div>
                     </div>
@@ -73,14 +73,14 @@
             <div class="formRow">
                 <div class="textname">
                     <h:outputLabel for="profession">${msg.profession}</h:outputLabel>
-                    <div class="autocomplete_container">
+                    <div class="autocomplete_container" id="profession_container">
                         <h:inputText id="profession" type="text" class="search-input-name-field" value="${personSearchSimpleForm.profession}" />
                         <div id="autocomplete_searchPersonForm:profession" class="autocomplete"></div>
                     </div>
                 </div>
                 <div class="textname">
                     <h:outputLabel for="specialityArea">${msg.specialityArea}</h:outputLabel>
-                    <div class="autocomplete_container">
+                    <div class="autocomplete_container" id="specialityArea_container">
                         <h:inputText id="specialityArea" type="text" class="search-input-name-field" value="${personSearchSimpleForm.specialityArea}" />
                         <div id="autocomplete_searchPersonForm:specialityArea" class="autocomplete"></div>
                     </div>
@@ -89,7 +89,7 @@
             <div class="formRow">
                 <div class="textname">
                     <h:outputLabel for="languageKnowledge">${msg.languageKnowledge}</h:outputLabel>
-                    <div class="autocomplete_container">
+                    <div class="autocomplete_container" id="languageKnowledge_container">
                         <h:inputText id="languageKnowledge" type="text" class="search-input-name-field" value="${personSearchSimpleForm.languageKnowledge}" />
                         <div id="autocomplete_searchPersonForm:languageKnowledge" class="autocomplete"></div>
                     </div>
