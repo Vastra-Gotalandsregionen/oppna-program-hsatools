@@ -165,13 +165,13 @@ function drawToggleDescription() {
 	}
 }
 
-function clearInputs(){
-    var inputs = document.getElementsByTagName("input");
-    for(var c = 0; c < inputs.length; c++){
-    	
-    	  if(inputs[c].type == "text"){
-    		  inputs[c].value = "";
-         }
-    	
-    }
+function clearInputs() {
+	var inputs = document.getElementsByTagName("input");
+	for ( var c = 0; c < inputs.length; c++) {
+		if (inputs[c].type == "text") {
+			inputs[c].value = "";
+		}
+	}
+
+	return false;
 }
