@@ -477,3 +477,19 @@ div.autocomplete {
 	cursor: pointer;
 }
 /*--------------- END YUI AC */
+
+#administration_container {
+	z-index: 9003;
+}
+
+#profession_container {
+	z-index: 9002;
+}
+
+#specialityArea_container {
+	z-index: 9001;
+}
+
+#languageKnowledge_container {
+	z-index: 9000;
+}
