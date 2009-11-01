@@ -118,10 +118,10 @@ public class SearchServiceMockImpl implements SearchService {
       u.setHsaTelephoneNumber(p);
       a = new ArrayList<String>();
       a.add("Storgatan 1");
-      a.add("411 01 G�teborg");
+      a.add("411 01 Göteborg");
       u.setDescription(d);
       u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
-      u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Omr�de 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
+      u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
     }
 
     else if (hsaId.equalsIgnoreCase("ABC002")) {
@@ -133,14 +133,14 @@ public class SearchServiceMockImpl implements SearchService {
       u.setHsaTelephoneNumber(p);
       a = new ArrayList<String>();
       a.add("Storgatan 1");
-      a.add("411 01 G�teborg");
+      a.add("411 01 Göteborg");
       u.setDescription(d);
       u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
-      u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Omr�de 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
+      u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
     }
 
     else if (hsaId.equalsIgnoreCase("ABC003")) {
-      u.setName("Uddevalla v�rdcentral");
+      u.setName("Uddevalla vårdcentral");
       u.setHsaIdentity("ABC003");
       p = new ArrayList<PhoneNumber>();
       p.add(PhoneNumber.createPhoneNumber("031-123456"));
@@ -151,7 +151,7 @@ public class SearchServiceMockImpl implements SearchService {
       a.add("411 01 Uddevalla");
       u.setDescription(d);
       u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
-      u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Omr�de 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
+      u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
     }
     return u;
   }
@@ -211,7 +211,7 @@ public class SearchServiceMockImpl implements SearchService {
     u.setHsaTelephoneNumber(p);
     a = new ArrayList<String>();
     a.add("Storgatan 1");
-    a.add("411 01 G�teborg");
+    a.add("411 01 Göteborg");
     u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
     u.setLdapDistinguishedName("VGR IT/Org C/Org B/Org A");
     return u;
@@ -268,7 +268,7 @@ public class SearchServiceMockImpl implements SearchService {
     u.setHsaTelephoneNumber(p);
     a = new ArrayList<String>();
     a.add("Storgatan 1");
-    a.add("411 01 G�teborg");
+    a.add("411 01 Göteborg");
     u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
     u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
     list.add(u);
