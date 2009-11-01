@@ -493,3 +493,7 @@ div.autocomplete {
 #languageKnowledge_container {
 	z-index: 9000;
 }
+
+#businessClassificationName_container {
+	z-index: 9000;
+}
