@@ -25,8 +25,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import javax.naming.directory.SearchControls;
+
+import org.springframework.ldap.control.PagedResultsCookie;
+import org.springframework.ldap.control.PagedResultsDirContextProcessor;
+import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
+import org.springframework.ldap.filter.Filter;
 import org.springframework.ldap.filter.LikeFilter;
 import org.springframework.ldap.filter.OrFilter;
 
@@ -50,7 +56,6 @@ import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.util.StringUtil;
 
 import com.domainlanguage.time.TimePoint;
-import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPEntry;
 import com.novell.ldap.LDAPException;
@@ -63,12 +68,11 @@ import com.novell.ldap.LDAPSearchResults;
  */
 public class PersonRepository {
   private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
-  private static final String KIV_SEARCH_BASE = "OU=Landstinget Halland,DC=lthallandhsa,DC=se";
-  private static final String CLASS_NAME = PersonRepository.class.getName();
   private static final String LDAP_WILD_CARD = "*";
   // an "
   private static final String LDAP_EXACT_CARD = "\"";
   private LdapConnectionPool theConnectionPool;
+  private LdapTemplate ldapTemplate;
   // List for redundancy check of persons that contains in the LDAP search
   // result
   private List<String> personRedundancyCheck = new ArrayList<String>();
@@ -77,6 +81,10 @@ public class PersonRepository {
 
   public void setLdapConnectionPool(LdapConnectionPool lp) {
     this.theConnectionPool = lp;
+  }
+
+  public void setLdapTemplate(LdapTemplate ldapTemplate) {
+    this.ldapTemplate = ldapTemplate;
   }
 
   /**
@@ -122,7 +130,7 @@ public class PersonRepository {
    */
   public Person getPersonByVgrId(String vgrId) throws KivException {
     String searchFilter = "(&(objectclass=hkatPerson)(regionName=" + vgrId + "))";
-    return searchPerson(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter);
+    return searchPerson(Constants.SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter);
   }
 
   /**
@@ -131,40 +139,23 @@ public class PersonRepository {
    * @throws KivException If something goes wrong.
    */
   public List<String> getAllPersonsVgrId() throws KivException {
-    LDAPSearchConstraints constraints = new LDAPSearchConstraints();
-    constraints.setMaxResults(0);
-    String searchFilter = "(objectClass=hkatPerson)";
-    String[] attributes = new String[1];
-    attributes[0] = "regionName";
-    Map<String, String> result = new HashMap<String, String>();
+    PagedResultsCookie cookie = null;
+    PagedResultsDirContextProcessor control = new PagedResultsDirContextProcessor(100, cookie);
+    SearchControls searchControls = new SearchControls();
+    searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 
-    try {
-      LDAPConnection lc = getLDAPConnection();
-      try {
-        LDAPSearchResults searchResults = lc.search(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter, attributes, false, constraints);
-        // fill the list from the search result
-        while (searchResults.hasMore()) {
-          try {
-            LDAPEntry nextEntry = searchResults.next();
-            LDAPAttribute attribute = nextEntry.getAttribute(attributes[0]);
-            if (attribute != null) {
-              result.put(attribute.getStringValue(), attribute.getStringValue());
-            }
-          } catch (LDAPException e) {
-            if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
-              break;
-            } else {
-              // take next Unit
-              continue;
-            }
-          }
-        }
-      } finally {
-        theConnectionPool.freeConnection(lc);
+    Map<String, String> result = new HashMap<String, String>();
+    Filter filter = new EqualsFilter("objectClass", "hkatPerson");
+    do {
+      // RegionNameMapper return a String so we are pretty certain that List<String> is ok.
+      @SuppressWarnings("unchecked")
+      List<String> resultList = this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, new RegionNameMapper(), control);
+      // Put everything in a map to remove duplicates.
+      for (String regionName : resultList) {
+        result.put(regionName, regionName);
       }
-    } catch (LDAPException e) {
-      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
-    }
+    } while (control.getCookie().getCookie() != null);
+
     return new ArrayList<String>(result.keySet());
   }
 
@@ -192,7 +183,7 @@ public class PersonRepository {
   }
 
   private SikSearchResultList<Person> searchPersons(String searchFilter, int searchScope, int maxResult, Comparator<Person> sortOrder) throws KivException {
-    return searchPersons(KIV_SEARCH_BASE, searchFilter, searchScope, maxResult, sortOrder);
+    return searchPersons(Constants.SEARCH_BASE, searchFilter, searchScope, maxResult, sortOrder);
   }
 
   private SikSearchResultList<Person> searchPersons(String baseDn, String searchFilter, int searchScope, int maxResult, Comparator<Person> sortOrder) throws KivException {

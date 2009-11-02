@@ -49,7 +49,8 @@ public class ErrorReportingServiceImpl implements ErrorReportingService {
     // Construct email text.
     String bodyText = "Detta e-postmeddelande har skickats till dig eftersom du är uppdateringsansvarig i Hallandskatalogen.\n\n" + "Inrapporterat fel gäller: " + nodeName
         + "\n\nKommentar från användaren:\n" + reportText + "\n\nKlicka här för att justera informationen i Hallandskatalogen om " + nodeName
-        + ": <http://hak.lthalland.se/nordicedge/jsp/login.jsp?loginDN=" + StringUtil.base64Encode(dn) + ">\n\n" + "Klicka här för att se kontaktkortet för " + nodeName + ": <" + detailLink + ">";
+        + ": <http://hak.lthalland.se/nordicedge/jsp/login.jsp?loginDN=" + StringUtil.base64Encode(dn).replaceAll("\\r\\n", "") + ">\n\n" + "Klicka här för att se kontaktkortet för " + nodeName
+        + ": <" + detailLink + ">";
 
     String from = "hallandskatalogen@lthalland.se";
     String subject = "Fel i Hallandskatalogen för " + nodeName + ".";
