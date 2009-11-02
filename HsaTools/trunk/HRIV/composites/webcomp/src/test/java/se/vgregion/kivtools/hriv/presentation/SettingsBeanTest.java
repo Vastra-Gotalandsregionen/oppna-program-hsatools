@@ -393,4 +393,11 @@ public class SettingsBeanTest {
     bean.setErrorReportConfirmInclude(TEST_STRING);
     assertEquals(TEST_STRING, bean.getErrorReportConfirmInclude());
   }
+
+  @Test
+  public void testPublicCaptchaKey() {
+    assertNull(bean.getPublicCaptchaKey());
+    bean.setPublicCaptchaKey(TEST_STRING);
+    assertEquals(TEST_STRING, bean.getPublicCaptchaKey());
+  }
 }

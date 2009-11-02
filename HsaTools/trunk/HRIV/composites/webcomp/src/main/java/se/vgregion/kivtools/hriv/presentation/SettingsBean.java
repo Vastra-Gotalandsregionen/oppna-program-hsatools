@@ -35,6 +35,7 @@ public class SettingsBean implements Serializable {
   private String googleMapInitInclude;
   private String errorReportFormInclude;
   private String errorReportConfirmInclude;
+  private String publicCaptchaKey;
   private boolean testingMode;
   private boolean useAccessibilityDatabaseIntegration;
   private boolean fallbackOnAddressForMap;
@@ -480,5 +481,13 @@ public class SettingsBean implements Serializable {
 
   public String getErrorReportConfirmInclude() {
     return errorReportConfirmInclude;
+  }
+
+  public void setPublicCaptchaKey(String publicCaptchaKey) {
+    this.publicCaptchaKey = publicCaptchaKey;
+  }
+
+  public String getPublicCaptchaKey() {
+    return publicCaptchaKey;
   }
 }
