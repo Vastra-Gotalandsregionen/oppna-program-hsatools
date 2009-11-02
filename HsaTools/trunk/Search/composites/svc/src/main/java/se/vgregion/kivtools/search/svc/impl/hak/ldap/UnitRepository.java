@@ -198,7 +198,7 @@ public class UnitRepository {
    */
   public Unit getUnitByHsaId(String hsaId) throws KivException {
     String searchFilter = "(hsaIdentity=" + hsaId + ")";
-    return searchUnit(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter);
+    return searchUnit(Constants.SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter);
   }
 
   /**
@@ -258,7 +258,7 @@ public class UnitRepository {
     try {
       LDAPConnection lc = getLDAPConnection();
       try {
-        LDAPSearchResults searchResults = lc.search(KIV_SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter, attributes, false, constraints);
+        LDAPSearchResults searchResults = lc.search(Constants.SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter, attributes, false, constraints);
         // fill the list from the search result
         while (searchResults.hasMore()) {
           try {
@@ -296,7 +296,7 @@ public class UnitRepository {
     try {
       LDAPConnection lc = getLDAPConnection();
       try {
-        result = extractResult(lc.search(KIV_SEARCH_BASE, searchScope, searchFilter, attributes, false, constraints), maxResult, sortOrder);
+        result = extractResult(lc.search(Constants.SEARCH_BASE, searchScope, searchFilter, attributes, false, constraints), maxResult, sortOrder);
       } finally {
         theConnectionPool.freeConnection(lc);
       }
