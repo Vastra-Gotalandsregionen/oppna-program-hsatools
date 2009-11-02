@@ -35,10 +35,10 @@
 						<div class="recaptcha-help"><a href="javascript:Recaptcha.showhelp()">${msg.captchaHelp}</a></div>
 					</div>
 				</div>
-				<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6LdVEQkAAAAAAIDobQneYChQGUWq0j4O-ti0l5ug&amp;lang=en"></script>
+				<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=${Search_SettingsContainer.publicCaptchaKey}&amp;lang=en"></script>
 
 				<noscript>
-				  <iframe src="http://api.recaptcha.net/noscript?k=6LdVEQkAAAAAAIDobQneYChQGUWq0j4O-ti0l5ug&amp;lang=en" height="300" width="500" frameborder="0"></iframe><br />
+				  <iframe src="http://api.recaptcha.net/noscript?k=${Search_SettingsContainer.publicCaptchaKey}&amp;lang=en" height="300" width="500" frameborder="0"></iframe><br />
 				  <textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
 				  <input type='hidden' name='recaptcha_response_field' value='manual_challenge' />
 				</noscript>
