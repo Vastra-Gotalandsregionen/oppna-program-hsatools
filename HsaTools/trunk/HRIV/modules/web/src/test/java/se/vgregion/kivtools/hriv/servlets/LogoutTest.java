@@ -17,7 +17,7 @@ import se.vgregion.kivtools.mocks.LogFactoryMock;
 public class LogoutTest {
 
   private static final String URL = "localhost";
-  private static final String REQUESTDISPATCHER_URL = "startpage.jsp?startpage=1";
+  private static final String REQUESTDISPATCHER_URL = "logout.jsp";
   private static LogFactoryMock logFactoryMock;
   private MockHttpServletResponse mockHttpServletResponse;
   private MockHttpServletRequest mockHttpServletRequest;
