@@ -7,26 +7,26 @@
     <div id="formContainer">
         <div class="formRow">
     		<div class="text">
-				<label for="searchUnitForm:unitName">Enhet</label>
+				<label for="unitName">Enhet</label>
 				<input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="${unitSearchSimpleForm.unitName}" />
-				<span class="info">Ange namn på enhet du vill söka efter</span>
+				<span>Ange namn på enhet du vill söka efter</span>
 			</div>
 			
 			<div class="text">
-				<label for="searchUnitForm:location">Var</label>
+				<label for="location">Var</label>
 				<input id="location" type="text" class="search-input-field" jsfc="h:inputText" value="${unitSearchSimpleForm.location}" />
-				<span class="info">Söker i Besöksadress, Postadress, Kommun</span>
+				<span>Söker i Besöksadress, Postadress, Kommun</span>
 			</div>
-	
-			<div class="submit-area">
-				<input type="submit" id="submitButton" jsfc="h:commandButton" value="Sök" action="doSearch" />
-		    </div>
-             <div class="submit-area">
-                <h:commandButton type="submit" onclick="return clearInputs()" id="clearButton" value="Rensa" />
+	        <div style="float: right">
+    			<div class="submit-area">
+    				<input type="submit" id="submitButton" jsfc="h:commandButton" value="Sök" action="doSearch" />
+    		    </div>
+                 <div class="submit-area">
+                    <h:commandButton type="submit" onclick="return clearInputs()" id="clearButton" value="Rensa" />
+                </div>
             </div>
-          
         </div>
-        
+       
    		<c:set var="displaySimple" value="none"/>
    		<c:set var="displayAdvanced" value="none"/>
    		<c:choose>
@@ -62,12 +62,10 @@
                 </div>
                 <div class="textname">
                     <h:outputLabel for="careTypeName">${msg.careType}</h:outputLabel>
-                    <p>
                         <h:selectOneMenu id="careTypeName" name="careTypeName" class="search-input-name-field" value="${unitSearchSimpleForm.careTypeName}" >
                             <f:selectItem itemValue="" itemLabel="" />
                             <f:selectItems value="${presentationHelper.getSelectItemsFromStrings(Search_CodeTablesService.getAllValuesItemsFromCodeTable('VGR_CARE_TYPE'))}" />
                         </h:selectOneMenu>
-                    </p>
                 </div>
             </div>
             <h:inputHidden id="searchType" value="${unitSearchSimpleForm.searchType}" />
@@ -84,8 +82,8 @@
             <span id="simpleLinkText" style="display: ${displayAdvanced};">${msg.simpleSearch}</span>
            </a>
          </div>
-    </div>
-    <script type="text/javascript">
+         </div>
+     <script type="text/javascript">
 		document.getElementById("searchUnitForm:unitName").focus();
 	</script>
 </h:form>
