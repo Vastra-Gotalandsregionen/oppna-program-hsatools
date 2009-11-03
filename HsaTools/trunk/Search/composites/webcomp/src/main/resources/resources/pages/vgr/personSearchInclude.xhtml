@@ -23,13 +23,15 @@
     			 <h:inputText id="userId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.userId}" />
                 </div>
     		</div>
-    		<div class="submit-area">
-    			<h:commandButton type="submit" action="doSearch" id="submitButton" value="Sök" />
-    		</div>
-            <div class="submit-area">
-                <h:commandButton type="submit" onclick="return clearInputs()" id="clearButton" value="Rensa" />
+    	    <div style="float: right">	
+                <div class="submit-area">
+        			<h:commandButton type="submit" action="doSearch" id="submitButton" value="Sök" />
+        		</div>
+                <div class="submit-area">
+                    <h:commandButton type="submit" onclick="return clearInputs()" id="clearButton" value="Rensa" />
+                </div>
             </div>
-           </div>
+        </div>
         
    		<c:set var="displaySimple" value="none"/>
    		<c:set var="displayAdvanced" value="none"/>
@@ -105,13 +107,13 @@
                 // ]]>
             </script>
         </div>
-         <div class="search-advanced-link">
+        <div class="search-advanced-link">
           <a class="search-advanced-link" onclick="return toggleAdvancedSearch('searchPersonForm');" href="#">
             <span id="advancedLinkText" style="display: ${displaySimple};">${msg.advancedSearch}</span>
             <span id="simpleLinkText" style="display: ${displayAdvanced};">${msg.simpleSearch}</span>
            </a>
          </div>
-    </div>
+         </div>
 	<script type="text/javascript">
 		document.getElementById("searchPersonForm:givenName").focus();
 	</script>
