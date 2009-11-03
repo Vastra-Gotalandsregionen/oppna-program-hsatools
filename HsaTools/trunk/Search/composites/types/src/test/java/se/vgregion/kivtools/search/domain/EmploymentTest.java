@@ -95,7 +95,7 @@ public class EmploymentTest {
   public void testEmploymentPeriod() {
     assertNull(employment.getEmploymentPeriod());
     employment.setEmploymentPeriod(TimePoint.atMidnightGMT(2009, 11, 3), TimePoint.atMidnightGMT(2009, 12, 24));
-    assertEquals(TimeInterval.open(TimePoint.atMidnightGMT(2009, 11, 3), TimePoint.atMidnightGMT(2009, 12, 24)), employment.getEmploymentPeriod());
+    assertEquals(TimeInterval.closed(TimePoint.atMidnightGMT(2009, 11, 3), TimePoint.atMidnightGMT(2009, 12, 24)), employment.getEmploymentPeriod());
   }
 
   private Address createAddress(String street, String zipcode, String city) {
