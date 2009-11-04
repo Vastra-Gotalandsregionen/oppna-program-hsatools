@@ -76,6 +76,7 @@ public class SettingsBean implements Serializable {
   private String informationArea;
   private String externalApplicationURL;
   private String favIcon;
+  private String careTypeInfoUrl;
 
   public String getInformationArea() {
     return informationArea;
@@ -489,5 +490,13 @@ public class SettingsBean implements Serializable {
 
   public String getPublicCaptchaKey() {
     return publicCaptchaKey;
+  }
+
+  public void setCareTypeInfoUrl(String careTypeInfoUrl) {
+    this.careTypeInfoUrl = careTypeInfoUrl;
+  }
+
+  public String getCareTypeInfoUrl() {
+    return careTypeInfoUrl;
   }
 }

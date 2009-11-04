@@ -109,6 +109,7 @@
 		<property name="informationArea" value="#{hsatools.hriv.webcomp.informationArea}" />
 		<property name="externalApplicationURL" value="#{hsatools.hriv.webcomp.externalApplicationURL}" />
 		<property name="favIcon" value="#{hsatools.hriv.webcomp.favIcon}" />
+		<property name="careTypeInfoUrl" value="#{hsatools.hriv.webcomp.careTypeInfoUrl}" />
 	</bean>
 
 	<bean id="Display_DisplayAccessibilityDatabaseBean" class="se.vgregion.kivtools.hriv.presentation.DisplayAccessibilityDatabaseBean">
