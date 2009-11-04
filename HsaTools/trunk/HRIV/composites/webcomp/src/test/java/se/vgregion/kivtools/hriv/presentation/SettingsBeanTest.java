@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.mocks.PojoTester;
+
 public class SettingsBeanTest {
 
   private static final String TEST_STRING = "test";
@@ -399,5 +401,10 @@ public class SettingsBeanTest {
     assertNull(bean.getPublicCaptchaKey());
     bean.setPublicCaptchaKey(TEST_STRING);
     assertEquals(TEST_STRING, bean.getPublicCaptchaKey());
+  }
+
+  @Test
+  public void testCareTypeInfoUrl() {
+    PojoTester.testProperty(bean, "careTypeInfoUrl", String.class, null, TEST_STRING, "Test2");
   }
 }

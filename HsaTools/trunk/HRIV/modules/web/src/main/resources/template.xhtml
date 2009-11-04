@@ -99,7 +99,7 @@
                                             </div>
                                             <div id="autocomplete_choices" class="autocomplete"></div>
                                         </div>
-                                        <h3 class="healthcareType"><label for="healthcareType">${msg.typeOfCare} <a href="caretypes.jsp?caretypes=1"><img src="resources/images/help.gif" alt="${msg.help}"/></a></label></h3>
+                                        <h3 class="healthcareType"><label for="healthcareType">${msg.typeOfCare} <a href="${Search_SettingsContainer.careTypeInfoUrl}"><img src="resources/images/help.gif" alt="${msg.help}"/></a></label></h3>
                                         <p>
                                             <h:selectOneMenu id="healthcareType" name="healthcareType" class="search-input-field" value="${unitSearchSimpleForm.healthcareType}" style="width: 195px;">
                                                 <f:selectItem itemValue="0" itemLabel="${msg.searchformCaretype}" />

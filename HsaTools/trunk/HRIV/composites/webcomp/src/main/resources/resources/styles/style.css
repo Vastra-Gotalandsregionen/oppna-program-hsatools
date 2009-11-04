@@ -511,7 +511,7 @@ table.Employment,table.Employment th,table.Employment td {
 }
 
 th.leftcol,.rightcol { /*margin-bottom: 0.5em;*/
-	width: 130px ! important;
+	width: 90px ! important;
 }
 
 .search-result .borderless .righttwocol { /* width: 50em; */
