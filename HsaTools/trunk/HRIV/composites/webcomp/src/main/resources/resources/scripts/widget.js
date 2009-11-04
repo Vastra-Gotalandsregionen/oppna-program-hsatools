@@ -241,10 +241,10 @@ function drawToggleDescription() {
 }
 
 function drawDirectionsTableRows(name, wgs84Lat, wgs84Long, street, city) {
-	var fromCellHeader = '<span class="grey-header">Till</span>';
+	var fromCellHeader = '<span class="grey-header">Till:</span>';
 	var fromCellBody = name;
 
-	var toCellHeader = '<span class="grey-header">Fr&aring;n</span>';
+	var toCellHeader = '<span class="grey-header">Fr&aring;n:</span>';
 	var toCellBody = '';
 	if (wgs84Lat != '0.0') {
 		toCellBody += '<input type="hidden" name="route_to" id="route_to" value="'
