@@ -1,8 +1,6 @@
 package se.vgregion.kivtools.hriv.presentation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -53,11 +51,11 @@ public class MvkClientTest {
 
     Unit unit = new Unit();
     unit.setHsaIdentity("ABC-123");
-    this.httpFetcher.setContent("<xml></xml>");
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=ABC-123&guid=uid123", "<xml></xml>");
     this.mvkClient.assignCaseTypes(unit);
-    this.httpFetcher.assertLastUrlFetched("http://localhost?mvk=1&hsaid=ABC-123&guid=uid123");
+    this.httpFetcher.assertUrlsFetched("http://localhost?mvk=1&hsaid=ABC-123&guid=uid123");
 
-    this.httpFetcher.setContent("<?xml version=\"1.0\"?><casetypes><casetype>abc</casetype><casetype>def</casetype></casetypes>");
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=ABC-123&guid=uid123", "<?xml version=\"1.0\"?><casetypes><casetype>abc</casetype><casetype>def</casetype></casetypes>");
     this.mvkClient.assignCaseTypes(unit);
     assertEquals(2, unit.getMvkCaseTypes().size());
   }

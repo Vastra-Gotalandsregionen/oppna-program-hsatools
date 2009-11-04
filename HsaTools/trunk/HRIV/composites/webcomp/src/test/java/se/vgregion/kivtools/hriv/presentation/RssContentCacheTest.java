@@ -20,6 +20,8 @@ package se.vgregion.kivtools.hriv.presentation;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -31,13 +33,13 @@ import se.vgregion.kivtools.mocks.file.FileUtilMock;
 import se.vgregion.kivtools.util.file.FileUtilException;
 
 public class RssContentCacheTest {
+  private static final String TEST = "test";
   private RssContentCache rssContentCache;
   private HttpFetcherMock httpFetcherMock;
   private FileUtilMock fileUtilMock;
   private File defaultHrivSettingsFolder;
-  private File defaultCacheFile;
-  private File userSpecifiedHrivSettingsFolder;
-  private File userSpecifiedCacheFile;
+  private File defaultCacheFolder;
+  private File userSpecifiedCacheFolder;
   private static LogFactoryMock factory;
 
   @BeforeClass
@@ -48,16 +50,17 @@ public class RssContentCacheTest {
   @Before
   public void setUp() {
     defaultHrivSettingsFolder = new File(System.getProperty("user.home") + "/.hriv");
-    defaultCacheFile = new File(defaultHrivSettingsFolder, "rssContentCache");
-    userSpecifiedHrivSettingsFolder = new File("target/testCacheFolder");
-    userSpecifiedCacheFile = new File(userSpecifiedHrivSettingsFolder, "rssContentCache");
+    defaultCacheFolder = new File(defaultHrivSettingsFolder, "rssContentCache");
+    userSpecifiedCacheFolder = new File("target/testCacheFolder/rssContentCache");
 
     rssContentCache = new RssContentCache();
     httpFetcherMock = new HttpFetcherMock();
     rssContentCache.setHttpFetcher(httpFetcherMock);
     fileUtilMock = new FileUtilMock();
     rssContentCache.setFileUtil(fileUtilMock);
-    rssContentCache.setRssUrl("http://testurl");
+    Map<String, String> nameToUrlMap = new HashMap<String, String>();
+    nameToUrlMap.put(TEST, "http://testurl");
+    rssContentCache.setNameToUrlMap(nameToUrlMap);
   }
 
   @AfterClass
@@ -73,40 +76,40 @@ public class RssContentCacheTest {
 
   @Test
   public void testGetRssContent() {
-    httpFetcherMock.setContent("abc");
+    httpFetcherMock.addContent("http://testurl", "abc");
     rssContentCache.reloadRssCache();
 
-    String content = rssContentCache.getRssContent();
+    String content = rssContentCache.getRssContent(TEST);
     assertNotNull(content);
     assertEquals("abc", content);
-    httpFetcherMock.assertLastUrlFetched("http://testurl");
+    httpFetcherMock.assertUrlsFetched("http://testurl");
     fileUtilMock.assertContent("abc");
-    fileUtilMock.assertFileWrite(defaultCacheFile);
-    fileUtilMock.assertDirCreated(defaultHrivSettingsFolder);
+    fileUtilMock.assertFileWrite(new File(defaultCacheFolder, TEST));
+    fileUtilMock.assertDirCreated(defaultCacheFolder);
   }
 
   @Test
   public void testGetRssContentSpecifiedDirectory() {
-    httpFetcherMock.setContent("abc");
-    rssContentCache.setRssContentCacheFolder(userSpecifiedHrivSettingsFolder);
+    httpFetcherMock.addContent("http://testurl", "abc");
+    rssContentCache.setRssContentCacheFolder(userSpecifiedCacheFolder);
     rssContentCache.reloadRssCache();
 
-    String content = rssContentCache.getRssContent();
+    String content = rssContentCache.getRssContent(TEST);
     assertNotNull(content);
     assertEquals("abc", content);
-    httpFetcherMock.assertLastUrlFetched("http://testurl");
+    httpFetcherMock.assertUrlsFetched("http://testurl");
     fileUtilMock.assertContent("abc");
-    fileUtilMock.assertFileWrite(userSpecifiedCacheFile);
+    fileUtilMock.assertFileWrite(new File(userSpecifiedCacheFolder, TEST));
   }
 
   @Test
   public void testGetRssContentNoDataToLoad() {
-    httpFetcherMock.setContent("abc");
+    httpFetcherMock.addContent("http://testurl", "abc");
     rssContentCache.reloadRssCache();
-    httpFetcherMock.setContent("");
+    httpFetcherMock.addContent("http://testurl", "");
     rssContentCache.reloadRssCache();
 
-    String content = rssContentCache.getRssContent();
+    String content = rssContentCache.getRssContent(TEST);
     assertEquals("abc", content);
     fileUtilMock.assertContent("abc");
   }
@@ -116,23 +119,23 @@ public class RssContentCacheTest {
     fileUtilMock.setContent("abc");
     rssContentCache.reloadRssCache();
 
-    String content = rssContentCache.getRssContent();
+    String content = rssContentCache.getRssContent(TEST);
     assertEquals("abc", content);
     fileUtilMock.assertContent("abc");
-    fileUtilMock.assertFileRead(defaultCacheFile);
-    fileUtilMock.assertDirCreated(defaultHrivSettingsFolder);
+    fileUtilMock.assertFileRead(new File(defaultCacheFolder, TEST));
+    fileUtilMock.assertDirCreated(defaultCacheFolder);
   }
 
   @Test
   public void testNoExistingCachedDataSpecifiedDirectory() {
     fileUtilMock.setContent("abc");
-    rssContentCache.setRssContentCacheFolder(userSpecifiedHrivSettingsFolder);
+    rssContentCache.setRssContentCacheFolder(userSpecifiedCacheFolder);
     rssContentCache.reloadRssCache();
 
-    String content = rssContentCache.getRssContent();
+    String content = rssContentCache.getRssContent(TEST);
     assertEquals("abc", content);
     fileUtilMock.assertContent("abc");
-    fileUtilMock.assertFileRead(userSpecifiedCacheFile);
+    fileUtilMock.assertFileRead(new File(userSpecifiedCacheFolder, TEST));
   }
 
   @Test
@@ -140,5 +143,18 @@ public class RssContentCacheTest {
     fileUtilMock.setExceptionToThrow(new FileUtilException());
     rssContentCache.reloadRssCache();
     assertEquals("Could not read RSS Content Cache from file\nCould not write RSS Content Cache to file\n", factory.getError(true));
+  }
+
+  @Test
+  public void testTwoCachedFiles() {
+    httpFetcherMock.addContent("http://testurl", "abc");
+    httpFetcherMock.addContent("http://secondurl", "def");
+
+    Map<String, String> nameToUrlMap = new HashMap<String, String>();
+    nameToUrlMap.put("second", "http://secondurl");
+    rssContentCache.setNameToUrlMap(nameToUrlMap);
+    rssContentCache.reloadRssCache();
+    assertEquals("abc", rssContentCache.getRssContent(TEST));
+    assertEquals("def", rssContentCache.getRssContent("second"));
   }
 }
