@@ -69,16 +69,17 @@ public class DisplayAccessibilityDatabaseBeanTest {
   @Before
   public void setUp() {
     httpFetcher = new HttpFetcherMock();
-    httpFetcher.setContent(DisplayAccessibilityDatabaseBeanTest.getStringFromResource("testxml/doc_with_subnodes.xml"));
     bean = new DisplayAccessibilityDatabaseBean();
     bean.setHttpFetcher(httpFetcher);
-    bean.setAccessibilityDatabaseIntegrationGetIdUrl("http://localhost/tdb?method=getId");
-    bean.setAccessibilityDatabaseIntegrationGetInfoUrl("http://localhost/tdb?method=getInfo");
+    bean.setAccessibilityDatabaseIntegrationGetIdUrl("http://localhost/tdb?method=getId&hsaid=");
+    bean.setAccessibilityDatabaseIntegrationGetInfoUrl("http://localhost/tdb?method=getInfo&lang=");
     bean.setUseAccessibilityDatabaseIntegration(Boolean.TRUE);
   }
 
   @Test
   public void testFilterAccessibilityDatabaseInfo() throws IOException, SAXException, ParserConfigurationException {
+    httpFetcher.addContent("http://localhost/tdb?method=getId&hsaid=ABC-123", "<?xml version=\"1.0\"?><string>246</string>");
+    httpFetcher.addContent("http://localhost/tdb?method=getInfo&lang=2&facilityId=246", DisplayAccessibilityDatabaseBeanTest.getStringFromResource("testxml/doc_with_subnodes.xml"));
     try {
       bean.filterAccessibilityDatabaseInfo(null, null);
       fail("NullPointerException should be thrown");
@@ -102,6 +103,7 @@ public class DisplayAccessibilityDatabaseBeanTest {
     form.setLanguageId("2");
 
     Unit unit = new Unit();
+    unit.setHsaIdentity("ABC-123");
     bean.filterAccessibilityDatabaseInfo(unit, form);
 
     assertEquals("Unexpected value of formerLanguageId", "2", form.getFormerLanguageId());
@@ -160,28 +162,29 @@ public class DisplayAccessibilityDatabaseBeanTest {
     AccessibilityDatabaseFilterForm form = new AccessibilityDatabaseFilterForm();
 
     bean.filterAccessibilityDatabaseInfo(unit, form);
-    this.httpFetcher.assertLastUrlFetched(null);
+    this.httpFetcher.assertUrlsFetched();
 
     bean.assignAccessibilityDatabaseId(unit);
-    this.httpFetcher.assertLastUrlFetched(null);
+    this.httpFetcher.assertUrlsFetched();
 
     bean.assignAccessibilityDatabaseInfo(unit, form);
-    this.httpFetcher.assertLastUrlFetched(null);
+    this.httpFetcher.assertUrlsFetched();
   }
 
   @Test
   public void testAssignAccessibilityDatabaseId() {
     Unit unit = new Unit();
-    this.httpFetcher.setContent("<?xml version=\"1.0\"?><doc><string>abc</string></doc>");
+    unit.setHsaIdentity("ABC-123");
+    this.httpFetcher.addContent("http://localhost/tdb?method=getId&hsaid=ABC-123", "<?xml version=\"1.0\"?><doc><string>abc</string></doc>");
     boolean result = bean.assignAccessibilityDatabaseId(unit);
     assertFalse(result);
 
-    this.httpFetcher.setContent("<?xml version=\"1.0\"?><doc><string>123</string></doc>");
+    this.httpFetcher.addContent("http://localhost/tdb?method=getId&hsaid=ABC-123", "<?xml version=\"1.0\"?><doc><string>123</string></doc>");
     result = bean.assignAccessibilityDatabaseId(unit);
     assertTrue(result);
     assertEquals(Integer.valueOf(123), unit.getAccessibilityDatabaseId());
 
-    this.httpFetcher.setContent("<?xml version=\"1.0\"?><doc><string>123</string><string>234</string></doc>");
+    this.httpFetcher.addContent("http://localhost/tdb?method=getId&hsaid=ABC-123", "<?xml version=\"1.0\"?><doc><string>123</string><string>234</string></doc>");
     result = bean.assignAccessibilityDatabaseId(unit);
     assertTrue(result);
     assertEquals(Integer.valueOf(234), unit.getAccessibilityDatabaseId());

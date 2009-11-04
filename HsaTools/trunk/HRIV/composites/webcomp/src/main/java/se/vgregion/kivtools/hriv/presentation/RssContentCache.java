@@ -18,7 +18,9 @@
 package se.vgregion.kivtools.hriv.presentation;
 
 import java.io.File;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,16 +38,21 @@ import se.vgregion.kivtools.util.http.HttpFetcher;
 public class RssContentCache {
   private static final Log LOG = LogFactory.getLog(RssContentCache.class);
 
-  private String rssUrl;
+  private Map<String, String> nameToUrlMap = new HashMap<String, String>();
   private HttpFetcher httpFetcher;
   private FileUtil fileUtil;
 
   private File rssContentCacheFolder;
 
-  private final AtomicReference<String> rssContentReference = new AtomicReference<String>();
+  private final Map<String, String> rssContentReference = new ConcurrentHashMap<String, String>();
 
-  public void setRssUrl(String rssUrl) {
-    this.rssUrl = rssUrl;
+  /**
+   * Adds mappings from a name to an URL to be cached.
+   * 
+   * @param nameToUrlMap The map of names and corresponding URL's.
+   */
+  public void setNameToUrlMap(Map<String, String> nameToUrlMap) {
+    this.nameToUrlMap.putAll(nameToUrlMap);
   }
 
   public void setHttpFetcher(HttpFetcher httpFetcher) {
@@ -63,10 +70,11 @@ public class RssContentCache {
   /**
    * Gets the RSS content from the cache.
    * 
+   * @param name Name of the content to get.
    * @return The RSS content.
    */
-  public String getRssContent() {
-    return rssContentReference.get();
+  public String getRssContent(String name) {
+    return rssContentReference.get(name);
   }
 
   /**
@@ -81,40 +89,47 @@ public class RssContentCache {
    * Loads the RSS content from the configured URL and stores it in memory.
    */
   private void loadRssContent() {
-    String content = this.httpFetcher.fetchUrl(rssUrl);
-    if (!StringUtil.isEmpty(content)) {
-      rssContentReference.set(content);
-    } else if (StringUtil.isEmpty(rssContentReference.get())) {
-      loadRssContentFromFile();
+    for (String name : nameToUrlMap.keySet()) {
+      String content = this.httpFetcher.fetchUrl(nameToUrlMap.get(name));
+      if (!StringUtil.isEmpty(content)) {
+        rssContentReference.put(name, content);
+      } else if (StringUtil.isEmpty(rssContentReference.get(name))) {
+        loadRssContentFromFile();
+      }
     }
   }
 
   private void loadRssContentFromFile() {
-    File cacheFile = getRssCacheFile();
-    String content = "";
-    try {
-      content = fileUtil.readFile(cacheFile);
-    } catch (FileUtilException e) {
-      LOG.error("Could not read RSS Content Cache from file", e);
+    for (String name : nameToUrlMap.keySet()) {
+      File cacheFile = getRssCacheFile(name);
+      String content = "";
+      try {
+        content = fileUtil.readFile(cacheFile);
+      } catch (FileUtilException e) {
+        LOG.error("Could not read RSS Content Cache from file", e);
+      }
+      rssContentReference.put(name, content);
     }
-    rssContentReference.set(content);
   }
 
   private void saveRssContentToFile() {
-    File cacheFile = getRssCacheFile();
-    try {
-      fileUtil.writeFile(cacheFile, rssContentReference.get());
-    } catch (FileUtilException e) {
-      LOG.error("Could not write RSS Content Cache to file", e);
+    for (String name : nameToUrlMap.keySet()) {
+      File cacheFile = getRssCacheFile(name);
+      try {
+        fileUtil.writeFile(cacheFile, rssContentReference.get(name));
+      } catch (FileUtilException e) {
+        LOG.error("Could not write RSS Content Cache to file", e);
+      }
     }
   }
 
-  private File getRssCacheFile() {
+  private File getRssCacheFile(String name) {
     if (rssContentCacheFolder == null) {
-      rssContentCacheFolder = getHrivSettingsFolder();
+      rssContentCacheFolder = new File(getHrivSettingsFolder(), "rssContentCache");
+      fileUtil.createDirectoryIfNoExist(rssContentCacheFolder);
     }
 
-    File cacheFile = new File(rssContentCacheFolder, "rssContentCache");
+    File cacheFile = new File(rssContentCacheFolder, name);
     return cacheFile;
   }
 

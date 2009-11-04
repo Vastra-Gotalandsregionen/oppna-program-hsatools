@@ -18,27 +18,36 @@
 package se.vgregion.kivtools.hriv.presentation;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import se.vgregion.kivtools.util.http.HttpFetcher;
 
 public class HttpFetcherMock implements HttpFetcher {
-  private String content = "";
-  private String lastUrlFetched;
+  private Map<String, String> content = new HashMap<String, String>();
+  private List<String> urlsFetched = new ArrayList<String>();
 
-  public void setContent(String content) {
+  public void addContent(String url, String content) {
     if (content == null) {
-      this.content = "";
+      this.content.put(url, "");
     } else {
-      this.content = content;
+      this.content.put(url, content);
     }
   }
 
-  public void assertLastUrlFetched(String expected) {
-    assertEquals("Unexpected URL called", expected, this.lastUrlFetched);
+  public void assertUrlsFetched(String... expected) {
+    assertEquals(expected.length, this.urlsFetched.size());
+    for (String url : expected) {
+      assertTrue("Expected URL was not fetched", this.urlsFetched.contains(url));
+    }
   }
 
   @Override
   public String fetchUrl(String urlToFetch) {
-    this.lastUrlFetched = urlToFetch;
-    return this.content;
+    this.urlsFetched.add(urlToFetch);
+    return this.content.get(urlToFetch);
   }
 }
