@@ -42,25 +42,7 @@
 		</ui:define>
 	
 		<ui:define name="HeaderInputFieldContainer">
-			<form id="searchPersonForm" jsfc="h:form" class="search-form">
-				<div id="formContainer">
-					<div class="textname">
-						<label for="givenName" jsfc="h:outputLabel">Förnamn</label>
-						<input id="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" jsfc="h:inputText" />
-					</div>
-					<div class="textname">
-						<label for="surname" jsfc="h:outputLabel">Efternamn</label>
-						<input id="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" jsfc="h:inputText" />
-					</div>
-					<div class="userIdText">
-						<label for="userId" jsfc="h:outputLabel">${msg.userId}</label>
-						<input id="userId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.userId}" jsfc="h:inputText"/>
-					</div>
-					<div class="submit-area">
-						<input type="submit" action="doSearch" id="submitButton" value="Sök" jsfc="h:commandButton" />
-					</div>
-				</div>
-			</form>
+			<ui:include src="${Search_SettingsContainer.settings.personSearchInclude}" />
 		</ui:define>
 	
 		<ui:define name="MainContainer">
