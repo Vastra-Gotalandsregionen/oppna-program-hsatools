@@ -26,7 +26,7 @@ import com.novell.ldap.LDAPSearchResults;
 public class CodeTablesServiceImpl implements CodeTablesService {
   private static final String CODE_TABLES_BASE = "ou=listor,ou=System,o=VGR";
 
-  private Map<CodeTableName,Map<String,String>> codeTables = new ConcurrentHashMap<CodeTableName, Map<String, String>>();
+  private Map<CodeTableName, Map<String, String>> codeTables = new ConcurrentHashMap<CodeTableName, Map<String, String>>();
   private String attribute = "description";
   private LdapConnectionPool ldapConnectionPool;
 
@@ -63,11 +63,13 @@ public class CodeTablesServiceImpl implements CodeTablesService {
         if (entry != null) {
           String[] codePair = entry.getAttribute(attribute).getStringValueArray();
           for (String code : codePair) {
-            String[] codeArr = code.split(";");
-            if (codeArr.length >= 2) {
-              codeTableContent.put(codeArr[0], codeArr[1]);
-            } else {
-              codeTableContent.put(codeArr[0], codeArr[0]);
+            if (!code.startsWith("* ")) {
+              String[] codeArr = code.split(";");
+              if (codeArr.length >= 2) {
+                codeTableContent.put(codeArr[0], codeArr[1]);
+              } else {
+                codeTableContent.put(codeArr[0], codeArr[0]);
+              }
             }
           }
           codeTables.put(codeTableName, codeTableContent);
@@ -102,7 +104,6 @@ public class CodeTablesServiceImpl implements CodeTablesService {
     }
     return codes;
   }
-
 
   @Override
   public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {

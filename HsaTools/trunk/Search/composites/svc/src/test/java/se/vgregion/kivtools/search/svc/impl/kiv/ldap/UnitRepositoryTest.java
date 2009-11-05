@@ -230,7 +230,7 @@ public class UnitRepositoryTest {
     unitRepository.setLdapConnectionPool(mockLdapConnectionPool);
     unitRepository.setUnitFactory(mockUnitFactory);
     replay(mockLdapEntry, mockLdapSearchResults, mockUnitFactory, mockLdapConnection, mockLdapConnectionPool);
-    SikSearchResultList<Unit> searchUnitsResult = unitRepository.searchUnits(searchUnitCriterions);
+    SikSearchResultList<Unit> searchUnitsResult = unitRepository.searchUnits(searchUnitCriterions, 10);
     assertEquals(1, searchUnitsResult.size());
   }
 

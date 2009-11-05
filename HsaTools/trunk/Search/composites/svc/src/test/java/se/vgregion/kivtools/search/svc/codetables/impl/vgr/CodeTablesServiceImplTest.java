@@ -64,7 +64,7 @@ public class CodeTablesServiceImplTest {
 
   @Test
   public void testLanguageKnowledgeCode() {
-    assertEquals("* Svenska", codeTablesService.getValueFromCode(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, "* SWE"));
+    assertEquals("Afar", codeTablesService.getValueFromCode(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, "AAR"));
     ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
@@ -136,6 +136,12 @@ public class CodeTablesServiceImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void testGetAllValueItemsFromCodeTableException() {
     codeTablesService.getAllValuesItemsFromCodeTable("noValidCodeTable");
+  }
+
+  @Test
+  public void testTopTenFiltered() {
+    List<String> valuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE.name());
+    assertFalse(valuesItemsFromCodeTable.contains("* Svenska"));
   }
 
   private void assertListContentEqual(List<String> actualStrings, String... expectedStrings) {
