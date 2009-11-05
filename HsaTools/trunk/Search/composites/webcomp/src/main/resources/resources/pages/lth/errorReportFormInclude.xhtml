@@ -6,10 +6,10 @@
 		<h:form id="errorReportingForm">
 			<h:inputHidden id="dn" value="${errorReportingForm.dn}" />
 			<h:outputText rendered="${unit != null}">
-				<input type="hidden" name="detailLink" value="http://sokihak.lthalland.se/sik/visaenhet?hsaidentity=${unit.hsaIdentity}" />
+				<input type="hidden" name="detailLink" value="http://internkatalogen.lthalland.se/sik/visaenhet?hsaidentity=${unit.hsaIdentity}" />
 			</h:outputText>
 			<h:outputText rendered="${person != null}">
-				<input type="hidden" name="detailLink" value="http://sokihak.lthalland.se/sik/visaperson?vgrid=${person.vgrId}" />
+				<input type="hidden" name="detailLink" value="http://internkatalogen.lthalland.se/sik/visaperson?vgrid=${person.vgrId}" />
 			</h:outputText>
 			<div class="text">
 			    <h:outputLabel for="reportText">${msg.describeError}</h:outputLabel>
