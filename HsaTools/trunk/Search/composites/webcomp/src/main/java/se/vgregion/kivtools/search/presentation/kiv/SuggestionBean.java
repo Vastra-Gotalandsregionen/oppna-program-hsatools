@@ -36,7 +36,7 @@ public class SuggestionBean {
     response.setCharacterEncoding("UTF-8");
     response.setContentType("text/xml");
     response.getWriter().write(suggestionsXml);
-    
+
     // Will only write to the response object, return null because of view dispatcher in spring.
     return null;
   }
@@ -91,6 +91,19 @@ public class SuggestionBean {
   @RequestMapping("/suggestions_HSA_LANGUAGE_KNOWLEDGE_CODE.servlet")
   public String getSuggestionsForLanguageKnowledge(HttpServletResponse response, @RequestParam("query") String query) throws IOException {
     return generateSuggestionForCodeTable(response, CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, query);
+  }
+
+  /**
+   * Lookup suggestions for a given value.
+   * 
+   * @param response The HttpServletResponse to stream the generated suggestions-XML to.
+   * @param query String value to lookup suggestions for.
+   * @return Always returns null since the result is streamed back to the client.
+   * @throws IOException if there is a problem writing the generated XML to the client.
+   */
+  @RequestMapping("/suggestions_HSA_BUSINESSCLASSIFICATION_CODE.servlet")
+  public String getSuggestionsForBusinessClassification(HttpServletResponse response, @RequestParam("query") String query) throws IOException {
+    return generateSuggestionForCodeTable(response, CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, query);
   }
 
   private String decodeUserInput(String input) {

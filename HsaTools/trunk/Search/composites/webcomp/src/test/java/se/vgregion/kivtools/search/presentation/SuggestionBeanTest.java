@@ -73,6 +73,13 @@ public class SuggestionBeanTest {
     assertEquals(RESULT, suggestions);
   }
 
+  @Test
+  public void testGetSuggestionsBusinessClassification() throws IOException {
+    suggestionBean.getSuggestionsForBusinessClassification(httpServletResponse, "test");
+    String suggestions = httpServletResponse.getContentAsString();
+    assertEquals(RESULT, suggestions);
+  }
+
   class CodeTableServiceMock implements CodeTablesService {
 
     private List<String> descriptionValues = new ArrayList<String>();
