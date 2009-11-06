@@ -47,6 +47,7 @@
 	<bean id="Search_UnitRepository"
 		class="se.vgregion.kivtools.search.svc.impl.hak.ldap.UnitRepository">
 		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"></property>
+		<property name="ldapTemplate" ref="ldapTemplateResponsibleEditor" />
 	</bean>
 	<bean id="Search_EmploymentRepository"
 		class="se.vgregion.kivtools.search.svc.impl.hak.ldap.EmploymentRepository">
