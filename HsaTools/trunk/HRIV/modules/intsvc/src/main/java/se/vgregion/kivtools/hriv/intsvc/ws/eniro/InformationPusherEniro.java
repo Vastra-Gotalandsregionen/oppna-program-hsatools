@@ -37,7 +37,7 @@ public class InformationPusherEniro implements InformationPusher {
   private FtpClient ftpClient;
   private LdapTemplate ldapTemplate;
   private EniroOrganisationBuilder eniroOrganisationBuilder;
- 
+
   @Required
   public void setFtpClient(FtpClient ftpClient) {
     this.ftpClient = ftpClient;
@@ -86,7 +86,7 @@ public class InformationPusherEniro implements InformationPusher {
     HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper();
     Filter healthcareTypeFilter = KivLdapFilterHelper.createHealthcareTypeFilter(healthcareTypeConditionHelper.getAllHealthcareTypes());
     AndFilter andFilter = new AndFilter();
-    andFilter.and(new EqualsFilter("hsaMunicipalityCode", 1480));
+    andFilter.and(createMunicipalityFilter());
     OrFilter orBusinessCodes = new OrFilter();
     for (String businessCode : allowedUnitBusinessClassificationCodes) {
       orBusinessCodes.or(new EqualsFilter("hsaBusinessClassificationCode", businessCode));
@@ -100,6 +100,15 @@ public class InformationPusherEniro implements InformationPusher {
     return unitsList;
   }
 
+  private Filter createMunicipalityFilter() {
+    OrFilter filter = new OrFilter();
+
+    for (String municipalityCode : Arrays.asList("1440", "1480", "1401", "1488", "1441", "1463", "1481", "1402", "1415", "1407")) {
+      filter.or(new EqualsFilter("hsaMunicipalityCode", municipalityCode));
+    }
+    return filter;
+  }
+
   private void setParentIdsForUnits(List<UnitComposition> compositions) {
     Map<String, UnitComposition> unitsMap = new HashMap<String, UnitComposition>();
     for (UnitComposition unitComposition : compositions) {
@@ -111,6 +120,5 @@ public class InformationPusherEniro implements InformationPusher {
         unitComposition.getEniroUnit().setParentUnitId(parentUnit.getEniroUnit().getId());
       }
     }
-
   }
 }

@@ -21,7 +21,7 @@ public class EniroOrganisationBuilderTest {
   public void setup() {
     eniroOrganisationBuilder = new EniroOrganisationBuilder();
     eniroOrganisationBuilder.setRootUnits(Arrays.asList("ou=root1"));
-    eniroOrganisationBuilder.setCareCenter("Primärvård");
+    eniroOrganisationBuilder.setCareCenter("Vårdcentraler");
     eniroOrganisationBuilder.setOtherCare("Övrig primärvård");
     populateLdapSearchList();
   }
@@ -35,7 +35,7 @@ public class EniroOrganisationBuilderTest {
     ldapSearchResult.add(createUnit("subUnit3", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit3,ou=PVO Unit2,ou=Primärvård x"));
     ldapSearchResult.add(createUnit("subUnit4", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit4,ou=PVO Unit3,ou=Primärvård x"));
     ldapSearchResult.add(createUnit("subUnit5", UnitComposition.UnitType.OTHER_CARE, "ou=subUnit5,ou=PVO Unit3,ou=Primärvård x"));
-    ldapSearchResult.add(createUnit("subUnit6", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit6,ou=not pvo Unit6,ou=Primärvård x"));
+    ldapSearchResult.add(createUnit("subUnit6", UnitComposition.UnitType.OTHER_CARE, "ou=subUnit6,ou=Folktandvården,ou=Primärvård x"));
   }
 
   private UnitComposition createUnit(String unitId, UnitComposition.UnitType careType, String dn) {
@@ -52,12 +52,12 @@ public class EniroOrganisationBuilderTest {
     // Should contain root1 unit and markerUnit1.
     assertEquals(3, organisation.getUnit().size());
     assertEquals(2, organisation.getUnit().get(0).getUnit().size());
-    assertUnits(organisation.getUnit(), "Primarvard", "Ovrig_primarvard", "root1");
+    assertUnits(organisation.getUnit(), "Vardcentraler", "Ovrig_primarvard", "root1");
     List<Unit> subUnits = new ArrayList<Unit>();
     subUnits.addAll(organisation.getUnit().get(0).getUnit());
     subUnits.addAll(organisation.getUnit().get(1).getUnit());
     subUnits.addAll(organisation.getUnit().get(2).getUnit());
-    assertUnits(subUnits, "Unit2", "Unit3", "subUnit5", "rootLeaf");
+    assertUnits(subUnits, "Unit2", "Unit3", "subUnit5", "subUnit6", "rootLeaf");
   }
 
   private void assertUnits(List<Unit> units, String... expectedUnitIds) {

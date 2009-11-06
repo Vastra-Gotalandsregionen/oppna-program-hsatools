@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2007 (http://www.altova.com) by Mattias Ericsson (Eniro Sweden AB) -->
-<!-- Version: 1.0 -->
+<!-- Version: 1.1 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified">
 	<xs:element name="Organization">
 		<xs:annotation>
@@ -126,11 +125,6 @@
 			<xs:element name="VisitingRules" type="xs:string" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Description of visiting rules.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Route" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The description of the route to this location</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -272,6 +266,11 @@
 			<xs:element ref="Description" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Free text description of the unit or information related to the unit.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Route" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The description of the route to the location of this unit.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
