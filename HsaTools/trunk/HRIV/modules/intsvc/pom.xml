@@ -112,7 +112,7 @@
 								${basedir}/../../../Search/composites/schema/src/main/resources/wsdl/
 							</schemaDirectory>
 							<includeSchemas>
-								<includeSchema>eniro1.0.xsd</includeSchema>
+								<includeSchema>eniro1.1.xsd</includeSchema>
 							</includeSchemas>
 							<includeBindings>
 								<includeBinding>*.xjb</includeBinding>

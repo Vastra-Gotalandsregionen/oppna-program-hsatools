@@ -64,7 +64,7 @@ public class EniroUnitMapperTest {
     assertEquals("1", address.getStreetNumber());
     assertEquals("416 85", address.getPostCode().get(0));
     assertEquals("Göteborg", address.getCity());
-    assertEquals("Centralkliniken, plan 2, Östra sjukhuset", address.getRoute());
+    assertEquals("Nedför backen, Till höger vid stenen, In under bron", unitComposition.getEniroUnit().getRoute());
     assertEquals("visit", address.getType());
     assertEquals(2, address.getHours().size());
   }
@@ -89,5 +89,6 @@ public class EniroUnitMapperTest {
     dirContextOperationsMock.addAttributeValue("hsaSurgeryHours", "1#08:00#19:00$2-5#08:00#17:00");
     dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1");
     dirContextOperationsMock.addAttributeValue("l", "locality");
+    dirContextOperationsMock.addAttributeValue("hsaRoute", "Nedför backen$Till höger vid stenen$In under bron");
   }
 }

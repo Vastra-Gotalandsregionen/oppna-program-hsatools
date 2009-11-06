@@ -79,7 +79,7 @@ public class EniroOrganisationBuilder {
       } else {
         String parentOu = getUnitOuString(unitParentDn);
         // Check if unit should be added to careCenterUnit or otherCareUnit.
-        if (parentOu.startsWith("ou=PVO ") && unitComposition.getCareType() == UnitType.CARE_CENTER) {
+        if (unitComposition.getCareType() == UnitType.CARE_CENTER) {
           // Current unit is a leaf to unit of type "careCenter".
           List<Unit> list = getSubunitsList(subunits, parentOu);
           list.add(unitComposition.getEniroUnit());

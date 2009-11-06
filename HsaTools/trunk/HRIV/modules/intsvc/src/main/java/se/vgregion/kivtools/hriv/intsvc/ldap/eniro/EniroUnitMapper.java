@@ -93,6 +93,8 @@ public class EniroUnitMapper implements ContextMapper {
     // unit.setLocality(dirContextOperations.getStringAttribute("l"));
     unit.setLocality("Göteborg");
     unit.setName(getUnitName(dirContextOperations));
+    unit.setRoute(StringUtil.concatenate(dirContextOperations.getStringAttributes("hsaRoute")));
+
     Address address = generateAddress(dirContextOperations);
     if (address != null) {
       unit.getTextOrImageOrAddress().add(address);
@@ -231,7 +233,6 @@ public class EniroUnitMapper implements ContextMapper {
       address.setStreetName(streetAddress.getStreet());
       address.getPostCode().add(streetAddress.getZipCode().getFormattedZipCode().getZipCode());
       address.setCity(streetAddress.getCity());
-      address.setRoute(streetAddress.getConcatenatedAdditionalInfo());
 
       // Take out street name and street number.
       Pattern patternStreetName = Pattern.compile("\\D+");
