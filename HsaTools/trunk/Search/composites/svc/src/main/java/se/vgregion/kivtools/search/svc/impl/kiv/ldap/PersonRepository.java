@@ -60,7 +60,6 @@ import com.novell.ldap.LDAPSearchResults;
 public class PersonRepository {
   public static final String KIV_SEARCH_BASE = "ou=Personal,o=vgr";
   private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
-  private static final String CLASS_NAME = PersonRepository.class.getName();
   private static final String LDAP_WILD_CARD = "*";
   // an "
   private static final String LDAP_EXACT_CARD = "\"";
@@ -132,8 +131,7 @@ public class PersonRepository {
               result.add(attribute.getStringValue());
             }
           } catch (LDAPException e) {
-            if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT
-                || e.getResultCode() == LDAPException.CONNECT_ERROR) {
+            if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
               break;
             } else {
               // take next Unit
@@ -435,8 +433,7 @@ public class PersonRepository {
       userFilter.and(new LikeFilter(LDAPPersonAttributes.E_MAIL.toString(), "*" + person.getEmail() + "*"));
     }
     if (!StringUtil.isEmpty(person.getLanguageKnowledge())) {
-      userFilter.and(generateOrFilterFromList(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, LDAPPersonAttributes.LANGUAGE_KNOWLEDGE_CODE, person
-          .getLanguageKnowledge()));
+      userFilter.and(generateOrFilterFromList(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, LDAPPersonAttributes.LANGUAGE_KNOWLEDGE_CODE, person.getLanguageKnowledge()));
     }
     if (!StringUtil.isEmpty(person.getAdministration())) {
       userFilter.and(generateOrFilterFromList(CodeTableName.VGR_AO3_CODE, LDAPPersonAttributes.ADMINISTRATION, person.getAdministration()));
