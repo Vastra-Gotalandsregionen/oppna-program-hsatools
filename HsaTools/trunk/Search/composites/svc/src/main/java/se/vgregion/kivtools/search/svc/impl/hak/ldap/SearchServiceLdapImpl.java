@@ -93,12 +93,11 @@ public class SearchServiceLdapImpl implements SearchService {
 
   @Override
   public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions unit, int maxSearchResult) throws KivException {
-     return unitRepository.searchUnits(unit, maxSearchResult);
+    return unitRepository.searchUnits(unit, maxSearchResult);
   }
 
   @Override
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder,
-      List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return unitRepository.searchAdvancedUnits(unit, maxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
   }
 
@@ -114,7 +113,7 @@ public class SearchServiceLdapImpl implements SearchService {
    * @see http://www.owasp.org/index.php/Preventing_LDAP_Injection_in_Java
    * @return escaped ldap search filter.
    */
-  public static final String escapeLDAPSearchFilter(String filter) {
+  private static final String escapeLDAPSearchFilter(String filter) {
     if (filter == null) {
       return null;
     }

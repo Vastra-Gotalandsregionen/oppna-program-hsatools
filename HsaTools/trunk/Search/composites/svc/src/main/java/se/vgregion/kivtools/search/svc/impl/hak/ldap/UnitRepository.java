@@ -25,8 +25,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.directory.SearchControls;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.ldap.control.PagedResultsCookie;
+import org.springframework.ldap.control.PagedResultsDirContextProcessor;
+import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.Filter;
@@ -46,11 +51,10 @@ import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.search.util.LdapParse;
+import se.vgregion.kivtools.util.Arguments;
 import se.vgregion.kivtools.util.StringUtil;
 
-import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPConnection;
-import com.novell.ldap.LDAPEntry;
 import com.novell.ldap.LDAPException;
 import com.novell.ldap.LDAPSearchConstraints;
 import com.novell.ldap.LDAPSearchResults;
@@ -67,9 +71,14 @@ public class UnitRepository {
   private static final String LDAP_EXACT_CARD = "\"";
   private Log logger = LogFactory.getLog(this.getClass());
   private LdapConnectionPool theConnectionPool;
+  private LdapTemplate ldapTemplate;
 
   public void setLdapConnectionPool(LdapConnectionPool lp) {
     this.theConnectionPool = lp;
+  }
+
+  public void setLdapTemplate(LdapTemplate ldapTemplate) {
+    this.ldapTemplate = ldapTemplate;
   }
 
   /**
@@ -240,50 +249,84 @@ public class UnitRepository {
    * @throws KivException If something goes wrong.
    */
   public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
-    LDAPSearchConstraints constraints = new LDAPSearchConstraints();
-    constraints.setMaxResults(0);
-    String searchFilter = "(|(objectclass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")(objectclass=" + Constants.OBJECT_CLASS_FUNCTION_SPECIFIC + "))";
+    // Get all health care types that are unfiltered
+    HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
+    List<HealthcareType> allUnfilteredHealthcareTypes = htch.getAllUnfilteredHealthCareTypes();
 
-    List<String> filterList = new ArrayList<String>();
-    String includedBCCSearchString = makeShowUnitsWithTheseHsaBussinessClassificationCodesString(showUnitsWithTheseHsaBussinessClassificationCodes);
-    filterList.add(includedBCCSearchString);
-    filterList.add(searchFilter);
-    // (&(par3=value3)(par4=value4
-    searchFilter = makeAnd(filterList);
+    OrFilter objectClassFilter = new OrFilter();
+    objectClassFilter.or(new EqualsFilter("objectclass", Constants.OBJECT_CLASS_UNIT_SPECIFIC));
+    objectClassFilter.or(new EqualsFilter("objectclass", Constants.OBJECT_CLASS_FUNCTION_SPECIFIC));
 
-    String[] attributes = new String[1];
-    attributes[0] = "hsaIdentity";
+    Filter businessClassificationCodeFilter = createBusinessClassificationCodeFilter(showUnitsWithTheseHsaBussinessClassificationCodes, allUnfilteredHealthcareTypes);
+
+    AndFilter filter = new AndFilter();
+    filter.and(businessClassificationCodeFilter);
+    filter.and(objectClassFilter);
+
+    PagedResultsCookie cookie = null;
+    PagedResultsDirContextProcessor control = new PagedResultsDirContextProcessor(100, cookie);
+    SearchControls searchControls = new SearchControls();
+    searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+
     List<String> result = new ArrayList<String>();
 
-    try {
-      LDAPConnection lc = getLDAPConnection();
-      try {
-        LDAPSearchResults searchResults = lc.search(Constants.SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter, attributes, false, constraints);
-        // fill the list from the search result
-        while (searchResults.hasMore()) {
-          try {
-            LDAPEntry nextEntry = searchResults.next();
-            LDAPAttribute attribute = nextEntry.getAttribute(attributes[0]);
-            if (attribute != null) {
-              result.add(attribute.getStringValue());
-            }
-          } catch (LDAPException e) {
-            if (e.getResultCode() == LDAPException.SIZE_LIMIT_EXCEEDED || e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
-              break;
-            } else {
-              // take next Unit
-              continue;
-            }
-          }
-        }
-      } finally {
-        theConnectionPool.freeConnection(lc);
+    do {
+      // HsaIdentityMapper return a String so we are pretty certain that List<String> is ok.
+      @SuppressWarnings("unchecked")
+      List<String> resultList = this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, new HsaIdentityMapper(), control);
+      // Put everything in a map to remove duplicates.
+      for (String hsaIdentity : resultList) {
+        result.add(hsaIdentity);
       }
-    } catch (LDAPException e) {
-      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
-    }
+    } while (control.getCookie().getCookie() != null);
 
     return result;
+  }
+
+  /**
+   * Creates a filter for the provided business classification codes and the provided healthcare types.
+   * 
+   * @param businessClassificationCodes The list of business classification codes to include.
+   * @param healthcareTypes The list of health care types to include.
+   * @return A populated filter.
+   */
+  private Filter createBusinessClassificationCodeFilter(List<Integer> businessClassificationCodes, List<HealthcareType> healthcareTypes) {
+    OrFilter filter = new OrFilter();
+
+    if (businessClassificationCodes.size() > 0) {
+      for (Integer businessClassificationCode : businessClassificationCodes) {
+        filter.or(new EqualsFilter("businessClassificationCode", businessClassificationCode));
+      }
+
+      for (HealthcareType healthcareType : healthcareTypes) {
+        filter.or(createHealthCareTypeFilter(healthcareType));
+      }
+    }
+
+    return filter;
+  }
+
+  /**
+   * Creates a filter for the provided health care type.
+   * 
+   * @param healthcareType The health care type to create a filter for.
+   * @return A populated filter.
+   */
+  private Filter createHealthCareTypeFilter(HealthcareType healthcareType) {
+    Arguments.notNull("healthcareType", healthcareType);
+
+    AndFilter filter = new AndFilter();
+    for (Map.Entry<String, String> condition : healthcareType.getConditions().entrySet()) {
+      OrFilter conditionValueFilter = new OrFilter();
+      String[] conditionValues = condition.getValue().split(",");
+      for (String conditionValue : conditionValues) {
+        conditionValueFilter.or(new EqualsFilter(condition.getKey(), conditionValue));
+      }
+
+      filter.and(conditionValueFilter);
+    }
+
+    return filter;
   }
 
   protected SikSearchResultList<Unit> searchUnits(String searchFilter, int searchScope, int maxResult, Comparator<Unit> sortOrder) throws KivException {
@@ -461,34 +504,6 @@ public class UnitRepository {
     // (|(par1=value1)(par2=value2))
     String orCriterias = makeOr(filterList);
     return orCriterias;
-  }
-
-  private String makeShowUnitsWithTheseHsaBussinessClassificationCodesString(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
-    String filter = "";
-    if (showUnitsWithTheseHsaBussinessClassificationCodes.size() > 0) {
-      List<String> filterList = new ArrayList<String>();
-
-      for (Integer id : showUnitsWithTheseHsaBussinessClassificationCodes) {
-        addSearchFilter(filterList, "businessClassificationCode", "\"" + String.valueOf(id) + "\"");
-      }
-
-      /*
-       * Include unfiltered health care conditions without taking showUnitsWithTheseHsaBussinessClassificationCodes into consideration.
-       */
-
-      // Get all health care types that are unfiltered
-      HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
-      List<HealthcareType> allUnfilteredHealthcareTypes = htch.getAllUnfilteredHealthCareTypes();
-
-      // For every unfiltered health care type, generate a sufficient
-      // condition
-      addHealthCareTypeConditions(filterList, allUnfilteredHealthcareTypes);
-
-      // (|(par1=value1)(par2=value2))
-      filter = makeOr(filterList);
-    }
-
-    return filter;
   }
 
   String createUnitSearchFilter(SearchUnitCriterions searchUnitCriterions) throws KivException {
