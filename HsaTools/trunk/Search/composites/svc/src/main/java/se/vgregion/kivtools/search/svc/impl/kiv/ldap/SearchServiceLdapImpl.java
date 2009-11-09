@@ -36,11 +36,9 @@ import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
  * @author Jonas Liljenfeldt, Know IT
  */
 public class SearchServiceLdapImpl implements SearchService {
-
   private PersonRepository personRepository;
   private UnitRepository unitRepository;
   private EmploymentRepository employmentRepository;
-  private HealthcareTypeConditionHelper healthcareTypeConditionHelper;
 
   public void setPersonRepository(PersonRepository personRepository) {
     this.personRepository = personRepository;
@@ -55,7 +53,6 @@ public class SearchServiceLdapImpl implements SearchService {
   }
 
   /**
-   * 
    * {@inheritDoc}
    */
   @Override
@@ -64,7 +61,6 @@ public class SearchServiceLdapImpl implements SearchService {
   }
 
   /**
-   * 
    * {@inheritDoc}
    */
   @Override
@@ -73,7 +69,6 @@ public class SearchServiceLdapImpl implements SearchService {
   }
 
   /**
-   * 
    * {@inheritDoc}
    */
   @Override
@@ -82,7 +77,6 @@ public class SearchServiceLdapImpl implements SearchService {
   }
 
   /**
-   * 
    * {@inheritDoc}
    */
   @Override
@@ -91,7 +85,6 @@ public class SearchServiceLdapImpl implements SearchService {
   }
 
   /**
-   * 
    * {@inheritDoc}
    */
   @Override
@@ -104,7 +97,6 @@ public class SearchServiceLdapImpl implements SearchService {
   }
 
   /**
-   * 
    * {@inheritDoc}
    */
   @Override
@@ -124,7 +116,6 @@ public class SearchServiceLdapImpl implements SearchService {
   }
 
   /**
-   * 
    * {@inheritDoc}
    */
   @Override
@@ -133,7 +124,6 @@ public class SearchServiceLdapImpl implements SearchService {
   }
 
   /**
-   * 
    * {@inheritDoc}
    */
   @Override
@@ -142,7 +132,6 @@ public class SearchServiceLdapImpl implements SearchService {
   }
 
   /**
-   * 
    * {@inheritDoc}
    */
   @Override
@@ -151,15 +140,6 @@ public class SearchServiceLdapImpl implements SearchService {
   }
 
   /**
-   * 
-   * {@inheritDoc}
-   */
-  public void setHealthcareTypeConditionHelper(HealthcareTypeConditionHelper healthcareTypeConditionHelper) {
-    this.healthcareTypeConditionHelper = healthcareTypeConditionHelper;
-  }
-
-  /**
-   * 
    * {@inheritDoc}
    */
   @Override
@@ -168,7 +148,6 @@ public class SearchServiceLdapImpl implements SearchService {
   }
 
   /**
-   * 
    * {@inheritDoc}
    */
   @Override
@@ -177,7 +156,6 @@ public class SearchServiceLdapImpl implements SearchService {
   }
 
   /**
-   * 
    * {@inheritDoc}
    */
   @Override
@@ -186,7 +164,6 @@ public class SearchServiceLdapImpl implements SearchService {
   }
 
   /**
-   * 
    * {@inheritDoc}
    */
   @Override
@@ -197,5 +174,13 @@ public class SearchServiceLdapImpl implements SearchService {
   @Override
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
     return personRepository.searchPersons(person, maxResult);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Person getPersonByDn(String personDn) {
+    throw new UnsupportedOperationException("Not implemented!");
   }
 }

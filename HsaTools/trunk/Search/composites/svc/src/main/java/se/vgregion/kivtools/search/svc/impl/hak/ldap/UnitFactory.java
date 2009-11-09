@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import org.apache.commons.lang.WordUtils;
+import org.springframework.ldap.core.DistinguishedName;
 
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.AddressHelper;
@@ -100,9 +101,6 @@ public class UnitFactory {
     // labeledURI
     unit.setLabeledURI(LdapORMHelper.getSingleValue(unitEntry.getAttribute("labeledURI")));
 
-    // vgrInternalSedfInvoiceAddress
-    unit.setVgrInternalSedfInvoiceAddress(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrInternalSedfInvoiceAddress")));
-
     // vgrCareType
     unit.setVgrCareType(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrCareType")));
 
@@ -117,38 +115,7 @@ public class UnitFactory {
     // hsaBusinessClassificationCode
     unit.setHsaBusinessClassificationCode(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("businessClassificationCode")));
 
-    // hsaTextPhoneNumber
-    unit.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaTextPhoneNumber"))));
-
-    // hsaTextPhoneNumber
-    unit.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaTextPhoneNumber"))));
-
-    // mobileTelephoneNumber
-    unit.setMobileTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("mobileTelephoneNumber"))));
-
-    // hsaSedfSwitchboardTelephoneNo
-    unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaSwitchboardTelephoneNo"))));
-
-    // hsaInternalPagerNumber
-    unit.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaInternalPagerNumber"))));
-
-    // hsaSmsTelephoneNumber
-    unit.setHsaSmsTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaSmsTelephoneNumber"))));
-
-    // facsimileTelephoneNumber
-    unit.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("facsimileTelephoneNumber"))));
-
-    // pagerTelephoneNumber
-    unit.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("pagerTelephoneNumber"))));
-
-    // hsaTelephoneNumber
-    unit.setHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("telephoneNumber"))));
-
-    // hsaPublicTelephoneNumber
-    unit.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumberList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("telephoneNumber"))));
-
-    // hsaTelephoneTime
-    unit.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("telephoneHours"))));
+    populatePhoneNumbers(unitEntry, unit);
 
     // hsaSurgeryHours
     unit.setHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("surgeryHours"))));
@@ -156,25 +123,7 @@ public class UnitFactory {
     // hsaDropInHours
     unit.setHsaDropInHours(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("dropInHours"))));
 
-    // hsaInternalAddress
-    unit.setHsaInternalAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaInternalAddress"))));
-
-    // hsaStreetAddress
-    // unit.setHsaStreetAddress(AddressHelper.convertToStreetAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("postalAddress"))));
-    List<String> addressList = new ArrayList<String>();
-    addressList.add(LdapORMHelper.getSingleValue(unitEntry.getAttribute("street")));
-    addressList.add(LdapORMHelper.getSingleValue(unitEntry.getAttribute("postalCode")) + " " + LdapORMHelper.getSingleValue(unitEntry.getAttribute("l")));
-
-    unit.setHsaStreetAddress(AddressHelper.convertToStreetAddress(addressList));
-
-    // hsaPostalAddress
-    unit.setHsaPostalAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaPostalAddress"))));
-
-    // hsaSedfDeliveryAddress
-    unit.setHsaSedfDeliveryAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaSedfDeliveryAddress"))));
-
-    // hsaSedfInvoiceAddress
-    unit.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaSedfInvoiceAddress"))));
+    populateAddresses(unitEntry, unit);
 
     // hsaUnitPrescriptionCode
     unit.setHsaUnitPrescriptionCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaUnitPrescriptionCode")));
@@ -182,29 +131,13 @@ public class UnitFactory {
     // vgrAnsvarsnummer
     unit.setVgrAnsvarsnummer(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("vgrAnsvarsnummer")));
 
-    // hsaMunicipalityName
-    unit.setHsaMunicipalityName(LdapORMHelper.getSingleValue(unitEntry.getAttribute("municipalityName")));
-
-    // Kommunkod
-    unit.setHsaMunicipalityCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("municipalityCode")));
+    populateLocalityInformation(unitEntry, unit);
 
     // EDI-kod
     unit.setVgrEDICode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrEdiCode")));
 
     // EAN-kod
     unit.setVgrEANCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrEanCode")));
-
-    // Kommundelsnamn
-    unit.setHsaMunicipalitySectionName(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaMunicipalitySectionName")));
-
-    // Kommundelskod
-    unit.setHsaMunicipalitySectionCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaMunicipalitySectionCode")));
-
-    // Länskod
-    unit.setHsaCountyCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaCountyCode")));
-
-    // Länsnamn
-    unit.setHsaCountyName(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaCountyName")));
 
     // �garformkod
     unit.setHsaManagementCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaManagementCode")));
@@ -238,6 +171,55 @@ public class UnitFactory {
       unit.setCreateTimestamp(TimePoint.parseFrom(LdapORMHelper.getSingleValue(unitEntry.getAttribute("createTimeStamp")), "yyyyMMddHHmmss", TimeZone.getDefault()));
     }
 
+    populateGeoCoordinates(unitEntry, unit);
+
+    // management
+    unit.setHsaManagementText(getManagementDescription(LdapORMHelper.getSingleValue(unitEntry.getAttribute("management"))));
+
+    if (unitEntry.getAttribute("route") != null) {
+      unit.setHsaRoute(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("route")));
+    }
+
+    // As the last step, let HealthcareTypeConditionHelper figure out which healthcare type(s) this unit belongs to
+    HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
+    htch.assignHealthcareTypes(unit);
+
+    // Show age interval?
+    unit.setShowAgeInterval(unit.getHsaVisitingRuleAgeIsValid());
+    // We always show visiting rules
+    unit.setShowVisitingRules(true);
+
+    unit.setManagerDN(LdapORMHelper.getSingleValue(unitEntry.getAttribute("managerDN")));
+    if (!StringUtil.isEmpty(unit.getManagerDN())) {
+      DistinguishedName managerDN = new DistinguishedName(unit.getManagerDN());
+      String manager = managerDN.removeLast().getValue();
+      unit.setManager(manager);
+    }
+
+    return unit;
+  }
+
+  private static void populateLocalityInformation(LDAPEntry unitEntry, Unit unit) {
+    // hsaMunicipalityName
+    unit.setHsaMunicipalityName(LdapORMHelper.getSingleValue(unitEntry.getAttribute("municipalityName")));
+
+    // Kommunkod
+    unit.setHsaMunicipalityCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("municipalityCode")));
+
+    // Kommundelsnamn
+    unit.setHsaMunicipalitySectionName(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaMunicipalitySectionName")));
+
+    // Kommundelskod
+    unit.setHsaMunicipalitySectionCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaMunicipalitySectionCode")));
+
+    // Länskod
+    unit.setHsaCountyCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaCountyCode")));
+
+    // Länsnamn
+    unit.setHsaCountyName(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaCountyName")));
+  }
+
+  private static void populateGeoCoordinates(LDAPEntry unitEntry, Unit unit) {
     // Coordinates
     if (unitEntry.getAttribute("geographicalCoordinates") != null) {
       String hsaGeographicalCoordinates = LdapORMHelper.getSingleValue(unitEntry.getAttribute("geographicalCoordinates"));
@@ -258,27 +240,64 @@ public class UnitFactory {
         }
       }
     }
+  }
 
-    // hsaVisitingRuleAge
-    unit.setHsaVisitingRuleAge(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaVisitingRuleAge")));
+  private static void populateAddresses(LDAPEntry unitEntry, Unit unit) {
+    // vgrInternalSedfInvoiceAddress
+    unit.setVgrInternalSedfInvoiceAddress(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrInternalSedfInvoiceAddress")));
 
-    // management
-    unit.setHsaManagementText(getManagementDescription(LdapORMHelper.getSingleValue(unitEntry.getAttribute("management"))));
+    // hsaInternalAddress
+    unit.setHsaInternalAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaInternalAddress"))));
 
-    if (unitEntry.getAttribute("route") != null) {
-      unit.setHsaRoute(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("route")));
-    }
+    // hsaStreetAddress
+    // unit.setHsaStreetAddress(AddressHelper.convertToStreetAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("postalAddress"))));
+    List<String> addressList = new ArrayList<String>();
+    addressList.add(LdapORMHelper.getSingleValue(unitEntry.getAttribute("street")));
+    addressList.add(LdapORMHelper.getSingleValue(unitEntry.getAttribute("postalCode")) + " " + LdapORMHelper.getSingleValue(unitEntry.getAttribute("l")));
 
-    // As the last step, let HealthcareTypeConditionHelper figure out which healthcare type(s) this unit belongs to
-    HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
-    htch.assignHealthcareTypes(unit);
+    unit.setHsaStreetAddress(AddressHelper.convertToStreetAddress(addressList));
 
-    // Show age interval?
-    unit.setShowAgeInterval(unit.getHsaVisitingRuleAgeIsValid());
-    // We always show visiting rules
-    unit.setShowVisitingRules(true);
+    // hsaPostalAddress
+    unit.setHsaPostalAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("postalAddress"))));
 
-    return unit;
+    // hsaSedfDeliveryAddress
+    unit.setHsaSedfDeliveryAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaDeliveryAddress"))));
+
+    // hsaSedfInvoiceAddress
+    unit.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaInvoiceAddress"))));
+    unit.setHsaConsigneeAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaConsigneeAddress"))));
+  }
+
+  private static void populatePhoneNumbers(LDAPEntry unitEntry, Unit unit) {
+    // hsaTextPhoneNumber
+    unit.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaTextPhoneNumber"))));
+
+    // mobileTelephoneNumber
+    unit.setMobileTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("mobile"))));
+
+    // hsaSedfSwitchboardTelephoneNo
+    unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaSwitchboardTelephoneNo"))));
+
+    // hsaInternalPagerNumber
+    unit.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaInternalPagerNumber"))));
+
+    // hsaSmsTelephoneNumber
+    unit.setHsaSmsTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaSmsTelephoneNumber"))));
+
+    // facsimileTelephoneNumber
+    unit.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("facsimileTelephoneNumber"))));
+
+    // pagerTelephoneNumber
+    unit.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("pager"))));
+
+    // hsaTelephoneNumber
+    unit.setHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("telephoneNumber"))));
+
+    // hsaPublicTelephoneNumber
+    unit.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumberList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaTelephoneNumber"))));
+
+    // hsaTelephoneTime
+    unit.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("telephoneHours"))));
   }
 
   private static String getManagementDescription(String code) {

@@ -18,8 +18,6 @@
 package se.vgregion.kivtools.search.domain.values;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -325,13 +323,7 @@ public final class DN implements Serializable, Iterable<DN> {
    * @return Url encoded value of the DN.
    */
   public String getUrlEncoded() {
-    try {
-      return URLEncoder.encode(this.toString(), "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      System.out.println("Exception in method=" + this.getClass().getName() + "::getUrlEncoded(), Exception=" + e.toString()
-          + ", this could be caused due to the fact that the environment variable env.kivtools.server.istomcat is not set.");
-      return this.toString().replace("=", "%3D");
-    }
+    return StringUtil.urlEncode(this.toString(), "UTF-8");
   }
 
   @Override

@@ -18,8 +18,6 @@
 package se.vgregion.kivtools.search.domain.values;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -197,12 +195,7 @@ public class Address implements Serializable, IsEmptyMarker {
    */
   public String getEncodedAddress() {
     String addressStr = this.getStreet() + ", " + this.getCity();
-    try {
-      return URLEncoder.encode(addressStr, "iso-8859-1");
-    } catch (UnsupportedEncodingException e) {
-      System.err.println("Unable to encode string: " + addressStr);
-      return addressStr;
-    }
+    return StringUtil.urlEncode(addressStr, "iso-8859-1");
   }
 
   /**

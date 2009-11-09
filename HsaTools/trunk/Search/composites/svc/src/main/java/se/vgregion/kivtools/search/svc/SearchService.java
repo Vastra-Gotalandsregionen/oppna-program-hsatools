@@ -157,4 +157,13 @@ public interface SearchService {
    * @throws KivException If something goes wrong doing search.
    */
   public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws KivException;
+
+  /**
+   * Retrieves a person from the LDAP directory by the persons distinguished name.
+   * 
+   * @param personDn The distinguished name of the person.
+   * @return The person found by the provided distinguished name or null if no person was found.
+   * @throws KivException If something goes wrong during search.
+   */
+  public Person getPersonByDn(String personDn) throws KivException;
 }

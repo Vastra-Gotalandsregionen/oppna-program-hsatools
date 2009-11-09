@@ -22,15 +22,15 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<%@page import="java.net.URLEncoder"%>
-<%@page import="se.vgregion.kivtools.search.util.EncryptionUtil"%><html>
+<%@page import="se.vgregion.kivtools.search.util.EncryptionUtil"%>
+<%@page import="se.vgregion.kivtools.util.StringUtil"%><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!-- TODO Needs to be configurable, eg via Spring configuration. See WebApplicationContextUtils.getWebApplicationContext(getServletContext()); -->
 <%
 	String ssnFromWebSeal = request.getHeader("iv-user");
 	String cipherTextStringBase64Encoded = EncryptionUtil.encrypt(ssnFromWebSeal);
-	String cipherTextStringBase64EncodedURLEncoded = URLEncoder.encode(cipherTextStringBase64Encoded, "ISO-8859-1");
+	String cipherTextStringBase64EncodedURLEncoded = StringUtil.urlEncode(cipherTextStringBase64Encoded, "ISO-8859-1");
 	String url = response.encodeRedirectURL("http://hittavard.vgregion.se/hriv/HRIV.registrationOnUnit-flow.flow?hsaidentity="
 			+ request.getParameter("hsaidentity") + "&iv-user=" + cipherTextStringBase64EncodedURLEncoded);
 	response.sendRedirect(url);

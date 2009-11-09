@@ -29,6 +29,7 @@ import javax.naming.directory.SearchControls;
 
 import org.springframework.ldap.control.PagedResultsCookie;
 import org.springframework.ldap.control.PagedResultsDirContextProcessor;
+import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
@@ -443,5 +444,30 @@ public class PersonRepository {
     }
 
     return userFilter;
+  }
+
+  /**
+   * Retrieves a person by the distinguished name and reconstitues the object.
+   * 
+   * @param dn The distinguished name of the person to retrieve.
+   * @return A populated Person instance or null if no person was found with the provided distinguished name.
+   * @throws KivException If something goes wrong when searching.
+   */
+  public Person getPersonByDn(String dn) throws KivException {
+    Person person = null;
+    DistinguishedName distinguishedName = new DistinguishedName(dn);
+
+    try {
+      LDAPConnection lc = getLDAPConnection();
+      try {
+        person = PersonFactory.reconstitute(lc.read(distinguishedName.encode()));
+      } finally {
+        theConnectionPool.freeConnection(lc);
+      }
+    } catch (LDAPException e) {
+      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
+    }
+
+    return person;
   }
 }

@@ -8,5 +8,11 @@
 			<th id="main-hemsida">Hemsida</th>
 			<td headers="main-hemsida"><a href="${unit.labeledURI}">${unit.labeledURI}</a></td>
 		</tr>
+		<tr>
+			<th id="main-manager">${msg.manager}</th>
+			<td headers="main-manager"><a href="visaperson?personDn=${presentationHelper.urlEncode(unit.managerDN)}">${unit.manager}</a></td>
+			<th></th>
+			<td></td>
+		</tr>
 	</tbody>
 </table>

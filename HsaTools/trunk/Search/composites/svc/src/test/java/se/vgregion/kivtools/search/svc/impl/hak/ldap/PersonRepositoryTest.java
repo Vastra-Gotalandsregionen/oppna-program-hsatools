@@ -179,6 +179,21 @@ public class PersonRepositoryTest {
     assertEquals(TEST, employment.getZipCode().getZipCode());
   }
 
+  @Test
+  public void testGetPersonByDn() throws KivException {
+    LDAPEntryMock entry = new LDAPEntryMock();
+    entry.addAttribute("givenName", "Nina");
+    entry.addAttribute("sn", "Kanin");
+    entry.addAttribute("cn", "cn=Nina Kanin");
+    ldapConnectionMock.addLDAPEntry("cn=Nina Kanin, ou=abc, ou=def", entry);
+
+    Person person = personRepository.getPersonByDn("cn=Nina Kanin,ou=abc,ou=def");
+    assertNotNull(person);
+    assertEquals("Nina", person.getGivenName());
+    assertEquals("Kanin", person.getSn());
+    assertEquals("cn=Nina Kanin", person.getCn());
+  }
+
   private static class LdapTemplateMock extends LdapTemplate {
     private String filter;
     private List<DirContextOperations> dirContextOperations = new ArrayList<DirContextOperations>();

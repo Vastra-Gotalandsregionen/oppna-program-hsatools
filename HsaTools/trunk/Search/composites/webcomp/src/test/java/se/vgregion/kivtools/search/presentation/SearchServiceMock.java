@@ -45,11 +45,16 @@ public class SearchServiceMock implements SearchService {
   private List<KivException> exceptionsToThrow = new ArrayList<KivException>();
   private List<String> allPersonsId = Collections.emptyList();
   private List<String> allUnitsId = Collections.emptyList();
+  private Person person;
 
   private int exceptionCallCount;
 
   public void setPersons(SikSearchResultList<Person> persons) {
     this.persons = persons;
+  }
+
+  public void setPerson(Person person) {
+    this.person = person;
   }
 
   public void addEmployment(String personDn, SikSearchResultList<Employment> employment) {
@@ -172,6 +177,18 @@ public class SearchServiceMock implements SearchService {
     return persons;
   }
 
+  @Override
+  public Person getPersonById(String id) throws KivException {
+    throwExceptionIfApplicable();
+    return this.person;
+  }
+
+  @Override
+  public Person getPersonByDn(String personDn) throws KivException {
+    throwExceptionIfApplicable();
+    return this.person;
+  }
+
   // Dummy implementations
 
   @Override
@@ -185,17 +202,12 @@ public class SearchServiceMock implements SearchService {
   }
 
   @Override
-  public Person getPersonById(String id) throws KivException {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return null;
   }
 
   @Override
   public Unit getUnitByDN(String dn) throws KivException {
-    return null;
-  }
-
-  @Override
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return null;
   }
 }

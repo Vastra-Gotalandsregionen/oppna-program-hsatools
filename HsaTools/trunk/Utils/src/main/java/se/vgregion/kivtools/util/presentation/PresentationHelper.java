@@ -21,6 +21,8 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
+import se.vgregion.kivtools.util.StringUtil;
+
 /**
  * Helper-class for handling presentation logic etc.
  * 
@@ -99,5 +101,15 @@ public class PresentationHelper {
     result = result.replaceAll("<", "&lt;");
     result = result.replaceAll(">", "&gt;");
     return result;
+  }
+
+  /**
+   * URL encodes the provided input.
+   * 
+   * @param input The input to URL encode.
+   * @return The provided input URL encoded.
+   */
+  public static String urlEncode(String input) {
+    return StringUtil.urlEncode(input, "UTF-8");
   }
 }

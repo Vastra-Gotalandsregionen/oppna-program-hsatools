@@ -45,13 +45,25 @@ public class SearchServiceLdapImplTest {
     assertTrue(personRepository.searchPersonCalled);
   }
 
-  class PersonRepositoryMock extends PersonRepository {
+  @Test
+  public void testGetPersonByDn() throws KivException {
+    searchServiceLdapImpl.getPersonByDn("cn=abc,ou=def");
+    assertTrue(personRepository.getPersonByDnCalled);
+  }
 
+  class PersonRepositoryMock extends PersonRepository {
     private boolean searchPersonCalled;
+    private boolean getPersonByDnCalled;
 
     @Override
     public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
       searchPersonCalled = true;
+      return null;
+    }
+
+    @Override
+    public Person getPersonByDn(String dn) throws KivException {
+      getPersonByDnCalled = true;
       return null;
     }
   }
