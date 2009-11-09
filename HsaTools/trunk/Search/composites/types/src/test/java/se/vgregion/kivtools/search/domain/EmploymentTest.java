@@ -58,6 +58,7 @@ public class EmploymentTest {
     PojoTester.testProperty(employment, "hsaInternalAddress", Address.class, null, createAddress("Storgatan 1", "41263", "Göteborg"), createAddress("Lilla stigen 4", "40210", "Uddevalla"));
     PojoTester.testProperty(employment, "hsaPostalAddress", Address.class, null, createAddress("Storgatan 1", "41263", "Göteborg"), createAddress("Lilla stigen 4", "40210", "Uddevalla"));
     PojoTester.testProperty(employment, "hsaSedfDeliveryAddress", Address.class, null, createAddress("Storgatan 1", "41263", "Göteborg"), createAddress("Lilla stigen 4", "40210", "Uddevalla"));
+    PojoTester.testProperty(employment, "hsaConsigneeAddress", Address.class, null, createAddress("Storgatan 1", "41263", "Göteborg"), createAddress("Lilla stigen 4", "40210", "Uddevalla"));
     PojoTester.testProperty(employment, "facsimileTelephoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber("031-123456"), PhoneNumber.createPhoneNumber("0303-10000"));
     PojoTester.testProperty(employment, "hsaPublicTelephoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber("031-123456"), PhoneNumber.createPhoneNumber("0303-10000"));
     PojoTester.testProperty(employment, "mobileTelephoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber("031-123456"), PhoneNumber.createPhoneNumber("0303-10000"));

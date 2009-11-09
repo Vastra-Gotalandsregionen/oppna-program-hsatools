@@ -91,6 +91,7 @@ public class Employment implements Serializable {
   private Address hsaPostalAddress;
   // Leveransadress e.g. Södra Älvsborgs Sjukhus$Barn- och ungdomspsmottagning $Elinsdalsgatan 8$ $504 33$Borås
   private Address hsaSedfDeliveryAddress;
+  private Address hsaConsigneeAddress;
   // Postnummer e.g. 416 73
   private ZipCode zipCode;
 
@@ -425,5 +426,13 @@ public class Employment implements Serializable {
 
   public String getPosition() {
     return position;
+  }
+
+  public void setHsaConsigneeAddress(Address hsaConsigneeAddress) {
+    this.hsaConsigneeAddress = hsaConsigneeAddress;
+  }
+
+  public Address getHsaConsigneeAddress() {
+    return hsaConsigneeAddress;
   }
 }

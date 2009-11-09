@@ -14,15 +14,17 @@
 			<td headers="main-HSA-identitet">${person.hsaIdentity}</td>
 		</tr> 
 		
-		<tr>
-			<th id="main-leg-yrkesgrupp">Leg. Yrkesgrupp</th>
-			<td headers="main-leg-yrkesgrupp">${person.hsaTitle}</td>
-			<th id="main-specialitet">Specialitet</th>
-			<td headers="main-specialitet">
-				<ui:repeat value="${person.hsaSpecialityName}" var="speciality">
-					${speciality}
-				</ui:repeat>
-			</td>
-		</tr>
+		<h:outputText rendered="${person.hsaTitle != '' or not person.hsaSpecialityName.isEmpty()}">
+			<tr>
+				<th id="main-leg-yrkesgrupp">Leg. Yrkesgrupp</th>
+				<td headers="main-leg-yrkesgrupp">${person.hsaTitle}</td>
+				<th id="main-specialitet">Specialitet</th>
+				<td headers="main-specialitet">
+					<ui:repeat value="${person.hsaSpecialityName}" var="speciality">
+						${speciality}
+					</ui:repeat>
+				</td>
+			</tr>
+		</h:outputText>
 	</tbody>
 </table>
