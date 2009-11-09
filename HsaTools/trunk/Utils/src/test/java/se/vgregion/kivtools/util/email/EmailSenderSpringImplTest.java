@@ -39,6 +39,15 @@ public class EmailSenderSpringImplTest {
     mailSender.assertSentEmail("a@b.c", "Test", "Test", "a@b.c", "d@e.f");
   }
 
+  @Test
+  public void testAlwaysRecipients() {
+    MailSenderMock mailSender = new MailSenderMock();
+    emailSenderSpringImpl.setMailSender(mailSender);
+    emailSenderSpringImpl.setAlwaysRecipients(Arrays.asList("test@test.com"));
+    emailSenderSpringImpl.sendEmail("a@b.c", Arrays.asList("a@b.c", "d@e.f"), "Test", "Test");
+    mailSender.assertSentEmail("a@b.c", "Test", "Test", "a@b.c", "d@e.f", "test@test.com");
+  }
+
   private static class MailSenderMock implements MailSender {
     private SimpleMailMessage message;
 
