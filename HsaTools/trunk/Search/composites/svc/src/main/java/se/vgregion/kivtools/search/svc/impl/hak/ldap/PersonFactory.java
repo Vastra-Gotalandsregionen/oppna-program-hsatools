@@ -17,10 +17,12 @@
  */
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
+import java.util.List;
 import java.util.TimeZone;
 
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.svc.ldap.LdapORMHelper;
+import se.vgregion.kivtools.util.StringUtil;
 
 import com.domainlanguage.time.TimePoint;
 import com.novell.ldap.LDAPEntry;
@@ -84,7 +86,7 @@ public class PersonFactory {
     person.setMail(LdapORMHelper.getSingleValue(personEntry.getAttribute("mail")));
 
     // Specialitetskod klartext e.g. Klinisk cytologi , Klinisk patologi
-    person.setHsaSpecialityName(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaSpecialityName")));
+    person.setHsaSpecialityName(LdapORMHelper.getMultipleValues(personEntry.getAttribute("specialityName")));
 
     // Specialitetskod e.g. 1024 , 1032
     person.setHsaSpecialityCode(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaSpecialityCode")));
@@ -96,7 +98,8 @@ public class PersonFactory {
     person.setHsaLanguageKnowledgeText(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaLanguageKnowledgeText")));
 
     // Legitimerade Yrkesgrupper e.g Biomedicinsk analytiker
-    person.setHsaTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("title")));
+    List<String> titles = LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaTitle"));
+    person.setHsaTitle(StringUtil.concatenate(titles));
 
     // hsaPersonPrescriptionCode
     person.setHsaPersonPrescriptionCode(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaPersonPrescriptionCode")));

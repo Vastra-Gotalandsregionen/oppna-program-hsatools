@@ -16,7 +16,9 @@ import org.springframework.ldap.core.DirContextProcessor;
 import org.springframework.ldap.core.LdapTemplate;
 
 import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
+import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
+import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
@@ -27,6 +29,11 @@ import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.util.reflection.ReflectionUtil;
 
 public class PersonRepositoryTest {
+  private static final String TEST = "Test";
+  private static final String TEST_DN = "cn=abc,ou=def";
+  private static final String TEST_TIME = "1-4#08:00#17:00";
+  private static final String EXPECTED_LIST_RESULT = "[" + TEST + "]";
+
   private PersonRepository personRepository;
   private LDAPConnectionMock ldapConnectionMock;
   private LdapConnectionPoolMock ldapConnectionPoolMock;
@@ -105,6 +112,71 @@ public class PersonRepositoryTest {
     assertEquals(2, allPersonsVgrId.size());
     assertTrue(allPersonsVgrId.contains("abc123"));
     assertTrue(allPersonsVgrId.contains("kal456"));
+  }
+
+  @Test
+  public void testExtractEmploymentInfo() throws KivException {
+    LDAPEntryMock ldapEntry = new LDAPEntryMock();
+    ldapEntry.addAttribute("cn", TEST);
+    ldapEntry.addAttribute("ou", TEST);
+    ldapEntry.addAttribute("hsaIdentity", TEST);
+    ldapEntry.addAttribute("street", TEST);
+    ldapEntry.addAttribute("hsaInternalAddress", TEST);
+    ldapEntry.addAttribute("postalAddress", TEST);
+    ldapEntry.addAttribute("hsaDeliveryAddress", TEST);
+    ldapEntry.addAttribute("hsaInvoiceAddress", TEST);
+    ldapEntry.addAttribute("hsaConsigneeAddress", TEST);
+    ldapEntry.addAttribute("facsimileTelephoneNumber", TEST);
+    ldapEntry.addAttribute("labeledUri", TEST);
+    ldapEntry.addAttribute("title", TEST);
+    ldapEntry.addAttribute("description", TEST);
+    ldapEntry.addAttribute("hsaSwitchboardNumber", TEST);
+    ldapEntry.addAttribute("company", TEST);
+    ldapEntry.addAttribute("telephoneNumber", TEST);
+    ldapEntry.addAttribute("hsaTelephoneNumber", TEST);
+    ldapEntry.addAttribute("mobile", TEST);
+    ldapEntry.addAttribute("hsaInternalPagerNumber", TEST);
+    ldapEntry.addAttribute("pager", TEST);
+    ldapEntry.addAttribute("hsaTextPhoneNumber", TEST);
+    ldapEntry.addAttribute("whenChanged", "20091109104650.0Z");
+    ldapEntry.addAttribute("telephoneHours", TEST_TIME);
+    ldapEntry.addAttribute("distinguishedName", TEST_DN);
+    ldapEntry.addAttribute("postalCode", TEST);
+
+    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
+    ldapSearchResultsMock.addLDAPEntry(ldapEntry);
+    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=*kon829*))", ldapSearchResultsMock);
+
+    SikSearchResultList<Person> persons = personRepository.searchPersons("kon829", 1);
+    assertNotNull(persons);
+
+    Employment employment = persons.get(0).getEmployments().get(0);
+
+    assertEquals(TEST, employment.getCn());
+    assertEquals(TEST, employment.getOu());
+    assertEquals(TEST, employment.getHsaPersonIdentityNumber());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaStreetAddress().getAdditionalInfo().toString());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaInternalAddress().getAdditionalInfo().toString());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaPostalAddress().getAdditionalInfo().toString());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaSedfDeliveryAddress().getAdditionalInfo().toString());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaSedfInvoiceAddress().getAdditionalInfo().toString());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaConsigneeAddress().getAdditionalInfo().toString());
+    assertEquals(TEST, employment.getFacsimileTelephoneNumber().toString());
+    assertEquals(TEST, employment.getLabeledUri());
+    assertEquals(TEST, employment.getTitle());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getDescription().toString());
+    assertEquals(TEST, employment.getHsaSedfSwitchboardTelephoneNo().toString());
+    assertEquals(TEST, employment.getName());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaTelephoneNumbers().toString());
+    assertEquals(TEST, employment.getHsaPublicTelephoneNumber().toString());
+    assertEquals(TEST, employment.getMobileTelephoneNumber().toString());
+    assertEquals(TEST, employment.getPagerTelephoneNumber().toString());
+    assertEquals(TEST, employment.getHsaInternalPagerNumber().toString());
+    assertEquals(TEST, employment.getHsaTextPhoneNumber().toString());
+    assertNotNull(TEST, employment.getModifyTimestamp());
+    assertEquals("Måndag-Torsdag 08:00-17:00", employment.getHsaTelephoneTime().get(0).getDisplayValue());
+    assertEquals(DN.createDNFromString(TEST_DN), employment.getVgrStrukturPerson());
+    assertEquals(TEST, employment.getZipCode().getZipCode());
   }
 
   private static class LdapTemplateMock extends LdapTemplate {
