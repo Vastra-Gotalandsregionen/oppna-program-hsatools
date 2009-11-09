@@ -17,6 +17,7 @@
  */
 package se.vgregion.kivtools.util.email;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.mail.MailSender;
@@ -31,9 +32,19 @@ import se.vgregion.kivtools.util.Arguments;
  */
 public class EmailSenderSpringImpl implements EmailSender {
   private MailSender mailSender;
+  private final List<String> alwaysRecipients = new ArrayList<String>();
 
   public void setMailSender(MailSender mailSender) {
     this.mailSender = mailSender;
+  }
+
+  /**
+   * Setter for the recipients that should always be appended to the list of recipients of the emails.
+   * 
+   * @param alwaysRecipients The list of recipients that should always be appended to the list of recipients of the emails.
+   */
+  public void setAlwaysRecipients(List<String> alwaysRecipients) {
+    this.alwaysRecipients.addAll(alwaysRecipients);
   }
 
   /**
@@ -46,9 +57,12 @@ public class EmailSenderSpringImpl implements EmailSender {
     Arguments.notEmpty("subject", subject);
     Arguments.notEmpty("body", body);
 
+    List<String> allRecipients = new ArrayList<String>();
+    allRecipients.addAll(alwaysRecipients);
+    allRecipients.addAll(recipientAddresses);
     SimpleMailMessage message = new SimpleMailMessage();
     message.setFrom(fromAddress);
-    message.setTo(recipientAddresses.toArray(new String[recipientAddresses.size()]));
+    message.setTo(allRecipients.toArray(new String[allRecipients.size()]));
     message.setSubject(subject);
     message.setText(body);
     mailSender.send(message);
