@@ -106,43 +106,6 @@ public class SearchServiceLdapImpl implements SearchService {
     return unitRepository.getUnitByDN(DN.createDNFromString(dn));
   }
 
-  /**
-   * Escapes the filter string, prevents ldap injection.
-   * 
-   * @param filter The filter string to escape.
-   * @see http://www.owasp.org/index.php/Preventing_LDAP_Injection_in_Java
-   * @return escaped ldap search filter.
-   */
-  private static final String escapeLDAPSearchFilter(String filter) {
-    if (filter == null) {
-      return null;
-    }
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < filter.length(); i++) {
-      char curChar = filter.charAt(i);
-      switch (curChar) {
-        case '\\':
-          sb.append("\\5c");
-          break;
-        case '*':
-          sb.append("\\2a");
-          break;
-        case '(':
-          sb.append("\\28");
-          break;
-        case ')':
-          sb.append("\\29");
-          break;
-        case '\u0000':
-          sb.append("\\00");
-          break;
-        default:
-          sb.append(curChar);
-      }
-    }
-    return sb.toString();
-  }
-
   @Override
   public List<Employment> getEmploymentsForPerson(Person person) throws KivException {
     SikSearchResultList<Person> personWithEmployments = personRepository.searchPersons(person.getVgrId(), 0);
@@ -177,5 +140,13 @@ public class SearchServiceLdapImpl implements SearchService {
   @Override
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
     return personRepository.searchPersons(person, maxResult);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Person getPersonByDn(String personDn) throws KivException {
+    return personRepository.getPersonByDn(personDn);
   }
 }

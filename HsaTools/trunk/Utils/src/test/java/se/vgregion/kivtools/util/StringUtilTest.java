@@ -137,4 +137,17 @@ public class StringUtilTest {
     list.add("   Sverige   ");
     assertEquals("Unexpected result", "Vårdcentral Angered, Angered, Sverige", StringUtil.concatenate(list));
   }
+
+  @Test
+  public void testUrlEncode() {
+    String input = "&= aåäö";
+    String expected = "%26%3D+a%C3%A5%C3%A4%C3%B6";
+    String result = StringUtil.urlEncode(input, "UTF-8");
+    assertEquals(expected, result);
+  }
+
+  @Test(expected = RuntimeException.class)
+  public void testUrlEncodeInvalidEncoding() {
+    StringUtil.urlEncode("test", "INVALID_ENCODING");
+  }
 }

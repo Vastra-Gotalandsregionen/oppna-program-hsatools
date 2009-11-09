@@ -1,8 +1,6 @@
 package se.vgregion.kivtools.hriv.presentation;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -274,12 +272,7 @@ public class RegisterOnUnitController implements Serializable {
   }
 
   private String encodeTargetUrl(String targetUrl) {
-    try {
-      return URLEncoder.encode(targetUrl, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      // Should not happen
-      throw new RuntimeException(e);
-    }
+    return StringUtil.urlEncode(targetUrl, "UTF-8");
   }
 
   private byte[] encodeRegistrationData(String registrationData) {

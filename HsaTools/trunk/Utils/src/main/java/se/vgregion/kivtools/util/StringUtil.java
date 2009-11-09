@@ -18,6 +18,7 @@
 package se.vgregion.kivtools.util;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -241,5 +242,20 @@ public class StringUtil {
       }
     }
     return concatenatedString.toString();
+  }
+
+  /**
+   * URL encodes the provided input using the provided encoding.
+   * 
+   * @param input The input to URL encode.
+   * @param characterEncoding The character encoding to use.
+   * @return The provided input URL encoded.
+   */
+  public static String urlEncode(String input, String characterEncoding) {
+    try {
+      return URLEncoder.encode(input, characterEncoding);
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

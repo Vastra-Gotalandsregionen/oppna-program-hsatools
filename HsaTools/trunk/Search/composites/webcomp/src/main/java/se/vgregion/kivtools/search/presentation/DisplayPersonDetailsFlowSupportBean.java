@@ -43,11 +43,7 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
   public void setSearchService(SearchService searchService) {
     this.searchService = searchService;
   }
-  /**
-   * Person details for given person.
-   * @param vgrId id for the person to get details for.
-   * @return person object.
-   */
+
   /**
    * Retrieves person details for the provided vgrId.
    * 
@@ -58,6 +54,27 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
     LOGGER.debug(CLASS_NAME + "::getPersonDetails(vgrId=" + vgrId + ")");
     try {
       Person person = searchService.getPersonById(vgrId);
+      if (person.getEmployments() == null) {
+        List<Employment> employments = searchService.getEmploymentsForPerson(person);
+        person.setEmployments(employments);
+      }
+      return person;
+    } catch (KivException e) {
+      LOGGER.error(e);
+      return new Person();
+    }
+  }
+
+  /**
+   * Retrieves person details for the provided distinguished name.
+   * 
+   * @param personDn The distinguished name for the person to retrieve details for.
+   * @return A populated Person-object.
+   */
+  public Person getPersonDetailsByDn(String personDn) {
+    LOGGER.debug(CLASS_NAME + "::getPersonDetails(personDn=" + personDn + ")");
+    try {
+      Person person = searchService.getPersonByDn(personDn);
       if (person.getEmployments() == null) {
         List<Employment> employments = searchService.getEmploymentsForPerson(person);
         person.setEmployments(employments);

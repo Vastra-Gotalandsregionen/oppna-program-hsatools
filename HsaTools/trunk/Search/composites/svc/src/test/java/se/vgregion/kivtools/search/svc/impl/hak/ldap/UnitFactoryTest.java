@@ -45,12 +45,14 @@ public class UnitFactoryTest {
     ldapEntry.addAttribute("hsaManagementName", TEST);
     ldapEntry.addAttribute("hsaMunicipalitySectionCode", TEST);
     ldapEntry.addAttribute("hsaMunicipalitySectionName", TEST);
-    ldapEntry.addAttribute("hsaPostalAddress", TEST);
-    ldapEntry.addAttribute("hsaSedfDeliveryAddress", TEST);
-    ldapEntry.addAttribute("hsaSedfInvoiceAddress", TEST);
+    ldapEntry.addAttribute("postalAddress", TEST);
+    ldapEntry.addAttribute("hsaDeliveryAddress", TEST);
+    ldapEntry.addAttribute("hsaInvoiceAddress", TEST);
+    ldapEntry.addAttribute("hsaConsigneeAddress", TEST);
     ldapEntry.addAttribute("hsaSmsTelephoneNumber", TEST);
     ldapEntry.addAttribute("hsaSwitchboardTelephoneNo", TEST);
     ldapEntry.addAttribute("hsaTextPhoneNumber", TEST);
+    ldapEntry.addAttribute("hsaTelephoneNumber", TEST);
     ldapEntry.addAttribute("hsaUnitPrescriptionCode", TEST);
     ldapEntry.addAttribute("hsaVisitingRuleAge", TEST);
     ldapEntry.addAttribute("hsaVisitingRules", TEST);
@@ -58,13 +60,13 @@ public class UnitFactoryTest {
     ldapEntry.addAttribute("labeledURI", TEST);
     ldapEntry.addAttribute("mail", TEST);
     ldapEntry.addAttribute("management", "1");
-    ldapEntry.addAttribute("mobileTelephoneNumber", TEST);
+    ldapEntry.addAttribute("mobile", TEST);
     ldapEntry.addAttribute("municipalityCode", TEST);
     ldapEntry.addAttribute("municipalityName", TEST);
     ldapEntry.addAttribute("objectClass", TEST);
     ldapEntry.addAttribute("organizationalUnitNameShort", TEST);
     ldapEntry.addAttribute("ou", TEST);
-    ldapEntry.addAttribute("pagerTelephoneNumber", TEST);
+    ldapEntry.addAttribute("pager", TEST);
     ldapEntry.addAttribute("postalAddress", TEST);
     ldapEntry.addAttribute("postalCode", TEST);
     ldapEntry.addAttribute("route", TEST);
@@ -81,6 +83,7 @@ public class UnitFactoryTest {
     ldapEntry.addAttribute("vgrModifyTimestamp", TEST_TIMESTAMP);
     ldapEntry.addAttribute("vgrRefInfo", TEST);
     ldapEntry.addAttribute("vgrTempInfo", TEST);
+    ldapEntry.addAttribute("managerDN", "cn=Nina Kanin,ou=abc,ou=def");
   }
 
   @Test
@@ -119,6 +122,7 @@ public class UnitFactoryTest {
     assertEquals(EXPECTED_LIST_RESULT, unit.getHsaPostalAddress().getAdditionalInfo().toString());
     assertEquals(EXPECTED_LIST_RESULT, unit.getHsaSedfDeliveryAddress().getAdditionalInfo().toString());
     assertEquals(EXPECTED_LIST_RESULT, unit.getHsaSedfInvoiceAddress().getAdditionalInfo().toString());
+    assertEquals(EXPECTED_LIST_RESULT, unit.getHsaConsigneeAddress().getAdditionalInfo().toString());
     assertEquals(TEST, unit.getHsaSmsTelephoneNumber().getPhoneNumber());
     assertEquals(TEST, unit.getHsaSedfSwitchboardTelephoneNo().getPhoneNumber());
     assertEquals(TEST, unit.getHsaTextPhoneNumber().getPhoneNumber());
@@ -151,6 +155,8 @@ public class UnitFactoryTest {
     assertEquals(TEST, unit.getVgrTempInfo());
     assertEquals("Landsting/Region", unit.getHsaManagementText());
     assertEquals(TEST, unit.getName());
+    assertEquals("cn=Nina Kanin,ou=abc,ou=def", unit.getManagerDN());
+    assertEquals("Nina Kanin", unit.getManager());
   }
 
   @Test
@@ -161,6 +167,14 @@ public class UnitFactoryTest {
     assertEquals(1234567, unit.getRt90Y());
     assertEquals(11.159754999084681, unit.getWgs84Lat(), 0.0);
     assertEquals(13.376313261575913, unit.getWgs84Long(), 0.0);
+  }
+
+  @Test
+  public void testReconstituteNoManagerDN() throws KivException {
+    ldapEntry.addAttribute("managerDN", "");
+    Unit unit = UnitFactory.reconstitute(ldapEntry);
+    assertEquals("", unit.getManagerDN());
+    assertNull(unit.getManager());
   }
 
   @Test

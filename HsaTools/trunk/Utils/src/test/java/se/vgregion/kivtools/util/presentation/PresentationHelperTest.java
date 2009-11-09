@@ -116,4 +116,12 @@ public class PresentationHelperTest {
     String result = PresentationHelper.escapeXhtml(input);
     assertEquals(expected, result);
   }
+
+  @Test
+  public void testUrlEncode() {
+    String input = "&= aåäö";
+    String expected = "%26%3D+a%C3%A5%C3%A4%C3%B6";
+    String result = PresentationHelper.urlEncode(input);
+    assertEquals(expected, result);
+  }
 }

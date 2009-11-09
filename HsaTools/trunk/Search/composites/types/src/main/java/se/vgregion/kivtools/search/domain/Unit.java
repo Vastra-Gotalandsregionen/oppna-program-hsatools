@@ -60,6 +60,8 @@ public class Unit implements Serializable, Comparable<Unit> {
   private String ou;
   // Distinuished Name (e.g. ou=Näl,ou=Org,o=VGR)
   private DN dn;
+  private String manager;
+  private String managerDN;
   // Enhetens namn
   private String name;
   // Enhetens kort namn
@@ -130,6 +132,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   private Address hsaSedfDeliveryAddress;
   // Fakturaadress
   private Address hsaSedfInvoiceAddress;
+  private Address hsaConsigneeAddress;
 
   // Phone numbers
   // Växeltelefon
@@ -1464,5 +1467,29 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   public void setVisitingRuleReferral(String visitingRuleReferral) {
     this.visitingRuleReferral = visitingRuleReferral;
+  }
+
+  public void setManager(String manager) {
+    this.manager = manager;
+  }
+
+  public String getManager() {
+    return manager;
+  }
+
+  public void setManagerDN(String managerDN) {
+    this.managerDN = managerDN;
+  }
+
+  public String getManagerDN() {
+    return managerDN;
+  }
+
+  public void setHsaConsigneeAddress(Address hsaConsigneeAddress) {
+    this.hsaConsigneeAddress = hsaConsigneeAddress;
+  }
+
+  public Address getHsaConsigneeAddress() {
+    return hsaConsigneeAddress;
   }
 }

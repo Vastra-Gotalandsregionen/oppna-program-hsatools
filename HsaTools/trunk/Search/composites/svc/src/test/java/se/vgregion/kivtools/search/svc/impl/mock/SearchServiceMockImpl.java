@@ -338,4 +338,9 @@ public class SearchServiceMockImpl implements SearchService {
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
     return null;
   }
+
+  @Override
+  public Person getPersonByDn(String personDn) {
+    return null;
+  }
 }

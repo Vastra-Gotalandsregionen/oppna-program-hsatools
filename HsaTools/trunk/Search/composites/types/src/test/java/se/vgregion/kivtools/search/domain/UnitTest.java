@@ -26,12 +26,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.mocks.PojoTester;
 import se.vgregion.kivtools.search.domain.values.Address;
 import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
@@ -216,381 +218,68 @@ public class UnitTest {
   }
 
   @Test
-  public void testVgrVardval() {
-    assertFalse(unit.isVgrVardVal());
-    unit.setVgrVardVal(true);
-    assertTrue(unit.isVgrVardVal());
-    unit.setVgrVardVal(false);
-    assertFalse(unit.isVgrVardVal());
-  }
-
-  @Test
-  public void testDistanceToTarget() {
-    assertNull(unit.getDistanceToTarget());
-    unit.setDistanceToTarget(TEST);
-    assertEquals(TEST, unit.getDistanceToTarget());
-    unit.setDistanceToTarget(TEST2);
-    assertEquals(TEST2, unit.getDistanceToTarget());
-  }
-
-  @Test
-  public void testGeoCoordinate() {
-    assertNull(unit.getGeoCoordinate());
-    unit.setGeoCoordinate(new GeoCoordinate(0, 0, null));
-    assertEquals(0.0, unit.getGeoCoordinate().getLatitude(), 0.0);
-    unit.setGeoCoordinate(new GeoCoordinate(0, 123.0, null));
-    assertEquals(123.0, unit.getGeoCoordinate().getLatitude(), 0.0);
-  }
-
-  @Test
-  public void testHsaRouteConcatenated() {
-    assertEquals("", unit.getHsaRouteConcatenated());
-    unit.setHsaRouteConcatenated(TEST);
-    assertEquals(TEST, unit.getHsaRouteConcatenated());
-    unit.setHsaRouteConcatenated(TEST2);
-    assertEquals(TEST2, unit.getHsaRouteConcatenated());
-  }
-
-  @Test
-  public void testVgrEANCode() {
-    assertNull(unit.getVgrEANCode());
-    unit.setVgrEANCode(TEST);
-    assertEquals(TEST, unit.getVgrEANCode());
-    unit.setVgrEANCode(TEST2);
-    assertEquals(TEST2, unit.getVgrEANCode());
-  }
-
-  @Test
-  public void testHsaMunicipalityCode() {
-    assertNull(unit.getHsaMunicipalityCode());
-    unit.setHsaMunicipalityCode(TEST);
-    assertEquals(TEST, unit.getHsaMunicipalityCode());
-    unit.setHsaMunicipalityCode(TEST2);
-    assertEquals(TEST2, unit.getHsaMunicipalityCode());
-  }
-
-  @Test
-  public void testHsaMunicipalitySectionName() {
-    assertNull(unit.getHsaMunicipalitySectionName());
-    unit.setHsaMunicipalitySectionName(TEST);
-    assertEquals(TEST, unit.getHsaMunicipalitySectionName());
-    unit.setHsaMunicipalitySectionName(TEST2);
-    assertEquals(TEST2, unit.getHsaMunicipalitySectionName());
-  }
-
-  @Test
-  public void testHsaMunicipalitySectionCode() {
-    assertNull(unit.getHsaMunicipalitySectionCode());
-    unit.setHsaMunicipalitySectionCode(TEST);
-    assertEquals(TEST, unit.getHsaMunicipalitySectionCode());
-    unit.setHsaMunicipalitySectionCode(TEST2);
-    assertEquals(TEST2, unit.getHsaMunicipalitySectionCode());
-  }
-
-  @Test
-  public void testHsaCountyCode() {
-    assertNull(unit.getHsaCountyCode());
-    unit.setHsaCountyCode(TEST);
-    assertEquals(TEST, unit.getHsaCountyCode());
-    unit.setHsaCountyCode(TEST2);
-    assertEquals(TEST2, unit.getHsaCountyCode());
-  }
-
-  @Test
-  public void testHsaCountyName() {
-    assertNull(unit.getHsaCountyName());
-    unit.setHsaCountyName(TEST);
-    assertEquals(TEST, unit.getHsaCountyName());
-    unit.setHsaCountyName(TEST2);
-    assertEquals(TEST2, unit.getHsaCountyName());
-  }
-
-  @Test
-  public void testHsaManagementCode() {
-    assertNull(unit.getHsaManagementCode());
-    unit.setHsaManagementCode(TEST);
-    assertEquals(TEST, unit.getHsaManagementCode());
-    unit.setHsaManagementCode(TEST2);
-    assertEquals(TEST2, unit.getHsaManagementCode());
-  }
-
-  @Test
-  public void testHsaManagementName() {
-    assertNull(unit.getHsaManagementName());
-    unit.setHsaManagementName(TEST);
-    assertEquals(TEST, unit.getHsaManagementName());
-    unit.setHsaManagementName(TEST2);
-    assertEquals(TEST2, unit.getHsaManagementName());
-  }
-
-  @Test
-  public void testHsaAdministrationForm() {
-    assertNull(unit.getHsaAdministrationForm());
-    unit.setHsaAdministrationForm(TEST);
-    assertEquals(TEST, unit.getHsaAdministrationForm());
-    unit.setHsaAdministrationForm(TEST2);
-    assertEquals(TEST2, unit.getHsaAdministrationForm());
-  }
-
-  @Test
-  public void testHsaAdministrationFormText() {
-    assertNull(unit.getHsaAdministrationFormText());
-    unit.setHsaAdministrationFormText(TEST);
-    assertEquals(TEST, unit.getHsaAdministrationFormText());
-    unit.setHsaAdministrationFormText(TEST2);
-    assertEquals(TEST2, unit.getHsaAdministrationFormText());
-  }
-
-  @Test
-  public void testDn() {
-    assertNull(unit.getDn());
-    unit.setDn(DN.createDNFromString("ou=a,ou=b,o=c"));
-    assertEquals("ou=a,ou=b,o=c", unit.getDn().toString());
-    unit.setDn(DN.createDNFromString("ou=d,ou=e,o=f"));
-    assertEquals("ou=d,ou=e,o=f", unit.getDn().toString());
-  }
-
-  @Test
-  public void testOrganizationalUnitNameShort() {
-    assertNull(unit.getOrganizationalUnitNameShort());
-    unit.setOrganizationalUnitNameShort(TEST);
-    assertEquals(TEST, unit.getOrganizationalUnitNameShort());
-    unit.setOrganizationalUnitNameShort(TEST2);
-    assertEquals(TEST2, unit.getOrganizationalUnitNameShort());
-  }
-
-  @Test
-  public void testLdapDistinguishedName() {
-    assertNull(unit.getLdapDistinguishedName());
-    unit.setLdapDistinguishedName(TEST);
-    assertEquals(TEST, unit.getLdapDistinguishedName());
-    unit.setLdapDistinguishedName(TEST2);
-    assertEquals(TEST2, unit.getLdapDistinguishedName());
-  }
-
-  @Test
-  public void testMail() {
-    assertNull(unit.getMail());
-    unit.setMail(TEST);
-    assertEquals(TEST, unit.getMail());
-    unit.setMail(TEST2);
-    assertEquals(TEST2, unit.getMail());
-  }
-
-  @Test
-  public void testLocality() {
-    assertNull(unit.getLocality());
-    unit.setLocality(TEST);
-    assertEquals(TEST, unit.getLocality());
-    unit.setLocality(TEST2);
-    assertEquals(TEST2, unit.getLocality());
-  }
-
-  @Test
-  public void testVgrInternalSedfInvoiceAddress() {
-    assertNull(unit.getVgrInternalSedfInvoiceAddress());
-    unit.setVgrInternalSedfInvoiceAddress(TEST);
-    assertEquals(TEST, unit.getVgrInternalSedfInvoiceAddress());
-    unit.setVgrInternalSedfInvoiceAddress(TEST2);
-    assertEquals(TEST2, unit.getVgrInternalSedfInvoiceAddress());
-  }
-
-  @Test
-  public void testVgrCareType() {
-    assertNull(unit.getVgrCareType());
-    unit.setVgrCareType(TEST);
-    assertEquals(TEST, unit.getVgrCareType());
-    unit.setVgrCareType(TEST2);
-    assertEquals(TEST2, unit.getVgrCareType());
-  }
-
-  @Test
-  public void testVgrCareTypeText() {
-    assertNull(unit.getVgrCareTypeText());
-    unit.setVgrCareTypeText(TEST);
-    assertEquals(TEST, unit.getVgrCareTypeText());
-    unit.setVgrCareTypeText(TEST2);
-    assertEquals(TEST2, unit.getVgrCareTypeText());
-  }
-
-  @Test
-  public void testVgrAO3kod() {
-    assertNull(unit.getVgrAO3kod());
-    unit.setVgrAO3kod(TEST);
-    assertEquals(TEST, unit.getVgrAO3kod());
-    unit.setVgrAO3kod(TEST2);
-    assertEquals(TEST2, unit.getVgrAO3kod());
-  }
-
-  @Test
-  public void testVgrAO3kodText() {
-    assertNull(unit.getVgrAO3kodText());
-    unit.setVgrAO3kodText(TEST);
-    assertEquals(TEST, unit.getVgrAO3kodText());
-    unit.setVgrAO3kodText(TEST2);
-    assertEquals(TEST2, unit.getVgrAO3kodText());
-  }
-
-  @Test
-  public void testHsaIdentity() {
-    assertNull(unit.getHsaIdentity());
-    unit.setHsaIdentity(TEST);
-    assertEquals(TEST, unit.getHsaIdentity());
-    unit.setHsaIdentity(TEST2);
-    assertEquals(TEST2, unit.getHsaIdentity());
-  }
-
-  @Test
-  public void testHsaSedfSwitchboardTelephoneNo() {
-    assertNull(unit.getHsaSedfSwitchboardTelephoneNo());
-    unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(TEST));
-    assertEquals(TEST, unit.getHsaSedfSwitchboardTelephoneNo().toString());
-    unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(TEST2));
-    assertEquals(TEST2, unit.getHsaSedfSwitchboardTelephoneNo().toString());
-  }
-
-  @Test
-  public void testHsaInternalPagerNumber() {
-    assertNull(unit.getHsaInternalPagerNumber());
-    unit.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(TEST));
-    assertEquals(TEST, unit.getHsaInternalPagerNumber().toString());
-    unit.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(TEST2));
-    assertEquals(TEST2, unit.getHsaInternalPagerNumber().toString());
-  }
-
-  @Test
-  public void testPagerTelephoneNumber() {
-    assertNull(unit.getPagerTelephoneNumber());
-    unit.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(TEST));
-    assertEquals(TEST, unit.getPagerTelephoneNumber().toString());
-    unit.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(TEST2));
-    assertEquals(TEST2, unit.getPagerTelephoneNumber().toString());
-  }
-
-  @Test
-  public void testHsaTextPhoneNumber() {
-    assertNull(unit.getHsaTextPhoneNumber());
-    unit.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(TEST));
-    assertEquals(TEST, unit.getHsaTextPhoneNumber().toString());
-    unit.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(TEST2));
-    assertEquals(TEST2, unit.getHsaTextPhoneNumber().toString());
-  }
-
-  @Test
-  public void testMobileTelephoneNumber() {
-    assertNull(unit.getMobileTelephoneNumber());
-    unit.setMobileTelephoneNumber(PhoneNumber.createPhoneNumber(TEST));
-    assertEquals(TEST, unit.getMobileTelephoneNumber().toString());
-    unit.setMobileTelephoneNumber(PhoneNumber.createPhoneNumber(TEST2));
-    assertEquals(TEST2, unit.getMobileTelephoneNumber().toString());
-  }
-
-  @Test
-  public void testHsaSmsTelephoneNumber() {
-    assertNull(unit.getHsaSmsTelephoneNumber());
-    unit.setHsaSmsTelephoneNumber(PhoneNumber.createPhoneNumber(TEST));
-    assertEquals(TEST, unit.getHsaSmsTelephoneNumber().toString());
-    unit.setHsaSmsTelephoneNumber(PhoneNumber.createPhoneNumber(TEST2));
-    assertEquals(TEST2, unit.getHsaSmsTelephoneNumber().toString());
-  }
-
-  @Test
-  public void testFacsimileTelephoneNumber() {
-    assertNull(unit.getFacsimileTelephoneNumber());
-    unit.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(TEST));
-    assertEquals(TEST, unit.getFacsimileTelephoneNumber().toString());
-    unit.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(TEST2));
-    assertEquals(TEST2, unit.getFacsimileTelephoneNumber().toString());
-  }
-
-  @Test
-  public void testHsaTelephoneNumber() {
-    assertNull(unit.getHsaTelephoneNumber());
-    unit.setHsaTelephoneNumber(Arrays.asList(new PhoneNumber[] { PhoneNumber.createPhoneNumber(TEST) }));
-    assertEquals("[" + TEST + "]", unit.getHsaTelephoneNumber().toString());
-    unit.setHsaTelephoneNumber(Arrays.asList(new PhoneNumber[] { PhoneNumber.createPhoneNumber(TEST2) }));
-    assertEquals("[" + TEST2 + "]", unit.getHsaTelephoneNumber().toString());
-  }
-
-  @Test
-  public void testHsaUnitPrescriptionCode() {
-    assertNull(unit.getHsaUnitPrescriptionCode());
-    unit.setHsaUnitPrescriptionCode(TEST);
-    assertEquals(TEST, unit.getHsaUnitPrescriptionCode());
-    unit.setHsaUnitPrescriptionCode(TEST2);
-    assertEquals(TEST2, unit.getHsaUnitPrescriptionCode());
-  }
-
-  @Test
-  public void testOu() {
-    assertNull(unit.getOu());
-    unit.setOu(TEST);
-    assertEquals(TEST, unit.getOu());
-    unit.setOu(TEST2);
-    assertEquals(TEST2, unit.getOu());
-  }
-
-  @Test
-  public void testVgrEDICode() {
-    assertNull(unit.getVgrEDICode());
-    unit.setVgrEDICode(TEST);
-    assertEquals(TEST, unit.getVgrEDICode());
-    unit.setVgrEDICode(TEST2);
-    assertEquals(TEST2, unit.getVgrEDICode());
-  }
-
-  @Test
-  public void testHsaInternalAddress() {
-    assertNull(unit.getHsaInternalAddress());
-    unit.setHsaInternalAddress(new Address(TEST, null, TEST, null));
-    assertEquals(TEST, unit.getHsaInternalAddress().getStreet());
-    unit.setHsaInternalAddress(new Address(TEST2, null, TEST2, null));
-    assertEquals(TEST2, unit.getHsaInternalAddress().getStreet());
-  }
-
-  @Test
-  public void testHsaPostalAddress() {
-    assertNull(unit.getHsaPostalAddress());
-    unit.setHsaPostalAddress(new Address(TEST, null, TEST, null));
-    assertEquals(TEST, unit.getHsaPostalAddress().getStreet());
-    unit.setHsaPostalAddress(new Address(TEST2, null, TEST2, null));
-    assertEquals(TEST2, unit.getHsaPostalAddress().getStreet());
-  }
-
-  @Test
-  public void testHsaSedfDeliveryAddress() {
-    assertNull(unit.getHsaSedfDeliveryAddress());
-    unit.setHsaSedfDeliveryAddress(new Address(TEST, null, TEST, null));
-    assertEquals(TEST, unit.getHsaSedfDeliveryAddress().getStreet());
-    unit.setHsaSedfDeliveryAddress(new Address(TEST2, null, TEST2, null));
-    assertEquals(TEST2, unit.getHsaSedfDeliveryAddress().getStreet());
-  }
-
-  @Test
-  public void testHsaSedfInvoiceAddress() {
-    assertNull(unit.getHsaSedfInvoiceAddress());
-    unit.setHsaSedfInvoiceAddress(new Address(TEST, null, TEST, null));
-    assertEquals(TEST, unit.getHsaSedfInvoiceAddress().getStreet());
-    unit.setHsaSedfInvoiceAddress(new Address(TEST2, null, TEST2, null));
-    assertEquals(TEST2, unit.getHsaSedfInvoiceAddress().getStreet());
-  }
-
-  @Test
-  public void testVgrAnsvarsnummer() {
-    assertNull(unit.getVgrAnsvarsnummer());
-    unit.setVgrAnsvarsnummer(Arrays.asList(new String[] { TEST }));
-    assertEquals("[" + TEST + "]", unit.getVgrAnsvarsnummer().toString());
-    unit.setVgrAnsvarsnummer(Arrays.asList(new String[] { TEST2 }));
-    assertEquals("[" + TEST2 + "]", unit.getVgrAnsvarsnummer().toString());
-  }
-
-  @Test
-  public void testVgrOrganizationalRole() {
-    assertNull(unit.getVgrOrganizationalRole());
-    unit.setVgrOrganizationalRole(TEST);
-    assertEquals(TEST, unit.getVgrOrganizationalRole());
-    unit.setVgrOrganizationalRole(TEST2);
-    assertEquals(TEST2, unit.getVgrOrganizationalRole());
+  public void testBasicProperties() throws InvalidFormatException {
+    PojoTester.testProperty(unit, "vgrVardVal", boolean.class, false, true, false);
+    PojoTester.testProperty(unit, "distanceToTarget", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "geoCoordinate", GeoCoordinate.class, null, new GeoCoordinate(0, 0, null), new GeoCoordinate(0, 123.0, null));
+    PojoTester.testProperty(unit, "hsaRouteConcatenated", String.class, "", TEST, TEST2);
+    PojoTester.testProperty(unit, "vgrEANCode", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "hsaMunicipalityCode", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "hsaMunicipalitySectionName", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "hsaMunicipalitySectionCode", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "hsaCountyCode", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "hsaCountyName", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "hsaManagementCode", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "hsaManagementName", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "hsaAdministrationForm", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "hsaAdministrationFormText", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "dn", DN.class, null, DN.createDNFromString("ou=a,ou=b,o=c"), DN.createDNFromString("ou=d,ou=e,o=f"));
+    PojoTester.testProperty(unit, "organizationalUnitNameShort", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "ldapDistinguishedName", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "mail", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "locality", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "vgrInternalSedfInvoiceAddress", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "vgrCareType", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "vgrCareTypeText", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "vgrAO3kod", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "vgrAO3kodText", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "hsaIdentity", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "hsaSedfSwitchboardTelephoneNo", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
+    PojoTester.testProperty(unit, "hsaInternalPagerNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
+    PojoTester.testProperty(unit, "pagerTelephoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
+    PojoTester.testProperty(unit, "hsaTextPhoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
+    PojoTester.testProperty(unit, "mobileTelephoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
+    PojoTester.testProperty(unit, "hsaSmsTelephoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
+    PojoTester.testProperty(unit, "facsimileTelephoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
+    PojoTester.testProperty(unit, "hsaTelephoneNumber", List.class, null, Arrays.asList(PhoneNumber.createPhoneNumber(TEST)), Arrays.asList(PhoneNumber.createPhoneNumber(TEST2)));
+    PojoTester.testProperty(unit, "hsaUnitPrescriptionCode", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "ou", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "vgrEDICode", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "hsaInternalAddress", Address.class, null, new Address(TEST, null, TEST, null), new Address(TEST2, null, TEST2, null));
+    PojoTester.testProperty(unit, "hsaPostalAddress", Address.class, null, new Address(TEST, null, TEST, null), new Address(TEST2, null, TEST2, null));
+    PojoTester.testProperty(unit, "hsaSedfDeliveryAddress", Address.class, null, new Address(TEST, null, TEST, null), new Address(TEST2, null, TEST2, null));
+    PojoTester.testProperty(unit, "hsaSedfInvoiceAddress", Address.class, null, new Address(TEST, null, TEST, null), new Address(TEST2, null, TEST2, null));
+    PojoTester.testProperty(unit, "hsaConsigneeAddress", Address.class, null, new Address(TEST, null, TEST, null), new Address(TEST2, null, TEST2, null));
+    PojoTester.testProperty(unit, "vgrAnsvarsnummer", List.class, null, Arrays.asList(TEST), Arrays.asList(TEST2));
+    PojoTester.testProperty(unit, "vgrOrganizationalRole", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "wgs84Lat", double.class, 0.0, 1.0, 32.0);
+    PojoTester.testProperty(unit, "wgs84Long", double.class, 0.0, 1.0, 32.0);
+    PojoTester.testProperty(unit, "rt90X", int.class, 0, 1, 32);
+    PojoTester.testProperty(unit, "rt90Y", int.class, 0, 1, 32);
+    PojoTester.testProperty(unit, "objectClass", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "isUnit", boolean.class, false, true, false);
+    PojoTester.testProperty(unit, "hsaBusinessClassificationCode", List.class, null, Arrays.asList(TEST), Arrays.asList(TEST2));
+    PojoTester.testProperty(unit, "hsaBusinessClassificationText", List.class, null, Arrays.asList(TEST), Arrays.asList(TEST2));
+    PojoTester.testProperty(unit, "mvkCaseTypes", List.class, null, Arrays.asList(TEST), Arrays.asList(TEST2));
+    PojoTester.testProperty(unit, "hsaEndDate", Date.class, null, new Date(), new Date());
+    PojoTester.testProperty(unit, "showAgeInterval", boolean.class, false, true, false);
+    PojoTester.testProperty(unit, "showVisitingRules", boolean.class, false, true, false);
+    PojoTester.testProperty(unit, "internalWebsite", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "contractCode", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "visitingHours", List.class, null, Arrays.asList(new WeekdayTime(1, 2, 10, 12, 11, 13)), Arrays.asList(new WeekdayTime(3, 5, 12, 20, 15, 30)));
+    PojoTester.testProperty(unit, "visitingRuleReferral", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "manager", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "managerDN", String.class, null, TEST, TEST2);
   }
 
   @Test
