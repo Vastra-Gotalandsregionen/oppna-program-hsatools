@@ -103,6 +103,8 @@ public class SearchUnitFlowSupportBeanTest {
 
     form.setUnitName("DEF");
     form.setHealthcareType("0");
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
     try {
       bean.doSearch(form);
       fail("KivNoDataFoundException expected");
@@ -112,13 +114,16 @@ public class SearchUnitFlowSupportBeanTest {
 
     Unit unit = new Unit();
     unit.setHsaIdentity("ABC-123");
-    this.searchService.addUnit(unit);
+    SikSearchResultList<Unit> searchResult = new SikSearchResultList<Unit>();
+    searchResult.add(unit);
+    this.searchService.addSearchAdvancedUnitsSearchResult(searchResult);
     form.setHealthcareType("1");
     SikSearchResultList<Unit> result = bean.doSearch(form);
     assertNotNull(result);
     assertEquals(1, result.size());
 
     this.searchService.addExceptionToThrow(new NoConnectionToServerException());
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
     try {
       bean.doSearch(form);
       fail("NoConnectionToServerException expected");
@@ -129,8 +134,39 @@ public class SearchUnitFlowSupportBeanTest {
     this.searchService.clearExceptionsToThrow();
 
     form.setShowAll("true");
+    this.searchService.addSearchAdvancedUnitsSearchResult(searchResult);
     bean.doSearch(form);
     this.searchService.assertMaxSearchResults(Integer.MAX_VALUE);
+  }
+
+  @Test
+  public void testDoSearchNoHitsFirstSearch() throws KivException {
+    form.setUnitName("DEF");
+    form.setHealthcareType("0");
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
+    Unit unit = new Unit();
+    unit.setHsaIdentity("ABC-123");
+    SikSearchResultList<Unit> searchResult = new SikSearchResultList<Unit>();
+    searchResult.add(unit);
+    this.searchService.addSearchAdvancedUnitsSearchResult(searchResult);
+    SikSearchResultList<Unit> result = bean.doSearch(form);
+    assertNotNull(result);
+    assertEquals(1, result.size());
+  }
+
+  @Test
+  public void testDoSearchUnitNameCleaned() throws KivException {
+    form.setUnitName("Vårdcentralen Angered, Angered");
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
+    Unit unit = new Unit();
+    unit.setHsaIdentity("ABC-123");
+    SikSearchResultList<Unit> searchResult = new SikSearchResultList<Unit>();
+    searchResult.add(unit);
+    this.searchService.addSearchAdvancedUnitsSearchResult(searchResult);
+    SikSearchResultList<Unit> result = bean.doSearch(form);
+    assertNotNull(result);
+    assertEquals(1, result.size());
+    this.searchService.assertUnitCriterionName("Vårdcentralen Angered");
   }
 
   @Test
@@ -235,6 +271,8 @@ public class SearchUnitFlowSupportBeanTest {
     bean.setMaxSearchResult(3);
 
     form.setUnitName("a");
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
     try {
       bean.doSearch(form);
       fail("KivNoDataFoundException expected");
@@ -245,6 +283,8 @@ public class SearchUnitFlowSupportBeanTest {
     this.searchService.assertMaxSearchResults(3);
 
     bean.setMaxSearchResult(5);
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
     try {
       bean.doSearch(form);
       fail("KivNoDataFoundException expected");
@@ -286,17 +326,14 @@ public class SearchUnitFlowSupportBeanTest {
   public void testEvaluateSortOrder() throws KivException {
     form.setUnitName("ABC");
 
-    // form.setSortOrder(null);
-    // SikSearchResultList<Unit> result = bean.doSearch(form);
-    // assertNotNull(result);
-    // assertEquals(0, result.size());
-
     form.setSortOrder("XYZ");
     SikSearchResultList<Unit> result = bean.doSearch(form);
     assertNotNull(result);
     assertEquals(0, result.size());
 
     form.setSortOrder("UNIT_NAME");
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
     try {
       bean.doSearch(form);
       fail("KivNoDataFoundException expected");
@@ -305,6 +342,8 @@ public class SearchUnitFlowSupportBeanTest {
     }
 
     form.setSortOrder("CARE_TYPE_NAME");
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
     try {
       bean.doSearch(form);
       fail("KivNoDataFoundException expected");

@@ -45,10 +45,11 @@ public class SearchServiceMock implements SearchService {
   private List<KivException> exceptionsToThrow = new ArrayList<KivException>();
   private List<String> allPersonsId = Collections.emptyList();
   private List<String> allUnitsId = Collections.emptyList();
-
+  private List<SikSearchResultList<Unit>> searchAdvancedUnitsSearchResults = new ArrayList<SikSearchResultList<Unit>>();
+  private int searchAdvancedUnitsCallCount;
   private int exceptionCallCount;
-
   private List<Integer> classificationCodes;
+  private Unit unitCriterion;
 
   public void setPersons(SikSearchResultList<Person> persons) {
     this.persons = persons;
@@ -74,6 +75,10 @@ public class SearchServiceMock implements SearchService {
     this.allUnitsId = allUnitsId;
   }
 
+  public void addSearchAdvancedUnitsSearchResult(SikSearchResultList<Unit> searchResult) {
+    this.searchAdvancedUnitsSearchResults.add(searchResult);
+  }
+
   public void addExceptionToThrow(KivException exception) {
     this.exceptionsToThrow.add(exception);
   }
@@ -94,6 +99,10 @@ public class SearchServiceMock implements SearchService {
         }
       }
     }
+  }
+
+  public void assertUnitCriterionName(String expected) {
+    assertEquals(expected, this.unitCriterion.getName());
   }
 
   @Override
@@ -175,9 +184,12 @@ public class SearchServiceMock implements SearchService {
 
   @Override
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
+    this.searchAdvancedUnitsCallCount++;
     throwExceptionIfApplicable();
     this.maxSearchResults = maxSearchResult;
-    return new SikSearchResultList<Unit>(this.units.values());
+    this.unitCriterion = unit;
+    // return new SikSearchResultList<Unit>(this.units.values());
+    return this.searchAdvancedUnitsSearchResults.get(searchAdvancedUnitsCallCount - 1);
   }
 
   @Override
