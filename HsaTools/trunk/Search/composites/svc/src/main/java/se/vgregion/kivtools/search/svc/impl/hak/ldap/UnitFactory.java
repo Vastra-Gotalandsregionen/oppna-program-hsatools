@@ -276,7 +276,7 @@ public class UnitFactory {
     unit.setMobileTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("mobile"))));
 
     // hsaSedfSwitchboardTelephoneNo
-    unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaSwitchboardTelephoneNo"))));
+    unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaSwitchboardNumber"))));
 
     // hsaInternalPagerNumber
     unit.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaInternalPagerNumber"))));

@@ -50,7 +50,7 @@ public class UnitFactoryTest {
     ldapEntry.addAttribute("hsaInvoiceAddress", TEST);
     ldapEntry.addAttribute("hsaConsigneeAddress", TEST);
     ldapEntry.addAttribute("hsaSmsTelephoneNumber", TEST);
-    ldapEntry.addAttribute("hsaSwitchboardTelephoneNo", TEST);
+    ldapEntry.addAttribute("hsaSwitchboardNumber", TEST);
     ldapEntry.addAttribute("hsaTextPhoneNumber", TEST);
     ldapEntry.addAttribute("hsaTelephoneNumber", TEST);
     ldapEntry.addAttribute("hsaUnitPrescriptionCode", TEST);
