@@ -202,7 +202,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
         }
         list = getSearchService().searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
         // No hits with complete criterions. Try again but with only unit name if the user forgot to remove any care type or municipality selection.
-        if (list.size() == 0) {
+        if (list.size() == 0 && lessSpecifiedSearchPossible(theForm)) {
           u = new Unit();
           u.setName(cleanUnitName(theForm.getUnitName()));
           list = getSearchService().searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
@@ -225,6 +225,27 @@ public class SearchUnitFlowSupportBean implements Serializable {
       logger.debug(e.getMessage(), e);
       return new SikSearchResultList<Unit>();
     }
+  }
+
+  /**
+   * Checks if it's possible to perform a less specified search by analysing the search criterions.
+   * 
+   * @param theForm The form-instance containing the search criterions.
+   * @return True if a less specified search is possible, otherwise false.
+   */
+  private boolean lessSpecifiedSearchPossible(UnitSearchSimpleForm theForm) {
+    boolean result = false;
+
+    // A less specified search is possible
+
+    // If any of healthcare type and municipality was filled
+    result |= !StringUtil.isEmpty(theForm.getHealthcareType());
+    result |= !StringUtil.isEmpty(theForm.getMunicipality());
+
+    // And unit name was filled
+    result &= !StringUtil.isEmpty(theForm.getUnitName());
+
+    return result;
   }
 
   private String cleanUnitName(String unitName) {

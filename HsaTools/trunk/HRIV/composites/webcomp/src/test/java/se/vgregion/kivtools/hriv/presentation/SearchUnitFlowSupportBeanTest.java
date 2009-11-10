@@ -22,6 +22,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -60,7 +61,11 @@ public class SearchUnitFlowSupportBeanTest {
   public void setUp() throws Exception {
     MunicipalityHelper municipalityHelper = new MunicipalityHelper();
     municipalityHelper.setImplResourcePath("se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-municipalities");
-    HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper();
+    HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper() {
+      {
+        resetInternalCache();
+      }
+    };
     healthcareTypeConditionHelper.setImplResourcePath("se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-healthcare-type-conditions");
 
     bean = new SearchUnitFlowSupportBean();
@@ -69,6 +74,15 @@ public class SearchUnitFlowSupportBeanTest {
     searchService = new SearchServiceMock();
 
     bean.setSearchService(searchService);
+  }
+
+  @After
+  public void tearDown() {
+    new HealthcareTypeConditionHelper() {
+      {
+        resetInternalCache();
+      }
+    };
   }
 
   @Test
@@ -117,7 +131,8 @@ public class SearchUnitFlowSupportBeanTest {
     SikSearchResultList<Unit> searchResult = new SikSearchResultList<Unit>();
     searchResult.add(unit);
     this.searchService.addSearchAdvancedUnitsSearchResult(searchResult);
-    form.setHealthcareType("1");
+    // 18 == Vårdcentral
+    form.setHealthcareType("18");
     SikSearchResultList<Unit> result = bean.doSearch(form);
     assertNotNull(result);
     assertEquals(1, result.size());
@@ -152,12 +167,27 @@ public class SearchUnitFlowSupportBeanTest {
     SikSearchResultList<Unit> result = bean.doSearch(form);
     assertNotNull(result);
     assertEquals(1, result.size());
+
+    form.setHealthcareType("");
+    form.setMunicipality("1480");
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
+    this.searchService.addSearchAdvancedUnitsSearchResult(searchResult);
+    result = bean.doSearch(form);
+    assertEquals(1, result.size());
+
+    form.setUnitName("");
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
+    try {
+      result = bean.doSearch(form);
+      fail("KivException expected");
+    } catch (KivException e) {
+      // Expected exception
+    }
   }
 
   @Test
   public void testDoSearchUnitNameCleaned() throws KivException {
     form.setUnitName("Vårdcentralen Angered, Angered");
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
     Unit unit = new Unit();
     unit.setHsaIdentity("ABC-123");
     SikSearchResultList<Unit> searchResult = new SikSearchResultList<Unit>();
