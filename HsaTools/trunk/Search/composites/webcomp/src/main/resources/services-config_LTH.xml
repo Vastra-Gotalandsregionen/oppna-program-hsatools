@@ -63,4 +63,8 @@
 	<bean id="errorReportingFlowSupportBean" class="se.vgregion.kivtools.search.presentation.ErrorReportingFlowSupportBean">
 		<property name="errorReportingService" ref="errorReportingService" />
 	</bean>
+	
+	<bean id="profileImageBean" class="se.vgregion.kivtools.search.presentation.hak.ProfileImageBean">
+		<property name="searchService" ref="Search_SearchService" />
+	</bean>
 </beans>

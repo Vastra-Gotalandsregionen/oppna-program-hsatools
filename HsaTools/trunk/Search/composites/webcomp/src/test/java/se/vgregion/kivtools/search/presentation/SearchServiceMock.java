@@ -46,6 +46,8 @@ public class SearchServiceMock implements SearchService {
   private List<String> allPersonsId = Collections.emptyList();
   private List<String> allUnitsId = Collections.emptyList();
   private Person person;
+  private byte[] profileImage;
+  private String dn;
 
   private int exceptionCallCount;
 
@@ -97,6 +99,14 @@ public class SearchServiceMock implements SearchService {
         }
       }
     }
+  }
+
+  public void setProfileImage(byte[] profileImage) {
+    this.profileImage = profileImage;
+  }
+
+  public void assertFetchedDn(String expectedDn) {
+    assertEquals("Unexpected dn fetched", expectedDn, dn);
   }
 
   @Override
@@ -187,6 +197,12 @@ public class SearchServiceMock implements SearchService {
   public Person getPersonByDn(String personDn) throws KivException {
     throwExceptionIfApplicable();
     return this.person;
+  }
+
+  @Override
+  public byte[] getProfileImageByDn(String dn) throws KivException {
+    this.dn = dn;
+    return this.profileImage;
   }
 
   // Dummy implementations

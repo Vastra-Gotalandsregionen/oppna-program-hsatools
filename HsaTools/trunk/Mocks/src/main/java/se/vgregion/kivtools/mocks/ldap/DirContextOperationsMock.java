@@ -58,6 +58,11 @@ public class DirContextOperationsMock implements DirContextOperations {
   }
 
   @Override
+  public Object getObjectAttribute(String name) {
+    return attributes.get(name);
+  }
+
+  @Override
   public void setAttributeValue(String name, Object value) {
     attributes.remove(name);
     attributes.put(name, value);
@@ -352,11 +357,6 @@ public class DirContextOperationsMock implements DirContextOperations {
 
   @Override
   public String[] getNamesOfModifiedAttributes() {
-    return null;
-  }
-
-  @Override
-  public Object getObjectAttribute(String name) {
     return null;
   }
 

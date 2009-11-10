@@ -27,6 +27,9 @@ import java.util.TimeZone;
 
 import javax.naming.directory.SearchControls;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.control.PagedResultsCookie;
 import org.springframework.ldap.control.PagedResultsDirContextProcessor;
 import org.springframework.ldap.core.DistinguishedName;
@@ -72,6 +75,7 @@ public class PersonRepository {
   private static final String LDAP_WILD_CARD = "*";
   // an "
   private static final String LDAP_EXACT_CARD = "\"";
+  private Log log = LogFactory.getLog(this.getClass());
   private LdapConnectionPool theConnectionPool;
   private LdapTemplate ldapTemplate;
   // List for redundancy check of persons that contains in the LDAP search
@@ -469,5 +473,24 @@ public class PersonRepository {
     }
 
     return person;
+  }
+
+  /**
+   * Retrieves a persons profile image from the LDAP directory by the distinguished name of the person.
+   * 
+   * @param dn The distinguished name of the person.
+   * @return A byte-array with the raw image data.
+   * @throws KivException If something goes wrong fetching the image.
+   */
+  public byte[] getProfileImageByDn(String dn) throws KivException {
+    byte[] profileImage = null;
+
+    try {
+      profileImage = (byte[]) this.ldapTemplate.lookup(new DistinguishedName(dn), new ProfileImageMapper());
+    } catch (NameNotFoundException e) {
+      log.debug("Could not find entry in LDAP directory");
+    }
+
+    return profileImage;
   }
 }
