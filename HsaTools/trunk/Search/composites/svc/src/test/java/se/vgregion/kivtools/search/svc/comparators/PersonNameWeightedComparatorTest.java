@@ -79,6 +79,16 @@ public class PersonNameWeightedComparatorTest {
     assertTrue(new PersonNameWeightedComparator("", "andersson").compare(alexanderssonlisa, anderssonisa) > 0);
   }
 
+  @Test
+  public void testCompareMonalisaIsaSearchedForIsaUntrimmed() {
+    assertTrue(new PersonNameWeightedComparator(" isa ", "").compare(anderssonisa, andersmonalisa) < 0);
+  }
+
+  @Test
+  public void testCompareListIsaSearchForAnderssonUntrimmed() {
+    assertTrue(new PersonNameWeightedComparator("", " andersson ").compare(alexanderssonlisa, anderssonisa) > 0);
+  }
+
   private Person createPerson(String givenName, String surname) {
     Person person = new Person();
     person.setGivenName(givenName);

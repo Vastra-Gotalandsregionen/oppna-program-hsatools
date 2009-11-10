@@ -40,8 +40,8 @@ public class PersonNameWeightedComparator implements Comparator<Person> {
    * @param surname The surname searched for.
    */
   public PersonNameWeightedComparator(String givenName, String surname) {
-    this.givenName = StringUtil.emptyStringIfNull(givenName);
-    this.surname = StringUtil.emptyStringIfNull(surname);
+    this.givenName = StringUtil.emptyStringIfNull(givenName).trim();
+    this.surname = StringUtil.emptyStringIfNull(surname).trim();
   }
 
   /**
