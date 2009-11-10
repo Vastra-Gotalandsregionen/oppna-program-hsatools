@@ -428,18 +428,18 @@ public class PersonRepository {
     AndFilter userFilter = new AndFilter();
     userFilter.and(new EqualsFilter("objectclass", "hkatPerson"));
     if (!StringUtil.isEmpty(person.getUserId())) {
-      userFilter.and(new LikeFilter("regionName", "*" + person.getUserId() + "*"));
+      userFilter.and(new LikeFilter("regionName", "*" + person.getUserId().trim() + "*"));
     }
     if (!StringUtil.isEmpty(person.getGivenName())) {
       OrFilter firstNameFilter = new OrFilter();
-      firstNameFilter.or(new LikeFilter("givenName", "*" + person.getGivenName() + "*"));
-      firstNameFilter.or(new LikeFilter("rsvFirstNames", "*" + person.getGivenName() + "*"));
+      firstNameFilter.or(new LikeFilter("givenName", "*" + person.getGivenName().trim() + "*"));
+      firstNameFilter.or(new LikeFilter("rsvFirstNames", "*" + person.getGivenName().trim() + "*"));
       userFilter.and(firstNameFilter);
     }
     if (!StringUtil.isEmpty(person.getSurname())) {
       OrFilter surnameFilter = new OrFilter();
-      surnameFilter.or(new LikeFilter("sn", "*" + person.getSurname() + "*"));
-      surnameFilter.or(new LikeFilter("middleName", "*" + person.getSurname() + "*"));
+      surnameFilter.or(new LikeFilter("sn", "*" + person.getSurname().trim() + "*"));
+      surnameFilter.or(new LikeFilter("middleName", "*" + person.getSurname().trim() + "*"));
       userFilter.and(surnameFilter);
     }
 
