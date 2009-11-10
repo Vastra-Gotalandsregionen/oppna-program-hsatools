@@ -201,7 +201,14 @@ public class SearchUnitFlowSupportBean implements Serializable {
           effectiveMaxSearchResult = Integer.MAX_VALUE;
         }
         list = getSearchService().searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
-        // No hits with complete criterions. Try again but with only unit name if the user forgot to remove any care type or municipality selection.
+
+        // No hits with complete criterions. Try again but with cleaned unit name this time
+        if (list.size() == 0 && !StringUtil.isEmpty(theForm.getUnitName())) {
+          u.setName(cleanUnitName(theForm.getUnitName()));
+          list = getSearchService().searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
+        }
+
+        // Still no hits. Try again but with only the cleaned unit name this time if the user forgot to remove any care type or municipality selection.
         if (list.size() == 0 && lessSpecifiedSearchPossible(theForm)) {
           u = new Unit();
           u.setName(cleanUnitName(theForm.getUnitName()));
@@ -360,7 +367,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
     Unit unit = new Unit();
 
     // unit name
-    unit.setName(cleanUnitName(theForm.getUnitName()));
+    unit.setName(theForm.getUnitName());
     // hsaStreetAddress
     List<String> list = new ArrayList<String>();
     list.add(theForm.getMunicipality());

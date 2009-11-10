@@ -119,6 +119,7 @@ public class SearchUnitFlowSupportBeanTest {
     form.setHealthcareType("0");
     this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
     this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
     try {
       bean.doSearch(form);
       fail("KivNoDataFoundException expected");
@@ -190,6 +191,7 @@ public class SearchUnitFlowSupportBeanTest {
     form.setUnitName("Vårdcentralen Angered, Angered");
     Unit unit = new Unit();
     unit.setHsaIdentity("ABC-123");
+    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
     SikSearchResultList<Unit> searchResult = new SikSearchResultList<Unit>();
     searchResult.add(unit);
     this.searchService.addSearchAdvancedUnitsSearchResult(searchResult);

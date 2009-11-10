@@ -69,7 +69,7 @@
         </ui:repeat>
         <link rel="Shortcut Icon" type="image/ico" href="${Search_SettingsContainer.favIcon}" />
     </head>
-    <body onunload="GUnload()" class="yui-skin-sam">
+    <body onload="if (document.getElementById('unitName').value == '') {document.getElementById('unitName').value = '${msg.defaultSearchUnitName}';}" onunload="GUnload()" class="yui-skin-sam">
 
         <!-- Could not specify dynamic attribute where resource bundle was specified in settings file -->
         <ui:include src="${Search_SettingsContainer.resourceBundleInclude}" />
@@ -89,11 +89,11 @@
                             <div class="boxinside">
                                 <!--  Search units widget start (dont remove this comment) -->
                                 <div id="forms-container">
-                                    <form name="searchUnitForm" id="searchUnitForm" class="search-form" method="get" action="HRIV.Search.searchunit-flow.flow">
+                                    <form name="searchUnitForm" id="searchUnitForm" class="search-form" method="get" action="HRIV.Search.searchunit-flow.flow" onsubmit="if (document.getElementById('unitName').value == '${msg.defaultSearchUnitName}') { document.getElementById('unitName').value = ''; }">
                                         <h2>${msg.searchUnit}</h2>
                                         <h3><label for="unitName">${msg.unitName}</label></h3>
                                         <div class="autocomplete_container">
-                                            <input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="${unitSearchSimpleForm.unitName}" style="width: 190px;"/>
+                                            <input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="${unitSearchSimpleForm.unitName}" style="width: 190px;" onfocus="if (this.value == '${msg.defaultSearchUnitName}') { this.value = ''; }" onblur="if (this.value == '') { this.value = '${msg.defaultSearchUnitName}';}"/>
                                             <div id="acIndicator" style="display: none">
                                                 <img src="resources/images/spinner.gif" alt="${msg.inProgress}" />
                                             </div>
