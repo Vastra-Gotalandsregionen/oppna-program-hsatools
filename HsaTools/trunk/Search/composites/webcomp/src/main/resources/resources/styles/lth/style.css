@@ -337,3 +337,27 @@ a.report-link {
     padding: 0 0 0 18px;
     background: url(../../images/lth/icn-report.gif) no-repeat 0 50%;
 }
+
+/* Profile image etc */
+
+.search-result .summary {position:relative;}
+.summary .profile-image {
+	position:absolute;
+	top:0;
+	left:-120px;
+}
+a.edit-card {
+	display:block;
+	float:right;
+	margin:4px 3px 0 0;
+	width:16px;
+	height:16px;
+	text-indent:-9999px;
+	background:url(../../images/lth/icn-editcard.gif) no-repeat;
+}
+.map-link {
+	display:block;
+	margin-top:3px;
+	padding:2px 0 2px 20px;
+	background:url(../../images/lth/icn-mapview.gif) no-repeat 0 50%;
+}

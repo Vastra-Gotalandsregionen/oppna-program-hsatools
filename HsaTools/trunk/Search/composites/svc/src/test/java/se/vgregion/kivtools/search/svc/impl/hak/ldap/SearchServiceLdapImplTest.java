@@ -51,9 +51,16 @@ public class SearchServiceLdapImplTest {
     assertTrue(personRepository.getPersonByDnCalled);
   }
 
+  @Test
+  public void testGetProfileImageByDn() throws KivException {
+    searchServiceLdapImpl.getProfileImageByDn("cn=Nina Kanin,ou=abc,ou=def");
+    assertTrue(personRepository.getProfileImageByDnCalled);
+  }
+
   class PersonRepositoryMock extends PersonRepository {
     private boolean searchPersonCalled;
     private boolean getPersonByDnCalled;
+    public boolean getProfileImageByDnCalled;
 
     @Override
     public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
@@ -64,6 +71,15 @@ public class SearchServiceLdapImplTest {
     @Override
     public Person getPersonByDn(String dn) throws KivException {
       getPersonByDnCalled = true;
+      return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public byte[] getProfileImageByDn(String dn) throws KivException {
+      getProfileImageByDnCalled = true;
       return null;
     }
   }

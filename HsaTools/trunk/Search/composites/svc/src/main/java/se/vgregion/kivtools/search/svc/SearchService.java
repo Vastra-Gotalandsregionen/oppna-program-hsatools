@@ -166,4 +166,13 @@ public interface SearchService {
    * @throws KivException If something goes wrong during search.
    */
   public Person getPersonByDn(String personDn) throws KivException;
+
+  /**
+   * Retrieves a persons profile image from the LDAP directory by the distinguished name of the person.
+   *
+   * @param dn The distinguished name of the person.
+   * @return A byte-array with the raw image data.
+   * @throws KivException If something goes wrong fetching the image.
+   */
+  public byte[] getProfileImageByDn(String dn) throws KivException;
 }

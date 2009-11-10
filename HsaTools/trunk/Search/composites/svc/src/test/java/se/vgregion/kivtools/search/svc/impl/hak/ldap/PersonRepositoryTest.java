@@ -3,16 +3,21 @@ package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.naming.Name;
 import javax.naming.directory.SearchControls;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.control.PagedResultsCookie;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.DirContextProcessor;
+import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapTemplate;
 
 import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
@@ -26,6 +31,7 @@ import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPSearchResultsMock;
 import se.vgregion.kivtools.search.svc.impl.mock.LdapConnectionPoolMock;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
+import se.vgregion.kivtools.util.StringUtil;
 import se.vgregion.kivtools.util.reflection.ReflectionUtil;
 
 public class PersonRepositoryTest {
@@ -194,9 +200,24 @@ public class PersonRepositoryTest {
     assertEquals("cn=Nina Kanin", person.getCn());
   }
 
+  @Test
+  public void testGetProfileImageByDn() throws KivException {
+    DirContextOperationsMock personWithImage = new DirContextOperationsMock();
+    personWithImage.addAttributeValue("jpegPhoto", StringUtil.getBytes("MockImageData", "UTF-8"));
+    this.ldapTemplate.addBoundDN(new DistinguishedName("cn=Nina Kanin,ou=abc,ou=def"), personWithImage);
+
+    byte[] profileImage = personRepository.getProfileImageByDn("cn=Nina Kanin,ou=abc,ou=def");
+    assertEquals("MockImageData", StringUtil.getString(profileImage, "UTF-8"));
+  }
+
   private static class LdapTemplateMock extends LdapTemplate {
     private String filter;
+    private Map<Name, DirContextOperations> boundDNs = new HashMap<Name, DirContextOperations>();
     private List<DirContextOperations> dirContextOperations = new ArrayList<DirContextOperations>();
+
+    public void addBoundDN(Name dn, DirContextOperations dirContextOperations) {
+      this.boundDNs.put(dn, dirContextOperations);
+    }
 
     public void addDirContextOperationForSearch(DirContextOperations dirContextOperations) {
       this.dirContextOperations.add(dirContextOperations);
@@ -204,6 +225,20 @@ public class PersonRepositoryTest {
 
     public void assertSearchFilter(String expectedFilter) {
       assertEquals(expectedFilter, this.filter);
+    }
+
+    @Override
+    public Object lookup(Name dn, ContextMapper mapper) {
+      DirContextOperations dirContextOperations = this.boundDNs.get(dn);
+      if (dirContextOperations == null) {
+        throw new NameNotFoundException("Name not found");
+      }
+
+      Object result = null;
+      if (dirContextOperations != null) {
+        result = mapper.mapFromContext(dirContextOperations);
+      }
+      return result;
     }
 
     @Override

@@ -43,69 +43,111 @@ public class SearchServiceLdapImpl implements SearchService {
   private UnitRepository unitRepository;
   private EmploymentRepository employmentRepository;
 
+  /**
+   * {@inheritDoc}
+   */
   public void setPersonRepository(PersonRepository personRepository) {
     this.personRepository = personRepository;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public void setUnitRepository(UnitRepository unitRepository) {
     this.unitRepository = unitRepository;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public void setEmploymentRepository(EmploymentRepository employmentRepository) {
     this.employmentRepository = employmentRepository;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public List<String> getAllPersonsId() throws KivException {
     return this.personRepository.getAllPersonsVgrId();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public List<String> getAllUnitsHsaIdentity() throws KivException {
     return this.unitRepository.getAllUnitsHsaIdentity();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return this.unitRepository.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBussinessClassificationCodes);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SikSearchResultList<Employment> getEmployments(String personDn) throws KivException {
     return employmentRepository.getEmployments(DN.createDNFromString(personDn));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Person getPersonById(String vgrId) throws KivException {
     Person person = personRepository.getPersonByVgrId(vgrId);
     return person;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Unit getUnitByHsaId(String hsaId) throws KivException {
     return unitRepository.getUnitByHsaId(hsaId);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SikSearchResultList<Person> searchPersons(String vgrId, int maxSearchResult) throws KivException {
     return personRepository.searchPersons(vgrId, maxSearchResult);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions unit, int maxSearchResult) throws KivException {
     return unitRepository.searchUnits(unit, maxSearchResult);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
     return unitRepository.searchAdvancedUnits(unit, maxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Unit getUnitByDN(String dn) throws KivException {
     return unitRepository.getUnitByDN(DN.createDNFromString(dn));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public List<Employment> getEmploymentsForPerson(Person person) throws KivException {
     SikSearchResultList<Person> personWithEmployments = personRepository.searchPersons(person.getVgrId(), 0);
@@ -116,6 +158,9 @@ public class SearchServiceLdapImpl implements SearchService {
     return employments;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws KivException {
     Unit u = null;
@@ -125,6 +170,9 @@ public class SearchServiceLdapImpl implements SearchService {
     return personRepository.getAllPersonsInUnit(u.getHsaIdentity(), maxResult);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws KivException {
     List persons = personRepository.searchPersonsByDn(dn, maxSearchResult);
@@ -132,11 +180,17 @@ public class SearchServiceLdapImpl implements SearchService {
     return personsSearchList;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws KivException {
     throw new NotImplementedException("Not used by LTH.");
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
     return personRepository.searchPersons(person, maxResult);
@@ -148,5 +202,13 @@ public class SearchServiceLdapImpl implements SearchService {
   @Override
   public Person getPersonByDn(String personDn) throws KivException {
     return personRepository.getPersonByDn(personDn);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public byte[] getProfileImageByDn(String dn) throws KivException {
+    return personRepository.getProfileImageByDn(dn);
   }
 }

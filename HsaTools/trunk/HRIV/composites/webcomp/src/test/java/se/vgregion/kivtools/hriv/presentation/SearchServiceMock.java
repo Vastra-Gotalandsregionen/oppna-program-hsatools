@@ -225,4 +225,9 @@ public class SearchServiceMock implements SearchService {
   public Person getPersonByDn(String personDn) {
     return null;
   }
+
+  @Override
+  public byte[] getProfileImageByDn(String dn) throws KivException {
+    return null;
+  }
 }

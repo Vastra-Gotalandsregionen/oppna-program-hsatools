@@ -24,7 +24,6 @@ import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.DN;
-import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
@@ -171,6 +170,9 @@ public class SearchServiceLdapImpl implements SearchService {
     return unitRepository.getSubUnits(parentUnit, maxSearchResult);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
     return personRepository.searchPersons(person, maxResult);
@@ -181,6 +183,14 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public Person getPersonByDn(String personDn) {
+    throw new UnsupportedOperationException("Not implemented!");
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public byte[] getProfileImageByDn(String dn) throws KivException {
     throw new UnsupportedOperationException("Not implemented!");
   }
 }
