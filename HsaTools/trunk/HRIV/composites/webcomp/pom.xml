@@ -12,7 +12,7 @@
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId> HsaTools-HRIV-composite-webcomp </artifactId>
+	<artifactId>HsaTools-HRIV-composite-webcomp</artifactId>
 	<packaging>jar</packaging>
 
 	<name>HsaTools-HRIV-composite-webcomp</name>
