@@ -60,12 +60,12 @@ public class PersonRepositoryTest {
         ldapSearchResultsMock);
 
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
-    searchPersonCriterion.setGivenName("Kalle");
-    searchPersonCriterion.setSurname("Svensson");
+    searchPersonCriterion.setGivenName(" Kalle ");
+    searchPersonCriterion.setSurname(" Svensson ");
     SikSearchResultList<Person> searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
     ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
 
-    searchPersonCriterion.setUserId("kalsve01");
+    searchPersonCriterion.setUserId(" kalsve01 ");
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
     ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(regionName=*kalsve01*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
     assertEquals(1, searchPersons.size());
