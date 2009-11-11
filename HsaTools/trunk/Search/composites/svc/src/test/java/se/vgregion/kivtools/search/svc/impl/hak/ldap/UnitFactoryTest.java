@@ -52,7 +52,7 @@ public class UnitFactoryTest {
     ldapEntry.addAttribute("hsaSmsTelephoneNumber", TEST);
     ldapEntry.addAttribute("hsaSwitchboardNumber", TEST);
     ldapEntry.addAttribute("hsaTextPhoneNumber", TEST);
-    ldapEntry.addAttribute("hsaTelephoneNumber", TEST);
+    ldapEntry.addAttribute("hsaTelephoneNumber", "hsaTelephoneNumber");
     ldapEntry.addAttribute("hsaUnitPrescriptionCode", TEST);
     ldapEntry.addAttribute("hsaVisitingRuleAge", TEST);
     ldapEntry.addAttribute("hsaVisitingRules", TEST);
@@ -73,7 +73,7 @@ public class UnitFactoryTest {
     ldapEntry.addAttribute("street", TEST);
     ldapEntry.addAttribute("surgeryHours", TEST_TIME);
     ldapEntry.addAttribute("telephoneHours", TEST_TIME);
-    ldapEntry.addAttribute("telephoneNumber", TEST);
+    ldapEntry.addAttribute("telephoneNumber", "telephoneNumber");
     ldapEntry.addAttribute("vgrAO3kod", TEST);
     ldapEntry.addAttribute("vgrAnsvarsnummer", TEST);
     ldapEntry.addAttribute("vgrCareType", TEST);
@@ -143,7 +143,8 @@ public class UnitFactoryTest {
     // assertEquals(TEST, unit.getStreet());
     assertEquals(EXPECTED_HOURS, unit.getHsaSurgeryHours().get(0).getDisplayValue());
     assertEquals(EXPECTED_HOURS, unit.getHsaTelephoneTime().get(0).getDisplayValue());
-    assertEquals(EXPECTED_LIST_RESULT, unit.getHsaPublicTelephoneNumber().toString());
+    assertEquals("[telephoneNumber]", unit.getHsaPublicTelephoneNumber().toString());
+    assertEquals("[hsaTelephoneNumber]", unit.getHsaTelephoneNumber().toString());
     assertEquals(TEST, unit.getVgrAO3kod());
     assertEquals(EXPECTED_LIST_RESULT, unit.getVgrAnsvarsnummer().toString());
     assertEquals(TEST, unit.getVgrCareType());
