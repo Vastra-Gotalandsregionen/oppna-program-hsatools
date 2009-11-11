@@ -29,6 +29,15 @@ public class ProfileImageBeanTest {
   }
 
   @Test
+  public void testGetProfileImageByDnNoDataFound() throws UnsupportedEncodingException {
+    MockHttpServletResponse response = new MockHttpServletResponse();
+    String view = profileImageBean.getProfileImageByDn(response, "cn=Nina Kanin,ou=abc,ou=def");
+    assertNull(view);
+    searchServiceMock.assertFetchedDn("cn=Nina Kanin,ou=abc,ou=def");
+    assertEquals("", response.getContentAsString());
+  }
+
+  @Test
   public void testGetProfileImageByDn() throws UnsupportedEncodingException {
     String mockProfileImage = "MockProfileImage";
     searchServiceMock.setProfileImage(StringUtil.getBytes(mockProfileImage, "UTF-8"));
