@@ -85,6 +85,7 @@ public class Person implements Serializable {
   private String hsaPersonPrescriptionCode;
   // List of Employment objects
   private List<Employment> employments;
+  private boolean profileImagePresent;
 
   public String getDn() {
     return dn;
@@ -294,5 +295,13 @@ public class Person implements Serializable {
 
   public void setHsaPersonPrescriptionCode(String hsaPersonPrescriptionCode) {
     this.hsaPersonPrescriptionCode = hsaPersonPrescriptionCode;
+  }
+
+  public void setProfileImagePresent(boolean profileImagePresent) {
+    this.profileImagePresent = profileImagePresent;
+  }
+
+  public boolean isProfileImagePresent() {
+    return profileImagePresent;
   }
 }

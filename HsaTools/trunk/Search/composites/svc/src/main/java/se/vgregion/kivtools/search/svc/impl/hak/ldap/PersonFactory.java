@@ -25,6 +25,7 @@ import se.vgregion.kivtools.search.svc.ldap.LdapORMHelper;
 import se.vgregion.kivtools.util.StringUtil;
 
 import com.domainlanguage.time.TimePoint;
+import com.novell.ldap.LDAPAttribute;
 import com.novell.ldap.LDAPEntry;
 
 /**
@@ -108,6 +109,10 @@ public class PersonFactory {
     person.setEmploymentPeriod(TimePoint.parseFrom(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaStartDate")), ""/* TODO Add pattern */, TimeZone.getDefault()), TimePoint.parseFrom(
         LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaEndDate")), ""/* TODO Add pattern */, TimeZone.getDefault()));
 
+    LDAPAttribute attribute = personEntry.getAttribute("jpegPhoto");
+    if (attribute != null) {
+      person.setProfileImagePresent(true);
+    }
     return person;
   }
 }

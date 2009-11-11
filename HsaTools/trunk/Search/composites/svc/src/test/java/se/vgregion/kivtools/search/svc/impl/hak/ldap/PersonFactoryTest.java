@@ -76,5 +76,13 @@ public class PersonFactoryTest {
     assertEquals("Leg. psykolog, IT-Arkitekt", person.getHsaTitle());
     assertEquals(TEST, person.getHsaPersonPrescriptionCode());
     assertNotNull(person.getEmploymentPeriod());
+    assertFalse(person.isProfileImagePresent());
+  }
+
+  @Test
+  public void testReconsituteProfileImagePresent() {
+    ldapEntry.addAttribute("jpegPhoto", TEST);
+    Person person = PersonFactory.reconstitute(ldapEntry);
+    assertTrue(person.isProfileImagePresent());
   }
 }

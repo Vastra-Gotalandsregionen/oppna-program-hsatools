@@ -57,6 +57,7 @@ public class PersonTest {
     PojoTester.testProperty(person, "employmentPeriod", TimeInterval.class, null, TimeInterval.startingFrom(TimePoint.atMidnight(2009, 11, 3, TimeZone.getDefault()), Duration.days(30)), TimeInterval
         .preceding(TimePoint.atMidnight(2009, 11, 3, TimeZone.getDefault()), Duration.days(21)));
     PojoTester.testProperty(person, "employments", List.class, null, Arrays.asList(new Employment()), Arrays.asList(new Employment(), new Employment()));
+    PojoTester.testProperty(person, "profileImagePresent", boolean.class, false, true, false);
   }
 
   @Test

@@ -13,6 +13,7 @@
 	<h:outputText rendered="${not empty userEvents}">
 		<a href="#list-activities">Visa dagens aktiviteter</a>
 	</h:outputText>
-	<h:graphicImage value="image.servlet?dn=${person.dn}" styleClass="profile-image" />
+	<h:outputText rendered="${person.profileImagePresent}">
+		<h:graphicImage value="image.servlet?dn=${person.dn}" styleClass="profile-image" />
+	</h:outputText>
 </div>
-					
