@@ -345,6 +345,7 @@ a.report-link {
 	position:absolute;
 	top:0;
 	left:-120px;
+	width:110px;
 }
 a.edit-card {
 	display:block;
