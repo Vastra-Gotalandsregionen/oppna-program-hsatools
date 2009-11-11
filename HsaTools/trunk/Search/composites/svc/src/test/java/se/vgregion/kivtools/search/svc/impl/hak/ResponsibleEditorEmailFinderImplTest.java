@@ -11,6 +11,7 @@ import javax.naming.Name;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.DistinguishedName;
@@ -96,6 +97,9 @@ public class ResponsibleEditorEmailFinderImplTest {
     @Override
     public Object lookup(Name dn, ContextMapper mapper) {
       DirContextOperations dirContextOperations = this.boundDNs.get(dn);
+      if (dirContextOperations == null) {
+        throw new NameNotFoundException("DN not bound");
+      }
       Object result = null;
       if (dirContextOperations != null) {
         result = mapper.mapFromContext(dirContextOperations);

@@ -7,8 +7,11 @@
     <div id="formContainer">
   		<div class="text">
 			<label for="searchUnitForm:unitName">Enhet</label>
-			<input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="${unitSearchSimpleForm.unitName}" />
-			<span class="info">Ange namn på enhet du vill söka efter</span>
+			<div class="autocomplete_container" id="unitName_container">
+				<input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="${unitSearchSimpleForm.unitName}" />
+				<span class="info">Ange namn på enhet du vill söka efter</span>
+				<div id="autocomplete_unitName" class="autocomplete"></div>
+			</div>
 		</div>
 		
 		<div class="text">
@@ -20,6 +23,11 @@
 		<div class="submit-area">
 			<input type="submit" id="submitButton" jsfc="h:commandButton" value="Sök" action="doSearch" />
 	    </div>
+        <script type="text/javascript" charset="utf-8">
+            // <![CDATA[]
+	            initAutocompleterUnitName();
+            // ]]>
+        </script>
     </div>
     <script type="text/javascript">
 		document.getElementById("searchUnitForm:unitName").focus();
