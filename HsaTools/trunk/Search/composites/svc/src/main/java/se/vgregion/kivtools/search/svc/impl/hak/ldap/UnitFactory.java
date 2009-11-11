@@ -291,10 +291,10 @@ public class UnitFactory {
     unit.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("pager"))));
 
     // hsaTelephoneNumber
-    unit.setHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("telephoneNumber"))));
+    unit.setHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaTelephoneNumber"))));
 
     // hsaPublicTelephoneNumber
-    unit.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumberList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaTelephoneNumber"))));
+    unit.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumberList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("telephoneNumber"))));
 
     // hsaTelephoneTime
     unit.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("telephoneHours"))));

@@ -5,7 +5,7 @@
 		<tr>
 			<th id="telefon">${msg.telephone}</th>
 			<td headers="telefon">
-				<div jsfc="ui:repeat" value="${unit.hsaTelephoneNumber}" var="number">
+				<div jsfc="ui:repeat" value="${unit.hsaPublicTelephoneNumber}" var="number">
 					${number.formattedPhoneNumber}
 				</div>
 			</td>
@@ -21,7 +21,7 @@
 		<tr>
 			<th id="tjanstetelefon">${msg.serviceTelephone}</th>
 			<td headers="tjanstetelefon">
-				<div jsfc="ui:repeat" value="${unit.hsaPublicTelephoneNumber}" var="number">
+				<div jsfc="ui:repeat" value="${unit.hsaTelephoneNumber}" var="number">
 					${number.formattedPhoneNumber}
 				</div>
 			</td>
