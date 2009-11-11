@@ -39,9 +39,11 @@ public class ProfileImageBean {
   public String getProfileImageByDn(HttpServletResponse response, @RequestParam("dn") String dn) {
     try {
       byte[] profileImage = this.searchService.getProfileImageByDn(dn);
-      OutputStream outputStream = response.getOutputStream();
-      outputStream.write(profileImage);
-      outputStream.flush();
+      if (profileImage != null) {
+        OutputStream outputStream = response.getOutputStream();
+        outputStream.write(profileImage);
+        outputStream.flush();
+      }
     } catch (KivException e) {
       log.debug("Unable to retrieve profile image", e);
     } catch (IOException e) {
