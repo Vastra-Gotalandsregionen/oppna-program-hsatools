@@ -1,62 +1,70 @@
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-		<title>${person.givenName} ${person.hsaMiddleName} ${person.sn} - ${Search_SettingsContainer.settings.title}</title>
-		<meta http-equiv="Content-Language" content="se" /> 
-		<meta http-equiv="expires" content="-1" /> 
-		<meta http-equiv="pragma" content="no-cache" /> 
-		<meta http-equiv="imagetoolbar" content="false" />
-		<meta name="classification" content="Administration" /> 
-		<meta name="distribution" content="LTH" /> 
-		<meta name="rating" content="Safe For Kids" /> 
-		<meta name="doc-type" content="Public" /> 
-		<meta name="doc-class" content="Completed" /> 
-		<meta name="doc-rights" content="Copywritten Work" /> 
-		<meta name="MSSmartTagsPreventParsing" content="true" /> 
-		<meta name="robots" content="INDEX,NOFOLLOW" /> 
-		<meta name="language" content="Svenska" /> 
-		<meta name="date" content="2007-06-26 11:30:56" /> 
-		<meta name="creation_date" content="2007-06-12 17:25:00" /> 
-		<meta name="last-modified" content="2007-06-12 17:26:21" /> 
-		<meta name="revised" content="2007-06-26 11:30:56" /> 
-		<meta name="author" content="Landstinget Halland" /> 
-		<meta name="copyright" content="Copyright (c) Landstinget Halland" /> 
-		<meta name="description" content="${Search_SettingsContainer.settings.title} hjälper dig att att hitta information om personer och enheter som finns i HAK" /> 
-		<meta name="keywords" content="${Search_SettingsContainer.settings.title}, Sök-i-HAK, HAK, sök, ${person.givenName} ${person.hsaMiddleName} ${person.sn}" /> 		
-		<meta name="omnifind" content="sök-i-HAK" /> 
-		<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" /> 
-		<link rel="schema.DCTERMS" href="http://purl.org/dc/terms/" /> 
-		<meta name="DC.identifier" scheme="DCTERMS.URI" content="http://sokihak.lthalland.se" /> 
-		<meta name="DC.title" content="${person.givenName} ${person.hsaMiddleName} ${person.sn} - ${Search_SettingsContainer.settings.title}" /> 
-		<meta name="DC.publisher" content="Landstinget Halland" /> 
-		<meta name="DC.subject" content="${Search_SettingsContainer.settings.title}, Sök-i-HAK, HAK, sök, person, organisation, enhet, telefonnummer, adress" /> 
-		<meta name="DC.description" content="${Search_SettingsContainer.settings.title} hjälper dig att att hitta information om personer och enheter som finns i HAK" /> 
-		<meta name="DC.date.modified" scheme="ISO8601" content="2007-06-12 17:26:21" /> 
-		<meta name="DC.date.created" scheme="ISO8601" content="2007-06-12 17:25:00" /> 
-		<meta name="DC.rights" content="Copyright (c) Landstinget Halland" /> 
-		<meta name="DC.type" scheme="DCTERMS.DCMIType" content="Text" /> 
-		<meta name="DC.language" scheme="DCTERMS.RFC1766" content="sv" /> 
-		<meta name="DC.format" content="text/html; charset=utf-8" /> 
-		<meta name="resource-type" content="person" />
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-				
-		<style type="text/css" media="screen,projection">
-			@import 'resources/styles/lth/grids-min.css';
-			@import 'resources/styles/lth/main.css';
-	  		@import 'resources/styles/lth/style.css';
-        	@import 'resources/styles/lth/tabview.css'; /* Flikvy */
-        	@import 'resources/styles/lth/border_tabs.css'; /* Flikvy */
-        	@import 'resources/styles/lth/border_tabs2.css'; /* Flikvy */
-        	@import 'resources/styles/lth/aktiviteter.css';
-		</style>
-		
-		<!--[if IE]>
-			<link rel="stylesheet" href="resources/styles/ie.css" type="text/css" media="screen" />
-		<![endif]-->
-		<style type="text/css" media="print">
-	  		@import 'resources/styles/print.css';
-		</style>	
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+	<title>${person.givenName} ${person.hsaMiddleName} ${person.sn} - ${Search_SettingsContainer.settings.title}</title>
+	<meta http-equiv="Content-Language" content="se" /> 
+	<meta http-equiv="expires" content="-1" /> 
+	<meta http-equiv="pragma" content="no-cache" /> 
+	<meta http-equiv="imagetoolbar" content="false" />
+	<meta name="classification" content="Administration" /> 
+	<meta name="distribution" content="LTH" /> 
+	<meta name="rating" content="Safe For Kids" /> 
+	<meta name="doc-type" content="Public" /> 
+	<meta name="doc-class" content="Completed" /> 
+	<meta name="doc-rights" content="Copywritten Work" /> 
+	<meta name="MSSmartTagsPreventParsing" content="true" /> 
+	<meta name="robots" content="INDEX,NOFOLLOW" /> 
+	<meta name="language" content="Svenska" /> 
+	<meta name="date" content="2007-06-26 11:30:56" /> 
+	<meta name="creation_date" content="2007-06-12 17:25:00" /> 
+	<meta name="last-modified" content="2007-06-12 17:26:21" /> 
+	<meta name="revised" content="2007-06-26 11:30:56" /> 
+	<meta name="author" content="Landstinget Halland" /> 
+	<meta name="copyright" content="Copyright (c) Landstinget Halland" /> 
+	<meta name="description" content="${Search_SettingsContainer.settings.title} hjälper dig att att hitta information om personer och enheter som finns i HAK" /> 
+	<meta name="keywords" content="${Search_SettingsContainer.settings.title}, Sök-i-HAK, HAK, sök, ${person.givenName} ${person.hsaMiddleName} ${person.sn}" /> 		
+	<meta name="omnifind" content="sök-i-HAK" /> 
+	<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" /> 
+	<link rel="schema.DCTERMS" href="http://purl.org/dc/terms/" /> 
+	<meta name="DC.identifier" scheme="DCTERMS.URI" content="http://sokihak.lthalland.se" /> 
+	<meta name="DC.title" content="${person.givenName} ${person.hsaMiddleName} ${person.sn} - ${Search_SettingsContainer.settings.title}" /> 
+	<meta name="DC.publisher" content="Landstinget Halland" /> 
+	<meta name="DC.subject" content="${Search_SettingsContainer.settings.title}, Sök-i-HAK, HAK, sök, person, organisation, enhet, telefonnummer, adress" /> 
+	<meta name="DC.description" content="${Search_SettingsContainer.settings.title} hjälper dig att att hitta information om personer och enheter som finns i HAK" /> 
+	<meta name="DC.date.modified" scheme="ISO8601" content="2007-06-12 17:26:21" /> 
+	<meta name="DC.date.created" scheme="ISO8601" content="2007-06-12 17:25:00" /> 
+	<meta name="DC.rights" content="Copyright (c) Landstinget Halland" /> 
+	<meta name="DC.type" scheme="DCTERMS.DCMIType" content="Text" /> 
+	<meta name="DC.language" scheme="DCTERMS.RFC1766" content="sv" /> 
+	<meta name="DC.format" content="text/html; charset=utf-8" /> 
+	<meta name="resource-type" content="person" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			
+	<style type="text/css" media="screen,projection">
+		@import 'resources/styles/lth/grids-min.css';
+		@import 'resources/styles/lth/main.css';
+  		@import 'resources/styles/lth/style.css';
+       	@import 'resources/styles/lth/tabview.css'; /* Flikvy */
+       	@import 'resources/styles/lth/border_tabs.css'; /* Flikvy */
+       	@import 'resources/styles/lth/border_tabs2.css'; /* Flikvy */
+       	@import 'resources/styles/lth/aktiviteter.css';
+	</style>
+	
+	<!--[if IE]>
+		<link rel="stylesheet" href="resources/styles/ie.css" type="text/css" media="screen" />
+	<![endif]-->
+	<style type="text/css" media="print">
+  		@import 'resources/styles/print.css';
+	</style>	
 
-		<script type="text/javascript" src="resources/scripts/utilities.js"></script>
-		<script type="text/javascript" src="resources/scripts/tabview-min.js"></script>
-		<script type="text/javascript" src="resources/scripts/script.js"></script>
-	</head>
+    <!-- Get CSS and javascript for YUI autocomplete. -->
+    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/autocomplete/assets/skins/sam/autocomplete.css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/yahoo-dom-event/yahoo-dom-event.js" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/datasource/datasource-min.js" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/autocomplete/autocomplete-min.js" />
+       
+	<script type="text/javascript" src="resources/scripts/utilities.js"></script>
+	<script type="text/javascript" src="resources/scripts/tabview-min.js"></script>
+	<script type="text/javascript" src="resources/scripts/script.js"></script>
+	<script type="text/javascript" src="resources/scripts/widget.js"></script>
+	<script type="text/javascript" src="resources/scripts/lth/autocomplete.js"></script>
+</head>

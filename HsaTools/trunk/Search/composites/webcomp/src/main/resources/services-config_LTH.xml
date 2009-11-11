@@ -67,4 +67,46 @@
 	<bean id="profileImageBean" class="se.vgregion.kivtools.search.presentation.hak.ProfileImageBean">
 		<property name="searchService" ref="Search_SearchService" />
 	</bean>
+	    
+    <bean id="suggestionBeanLTH" class="se.vgregion.kivtools.search.presentation.hak.SuggestionBean">
+      <property name="cacheService" ref="cacheService" />
+    </bean>
+	
+	<bean id="personNameCacheLoader" class="se.vgregion.kivtools.search.svc.impl.hak.ldap.PersonNameCacheLoaderImpl">
+		<property name="ldapTemplate" ref="ldapTemplateLTH" />
+	</bean>
+	
+	<bean id="unitNameCacheLoader" class="se.vgregion.kivtools.search.svc.impl.hak.ldap.UnitNameCacheLoaderImpl">
+		<property name="ldapTemplate" ref="ldapTemplateLTH" />
+	</bean>
+	
+	<bean id="cacheService" class="se.vgregion.kivtools.search.svc.CacheService">
+		<property name="personNameCacheLoader" ref="personNameCacheLoader" />
+		<property name="unitNameCacheLoader" ref="unitNameCacheLoader" />
+	</bean>
+	
+	<bean id="jobDetailCacheReload"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="cacheService" />
+		<property name="targetMethod" value="reloadCaches" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="simpleTriggerCacheReload" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="jobDetailCacheReload" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="startupDelay" value="10" />
+		<property name="triggers">
+			<list>
+				<ref bean="simpleTriggerCacheReload" />
+			</list>
+		</property>
+	</bean>
 </beans>

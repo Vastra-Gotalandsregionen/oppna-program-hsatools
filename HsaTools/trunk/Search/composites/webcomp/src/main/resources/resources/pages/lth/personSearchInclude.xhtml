@@ -2,11 +2,17 @@
 	<div id="formContainer">
 		<div class="textname">
 			<h:outputLabel for="givenName">Förnamn</h:outputLabel>
-			<h:inputText id="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" />
+			<div class="autocomplete_container" id="givenName_container">
+				<h:inputText id="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" />
+				<div id="autocomplete_givenName" class="autocomplete"></div>
+			</div>
 		</div>
 		<div class="textname">
 			<h:outputLabel for="surname">Efternamn</h:outputLabel>
-			<h:inputText id="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" />
+			<div class="autocomplete_container" id="surname_container">
+				<h:inputText id="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" />
+				<div id="autocomplete_surname" class="autocomplete"></div>
+			</div>
 		</div>
 		<div class="vgrIdText">
 			<h:outputLabel for="vgrId">${msg.userId}</h:outputLabel>
@@ -15,6 +21,12 @@
 		<div class="submit-area">
 			<h:commandButton type="submit" action="doSearch" id="submitButton" value="Sök" />
 		</div>
+        <script type="text/javascript" charset="utf-8">
+            // <![CDATA[]
+	            initAutocompleterGivenName();
+	            initAutocompleterSurname();
+            // ]]>
+        </script>
 	</div>
 	<script type="text/javascript">
 		document.getElementById("searchPersonForm:givenName").focus();
