@@ -17,7 +17,9 @@
  */
 package se.vgregion.kivtools.search.svc;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,6 +124,8 @@ public class PersonNameCache {
         }
       }
     }
+
+    Collections.sort(matchingNames, Collator.getInstance());
 
     return matchingNames;
   }

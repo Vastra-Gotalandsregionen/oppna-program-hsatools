@@ -22,6 +22,7 @@ public class PersonNameCacheTest {
     personNameCache.add("Kapsejsa", "Sakta");
     personNameCache.add(" Mimmi ", " Pigg ");
     personNameCache.add("Kalle", "Kotte");
+    personNameCache.add("Kalle", "Andersson");
   }
 
   @Test
@@ -132,5 +133,14 @@ public class PersonNameCacheTest {
   public void testGetMatchingGivenNamesNoDuplicates() {
     List<String> matchingGivenNames = personNameCache.getMatchingGivenNames("Kalle", "");
     assertEquals(1, matchingGivenNames.size());
+  }
+
+  @Test
+  public void testGetMatchingSurnamesCorrectSortOrder() {
+    List<String> matchingSurnames = personNameCache.getMatchingSurnames("Kalle", "e");
+    assertEquals(3, matchingSurnames.size());
+    assertEquals("Andersson", matchingSurnames.get(0));
+    assertEquals("Gråben", matchingSurnames.get(1));
+    assertEquals("Kotte", matchingSurnames.get(2));
   }
 }
