@@ -338,9 +338,16 @@ a.report-link {
     background: url(../../images/lth/icn-report.gif) no-repeat 0 50%;
 }
 
+#unitName_container, #surname_container, #givenName_container {
+	z-index: 9000;
+}
+
 /* Profile image etc */
 
-.search-result .summary {position:relative;}
+.search-result .summary {
+	position:relative;
+}
+
 .summary .profile-image {
 	position:absolute;
 	top:0;

@@ -17,7 +17,9 @@
  */
 package se.vgregion.kivtools.search.svc;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import se.vgregion.kivtools.util.Arguments;
@@ -46,6 +48,8 @@ public class UnitNameCache {
         result.add(currentUnitName);
       }
     }
+
+    Collections.sort(result, Collator.getInstance());
 
     return result;
   }

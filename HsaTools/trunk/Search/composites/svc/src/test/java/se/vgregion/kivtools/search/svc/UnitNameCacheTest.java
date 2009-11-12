@@ -60,4 +60,13 @@ public class UnitNameCacheTest {
     assertEquals(1, matchingUnitNames.size());
     assertTrue(matchingUnitNames.contains("Akutmottagning Varberg"));
   }
+
+  @Test
+  public void testGetMatchingUnitNamesCorrectSortOrder() {
+    List<String> matchingUnitNames = unitNameCache.getMatchingUnitNames("e");
+    assertEquals(3, matchingUnitNames.size());
+    assertEquals("Akutmottagning Varberg", matchingUnitNames.get(0));
+    assertEquals("IT-Avdelningen", matchingUnitNames.get(1));
+    assertEquals("Vårdcentralen Hylte", matchingUnitNames.get(2));
+  }
 }
