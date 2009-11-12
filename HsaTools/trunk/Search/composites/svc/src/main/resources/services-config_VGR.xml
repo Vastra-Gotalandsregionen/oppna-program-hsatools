@@ -132,7 +132,11 @@
 		<property name="service">
 			<bean
 				class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceFactory"
-				factory-method="getIVardvalservice" />
+				factory-method="getIVardvalservice">
+				<constructor-arg value="https://vardval.vgregion.se/vardvalservice/VardvalService.svc?WSDL"/>
+				<constructor-arg value="urn:VGRegion.VGPrimärvård.Vårdval.Service"/>
+				<constructor-arg value="VårdvalService"/>
+			</bean>
 		</property>
 		<!--
 		<property name="webserviceEndpoint"

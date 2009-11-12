@@ -35,9 +35,11 @@
 							<goal>wsimport</goal>
 						</goals>
 						<configuration>
-							<wsdlUrls>
-								<wsdlUrl>http://utv-vardval.vgregion.se/vardvalserviceWSDL/vardvalservice.svc?WSDL</wsdlUrl>
-							</wsdlUrls>
+							<wsdlDirectory>${basedir}/../Search/composites/schema/src/main/resources/wsdl/</wsdlDirectory>
+							<wsdlLocation>https://vardval.vgregion.se/vardvalservice/VardvalService.svc?WSDL</wsdlLocation>
+							<wsdlFiles>
+								<wsdlFile>VardvalService_1.wsdl</wsdlFile>
+							</wsdlFiles>
 							<packageName>se.vgregion.hsatools.testtools.vardvalws.ws.domain</packageName>
 							<extension>true</extension>
 							<sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
