@@ -596,7 +596,9 @@ public class UnitRepository {
         // change spaces to wildcards
         currentSearchValue = Formatter.replaceStringInString(currentSearchValue, " ", LDAP_WILD_CARD);
         currentSearchValue = Formatter.replaceStringInString(currentSearchValue, "-", LDAP_WILD_CARD);
-        filter = new LikeFilter(searchField, LDAP_WILD_CARD + currentSearchValue + LDAP_WILD_CARD);
+        currentSearchValue = LDAP_WILD_CARD + currentSearchValue + LDAP_WILD_CARD;
+        currentSearchValue = currentSearchValue.replaceAll("\\*\\*", "*");
+        filter = new LikeFilter(searchField, currentSearchValue);
       }
     }
     return filter;

@@ -74,6 +74,25 @@ public class UnitRepositoryTest {
   }
 
   @Test
+  public void testSearchUnitNameWithDash() throws KivException {
+    // Create test unit.
+    SearchUnitCriterions searchUnitCriterions = new SearchUnitCriterions();
+    searchUnitCriterions.setUnitName("Kvalitet- och säkerhetsavdelningen");
+
+    // Create ldapConnectionMock.
+
+    String expectedFilter = "(|(&(objectclass=organizationalUnit)(ou=*Kvalitet*och*säkerhetsavdelningen*))(&(objectclass=organizationalRole)(cn=*Kvalitet*och*säkerhetsavdelningen*)))";
+    ldapConnectionMock.addLDAPSearchResults(expectedFilter, new LDAPSearchResultsMock());
+
+    LdapConnectionPoolMock ldapConnectionPoolMock = new LdapConnectionPoolMock(ldapConnectionMock);
+    unitRepository.setLdapConnectionPool(ldapConnectionPoolMock);
+    SikSearchResultList<Unit> searchUnits = unitRepository.searchUnits(searchUnitCriterions, 0);
+    ldapConnectionMock.assertFilter(expectedFilter);
+    assertEquals(0, searchUnits.size());
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
+  }
+
+  @Test
   public void testGetAllUnitsHsaIdentity() throws KivException {
     DirContextOperationsMock hsaIdentity1 = new DirContextOperationsMock();
     hsaIdentity1.addAttributeValue("hsaIdentity", "ABC-123");
