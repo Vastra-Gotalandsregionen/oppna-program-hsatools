@@ -109,91 +109,55 @@
                 <filtering>false</filtering>
             </resource>
         </resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<!-- Dependency fixes m2eclipse issues -->
+				<dependencies>
+					<dependency>
+						<groupId>xerces</groupId>
+						<artifactId>xercesImpl</artifactId>
+						<version>2.9.1</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>1</id>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						<configuration>
+							<wsdlDirectory>${basedir}/../schema/src/main/resources/wsdl/</wsdlDirectory>
+							<wsdlLocation>https://vardval.vgregion.se/vardvalservice/VardvalService.svc?WSDL</wsdlLocation>
+							<wsdlFiles>
+								<wsdlFile>VardvalService_1.wsdl</wsdlFile>
+							</wsdlFiles>
+							<packageName>se.vgregion.kivtools.search.svc.ws.domain.vardval</packageName>
+							<extension>true</extension>
+							<sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
+							<staleFile>${project.build.directory}/generated-sources/jaxws/stale/.staleFlagVardval</staleFile>
+						</configuration>
+					</execution>
+					
+					<!--  Signicat -->
+					<execution>
+						<id>2</id>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						<configuration>
+							<wsdlUrls>
+								<wsdlUrl>https://id.signicat.com/signatureservice/services/signatureservice?wsdl</wsdlUrl>
+							</wsdlUrls>
+							<packageName>se.vgregion.kivtools.search.svc.ws.signicat.signature</packageName>
+							<sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
+							<staleFile>${project.build.directory}/generated-sources/jaxws/stale/.staleFlagSignicat</staleFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>LTH</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <excludes>
-                                <exclude>**/vardval/*</exclude>
-                            </excludes>
-                            <testExcludes>
-                                <exclude>**/vardval/*</exclude>
-                            </testExcludes>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <excludes>
-                                <exclude>**/vardval/*</exclude>
-                                <exclude>**/*$*</exclude>
-                            </excludes>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>VGR</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>jaxws-maven-plugin</artifactId>
-						<!-- Dependency fixes m2eclipse issues -->
-                        <dependencies>
-                            <dependency>
-                                <groupId>xerces</groupId>
-                                <artifactId>xercesImpl</artifactId>
-                                <version>2.9.1</version>
-                            </dependency>
-                        </dependencies>
-                        <executions>
-                            <execution>
-                                <id>1</id>
-                                <goals>
-                                    <goal>wsimport</goal>
-                                </goals>
-                                <configuration>
-                                    <wsdlUrls>
-                                        <wsdlUrl>http://utv-vardval.vgregion.se/vardvalserviceWSDL/vardvalservice.svc?WSDL</wsdlUrl>
-                                    </wsdlUrls>
-                                    <packageName>se.vgregion.kivtools.search.svc.ws.domain.vardval</packageName>
-                                    <extension>true</extension>
-								    <sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
-								    <staleFile>${project.build.directory}/generated-sources/jaxws/stale/.staleFlagVardval</staleFile>
-                                </configuration>
-                            </execution>
-                            
-							<!--  Signicat -->
-                            <execution>
-                                <id>2</id>
-                                <goals>
-                                    <goal>wsimport</goal>
-                                </goals>
-                                <configuration>
-                                    <wsdlUrls>
-                                        <wsdlUrl>https://id.signicat.com/signatureservice/services/signatureservice?wsdl</wsdlUrl>
-                                    </wsdlUrls>
-                                    <packageName>se.vgregion.kivtools.search.svc.ws.signicat.signature</packageName>
-								    <sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
-								    <staleFile>${project.build.directory}/generated-sources/jaxws/stale/.staleFlagSignicat</staleFile>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

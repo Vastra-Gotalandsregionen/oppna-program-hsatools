@@ -33,6 +33,56 @@
 				<filtering>false</filtering>
 			</resource>
 		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<!-- Dependency fixes m2eclipse issues -->
+				<dependencies>
+					<dependency>
+						<groupId>xerces</groupId>
+						<artifactId>xercesImpl</artifactId>
+						<version>2.9.1</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<wsdlDirectory>${basedir}/../schema/src/main/resources/wsdl/</wsdlDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>SMS</id>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						<configuration>
+							<wsdlLocation>http://wslina.lthalland.se/SMSRedirect.asmx?WSDL</wsdlLocation>
+							<wsdlFiles>
+								<wsdlFile>Netwise_SMSRedirect_HAK.wsdl</wsdlFile>
+							</wsdlFiles>
+							<packageName>se.vgregion.kivtools.search.ws.domain.hak.netwise.sms</packageName>
+							<extension>true</extension>
+							<staleFile>${project.build.directory}/jaxws/stale/.staleFlagSMS</staleFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>UserEvent</id>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						<configuration>
+							<wsdlLocation>http://wslina.lthalland.se/UserEvent.asmx?WSDL</wsdlLocation>
+							<wsdlFiles>
+								<wsdlFile>Netwise_UserEvent_HAK.wsdl</wsdlFile>
+							</wsdlFiles>
+							<packageName>se.vgregion.kivtools.search.ws.domain.hak.netwise.event</packageName>
+							<extension>true</extension>
+							<staleFile>${project.build.directory}/jaxws/stale/.staleFlagUserEvent</staleFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 	<dependencies>
@@ -61,61 +111,4 @@
 			<artifactId>spring-test</artifactId>
 		</dependency>
 	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>LTH</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>jaxws-maven-plugin</artifactId>
-						<!-- Dependency fixes m2eclipse issues -->
-						<dependencies>
-							<dependency>
-								<groupId>xerces</groupId>
-								<artifactId>xercesImpl</artifactId>
-								<version>2.9.1</version>
-							</dependency>
-						</dependencies>
-						<configuration>
-							<wsdlDirectory>${basedir}/../schema/src/main/resources/wsdl/</wsdlDirectory>
-						</configuration>
-						<executions>
-							<execution>
-								<id>SMS</id>
-								<goals>
-									<goal>wsimport</goal>
-								</goals>
-								<configuration>
-									<wsdlLocation>http://wslina.lthalland.se/SMSRedirect.asmx?WSDL</wsdlLocation>
-									<wsdlFiles>
-										<wsdlFile>Netwise_SMSRedirect_HAK.wsdl</wsdlFile>
-									</wsdlFiles>
-									<packageName>se.vgregion.kivtools.search.ws.domain.hak.netwise.sms</packageName>
-									<extension>true</extension>
-									<staleFile>${project.build.directory}/jaxws/stale/.staleFlagSMS</staleFile>
-								</configuration>
-							</execution>
-							<execution>
-								<id>UserEvent</id>
-								<goals>
-									<goal>wsimport</goal>
-								</goals>
-								<configuration>
-									<wsdlLocation>http://wslina.lthalland.se/UserEvent.asmx?WSDL</wsdlLocation>
-									<wsdlFiles>
-										<wsdlFile>Netwise_UserEvent_HAK.wsdl</wsdlFile>
-									</wsdlFiles>
-									<packageName>se.vgregion.kivtools.search.ws.domain.hak.netwise.event</packageName>
-									<extension>true</extension>
-									<staleFile>${project.build.directory}/jaxws/stale/.staleFlagUserEvent</staleFile>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-            </build>
-		</profile>
-	</profiles>
 </project>
