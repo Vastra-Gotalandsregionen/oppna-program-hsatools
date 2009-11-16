@@ -1,4 +1,4 @@
-<h:form id="searchPersonForm" class="search-form"
+<form id="searchPersonForm" method="get" action="Search.searchperson-flow.flow" class="search-form"
 		xmlns:ui="http://java.sun.com/jsf/facelets"
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:fn="http://java.sun.com/jsp/jstl/functions"
@@ -6,29 +6,29 @@
     <div id="formContainer">
         <div class="formRow">
     		<div class="textname">
-    			<h:outputLabel for="givenName">Förnamn</h:outputLabel>
+    			<label for="givenName">Förnamn</label>
     		    <div>	
-                  <h:inputText id="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" />
+                  <input id="givenName" name="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" />
                 </div>
     		</div>
     		<div class="textname">
-    			<h:outputLabel for="surname">Efternamn</h:outputLabel>
+                <label for="surname">Efternamn</label>
                 <div>
-    			 <h:inputText id="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" />
+                  <input id="surname" name="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" />
                 </div>
     		</div>
     		<div class="userIdText">
-    			<h:outputLabel for="userId">${msg.userId}</h:outputLabel>
+                <label for="userId">${msg.userId}</label>
                 <div>
-    			 <h:inputText id="userId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.userId}" />
+                  <input id="userId" name="userId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.userId}" />
                 </div>
     		</div>
     	    <div style="float: right">	
                 <div class="submit-area">
-        			<h:commandButton type="submit" action="doSearch" id="submitButton" value="Sök" />
+        			<input type="submit" id="submitButton" value="Sök" />
         		</div>
                 <div class="submit-area">
-                    <h:commandButton type="submit" onclick="return clearInputs()" id="clearButton" value="Rensa" />
+                    <input type="submit" onclick="return clearInputs()" id="clearButton" value="Rensa" />
                 </div>
             </div>
         </div>
@@ -36,85 +36,85 @@
    		<c:set var="displaySimple" value="none"/>
    		<c:set var="displayAdvanced" value="none"/>
    		<c:choose>
-   			<c:when test="${personSearchSimpleForm.searchType eq 'simple'}">
-	   			<c:set var="displaySimple" value="block"/>
+   			<c:when test="${personSearchSimpleForm.searchType eq 'advanced'}">
+	   			<c:set var="displayAdvanced" value="block"/>
    			</c:when>
    			<c:otherwise>
-	   			<c:set var="displayAdvanced" value="block"/>
+	   			<c:set var="displaySimple" value="block"/>
    			</c:otherwise>
    		</c:choose>
 
         <div id="advanced_search" class="advanced_search" style="display: ${displayAdvanced};">
            <div class="formRow">
                 <div class="textname">
-                    <h:outputLabel for="administration">${msg.administration}</h:outputLabel>
+                    <label for="administration">${msg.administration}</label>
                     <div class="autocomplete_container" id="administration_container">
-                        <h:inputText id="administration" type="text" class="search-input-name-field" value="${personSearchSimpleForm.administration}" />
-                        <div id="autocomplete_searchPersonForm:administration" class="autocomplete"></div>
+                        <input id="administration" name="administration" type="text" class="search-input-name-field" value="${personSearchSimpleForm.administration}" />
+                        <div id="autocomplete_administration" class="autocomplete"></div>
                     </div>
                 </div>
                 <div class="textname">
-                    <h:outputLabel for="employedAtUnit">${msg.employedAtUnit}</h:outputLabel>
-                    <h:inputText id="employedAtUnit" type="text" class="search-input-name-field" value="${personSearchSimpleForm.employedAtUnit}" />
+                    <label for="employedAtUnit">${msg.employedAtUnit}</label>
+                    <input id="employedAtUnit" name="employedAtUnit" type="text" class="search-input-name-field" value="${personSearchSimpleForm.employedAtUnit}" />
                 </div>
             </div>
             <div class="formRow">
                 <div class="textname">
-                    <h:outputLabel for="employmentTitle">${msg.title}</h:outputLabel>
+                    <label for="employmentTitle">${msg.title}</label>
                     <div>
-                      <h:inputText id="employmentTitle" type="text" class="search-input-name-field" value="${personSearchSimpleForm.employmentTitle}" />
+                      <input id="employmentTitle" name="employmentTitle" type="text" class="search-input-name-field" value="${personSearchSimpleForm.employmentTitle}" />
                     </div>
                 </div>
                 <div class="textname">
-                    <h:outputLabel for="email">${msg.email}</h:outputLabel>
+                    <label for="email">${msg.email}</label>
                     <div>
-                      <h:inputText id="email" type="text" class="search-input-name-field" value="${personSearchSimpleForm.email}" />
+                      <input id="email" name="email" type="text" class="search-input-name-field" value="${personSearchSimpleForm.email}" />
                     </div>                    
                 </div>
             </div>
             <div class="formRow">
                 <div class="textname">
-                    <h:outputLabel for="profession">${msg.profession}</h:outputLabel>
+                    <label for="profession">${msg.profession}</label>
                     <div class="autocomplete_container" id="profession_container">
-                        <h:inputText id="profession" type="text" class="search-input-name-field" value="${personSearchSimpleForm.profession}" />
-                        <div id="autocomplete_searchPersonForm:profession" class="autocomplete"></div>
+                        <input id="profession" name="profession" type="text" class="search-input-name-field" value="${personSearchSimpleForm.profession}" />
+                        <div id="autocomplete_profession" class="autocomplete"></div>
                     </div>
                 </div>
                 <div class="textname">
-                    <h:outputLabel for="specialityArea">${msg.specialityArea}</h:outputLabel>
+                    <label for="specialityArea">${msg.specialityArea}</label>
                     <div class="autocomplete_container" id="specialityArea_container">
-                        <h:inputText id="specialityArea" type="text" class="search-input-name-field" value="${personSearchSimpleForm.specialityArea}" />
-                        <div id="autocomplete_searchPersonForm:specialityArea" class="autocomplete"></div>
+                        <input id="specialityArea" name="specialityArea" type="text" class="search-input-name-field" value="${personSearchSimpleForm.specialityArea}" />
+                        <div id="autocomplete_specialityArea" class="autocomplete"></div>
                     </div>
                 </div>
             </div>
             <div class="formRow">
                 <div class="textname">
-                    <h:outputLabel for="languageKnowledge">${msg.languageKnowledge}</h:outputLabel>
+                    <label for="languageKnowledge">${msg.languageKnowledge}</label>
                     <div class="autocomplete_container" id="languageKnowledge_container">
-                        <h:inputText id="languageKnowledge" type="text" class="search-input-name-field" value="${personSearchSimpleForm.languageKnowledge}" />
-                        <div id="autocomplete_searchPersonForm:languageKnowledge" class="autocomplete"></div>
+                        <input id="languageKnowledge" name="languageKnowledge" type="text" class="search-input-name-field" value="${personSearchSimpleForm.languageKnowledge}" />
+                        <div id="autocomplete_languageKnowledge" class="autocomplete"></div>
                     </div>
                 </div>
             </div>
-            <h:inputHidden id="searchType" value="${personSearchSimpleForm.searchType}" />
+            <input type="hidden" id="searchType" name="searchType" value="${personSearchSimpleForm.searchType}" />
             <script type="text/javascript" charset="utf-8">
                 // <![CDATA[]
-                        initAutocompleter('searchPersonForm:administration', 'VGR_AO3_CODE');
-                        initAutocompleter('searchPersonForm:profession', 'HSA_TITLE');
-                        initAutocompleter('searchPersonForm:specialityArea', 'HSA_SPECIALITY_CODE');
-                        initAutocompleter('searchPersonForm:languageKnowledge', 'HSA_LANGUAGE_KNOWLEDGE_CODE');
+                        initAutocompleter('administration', 'VGR_AO3_CODE');
+                        initAutocompleter('profession', 'HSA_TITLE');
+                        initAutocompleter('specialityArea', 'HSA_SPECIALITY_CODE');
+                        initAutocompleter('languageKnowledge', 'HSA_LANGUAGE_KNOWLEDGE_CODE');
                 // ]]>
             </script>
         </div>
         <div class="search-advanced-link">
-          <a class="search-advanced-link" onclick="return toggleAdvancedSearch('searchPersonForm');" href="#">
+          <a class="search-advanced-link" onclick="return toggleAdvancedSearch();" href="#">
             <span id="advancedLinkText" style="display: ${displaySimple};">${msg.advancedSearch}</span>
             <span id="simpleLinkText" style="display: ${displayAdvanced};">${msg.simpleSearch}</span>
            </a>
          </div>
          </div>
 	<script type="text/javascript">
-		document.getElementById("searchPersonForm:givenName").focus();
+		document.getElementById("givenName").focus();
 	</script>
-</h:form>
+</form>

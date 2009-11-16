@@ -7,7 +7,7 @@ function initAutocompleterUnitName() {
 		fields : [ 'description' ],
 		resultNode : 'suggestion'
 	};
-	var myAutoComp = new YAHOO.widget.AutoComplete("searchUnitForm:unitName", "autocomplete_unitName", myDS);
+	var myAutoComp = new YAHOO.widget.AutoComplete("unitName", "autocomplete_unitName", myDS);
 	myAutoComp.resultTypeList = false;
 	myAutoComp.autoHighlight = false;
 	myAutoComp.minQueryLength = 2;
@@ -36,7 +36,7 @@ function initAutocompleterGivenName() {
 		fields : [ 'description' ],
 		resultNode : 'suggestion'
 	};
-	var myAutoComp = new YAHOO.widget.AutoComplete("searchPersonForm:givenName", "autocomplete_givenName", myDS);
+	var myAutoComp = new YAHOO.widget.AutoComplete("givenName", "autocomplete_givenName", myDS);
 	myAutoComp.resultTypeList = false;
 	myAutoComp.autoHighlight = false;
 	myAutoComp.minQueryLength = 2;
@@ -44,7 +44,7 @@ function initAutocompleterGivenName() {
 	myAutoComp.typeAhead = true;
 	myAutoComp.useIFrame = true;
 	myAutoComp.generateRequest = function(sQuery) {
-		return "?givenName=" + sQuery + "&surname=" + document.getElementById('searchPersonForm:surname').value; 
+		return "?givenName=" + sQuery + "&surname=" + document.getElementById('surname').value; 
 	}; 
 	myAutoComp.formatResult = function(oResultData, sQuery, sResultMatch) {
 		var query = sQuery.toLowerCase();
@@ -68,7 +68,7 @@ function initAutocompleterSurname() {
 		fields : [ 'description' ],
 		resultNode : 'suggestion'
 	};
-	var myAutoComp = new YAHOO.widget.AutoComplete("searchPersonForm:surname", "autocomplete_surname", myDS);
+	var myAutoComp = new YAHOO.widget.AutoComplete("surname", "autocomplete_surname", myDS);
 	myAutoComp.resultTypeList = false;
 	myAutoComp.autoHighlight = false;
 	myAutoComp.minQueryLength = 2;
@@ -76,7 +76,7 @@ function initAutocompleterSurname() {
 	myAutoComp.typeAhead = true;
 	myAutoComp.useIFrame = true;
 	myAutoComp.generateRequest = function(sQuery) {
-		return "?givenName=" + document.getElementById('searchPersonForm:givenName').value + "&surname=" + sQuery; 
+		return "?givenName=" + document.getElementById('givenName').value + "&surname=" + sQuery; 
 	}; 
 	myAutoComp.formatResult = function(oResultData, sQuery, sResultMatch) {
 		var query = sQuery.toLowerCase();

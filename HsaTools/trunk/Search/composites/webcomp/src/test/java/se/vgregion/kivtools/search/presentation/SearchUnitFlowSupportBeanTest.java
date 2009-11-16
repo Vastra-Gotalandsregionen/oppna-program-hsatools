@@ -74,12 +74,10 @@ public class SearchUnitFlowSupportBeanTest {
       // Expected exception
     }
 
-    try {
-      bean.doSearch(form);
-      fail("KivNoDataFoundException expected");
-    } catch (KivNoDataFoundException e) {
-      // Expected exception
-    }
+    // Search with empty form should not throw exceptions
+    SikSearchResultList<Unit> result = bean.doSearch(form);
+    assertNotNull(result);
+    assertEquals(0, result.size());
 
     form.setUnitName("DEF");
     try {
@@ -92,7 +90,7 @@ public class SearchUnitFlowSupportBeanTest {
     Unit unit = new Unit();
     unit.setHsaIdentity("ABC-123");
     this.searchService.addUnit(unit);
-    SikSearchResultList<Unit> result = bean.doSearch(form);
+    result = bean.doSearch(form);
     assertNotNull(result);
     assertEquals(1, result.size());
 
