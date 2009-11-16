@@ -55,6 +55,8 @@
 				class="org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor" />
 		</property>
 	</bean>
+	
+	<!-- The id of the bean is used for the WSDL-location for Spring. Eg. /ws/unitDetails.wsdl -->
 	<bean id="unitDetails"
 		class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
 		<property name="schema" ref="schema" />
@@ -62,6 +64,7 @@
 		<property name="locationUri" value="/ws/unitDetailsService/" />
 		<property name="targetNamespace" value="http://vgregion.se/hriv/schemas" />
 	</bean>
+	
 	<bean id="schema" class="org.springframework.xml.xsd.SimpleXsdSchema">
 		<property name="xsd" value="classpath:wsdl/unit_details_ws.xsd" />
 	</bean>
