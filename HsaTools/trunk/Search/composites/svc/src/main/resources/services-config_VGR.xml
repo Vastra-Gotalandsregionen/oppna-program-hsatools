@@ -37,33 +37,39 @@
 		<property name="unitRepository" ref="Search_UnitRepository"></property>
 		<property name="employmentRepository" ref="Search_EmploymentRepository"></property>
 	</bean>
+
 	<bean id="Search_PersonRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.PersonRepository">
 		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"></property>
 		<property name="codeTablesService" ref="Search_CodeTablesService"></property>
 		<property name="unitFkField" value="vgrOrgRel" />
 	</bean>
+
 	<bean id="Search_UnitRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository">
 		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool" />
 		<property name="codeTablesService" ref="Search_CodeTablesService" />
 		<property name="unitFactory" ref="Search_Unitfactory" />
 	</bean>
+
 	<bean id="Search_EmploymentRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.EmploymentRepository">
 		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"></property>
 		<property name="codeTablesService" ref="Search_CodeTablesService" />
 	</bean>
+
 	<bean id="Search_HealthcareTypeConditionHelper"
 		class="se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper">
 		<property name="implResourcePath"
 			value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-healthcare-type-conditions"></property>
 	</bean>
+
 	<bean id="Search_MunicipalityHelper"
 		class="se.vgregion.kivtools.search.domain.values.MunicipalityHelper">
 		<property name="implResourcePath"
 			value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-municipalities"></property>
 	</bean>
+
 	<bean id="Search_LdapConnectionPool"
 		class="se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool"
 		destroy-method="release">
@@ -72,6 +78,7 @@
 		<property name="password" value="${hsatools.search.svc.ldap.password}" />
 		<property name="maxConn" value="${hsatools.search.svc.ldap.maxConn}" />
 	</bean>
+
 	<!-- LDAP connection settings  -->
 	<bean id="propertyPlaceholder"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -79,11 +86,13 @@
 			value="classpath:se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties" />
 			<property name="ignoreUnresolvablePlaceholders" value="true" />
 	</bean>
+
 	<bean id="Search_CodeTablesService"
 		class="se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl"
 		init-method="init" depends-on="Search_LdapConnectionPool">
 		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool" />
 	</bean>
+
 	<bean id="Search_DisplayValueTranslator" class="se.vgregion.kivtools.search.util.DisplayValueTranslator">
 		<property name="translationMap">
 			<util:map>
@@ -98,12 +107,14 @@
 			</util:map>
 		</property>
 	</bean>
+
 	<bean id="jobDetailCodeTableCacheUpdate"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="Search_CodeTablesService" />
 		<property name="targetMethod" value="init" />
 		<property name="concurrent" value="false" />
 	</bean>
+
 	<bean id="simpleTriggerCodeTableCacheUpdate" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
 		<!-- see the example of method invoking job above -->
 		<property name="jobDetail" ref="jobDetailCodeTableCacheUpdate" />
@@ -112,6 +123,7 @@
 		<!-- repeat every 24 hours -->
 		<property name="repeatInterval" value="86400000" />
 	</bean>
+
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="startupDelay" value="10" />
 		<property name="triggers">
@@ -119,47 +131,6 @@
 				<ref bean="simpleTriggerCodeTableCacheUpdate" />
 			</list>
 		</property>
-	</bean>
-	<!--	<bean id="Registration_vardValService"-->
-	<!--
-		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl"
-		/>
-	-->
-
-	<bean id="Registration_vardValService"
-		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl"
-		init-method="setEndpoint">
-		<property name="service">
-			<bean
-				class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceFactory"
-				factory-method="getIVardvalservice">
-				<constructor-arg value="https://vardval.vgregion.se/vardvalservice/VardvalService.svc?WSDL"/>
-				<constructor-arg value="urn:VGRegion.VGPrimärvård.Vårdval.Service"/>
-				<constructor-arg value="VårdvalService"/>
-			</bean>
-		</property>
-		<!--
-		<property name="webserviceEndpoint"
-			value="http://kivsearch.vgregion.se:8080/testtools/ws/VardvalService/VardvalService.svc" />
-		-->
-		<property name="webserviceEndpoint"
-			value="https://vardval.vgregion.se/vardvalservice/VardvalService.svc" />
-	</bean>
-
-	<bean id="Registration_citizenRepository"
-		class="se.vgregion.kivtools.search.svc.registration.CitizenRepository">
-		<property name="ldapTemplate" ref="ldapTemplate" />
-	</bean>
-
-	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
-		<property name="url" value="ldap://ldappoc.vgregion.se:389" />
-		<property name="base" value="ou=medborgare,ou=anv,O=VGR" />
-		<!--        <property name="userName" value="" />-->
-		<!--        <property name="password" value="" />-->
-		<property name="pooled" value="true" />
-	</bean>
-	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
-		<constructor-arg ref="contextSource" />
 	</bean>
 
 	<bean id="Search_Unitfactory"
