@@ -10,7 +10,7 @@ import se.vgregion.kivtools.search.sms.SmsRedirectService;
 
 /**
  * Support bean for redirection to a page for sending SMS.
- * 
+ *
  * @author David Bennehult & Joakim Olsson
  */
 @Controller
@@ -26,7 +26,7 @@ public class SmsRedirectSupportBean {
 
   /**
    * Performs a redirect to the page returned by the SmsRedirectService for the mobile number in the request.
-   * 
+   *
    * @param mobileNumber The mobile number to use for fetch url.
    * @return a Spring redirect-view to the url returned by the SmsRedirectService.
    */

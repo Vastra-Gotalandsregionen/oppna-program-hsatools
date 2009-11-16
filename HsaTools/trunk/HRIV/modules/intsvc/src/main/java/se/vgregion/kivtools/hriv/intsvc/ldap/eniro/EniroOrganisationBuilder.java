@@ -14,9 +14,9 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
 import se.vgregion.kivtools.util.StringUtil;
 
 /**
- * 
+ *
  * @author David Bennehult & Joakim Olsson
- * 
+ *
  */
 public class EniroOrganisationBuilder {
   private static final String FIXED_LOCALITY = "Göteborg";
