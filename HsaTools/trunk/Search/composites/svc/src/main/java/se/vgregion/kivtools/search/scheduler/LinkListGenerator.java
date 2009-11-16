@@ -29,7 +29,7 @@ import se.vgregion.kivtools.util.file.FileUtil;
 
 /**
  * @author Anders Asplund - KnowIT
- * 
+ *
  */
 public class LinkListGenerator extends QuartzJobBean {
 
