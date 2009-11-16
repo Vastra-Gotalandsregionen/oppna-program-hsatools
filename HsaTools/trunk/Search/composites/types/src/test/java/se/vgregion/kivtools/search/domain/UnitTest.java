@@ -373,7 +373,7 @@ public class UnitTest {
     HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper() {
       {
         super.resetInternalCache();
-        super.setImplResourcePath("testproperties.search-composite-svc-healthcare-type-conditions");
+        super.setImplResourcePath("testproperties.healthcaretypeconditionhelper.two_properties");
       }
     };
 
