@@ -1,8 +1,6 @@
 package se.vgregion.kivtools.search.presentation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,12 +56,10 @@ public class SearchPersonFlowSupportBeanTest {
       // Expected exception
     }
 
-    try {
-      bean.doSearch(form);
-      fail("KivNoDataFoundException expected");
-    } catch (KivNoDataFoundException e) {
-      // Expected exception
-    }
+    // Search with empty form should not throw exceptions
+    SikSearchResultList<Person> result = bean.doSearch(form);
+    assertNotNull(result);
+    assertEquals(0, result.size());
 
     form.setGivenName("a");
     try {
@@ -77,7 +73,7 @@ public class SearchPersonFlowSupportBeanTest {
     Person person = new Person();
     persons.add(person);
     searchService.setPersons(persons);
-    SikSearchResultList<Person> result = bean.doSearch(form);
+    result = bean.doSearch(form);
     assertNotNull(result);
     assertEquals(1, result.size());
 

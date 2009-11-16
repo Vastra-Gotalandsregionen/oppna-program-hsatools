@@ -1,4 +1,4 @@
-<h:form id="searchUnitForm" class="search-form"
+<form id="searchUnitForm" action="Search.searchunit-flow.flow" method="get" class="search-form"
 		xmlns:ui="http://java.sun.com/jsf/facelets"
 		xmlns:h="http://java.sun.com/jsf/html"
         xmlns:f="http://java.sun.com/jsf/core"
@@ -6,22 +6,22 @@
 		xmlns:c="http://java.sun.com/jstl/core">
     <div id="formContainer">
   		<div class="text">
-			<label for="searchUnitForm:unitName">Enhet</label>
+			<label for="unitName">Enhet</label>
 			<div class="autocomplete_container" id="unitName_container">
-				<input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="${unitSearchSimpleForm.unitName}" />
+				<input id="unitName" name="unitName" type="text" class="search-input-field" value="${unitSearchSimpleForm.unitName}" />
 				<span class="info">Ange namn på enhet du vill söka efter</span>
 				<div id="autocomplete_unitName" class="autocomplete"></div>
 			</div>
 		</div>
 		
 		<div class="text">
-			<label for="searchUnitForm:location">Var</label>
-			<input id="location" type="text" class="search-input-field" jsfc="h:inputText" value="${unitSearchSimpleForm.location}" />
+			<label for="location">Var</label>
+            <input id="location" name="location" type="text" class="search-input-field" value="${unitSearchSimpleForm.location}" />
 			<span class="info">Söker i Besöksadress, Postadress, Kommun</span>
 		</div>
 
 		<div class="submit-area">
-			<input type="submit" id="submitButton" jsfc="h:commandButton" value="Sök" action="doSearch" />
+			<input type="submit" id="submitButton" value="Sök" />
 	    </div>
         <script type="text/javascript" charset="utf-8">
             // <![CDATA[]
@@ -30,6 +30,6 @@
         </script>
     </div>
     <script type="text/javascript">
-		document.getElementById("searchUnitForm:unitName").focus();
+		document.getElementById("unitName").focus();
 	</script>
-</h:form>
+</form>

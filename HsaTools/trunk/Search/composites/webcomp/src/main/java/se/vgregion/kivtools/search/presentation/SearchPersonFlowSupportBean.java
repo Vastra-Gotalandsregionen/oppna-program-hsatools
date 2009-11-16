@@ -107,24 +107,25 @@ public class SearchPersonFlowSupportBean implements Serializable {
       if (!searchPersonCriterion.isEmpty()) {
         // perform a search
         list = getSearchService().searchPersons(searchPersonCriterion, maxSearchResult);
-      }
-      // fetch all employments
-      // Not done this way in HAK implementation. Employment info is on person entry.
-      SikSearchResultList<Employment> empList = null;
-      for (Person pers : list) {
-        empList = getSearchService().getEmployments(pers.getDn());
-        if (!empList.isEmpty()) {
-          pers.setEmployments(empList);
-          // add the datasource time for fetching employments
-          list.addDataSourceSearchTime(new TimeMeasurement(empList.getTotalDataSourceSearchTimeInMilliSeconds()));
-        }
-      }
-      // stop measurement
-      overAllTime.stop();
 
-      LogUtils.printSikSearchResultListToLog(this, "doSearch", overAllTime, LOGGER, list);
-      if (list.size() == 0) {
-        throw new KivNoDataFoundException();
+        // fetch all employments
+        // Not done this way in HAK implementation. Employment info is on person entry.
+        SikSearchResultList<Employment> empList = null;
+        for (Person pers : list) {
+          empList = getSearchService().getEmployments(pers.getDn());
+          if (!empList.isEmpty()) {
+            pers.setEmployments(empList);
+            // add the datasource time for fetching employments
+            list.addDataSourceSearchTime(new TimeMeasurement(empList.getTotalDataSourceSearchTimeInMilliSeconds()));
+          }
+        }
+        // stop measurement
+        overAllTime.stop();
+
+        LogUtils.printSikSearchResultListToLog(this, "doSearch", overAllTime, LOGGER, list);
+        if (list.size() == 0) {
+          throw new KivNoDataFoundException();
+        }
       }
       return list;
     } catch (KivNoDataFoundException e) {

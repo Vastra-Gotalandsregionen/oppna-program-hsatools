@@ -50,19 +50,19 @@ function toggleExtendDescription() {
 	}
 }
 
-function toggleAdvancedSearch(formName) {
+function toggleAdvancedSearch() {
 
 	var advancedPersonSearch = document.getElementById("advanced_search");
 	if (advancedPersonSearch.style.display == "none" || advancedPersonSearch.style.display == '') {
 		 advancedPersonSearch.style.display = "block";
 		 document.getElementById("advancedLinkText").style.display="none";
 		 document.getElementById("simpleLinkText").style.display="block";
-		 document.getElementById(formName + ":searchType").value = "advanced";
+		 document.getElementById("searchType").value = "advanced";
 	} else {
 		 advancedPersonSearch.style.display = "none";
 		 document.getElementById("advancedLinkText").style.display="block";
 		 document.getElementById("simpleLinkText").style.display="none";
-		 document.getElementById(formName + ":searchType").value = "simple";
+		 document.getElementById("searchType").value = "simple";
 	}
 	return false;
 }

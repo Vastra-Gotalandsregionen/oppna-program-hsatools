@@ -110,7 +110,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
   public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm) throws KivException {
     LOGGER.debug(CLASS_NAME + ".doSearch()");
 
-    SikSearchResultList<Unit> list = null;
+    SikSearchResultList<Unit> list = new SikSearchResultList<Unit>();
     try {
       TimeMeasurement overAllTime = new TimeMeasurement();
 
@@ -119,16 +119,17 @@ public class SearchUnitFlowSupportBean implements Serializable {
       if (!theForm.isEmpty()) {
         SearchUnitCriterions u = mapSearchCriterias(theForm);
         list = getSearchService().searchUnits(u, maxSearchResult);
-      }
-      // stop measurement
-      overAllTime.stop();
 
-      if (list == null) {
-        list = new SikSearchResultList<Unit>();
-      }
-      LogUtils.printSikSearchResultListToLog(this, "doSearch", overAllTime, LOGGER, list);
-      if (list.size() == 0) {
-        throw new KivNoDataFoundException();
+        // stop measurement
+        overAllTime.stop();
+
+        if (list == null) {
+          list = new SikSearchResultList<Unit>();
+        }
+        LogUtils.printSikSearchResultListToLog(this, "doSearch", overAllTime, LOGGER, list);
+        if (list.size() == 0) {
+          throw new KivNoDataFoundException();
+        }
       }
     } catch (KivNoDataFoundException e) {
       throw e;

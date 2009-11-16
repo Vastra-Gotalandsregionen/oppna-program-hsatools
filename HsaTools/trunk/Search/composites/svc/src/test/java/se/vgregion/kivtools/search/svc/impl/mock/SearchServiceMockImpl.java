@@ -336,7 +336,9 @@ public class SearchServiceMockImpl implements SearchService {
 
   @Override
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
-    return null;
+    SikSearchResultList<Person> personList = new SikSearchResultList<Person>();
+    initPersons(personList);
+    return personList;
   }
 
   @Override

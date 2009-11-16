@@ -31,17 +31,23 @@
 	<input name="hsaidentity" />
 	<input name="parentHsaIdentity" />
 	<input name="dn" />
-	
+
+    <input name="unitName" value="flowScope.unitSearchSimpleForm.unitName" />
+    <input name="location" value="flowScope.unitSearchSimpleForm.location" />
+    <input name="searchType" value="flowScope.unitSearchSimpleForm.searchType" />
+    <input name="administrationName" value="flowScope.unitSearchSimpleForm.administrationName" />
+    <input name="liableCode" value="flowScope.unitSearchSimpleForm.liableCode" />
+    <input name="businessClassificationName" value="flowScope.unitSearchSimpleForm.businessClassificationName" />
+    <input name="careTypeName" value="flowScope.unitSearchSimpleForm.careTypeName" />
+    
 	<decision-state id="Decision.displayUnitDetails">
 		<if test="errorReportingForm.reportText!=null" then="Error.report"/>
 		<if test="requestParameters.parentHsaIdentity!=null" then="Display.subUnitsById"/>
 		<if test="requestParameters.hsaidentity!=null" then="Display.unitDetailsById"/>
-		<if test="requestParameters.dn!=null" then="Display.unitDetailsByDn" else="Search.displayUnitSearchResult"/>
+		<if test="requestParameters.dn!=null" then="Display.unitDetailsByDn" else="Search.validateSearchParams"/>
 	</decision-state>
 
 	<view-state id="Search.displayUnitSearchResult" view="/displayUnitSearchResult.xhtml">
-		<transition on="doSearch" to="Search.validateSearchParams" />
-		<transition on="showDetails" to="Display.unitDetailsById" />
 	</view-state>
 
 	<action-state id="Search.validateSearchParams">

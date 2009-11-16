@@ -36,6 +36,18 @@
 	<input name="dn" />
 	<input name="personDn" />
 
+	<input name="givenName" value="flowScope.personSearchSimpleForm.givenName" />
+	<input name="surname" value="flowScope.personSearchSimpleForm.surname" />
+	<input name="userId" value="flowScope.personSearchSimpleForm.userId" />
+	<input name="searchType" value="flowScope.personSearchSimpleForm.searchType" />
+	<input name="administration" value="flowScope.personSearchSimpleForm.administration" />
+	<input name="employedAtUnit" value="flowScope.personSearchSimpleForm.employedAtUnit" />
+	<input name="profession" value="flowScope.personSearchSimpleForm.profession" />
+	<input name="employmentTitle" value="flowScope.personSearchSimpleForm.employmentTitle" />
+	<input name="email" value="flowScope.personSearchSimpleForm.email" />
+	<input name="specialityArea" value="flowScope.personSearchSimpleForm.specialityArea" />
+	<input name="languageKnowledge" value="flowScope.personSearchSimpleForm.languageKnowledge" />
+
 	<!-- No input parameter shows new search screen -->
 
 	<decision-state id="Decision.displayPersonDetails">		
@@ -43,12 +55,10 @@
 		<if test="requestParameters.vgrid!=null" then="Display.personDetails" />
 		<if test="requestParameters.personDn!=null" then="Display.personDetailsByDn" />
 		<if test="requestParameters.dn!=null" then="Display.unitOrganisation" />
-		<if test="requestParameters.hsaidentity!=null" then="Display.unitOrganisation" else="Search.displayPersonSearchResult"/>
+		<if test="requestParameters.hsaidentity!=null" then="Display.unitOrganisation" else="Search.validateSearchParams"/>
 	</decision-state>
 	
 	<view-state id="Search.displayPersonSearchResult" view="/displayPersonSearchResult.xhtml">
-		<transition on="doSearch" to="Search.validateSearchParams" />
-		<transition on="showDetails" to="Display.personDetails" />
 	</view-state>
 
 	<action-state id="Search.validateSearchParams">
