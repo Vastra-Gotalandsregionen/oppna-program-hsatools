@@ -40,9 +40,9 @@ public class EniroUnitMapper implements ContextMapper {
   }
 
   /**
-   *
+   * 
    * @author David Bennehult & Joakim Olsson
-   *
+   * 
    */
   enum ADDRESS_TYPE {
     GOODS("goods"), DELIVERY("delivery"), POST("post"), BILLING("billing"), VISIT("visit");
@@ -54,9 +54,9 @@ public class EniroUnitMapper implements ContextMapper {
   }
 
   /**
-   *
+   * 
    * @author David Bennehult & Joakim Olsson
-   *
+   * 
    */
   enum HOURS_TYPE {
     VISIT("visit"), DROP_IN("dropIn"), CLOSED("closed");
@@ -68,9 +68,9 @@ public class EniroUnitMapper implements ContextMapper {
   }
 
   /**
-   *
+   * 
    * @author David Bennehult & Joakim Olsson
-   *
+   * 
    */
   enum PHONE_TYPE {
     FIXED("fixed"), FAX("fax"), SWITCH("switch"), OTHER("other");
@@ -90,8 +90,6 @@ public class EniroUnitMapper implements ContextMapper {
     // Fill unit with data.
     Unit unit = unitComposition.getEniroUnit();
     unit.setId(dirContextOperations.getStringAttribute("hsaIdentity"));
-    // unit.setLocality(dirContextOperations.getStringAttribute("l"));
-    unit.setLocality("Göteborg");
     unit.setName(getUnitName(dirContextOperations));
     unit.setRoute(StringUtil.concatenate(dirContextOperations.getStringAttributes("hsaRoute")));
 
