@@ -10,21 +10,21 @@ import se.vgregion.kivtools.util.StringUtil;
  * 
  * @author David Bennehult & Joakim Olsson
  */
-public class UnitComposition{
+public class UnitComposition {
 
   /**
    * 
    * @author david
    * 
    */
-  enum UnitType {
+  public enum UnitType {
     CARE_CENTER, OTHER_CARE;
   }
-  
+
   private Unit eniroUnit = new Unit();
   private String dn;
   private UnitType careType;
-  
+
   public UnitType getCareType() {
     return careType;
   }
