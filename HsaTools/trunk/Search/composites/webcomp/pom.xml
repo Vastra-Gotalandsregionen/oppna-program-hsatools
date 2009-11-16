@@ -62,6 +62,7 @@
 							</wsdlFiles>
 							<packageName>se.vgregion.kivtools.search.ws.domain.hak.netwise.sms</packageName>
 							<extension>true</extension>
+                            <sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
 							<staleFile>${project.build.directory}/jaxws/stale/.staleFlagSMS</staleFile>
 						</configuration>
 					</execution>
@@ -77,6 +78,7 @@
 							</wsdlFiles>
 							<packageName>se.vgregion.kivtools.search.ws.domain.hak.netwise.event</packageName>
 							<extension>true</extension>
+                            <sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
 							<staleFile>${project.build.directory}/jaxws/stale/.staleFlagUserEvent</staleFile>
 						</configuration>
 					</execution>
