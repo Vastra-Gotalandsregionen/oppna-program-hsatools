@@ -15,7 +15,7 @@
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
  */
-package se.vgregion.kivtools.hriv.presentation;
+package se.vgregion.kivtools.mocks.http;
 
 import static org.junit.Assert.*;
 
@@ -26,18 +26,34 @@ import java.util.Map;
 
 import se.vgregion.kivtools.util.http.HttpFetcher;
 
+/**
+ * Mock HttpFetcher to use in unit tests.
+ * 
+ * @author Joakim Olsson
+ */
 public class HttpFetcherMock implements HttpFetcher {
   private Map<String, String> content = new HashMap<String, String>();
   private List<String> urlsFetched = new ArrayList<String>();
 
-  public void addContent(String url, String content) {
-    if (content == null) {
+  /**
+   * Adds content for a specific URL.
+   * 
+   * @param url The URL to add content for.
+   * @param contentToAdd The content to return for a specific requested URL.
+   */
+  public void addContent(String url, String contentToAdd) {
+    if (contentToAdd == null) {
       this.content.put(url, "");
     } else {
-      this.content.put(url, content);
+      this.content.put(url, contentToAdd);
     }
   }
 
+  /**
+   * Asserts that the correct URL's where fetched.
+   * 
+   * @param expected The URL's that was expected to be fetched.
+   */
   public void assertUrlsFetched(String... expected) {
     assertEquals(expected.length, this.urlsFetched.size());
     for (String url : expected) {

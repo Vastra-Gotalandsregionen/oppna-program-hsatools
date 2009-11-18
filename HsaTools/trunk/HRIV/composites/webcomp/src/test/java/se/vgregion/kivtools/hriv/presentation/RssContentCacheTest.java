@@ -30,6 +30,7 @@ import org.junit.Test;
 
 import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.mocks.file.FileUtilMock;
+import se.vgregion.kivtools.mocks.http.HttpFetcherMock;
 import se.vgregion.kivtools.util.file.FileUtilException;
 
 public class RssContentCacheTest {
