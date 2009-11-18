@@ -26,6 +26,7 @@ import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.svc.SearchService;
+import se.vgregion.kivtools.search.util.MvkClient;
 
 /**
  * Support bean for the display unit details flow.

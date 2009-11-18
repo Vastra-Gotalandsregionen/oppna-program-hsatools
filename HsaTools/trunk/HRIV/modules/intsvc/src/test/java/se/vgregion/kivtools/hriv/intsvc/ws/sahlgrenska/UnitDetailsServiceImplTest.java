@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Organization;
+import se.vgregion.kivtools.mocks.http.HttpFetcherMock;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.Address;
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
@@ -23,21 +24,32 @@ import se.vgregion.kivtools.search.domain.values.ZipCode;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
+import se.vgregion.kivtools.search.util.MvkClient;
 
 public class UnitDetailsServiceImplTest {
 
   private static final String UNIT_NAME = "UnitName";
   private static final String UNIT_HSA_IDENTITY = "UnitHsaIdentity";
-  private UnitDetailsService<Organization> unitDetailsService;
+  private UnitDetailsServiceImpl unitDetailsService;
+  private HttpFetcherMock httpFetcher;
 
   @Before
   public void setup() throws Exception {
+    httpFetcher = new HttpFetcherMock();
+
+    MvkClient mvkClient = new MvkClient();
+    mvkClient.setHttpFetcher(httpFetcher);
+    mvkClient.setMvkUrl("http://localhost?mvk=1");
+    mvkClient.setMvkGuid("uid123");
+
     unitDetailsService = new UnitDetailsServiceImpl();
-    ((UnitDetailsServiceImpl) unitDetailsService).setUnitRepository(generateUnitRepositoryMock());
+    unitDetailsService.setUnitRepository(generateUnitRepositoryMock());
+    unitDetailsService.setMvkClient(mvkClient);
   }
 
   @Test
   public void testGetUnitDetails() {
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=" + UNIT_HSA_IDENTITY + 1 + "&guid=uid123", "<xml></xml>");
 
     Organization organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 1);
     assertEquals(UNIT_HSA_IDENTITY + 1, organization.getUnit().get(0).getId());
@@ -51,7 +63,7 @@ public class UnitDetailsServiceImplTest {
         throw new KivException("Test");
       }
     };
-    ((UnitDetailsServiceImpl) unitDetailsService).setUnitRepository(unitRepositoryMock);
+    unitDetailsService.setUnitRepository(unitRepositoryMock);
 
     try {
       unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY);
@@ -70,6 +82,11 @@ public class UnitDetailsServiceImplTest {
   @Test
   public void testUnitAddressInfo() {
     // Check Unit 0
+
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=" + UNIT_HSA_IDENTITY + 0 + "&guid=uid123", "<xml></xml>");
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=" + UNIT_HSA_IDENTITY + 1 + "&guid=uid123", "<xml></xml>");
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=" + UNIT_HSA_IDENTITY + 2 + "&guid=uid123", "<xml></xml>");
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=" + UNIT_HSA_IDENTITY + 3 + "&guid=uid123", "<xml></xml>");
 
     Organization organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 0);
     se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Address addressWs = organization.getUnit().get(0).getAddress().get(0);
@@ -105,6 +122,15 @@ public class UnitDetailsServiceImplTest {
     assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
     assertEquals("12b", addressWs.getStreetNumber());
 
+  }
+
+  @Test
+  public void testMvkEnable() {
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=" + UNIT_HSA_IDENTITY + 0 + "&guid=uid123",
+        "<?xml version=\"1.0\"?><casetypes><casetype>abc</casetype><casetype>def</casetype></casetypes>");
+
+    Organization organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 0);
+    assertTrue(organization.getUnit().get(0).isMvkEnable());
   }
 
   private List<Address> generateUnitAddress() {

@@ -42,6 +42,7 @@ import org.xml.sax.SAXException;
 
 import se.vgregion.kivtools.hriv.presentation.forms.AccessibilityDatabaseFilterForm;
 import se.vgregion.kivtools.mocks.LogFactoryMock;
+import se.vgregion.kivtools.mocks.http.HttpFetcherMock;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.accessibility.AccessibilityInformation;
 import se.vgregion.kivtools.search.domain.values.accessibility.AccessibilityObject;

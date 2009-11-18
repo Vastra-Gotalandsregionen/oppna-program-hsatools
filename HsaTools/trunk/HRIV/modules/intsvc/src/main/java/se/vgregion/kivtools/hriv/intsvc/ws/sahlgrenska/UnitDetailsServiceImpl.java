@@ -25,6 +25,7 @@ import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
+import se.vgregion.kivtools.search.util.MvkClient;
 import se.vgregion.kivtools.util.StringUtil;
 
 /**
@@ -35,10 +36,15 @@ import se.vgregion.kivtools.util.StringUtil;
 public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> {
   private Log log = LogFactory.getLog(this.getClass());
   private UnitRepository unitRepository;
+  private MvkClient mvkClient;
   private ObjectFactory objectFactory = new ObjectFactory();
 
   public void setUnitRepository(UnitRepository unitRepository) {
     this.unitRepository = unitRepository;
+  }
+
+  public void setMvkClient(MvkClient mvkClient) {
+    this.mvkClient = mvkClient;
   }
 
   /**
@@ -53,6 +59,7 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
       } catch (KivException e) {
         log.error("Unable to retrieve unit details.", e);
       }
+      mvkClient.assignCaseTypes(unit);
       organization.getUnit().add(generateWebServiceUnit(unit));
     }
     return organization;

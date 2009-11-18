@@ -44,7 +44,7 @@
 	</bean>
 	
 	<bean id="Display_MvkClient"
-		class="se.vgregion.kivtools.hriv.presentation.MvkClient">
+		class="se.vgregion.kivtools.search.util.MvkClient">
 		<property name="httpFetcher" ref="Display_HttpFetcher" />
 		<property name="mvkGuid" value="#{hsatools.hriv.webcomp.mvkGuid}" />
 		<property name="mvkUrl" value="#{hsatools.hriv.webcomp.mvkUrlBeforeHsaidAndGuidParams}" />

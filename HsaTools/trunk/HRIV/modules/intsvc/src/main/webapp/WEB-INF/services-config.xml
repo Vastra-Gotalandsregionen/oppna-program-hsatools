@@ -33,9 +33,21 @@
 		<property name="unitDetailsService" ref="unitDetailsService" />
 	</bean>
 
+	<bean id="httpFetcher"
+		class="se.vgregion.kivtools.util.http.HttpFetcherImpl">
+	</bean>
+	
+	<bean id="mvkClient"
+		class="se.vgregion.kivtools.search.util.MvkClient">
+		<property name="httpFetcher" ref="httpFetcher" />
+		<property name="mvkGuid" value="098b464a-b657-484f-8a86-e68962a0e996" />
+		<property name="mvkUrl" value="https://kontakt.vardguiden.se/vg/veconfig.nsf/dispveInfo?readform" />
+	</bean>
+
 	<bean id="unitDetailsService"
 		class="se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska.UnitDetailsServiceImpl">
 		<property name="unitRepository" ref="Search_UnitRepository" />
+		<property name="mvkClient" ref="mvkClient" />
 	</bean>
 
 	<bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">

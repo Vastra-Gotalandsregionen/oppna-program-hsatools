@@ -1,4 +1,4 @@
-package se.vgregion.kivtools.hriv.presentation;
+package se.vgregion.kivtools.search.util;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import se.vgregion.kivtools.mocks.LogFactoryMock;
+import se.vgregion.kivtools.mocks.http.HttpFetcherMock;
 import se.vgregion.kivtools.search.domain.Unit;
 
 public class MvkClientTest {
