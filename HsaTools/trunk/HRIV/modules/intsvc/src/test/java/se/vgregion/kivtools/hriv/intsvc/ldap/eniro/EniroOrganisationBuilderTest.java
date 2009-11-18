@@ -33,8 +33,8 @@ public class EniroOrganisationBuilderTest {
     ldapSearchResult.add(createUnit("subUnit1", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit1,ou=PVO Unit2,ou=Primärvård x"));
     ldapSearchResult.add(createUnit("subUnit2", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit2,ou=PVO Unit2,ou=Primärvård x"));
     ldapSearchResult.add(createUnit("subUnit3", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit3,ou=PVO Unit2,ou=Primärvård x"));
-    ldapSearchResult.add(createUnit("subUnit4", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit4,ou=PVO Unit3,ou=Primärvård x"));
-    ldapSearchResult.add(createUnit("subUnit5", UnitComposition.UnitType.OTHER_CARE, "ou=subUnit5,ou=PVO Unit3,ou=Primärvård x"));
+    ldapSearchResult.add(createUnit("subUnit4", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit4,ou=Unit3,ou=Primärvård x"));
+    ldapSearchResult.add(createUnit("subUnit5", UnitComposition.UnitType.OTHER_CARE, "ou=subUnit5,ou=Unit3,ou=Primärvård x"));
     ldapSearchResult.add(createUnit("subUnit6", UnitComposition.UnitType.OTHER_CARE, "ou=subUnit6,ou=Folktandvården,ou=Primärvård x"));
   }
 
