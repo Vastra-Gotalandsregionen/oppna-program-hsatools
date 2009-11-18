@@ -1,8 +1,12 @@
 package se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Address;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.AddressType;
@@ -21,6 +25,7 @@ import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Service implementation for the webservice for retrieving unit information.
@@ -28,7 +33,7 @@ import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
  * @author Jonas Liljenfelt & David Bennehult
  */
 public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> {
-
+  private Log log = LogFactory.getLog(this.getClass());
   private UnitRepository unitRepository;
   private ObjectFactory objectFactory = new ObjectFactory();
 
@@ -46,7 +51,7 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
       try {
         unit = unitRepository.getUnitByHsaId(hsaIdentity);
       } catch (KivException e) {
-        e.printStackTrace();
+        log.error("Unable to retrieve unit details.", e);
       }
       organization.getUnit().add(generateWebServiceUnit(unit));
     }
@@ -143,7 +148,10 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
       wsAddress.setConcatenatedAddress(address.getAdditionalInfoToString());
     } else {
       wsAddress.setType(addressType);
-      setStreetNameAndNumberForAddress(wsAddress, address.getStreet());
+      List<String> additionalInfo = new ArrayList<String>();
+      additionalInfo.addAll(address.getAdditionalInfo());
+      String additionalInfoConcatenated = StringUtil.concatenate(additionalInfo);
+      setStreetNameAndNumberForAddress(wsAddress, address.getStreet(), additionalInfoConcatenated);
       List<String> postalPostCodes = wsAddress.getPostCode();
       postalPostCodes.add(address.getZipCode().toString());
       wsAddress.setCity(address.getCity());
@@ -168,7 +176,7 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
     return result;
   }
 
-  private void setStreetNameAndNumberForAddress(Address address, String hsaAddress) {
+  private void setStreetNameAndNumberForAddress(Address address, String hsaAddress, String additionalInfo) {
     Pattern patternStreetName = Pattern.compile("\\D+");
     Matcher matcherStreetName = patternStreetName.matcher(hsaAddress);
     Pattern patternStreetNb = Pattern.compile("\\d+\\w*");
@@ -176,6 +184,13 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
 
     if (matcherStreetName.find()) {
       String streetName = matcherStreetName.group().trim();
+
+      List<String> streetNameParts = new ArrayList<String>();
+      if (!StringUtil.isEmpty(additionalInfo)) {
+        streetNameParts.add(additionalInfo);
+      }
+      streetNameParts.add(streetName);
+      streetName = StringUtil.concatenate(streetNameParts);
       address.setStreetName(streetName);
     }
     if (matcherStreetNb.find()) {

@@ -74,7 +74,7 @@ public class UnitDetailsServiceImplTest {
     Organization organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 0);
     se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Address addressWs = organization.getUnit().get(0).getAddress().get(0);
     assertEquals("En trevlig mottagning", organization.getUnit().get(0).getDescription().get(0).getValue());
-    assertEquals("Teststreet", addressWs.getStreetName());
+    assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
     assertEquals(null, addressWs.getStreetNumber());
     assertEquals("1111", organization.getUnit().get(0).getTelephone().get(0).getTelephoneNumber().get(0));
     assertEquals("http://unit", organization.getUnit().get(0).getEAlias().get(0).getAlias());
@@ -90,19 +90,19 @@ public class UnitDetailsServiceImplTest {
     // Check Unit 1
     organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 1);
     addressWs = organization.getUnit().get(0).getAddress().get(0);
-    assertEquals("Teststreet", addressWs.getStreetName());
+    assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
     assertEquals("12", addressWs.getStreetNumber());
 
     // Check Unit 2
     organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 2);
     addressWs = organization.getUnit().get(0).getAddress().get(0);
-    assertEquals("Teststreet", addressWs.getStreetName());
+    assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
     assertEquals("1B", addressWs.getStreetNumber());
 
     // Check Unit 3
     organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 3);
     addressWs = organization.getUnit().get(0).getAddress().get(0);
-    assertEquals("Teststreet", addressWs.getStreetName());
+    assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
     assertEquals("12b", addressWs.getStreetNumber());
 
   }
