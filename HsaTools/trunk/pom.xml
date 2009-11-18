@@ -551,9 +551,9 @@
 
     <distributionManagement>
         <repository>
-            <id>releases</id>
+            <id>svn-repo</id>
             <name>oppna-program release repo</name>
-            <url>http://oppna-program.googlecode.com/svn/maven/</url>
+            <url>svn:https://oppna-program.googlecode.com/svn/maven</url>
         </repository>
     </distributionManagement>
 
