@@ -151,6 +151,7 @@ public class EniroOrganisationBuilder {
 
   private String cleanDnString(String dn) {
     String cleanedDn = dn.replace("ou=PVO ", "");
+    cleanedDn = cleanedDn.replace("ou=", "");
     return cleanedDn;
   }
 
