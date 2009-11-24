@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.vgregion.kivtools.mocks.PojoTester;
+import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 
 import com.domainlanguage.time.Duration;
 import com.domainlanguage.time.TimeInterval;
@@ -65,5 +66,31 @@ public class PersonTest {
     assertNull(person.getEmploymentPeriod());
     person.setEmploymentPeriod(TimePoint.atMidnightGMT(2009, 11, 3), TimePoint.atMidnightGMT(2009, 12, 24));
     assertEquals(TimeInterval.closed(TimePoint.atMidnightGMT(2009, 11, 3), TimePoint.atMidnightGMT(2009, 12, 24)), person.getEmploymentPeriod());
+  }
+
+  @Test
+  public void testGetTelephoneNumberOfFirstEmployment() {
+    assertEquals("", person.getTelephoneNumberOfFirstEmployment());
+
+    Employment employment = new Employment();
+    person.setEmployments(Arrays.asList(employment));
+    assertEquals("", person.getTelephoneNumberOfFirstEmployment());
+
+    PhoneNumber phoneNumber = PhoneNumber.createPhoneNumber("031-123456");
+    employment.setHsaTelephoneNumbers(Arrays.asList(phoneNumber));
+    assertEquals("031-123456", person.getTelephoneNumberOfFirstEmployment());
+  }
+
+  @Test
+  public void testGetMobileNumberOfFirstEmployment() {
+    assertEquals("", person.getMobileNumberOfFirstEmployment());
+
+    Employment employment = new Employment();
+    person.setEmployments(Arrays.asList(employment));
+    assertEquals("", person.getMobileNumberOfFirstEmployment());
+
+    PhoneNumber phoneNumber = PhoneNumber.createPhoneNumber("070-123456");
+    employment.setMobileTelephoneNumber(phoneNumber);
+    assertEquals("070-123456", person.getMobileNumberOfFirstEmployment());
   }
 }

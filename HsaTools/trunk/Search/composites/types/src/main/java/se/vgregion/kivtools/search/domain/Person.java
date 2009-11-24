@@ -304,4 +304,34 @@ public class Person implements Serializable {
   public boolean isProfileImagePresent() {
     return profileImagePresent;
   }
+
+  /**
+   * Getter for the primary telephone number of the persons first employment.
+   * 
+   * @return The primary telephone number of the persons first employment or an empty string if the person has no employments or no telephone number is registered on the first employment.
+   */
+  public String getTelephoneNumberOfFirstEmployment() {
+    String telephoneNumber = "";
+
+    if (employments != null && employments.size() > 0 && employments.get(0).getHsaTelephoneNumber() != null) {
+      telephoneNumber = employments.get(0).getHsaTelephoneNumber().getPhoneNumber();
+    }
+
+    return telephoneNumber;
+  }
+
+  /**
+   * Getter for the mobile number of the persons first employment.
+   * 
+   * @return The mobile number of the persons first employment or an empty string if the person has no employments or no mobile number is registered on the first employment.
+   */
+  public String getMobileNumberOfFirstEmployment() {
+    String mobileNumber = "";
+
+    if (employments != null && employments.size() > 0 && employments.get(0).getMobileTelephoneNumber() != null) {
+      mobileNumber = employments.get(0).getMobileTelephoneNumber().getPhoneNumber();
+    }
+
+    return mobileNumber;
+  }
 }
