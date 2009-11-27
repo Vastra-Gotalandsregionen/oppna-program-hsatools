@@ -28,6 +28,7 @@ import org.springframework.ldap.filter.Filter;
 import org.springframework.ldap.filter.GreaterThanOrEqualsFilter;
 import org.springframework.ldap.filter.LessThanOrEqualsFilter;
 import org.springframework.ldap.filter.LikeFilter;
+import org.springframework.ldap.filter.NotFilter;
 import org.springframework.ldap.filter.NotPresentFilter;
 import org.springframework.ldap.filter.OrFilter;
 
@@ -349,11 +350,17 @@ public class PersonRepository {
    */
   public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws KivException {
     SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
+    AndFilter filter = new AndFilter();
+
     // Generate or filter condition
-    OrFilter filter = new OrFilter();
+    OrFilter unitFkfilter = new OrFilter();
     for (Unit unit : units) {
-      filter.or(new EqualsFilter(unitFkField, unit.getHsaIdentity()));
+      unitFkfilter.or(new EqualsFilter(unitFkField, unit.getHsaIdentity()));
     }
+
+    filter.and(new NotFilter(new LikeFilter("vgrStrukturPersonDN", "*OU=Privata Vårdgivare*")));
+    filter.and(unitFkfilter);
+
     persons = searchPersons(filter.encode(), LDAPConnection.SCOPE_ONE, maxResult);
     return persons;
   }
@@ -404,6 +411,7 @@ public class PersonRepository {
   private AndFilter generateFreeTextSearchPersonFilter(SearchPersonCriterions person) {
     AndFilter userFilter = new AndFilter();
     userFilter.and(new EqualsFilter("objectclass", "vgrUser"));
+    userFilter.and(new NotFilter(new LikeFilter("vgrStrukturPersonDN", "*OU=Privata Vårdgivare*")));
 
     if (!StringUtil.isEmpty(person.getGivenName())) {
       OrFilter firstNameFilter = new OrFilter();
