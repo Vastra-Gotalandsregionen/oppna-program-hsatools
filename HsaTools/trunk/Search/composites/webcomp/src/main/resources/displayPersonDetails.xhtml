@@ -50,16 +50,7 @@
 	            <ui:include src="${Search_SettingsContainer.settings.errorReportConfirmInclude}" />
 				<ui:include src="${Search_SettingsContainer.settings.personDetailsSummaryInclude}" />
 				<ui:include src="${Search_SettingsContainer.settings.personDetailsMainInfoInclude}" />
-				<div id="kiv-results">
-					<div class="tab" jsfc="ui:repeat" value="${person.employments}" var="employment">
-						<div class="tab-hd"><h3>Anställning - ${employment.title}</h3></div>
-						<div class="tab-bd">
-							<ui:include src="${Search_SettingsContainer.settings.personDetailsEmploymentsTableInclude}" />
-							<ui:include src="${Search_SettingsContainer.settings.personDetailsTelephoneInclude}" />
-							<ui:include src="${Search_SettingsContainer.settings.personDetailsAddressInclude}" />
-						</div>
-					</div>
-				</div>
+				<ui:include src="${Search_SettingsContainer.settings.personDetailsMainEmploymentsInclude}" />
 				<ui:include src="${Search_SettingsContainer.settings.userEventInfoInclude}" />
 	            <ui:include src="${Search_SettingsContainer.settings.errorReportFormInclude}" />
 			</div>
