@@ -9,10 +9,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,56 +29,23 @@ import se.vgregion.kivtools.util.time.TimeSource;
 import se.vgregion.kivtools.util.time.TimeUtil;
 
 public class PersonRepositoryTest {
-
   private PersonRepository personRepository;
   private LDAPConnectionMock ldapConnectionMock;
   private LdapConnectionPoolMock ldapConnectionPoolMock;
   private Calendar calendar;
-  private static Map<String, String[]> attributeLists = new HashMap<String, String[]>();
-  static {
-    attributeLists.put("givenName", new String[] { "Kalle" });
-  }
 
   @Before
   public void setUp() throws Exception {
-    calendar = Calendar.getInstance();
-    calendar.set(2009, 8, 19, 16, 23);
-    calendar.set(Calendar.SECOND, 48);
-    calendar.set(Calendar.MILLISECOND, 0);
-    TimeSource timeSource = new TimeSource() {
-      @Override
-      public long millis() {
-        return calendar.getTimeInMillis();
-      }
-    };
-    TimeUtil.setTimeSource(timeSource);
+    setupTimeSource();
 
     personRepository = new PersonRepository();
+    personRepository.setUnitFkField("vgrOrgRel");
+
     ldapConnectionMock = new LDAPConnectionMock();
     ldapConnectionPoolMock = new LdapConnectionPoolMock(ldapConnectionMock);
-    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
-    ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
-    ldapConnectionMock
-        .addLDAPSearchResults(
-            "(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(vgr-id=anama))",
-            ldapSearchResultsMock);
-
-    ldapSearchResultsMock = new LDAPSearchResultsMock();
-    LDAPEntryMock ldapEntryMock = new LDAPEntryMock();
-    ldapEntryMock.setDn("cn=12345,cn=anama,ou=Personal,o=vgr");
-    ldapSearchResultsMock.addLDAPEntry(ldapEntryMock);
-    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(title=*employmentTitle*))",
-        ldapSearchResultsMock);
 
     personRepository.setLdapConnectionPool(ldapConnectionPoolMock);
     personRepository.setCodeTablesService(getCodeTableServiceMock());
-
-    for (Entry<String, String[]> attributeListEntry : attributeLists.entrySet()) {
-      LinkedList<LDAPEntryMock> ldapEntries = new LinkedList<LDAPEntryMock>();
-      LDAPEntryMock entryMock = new LDAPEntryMock();
-      entryMock.addAttribute("description", attributeListEntry.getValue());
-      ldapEntries.add(entryMock);
-    }
   }
 
   @After
@@ -90,20 +55,41 @@ public class PersonRepositoryTest {
 
   @Test
   public void testEmploymentTitleSearch() throws KivException {
+    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
+    LDAPEntryMock ldapEntryMock = new LDAPEntryMock();
+    ldapEntryMock.setDn("cn=12345,cn=anama,ou=Personal,o=vgr");
+    ldapSearchResultsMock.addLDAPEntry(ldapEntryMock);
+    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(title=*employmentTitle*))",
+        ldapSearchResultsMock);
+
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
     searchPersonCriterion.setEmploymentTitle("employmentTitle");
-    SikSearchResultList<Person> searchPersons = personRepository.searchPersons(searchPersonCriterion, 1);
-    ldapConnectionMock.assertFilter("(&(objectclass=vgrUser)(vgr-id=anama))");
+    personRepository.searchPersons(searchPersonCriterion, 1);
+    ldapConnectionMock.assertFilter("(&(objectclass=vgrUser)(!(vgrStrukturPersonDN=*OU=Privata Vårdgivare*))(vgr-id=anama))");
     ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
   public void testSearchPersons() throws KivException {
+    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
+    ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
+    ldapConnectionMock
+        .addLDAPSearchResults(
+            "(&(objectclass=vgrUser)(!(vgrStrukturPersonDN=*OU=Privata Vårdgivare*))(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(vgr-id=anama))",
+            ldapSearchResultsMock);
+
+    ldapSearchResultsMock = new LDAPSearchResultsMock();
+    LDAPEntryMock ldapEntryMock = new LDAPEntryMock();
+    ldapEntryMock.setDn("cn=12345,cn=anama,ou=Personal,o=vgr");
+    ldapSearchResultsMock.addLDAPEntry(ldapEntryMock);
+    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(title=*employmentTitle*))",
+        ldapSearchResultsMock);
+
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
     searchPersonCriterion.setGivenName("Kalle");
     searchPersonCriterion.setSurname("Svensson");
     SikSearchResultList<Person> searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
-    ldapConnectionMock.assertFilter("(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*)))");
+    ldapConnectionMock.assertFilter("(&(objectclass=vgrUser)(!(vgrStrukturPersonDN=*OU=Privata Vårdgivare*))(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*)))");
 
     searchPersonCriterion.setUserId("vgr-id");
     searchPersonCriterion.setEmploymentTitle("employmentTitle");
@@ -115,7 +101,7 @@ public class PersonRepositoryTest {
     searchPersonCriterion.setAdministration("administration");
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
     ldapConnectionMock
-        .assertFilter("(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(vgr-id=anama))");
+        .assertFilter("(&(objectclass=vgrUser)(!(vgrStrukturPersonDN=*OU=Privata Vårdgivare*))(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(vgr-id=anama))");
     assertEquals(1, searchPersons.size());
     ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
@@ -135,9 +121,9 @@ public class PersonRepositoryTest {
   public void testGetPersonsForUnits() throws Exception {
     setLdapConnectionMock();
     List<Unit> units = generateTestUnitList();
-    List<Person> persons = null;
-    persons = personRepository.getPersonsForUnits(units, 5);
-    Assert.assertFalse(persons.isEmpty());
+    List<Person> persons = personRepository.getPersonsForUnits(units, 5);
+    assertFalse(persons.isEmpty());
+    this.ldapConnectionMock.assertFilter("(&(!(vgrStrukturPersonDN=*OU=Privata Vårdgivare*))(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4)))");
     ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
@@ -166,14 +152,12 @@ public class PersonRepositoryTest {
   private void setLdapConnectionMock() {
     List<Person> persons = generateTestPersonList();
     LinkedList<LDAPEntryMock> ldapEntries = generatePersonLdapEntries(persons);
-    LDAPConnectionMock connectionMock = new LDAPConnectionMock();
     LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
     for (LDAPEntryMock ldapEntryMock : ldapEntries) {
       ldapSearchResultsMock.addLDAPEntry(ldapEntryMock);
     }
-    connectionMock.addLDAPSearchResults("(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4))", ldapSearchResultsMock);
-    personRepository.setLdapConnectionPool(new LdapConnectionPoolMock(connectionMock));
-    personRepository.setUnitFkField("vgrOrgRel");
+    this.ldapConnectionMock.addLDAPSearchResults("(&(!(vgrStrukturPersonDN=*OU=Privata Vårdgivare*))(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4)))",
+        ldapSearchResultsMock);
   }
 
   private LinkedList<LDAPEntryMock> generatePersonLdapEntries(List<Person> persons) {
@@ -195,6 +179,20 @@ public class PersonRepositoryTest {
     codeTableServiceMock.addListToMap(CodeTableName.VGR_AO3_CODE, Arrays.asList("administration1,administration2".split(",")));
     codeTableServiceMock.addListToMap(CodeTableName.PA_TITLE_CODE, Arrays.asList("employmentTitle"));
     return codeTableServiceMock;
+  }
+
+  private void setupTimeSource() {
+    calendar = Calendar.getInstance();
+    calendar.set(2009, 8, 19, 16, 23);
+    calendar.set(Calendar.SECOND, 48);
+    calendar.set(Calendar.MILLISECOND, 0);
+    TimeSource timeSource = new TimeSource() {
+      @Override
+      public long millis() {
+        return calendar.getTimeInMillis();
+      }
+    };
+    TimeUtil.setTimeSource(timeSource);
   }
 
   class CodeTableServiceMock implements CodeTablesService {
