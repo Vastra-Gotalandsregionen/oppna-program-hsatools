@@ -17,7 +17,6 @@
  */
 package se.vgregion.kivtools.search.util.geo;
 
-
 /**
  * Since the conversion WGS <-> RT90 can be carried out in multiple ways the conversion implementations should implement this simple contract.
  * 
