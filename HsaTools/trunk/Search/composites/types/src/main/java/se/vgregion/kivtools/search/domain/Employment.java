@@ -26,6 +26,7 @@ import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.domain.values.ZipCode;
+import se.vgregion.kivtools.util.StringUtil;
 
 import com.domainlanguage.time.TimeInterval;
 import com.domainlanguage.time.TimePoint;
@@ -434,5 +435,14 @@ public class Employment implements Serializable {
 
   public Address getHsaConsigneeAddress() {
     return hsaConsigneeAddress;
+  }
+
+  /**
+   * Gets the DN as a Base64-encoded string.
+   * 
+   * @return The units DN as a Base64-encoded string.
+   */
+  public String getVgrStrukturPersonBase64() {
+    return StringUtil.base64Encode(vgrStrukturPerson.toString());
   }
 }

@@ -2,6 +2,7 @@ package se.vgregion.kivtools.search.domain;
 
 import static org.junit.Assert.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -97,6 +98,15 @@ public class EmploymentTest {
     assertNull(employment.getEmploymentPeriod());
     employment.setEmploymentPeriod(TimePoint.atMidnightGMT(2009, 11, 3), TimePoint.atMidnightGMT(2009, 12, 24));
     assertEquals(TimeInterval.closed(TimePoint.atMidnightGMT(2009, 11, 3), TimePoint.atMidnightGMT(2009, 12, 24)), employment.getEmploymentPeriod());
+  }
+
+  @Test
+  public void testGetVgrStrukturPersonBase64() throws UnsupportedEncodingException {
+    DN dn = DN.createDNFromString("CN=Hedvig h Blomfrö,OU=Falkenbergsnämnden,OU=Förtroendevalda,OU=Landstinget  Halland,DC=hkat,DC=lthalland,DC=com");
+    employment.setVgrStrukturPerson(dn);
+    String expected = "Y249SGVkdmlnIGggQmxvbWZy9ixvdT1GYWxrZW5iZXJnc27kbW5kZW4sb3U9RvZydHJvZW5kZXZh\r\nbGRhLG91PUxhbmRzdGluZ2V0ICBIYWxsYW5kLGRjPWhrYXQsZGM9bHRoYWxsYW5kLGRjPWNvbQ==\r\n";
+    String result = employment.getVgrStrukturPersonBase64();
+    assertEquals("Unexpected value for Base64-encoded DN", expected, result);
   }
 
   private Address createAddress(String street, String zipcode, String city) {
