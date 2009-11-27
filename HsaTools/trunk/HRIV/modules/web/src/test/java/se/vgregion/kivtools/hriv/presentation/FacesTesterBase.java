@@ -23,7 +23,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Properties;
 
@@ -46,9 +45,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import se.vgregion.kivtools.util.StringUtil;
+
 import com.steeplesoft.jsf.facestester.FacesPage;
 import com.steeplesoft.jsf.facestester.FacesTester;
-import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * 
@@ -97,7 +97,7 @@ public class FacesTesterBase {
 
   private Document getDocumentFromString(String string) {
     ByteArrayInputStream inputStream;
-		inputStream = new ByteArrayInputStream(StringUtil.getBytes(string, "UTF-8"));
+    inputStream = new ByteArrayInputStream(StringUtil.getBytes(string, "UTF-8"));
     Document document;
     try {
       document = documentBuilder.parse(inputStream, null);
@@ -109,17 +109,17 @@ public class FacesTesterBase {
     return document;
   }
 
-  protected NodeList getNodesByExpression(Document document, String expression) {
+  protected NodeList getNodesByExpression(Node node, String expression) {
     try {
-      return (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+      return (NodeList) xPath.compile(expression).evaluate(node, XPathConstants.NODESET);
     } catch (XPathExpressionException e) {
       throw new RuntimeException(e);
     }
   }
 
-  protected Node getNodeByExpression(Document document, String expression) {
+  protected Node getNodeByExpression(Node node, String expression) {
     try {
-      return (Node) xPath.compile(expression).evaluate(document, XPathConstants.NODE);
+      return (Node) xPath.compile(expression).evaluate(node, XPathConstants.NODE);
     } catch (XPathExpressionException e) {
       throw new RuntimeException(e);
     }
@@ -140,10 +140,13 @@ public class FacesTesterBase {
     try {
       t = tf.newTransformer();
       t.setOutputProperties(oprops);
-      t.transform(new DOMSource(doc), sr);
+      NodeList childNodes = doc.getChildNodes();
+      for (int i = 0; i < childNodes.getLength(); i++) {
+        t.transform(new DOMSource(childNodes.item(i)), sr);
+      }
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-    return outText.toString();
+    return outText.toString().trim();
   }
 }

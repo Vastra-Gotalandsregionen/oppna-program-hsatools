@@ -103,52 +103,56 @@
                             </h:outputText>
 
                             <table class="borderless">
-                                <tr>
-                                    <th class="leftcol">
-                                        <span class="grey-header">${msg.openingHours}</span>
-                                    </th>
-                                    <td class="rightfourcol">
-                                        <div jsfc="ui:repeat" value="${unit.hsaSurgeryHours}" var="time" class="paragraph">${time.displayValue}</div>
-                                        <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaSurgeryHours) lt 1}">
-                                            <span class="warning">hsaSurgeryHours ${msg.missing}</span>
-                                        </h:outputText>
-                                    </td>
-                                    <th class="leftcol">
-                                        <span class="grey-header">${msg.dropInHours}</span>
-                                    </th>
-                                    <td class="rightfourcol">
-                                        <div jsfc="ui:repeat" value="${unit.hsaDropInHours}" var="time" class="paragraph">${time.displayValue}</div>
-                                        <h:outputText rendered="${fn:length(unit.hsaDropInHours) lt 1}">
-											<div class="paragraph">${msg.noDropIn}</div>
-                                        </h:outputText>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th class="leftcol" id="managementTextHeaderCell">
-                                        <span class="grey-header">${msg.management}</span>
-                                    </th>
-                                    <td class="rightfourcol paragraph" headers="managementTextHeaderCell">
-				            			${unit.hsaManagementText}
-                                        <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaManagementTextIsValid}">
-                                            <span class="warning">hsaManagementText ${msg.missing}</span>
-                                        </h:outputText>
-                                    </td>
-                                    <!-- Besöksregler -->
-                                    <h:outputText rendered="${unit.showAgeInterval}">
-                                        <th class="leftcol" id="visitingRuleAgeHeaderCell">
-                                            <span class="grey-header">${msg.visitingRuleAge}</span>
-                                        </th>
-                                        <td class="rightfourcol paragraph" headers="visitingRuleAgeHeaderCell">
-											${unit.hsaVisitingRuleAge}
-                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaVisitingRuleAgeIsValid}">
-                                                <span class="warning">hsaVisitingRuleAge ${msg.missing}</span>
-                                            </h:outputText>
-                                        </td>
-                                    </h:outputText>
-                                    <h:outputText rendered="${!unit.showAgeInterval}">
-                                        <th></th><td></td>
-                                    </h:outputText>
-                                </tr>
+                            	<h:outputText rendered="${fn:length(unit.hsaSurgeryHours) gt 0 or fn:length(unit.hsaDropInHours) gt 0 or Search_SettingsContainer.testingMode}">
+	                                <tr>
+	                                    <th class="leftcol">
+	                                        <span class="grey-header">${msg.openingHours}</span>
+	                                    </th>
+	                                    <td class="rightfourcol">
+	                                        <div jsfc="ui:repeat" value="${unit.hsaSurgeryHours}" var="time" class="paragraph">${time.displayValue}</div>
+	                                        <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaSurgeryHours) lt 1}">
+	                                            <span class="warning">hsaSurgeryHours ${msg.missing}</span>
+	                                        </h:outputText>
+	                                    </td>
+	                                    <th class="leftcol">
+	                                        <span class="grey-header">${msg.dropInHours}</span>
+	                                    </th>
+	                                    <td class="rightfourcol">
+	                                        <div jsfc="ui:repeat" value="${unit.hsaDropInHours}" var="time" class="paragraph">${time.displayValue}</div>
+	                                        <h:outputText rendered="${fn:length(unit.hsaDropInHours) lt 1}">
+												<div class="paragraph">${msg.noDropIn}</div>
+	                                        </h:outputText>
+	                                    </td>
+	                                </tr>
+                            	</h:outputText>
+                            	<h:outputText rendered="${unit.hsaManagementTextIsValid or (unit.showAgeInterval and unit.hsaVisitingRuleAgeIsValid) or Search_SettingsContainer.testingMode}">
+	                                <tr>
+	                                    <th class="leftcol" id="managementTextHeaderCell">
+	                                        <span class="grey-header">${msg.management}</span>
+	                                    </th>
+	                                    <td class="rightfourcol paragraph" headers="managementTextHeaderCell">
+					            			${unit.hsaManagementText}
+	                                        <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaManagementTextIsValid}">
+	                                            <span class="warning">hsaManagementText ${msg.missing}</span>
+	                                        </h:outputText>
+	                                    </td>
+	                                    <h:outputText rendered="${unit.showAgeInterval}">
+		                                    <!-- Besöksregler -->
+	                                        <th class="leftcol" id="visitingRuleAgeHeaderCell">
+	                                            <span class="grey-header">${msg.visitingRuleAge}</span>
+	                                        </th>
+	                                        <td class="rightfourcol paragraph" headers="visitingRuleAgeHeaderCell">
+												${unit.hsaVisitingRuleAge}
+	                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaVisitingRuleAgeIsValid}">
+	                                                <span class="warning">hsaVisitingRuleAge ${msg.missing}</span>
+	                                            </h:outputText>
+	                                        </td>
+	                                    </h:outputText>
+	                                    <h:outputText rendered="${!unit.showAgeInterval}">
+	                                        <th></th><td></td>
+	                                    </h:outputText>
+	                                </tr>
+                            	</h:outputText>
                                 <h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true}">
                                     <tr>
                                         <th colspan="4" id="tempInfoHeaderCell">
@@ -161,7 +165,7 @@
                                         </td>
                                     </tr>
                                 </h:outputText>
-                                <h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true and unit.vgrRefInfo != ''}">
+                                <h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true and unit.vgrRefInfo != null and unit.vgrRefInfo != ''}">
                                     <tr>
                                         <th colspan="4" id="refInfoHeaderCell">
                                             <span class="grey-header">${msg.referral}</span>
@@ -173,14 +177,14 @@
                                         </td>
                                     </tr>
                                 </h:outputText>                                
-                                <!-- Besöksregler -->
-                                <h:outputText rendered="${unit.showVisitingRules}">
+                                <h:outputText rendered="${(unit.showVisitingRules and unit.hsaVisitingRulesIsValid) or Search_SettingsContainer.testingMode}">
+	                                <!-- Besöksregler -->
                                     <tr>
                                         <th class="leftcol" id="visitingRulesHeaderCell">
                                             <span class="grey-header">${msg.visitingRules}</span>
                                         </th>
                                         <td class="righttwocol paragraph" headers="visitingRulesHeaderCell" colspan="3">
-					            	${unit.hsaVisitingRules}
+											${unit.hsaVisitingRules}
                                             <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaVisitingRulesIsValid}">
                                                 <span class="warning">hsaVisitingRules ${msg.missing}</span>
                                             </h:outputText>
@@ -189,42 +193,44 @@
                                 </h:outputText>
                             </table>
 
-                            <div id="description-header" style="padding: 0px;">
-                                <table class="borderless">
-                                    <tr>
-                                        <th class="leftcol">
-                                            <span class="grey-header">${msg.description}</span>
-                                        </th>
-                                    </tr>
-                                </table>
-                            </div>
+							<h:outputText rendered="${unit.concatenatedDescription != ''}">
+	                            <div id="description-header" style="padding: 0px;">
+	                                <table class="borderless">
+	                                    <tr>
+	                                        <th class="leftcol">
+	                                            <span class="grey-header">${msg.description}</span>
+	                                        </th>
+	                                    </tr>
+	                                </table>
+	                            </div>
 
-                            <div id="description-body">
-                                <h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 0}">
-                                    <div id="description-body-short" class="paragraph">
-                                        <h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(presentationHelper.getTextWithEllipsis(unit.concatenatedDescription, 400)))}" />
-                                    </div>
-
-                                    <div id="description-body-long" style="display: none;" class="paragraph">
-                                        <h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.concatenatedDescription))}" />
-                                    </div>
-                                </h:outputText>
-
-                                <h:outputText rendered="${fn:length(unit.concatenatedDescription) lt 1 and Search_SettingsContainer.testingMode==true}">
-                                    <span class="warning">Fältet "beskrivning" är tomt!</span>
-                                </h:outputText>
-
-                                <div id="description-extend">
-                                    <h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 400}">
-                                        <div id="description-toggle-area" />
-                                        <script type="text/javascript" charset="utf-8">
-                                            // <![CDATA[]
-                                            drawToggleDescription();
-                                            // ]]>
-                                        </script>
-                                    </h:outputText>
-                                </div>
-                            </div>
+	                            <div id="description-body">
+	                                <h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 0}">
+	                                    <div id="description-body-short" class="paragraph">
+	                                        <h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(presentationHelper.getTextWithEllipsis(unit.concatenatedDescription, 400)))}" />
+	                                    </div>
+	
+	                                    <div id="description-body-long" style="display: none;" class="paragraph">
+	                                        <h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.concatenatedDescription))}" />
+	                                    </div>
+	                                </h:outputText>
+	
+	                                <h:outputText rendered="${fn:length(unit.concatenatedDescription) lt 1 and Search_SettingsContainer.testingMode==true}">
+	                                    <span class="warning">Fältet "beskrivning" är tomt!</span>
+	                                </h:outputText>
+	
+	                                <div id="description-extend">
+	                                    <h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 400}">
+	                                        <div id="description-toggle-area" />
+	                                        <script type="text/javascript" charset="utf-8">
+	                                            // <![CDATA[]
+	                                            drawToggleDescription();
+	                                            // ]]>
+	                                        </script>
+	                                    </h:outputText>
+	                                </div>
+	                            </div>
+							</h:outputText>
 
                             <div class="unit-details-header">
                                 <h2>${msg.contactUs}</h2>
@@ -232,50 +238,56 @@
 
                             <div>
                                 <table id="contactTable" class="borderless">
-                                    <tr>
-                                        <th class="leftcol" id="telNumberHeaderCell">
-                                            <span class="grey-header">${msg.telNo}</span>
-                                        </th>
-                                        <td class="centerthreecol" headers="telNumberHeaderCell">
-                                            <div jsfc="ui:repeat" value="${unit.hsaPublicTelephoneNumber}" var="number" class="tel paragraph">
-                                                <span class="bold">${number.formattedPhoneNumber}</span>
-                                            </div>
-                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaPublicTelephoneNumber) lt 1}">
-                                                <span class="warning">hsaPublicTelephoneNumber ${msg.missing}</span>
-                                            </h:outputText>
-                                        </td>
-                                        <td class="rightthreecol rightaligned">
-                                            <h:outputText rendered="${Search_SettingsContainer.useMvk == 'true' and fn:length(unit.mvkCaseTypes) gt 0}">
-                                                <p><a href="${Search_SettingsContainer.mvkLoginUrl}" class="url"><img src="resources/images/mvk-logo.gif" alt="${msg.mvkUnitDetails}"/> ${msg.mvkUnitDetails}</a></p>
-                                            </h:outputText>
-
-                                            <h:outputText rendered="${unit.showInVgrVardVal == true}">
-                                                <!--										TODO URL should be configurable, eg via Spring -->
-                                                <p><a href="http://portal.proxy.vgregion.se/hriv/secure/confirmRegistrationChanges.jsp?hsaidentity=${unit.hsaIdentity}" class="url">${msg.chooseChangeUnitForRegistration}</a></p>
-                                            </h:outputText>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="leftcol" id="telTimeHeaderCell">
-                                            <span class="grey-header">${msg.telTime}</span>
-                                        </th>
-                                        <td class="righttwocol" headers="telTimeHeaderCell">
-                                            <div jsfc="ui:repeat" value="${unit.hsaTelephoneTime}" var="time" class="paragraph">${time.displayValue}</div>
-                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaTelephoneTime) lt 1}">
-                                                <span class="warning">hsaTelephoneTime ${msg.missing}</span>
-                                            </h:outputText>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <h:outputText rendered="${unit.labeledURIIsValid}">
-                                                <p><a href="${unit.labeledURI}" class="url">${msg.websiteOfTheUnit}</a></p>
-                                            </h:outputText>
-                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.labeledURIIsValid}">
-                                                <span class="warning">labeledURI ${msg.missing} ${msg.orIncorrectProtocol}</span>
-                                            </h:outputText>
-                                        </td>
-                                    </tr>
+                                	<h:outputText rendered="${fn:length(unit.hsaPublicTelephoneNumber) gt 0 or ((Search_SettingsContainer.useMvk == 'true' and fn:length(unit.mvkCaseTypes) gt 0) or unit.showInVgrVardVal == true)}">
+	                                    <tr>
+	                                        <th class="leftcol" id="telNumberHeaderCell">
+	                                            <span class="grey-header">${msg.telNo}</span>
+	                                        </th>
+	                                        <td class="centerthreecol" headers="telNumberHeaderCell">
+	                                            <div jsfc="ui:repeat" value="${unit.hsaPublicTelephoneNumber}" var="number" class="tel paragraph">
+	                                                <span class="bold">${number.formattedPhoneNumber}</span>
+	                                            </div>
+	                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaPublicTelephoneNumber) lt 1}">
+	                                                <span class="warning">hsaPublicTelephoneNumber ${msg.missing}</span>
+	                                            </h:outputText>
+	                                        </td>
+	                                        <td class="rightthreecol rightaligned">
+	                                            <h:outputText rendered="${Search_SettingsContainer.useMvk == 'true' and fn:length(unit.mvkCaseTypes) gt 0}">
+	                                                <p><a href="${Search_SettingsContainer.mvkLoginUrl}" class="url"><img src="resources/images/mvk-logo.gif" alt="${msg.mvkUnitDetails}"/> ${msg.mvkUnitDetails}</a></p>
+	                                            </h:outputText>
+	
+	                                            <h:outputText rendered="${unit.showInVgrVardVal == true}">
+	                                                <!--										TODO URL should be configurable, eg via Spring -->
+	                                                <p><a href="http://portal.proxy.vgregion.se/hriv/secure/confirmRegistrationChanges.jsp?hsaidentity=${unit.hsaIdentity}" class="url">${msg.chooseChangeUnitForRegistration}</a></p>
+	                                            </h:outputText>
+	                                        </td>
+	                                    </tr>
+                                	</h:outputText>
+                                	<h:outputText rendered="${fn:length(unit.hsaTelephoneTime) gt 0}">
+	                                    <tr>
+	                                        <th class="leftcol" id="telTimeHeaderCell">
+	                                            <span class="grey-header">${msg.telTime}</span>
+	                                        </th>
+	                                        <td class="righttwocol" headers="telTimeHeaderCell">
+	                                            <div jsfc="ui:repeat" value="${unit.hsaTelephoneTime}" var="time" class="paragraph">${time.displayValue}</div>
+	                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaTelephoneTime) lt 1}">
+	                                                <span class="warning">hsaTelephoneTime ${msg.missing}</span>
+	                                            </h:outputText>
+	                                        </td>
+	                                    </tr>
+                                	</h:outputText>
+                                	<h:outputText rendered="${unit.labeledURIIsValid or Search_SettingsContainer.testingMode}">
+	                                    <tr>
+	                                        <td colspan="2">
+	                                            <h:outputText rendered="${unit.labeledURIIsValid}">
+	                                                <p><a href="${unit.labeledURI}" class="url">${msg.websiteOfTheUnit}</a></p>
+	                                            </h:outputText>
+	                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.labeledURIIsValid}">
+	                                                <span class="warning">labeledURI ${msg.missing} ${msg.orIncorrectProtocol}</span>
+	                                            </h:outputText>
+	                                        </td>
+	                                    </tr>
+                                	</h:outputText>
                                 </table>
                             </div>
 
@@ -285,81 +297,89 @@
 
                             <div class="address" id="address-div">
                                 <table class="borderless" id="address-table">
-                                    <tr>
-                                        <th class="leftcol" id="adressHeaderCell">
-                                            <span class="grey-header">${msg.address}</span>
-                                        </th>
-                                        <td id="address-borderless-address" class="paragraph">
-                                            <div class="adr">
-                                                <span class="street-address">${unit.hsaStreetAddress.street}</span>
-                                                <span class="postal-code">${unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
-                                                <span class="locality">${unit.hsaStreetAddress.city}</span>
-                                            </div>
-                                            <span>${unit.hsaStreetAddress.street}</span><br/>
-                                            <span>${unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
-                                            <span>${unit.hsaStreetAddress.city}</span>
-                                            <div jsfc="ui:repeat" value="${unit.hsaStreetAddress.additionalInfo}" var="additionalInformation">
-		    	                    	${additionalInformation}
-                                            </div>
-                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaStreetAddress.street) lt 1}">
-                                                <span class="warning">hsaStreetAddress ${msg.missing} ${msg.orNotParsable}</span>
-                                            </h:outputText>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="leftcol">
-                                            <span class="grey-header">${msg.routeDescription}</span>
-                                        </th>
-                                        <td class="directions-right-col paragraph">
-                                            <h:outputText value="${unit.hsaRouteConcatenated}" />
-                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaRouteConcatenated) lt 1}">
-                                                <span class="warning">hsaRoute ${msg.missing}</span>
-                                            </h:outputText>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="leftcol">
-                                            <span class="grey-header">${msg.coordinates}</span>
-                                        </th>
-                                        <td class="directions-right-col paragraph">
-                                            <h:outputText rendered="${unit.wgs84Lat!=0.0}">
-                                                <div class="geo">
-						     				${msg.latitude}: <abbr class="latitude" id="abbr-latitude">
-												${unit.wgs84LatRounded}
-                                                    </abbr><br/>
-											${msg.longitude}: <abbr class="longitude" id="abbr-longitude">
-											 	${unit.wgs84LongRounded}
-                                                    </abbr>
-                                                </div>
-                                            </h:outputText>
-                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and unit.wgs84Lat==0.0}">
-                                                <span class="warning">hsaGeographicalCoordinates ${msg.missing}</span>
-                                            </h:outputText>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="leftcol">
-                                            <span class="grey-header">${msg.findRoute}</span>
-                                        </th>
-                                        <td class="directions-right-col">
-                                            <ui:repeat value="${Search_SettingsContainer.findRouteLinksArray}" var="link">
-                                                <h:outputText rendered="${link.toParamName != ''}">
-                                                    <a href="${link.href}?${link.toParamName}=${fn:trim(unit.hsaStreetAddress.street)}" class="url">${link.name}</a><br/>
-                                                </h:outputText>
-                                                <h:outputText rendered="${link.toParamName == ''}">
-                                                    <a href="${link.href}" class="url">${link.name}</a><br/>
-                                                </h:outputText>
-                                            </ui:repeat>
-                                        </td>
-                                    </tr>
-                                    <tr class="directions-row">
-                                        <th id="directionsFromCellHeader"></th>
-                                        <td id="directionsFromCellBody" class="paragraph"></td>
-                                    </tr>
-                                    <tr class="directions-row">
-                                        <th id="directionsToCellHeader"></th>
-                                        <td id="directionsToCellBody"></td>
-                                    </tr>
+                                	<h:outputText rendered="${fn:length(unit.hsaStreetAddress.street) gt 0 or Search_SettingsContainer.testingMode}">
+	                                    <tr>
+	                                        <th class="leftcol" id="adressHeaderCell">
+	                                            <span class="grey-header">${msg.address}</span>
+	                                        </th>
+	                                        <td id="address-borderless-address" class="paragraph">
+	                                            <div class="adr">
+	                                                <span class="street-address">${unit.hsaStreetAddress.street}</span>
+	                                                <span class="postal-code">${unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
+	                                                <span class="locality">${unit.hsaStreetAddress.city}</span>
+	                                            </div>
+	                                            <span>${unit.hsaStreetAddress.street}</span><br/>
+	                                            <span>${unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
+	                                            <span>${unit.hsaStreetAddress.city}</span>
+	                                            <div jsfc="ui:repeat" value="${unit.hsaStreetAddress.additionalInfo}" var="additionalInformation">
+			    	                    	${additionalInformation}
+	                                            </div>
+	                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaStreetAddress.street) lt 1}">
+	                                                <span class="warning">hsaStreetAddress ${msg.missing} ${msg.orNotParsable}</span>
+	                                            </h:outputText>
+	                                        </td>
+	                                    </tr>
+                                	</h:outputText>
+                                	<h:outputText rendered="${unit.hsaRouteConcatenated != '' or Search_SettingsContainer.testingMode}">
+	                                    <tr>
+	                                        <th class="leftcol">
+	                                            <span class="grey-header">${msg.routeDescription}</span>
+	                                        </th>
+	                                        <td class="directions-right-col paragraph">
+	                                            <h:outputText value="${unit.hsaRouteConcatenated}" />
+	                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaRouteConcatenated) lt 1}">
+	                                                <span class="warning">hsaRoute ${msg.missing}</span>
+	                                            </h:outputText>
+	                                        </td>
+	                                    </tr>
+                                	</h:outputText>
+                                	<h:outputText rendered="${unit.wgs84Lat!=0.0 or Search_SettingsContainer.testingMode}">
+	                                    <tr>
+	                                        <th class="leftcol">
+	                                            <span class="grey-header">${msg.coordinates}</span>
+	                                        </th>
+	                                        <td class="directions-right-col paragraph">
+	                                            <h:outputText rendered="${unit.wgs84Lat!=0.0}">
+	                                                <div class="geo">
+							     				${msg.latitude}: <abbr class="latitude" id="abbr-latitude">
+													${unit.wgs84LatRounded}
+	                                                    </abbr><br/>
+												${msg.longitude}: <abbr class="longitude" id="abbr-longitude">
+												 	${unit.wgs84LongRounded}
+	                                                    </abbr>
+	                                                </div>
+	                                            </h:outputText>
+	                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and unit.wgs84Lat==0.0}">
+	                                                <span class="warning">hsaGeographicalCoordinates ${msg.missing}</span>
+	                                            </h:outputText>
+	                                        </td>
+	                                    </tr>
+	                                </h:outputText>
+                                	<h:outputText rendered="${unit.wgs84Lat!=0.0 or fn:length(unit.hsaStreetAddress.street) gt 0 or Search_SettingsContainer.testingMode}">
+	                                    <tr>
+	                                        <th class="leftcol">
+	                                            <span class="grey-header">${msg.findRoute}</span>
+	                                        </th>
+	                                        <td class="directions-right-col">
+	                                            <ui:repeat value="${Search_SettingsContainer.findRouteLinksArray}" var="link">
+	                                                <h:outputText rendered="${link.toParamName != ''}">
+	                                                    <a href="${link.href}?${link.toParamName}=${fn:trim(unit.hsaStreetAddress.street)}" class="url">${link.name}</a><br/>
+	                                                </h:outputText>
+	                                                <h:outputText rendered="${link.toParamName == ''}">
+	                                                    <a href="${link.href}" class="url">${link.name}</a><br/>
+	                                                </h:outputText>
+	                                            </ui:repeat>
+	                                        </td>
+	                                    </tr>
+	                                    <tr class="directions-row">
+	                                        <th id="directionsFromCellHeader"></th>
+	                                        <td id="directionsFromCellBody" class="paragraph"></td>
+	                                    </tr>
+	                                    <tr class="directions-row">
+	                                        <th id="directionsToCellHeader"></th>
+	                                        <td id="directionsToCellBody"></td>
+	                                    </tr>
+                                	</h:outputText>
                                 </table>
                                 <script type="text/javascript" charset="utf-8">
                                     // <![CDATA[]
@@ -391,7 +411,6 @@
                                 <h:outputText escape="false" rendered="${Search_SettingsContainer.testingMode==true and Search_SettingsContainer.showUnitCodeOnServer == facesContext.externalContext.request.serverName}" value="${unit.hsaIdentity}" />
                                 <h:outputText escape="false" rendered="${Search_SettingsContainer.testingMode==true and Search_SettingsContainer.showUnitCodeOnServer == facesContext.externalContext.request.serverName}" value="${Search_SettingsContainer.showUnitCode2}" />
                             </h:outputText>
-
                         </div>
                         <ui:include src="${Search_SettingsContainer.googleMapInitInclude}" />
                         <!--  Display unit widget end (dont remove this comment) -->
