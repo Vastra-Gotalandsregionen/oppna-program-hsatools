@@ -8,6 +8,7 @@
 	<property name="severity" value="warning" />
 	<module name="FileLength" />
 	<module name="FileTabCharacter" />
+	<module name="NewlineAtEndOfFile"/>
 	<module name="TreeWalker">
 		<property name="tabWidth" value="2" />
 		<module name="JavadocMethod">
