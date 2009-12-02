@@ -432,7 +432,10 @@ public class PersonRepository {
     AndFilter userFilter = new AndFilter();
     userFilter.and(new EqualsFilter("objectclass", "hkatPerson"));
     if (!StringUtil.isEmpty(person.getUserId())) {
-      userFilter.and(new LikeFilter("regionName", "*" + person.getUserId().trim() + "*"));
+      OrFilter regionNameOrTelephoneFilter = new OrFilter();
+      addRegionNameFilter(person.getUserId(), regionNameOrTelephoneFilter);
+      addTelephoneFilter(person.getUserId(), regionNameOrTelephoneFilter);
+      userFilter.and(regionNameOrTelephoneFilter);
     }
     if (!StringUtil.isEmpty(person.getGivenName())) {
       OrFilter firstNameFilter = new OrFilter();
@@ -448,6 +451,34 @@ public class PersonRepository {
     }
 
     return userFilter;
+  }
+
+  private void addTelephoneFilter(String telephone, OrFilter regionNameOrTelephoneFilter) {
+    String trimmedTelephone = cleanTelephoneNumber(telephone);
+    String[] telephoneFields = new String[] { "facsimileTelephoneNumber", "hsaSwitchboardNumber", "telephoneNumber", "hsaTelephoneNumber", "mobile", "hsaInternalPagerNumber", "pager",
+        "hsaTextPhoneNumber", };
+    if (trimmedTelephone.length() >= 3 && !telephone.matches("^\\p{Alpha}{3}\\d{3}")) {
+      for (String field : telephoneFields) {
+        regionNameOrTelephoneFilter.or(new LikeFilter(field, "*" + trimmedTelephone + "*"));
+      }
+    }
+  }
+
+  /**
+   * Cleans up the provided telephone number to make it usable in a filter. Removes all but numeric values as well as leading zeroes.
+   * 
+   * @param telephone The telephone number to clean.
+   * @return A string containing only numeric values and no leading zero.
+   */
+  private String cleanTelephoneNumber(String telephone) {
+    String cleanedTelephoneNumber = telephone.replaceAll("\\D", "");
+    cleanedTelephoneNumber = cleanedTelephoneNumber.replaceAll("^0", "");
+
+    return cleanedTelephoneNumber;
+  }
+
+  private void addRegionNameFilter(String userId, OrFilter regionNameOrTelephoneFilter) {
+    regionNameOrTelephoneFilter.or(new LikeFilter("regionName", "*" + userId.trim() + "*"));
   }
 
   /**

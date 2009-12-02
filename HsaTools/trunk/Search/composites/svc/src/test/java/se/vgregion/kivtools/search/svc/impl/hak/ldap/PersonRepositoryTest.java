@@ -62,7 +62,7 @@ public class PersonRepositoryTest {
   public void testSearchPersons() throws KivException {
     LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
     ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
-    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=*kalsve01*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))",
+    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=*ksn001*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))",
         ldapSearchResultsMock);
 
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
@@ -71,10 +71,22 @@ public class PersonRepositoryTest {
     SikSearchResultList<Person> searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
     ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
 
-    searchPersonCriterion.setUserId(" kalsve01 ");
+    searchPersonCriterion.setUserId(" ksn001 ");
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
-    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(regionName=*kalsve01*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
+    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(regionName=*ksn001*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
     assertEquals(1, searchPersons.size());
+
+    ldapConnectionPoolMock.assertCorrectConnectionHandling();
+  }
+
+  @Test
+  public void testSearchPersonsTelephoneNumber() throws KivException {
+    SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
+    searchPersonCriterion.setUserId(" 070-123 456 ");
+    personRepository.searchPersons(searchPersonCriterion, 10);
+    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(|(regionName=*070-123 456*)(facsimileTelephoneNumber=*70123456*)(hsaSwitchboardNumber=*70123456*)"
+        + "(telephoneNumber=*70123456*)(hsaTelephoneNumber=*70123456*)(mobile=*70123456*)(hsaInternalPagerNumber=*70123456*)(pager=*70123456*)(hsaTextPhoneNumber=*70123456*)))");
+
     ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
