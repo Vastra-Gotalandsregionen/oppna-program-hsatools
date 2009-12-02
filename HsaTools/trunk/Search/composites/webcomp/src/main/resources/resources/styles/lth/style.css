@@ -63,7 +63,7 @@ table {font-size:1em;}
 
 .search-form .vgrIdText {
 	float:left;
-	width:60px;
+	width:95px;
 	margin-right:10px;
 }
 .search-form .submit-area {
@@ -83,7 +83,7 @@ table {font-size:1em;}
 .textname .search-input-name-field {width:205px;}
 
 .search-input-vgr-field {
-	width:55px;
+	width:90px;
 }
 /* Tabs */
 .tab-container {
