@@ -40,7 +40,7 @@ public class RssContentCacheTest {
   private FileUtilMock fileUtilMock;
   private File defaultHrivSettingsFolder;
   private File defaultCacheFolder;
-  private File userSpecifiedCacheFolder;
+  private String userSpecifiedCacheFolder;
   private static LogFactoryMock factory;
 
   @BeforeClass
@@ -52,7 +52,7 @@ public class RssContentCacheTest {
   public void setUp() {
     defaultHrivSettingsFolder = new File(System.getProperty("user.home") + "/.hriv");
     defaultCacheFolder = new File(defaultHrivSettingsFolder, "rssContentCache");
-    userSpecifiedCacheFolder = new File("target/testCacheFolder/rssContentCache");
+    userSpecifiedCacheFolder = "testCacheFolder/rssContentCache";
 
     rssContentCache = new RssContentCache();
     httpFetcherMock = new HttpFetcherMock();
@@ -92,7 +92,7 @@ public class RssContentCacheTest {
   @Test
   public void testGetRssContentSpecifiedDirectory() {
     httpFetcherMock.addContent("http://testurl", "abc");
-    rssContentCache.setRssContentCacheFolder(userSpecifiedCacheFolder);
+    rssContentCache.setUserSpecifiedCacheFolder(userSpecifiedCacheFolder);
     rssContentCache.reloadRssCache();
 
     String content = rssContentCache.getRssContent(TEST);
@@ -100,7 +100,7 @@ public class RssContentCacheTest {
     assertEquals("abc", content);
     httpFetcherMock.assertUrlsFetched("http://testurl");
     fileUtilMock.assertContent("abc");
-    fileUtilMock.assertFileWrite(new File(userSpecifiedCacheFolder, TEST));
+    fileUtilMock.assertFileWrite(new File(new File(defaultHrivSettingsFolder, userSpecifiedCacheFolder), TEST));
   }
 
   @Test
@@ -130,13 +130,13 @@ public class RssContentCacheTest {
   @Test
   public void testNoExistingCachedDataSpecifiedDirectory() {
     fileUtilMock.setContent("abc");
-    rssContentCache.setRssContentCacheFolder(userSpecifiedCacheFolder);
+    rssContentCache.setUserSpecifiedCacheFolder(userSpecifiedCacheFolder);
     rssContentCache.reloadRssCache();
 
     String content = rssContentCache.getRssContent(TEST);
     assertEquals("abc", content);
     fileUtilMock.assertContent("abc");
-    fileUtilMock.assertFileRead(new File(userSpecifiedCacheFolder, TEST));
+    fileUtilMock.assertFileRead(new File(new File(defaultHrivSettingsFolder, userSpecifiedCacheFolder), TEST));
   }
 
   @Test

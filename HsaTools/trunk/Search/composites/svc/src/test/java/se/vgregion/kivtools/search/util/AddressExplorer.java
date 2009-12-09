@@ -19,7 +19,6 @@ package se.vgregion.kivtools.search.util;
 
 import static java.lang.System.*;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import se.vgregion.kivtools.search.domain.Unit;
-import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
@@ -35,7 +34,6 @@ import se.vgregion.kivtools.util.StringUtil;
 
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPEntry;
-import com.novell.ldap.LDAPException;
 import com.novell.ldap.LDAPSearchConstraints;
 
 /**
@@ -134,7 +132,7 @@ public class AddressExplorer {
     }
   }
 
-  private LDAPConnection getLDAPConnection() throws LDAPException, UnsupportedEncodingException, SikInternalException, NoConnectionToServerException {
+  private LDAPConnection getLDAPConnection() throws KivException {
     LDAPConnection lc = theConnectionPool.getConnection(POOL_WAIT_TIME_MILLISECONDS);
     if (lc == null) {
       throw new SikInternalException(this, "getLDAPConnection()", "Could not get a connection after waiting " + POOL_WAIT_TIME_MILLISECONDS + " ms.");

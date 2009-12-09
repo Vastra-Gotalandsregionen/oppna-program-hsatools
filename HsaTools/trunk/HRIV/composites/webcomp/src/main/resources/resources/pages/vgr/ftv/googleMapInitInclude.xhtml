@@ -1,0 +1,26 @@
+<h:outputText xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     rendered="true">
+	<h:outputText rendered="${unit.wgs84Lat!=0.0}">
+	    <script type="text/javascript" charset="utf-8">
+	        // <![CDATA[]
+	        document.getElementById("map").style.height = "28em";
+	        document.getElementById("map").style.width = "28em";
+	        showAddressByCoordinates('${fn:trim(unit.hsaIdentity)}', '${unit.wgs84Lat}', '${unit.wgs84Long}', '${fn:trim(unit.hsaPublicTelephoneNumber[0])}', '${fn:trim(unit.caretypeCustomized)}', '${fn:trim(unit.name)}', '', 'true', null);
+	        // ]]>
+	    </script>
+	</h:outputText>
+	<h:outputText rendered="${unit.wgs84Lat==0.0 and Search_SettingsContainer.fallbackOnAddressForMap==true}">
+	    <ui:repeat value="${unit.hsaStreetAddress}" var="address">
+	        <h:outputText rendered="${fn:length(address.street) gt 0}">
+	            <script type="text/javascript" charset="utf-8">
+	                // <![CDATA[]
+	                document.getElementById("map").style.height = "28em";
+	                document.getElementById("map").style.width = "28em";
+	                showAddress('${fn:trim(unit.hsaIdentity)}', '${fn:trim(address.street)}, ${fn:trim(address.zipCode.formattedZipCode)}, ${fn:trim(address.city)}', '${fn:trim(unit.hsaPublicTelephoneNumber[0])}', '${fn:trim(unit.caretypeCustomized)}', '${fn:trim(unit.name)}', '', 'true', null);
+	                // ]]>
+	            </script>
+	        </h:outputText>
+	    </ui:repeat>
+	</h:outputText>
+</h:outputText>

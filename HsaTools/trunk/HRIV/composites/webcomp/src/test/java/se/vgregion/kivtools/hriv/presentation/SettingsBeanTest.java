@@ -29,6 +29,8 @@ import se.vgregion.kivtools.mocks.PojoTester;
 public class SettingsBeanTest {
 
   private static final String TEST_STRING = "test";
+  private static final String TEST_STRING2 = "test2";
+
   private SettingsBean bean;
 
   @Before
@@ -38,184 +40,142 @@ public class SettingsBeanTest {
 
   @Test
   public void testSetInformationArea() {
-    assertNull(bean.getInformationArea());
-    bean.setInformationArea(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getInformationArea());
+    PojoTester.testProperty(bean, "informationArea", String.class, null, TEST_STRING, TEST_STRING2);
+  }
+
+  @Test
+  public void testSearchFormInclude() {
+    PojoTester.testProperty(bean, "searchFormInclude", String.class, null, TEST_STRING, TEST_STRING2);
+  }
+
+  @Test
+  public void testBodyInclude() {
+    PojoTester.testProperty(bean, "bodyInclude", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetMobileUrl() {
-    assertNull(bean.getMobileUrl());
-    bean.setMobileUrl(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getMobileUrl());
+    PojoTester.testProperty(bean, "mobileUrl", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetVerifyV1() {
-    assertNull(bean.getVerifyV1());
-    bean.setVerifyV1(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getVerifyV1());
+    PojoTester.testProperty(bean, "verifyV1", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetTitle() {
-    assertNull(bean.getTitle());
-    bean.setTitle(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getTitle());
+    PojoTester.testProperty(bean, "title", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetSearchResultTitle() {
-    assertNull(bean.getSearchResultTitle());
-    bean.setSearchResultTitle(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getSearchResultTitle());
+    PojoTester.testProperty(bean, "searchResultTitle", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetLinkToIMOnServer() {
-    assertNull(bean.getLinkToIMOnServer());
-    bean.setLinkToIMOnServer(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getLinkToIMOnServer());
+    PojoTester.testProperty(bean, "linkToIMOnServer", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetShowLinkToIM() {
-    assertNull(bean.getShowLinkToIM());
-    bean.setShowLinkToIM(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getShowLinkToIM());
+    PojoTester.testProperty(bean, "showLinkToIM", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetLinkToIMBase() {
-    assertNull(bean.getLinkToIMBase());
-    bean.setLinkToIMBase(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getLinkToIMBase());
+    PojoTester.testProperty(bean, "linkToIMBase", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetUseShowCloseUnits() {
-    assertNull(bean.getUseShowCloseUnits());
-    bean.setUseShowCloseUnits(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getUseShowCloseUnits());
+    PojoTester.testProperty(bean, "useShowCloseUnits", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetMetaAuthor() {
-    assertNull(bean.getMetaAuthor());
-    bean.setMetaAuthor(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getMetaAuthor());
+    PojoTester.testProperty(bean, "metaAuthor", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetMetaCopyright() {
-    assertNull(bean.getMetaCopyright());
-    bean.setMetaCopyright(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getMetaCopyright());
+    PojoTester.testProperty(bean, "metaCopyright", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetMvkLoginUrl() {
-    assertNull(bean.getMvkLoginUrl());
-    bean.setMvkLoginUrl(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getMvkLoginUrl());
+    PojoTester.testProperty(bean, "mvkLoginUrl", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetUseMvk() {
-    assertNull(bean.getUseMvk());
-    bean.setUseMvk(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getUseMvk());
+    PojoTester.testProperty(bean, "useMvk", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetUsePrinting() {
-    assertNull(bean.getUsePrinting());
-    bean.setUsePrinting(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getUsePrinting());
+    PojoTester.testProperty(bean, "usePrinting", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetUseListenLink() {
-    assertNull(bean.getUseListenLink());
-    bean.setUseListenLink(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getUseListenLink());
+    PojoTester.testProperty(bean, "useListenLink", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetListenLinkCode2() {
-    assertNull(bean.getListenLinkCode2());
-    bean.setListenLinkCode2(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getListenLinkCode2());
+    PojoTester.testProperty(bean, "listenLinkCode2", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetListenLinkCode1() {
-    assertNull(bean.getListenLinkCode1());
-    bean.setListenLinkCode1(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getListenLinkCode1());
+    PojoTester.testProperty(bean, "listenLinkCode1", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetUseTrackingCode() {
-    assertNull(bean.getUseTrackingCode());
-    bean.setUseTrackingCode(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getUseTrackingCode());
+    PojoTester.testProperty(bean, "useTrackingCode", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetTrackingCodeOnServer() {
-    assertNull(bean.getTrackingCodeOnServer());
-    bean.setTrackingCodeOnServer(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getTrackingCodeOnServer());
+    PojoTester.testProperty(bean, "trackingCodeOnServer", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetTrackingCode() {
-    assertNull(bean.getTrackingCode());
-    bean.setTrackingCode(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getTrackingCode());
+    PojoTester.testProperty(bean, "trackingCode", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetShowUnitCode1() {
-    assertNull(bean.getShowUnitCode1());
-    bean.setShowUnitCode1(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getShowUnitCode1());
+    PojoTester.testProperty(bean, "showUnitCode1", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetShowUnitCode2() {
-    assertNull(bean.getShowUnitCode2());
-    bean.setShowUnitCode2(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getShowUnitCode2());
+    PojoTester.testProperty(bean, "showUnitCode2", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetUseShowUnitCode() {
-    assertNull(bean.getUseShowUnitCode());
-    bean.setUseShowUnitCode(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getUseShowUnitCode());
+    PojoTester.testProperty(bean, "useShowUnitCode", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetShowUnitCodeOnServer() {
-    assertNull(bean.getShowUnitCodeOnServer());
-    bean.setShowUnitCodeOnServer(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getShowUnitCodeOnServer());
+    PojoTester.testProperty(bean, "showUnitCodeOnServer", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetFooter() {
-    assertNull(bean.getFooter());
-    bean.setFooter(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getFooter());
+    PojoTester.testProperty(bean, "footer", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetHeader() {
-    assertNull(bean.getHeader());
-    bean.setHeader(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getHeader());
+    PojoTester.testProperty(bean, "header", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
@@ -253,9 +213,7 @@ public class SettingsBeanTest {
 
   @Test
   public void testSetStyles() {
-    assertNull(bean.getStyles());
-    bean.setStyles(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getStyles());
+    PojoTester.testProperty(bean, "styles", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
@@ -281,16 +239,12 @@ public class SettingsBeanTest {
 
   @Test
   public void testSetDistanceToUnits() {
-    assertNull(bean.getDistanceToUnits());
-    bean.setDistanceToUnits(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getDistanceToUnits());
+    PojoTester.testProperty(bean, "distanceToUnits", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetFallbackOnAddressForMap() {
-    assertFalse(bean.isFallbackOnAddressForMap());
-    bean.setFallbackOnAddressForMap(true);
-    assertTrue(bean.isFallbackOnAddressForMap());
+    PojoTester.testProperty(bean, "fallbackOnAddressForMap", boolean.class, false, true, false);
   }
 
   @Test
@@ -304,103 +258,67 @@ public class SettingsBeanTest {
 
   @Test
   public void testSetUseAccessibilityDatabaseIntegration() {
-    assertFalse(bean.isUseAccessibilityDatabaseIntegration());
-    bean.setUseAccessibilityDatabaseIntegration(true);
-    assertTrue(bean.isUseAccessibilityDatabaseIntegration());
+    PojoTester.testProperty(bean, "useAccessibilityDatabaseIntegration", boolean.class, false, true, false);
   }
 
   @Test
   public void testSetGoogleMapsKey() {
-    assertNull(bean.getGoogleMapsKey());
-    bean.setGoogleMapsKey(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getGoogleMapsKey());
+    PojoTester.testProperty(bean, "googleMapsKey", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetMainTop() {
-    assertNull(bean.getMainTop());
-    bean.setMainTop(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getMainTop());
+    PojoTester.testProperty(bean, "mainTop", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetStartPage() {
-    assertNull(bean.getStartPage());
-    bean.setStartPage(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getStartPage());
+    PojoTester.testProperty(bean, "startPage", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetCareTypePage() {
-    assertNull(bean.getCareTypePage());
-    bean.setCareTypePage(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getCareTypePage());
+    PojoTester.testProperty(bean, "careTypePage", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetGeoRegion() {
-    assertNull(bean.getGeoRegion());
-    bean.setGeoRegion(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getGeoRegion());
+    PojoTester.testProperty(bean, "geoRegion", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testSetResourceBundleInclude() {
-    assertNull(bean.getResourceBundleInclude());
-    bean.setResourceBundleInclude(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getResourceBundleInclude());
+    PojoTester.testProperty(bean, "resourceBundleInclude", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
-  public void testSetVardValInclude() {
-    assertNull(bean.getVardValInclude());
-    bean.setVardValInclude(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getVardValInclude());
+  public void testExternalApplicationURL() {
+    PojoTester.testProperty(bean, "externalApplicationURL", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
-  @Test
-  public void testExternalApplicationRL() {
-    assertNull(bean.getExternalApplicationURL());
-    bean.setExternalApplicationURL(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getExternalApplicationURL());
-  }
-
-  /**
-   * Test of setFavIcon method, of class SettingsBean.
-   */
   @Test
   public void testSetFavIcon() {
-    assertNull(bean.getFavIcon());
-    bean.setFavIcon(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getFavIcon());
+    PojoTester.testProperty(bean, "favIcon", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testGoogleMapInitInclude() {
-    assertNull(bean.getGoogleMapInitInclude());
-    bean.setGoogleMapInitInclude(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getGoogleMapInitInclude());
+    PojoTester.testProperty(bean, "googleMapInitInclude", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testErrorReportFormInclude() {
-    assertNull(bean.getErrorReportFormInclude());
-    bean.setErrorReportFormInclude(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getErrorReportFormInclude());
+    PojoTester.testProperty(bean, "errorReportFormInclude", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testErrorReportConfirmInclude() {
-    assertNull(bean.getErrorReportConfirmInclude());
-    bean.setErrorReportConfirmInclude(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getErrorReportConfirmInclude());
+    PojoTester.testProperty(bean, "errorReportConfirmInclude", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test
   public void testPublicCaptchaKey() {
-    assertNull(bean.getPublicCaptchaKey());
-    bean.setPublicCaptchaKey(TEST_STRING);
-    assertEquals(TEST_STRING, bean.getPublicCaptchaKey());
+    PojoTester.testProperty(bean, "publicCaptchaKey", String.class, null, TEST_STRING, TEST_STRING2);
   }
 
   @Test

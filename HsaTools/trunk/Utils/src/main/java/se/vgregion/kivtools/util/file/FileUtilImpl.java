@@ -104,7 +104,7 @@ public class FileUtilImpl implements FileUtil {
       throw new IllegalArgumentException("Parameter directory may not be null");
     }
     if (!directory.exists()) {
-      directory.mkdir();
+      directory.mkdirs();
     }
   }
 

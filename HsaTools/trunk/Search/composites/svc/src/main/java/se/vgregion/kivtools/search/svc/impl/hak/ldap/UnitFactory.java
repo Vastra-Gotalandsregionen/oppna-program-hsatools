@@ -226,7 +226,7 @@ public class UnitFactory {
       unit.setHsaGeographicalCoordinates(hsaGeographicalCoordinates);
       // Parse and set RT90 format
       int[] rt90Coords = GeoUtil.parseRT90HsaString(hsaGeographicalCoordinates);
-      if (rt90Coords != null && rt90Coords.length == 2) {
+      if (rt90Coords != null) {
         unit.setRt90X(rt90Coords[0]);
         unit.setRt90Y(rt90Coords[1]);
 
@@ -234,10 +234,8 @@ public class UnitFactory {
         CoordinateTransformerService gkp = new GaussKrugerProjection("2.5V");
         double[] wgs84Coords = gkp.getWGS84(rt90Coords[0], rt90Coords[1]);
 
-        if (wgs84Coords != null && wgs84Coords.length == 2) {
-          unit.setWgs84Lat(wgs84Coords[0]);
-          unit.setWgs84Long(wgs84Coords[1]);
-        }
+        unit.setWgs84Lat(wgs84Coords[0]);
+        unit.setWgs84Long(wgs84Coords[1]);
       }
     }
   }

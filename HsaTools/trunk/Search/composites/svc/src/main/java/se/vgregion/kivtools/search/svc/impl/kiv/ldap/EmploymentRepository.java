@@ -20,7 +20,6 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
@@ -38,7 +37,6 @@ import com.novell.ldap.LDAPSearchResults;
  */
 public class EmploymentRepository {
   private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
-  private static final String CLASS_NAME = EmploymentRepository.class.getName();
   // Get LDAP entries that have hsaEndDate greater or equal current date and hsaStartDate less or equal current date.
   private static final String ALL_EMPLOYMENT_FILTER = "(&(objectclass=vgrAnstallning)(|(!(hsaEndDate=*))(hsaEndDate>=%1$s))(hsaStartDate<=%1$s))";
 
@@ -52,12 +50,13 @@ public class EmploymentRepository {
   public void setCodeTablesService(CodeTablesService codeTablesService) {
     this.codeTablesService = codeTablesService;
   }
-/**
- * 
- * @param dn Dn of the employments.
- * @return A list of employments.
- * @throws KivException If something goes wrong.
- */
+
+  /**
+   * 
+   * @param dn Dn of the employments.
+   * @return A list of employments.
+   * @throws KivException If something goes wrong.
+   */
   public SikSearchResultList<Employment> getEmployments(DN dn) throws KivException {
     LDAPSearchResults searchResults = null;
     SikSearchResultList<Employment> result = new SikSearchResultList<Employment>();
@@ -100,15 +99,7 @@ public class EmploymentRepository {
     return result;
   }
 
-  /**
-   * Get Ldap connection using a pool.
-   * 
-   * @return
-   * @throws LDAPException
-   * @throws SikInternalException
-   * @throws NoConnectionToServerException
-   */
-  private LDAPConnection getLDAPConnection() throws LDAPException, SikInternalException, NoConnectionToServerException {
+  private LDAPConnection getLDAPConnection() throws KivException {
     LDAPConnection lc = theConnectionPool.getConnection(POOL_WAIT_TIME_MILLISECONDS);
     if (lc == null) {
       throw new SikInternalException(this, "getLDAPConnection()", "Could not get a connection after waiting " + POOL_WAIT_TIME_MILLISECONDS + " ms.");

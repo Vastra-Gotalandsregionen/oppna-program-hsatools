@@ -114,7 +114,7 @@ public class UnitRepositoryTest {
     hsaIdentity1.addAttributeValue("hsaIdentity", "ABC-123");
     this.ldapTemplate.addDirContextOperationForSearch(hsaIdentity1);
 
-    String expectedFilter = "(&(|(businessClassificationCode=123)(businessClassificationCode=456)(hsaIdentity=SE6460000000-E000000000222)(&(vgrAO3Kod=5a3)(hsaIdentity=SE2321000131-E000000000110)))(|(objectclass=organizationalUnit)(objectclass=organizationalRole)))";
+    String expectedFilter = "(&(|(businessClassificationCode=123)(businessClassificationCode=456)(&(hsaIdentity=SE6460000000-E000000000222)(vgrAnsvarsnummer=12345))(&(hsaIdentity=SE2321000131-E000000000110)(|(vgrAO3kod=5a3)(vgrAO3kod=4d7)(vgrAO3kod=1xp))))(|(objectclass=organizationalUnit)(objectclass=organizationalRole)))";
 
     List<String> allUnitsHsaIdentity = unitRepository.getAllUnitsHsaIdentity(Arrays.asList(Integer.valueOf(123), Integer.valueOf(456)));
 

@@ -305,8 +305,7 @@ public class SearchServiceMockImpl implements SearchService {
 
   @Override
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
-    // JOLI please add code for this case
-    return new SikSearchResultList<Unit>();
+    return this.unitList;
   }
 
   @Override

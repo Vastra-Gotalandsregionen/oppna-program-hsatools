@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!--
+		Copyright 2009 Västra Götalandsregionen This library is free software;
+		you can redistribute it and/or modify it under the terms of version
+		2.1 of the GNU Lesser General Public License as published by the Free
+		Software Foundation. This library is distributed in the hope that it
+		will be useful, but WITHOUT ANY WARRANTY; without even the implied
+		warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+		the GNU Lesser General Public License for more details. You should
+		have received a copy of the GNU Lesser General Public License along
+		with this library; if not, write to the Free Software Foundation,
+		Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+	-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+	<!--
+		Use this mock-injection if connection to KIV is disabled
+		<bean id="Search_SearchService" class="se.vgregion.kivtools.search.svc.impl.mock.SearchServiceMockImpl"
+		/>
+	-->
+	<!--
+		Use this block of injections if connection to KIV is enabled <bean
+		id="Search_SearchService"
+		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.SearchServiceNovellLdapImpl">
+		<property name="ldapConnectionPool"
+		ref="Search_LdapConnectionPool"></property> </bean>
+	-->
+
+	<!--
+	-->
+	<bean id="Search_SearchService"
+		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.SearchServiceLdapImpl">
+		<property name="personRepository" ref="Search_PersonRepository"></property>
+		<property name="unitRepository" ref="Search_UnitRepository"></property>
+		<property name="employmentRepository" ref="Search_EmploymentRepository"></property>
+	</bean>
+
+	<bean id="Search_PersonRepository"
+		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.PersonRepository">
+		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"></property>
+		<property name="codeTablesService" ref="Search_CodeTablesService"></property>
+		<property name="unitFkField" value="vgrOrgRel" />
+	</bean>
+
+	<bean id="Search_UnitRepository"
+		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepositoryFTV">
+		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool" />
+		<property name="codeTablesService" ref="Search_CodeTablesService" />
+		<property name="unitFactory" ref="Search_Unitfactory" />
+	</bean>
+
+	<bean id="Search_EmploymentRepository"
+		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.EmploymentRepository">
+		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"></property>
+		<property name="codeTablesService" ref="Search_CodeTablesService" />
+	</bean>
+
+	<bean id="Search_HealthcareTypeConditionHelper"
+		class="se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper">
+		<property name="implResourcePath"
+			value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-healthcare-type-conditions"></property>
+	</bean>
+
+	<bean id="Search_MunicipalityHelper"
+		class="se.vgregion.kivtools.search.domain.values.MunicipalityHelper">
+		<property name="implResourcePath"
+			value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-municipalities"></property>
+	</bean>
+
+	<bean id="Search_LdapConnectionPool"
+		class="se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool"
+		destroy-method="release">
+		<property name="ldapHost" value="${hsatools.search.svc.ldap.ldaphost}" />
+		<property name="loginDN" value="${hsatools.search.svc.ldap.logindn}" />
+		<property name="password" value="${hsatools.search.svc.ldap.password}" />
+		<property name="maxConn" value="${hsatools.search.svc.ldap.maxConn}" />
+	</bean>
+
+	<!-- LDAP connection settings  -->
+	<bean id="propertyPlaceholder"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="classpath:se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties" />
+			<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+
+	<bean id="Search_CodeTablesService"
+		class="se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl"
+		init-method="init" depends-on="Search_LdapConnectionPool">
+		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool" />
+	</bean>
+
+	<bean id="Search_DisplayValueTranslator" class="se.vgregion.kivtools.search.util.DisplayValueTranslator">
+		<property name="translationMap">
+			<util:map>
+				<entry key="1" value="Offentlig vårdgivare" />
+				<entry key="2" value="Offentlig vårdgivare" />
+				<entry key="3" value="Offentlig vårdgivare" />
+				<entry key="7" value="Offentlig vårdgivare" />
+				<entry key="4" value="Privat vårdgivare" />
+				<entry key="5" value="Privat vårdgivare" />
+				<entry key="6" value="Privat vårdgivare" />
+				<entry key="9" value="Övrigt" />
+			</util:map>
+		</property>
+	</bean>
+
+	<bean id="jobDetailCodeTableCacheUpdate"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="Search_CodeTablesService" />
+		<property name="targetMethod" value="init" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="simpleTriggerCodeTableCacheUpdate" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="jobDetailCodeTableCacheUpdate" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="startupDelay" value="10" />
+		<property name="triggers">
+			<list>
+				<ref bean="simpleTriggerCodeTableCacheUpdate" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Search_Unitfactory"
+		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitFactory">
+		<property name="codeTablesService" ref="Search_CodeTablesService" />
+		<property name="displayValueTranslator" ref="Search_DisplayValueTranslator" />
+	</bean>
+</beans>

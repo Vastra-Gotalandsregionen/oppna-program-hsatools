@@ -42,6 +42,8 @@ public class RssContentCache {
   private HttpFetcher httpFetcher;
   private FileUtil fileUtil;
 
+  private String userSpecifiedCacheFolder;
+
   private File rssContentCacheFolder;
 
   private final Map<String, String> rssContentReference = new ConcurrentHashMap<String, String>();
@@ -63,8 +65,8 @@ public class RssContentCache {
     this.fileUtil = fileUtil;
   }
 
-  public void setRssContentCacheFolder(File rssContentCacheFolder) {
-    this.rssContentCacheFolder = rssContentCacheFolder;
+  public void setUserSpecifiedCacheFolder(String userSpecifiedCacheFolder) {
+    this.userSpecifiedCacheFolder = userSpecifiedCacheFolder;
   }
 
   /**
@@ -124,10 +126,13 @@ public class RssContentCache {
   }
 
   private File getRssCacheFile(String name) {
-    if (rssContentCacheFolder == null) {
+    if (userSpecifiedCacheFolder == null) {
       rssContentCacheFolder = new File(getHrivSettingsFolder(), "rssContentCache");
-      fileUtil.createDirectoryIfNoExist(rssContentCacheFolder);
+    } else {
+      rssContentCacheFolder = new File(getHrivSettingsFolder(), userSpecifiedCacheFolder);
     }
+
+    fileUtil.createDirectoryIfNoExist(rssContentCacheFolder);
 
     File cacheFile = new File(rssContentCacheFolder, name);
     return cacheFile;

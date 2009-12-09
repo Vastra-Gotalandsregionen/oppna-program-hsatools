@@ -653,6 +653,20 @@
 		</profile>
 		
         <profile>
+            <id>VGRFTV</id>
+            <properties>
+                <maven.profilename>VGRFTV</maven.profilename>
+            </properties>
+        </profile>
+		
+        <profile>
+            <id>VGRHRIA</id>
+            <properties>
+                <maven.profilename>VGRHRIA</maven.profilename>
+            </properties>
+        </profile>
+		
+        <profile>
             <id>LTH</id>
             <properties>
                 <maven.profilename>LTH</maven.profilename>
