@@ -107,7 +107,7 @@ public class UnitFactoryTest {
     ldapEntry.addAttribute("hsaRoute", TEST);
     ldapEntry.addAttribute("vgrVardVal", TEST);
     ldapEntry.addAttribute("vgrAvtalskod", TEST);
-    ldapEntry.addAttribute("vgrLabeledURI", TEST);
+    ldapEntry.addAttribute("vgrLabeledURI", "http://" + TEST);
     ldapEntry.addAttribute("hsaVisitingHours", TEST_TIME);
     ldapEntry.addAttribute("hsaVisitingRuleReferral", TEST);
   }
@@ -224,6 +224,14 @@ public class UnitFactoryTest {
     assertEquals(1234567, unit.getRt90Y());
     assertEquals(11.159754999084681, unit.getWgs84Lat(), 0.0);
     assertEquals(13.376313261575913, unit.getWgs84Long(), 0.0);
+  }
+
+  @Test
+  public void testHttpsURI() {
+    ldapEntry.addAttribute("objectClass", OU);
+    ldapEntry.addAttribute("vgrLabeledURI", "https://" + TEST);
+    Unit unit = unitFactory.reconstitute(ldapEntry);
+    assertEquals("https://" + TEST, unit.getInternalWebsite());
   }
 
   class CodeTablesServiceMock implements CodeTablesService {

@@ -43,7 +43,6 @@ import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
@@ -371,15 +370,7 @@ public class UnitRepository {
     return result;
   }
 
-  /**
-   * Get Ldap connection using a pool.
-   * 
-   * @return
-   * @throws LDAPException
-   * @throws NoConnectionToServerException
-   * @throws SikInternalException
-   */
-  private LDAPConnection getLDAPConnection() throws LDAPException, NoConnectionToServerException, SikInternalException {
+  private LDAPConnection getLDAPConnection() throws KivException {
     LDAPConnection lc = theConnectionPool.getConnection(POOL_WAIT_TIME_MILLISECONDS);
     if (lc == null) {
       throw new SikInternalException(this, "getLDAPConnection()", "Could not get a connection after waiting " + POOL_WAIT_TIME_MILLISECONDS + " ms.");

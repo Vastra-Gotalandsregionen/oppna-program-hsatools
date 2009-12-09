@@ -1,0 +1,36 @@
+<h:outputText rendered="true"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+	<div id="wrapper">
+	    <div id="custom-doc">
+	        <h:outputText rendered="${param.noHeader != '1'}">
+	            <ui:include src="${Search_SettingsContainer.header}"/>
+	        </h:outputText>
+	        <div id="bd">
+	            <div id="hriv-captions">
+	                <ui:insert name="HrivCaptions" />
+	            </div>
+	
+	            <div id="search-column">
+	                <div id="header-input-field-container">
+	                    <div class="boxinside">
+	                     <ui:include src="${Search_SettingsContainer.searchFormInclude}"/>
+	                    </div>
+	
+	                    <ui:include src="${Search_SettingsContainer.informationArea}"/>
+	                </div>
+	            </div>
+	
+	            <div id="main-column">
+	                <div id="yui-main">
+	                    <h:outputText rendered="${Search_SettingsContainer.mainTop != null }">
+	                        <ui:include src="${Search_SettingsContainer.mainTop}"/>
+	                    </h:outputText>
+	                    <ui:insert name="MainContainer"></ui:insert>
+	                </div>
+	            </div>
+	        </div>
+	        <ui:include src="${Search_SettingsContainer.footer}"/>
+	    </div>
+	</div>
+</h:outputText>

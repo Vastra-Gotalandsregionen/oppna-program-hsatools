@@ -6,9 +6,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import org.easymock.classextension.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,18 +14,16 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Organization;
 import se.vgregion.kivtools.mocks.http.HttpFetcherMock;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.Address;
-import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.domain.values.ZipCode;
+import se.vgregion.kivtools.search.exceptions.InvalidFormatException;
 import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 import se.vgregion.kivtools.search.util.MvkClient;
 
 public class UnitDetailsServiceImplTest {
-
   private static final String UNIT_NAME = "UnitName";
   private static final String UNIT_HSA_IDENTITY = "UnitHsaIdentity";
   private UnitDetailsServiceImpl unitDetailsService;
@@ -43,7 +39,7 @@ public class UnitDetailsServiceImplTest {
     mvkClient.setMvkGuid("uid123");
 
     unitDetailsService = new UnitDetailsServiceImpl();
-    unitDetailsService.setUnitRepository(generateUnitRepositoryMock());
+    unitDetailsService.setUnitRepository(new UnitRepositoryMock());
     unitDetailsService.setMvkClient(mvkClient);
   }
 
@@ -121,7 +117,6 @@ public class UnitDetailsServiceImplTest {
     addressWs = organization.getUnit().get(0).getAddress().get(0);
     assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
     assertEquals("12b", addressWs.getStreetNumber());
-
   }
 
   @Test
@@ -133,50 +128,52 @@ public class UnitDetailsServiceImplTest {
     assertTrue(organization.getUnit().get(0).isMvkEnable());
   }
 
-  private List<Address> generateUnitAddress() {
-    Address addressWithoutNb = new Address("Teststreet", new ZipCode("414 57"), "Göteborg", Arrays.asList("Desc1", "Desc2"));
-    Address addressWithNb = new Address("Teststreet 12", new ZipCode("414 57"), "Göteborg", Arrays.asList("Desc1", "Desc2"));
-    Address addressWithNbAndChar = new Address("Teststreet 1B", new ZipCode("414 57"), "Göteborg", Arrays.asList("Desc1", "Desc2"));
-    Address addressWithNbAndCharNoSpace = new Address("Teststreet12b", new ZipCode("414 57"), "Göteborg", Arrays.asList("Desc1", "Desc2"));
-    return Arrays.asList(addressWithoutNb, addressWithNb, addressWithNbAndChar, addressWithNbAndCharNoSpace);
-  }
+  private static class UnitRepositoryMock extends UnitRepository {
+    private Map<String, Unit> units;
 
-  private UnitRepository generateUnitRepositoryMock() throws Exception {
-    UnitRepository unitRepositoryMock = EasyMock.createMock(UnitRepository.class);
-    CodeTablesService codeTablesServiceMock = EasyMock.createMock(CodeTablesService.class);
-    // Fill unitRepositoryMock with unitMocks
-    for (Entry<String, Unit> unitEntry : createUnitMocks(generateUnitAddress()).entrySet()) {
-      org.easymock.EasyMock.expect(unitRepositoryMock.getUnitByHsaId(unitEntry.getKey())).andReturn(unitEntry.getValue());
+    public UnitRepositoryMock() {
+      this.units = createUnitMocks(generateUnitAddress());
     }
 
-    org.easymock.EasyMock.expect(unitRepositoryMock.getCodeTablesService()).andReturn(codeTablesServiceMock);
-    org.easymock.EasyMock.expect(codeTablesServiceMock.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "1500")).andReturn("Vårdcentral");
-    org.easymock.EasyMock.expect(codeTablesServiceMock.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "1504")).andReturn("Akutmottagning");
-    EasyMock.replay(unitRepositoryMock);
-    return unitRepositoryMock;
-  }
-
-  // Create 4 units with hsaIdentity UnitHsaIdentity<0 to 3>
-  private Map<String, Unit> createUnitMocks(List<Address> addressList) throws Exception {
-    Map<String, Unit> units = new LinkedHashMap<String, Unit>();
-    for (int i = 0; i < addressList.size(); i++) {
-      Unit unit = new Unit();
-      unit.setName(UNIT_NAME + i);
-      unit.setHsaIdentity(UNIT_HSA_IDENTITY + i);
-      unit.setDescription(Arrays.asList("En trevlig mottagning"));
-      unit.setHsaStreetAddress(addressList.get(i));
-      unit.setHsaPostalAddress(addressList.get(i));
-      unit.setHsaPublicTelephoneNumber(Arrays.asList(PhoneNumber.createPhoneNumber("1111")));
-      unit.setLabeledURI("http://unit");
-      unit.setHsaVisitingRules("Ingen parfym tack");
-      unit.setHsaDropInHours(Arrays.asList(new WeekdayTime(1, 5, 8, 0, 17, 0), new WeekdayTime(6, 6, 10, 0, 14, 0), new WeekdayTime(7, 7, 10, 0, 12, 0)));
-      unit.setHsaTelephoneTime(Arrays.asList(new WeekdayTime(1, 5, 8, 0, 17, 0)));
-      unit.setHsaSurgeryHours(Arrays.asList(new WeekdayTime(1, 5, 8, 0, 17, 0), new WeekdayTime(6, 6, 10, 0, 14, 0)));
-      unit.setHsaManagementText("Landsting/region");
-      unit.setHealthcareTypes(Arrays.asList(new HealthcareType(null, "Vårdcentral", false, 0), new HealthcareType(null, "Akutmottagning", false, 1)));
-      unit.setHsaMunicipalityName("Götlaborg");
-      units.put(unit.getHsaIdentity(), unit);
+    @Override
+    public Unit getUnitByHsaId(String hsaId) throws KivException {
+      return units.get(hsaId);
     }
-    return units;
+
+    // Create 4 units with hsaIdentity UnitHsaIdentity<0 to 3>
+    private Map<String, Unit> createUnitMocks(List<Address> addressList) {
+      Map<String, Unit> units = new LinkedHashMap<String, Unit>();
+      for (int i = 0; i < addressList.size(); i++) {
+        Unit unit = new Unit();
+        unit.setName(UNIT_NAME + i);
+        unit.setHsaIdentity(UNIT_HSA_IDENTITY + i);
+        unit.setDescription(Arrays.asList("En trevlig mottagning"));
+        unit.setHsaStreetAddress(addressList.get(i));
+        unit.setHsaPostalAddress(addressList.get(i));
+        unit.setHsaPublicTelephoneNumber(Arrays.asList(PhoneNumber.createPhoneNumber("1111")));
+        unit.setLabeledURI("http://unit");
+        unit.setHsaVisitingRules("Ingen parfym tack");
+        try {
+          unit.setHsaDropInHours(Arrays.asList(new WeekdayTime(1, 5, 8, 0, 17, 0), new WeekdayTime(6, 6, 10, 0, 14, 0), new WeekdayTime(7, 7, 10, 0, 12, 0)));
+          unit.setHsaTelephoneTime(Arrays.asList(new WeekdayTime(1, 5, 8, 0, 17, 0)));
+          unit.setHsaSurgeryHours(Arrays.asList(new WeekdayTime(1, 5, 8, 0, 17, 0), new WeekdayTime(6, 6, 10, 0, 14, 0)));
+        } catch (InvalidFormatException e) {
+          throw new RuntimeException(e);
+        }
+        unit.setHsaManagementText("Landsting/region");
+        unit.setHealthcareTypes(Arrays.asList(new HealthcareType(null, "Vårdcentral", false, 0), new HealthcareType(null, "Akutmottagning", false, 1)));
+        unit.setHsaMunicipalityName("Götlaborg");
+        units.put(unit.getHsaIdentity(), unit);
+      }
+      return units;
+    }
+
+    private List<Address> generateUnitAddress() {
+      Address addressWithoutNb = new Address("Teststreet", new ZipCode("414 57"), "Göteborg", Arrays.asList("Desc1", "Desc2"));
+      Address addressWithNb = new Address("Teststreet 12", new ZipCode("414 57"), "Göteborg", Arrays.asList("Desc1", "Desc2"));
+      Address addressWithNbAndChar = new Address("Teststreet 1B", new ZipCode("414 57"), "Göteborg", Arrays.asList("Desc1", "Desc2"));
+      Address addressWithNbAndCharNoSpace = new Address("Teststreet12b", new ZipCode("414 57"), "Göteborg", Arrays.asList("Desc1", "Desc2"));
+      return Arrays.asList(addressWithoutNb, addressWithNb, addressWithNbAndChar, addressWithNbAndCharNoSpace);
+    }
   }
 }

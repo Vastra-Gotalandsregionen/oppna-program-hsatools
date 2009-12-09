@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class FileUtilImplTest {
   private static final String TARGET_TESTFILE = "target/testfile";
-  private static final String TARGET_TESTDIR = "target/testdir";
+  private static final String TARGET_TESTDIR = "target/testdir/testdir2";
   private FileUtilImpl fileUtilImpl;
   private File nonExistingFile;
   private File testDirectory;

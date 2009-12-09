@@ -47,7 +47,6 @@ import com.novell.ldap.LDAPEntry;
  * @author Jonas Liljenfeldt, Know IT
  */
 public class UnitFactory {
-
   private CodeTablesService codeTablesService;
   private DisplayValueTranslator displayValueTranslator;
 
@@ -68,36 +67,123 @@ public class UnitFactory {
   public void setDisplayValueTranslator(DisplayValueTranslator displayValueTranslator) {
     this.displayValueTranslator = displayValueTranslator;
   }
-/**
- * 
- * @param unitEntry LDAPEntry to reconstitute.
- * @return A unit object.
- */
+
+  /**
+   * 
+   * @param unitEntry LDAPEntry to reconstitute.
+   * @return A unit object.
+   */
   public Unit reconstitute(LDAPEntry unitEntry) {
     Unit unit = new Unit();
     if (unitEntry == null) {
       return unit;
     }
 
-    // set object class
-    unit.setObjectClass(LdapORMHelper.getSingleValue(unitEntry.getAttribute("objectClass")));
-    String temp = unit.getObjectClass().toLowerCase();
-    if (temp.equalsIgnoreCase(Constants.OBJECT_CLASS_UNIT_SPECIFIC) || temp.equalsIgnoreCase(Constants.OBJECT_CLASS_UNIT_STANDARD)) {
-      unit.setIsUnit(true);
-    } else if (temp.equalsIgnoreCase(Constants.OBJECT_CLASS_FUNCTION_SPECIFIC) || temp.equalsIgnoreCase(Constants.OBJECT_CLASS_FUNCTION_STANDARD)) {
-      unit.setIsUnit(false);
-    } else {
-      throw new RuntimeException("Detected unknown objectClass=" + unit.getObjectClass() + " in " + UnitFactory.class.getName() + "::reconstitute()");
+    populateUnitType(unitEntry, unit);
+    populateUnitIdentities(unitEntry, unit);
+    populateUnitName(unitEntry, unit);
+    populateDescriptions(unitEntry, unit);
+    populateWebsiteAndMailInformation(unitEntry, unit);
+    populateAddressInformation(unitEntry, unit);
+    populateMiscInformation(unitEntry, unit);
+    populatePhoneInformation(unitEntry, unit);
+    populateLocalityInformation(unitEntry, unit);
+    populateVisitingInformation(unitEntry, unit);
+    populateCreateModifyTimestamps(unitEntry, unit);
+    populateGeoCoordinates(unitEntry, unit);
+
+    // As the last step, let HealthcareTypeConditionHelper figure out which
+    // healthcare type(s) this unit belongs to
+    HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
+    htch.assignHealthcareTypes(unit);
+
+    assignCodeTableValuesToUnit(unit);
+
+    // Must be performed after healthcare types has been assigned.
+    populateShowVisitingRulesAndAgeInterval(unit);
+
+    return unit;
+  }
+
+  private void populateShowVisitingRulesAndAgeInterval(Unit unit) {
+    // Rule for showing visiting rules
+    boolean show = false;
+    show |= unit.hasHealthcareType("Barnavårdscentral");
+    show |= unit.hasHealthcareType("Vårdcentral");
+    show |= unit.hasHealthcareType("Jourcentral");
+    unit.setShowVisitingRules(show);
+    // VGR has the same rule for age interval
+    unit.setShowAgeInterval(show);
+  }
+
+  private void populateCreateModifyTimestamps(LDAPEntry unitEntry, Unit unit) {
+    // Senast uppdaterad
+    if (unitEntry.getAttribute("vgrModifyTimestamp") != null) {
+      unit.setModifyTimestamp(TimePoint.parseFrom(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrModifyTimestamp")), "yyyyMMddHHmmss", TimeZone.getDefault()));
     }
 
-    unit.setDn(DN.createDNFromString(unitEntry.getDN()));
+    // Skapad
+    if (unitEntry.getAttribute("createTimeStamp") != null) {
+      unit.setCreateTimestamp(TimePoint.parseFrom(LdapORMHelper.getSingleValue(unitEntry.getAttribute("createTimeStamp")), "yyyyMMddHHmmss", TimeZone.getDefault()));
+    }
+  }
 
-    // OU
-    unit.setOu(LdapORMHelper.getSingleValue(unitEntry.getAttribute(Constants.LDAP_PROPERTY_UNIT_NAME)));
+  private void populateMiscInformation(LDAPEntry unitEntry, Unit unit) {
+    // vgrCareType
+    unit.setVgrCareType(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrCareType")));
 
-    // hsaIdentity
-    unit.setHsaIdentity(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaIdentity")));
+    // vgrAO3kod
+    unit.setVgrAO3kod(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrAO3kod")));
 
+    // hsaBusinessClassificationCode
+    unit.setHsaBusinessClassificationCode(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaBusinessClassificationCode")));
+
+    // hsaEndDate
+    unit.setHsaEndDate(TimeUtil.parseStringToZuluTime(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaEndDate"))));
+
+    // hsaSurgeryHours
+    unit.setHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaSurgeryHours"))));
+
+    // hsaDropInHours
+    unit.setHsaDropInHours(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaDropInHours"))));
+
+    // hsaUnitPrescriptionCode
+    unit.setHsaUnitPrescriptionCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaUnitPrescriptionCode")));
+
+    // vgrAnsvarsnummer
+    unit.setVgrAnsvarsnummer(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("vgrAnsvarsnummer")));
+
+    // EDI-kod
+    unit.setVgrEDICode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrEdiCode")));
+
+    // EAN-kod
+    unit.setVgrEANCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrEanCode")));
+
+    // Ägarformkod
+    unit.setHsaManagementCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaManagementCode")));
+
+    // Temporary information
+    unit.setVgrTempInfo(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrTempInfo")));
+    unit.setVgrRefInfo(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrRefInfo")));
+
+    // Drifts- & juridisk formkod
+    unit.setHsaAdministrationForm(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaAdministrationForm")));
+
+    unit.setContractCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrAvtalskod")));
+
+    // Vårdval
+    unit.setVgrVardVal(LdapParse.convertStringToBoolean(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrVardVal"))));
+  }
+
+  private void populateDescriptions(LDAPEntry unitEntry, Unit unit) {
+    // description
+    unit.setDescription(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("description")));
+
+    // internal description
+    unit.setInternalDescription(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("vgrInternalDescription")));
+  }
+
+  private void populateUnitName(LDAPEntry unitEntry, Unit unit) {
     // Name
     if (unit.getIsUnit()) {
       // Is Unit
@@ -111,21 +197,36 @@ public class UnitFactory {
       cn = Formatter.replaceStringInString(cn, "\\,", ",");
       unit.setName(cn.trim());
     }
-
     // organizationalUnitNameShort
     unit.setOrganizationalUnitNameShort(LdapORMHelper.getSingleValue(unitEntry.getAttribute("organizationalUnitNameShort")));
+  }
 
-    // description
-    unit.setDescription(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("description")));
+  private void populateUnitIdentities(LDAPEntry unitEntry, Unit unit) {
+    unit.setDn(DN.createDNFromString(unitEntry.getDN()));
 
-    // internal description
-    unit.setInternalDescription(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("vgrInternalDescription")));
+    // OU
+    unit.setOu(LdapORMHelper.getSingleValue(unitEntry.getAttribute(Constants.LDAP_PROPERTY_UNIT_NAME)));
 
+    // hsaIdentity
+    unit.setHsaIdentity(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaIdentity")));
+  }
+
+  private void populateUnitType(LDAPEntry unitEntry, Unit unit) {
+    // set object class
+    unit.setObjectClass(LdapORMHelper.getSingleValue(unitEntry.getAttribute("objectClass")));
+    String temp = unit.getObjectClass().toLowerCase();
+    if (temp.equalsIgnoreCase(Constants.OBJECT_CLASS_UNIT_SPECIFIC) || temp.equalsIgnoreCase(Constants.OBJECT_CLASS_UNIT_STANDARD)) {
+      unit.setIsUnit(true);
+    } else if (temp.equalsIgnoreCase(Constants.OBJECT_CLASS_FUNCTION_SPECIFIC) || temp.equalsIgnoreCase(Constants.OBJECT_CLASS_FUNCTION_STANDARD)) {
+      unit.setIsUnit(false);
+    } else {
+      throw new RuntimeException("Detected unknown objectClass=" + unit.getObjectClass() + " in " + UnitFactory.class.getName() + "::reconstitute()");
+    }
+  }
+
+  private void populateWebsiteAndMailInformation(LDAPEntry unitEntry, Unit unit) {
     // mail
     unit.setMail(LdapORMHelper.getSingleValue(unitEntry.getAttribute("mail")));
-
-    // l (=locality)
-    unit.setLocality(LdapORMHelper.getSingleValue(unitEntry.getAttribute("l")));
 
     // labeledURI
     String labeledURI = LdapORMHelper.getSingleValue(unitEntry.getAttribute("labeledUri"));
@@ -135,22 +236,87 @@ public class UnitFactory {
     String vgrLabeledURI = LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrLabeledURI"));
     vgrLabeledURI = fixURI(vgrLabeledURI);
     unit.setInternalWebsite(vgrLabeledURI);
+  }
 
+  private void populateVisitingInformation(LDAPEntry unitEntry, Unit unit) {
+    // hsaVisitingHours
+    unit.setVisitingHours(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaVisitingHours"))));
+
+    // Visiting rules
+    unit.setHsaVisitingRules(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaVisitingRules")));
+
+    // Visiting rule age
+    unit.setHsaVisitingRuleAge(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaVisitingRuleAge")));
+
+    unit.setVisitingRuleReferral(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaVisitingRuleReferral")));
+  }
+
+  private static void populateLocalityInformation(LDAPEntry unitEntry, Unit unit) {
+    // l (=locality)
+    unit.setLocality(LdapORMHelper.getSingleValue(unitEntry.getAttribute("l")));
+
+    // Kommunkod
+    unit.setHsaMunicipalityCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaMunicipalityCode")));
+
+    // Kommundelsnamn
+    unit.setHsaMunicipalitySectionName(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaMunicipalitySectionName")));
+
+    // Kommundelskod
+    unit.setHsaMunicipalitySectionCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaMunicipalitySectionCode")));
+
+    // Länskod
+    unit.setHsaCountyCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaCountyCode")));
+
+    // Länsnamn
+    unit.setHsaCountyName(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaCountyName")));
+  }
+
+  private static void populateGeoCoordinates(LDAPEntry unitEntry, Unit unit) {
+    // Coordinates
+    if (unitEntry.getAttribute("hsaGeographicalCoordinates") != null) {
+      String hsaGeographicalCoordinates = LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaGeographicalCoordinates"));
+      unit.setHsaGeographicalCoordinates(hsaGeographicalCoordinates);
+      // Parse and set in RT90 format
+      int[] rt90Coords = GeoUtil.parseRT90HsaString(hsaGeographicalCoordinates);
+      if (rt90Coords != null) {
+        unit.setRt90X(rt90Coords[0]);
+        unit.setRt90Y(rt90Coords[1]);
+
+        // Convert to WGS84 and set on unit too
+        CoordinateTransformerService gkp = new GaussKrugerProjection("2.5V");
+        double[] wgs84Coords = gkp.getWGS84(rt90Coords[0], rt90Coords[1]);
+
+        unit.setWgs84Lat(wgs84Coords[0]);
+        unit.setWgs84Long(wgs84Coords[1]);
+      }
+    }
+  }
+
+  private static void populateAddressInformation(LDAPEntry unitEntry, Unit unit) {
     // vgrInternalSedfInvoiceAddress
     unit.setVgrInternalSedfInvoiceAddress(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrInternalSedfInvoiceAddress")));
 
-    // vgrCareType
-    unit.setVgrCareType(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrCareType")));
+    // hsaInternalAddress
+    unit.setHsaInternalAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaInternalAddress"))));
 
-    // vgrAO3kod
-    unit.setVgrAO3kod(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrAO3kod")));
+    // hsaStreetAddress
+    unit.setHsaStreetAddress(AddressHelper.convertToStreetAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaStreetAddress"))));
 
-    // hsaBusinessClassificationCode
-    unit.setHsaBusinessClassificationCode(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaBusinessClassificationCode")));
+    // hsaPostalAddress
+    unit.setHsaPostalAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaPostalAddress"))));
 
-    // hsaTextPhoneNumber
-    unit.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaTextPhoneNumber"))));
+    // hsaSedfDeliveryAddress
+    unit.setHsaSedfDeliveryAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaSedfDeliveryAddress"))));
 
+    // hsaSedfInvoiceAddress
+    unit.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaSedfInvoiceAddress"))));
+
+    if (unitEntry.getAttribute("hsaRoute") != null) {
+      unit.setHsaRoute(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaRoute")));
+    }
+  }
+
+  private static void populatePhoneInformation(LDAPEntry unitEntry, Unit unit) {
     // hsaTextPhoneNumber
     unit.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaTextPhoneNumber"))));
 
@@ -172,143 +338,11 @@ public class UnitFactory {
     // pagerTelephoneNumber
     unit.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(unitEntry.getAttribute("pagerTelephoneNumber"))));
 
-    // hsaTelephoneNumber
-    unit.setHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaTelephoneNumber"))));
-
     // hsaPublicTelephoneNumber
     unit.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumberList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaPublicTelephoneNumber"))));
 
     // hsaTelephoneTime
     unit.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaTelephoneTime"))));
-
-    // hsaEndDate
-    unit.setHsaEndDate(TimeUtil.parseStringToZuluTime(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaEndDate"))));
-
-    // hsaSurgeryHours
-    unit.setHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaSurgeryHours"))));
-
-    // hsaVisitingHours
-    unit.setVisitingHours(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaVisitingHours"))));
-
-    // hsaDropInHours
-    unit.setHsaDropInHours(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaDropInHours"))));
-
-    // hsaInternalAddress
-    unit.setHsaInternalAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaInternalAddress"))));
-
-    // hsaStreetAddress
-    unit.setHsaStreetAddress(AddressHelper.convertToStreetAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaStreetAddress"))));
-
-    // hsaPostalAddress
-    unit.setHsaPostalAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaPostalAddress"))));
-
-    // hsaSedfDeliveryAddress
-    unit.setHsaSedfDeliveryAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaSedfDeliveryAddress"))));
-
-    // hsaSedfInvoiceAddress
-    unit.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaSedfInvoiceAddress"))));
-
-    // hsaUnitPrescriptionCode
-    unit.setHsaUnitPrescriptionCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaUnitPrescriptionCode")));
-
-    // vgrAnsvarsnummer
-    unit.setVgrAnsvarsnummer(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("vgrAnsvarsnummer")));
-
-    // Kommunkod
-    unit.setHsaMunicipalityCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaMunicipalityCode")));
-
-    // EDI-kod
-    unit.setVgrEDICode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrEdiCode")));
-
-    // EAN-kod
-    unit.setVgrEANCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrEanCode")));
-
-    // Kommundelsnamn
-    unit.setHsaMunicipalitySectionName(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaMunicipalitySectionName")));
-
-    // Kommundelskod
-    unit.setHsaMunicipalitySectionCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaMunicipalitySectionCode")));
-
-    // Länskod
-    unit.setHsaCountyCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaCountyCode")));
-
-    // Länsnamn
-    unit.setHsaCountyName(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaCountyName")));
-
-    // Ägarformkod
-    unit.setHsaManagementCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaManagementCode")));
-
-    // Visiting rules
-    unit.setHsaVisitingRules(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaVisitingRules")));
-
-    // Visiting rule age
-    unit.setHsaVisitingRuleAge(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaVisitingRuleAge")));
-
-    // Temporary information
-    unit.setVgrTempInfo(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrTempInfo")));
-    unit.setVgrRefInfo(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrRefInfo")));
-
-    // Drifts- & juridisk formkod
-    unit.setHsaAdministrationForm(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaAdministrationForm")));
-
-    unit.setContractCode(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrAvtalskod")));
-
-    unit.setVisitingRuleReferral(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaVisitingRuleReferral")));
-
-    // Senast uppdaterad
-    if (unitEntry.getAttribute("vgrModifyTimestamp") != null) {
-      unit.setModifyTimestamp(TimePoint.parseFrom(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrModifyTimestamp")), "yyyyMMddHHmmss", TimeZone.getDefault()));
-    }
-
-    // Skapad
-    if (unitEntry.getAttribute("createTimeStamp") != null) {
-      unit.setCreateTimestamp(TimePoint.parseFrom(LdapORMHelper.getSingleValue(unitEntry.getAttribute("createTimeStamp")), "yyyyMMddHHmmss", TimeZone.getDefault()));
-    }
-
-    // Coordinates
-    if (unitEntry.getAttribute("hsaGeographicalCoordinates") != null) {
-      String hsaGeographicalCoordinates = LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaGeographicalCoordinates"));
-      unit.setHsaGeographicalCoordinates(hsaGeographicalCoordinates);
-      // Parse and set in RT90 format
-      int[] rt90Coords = GeoUtil.parseRT90HsaString(hsaGeographicalCoordinates);
-      if (rt90Coords != null && rt90Coords.length == 2) {
-        unit.setRt90X(rt90Coords[0]);
-        unit.setRt90Y(rt90Coords[1]);
-
-        // Convert to WGS84 and set on unit too
-        CoordinateTransformerService gkp = new GaussKrugerProjection("2.5V");
-        double[] wgs84Coords = gkp.getWGS84(rt90Coords[0], rt90Coords[1]);
-
-        if (wgs84Coords != null && wgs84Coords.length == 2) {
-          unit.setWgs84Lat(wgs84Coords[0]);
-          unit.setWgs84Long(wgs84Coords[1]);
-        }
-      }
-    }
-
-    if (unitEntry.getAttribute("hsaRoute") != null) {
-      unit.setHsaRoute(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("hsaRoute")));
-    }
-
-    // As the last step, let HealthcareTypeConditionHelper figure out which
-    // healthcare type(s) this unit belongs to
-    HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
-    htch.assignHealthcareTypes(unit);
-
-    // Vårdval
-    unit.setVgrVardVal(LdapParse.convertStringToBoolean(LdapORMHelper.getSingleValue(unitEntry.getAttribute("vgrVardVal"))));
-    assignCodeTableValuesToUnit(unit);
-
-    // Rule for showing visiting rules
-    boolean show = false;
-    show |= unit.hasHealthcareType("Barnavårdscentral");
-    show |= unit.hasHealthcareType("Vårdcentral");
-    show |= unit.hasHealthcareType("Jourcentral");
-    unit.setShowVisitingRules(show);
-    // VGR has the same rule for age interval
-    unit.setShowAgeInterval(show);
-
-    return unit;
   }
 
   /**

@@ -19,19 +19,17 @@ package se.vgregion.kivtools.search.svc.ldap;
 
 import static org.junit.Assert.*;
 
-import java.io.UnsupportedEncodingException;
-
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import se.vgregion.kivtools.mocks.LogFactoryMock;
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 
 import com.novell.ldap.LDAPConnection;
-import com.novell.ldap.LDAPException;
 
 public class LdapConnectionPoolTest {
 
@@ -54,7 +52,7 @@ public class LdapConnectionPoolTest {
   }
 
   @Test
-  public void testGetConnection() throws UnsupportedEncodingException, NoConnectionToServerException, SikInternalException, LDAPException {
+  public void testGetConnection() throws KivException {
     assertNull(connectionPool.getConnection());
 
     connectionPool.setMaxConn(null);
@@ -135,7 +133,7 @@ public class LdapConnectionPoolTest {
 
   private static class LdapConnectionPoolMock extends LdapConnectionPool {
     @Override
-    protected LDAPConnection newConnection() throws LDAPException, SikInternalException, NoConnectionToServerException {
+    protected LDAPConnection newConnection() throws KivException {
       return new LDAPConnection();
     }
   }

@@ -85,6 +85,9 @@ public class LDAPConnectionMock extends LDAPConnection {
    */
   @Override
   public LDAPEntry read(String dn) throws LDAPException {
+    if (ldapException != null) {
+      throw ldapException;
+    }
     readEntries.add(dn);
     return dnEntryMap.get(dn);
   }

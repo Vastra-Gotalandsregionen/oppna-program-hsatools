@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.util.StringUtil;
@@ -162,11 +163,9 @@ public class LdapConnectionPool {
    * Checks out a connection from the pool.
    * 
    * @return An LDAPConnection from the pool.
-   * @throws NoConnectionToServerException if it wasn't possible to connect to the server.
-   * @throws LDAPException if there is a problem connecting to the LDAP server.
-   * @throws SikInternalException if any of the init-parameters are not set.
+   * @throws KivException if there was a problem connecting to the LDAP server.
    */
-  public synchronized LDAPConnection getConnection() throws LDAPException, NoConnectionToServerException, SikInternalException {
+  public synchronized LDAPConnection getConnection() throws KivException {
     LDAPConnection con = internalGetConnection();
     if (con != null) {
       checkedOut++;
@@ -185,14 +184,18 @@ public class LdapConnectionPool {
    * @throws LDAPException if there is a problem connecting to the LDAP server.
    * @throws SikInternalException if any of the init-parameters are not set.
    */
-  private LDAPConnection internalGetConnection() throws LDAPException, NoConnectionToServerException, SikInternalException {
+  private LDAPConnection internalGetConnection() throws KivException {
     LDAPConnection con = null;
     if (freeConnections.size() > 0 && freeConnections.get(0) != null) {
       // Pick the first LDAPConnection in the Vector
       // to get round-robin usage
       con = freeConnections.remove(0);
       if (!con.isConnectionAlive()) {
-        con.disconnect();
+        try {
+          con.disconnect();
+        } catch (LDAPException e) {
+          throw new KivException("Can't disconnect from server. Error message: " + e.getLDAPErrorMessage());
+        }
         logger.info("Removed bad connection from Pool");
         // Try again recursively
         con = internalGetConnection();
@@ -211,11 +214,9 @@ public class LdapConnectionPool {
    * 
    * @param timeout The timeout value in milliseconds
    * @return An LDAPConnection from the pool.
-   * @throws NoConnectionToServerException if it wasn't possible to connect to the server.
-   * @throws LDAPException if there is a problem connecting to the LDAP server.
-   * @throws SikInternalException if any of the init-parameters are not set.
+   * @throws KivException if there was a problem connecting to the LDAP server.
    */
-  public synchronized LDAPConnection getConnection(long timeout) throws LDAPException, NoConnectionToServerException, SikInternalException {
+  public synchronized LDAPConnection getConnection(long timeout) throws KivException {
 
     long startTime = new Date().getTime();
     LDAPConnection con;
@@ -224,6 +225,7 @@ public class LdapConnectionPool {
         wait(timeout);
       } catch (InterruptedException e) {
         // No specific handling
+        logger.debug("Thread was interrupted. Perhaps someone returned a connection to the pool");
       }
       if (new Date().getTime() - startTime >= timeout) {
         // Timeout has expired
@@ -240,9 +242,9 @@ public class LdapConnectionPool {
   /**
    * Creates a new connection.
    * 
-   * @throws NoConnectionToServerException
+   * @throws KivException if a new connection cannot be established.
    */
-  protected LDAPConnection newConnection() throws LDAPException, SikInternalException, NoConnectionToServerException {
+  protected LDAPConnection newConnection() throws KivException {
     checkInit();
     LDAPConnection lc = new LDAPConnection();
     try {
@@ -258,7 +260,7 @@ public class LdapConnectionPool {
       if (e.getResultCode() == LDAPException.CONNECT_ERROR) {
         throw new NoConnectionToServerException();
       }
-      throw e;
+      throw new KivException("Can't create a new connection to LDAP server. Error: " + e.getLDAPErrorMessage());
     }
     return lc;
   }

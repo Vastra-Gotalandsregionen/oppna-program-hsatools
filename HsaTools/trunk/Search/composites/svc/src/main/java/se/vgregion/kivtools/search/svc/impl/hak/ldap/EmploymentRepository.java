@@ -20,7 +20,6 @@ package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
@@ -35,13 +34,13 @@ import com.novell.ldap.LDAPSearchResults;
  */
 public class EmploymentRepository {
   private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
-  private static final String CLASS_NAME = EmploymentRepository.class.getName();
   private static final String ALL_EMPLOYMENT_FILTER = "(objectclass=hkatPerson)";
   private LdapConnectionPool theConnectionPool;
 
   public void setLdapConnectionPool(LdapConnectionPool lp) {
     this.theConnectionPool = lp;
   }
+
   /**
    * 
    * @param dn Dn of employments to search for.
@@ -89,15 +88,7 @@ public class EmploymentRepository {
     return result;
   }
 
-  /**
-   * Get Ldap connection using a pool.
-   * 
-   * @return
-   * @throws LDAPException
-   * @throws NoConnectionToServerException
-   * @throws SikInternalException
-   */
-  private LDAPConnection getLDAPConnection() throws LDAPException, NoConnectionToServerException, SikInternalException {
+  private LDAPConnection getLDAPConnection() throws KivException {
     LDAPConnection lc = theConnectionPool.getConnection(POOL_WAIT_TIME_MILLISECONDS);
     if (lc == null) {
       throw new SikInternalException(this, "getLDAPConnection()", "Could not get a connection after waiting " + POOL_WAIT_TIME_MILLISECONDS + " ms.");

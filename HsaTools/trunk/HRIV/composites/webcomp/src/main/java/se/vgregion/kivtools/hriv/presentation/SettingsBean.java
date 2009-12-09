@@ -31,7 +31,6 @@ import java.util.List;
 public class SettingsBean implements Serializable {
   private static final long serialVersionUID = 246274450053259084L;
   private String resourceBundleInclude;
-  private String vardValInclude;
   private String googleMapInitInclude;
   private String errorReportFormInclude;
   private String errorReportConfirmInclude;
@@ -77,6 +76,8 @@ public class SettingsBean implements Serializable {
   private String externalApplicationURL;
   private String favIcon;
   private String careTypeInfoUrl;
+  private String bodyInclude;
+  private String searchFormInclude;
 
   public String getInformationArea() {
     return informationArea;
@@ -426,14 +427,6 @@ public class SettingsBean implements Serializable {
     this.resourceBundleInclude = resourceBundleInclude;
   }
 
-  public String getVardValInclude() {
-    return vardValInclude;
-  }
-
-  public void setVardValInclude(String vardValInclude) {
-    this.vardValInclude = vardValInclude;
-  }
-
   public String getExternalApplicationURL() {
     return externalApplicationURL;
   }
@@ -498,5 +491,21 @@ public class SettingsBean implements Serializable {
 
   public String getCareTypeInfoUrl() {
     return careTypeInfoUrl;
+  }
+
+  public void setSearchFormInclude(String searchFormInclude) {
+    this.searchFormInclude = searchFormInclude;
+  }
+
+  public String getSearchFormInclude() {
+    return searchFormInclude;
+  }
+
+  public void setBodyInclude(String bodyInclude) {
+    this.bodyInclude = bodyInclude;
+  }
+
+  public String getBodyInclude() {
+    return bodyInclude;
   }
 }
