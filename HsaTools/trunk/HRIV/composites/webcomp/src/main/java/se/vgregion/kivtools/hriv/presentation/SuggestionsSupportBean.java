@@ -236,6 +236,10 @@ public class SuggestionsSupportBean {
     result = result.replace("\u00D6", "&#214;");
     result = result.replace("Ö", "&#214;");
 
+    // é
+    result = result.replace("\u00E9", "&#233;");
+    result = result.replace("é", "&#233;");
+
     return result;
   }
 }

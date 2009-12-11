@@ -64,16 +64,15 @@ public class SuggestionsSupportBeanTest {
     ArrayList<Unit> units = createUnits();
     searchUnitFlowSupportBean.setUnits(units);
     searchUnitFlowSupportBean.setUnitsCacheComplete(true);
-    assertEquals("Unexpected output for HTML",
-        "<ul><li id=\"XYZ-987\">Angereds v&#229;rdcentral, Angered</li><li id=\"ABC-123\">M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;, M&#246;lndal</li><li id=\"JKL-654\">Slottsskogens v&#229;rdcentral</li></ul>", bean.getSuggestions(
-            "n", "html"));
+    assertEquals(
+        "Unexpected output for HTML",
+        "<ul><li id=\"XYZ-987\">Angereds v&#229;rdcentral, Angered</li><li id=\"ABC-123\">M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal</li><li id=\"JKL-654\">Slottsskogens v&#229;rdcentral</li></ul>",
+        bean.getSuggestions("n", "html"));
     assertEquals("Unexpected output for XML", "<?xml version='1.0' standalone='yes'?>\n<units>\n<unit description=\"Angereds v&#229;rdcentral, Angered\" id=\"XYZ-987\" />\n"
-        + "<unit description=\"M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;, M&#246;lndal\" id=\"ABC-123\" />\n" 
+        + "<unit description=\"M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal\" id=\"ABC-123\" />\n"
         + "<unit description=\"Slottsskogens v&#229;rdcentral\" id=\"JKL-654\" />\n</units>", bean.getSuggestions("n", "xml"));
-    assertEquals("Unexpected output for plain text", "Angereds v&#229;rdcentral, Angered\tXYZ-987\n" + 
-            "M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;, M&#246;lndal\tABC-123\n" +
-            "Slottsskogens v&#229;rdcentral\tJKL-654\n"+ "",
-        bean.getSuggestions("n", "text"));
+    assertEquals("Unexpected output for plain text", "Angereds v&#229;rdcentral, Angered\tXYZ-987\n" + "M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal\tABC-123\n"
+        + "Slottsskogens v&#229;rdcentral\tJKL-654\n" + "", bean.getSuggestions("n", "text"));
 
     assertEquals("Unexpected output for HTML", "<ul></ul>", bean.getSuggestions("Villa Villerkulla", "html"));
   }
@@ -97,27 +96,21 @@ public class SuggestionsSupportBeanTest {
     SikSearchResultList<Unit> resultList = new SikSearchResultList<Unit>(units);
     searchUnitFlowSupportBean.setSearchResult(resultList);
 
-    assertEquals("Unexpected output for HTML",
-        "<ul><li id=\"XYZ-987\">Angereds v&#229;rdcentral, Angered</li>" + 
-        "<li id=\"ABC-123\">M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;, M&#246;lndal</li>"+
-        "<li id=\"JKL-654\">Slottsskogens v&#229;rdcentral</li></ul>", bean.getSuggestions(
-            "n", "html"));
-    assertEquals("Unexpected output for XML", "<?xml version='1.0' standalone='yes'?>\n<units>\n" +
-            "<unit description=\"Angereds v&#229;rdcentral, Angered\" id=\"XYZ-987\" />\n"
-        + "<unit description=\"M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;, M&#246;lndal\" id=\"ABC-123\" />\n" 
-        + "<unit description=\"Slottsskogens v&#229;rdcentral\" id=\"JKL-654\" />\n"
-        + "</units>", bean.getSuggestions("n", "xml"));
-    assertEquals("Unexpected output for plain text", "Angereds v&#229;rdcentral, Angered\tXYZ-987\n"
-            + "M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;, M&#246;lndal\tABC-123\n"
-            + "Slottsskogens v&#229;rdcentral\tJKL-654\n" + "",
-        bean.getSuggestions("n", "text"));
+    assertEquals("Unexpected output for HTML", "<ul><li id=\"XYZ-987\">Angereds v&#229;rdcentral, Angered</li>"
+        + "<li id=\"ABC-123\">M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal</li>" + "<li id=\"JKL-654\">Slottsskogens v&#229;rdcentral</li></ul>", bean
+        .getSuggestions("n", "html"));
+    assertEquals("Unexpected output for XML", "<?xml version='1.0' standalone='yes'?>\n<units>\n" + "<unit description=\"Angereds v&#229;rdcentral, Angered\" id=\"XYZ-987\" />\n"
+        + "<unit description=\"M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal\" id=\"ABC-123\" />\n"
+        + "<unit description=\"Slottsskogens v&#229;rdcentral\" id=\"JKL-654\" />\n" + "</units>", bean.getSuggestions("n", "xml"));
+    assertEquals("Unexpected output for plain text", "Angereds v&#229;rdcentral, Angered\tXYZ-987\n" + "M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal\tABC-123\n"
+        + "Slottsskogens v&#229;rdcentral\tJKL-654\n" + "", bean.getSuggestions("n", "text"));
   }
 
   private ArrayList<Unit> createUnits() {
     ArrayList<Unit> units = new ArrayList<Unit>();
     Unit unit1 = new Unit();
     unit1.setHsaIdentity("ABC-123");
-    unit1.setName("Mölndals ABC & åäöÅÄÖ");
+    unit1.setName("Mölndals ABC & åäöÅÄÖé");
     unit1.setLocality("Mölndal");
     Unit unit2 = new Unit();
     unit2.setHsaIdentity("XYZ-987");
