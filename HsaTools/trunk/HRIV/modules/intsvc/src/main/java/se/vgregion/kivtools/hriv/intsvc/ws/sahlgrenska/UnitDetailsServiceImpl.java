@@ -96,7 +96,7 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
     // Set e-mail address
     EAliasType email = new EAliasType();
     email.setLabel("Mottagningens e-post");
-    email.setType("email");
+    email.setType("E-mail");
     email.setAlias(unit.getMail());
     unitWs.getEAlias().add(email);
 
