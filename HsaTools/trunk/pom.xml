@@ -46,18 +46,18 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-eclipse-plugin</artifactId>
-                <configuration>
-                    <additionalProjectnatures>
-                        <projectnature> org.springframework.ide.eclipse.core.springnature</projectnature>
-                    </additionalProjectnatures>
-                    <additionalBuildcommands>
-                        <buildcommand> org.springframework.ide.eclipse.core.springbuilder</buildcommand>
-                    </additionalBuildcommands>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-eclipse-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <additionalProjectnatures>-->
+<!--                        <projectnature> org.springframework.ide.eclipse.core.springnature</projectnature>-->
+<!--                    </additionalProjectnatures>-->
+<!--                    <additionalBuildcommands>-->
+<!--                        <buildcommand> org.springframework.ide.eclipse.core.springbuilder</buildcommand>-->
+<!--                    </additionalBuildcommands>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
 
             <plugin>
                 <groupId>com.google.code.maven-license-plugin</groupId>
