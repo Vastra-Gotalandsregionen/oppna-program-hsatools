@@ -209,18 +209,20 @@ public class PersonRepository {
       throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
     }
 
-    // Sort results
-    Collections.sort(result, sortOrder);
+    if (result != null) {
+      // Sort results
+      Collections.sort(result, sortOrder);
 
-    // Cut result to correct size
-    int resultCount = result.size();
-    if (result.size() > maxResult && maxResult != 0) {
-      result = new SikSearchResultList<Person>(result.subList(0, maxResult));
+      // Cut result to correct size
+      int resultCount = result.size();
+      if (result.size() > maxResult && maxResult != 0) {
+        result = new SikSearchResultList<Person>(result.subList(0, maxResult));
+      }
+
+      // connect employment list to each person still in the list
+      connectEmploymentListToPerson(result);
+      result.setTotalNumberOfFoundItems(resultCount);
     }
-
-    // connect employment list to each person still in the list
-    connectEmploymentListToPerson(result);
-    result.setTotalNumberOfFoundItems(resultCount);
 
     return result;
   }
@@ -369,40 +371,38 @@ public class PersonRepository {
    * 
    */
   private String createSearchFilterItem(String searchField, String searchValue) {
+    String filter = "";
+
     if (!StringUtil.isEmpty(searchValue)) {
-      searchValue = searchValue.trim();
-      if (isExactMatchFilter(searchValue)) {
+      String trimmedSearchValue = searchValue.trim();
+      if (isExactMatchFilter(trimmedSearchValue)) {
         // remove "
         // exact match
         // filterList.add("(" + searchField + "=" + searchValue.trim() + ")");
-        searchValue = Formatter.replaceStringInString(searchValue, LDAP_EXACT_CARD, "");
+        trimmedSearchValue = Formatter.replaceStringInString(trimmedSearchValue, LDAP_EXACT_CARD, "");
         // exact match
-        return "(" + searchField + "=" + searchValue.trim() + ")";
+        filter = "(" + searchField + "=" + trimmedSearchValue + ")";
       } else {
         // change spaces to wildcards
-        searchValue = Formatter.replaceStringInString(searchValue, " ", LDAP_WILD_CARD);
-        searchValue = Formatter.replaceStringInString(searchValue, "-", LDAP_WILD_CARD);
+        trimmedSearchValue = Formatter.replaceStringInString(trimmedSearchValue, " ", LDAP_WILD_CARD);
+        trimmedSearchValue = Formatter.replaceStringInString(trimmedSearchValue, "-", LDAP_WILD_CARD);
         // filterList.add("(" + searchField + "=" + LDAP_WILD_CARD +
         // searchValue + LDAP_WILD_CARD + ")");
-        return "(" + searchField + "=" + LDAP_WILD_CARD + searchValue + LDAP_WILD_CARD + ")";
+        filter = "(" + searchField + "=" + LDAP_WILD_CARD + trimmedSearchValue + LDAP_WILD_CARD + ")";
       }
     }
-    return "";
+    return filter;
   }
 
   private boolean isExactMatchFilter(String searchValue) {
-    if (StringUtil.isEmpty(searchValue)) {
-      return false;
+    boolean exactMatch = false;
+
+    // it has to be at least one character between the " e.g. "a" for an exact match
+    if (searchValue.length() > 2 && searchValue.startsWith(LDAP_EXACT_CARD) && searchValue.endsWith(LDAP_EXACT_CARD)) {
+      exactMatch = true;
     }
-    // it has to be at least one character between the " e.g. "a" for an
-    // exact match
-    if (searchValue.length() <= 2) {
-      return false;
-    }
-    if (searchValue.startsWith(LDAP_EXACT_CARD) && searchValue.endsWith(LDAP_EXACT_CARD)) {
-      return true;
-    }
-    return false;
+
+    return exactMatch;
   }
 
   /**
@@ -424,20 +424,20 @@ public class PersonRepository {
     userFilter.and(new EqualsFilter("objectclass", "hkatPerson"));
     if (!StringUtil.isEmpty(person.getUserId())) {
       OrFilter regionNameOrTelephoneFilter = new OrFilter();
-      addRegionNameFilter(person.getUserId(), regionNameOrTelephoneFilter);
-      addTelephoneFilter(person.getUserId(), regionNameOrTelephoneFilter);
+      regionNameOrTelephoneFilter.or(createSearchFilter("regionName", person.getUserId().trim()));
+      addTelephoneFilter(person.getUserId().trim(), regionNameOrTelephoneFilter);
       userFilter.and(regionNameOrTelephoneFilter);
     }
     if (!StringUtil.isEmpty(person.getGivenName())) {
       OrFilter firstNameFilter = new OrFilter();
-      firstNameFilter.or(new LikeFilter("givenName", "*" + person.getGivenName().trim() + "*"));
-      firstNameFilter.or(new LikeFilter("rsvFirstNames", "*" + person.getGivenName().trim() + "*"));
+      firstNameFilter.or(createSearchFilter("givenName", person.getGivenName().trim()));
+      firstNameFilter.or(createSearchFilter("rsvFirstNames", person.getGivenName().trim()));
       userFilter.and(firstNameFilter);
     }
     if (!StringUtil.isEmpty(person.getSurname())) {
       OrFilter surnameFilter = new OrFilter();
-      surnameFilter.or(new LikeFilter("sn", "*" + person.getSurname().trim() + "*"));
-      surnameFilter.or(new LikeFilter("middleName", "*" + person.getSurname().trim() + "*"));
+      surnameFilter.or(createSearchFilter("sn", person.getSurname().trim()));
+      surnameFilter.or(createSearchFilter("middleName", person.getSurname().trim()));
       userFilter.and(surnameFilter);
     }
 
@@ -450,7 +450,7 @@ public class PersonRepository {
         "hsaTextPhoneNumber", };
     if (trimmedTelephone.length() >= 3 && !telephone.matches("^\\p{Alpha}{3}\\d{3}")) {
       for (String field : telephoneFields) {
-        regionNameOrTelephoneFilter.or(new LikeFilter(field, "*" + trimmedTelephone + "*"));
+        regionNameOrTelephoneFilter.or(createSearchFilter(field, trimmedTelephone));
       }
     }
   }
@@ -468,8 +468,25 @@ public class PersonRepository {
     return cleanedTelephoneNumber;
   }
 
-  private void addRegionNameFilter(String userId, OrFilter regionNameOrTelephoneFilter) {
-    regionNameOrTelephoneFilter.or(new LikeFilter("regionName", "*" + userId.trim() + "*"));
+  private Filter createSearchFilter(String searchField, String searchValue) {
+    String currentSearchValue = searchValue;
+    Filter filter = null;
+    if (!StringUtil.isEmpty(currentSearchValue)) {
+      currentSearchValue = currentSearchValue.trim();
+      if (isExactMatchFilter(currentSearchValue)) {
+        // remove "
+        currentSearchValue = Formatter.replaceStringInString(currentSearchValue, LDAP_EXACT_CARD, "");
+        filter = new EqualsFilter(searchField, currentSearchValue.trim());
+      } else {
+        // change spaces to wildcards
+        currentSearchValue = Formatter.replaceStringInString(currentSearchValue, " ", LDAP_WILD_CARD);
+        currentSearchValue = Formatter.replaceStringInString(currentSearchValue, "-", LDAP_WILD_CARD);
+        currentSearchValue = LDAP_WILD_CARD + currentSearchValue + LDAP_WILD_CARD;
+        currentSearchValue = currentSearchValue.replaceAll("\\*\\*", "*");
+        filter = new LikeFilter(searchField, currentSearchValue);
+      }
+    }
+    return filter;
   }
 
   /**

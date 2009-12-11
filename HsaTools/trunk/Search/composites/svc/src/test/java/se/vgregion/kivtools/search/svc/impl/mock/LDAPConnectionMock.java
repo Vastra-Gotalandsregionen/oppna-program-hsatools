@@ -15,13 +15,13 @@ import com.novell.ldap.LDAPSearchQueue;
 import com.novell.ldap.LDAPSearchResults;
 
 public class LDAPConnectionMock extends LDAPConnection {
-
   private String filter;
   private String baseDn;
   private Map<String, LDAPSearchResults> searchResults = new HashMap<String, LDAPSearchResults>();
   private Map<String, LDAPEntry> dnEntryMap = new HashMap<String, LDAPEntry>();
   private final List<String> readEntries = new ArrayList<String>();
   private LDAPException ldapException;
+  private boolean returnNullResult;
 
   public void setLdapException(LDAPException ldapException) {
     this.ldapException = ldapException;
@@ -33,6 +33,10 @@ public class LDAPConnectionMock extends LDAPConnection {
 
   public void addLDAPEntry(String dn, LDAPEntry entry) {
     this.dnEntryMap.put(dn, entry);
+  }
+
+  public void setReturnNullResult(boolean returnNullResult) {
+    this.returnNullResult = returnNullResult;
   }
 
   public void assertFilter(String expectedFilter) {
@@ -64,7 +68,7 @@ public class LDAPConnectionMock extends LDAPConnection {
     this.filter = filter;
     this.baseDn = base;
     LDAPSearchResults ldapSearchResults = searchResults.get(filter);
-    if (ldapSearchResults == null) {
+    if (ldapSearchResults == null && !returnNullResult) {
       ldapSearchResults = new LDAPSearchResultsMock();
     }
     return ldapSearchResults;

@@ -672,18 +672,14 @@ public class UnitRepository {
   }
 
   private boolean isExactMatchFilter(String searchValue) {
-    if (StringUtil.isEmpty(searchValue)) {
-      return false;
+    boolean exactMatch = false;
+
+    // it has to be at least one character between the " e.g. "a" for an exact match
+    if (searchValue.length() > 2 && searchValue.startsWith(LDAP_EXACT_CARD) && searchValue.endsWith(LDAP_EXACT_CARD)) {
+      exactMatch = true;
     }
-    // it has to be at least one character between the " e.g. "a" for an
-    // exact match
-    if (searchValue.length() <= 2) {
-      return false;
-    }
-    if (searchValue.startsWith(LDAP_EXACT_CARD) && searchValue.endsWith(LDAP_EXACT_CARD)) {
-      return true;
-    }
-    return false;
+
+    return exactMatch;
   }
 
   private String makeOr(List<String> orFilterList) {
