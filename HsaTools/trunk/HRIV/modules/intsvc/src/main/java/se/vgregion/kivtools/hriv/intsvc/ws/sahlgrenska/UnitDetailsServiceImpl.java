@@ -93,6 +93,13 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
     unitWeb.setAlias(unit.getLabeledURI());
     unitWs.getEAlias().add(unitWeb);
 
+    // Set e-mail address
+    EAliasType email = new EAliasType();
+    email.setLabel("Mottagningens e-post");
+    email.setType("email");
+    email.setAlias(unit.getMail());
+    unitWs.getEAlias().add(email);
+
     // Set visiting rules
     VisitingConditions visitingConditions = new UnitType.VisitingConditions();
     visitingConditions.setVisitingRules(unit.getHsaVisitingRules());

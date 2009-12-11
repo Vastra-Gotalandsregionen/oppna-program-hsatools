@@ -48,7 +48,8 @@ public class UnitDetailsServiceImplTest {
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=" + UNIT_HSA_IDENTITY + 1 + "&guid=uid123", "<xml></xml>");
 
     Organization organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 1);
-    assertEquals(UNIT_HSA_IDENTITY + 1, organization.getUnit().get(0).getId());
+    se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Unit unit = organization.getUnit().get(0);
+    assertEquals(UNIT_HSA_IDENTITY + 1, unit.getId());
   }
 
   @Test
@@ -85,36 +86,41 @@ public class UnitDetailsServiceImplTest {
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=" + UNIT_HSA_IDENTITY + 3 + "&guid=uid123", "<xml></xml>");
 
     Organization organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 0);
-    se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Address addressWs = organization.getUnit().get(0).getAddress().get(0);
-    assertEquals("En trevlig mottagning", organization.getUnit().get(0).getDescription().get(0).getValue());
+    se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Unit unit = organization.getUnit().get(0);
+    se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Address addressWs = unit.getAddress().get(0);
+    assertEquals("En trevlig mottagning", unit.getDescription().get(0).getValue());
     assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
     assertEquals(null, addressWs.getStreetNumber());
-    assertEquals("1111", organization.getUnit().get(0).getTelephone().get(0).getTelephoneNumber().get(0));
-    assertEquals("http://unit", organization.getUnit().get(0).getEAlias().get(0).getAlias());
-    assertEquals("Ingen parfym tack", organization.getUnit().get(0).getVisitingConditions().get(0).getVisitingRules());
-    assertEquals("Måndag-Fredag 08:00-17:00, Lördag 10:00-14:00", organization.getUnit().get(0).getVisitingConditions().get(0).getVisitingHours());
-    assertEquals("Måndag-Fredag 08:00-17:00, Lördag 10:00-14:00, Söndag 10:00-12:00", organization.getUnit().get(0).getVisitingConditions().get(0).getDropInHours());
-    assertEquals("Måndag-Fredag 08:00-17:00", organization.getUnit().get(0).getVisitingConditions().get(0).getTelephoneHours());
-    assertEquals("Landsting/region", organization.getUnit().get(0).getManagement().getValue());
-    assertEquals("Vårdcentral", organization.getUnit().get(0).getBusinessClassification().get(0).getValue());
-    assertEquals(2, organization.getUnit().get(0).getBusinessClassification().size());
-    assertEquals("Götlaborg", organization.getUnit().get(0).getLocality().getValue());
+    assertEquals("1111", unit.getTelephone().get(0).getTelephoneNumber().get(0));
+    assertEquals("http://unit0", unit.getEAlias().get(0).getAlias());
+    assertEquals("unit0@vgregion.se", unit.getEAlias().get(1).getAlias());
+    assertEquals("Ingen parfym tack", unit.getVisitingConditions().get(0).getVisitingRules());
+    assertEquals("Måndag-Fredag 08:00-17:00, Lördag 10:00-14:00", unit.getVisitingConditions().get(0).getVisitingHours());
+    assertEquals("Måndag-Fredag 08:00-17:00, Lördag 10:00-14:00, Söndag 10:00-12:00", unit.getVisitingConditions().get(0).getDropInHours());
+    assertEquals("Måndag-Fredag 08:00-17:00", unit.getVisitingConditions().get(0).getTelephoneHours());
+    assertEquals("Landsting/region", unit.getManagement().getValue());
+    assertEquals("Vårdcentral", unit.getBusinessClassification().get(0).getValue());
+    assertEquals(2, unit.getBusinessClassification().size());
+    assertEquals("Götlaborg", unit.getLocality().getValue());
 
     // Check Unit 1
     organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 1);
-    addressWs = organization.getUnit().get(0).getAddress().get(0);
+    unit = organization.getUnit().get(0);
+    addressWs = unit.getAddress().get(0);
     assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
     assertEquals("12", addressWs.getStreetNumber());
 
     // Check Unit 2
     organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 2);
-    addressWs = organization.getUnit().get(0).getAddress().get(0);
+    unit = organization.getUnit().get(0);
+    addressWs = unit.getAddress().get(0);
     assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
     assertEquals("1B", addressWs.getStreetNumber());
 
     // Check Unit 3
     organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 3);
-    addressWs = organization.getUnit().get(0).getAddress().get(0);
+    unit = organization.getUnit().get(0);
+    addressWs = unit.getAddress().get(0);
     assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
     assertEquals("12b", addressWs.getStreetNumber());
   }
@@ -151,7 +157,9 @@ public class UnitDetailsServiceImplTest {
         unit.setHsaStreetAddress(addressList.get(i));
         unit.setHsaPostalAddress(addressList.get(i));
         unit.setHsaPublicTelephoneNumber(Arrays.asList(PhoneNumber.createPhoneNumber("1111")));
-        unit.setLabeledURI("http://unit");
+        unit.setLabeledURI("http://unit" + i);
+        unit.setMail("unit" + i + "@vgregion.se");
+
         unit.setHsaVisitingRules("Ingen parfym tack");
         try {
           unit.setHsaDropInHours(Arrays.asList(new WeekdayTime(1, 5, 8, 0, 17, 0), new WeekdayTime(6, 6, 10, 0, 14, 0), new WeekdayTime(7, 7, 10, 0, 12, 0)));
