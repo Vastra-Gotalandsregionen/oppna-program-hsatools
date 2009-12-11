@@ -46,7 +46,7 @@
 
 #search-column {
 	float: left;
-	width: 20em;
+	width: 19.8em;
 	display: block;
 	margin-bottom: -1500em;
 	padding-bottom: 1500em;
@@ -57,7 +57,7 @@
 	margin: 0em;
 	background: #F3F1F2;
 	border: 0.1em solid #91ADB4;
-	width: 19.8em;
+	width: 19.6em;
 }
 
 #header-input-field-container span {
@@ -798,7 +798,7 @@ a.unit {
 
 #forms-container h3 {
 	color: #333333;
-	width: 18em;
+	width: 15em;
 	line-height: normal;
 	margin: 1.1em 0 2px 0;
 }
@@ -941,7 +941,7 @@ div.autocomplete {
 	padding-top: 0.5em;
 	text-align: right;
 	color: #2A6344;
-	width: 58em;
+	width: 56em;
 	float:right;
 }
 
