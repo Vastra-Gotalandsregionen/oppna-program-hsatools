@@ -79,7 +79,7 @@ public class PersonRepositoryTest {
     personEntry2.addAttribute("givenName", "Olle");
     personEntry2.addAttribute("cn", "cn=Olle,ou=Org,o=VGR");
     ldapSearchResultsMock.addLDAPEntry(personEntry2);
-    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=*ksn001*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))",
+    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=*ksn829*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))",
         ldapSearchResultsMock);
 
     searchPersonCriterion.setGivenName(" Kalle ");
@@ -88,9 +88,9 @@ public class PersonRepositoryTest {
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 0);
     ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
 
-    searchPersonCriterion.setUserId(" ksn001 ");
+    searchPersonCriterion.setUserId(" ksn829 ");
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 1);
-    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(regionName=*ksn001*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
+    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(regionName=*ksn829*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
     assertEquals(1, searchPersons.size());
 
     ldapConnectionPoolMock.assertCorrectConnectionHandling();
@@ -110,6 +110,16 @@ public class PersonRepositoryTest {
     ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(regionName=ksn001)(|(givenName=Kalle)(rsvFirstNames=Kalle))(|(sn=Svensson)(middleName=Svensson)))");
     assertEquals(1, searchPersons.size());
 
+    ldapSearchResultsMock = new LDAPSearchResultsMock();
+    ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
+    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=ksn829))", ldapSearchResultsMock);
+
+    searchPersonCriterion = new SearchPersonCriterions();
+    searchPersonCriterion.setUserId("\"ksn829\"");
+    searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
+    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(regionName=ksn829))");
+    assertEquals(1, searchPersons.size());
+
     ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
@@ -127,13 +137,13 @@ public class PersonRepositoryTest {
   @Test
   public void testSearchPersonsExceptionHandling() throws KivException {
     LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
-    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=*ksn001*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))",
+    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=*ksn829*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))",
         ldapSearchResultsMock);
 
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
     searchPersonCriterion.setGivenName(" Kalle ");
     searchPersonCriterion.setSurname(" Svensson ");
-    searchPersonCriterion.setUserId(" ksn001 ");
+    searchPersonCriterion.setUserId(" ksn829 ");
 
     ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
     ldapSearchResultsMock.setLdapException(new LDAPException("message", LDAPException.LDAP_TIMEOUT, "servermessage"));
@@ -157,7 +167,7 @@ public class PersonRepositoryTest {
     ldapSearchResultsMock.setLdapException(new LDAPException());
     SikSearchResultList<Person> searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
 
-    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(regionName=*ksn001*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
+    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(regionName=*ksn829*)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
     assertEquals(0, searchPersons.size());
 
     ldapConnectionPoolMock.assertCorrectConnectionHandling();
@@ -339,18 +349,18 @@ public class PersonRepositoryTest {
   @Test
   public void testGetPersonByVgrId() throws KivException {
     ldapConnectionMock.setReturnNullResult(true);
-    Person person = personRepository.getPersonByVgrId("ksn001");
+    Person person = personRepository.getPersonByVgrId("ksn829");
     assertNull(person);
 
     ldapConnectionMock.setReturnNullResult(false);
 
     LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
-    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=ksn001))", ldapSearchResultsMock);
+    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=ksn829))", ldapSearchResultsMock);
 
     ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
     ldapSearchResultsMock.setLdapException(new LDAPException("message", LDAPException.LDAP_TIMEOUT, "servermessage"));
     try {
-      personRepository.getPersonByVgrId("ksn001");
+      personRepository.getPersonByVgrId("ksn829");
       fail("KivException expected");
     } catch (KivException e) {
       // Expected exception
@@ -359,7 +369,7 @@ public class PersonRepositoryTest {
     ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
     ldapSearchResultsMock.setLdapException(new LDAPException("message", LDAPException.CONNECT_ERROR, "servermessage"));
     try {
-      personRepository.getPersonByVgrId("ksn001");
+      personRepository.getPersonByVgrId("ksn829");
       fail("KivException expected");
     } catch (KivException e) {
       // Expected exception
@@ -368,7 +378,7 @@ public class PersonRepositoryTest {
     ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
     ldapSearchResultsMock.setLdapException(new LDAPException());
     try {
-      personRepository.getPersonByVgrId("ksn001");
+      personRepository.getPersonByVgrId("ksn829");
       fail("KivException expected");
     } catch (KivException e) {
       // Expected exception
@@ -376,9 +386,9 @@ public class PersonRepositoryTest {
 
     ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
     ldapSearchResultsMock.setLdapException(null);
-    person = personRepository.getPersonByVgrId("ksn001");
+    person = personRepository.getPersonByVgrId("ksn829");
 
-    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(regionName=ksn001))");
+    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(regionName=ksn829))");
     assertNotNull(person);
 
     ldapConnectionPoolMock.assertCorrectConnectionHandling();

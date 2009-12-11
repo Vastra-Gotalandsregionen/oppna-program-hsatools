@@ -445,12 +445,13 @@ public class PersonRepository {
   }
 
   private void addTelephoneFilter(String telephone, OrFilter regionNameOrTelephoneFilter) {
-    String trimmedTelephone = cleanTelephoneNumber(telephone);
+    String trimmedTelephone = telephone.trim();
+    String cleanedTelephone = cleanTelephoneNumber(telephone);
     String[] telephoneFields = new String[] { "facsimileTelephoneNumber", "hsaSwitchboardNumber", "telephoneNumber", "hsaTelephoneNumber", "mobile", "hsaInternalPagerNumber", "pager",
         "hsaTextPhoneNumber", };
-    if (trimmedTelephone.length() >= 3 && !telephone.matches("^\\p{Alpha}{3}\\d{3}")) {
+    if (cleanedTelephone.length() >= 3 && !trimmedTelephone.matches("^\"*\\p{Alpha}{3}\\d{3}\"*")) {
       for (String field : telephoneFields) {
-        regionNameOrTelephoneFilter.or(createSearchFilter(field, trimmedTelephone));
+        regionNameOrTelephoneFilter.or(createSearchFilter(field, cleanedTelephone));
       }
     }
   }
