@@ -65,7 +65,7 @@ public class PersonRepositoryTest {
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
     searchPersonCriterion.setEmploymentTitle("employmentTitle");
     personRepository.searchPersons(searchPersonCriterion, 1);
-    ldapConnectionMock.assertFilter("(&(objectclass=vgrUser)(!(vgrStrukturPersonDN=*OU=Privata Vårdgivare*))(vgr-id=anama))");
+    ldapConnectionMock.assertFilter("(&(objectclass=vgrUser)(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(vgr-id=anama))");
     ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
@@ -75,7 +75,7 @@ public class PersonRepositoryTest {
     ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
     ldapConnectionMock
         .addLDAPSearchResults(
-            "(&(objectclass=vgrUser)(!(vgrStrukturPersonDN=*OU=Privata Vårdgivare*))(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(vgr-id=anama))",
+            "(&(objectclass=vgrUser)(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(vgr-id=anama))",
             ldapSearchResultsMock);
 
     ldapSearchResultsMock = new LDAPSearchResultsMock();
@@ -89,7 +89,7 @@ public class PersonRepositoryTest {
     searchPersonCriterion.setGivenName("Kalle");
     searchPersonCriterion.setSurname("Svensson");
     SikSearchResultList<Person> searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
-    ldapConnectionMock.assertFilter("(&(objectclass=vgrUser)(!(vgrStrukturPersonDN=*OU=Privata Vårdgivare*))(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*)))");
+    ldapConnectionMock.assertFilter("(&(objectclass=vgrUser)(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*)))");
 
     searchPersonCriterion.setUserId("vgr-id");
     searchPersonCriterion.setEmploymentTitle("employmentTitle");
@@ -101,7 +101,7 @@ public class PersonRepositoryTest {
     searchPersonCriterion.setAdministration("administration");
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
     ldapConnectionMock
-        .assertFilter("(&(objectclass=vgrUser)(!(vgrStrukturPersonDN=*OU=Privata Vårdgivare*))(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(vgr-id=anama))");
+        .assertFilter("(&(objectclass=vgrUser)(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(vgr-id=anama))");
     assertEquals(1, searchPersons.size());
     ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
@@ -123,7 +123,7 @@ public class PersonRepositoryTest {
     List<Unit> units = generateTestUnitList();
     List<Person> persons = personRepository.getPersonsForUnits(units, 5);
     assertFalse(persons.isEmpty());
-    this.ldapConnectionMock.assertFilter("(&(!(vgrStrukturPersonDN=*OU=Privata Vårdgivare*))(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4)))");
+    this.ldapConnectionMock.assertFilter("(&(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4)))");
     ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
@@ -156,7 +156,7 @@ public class PersonRepositoryTest {
     for (LDAPEntryMock ldapEntryMock : ldapEntries) {
       ldapSearchResultsMock.addLDAPEntry(ldapEntryMock);
     }
-    this.ldapConnectionMock.addLDAPSearchResults("(&(!(vgrStrukturPersonDN=*OU=Privata Vårdgivare*))(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4)))",
+    this.ldapConnectionMock.addLDAPSearchResults("(&(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4)))",
         ldapSearchResultsMock);
   }
 

@@ -349,7 +349,7 @@ public class PersonRepository {
       unitFkfilter.or(new EqualsFilter(unitFkField, unit.getHsaIdentity()));
     }
 
-    filter.and(new NotFilter(new LikeFilter("vgrStrukturPersonDN", "*OU=Privata Vårdgivare*")));
+    filter.and(new NotFilter(new LikeFilter("vgrStrukturPerson", "*OU=Privata Vårdgivare*")));
     filter.and(unitFkfilter);
 
     persons = searchPersons(filter.encode(), LDAPConnection.SCOPE_ONE, maxResult);
@@ -402,7 +402,7 @@ public class PersonRepository {
   private AndFilter generateFreeTextSearchPersonFilter(SearchPersonCriterions person) {
     AndFilter userFilter = new AndFilter();
     userFilter.and(new EqualsFilter("objectclass", "vgrUser"));
-    userFilter.and(new NotFilter(new LikeFilter("vgrStrukturPersonDN", "*OU=Privata Vårdgivare*")));
+    userFilter.and(new NotFilter(new LikeFilter("vgrStrukturPerson", "*OU=Privata Vårdgivare*")));
 
     if (!StringUtil.isEmpty(person.getGivenName())) {
       OrFilter firstNameFilter = new OrFilter();
