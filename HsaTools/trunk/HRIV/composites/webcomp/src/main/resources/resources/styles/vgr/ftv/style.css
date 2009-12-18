@@ -48,15 +48,12 @@
 	float: left;
 	width: 19.8em;
 	display: block;
-	margin-bottom: -1500em;
-	padding-bottom: 1500em;
 }
 
 #header-input-field-container {
 	float: left;
 	margin: 0em;
-	background: #F3F1F2;
-	border: 0.1em solid #91ADB4;
+	border: 0px;
 	width: 19.6em;
 }
 
@@ -779,21 +776,33 @@ a.unit {
 
 #forms-container {
 	font-weight: bold;
-	margin-bottom: 0.4em;
-	margin-top: -0.5em;
-	margin-left: 1.2em;
-	margin-right: 0.7em;
-	background-color: #F3F1F2;
+	background: url('../../../images/vgr/ftv/LeftMenu_BG_new.gif') no-repeat left top;
+	width:212px;
+	min-height:200px;
+	height:auto !important;
+	height:200px;
+	float:left;
+	display:inline;
+	text-align:left;
+	margin-top:1px;
+	padding-left:10px;
+}
+
+.forms-container-bottom {
+	background-image:url(../../../images/vgr/ftv/LeftMenu_BG_bottom.gif);
+	background-repeat:no-repeat;
+	height:55px;
+	clear:both;
 }
 
 #forms-container h2 {
 	margin: 1em 0 0 0;
-	color: #333333;
+	color: #FFFFFF;
 	line-height: normal;
 }
 
 #forms-container h3 {
-	color: #333333;
+	color: #FFFFFF;
 	width: 15em;
 	line-height: normal;
 	margin: 1.1em 0 2px 0;
@@ -801,11 +810,11 @@ a.unit {
 
 #forms-container h3.healthcareType {
 	margin-top: 2.6em;
-	color: #333333;
+	color: #FFFFFF;
 }
 
 #forms-container h3.municipality {
-	color: #333333;
+	color: #FFFFFF;
 	margin-top: 1em;
 }
 
