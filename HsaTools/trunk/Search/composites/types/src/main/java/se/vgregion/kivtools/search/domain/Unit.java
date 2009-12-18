@@ -40,6 +40,7 @@ import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.domain.values.accessibility.AccessibilityInformation;
 import se.vgregion.kivtools.util.StringUtil;
+import se.vgregion.kivtools.util.time.TimeUtil;
 
 import com.domainlanguage.time.TimePoint;
 
@@ -812,7 +813,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    */
   public boolean getShouldVgrTempInfoBeShown() {
     boolean show = false;
-    Date now = new Date();
+    Date now = TimeUtil.asDate();
 
     if (vgrTempInfoStart != null && vgrTempInfoEnd != null) {
       show = now.after(vgrTempInfoStart) && now.before(vgrTempInfoEnd);
