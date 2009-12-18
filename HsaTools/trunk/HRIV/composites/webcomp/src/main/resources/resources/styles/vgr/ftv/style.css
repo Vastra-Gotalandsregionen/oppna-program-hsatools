@@ -297,11 +297,7 @@
 }
 
 #search-result-container li.selected-item {
-	padding: 0.6em 0.6em 1.1em 1.1em;
-	border: 0.5em solid #F3F1F2;
-	border-width: 0.5em 0.5em 0 0;
-	background: url(../../../images/selected_search_Item_bg.gif) no-repeat bottom
-		left;
+	background: #fff8eb;
 }
 
 h3.fn {
@@ -404,7 +400,7 @@ h3.person {
 
 .vcard .given-name a {
 	text-decoration: underline;
-	color: #666;
+	color: #005DAB;
 	font-size: 1em;
 }
 

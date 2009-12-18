@@ -325,4 +325,9 @@ public class SettingsBeanTest {
   public void testCareTypeInfoUrl() {
     PojoTester.testProperty(bean, "careTypeInfoUrl", String.class, null, TEST_STRING, "Test2");
   }
+
+  @Test
+  public void testUnitSearchResultSingleUnitInclude() {
+    PojoTester.testProperty(bean, "unitSearchResultSingleUnitInclude", String.class, null, TEST_STRING, "Test2");
+  }
 }
