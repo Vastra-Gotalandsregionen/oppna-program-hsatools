@@ -18,10 +18,10 @@
 package se.vgregion.kivtools.search.userevent;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import se.vgregion.kivtools.util.StringUtil;
+import se.vgregion.kivtools.util.time.TimeUtil;
 
 /**
  * Stub-implementation to use when there is no real backend implementation.
@@ -38,9 +38,9 @@ public class UserEventServiceStub implements UserEventService {
     List<UserEventInfo> events = new ArrayList<UserEventInfo>();
 
     if (!StringUtil.isEmpty(firstName)) {
-      events.add(UserEventInfo.createUserEventInfo("ejvidarekopplad", "möte", new Date(), new Date(), "Möte resten av dagen", "/Kalle"));
-      events.add(UserEventInfo.createUserEventInfo("vidarekopplad", "gåttfördagen", new Date(), new Date(), "Gått för dagen", "/Kalle"));
-      events.add(UserEventInfo.createUserEventInfo("ejvidarekopplad", "sjuk", new Date(), null, "Hemma med snuva", "/Kalle"));
+      events.add(UserEventInfo.createUserEventInfo("ejvidarekopplad", "möte", TimeUtil.asDate(), TimeUtil.asDate(), "Möte resten av dagen", "/Kalle"));
+      events.add(UserEventInfo.createUserEventInfo("vidarekopplad", "gåttfördagen", TimeUtil.asDate(), TimeUtil.asDate(), "Gått för dagen", "/Kalle"));
+      events.add(UserEventInfo.createUserEventInfo("ejvidarekopplad", "sjuk", TimeUtil.asDate(), null, "Hemma med snuva", "/Kalle"));
     }
 
     return events;

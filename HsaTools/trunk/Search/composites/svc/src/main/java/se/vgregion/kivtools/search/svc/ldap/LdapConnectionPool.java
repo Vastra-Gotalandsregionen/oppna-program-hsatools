@@ -18,7 +18,6 @@
 package se.vgregion.kivtools.search.svc.ldap;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -28,6 +27,7 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.util.StringUtil;
+import se.vgregion.kivtools.util.time.TimeUtil;
 
 import com.novell.ldap.LDAPConnection;
 import com.novell.ldap.LDAPException;
@@ -218,7 +218,7 @@ public class LdapConnectionPool {
    */
   public synchronized LDAPConnection getConnection(long timeout) throws KivException {
 
-    long startTime = new Date().getTime();
+    long startTime = TimeUtil.asMillis();
     LDAPConnection con;
     while ((con = internalGetConnection()) == null) {
       try {
@@ -227,7 +227,7 @@ public class LdapConnectionPool {
         // No specific handling
         logger.debug("Thread was interrupted. Perhaps someone returned a connection to the pool");
       }
-      if (new Date().getTime() - startTime >= timeout) {
+      if (TimeUtil.asMillis() - startTime >= timeout) {
         // Timeout has expired
         return null;
       }
