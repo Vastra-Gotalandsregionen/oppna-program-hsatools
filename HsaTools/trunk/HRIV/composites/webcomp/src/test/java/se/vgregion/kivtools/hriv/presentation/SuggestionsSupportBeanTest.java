@@ -69,8 +69,8 @@ public class SuggestionsSupportBeanTest {
         "<ul><li id=\"XYZ-987\">Angereds v&#229;rdcentral, Angered</li><li id=\"ABC-123\">M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal</li><li id=\"JKL-654\">Slottsskogens v&#229;rdcentral</li></ul>",
         bean.getSuggestions("n", "html"));
     assertEquals("Unexpected output for XML", "<?xml version='1.0' standalone='yes'?>\n<units>\n<unit description=\"Angereds v&#229;rdcentral, Angered\" id=\"XYZ-987\" />\n"
-        + "<unit description=\"M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal\" id=\"ABC-123\" />\n"
-        + "<unit description=\"Slottsskogens v&#229;rdcentral\" id=\"JKL-654\" />\n</units>", bean.getSuggestions("n", "xml"));
+        + "<unit description=\"M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal\" id=\"ABC-123\" uri=\"http://www.test.com\" />\n"
+        + "<unit description=\"Slottsskogens v&#229;rdcentral\" id=\"JKL-654\" uri=\"https://secure.test.com\" />\n</units>", bean.getSuggestions("n", "xml"));
     assertEquals("Unexpected output for plain text", "Angereds v&#229;rdcentral, Angered\tXYZ-987\n" + "M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal\tABC-123\n"
         + "Slottsskogens v&#229;rdcentral\tJKL-654\n" + "", bean.getSuggestions("n", "text"));
 
@@ -100,8 +100,8 @@ public class SuggestionsSupportBeanTest {
         + "<li id=\"ABC-123\">M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal</li>" + "<li id=\"JKL-654\">Slottsskogens v&#229;rdcentral</li></ul>", bean
         .getSuggestions("n", "html"));
     assertEquals("Unexpected output for XML", "<?xml version='1.0' standalone='yes'?>\n<units>\n" + "<unit description=\"Angereds v&#229;rdcentral, Angered\" id=\"XYZ-987\" />\n"
-        + "<unit description=\"M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal\" id=\"ABC-123\" />\n"
-        + "<unit description=\"Slottsskogens v&#229;rdcentral\" id=\"JKL-654\" />\n" + "</units>", bean.getSuggestions("n", "xml"));
+        + "<unit description=\"M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal\" id=\"ABC-123\" uri=\"http://www.test.com\" />\n"
+        + "<unit description=\"Slottsskogens v&#229;rdcentral\" id=\"JKL-654\" uri=\"https://secure.test.com\" />\n" + "</units>", bean.getSuggestions("n", "xml"));
     assertEquals("Unexpected output for plain text", "Angereds v&#229;rdcentral, Angered\tXYZ-987\n" + "M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal\tABC-123\n"
         + "Slottsskogens v&#229;rdcentral\tJKL-654\n" + "", bean.getSuggestions("n", "text"));
   }
@@ -112,6 +112,7 @@ public class SuggestionsSupportBeanTest {
     unit1.setHsaIdentity("ABC-123");
     unit1.setName("Mölndals ABC & åäöÅÄÖé");
     unit1.setLocality("Mölndal");
+    unit1.setLabeledURI("http://www.test.com");
     Unit unit2 = new Unit();
     unit2.setHsaIdentity("XYZ-987");
     unit2.setName("Angereds vårdcentral");
@@ -120,6 +121,7 @@ public class SuggestionsSupportBeanTest {
     unit3.setHsaIdentity("JKL-654");
     unit3.setName("Slottsskogens vårdcentral");
     unit3.setLocality(null);
+    unit3.setLabeledURI("https://secure.test.com");
     units.add(unit1);
     units.add(unit2);
     units.add(unit3);

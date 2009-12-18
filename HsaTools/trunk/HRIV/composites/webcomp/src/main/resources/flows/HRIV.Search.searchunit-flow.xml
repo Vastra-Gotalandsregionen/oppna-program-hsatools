@@ -44,6 +44,7 @@
 	<decision-state id="Decision.startOrSearch">
 		<if test="requestParameters.startpage!=null" then="Display.startpage" />
 		<if test="requestParameters.caretypes!=null" then="Display.caretypes" />
+		<if test="requestParameters.searchwidget!=null" then="Display.searchWidget" />
 		<if test="requestParameters.viewAccessibilityInfo!=null" then="Display.viewAccessibilityInfo" />
 		<if test="requestParameters.address!=null" then="Display.closeUnitsOnMap" />
 		<if test="errorReportingForm.reportText!=null" then="Error.report"/>
@@ -155,6 +156,9 @@
 		<transition on="doSearch" to="Search.validateSearchParams" />
 		<transition on="gotoCaretypes" to="Display.caretypes" />
 		<transition on="gotoStartpage" to="Display.startpage" />
+	</view-state>
+
+	<view-state id="Display.searchWidget" view="/searchWidget.xhtml">
 	</view-state>
 
 	<action-state id="Error.report">
