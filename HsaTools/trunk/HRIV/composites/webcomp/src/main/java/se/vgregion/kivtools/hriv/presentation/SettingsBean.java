@@ -32,6 +32,7 @@ public class SettingsBean implements Serializable {
   private static final long serialVersionUID = 246274450053259084L;
   private String resourceBundleInclude;
   private String googleMapInitInclude;
+  private String unitSearchResultSingleUnitInclude;
   private String errorReportFormInclude;
   private String errorReportConfirmInclude;
   private String publicCaptchaKey;
@@ -507,5 +508,13 @@ public class SettingsBean implements Serializable {
 
   public String getBodyInclude() {
     return bodyInclude;
+  }
+
+  public void setUnitSearchResultSingleUnitInclude(String unitSearchResultSingleUnitInclude) {
+    this.unitSearchResultSingleUnitInclude = unitSearchResultSingleUnitInclude;
+  }
+
+  public String getUnitSearchResultSingleUnitInclude() {
+    return unitSearchResultSingleUnitInclude;
   }
 }
