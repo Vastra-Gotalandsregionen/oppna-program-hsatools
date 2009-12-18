@@ -144,7 +144,11 @@ public class SuggestionsSupportBean {
     suggestions.append("<?xml version='1.0' standalone='yes'?>\n<units>\n");
     for (Unit u : units) {
       String description = getUnitDescriptionEncoded(u);
-      suggestions.append("<unit description=\"" + description + "\" id=\"" + u.getHsaIdentity() + "\" />\n");
+      suggestions.append("<unit description=\"").append(description).append("\" id=\"").append(u.getHsaIdentity()).append("\"");
+      if (u.getLabeledURIIsValid()) {
+        suggestions.append(" uri=\"").append(u.getLabeledURI()).append("\"");
+      }
+      suggestions.append(" />\n");
     }
     suggestions.append("</units>");
 

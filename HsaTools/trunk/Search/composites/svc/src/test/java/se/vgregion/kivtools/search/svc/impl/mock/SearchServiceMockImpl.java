@@ -310,7 +310,7 @@ public class SearchServiceMockImpl implements SearchService {
 
   @Override
   public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
-    return null;
+    return this.getAllUnitsHsaIdentity();
   }
 
   @Override

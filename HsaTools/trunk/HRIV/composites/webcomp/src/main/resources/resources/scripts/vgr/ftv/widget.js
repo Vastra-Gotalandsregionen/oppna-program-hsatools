@@ -184,9 +184,8 @@ function initAutocompleter() {
 		var selectedItem = aArgs[1]; // the <li> element selected in the
 										// suggestion container
 		var oData = aArgs[2]; // object literal of data for the result
-		var hsaId = oData.id;
-		if (hsaId != '') {
-			document.location = "visaenhet?hsaidentity=" + hsaId;
+		if (oData.uri != '') {
+			document.location = oData.uri;
 		}
 	};
 	myAutoComp.itemSelectEvent.subscribe(itemSelectHandler);

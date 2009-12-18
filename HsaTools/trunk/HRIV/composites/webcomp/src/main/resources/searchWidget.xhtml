@@ -1,0 +1,60 @@
+<!--
+      Copyright 2009 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="sv-SE" xml:lang="sv-SE" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <head>
+        <h:outputText rendered="${facesContext.externalContext.request.serverName == Search_SettingsContainer.mobileUrl}">
+            <link rel="stylesheet" type="text/css" href="resources/styles/handheld.css" media="screen" />
+            <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+        </h:outputText>
+
+        <h:outputText rendered="${facesContext.externalContext.request.serverName != Search_SettingsContainer.mobileUrl}">
+            <style type="text/css" media="screen,projection">
+                <h:outputText escape="false">${Search_SettingsContainer.styles}</h:outputText>
+            </style>
+            <link rel="stylesheet" type="text/css" href="resources/styles/print.css" media="print" />
+        </h:outputText>
+
+        <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/autocomplete/assets/skins/sam/autocomplete.css" />
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/yahoo-dom-event/yahoo-dom-event.js" />
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/datasource/datasource-min.js" />
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/autocomplete/autocomplete-min.js" />
+        <script type="text/javascript" src="resources/scripts/utilities.js" />
+        <script type="text/javascript" src="resources/scripts/script.js" />
+        <script type="text/javascript" src="resources/scripts/widget.js" />
+        <ui:repeat value="${Search_SettingsContainer.scriptPaths}" var="script">
+            <script type="text/javascript" src="${script}" />
+        </ui:repeat>
+    </head>
+    <body onload="if (document.getElementById('unitName').value == '') {document.getElementById('unitName').value = '${msg.defaultSearchUnitName}';}" onunload="GUnload()" class="yui-skin-sam">
+
+        <!-- Could not specify dynamic attribute where resource bundle was specified in settings file -->
+        <ui:include src="${Search_SettingsContainer.resourceBundleInclude}" />
+
+		<div id="search-column">
+		    <div id="header-input-field-container">
+				<div class="boxinside">
+					<ui:include src="${Search_SettingsContainer.searchFormInclude}"/>
+				</div>
+			</div>
+		</div>
+    </body>
+</html>
