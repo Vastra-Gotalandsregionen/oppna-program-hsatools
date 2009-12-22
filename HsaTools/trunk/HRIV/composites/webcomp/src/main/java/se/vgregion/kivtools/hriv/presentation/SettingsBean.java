@@ -33,6 +33,7 @@ public class SettingsBean implements Serializable {
   private String resourceBundleInclude;
   private String googleMapInitInclude;
   private String unitSearchResultSingleUnitInclude;
+  private String unitSearchResultSortOrderInclude;
   private String errorReportFormInclude;
   private String errorReportConfirmInclude;
   private String publicCaptchaKey;
@@ -516,5 +517,13 @@ public class SettingsBean implements Serializable {
 
   public String getUnitSearchResultSingleUnitInclude() {
     return unitSearchResultSingleUnitInclude;
+  }
+
+  public void setUnitSearchResultSortOrderInclude(String unitSearchResultSortOrderInclude) {
+    this.unitSearchResultSortOrderInclude = unitSearchResultSortOrderInclude;
+  }
+
+  public String getUnitSearchResultSortOrderInclude() {
+    return unitSearchResultSortOrderInclude;
   }
 }

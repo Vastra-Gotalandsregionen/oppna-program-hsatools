@@ -65,6 +65,7 @@
 		<property name="resourceBundleInclude" value="#{hsatools.hriv.webcomp.resourceBundleInclude}" />
 		<property name="googleMapInitInclude" value="#{hsatools.hriv.webcomp.googleMapInitInclude}" />
 		<property name="unitSearchResultSingleUnitInclude" value="#{hsatools.hriv.webcomp.unitSearchResultSingleUnitInclude}" />
+		<property name="unitSearchResultSortOrderInclude" value="#{hsatools.hriv.webcomp.unitSearchResultSortOrderInclude}" />
 		<property name="errorReportFormInclude" value="#{hsatools.hriv.webcomp.errorReportFormInclude}" />
 		<property name="errorReportConfirmInclude" value="#{hsatools.hriv.webcomp.errorReportConfirmInclude}" />
 		<property name="searchFormInclude" value="#{hsatools.hriv.webcomp.searchFormInclude}" />
