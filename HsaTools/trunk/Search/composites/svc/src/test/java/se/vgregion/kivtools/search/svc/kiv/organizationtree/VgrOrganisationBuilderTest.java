@@ -9,10 +9,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.ldap.filter.AndFilter;
-import org.springframework.ldap.filter.EqualsFilter;
 
 import se.vgregion.kivtools.search.domain.Unit;
 
@@ -20,9 +16,6 @@ public class VgrOrganisationBuilderTest {
 
     private VgrOrganisationBuilder vgrOrganisationBuilder;
     private List<UnitComposition<Unit>> vgrUnitCompositions;
-
-    @Autowired
-    private LdapTemplate ldapTemplate;
 
     @Before
     public void setUp() throws Exception {
@@ -58,19 +51,16 @@ public class VgrOrganisationBuilderTest {
 
     @Test
     public void testGenerateOrganisation() {
-        AndFilter andFilter = new AndFilter();
-        andFilter.and(new EqualsFilter("objectClass", "vgrOrganizationalUnit"));
-        // List<UnitComposition<Unit>> unitsList = ldapTemplate.search("", andFilter.encode(),
-        // SearchControls.SUBTREE_SCOPE, new VgrUnitMapper());
         UnitComposition<Unit> generateOrganisation = vgrOrganisationBuilder
                 .generateOrganisation(vgrUnitCompositions);
         assertNotNull(generateOrganisation);
 
-        //Use for loop because generateOrganization use Maps that are not ordered.
+        // Use for loop because generateOrganization use Maps that are not ordered.
         for (UnitComposition<Unit> topNodes : generateOrganisation.getChildUnits()) {
             if (topNodes.getUnit().getHsaIdentity().equals("unit1")) {
                 assertEquals("unit2", topNodes.getChildUnits().get(0).getUnit().getHsaIdentity());
-                assertEquals("unit5", topNodes.getChildUnits().get(0).getChildUnits().get(0).getUnit().getHsaIdentity());
+                assertEquals("unit5", topNodes.getChildUnits().get(0).getChildUnits().get(0).getUnit()
+                        .getHsaIdentity());
             } else if (topNodes.getUnit().getHsaIdentity().equals("unit3")) {
                 assertEquals("unit4", topNodes.getChildUnits().get(0).getUnit().getHsaIdentity());
             } else {
