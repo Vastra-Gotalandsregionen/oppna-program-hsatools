@@ -5,6 +5,11 @@ import org.springframework.ldap.core.DistinguishedName;
 import se.vgregion.kivtools.hriv.intsvc.vgr.domain.Unit;
 import se.vgregion.kivtools.util.StringUtil;
 
+/**
+ * 
+ * @author David Bennehult
+ * @author Anders Bergkvist
+ */
 public class VgrUnitComposition implements UnitComposition<Unit> {
 
     private String unitDn;
@@ -12,8 +17,10 @@ public class VgrUnitComposition implements UnitComposition<Unit> {
 
     /**
      * 
-     * @param unitDn Dn name of the unit to use with the composition.
-     * @param unit Object of a unit with the given unitDn.
+     * @param unitDn
+     *            Dn name of the unit to use with the composition.
+     * @param unit
+     *            Object of a unit with the given unitDn.
      */
     public VgrUnitComposition(String unitDn, Unit unit) {
         this.unitDn = unitDn;

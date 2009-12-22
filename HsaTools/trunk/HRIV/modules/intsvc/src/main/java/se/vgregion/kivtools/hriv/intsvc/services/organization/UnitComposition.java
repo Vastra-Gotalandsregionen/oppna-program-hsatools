@@ -4,6 +4,7 @@ package se.vgregion.kivtools.hriv.intsvc.services.organization;
  * Container for a unit which also hold some meta data about the unit which is used by the vgr domain structure.
  * 
  * @author David Bennehult & Joakim Olsson
+ * @param <T> Unit type to be used in UnitComposition instance.
  */
 public interface UnitComposition<T> {
 
