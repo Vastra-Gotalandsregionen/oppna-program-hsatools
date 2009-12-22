@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import se.vgregion.kivtools.search.domain.Unit;
 
@@ -23,44 +22,47 @@ public class VgrOrganisationBuilder {
      * @return A populated Organization-instance.
      */
     public UnitComposition<Unit> generateOrganisation(List<UnitComposition<Unit>> unitCompositions) {
-        Map<UnitComposition<Unit>, List<UnitComposition<Unit>>> topUnitChildren;
-        topUnitChildren = new HashMap<UnitComposition<Unit>, List<UnitComposition<Unit>>>();
-        
-        Map<String, List<UnitComposition<Unit>>> subUnitChildren;
-        subUnitChildren = new HashMap<String, List<UnitComposition<Unit>>>();
-        
+        List<UnitComposition<Unit>> topNodes = new ArrayList<UnitComposition<Unit>>();
+
+        Map<String, List<UnitComposition<Unit>>> subNodes;
+        subNodes = new HashMap<String, List<UnitComposition<Unit>>>();
+
         VgrUnitComposition vgrUnitComposition = new VgrUnitComposition("vgr", null);
 
         for (UnitComposition<Unit> unitComposition : unitCompositions) {
-            String unitParentDn = unitComposition.getParentDn();
-
-            // Add top unit in separate list.
-            if ("".equals(unitParentDn)) {
-                List<UnitComposition<Unit>> topUnitList = topUnitChildren.get(unitComposition.getDn());
-                if (topUnitList == null) {
-                    topUnitList = new ArrayList<UnitComposition<Unit>>();
-                    topUnitChildren.put(unitComposition, topUnitList);
-                    //topUnits.put(unitComposition.getDn(), unitComposition);
-                }
-                topUnitList.add(unitComposition);
+            // Add top node units in separate list.
+            if ("".equals(unitComposition.getParentDn())) {
+                topNodes.add(unitComposition);
             } else {
-                // Is a subunit or leaf
-                List<UnitComposition<Unit>> subUnitList = subUnitChildren.get(unitParentDn);
-                if (subUnitList == null) {
-                    subUnitList = new ArrayList<UnitComposition<Unit>>();
-                    subUnitChildren.put(unitParentDn, subUnitList);
-                }
-                subUnitList.add(unitComposition);
+                // Is a sub node units or leaf
+                addToNodeChildrenList(unitComposition, subNodes);
             }
         }
 
-        for (Entry<UnitComposition<Unit>, List<UnitComposition<Unit>>> topUnit : topUnitChildren.entrySet()) {
-            UnitComposition<Unit> topUnitComposite = topUnit.getKey();
-            UnitComposition<Unit> generateOrganization = generateOrganization(topUnit.getKey(),
-                    subUnitChildren.get(topUnitComposite.getDn()), subUnitChildren);
+        // Generate tree structure for each top node.
+        for (UnitComposition<Unit> topNode : topNodes) {
+            UnitComposition<Unit> generateOrganization = generateOrganization(topNode, subNodes.get(topNode
+                    .getDn()), subNodes);
             vgrUnitComposition.getChildUnits().add(generateOrganization);
         }
         return vgrUnitComposition;
+    }
+
+    /**
+     * 
+     * @param unitComposite
+     *            To add in List in map.
+     * @param mapList
+     *            Map<String, List<UnitComposition<Unit>>> to use for adding unitComposite
+     */
+    private void addToNodeChildrenList(UnitComposition<Unit> unitComposite,
+            Map<String, List<UnitComposition<Unit>>> mapList) {
+        List<UnitComposition<Unit>> nodeChildren = mapList.get(unitComposite.getParentDn());
+        if (nodeChildren == null) {
+            nodeChildren = new ArrayList<UnitComposition<Unit>>();
+            mapList.put(unitComposite.getParentDn(), nodeChildren);
+        }
+        nodeChildren.add(unitComposite);
     }
 
     private UnitComposition<Unit> generateOrganization(UnitComposition<Unit> rootUnit,
@@ -74,8 +76,6 @@ public class VgrOrganisationBuilder {
                         subUnitChildren);
             }
         }
-
         return rootUnit;
-
     }
 }
