@@ -59,6 +59,22 @@
 			</xs:simpleContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="TemporaryInformation">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReferralInformation">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Name" type="xs:string" nillable="false" />
 	<xs:element name="Label" type="xs:string" />
 	<xs:complexType name="AddressType">
@@ -225,6 +241,16 @@
 				<xs:annotation>
 					<xs:documentation>Free text description of the unit or
 						information related to the unit</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="hr:TemporaryInformation" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Temporary information for the unit</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="hr:ReferralInformation" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Any referral information for the unit</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Image" minOccurs="0" maxOccurs="unbounded">

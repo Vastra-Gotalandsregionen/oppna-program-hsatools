@@ -3,6 +3,7 @@ package se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,16 +23,21 @@ import se.vgregion.kivtools.search.exceptions.InvalidFormatException;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 import se.vgregion.kivtools.search.util.MvkClient;
+import se.vgregion.kivtools.util.time.TimeSource;
+import se.vgregion.kivtools.util.time.TimeUtil;
 
 public class UnitDetailsServiceImplTest {
   private static final String UNIT_NAME = "UnitName";
   private static final String UNIT_HSA_IDENTITY = "UnitHsaIdentity";
   private UnitDetailsServiceImpl unitDetailsService;
   private HttpFetcherMock httpFetcher;
+  private Calendar calendar;
 
   @Before
   public void setup() throws Exception {
     httpFetcher = new HttpFetcherMock();
+
+    setupTimeSource();
 
     MvkClient mvkClient = new MvkClient();
     mvkClient.setHttpFetcher(httpFetcher);
@@ -41,6 +47,20 @@ public class UnitDetailsServiceImplTest {
     unitDetailsService = new UnitDetailsServiceImpl();
     unitDetailsService.setUnitRepository(new UnitRepositoryMock());
     unitDetailsService.setMvkClient(mvkClient);
+  }
+
+  private void setupTimeSource() {
+    calendar = Calendar.getInstance();
+    calendar.set(2009, 8, 19, 16, 23);
+    calendar.set(Calendar.SECOND, 48);
+    calendar.set(Calendar.MILLISECOND, 0);
+    TimeSource timeSource = new TimeSource() {
+      @Override
+      public long millis() {
+        return calendar.getTimeInMillis();
+      }
+    };
+    TimeUtil.setTimeSource(timeSource);
   }
 
   @Test
@@ -77,7 +97,7 @@ public class UnitDetailsServiceImplTest {
   }
 
   @Test
-  public void testUnitAddressInfo() {
+  public void testUnitInfo() {
     // Check Unit 0
 
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=" + UNIT_HSA_IDENTITY + 0 + "&guid=uid123", "<xml></xml>");
@@ -89,6 +109,8 @@ public class UnitDetailsServiceImplTest {
     se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Unit unit = organization.getUnit().get(0);
     se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Address addressWs = unit.getAddress().get(0);
     assertEquals("En trevlig mottagning", unit.getDescription().get(0).getValue());
+    assertEquals("Temp info", unit.getTemporaryInformation().get(0).getValue());
+    assertEquals("Ref info", unit.getReferralInformation().get(0).getValue());
     assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
     assertEquals(null, addressWs.getStreetNumber());
     assertEquals("1111", unit.getTelephone().get(0).getTelephoneNumber().get(0));
@@ -109,6 +131,8 @@ public class UnitDetailsServiceImplTest {
     addressWs = unit.getAddress().get(0);
     assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
     assertEquals("12", addressWs.getStreetNumber());
+    assertEquals(0, unit.getTemporaryInformation().size());
+    assertEquals(0, unit.getReferralInformation().size());
 
     // Check Unit 2
     organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 2);
@@ -116,6 +140,8 @@ public class UnitDetailsServiceImplTest {
     addressWs = unit.getAddress().get(0);
     assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
     assertEquals("1B", addressWs.getStreetNumber());
+    assertEquals(0, unit.getTemporaryInformation().size());
+    assertEquals(0, unit.getReferralInformation().size());
 
     // Check Unit 3
     organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 3);
@@ -123,6 +149,8 @@ public class UnitDetailsServiceImplTest {
     addressWs = unit.getAddress().get(0);
     assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
     assertEquals("12b", addressWs.getStreetNumber());
+    assertEquals(0, unit.getTemporaryInformation().size());
+    assertEquals(0, unit.getReferralInformation().size());
   }
 
   @Test
@@ -171,6 +199,18 @@ public class UnitDetailsServiceImplTest {
         unit.setHsaManagementText("Landsting/region");
         unit.setHealthcareTypes(Arrays.asList(new HealthcareType(null, "Vårdcentral", false, 0), new HealthcareType(null, "Akutmottagning", false, 1)));
         unit.setHsaMunicipalityName("Götlaborg");
+
+        switch (i) {
+          case 0:
+            unit.setVgrTempInfo("20090701-20091130 Temp info");
+            unit.setVgrRefInfo("Ref info");
+            break;
+          case 1:
+            unit.setVgrTempInfo("20090701-20090830 Temp info");
+            unit.setVgrRefInfo("Ref info");
+            break;
+        }
+
         units.put(unit.getHsaIdentity(), unit);
       }
       return units;
