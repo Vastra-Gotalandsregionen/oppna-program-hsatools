@@ -330,4 +330,9 @@ public class SettingsBeanTest {
   public void testUnitSearchResultSingleUnitInclude() {
     PojoTester.testProperty(bean, "unitSearchResultSingleUnitInclude", String.class, null, TEST_STRING, "Test2");
   }
+
+  @Test
+  public void testUnitSearchResultSortOrderInclude() {
+    PojoTester.testProperty(bean, "unitSearchResultSortOrderInclude", String.class, null, TEST_STRING, "Test2");
+  }
 }
