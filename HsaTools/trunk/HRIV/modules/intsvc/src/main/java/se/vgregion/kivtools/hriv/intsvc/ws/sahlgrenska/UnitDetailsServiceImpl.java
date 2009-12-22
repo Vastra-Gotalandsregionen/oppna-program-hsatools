@@ -14,7 +14,9 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Description;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.EAliasType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.ObjectFactory;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Organization;
+import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.ReferralInformation;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.TelephoneType;
+import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.TemporaryInformation;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.UnitType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.AddressType.GeoCoordinates;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.UnitType.Locality;
@@ -74,6 +76,18 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
     Description description = new Description();
     description.setValue(unit.getConcatenatedDescription());
     unitWs.getDescription().add(description);
+
+    if (unit.getShouldVgrTempInfoBeShown()) {
+      // Temp Info
+      TemporaryInformation temporaryInformation = new TemporaryInformation();
+      temporaryInformation.setValue(unit.getVgrTempInfoBody());
+      unitWs.getTemporaryInformation().add(temporaryInformation);
+
+      // Ref info
+      ReferralInformation referralInformation = new ReferralInformation();
+      referralInformation.setValue(unit.getVgrRefInfo());
+      unitWs.getReferralInformation().add(referralInformation);
+    }
 
     // Set unitWs street address
     setAddress(unitWs, unit.getHsaStreetAddress(), "Visit", unit);
