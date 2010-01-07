@@ -20,7 +20,10 @@ public class VgrOrganisationBuilderTest {
     @Before
     public void setUp() throws Exception {
         vgrOrganisationBuilder = new VgrOrganisationBuilder();
-
+        
+        Unit root = new Unit();
+        VgrUnitComposition vgrUnitCompositionRoot = new VgrUnitComposition("", root);
+        
         Unit unit1 = new Unit();
         unit1.setHsaIdentity("unit1");
         VgrUnitComposition vgrUnitComposition1 = new VgrUnitComposition("ou=node1", unit1);
@@ -42,13 +45,14 @@ public class VgrOrganisationBuilderTest {
         VgrUnitComposition vgrUnitComposition5 = new VgrUnitComposition("ou=node5,ou=node2,ou=node1", unit5);
 
         vgrUnitCompositions = new ArrayList<UnitComposition<Unit>>();
+        vgrUnitCompositions.add(vgrUnitCompositionRoot);
         vgrUnitCompositions.add(vgrUnitComposition2);
         vgrUnitCompositions.add(vgrUnitComposition5);
         vgrUnitCompositions.add(vgrUnitComposition3);
         vgrUnitCompositions.add(vgrUnitComposition1);
         vgrUnitCompositions.add(vgrUnitComposition4);
     }
-
+ 
     @Test
     public void testGenerateOrganisation() {
         UnitComposition<Unit> generateOrganisation = vgrOrganisationBuilder
