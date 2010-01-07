@@ -30,17 +30,21 @@ public class VgrOrganisationBuilder {
         VgrUnitComposition vgrUnitComposition = new VgrUnitComposition("vgr", null);
 
         for (UnitComposition<Unit> unitComposition : unitCompositions) {
-            // Add top node units in separate list.
-            if ("".equals(unitComposition.getParentDn())) {
-                topNodes.add(unitComposition);
-            } else {
-                // Is a sub node units or leaf
-                addToNodeChildrenList(unitComposition, subNodes);
+            // only add unitCompositions that have DN
+            if (!"".equals(unitComposition.getDn())) {
+                // Add top node units in separate list.
+                if ("".equals(unitComposition.getParentDn())) {
+                    topNodes.add(unitComposition);
+                } else {
+                    // Is a sub node units or leaf
+                    addToNodeChildrenList(unitComposition, subNodes);
+                }
             }
         }
 
         // Generate tree structure for each top node.
         for (UnitComposition<Unit> topNode : topNodes) {
+            System.out.println(topNode.getDn());
             UnitComposition<Unit> generateOrganization = generateOrganization(topNode, subNodes.get(topNode
                     .getDn()), subNodes);
             vgrUnitComposition.getChildUnits().add(generateOrganization);
