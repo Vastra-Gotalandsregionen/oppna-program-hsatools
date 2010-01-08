@@ -27,8 +27,7 @@
 	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value> classpath*:/services-config.xml
-			/WEB-INF/webflow-config.xml</param-value>
+		<param-value>classpath*:/services-config.xml</param-value>
 	</context-param>
 	
 	<!-- jboss el expressions allow method params -->
@@ -136,7 +135,7 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath*:/services-config.xml /WEB-INF/webflow-config.xml</param-value>
+			<param-value>/WEB-INF/webflow-config.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
