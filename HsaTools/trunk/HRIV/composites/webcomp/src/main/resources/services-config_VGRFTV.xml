@@ -29,7 +29,7 @@
 	<bean id="rssContentCache" class="se.vgregion.kivtools.hriv.presentation.RssContentCache" init-method="reloadRssCache">
 		<property name="nameToUrlMap">
 			<util:map>
-				<entry key="startpage" value="http://vard.vgregion.se/Documents/hittavard_start.htm" />
+				<entry key="startpage" value="http://www.vgregion.se/sv/Ovriga-sidor/Nya-sidor-under-arbete/Folktandvarden-Vastra-Gotaland1/Folktandvarden-Vastra-Gotaland/Hitta-din-klinik1/Hitta-mottagning" />
 				<entry key="caretypes" value="http://vard.vgregion.se/Documents/vardtyper.htm" />
 			</util:map>
 		</property>
