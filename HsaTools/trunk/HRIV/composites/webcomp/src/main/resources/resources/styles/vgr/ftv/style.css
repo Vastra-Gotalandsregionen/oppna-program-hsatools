@@ -805,23 +805,17 @@ a.unit {
 	color: #FFFFFF;
 	width: 15em;
 	line-height: normal;
-	margin: 1.1em 0 2px 0;
-}
-
-#forms-container h3.healthcareType {
-	margin-top: 2.6em;
-	color: #FFFFFF;
+	margin: 1em 0 2px 0;
 }
 
 #forms-container h3.municipality {
 	color: #FFFFFF;
-	margin-top: 1em;
 }
 
 #forms-container .table-box table {
-	margin-top: -4px;
-	margin-left: 3px;
+	margin-top: 3px;
 	margin-bottom: 1px;
+	color: #FFFFFF;
 }
 
 #forms-container .table-box table td {
@@ -832,13 +826,11 @@ a.unit {
 	display: inline;
 	font-weight: normal;
 	font-size: 12px;
-	margin-top: -3px;
 }
 
 #forms-container p {
 	line-height: 0.1em;
 	margin: 0 0 0 0;
-	margin-bottom: 10px;
 	font-size: 1.1em;
 	font-weight: normal;
 	font-family: Verdana,Arial,Helvetica,sans-serif;

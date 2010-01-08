@@ -6,6 +6,14 @@
 	<div id="forms-container">
 	    <form name="searchUnitForm" id="searchUnitForm" class="search-form" method="get" action="HRIV.Search.searchunit-flow.flow" onsubmit="if (document.getElementById('unitName').value == '${msg.defaultSearchUnitName}') { document.getElementById('unitName').value = ''; }">
 	        <h2>${msg.searchUnit}</h2>
+	        <h3 class="municipality"><label for="municipality">${msg.whereCare}</label></h3>
+	        <p>
+	            <h:selectOneMenu id="municipality" name="municipality" class="search-input-field" value="${unitSearchSimpleForm.municipality}" style="width: 195px;">
+	                <f:selectItem itemValue="" itemLabel="${msg.searchformMunicipality}" />
+	                <f:selectItems value="${unitSearchSimpleForm.municipalityItems}" />
+	            </h:selectOneMenu>
+	        </p>
+	
 	        <h3><label for="unitName">${msg.unitName}</label></h3>
 	        <div class="autocomplete_container">
 	            <input id="unitName" type="text" class="search-input-field" jsfc="h:inputText" value="${unitSearchSimpleForm.unitName}" style="width: 190px;" onfocus="if (this.value == '${msg.defaultSearchUnitName}') { this.value = ''; }" onblur="if (this.value == '') { this.value = '${msg.defaultSearchUnitName}';}"/>
@@ -14,14 +22,6 @@
 	            </div>
 	            <div id="autocomplete_choices" class="autocomplete"></div>
 	        </div>
-	
-	        <h3 class="municipality"><label for="municipality">${msg.whereCare}</label></h3>
-	        <p>
-	            <h:selectOneMenu id="municipality" name="municipality" class="search-input-field" value="${unitSearchSimpleForm.municipality}" style="width: 195px;">
-	                <f:selectItem itemValue="" itemLabel="${msg.searchformMunicipality}" />
-	                <f:selectItems value="${unitSearchSimpleForm.municipalityItems}" />
-	            </h:selectOneMenu>
-	        </p>
 	
 	        <div class="table-box">
 	            <h:selectOneRadio id="resultType" name="resultType" value="${unitSearchSimpleForm.resultType}" class="result-type">
