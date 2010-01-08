@@ -33,10 +33,16 @@ import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 
+/**
+ * Mock implementation of the SearchService to use when no connection to an LDAP-server is available.
+ */
 public class SearchServiceMockImpl implements SearchService {
   private SikSearchResultList<Person> personList = new SikSearchResultList<Person>();
   private SikSearchResultList<Unit> unitList = new SikSearchResultList<Unit>();
 
+  /**
+   * Constructs a new mock-service.
+   */
   public SearchServiceMockImpl() {
     init();
   }
@@ -122,9 +128,7 @@ public class SearchServiceMockImpl implements SearchService {
       u.setDescription(d);
       u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
       u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
-    }
-
-    else if (hsaId.equalsIgnoreCase("ABC002")) {
+    } else if (hsaId.equalsIgnoreCase("ABC002")) {
       u.setName("Sahlgrenska Sjukhuset");
       u.setHsaIdentity("ABC002");
       p = new ArrayList<PhoneNumber>();
@@ -137,9 +141,7 @@ public class SearchServiceMockImpl implements SearchService {
       u.setDescription(d);
       u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
       u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
-    }
-
-    else if (hsaId.equalsIgnoreCase("ABC003")) {
+    } else if (hsaId.equalsIgnoreCase("ABC003")) {
       u.setName("Uddevalla vårdcentral");
       u.setHsaIdentity("ABC003");
       p = new ArrayList<PhoneNumber>();
@@ -156,12 +158,6 @@ public class SearchServiceMockImpl implements SearchService {
     return u;
   }
 
-  /**
-   * 
-   * @param vgrId can be a complete or parts of a vgrId. That is why we can return a list od Persons
-   * @return
-   * @throws KivException
-   */
   @Override
   public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws KivException {
     SikSearchResultList<Person> tempList = new SikSearchResultList<Person>();
@@ -300,16 +296,15 @@ public class SearchServiceMockImpl implements SearchService {
     u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
     u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
     list.add(u);
-
   }
 
   @Override
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
     return this.unitList;
   }
 
   @Override
-  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
+  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
     return this.getAllUnitsHsaIdentity();
   }
 
@@ -335,9 +330,9 @@ public class SearchServiceMockImpl implements SearchService {
 
   @Override
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
-    SikSearchResultList<Person> personList = new SikSearchResultList<Person>();
-    initPersons(personList);
-    return personList;
+    SikSearchResultList<Person> result = new SikSearchResultList<Person>();
+    initPersons(result);
+    return result;
   }
 
   @Override
