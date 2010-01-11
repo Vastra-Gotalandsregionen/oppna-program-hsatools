@@ -56,6 +56,7 @@
                     </instrumentation>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 
@@ -442,6 +443,12 @@
     </pluginRepositories>
 
     <repositories>
+        <repository>
+            <id>oppna-program</id>
+            <name>Oppna program Repoa</name>
+            <url>http://oppna-program.googlecode.com/svn/maven</url>
+        </repository>
+
         <repository>
             <id>maven2-repository.dev.java.net</id>
             <name>Java.net Repository for Maven</name>
