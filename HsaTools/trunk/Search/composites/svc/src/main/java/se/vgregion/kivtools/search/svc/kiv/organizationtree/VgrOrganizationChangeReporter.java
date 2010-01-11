@@ -13,6 +13,8 @@ import se.vgregion.kivtools.search.interfaces.UnitComposition;
 
 public class VgrOrganizationChangeReporter implements OrganizationChangeReporter<Unit> {
 
+    private List<UnitComposition<Unit>> listSortedByDn;
+
     @Override
     public OrganizationChangeReport<Unit> createOrganizationChangeReport(
             List<UnitComposition<Unit>> oldFlatOrganization, List<UnitComposition<Unit>> newFlatOrganization) {
@@ -20,17 +22,14 @@ public class VgrOrganizationChangeReporter implements OrganizationChangeReporter
         List<UnitComposition<Unit>> removedUnits = new ArrayList<UnitComposition<Unit>>();
         Map<String, List<UnitComposition<Unit>>> movedUnits = new HashMap<String, List<UnitComposition<Unit>>>();
         List<UnitComposition<Unit>> changedUnits = new ArrayList<UnitComposition<Unit>>();
-        List<UnitComposition<Unit>> addedUnits = new ArrayList<UnitComposition<Unit>>();
+        Map<String, List<UnitComposition<Unit>>> addedUnits = new HashMap<String, List<UnitComposition<Unit>>>();
 
         // Ensure list sorted
         Collections.sort(oldFlatOrganization);
-
         // Ensure list sorted
         Collections.sort(newFlatOrganization);
 
-        List<UnitComposition<Unit>> listSortedByDn = new ArrayList<UnitComposition<Unit>>(newFlatOrganization);
-        ComarableDn comarableDn = new ComarableDn();
-        Collections.sort(listSortedByDn, comarableDn);
+        List<UnitComposition<Unit>> unitCompositionsSortedByDn = getSortedListByDn(newFlatOrganization);
 
         for (UnitComposition<Unit> oldUnitComposition : oldFlatOrganization) {
             // Search for unit in list
@@ -41,20 +40,11 @@ public class VgrOrganizationChangeReporter implements OrganizationChangeReporter
                 UnitComposition<Unit> newUnitComposition = newFlatOrganization.get(index);
                 if (!newUnitComposition.getDn().equals(oldUnitComposition.getDn())) {
 
-                    // Lookup index of parent unitcomposition for the current unit.
-                    int binarySearchParent = Collections.binarySearch(listSortedByDn, newUnitComposition,
-                            new ComarableDnToLookupParentUnit());
-                    UnitComposition<Unit> parentUnitComposition = listSortedByDn.get(binarySearchParent);
-
+                    UnitComposition<Unit> parentUnitComposition = findParentUnitCompositionInList(
+                            unitCompositionsSortedByDn, newUnitComposition);
                     // Put the current moved unitcomposition in map with the parent unitcompositions's hsaIdentity
                     // as key.
-                    List<UnitComposition<Unit>> list = movedUnits.get(parentUnitComposition.getUnit()
-                            .getHsaIdentity());
-                    if (list == null) {
-                        list = new ArrayList<UnitComposition<Unit>>();
-                        movedUnits.put(parentUnitComposition.getUnit().getHsaIdentity(), list);
-                    }
-                    list.add(newUnitComposition);
+                    putUnitCompositionInMap(movedUnits, newUnitComposition, parentUnitComposition);
                 }
                 if (isUnitChanged(newUnitComposition, oldUnitComposition)) {
                     changedUnits.add(newUnitComposition);
@@ -66,7 +56,10 @@ public class VgrOrganizationChangeReporter implements OrganizationChangeReporter
             // Search for unit in list
             int index = Collections.binarySearch(oldFlatOrganization, newUnitComposition);
             if (index < 0) {
-                addedUnits.add(newUnitComposition);
+                UnitComposition<Unit> parentUnitComposition = findParentUnitCompositionInList(
+                        unitCompositionsSortedByDn, newUnitComposition);
+
+                putUnitCompositionInMap(addedUnits, newUnitComposition, parentUnitComposition);
             }
         }
         OrganizationChangeReport<Unit> organizationChangeReport = new OrganizationChangeReport<Unit>(addedUnits,
@@ -74,11 +67,40 @@ public class VgrOrganizationChangeReporter implements OrganizationChangeReporter
         return organizationChangeReport;
     }
 
+    private void putUnitCompositionInMap(Map<String, List<UnitComposition<Unit>>> movedUnits,
+            UnitComposition<Unit> newUnitComposition, UnitComposition<Unit> parentUnitComposition) {
+        List<UnitComposition<Unit>> list = movedUnits.get(parentUnitComposition.getUnit().getHsaIdentity());
+        if (list == null) {
+            list = new ArrayList<UnitComposition<Unit>>();
+            movedUnits.put(parentUnitComposition.getUnit().getHsaIdentity(), list);
+        }
+        list.add(newUnitComposition);
+    }
+
+    private UnitComposition<Unit> findParentUnitCompositionInList(List<UnitComposition<Unit>> listSorted,
+            UnitComposition<Unit> unitComposition) {
+        // Lookup index of parent unitcomposition for the current unit.
+        int binarySearchParentIndex = Collections.binarySearch(listSorted, unitComposition,
+                new ComarableDnToLookupParentUnit());
+        UnitComposition<Unit> parentUnitComposition = listSorted.get(binarySearchParentIndex);
+        return parentUnitComposition;
+    }
+
     private boolean isUnitChanged(UnitComposition<Unit> newUnitComposition,
             UnitComposition<Unit> oldUnitComposition) {
         boolean isChanged = true;
         isChanged = !newUnitComposition.getUnit().getName().equals(oldUnitComposition.getUnit().getName());
         return isChanged;
+    }
+
+    private List<UnitComposition<Unit>> getSortedListByDn(List<UnitComposition<Unit>> unitCompositions) {
+        // Only do this once
+        if (listSortedByDn == null) {
+            listSortedByDn = new ArrayList<UnitComposition<Unit>>(unitCompositions);
+            ComarableDn comarableDn = new ComarableDn();
+            Collections.sort(listSortedByDn, comarableDn);
+        }
+        return listSortedByDn;
     }
 
     // Used for sort unitComposition list in DN string order
@@ -98,7 +120,5 @@ public class VgrOrganizationChangeReporter implements OrganizationChangeReporter
         public int compare(UnitComposition<Unit> o1, UnitComposition<Unit> o2) {
             return o1.getDn().compareTo(o2.getParentDn());
         }
-
     }
-
 }

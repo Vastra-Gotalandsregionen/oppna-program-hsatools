@@ -18,7 +18,7 @@ import se.vgregion.kivtools.search.interfaces.UnitComposition;
  */
 public class OrganizationChangeReport<T> {
 
-    private List<UnitComposition<T>> addedUnits;
+    private Map<String, List<UnitComposition<T>>> addedUnits;
     private List<UnitComposition<T>> removedUnits;
     private Map<String, List<UnitComposition<T>>> movedUnits;
     private List<UnitComposition<T>> changedUnits;
@@ -34,10 +34,11 @@ public class OrganizationChangeReport<T> {
      * @param changedUnits
      *            Units that has content change
      */
-    public OrganizationChangeReport(List<UnitComposition<T>> addedUnits, List<UnitComposition<T>> removedUnits,
-            Map<String, List<UnitComposition<T>>> movedUnits, List<UnitComposition<T>> changedUnits) {
+    public OrganizationChangeReport(Map<String, List<UnitComposition<T>>> addedUnits,
+            List<UnitComposition<T>> removedUnits, Map<String, List<UnitComposition<T>>> movedUnits,
+            List<UnitComposition<T>> changedUnits) {
         super();
-        this.addedUnits = new ArrayList<UnitComposition<T>>(addedUnits);
+        this.addedUnits = new HashMap<String, List<UnitComposition<T>>>(addedUnits);
         this.removedUnits = new ArrayList<UnitComposition<T>>(removedUnits);
         this.movedUnits = new HashMap<String, List<UnitComposition<T>>>(movedUnits);
         this.changedUnits = new ArrayList<UnitComposition<T>>(changedUnits);
@@ -47,8 +48,8 @@ public class OrganizationChangeReport<T> {
      * 
      * @return {@link UnitComposition} that has been added to the organization.
      */
-    public List<UnitComposition<T>> getAddedOrganizationUnits() {
-        return Collections.unmodifiableList(addedUnits);
+    public Map<String, List<UnitComposition<T>>> getAddedOrganizationUnits() {
+        return Collections.unmodifiableMap(addedUnits);
 
     }
 
