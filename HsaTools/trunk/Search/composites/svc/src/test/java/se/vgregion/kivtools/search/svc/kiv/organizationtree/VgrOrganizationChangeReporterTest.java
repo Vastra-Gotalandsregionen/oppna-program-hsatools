@@ -26,7 +26,7 @@ public class VgrOrganizationChangeReporterTest {
     public void setUp() throws Exception {
         vgrOrganizationChangeReporter = new VgrOrganizationChangeReporter();
         
-        vgrUnitCompositionRoot = new VgrUnitComposition("root", createUnit("ou=rootUnit1", "rootUnit"));
+        vgrUnitCompositionRoot = new VgrUnitComposition("ou=rootUnit1", createUnit("ou=rootUnit1", "rootUnit"));
         VgrUnitComposition vgrUnitCompositionChild1 = new VgrUnitComposition("ou=child1,ou=rootUnit1",createUnit("childUnit1", "childUnit1"));
         VgrUnitComposition vgrUnitCompositionChild2 = new VgrUnitComposition("ou=child2,ou=rootUnit1",createUnit("childUnit2", "childUnit2"));
         VgrUnitComposition vgrUnitCompositionLeaf1 = new VgrUnitComposition("ou=leaf,ou=child1,ou=rootUnit1",createUnit("leafUnit1", "leafUnit1"));
@@ -38,7 +38,7 @@ public class VgrOrganizationChangeReporterTest {
         oldFlatOrganizationList.add(vgrUnitCompositionLeaf1);
         oldFlatOrganizationList.add(vgrUnitCompositionLeaf2);
                 
-        childMovedRoot = new VgrUnitComposition("root", createUnit("ou=rootUnit1", "rootUnit"));
+        childMovedRoot = new VgrUnitComposition("ou=rootUnit1", createUnit("ou=rootUnit1", "rootUnit"));
         VgrUnitComposition childMovedChild1 = new VgrUnitComposition("ou=child1,ou=rootUnit1",createUnit("childUnit1", "childUnit1"));
         VgrUnitComposition childMovedChild2 = new VgrUnitComposition("ou=child2,ou=rootUnit1",createUnit("childUnit2", "childUnit2"));
         VgrUnitComposition childMovedLeaf1 = new VgrUnitComposition("ou=leaf,ou=child2,ou=rootUnit1",createUnit("leafUnit1", "leafUnit1"));
@@ -94,7 +94,7 @@ public class VgrOrganizationChangeReporterTest {
         newFlatOrganizationList.add(unitComposition);
         OrganizationChangeReport<Unit> organizationChangeReport = vgrOrganizationChangeReporter.createOrganizationChangeReport(oldFlatOrganizationList, newFlatOrganizationList);
         assertEquals(1, organizationChangeReport.getAddedOrganizationUnits().size());
-        assertEquals(unitComposition, organizationChangeReport.getAddedOrganizationUnits().get(0));
+        assertEquals(unitComposition, organizationChangeReport.getAddedOrganizationUnits().get(childMovedRoot.getUnit().getHsaIdentity()).get(0));
     }
     
     

@@ -33,7 +33,7 @@ public class OrganizationChangeReportTest {
 
     @Test
     public void testIsOrganizationChangedWithNoChange() {
-        organizationChangeReport = new OrganizationChangeReport<Unit>(new ArrayList<UnitComposition<Unit>>(),
+        organizationChangeReport = new OrganizationChangeReport<Unit>(new HashMap<String, List<UnitComposition<Unit>>>(),
                 new ArrayList<UnitComposition<Unit>>(), new HashMap<String, List<UnitComposition<Unit>>>(),
                 new ArrayList<UnitComposition<Unit>>());
         assertFalse(organizationChangeReport.isOrganizationChanged());
@@ -42,7 +42,7 @@ public class OrganizationChangeReportTest {
 
     @Test
     public void testIsOrganizationChangedWithAddChange() {
-        organizationChangeReport = new OrganizationChangeReport<Unit>(unitCompositionList,
+        organizationChangeReport = new OrganizationChangeReport<Unit>(hashMap,
                 new ArrayList<UnitComposition<Unit>>(), new HashMap<String, List<UnitComposition<Unit>>>(),
                 new ArrayList<UnitComposition<Unit>>());
         assertTrue(organizationChangeReport.isOrganizationChanged());
@@ -51,7 +51,7 @@ public class OrganizationChangeReportTest {
 
     @Test
     public void testIsOrganizationChangedWithMoveChange() {
-        organizationChangeReport = new OrganizationChangeReport<Unit>(new ArrayList<UnitComposition<Unit>>(),
+        organizationChangeReport = new OrganizationChangeReport<Unit>(new HashMap<String, List<UnitComposition<Unit>>>(),
                 new ArrayList<UnitComposition<Unit>>(), hashMap,
                 new ArrayList<UnitComposition<Unit>>());
         assertTrue(organizationChangeReport.isOrganizationChanged());
@@ -60,7 +60,7 @@ public class OrganizationChangeReportTest {
 
     @Test
     public void testIsOrganizationChangedWithRemovedChange() {
-        organizationChangeReport = new OrganizationChangeReport<Unit>(new ArrayList<UnitComposition<Unit>>(),
+        organizationChangeReport = new OrganizationChangeReport<Unit>(new HashMap<String, List<UnitComposition<Unit>>>(),
                 unitCompositionList, new HashMap<String, List<UnitComposition<Unit>>>(),
                 new ArrayList<UnitComposition<Unit>>());
         assertTrue(organizationChangeReport.isOrganizationChanged());
@@ -69,7 +69,7 @@ public class OrganizationChangeReportTest {
 
     @Test
     public void testIsOrganizationChangedWithContentChange() {
-        organizationChangeReport = new OrganizationChangeReport<Unit>(new ArrayList<UnitComposition<Unit>>(),
+        organizationChangeReport = new OrganizationChangeReport<Unit>(new HashMap<String, List<UnitComposition<Unit>>>(),
                 new ArrayList<UnitComposition<Unit>>(), new HashMap<String, List<UnitComposition<Unit>>>(),
                 unitCompositionList);
         assertTrue(organizationChangeReport.isOrganizationChanged());
