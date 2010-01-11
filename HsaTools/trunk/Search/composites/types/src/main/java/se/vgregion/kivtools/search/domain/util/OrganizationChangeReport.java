@@ -16,15 +16,26 @@ import se.vgregion.kivtools.search.interfaces.UnitComposition;
  * @param <T>
  *            Unit type
  */
-public class OrganizationChangeReport <T>  {
+public class OrganizationChangeReport<T> {
 
-    List<UnitComposition<T>> addedUnits;
-    List<UnitComposition<T>> removedUnits;
-    Map<String,List<UnitComposition<T>>> movedUnits;
-    List<UnitComposition<T>> changedUnits;
+    private List<UnitComposition<T>> addedUnits;
+    private List<UnitComposition<T>> removedUnits;
+    private Map<String, List<UnitComposition<T>>> movedUnits;
+    private List<UnitComposition<T>> changedUnits;
 
+    /**
+     * 
+     * @param addedUnits
+     *            Units that has been added in organization
+     * @param removedUnits
+     *            Units that has been removed from organization
+     * @param movedUnits
+     *            Units that has been moved in organization
+     * @param changedUnits
+     *            Units that has content change
+     */
     public OrganizationChangeReport(List<UnitComposition<T>> addedUnits, List<UnitComposition<T>> removedUnits,
-            Map<String,List<UnitComposition<T>>> movedUnits, List<UnitComposition<T>> changedUnits) {
+            Map<String, List<UnitComposition<T>>> movedUnits, List<UnitComposition<T>> changedUnits) {
         super();
         this.addedUnits = new ArrayList<UnitComposition<T>>(addedUnits);
         this.removedUnits = new ArrayList<UnitComposition<T>>(removedUnits);
@@ -51,10 +62,11 @@ public class OrganizationChangeReport <T>  {
 
     /**
      * 
-     * @return {@link Map} with {@link UnitComposition} that has been moved in the organization.
-     * Map key is the parent units hsaId, Map value is a List of the unit children ({@link UnitComposition}) to the parent. 
+     * @return {@link Map} with {@link UnitComposition} that has been moved in the organization. Map key is the
+     *         parent units hsaId, Map value is a List of the unit children ({@link UnitComposition}) to the
+     *         parent.
      */
-    public   Map<String,List<UnitComposition<T>>> getMovedOrganizationUnits() {
+    public Map<String, List<UnitComposition<T>>> getMovedOrganizationUnits() {
         return Collections.unmodifiableMap(movedUnits);
     }
 
@@ -71,7 +83,8 @@ public class OrganizationChangeReport <T>  {
      * @return true if any unit in the organization has been changed in any way.
      */
     public boolean isOrganizationChanged() {
-        return addedUnits.size() > 0 || removedUnits.size() > 0 || movedUnits.size() > 0 || getChangedOrganizationUnits().size() > 0;
+        return addedUnits.size() > 0 || removedUnits.size() > 0 || movedUnits.size() > 0
+                || getChangedOrganizationUnits().size() > 0;
     }
 
 }

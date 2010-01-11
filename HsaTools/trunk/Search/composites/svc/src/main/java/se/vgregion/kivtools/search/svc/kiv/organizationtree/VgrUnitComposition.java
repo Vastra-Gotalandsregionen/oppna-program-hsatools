@@ -16,6 +16,7 @@ import se.vgregion.kivtools.util.StringUtil;
  */
 public class VgrUnitComposition implements UnitComposition<Unit> {
 
+    private static final long serialVersionUID = 1452523370194015103L;
     private String unitDn;
     private Unit unit;
     private List<UnitComposition<Unit>> childUnits = new ArrayList<UnitComposition<Unit>>();
