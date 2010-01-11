@@ -1,5 +1,6 @@
-package se.vgregion.kivtools.search.svc.kiv.organizationtree;
+package se.vgregion.kivtools.search.interfaces;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * @author David Bennehult & Joakim Olsson
  * @param <T> Unit type to be used in UnitComposition instance.
  */
-public interface UnitComposition<T> {
+public interface UnitComposition<T> extends Serializable, Comparable<UnitComposition<T>>{
 
     /**
      * 

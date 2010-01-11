@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
 import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.interfaces.UnitComposition;
 import se.vgregion.kivtools.search.svc.kiv.organizationtree.springldap.VgrUnitMapper;
 
 public class VgrUnitMapperTest {

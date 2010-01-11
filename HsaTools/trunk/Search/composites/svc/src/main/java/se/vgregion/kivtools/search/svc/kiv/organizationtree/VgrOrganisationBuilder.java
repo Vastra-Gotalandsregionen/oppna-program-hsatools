@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.interfaces.UnitComposition;
 
 /**
  * 

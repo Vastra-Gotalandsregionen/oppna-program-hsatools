@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.ldap.core.DistinguishedName;
 
 import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.interfaces.UnitComposition;
 import se.vgregion.kivtools.util.StringUtil;
 
 /**
@@ -55,6 +56,11 @@ public class VgrUnitComposition implements UnitComposition<Unit> {
     @Override
     public List<UnitComposition<Unit>> getChildUnits() {
         return childUnits;
+    }
+
+    @Override
+    public int compareTo(UnitComposition<Unit> o) {
+        return unit.compareTo(o.getUnit());
     }
     
     

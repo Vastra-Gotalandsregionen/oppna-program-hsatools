@@ -4,7 +4,7 @@ import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextOperations;
 
 import se.vgregion.kivtools.search.domain.Unit;
-import se.vgregion.kivtools.search.svc.kiv.organizationtree.UnitComposition;
+import se.vgregion.kivtools.search.interfaces.UnitComposition;
 import se.vgregion.kivtools.search.svc.kiv.organizationtree.VgrUnitComposition;
 import se.vgregion.kivtools.util.StringUtil;
 
