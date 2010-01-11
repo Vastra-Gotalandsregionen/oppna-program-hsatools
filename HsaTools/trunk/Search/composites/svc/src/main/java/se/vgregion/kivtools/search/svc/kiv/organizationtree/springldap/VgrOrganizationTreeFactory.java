@@ -28,13 +28,19 @@ public class VgrOrganizationTreeFactory {
     /**
      * Get organization tree for vgr organization.
      * 
+     * @param flatOrganizationList
+     *            UnitComposition List to generate organization tree from.
      * @return {@link UnitComposition}
      */
-    public UnitComposition<Unit> createVgrOrganizationTree( List<UnitComposition<Unit>> flatOrganizationList) {
+    public UnitComposition<Unit> createVgrOrganizationTree(List<UnitComposition<Unit>> flatOrganizationList) {
         UnitComposition<Unit> vgrOrganization = vgrOrganisationBuilder.generateOrganisation(flatOrganizationList);
         return vgrOrganization;
     }
 
+    /**
+     * 
+     * @return UnitComposition list of all unit in current organization.
+     */
     public List<UnitComposition<Unit>> getFlatOrganizationList() {
         @SuppressWarnings("unchecked")
         List<UnitComposition<Unit>> searchResult = ldapTemplate.search("", LDAP_QUERY,
