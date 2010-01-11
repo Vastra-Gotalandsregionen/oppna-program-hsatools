@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.interfaces.UnitComposition;
 
 public class VgrOrganisationBuilderTest {
 

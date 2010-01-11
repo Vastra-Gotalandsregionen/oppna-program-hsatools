@@ -11,7 +11,7 @@ import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.LdapTemplate;
 
 import se.vgregion.kivtools.search.domain.Unit;
-import se.vgregion.kivtools.search.svc.kiv.organizationtree.UnitComposition;
+import se.vgregion.kivtools.search.interfaces.UnitComposition;
 
 public class VgrOrganizationFactoryTest {
 
@@ -25,7 +25,7 @@ public class VgrOrganizationFactoryTest {
 
     @Test
     public void testCreateVgrOrganizationTree() {
-        assertNotNull("Was null", vgrOrganizationFactory.createVgrOrganizationTree());
+        assertNotNull("Was null", vgrOrganizationFactory.createVgrOrganizationTree(new ArrayList<UnitComposition<Unit>>()));
     }
     
     class MockLdapTemplet extends LdapTemplate {

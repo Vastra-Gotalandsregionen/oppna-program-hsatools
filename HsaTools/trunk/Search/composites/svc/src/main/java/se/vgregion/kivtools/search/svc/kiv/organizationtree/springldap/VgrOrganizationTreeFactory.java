@@ -7,13 +7,13 @@ import javax.naming.directory.SearchControls;
 import org.springframework.ldap.core.LdapTemplate;
 
 import se.vgregion.kivtools.search.domain.Unit;
-import se.vgregion.kivtools.search.svc.kiv.organizationtree.UnitComposition;
+import se.vgregion.kivtools.search.interfaces.UnitComposition;
 import se.vgregion.kivtools.search.svc.kiv.organizationtree.VgrOrganisationBuilder;
 
 /**
  * 
  * @author David Bennehult & Ulf Carlsson
- *
+ * 
  */
 public class VgrOrganizationTreeFactory {
 
@@ -30,11 +30,16 @@ public class VgrOrganizationTreeFactory {
      * 
      * @return {@link UnitComposition}
      */
-    public UnitComposition<Unit> createVgrOrganizationTree() {
-        @SuppressWarnings("unchecked")
-        List<UnitComposition<Unit>> searchResult = ldapTemplate.search("", LDAP_QUERY, SearchControls.SUBTREE_SCOPE, new VgrUnitMapper());
-        UnitComposition<Unit> vgrOrganization = vgrOrganisationBuilder.generateOrganisation(searchResult);
+    public UnitComposition<Unit> createVgrOrganizationTree( List<UnitComposition<Unit>> flatOrganizationList) {
+        UnitComposition<Unit> vgrOrganization = vgrOrganisationBuilder.generateOrganisation(flatOrganizationList);
         return vgrOrganization;
+    }
+
+    public List<UnitComposition<Unit>> getFlatOrganizationList() {
+        @SuppressWarnings("unchecked")
+        List<UnitComposition<Unit>> searchResult = ldapTemplate.search("", LDAP_QUERY,
+                SearchControls.SUBTREE_SCOPE, new VgrUnitMapper());
+        return searchResult;
     }
 
 }
