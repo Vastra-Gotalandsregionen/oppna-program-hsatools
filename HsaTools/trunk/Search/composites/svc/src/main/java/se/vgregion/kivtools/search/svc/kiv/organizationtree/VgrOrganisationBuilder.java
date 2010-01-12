@@ -45,7 +45,6 @@ public class VgrOrganisationBuilder {
 
         // Generate tree structure for each top node.
         for (UnitComposition<Unit> topNode : topNodes) {
-            System.out.println(topNode.getDn());
             UnitComposition<Unit> generateOrganization = generateOrganization(topNode, subNodes.get(topNode
                     .getDn()), subNodes);
             vgrUnitComposition.getChildUnits().add(generateOrganization);
