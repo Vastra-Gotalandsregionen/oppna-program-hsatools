@@ -138,4 +138,22 @@
 		<property name="codeTablesService" ref="Search_CodeTablesService" />
 		<property name="displayValueTranslator" ref="Search_DisplayValueTranslator" />
 	</bean>
+      <!-- Organization tree builder settins -->
+
+    <bean id="vgrOrganizatioTreeFactory" class="se.vgregion.kivtools.search.svc.kiv.organizationtree.springldap.VgrOrganizationTreeFactory">
+      <property name="ldapTemplate" ref="ldapTemplateOrganisation" />
+    </bean>
+  
+    <!-- Spring ldap -->
+    <bean id="contextSourceOrganisation" class="org.springframework.ldap.core.support.LdapContextSource">
+      <property name="url" value="${hsatools.search.svc.ldap.ldaphost}" />
+      <property name="base" value="${hsatools.search.svc.ldap.base}" />
+      <property name="userDn" value="${hsatools.search.svc.ldap.logindn}" />
+      <property name="password" value="${hsatools.search.svc.ldap.password}" />
+      <property name="pooled" value="true" />
+    </bean>
+  
+    <bean id="ldapTemplateOrganisation" class="org.springframework.ldap.core.LdapTemplate">
+      <constructor-arg ref="contextSourceOrganisation" />
+    </bean>
 </beans>
