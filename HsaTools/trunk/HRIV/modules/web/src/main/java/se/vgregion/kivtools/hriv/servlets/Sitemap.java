@@ -104,6 +104,7 @@ public class Sitemap extends HttpServlet {
 
     // Spring bean name (Search_SearchService) is hard coded!
     sb.setSearchService((SearchService) springContext.getBean("Search_SearchService"));
+
     List<String> allUnitsHsaId;
     ArrayList<Unit> allUnits = new ArrayList<Unit>();
     siteMapInformationUnits.clear();
@@ -111,11 +112,19 @@ public class Sitemap extends HttpServlet {
       allUnitsHsaId = sb.getAllUnitsHsaIdentity(true);
       sb.setUnitsCacheComplete(false);
       for (String hsaId : allUnitsHsaId) {
-        Unit u = sb.getSearchService().getUnitByHsaId(hsaId);
-        if (u != null) {
-          siteMapInformationUnits.add(new UnitSitemapInformation(u.getHsaIdentity(), u.getModifyTimestampFormattedInW3CDatetimeFormat(), u.getCreateTimestampFormattedInW3CDatetimeFormat()));
-          // While we are at it, populate lists with complete units objects.
-          allUnits.add(u);
+        if (hsaId != null) {
+          Unit u;
+          try {
+            u = sb.getSearchService().getUnitByHsaId(hsaId);
+          } catch (KivException e) {
+            logger.error("Exception while getting unit details for hsaIdentity '" + hsaId + "'");
+            throw e;
+          }
+          if (u != null) {
+            siteMapInformationUnits.add(new UnitSitemapInformation(u.getHsaIdentity(), u.getModifyTimestampFormattedInW3CDatetimeFormat(), u.getCreateTimestampFormattedInW3CDatetimeFormat()));
+            // While we are at it, populate lists with complete units objects.
+            allUnits.add(u);
+          }
         }
       }
       // Give list of units to SearchUnitFlowSupportBean and tell it to set up coordinates.
@@ -123,9 +132,9 @@ public class Sitemap extends HttpServlet {
       sb.populateCoordinates();
       sb.setUnitsCacheComplete(true);
     } catch (KivNoDataFoundException e1) {
-      logger.error("Something went wrong when retrieving all units.");
+      logger.error("Something went wrong when retrieving all units.", e1);
     } catch (KivException e) {
-      logger.error("Something went wrong when retrieving all units.");
+      logger.error("Something went wrong when retrieving all units.", e);
     }
     long endTimeMillis = System.currentTimeMillis();
     logger.debug("Finished creating list of UnitSitemapInformation. It took: " + (endTimeMillis - startTimeMillis) / 1000 + " seconds.");

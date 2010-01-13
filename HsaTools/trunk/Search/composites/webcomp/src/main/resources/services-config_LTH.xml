@@ -40,7 +40,7 @@
 			<bean
 				class="se.vgregion.kivtools.search.userevent.impl.hak.UserEventServiceFactoryNetwise"
 				factory-method="getUserEventSoap">
-				<constructor-arg value="http://wslina.lthalland.se/UserEvent.asmx?WSDL"/>
+				<constructor-arg value="http://linawebservices.lthalland.se/UserEvent.asmx?WSDL"/>
 				<constructor-arg value="http://lina.lthalland.se/"/>
 				<constructor-arg value="UserEvent"/>
 			</bean>
@@ -53,7 +53,7 @@
 			<bean
 				class="se.vgregion.kivtools.search.sms.impl.hak.SmsRedirectServiceFactory"
 				factory-method="getSmsRedirectSoap" >
-				<constructor-arg value="http://wslina.lthalland.se/SMSRedirect.asmx?WSDL"/>
+				<constructor-arg value="http://linawebservices.lthalland.se/SMSRedirect.asmx?WSDL"/>
 				<constructor-arg value="http://lina.lthalland.se/"/>
 				<constructor-arg value="SMSRedirect"/>
 			</bean>
