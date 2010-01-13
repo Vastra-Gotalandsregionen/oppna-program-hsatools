@@ -99,10 +99,10 @@
   </wsdl:binding>
   <wsdl:service name="SMSRedirect">
     <wsdl:port name="SMSRedirectSoap" binding="tns:SMSRedirectSoap">
-      <soap:address location="http://wslina.lthalland.se/SMSRedirect.asmx" />
+      <soap:address location="http://linawebservices.lthalland.se/SMSRedirect.asmx" />
     </wsdl:port>
     <wsdl:port name="SMSRedirectSoap12" binding="tns:SMSRedirectSoap12">
-      <soap12:address location="http://wslina.lthalland.se/SMSRedirect.asmx" />
+      <soap12:address location="http://linawebservices.lthalland.se/SMSRedirect.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

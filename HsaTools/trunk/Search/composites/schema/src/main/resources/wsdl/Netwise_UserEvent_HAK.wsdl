@@ -344,10 +344,10 @@
   </wsdl:binding>
   <wsdl:service name="UserEvent">
     <wsdl:port name="UserEventSoap" binding="tns:UserEventSoap">
-      <soap:address location="http://wslina.lthalland.se/UserEvent.asmx" />
+      <soap:address location="http://linawebservices.lthalland.se/UserEvent.asmx" />
     </wsdl:port>
     <wsdl:port name="UserEventSoap12" binding="tns:UserEventSoap12">
-      <soap12:address location="http://wslina.lthalland.se/UserEvent.asmx" />
+      <soap12:address location="http://linawebservices.lthalland.se/UserEvent.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
