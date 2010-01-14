@@ -38,7 +38,7 @@ import com.novell.ldap.LDAPSearchResults;
 public class EmploymentRepository {
   private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
   // Get LDAP entries that have hsaEndDate greater or equal current date and hsaStartDate less or equal current date.
-  private static final String ALL_EMPLOYMENT_FILTER = "(&(objectclass=vgrAnstallning)(|(!(hsaEndDate=*))(hsaEndDate>=%1$s))(hsaStartDate<=%1$s))";
+  private static final String ALL_EMPLOYMENT_FILTER = "(&(objectclass=vgrAnstallning)(|(!(hsaEndDate=*))(hsaEndDate>=%1$s))(|(hsaStartDate<=%1$s)(!(hsaStartDate=*))))";
 
   private LdapConnectionPool theConnectionPool;
   private CodeTablesService codeTablesService;
