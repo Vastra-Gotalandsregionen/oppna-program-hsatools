@@ -95,7 +95,31 @@ public class VgrOrganizationChangeReporterTest {
         OrganizationChangeReport<Unit> organizationChangeReport = vgrOrganizationChangeReporter.createOrganizationChangeReport(oldFlatOrganizationList, newFlatOrganizationList);
         assertEquals(1, organizationChangeReport.getAddedOrganizationUnits().size());
         assertEquals(unitComposition, organizationChangeReport.getAddedOrganizationUnits().get(childMovedRoot.getUnit().getHsaIdentity()).get(0));
+		
+		
     }
+	
+	@Test
+    public void testOrganizationChangeReportWithaddedUnit2() {
+		Unit unit = new Unit();
+
+		unit.setName("Anders testar");
+
+		unit.setHsaIdentity("MITT-ALLDELES-EGNA-ID");
+
+		 UnitComposition<Unit> tmp = new VgrUnitComposition("ou=Anders testar, ou=apa", unit);
+
+		 newFlatOrganizationList.add(tmp);
+
+        //UnitComposition<Unit> unitComposition = new VgrUnitComposition("ou=child3,ou=rootUnit1",createUnit("childUnit3", "childUnit3"));
+        //newFlatOrganizationList.add(unitComposition);
+        OrganizationChangeReport<Unit> organizationChangeReport = vgrOrganizationChangeReporter.createOrganizationChangeReport(oldFlatOrganizationList, newFlatOrganizationList);
+        assertEquals(1, organizationChangeReport.getAddedOrganizationUnits().size());
+        assertEquals(tmp, organizationChangeReport.getAddedOrganizationUnits().get("noParentHSAID").get(0));
+		
+		
+    }
+	
     
     
     
