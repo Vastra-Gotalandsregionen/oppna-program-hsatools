@@ -69,7 +69,7 @@ public class VgrOrganizationChangeReporter implements OrganizationChangeReporter
 
     private void putUnitCompositionInMap(Map<String, List<UnitComposition<Unit>>> movedUnits,
             UnitComposition<Unit> newUnitComposition, UnitComposition<Unit> parentUnitComposition) {
-			String parentUnitHsaId="noParentHSAID";
+			String parentUnitHsaId="";
 			if(parentUnitComposition!=null){
 				parentUnitHsaId=parentUnitComposition.getUnit().getHsaIdentity();
 			}

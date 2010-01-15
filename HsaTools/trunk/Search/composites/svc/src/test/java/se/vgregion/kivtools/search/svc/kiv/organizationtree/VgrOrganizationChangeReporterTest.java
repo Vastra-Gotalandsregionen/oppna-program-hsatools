@@ -115,7 +115,7 @@ public class VgrOrganizationChangeReporterTest {
         //newFlatOrganizationList.add(unitComposition);
         OrganizationChangeReport<Unit> organizationChangeReport = vgrOrganizationChangeReporter.createOrganizationChangeReport(oldFlatOrganizationList, newFlatOrganizationList);
         assertEquals(1, organizationChangeReport.getAddedOrganizationUnits().size());
-        assertEquals(tmp, organizationChangeReport.getAddedOrganizationUnits().get("noParentHSAID").get(0));
+        assertEquals(tmp, organizationChangeReport.getAddedOrganizationUnits().get("").get(0));
 		
 		
     }
