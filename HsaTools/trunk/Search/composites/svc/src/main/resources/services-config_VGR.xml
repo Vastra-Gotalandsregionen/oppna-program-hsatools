@@ -142,6 +142,7 @@
 
     <bean id="vgrOrganizatioTreeFactory" class="se.vgregion.kivtools.search.svc.kiv.organizationtree.springldap.VgrOrganizationTreeFactory">
       <property name="ldapTemplate" ref="ldapTemplateOrganisation" />
+      <property name="treeLevelLimit" value="2" />
     </bean>
   
     <!-- Spring ldap -->

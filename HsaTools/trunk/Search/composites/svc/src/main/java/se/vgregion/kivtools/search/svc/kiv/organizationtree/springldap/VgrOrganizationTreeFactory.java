@@ -2,6 +2,7 @@ package se.vgregion.kivtools.search.svc.kiv.organizationtree.springldap;
 
 import java.util.List;
 
+import javax.naming.directory.DirContext;
 import javax.naming.directory.SearchControls;
 
 import org.springframework.ldap.core.LdapTemplate;
@@ -20,6 +21,11 @@ public class VgrOrganizationTreeFactory {
     private static final String LDAP_QUERY = "(objectClass=*)";
     private LdapTemplate ldapTemplate;
     private VgrOrganisationBuilder vgrOrganisationBuilder = new VgrOrganisationBuilder();
+    private int treeLevelLimit;
+
+    public void setTreeLevelLimit(int treeLevelLimit) {
+        this.treeLevelLimit = treeLevelLimit;
+    }
 
     public void setLdapTemplate(LdapTemplate ldapTemplate) {
         this.ldapTemplate = ldapTemplate;
@@ -42,9 +48,10 @@ public class VgrOrganizationTreeFactory {
      * @return UnitComposition list of all unit in current organization.
      */
     public List<UnitComposition<Unit>> getFlatOrganizationList() {
-        @SuppressWarnings("unchecked")
-        List<UnitComposition<Unit>> searchResult = ldapTemplate.search("", LDAP_QUERY,
-                SearchControls.SUBTREE_SCOPE, new VgrUnitMapper());
+        DirContext ctx = ldapTemplate.getContextSource().getReadOnlyContext();
+        List<UnitComposition<Unit>> searchResult = LdapSearch.search(ctx, LDAP_QUERY,
+                SearchControls.SUBTREE_SCOPE, treeLevelLimit);
+
         return searchResult;
     }
 
