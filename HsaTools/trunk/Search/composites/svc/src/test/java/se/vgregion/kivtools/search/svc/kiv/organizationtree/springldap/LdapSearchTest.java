@@ -57,15 +57,16 @@ public class LdapSearchTest {
 
     @Test
     public void testSearch() {
-        List<UnitComposition<Unit>> search = ldapSearch.search(mockDirContext, "(objectClass=*)",
-                SearchControls.SUBTREE_SCOPE, 2);
+        List<UnitComposition<Unit>> search = ldapSearch.search(mockDirContext, "(objectClass=*)", 2);
         assertNotNull(search);
         UnitComposition<Unit> unitComposition = search.get(0);
         assertEquals("ou=root,ou=child1", unitComposition.getDn());
         assertEquals("Name from cn", unitComposition.getUnit().getName());
         assertEquals("Skärgårdsgatan 4", unitComposition.getUnit().getHsaStreetAddress().getStreet());
-        assertEquals(AddressHelper.convertToStreetAddress(Arrays.asList(HSA_STREET_ADDRESS.split("\\$"))).getStreet(), unitComposition.getUnit().getHsaStreetAddress().getStreet());
-        assertEquals(AddressHelper.convertToAddress(Arrays.asList(HSA_POSTAL_ADDRESS.split("\\$"))).getAdditionalInfo(), unitComposition.getUnit().getHsaPostalAddress().getAdditionalInfo());
+        assertEquals(AddressHelper.convertToStreetAddress(Arrays.asList(HSA_STREET_ADDRESS.split("\\$")))
+                .getStreet(), unitComposition.getUnit().getHsaStreetAddress().getStreet());
+        assertEquals(AddressHelper.convertToAddress(Arrays.asList(HSA_POSTAL_ADDRESS.split("\\$")))
+                .getAdditionalInfo(), unitComposition.getUnit().getHsaPostalAddress().getAdditionalInfo());
     }
 
     @Test
@@ -73,8 +74,7 @@ public class LdapSearchTest {
         // Check that namingException from serch is handled
         mockDirContext = new MockDirContext(new ArrayList<SearchResult>());
         mockDirContext.setThrowNamingException(true);
-        List<UnitComposition<Unit>> search = ldapSearch.search(mockDirContext, "(objectClass=*)",
-                SearchControls.SUBTREE_SCOPE, 2);
+        List<UnitComposition<Unit>> search = ldapSearch.search(mockDirContext, "(objectClass=*)", 2);
         assertNotNull(search);
 
         // Check that namingException from attributes is handled.
@@ -84,7 +84,7 @@ public class LdapSearchTest {
 
         mockDirContext = new MockDirContext(Arrays.asList(searchResult));
 
-        search = ldapSearch.search(mockDirContext, "(objectClass=*)", SearchControls.SUBTREE_SCOPE, 2);
+        search = ldapSearch.search(mockDirContext, "(objectClass=*)", 1);
         assertNotNull(search);
 
     }

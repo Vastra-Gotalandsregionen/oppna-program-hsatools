@@ -38,10 +38,12 @@ public class LdapSearch {
      *            Limit deapth of ldapTree
      * @return {@link List}
      */
-    public static List<UnitComposition<Unit>> search(DirContext dirContext, String filter, int searchScope,
-            int treeLevel) {
+    public static List<UnitComposition<Unit>> search(DirContext dirContext, String filter, int treeLevel) {
+
         SearchControls controls = new SearchControls();
-        controls.setSearchScope(searchScope);
+        if (treeLevel > 1) {
+            controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+        }
         List<UnitComposition<Unit>> unitCompositions = new ArrayList<UnitComposition<Unit>>();
 
         try {
