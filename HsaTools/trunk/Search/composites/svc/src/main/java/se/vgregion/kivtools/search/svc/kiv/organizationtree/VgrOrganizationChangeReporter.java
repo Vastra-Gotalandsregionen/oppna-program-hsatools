@@ -69,10 +69,10 @@ public class VgrOrganizationChangeReporter implements OrganizationChangeReporter
 
     private void putUnitCompositionInMap(Map<String, List<UnitComposition<Unit>>> movedUnits,
             UnitComposition<Unit> newUnitComposition, UnitComposition<Unit> parentUnitComposition) {
-			String parentUnitHsaId="";
-			if(parentUnitComposition!=null){
-				parentUnitHsaId=parentUnitComposition.getUnit().getHsaIdentity();
-			}
+        String parentUnitHsaId = "";
+        if (parentUnitComposition != null) {
+            parentUnitHsaId = parentUnitComposition.getUnit().getHsaIdentity();
+        }
         List<UnitComposition<Unit>> list = movedUnits.get(parentUnitHsaId);
         if (list == null) {
             list = new ArrayList<UnitComposition<Unit>>();
@@ -83,13 +83,13 @@ public class VgrOrganizationChangeReporter implements OrganizationChangeReporter
 
     private UnitComposition<Unit> findParentUnitCompositionInList(List<UnitComposition<Unit>> listSorted,
             UnitComposition<Unit> unitComposition) {
-			UnitComposition<Unit> parentUnitComposition=null;
+        UnitComposition<Unit> parentUnitComposition = null;
         // Lookup index of parent unitcomposition for the current unit.
         int binarySearchParentIndex = Collections.binarySearch(listSorted, unitComposition,
                 new ComarableDnToLookupParentUnit());
-		if(binarySearchParentIndex>-1){
-			 parentUnitComposition = listSorted.get(binarySearchParentIndex);
-			}
+        if (binarySearchParentIndex > -1) {
+            parentUnitComposition = listSorted.get(binarySearchParentIndex);
+        }
         return parentUnitComposition;
     }
 
