@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,9 +23,9 @@ import se.vgregion.kivtools.util.presentation.PresentationHelper;
  */
 @Controller
 public class SuggestionBean {
-
   private CodeTablesService codeTablesService;
 
+  @Autowired
   public void setCodeTablesService(CodeTablesService codeTablesService) {
     this.codeTablesService = codeTablesService;
   }
