@@ -124,7 +124,7 @@ public class UnitFactoryTest {
     assertNotNull(unit);
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test(expected = KivException.class)
   public void testReconstituteInvalidObjectClass() throws KivException {
     unitFactory.reconstitute(ldapEntry);
   }
@@ -227,7 +227,7 @@ public class UnitFactoryTest {
   }
 
   @Test
-  public void testHttpsURI() {
+  public void testHttpsURI() throws KivException {
     ldapEntry.addAttribute("objectClass", OU);
     ldapEntry.addAttribute("vgrLabeledURI", "https://" + TEST);
     Unit unit = unitFactory.reconstitute(ldapEntry);
