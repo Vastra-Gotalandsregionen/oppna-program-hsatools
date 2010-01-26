@@ -133,6 +133,7 @@ public class UnitDetailsServiceImplTest {
     assertEquals("12", addressWs.getStreetNumber());
     assertEquals(0, unit.getTemporaryInformation().size());
     assertEquals(0, unit.getReferralInformation().size());
+    assertNull(unit.getLocality());
 
     // Check Unit 2
     organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 2);
@@ -198,10 +199,10 @@ public class UnitDetailsServiceImplTest {
         }
         unit.setHsaManagementText("Landsting/region");
         unit.setHealthcareTypes(Arrays.asList(new HealthcareType(null, "Vårdcentral", false, 0), new HealthcareType(null, "Akutmottagning", false, 1)));
-        unit.setHsaMunicipalityName("Götlaborg");
 
         switch (i) {
           case 0:
+            unit.setHsaMunicipalityName("Götlaborg");
             unit.setVgrTempInfo("20090701-20091130 Temp info");
             unit.setVgrRefInfo("Ref info");
             break;
