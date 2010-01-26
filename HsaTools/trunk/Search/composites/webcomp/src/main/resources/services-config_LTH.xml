@@ -68,10 +68,6 @@
 		<property name="searchService" ref="Search_SearchService" />
 	</bean>
 	    
-    <bean id="suggestionBeanLTH" class="se.vgregion.kivtools.search.presentation.hak.SuggestionBean">
-      <property name="cacheService" ref="cacheService" />
-    </bean>
-	
 	<bean id="personNameCacheLoader" class="se.vgregion.kivtools.search.svc.impl.hak.ldap.PersonNameCacheLoaderImpl">
 		<property name="ldapTemplate" ref="ldapTemplateLTH" />
 	</bean>

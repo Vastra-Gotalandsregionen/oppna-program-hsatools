@@ -22,6 +22,7 @@
 				<directory>src/main/resources</directory>
 				<includes>
 					<include>services-config.xml</include>
+					<include>webflow-config.xml</include>
 				</includes>
 				<filtering>true</filtering>
 			</resource>
@@ -29,6 +30,7 @@
 				<directory>src/main/resources</directory>
 				<excludes>
 					<exclude>services-config.xml</exclude>
+					<exclude>webflow-config.xml</exclude>
 				</excludes>
 				<filtering>false</filtering>
 			</resource>
