@@ -157,9 +157,11 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
     }
 
     // Location
-    Locality locality = new Locality();
-    locality.setValue(unit.getHsaMunicipalityName());
-    unitWs.setLocality(locality);
+    if (!StringUtil.isEmpty(unit.getHsaMunicipalityName())) {
+      Locality locality = new Locality();
+      locality.setValue(unit.getHsaMunicipalityName());
+      unitWs.setLocality(locality);
+    }
 
     // Set if unit is connected to MVK
     unitWs.setMvkEnable(checkIfConnectedToMvk(unit));
