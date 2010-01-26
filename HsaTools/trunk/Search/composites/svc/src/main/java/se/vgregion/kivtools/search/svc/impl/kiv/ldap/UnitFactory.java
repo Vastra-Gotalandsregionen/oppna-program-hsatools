@@ -28,6 +28,7 @@ import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.domain.values.WeekdayTime;
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.ldap.LdapORMHelper;
 import se.vgregion.kivtools.search.util.DisplayValueTranslator;
@@ -72,8 +73,9 @@ public class UnitFactory {
    * 
    * @param unitEntry LDAPEntry to reconstitute.
    * @return A unit object.
+   * @throws KivException if the unit cannot be reconstituted.
    */
-  public Unit reconstitute(LDAPEntry unitEntry) {
+  public Unit reconstitute(LDAPEntry unitEntry) throws KivException {
     Unit unit = new Unit();
     if (unitEntry == null) {
       return unit;
@@ -211,7 +213,7 @@ public class UnitFactory {
     unit.setHsaIdentity(LdapORMHelper.getSingleValue(unitEntry.getAttribute("hsaIdentity")));
   }
 
-  private void populateUnitType(LDAPEntry unitEntry, Unit unit) {
+  private void populateUnitType(LDAPEntry unitEntry, Unit unit) throws KivException {
     // set object class
     unit.setObjectClass(LdapORMHelper.getSingleValue(unitEntry.getAttribute("objectClass")));
     String temp = unit.getObjectClass().toLowerCase();
@@ -220,7 +222,7 @@ public class UnitFactory {
     } else if (temp.equalsIgnoreCase(Constants.OBJECT_CLASS_FUNCTION_SPECIFIC) || temp.equalsIgnoreCase(Constants.OBJECT_CLASS_FUNCTION_STANDARD)) {
       unit.setIsUnit(false);
     } else {
-      throw new RuntimeException("Detected unknown objectClass=" + unit.getObjectClass() + " in " + UnitFactory.class.getName() + "::reconstitute()");
+      throw new KivException("Detected unknown objectClass=" + unit.getObjectClass() + " in " + UnitFactory.class.getName() + "::reconstitute()");
     }
   }
 

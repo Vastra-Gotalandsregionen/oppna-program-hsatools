@@ -401,8 +401,12 @@ public class UnitRepository {
     SikSearchResultList<Unit> result = new SikSearchResultList<Unit>();
     while (searchResults.hasMore()) {
       try {
-        Unit u = unitFactory.reconstitute(searchResults.next());
-        result.add(u);
+        try {
+          Unit u = unitFactory.reconstitute(searchResults.next());
+          result.add(u);
+        } catch (KivException e) {
+          logger.error("Problem reconstituting unit", e);
+        }
       } catch (LDAPException e) {
         if (e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
           // break;
