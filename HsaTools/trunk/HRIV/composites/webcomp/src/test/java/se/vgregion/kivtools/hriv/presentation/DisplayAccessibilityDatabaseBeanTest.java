@@ -110,7 +110,8 @@ public class DisplayAccessibilityDatabaseBeanTest {
     assertEquals("Unexpected value of formerLanguageId", "2", form.getFormerLanguageId());
 
     Document doc = EMPTY_DOC;
-    Node businessObjectNode = doc.getFirstChild();
+    // Calling getNextSibling to get the actual tag and not the license comment
+    Node businessObjectNode = doc.getFirstChild().getNextSibling();
     AccessibilityObject businessObject = AccessibilityObject.createAccessibilityObjectFromNode(businessObjectNode);
     ArrayList<AccessibilityObject> subObjects = new ArrayList<AccessibilityObject>();
 
