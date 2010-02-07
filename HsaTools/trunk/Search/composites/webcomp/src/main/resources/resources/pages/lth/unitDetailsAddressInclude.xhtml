@@ -50,6 +50,9 @@
 				<div>${unit.hsaStreetAddress.street}</div>
 				<span>${unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
 				<span>${unit.hsaStreetAddress.city}</span>
+				<h:outputText rendered="${unit.wgs84Lat!=0.0 and not unit.hsaStreetAddress.isEmpty()}">
+					<a class="map-link" href="http://hittavard.lthalland.se/hriv/visaenhet?hsaidentity=${unit.hsaIdentity}">Hitta till enhet</a>
+				</h:outputText>
 			</td>
 		</tr>
 		<h:outputText rendered="${not unit.hsaSedfInvoiceAddress.isEmpty() or not unit.hsaSedfDeliveryAddress.isEmpty() or not unit.hsaConsigneeAddress.isEmpty()}">
