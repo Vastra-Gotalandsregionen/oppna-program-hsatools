@@ -94,6 +94,7 @@ public class EmploymentTest {
         .createPhoneNumber("0303-10000"), PhoneNumber.createPhoneNumber("031-123456")));
     PojoTester.testProperty(employment, "hsaTelephoneTime", List.class, null, WeekdayTime.createWeekdayTimeList(Arrays.asList("1-5#8:30#10:00")), WeekdayTime.createWeekdayTimeList(Arrays
         .asList("1#18:00#18:30")));
+    PojoTester.testProperty(employment, "primaryEmployment", boolean.class, false, true, false);
   }
 
   @Test

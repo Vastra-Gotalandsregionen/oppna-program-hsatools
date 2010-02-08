@@ -296,13 +296,18 @@ public class PersonRepositoryTest {
     assertEquals("Måndag-Torsdag 08:00-17:00", employment.getHsaTelephoneTime().get(0).getDisplayValue());
     assertEquals(DN.createDNFromString(TEST_DN), employment.getVgrStrukturPerson());
     assertEquals(TEST, employment.getZipCode().getZipCode());
+    assertFalse(employment.isPrimaryEmployment());
 
+    ldapEntry.addAttribute("mainNode", "Ja");
     ldapSearchResultsMock.addLDAPEntry(ldapEntry);
     ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=kon829))", ldapSearchResultsMock);
 
     persons = personRepository.searchPersons("\"kon829\"", 1);
     assertNotNull(persons);
     assertEquals(1, persons.size());
+
+    employment = persons.get(0).getEmployments().get(0);
+    assertTrue(employment.isPrimaryEmployment());
   }
 
   @Test
@@ -425,6 +430,34 @@ public class PersonRepositoryTest {
     assertEquals(1, allPersonsInUnit.size());
 
     ldapConnectionPoolMock.assertCorrectConnectionHandling();
+  }
+
+  @Test
+  public void primaryEmploymentIsAlwaysReturnedFirst() throws KivException {
+    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
+
+    LDAPEntryMock ldapEntry = new LDAPEntryMock();
+    ldapEntry.addAttribute("title", "Läkare");
+    ldapSearchResultsMock.addLDAPEntry(ldapEntry);
+
+    ldapEntry = new LDAPEntryMock();
+    ldapEntry.addAttribute("title", "Assistent");
+    ldapEntry.addAttribute("mainNode", "Ja");
+    ldapSearchResultsMock.addLDAPEntry(ldapEntry);
+
+    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=*kon829*))", ldapSearchResultsMock);
+
+    SikSearchResultList<Person> persons = personRepository.searchPersons("kon829", 1);
+    assertNotNull(persons);
+    assertEquals(1, persons.size());
+    assertEquals(2, persons.get(0).getEmployments().size());
+    Employment primaryEmployment = persons.get(0).getEmployments().get(0);
+    Employment otherEmployment = persons.get(0).getEmployments().get(1);
+
+    assertEquals("Assistent", primaryEmployment.getTitle());
+    assertTrue(primaryEmployment.isPrimaryEmployment());
+    assertEquals("Läkare", otherEmployment.getTitle());
+    assertFalse(otherEmployment.isPrimaryEmployment());
   }
 
   private static class LdapTemplateMock extends LdapTemplate {

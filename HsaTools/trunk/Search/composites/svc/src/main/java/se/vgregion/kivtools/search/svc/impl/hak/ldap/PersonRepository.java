@@ -272,8 +272,9 @@ public class PersonRepository {
     // Get employment list from employments map for each person and set the
     // employment property for each person.
     for (Person person : result) {
-      List<Employment> empLisr = personEmploymentsMap.get(person.getCn());
-      person.setEmployments(empLisr);
+      List<Employment> empList = personEmploymentsMap.get(person.getCn());
+      Collections.sort(empList, new EmploymentComparator());
+      person.setEmployments(empList);
     }
   }
 
@@ -344,6 +345,9 @@ public class PersonRepository {
     employment.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(personEntry.getAttribute("telephoneHours"))));
     employment.setVgrStrukturPerson(DN.createDNFromString(LdapORMHelper.getSingleValue(personEntry.getAttribute("distinguishedName"))));
     employment.setZipCode(new ZipCode(LdapORMHelper.getSingleValue(personEntry.getAttribute("postalCode"))));
+    if ("Ja".equals(LdapORMHelper.getSingleValue(personEntry.getAttribute("mainNode")))) {
+      employment.setPrimaryEmployment(true);
+    }
     return employment;
   }
 
@@ -532,5 +536,25 @@ public class PersonRepository {
     }
 
     return profileImage;
+  }
+
+  /**
+   * Comparator which sorts the primary employment first.
+   */
+  private static class EmploymentComparator implements Comparator<Employment> {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int compare(Employment o1, Employment o2) {
+      int result = 0;
+
+      if (o1.isPrimaryEmployment()) {
+        result = -1;
+      } else if (o2.isPrimaryEmployment()) {
+        result = 1;
+      }
+      return result;
+    }
   }
 }
