@@ -120,6 +120,8 @@ public class Employment implements Serializable {
 
   private String position;
 
+  private boolean primaryEmployment;
+
   public String getCn() {
     return cn;
   }
@@ -444,5 +446,13 @@ public class Employment implements Serializable {
    */
   public String getVgrStrukturPersonBase64() {
     return StringUtil.base64Encode(vgrStrukturPerson.toString());
+  }
+
+  public void setPrimaryEmployment(boolean primaryEmployment) {
+    this.primaryEmployment = primaryEmployment;
+  }
+
+  public boolean isPrimaryEmployment() {
+    return primaryEmployment;
   }
 }
