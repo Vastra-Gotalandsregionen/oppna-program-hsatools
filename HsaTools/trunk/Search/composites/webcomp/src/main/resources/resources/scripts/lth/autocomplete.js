@@ -108,3 +108,32 @@ function initAutocompleterSurname() {
 		return displayDescription;
 	}
 }
+
+function initAutocompleterTitle() {
+	var myDS = new YAHOO.util.XHRDataSource("suggestions_title.servlet");
+	myDS.responseType = YAHOO.util.XHRDataSource.TYPE_XML;
+	myDS.scriptQueryAppend = "output=xml";
+	myDS.responseSchema = {
+		fields : [ 'description' ],
+		resultNode : 'suggestion'
+	};
+	var myAutoComp = new YAHOO.widget.AutoComplete("vgrId", "autocomplete_title", myDS);
+	myAutoComp.resultTypeList = false;
+	myAutoComp.autoHighlight = false;
+	myAutoComp.minQueryLength = 2;
+	myAutoComp.maxResultsDisplayed = 50;
+	myAutoComp.typeAhead = true;
+	myAutoComp.useIFrame = true;
+	myAutoComp.formatResult = function(oResultData, sQuery, sResultMatch) {
+		var query = sQuery.toLowerCase();
+		var description = sResultMatch;
+		var descriptionMatchIndex = description.toLowerCase().indexOf(query);
+		var displayDescription;
+
+		if (descriptionMatchIndex > -1) {
+			displayDescription = highlightMatch(description, query,
+					descriptionMatchIndex);
+		}
+		return displayDescription;
+	}
+}

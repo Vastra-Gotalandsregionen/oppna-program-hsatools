@@ -427,10 +427,12 @@ public class PersonRepository {
     AndFilter userFilter = new AndFilter();
     userFilter.and(new EqualsFilter("objectclass", "hkatPerson"));
     if (!StringUtil.isEmpty(person.getUserId())) {
-      OrFilter regionNameOrTelephoneFilter = new OrFilter();
-      regionNameOrTelephoneFilter.or(createSearchFilter("regionName", person.getUserId().trim()));
-      addTelephoneFilter(person.getUserId().trim(), regionNameOrTelephoneFilter);
-      userFilter.and(regionNameOrTelephoneFilter);
+      OrFilter regionNameTitleOrTelephoneFilter = new OrFilter();
+      String trimmedUserId = person.getUserId().trim();
+      regionNameTitleOrTelephoneFilter.or(createSearchFilter("regionName", trimmedUserId));
+      addTelephoneFilter(trimmedUserId, regionNameTitleOrTelephoneFilter);
+      addTitleFilter(trimmedUserId, regionNameTitleOrTelephoneFilter);
+      userFilter.and(regionNameTitleOrTelephoneFilter);
     }
     if (!StringUtil.isEmpty(person.getGivenName())) {
       OrFilter firstNameFilter = new OrFilter();
@@ -446,6 +448,10 @@ public class PersonRepository {
     }
 
     return userFilter;
+  }
+
+  private void addTitleFilter(String title, OrFilter filter) {
+    filter.or(createSearchFilter("title", title));
   }
 
   private void addTelephoneFilter(String telephone, OrFilter regionNameOrTelephoneFilter) {

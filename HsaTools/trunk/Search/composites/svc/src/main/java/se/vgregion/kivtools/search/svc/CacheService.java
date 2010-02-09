@@ -27,8 +27,10 @@ import java.util.concurrent.atomic.AtomicReference;
 public class CacheService {
   private PersonNameCacheLoader personNameCacheLoader;
   private UnitNameCacheLoader unitNameCacheLoader;
+  private TitleCacheLoader titleCacheLoader;
   private AtomicReference<PersonNameCache> personNameCache = new AtomicReference<PersonNameCache>(new PersonNameCache());
   private AtomicReference<UnitNameCache> unitNameCache = new AtomicReference<UnitNameCache>(new UnitNameCache());
+  private AtomicReference<TitleCache> titleCache = new AtomicReference<TitleCache>(new TitleCache());
 
   public void setPersonNameCacheLoader(PersonNameCacheLoader personNameCacheLoader) {
     this.personNameCacheLoader = personNameCacheLoader;
@@ -38,12 +40,17 @@ public class CacheService {
     this.unitNameCacheLoader = unitNameCacheLoader;
   }
 
+  public void setTitleCacheLoader(TitleCacheLoader titleCacheLoader) {
+    this.titleCacheLoader = titleCacheLoader;
+  }
+
   /**
    * Reloads the caches from LDAP using the cache loader instances.
    */
   public void reloadCaches() {
     personNameCache.set(personNameCacheLoader.loadCache());
     unitNameCache.set(unitNameCacheLoader.loadCache());
+    titleCache.set(titleCacheLoader.loadCache());
   }
 
   public PersonNameCache getPersonNameCache() {
@@ -52,5 +59,9 @@ public class CacheService {
 
   public UnitNameCache getUnitNameCache() {
     return unitNameCache.get();
+  }
+
+  public TitleCache getTitleCache() {
+    return titleCache.get();
   }
 }

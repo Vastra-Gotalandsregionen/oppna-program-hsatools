@@ -76,9 +76,14 @@
 		<property name="ldapTemplate" ref="ldapTemplateLTH" />
 	</bean>
 	
+	<bean id="titleCacheLoader" class="se.vgregion.kivtools.search.svc.impl.hak.ldap.TitleCacheLoaderImpl">
+		<property name="ldapTemplate" ref="ldapTemplateLTH" />
+	</bean>
+	
 	<bean id="cacheService" class="se.vgregion.kivtools.search.svc.CacheService">
 		<property name="personNameCacheLoader" ref="personNameCacheLoader" />
 		<property name="unitNameCacheLoader" ref="unitNameCacheLoader" />
+		<property name="titleCacheLoader" ref="titleCacheLoader" />
 	</bean>
 	
 	<bean id="jobDetailCacheReload"
