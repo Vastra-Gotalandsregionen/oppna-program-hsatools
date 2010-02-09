@@ -31,6 +31,7 @@ public class CacheServiceTest {
     cacheService = new CacheService();
     cacheService.setPersonNameCacheLoader(new PersonNameCacheLoaderMock());
     cacheService.setUnitNameCacheLoader(new UnitNameCacheLoaderMock());
+    cacheService.setTitleCacheLoader(new TitleCacheLoaderMock());
   }
 
   @Test
@@ -47,6 +48,9 @@ public class CacheServiceTest {
     UnitNameCache unitNameCache = cacheService.getUnitNameCache();
     assertNotNull(unitNameCache);
     assertEquals(0, unitNameCache.getMatchingUnitNames("").size());
+    TitleCache titleCache = cacheService.getTitleCache();
+    assertNotNull(titleCache);
+    assertEquals(0, titleCache.getMatchingTitles("").size());
 
     cacheService.reloadCaches();
 
@@ -56,6 +60,9 @@ public class CacheServiceTest {
     unitNameCache = cacheService.getUnitNameCache();
     assertNotNull(unitNameCache);
     assertEquals(1, unitNameCache.getMatchingUnitNames("").size());
+    titleCache = cacheService.getTitleCache();
+    assertNotNull(titleCache);
+    assertEquals(1, titleCache.getMatchingTitles("").size());
   }
 
   private static class PersonNameCacheLoaderMock implements PersonNameCacheLoader {
@@ -73,6 +80,15 @@ public class CacheServiceTest {
       UnitNameCache unitNameCache = new UnitNameCache();
       unitNameCache.add("Tandregleringen Varberg");
       return unitNameCache;
+    }
+  }
+
+  private static class TitleCacheLoaderMock implements TitleCacheLoader {
+    @Override
+    public TitleCache loadCache() {
+      TitleCache titleCache = new TitleCache();
+      titleCache.add("Systemingenjör");
+      return titleCache;
     }
   }
 }

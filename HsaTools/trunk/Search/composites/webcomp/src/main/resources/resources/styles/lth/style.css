@@ -34,7 +34,7 @@
 	float:left;
 }
 #header-info-container {
-	width:600px;
+	width:630px;
 	clear:both;
 	font-size:0.94em;
 	margin:0 auto;
@@ -80,7 +80,7 @@ table {font-size:1em;}
 
 .search-form .vgrIdText {
 	float:left;
-	width:95px;
+	width:125px;
 	margin-right:10px;
 }
 .search-form .submit-area {
@@ -104,7 +104,7 @@ table {font-size:1em;}
 }
 /* Tabs */
 .tab-container {
-	width:600px;
+	width:630px;
 	margin:0;
 	border-bottom:4px solid #1751a9;
 }

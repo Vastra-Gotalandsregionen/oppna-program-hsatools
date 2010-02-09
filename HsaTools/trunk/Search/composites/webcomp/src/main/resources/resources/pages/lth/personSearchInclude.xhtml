@@ -38,7 +38,10 @@
 		</div>
 		<div class="vgrIdText">
 			<label for="vgrId">${msg.userId}</label>
-			<input id="vgrId" name="userId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.userId}" />
+			<div class="autocomplete_container" id="title_container">
+				<input id="vgrId" name="userId" type="text" class="search-input-vgr-field" value="${personSearchSimpleForm.userId}" />
+				<div id="autocomplete_title" class="autocomplete"></div>
+			</div>
 		</div>
 		<div class="submit-area">
 			<input type="submit" id="submitButton" value="Sök" />
@@ -47,6 +50,7 @@
             // <![CDATA[]
 	            initAutocompleterGivenName();
 	            initAutocompleterSurname();
+	            initAutocompleterTitle();
             // ]]>
         </script>
 	</div>

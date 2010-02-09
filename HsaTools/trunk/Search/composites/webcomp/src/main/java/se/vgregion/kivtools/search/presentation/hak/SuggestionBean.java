@@ -87,6 +87,20 @@ public class SuggestionBean {
     return generateSuggestions(response, matchingUnitNames);
   }
 
+  /**
+   * Lookup suggestions for titles.
+   * 
+   * @param response The HttpServletResponse to stream the generated suggestions-XML to.
+   * @param title The title to lookup suggestions for.
+   * @return Always returns null since the result is streamed back to the client.
+   * @throws IOException if there is a problem writing the generated XML to the client.
+   */
+  @RequestMapping("/suggestions_title.servlet")
+  public String getSuggestionsForTitle(HttpServletResponse response, @RequestParam("query") String title) throws IOException {
+    List<String> matchingTitles = cacheService.getTitleCache().getMatchingTitles(title);
+    return generateSuggestions(response, matchingTitles);
+  }
+
   private String generateSuggestions(HttpServletResponse response, List<String> suggestions) throws IOException {
     String suggestionsXml = buildXml(suggestions);
     response.setCharacterEncoding("UTF-8");

@@ -20,42 +20,39 @@ package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextOperations;
 
-import se.vgregion.kivtools.search.svc.UnitNameCache;
-import se.vgregion.kivtools.search.util.Formatter;
+import se.vgregion.kivtools.search.svc.TitleCache;
 import se.vgregion.kivtools.util.StringUtil;
 
 /**
- * ContextMapper for retrieving the unit name-attributes (ou or cn) for a unit and populating a UnitNameCache with the retrieved information.
+ * ContextMapper for retrieving the title-attribute for a person and populating a TitleCache with the retrieved information.
  * 
  * @author Joakim Olsson
  */
-final class UnitNameMapper implements ContextMapper {
-  private final UnitNameCache unitNameCache;
+final class TitleMapper implements ContextMapper {
+  private final TitleCache titleCache;
 
   /**
-   * Constructs a new UnitNameMapper using the provided UnitNameCache.
+   * Constructs a new TitleMapper using the provided TitleCache.
    * 
-   * @param unitNameCache The UnitNameCache the UnitNameMapper should add all unit names to.
+   * @param titleCache The TitleCache the TitleMapper should add all titles to.
    */
-  public UnitNameMapper(UnitNameCache unitNameCache) {
-    this.unitNameCache = unitNameCache;
+  public TitleMapper(TitleCache titleCache) {
+    this.titleCache = titleCache;
   }
 
   /**
-   * Retrieves the unit name-attributes (ou or cn) and adds them to the UnitNameCache.
+   * Retrieves the title-attribute and adds it to the TitleCache.
    * 
    * @param ctx The DirContextOperations object from Spring LDAP.
-   * @return Always returns null since the UnitNameCache is provided in the constructor.
+   * @return Always returns null since the TitleCache is provided in the constructor.
    */
   @Override
   public Object mapFromContext(Object ctx) {
     DirContextOperations dirContext = (DirContextOperations) ctx;
-    String unitName = dirContext.getStringAttribute("ou");
-    if (StringUtil.isEmpty(unitName)) {
-      unitName = dirContext.getStringAttribute("cn");
+    String title = dirContext.getStringAttribute("title");
+    if (!StringUtil.isEmpty(title)) {
+      this.titleCache.add(title);
     }
-    unitName = Formatter.replaceStringInString(unitName, "\\,", ",");
-    this.unitNameCache.add(unitName);
     return null;
   }
 }

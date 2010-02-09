@@ -28,6 +28,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import se.vgregion.kivtools.search.svc.CacheService;
 import se.vgregion.kivtools.search.svc.PersonNameCache;
 import se.vgregion.kivtools.search.svc.PersonNameCacheLoader;
+import se.vgregion.kivtools.search.svc.TitleCache;
+import se.vgregion.kivtools.search.svc.TitleCacheLoader;
 import se.vgregion.kivtools.search.svc.UnitNameCache;
 import se.vgregion.kivtools.search.svc.UnitNameCacheLoader;
 
@@ -41,6 +43,7 @@ public class SuggestionBeanTest {
     CacheService cacheService = new CacheService();
     cacheService.setPersonNameCacheLoader(new PersonNameCacheLoaderMock());
     cacheService.setUnitNameCacheLoader(new UnitNameCacheLoaderMock());
+    cacheService.setTitleCacheLoader(new TitleCacheLoaderMock());
     cacheService.reloadCaches();
     suggestionBean.setCacheService(cacheService);
     httpServletResponse = new MockHttpServletResponse();
@@ -94,6 +97,20 @@ public class SuggestionBeanTest {
     assertEquals("<?xml version='1.0' standalone='yes'?>\n<suggestions>\n<suggestion description=\"Tandregleringen Varberg\" />\n</suggestions>", suggestions);
   }
 
+  @Test
+  public void testGetSuggestionsForTitleNoMatches() throws IOException {
+    suggestionBean.getSuggestionsForTitle(httpServletResponse, "assistent");
+    String suggestions = httpServletResponse.getContentAsString();
+    assertEquals("<?xml version='1.0' standalone='yes'?>\n<suggestions>\n</suggestions>", suggestions);
+  }
+
+  @Test
+  public void testGetSuggestionsForTitle() throws IOException {
+    suggestionBean.getSuggestionsForTitle(httpServletResponse, "ingen");
+    String suggestions = httpServletResponse.getContentAsString();
+    assertEquals("<?xml version='1.0' standalone='yes'?>\n<suggestions>\n<suggestion description=\"Systemingenjör\" />\n</suggestions>", suggestions);
+  }
+
   private static class PersonNameCacheLoaderMock implements PersonNameCacheLoader {
     @Override
     public PersonNameCache loadCache() {
@@ -109,6 +126,15 @@ public class SuggestionBeanTest {
       UnitNameCache unitNameCache = new UnitNameCache();
       unitNameCache.add("Tandregleringen Varberg");
       return unitNameCache;
+    }
+  }
+
+  private static class TitleCacheLoaderMock implements TitleCacheLoader {
+    @Override
+    public TitleCache loadCache() {
+      TitleCache titleCache = new TitleCache();
+      titleCache.add("Systemingenjör");
+      return titleCache;
     }
   }
 }

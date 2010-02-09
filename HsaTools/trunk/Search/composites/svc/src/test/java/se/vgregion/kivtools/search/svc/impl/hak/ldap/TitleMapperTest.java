@@ -25,41 +25,47 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
-import se.vgregion.kivtools.search.svc.UnitNameCache;
+import se.vgregion.kivtools.search.svc.TitleCache;
 
-public class UnitNameMapperTest {
-  private UnitNameCache unitNameCache;
-  private UnitNameMapper unitNameMapper;
+public class TitleMapperTest {
+  private TitleCache titleCache;
+  private TitleMapper titleMapper;
   private DirContextOperationsMock dirContextOperations;
 
   @Before
   public void setUp() throws Exception {
-    unitNameCache = new UnitNameCache();
-    unitNameMapper = new UnitNameMapper(unitNameCache);
+    titleCache = new TitleCache();
+    titleMapper = new TitleMapper(titleCache);
     dirContextOperations = new DirContextOperationsMock();
   }
 
   @Test
   public void testInstantiation() {
-    UnitNameMapper unitNameMapper = new UnitNameMapper(unitNameCache);
-    assertNotNull(unitNameMapper);
+    TitleMapper titleMapper = new TitleMapper(titleCache);
+    assertNotNull(titleMapper);
   }
 
   @Test
-  public void testOu() {
-    dirContextOperations.addAttributeValue("ou", "Vårdcentralen Hylte");
-    unitNameMapper.mapFromContext(dirContextOperations);
-    List<String> matchingUnitNames = unitNameCache.getMatchingUnitNames("hylte");
-    assertEquals(1, matchingUnitNames.size());
-    assertEquals("Vårdcentralen Hylte", matchingUnitNames.get(0));
+  public void testValidTitle() {
+    dirContextOperations.addAttributeValue("title", "Assistent");
+    titleMapper.mapFromContext(dirContextOperations);
+    List<String> matchingTitles = titleCache.getMatchingTitles("sis");
+    assertEquals(1, matchingTitles.size());
+    assertEquals("Assistent", matchingTitles.get(0));
   }
 
   @Test
-  public void testCn() {
-    dirContextOperations.addAttributeValue("cn", "Tandregleringen\\, Varberg");
-    unitNameMapper.mapFromContext(dirContextOperations);
-    List<String> matchingUnitNames = unitNameCache.getMatchingUnitNames("berg");
-    assertEquals(1, matchingUnitNames.size());
-    assertEquals("Tandregleringen, Varberg", matchingUnitNames.get(0));
+  public void testNullTitle() {
+    titleMapper.mapFromContext(dirContextOperations);
+    List<String> matchingTitles = titleCache.getMatchingTitles("");
+    assertEquals(0, matchingTitles.size());
+  }
+
+  @Test
+  public void testWhitespaceTitle() {
+    dirContextOperations.addAttributeValue("title", "    ");
+    titleMapper.mapFromContext(dirContextOperations);
+    List<String> matchingTitles = titleCache.getMatchingTitles("");
+    assertEquals(0, matchingTitles.size());
   }
 }
