@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -36,7 +37,7 @@ import org.junit.Test;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.GetVårdvalRequest;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.GetVårdvalResponse;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalService;
-import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.ObjectFactory;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalRequest;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalResponse;
@@ -66,7 +67,7 @@ public class VardvalServiceTest {
     GetVårdvalResponse getVardvalResponse = new GetVårdvalResponse();
     generateResponse(getVardvalResponse);
 
-    EasyMock.expect(mockService.getVårdVal(EasyMock.isA(GetVårdvalRequest.class))).andReturn(getVardvalResponse);
+    org.easymock.EasyMock.expect(mockService.getVårdval(org.easymock.EasyMock.isA(GetVårdvalRequest.class))).andReturn(getVardvalResponse);
     EasyMock.replay(mockService);
 
     VardvalService vardvalService = new VardvalServiceImpl();
@@ -84,12 +85,12 @@ public class VardvalServiceTest {
   /*
    * * Test assigning new listing and check retrieved Vardval information.
    */
-  public void testSetVardvalMethod() throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage, DatatypeConfigurationException {
+  public void testSetVardvalMethod() throws IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage, DatatypeConfigurationException {
     IVårdvalService mockService = EasyMock.createMock(IVårdvalService.class);
     SetVårdvalResponse setVardvalResponse = new SetVårdvalResponse();
     generateResponse(setVardvalResponse);
 
-    EasyMock.expect(mockService.setVårdVal(EasyMock.isA(SetVårdvalRequest.class))).andReturn(setVardvalResponse);
+    org.easymock.EasyMock.expect(mockService.setVårdval(org.easymock.EasyMock.isA(SetVårdvalRequest.class))).andReturn(setVardvalResponse);
     EasyMock.replay(mockService);
 
     VardvalService vardvalService = new VardvalServiceImpl();
@@ -105,7 +106,7 @@ public class VardvalServiceTest {
     VårdvalEntry currentEntry = new VårdvalEntry();
     VårdvalEntry upcomingEntry = new VårdvalEntry();
     // Set current and upcoming dates for vårdval entries
-    GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
+    GregorianCalendar calendar = (GregorianCalendar) Calendar.getInstance();
     calendar.setTime(currentValidFromDate);
     XMLGregorianCalendar currentGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
     calendar.setTime(upcomingValidFromDate);
@@ -129,7 +130,7 @@ public class VardvalServiceTest {
     VårdvalEntry currentEntry = new VårdvalEntry();
     VårdvalEntry upcomingEntry = new VårdvalEntry();
     // Set current and upcoming dates for vårdval entries
-    GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
+    GregorianCalendar calendar = (GregorianCalendar) Calendar.getInstance();
     calendar.setTime(currentValidFromDate);
     XMLGregorianCalendar currentGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
     calendar.setTime(upcomingValidFromDate);
