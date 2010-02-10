@@ -54,8 +54,8 @@ import se.vgregion.kivtools.hriv.presentation.exceptions.VardvalSigningException
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.registration.CitizenRepository;
-import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage;
-import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdvalVårdvalServiceErrorFaultFaultMessage;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImpl;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalService;
@@ -183,7 +183,7 @@ public class RegisterOnUnitControllerTest {
 
     searchService.clearExceptionsToThrow();
 
-    vardvalService.exceptionToThrow = new IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage("Test", null);
+    vardvalService.exceptionToThrow = new IVårdvalServiceGetVårdvalVårdvalServiceErrorFaultFaultMessage("Test", null);
     try {
       registerOnUnitController.getUnitRegistrationInformation(externalContext, null);
       fail("VardvalRegistrationException expected");
@@ -311,7 +311,7 @@ public class RegisterOnUnitControllerTest {
     registerOnUnitController.setVardValService(vardvalService);
     registerOnUnitController.postCommitRegistrationOnUnit(externalContext);
 
-    vardvalService.setExceptionToThrow(new IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage("", null));
+    vardvalService.setExceptionToThrow(new IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage("", null));
     try {
       registerOnUnitController.postCommitRegistrationOnUnit(externalContext);
       fail("VardvalRegistrationException expected");
@@ -995,10 +995,10 @@ public class RegisterOnUnitControllerTest {
     }
 
     @Override
-    public VardvalInfo getVardval(String ssn) throws IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage {
+    public VardvalInfo getVardval(String ssn) throws IVårdvalServiceGetVårdvalVårdvalServiceErrorFaultFaultMessage {
       if (exceptionToThrow != null) {
-        if (exceptionToThrow instanceof IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage) {
-          throw (IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage) exceptionToThrow;
+        if (exceptionToThrow instanceof IVårdvalServiceGetVårdvalVårdvalServiceErrorFaultFaultMessage) {
+          throw (IVårdvalServiceGetVårdvalVårdvalServiceErrorFaultFaultMessage) exceptionToThrow;
         } else if (exceptionToThrow instanceof SOAPFaultException) {
           throw (SOAPFaultException) exceptionToThrow;
         }
@@ -1008,9 +1008,9 @@ public class RegisterOnUnitControllerTest {
     }
 
     @Override
-    public VardvalInfo setVardval(String ssn, String hsaId, byte[] signature) throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage {
+    public VardvalInfo setVardval(String ssn, String hsaId, byte[] signature) throws IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage {
       if (exceptionToThrow != null) {
-        throw (IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage) exceptionToThrow;
+        throw (IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage) exceptionToThrow;
       }
       vardvalInfo.setSsn(ssn);
       vardvalInfo.setUpcomingHsaId(hsaId);

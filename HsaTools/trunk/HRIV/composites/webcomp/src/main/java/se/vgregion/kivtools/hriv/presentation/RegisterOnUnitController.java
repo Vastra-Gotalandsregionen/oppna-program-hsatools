@@ -39,8 +39,8 @@ import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.registration.CitizenRepository;
-import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage;
-import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdvalVårdvalServiceErrorFaultFaultMessage;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImpl;
 import se.vgregion.kivtools.search.svc.ws.signicat.signature.SignatureEndpointImplService;
 import se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo;
@@ -177,7 +177,7 @@ public class RegisterOnUnitController implements Serializable {
       throw new VardvalRegistrationException(sfe.getMessage());
     } catch (KivException e) {
       throw new VardvalRegistrationException(bundle.getString("registrationInvalidUnit"));
-    } catch (IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage e) {
+    } catch (IVårdvalServiceGetVårdvalVårdvalServiceErrorFaultFaultMessage e) {
       throw new VardvalRegistrationException(bundle.getString("registrationInvalidUnit"));
     }
     vardvalInfo.setName(name);
@@ -279,7 +279,7 @@ public class RegisterOnUnitController implements Serializable {
         vardvalInfo.setSsn(ssn);
         vardvalInfo.setName(name);
         vardvalInfo.setSelectedUnitName(selectedUnitName);
-      } catch (IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage e) {
+      } catch (IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage e) {
         throw new VardvalRegistrationException(e.getMessage());
       }
     } else {

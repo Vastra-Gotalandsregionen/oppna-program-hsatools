@@ -17,8 +17,8 @@
  */
 package se.vgregion.kivtools.search.svc.ws.vardval;
 
-import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage;
-import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdvalVårdvalServiceErrorFaultFaultMessage;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage;
 
 /**
  * Service for retrieving and registering citizens unit registrations.
@@ -32,7 +32,7 @@ public interface VardvalService {
    * @throws IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage Exception from Vårdval service.
    * @return The citizens unit registration information.
    */
-  VardvalInfo getVardval(String ssn) throws IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage;
+  VardvalInfo getVardval(String ssn) throws IVårdvalServiceGetVårdvalVårdvalServiceErrorFaultFaultMessage;
 
   /**
    * Sets a citizens unit registration.
@@ -43,5 +43,5 @@ public interface VardvalService {
    * @return The citizens unit registration information.
    * @throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage Exception from Vårdval service.
    */
-  VardvalInfo setVardval(String ssn, String hsaId, byte[] signature) throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
+  VardvalInfo setVardval(String ssn, String hsaId, byte[] signature) throws IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage;
 }

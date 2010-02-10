@@ -23,7 +23,7 @@
   <wsdl:message name="GetVårdvalResponse">
     <wsdl:part name="parameters" element="tns:GetVårdvalResponse"/>
   </wsdl:message>
-  <wsdl:message name="IVårdvalService_GetVårdVal_VårdvalServiceErrorFault_FaultMessage">
+  <wsdl:message name="IVårdvalService_GetVårdval_VårdvalServiceErrorFault_FaultMessage">
     <wsdl:part name="detail" element="tns:VårdvalServiceError"/>
   </wsdl:message>
   <wsdl:message name="SetVårdvalRequest">
@@ -32,7 +32,7 @@
   <wsdl:message name="SetVårdvalResponse">
     <wsdl:part name="parameters" element="tns:SetVårdvalResponse"/>
   </wsdl:message>
-  <wsdl:message name="IVårdvalService_SetVårdVal_VårdvalServiceErrorFault_FaultMessage">
+  <wsdl:message name="IVårdvalService_SetVårdval_VårdvalServiceErrorFault_FaultMessage">
     <wsdl:part name="detail" element="tns:VårdvalServiceError"/>
   </wsdl:message>
   <wsdl:message name="GetVårdvalOchPersonRequest">
@@ -68,15 +68,15 @@
       <wsdl:output wsaw:Action="urn:VGRegion.VGPrimärvård.Vårdval.Service/IVårdvalService/GetAllVårdvalAsCsvStreamResponse" message="tns:IVårdvalService_GetAllVårdvalAsCsvStream_OutputMessage"/>
       <wsdl:fault wsaw:Action="VardvalServiceFault" name="VårdvalServiceErrorFault" message="tns:IVårdvalService_GetAllVårdvalAsCsvStream_VårdvalServiceErrorFault_FaultMessage"/>
     </wsdl:operation>
-    <wsdl:operation name="GetVårdVal">
+    <wsdl:operation name="GetVårdval">
       <wsdl:input wsaw:Action="GetVardval" name="GetVårdvalRequest" message="tns:GetVårdvalRequest"/>
-      <wsdl:output wsaw:Action="urn:VGRegion.VGPrimärvård.Vårdval.Service/IVårdvalService/GetVårdValResponse" name="GetVårdvalResponse" message="tns:GetVårdvalResponse"/>
-      <wsdl:fault wsaw:Action="VardvalServiceFault" name="VårdvalServiceErrorFault" message="tns:IVårdvalService_GetVårdVal_VårdvalServiceErrorFault_FaultMessage"/>
+      <wsdl:output wsaw:Action="urn:VGRegion.VGPrimärvård.Vårdval.Service/IVårdvalService/GetVårdvalResponse" name="GetVårdvalResponse" message="tns:GetVårdvalResponse"/>
+      <wsdl:fault wsaw:Action="VardvalServiceFault" name="VårdvalServiceErrorFault" message="tns:IVårdvalService_GetVårdval_VårdvalServiceErrorFault_FaultMessage"/>
     </wsdl:operation>
-    <wsdl:operation name="SetVårdVal">
+    <wsdl:operation name="SetVårdval">
       <wsdl:input wsaw:Action="SetVardval" name="SetVårdvalRequest" message="tns:SetVårdvalRequest"/>
-      <wsdl:output wsaw:Action="urn:VGRegion.VGPrimärvård.Vårdval.Service/IVårdvalService/SetVårdValResponse" name="SetVårdvalResponse" message="tns:SetVårdvalResponse"/>
-      <wsdl:fault wsaw:Action="VardvalServiceFault" name="VårdvalServiceErrorFault" message="tns:IVårdvalService_SetVårdVal_VårdvalServiceErrorFault_FaultMessage"/>
+      <wsdl:output wsaw:Action="urn:VGRegion.VGPrimärvård.Vårdval.Service/IVårdvalService/SetVårdvalResponse" name="SetVårdvalResponse" message="tns:SetVårdvalResponse"/>
+      <wsdl:fault wsaw:Action="VardvalServiceFault" name="VårdvalServiceErrorFault" message="tns:IVårdvalService_SetVårdval_VårdvalServiceErrorFault_FaultMessage"/>
     </wsdl:operation>
     <wsdl:operation name="GetVårdvalOchPerson">
       <wsdl:input wsaw:Action="GetVardvalOchPerson" name="GetVårdvalOchPersonRequest" message="tns:GetVårdvalOchPersonRequest"/>
@@ -108,7 +108,7 @@
         <soap:fault name="VårdvalServiceErrorFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="GetVårdVal">
+    <wsdl:operation name="GetVårdval">
       <soap:operation soapAction="GetVardval" style="document"/>
       <wsdl:input name="GetVårdvalRequest">
         <soap:body use="literal"/>
@@ -120,7 +120,7 @@
         <soap:fault name="VårdvalServiceErrorFault" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="SetVårdVal">
+    <wsdl:operation name="SetVårdval">
       <soap:operation soapAction="SetVardval" style="document"/>
       <wsdl:input name="SetVårdvalRequest">
         <soap:body use="literal"/>

@@ -26,16 +26,17 @@ import javax.xml.ws.BindingProvider;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.GetVårdvalRequest;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.GetVårdvalResponse;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalService;
-import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage;
-import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceGetVårdvalVårdvalServiceErrorFaultFaultMessage;
+import se.vgregion.kivtools.search.svc.ws.domain.vardval.IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.ObjectFactory;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalRequest;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.SetVårdvalResponse;
 import se.vgregion.kivtools.search.svc.ws.domain.vardval.VårdvalEntry;
+
 /**
  * 
  * @author David Bennehult, Jonas Liljenfeld och Joakim Olsson.
- *
+ * 
  */
 public class VardvalServiceImpl implements VardvalService {
 
@@ -46,10 +47,12 @@ public class VardvalServiceImpl implements VardvalService {
   public void setService(IVårdvalService service) {
     this.service = service;
   }
-/**
- * Sets endpoint for the webservice. webserviceEndpoint variable is used.
- * @throws KeyStoreException .
- */
+
+  /**
+   * Sets endpoint for the webservice. webserviceEndpoint variable is used.
+   * 
+   * @throws KeyStoreException .
+   */
   public void setEndpoint() throws KeyStoreException {
     BindingProvider bindingProvider = (BindingProvider) service;
     Map<String, Object> requestContext = bindingProvider.getRequestContext();
@@ -65,7 +68,7 @@ public class VardvalServiceImpl implements VardvalService {
    * 
    */
   @Override
-  public VardvalInfo getVardval(String ssn) throws IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage {
+  public VardvalInfo getVardval(String ssn) throws IVårdvalServiceGetVårdvalVårdvalServiceErrorFaultFaultMessage {
     GetVårdvalResponse response = getVardvalInfo(ssn);
     return generateVardvalInfo(response);
   }
@@ -99,7 +102,7 @@ public class VardvalServiceImpl implements VardvalService {
    * {@inheritDoc}
    */
   @Override
-  public VardvalInfo setVardval(String ssn, String hsaId, byte[] signature) throws IVårdvalServiceSetVårdValVårdvalServiceErrorFaultFaultMessage {
+  public VardvalInfo setVardval(String ssn, String hsaId, byte[] signature) throws IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage {
     SetVårdvalRequest vardvalRequest = new SetVårdvalRequest();
     JAXBElement<String> soapSsn = objectFactory.createSetVårdvalRequestPersonnummer(ssn);
     JAXBElement<byte[]> soapSignature = objectFactory.createSetVårdvalRequestSigneringskod(signature);
@@ -107,7 +110,7 @@ public class VardvalServiceImpl implements VardvalService {
     vardvalRequest.setPersonnummer(soapSsn);
     vardvalRequest.setSigneringskod(soapSignature);
     vardvalRequest.setVårdcentralHsaId(soapHsaId);
-    SetVårdvalResponse response = service.setVårdVal(vardvalRequest);
+    SetVårdvalResponse response = service.setVårdval(vardvalRequest);
     return generateVardvalInfo(response);
   }
 
@@ -117,11 +120,11 @@ public class VardvalServiceImpl implements VardvalService {
    * @return - Soap response
    * @throws IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage Exception from Vårdval service.
    */
-  private GetVårdvalResponse getVardvalInfo(String ssn) throws IVårdvalServiceGetVårdValVårdvalServiceErrorFaultFaultMessage {
+  private GetVårdvalResponse getVardvalInfo(String ssn) throws IVårdvalServiceGetVårdvalVårdvalServiceErrorFaultFaultMessage {
     JAXBElement<String> soapSsn = objectFactory.createGetVårdvalRequestPersonnummer(ssn);
     GetVårdvalRequest getVardvalRequest = objectFactory.createGetVårdvalRequest();
     getVardvalRequest.setPersonnummer(soapSsn);
-    GetVårdvalResponse getVardvalResponse = service.getVårdVal(getVardvalRequest);
+    GetVårdvalResponse getVardvalResponse = service.getVårdval(getVardvalRequest);
     return getVardvalResponse;
   }
 }
