@@ -30,4 +30,5 @@ public class Constants {
   public static final String OBJECT_CLASS_FUNCTION_SPECIFIC = "organizationalRole";
   public static final String LDAP_PROPERTY_UNIT_NAME = "ou";
   public static final String LDAP_PROPERTY_FUNCTION_NAME = "cn";
+  public static final String LDAP_PROPERTY_DESCRIPTION = "description";
 }
