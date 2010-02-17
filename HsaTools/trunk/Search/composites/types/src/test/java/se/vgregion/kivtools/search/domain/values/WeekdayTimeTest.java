@@ -71,4 +71,16 @@ public class WeekdayTimeTest {
         }
         assertEquals("WeekdayTimes should be sorted on day/time", exp.toString(), res.toString());
     }
+    
+    @Test
+    public void testOpenAllTheTimeDisplay(){
+    	List<String> saveValues = new ArrayList<String>();
+        saveValues.add("1-7#00:00#24:00");
+        saveValues.add("1-7#00:00#00:00");
+        List<WeekdayTime> weekdayTimeList = WeekdayTime.createWeekdayTimeList(saveValues);
+        for (WeekdayTime weekdayTime : weekdayTimeList) {
+        	assertEquals("Dygnet runt", weekdayTime.getDisplayValue());
+		}
+    }
+    
 }
