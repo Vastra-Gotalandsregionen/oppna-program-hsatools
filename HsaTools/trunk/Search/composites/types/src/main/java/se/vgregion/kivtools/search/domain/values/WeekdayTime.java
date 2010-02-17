@@ -57,7 +57,7 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
   /**
    * Maxvärde för timmar, f.n. 23.
    */
-  private static final int MAX_HOUR = 23;
+  private static final int MAX_HOUR = 24;
   /**
    * Minvärde för timmar, f.n. 0.
    */
@@ -242,7 +242,7 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
   public String getDisplayValue() {
 
     // If open all the time, return "Dygnet runt"
-    if (endDay == 7 && endHour == 0 && endMin == 0 && endMin == 0 && startDay == 1 && startHour == 0 && startMin == 0) {
+    if (endDay == 7 && (endHour == 24 || endHour == 00) && endMin == 0 && endMin == 0 && startDay == 1 && startHour == 0 && startMin == 0) {
       return "Dygnet runt";
     }
 
