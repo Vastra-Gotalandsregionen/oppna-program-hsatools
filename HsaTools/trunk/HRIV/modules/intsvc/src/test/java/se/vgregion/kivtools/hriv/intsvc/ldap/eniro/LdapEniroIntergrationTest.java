@@ -17,12 +17,10 @@
  */
 package se.vgregion.kivtools.hriv.intsvc.ldap.eniro;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.ldap.core.support.LdapContextSource;
 
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClient;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro;
@@ -34,22 +32,8 @@ public class LdapEniroIntergrationTest {
    * @throws Exception
    */
   public static void main(String[] args) throws Exception {
-    ResourceBundle ldapConnectionResourceBundle = ResourceBundle.getBundle("se.vgregion.kivtools.hriv.intsvc.ldap.eniro.ldap");
-    String ldapUrl = ldapConnectionResourceBundle.getString("ldapUrl");
-    String ldapBase = ldapConnectionResourceBundle.getString("ldapBase");
-
-    ResourceBundle ldapCredentialResourceBundle = ResourceBundle.getBundle("se.vgregion.kivtools.hriv.intsvc.ldap.eniro.security");
-    String userDn = ldapCredentialResourceBundle.getString("userDn");
-    String password = ldapCredentialResourceBundle.getString("password");
-
-    LdapContextSource ldapContextSource = new LdapContextSource();
-    ldapContextSource.setUrl(ldapUrl);
-    ldapContextSource.setBase(ldapBase);
-    ldapContextSource.setUserDn(userDn);
-    ldapContextSource.setPassword(password);
-    ldapContextSource.setPooled(true);
-    ldapContextSource.afterPropertiesSet();
-    LdapTemplate ldapTemplate = new LdapTemplate(ldapContextSource);
+    ApplicationContext applicationContext = new FileSystemXmlApplicationContext("src/test/resources/services-config.xml");
+    LdapTemplate ldapTemplate = (LdapTemplate) applicationContext.getBean("ldapTemplateOrganisation");
     InformationPusherEniro informationPusherEniro = new InformationPusherEniro();
     ldapTemplate.afterPropertiesSet();
     informationPusherEniro.setLdapTemplate(ldapTemplate);
