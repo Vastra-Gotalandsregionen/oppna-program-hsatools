@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,10 +14,14 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.search.util.geo;
 
 import static org.junit.Assert.*;
+import geo.google.datamodel.GeoAltitude;
+import geo.google.datamodel.GeoCoordinate;
 
 import java.util.ArrayList;
 
@@ -202,11 +206,11 @@ public class GeoUtilTest {
     closeUnits = geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, GOOGLE_MAPS_KEY);
     assertEquals(0, closeUnits.size());
 
-    geoUtil.setGeoCoordinate(unit, new double[] { 1.234, 2.345 });
+    unit.setGeoCoordinate(new GeoCoordinate(2.345, 1.234, new GeoAltitude()));
     closeUnits = geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, GOOGLE_MAPS_KEY);
     assertEquals(0, closeUnits.size());
 
-    geoUtil.setGeoCoordinate(unit, new double[] { 57.694, 11.945 });
+    unit.setGeoCoordinate(new GeoCoordinate(11.945, 57.694, new GeoAltitude()));
     closeUnits = geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, GOOGLE_MAPS_KEY);
     assertEquals(1, closeUnits.size());
   }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,20 +14,21 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.search.svc;
 
 /**
- * Loader for the title cache.
- * 
- * @author Joakim Olsson
+ * Cache service for unit cache.
  */
-public interface TitleCacheLoader {
-
+public class UnitCacheServiceImpl extends CacheServiceImpl<UnitCache> {
   /**
-   * Loads the TitleCache from the LDAP directory.
+   * Constructs a new UnitCacheServiceImpl.
    * 
-   * @return A fully populated TitleCache instance.
+   * @param cacheLoader The loader for this service instance.
    */
-  TitleCache loadCache();
+  public UnitCacheServiceImpl(CacheLoader<UnitCache> cacheLoader) {
+    super(cacheLoader);
+  }
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,7 +14,9 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.hriv.servlets;
 
 import static org.easymock.EasyMock.*;
@@ -36,11 +38,8 @@ import org.junit.Test;
 import org.springframework.web.context.WebApplicationContext;
 
 import se.vgregion.kivtools.hriv.presentation.SuggestionsSupportBean;
-import se.vgregion.kivtools.hriv.servlets.Suggestions;
-import se.vgregion.kivtools.search.domain.Unit;
 
 public class SuggestionsTest {
-
   private static final String TEXT_XML = "text/xml";
   private static final String TEXT_HTML = "text/html";
   private static final String TEXT_PLAIN = "text/plain";
@@ -60,7 +59,7 @@ public class SuggestionsTest {
   public void setup() throws ServletException, IOException {
     byteArrayOutputStream = new ByteArrayOutputStream();
     PrintWriter printWriter = new PrintWriter(byteArrayOutputStream);
-    
+
     servletConfigMock = createMock(ServletConfig.class);
     servletContextMock = createMock(ServletContext.class);
     WebApplicationContext webApplicationContextmock = createMock(WebApplicationContext.class);
@@ -68,14 +67,12 @@ public class SuggestionsTest {
     expect(servletContextMock.getAttribute("org.springframework.web.context.WebApplicationContext.ROOT")).andReturn(webApplicationContextmock);
     expect(webApplicationContextmock.getBean("Search_SuggestionsSupportBean")).andReturn(suggestionsSupportBeanMock);
     expect(servletConfigMock.getServletContext()).andReturn(servletContextMock);
-    
-    
+
     httpServletResponseMock = createMock(HttpServletResponse.class);
     httpServletRequestMock = createMock(HttpServletRequest.class);
     expect(httpServletResponseMock.getWriter()).andReturn(printWriter);
     expect(httpServletRequestMock.getParameter("query")).andReturn(USER_INPUT_UNIT_NAME);
 
-    
     replay(servletConfigMock, servletContextMock, webApplicationContextmock);
     suggestions.init(servletConfigMock);
   }
@@ -85,32 +82,32 @@ public class SuggestionsTest {
     httpServletResponseMock.setContentType(TEXT_PLAIN);
     expect(httpServletRequestMock.getParameter("output")).andReturn(OUT_PUT_FORMAT_TEXT);
     expect(suggestionsSupportBeanMock.getSuggestions(USER_INPUT_UNIT_NAME, OUT_PUT_FORMAT_TEXT)).andReturn(createSuggestionPlainTextResult());
-    replay(httpServletRequestMock, httpServletResponseMock, suggestionsSupportBeanMock); 
+    replay(httpServletRequestMock, httpServletResponseMock, suggestionsSupportBeanMock);
     suggestions.doGet(httpServletRequestMock, httpServletResponseMock);
     String result = byteArrayOutputStream.toString();
     verify(httpServletResponseMock);
     assertEquals(createSuggestionPlainTextResult(), result);
-    
+
   }
-  
+
   @Test
-  public void testDoGetForHtml() throws ServletException, IOException{
+  public void testDoGetForHtml() throws ServletException, IOException {
     httpServletResponseMock.setContentType(TEXT_XML);
     expect(httpServletRequestMock.getParameter("output")).andReturn(OUT_PUT_FORMAT_XML);
     expect(suggestionsSupportBeanMock.getSuggestions(USER_INPUT_UNIT_NAME, OUT_PUT_FORMAT_XML)).andReturn(createSuggestionPlainTextResult());
-    replay(httpServletRequestMock, httpServletResponseMock, suggestionsSupportBeanMock); 
+    replay(httpServletRequestMock, httpServletResponseMock, suggestionsSupportBeanMock);
     suggestions.doGet(httpServletRequestMock, httpServletResponseMock);
     String result = byteArrayOutputStream.toString();
     verify(httpServletResponseMock);
     assertEquals(createSuggestionPlainTextResult(), result);
   }
-  
+
   @Test
-  public void testDoGetForOther() throws ServletException, IOException{
+  public void testDoGetForOther() throws ServletException, IOException {
     httpServletResponseMock.setContentType(TEXT_HTML);
     expect(httpServletRequestMock.getParameter("output")).andReturn(OUT_PUT_FORMAT_OTHER);
     expect(suggestionsSupportBeanMock.getSuggestions(USER_INPUT_UNIT_NAME, OUT_PUT_FORMAT_OTHER)).andReturn(createSuggestionPlainTextResult());
-    replay(httpServletRequestMock, httpServletResponseMock, suggestionsSupportBeanMock); 
+    replay(httpServletRequestMock, httpServletResponseMock, suggestionsSupportBeanMock);
     suggestions.doGet(httpServletRequestMock, httpServletResponseMock);
     String result = byteArrayOutputStream.toString();
     verify(httpServletResponseMock);

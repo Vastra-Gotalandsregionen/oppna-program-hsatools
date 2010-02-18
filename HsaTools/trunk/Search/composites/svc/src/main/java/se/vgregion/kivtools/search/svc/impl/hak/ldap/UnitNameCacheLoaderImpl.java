@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,7 +14,9 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
 import javax.naming.directory.SearchControls;
@@ -25,15 +27,15 @@ import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.OrFilter;
 
+import se.vgregion.kivtools.search.svc.CacheLoader;
 import se.vgregion.kivtools.search.svc.UnitNameCache;
-import se.vgregion.kivtools.search.svc.UnitNameCacheLoader;
 
 /**
  * Implementation of the UnitNameCacheLoader for LTH.
  * 
  * @author Joakim Olsson
  */
-public class UnitNameCacheLoaderImpl implements UnitNameCacheLoader {
+public class UnitNameCacheLoaderImpl implements CacheLoader<UnitNameCache> {
   private LdapTemplate ldapTemplate;
 
   public void setLdapTemplate(LdapTemplate ldapTemplate) {
@@ -61,5 +63,13 @@ public class UnitNameCacheLoaderImpl implements UnitNameCacheLoader {
     } while (control.getCookie().getCookie() != null);
 
     return unitNameCache;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public UnitNameCache createEmptyCache() {
+    return new UnitNameCache();
   }
 }

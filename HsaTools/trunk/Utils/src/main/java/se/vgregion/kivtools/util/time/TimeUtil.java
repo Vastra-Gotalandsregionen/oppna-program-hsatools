@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,7 +14,9 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.util.time;
 
 import java.text.ParseException;
@@ -42,7 +44,7 @@ public class TimeUtil {
    * @author Joakim Olsson & David Bennehult
    */
   public enum DateTimeFormat {
-    ZULU_TIME("yyyyMMddHHmmss'Z'"), SCIENTIFIC_TIME("yyyyMMddHHmmss"), NORMAL_TIME("dd MMMM, yyyy");
+    ZULU_TIME("yyyyMMddHHmmss'Z'"), SCIENTIFIC_TIME("yyyyMMddHHmmss"), NORMAL_TIME("dd MMMM, yyyy"), W3C_TIME("yyyy-MM-dd'T'HH:mm:ssZ");
 
     private final String format;
 
@@ -59,6 +61,7 @@ public class TimeUtil {
      * 
      * @return The format-string for this date/time format.
      */
+    @Override
     public String toString() {
       return getFormat();
     }
@@ -110,6 +113,7 @@ public class TimeUtil {
 
   /**
    * Formats the provided date using the provided DateTimeFormat.
+   * 
    * @param date The date to format.
    * @param format The DateTimeFormat to use.
    * @return A string-representation of the provided Date using the provided DateTimeFormat.
@@ -119,13 +123,26 @@ public class TimeUtil {
   }
 
   /**
+   * Formats the provided date using the W3C format.
+   * 
+   * @param date The date to format.
+   * @return A string-representation of the provided Date using the W3C format.
+   */
+  public static final String formatDateW3C(Date date) {
+    String timeStamp = formatDate(date, DateTimeFormat.W3C_TIME);
+    return timeStamp.substring(0, 22) + ":" + timeStamp.substring(22);
+  }
+
+  /**
    * Formats the current date/time using the provided DateTimeFormat.
+   * 
    * @param format The DateTimeFormat to use.
    * @return A string-representation of the current date/time using the provided DateTimeFormat.
    */
   public static final String getCurrentTimeFormatted(DateTimeFormat format) {
     return formatDate(asDate(), format);
   }
+
   /**
    * Parses a string formatted yyyyMMddHHmmss'Z' into a date object.
    * 

@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,7 +14,9 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
 import static org.junit.Assert.*;
@@ -35,6 +37,7 @@ import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
 import se.vgregion.kivtools.search.util.DisplayValueTranslator;
 
 public class UnitFactoryTest {
+  private static final String RT90_COORDS = "X: 6389622, Y: 1357246";
   private static final String TEST = "Test";
   private static final String VGR_OU = "vgrOrganizationalUnit";
   private static final String OU = "organizationalUnit";
@@ -120,7 +123,7 @@ public class UnitFactoryTest {
     ldapEntry.addAttribute("hsaAdministrationForm", TEST);
     ldapEntry.addAttribute("vgrModifyTimestamp", TEST_TIMESTAMP);
     ldapEntry.addAttribute("createTimeStamp", TEST_TIMESTAMP);
-    ldapEntry.addAttribute("hsaGeographicalCoordinates", TEST);
+    ldapEntry.addAttribute("hsaGeographicalCoordinates", RT90_COORDS);
     ldapEntry.addAttribute("hsaRoute", TEST);
     ldapEntry.addAttribute("vgrVardVal", TEST);
     ldapEntry.addAttribute("vgrAvtalskod", TEST);
@@ -201,7 +204,9 @@ public class UnitFactoryTest {
     assertEquals(TEST, unit.getHsaAdministrationForm());
     assertEquals(EXPECTED_DATE_TIME, dateFormat.format(unit.getModifyTimestamp().asJavaUtilDate()));
     assertEquals(EXPECTED_DATE_TIME, dateFormat.format(unit.getCreateTimestamp().asJavaUtilDate()));
-    assertEquals(TEST, unit.getHsaGeographicalCoordinates());
+    assertEquals(RT90_COORDS, unit.getHsaGeographicalCoordinates());
+    assertEquals(57.609, unit.getGeoCoordinate().getLatitude(), 0.001);
+    assertEquals(13.416, unit.getGeoCoordinate().getLongitude(), 0.001);
     assertEquals(EXPECTED_LIST_RESULT, unit.getHsaRoute().toString());
     assertFalse(unit.isVgrVardVal());
     assertTrue(unit.getIsUnit());

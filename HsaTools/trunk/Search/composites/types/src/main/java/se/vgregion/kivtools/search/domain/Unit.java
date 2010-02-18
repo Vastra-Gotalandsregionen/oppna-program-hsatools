@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,7 +14,9 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.search.domain;
 
 import geo.google.datamodel.GeoCoordinate;
@@ -1159,8 +1161,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    */
   public String getModifyTimestampFormattedInW3CDatetimeFormat() {
     if (modifyTimestamp != null) {
-      String timeStamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(modifyTimestamp.asJavaUtilDate());
-      return timeStamp.substring(0, 22) + ":" + timeStamp.substring(22);
+      return TimeUtil.formatDateW3C(modifyTimestamp.asJavaUtilDate());
     } else {
       return "";
     }
@@ -1194,8 +1195,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    */
   public String getCreateTimestampFormattedInW3CDatetimeFormat() {
     if (createTimestamp != null) {
-      String timeStamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(createTimestamp.asJavaUtilDate());
-      return timeStamp.substring(0, 22) + ":" + timeStamp.substring(22);
+      return TimeUtil.formatDateW3C(createTimestamp.asJavaUtilDate());
     } else {
       return "";
     }
