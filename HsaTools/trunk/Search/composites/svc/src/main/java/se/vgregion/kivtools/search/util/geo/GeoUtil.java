@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,7 +14,9 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.search.util.geo;
 
 import geo.google.GeoAddressStandardizer;
@@ -198,12 +200,12 @@ public class GeoUtil {
    * Gets a list of units which are in the specified distance of the provided address.
    * 
    * @param address The address to check distance to
-   * @param allUnits The list of units to check against.
+   * @param units The list of units to check against.
    * @param meters The distance from the provided address which the units should be within to be a part of the result.
    * @param googleMapsKey The Google Maps key to use.
    * @return A list of Units that is within the distance of the address.
    */
-  public ArrayList<Unit> getCloseUnits(String address, ArrayList<Unit> allUnits, int meters, String googleMapsKey) {
+  public ArrayList<Unit> getCloseUnits(String address, List<Unit> units, int meters, String googleMapsKey) {
     // Create GeoCoordinate from given address
     double[] coordinates = geocodeToWGS84FromString(address, googleMapsKey, GeoAddressAccuracy.POST_CODE_LEVEL);
     ArrayList<Unit> closeUnits = new ArrayList<Unit>();
@@ -216,7 +218,7 @@ public class GeoUtil {
     // Calculate distance in miles
     double milesToTarget = getMilesFromMetres(meters);
 
-    for (Unit u : allUnits) {
+    for (Unit u : units) {
       if (u.getGeoCoordinate() != null) {
         double distMiles = u.getGeoCoordinate().distanceTo(targetCoordinate);
         if (distMiles < milesToTarget) {
@@ -249,15 +251,5 @@ public class GeoUtil {
   private GeoCoordinate getGeoCoordinate(double[] coordinates) {
     // Since altitude is ignored when calculating distance we can skip it.
     return new GeoCoordinate(coordinates[1], coordinates[0], new GeoAltitude());
-  }
-
-  /**
-   * Sets a geoCoordinate on specified unit.
-   * 
-   * @param unit The unit to set GeoCoordinate on.
-   * @param coordinates The coordinates to use for the GeoCoordinate.
-   */
-  public void setGeoCoordinate(Unit unit, double[] coordinates) {
-    unit.setGeoCoordinate(getGeoCoordinate(coordinates));
   }
 }

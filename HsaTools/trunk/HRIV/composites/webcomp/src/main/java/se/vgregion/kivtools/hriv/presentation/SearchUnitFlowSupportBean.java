@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,7 +14,9 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.hriv.presentation;
 
 import java.io.Serializable;
@@ -41,6 +43,7 @@ import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.TimeMeasurement;
+import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
 import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
 import se.vgregion.kivtools.search.util.LogUtils;
 import se.vgregion.kivtools.search.util.PagedSearchMetaDataHelper;
@@ -59,20 +62,24 @@ public class SearchUnitFlowSupportBean implements Serializable {
   private Log logger = LogFactory.getLog(this.getClass());
 
   private SearchService searchService;
+  private UnitCacheServiceImpl unitCacheService;
 
   private int pageSize;
-
   private int maxSearchResult;
-
-  private ArrayList<Unit> units;
-
-  private boolean unitsCacheComplete;
 
   private String googleMapsKey;
 
   private int meters;
 
   private List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes = new ArrayList<Integer>();
+
+  public void setSearchService(SearchService searchService) {
+    this.searchService = searchService;
+  }
+
+  public void setUnitCacheService(UnitCacheServiceImpl unitCacheService) {
+    this.unitCacheService = unitCacheService;
+  }
 
   /**
    * Getter for the number of meters that denotes close units.
@@ -111,48 +118,12 @@ public class SearchUnitFlowSupportBean implements Serializable {
   }
 
   /**
-   * Getter for the units cached in the bean.
-   * 
-   * @return The list of units that are cached in the bean.
-   */
-  public ArrayList<Unit> getUnits() {
-    return units;
-  }
-
-  /**
-   * Setter for the units to cache in the bean.
-   * 
-   * @param units The list of units to cache in the bean.
-   */
-  public void setUnits(ArrayList<Unit> units) {
-    this.units = units;
-  }
-
-  /**
    * Sets the maximum number of search results to return.
    * 
    * @param maxSearchResult The maximum number of search results to return.
    */
   public void setMaxSearchResult(int maxSearchResult) {
     this.maxSearchResult = maxSearchResult;
-  }
-
-  /**
-   * Getter for the SearchService to use.
-   * 
-   * @return The SearchService to use.
-   */
-  public SearchService getSearchService() {
-    return searchService;
-  }
-
-  /**
-   * Setter for the SearchService to use.
-   * 
-   * @param searchService The SearchService to use.
-   */
-  public void setSearchService(SearchService searchService) {
-    this.searchService = searchService;
   }
 
   /**
@@ -200,19 +171,19 @@ public class SearchUnitFlowSupportBean implements Serializable {
         if ("true".equals(theForm.getShowAll())) {
           effectiveMaxSearchResult = Integer.MAX_VALUE;
         }
-        list = getSearchService().searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
+        list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
 
         // No hits with complete criterions. Try again but with cleaned unit name this time
         if (list.size() == 0 && !StringUtil.isEmpty(theForm.getUnitName())) {
           u.setName(cleanUnitName(theForm.getUnitName()));
-          list = getSearchService().searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
+          list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
         }
 
         // Still no hits. Try again but with only the cleaned unit name this time if the user forgot to remove any care type or municipality selection.
         if (list.size() == 0 && lessSpecifiedSearchPossible(theForm)) {
           u = new Unit();
           u.setName(cleanUnitName(theForm.getUnitName()));
-          list = getSearchService().searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
+          list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
         }
       }
 
@@ -296,9 +267,9 @@ public class SearchUnitFlowSupportBean implements Serializable {
     List<String> allUnits;
     try {
       if (showFilteredByHsaBusinessClassificationCode) {
-        allUnits = getSearchService().getAllUnitsHsaIdentity(showUnitsWithTheseHsaBussinessClassificationCodes);
+        allUnits = searchService.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBussinessClassificationCodes);
       } else {
-        allUnits = getSearchService().getAllUnitsHsaIdentity();
+        allUnits = searchService.getAllUnitsHsaIdentity();
       }
     } catch (KivNoDataFoundException e) {
       throw e;
@@ -417,7 +388,8 @@ public class SearchUnitFlowSupportBean implements Serializable {
    */
   public ArrayList<Unit> getCloseUnits(DisplayCloseUnitsSimpleForm form) {
     ArrayList<Unit> closeUnits = new ArrayList<Unit>();
-    if (units == null) {
+    List<Unit> units = unitCacheService.getCache().getUnits();
+    if (units.isEmpty()) {
       // Units are not set, probably because the unit population is not finished yet.
       return closeUnits;
     }
@@ -425,16 +397,6 @@ public class SearchUnitFlowSupportBean implements Serializable {
     GeoUtil geoUtil = new GeoUtil();
     closeUnits = geoUtil.getCloseUnits(form.getAddress(), units, meters, googleMapsKey);
     return closeUnits;
-  }
-
-  /**
-   * Populates GeoCoordinates for all units cached in the bean.
-   */
-  public void populateCoordinates() {
-    GeoUtil geoUtil = new GeoUtil();
-    for (Unit u : units) {
-      geoUtil.setGeoCoordinate(u, new double[] { u.getWgs84Lat(), u.getWgs84Long() });
-    }
   }
 
   /**
@@ -449,23 +411,5 @@ public class SearchUnitFlowSupportBean implements Serializable {
         this.showUnitsWithTheseHsaBussinessClassificationCodes.add(Integer.parseInt(id));
       }
     }
-  }
-
-  /**
-   * Getter for cache completeness.
-   * 
-   * @return True if the unit caching is complete, otherwise false.
-   */
-  public boolean isUnitsCacheComplete() {
-    return unitsCacheComplete;
-  }
-
-  /**
-   * Setter for cache completeness.
-   * 
-   * @param unitsCacheComplete True if the caching is complete, otherwise false.
-   */
-  public void setUnitsCacheComplete(boolean unitsCacheComplete) {
-    this.unitsCacheComplete = unitsCacheComplete;
   }
 }

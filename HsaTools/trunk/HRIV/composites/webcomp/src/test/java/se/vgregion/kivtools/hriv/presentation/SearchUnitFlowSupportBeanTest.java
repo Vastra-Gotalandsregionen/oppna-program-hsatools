@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,7 +14,9 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.hriv.presentation;
 
 import static org.junit.Assert.*;
@@ -38,11 +40,15 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
+import se.vgregion.kivtools.search.svc.CacheLoader;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
+import se.vgregion.kivtools.search.svc.UnitCache;
+import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
 
 public class SearchUnitFlowSupportBeanTest {
-  private SearchServiceMock searchService;
-  private SearchUnitFlowSupportBean bean;
+  private SearchServiceMock searchService = new SearchServiceMock();
+  private UnitCacheServiceImpl unitCacheService = new UnitCacheServiceImpl(new UnitCacheLoaderMock());
+  private SearchUnitFlowSupportBean bean = new SearchUnitFlowSupportBean();
   private UnitSearchSimpleForm form;
   private DisplayCloseUnitsSimpleForm displayCloseUnitsSimpleForm;
   private static LogFactoryMock logfactoryMock;
@@ -59,6 +65,9 @@ public class SearchUnitFlowSupportBeanTest {
 
   @Before
   public void setUp() throws Exception {
+    bean.setSearchService(searchService);
+    bean.setUnitCacheService(unitCacheService);
+
     MunicipalityHelper municipalityHelper = new MunicipalityHelper();
     municipalityHelper.setImplResourcePath("se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-municipalities");
     HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper() {
@@ -68,12 +77,8 @@ public class SearchUnitFlowSupportBeanTest {
     };
     healthcareTypeConditionHelper.setImplResourcePath("se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-healthcare-type-conditions");
 
-    bean = new SearchUnitFlowSupportBean();
     form = new UnitSearchSimpleForm();
     displayCloseUnitsSimpleForm = new DisplayCloseUnitsSimpleForm();
-    searchService = new SearchServiceMock();
-
-    bean.setSearchService(searchService);
   }
 
   @After
@@ -403,27 +408,12 @@ public class SearchUnitFlowSupportBeanTest {
   }
 
   @Test
-  public void testSetUnits() {
-    assertNull(bean.getUnits());
-
-    ArrayList<Unit> units = new ArrayList<Unit>();
-    bean.setUnits(units);
-
-    assertNotNull(units);
-    assertEquals(0, bean.getUnits().size());
-
-    units.add(new Unit());
-    assertNotNull(units);
-    assertEquals(1, bean.getUnits().size());
-  }
-
-  @Test
   public void testGetCloseUnits() {
     ArrayList<Unit> closeUnits = bean.getCloseUnits(null);
     assertNotNull(closeUnits);
     assertEquals(0, closeUnits.size());
 
-    bean.setUnits(new ArrayList<Unit>());
+    unitCacheService.reloadCache();
     try {
       bean.getCloseUnits(null);
       fail("NullPointerException expected");
@@ -437,34 +427,19 @@ public class SearchUnitFlowSupportBeanTest {
     assertEquals(0, closeUnits.size());
   }
 
-  @Test
-  public void testPopulateCoordinates() {
-    try {
-      bean.populateCoordinates();
-      fail("NullPointerException expected");
-    } catch (NullPointerException e) {
-      // Expected exception
+  private static class UnitCacheLoaderMock implements CacheLoader<UnitCache> {
+    @Override
+    public UnitCache createEmptyCache() {
+      return new UnitCache();
     }
 
-    ArrayList<Unit> units = new ArrayList<Unit>();
-    Unit unit = new Unit();
-
-    units.add(unit);
-    bean.setUnits(units);
-    bean.populateCoordinates();
-    assertNotNull(unit.getGeoCoordinate());
-    assertEquals(0.0, unit.getGeoCoordinate().getLatitude(), 0.0);
-    assertEquals(0.0, unit.getGeoCoordinate().getLongitude(), 0.0);
-  }
-
-  @Test
-  public void testIsUnitsCacheComplete() {
-    assertFalse(bean.isUnitsCacheComplete());
-
-    bean.setUnitsCacheComplete(true);
-    assertTrue(bean.isUnitsCacheComplete());
-
-    bean.setUnitsCacheComplete(false);
-    assertFalse(bean.isUnitsCacheComplete());
+    @Override
+    public UnitCache loadCache() {
+      UnitCache unitCache = new UnitCache();
+      Unit unit = new Unit();
+      unit.setHsaIdentity("abc-123");
+      unitCache.add(unit);
+      return unitCache;
+    }
   }
 }

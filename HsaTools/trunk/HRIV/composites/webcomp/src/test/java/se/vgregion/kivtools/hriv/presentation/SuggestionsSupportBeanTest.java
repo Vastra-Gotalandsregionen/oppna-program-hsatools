@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,12 +14,14 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.hriv.presentation;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,18 +30,20 @@ import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.MunicipalityHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
+import se.vgregion.kivtools.search.svc.CacheLoader;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
+import se.vgregion.kivtools.search.svc.UnitCache;
+import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
 
 public class SuggestionsSupportBeanTest {
 
-  private SuggestionsSupportBean bean;
-  private MockSearchUnitFlowSupportBean searchUnitFlowSupportBean;
+  private final UnitCacheLoaderMock unitCacheLoader = new UnitCacheLoaderMock();
+  private final MockSearchUnitFlowSupportBean searchUnitFlowSupportBean = new MockSearchUnitFlowSupportBean();
+  private final UnitCacheServiceImpl unitCacheService = new UnitCacheServiceImpl(unitCacheLoader);
+  private final SuggestionsSupportBean bean = new SuggestionsSupportBean(searchUnitFlowSupportBean, unitCacheService);
 
   @Before
   public void setUp() throws Exception {
-    bean = new SuggestionsSupportBean();
-    searchUnitFlowSupportBean = new MockSearchUnitFlowSupportBean();
-    bean.setSearchUnitFlowSupportBean(searchUnitFlowSupportBean);
     new MunicipalityHelper().setImplResourcePath("se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-municipalities");
   }
 
@@ -61,9 +65,8 @@ public class SuggestionsSupportBeanTest {
 
   @Test
   public void testGetSuggestionsCachedMatches() {
-    ArrayList<Unit> units = createUnits();
-    searchUnitFlowSupportBean.setUnits(units);
-    searchUnitFlowSupportBean.setUnitsCacheComplete(true);
+    unitCacheService.reloadCache();
+
     assertEquals(
         "Unexpected output for HTML",
         "<ul><li id=\"XYZ-987\">Angereds v&#229;rdcentral, Angered</li><li id=\"ABC-123\">M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal</li><li id=\"JKL-654\">Slottsskogens v&#229;rdcentral</li></ul>",
@@ -79,9 +82,6 @@ public class SuggestionsSupportBeanTest {
 
   @Test
   public void testGetSuggestionsCacheNotComplete() {
-    ArrayList<Unit> units = createUnits();
-    searchUnitFlowSupportBean.setUnits(units);
-
     assertEquals("Unexpected output for HTML", "<ul></ul>", bean.getSuggestions(null, "html"));
     assertEquals("Unexpected output for XML", "<?xml version='1.0' standalone='yes'?>\n<units>\n</units>", bean.getSuggestions(null, "xml"));
     assertEquals("Unexpected output for plain text", "", bean.getSuggestions(null, "text"));
@@ -92,7 +92,7 @@ public class SuggestionsSupportBeanTest {
 
   @Test
   public void testGetSuggestionsSearched() {
-    ArrayList<Unit> units = createUnits();
+    List<Unit> units = unitCacheLoader.loadCache().getUnits();
     SikSearchResultList<Unit> resultList = new SikSearchResultList<Unit>(units);
     searchUnitFlowSupportBean.setSearchResult(resultList);
 
@@ -104,29 +104,6 @@ public class SuggestionsSupportBeanTest {
         + "<unit description=\"Slottsskogens v&#229;rdcentral\" id=\"JKL-654\" uri=\"https://secure.test.com\" />\n" + "</units>", bean.getSuggestions("n", "xml"));
     assertEquals("Unexpected output for plain text", "Angereds v&#229;rdcentral, Angered\tXYZ-987\n" + "M&#246;lndals ABC &amp; &#229;&#228;&#246;&#197;&#196;&#214;&#233;, M&#246;lndal\tABC-123\n"
         + "Slottsskogens v&#229;rdcentral\tJKL-654\n" + "", bean.getSuggestions("n", "text"));
-  }
-
-  private ArrayList<Unit> createUnits() {
-    ArrayList<Unit> units = new ArrayList<Unit>();
-    Unit unit1 = new Unit();
-    unit1.setHsaIdentity("ABC-123");
-    unit1.setName("Mölndals ABC & åäöÅÄÖé");
-    unit1.setLocality("Mölndal");
-    unit1.setLabeledURI("http://www.test.com");
-    Unit unit2 = new Unit();
-    unit2.setHsaIdentity("XYZ-987");
-    unit2.setName("Angereds vårdcentral");
-    unit2.setLocality("Angered");
-    Unit unit3 = new Unit();
-    unit3.setHsaIdentity("JKL-654");
-    unit3.setName("Slottsskogens vårdcentral");
-    unit3.setLocality(null);
-    unit3.setLabeledURI("https://secure.test.com");
-    units.add(unit1);
-    units.add(unit2);
-    units.add(unit3);
-
-    return units;
   }
 
   @SuppressWarnings("serial")
@@ -148,6 +125,33 @@ public class SuggestionsSupportBeanTest {
 
     public void setExceptionToThrow(KivException exceptionToThrow) {
       this.exceptionToThrow = exceptionToThrow;
+    }
+  }
+
+  private static class UnitCacheLoaderMock implements CacheLoader<UnitCache> {
+    @Override
+    public UnitCache createEmptyCache() {
+      return new UnitCache();
+    }
+
+    @Override
+    public UnitCache loadCache() {
+      UnitCache unitCache = new UnitCache();
+
+      unitCache.add(createUnit("ABC-123", "Mölndals ABC & åäöÅÄÖé", "Mölndal", "http://www.test.com"));
+      unitCache.add(createUnit("XYZ-987", "Angereds vårdcentral", "Angered", ""));
+      unitCache.add(createUnit("JKL-654", "Slottsskogens vårdcentral", null, "https://secure.test.com"));
+
+      return unitCache;
+    }
+
+    private Unit createUnit(String hsaIdentity, String name, String locality, String labeledUri) {
+      Unit unit = new Unit();
+      unit.setHsaIdentity(hsaIdentity);
+      unit.setName(name);
+      unit.setLocality(locality);
+      unit.setLabeledURI(labeledUri);
+      return unit;
     }
   }
 }

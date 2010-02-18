@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,7 +14,9 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.search.presentation.hak;
 
 import java.io.IOException;
@@ -26,7 +28,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import se.vgregion.kivtools.search.svc.CacheService;
+import se.vgregion.kivtools.search.svc.PersonNameCacheServiceImpl;
+import se.vgregion.kivtools.search.svc.TitleCacheServiceImpl;
+import se.vgregion.kivtools.search.svc.UnitNameCacheServiceImpl;
 import se.vgregion.kivtools.util.presentation.PresentationHelper;
 
 /**
@@ -36,10 +40,20 @@ import se.vgregion.kivtools.util.presentation.PresentationHelper;
  */
 @Controller("suggestionBeanLTH")
 public class SuggestionBean {
-  private CacheService cacheService;
+  private PersonNameCacheServiceImpl personNameCacheService;
+  private UnitNameCacheServiceImpl unitNameCacheService;
+  private TitleCacheServiceImpl titleCacheService;
 
-  public void setCacheService(CacheService cacheService) {
-    this.cacheService = cacheService;
+  public void setPersonNameCacheService(PersonNameCacheServiceImpl personNameCacheService) {
+    this.personNameCacheService = personNameCacheService;
+  }
+
+  public void setUnitNameCacheService(UnitNameCacheServiceImpl unitNameCacheService) {
+    this.unitNameCacheService = unitNameCacheService;
+  }
+
+  public void setTitleCacheService(TitleCacheServiceImpl titleCacheService) {
+    this.titleCacheService = titleCacheService;
   }
 
   /**
@@ -53,7 +67,7 @@ public class SuggestionBean {
    */
   @RequestMapping("/suggestions_givenname.servlet")
   public String getSuggestionsForGivenName(HttpServletResponse response, @RequestParam("givenName") String givenName, @RequestParam("surname") String surname) throws IOException {
-    List<String> matchingGivenNames = cacheService.getPersonNameCache().getMatchingGivenNames(givenName, surname);
+    List<String> matchingGivenNames = personNameCacheService.getCache().getMatchingGivenNames(givenName, surname);
 
     return generateSuggestions(response, matchingGivenNames);
   }
@@ -69,7 +83,7 @@ public class SuggestionBean {
    */
   @RequestMapping("/suggestions_surname.servlet")
   public String getSuggestionsForSurname(HttpServletResponse response, @RequestParam("givenName") String givenName, @RequestParam("surname") String surname) throws IOException {
-    List<String> matchingSurnames = cacheService.getPersonNameCache().getMatchingSurnames(givenName, surname);
+    List<String> matchingSurnames = personNameCacheService.getCache().getMatchingSurnames(givenName, surname);
     return generateSuggestions(response, matchingSurnames);
   }
 
@@ -83,7 +97,7 @@ public class SuggestionBean {
    */
   @RequestMapping("/suggestions_unitname.servlet")
   public String getSuggestionsForUnitName(HttpServletResponse response, @RequestParam("query") String unitName) throws IOException {
-    List<String> matchingUnitNames = cacheService.getUnitNameCache().getMatchingUnitNames(unitName);
+    List<String> matchingUnitNames = unitNameCacheService.getCache().getMatchingUnitNames(unitName);
     return generateSuggestions(response, matchingUnitNames);
   }
 
@@ -97,7 +111,7 @@ public class SuggestionBean {
    */
   @RequestMapping("/suggestions_title.servlet")
   public String getSuggestionsForTitle(HttpServletResponse response, @RequestParam("query") String title) throws IOException {
-    List<String> matchingTitles = cacheService.getTitleCache().getMatchingTitles(title);
+    List<String> matchingTitles = titleCacheService.getCache().getMatchingTitles(title);
     return generateSuggestions(response, matchingTitles);
   }
 

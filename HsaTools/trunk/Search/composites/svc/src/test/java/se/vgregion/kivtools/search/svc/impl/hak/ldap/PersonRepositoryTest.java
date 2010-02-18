@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,7 +14,9 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
 import static org.junit.Assert.*;
@@ -267,7 +269,7 @@ public class PersonRepositoryTest {
     ldapEntry.addAttribute("hsaInternalPagerNumber", TEST);
     ldapEntry.addAttribute("pager", TEST);
     ldapEntry.addAttribute("hsaTextPhoneNumber", TEST);
-    ldapEntry.addAttribute("whenChanged", "20091109104650.0Z");
+    ldapEntry.addAttribute("whenCreated", "20091109104650.0Z");
     ldapEntry.addAttribute("telephoneHours", TEST_TIME);
     ldapEntry.addAttribute("distinguishedName", TEST_DN);
     ldapEntry.addAttribute("postalCode", TEST);
@@ -303,13 +305,14 @@ public class PersonRepositoryTest {
     assertEquals(TEST, employment.getPagerTelephoneNumber().toString());
     assertEquals(TEST, employment.getHsaInternalPagerNumber().toString());
     assertEquals(TEST, employment.getHsaTextPhoneNumber().toString());
-    assertNotNull(TEST, employment.getModifyTimestamp());
+    assertEquals("Mon Nov 09 10:46:50 CET 2009", employment.getModifyTimestamp().toString());
     assertEquals("Måndag-Torsdag 08:00-17:00", employment.getHsaTelephoneTime().get(0).getDisplayValue());
     assertEquals(DN.createDNFromString(TEST_DN), employment.getVgrStrukturPerson());
     assertEquals(TEST, employment.getZipCode().getZipCode());
     assertFalse(employment.isPrimaryEmployment());
 
     ldapEntry.addAttribute("mainNode", "Ja");
+    ldapEntry.addAttribute("whenChanged", "20100217104650.0Z");
     ldapSearchResultsMock.addLDAPEntry(ldapEntry);
     ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=kon829))", ldapSearchResultsMock);
 
@@ -319,6 +322,7 @@ public class PersonRepositoryTest {
 
     employment = persons.get(0).getEmployments().get(0);
     assertTrue(employment.isPrimaryEmployment());
+    assertEquals("Wed Feb 17 10:46:50 CET 2010", employment.getModifyTimestamp().toString());
   }
 
   @Test

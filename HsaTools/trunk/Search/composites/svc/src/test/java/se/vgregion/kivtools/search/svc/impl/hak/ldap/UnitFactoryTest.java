@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,7 +14,9 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
 import static org.junit.Assert.*;
@@ -29,13 +31,16 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
 
 public class UnitFactoryTest {
+  private static final String RT90_COORDS = "X: 6389622, Y: 1357246";
   private static final String CN = "Unit cn";
   private static final String TEST = "Test";
   private static final String EXPECTED_LIST_RESULT = "[" + TEST + "]";
   private static final String EXPECTED_DATE_TIME = "2009-01-01 12:01:02";
+  private static final String EXPECTED_DATE_TIME2 = "2010-02-17 12:01:02";
   private static final String EXPECTED_HOURS = "Måndag-Fredag 08:30-10:00";
   private static final String TEST_TIME = "1-5#08:30#10:00";
   private static final String TEST_TIMESTAMP = "20090101120102";
+  private static final String TEST_TIMESTAMP2 = "20100217120102";
 
   private SimpleDateFormat dateFormat;
   private LDAPEntryMock ldapEntry;
@@ -50,7 +55,7 @@ public class UnitFactoryTest {
     ldapEntry.addAttribute("description", TEST);
     ldapEntry.addAttribute("dropInHours", TEST_TIME);
     ldapEntry.addAttribute("facsimileTelephoneNumber", TEST);
-    ldapEntry.addAttribute("geographicalCoordinates", TEST);
+    ldapEntry.addAttribute("geographicalCoordinates", RT90_COORDS);
     ldapEntry.addAttribute("hsaAdministrationForm", TEST);
     ldapEntry.addAttribute("hsaAdministrationFormText", TEST);
     ldapEntry.addAttribute("hsaCountyCode", TEST);
@@ -97,7 +102,8 @@ public class UnitFactoryTest {
     ldapEntry.addAttribute("vgrEanCode", TEST);
     ldapEntry.addAttribute("vgrEdiCode", TEST);
     ldapEntry.addAttribute("vgrInternalSedfInvoiceAddress", TEST);
-    ldapEntry.addAttribute("vgrModifyTimestamp", TEST_TIMESTAMP);
+    ldapEntry.addAttribute("whenChanged", TEST_TIMESTAMP2);
+    ldapEntry.addAttribute("whenCreated", TEST_TIMESTAMP);
     ldapEntry.addAttribute("vgrRefInfo", TEST);
     ldapEntry.addAttribute("vgrTempInfo", TEST);
     ldapEntry.addAttribute("managerDN", "cn=Nina Kanin,ou=abc,ou=def");
@@ -124,7 +130,9 @@ public class UnitFactoryTest {
     assertEquals(EXPECTED_LIST_RESULT, unit.getDescription().toString());
     assertEquals(EXPECTED_HOURS, unit.getHsaDropInHours().get(0).getDisplayValue());
     assertEquals(TEST, unit.getFacsimileTelephoneNumber().getPhoneNumber());
-    assertEquals(TEST, unit.getHsaGeographicalCoordinates());
+    assertEquals(RT90_COORDS, unit.getHsaGeographicalCoordinates());
+    assertEquals(57.609, unit.getGeoCoordinate().getLatitude(), 0.001);
+    assertEquals(13.416, unit.getGeoCoordinate().getLongitude(), 0.001);
     assertEquals(TEST, unit.getHsaAdministrationForm());
     assertEquals(TEST, unit.getHsaAdministrationFormText());
     assertEquals(TEST, unit.getHsaCountyCode());
@@ -168,7 +176,7 @@ public class UnitFactoryTest {
     assertEquals(TEST, unit.getVgrEANCode());
     assertEquals(TEST, unit.getVgrEDICode());
     assertEquals(TEST, unit.getVgrInternalSedfInvoiceAddress());
-    assertEquals(EXPECTED_DATE_TIME, dateFormat.format(unit.getModifyTimestamp().asJavaUtilDate()));
+    assertEquals(EXPECTED_DATE_TIME2, dateFormat.format(unit.getModifyTimestamp().asJavaUtilDate()));
     assertEquals(TEST, unit.getVgrRefInfo());
     assertEquals(TEST, unit.getVgrTempInfo());
     assertEquals("Landsting/Region", unit.getHsaManagementText());

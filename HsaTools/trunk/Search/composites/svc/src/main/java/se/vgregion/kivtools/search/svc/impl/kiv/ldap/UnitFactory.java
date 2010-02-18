@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,8 +14,13 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
+
+import geo.google.datamodel.GeoAltitude;
+import geo.google.datamodel.GeoCoordinate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -290,6 +295,7 @@ public class UnitFactory {
 
         unit.setWgs84Lat(wgs84Coords[0]);
         unit.setWgs84Long(wgs84Coords[1]);
+        unit.setGeoCoordinate(new GeoCoordinate(wgs84Coords[1], wgs84Coords[0], new GeoAltitude()));
       }
     }
   }

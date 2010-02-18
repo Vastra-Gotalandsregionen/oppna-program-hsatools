@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,7 +14,9 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.hriv.presentation;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
+import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
 import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
 import se.vgregion.kivtools.util.StringUtil;
 
@@ -39,15 +42,18 @@ import se.vgregion.kivtools.util.StringUtil;
 public class SuggestionsSupportBean {
   private static final Log LOG = LogFactory.getLog(SuggestionsSupportBean.class);
 
-  private SearchUnitFlowSupportBean searchUnitFlowSupportBean;
+  private final SearchUnitFlowSupportBean searchUnitFlowSupportBean;
+  private final UnitCacheServiceImpl unitCacheService;
 
   /**
-   * Setter for the SearchUnitFlowSupportBean to use for looking up units.
+   * Constructs a new {@link SuggestionsSupportBean}.
    * 
-   * @param searchUnitFlowSupportBean The SearchUnitFlowSupportBean to use.
+   * @param searchUnitFlowSupportBean The {@link SearchUnitFlowSupportBean} to use to perform unit searching.
+   * @param unitCacheService The unit cache service to retrieve units from.
    */
-  public void setSearchUnitFlowSupportBean(SearchUnitFlowSupportBean searchUnitFlowSupportBean) {
+  public SuggestionsSupportBean(SearchUnitFlowSupportBean searchUnitFlowSupportBean, UnitCacheServiceImpl unitCacheService) {
     this.searchUnitFlowSupportBean = searchUnitFlowSupportBean;
+    this.unitCacheService = unitCacheService;
   }
 
   /**
@@ -63,10 +69,10 @@ public class SuggestionsSupportBean {
     ArrayList<Unit> matchingUnits = new ArrayList<Unit>();
 
     // Get cached units
-    ArrayList<Unit> units = searchUnitFlowSupportBean.getUnits();
+    List<Unit> units = unitCacheService.getCache().getUnits();
 
     // If we have not yet cached the units, search in catalog
-    if (units == null || !searchUnitFlowSupportBean.isUnitsCacheComplete()) {
+    if (units.isEmpty()) {
       SikSearchResultList<Unit> resultList = performSearch(unitName);
 
       // Transfer matching units from resultList to matchingUnits
@@ -160,7 +166,7 @@ public class SuggestionsSupportBean {
    * 
    * @param units The list of units to find matching units in.
    */
-  private List<Unit> getMatchingUnits(String unitName, ArrayList<Unit> units) {
+  private List<Unit> getMatchingUnits(String unitName, List<Unit> units) {
     List<Unit> matchingUnits = new ArrayList<Unit>();
     for (Unit u : units) {
       if (u.getName().toLowerCase().indexOf(unitName.toLowerCase()) >= 0) {

@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Västra Götalandsregionen
+ * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
  *   it under the terms of version 2.1 of the GNU Lesser General Public
@@ -14,7 +14,9 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
+ *
  */
+
 package se.vgregion.kivtools.search.presentation.hak;
 
 import static org.junit.Assert.*;
@@ -25,13 +27,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import se.vgregion.kivtools.search.svc.CacheService;
+import se.vgregion.kivtools.search.svc.CacheLoader;
 import se.vgregion.kivtools.search.svc.PersonNameCache;
-import se.vgregion.kivtools.search.svc.PersonNameCacheLoader;
+import se.vgregion.kivtools.search.svc.PersonNameCacheServiceImpl;
 import se.vgregion.kivtools.search.svc.TitleCache;
-import se.vgregion.kivtools.search.svc.TitleCacheLoader;
+import se.vgregion.kivtools.search.svc.TitleCacheServiceImpl;
 import se.vgregion.kivtools.search.svc.UnitNameCache;
-import se.vgregion.kivtools.search.svc.UnitNameCacheLoader;
+import se.vgregion.kivtools.search.svc.UnitNameCacheServiceImpl;
 
 public class SuggestionBeanTest {
   private SuggestionBean suggestionBean;
@@ -40,12 +42,15 @@ public class SuggestionBeanTest {
   @Before
   public void setUp() throws Exception {
     suggestionBean = new SuggestionBean();
-    CacheService cacheService = new CacheService();
-    cacheService.setPersonNameCacheLoader(new PersonNameCacheLoaderMock());
-    cacheService.setUnitNameCacheLoader(new UnitNameCacheLoaderMock());
-    cacheService.setTitleCacheLoader(new TitleCacheLoaderMock());
-    cacheService.reloadCaches();
-    suggestionBean.setCacheService(cacheService);
+    PersonNameCacheServiceImpl personNameCacheService = new PersonNameCacheServiceImpl(new PersonNameCacheLoaderMock());
+    UnitNameCacheServiceImpl unitNameCacheService = new UnitNameCacheServiceImpl(new UnitNameCacheLoaderMock());
+    TitleCacheServiceImpl titleCacheService = new TitleCacheServiceImpl(new TitleCacheLoaderMock());
+    personNameCacheService.reloadCache();
+    unitNameCacheService.reloadCache();
+    titleCacheService.reloadCache();
+    suggestionBean.setPersonNameCacheService(personNameCacheService);
+    suggestionBean.setUnitNameCacheService(unitNameCacheService);
+    suggestionBean.setTitleCacheService(titleCacheService);
     httpServletResponse = new MockHttpServletResponse();
   }
 
@@ -111,30 +116,45 @@ public class SuggestionBeanTest {
     assertEquals("<?xml version='1.0' standalone='yes'?>\n<suggestions>\n<suggestion description=\"Systemingenjör\" />\n</suggestions>", suggestions);
   }
 
-  private static class PersonNameCacheLoaderMock implements PersonNameCacheLoader {
+  private static class PersonNameCacheLoaderMock implements CacheLoader<PersonNameCache> {
     @Override
     public PersonNameCache loadCache() {
       PersonNameCache personNameCache = new PersonNameCache();
       personNameCache.add("Nina", "Kanin");
       return personNameCache;
     }
+
+    @Override
+    public PersonNameCache createEmptyCache() {
+      return new PersonNameCache();
+    }
   }
 
-  private static class UnitNameCacheLoaderMock implements UnitNameCacheLoader {
+  private static class UnitNameCacheLoaderMock implements CacheLoader<UnitNameCache> {
     @Override
     public UnitNameCache loadCache() {
       UnitNameCache unitNameCache = new UnitNameCache();
       unitNameCache.add("Tandregleringen Varberg");
       return unitNameCache;
     }
+
+    @Override
+    public UnitNameCache createEmptyCache() {
+      return new UnitNameCache();
+    }
   }
 
-  private static class TitleCacheLoaderMock implements TitleCacheLoader {
+  private static class TitleCacheLoaderMock implements CacheLoader<TitleCache> {
     @Override
     public TitleCache loadCache() {
       TitleCache titleCache = new TitleCache();
       titleCache.add("Systemingenjör");
       return titleCache;
+    }
+
+    @Override
+    public TitleCache createEmptyCache() {
+      return new TitleCache();
     }
   }
 }
