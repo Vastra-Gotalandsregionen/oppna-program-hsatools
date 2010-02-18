@@ -54,11 +54,8 @@ public class LdapConnectionPool {
   private final int ldapport = LDAPConnection.DEFAULT_PORT;
 
   private final int ldapVersion = LDAPConnection.LDAP_V3;
-  // "138.233.20.80:389";
   private String ldapHost;
-  // "cn=sokso1,ou=Resurs,o=VGR";
   private String loginDN;
-  // "6wuz8zab";
   private String password;
 
   /**
