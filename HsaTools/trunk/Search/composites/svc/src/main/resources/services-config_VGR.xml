@@ -56,9 +56,21 @@
 
 	<bean id="Search_UnitRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository">
-		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool" />
+		<!--
+			<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"
+			/>
+		-->
 		<property name="codeTablesService" ref="Search_CodeTablesService" />
-		<property name="unitFactory" ref="Search_Unitfactory" />
+		<!--		<property name="unitFactory" ref="Search_Unitfactory" />-->
+		<property name="unitMapper" ref="unitMapper" />
+		<property name="ldapTemplate" ref="ldapTemplateOrganisation" />
+
+	</bean>
+
+	<bean id="unitMapper"
+		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitMapper">
+		<constructor-arg ref="Search_CodeTablesService" />
+		<constructor-arg ref="Search_DisplayValueTranslator" />
 	</bean>
 
 	<bean id="Search_EmploymentRepository"
@@ -79,8 +91,7 @@
 			value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-municipalities"></property>
 	</bean>
 
-	<bean id="Search_LdapConnectionPool"
-		class="se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool"
+	<bean id="Search_LdapConnectionPool" class="se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool"
 		destroy-method="release">
 		<property name="ldapHost" value="${hsatools.search.svc.ldap.ldaphost}" />
 		<property name="loginDN" value="${hsatools.search.svc.ldap.logindn}" />
@@ -93,7 +104,7 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location"
 			value="classpath:se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties" />
-			<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
 	</bean>
 
 	<bean id="Search_CodeTablesService"
@@ -147,23 +158,24 @@
 		<property name="codeTablesService" ref="Search_CodeTablesService" />
 		<property name="displayValueTranslator" ref="Search_DisplayValueTranslator" />
 	</bean>
-      <!-- Organization tree builder settins -->
+	<!-- Organization tree builder settins -->
 
-    <bean id="vgrOrganizatioTreeFactory" class="se.vgregion.kivtools.search.svc.kiv.organizationtree.springldap.VgrOrganizationTreeFactory">
-      <property name="ldapTemplate" ref="ldapTemplateOrganisation" />
-      <property name="treeLevelLimit" value="2" />
-    </bean>
-  
-    <!-- Spring ldap -->
-    <bean id="contextSourceOrganisation" class="org.springframework.ldap.core.support.LdapContextSource">
-      <property name="url" value="ldap://${hsatools.search.svc.ldap.ldaphost}" />
-      <property name="base" value="${hsatools.search.svc.ldap.base}" />
-      <property name="userDn" value="${hsatools.search.svc.ldap.logindn}" />
-      <property name="password" value="${hsatools.search.svc.ldap.password}" />
-      <property name="pooled" value="true" />
-    </bean>
-  
-    <bean id="ldapTemplateOrganisation" class="org.springframework.ldap.core.LdapTemplate">
-      <constructor-arg ref="contextSourceOrganisation" />
-    </bean>
+	<bean id="vgrOrganizatioTreeFactory"
+		class="se.vgregion.kivtools.search.svc.kiv.organizationtree.springldap.VgrOrganizationTreeFactory">
+		<property name="ldapTemplate" ref="ldapTemplateOrganisation" />
+		<property name="treeLevelLimit" value="2" />
+	</bean>
+
+	<!-- Spring ldap -->
+	<bean id="contextSourceOrganisation" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://${hsatools.search.svc.ldap.ldaphost}" />
+		<property name="base" value="${hsatools.search.svc.ldap.base}" />
+		<property name="userDn" value="${hsatools.search.svc.ldap.logindn}" />
+		<property name="password" value="${hsatools.search.svc.ldap.password}" />
+		<property name="pooled" value="true" />
+	</bean>
+
+	<bean id="ldapTemplateOrganisation" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSourceOrganisation" />
+	</bean>
 </beans>

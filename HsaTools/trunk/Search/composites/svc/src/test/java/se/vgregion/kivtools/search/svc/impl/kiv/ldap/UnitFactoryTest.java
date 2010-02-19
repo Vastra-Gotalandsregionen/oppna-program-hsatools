@@ -148,13 +148,17 @@ public class UnitFactoryTest {
   public void testReconstituteInvalidObjectClass() throws KivException {
     unitFactory.reconstitute(ldapEntry);
   }
-
+  
   @Test
   public void testReconstituteVgrOrgUnit() throws KivException {
     ldapEntry.addAttribute("objectClass", VGR_OU);
     ldapEntry.addAttribute("hsaBusinessClassificationCode", "1504");
     Unit unit = unitFactory.reconstitute(ldapEntry);
-    assertEquals(VGR_OU, unit.getObjectClass());
+    assertUnit(unit);
+  }
+
+private void assertUnit(Unit unit) {
+	assertEquals(VGR_OU, unit.getObjectClass());
     assertEquals(TEST + "\\, " + TEST, unit.getOu());
     assertEquals(TEST + ", " + TEST, unit.getName());
     assertEquals(TEST, unit.getHsaIdentity());
@@ -216,7 +220,7 @@ public class UnitFactoryTest {
     assertEquals("http://" + TEST, unit.getInternalWebsite());
     assertEquals(EXPECTED_HOURS, unit.getVisitingHours().get(0).getDisplayValue());
     assertEquals(TEST, unit.getVisitingRuleReferral());
-  }
+}
 
   @Test
   public void testReconstituteOrgUnit() throws KivException {
