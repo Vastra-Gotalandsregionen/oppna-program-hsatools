@@ -33,5 +33,9 @@
 		
 	<bean id="smsRedirectService"  
 		class="se.vgregion.kivtools.search.sms.SmsRedirectServiceStub" />
+
+	<bean id="sitemapSupportBean" class="se.vgregion.kivtools.search.svc.SitemapSupportBean">
+		<constructor-arg><null/></constructor-arg>
+	</bean>
 </beans>
 
