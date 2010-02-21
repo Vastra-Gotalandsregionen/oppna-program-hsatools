@@ -56,6 +56,15 @@ public class TitleCacheLoaderImplTest {
   }
 
   @Test
+  public void createEmptyCacheReturnNewEmptyCacheEachTime() {
+    TitleCache emptyCache1 = titleCacheLoaderImpl.createEmptyCache();
+    TitleCache emptyCache2 = titleCacheLoaderImpl.createEmptyCache();
+    assertEquals(0, emptyCache1.getMatchingTitles("").size());
+    assertEquals(0, emptyCache2.getMatchingTitles("").size());
+    assertNotSame(emptyCache1, emptyCache2);
+  }
+
+  @Test
   public void testLoadCache() {
     DirContextOperationsMock person1 = new DirContextOperationsMock();
     person1.addAttributeValue("title", "Assistent");

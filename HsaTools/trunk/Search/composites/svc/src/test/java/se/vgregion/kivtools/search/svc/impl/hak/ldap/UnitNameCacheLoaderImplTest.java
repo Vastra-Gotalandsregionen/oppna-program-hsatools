@@ -56,6 +56,15 @@ public class UnitNameCacheLoaderImplTest {
   }
 
   @Test
+  public void createEmptyCacheReturnNewEmptyCacheEachTime() {
+    UnitNameCache emptyCache1 = unitNameCacheLoaderImpl.createEmptyCache();
+    UnitNameCache emptyCache2 = unitNameCacheLoaderImpl.createEmptyCache();
+    assertEquals(0, emptyCache1.getMatchingUnitNames("").size());
+    assertEquals(0, emptyCache2.getMatchingUnitNames("").size());
+    assertNotSame(emptyCache1, emptyCache2);
+  }
+
+  @Test
   public void testLoadCache() {
     DirContextOperationsMock unit1 = new DirContextOperationsMock();
     unit1.addAttributeValue("ou", "Vårdcentralen Hylte");

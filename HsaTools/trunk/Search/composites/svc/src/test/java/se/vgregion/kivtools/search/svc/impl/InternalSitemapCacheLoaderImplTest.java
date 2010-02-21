@@ -46,7 +46,7 @@ import com.domainlanguage.time.TimePoint;
 public class InternalSitemapCacheLoaderImplTest {
   private UnitCacheServiceImpl unitCacheService = new UnitCacheServiceImpl(new UnitCacheLoaderMock());
   private SearchServiceMock searchService = new SearchServiceMock();
-  private InternalSitemapCacheLoaderImpl loader = new InternalSitemapCacheLoaderImpl(unitCacheService, searchService, "http://internal.com");
+  private InternalSitemapCacheLoaderImpl loader = new InternalSitemapCacheLoaderImpl(unitCacheService, searchService, "http://internal.com", "weekly");
 
   @Test
   public void createEmptyCacheReturnEmptyCache() {
@@ -159,14 +159,23 @@ public class InternalSitemapCacheLoaderImplTest {
     }
 
     @Override
-    public Person getPersonById(String id) throws KivException {
+    public SikSearchResultList<Person> searchPersons(String id, int maxSearchResult) throws KivException {
       if (this.exceptionToThrow != null) {
         throw this.exceptionToThrow;
       }
-      return persons.get(id);
+
+      SikSearchResultList<Person> result = new SikSearchResultList<Person>();
+      String trimmedId = id.replaceAll("\"", "");
+      result.add(persons.get(trimmedId));
+      return result;
     }
 
     // Not implemented
+
+    @Override
+    public Person getPersonById(String id) throws KivException {
+      return null;
+    }
 
     @Override
     public List<String> getAllUnitsHsaIdentity() throws KivException {
@@ -221,11 +230,6 @@ public class InternalSitemapCacheLoaderImplTest {
     @Override
     public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes)
         throws KivException {
-      return null;
-    }
-
-    @Override
-    public SikSearchResultList<Person> searchPersons(String id, int maxSearchResult) throws KivException {
       return null;
     }
 

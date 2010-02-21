@@ -81,9 +81,10 @@
 	</bean>
 	
 	<bean id="sitemapCacheLoader" class="se.vgregion.kivtools.search.svc.impl.InternalSitemapCacheLoaderImpl">
-		<constructor-arg ref="unitCacheService"/>
-		<constructor-arg ref="Search_SearchService"/>
+		<constructor-arg ref="unitCacheService" />
+		<constructor-arg ref="Search_SearchService" />
 		<constructor-arg value="http://internkatalogen.lthalland.se/sik" />
+		<constructor-arg value="daily" />
 	</bean>
 	
 	<bean id="sitemapCacheService" class="se.vgregion.kivtools.search.svc.SitemapCacheServiceImpl">

@@ -62,7 +62,7 @@ public class PublicSitemapCacheLoaderImpl implements CacheLoader<SitemapCache> {
 
     for (Unit unit : units) {
       String lastmod = getLastModifiedDateTime(unit.getModifyTimestampFormattedInW3CDatetimeFormat(), unit.getCreateTimestampFormattedInW3CDatetimeFormat());
-      SitemapEntry entry = new SitemapEntry(externalApplicationURL + "/" + "visaenhet?hsaidentity=" + unit.getHsaIdentity(), lastmod);
+      SitemapEntry entry = new SitemapEntry(externalApplicationURL + "/" + "visaenhet?hsaidentity=" + unit.getHsaIdentity(), lastmod, "weekly");
       entry.addExtraInformation("hsaIdentity", unit.getHsaIdentity());
       cache.add(entry);
     }

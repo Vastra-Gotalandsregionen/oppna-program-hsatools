@@ -56,6 +56,15 @@ public class PersonNameCacheLoaderImplTest {
   }
 
   @Test
+  public void createEmptyCacheReturnNewEmptyCacheEachTime() {
+    PersonNameCache emptyCache1 = personNameCacheLoaderImpl.createEmptyCache();
+    PersonNameCache emptyCache2 = personNameCacheLoaderImpl.createEmptyCache();
+    assertEquals(0, emptyCache1.getMatchingGivenNames("", "").size());
+    assertEquals(0, emptyCache2.getMatchingGivenNames("", "").size());
+    assertNotSame(emptyCache1, emptyCache2);
+  }
+
+  @Test
   public void testLoadCache() {
     DirContextOperationsMock person1 = new DirContextOperationsMock();
     person1.addAttributeValue("givenName", "Kalle");

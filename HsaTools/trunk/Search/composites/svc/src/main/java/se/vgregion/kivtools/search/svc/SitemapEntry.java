@@ -33,6 +33,7 @@ import se.vgregion.kivtools.util.Arguments;
 public final class SitemapEntry implements Iterable<SitemapEntry.ExtraInformation> {
   private final String location;
   private final String lastModified;
+  private final String changeFrequency;
   private final Map<String, String> extraInformation = new HashMap<String, String>();
 
   /**
@@ -40,11 +41,13 @@ public final class SitemapEntry implements Iterable<SitemapEntry.ExtraInformatio
    * 
    * @param location the location of the entry.
    * @param lastModified the last modified time of the entry.
+   * @param changeFrequency the change frequency of the entry.
    */
-  public SitemapEntry(String location, String lastModified) {
+  public SitemapEntry(String location, String lastModified, String changeFrequency) {
     Arguments.notNull("location", location);
     this.location = location;
     this.lastModified = lastModified;
+    this.changeFrequency = changeFrequency;
   }
 
   public String getLocation() {
@@ -53,6 +56,10 @@ public final class SitemapEntry implements Iterable<SitemapEntry.ExtraInformatio
 
   public String getLastModified() {
     return lastModified;
+  }
+
+  public String getChangeFrequency() {
+    return changeFrequency;
   }
 
   /**
