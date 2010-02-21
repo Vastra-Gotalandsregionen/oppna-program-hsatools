@@ -68,7 +68,7 @@ public class SitemapSupportBeanTest {
 
   private SitemapCache createSitemapCache(String hsaIdentity, String modifyTimestamp, String... extraInformation) {
     SitemapCache unitCache = new SitemapCache();
-    SitemapEntry entry = new SitemapEntry("http://external.com/visaenhet?hsaidentity=" + hsaIdentity, modifyTimestamp);
+    SitemapEntry entry = new SitemapEntry("http://external.com/visaenhet?hsaidentity=" + hsaIdentity, modifyTimestamp, "weekly");
     for (int i = 0; extraInformation != null && i < extraInformation.length; i += 2) {
       entry.addExtraInformation(extraInformation[i], extraInformation[i + 1]);
     }

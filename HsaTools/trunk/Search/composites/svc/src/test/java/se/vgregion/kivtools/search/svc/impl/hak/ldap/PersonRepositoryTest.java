@@ -473,6 +473,27 @@ public class PersonRepositoryTest {
     assertTrue(primaryEmployment.isPrimaryEmployment());
     assertEquals("Läkare", otherEmployment.getTitle());
     assertFalse(otherEmployment.isPrimaryEmployment());
+
+    ldapEntry = new LDAPEntryMock();
+    ldapEntry.addAttribute("title", "Assistent");
+    ldapEntry.addAttribute("mainNode", "Ja");
+    ldapSearchResultsMock.addLDAPEntry(ldapEntry);
+
+    ldapEntry = new LDAPEntryMock();
+    ldapEntry.addAttribute("title", "Projektledare");
+    ldapSearchResultsMock.addLDAPEntry(ldapEntry);
+
+    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=*kon829*))", ldapSearchResultsMock);
+
+    persons = personRepository.searchPersons("kon829", 1);
+
+    primaryEmployment = persons.get(0).getEmployments().get(0);
+    otherEmployment = persons.get(0).getEmployments().get(1);
+
+    assertEquals("Assistent", primaryEmployment.getTitle());
+    assertTrue(primaryEmployment.isPrimaryEmployment());
+    assertEquals("Projektledare", otherEmployment.getTitle());
+    assertFalse(otherEmployment.isPrimaryEmployment());
   }
 
   private static class LdapTemplateMock extends LdapTemplate {

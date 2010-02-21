@@ -51,6 +51,15 @@ public class UnitCacheLoaderImplTest {
   }
 
   @Test
+  public void createEmptyCacheReturnNewEmptyCacheEachTime() {
+    UnitCache emptyCache1 = unitCacheLoader.createEmptyCache();
+    UnitCache emptyCache2 = unitCacheLoader.createEmptyCache();
+    assertEquals(0, emptyCache1.getUnits().size());
+    assertEquals(emptyCache1.getUnits(), emptyCache2.getUnits());
+    assertNotSame(emptyCache1, emptyCache2);
+  }
+
+  @Test
   public void loaderDoesNotProcessEmptyHsaIdentities() {
     searchService.addUnit(createUnit("   "));
 

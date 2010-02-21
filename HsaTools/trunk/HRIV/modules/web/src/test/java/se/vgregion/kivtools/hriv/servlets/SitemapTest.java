@@ -117,7 +117,7 @@ public class SitemapTest {
     public SitemapCache loadCache() {
       SitemapCache sitemapCache = new SitemapCache();
 
-      SitemapEntry unit = new SitemapEntry("http://externalurl/visaenhet?hsaidentity=abc-123", "2010-02-12T01:00:00+01:00");
+      SitemapEntry unit = new SitemapEntry("http://externalurl/visaenhet?hsaidentity=abc-123", "2010-02-12T01:00:00+01:00", "weekly");
       sitemapCache.add(unit);
 
       return sitemapCache;
