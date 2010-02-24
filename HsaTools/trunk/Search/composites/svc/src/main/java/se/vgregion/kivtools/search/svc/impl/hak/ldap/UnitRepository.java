@@ -46,6 +46,7 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
+import se.vgregion.kivtools.search.svc.impl.SingleAttributeMapper;
 import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 import se.vgregion.kivtools.search.util.Formatter;
@@ -265,7 +266,7 @@ public class UnitRepository {
     do {
       // HsaIdentityMapper return a String so we are pretty certain that List<String> is ok.
       @SuppressWarnings("unchecked")
-      List<String> resultList = this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, new HsaIdentityMapper(), control);
+      List<String> resultList = this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, new SingleAttributeMapper("hsaIdentity"), control);
       // Put everything in a map to remove duplicates.
       for (String hsaIdentity : resultList) {
         result.add(hsaIdentity);

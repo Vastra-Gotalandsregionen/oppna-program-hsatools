@@ -33,6 +33,7 @@ import org.springframework.ldap.filter.Filter;
 import org.springframework.ldap.filter.OrFilter;
 
 import se.vgregion.kivtools.search.svc.ResponsibleEditorEmailFinder;
+import se.vgregion.kivtools.search.svc.impl.SingleAttributeMapper;
 import se.vgregion.kivtools.search.svc.impl.hak.ldap.Constants;
 import se.vgregion.kivtools.util.Arguments;
 
@@ -75,7 +76,7 @@ public class ResponsibleEditorEmailFinderImpl implements ResponsibleEditorEmailF
     if (responsibleEditors.size() > 0) {
       // Retrieve email addresses for all found editors.
       Filter searchFilter = createSearchFilter(responsibleEditors);
-      List<String> emailAddresses = ldapTemplate.search(Constants.SEARCH_BASE, searchFilter.encode(), new PersonEmailMapper());
+      List<String> emailAddresses = ldapTemplate.search(Constants.SEARCH_BASE, searchFilter.encode(), new SingleAttributeMapper("mail"));
       responsibleEditorEmails.addAll(emailAddresses);
     }
     return responsibleEditorEmails;

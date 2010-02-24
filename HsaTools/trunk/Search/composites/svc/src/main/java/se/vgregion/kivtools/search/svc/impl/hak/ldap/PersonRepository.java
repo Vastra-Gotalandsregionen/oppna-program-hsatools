@@ -25,7 +25,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import javax.naming.directory.SearchControls;
 
@@ -42,52 +41,28 @@ import org.springframework.ldap.filter.Filter;
 import org.springframework.ldap.filter.LikeFilter;
 import org.springframework.ldap.filter.OrFilter;
 
-import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
-import se.vgregion.kivtools.search.domain.values.AddressHelper;
-import se.vgregion.kivtools.search.domain.values.DN;
-import se.vgregion.kivtools.search.domain.values.PhoneNumber;
-import se.vgregion.kivtools.search.domain.values.WeekdayTime;
-import se.vgregion.kivtools.search.domain.values.ZipCode;
 import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.exceptions.SikInternalException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.comparators.PersonNameComparator;
 import se.vgregion.kivtools.search.svc.comparators.PersonNameWeightedComparator;
-import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
-import se.vgregion.kivtools.search.svc.ldap.LdapORMHelper;
+import se.vgregion.kivtools.search.svc.impl.SingleAttributeMapper;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.util.StringUtil;
-
-import com.domainlanguage.time.TimePoint;
-import com.novell.ldap.LDAPConnection;
-import com.novell.ldap.LDAPEntry;
-import com.novell.ldap.LDAPException;
-import com.novell.ldap.LDAPSearchConstraints;
-import com.novell.ldap.LDAPSearchResults;
 
 /**
  * @author Anders Asplund - KnowIT
  * 
  */
 public class PersonRepository {
-  private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
   private static final String LDAP_WILD_CARD = "*";
   // an "
   private static final String LDAP_EXACT_CARD = "\"";
-  private Log log = LogFactory.getLog(this.getClass());
-  private LdapConnectionPool theConnectionPool;
-  private LdapTemplate ldapTemplate;
-  // List for redundancy check of persons that contains in the LDAP search
-  // result
-  private List<String> personRedundancyCheck = new ArrayList<String>();
-  // Map containing persons and employment list for that person.
-  private Map<String, List<Employment>> personEmploymentsMap = new HashMap<String, List<Employment>>();
+  private static final DistinguishedName PERSON_SEARCH_BASE = DistinguishedName.immutableDistinguishedName(Constants.SEARCH_BASE);
 
-  public void setLdapConnectionPool(LdapConnectionPool lp) {
-    this.theConnectionPool = lp;
-  }
+  private Log log = LogFactory.getLog(this.getClass());
+  private LdapTemplate ldapTemplate;
 
   public void setLdapTemplate(LdapTemplate ldapTemplate) {
     this.ldapTemplate = ldapTemplate;
@@ -101,8 +76,8 @@ public class PersonRepository {
    * @throws KivException If something goes wrong.
    */
   public List<Person> searchPersonsByDn(String dn, int maxResult) throws KivException {
-    String searchFilter = "(objectClass=hkatPerson)";
-    return searchPersons(dn, searchFilter, LDAPConnection.SCOPE_SUB, maxResult, new PersonNameComparator());
+    Filter searchFilter = new EqualsFilter("objectClass", "hkatPerson");
+    return searchPersons(DistinguishedName.immutableDistinguishedName(dn), searchFilter, maxResult, new PersonNameComparator());
   }
 
   /**
@@ -113,7 +88,8 @@ public class PersonRepository {
    * @throws KivException If something goes wrong.
    */
   public SikSearchResultList<Person> getAllPersonsInUnit(String hsaIdentity, int maxResult) throws KivException {
-    return searchPersons("(hsaIdentity=" + hsaIdentity + ")", LDAPConnection.SCOPE_SUB, maxResult, new PersonNameComparator());
+    Filter searchFilter = new EqualsFilter("hsaIdentity", hsaIdentity);
+    return searchPersons(PERSON_SEARCH_BASE, searchFilter, maxResult, new PersonNameComparator());
   }
 
   /**
@@ -124,8 +100,8 @@ public class PersonRepository {
    * @throws KivException If something goes wrong
    */
   public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws KivException {
-    String searchFilter = createSearchPersonsFilterVgrId(vgrId);
-    return searchPersons(searchFilter, LDAPConnection.SCOPE_SUB, maxResult, new PersonNameComparator());
+    Filter searchFilter = createSearchPersonsFilterVgrId(vgrId);
+    return searchPersons(PERSON_SEARCH_BASE, searchFilter, maxResult, new PersonNameComparator());
   }
 
   /**
@@ -135,8 +111,10 @@ public class PersonRepository {
    * @throws KivException If something goes wrong.
    */
   public Person getPersonByVgrId(String vgrId) throws KivException {
-    String searchFilter = "(&(objectclass=hkatPerson)(regionName=" + vgrId + "))";
-    return searchPerson(Constants.SEARCH_BASE, LDAPConnection.SCOPE_SUB, searchFilter);
+    AndFilter searchFilter = new AndFilter();
+    searchFilter.and(new EqualsFilter("objectClass", "hkatPerson"));
+    searchFilter.and(new EqualsFilter("regionName", vgrId));
+    return searchPerson(DistinguishedName.immutableDistinguishedName(Constants.SEARCH_BASE), searchFilter);
   }
 
   /**
@@ -155,7 +133,7 @@ public class PersonRepository {
     do {
       // RegionNameMapper return a String so we are pretty certain that List<String> is ok.
       @SuppressWarnings("unchecked")
-      List<String> resultList = this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, new RegionNameMapper(), control);
+      List<String> resultList = this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, new SingleAttributeMapper("regionName"), control);
       // Put everything in a map to remove duplicates.
       for (String regionName : resultList) {
         result.put(regionName, regionName);
@@ -165,53 +143,22 @@ public class PersonRepository {
     return new ArrayList<String>(result.keySet());
   }
 
-  private Person searchPerson(String searchBase, int searchScope, String searchFilter) throws KivException {
-    LDAPSearchConstraints constraints = new LDAPSearchConstraints();
-    constraints.setMaxResults(0);
-    Person result = new Person();
+  private Person searchPerson(DistinguishedName baseDn, Filter filter) {
+    PersonMapper mapper = new PersonMapper();
+    this.ldapTemplate.search(baseDn, filter.encode(), mapper);
 
-    // Get all attributes
-    String[] attributes = null;
-
-    try {
-      LDAPConnection lc = getLDAPConnection();
-      try {
-        // return attributes and values
-        result = extractSingleResult(lc.search(searchBase, searchScope, searchFilter, attributes, false, constraints));
-      } finally {
-        theConnectionPool.freeConnection(lc);
-      }
-    } catch (LDAPException e) {
-      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
-    }
-
-    return result;
+    return mapper.getFirstPerson();
   }
 
-  private SikSearchResultList<Person> searchPersons(String searchFilter, int searchScope, int maxResult, Comparator<Person> sortOrder) throws KivException {
-    return searchPersons(Constants.SEARCH_BASE, searchFilter, searchScope, maxResult, sortOrder);
-  }
-
-  private SikSearchResultList<Person> searchPersons(String baseDn, String searchFilter, int searchScope, int maxResult, Comparator<Person> sortOrder) throws KivException {
-    LDAPSearchConstraints constraints = new LDAPSearchConstraints();
-    constraints.setMaxResults(0);
+  private SikSearchResultList<Person> searchPersons(DistinguishedName baseDn, Filter filter, int maxResult, Comparator<Person> sortOrder) {
     SikSearchResultList<Person> result = new SikSearchResultList<Person>();
-    // Get all attributes
-    String[] attributes = null;
 
-    try {
-      LDAPConnection lc = getLDAPConnection();
-      try {
-        // return attributes and values
-        result = extractResult(lc.search(baseDn, searchScope, searchFilter, attributes, false, constraints), maxResult);
-      } finally {
-        theConnectionPool.freeConnection(lc);
-      }
-    } catch (LDAPException e) {
-      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
-    }
+    PersonMapper mapper = new PersonMapper();
+    this.ldapTemplate.search(baseDn, filter.encode(), mapper);
 
-    if (result != null) {
+    if (mapper.getPersons().size() > 0) {
+      result.addAll(mapper.getPersons());
+
       // Sort results
       Collections.sort(result, sortOrder);
 
@@ -221,187 +168,17 @@ public class PersonRepository {
         result = new SikSearchResultList<Person>(result.subList(0, maxResult));
       }
 
-      // connect employment list to each person still in the list
-      connectEmploymentListToPerson(result);
       result.setTotalNumberOfFoundItems(resultCount);
     }
 
     return result;
   }
 
-  private Person extractSingleResult(LDAPSearchResults searchResults) throws LDAPException {
-    if (searchResults == null) {
-      return null;
-    }
-    return PersonFactory.reconstitute(searchResults.next());
-  }
-
-  private SikSearchResultList<Person> extractResult(LDAPSearchResults searchResults, int maxResult) throws LDAPException {
-    if (searchResults == null) {
-      return null;
-    }
-    clearCachedValues();
-    SikSearchResultList<Person> result = new SikSearchResultList<Person>();
-
-    while (searchResults.hasMore()) {
-      try {
-        LDAPEntry entry = searchResults.next();
-        Person person = PersonFactory.reconstitute(entry);
-        // Set the current persons employment list
-        extractEmploymentInfoFromEntry(entry);
-        // Only add person once to the result list
-        if (!isPersonAlreadyAdded(person)) {
-          result.add(person);
-        }
-      } catch (LDAPException e) {
-        if (e.getResultCode() == LDAPException.LDAP_TIMEOUT || e.getResultCode() == LDAPException.CONNECT_ERROR) {
-          throw e;
-        } else {
-          continue;
-        }
-      }
-    }
-    return result;
-  }
-
-  // Clear the list and map from old values
-  private void clearCachedValues() {
-    personRedundancyCheck.clear();
-    personEmploymentsMap.clear();
-  }
-
-  private void connectEmploymentListToPerson(SikSearchResultList<Person> result) {
-    // Get employment list from employments map for each person and set the
-    // employment property for each person.
-    for (Person person : result) {
-      List<Employment> empList = personEmploymentsMap.get(person.getCn());
-      Collections.sort(empList, new EmploymentComparator());
-      person.setEmployments(empList);
-    }
-  }
-
-  /**
-   * Prevent a person to be added more than once in a list.
-   * 
-   * @param person
-   * @return - true if person is already added to the list
-   */
-  private boolean isPersonAlreadyAdded(Person person) {
-    boolean isAdded = personRedundancyCheck.contains(person.getCn());
-    if (!isAdded) {
-      personRedundancyCheck.add(person.getCn());
-    }
-    return isAdded;
-  }
-
-  /**
-   * 
-   * @param employments - Map with employments that belongs to a person, persons cn attribute is the key in the map.
-   * @param person - person that extracted employment should belong to.
-   * @param personEntry - LDAP entry to extract employment info from.
-   */
-  private void extractEmploymentInfoFromEntry(LDAPEntry personEntry) {
-    // Set employment
-    Employment employment = extractEmployment(personEntry);
-    List<Employment> empList = personEmploymentsMap.get(employment.getCn());
-    // Create new employment list and put it in the map, if there are none
-    // for the current person.
-    if (empList == null) {
-      empList = new ArrayList<Employment>();
-      personEmploymentsMap.put(employment.getCn(), empList);
-    }
-    empList.add(employment);
-  }
-
-  private static Employment extractEmployment(LDAPEntry personEntry) {
-    Employment employment = new Employment();
-
-    employment.setCn(LdapORMHelper.getSingleValue(personEntry.getAttribute("cn")));
-    employment.setOu(LdapORMHelper.getSingleValue(personEntry.getAttribute("ou")));
-    employment.setHsaPersonIdentityNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaIdentity")));
-    employment.setHsaStreetAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(personEntry.getAttribute("street"))));
-    employment.setHsaInternalAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaInternalAddress"))));
-    employment.setHsaPostalAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(personEntry.getAttribute("postalAddress"))));
-    employment.setHsaSedfDeliveryAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaDeliveryAddress"))));
-    employment.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaInvoiceAddress"))));
-    employment.setHsaConsigneeAddress(AddressHelper.convertToAddress(LdapORMHelper.getMultipleValues(personEntry.getAttribute("hsaConsigneeAddress"))));
-    employment.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("facsimileTelephoneNumber"))));
-    employment.setLabeledUri(LdapORMHelper.getSingleValue(personEntry.getAttribute("labeledUri")));
-
-    employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("title")));
-    /*
-     * Deprecated 2009-04-21 if (!"".equals(personEntry.getAttribute("title"))) employment.setTitle(LdapORMHelper.getSingleValue(personEntry.getAttribute("title")));
-     */
-
-    employment.setDescription(LdapORMHelper.getMultipleValues(personEntry.getAttribute("description")));
-    employment.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaSwitchboardNumber"))));
-    employment.setName(LdapORMHelper.getSingleValue(personEntry.getAttribute("company")));
-    employment.setHsaTelephoneNumbers(PhoneNumber.createPhoneNumberList(LdapORMHelper.getMultipleValues(personEntry.getAttribute("telephoneNumber"))));
-    employment.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaTelephoneNumber"))));
-    employment.setMobileTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("mobile"))));
-    employment.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaInternalPagerNumber"))));
-    employment.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("pager"))));
-    employment.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(LdapORMHelper.getSingleValue(personEntry.getAttribute("hsaTextPhoneNumber"))));
-    if (personEntry.getAttribute("whenChanged") != null) {
-      employment.setModifyTimestamp(TimePoint.parseFrom(LdapORMHelper.getSingleValue(personEntry.getAttribute("whenChanged")), "yyyyMMddHHmmss", TimeZone.getDefault()));
-    } else if (personEntry.getAttribute("whenCreated") != null) {
-      employment.setModifyTimestamp(TimePoint.parseFrom(LdapORMHelper.getSingleValue(personEntry.getAttribute("whenCreated")), "yyyyMMddHHmmss", TimeZone.getDefault()));
-    }
-    // employment.setModifyersName(LdapORMHelper.getSingleValue(personEntry.getAttribute("modifyersName")));
-    employment.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(LdapORMHelper.getMultipleValues(personEntry.getAttribute("telephoneHours"))));
-    employment.setVgrStrukturPerson(DN.createDNFromString(LdapORMHelper.getSingleValue(personEntry.getAttribute("distinguishedName"))));
-    employment.setZipCode(new ZipCode(LdapORMHelper.getSingleValue(personEntry.getAttribute("postalCode"))));
-    if ("Ja".equals(LdapORMHelper.getSingleValue(personEntry.getAttribute("mainNode")))) {
-      employment.setPrimaryEmployment(true);
-    }
-    return employment;
-  }
-
-  private LDAPConnection getLDAPConnection() throws KivException {
-    LDAPConnection lc = theConnectionPool.getConnection(POOL_WAIT_TIME_MILLISECONDS);
-    if (lc == null) {
-      throw new SikInternalException(this, "getLDAPConnection()", "Could not get a connection after waiting " + POOL_WAIT_TIME_MILLISECONDS + " ms.");
-    }
-    return lc;
-  }
-
-  private String createSearchPersonsFilterVgrId(String vgrId) throws KivException {
-    String searchFilter = "(&(objectclass=hkatPerson)";
-    searchFilter += createSearchFilterItem("regionName", vgrId);
-    searchFilter += ")";
+  private Filter createSearchPersonsFilterVgrId(String vgrId) throws KivException {
+    AndFilter searchFilter = new AndFilter();
+    searchFilter.and(new EqualsFilter("objectClass", "hkatPerson"));
+    searchFilter.and(new EqualsFilter("regionName", vgrId));
     return searchFilter;
-  }
-
-  /**
-   * e.g. searchField=givenName searchValue=hans result=(givenName=*hans*)
-   * 
-   * e.g. searchField=givenName searchValue=hans-erik result=(givenName=*hans*erik*)
-   * 
-   * e.g. searchField=givenName searchValue="hans-erik" result=(givenName=hans-erik)
-   * 
-   */
-  private String createSearchFilterItem(String searchField, String searchValue) {
-    String filter = "";
-
-    if (!StringUtil.isEmpty(searchValue)) {
-      String trimmedSearchValue = searchValue.trim();
-      if (isExactMatchFilter(trimmedSearchValue)) {
-        // remove "
-        // exact match
-        // filterList.add("(" + searchField + "=" + searchValue.trim() + ")");
-        trimmedSearchValue = Formatter.replaceStringInString(trimmedSearchValue, LDAP_EXACT_CARD, "");
-        // exact match
-        filter = "(" + searchField + "=" + trimmedSearchValue + ")";
-      } else {
-        // change spaces to wildcards
-        trimmedSearchValue = Formatter.replaceStringInString(trimmedSearchValue, " ", LDAP_WILD_CARD);
-        trimmedSearchValue = Formatter.replaceStringInString(trimmedSearchValue, "-", LDAP_WILD_CARD);
-        // filterList.add("(" + searchField + "=" + LDAP_WILD_CARD +
-        // searchValue + LDAP_WILD_CARD + ")");
-        filter = "(" + searchField + "=" + LDAP_WILD_CARD + trimmedSearchValue + LDAP_WILD_CARD + ")";
-      }
-    }
-    return filter;
   }
 
   private boolean isExactMatchFilter(String searchValue) {
@@ -426,7 +203,7 @@ public class PersonRepository {
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
     AndFilter searchPersonFilter = generateFreeTextSearchPersonFilter(person);
 
-    return searchPersons(searchPersonFilter.encode(), LDAPConnection.SCOPE_SUB, maxResult, new PersonNameWeightedComparator(person.getGivenName(), person.getSurname()));
+    return searchPersons(PERSON_SEARCH_BASE, searchPersonFilter, maxResult, new PersonNameWeightedComparator(person.getGivenName(), person.getSurname()));
   }
 
   private AndFilter generateFreeTextSearchPersonFilter(SearchPersonCriterions person) {
@@ -514,19 +291,12 @@ public class PersonRepository {
    * @throws KivException If something goes wrong when searching.
    */
   public Person getPersonByDn(String dn) throws KivException {
-    Person person = null;
     DistinguishedName distinguishedName = new DistinguishedName(dn);
 
-    try {
-      LDAPConnection lc = getLDAPConnection();
-      try {
-        person = PersonFactory.reconstitute(lc.read(distinguishedName.encode()));
-      } finally {
-        theConnectionPool.freeConnection(lc);
-      }
-    } catch (LDAPException e) {
-      throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
-    }
+    PersonMapper personMapper = new PersonMapper();
+    ldapTemplate.lookup(distinguishedName, personMapper);
+
+    Person person = personMapper.getFirstPerson();
 
     return person;
   }
@@ -548,25 +318,5 @@ public class PersonRepository {
     }
 
     return profileImage;
-  }
-
-  /**
-   * Comparator which sorts the primary employment first.
-   */
-  private static class EmploymentComparator implements Comparator<Employment> {
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int compare(Employment o1, Employment o2) {
-      int result = 0;
-
-      if (o1.isPrimaryEmployment()) {
-        result = -1;
-      } else if (o2.isPrimaryEmployment()) {
-        result = 1;
-      }
-      return result;
-    }
   }
 }

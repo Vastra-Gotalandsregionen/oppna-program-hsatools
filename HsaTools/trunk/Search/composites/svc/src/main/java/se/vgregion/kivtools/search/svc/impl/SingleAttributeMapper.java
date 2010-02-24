@@ -17,28 +17,39 @@
  *
  */
 
-package se.vgregion.kivtools.search.svc.impl.hak.ldap;
+package se.vgregion.kivtools.search.svc.impl;
 
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextOperations;
 
+import se.vgregion.kivtools.util.Arguments;
+
 /**
- * ContextMapper for retrieving the hsaIdentity-attribute for a unit.
- * 
- * @author Joakim Olsson
+ * ContextMapper for retrieving a single attribute from an entry.
  */
-final class HsaIdentityMapper implements ContextMapper {
+public class SingleAttributeMapper implements ContextMapper {
+  private final String attributeName;
 
   /**
-   * Retrieves the hsaIdentity attribute and returns it as a string.
+   * Constructs a new SingleAttributeMapper.
+   * 
+   * @param attributeName the name of the attribute to retrieve.
+   */
+  public SingleAttributeMapper(String attributeName) {
+    Arguments.notEmpty("attributeName", attributeName);
+    this.attributeName = attributeName;
+  }
+
+  /**
+   * Retrieves the value of the attribute and returns it as a string.
    * 
    * @param ctx The DirContextOperations object from Spring LDAP.
-   * @return The units hsaIdentity as a string.
+   * @return The value of the attribute as a string.
    */
   @Override
   public Object mapFromContext(Object ctx) {
     DirContextOperations dirContext = (DirContextOperations) ctx;
-    String hsaIdentity = dirContext.getStringAttribute("hsaIdentity");
-    return hsaIdentity;
+    String value = dirContext.getStringAttribute(attributeName);
+    return value;
   }
 }

@@ -40,6 +40,7 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.AddressType.GeoCoordinates;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
 import se.vgregion.kivtools.search.domain.values.AddressHelper;
+import se.vgregion.kivtools.search.svc.ldap.DirContextOperationsHelper;
 import se.vgregion.kivtools.util.StringUtil;
 
 /**
@@ -103,24 +104,24 @@ public class EniroUnitMapper implements ContextMapper {
   @Override
   public Object mapFromContext(Object ctx) {
     UnitComposition unitComposition = new UnitComposition();
-    DirContextOperations dirContextOperations = (DirContextOperations) ctx;
+    DirContextOperationsHelper context = new DirContextOperationsHelper((DirContextOperations) ctx);
     // Set meta data
-    setMetaAttributes(unitComposition, dirContextOperations);
+    setMetaAttributes(unitComposition, context);
     // Fill unit with data.
     Unit unit = unitComposition.getEniroUnit();
-    unit.setId(dirContextOperations.getStringAttribute("hsaIdentity"));
-    unit.setName(getUnitName(dirContextOperations));
-    unit.setRoute(StringUtil.concatenate(dirContextOperations.getStringAttributes("hsaRoute")));
+    unit.setId(context.getString("hsaIdentity"));
+    unit.setName(getUnitName(context));
+    unit.setRoute(StringUtil.concatenate(context.getStrings("hsaRoute")));
 
-    Address address = generateAddress(dirContextOperations);
+    Address address = generateAddress(context);
     if (address != null) {
       unit.getTextOrImageOrAddress().add(address);
     }
-    TelephoneType telephone = getPublicTelephoneType(dirContextOperations);
+    TelephoneType telephone = getPublicTelephoneType(context);
     if (telephone != null) {
       unit.getTextOrImageOrAddress().add(telephone);
     }
-    unit.getTextOrImageOrAddress().add(createBusinessClassification(dirContextOperations.getStringAttribute("hsaBusinessClassificationCode")));
+    unit.getTextOrImageOrAddress().add(createBusinessClassification(context.getString("hsaBusinessClassificationCode")));
     return unitComposition;
   }
 
@@ -132,11 +133,11 @@ public class EniroUnitMapper implements ContextMapper {
     return businesClassification;
   }
 
-  private String getUnitName(DirContextOperations dirContextOperations) {
-    String name = dirContextOperations.getStringAttribute("ou");
+  private String getUnitName(DirContextOperationsHelper context) {
+    String name = context.getString("ou");
     // Is a function, name is the cn attribute instead.
     if (StringUtil.isEmpty(name)) {
-      name = dirContextOperations.getStringAttribute("cn");
+      name = context.getString("cn");
     }
     return name;
   }
@@ -147,13 +148,13 @@ public class EniroUnitMapper implements ContextMapper {
    * @param value The hours-string in the above format.
    * @return The list of generated Hours objects.
    */
-  private List<Hours> generateHoursObjects(String[] values) {
+  private List<Hours> generateHoursObjects(List<String> values) {
     List<Hours> hoursList = new ArrayList<Hours>();
 
-    for (int i = 0; values != null && i < values.length; i++) {
+    for (String value : values) {
       Hours hours = new Hours();
-      if (!StringUtil.isEmpty(values[i])) {
-        String[] hoursInfo = values[i].split("#");
+      if (!StringUtil.isEmpty(value)) {
+        String[] hoursInfo = value.split("#");
 
         if (hoursInfo.length == 3) {
           String[] dayFromAndTo = hoursInfo[0].split("-");
@@ -181,27 +182,28 @@ public class EniroUnitMapper implements ContextMapper {
     return hoursList;
   }
 
-  private TelephoneType getPublicTelephoneType(DirContextOperations dirContextOperations) {
-    String publicTelephoneNumber = dirContextOperations.getStringAttribute("hsaPublicTelephoneNumber");
+  private TelephoneType getPublicTelephoneType(DirContextOperationsHelper context) {
+    String publicTelephoneNumber = context.getString("hsaPublicTelephoneNumber");
     TelephoneType telephoneType = null;
 
     if (!StringUtil.isEmpty(publicTelephoneNumber)) {
       telephoneType = new TelephoneType();
       telephoneType.setType(PHONE_TYPE.FIXED.value);
       telephoneType.getTelephoneNumber().add(publicTelephoneNumber);
-      telephoneType.getHours().addAll(generateHoursObjects(dirContextOperations.getStringAttributes("hsaTelephoneTime")));
+      telephoneType.getHours().addAll(generateHoursObjects(context.getStrings("hsaTelephoneTime")));
     }
     return telephoneType;
   }
 
-  private Address generateAddress(DirContextOperations dirContextOperations) {
-    Address address = createBaseAddress(dirContextOperations.getStringAttribute("hsaStreetAddress"));
-    if (address != null) {
-      address.getHours().addAll(generateHoursObjects(dirContextOperations.getStringAttributes("hsaSurgeryHours")));
+  private Address generateAddress(DirContextOperationsHelper context) {
+    Address address = null;
+    if (context.hasAttribute("hsaStreetAddress")) {
+      address = createBaseAddress(context.getString("hsaStreetAddress"));
+      address.getHours().addAll(generateHoursObjects(context.getStrings("hsaSurgeryHours")));
       // Set address type
       address.setType(ADDRESS_TYPE.VISIT.value);
       // Get geoCoordinates
-      address.setGeoCoordinates(generateGeoCoordinatesObject(dirContextOperations.getStringAttribute("hsaGeographicalCoordinates")));
+      address.setGeoCoordinates(generateGeoCoordinatesObject(context.getString("hsaGeographicalCoordinates")));
     }
     return address;
   }
@@ -218,12 +220,12 @@ public class EniroUnitMapper implements ContextMapper {
     return geoCoordinates;
   }
 
-  private void setMetaAttributes(UnitComposition unitComposition, DirContextOperations dirContextOperations) {
+  private void setMetaAttributes(UnitComposition unitComposition, DirContextOperationsHelper context) {
     // Not used at the moment (2009-10-02)
     // unitComposition.setCreateTimePoint(createTimePoint(dirContextOperations.getStringAttribute("createTimeStamp")));
     // unitComposition.setModifyTimePoint(createTimePoint(dirContextOperations.getStringAttribute("vgrModifyTimestamp")));
-    unitComposition.setDn(dirContextOperations.getDn().toString());
-    String bsCode = dirContextOperations.getStringAttribute("hsaBusinessClassificationCode");
+    unitComposition.setDn(context.getDnString());
+    String bsCode = context.getString("hsaBusinessClassificationCode");
     if (nonCareCenter.contains(bsCode)) {
       unitComposition.setCareType(UnitType.OTHER_CARE);
     } else {

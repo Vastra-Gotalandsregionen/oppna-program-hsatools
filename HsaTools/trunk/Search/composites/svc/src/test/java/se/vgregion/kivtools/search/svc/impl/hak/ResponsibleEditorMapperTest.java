@@ -53,7 +53,7 @@ public class ResponsibleEditorMapperTest {
 
   @Test
   public void testOneAttributeSet() {
-    dirContextOperations.addAttributeValue("member", "cn=abc123,ou=test1,ou=test2");
+    dirContextOperations.addAttributeValue("member", new String[] { "cn=abc123,ou=test1,ou=test2" });
     @SuppressWarnings("unchecked")
     List<String> responsibleEditors = (List<String>) responsibleEditorMapper.mapFromContext(dirContextOperations);
     assertEquals(1, responsibleEditors.size());
@@ -62,7 +62,7 @@ public class ResponsibleEditorMapperTest {
 
   @Test
   public void testMultipleAttributesSet() {
-    dirContextOperations.addAttributeValue("member", "cn=abc123,ou=test1,ou=test2$cn=def456,ou=test2$cn=ghi789");
+    dirContextOperations.addAttributeValue("member", new String[] { "cn=abc123,ou=test1,ou=test2$cn=def456,ou=test2$cn=ghi789" });
     @SuppressWarnings("unchecked")
     List<String> responsibleEditors = (List<String>) responsibleEditorMapper.mapFromContext(dirContextOperations);
     assertEquals(3, responsibleEditors.size());

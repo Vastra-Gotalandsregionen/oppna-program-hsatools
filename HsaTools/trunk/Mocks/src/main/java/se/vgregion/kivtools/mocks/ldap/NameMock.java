@@ -24,18 +24,24 @@ import java.util.Enumeration;
 import javax.naming.InvalidNameException;
 import javax.naming.Name;
 
+/**
+ * Mock-class to use when unit testing Spring LDAP implementations.
+ * 
+ * @author David Bennehult
+ */
 public class NameMock implements Name {
+  private static final long serialVersionUID = 1L;
 
-  String value;
+  private String value;
 
+  /**
+   * Constructs a new NameMock.
+   * 
+   * @param value the distinguished name of the object.
+   */
   public NameMock(String value) {
     this.value = value;
   }
-
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
 
   @Override
   public Name add(String comp) throws InvalidNameException {
