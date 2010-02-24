@@ -42,38 +42,20 @@ import org.springframework.ldap.core.LdapTemplate;
 import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
 import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
-import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.impl.mock.LDAPConnectionMock;
-import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
-import se.vgregion.kivtools.search.svc.impl.mock.LDAPSearchResultsMock;
-import se.vgregion.kivtools.search.svc.impl.mock.LdapConnectionPoolMock;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.util.StringUtil;
 import se.vgregion.kivtools.util.reflection.ReflectionUtil;
 
-import com.novell.ldap.LDAPException;
-
 public class PersonRepositoryTest {
-  private static final String TEST = "Test";
-  private static final String TEST_DN = "cn=abc,ou=def";
-  private static final String TEST_TIME = "1-4#08:00#17:00";
-  private static final String EXPECTED_LIST_RESULT = "[" + TEST + "]";
-
   private PersonRepository personRepository;
-  private LDAPConnectionMock ldapConnectionMock;
-  private LdapConnectionPoolMock ldapConnectionPoolMock;
 
   private LdapTemplateMock ldapTemplate;
 
   @Before
   public void setUp() {
     personRepository = new PersonRepository();
-
-    ldapConnectionMock = new LDAPConnectionMock();
-    ldapConnectionPoolMock = new LdapConnectionPoolMock(ldapConnectionMock);
-    personRepository.setLdapConnectionPool(ldapConnectionPoolMock);
 
     ldapTemplate = new LdapTemplateMock();
     personRepository.setLdapTemplate(ldapTemplate);
@@ -83,64 +65,56 @@ public class PersonRepositoryTest {
   public void testSearchPersons() throws KivException {
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
 
-    ldapConnectionMock.setReturnNullResult(true);
     SikSearchResultList<Person> searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
-    assertNull(searchPersons);
+    assertNotNull(searchPersons);
+    assertEquals(0, searchPersons.size());
 
-    ldapConnectionMock.setReturnNullResult(false);
-
-    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
-    LDAPEntryMock personEntry1 = new LDAPEntryMock();
-    personEntry1.addAttribute("givenName", "Kalle");
-    personEntry1.addAttribute("cn", "cn=Kalle,ou=Org,o=VGR");
-    ldapSearchResultsMock.addLDAPEntry(personEntry1);
-    LDAPEntryMock personEntry2 = new LDAPEntryMock();
-    personEntry2.addAttribute("givenName", "Olle");
-    personEntry2.addAttribute("cn", "cn=Olle,ou=Org,o=VGR");
-    ldapSearchResultsMock.addLDAPEntry(personEntry2);
-    ldapConnectionMock.addLDAPSearchResults(
-        "(&(objectclass=hkatPerson)(|(regionName=*ksn829*)(title=*ksn829*))(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))", ldapSearchResultsMock);
+    DirContextOperationsMock dirContext = new DirContextOperationsMock();
+    DistinguishedName dn = DistinguishedName.immutableDistinguishedName("cn=Kalle Kula,ou=Landstinget Halland");
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("givenName", "Kalle");
+    dirContext.addAttributeValue("cn", "cn=Kalle,ou=Org,o=VGR");
+    this.ldapTemplate.addDirContextOperationForSearch(dirContext);
+    dirContext = new DirContextOperationsMock();
+    dn = DistinguishedName.immutableDistinguishedName("cn=Olle Kula,ou=Landstinget Halland");
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("givenName", "Olle");
+    dirContext.addAttributeValue("cn", "cn=Olle,ou=Org,o=VGR");
+    this.ldapTemplate.addDirContextOperationForSearch(dirContext);
 
     searchPersonCriterion.setGivenName(" Kalle ");
     searchPersonCriterion.setSurname(" Svensson ");
 
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 0);
-    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
+    ldapTemplate.assertSearchFilter("(&(objectclass=hkatPerson)(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
 
     searchPersonCriterion.setUserId(" ksn829 ");
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 1);
-    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(|(regionName=*ksn829*)(title=*ksn829*))(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
+    ldapTemplate.assertSearchFilter("(&(objectclass=hkatPerson)(|(regionName=*ksn829*)(title=*ksn829*))(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
     assertEquals(1, searchPersons.size());
-
-    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
   public void testSearchPersonsExactMatch() throws KivException {
-    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
-    ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
-    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(|(regionName=ksn001)(title=ksn001))(|(givenName=Kalle)(rsvFirstNames=Kalle))(|(sn=Svensson)(middleName=Svensson)))",
-        ldapSearchResultsMock);
+    DirContextOperationsMock dirContext = new DirContextOperationsMock();
+    DistinguishedName dn = DistinguishedName.immutableDistinguishedName("cn=Kalle Kula,ou=Landstinget Halland");
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("givenName", "Kalle");
+    this.ldapTemplate.addDirContextOperationForSearch(dirContext);
 
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
     searchPersonCriterion.setGivenName(" \"Kalle\" ");
     searchPersonCriterion.setSurname(" \"Svensson\" ");
     searchPersonCriterion.setUserId(" \"ksn001\" ");
     SikSearchResultList<Person> searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
-    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(|(regionName=ksn001)(title=ksn001))(|(givenName=Kalle)(rsvFirstNames=Kalle))(|(sn=Svensson)(middleName=Svensson)))");
+    ldapTemplate.assertSearchFilter("(&(objectclass=hkatPerson)(|(regionName=ksn001)(title=ksn001))(|(givenName=Kalle)(rsvFirstNames=Kalle))(|(sn=Svensson)(middleName=Svensson)))");
     assertEquals(1, searchPersons.size());
-
-    ldapSearchResultsMock = new LDAPSearchResultsMock();
-    ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
-    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(|(regionName=ksn829)(title=ksn829)))", ldapSearchResultsMock);
 
     searchPersonCriterion = new SearchPersonCriterions();
     searchPersonCriterion.setUserId("\"ksn829\"");
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
-    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(|(regionName=ksn829)(title=ksn829)))");
+    ldapTemplate.assertSearchFilter("(&(objectclass=hkatPerson)(|(regionName=ksn829)(title=ksn829)))");
     assertEquals(1, searchPersons.size());
-
-    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
@@ -148,10 +122,8 @@ public class PersonRepositoryTest {
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
     searchPersonCriterion.setUserId(" 070-123 456 ");
     personRepository.searchPersons(searchPersonCriterion, 10);
-    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(|(regionName=*070*123*456*)(facsimileTelephoneNumber=*70123456*)(hsaSwitchboardNumber=*70123456*)"
+    ldapTemplate.assertSearchFilter("(&(objectclass=hkatPerson)(|(regionName=*070*123*456*)(facsimileTelephoneNumber=*70123456*)(hsaSwitchboardNumber=*70123456*)"
         + "(telephoneNumber=*70123456*)(hsaTelephoneNumber=*70123456*)(mobile=*70123456*)(hsaInternalPagerNumber=*70123456*)(pager=*70123456*)(hsaTextPhoneNumber=*70123456*)(title=*070*123*456*)))");
-
-    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
@@ -159,74 +131,33 @@ public class PersonRepositoryTest {
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
     searchPersonCriterion.setUserId(" ingenjör ");
     personRepository.searchPersons(searchPersonCriterion, 10);
-    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(|(regionName=*ingenjör*)(title=*ingenjör*)))");
-
-    ldapConnectionPoolMock.assertCorrectConnectionHandling();
-  }
-
-  @Test
-  public void testSearchPersonsExceptionHandling() throws KivException {
-    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
-    ldapConnectionMock.addLDAPSearchResults(
-        "(&(objectclass=hkatPerson)(|(regionName=*ksn829*)(title=*ksn829*))(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))", ldapSearchResultsMock);
-
-    SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
-    searchPersonCriterion.setGivenName(" Kalle ");
-    searchPersonCriterion.setSurname(" Svensson ");
-    searchPersonCriterion.setUserId(" ksn829 ");
-
-    ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
-    ldapSearchResultsMock.setLdapException(new LDAPException("message", LDAPException.LDAP_TIMEOUT, "servermessage"));
-    try {
-      personRepository.searchPersons(searchPersonCriterion, 10);
-      fail("KivException expected");
-    } catch (KivException e) {
-      // Expected exception
-    }
-
-    ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
-    ldapSearchResultsMock.setLdapException(new LDAPException("message", LDAPException.CONNECT_ERROR, "servermessage"));
-    try {
-      personRepository.searchPersons(searchPersonCriterion, 10);
-      fail("KivException expected");
-    } catch (KivException e) {
-      // Expected exception
-    }
-
-    ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
-    ldapSearchResultsMock.setLdapException(new LDAPException());
-    SikSearchResultList<Person> searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
-
-    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(|(regionName=*ksn829*)(title=*ksn829*))(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
-    assertEquals(0, searchPersons.size());
-
-    ldapConnectionPoolMock.assertCorrectConnectionHandling();
+    ldapTemplate.assertSearchFilter("(&(objectclass=hkatPerson)(|(regionName=*ingenjör*)(title=*ingenjör*)))");
   }
 
   @Test
   public void testSearchPersonsByDn() throws KivException {
-    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
-    LDAPEntryMock entry1 = new LDAPEntryMock();
-    entry1.addAttribute("givenName", "Kalle");
-    entry1.addAttribute("sn", "Kula");
-    entry1.addAttribute("cn", "cn=Kalle Kula");
-    LDAPEntryMock entry2 = new LDAPEntryMock();
-    entry2.addAttribute("givenName", "Anders");
-    entry2.addAttribute("sn", "Ask");
-    entry2.addAttribute("cn", "Anders Ask");
-
-    ldapSearchResultsMock.addLDAPEntry(entry1);
-    ldapSearchResultsMock.addLDAPEntry(entry2);
-
-    ldapConnectionMock.addLDAPSearchResults("(objectClass=hkatPerson)", ldapSearchResultsMock);
+    DirContextOperationsMock dirContext = new DirContextOperationsMock();
+    DistinguishedName dn = DistinguishedName.immutableDistinguishedName("cn=Kalle Kula,ou=Landstinget Halland");
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("givenName", "Kalle");
+    dirContext.addAttributeValue("sn", "Kula");
+    dirContext.addAttributeValue("cn", "cn=Kalle Kula");
+    dirContext.addAttributeValue("regionName", "kku814");
+    this.ldapTemplate.addDirContextOperationForSearch(dirContext);
+    dirContext = new DirContextOperationsMock();
+    dn = DistinguishedName.immutableDistinguishedName("cn=Anders Ask,ou=Landstinget Halland");
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("givenName", "Anders");
+    dirContext.addAttributeValue("sn", "Ask");
+    dirContext.addAttributeValue("cn", "Anders Ask");
+    dirContext.addAttributeValue("regionName", "aas123");
+    this.ldapTemplate.addDirContextOperationForSearch(dirContext);
 
     List<Person> searchPersons = personRepository.searchPersonsByDn("CN=Anders Ask,OU=Länssjukhuset i Halmstad,OU=Landstinget Halland,DC=lthallandhsa,DC=se", 10);
-    ldapConnectionMock.assertFilter("(objectClass=hkatPerson)");
-    ldapConnectionMock.assertBaseDn("CN=Anders Ask,OU=Länssjukhuset i Halmstad,OU=Landstinget Halland,DC=lthallandhsa,DC=se");
+    ldapTemplate.assertSearchFilter("(objectClass=hkatPerson)");
     assertEquals(2, searchPersons.size());
     assertEquals("Anders", searchPersons.get(0).getGivenName());
     assertEquals("Kalle", searchPersons.get(1).getGivenName());
-    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
@@ -246,110 +177,21 @@ public class PersonRepositoryTest {
   }
 
   @Test
-  public void testExtractEmploymentInfo() throws KivException {
-    LDAPEntryMock ldapEntry = new LDAPEntryMock();
-    ldapEntry.addAttribute("cn", TEST);
-    ldapEntry.addAttribute("ou", TEST);
-    ldapEntry.addAttribute("hsaIdentity", TEST);
-    ldapEntry.addAttribute("street", TEST);
-    ldapEntry.addAttribute("hsaInternalAddress", TEST);
-    ldapEntry.addAttribute("postalAddress", TEST);
-    ldapEntry.addAttribute("hsaDeliveryAddress", TEST);
-    ldapEntry.addAttribute("hsaInvoiceAddress", TEST);
-    ldapEntry.addAttribute("hsaConsigneeAddress", TEST);
-    ldapEntry.addAttribute("facsimileTelephoneNumber", TEST);
-    ldapEntry.addAttribute("labeledUri", TEST);
-    ldapEntry.addAttribute("title", TEST);
-    ldapEntry.addAttribute("description", TEST);
-    ldapEntry.addAttribute("hsaSwitchboardNumber", TEST);
-    ldapEntry.addAttribute("company", TEST);
-    ldapEntry.addAttribute("telephoneNumber", TEST);
-    ldapEntry.addAttribute("hsaTelephoneNumber", TEST);
-    ldapEntry.addAttribute("mobile", TEST);
-    ldapEntry.addAttribute("hsaInternalPagerNumber", TEST);
-    ldapEntry.addAttribute("pager", TEST);
-    ldapEntry.addAttribute("hsaTextPhoneNumber", TEST);
-    ldapEntry.addAttribute("whenCreated", "20091109104650.0Z");
-    ldapEntry.addAttribute("telephoneHours", TEST_TIME);
-    ldapEntry.addAttribute("distinguishedName", TEST_DN);
-    ldapEntry.addAttribute("postalCode", TEST);
-
-    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
-    ldapSearchResultsMock.addLDAPEntry(ldapEntry);
-    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=*kon829*))", ldapSearchResultsMock);
-
-    SikSearchResultList<Person> persons = personRepository.searchPersons("kon829", 1);
-    assertNotNull(persons);
-    assertEquals(1, persons.size());
-
-    Employment employment = persons.get(0).getEmployments().get(0);
-
-    assertEquals(TEST, employment.getCn());
-    assertEquals(TEST, employment.getOu());
-    assertEquals(TEST, employment.getHsaPersonIdentityNumber());
-    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaStreetAddress().getAdditionalInfo().toString());
-    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaInternalAddress().getAdditionalInfo().toString());
-    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaPostalAddress().getAdditionalInfo().toString());
-    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaSedfDeliveryAddress().getAdditionalInfo().toString());
-    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaSedfInvoiceAddress().getAdditionalInfo().toString());
-    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaConsigneeAddress().getAdditionalInfo().toString());
-    assertEquals(TEST, employment.getFacsimileTelephoneNumber().toString());
-    assertEquals(TEST, employment.getLabeledUri());
-    assertEquals(TEST, employment.getTitle());
-    assertEquals(EXPECTED_LIST_RESULT, employment.getDescription().toString());
-    assertEquals(TEST, employment.getHsaSedfSwitchboardTelephoneNo().toString());
-    assertEquals(TEST, employment.getName());
-    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaTelephoneNumbers().toString());
-    assertEquals(TEST, employment.getHsaPublicTelephoneNumber().toString());
-    assertEquals(TEST, employment.getMobileTelephoneNumber().toString());
-    assertEquals(TEST, employment.getPagerTelephoneNumber().toString());
-    assertEquals(TEST, employment.getHsaInternalPagerNumber().toString());
-    assertEquals(TEST, employment.getHsaTextPhoneNumber().toString());
-    assertEquals("Mon Nov 09 10:46:50 CET 2009", employment.getModifyTimestamp().toString());
-    assertEquals("Måndag-Torsdag 08:00-17:00", employment.getHsaTelephoneTime().get(0).getDisplayValue());
-    assertEquals(DN.createDNFromString(TEST_DN), employment.getVgrStrukturPerson());
-    assertEquals(TEST, employment.getZipCode().getZipCode());
-    assertFalse(employment.isPrimaryEmployment());
-
-    ldapEntry.addAttribute("mainNode", "Ja");
-    ldapEntry.addAttribute("whenChanged", "20100217104650.0Z");
-    ldapSearchResultsMock.addLDAPEntry(ldapEntry);
-    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=kon829))", ldapSearchResultsMock);
-
-    persons = personRepository.searchPersons("\"kon829\"", 1);
-    assertNotNull(persons);
-    assertEquals(1, persons.size());
-
-    employment = persons.get(0).getEmployments().get(0);
-    assertTrue(employment.isPrimaryEmployment());
-    assertEquals("Wed Feb 17 10:46:50 CET 2010", employment.getModifyTimestamp().toString());
-  }
-
-  @Test
   public void testGetPersonByDn() throws KivException {
-    LDAPEntryMock entry = new LDAPEntryMock();
-    entry.addAttribute("givenName", "Nina");
-    entry.addAttribute("sn", "Kanin");
-    entry.addAttribute("cn", "cn=Nina Kanin");
-    ldapConnectionMock.addLDAPEntry("cn=Nina Kanin, ou=abc, ou=def", entry);
+    DirContextOperationsMock dirContext = new DirContextOperationsMock();
+    DistinguishedName dn = DistinguishedName.immutableDistinguishedName("cn=Kalle Kula,ou=Landstinget Halland");
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("givenName", "Nina");
+    dirContext.addAttributeValue("sn", "Kanin");
+    dirContext.addAttributeValue("cn", "cn=Nina Kanin");
+    dirContext.addAttributeValue("regionName", "nka435");
+    this.ldapTemplate.addBoundDN(DistinguishedName.immutableDistinguishedName("cn=Nina Kanin, ou=abc, ou=def"), dirContext);
 
     Person person = personRepository.getPersonByDn("cn=Nina Kanin,ou=abc,ou=def");
     assertNotNull(person);
     assertEquals("Nina", person.getGivenName());
     assertEquals("Kanin", person.getSn());
     assertEquals("cn=Nina Kanin", person.getCn());
-  }
-
-  @Test
-  public void testGetPersonByDnExceptionHandling() {
-    ldapConnectionMock.setLdapException(new LDAPException());
-
-    try {
-      personRepository.getPersonByDn("cn=Nina Kanin,ou=abc,ou=def");
-      fail("KivException expected");
-    } catch (KivException e) {
-      // Expected exception
-    }
   }
 
   @Test
@@ -371,96 +213,51 @@ public class PersonRepositoryTest {
   }
 
   @Test
-  public void testGetConnectionFromPoolNoConnection() {
-    ldapConnectionPoolMock = new LdapConnectionPoolMock(null);
-    personRepository.setLdapConnectionPool(ldapConnectionPoolMock);
-
-    try {
-      personRepository.getPersonByVgrId("abc123");
-      fail("KivException expected");
-    } catch (KivException e) {
-      // Expected exception
-    }
-  }
-
-  @Test
   public void testGetPersonByVgrId() throws KivException {
-    ldapConnectionMock.setReturnNullResult(true);
     Person person = personRepository.getPersonByVgrId("ksn829");
     assertNull(person);
 
-    ldapConnectionMock.setReturnNullResult(false);
+    DirContextOperationsMock dirContext = new DirContextOperationsMock();
+    DistinguishedName dn = DistinguishedName.immutableDistinguishedName("cn=Kalle Kula,ou=Landstinget Halland");
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("givenName", "Kalle");
+    ldapTemplate.addDirContextOperationForSearch(dirContext);
 
-    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
-    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=ksn829))", ldapSearchResultsMock);
-
-    ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
-    ldapSearchResultsMock.setLdapException(new LDAPException("message", LDAPException.LDAP_TIMEOUT, "servermessage"));
-    try {
-      personRepository.getPersonByVgrId("ksn829");
-      fail("KivException expected");
-    } catch (KivException e) {
-      // Expected exception
-    }
-
-    ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
-    ldapSearchResultsMock.setLdapException(new LDAPException("message", LDAPException.CONNECT_ERROR, "servermessage"));
-    try {
-      personRepository.getPersonByVgrId("ksn829");
-      fail("KivException expected");
-    } catch (KivException e) {
-      // Expected exception
-    }
-
-    ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
-    ldapSearchResultsMock.setLdapException(new LDAPException());
-    try {
-      personRepository.getPersonByVgrId("ksn829");
-      fail("KivException expected");
-    } catch (KivException e) {
-      // Expected exception
-    }
-
-    ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
-    ldapSearchResultsMock.setLdapException(null);
     person = personRepository.getPersonByVgrId("ksn829");
 
-    ldapConnectionMock.assertFilter("(&(objectclass=hkatPerson)(regionName=ksn829))");
+    ldapTemplate.assertSearchFilter("(&(objectClass=hkatPerson)(regionName=ksn829))");
     assertNotNull(person);
-
-    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
   public void testGetAllPersonsInUnit() throws KivException {
-    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
-    ldapConnectionMock.addLDAPSearchResults("(hsaIdentity=abc-123)", ldapSearchResultsMock);
-
-    ldapSearchResultsMock.addLDAPEntry(new LDAPEntryMock("givenName", "Kalle"));
+    DirContextOperationsMock dirContext = new DirContextOperationsMock();
+    DistinguishedName dn = DistinguishedName.immutableDistinguishedName("cn=Kalle Kula,ou=Landstinget Halland");
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("givenName", "Kalle");
+    ldapTemplate.addDirContextOperationForSearch(dirContext);
 
     SikSearchResultList<Person> allPersonsInUnit = personRepository.getAllPersonsInUnit("abc-123", 10);
 
-    ldapConnectionMock.assertFilter("(hsaIdentity=abc-123)");
+    ldapTemplate.assertSearchFilter("(hsaIdentity=abc-123)");
     assertNotNull(allPersonsInUnit);
     assertEquals(1, allPersonsInUnit.size());
-
-    ldapConnectionPoolMock.assertCorrectConnectionHandling();
   }
 
   @Test
   public void primaryEmploymentIsAlwaysReturnedFirst() throws KivException {
-    LDAPSearchResultsMock ldapSearchResultsMock = new LDAPSearchResultsMock();
-
-    LDAPEntryMock ldapEntry = new LDAPEntryMock();
-    ldapEntry.addAttribute("title", "Läkare");
-    ldapSearchResultsMock.addLDAPEntry(ldapEntry);
-
-    ldapEntry = new LDAPEntryMock();
-    ldapEntry.addAttribute("title", "Assistent");
-    ldapEntry.addAttribute("mainNode", "Ja");
-    ldapSearchResultsMock.addLDAPEntry(ldapEntry);
-
-    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=*kon829*))", ldapSearchResultsMock);
+    DirContextOperationsMock dirContext = new DirContextOperationsMock();
+    DistinguishedName dn = DistinguishedName.immutableDistinguishedName("cn=kon829,ou=Landstinget Halland");
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("regionName", "kon829");
+    dirContext.addAttributeValue("title", "Läkare");
+    ldapTemplate.addDirContextOperationForSearch(dirContext);
+    dirContext = new DirContextOperationsMock();
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("regionName", "kon829");
+    dirContext.addAttributeValue("title", "Assistent");
+    dirContext.addAttributeValue("mainNode", "Ja");
+    ldapTemplate.addDirContextOperationForSearch(dirContext);
 
     SikSearchResultList<Person> persons = personRepository.searchPersons("kon829", 1);
     assertNotNull(persons);
@@ -474,16 +271,20 @@ public class PersonRepositoryTest {
     assertEquals("Läkare", otherEmployment.getTitle());
     assertFalse(otherEmployment.isPrimaryEmployment());
 
-    ldapEntry = new LDAPEntryMock();
-    ldapEntry.addAttribute("title", "Assistent");
-    ldapEntry.addAttribute("mainNode", "Ja");
-    ldapSearchResultsMock.addLDAPEntry(ldapEntry);
+    ldapTemplate.clearDirContexts();
 
-    ldapEntry = new LDAPEntryMock();
-    ldapEntry.addAttribute("title", "Projektledare");
-    ldapSearchResultsMock.addLDAPEntry(ldapEntry);
+    dirContext = new DirContextOperationsMock();
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("regionName", "kon829");
+    dirContext.addAttributeValue("title", "Assistent");
+    dirContext.addAttributeValue("mainNode", "Ja");
+    ldapTemplate.addDirContextOperationForSearch(dirContext);
 
-    ldapConnectionMock.addLDAPSearchResults("(&(objectclass=hkatPerson)(regionName=*kon829*))", ldapSearchResultsMock);
+    dirContext = new DirContextOperationsMock();
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("regionName", "kon829");
+    dirContext.addAttributeValue("title", "Projektledare");
+    ldapTemplate.addDirContextOperationForSearch(dirContext);
 
     persons = personRepository.searchPersons("kon829", 1);
 
@@ -504,6 +305,10 @@ public class PersonRepositoryTest {
 
     public void addBoundDN(Name dn, DirContextOperations dirContextOperations) {
       this.boundDNs.put(dn, dirContextOperations);
+    }
+
+    public void clearDirContexts() {
+      this.dirContextOperations.clear();
     }
 
     public void addDirContextOperationForSearch(DirContextOperations dirContextOperations) {
@@ -546,6 +351,20 @@ public class PersonRepositoryTest {
       }
       // Use ReflectionUtil since there is no set-method for cookie.
       ReflectionUtil.setField(dirContextProcessor, "cookie", new PagedResultsCookie(null));
+      return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public List search(Name base, String filter, ContextMapper mapper) {
+      this.filter = filter;
+      List result = new ArrayList();
+      for (DirContextOperations dirContextOperations : this.dirContextOperations) {
+        result.add(mapper.mapFromContext(dirContextOperations));
+      }
       return result;
     }
   }

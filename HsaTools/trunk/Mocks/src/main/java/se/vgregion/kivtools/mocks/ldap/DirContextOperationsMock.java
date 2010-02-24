@@ -31,6 +31,7 @@ import javax.naming.NameClassPair;
 import javax.naming.NameParser;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.ModificationItem;
@@ -38,8 +39,6 @@ import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 
 import org.springframework.ldap.core.DirContextOperations;
-
-import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Mock-class to use when unit testing Spring LDAP ContextMapper-implementations.
@@ -68,12 +67,18 @@ public class DirContextOperationsMock implements DirContextOperations {
 
   @Override
   public String[] getStringAttributes(String name) {
-    String[] strings = null;
-    String string = (String) attributes.get(name);
-    if (!StringUtil.isEmpty(string)) {
-      strings = string.split("\\$");
+    String[] result = null;
+    Object value = attributes.get(name);
+    if (value != null) {
+      if (value instanceof String[]) {
+        result = (String[]) value;
+      } else if (value instanceof String) {
+        result = new String[] { (String) value };
+      } else {
+        throw new ClassCastException("Cannot cast " + value.getClass().getName() + " to String[]");
+      }
     }
-    return strings;
+    return result;
   }
 
   @Override
@@ -90,6 +95,11 @@ public class DirContextOperationsMock implements DirContextOperations {
   @Override
   public void setDn(Name dn) {
     this.dn = dn;
+  }
+
+  @Override
+  public Attributes getAttributes() {
+    return new AttributesMock(attributes);
   }
 
   // Unimplemented methods
@@ -365,11 +375,6 @@ public class DirContextOperationsMock implements DirContextOperations {
   }
 
   @Override
-  public Attributes getAttributes() {
-    return null;
-  }
-
-  @Override
   public String getNameInNamespace() {
     return null;
   }
@@ -409,5 +414,174 @@ public class DirContextOperationsMock implements DirContextOperations {
 
   @Override
   public void setAttributeValues(String name, Object[] values, boolean orderMatters) {
+  }
+
+  /**
+   * Mock class for attributes on an LDAP entry.
+   */
+  private static class AttributesMock implements Attributes {
+    private static final long serialVersionUID = 5567444651855789466L;
+    private Map<String, Attribute> attributes = new HashMap<String, Attribute>();
+
+    /**
+     * Construct a new AttributesMock.
+     * 
+     * @param attributes the attributes to populate the AttributesMock with.
+     */
+    public AttributesMock(Map<String, Object> attributes) {
+      for (Map.Entry<String, Object> entry : attributes.entrySet()) {
+        AttributeMock attribute = new AttributeMock(entry.getKey(), entry.getValue());
+        this.attributes.put(entry.getKey(), attribute);
+      }
+    }
+
+    @Override
+    public Attribute get(String attrID) {
+      return this.attributes.get(attrID);
+    }
+
+    // Not implemented
+
+    @Override
+    public NamingEnumeration<? extends Attribute> getAll() {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public NamingEnumeration<String> getIDs() {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public boolean isCaseIgnored() {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public Attribute put(Attribute attr) {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public Attribute put(String attrID, Object val) {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public Attribute remove(String attrID) {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public int size() {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public Attributes clone() {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+  }
+
+  /**
+   * Mock class for one single attribute.
+   */
+  private static class AttributeMock implements Attribute {
+    private static final long serialVersionUID = 6268634553966629756L;
+    private final String name;
+    private final Object value;
+
+    /**
+     * Constructs a new AttributeMock.
+     * 
+     * @param name the name of the attribute.
+     * @param value the value of the attribute.
+     */
+    public AttributeMock(String name, Object value) {
+      this.name = name;
+      this.value = value;
+    }
+
+    @Override
+    public String getID() {
+      return this.name;
+    }
+
+    @Override
+    public Object get() throws NamingException {
+      return this.value;
+    }
+
+    // Not implemented
+
+    @Override
+    public boolean add(Object attrVal) {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public void add(int ix, Object attrVal) {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public void clear() {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public boolean contains(Object attrVal) {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public Object get(int ix) throws NamingException {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public NamingEnumeration<?> getAll() throws NamingException {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public DirContext getAttributeDefinition() throws NamingException {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public DirContext getAttributeSyntaxDefinition() throws NamingException {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public boolean isOrdered() {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public boolean remove(Object attrval) {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public Object remove(int ix) {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public Object set(int ix, Object attrVal) {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public int size() {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public Attribute clone() {
+      throw new UnsupportedOperationException("Not implemented!");
+    }
   }
 }

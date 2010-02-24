@@ -26,6 +26,8 @@ import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.DistinguishedName;
 
+import se.vgregion.kivtools.search.svc.ldap.DirContextOperationsHelper;
+
 /**
  * ContextMapper for fetching all responsible editors from a responsible editor node.
  * 
@@ -42,12 +44,10 @@ final class ResponsibleEditorMapper implements ContextMapper {
   @Override
   public Object mapFromContext(Object ctx) {
     List<String> result = new ArrayList<String>();
-    DirContextOperations dirContext = (DirContextOperations) ctx;
-    String[] members = dirContext.getStringAttributes("member");
-    if (members != null) {
-      for (String member : members) {
-        result.add(new DistinguishedName(member).getValue("cn"));
-      }
+    DirContextOperationsHelper context = new DirContextOperationsHelper((DirContextOperations) ctx);
+    List<String> members = context.getStrings("member");
+    for (String member : members) {
+      result.add(new DistinguishedName(member).getValue("cn"));
     }
     return result;
   }

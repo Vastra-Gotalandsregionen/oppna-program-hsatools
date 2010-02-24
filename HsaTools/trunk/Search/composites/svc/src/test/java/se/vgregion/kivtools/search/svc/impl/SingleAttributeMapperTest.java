@@ -17,41 +17,38 @@
  *
  */
 
-package se.vgregion.kivtools.search.svc.impl.hak;
+package se.vgregion.kivtools.search.svc.impl;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
 
-public class PersonEmailMapperTest {
-  private PersonEmailMapper personEmailMapper;
-  private DirContextOperationsMock dirContextOperations;
-
-  @Before
-  public void setUp() throws Exception {
-    personEmailMapper = new PersonEmailMapper();
-    dirContextOperations = new DirContextOperationsMock();
-  }
+public class SingleAttributeMapperTest {
+  private SingleAttributeMapper singleAttributeMapper = new SingleAttributeMapper("mail");;
+  private DirContextOperationsMock dirContextOperations = new DirContextOperationsMock();
 
   @Test
-  public void testInstantiation() {
-    PersonEmailMapper personEmailMapper = new PersonEmailMapper();
-    assertNotNull(personEmailMapper);
-  }
-
-  @Test
-  public void testNoEmailFound() {
-    String email = (String) personEmailMapper.mapFromContext(dirContextOperations);
+  public void mapperReturnNullIfAttributeNotFound() {
+    String email = (String) singleAttributeMapper.mapFromContext(dirContextOperations);
     assertNull(email);
   }
 
   @Test
-  public void testEmailFound() {
+  public void mapperReturnAttributeValueIfFound() {
     dirContextOperations.addAttributeValue("mail", "anders.ask@lthalland.se");
-    String email = (String) personEmailMapper.mapFromContext(dirContextOperations);
+    String email = (String) singleAttributeMapper.mapFromContext(dirContextOperations);
     assertEquals("anders.ask@lthalland.se", email);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void mapperThrowsExceptionOnConstructionIfEmptyAttributeNameIsSpecified() {
+    new SingleAttributeMapper("   ");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void mapperThrowsExceptionOnConstructionIfNullAttributeNameIsSpecified() {
+    new SingleAttributeMapper(null);
   }
 }
