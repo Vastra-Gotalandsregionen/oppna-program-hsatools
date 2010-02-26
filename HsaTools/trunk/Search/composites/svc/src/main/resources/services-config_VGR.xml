@@ -52,6 +52,7 @@
 		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"></property>
 		<property name="codeTablesService" ref="Search_CodeTablesService"></property>
 		<property name="unitFkField" value="vgrOrgRel" />
+		<property name="ldapTemplate" ref="ldapTemplatePerson" />
 	</bean>
 
 	<bean id="Search_UnitRepository"
@@ -177,5 +178,15 @@
 
 	<bean id="ldapTemplateOrganisation" class="org.springframework.ldap.core.LdapTemplate">
 		<constructor-arg ref="contextSourceOrganisation" />
+	</bean>
+		<bean id="contextSourcePerson" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://${hsatools.search.svc.ldap.ldaphost}" />
+		<property name="base" value="" />
+		<property name="userDn" value="${hsatools.search.svc.ldap.logindn}" />
+		<property name="password" value="${hsatools.search.svc.ldap.password}" />
+		<property name="pooled" value="true" />
+	</bean>
+	<bean id="ldapTemplatePerson" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSourcePerson" />
 	</bean>
 </beans>
