@@ -30,7 +30,6 @@ import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.CacheLoader;
 import se.vgregion.kivtools.search.svc.SearchService;
-import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.SitemapCache;
 import se.vgregion.kivtools.search.svc.SitemapEntry;
 import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
@@ -83,28 +82,19 @@ public class InternalSitemapCacheLoaderImpl implements CacheLoader<SitemapCache>
   }
 
   private void populatePersons(SitemapCache cache) throws KivException {
-    List<String> persons = searchService.getAllPersonsId();
-    for (String vgrid : persons) {
-      try {
-        SikSearchResultList<Person> searchResult = searchService.searchPersons("\"" + vgrid + "\"", 1);
-        if (searchResult != null && searchResult.size() > 0) {
-          Person person = searchResult.get(0);
-          TimePoint lastmod = TimePoint.atGMT(1970, 1, 1, 0, 0, 0);
-          if (person.getEmployments() != null) {
-            for (Employment employment : person.getEmployments()) {
-              if (lastmod.isBefore(employment.getModifyTimestamp())) {
-                lastmod = employment.getModifyTimestamp();
-              }
-            }
+    List<Person> persons = searchService.getAllPersons();
+    for (Person person : persons) {
+      TimePoint lastmod = TimePoint.atGMT(1970, 1, 1, 0, 0, 0);
+      if (person.getEmployments() != null) {
+        for (Employment employment : person.getEmployments()) {
+          if (lastmod.isBefore(employment.getModifyTimestamp())) {
+            lastmod = employment.getModifyTimestamp();
           }
-          SitemapEntry entry = new SitemapEntry(internalApplicationURL + "/visaperson?vgrid=" + person.getVgrId(), TimeUtil.formatDateW3C(lastmod.asJavaUtilDate()), this.changeFrequency);
-          entry.addExtraInformation("hsaIdentity", person.getHsaIdentity());
-          cache.add(entry);
         }
-      } catch (KivException e) {
-        log.error("Exception while getting person details for vgrId '" + vgrid + "'");
-        throw e;
       }
+      SitemapEntry entry = new SitemapEntry(internalApplicationURL + "/visaperson?vgrid=" + person.getVgrId(), TimeUtil.formatDateW3C(lastmod.asJavaUtilDate()), this.changeFrequency);
+      entry.addExtraInformation("hsaIdentity", person.getHsaIdentity());
+      cache.add(entry);
     }
   }
 

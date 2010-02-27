@@ -101,8 +101,8 @@
 	<bean id="triggerSitemapCacheReload" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
 		<!-- see the example of method invoking job above -->
 		<property name="jobDetail" ref="sitemapCacheReload" />
-		<!-- 5 minutes so unitCacheReload has completed -->
-		<property name="startDelay" value="300000" />
+		<!-- 2 minutes so unitCacheReload has completed -->
+		<property name="startDelay" value="120000" />
 		<!-- repeat every 24 hours -->
 		<property name="repeatInterval" value="86400000" />
 	</bean>

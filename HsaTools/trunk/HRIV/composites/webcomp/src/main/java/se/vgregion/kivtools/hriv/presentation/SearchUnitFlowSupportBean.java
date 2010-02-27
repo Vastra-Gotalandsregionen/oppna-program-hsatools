@@ -71,7 +71,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
 
   private int meters;
 
-  private List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes = new ArrayList<Integer>();
+  private List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes = new ArrayList<Integer>();
 
   public void setSearchService(SearchService searchService) {
     this.searchService = searchService;
@@ -171,19 +171,19 @@ public class SearchUnitFlowSupportBean implements Serializable {
         if ("true".equals(theForm.getShowAll())) {
           effectiveMaxSearchResult = Integer.MAX_VALUE;
         }
-        list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
+        list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBusinessClassificationCodes);
 
         // No hits with complete criterions. Try again but with cleaned unit name this time
         if (list.size() == 0 && !StringUtil.isEmpty(theForm.getUnitName())) {
           u.setName(cleanUnitName(theForm.getUnitName()));
-          list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
+          list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBusinessClassificationCodes);
         }
 
         // Still no hits. Try again but with only the cleaned unit name this time if the user forgot to remove any care type or municipality selection.
         if (list.size() == 0 && lessSpecifiedSearchPossible(theForm)) {
           u = new Unit();
           u.setName(cleanUnitName(theForm.getUnitName()));
-          list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBussinessClassificationCodes);
+          list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBusinessClassificationCodes);
         }
       }
 
@@ -267,7 +267,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
     List<String> allUnits;
     try {
       if (showFilteredByHsaBusinessClassificationCode) {
-        allUnits = searchService.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBussinessClassificationCodes);
+        allUnits = searchService.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBusinessClassificationCodes);
       } else {
         allUnits = searchService.getAllUnitsHsaIdentity();
       }
@@ -402,13 +402,13 @@ public class SearchUnitFlowSupportBean implements Serializable {
   /**
    * Setter for the HsaBusinessClassificationCodes to show.
    * 
-   * @param showUnitsWithTheseHsaBussinessClassificationCodes A comma-separated string of HsaBusinessClassificationCodes to show.
+   * @param showUnitsWithTheseHsaBusinessClassificationCodes A comma-separated string of HsaBusinessClassificationCodes to show.
    */
-  public void setShowUnitsWithTheseHsaBussinessClassificationCodes(String showUnitsWithTheseHsaBussinessClassificationCodes) {
-    List<String> tempList = Arrays.asList(showUnitsWithTheseHsaBussinessClassificationCodes.split(","));
+  public void setShowUnitsWithTheseHsaBusinessClassificationCodes(String showUnitsWithTheseHsaBusinessClassificationCodes) {
+    List<String> tempList = Arrays.asList(showUnitsWithTheseHsaBusinessClassificationCodes.split(","));
     for (String id : tempList) {
       if (id.length() > 0) {
-        this.showUnitsWithTheseHsaBussinessClassificationCodes.add(Integer.parseInt(id));
+        this.showUnitsWithTheseHsaBusinessClassificationCodes.add(Integer.parseInt(id));
       }
     }
   }

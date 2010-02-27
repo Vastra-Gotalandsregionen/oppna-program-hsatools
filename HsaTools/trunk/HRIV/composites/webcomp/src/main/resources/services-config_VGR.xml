@@ -181,7 +181,7 @@
 
 	<bean id="unitCacheLoader" class="se.vgregion.kivtools.search.svc.impl.UnitCacheLoaderImpl">
 		<constructor-arg ref="Search_SearchService"/>
-		<constructor-arg value="#{hsatools.hriv.webcomp.showUnitsWithTheseHsaBussinessClassificationCodes}" />
+		<constructor-arg value="#{hsatools.hriv.webcomp.showUnitsWithTheseHsaBusinessClassificationCodes}" />
 	</bean>
 	
 	<bean id="unitCacheService" class="se.vgregion.kivtools.search.svc.UnitCacheServiceImpl">

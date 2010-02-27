@@ -346,4 +346,16 @@ public class SearchServiceMockImpl implements SearchService {
   public byte[] getProfileImageByDn(String dn) throws KivException {
     return null;
   }
+
+  @Override
+  public List<Person> getAllPersons() throws KivException {
+    SikSearchResultList<Person> result = new SikSearchResultList<Person>();
+    initPersons(result);
+    return result;
+  }
+
+  @Override
+  public List<Unit> getAllUnits(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
+    return this.unitList;
+  }
 }

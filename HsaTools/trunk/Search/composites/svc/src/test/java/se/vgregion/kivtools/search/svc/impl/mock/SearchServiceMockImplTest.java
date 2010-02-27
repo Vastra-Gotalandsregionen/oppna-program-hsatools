@@ -159,4 +159,16 @@ public class SearchServiceMockImplTest {
   public void testGetProfileImageByDn() throws KivException {
     assertNull(searchService.getProfileImageByDn(null));
   }
+
+  @Test
+  public void testGetAllUnits() throws KivException {
+    List<Unit> units = searchService.getAllUnits(null);
+    assertEquals(3, units.size());
+  }
+
+  @Test
+  public void testGetAllPersons() throws KivException {
+    List<Person> allPersons = searchService.getAllPersons();
+    assertEquals(3, allPersons.size());
+  }
 }

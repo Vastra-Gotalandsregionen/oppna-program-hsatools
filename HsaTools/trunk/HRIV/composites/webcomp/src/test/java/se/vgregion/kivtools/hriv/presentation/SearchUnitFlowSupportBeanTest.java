@@ -270,7 +270,7 @@ public class SearchUnitFlowSupportBeanTest {
     assertNotNull(result);
     assertEquals(0, result.size());
 
-    bean.setShowUnitsWithTheseHsaBussinessClassificationCodes("1,2,3");
+    bean.setShowUnitsWithTheseHsaBusinessClassificationCodes("1,2,3");
     result = bean.getAllUnitsPageList("1");
     assertNotNull(result);
     assertEquals(0, result.size());

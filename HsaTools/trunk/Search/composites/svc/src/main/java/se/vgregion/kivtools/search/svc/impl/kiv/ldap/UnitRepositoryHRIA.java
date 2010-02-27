@@ -41,10 +41,10 @@ public class UnitRepositoryHRIA extends UnitRepository {
    * Remove units that don't have at least one valid hsaBusinessClassificationCode.
    * 
    * @param units
-   * @param showUnitsWithTheseHsaBussinessClassificationCodes
+   * @param showUnitsWithTheseHsaBusinessClassificationCodes
    */
   @Override
-  protected void removeUnallowedUnits(SikSearchResultList<Unit> units, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) {
+  protected void removeUnallowedUnits(SikSearchResultList<Unit> units, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) {
 
     // Get all health care types that are unfiltered
     HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
@@ -52,7 +52,7 @@ public class UnitRepositoryHRIA extends UnitRepository {
 
     for (int j = units.size() - 1; j >= 0; j--) {
       List<String> businessClassificationCodes = units.get(j).getHsaBusinessClassificationCode();
-      boolean found = unitHasValidBusinessClassificationCode(showUnitsWithTheseHsaBussinessClassificationCodes, businessClassificationCodes);
+      boolean found = unitHasValidBusinessClassificationCode(showUnitsWithTheseHsaBusinessClassificationCodes, businessClassificationCodes);
 
       // The unit might still be valid because of the unfiltered healthcare types
       if (!found) {
@@ -97,11 +97,11 @@ public class UnitRepositoryHRIA extends UnitRepository {
     return found;
   }
 
-  private boolean unitHasValidBusinessClassificationCode(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes, List<String> businessClassificationCodes) {
+  private boolean unitHasValidBusinessClassificationCode(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes, List<String> businessClassificationCodes) {
     boolean found = false;
     for (String s : businessClassificationCodes) {
       try {
-        if (showUnitsWithTheseHsaBussinessClassificationCodes.contains(Integer.parseInt(s))) {
+        if (showUnitsWithTheseHsaBusinessClassificationCodes.contains(Integer.parseInt(s))) {
           found = true;
         }
       } catch (NumberFormatException e) {

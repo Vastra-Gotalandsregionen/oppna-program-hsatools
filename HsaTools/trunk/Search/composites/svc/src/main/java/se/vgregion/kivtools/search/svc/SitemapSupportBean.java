@@ -53,12 +53,12 @@ public class SitemapSupportBean {
 
     for (SitemapEntry entry : entries) {
       output.append("<url>\n");
-      output.append("<loc>" + entry.getLocation() + "</loc>\n");
-      output.append("<lastmod>" + entry.getLastModified() + "</lastmod>\n");
-      output.append("<changefreq>weekly</changefreq>\n");
+      output.append("<loc>").append(entry.getLocation()).append("</loc>\n");
+      output.append("<lastmod>").append(entry.getLastModified()).append("</lastmod>\n");
+      output.append("<changefreq>").append(entry.getChangeFrequency()).append("</changefreq>\n");
       output.append("<priority>0.5</priority>\n");
       for (SitemapEntry.ExtraInformation extraInformation : entry) {
-        output.append("<hsa:" + extraInformation.getName() + ">" + extraInformation.getValue() + "</hsa:" + extraInformation.getName() + ">");
+        output.append("<hsa:").append(extraInformation.getName()).append(">").append(extraInformation.getValue()).append("</hsa:").append(extraInformation.getName()).append(">\n");
       }
       output.append("</url>\n");
     }

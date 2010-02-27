@@ -124,6 +124,32 @@ public class PersonRepositoryTest {
   }
 
   @Test
+  public void searchPersonsReturnOnlySpecifiedMaxNumberOfPersons() throws KivException {
+    SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
+    searchPersonCriterion.setGivenName(" lle ");
+
+    DirContextOperationsMock dirContext = new DirContextOperationsMock();
+    DistinguishedName dn = DistinguishedName.immutableDistinguishedName("cn=Kalle Kula,ou=Landstinget Halland");
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("givenName", "Kalle");
+    dirContext.addAttributeValue("regionName", "kku123");
+    dirContext.addAttributeValue("cn", "cn=Kalle,ou=Org,o=VGR");
+    this.ldapTemplate.addDirContextOperationForSearch(dirContext);
+    dirContext = new DirContextOperationsMock();
+    dn = DistinguishedName.immutableDistinguishedName("cn=Olle Kula,ou=Landstinget Halland");
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("givenName", "Olle");
+    dirContext.addAttributeValue("regionName", "oku100");
+    dirContext.addAttributeValue("cn", "cn=Olle,ou=Org,o=VGR");
+    this.ldapTemplate.addDirContextOperationForSearch(dirContext);
+
+    SikSearchResultList<Person> searchPersons = personRepository.searchPersons(searchPersonCriterion, 1);
+    assertNotNull(searchPersons);
+    assertEquals(1, searchPersons.size());
+    assertEquals(2, searchPersons.getTotalNumberOfFoundItems());
+  }
+
+  @Test
   public void testSearchPersonsByDn() throws KivException {
     DirContextOperationsMock dirContext = new DirContextOperationsMock();
     DistinguishedName dn = DistinguishedName.immutableDistinguishedName("cn=Kalle Kula,ou=Landstinget Halland");
@@ -284,5 +310,19 @@ public class PersonRepositoryTest {
     assertTrue(primaryEmployment.isPrimaryEmployment());
     assertEquals("Projektledare", otherEmployment.getTitle());
     assertFalse(otherEmployment.isPrimaryEmployment());
+  }
+
+  @Test
+  public void testGetAllPersons() throws KivException {
+    DirContextOperationsMock regionName1 = new DirContextOperationsMock();
+    regionName1.addAttributeValue("regionName", "kal456");
+    DirContextOperationsMock regionName2 = new DirContextOperationsMock();
+    regionName2.addAttributeValue("regionName", "abc123");
+    this.ldapTemplate.addDirContextOperationForSearch(regionName1);
+    this.ldapTemplate.addDirContextOperationForSearch(regionName2);
+    List<Person> allPersons = personRepository.getAllPersons();
+    ldapTemplate.assertSearchFilter("(objectClass=hkatPerson)");
+    assertNotNull(allPersons);
+    assertEquals(2, allPersons.size());
   }
 }

@@ -70,6 +70,14 @@ public class SearchServiceLdapImpl implements SearchService {
    * {@inheritDoc}
    */
   @Override
+  public List<Person> getAllPersons() throws KivException {
+    return personRepository.getAllPersons();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public List<String> getAllUnitsHsaIdentity() throws KivException {
     return this.unitRepository.getAllUnitsHsaIdentity();
   }
@@ -78,8 +86,16 @@ public class SearchServiceLdapImpl implements SearchService {
    * {@inheritDoc}
    */
   @Override
-  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
-    return this.unitRepository.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBussinessClassificationCodes);
+  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
+    return this.unitRepository.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBusinessClassificationCodes);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<Unit> getAllUnits(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
+    return unitRepository.getAllUnits(showUnitsWithTheseHsaBusinessClassificationCodes);
   }
 
   /**

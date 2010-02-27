@@ -143,6 +143,26 @@ public class PersonRepository {
     return new ArrayList<String>(result.keySet());
   }
 
+  /**
+   * Retrieves a list of all persons.
+   * 
+   * @return A list of all persons.
+   */
+  public List<Person> getAllPersons() {
+    PagedResultsCookie cookie = null;
+    PagedResultsDirContextProcessor control = new PagedResultsDirContextProcessor(100, cookie);
+    SearchControls searchControls = new SearchControls();
+    searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+
+    PersonMapper personMapper = new PersonMapper();
+    Filter filter = new EqualsFilter("objectClass", "hkatPerson");
+    do {
+      this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, personMapper, control);
+    } while (control.getCookie().getCookie() != null);
+
+    return personMapper.getPersons();
+  }
+
   private Person searchPerson(DistinguishedName baseDn, Filter filter) {
     PersonMapper mapper = new PersonMapper();
     this.ldapTemplate.search(baseDn, filter.encode(), mapper);

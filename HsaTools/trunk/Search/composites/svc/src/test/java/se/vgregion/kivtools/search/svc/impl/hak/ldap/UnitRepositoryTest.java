@@ -205,12 +205,24 @@ public class UnitRepositoryTest {
   }
 
   @Test
-  public void testGetUnitByHsaId() throws KivException {
+  public void getUnitByHsaIdReturnEmptyUnitIfNoUnitIsFound() throws KivException {
     String expectedFilter = "(hsaIdentity=abc-123)";
 
-    unitRepository.getUnitByHsaId("abc-123");
+    Unit unit = unitRepository.getUnitByHsaId("abc-123");
 
     ldapTemplate.assertSearchFilter(expectedFilter);
+    assertNull(unit.getHsaIdentity());
+  }
+
+  @Test
+  public void getUnitByHsaIdReturnFoundUnitIfFound() throws KivException {
+    createEntry("SE6460000000-E000000000222", "");
+    String expectedFilter = "(hsaIdentity=abc-123)";
+
+    Unit unit = unitRepository.getUnitByHsaId("abc-123");
+
+    ldapTemplate.assertSearchFilter(expectedFilter);
+    assertEquals("SE6460000000-E000000000222", unit.getHsaIdentity());
   }
 
   @Test
@@ -257,5 +269,20 @@ public class UnitRepositoryTest {
     Unit unit = unitRepository.getUnitByDN(DN.createDNFromString("ou=Vårdcentralen Halmstad,o=Landstinget Halland"));
     assertNotNull(unit);
     assertEquals("abc-123", unit.getHsaIdentity());
+  }
+
+  @Test
+  public void testGetAllUnitsBusinessClassificationCodesSpecified() throws KivException {
+    DirContextOperationsMock hsaIdentity1 = new DirContextOperationsMock();
+    hsaIdentity1.addAttributeValue("hsaIdentity", "ABC-123");
+    this.ldapTemplate.addDirContextOperationForSearch(hsaIdentity1);
+
+    String expectedFilter = "(&(|(businessClassificationCode=123)(businessClassificationCode=456)(businessClassificationCode=1500)(&(hsaIdentity=SE6460000000-E000000000222)(vgrAnsvarsnummer=12345))(&(hsaIdentity=SE2321000131-E000000000110)(|(vgrAO3kod=5a3)(vgrAO3kod=4d7)(vgrAO3kod=1xp))))(|(objectclass=organizationalUnit)(objectclass=organizationalRole)))";
+
+    List<Unit> allUnits = unitRepository.getAllUnits(Arrays.asList(Integer.valueOf(123), Integer.valueOf(456)));
+
+    ldapTemplate.assertSearchFilter(expectedFilter);
+    assertEquals(1, allUnits.size());
+    assertEquals("ABC-123", allUnits.get(0).getHsaIdentity());
   }
 }

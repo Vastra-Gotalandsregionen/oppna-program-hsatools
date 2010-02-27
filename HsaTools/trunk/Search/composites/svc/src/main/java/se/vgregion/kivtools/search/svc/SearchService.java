@@ -47,11 +47,11 @@ public interface SearchService {
    * @param unit Unit to search for.
    * @param maxSearchResult OBS! for parameters of type Address (e.g. hsaPostalAddress) the criteria is considered to be in AdditionalInfo
    * @param sortOrder How to sort the search result list.
-   * @param showUnitsWithTheseHsaBussinessClassificationCodes Only select units from search that has business codes from this list.
+   * @param showUnitsWithTheseHsaBusinessClassificationCodes Only select units from search that has business codes from this list.
    * @throws KivException If something goes wrong doing search.
    * @return A List of Units
    */
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException;
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException;
 
   /**
    * @param hsaId hsaId for a Unit
@@ -125,13 +125,22 @@ public interface SearchService {
   public List<String> getAllUnitsHsaIdentity() throws KivException;
 
   /**
-   * Returns a list with hsaIdentities of all Units and functions filtered with showUnitsWithTheseHsaBussinessClassificationCodes.
+   * Returns a list with hsaIdentities of all Units and functions filtered with showUnitsWithTheseHsaBusinessClassificationCodes.
    * 
-   * @param showUnitsWithTheseHsaBussinessClassificationCodes Only select units from search that has business codes from this list.
+   * @param showUnitsWithTheseHsaBusinessClassificationCodes Only select units from search that has business codes from this list.
    * @return A list of hsaIdentities.
    * @throws KivException If something goes wrong doing search.
    */
-  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException;
+  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException;
+
+  /**
+   * Retrieves a list of all Units and functions filtered with showUnitsWithTheseHsaBusinessClassificationCodes.
+   * 
+   * @param showUnitsWithTheseHsaBusinessClassificationCodes Only select units from search that has business codes from this list.
+   * @return A list of units.
+   * @throws KivException If something goes wrong doing search.
+   */
+  public List<Unit> getAllUnits(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException;
 
   /**
    * Returns a list of unique identifiers for all persons. E.g. vgrId in case of VGR
@@ -140,6 +149,14 @@ public interface SearchService {
    * @throws KivException If something goes wrong doing search.
    */
   public List<String> getAllPersonsId() throws KivException;
+
+  /**
+   * Retrieves a list of all persons.
+   * 
+   * @return A list of all persons.
+   * @throws KivException If something goes wrong doing search.
+   */
+  public List<Person> getAllPersons() throws KivException;
 
   /**
    * Gets a list of employments for the provided person.
