@@ -36,7 +36,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.filter.Filter;
@@ -679,7 +678,7 @@ public class UnitRepositoryTest {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List search(String base, String filter, int searchScope, String[] attrs, AttributesMapper mapper) {
+    public List search(String base, String filter, int searchScope, String[] attrs, ContextMapper mapper) {
       this.filter = filter;
       this.base = base;
       return new ArrayList<Object>();
