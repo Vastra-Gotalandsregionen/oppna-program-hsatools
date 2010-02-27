@@ -25,61 +25,61 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
  * @author David Bennehult
  */
 public enum LDAPPersonAttributes {
-	/** given name. */
-	GIVEN_NAME("givenName"),
-	/** Middle name */
-	MIDDLE_NAME("hsaMiddleName"),
-	/** Full name */
-	FULL_NAME("fullName"),
-	/** surname. */
-	SURNAME("sn"),
-	/** Initials */
-	INITIALS("initials"),
-	/** Nickname */
-	NICK_NAME("hsaNickName"),
-	/** Employment title. */
-	EMPLOYMENT_TITLE("title"),
-	/** user id. */
-	USER_ID("vgr-id"),
-	/** Unit name. */
-	EMPLOYED_AT_UNIT("vgrStrukturPerson"),
-	/** Structure person dn */
-	STRUCTURE_PERSON_DN("vgrStrukturPersonDN"),
-	/** hsaSpecialityCode. */
-	SPECIALITY_AREA_CODE("hsaSpecialityCode"),
-	/** user profession. */
-	PROFESSION("hsaTitle"),
-	/** mail. */
-	E_MAIL("mail"),
-	/** hsaLanguageKnowledgeCode. */
-	LANGUAGE_KNOWLEDGE_CODE("hsaLanguageKnowledgeCode"),
-	/** administration. */
-	ADMINISTRATION("vgrAO3kod"),
-	/** vgrOrgRel */
-	VGR_ORG_REL("vgrOrgRel"),
-	/** vgrAnstform */
-	VGR_ANST_FORM("vgrAnstform"),
-	/** */
-	PERSON_IDENTITY_NUMBER("hsaPersonIdentityNumber"),
-	/** hsaIdentity */
-	HSA_IDENTITY("hsaIdentity"),
-	/** vgrAnsvarsnummer */
-	VGR_ANSVARSNUMMER("vgrAnsvarsnummer"),
-	/** hsaPersonPrescriptionCode */
-	HSA_PERSON_PRESCRIPTION_CODE("hsaPersonPrescriptionCode"),
-	/** hsaStartDate */
-	HSA_START_DATE("hsaStartDate"),
-	/** hsaEndDate */
-	HSA_END_DATE("hsaEndDate");
+  /** given name. */
+  GIVEN_NAME("givenName"),
+  /** Middle name. */
+  MIDDLE_NAME("hsaMiddleName"),
+  /** Full name. */
+  FULL_NAME("fullName"),
+  /** surname. */
+  SURNAME("sn"),
+  /** Initials. */
+  INITIALS("initials"),
+  /** Nickname. */
+  NICK_NAME("hsaNickName"),
+  /** Employment title. */
+  EMPLOYMENT_TITLE("title"),
+  /** user id. */
+  USER_ID("vgr-id"),
+  /** Unit name. */
+  EMPLOYED_AT_UNIT("vgrStrukturPerson"),
+  /** Structure person dn. */
+  STRUCTURE_PERSON_DN("vgrStrukturPersonDN"),
+  /** hsaSpecialityCode. */
+  SPECIALITY_AREA_CODE("hsaSpecialityCode"),
+  /** user profession. */
+  PROFESSION("hsaTitle"),
+  /** mail. */
+  E_MAIL("mail"),
+  /** hsaLanguageKnowledgeCode. */
+  LANGUAGE_KNOWLEDGE_CODE("hsaLanguageKnowledgeCode"),
+  /** administration. */
+  ADMINISTRATION("vgrAO3kod"),
+  /** vgrOrgRel. */
+  VGR_ORG_REL("vgrOrgRel"),
+  /** vgrAnstform. */
+  VGR_ANST_FORM("vgrAnstform"),
+  /** */
+  PERSON_IDENTITY_NUMBER("hsaPersonIdentityNumber"),
+  /** hsaIdentity. */
+  HSA_IDENTITY("hsaIdentity"),
+  /** vgrAnsvarsnummer. */
+  VGR_ANSVARSNUMMER("vgrAnsvarsnummer"),
+  /** hsaPersonPrescriptionCode. */
+  HSA_PERSON_PRESCRIPTION_CODE("hsaPersonPrescriptionCode"),
+  /** hsaStartDate. */
+  HSA_START_DATE("hsaStartDate"),
+  /** hsaEndDate. */
+  HSA_END_DATE("hsaEndDate");
 
-	private String value;
+  private String value;
 
-	private LDAPPersonAttributes(String value) {
-		this.value = value;
-	}
+  private LDAPPersonAttributes(String value) {
+    this.value = value;
+  }
 
-	@Override
-	public String toString() {
-		return value;
-	}
+  @Override
+  public String toString() {
+    return value;
+  }
 }
