@@ -21,22 +21,14 @@ package se.vgregion.kivtools.search.svc.impl.hak;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.naming.Name;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.ldap.NameNotFoundException;
-import org.springframework.ldap.core.ContextMapper;
-import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.DistinguishedName;
-import org.springframework.ldap.core.LdapTemplate;
 
 import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
+import se.vgregion.kivtools.mocks.ldap.LdapTemplateMock;
 
 public class ResponsibleEditorEmailFinderImplTest {
   private ResponsibleEditorEmailFinderImpl responsibleEditorEmailFinder;
@@ -94,47 +86,5 @@ public class ResponsibleEditorEmailFinderImplTest {
     assertTrue(responsibleEditors.contains("anders.ask@lthalland.se"));
     assertTrue(responsibleEditors.contains("beatrice.boll@lthalland.se"));
     ldapTemplate.assertSearchFilter("(&(objectClass=hkatPerson)(|(regionName=abc123)(regionName=def456)))");
-  }
-
-  private static class LdapTemplateMock extends LdapTemplate {
-    private Map<Name, DirContextOperations> boundDNs = new HashMap<Name, DirContextOperations>();
-    private List<DirContextOperations> dirContextOperations = new ArrayList<DirContextOperations>();
-    private String filter;
-
-    public void addBoundDN(Name dn, DirContextOperations dirContextOperations) {
-      this.boundDNs.put(dn, dirContextOperations);
-    }
-
-    public void addDirContextOperationForSearch(DirContextOperations dirContextOperations) {
-      this.dirContextOperations.add(dirContextOperations);
-    }
-
-    public void assertSearchFilter(String expectedFilter) {
-      assertEquals(expectedFilter, this.filter);
-    }
-
-    @Override
-    public Object lookup(Name dn, ContextMapper mapper) {
-      DirContextOperations dirContextOperations = this.boundDNs.get(dn);
-      if (dirContextOperations == null) {
-        throw new NameNotFoundException("DN not bound");
-      }
-      Object result = null;
-      if (dirContextOperations != null) {
-        result = mapper.mapFromContext(dirContextOperations);
-      }
-      return result;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public List search(String base, String filter, ContextMapper mapper) {
-      this.filter = filter;
-      List result = new ArrayList();
-      for (DirContextOperations dirContextOperations : this.dirContextOperations) {
-        result.add(mapper.mapFromContext(dirContextOperations));
-      }
-      return result;
-    }
   }
 }

@@ -43,7 +43,6 @@ import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 public class SearchServiceLdapImpl implements SearchService {
   private PersonRepository personRepository;
   private UnitRepository unitRepository;
-  private EmploymentRepository employmentRepository;
 
   /**
    * {@inheritDoc}
@@ -57,13 +56,6 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   public void setUnitRepository(UnitRepository unitRepository) {
     this.unitRepository = unitRepository;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void setEmploymentRepository(EmploymentRepository employmentRepository) {
-    this.employmentRepository = employmentRepository;
   }
 
   /**
@@ -95,7 +87,7 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public SikSearchResultList<Employment> getEmployments(String personDn) throws KivException {
-    return employmentRepository.getEmployments(DN.createDNFromString(personDn));
+    return new SikSearchResultList<Employment>();
   }
 
   /**

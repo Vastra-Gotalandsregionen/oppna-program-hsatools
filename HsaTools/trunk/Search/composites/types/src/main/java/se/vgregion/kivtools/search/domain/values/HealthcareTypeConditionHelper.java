@@ -63,12 +63,12 @@ public class HealthcareTypeConditionHelper {
   }
 
   /**
-   * Look through all keys in configuration file and try to match to health care types.
+   * Retrieve the health care types matching the unit.
    * 
-   * @param unit The unit to assign healthcare types to.
-   * @return The updated unit.
+   * @param unit The unit to retrieve matching health care types for.
+   * @return the health care types matching the unit.
    */
-  public Unit assignHealthcareTypes(Unit unit) {
+  public List<HealthcareType> getHealthcareTypesForUnit(Unit unit) {
 
     long startTimeMillis = System.currentTimeMillis();
 
@@ -95,12 +95,11 @@ public class HealthcareTypeConditionHelper {
         healthcareTypesToBeAdded.add(ht);
       }
     }
-    unit.setHealthcareTypes(healthcareTypesToBeAdded);
 
     long endTimeMillis = System.currentTimeMillis();
     LOGGER.debug("Assigning health care type for " + unit.getHsaIdentity() + " took: " + (endTimeMillis - startTimeMillis) + " milliseconds.");
 
-    return unit;
+    return healthcareTypesToBeAdded;
   }
 
   /**

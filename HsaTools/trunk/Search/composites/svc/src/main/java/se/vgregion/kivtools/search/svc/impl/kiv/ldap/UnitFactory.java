@@ -30,6 +30,7 @@ import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.domain.values.DN;
+import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.domain.values.WeekdayTime;
@@ -102,7 +103,8 @@ public class UnitFactory {
     // As the last step, let HealthcareTypeConditionHelper figure out which
     // healthcare type(s) this unit belongs to
     HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
-    htch.assignHealthcareTypes(unit);
+    List<HealthcareType> healthcareTypes = htch.getHealthcareTypesForUnit(unit);
+    unit.setHealthcareTypes(healthcareTypes);
 
     assignCodeTableValuesToUnit(unit);
 

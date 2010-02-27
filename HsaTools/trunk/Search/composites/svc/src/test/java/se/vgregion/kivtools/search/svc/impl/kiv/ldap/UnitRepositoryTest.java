@@ -39,7 +39,6 @@ import org.junit.Test;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DistinguishedName;
-import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.Filter;
 
 import se.vgregion.kivtools.search.domain.Unit;
@@ -657,16 +656,11 @@ public class UnitRepositoryTest {
     }
   }
 
-  class LdapTemplateMock extends LdapTemplate {
-
+  private static class LdapTemplateMock extends se.vgregion.kivtools.mocks.ldap.LdapTemplateMock {
     String base;
     List<Unit> units = new ArrayList<Unit>();
     String filter;
     DistinguishedName dn;
-
-    public void setUnits(List<Unit> units) {
-      this.units = units;
-    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -684,6 +678,7 @@ public class UnitRepositoryTest {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List search(String base, String filter, int searchScope, String[] attrs, AttributesMapper mapper) {
       this.filter = filter;
       this.base = base;

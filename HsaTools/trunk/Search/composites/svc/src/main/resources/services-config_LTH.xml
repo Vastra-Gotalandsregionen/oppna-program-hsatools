@@ -29,18 +29,12 @@
 <!-- Use this mock-injection if connection to hak is disabled 
  	<bean id="Search_SearchService" class="se.vgregion.kivtools.search.svc.impl.mock.SearchServiceMockImpl" />
 -->
-<!-- Use this block of injections if connection to hak is enabled
-	<bean id="Search_SearchService" class="se.vgregion.kivtools.search.svc.impl.hak.ldap.SearchServiceNovellLdapImpl">
-		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"></property>
-	</bean>
- -->
 
 <!--  
 -->
 	<bean id="Search_SearchService" class="se.vgregion.kivtools.search.svc.impl.hak.ldap.SearchServiceLdapImpl">
 		<property name="personRepository" ref="Search_PersonRepository"></property>
 		<property name="unitRepository" ref="Search_UnitRepository"></property>
-		<property name="employmentRepository" ref="Search_EmploymentRepository"></property>
 	</bean>
 	<bean id="Search_PersonRepository"
 		class="se.vgregion.kivtools.search.svc.impl.hak.ldap.PersonRepository">
@@ -48,12 +42,7 @@
 	</bean>
 	<bean id="Search_UnitRepository"
 		class="se.vgregion.kivtools.search.svc.impl.hak.ldap.UnitRepository">
-		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"></property>
 		<property name="ldapTemplate" ref="ldapTemplateLTH" />
-	</bean>
-	<bean id="Search_EmploymentRepository"
-		class="se.vgregion.kivtools.search.svc.impl.hak.ldap.EmploymentRepository">
-		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"></property>
 	</bean>
 	<bean id="Search_HealthcareTypeConditionHelper"
 		class="se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper">
@@ -64,14 +53,6 @@
 		<property name="implResourcePath" value="se.vgregion.kivtools.search.svc.impl.hak.ldap.search-composite-svc-municipalities"></property>
 	</bean>
  	
-	<bean id="Search_LdapConnectionPool"
-		class="se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool" destroy-method="release">
-		<property name="ldapHost" value="${hsatools.search.svc.ldap.ldaphost}" />
-		<property name="loginDN" value="${hsatools.search.svc.ldap.logindn}" />
-		<property name="password" value="${hsatools.search.svc.ldap.password}" />
-		<property name="maxConn" value="${hsatools.search.svc.ldap.maxConn}" />
-	</bean>
-
 	<!-- LDAP connection settings  -->
 	<bean id="propertyPlaceholderLdapConnectionProperties"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

@@ -33,7 +33,6 @@ import javax.naming.directory.DirContext;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ldap.core.AttributesMapper;
-import org.springframework.ldap.core.LdapTemplate;
 
 import se.vgregion.kivtools.search.svc.registration.CitizenRepository.CitizenMapper;
 
@@ -73,6 +72,7 @@ public class CitizenRepositoryTest {
   }
 
   class AttributeMock implements Attribute {
+    private static final long serialVersionUID = 4183770609309613682L;
 
     private String value;
     private String id;
@@ -164,6 +164,7 @@ public class CitizenRepositoryTest {
   }
 
   class AttributesMock implements Attributes {
+    private static final long serialVersionUID = 1620433933434314397L;
     Map<String, Attribute> attributes = new HashMap<String, Attribute>();
 
     public Attribute put(Attribute attribute) {
@@ -213,7 +214,7 @@ public class CitizenRepositoryTest {
     }
   }
 
-  class LdapTemplateMock extends LdapTemplate {
+  private static class LdapTemplateMock extends se.vgregion.kivtools.mocks.ldap.LdapTemplateMock {
     private String citizenName;
 
     public void setCitizenName(String citizenName) {
