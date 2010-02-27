@@ -210,7 +210,7 @@ public class SearchServiceMock implements SearchService {
   // Dummy implementations
 
   @Override
-  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
+  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
     return null;
   }
 
@@ -220,12 +220,22 @@ public class SearchServiceMock implements SearchService {
   }
 
   @Override
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
     return null;
   }
 
   @Override
   public Unit getUnitByDN(String dn) throws KivException {
+    return null;
+  }
+
+  @Override
+  public List<Person> getAllPersons() throws KivException {
+    return null;
+  }
+
+  @Override
+  public List<Unit> getAllUnits(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
     return null;
   }
 }

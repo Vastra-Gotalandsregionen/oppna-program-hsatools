@@ -24,8 +24,6 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import org.junit.Test;
 
@@ -116,25 +114,12 @@ public class InternalSitemapCacheLoaderImplTest {
     assertEquals("2010-02-16T01:00:00+01:00", cache.getEntries().get(3).getLastModified());
   }
 
-  @Test
-  public void cacheLoadingIsStoppedAtKivException() {
-    searchService.setExceptionToThrow(new KivException("error"));
-    SitemapCache cache = loader.loadCache();
-    assertNotNull(cache);
-    assertEquals(0, cache.getEntries().size());
-  }
-
   private static class SearchServiceMock implements SearchService {
-    Map<String, Person> persons = new TreeMap<String, Person>();
-    private KivException exceptionToThrow;
+    List<Person> persons = new ArrayList<Person>();
 
     public SearchServiceMock() {
-      persons.put("kon829", createPerson("kon829", "hsa-456", TimePoint.atMidnightGMT(2010, 2, 12), TimePoint.atMidnightGMT(2010, 2, 16), TimePoint.atMidnightGMT(2010, 1, 10)));
-      persons.put("krila8", createPerson("krila8", "hsa-123"));
-    }
-
-    public void setExceptionToThrow(KivException exceptionToThrow) {
-      this.exceptionToThrow = exceptionToThrow;
+      persons.add(createPerson("kon829", "hsa-456", TimePoint.atMidnightGMT(2010, 2, 12), TimePoint.atMidnightGMT(2010, 2, 16), TimePoint.atMidnightGMT(2010, 1, 10)));
+      persons.add(createPerson("krila8", "hsa-123"));
     }
 
     private Person createPerson(String vgrid, String hsaIdentity, TimePoint... employmentsModified) {
@@ -154,23 +139,16 @@ public class InternalSitemapCacheLoaderImplTest {
     }
 
     @Override
-    public List<String> getAllPersonsId() throws KivException {
-      return new ArrayList<String>(persons.keySet());
-    }
-
-    @Override
-    public SikSearchResultList<Person> searchPersons(String id, int maxSearchResult) throws KivException {
-      if (this.exceptionToThrow != null) {
-        throw this.exceptionToThrow;
-      }
-
-      SikSearchResultList<Person> result = new SikSearchResultList<Person>();
-      String trimmedId = id.replaceAll("\"", "");
-      result.add(persons.get(trimmedId));
-      return result;
+    public List<Person> getAllPersons() throws KivException {
+      return this.persons;
     }
 
     // Not implemented
+
+    @Override
+    public SikSearchResultList<Person> searchPersons(String id, int maxSearchResult) throws KivException {
+      return null;
+    }
 
     @Override
     public Person getPersonById(String id) throws KivException {
@@ -183,7 +161,7 @@ public class InternalSitemapCacheLoaderImplTest {
     }
 
     @Override
-    public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
+    public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
       return null;
     }
 
@@ -228,7 +206,7 @@ public class InternalSitemapCacheLoaderImplTest {
     }
 
     @Override
-    public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes)
+    public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes)
         throws KivException {
       return null;
     }
@@ -245,6 +223,16 @@ public class InternalSitemapCacheLoaderImplTest {
 
     @Override
     public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions searchUnitCriterions, int maxSearchResult) throws KivException {
+      return null;
+    }
+
+    @Override
+    public List<String> getAllPersonsId() throws KivException {
+      return null;
+    }
+
+    @Override
+    public List<Unit> getAllUnits(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
       return null;
     }
   }

@@ -185,7 +185,7 @@ public class SearchServiceMock implements SearchService {
   }
 
   @Override
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
     this.searchAdvancedUnitsCallCount++;
     throwExceptionIfApplicable();
     this.maxSearchResults = maxSearchResult;
@@ -195,9 +195,9 @@ public class SearchServiceMock implements SearchService {
   }
 
   @Override
-  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
+  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
     throwExceptionIfApplicable();
-    this.classificationCodes = showUnitsWithTheseHsaBussinessClassificationCodes;
+    this.classificationCodes = showUnitsWithTheseHsaBusinessClassificationCodes;
     return this.allUnitsId;
   }
 
@@ -230,6 +230,16 @@ public class SearchServiceMock implements SearchService {
 
   @Override
   public byte[] getProfileImageByDn(String dn) throws KivException {
+    return null;
+  }
+
+  @Override
+  public List<Person> getAllPersons() throws KivException {
+    return null;
+  }
+
+  @Override
+  public List<Unit> getAllUnits(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
     return null;
   }
 }

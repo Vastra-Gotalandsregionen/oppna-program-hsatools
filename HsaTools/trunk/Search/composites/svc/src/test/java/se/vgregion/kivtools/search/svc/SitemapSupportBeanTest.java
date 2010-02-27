@@ -45,6 +45,14 @@ public class SitemapSupportBeanTest {
   }
 
   @Test
+  public void changeFrequencyIsUsedForChangefreqTag() {
+    sitemapCacheLoader.setUnitCache(createSitemapCache("abc-123", "2010-02-01T01:00:00+01:00"));
+    String sitemapContent = sitemapSupportBean.getSitemapContent();
+    String changefreq = getTagContent(sitemapContent, "changefreq");
+    assertEquals("daily", changefreq);
+  }
+
+  @Test
   public void extraInformationIsAddedIfAvailable() {
     sitemapCacheLoader.setUnitCache(createSitemapCache("abc-123", "2010-02-01T01:00:00+01:00", "hsaIdentity", "abc-123"));
     String sitemapContent = sitemapSupportBean.getSitemapContent();
@@ -68,7 +76,7 @@ public class SitemapSupportBeanTest {
 
   private SitemapCache createSitemapCache(String hsaIdentity, String modifyTimestamp, String... extraInformation) {
     SitemapCache unitCache = new SitemapCache();
-    SitemapEntry entry = new SitemapEntry("http://external.com/visaenhet?hsaidentity=" + hsaIdentity, modifyTimestamp, "weekly");
+    SitemapEntry entry = new SitemapEntry("http://external.com/visaenhet?hsaidentity=" + hsaIdentity, modifyTimestamp, "daily");
     for (int i = 0; extraInformation != null && i < extraInformation.length; i += 2) {
       entry.addExtraInformation(extraInformation[i], extraInformation[i + 1]);
     }

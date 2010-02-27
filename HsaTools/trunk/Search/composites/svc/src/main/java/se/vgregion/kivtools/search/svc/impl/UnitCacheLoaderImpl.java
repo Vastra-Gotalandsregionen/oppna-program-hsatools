@@ -31,14 +31,13 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.CacheLoader;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.UnitCache;
-import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Implementation of the CacheLoader interface which populates a UnitCache by using the {@link SearchService}.
  */
 public class UnitCacheLoaderImpl implements CacheLoader<UnitCache> {
   private final Log log = LogFactory.getLog(getClass());
-  private final List<Integer> businessClassificationCodesToFetch = new ArrayList<Integer>();
+  private final List<Integer> businessClassificationCodesToFetch;
   private final SearchService searchService;
 
   /**
@@ -49,7 +48,7 @@ public class UnitCacheLoaderImpl implements CacheLoader<UnitCache> {
    */
   public UnitCacheLoaderImpl(final SearchService searchService, String businessClassificationCodesToFetch) {
     this.searchService = searchService;
-    populateBusinessClassificationCodesToFetch(businessClassificationCodesToFetch);
+    this.businessClassificationCodesToFetch = createBusinessClassificationCodeList(businessClassificationCodesToFetch);
   }
 
   /**
@@ -60,17 +59,9 @@ public class UnitCacheLoaderImpl implements CacheLoader<UnitCache> {
     UnitCache cache = new UnitCache();
 
     try {
-      List<String> hsaIdentities = searchService.getAllUnitsHsaIdentity(this.businessClassificationCodesToFetch);
-      for (String hsaIdentity : hsaIdentities) {
-        if (!StringUtil.isEmpty(hsaIdentity)) {
-          try {
-            Unit unit = this.searchService.getUnitByHsaId(hsaIdentity);
-            cache.add(unit);
-          } catch (KivException e) {
-            log.error("Exception while getting unit details for hsaIdentity '" + hsaIdentity + "'");
-            throw e;
-          }
-        }
+      List<Unit> units = searchService.getAllUnits(this.businessClassificationCodesToFetch);
+      for (Unit unit : units) {
+        cache.add(unit);
       }
     } catch (KivException e) {
       log.error("Something went wrong when retrieving all units.", e);
@@ -87,12 +78,14 @@ public class UnitCacheLoaderImpl implements CacheLoader<UnitCache> {
     return new UnitCache();
   }
 
-  private void populateBusinessClassificationCodesToFetch(String businessClassificationCodes) {
+  private List<Integer> createBusinessClassificationCodeList(String businessClassificationCodes) {
+    List<Integer> result = new ArrayList<Integer>();
     List<String> tempList = Arrays.asList(businessClassificationCodes.split(","));
     for (String id : tempList) {
       if (id.length() > 0) {
-        this.businessClassificationCodesToFetch.add(Integer.parseInt(id));
+        result.add(Integer.parseInt(id));
       }
     }
+    return result;
   }
 }

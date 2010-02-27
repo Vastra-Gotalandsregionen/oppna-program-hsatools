@@ -23,9 +23,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Test;
 
@@ -60,14 +58,6 @@ public class UnitCacheLoaderImplTest {
   }
 
   @Test
-  public void loaderDoesNotProcessEmptyHsaIdentities() {
-    searchService.addUnit(createUnit("   "));
-
-    UnitCache unitCache = unitCacheLoader.loadCache();
-    assertEquals(0, unitCache.getUnits().size());
-  }
-
-  @Test
   public void processingEndsOnKivException() {
     searchService.setExceptionToThrow(new KivException("test"));
     searchService.addUnit(createUnit("abc-123"));
@@ -92,13 +82,11 @@ public class UnitCacheLoaderImplTest {
   }
 
   private static class SearchServiceMock implements SearchService {
-    private List<String> hsaIdentities = new ArrayList<String>();
-    private Map<String, Unit> units = new HashMap<String, Unit>();
+    private List<Unit> units = new ArrayList<Unit>();
     private KivException exceptionToThrow;
 
     public void addUnit(Unit unit) {
-      this.units.put(unit.getHsaIdentity(), unit);
-      this.hsaIdentities.add(unit.getHsaIdentity());
+      this.units.add(unit);
     }
 
     public void setExceptionToThrow(KivException exceptionToThrow) {
@@ -106,24 +94,29 @@ public class UnitCacheLoaderImplTest {
     }
 
     @Override
-    public List<String> getAllUnitsHsaIdentity() throws KivException {
-      return this.hsaIdentities;
-    }
-
-    @Override
-    public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes) throws KivException {
-      return this.hsaIdentities;
-    }
-
-    @Override
-    public Unit getUnitByHsaId(String hsaId) throws KivException {
+    public List<Unit> getAllUnits(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
       if (this.exceptionToThrow != null) {
         throw this.exceptionToThrow;
       }
-      return this.units.get(hsaId);
+      return this.units;
     }
 
     // Not implemented
+
+    @Override
+    public Unit getUnitByHsaId(String hsaId) throws KivException {
+      return null;
+    }
+
+    @Override
+    public List<String> getAllUnitsHsaIdentity() throws KivException {
+      return null;
+    }
+
+    @Override
+    public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
+      return null;
+    }
 
     @Override
     public List<String> getAllPersonsId() throws KivException {
@@ -171,7 +164,7 @@ public class UnitCacheLoaderImplTest {
     }
 
     @Override
-    public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBussinessClassificationCodes)
+    public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes)
         throws KivException {
       return null;
     }
@@ -193,6 +186,11 @@ public class UnitCacheLoaderImplTest {
 
     @Override
     public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions searchUnitCriterions, int maxSearchResult) throws KivException {
+      return null;
+    }
+
+    @Override
+    public List<Person> getAllPersons() throws KivException {
       return null;
     }
   }
