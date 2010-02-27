@@ -39,6 +39,7 @@ import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 
 import org.springframework.ldap.core.DirContextOperations;
+import org.springframework.ldap.core.DistinguishedName;
 
 /**
  * Mock-class to use when unit testing Spring LDAP ContextMapper-implementations.
@@ -48,7 +49,7 @@ import org.springframework.ldap.core.DirContextOperations;
 public class DirContextOperationsMock implements DirContextOperations {
 
   private Map<String, Object> attributes = new HashMap<String, Object>();
-  private Name dn;
+  private Name dn = DistinguishedName.EMPTY_PATH;
 
   @Override
   public void addAttributeValue(String name, Object value) {

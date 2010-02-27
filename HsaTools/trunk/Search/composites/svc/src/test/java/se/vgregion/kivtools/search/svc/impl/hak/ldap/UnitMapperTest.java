@@ -14,23 +14,23 @@
  *   License along with this library; if not, write to the
  *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  *   Boston, MA 02111-1307  USA
- *
  */
-
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
 import static org.junit.Assert.*;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.ldap.core.DistinguishedName;
 
+import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
 
-public class UnitFactoryTest {
+public class UnitMapperTest {
   private static final String RT90_COORDS = "X: 6389622, Y: 1357246";
   private static final String CN = "Unit cn";
   private static final String TEST = "Test";
@@ -42,88 +42,18 @@ public class UnitFactoryTest {
   private static final String TEST_TIMESTAMP = "20090101120102";
   private static final String TEST_TIMESTAMP2 = "20100217120102";
 
-  private SimpleDateFormat dateFormat;
-  private LDAPEntryMock ldapEntry;
+  private final UnitMapper mapper = new UnitMapper();
+  private DirContextOperationsMock dirContextOperations = new DirContextOperationsMock();
+  private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
   @Before
-  public void setUp() throws Exception {
-    dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    ldapEntry = new LDAPEntryMock();
-    ldapEntry.addAttribute("businessClassificationCode", TEST);
-    ldapEntry.addAttribute("cn", CN);
-    ldapEntry.addAttribute("createTimeStamp", TEST_TIMESTAMP);
-    ldapEntry.addAttribute("description", TEST);
-    ldapEntry.addAttribute("dropInHours", TEST_TIME);
-    ldapEntry.addAttribute("facsimileTelephoneNumber", TEST);
-    ldapEntry.addAttribute("geographicalCoordinates", RT90_COORDS);
-    ldapEntry.addAttribute("hsaAdministrationForm", TEST);
-    ldapEntry.addAttribute("hsaAdministrationFormText", TEST);
-    ldapEntry.addAttribute("hsaCountyCode", TEST);
-    ldapEntry.addAttribute("hsaCountyName", TEST);
-    ldapEntry.addAttribute("hsaIdentity", TEST);
-    ldapEntry.addAttribute("hsaInternalAddress", TEST);
-    ldapEntry.addAttribute("hsaInternalPagerNumber", TEST);
-    ldapEntry.addAttribute("hsaManagementCode", TEST);
-    ldapEntry.addAttribute("hsaManagementName", TEST);
-    ldapEntry.addAttribute("hsaMunicipalitySectionCode", TEST);
-    ldapEntry.addAttribute("hsaMunicipalitySectionName", TEST);
-    ldapEntry.addAttribute("postalAddress", TEST);
-    ldapEntry.addAttribute("hsaDeliveryAddress", TEST);
-    ldapEntry.addAttribute("hsaInvoiceAddress", TEST);
-    ldapEntry.addAttribute("hsaConsigneeAddress", TEST);
-    ldapEntry.addAttribute("hsaSmsTelephoneNumber", TEST);
-    ldapEntry.addAttribute("hsaSwitchboardNumber", TEST);
-    ldapEntry.addAttribute("hsaTextPhoneNumber", TEST);
-    ldapEntry.addAttribute("hsaTelephoneNumber", "hsaTelephoneNumber");
-    ldapEntry.addAttribute("hsaUnitPrescriptionCode", TEST);
-    ldapEntry.addAttribute("hsaVisitingRuleAge", TEST);
-    ldapEntry.addAttribute("hsaVisitingRules", TEST);
-    ldapEntry.addAttribute("l", TEST);
-    ldapEntry.addAttribute("labeledURI", TEST);
-    ldapEntry.addAttribute("mail", TEST);
-    ldapEntry.addAttribute("management", "1");
-    ldapEntry.addAttribute("mobile", TEST);
-    ldapEntry.addAttribute("municipalityCode", TEST);
-    ldapEntry.addAttribute("municipalityName", TEST);
-    ldapEntry.addAttribute("objectClass", TEST);
-    ldapEntry.addAttribute("organizationalUnitNameShort", TEST);
-    ldapEntry.addAttribute("ou", TEST);
-    ldapEntry.addAttribute("pager", TEST);
-    ldapEntry.addAttribute("postalAddress", TEST);
-    ldapEntry.addAttribute("postalCode", TEST);
-    ldapEntry.addAttribute("route", TEST);
-    ldapEntry.addAttribute("street", TEST);
-    ldapEntry.addAttribute("surgeryHours", TEST_TIME);
-    ldapEntry.addAttribute("telephoneHours", TEST_TIME);
-    ldapEntry.addAttribute("telephoneNumber", "telephoneNumber");
-    ldapEntry.addAttribute("vgrAO3kod", TEST);
-    ldapEntry.addAttribute("vgrAnsvarsnummer", TEST);
-    ldapEntry.addAttribute("vgrCareType", TEST);
-    ldapEntry.addAttribute("vgrEanCode", TEST);
-    ldapEntry.addAttribute("vgrEdiCode", TEST);
-    ldapEntry.addAttribute("vgrInternalSedfInvoiceAddress", TEST);
-    ldapEntry.addAttribute("whenChanged", TEST_TIMESTAMP2);
-    ldapEntry.addAttribute("whenCreated", TEST_TIMESTAMP);
-    ldapEntry.addAttribute("vgrRefInfo", TEST);
-    ldapEntry.addAttribute("vgrTempInfo", TEST);
-    ldapEntry.addAttribute("managerDN", "cn=Nina Kanin,ou=abc,ou=def");
+  public void setUp() {
+    addUnitAttributes();
   }
 
   @Test
-  public void testInstantiation() {
-    UnitFactory unitFactory = new UnitFactory();
-    assertNotNull(unitFactory);
-  }
-
-  @Test
-  public void testNullLDAPEntry() throws KivException {
-    Unit unit = UnitFactory.reconstitute(null);
-    assertNotNull(unit);
-  }
-
-  @Test
-  public void testReconstitute() throws KivException {
-    Unit unit = UnitFactory.reconstitute(ldapEntry);
+  public void mapPopulatedContextReturnPopulatedUnit() {
+    Unit unit = (Unit) mapper.mapFromContext(dirContextOperations);
     assertEquals(EXPECTED_LIST_RESULT, unit.getBusinessClassificationCode().toString());
     assertEquals(TEST, unit.getName());
     assertEquals(EXPECTED_DATE_TIME, dateFormat.format(unit.getCreateTimestamp().asJavaUtilDate()));
@@ -186,9 +116,9 @@ public class UnitFactoryTest {
   }
 
   @Test
-  public void testReconstituteValidGeoCoordinate() throws KivException {
-    ldapEntry.addAttribute("geographicalCoordinates", "X: 1234567, Y: 1234567");
-    Unit unit = UnitFactory.reconstitute(ldapEntry);
+  public void validGeoCoordinatesArePopulatedCorrectly() throws KivException {
+    dirContextOperations.addAttributeValue("geographicalCoordinates", "X: 1234567, Y: 1234567");
+    Unit unit = (Unit) mapper.mapFromContext(dirContextOperations);
     assertEquals(1234567, unit.getRt90X());
     assertEquals(1234567, unit.getRt90Y());
     assertEquals(11.159754999084681, unit.getWgs84Lat(), 0.0);
@@ -196,45 +126,107 @@ public class UnitFactoryTest {
   }
 
   @Test
-  public void testReconstituteNoManagerDN() throws KivException {
-    ldapEntry.addAttribute("managerDN", "");
-    Unit unit = UnitFactory.reconstitute(ldapEntry);
+  public void noManagerDNResultInNoManagerPopulated() throws KivException {
+    dirContextOperations.addAttributeValue("managerDN", "");
+    Unit unit = (Unit) mapper.mapFromContext(dirContextOperations);
     assertEquals("", unit.getManagerDN());
     assertNull(unit.getManager());
   }
 
   @Test
-  public void testReconstituteOtherManagementDescriptions() throws KivException {
-    ldapEntry.addAttribute("management", TEST);
-    Unit unit = UnitFactory.reconstitute(ldapEntry);
+  public void otherManagementDescriptionsAreMappedCorrectly() throws KivException {
+    dirContextOperations.addAttributeValue("management", TEST);
+    Unit unit = (Unit) mapper.mapFromContext(dirContextOperations);
     assertNull(unit.getHsaManagementText());
-    ldapEntry.addAttribute("management", "2");
-    unit = UnitFactory.reconstitute(ldapEntry);
+    dirContextOperations.addAttributeValue("management", "2");
+    unit = (Unit) mapper.mapFromContext(dirContextOperations);
     assertEquals("Kommun", unit.getHsaManagementText());
-    ldapEntry.addAttribute("management", "3");
-    unit = UnitFactory.reconstitute(ldapEntry);
+    dirContextOperations.addAttributeValue("management", "3");
+    unit = (Unit) mapper.mapFromContext(dirContextOperations);
     assertEquals("Statlig", unit.getHsaManagementText());
-    ldapEntry.addAttribute("management", "4");
-    unit = UnitFactory.reconstitute(ldapEntry);
+    dirContextOperations.addAttributeValue("management", "4");
+    unit = (Unit) mapper.mapFromContext(dirContextOperations);
     assertEquals("Privat, v\u00E5rdavtal", unit.getHsaManagementText());
-    ldapEntry.addAttribute("management", "5");
-    unit = UnitFactory.reconstitute(ldapEntry);
+    dirContextOperations.addAttributeValue("management", "5");
+    unit = (Unit) mapper.mapFromContext(dirContextOperations);
     assertEquals("Privat, enl lag om l\u00E4karv\u00E5rdsers\u00E4ttning", unit.getHsaManagementText());
-    ldapEntry.addAttribute("management", "6");
-    unit = UnitFactory.reconstitute(ldapEntry);
+    dirContextOperations.addAttributeValue("management", "6");
+    unit = (Unit) mapper.mapFromContext(dirContextOperations);
     assertEquals("Privat, utan offentlig finansiering", unit.getHsaManagementText());
-    ldapEntry.addAttribute("management", "7");
-    unit = UnitFactory.reconstitute(ldapEntry);
+    dirContextOperations.addAttributeValue("management", "7");
+    unit = (Unit) mapper.mapFromContext(dirContextOperations);
     assertEquals("Kommunf\u00F6rbund/Kommunalf\u00F6rbund", unit.getHsaManagementText());
-    ldapEntry.addAttribute("management", "9");
-    unit = UnitFactory.reconstitute(ldapEntry);
+    dirContextOperations.addAttributeValue("management", "9");
+    unit = (Unit) mapper.mapFromContext(dirContextOperations);
     assertEquals("\u00D6vrigt", unit.getHsaManagementText());
   }
 
   @Test
-  public void testUnitNameForCnUnits() throws KivException {
-    ldapEntry.addAttribute("ou", "");
-    Unit unit = UnitFactory.reconstitute(ldapEntry);
+  public void cnIsUsedForUnitNameIfOuIsEmpty() throws KivException {
+    dirContextOperations.addAttributeValue("ou", "");
+    Unit unit = (Unit) mapper.mapFromContext(dirContextOperations);
     assertEquals("Unit cn", unit.getName());
+  }
+
+  private void addUnitAttributes() {
+    dirContextOperations.setDn(DistinguishedName.immutableDistinguishedName("ou=Vårdcentralen Halmstad,ou=Landstinget Halland"));
+    dirContextOperations.addAttributeValue("businessClassificationCode", TEST);
+    dirContextOperations.addAttributeValue("cn", CN);
+    dirContextOperations.addAttributeValue("createTimeStamp", TEST_TIMESTAMP);
+    dirContextOperations.addAttributeValue("description", TEST);
+    dirContextOperations.addAttributeValue("dropInHours", TEST_TIME);
+    dirContextOperations.addAttributeValue("facsimileTelephoneNumber", TEST);
+    dirContextOperations.addAttributeValue("geographicalCoordinates", RT90_COORDS);
+    dirContextOperations.addAttributeValue("hsaAdministrationForm", TEST);
+    dirContextOperations.addAttributeValue("hsaAdministrationFormText", TEST);
+    dirContextOperations.addAttributeValue("hsaCountyCode", TEST);
+    dirContextOperations.addAttributeValue("hsaCountyName", TEST);
+    dirContextOperations.addAttributeValue("hsaIdentity", TEST);
+    dirContextOperations.addAttributeValue("hsaInternalAddress", TEST);
+    dirContextOperations.addAttributeValue("hsaInternalPagerNumber", TEST);
+    dirContextOperations.addAttributeValue("hsaManagementCode", TEST);
+    dirContextOperations.addAttributeValue("hsaManagementName", TEST);
+    dirContextOperations.addAttributeValue("hsaMunicipalitySectionCode", TEST);
+    dirContextOperations.addAttributeValue("hsaMunicipalitySectionName", TEST);
+    dirContextOperations.addAttributeValue("postalAddress", TEST);
+    dirContextOperations.addAttributeValue("hsaDeliveryAddress", TEST);
+    dirContextOperations.addAttributeValue("hsaInvoiceAddress", TEST);
+    dirContextOperations.addAttributeValue("hsaConsigneeAddress", TEST);
+    dirContextOperations.addAttributeValue("hsaSmsTelephoneNumber", TEST);
+    dirContextOperations.addAttributeValue("hsaSwitchboardNumber", TEST);
+    dirContextOperations.addAttributeValue("hsaTextPhoneNumber", TEST);
+    dirContextOperations.addAttributeValue("hsaTelephoneNumber", "hsaTelephoneNumber");
+    dirContextOperations.addAttributeValue("hsaUnitPrescriptionCode", TEST);
+    dirContextOperations.addAttributeValue("hsaVisitingRuleAge", TEST);
+    dirContextOperations.addAttributeValue("hsaVisitingRules", TEST);
+    dirContextOperations.addAttributeValue("l", TEST);
+    dirContextOperations.addAttributeValue("labeledURI", TEST);
+    dirContextOperations.addAttributeValue("mail", TEST);
+    dirContextOperations.addAttributeValue("management", "1");
+    dirContextOperations.addAttributeValue("mobile", TEST);
+    dirContextOperations.addAttributeValue("municipalityCode", TEST);
+    dirContextOperations.addAttributeValue("municipalityName", TEST);
+    dirContextOperations.addAttributeValue("objectClass", TEST);
+    dirContextOperations.addAttributeValue("organizationalUnitNameShort", TEST);
+    dirContextOperations.addAttributeValue("ou", TEST);
+    dirContextOperations.addAttributeValue("pager", TEST);
+    dirContextOperations.addAttributeValue("postalAddress", TEST);
+    dirContextOperations.addAttributeValue("postalCode", TEST);
+    dirContextOperations.addAttributeValue("route", TEST);
+    dirContextOperations.addAttributeValue("street", TEST);
+    dirContextOperations.addAttributeValue("surgeryHours", TEST_TIME);
+    dirContextOperations.addAttributeValue("telephoneHours", TEST_TIME);
+    dirContextOperations.addAttributeValue("telephoneNumber", "telephoneNumber");
+    dirContextOperations.addAttributeValue("vgrAO3kod", TEST);
+    dirContextOperations.addAttributeValue("vgrAnsvarsnummer", TEST);
+    dirContextOperations.addAttributeValue("vgrCareType", TEST);
+    dirContextOperations.addAttributeValue("vgrEanCode", TEST);
+    dirContextOperations.addAttributeValue("vgrEdiCode", TEST);
+    dirContextOperations.addAttributeValue("vgrInternalSedfInvoiceAddress", TEST);
+    dirContextOperations.addAttributeValue("whenChanged", TEST_TIMESTAMP2);
+    dirContextOperations.addAttributeValue("whenCreated", TEST_TIMESTAMP);
+    dirContextOperations.addAttributeValue("vgrRefInfo", TEST);
+    dirContextOperations.addAttributeValue("vgrTempInfo", TEST);
+    dirContextOperations.addAttributeValue("managerDN", "cn=Nina Kanin,ou=abc,ou=def");
   }
 }

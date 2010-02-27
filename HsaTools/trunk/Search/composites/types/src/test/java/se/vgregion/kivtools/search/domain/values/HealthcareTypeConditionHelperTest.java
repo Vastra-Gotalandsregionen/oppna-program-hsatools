@@ -123,7 +123,7 @@ public class HealthcareTypeConditionHelperTest {
   @Test
   public void testAssignHealthcareTypes() {
     try {
-      helper.assignHealthcareTypes(null);
+      helper.getHealthcareTypesForUnit(null);
       fail("NullPointerException expected");
     } catch (NullPointerException e) {
       // Expected exception
@@ -131,24 +131,24 @@ public class HealthcareTypeConditionHelperTest {
 
     helper.setImplResourcePath("testproperties.healthcaretypeconditionhelper.assign_healthcaretype");
     try {
-      helper.assignHealthcareTypes(null);
+      helper.getHealthcareTypesForUnit(null);
       fail("NullPointerException expected");
     } catch (NullPointerException e) {
       // Expected exception
     }
 
-    helper.assignHealthcareTypes(unit);
-    assertEquals(0, unit.getHealthcareTypes().size());
+    List<HealthcareType> healthcareTypes = helper.getHealthcareTypesForUnit(unit);
+    assertEquals(0, healthcareTypes.size());
 
     List<String> classificationCodes = new ArrayList<String>();
     unit.setVgrCareType("");
     unit.setHsaBusinessClassificationCode(classificationCodes);
-    helper.assignHealthcareTypes(unit);
-    assertEquals(0, unit.getHealthcareTypes().size());
+    healthcareTypes = helper.getHealthcareTypesForUnit(unit);
+    assertEquals(0, healthcareTypes.size());
 
     unit.setVgrCareType("01");
     classificationCodes.add("1000");
-    helper.assignHealthcareTypes(unit);
-    assertEquals(1, unit.getHealthcareTypes().size());
+    healthcareTypes = helper.getHealthcareTypesForUnit(unit);
+    assertEquals(1, healthcareTypes.size());
   }
 }

@@ -27,7 +27,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.core.ContextMapper;
-import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -83,8 +82,7 @@ public class PersonalRecordServiceTest {
     assertEquals(EXPECTED_EMPTY_RESULT, mockHttpServletResponse.getContentAsString());
   }
 
-  class LdapTemplateMock extends LdapTemplate {
-
+  private static class LdapTemplateMock extends se.vgregion.kivtools.mocks.ldap.LdapTemplateMock {
     private boolean throwException;
     private PersonalRecord personRecord;
 
@@ -102,5 +100,4 @@ public class PersonalRecordServiceTest {
       }
     }
   }
-
 }
