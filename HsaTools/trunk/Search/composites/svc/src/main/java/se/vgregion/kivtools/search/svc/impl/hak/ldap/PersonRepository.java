@@ -31,6 +31,7 @@ import javax.naming.directory.SearchControls;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.ldap.NameNotFoundException;
+import org.springframework.ldap.NamingException;
 import org.springframework.ldap.control.PagedResultsCookie;
 import org.springframework.ldap.control.PagedResultsDirContextProcessor;
 import org.springframework.ldap.core.DistinguishedName;
@@ -130,16 +131,19 @@ public class PersonRepository {
 
     Map<String, String> result = new HashMap<String, String>();
     Filter filter = new EqualsFilter("objectClass", "hkatPerson");
-    do {
-      // RegionNameMapper return a String so we are pretty certain that List<String> is ok.
-      @SuppressWarnings("unchecked")
-      List<String> resultList = this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, new SingleAttributeMapper("regionName"), control);
-      // Put everything in a map to remove duplicates.
-      for (String regionName : resultList) {
-        result.put(regionName, regionName);
-      }
-    } while (control.getCookie().getCookie() != null);
-
+    try {
+      do {
+        // RegionNameMapper return a String so we are pretty certain that List<String> is ok.
+        @SuppressWarnings("unchecked")
+        List<String> resultList = this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, new SingleAttributeMapper("regionName"), control);
+        // Put everything in a map to remove duplicates.
+        for (String regionName : resultList) {
+          result.put(regionName, regionName);
+        }
+      } while (control.getCookie().getCookie() != null);
+    } catch (NamingException e) {
+      throw new KivException("Error getting persons id's from server: " + e.getMessage());
+    }
     return new ArrayList<String>(result.keySet());
   }
 
@@ -147,8 +151,9 @@ public class PersonRepository {
    * Retrieves a list of all persons.
    * 
    * @return A list of all persons.
+   * @throws KivException If something goes wrong.
    */
-  public List<Person> getAllPersons() {
+  public List<Person> getAllPersons() throws KivException {
     PagedResultsCookie cookie = null;
     PagedResultsDirContextProcessor control = new PagedResultsDirContextProcessor(100, cookie);
     SearchControls searchControls = new SearchControls();
@@ -156,25 +161,37 @@ public class PersonRepository {
 
     PersonMapper personMapper = new PersonMapper();
     Filter filter = new EqualsFilter("objectClass", "hkatPerson");
-    do {
-      this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, personMapper, control);
-    } while (control.getCookie().getCookie() != null);
+    try {
+      do {
+        this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, personMapper, control);
+      } while (control.getCookie().getCookie() != null);
+    } catch (NamingException e) {
+      throw new KivException("Error getting persons from server: " + e.getMessage());
+    }
 
     return personMapper.getPersons();
   }
 
-  private Person searchPerson(DistinguishedName baseDn, Filter filter) {
+  private Person searchPerson(DistinguishedName baseDn, Filter filter) throws KivException {
     PersonMapper mapper = new PersonMapper();
-    this.ldapTemplate.search(baseDn, filter.encode(), mapper);
+    try {
+      this.ldapTemplate.search(baseDn, filter.encode(), mapper);
+    } catch (NamingException e) {
+      throw new KivException("Error searching persons from server: " + e.getMessage());
+    }
 
     return mapper.getFirstPerson();
   }
 
-  private SikSearchResultList<Person> searchPersons(DistinguishedName baseDn, Filter filter, int maxResult, Comparator<Person> sortOrder) {
+  private SikSearchResultList<Person> searchPersons(DistinguishedName baseDn, Filter filter, int maxResult, Comparator<Person> sortOrder) throws KivException {
     SikSearchResultList<Person> result = new SikSearchResultList<Person>();
 
     PersonMapper mapper = new PersonMapper();
-    this.ldapTemplate.search(baseDn, filter.encode(), mapper);
+    try {
+      this.ldapTemplate.search(baseDn, filter.encode(), mapper);
+    } catch (NamingException e) {
+      throw new KivException("Error searching persons from server: " + e.getMessage());
+    }
 
     if (mapper.getPersons().size() > 0) {
       result.addAll(mapper.getPersons());
@@ -314,7 +331,11 @@ public class PersonRepository {
     DistinguishedName distinguishedName = new DistinguishedName(dn);
 
     PersonMapper personMapper = new PersonMapper();
-    ldapTemplate.lookup(distinguishedName, personMapper);
+    try {
+      ldapTemplate.lookup(distinguishedName, personMapper);
+    } catch (NamingException e) {
+      throw new KivException("Error getting person from server: " + e.getMessage());
+    }
 
     Person person = personMapper.getFirstPerson();
 

@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.ldap.CommunicationException;
 import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.core.DistinguishedName;
 
@@ -81,6 +82,13 @@ public class PersonRepositoryTest {
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 1);
     ldapTemplate.assertSearchFilter("(&(objectclass=hkatPerson)(|(regionName=*ksn829*)(title=*ksn829*))(|(givenName=*Kalle*)(rsvFirstNames=*Kalle*))(|(sn=*Svensson*)(middleName=*Svensson*)))");
     assertEquals(1, searchPersons.size());
+  }
+
+  @Test(expected = KivException.class)
+  public void searchPersonsThrowsKivExceptionOnNamingException() throws KivException {
+    this.ldapTemplate.setExceptionToThrow(new CommunicationException(null));
+    SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
+    personRepository.searchPersons(searchPersonCriterion, 1);
   }
 
   @Test
@@ -191,6 +199,12 @@ public class PersonRepositoryTest {
     assertTrue(allPersonsVgrId.contains("kal456"));
   }
 
+  @Test(expected = KivException.class)
+  public void getAllPersonsVgrIdThrowsKivExceptionOnNamingException() throws KivException {
+    this.ldapTemplate.setExceptionToThrow(new CommunicationException(null));
+    personRepository.getAllPersonsVgrId();
+  }
+
   @Test
   public void testGetPersonByDn() throws KivException {
     DirContextOperationsMock dirContext = new DirContextOperationsMock();
@@ -207,6 +221,12 @@ public class PersonRepositoryTest {
     assertEquals("Nina", person.getGivenName());
     assertEquals("Kanin", person.getSn());
     assertEquals("cn=Nina Kanin", person.getCn());
+  }
+
+  @Test(expected = KivException.class)
+  public void getPersonByDnThrowsKivExceptionOnNamingException() throws KivException {
+    this.ldapTemplate.setExceptionToThrow(new CommunicationException(null));
+    personRepository.getPersonByDn("cn=Kalle Kula,ou=Landstinget Halland");
   }
 
   @Test
@@ -242,6 +262,12 @@ public class PersonRepositoryTest {
 
     ldapTemplate.assertSearchFilter("(&(objectClass=hkatPerson)(regionName=ksn829))");
     assertNotNull(person);
+  }
+
+  @Test(expected = KivException.class)
+  public void getPersonByVgrIdThrowsKivExceptionOnNamingException() throws KivException {
+    this.ldapTemplate.setExceptionToThrow(new CommunicationException(null));
+    personRepository.getPersonByVgrId("abc123");
   }
 
   @Test
@@ -324,5 +350,11 @@ public class PersonRepositoryTest {
     ldapTemplate.assertSearchFilter("(objectClass=hkatPerson)");
     assertNotNull(allPersons);
     assertEquals(2, allPersons.size());
+  }
+
+  @Test(expected = KivException.class)
+  public void getAllPersonsThrowsKivExceptionOnNamingException() throws KivException {
+    this.ldapTemplate.setExceptionToThrow(new CommunicationException(null));
+    personRepository.getAllPersons();
   }
 }
