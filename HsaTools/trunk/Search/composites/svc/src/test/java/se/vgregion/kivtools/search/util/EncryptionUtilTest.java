@@ -19,9 +19,7 @@
 
 package se.vgregion.kivtools.search.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +28,7 @@ public class EncryptionUtilTest {
   private static final String ENCRYPTED_VALUE = "GQ7WwYfjYMqyJqCRafOTPQ==";
   private static final String DECRYPTED_VALUE = "DecryptedValue";
   private static final String KEY = "ACME1234ACME1234QWERT123";
+  private static final String BAD_KEY = "ACM123";
 
   @Before
   public void setup() {
@@ -72,5 +71,11 @@ public class EncryptionUtilTest {
   @Test
   public void testDecrypt() {
     assertEquals("Unexpected encrypted value", DECRYPTED_VALUE, EncryptionUtil.decrypt(ENCRYPTED_VALUE));
+  }
+
+  @Test(expected = RuntimeException.class)
+  public void encryptThrowsRuntimeExceptionOnBadKey() {
+    System.setProperty(EncryptionUtil.KEY_PROPERTY, BAD_KEY);
+    EncryptionUtil.encrypt(DECRYPTED_VALUE);
   }
 }

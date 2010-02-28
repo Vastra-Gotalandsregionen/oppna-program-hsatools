@@ -30,6 +30,7 @@ import javax.naming.directory.SearchControls;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.ldap.NamingException;
 import org.springframework.ldap.control.PagedResultsCookie;
 import org.springframework.ldap.control.PagedResultsDirContextProcessor;
 import org.springframework.ldap.core.DistinguishedName;
@@ -97,7 +98,6 @@ public class UnitRepository {
    * @param showUnitsWithTheseHsaBusinessClassificationCodes
    */
   private void removeUnallowedUnits(SikSearchResultList<Unit> units, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) {
-
     // Get all health care types that are unfiltered
     HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
     List<HealthcareType> allUnfilteredHealthcareTypes = htch.getAllUnfilteredHealthCareTypes();
@@ -202,8 +202,13 @@ public class UnitRepository {
     DistinguishedName distinguishedName = new DistinguishedName(dn.toString());
     UnitMapper unitMapper = new UnitMapper();
 
-    // UnitMapper return a unit so we are certain that the cast is ok
-    Unit unit = (Unit) ldapTemplate.lookup(distinguishedName, unitMapper);
+    Unit unit;
+    try {
+      // UnitMapper return a unit so we are certain that the cast is ok
+      unit = (Unit) ldapTemplate.lookup(distinguishedName, unitMapper);
+    } catch (NamingException e) {
+      throw new KivException("Error getting unit from server: " + e.getMessage());
+    }
 
     return unit;
   }
@@ -233,15 +238,19 @@ public class UnitRepository {
 
     List<String> result = new ArrayList<String>();
 
-    do {
-      // SingleAttributeMapper return a String so we are pretty certain that List<String> is ok.
-      @SuppressWarnings("unchecked")
-      List<String> resultList = this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, new SingleAttributeMapper("hsaIdentity"), control);
-      // Put everything in a map to remove duplicates.
-      for (String hsaIdentity : resultList) {
-        result.add(hsaIdentity);
-      }
-    } while (control.getCookie().getCookie() != null);
+    try {
+      do {
+        // SingleAttributeMapper return a String so we are pretty certain that List<String> is ok.
+        @SuppressWarnings("unchecked")
+        List<String> resultList = this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, new SingleAttributeMapper("hsaIdentity"), control);
+        // Put everything in a map to remove duplicates.
+        for (String hsaIdentity : resultList) {
+          result.add(hsaIdentity);
+        }
+      } while (control.getCookie().getCookie() != null);
+    } catch (NamingException e) {
+      throw new KivException("Error getting units id's from server: " + e.getMessage());
+    }
 
     return result;
   }
@@ -251,8 +260,9 @@ public class UnitRepository {
    * 
    * @param showUnitsWithTheseHsaBusinessClassificationCodes Only select units from search that has business codes from this list.
    * @return A list of units.
+   * @throws KivException If something goes wrong.
    */
-  public List<Unit> getAllUnits(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) {
+  public List<Unit> getAllUnits(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
     Filter filter = createAllUnitsFilter(showUnitsWithTheseHsaBusinessClassificationCodes);
 
     PagedResultsCookie cookie = null;
@@ -263,15 +273,19 @@ public class UnitRepository {
     UnitMapper unitMapper = new UnitMapper();
     List<Unit> result = new ArrayList<Unit>();
 
-    do {
-      // UnitMapper return a Unit so we are pretty certain that List<Unit> is ok.
-      @SuppressWarnings("unchecked")
-      List<Unit> resultList = this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, unitMapper, control);
-      // Put everything in a map to remove duplicates.
-      for (Unit unit : resultList) {
-        result.add(unit);
-      }
-    } while (control.getCookie().getCookie() != null);
+    try {
+      do {
+        // UnitMapper return a Unit so we are pretty certain that List<Unit> is ok.
+        @SuppressWarnings("unchecked")
+        List<Unit> resultList = this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, unitMapper, control);
+        // Put everything in a map to remove duplicates.
+        for (Unit unit : resultList) {
+          result.add(unit);
+        }
+      } while (control.getCookie().getCookie() != null);
+    } catch (NamingException e) {
+      throw new KivException("Error getting units from server: " + e.getMessage());
+    }
 
     return result;
   }
@@ -339,13 +353,17 @@ public class UnitRepository {
     return filter;
   }
 
-  private SikSearchResultList<Unit> searchUnits(Filter searchFilter, int searchScope, int maxResult, Comparator<Unit> sortOrder) {
+  private SikSearchResultList<Unit> searchUnits(Filter searchFilter, int searchScope, int maxResult, Comparator<Unit> sortOrder) throws KivException {
     SikSearchResultList<Unit> result = new SikSearchResultList<Unit>();
     UnitMapper unitMapper = new UnitMapper();
-    // Since UnitMapper returns unit the assignment to List<Unit> is safe
-    @SuppressWarnings("unchecked")
-    List<Unit> searchResult = ldapTemplate.search(UNIT_SEARCH_BASE, searchFilter.encode(), searchScope, unitMapper);
-    result.addAll(searchResult);
+    try {
+      // Since UnitMapper returns unit the assignment to List<Unit> is safe
+      @SuppressWarnings("unchecked")
+      List<Unit> searchResult = ldapTemplate.search(UNIT_SEARCH_BASE, searchFilter.encode(), searchScope, unitMapper);
+      result.addAll(searchResult);
+    } catch (NamingException e) {
+      throw new KivException("Error searching units from server: " + e.getMessage());
+    }
 
     // Make sure we don't return duplicates
     SikSearchResultList<Unit> resultNoDuplicates = deduplicateUnits(result);
@@ -367,14 +385,18 @@ public class UnitRepository {
     return resultNoDuplicates;
   }
 
-  private Unit searchUnit(Name searchBase, int searchScope, Filter searchFilter) {
-    // UnitMapper return a Unit so we are pretty certain that List<Unit> is ok.
-    @SuppressWarnings("unchecked")
-    List<Unit> searchResult = ldapTemplate.search(searchBase, searchFilter.encode(), searchScope, new UnitMapper());
-
+  private Unit searchUnit(Name searchBase, int searchScope, Filter searchFilter) throws KivException {
     Unit result = new Unit();
-    if (searchResult.size() > 0) {
-      result = searchResult.get(0);
+    try {
+      // UnitMapper return a Unit so we are pretty certain that List<Unit> is ok.
+      @SuppressWarnings("unchecked")
+      List<Unit> searchResult = ldapTemplate.search(searchBase, searchFilter.encode(), searchScope, new UnitMapper());
+
+      if (searchResult.size() > 0) {
+        result = searchResult.get(0);
+      }
+    } catch (NamingException e) {
+      throw new KivException("Error searching unit from server: " + e.getMessage());
     }
     return result;
   }

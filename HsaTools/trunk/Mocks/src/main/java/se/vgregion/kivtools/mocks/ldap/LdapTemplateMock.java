@@ -30,6 +30,7 @@ import javax.naming.directory.ModificationItem;
 import javax.naming.directory.SearchControls;
 
 import org.springframework.ldap.NameNotFoundException;
+import org.springframework.ldap.NamingException;
 import org.springframework.ldap.control.PagedResultsCookie;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.AuthenticatedLdapEntryContextCallback;
@@ -52,7 +53,7 @@ public class LdapTemplateMock extends LdapTemplate {
   private String searchFilter;
   private Map<Name, DirContextOperations> boundDNs = new HashMap<Name, DirContextOperations>();
   private List<DirContextOperations> dirContextOperationsForSearch = new ArrayList<DirContextOperations>();
-  private NameNotFoundException exceptionToThrow;
+  private NamingException exceptionToThrow;
 
   /**
    * Binds a DirContextOperations object to a specific distinguished name.
@@ -80,7 +81,7 @@ public class LdapTemplateMock extends LdapTemplate {
     this.dirContextOperationsForSearch.add(dirContextOperations);
   }
 
-  public void setExceptionToThrow(NameNotFoundException exceptionToThrow) {
+  public void setExceptionToThrow(NamingException exceptionToThrow) {
     this.exceptionToThrow = exceptionToThrow;
   }
 
@@ -95,9 +96,7 @@ public class LdapTemplateMock extends LdapTemplate {
 
   @Override
   public Object lookup(Name dn, ContextMapper mapper) {
-    if (this.exceptionToThrow != null) {
-      throw this.exceptionToThrow;
-    }
+    throwExceptionIfApplicable();
 
     DirContextOperations dirContextOperations = this.boundDNs.get(dn);
     if (dirContextOperations == null) {
@@ -111,9 +110,18 @@ public class LdapTemplateMock extends LdapTemplate {
     return result;
   }
 
+  private void throwExceptionIfApplicable() {
+    if (this.exceptionToThrow != null) {
+      throw this.exceptionToThrow;
+    }
+  }
+
   @Override
   @SuppressWarnings("unchecked")
   public List search(String base, String filter, SearchControls searchControls, ContextMapper mapper, DirContextProcessor dirContextProcessor) {
+    throwExceptionIfApplicable();
+
+    this.searchFilter = filter;
     List result = search(base.toString(), filter, mapper);
     // Use ReflectionUtil since there is no set-method for cookie.
     ReflectionUtil.setField(dirContextProcessor, "cookie", new PagedResultsCookie(null));
@@ -123,18 +131,26 @@ public class LdapTemplateMock extends LdapTemplate {
   @Override
   @SuppressWarnings("unchecked")
   public List search(Name base, String filter, int searchScope, ContextMapper mapper) {
+    throwExceptionIfApplicable();
+
+    this.searchFilter = filter;
     return search(base.toString(), filter, mapper);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public List search(Name base, String filter, ContextMapper mapper) {
+    throwExceptionIfApplicable();
+
+    this.searchFilter = filter;
     return search(base.toString(), filter, mapper);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public List search(String base, String filter, ContextMapper mapper) {
+    throwExceptionIfApplicable();
+
     this.searchFilter = filter;
     List result = new ArrayList();
     for (DirContextOperations dirContextOperations : this.dirContextOperationsForSearch) {

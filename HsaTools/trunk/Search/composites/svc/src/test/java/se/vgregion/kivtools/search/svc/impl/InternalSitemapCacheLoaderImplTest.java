@@ -114,12 +114,25 @@ public class InternalSitemapCacheLoaderImplTest {
     assertEquals("2010-02-16T01:00:00+01:00", cache.getEntries().get(3).getLastModified());
   }
 
+  @Test
+  public void cacheLoadingIsStoppedAtKivException() {
+    searchService.setExceptionToThrow(new KivException("error"));
+    SitemapCache cache = loader.loadCache();
+    assertNotNull(cache);
+    assertEquals(0, cache.getEntries().size());
+  }
+
   private static class SearchServiceMock implements SearchService {
     List<Person> persons = new ArrayList<Person>();
+    private KivException exceptionToThrow;
 
     public SearchServiceMock() {
       persons.add(createPerson("kon829", "hsa-456", TimePoint.atMidnightGMT(2010, 2, 12), TimePoint.atMidnightGMT(2010, 2, 16), TimePoint.atMidnightGMT(2010, 1, 10)));
       persons.add(createPerson("krila8", "hsa-123"));
+    }
+
+    public void setExceptionToThrow(KivException exceptionToThrow) {
+      this.exceptionToThrow = exceptionToThrow;
     }
 
     private Person createPerson(String vgrid, String hsaIdentity, TimePoint... employmentsModified) {
@@ -140,6 +153,9 @@ public class InternalSitemapCacheLoaderImplTest {
 
     @Override
     public List<Person> getAllPersons() throws KivException {
+      if (this.exceptionToThrow != null) {
+        throw this.exceptionToThrow;
+      }
       return this.persons;
     }
 

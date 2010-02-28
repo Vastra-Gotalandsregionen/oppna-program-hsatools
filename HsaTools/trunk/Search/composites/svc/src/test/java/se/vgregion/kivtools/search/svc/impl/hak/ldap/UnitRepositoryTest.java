@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.ldap.CommunicationException;
 import org.springframework.ldap.core.DistinguishedName;
 
 import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
@@ -89,6 +90,13 @@ public class UnitRepositoryTest {
     SikSearchResultList<Unit> searchUnits = unitRepository.searchUnits(searchUnitCriterions, 0);
     ldapTemplate.assertSearchFilter(expectedFilter);
     assertEquals(0, searchUnits.size());
+  }
+
+  @Test(expected = KivException.class)
+  public void searchUnitsThrowsKivExceptionOnNamingException() throws KivException {
+    this.ldapTemplate.setExceptionToThrow(new CommunicationException(null));
+    SearchUnitCriterions searchUnitCriterions = new SearchUnitCriterions();
+    unitRepository.searchUnits(searchUnitCriterions, 1);
   }
 
   @Test
@@ -162,6 +170,12 @@ public class UnitRepositoryTest {
     assertEquals("ABC-123", allUnitsHsaIdentity.get(0));
   }
 
+  @Test(expected = KivException.class)
+  public void getAllUnitsHsaIdentityThrowsKivExceptionOnNamingException() throws KivException {
+    this.ldapTemplate.setExceptionToThrow(new CommunicationException(null));
+    unitRepository.getAllUnitsHsaIdentity();
+  }
+
   @Test
   public void testRemoveUnallowedUnits() throws KivException {
     DirContextOperationsMock entry1 = new DirContextOperationsMock();
@@ -225,6 +239,12 @@ public class UnitRepositoryTest {
     assertEquals("SE6460000000-E000000000222", unit.getHsaIdentity());
   }
 
+  @Test(expected = KivException.class)
+  public void getUnitByHsaIdThrowsKivExceptionOnNamingException() throws KivException {
+    this.ldapTemplate.setExceptionToThrow(new CommunicationException(null));
+    unitRepository.getUnitByHsaId("abc-123");
+  }
+
   @Test
   public void extractResultReturnNoDuplicateHsaIdentities() throws KivException {
     createEntry("SE6460000000-E000000000222", "");
@@ -271,6 +291,12 @@ public class UnitRepositoryTest {
     assertEquals("abc-123", unit.getHsaIdentity());
   }
 
+  @Test(expected = KivException.class)
+  public void getUnitByDNThrowsKivExceptionOnNamingException() throws KivException {
+    this.ldapTemplate.setExceptionToThrow(new CommunicationException(null));
+    unitRepository.getUnitByDN(DN.createDNFromString("ou=Vårdcentralen Halmstad,ou=Landstinget Halland"));
+  }
+
   @Test
   public void testGetAllUnitsBusinessClassificationCodesSpecified() throws KivException {
     DirContextOperationsMock hsaIdentity1 = new DirContextOperationsMock();
@@ -284,5 +310,11 @@ public class UnitRepositoryTest {
     ldapTemplate.assertSearchFilter(expectedFilter);
     assertEquals(1, allUnits.size());
     assertEquals("ABC-123", allUnits.get(0).getHsaIdentity());
+  }
+
+  @Test(expected = KivException.class)
+  public void getAllUnitsThrowsKivExceptionOnNamingException() throws KivException {
+    this.ldapTemplate.setExceptionToThrow(new CommunicationException(null));
+    unitRepository.getAllUnits(new ArrayList<Integer>());
   }
 }
