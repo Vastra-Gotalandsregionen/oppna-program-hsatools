@@ -30,15 +30,19 @@ import java.util.List;
 import java.util.Map;
 
 import javax.naming.Name;
+import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.SearchControls;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapTemplate;
 
+import se.vgregion.kivtools.mocks.ldap.LdapTemplateMock;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
@@ -49,10 +53,15 @@ import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.util.time.TimeSource;
 import se.vgregion.kivtools.util.time.TimeUtil;
 
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = { "/services-config_VGR.xml" })
 public class PersonRepositoryTest {
     private PersonRepository personRepository;
     private Calendar calendar;
     private MockLdapTemplate mockLdapTemplate;
+    @Autowired
+    @Qualifier("ldapTemplatePerson")
+    private LdapTemplate ldapTemplate;
 
     @Before
     public void setUp() throws Exception {
@@ -68,6 +77,16 @@ public class PersonRepositoryTest {
     @After
     public void tearDown() {
         TimeUtil.reset();
+    }
+
+    @Test
+    public void testGetAllPersonsVgrIDs() throws KivException {
+        LdapTemplateMock ldapTemplateMock = new LdapTemplateMock();
+        ldapTemplateMock.addAttributeForSearch(new BasicAttribute("vgr-id", "user1"));
+        ldapTemplateMock.addAttributeForSearch(new BasicAttribute("vgr-id", "user2"));
+        personRepository.setLdapTemplate(ldapTemplateMock);
+        List<String> allPersonsVgrId = personRepository.getAllPersonsVgrId();
+        assertEquals(2, allPersonsVgrId.size());
     }
 
     @Test
