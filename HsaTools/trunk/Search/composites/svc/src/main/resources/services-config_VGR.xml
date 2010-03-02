@@ -49,7 +49,6 @@
 
 	<bean id="Search_PersonRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.PersonRepository">
-		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"></property>
 		<property name="codeTablesService" ref="Search_CodeTablesService"></property>
 		<property name="unitFkField" value="vgrOrgRel" />
 		<property name="ldapTemplate" ref="ldapTemplatePerson" />
@@ -57,12 +56,7 @@
 
 	<bean id="Search_UnitRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository">
-		<!--
-			<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"
-			/>
-		-->
 		<property name="codeTablesService" ref="Search_CodeTablesService" />
-		<!--		<property name="unitFactory" ref="Search_Unitfactory" />-->
 		<property name="unitMapper" ref="unitMapper" />
 		<property name="ldapTemplate" ref="ldapTemplateOrganisation" />
 
@@ -76,7 +70,6 @@
 
 	<bean id="Search_EmploymentRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.EmploymentRepository">
-<!--		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"></property>-->
 		<property name="codeTablesService" ref="Search_CodeTablesService" />
 		<property name="ldapTemplate" ref="ldapTemplatePerson" />
 	</bean>

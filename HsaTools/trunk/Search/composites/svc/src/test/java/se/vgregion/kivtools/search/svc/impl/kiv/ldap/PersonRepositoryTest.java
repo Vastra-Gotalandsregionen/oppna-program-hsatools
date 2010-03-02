@@ -163,13 +163,13 @@ public class PersonRepositoryTest {
     public void testGetPersonsForUnits() throws Exception {
         mockLdapTemplate.result
                 .put(
-                        "(&(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4)))",
+                        "(&(!(objectClass=vgrAnstallning))(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4)))",
                         Arrays.asList((Object) new Unit()));
         List<Unit> units = generateTestUnitList();
         List<Person> persons = personRepository.getPersonsForUnits(units, 5);
         assertFalse(persons.isEmpty());
         assertEquals(
-                "(&(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4)))",
+                "(&(!(objectClass=vgrAnstallning))(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4)))",
                 mockLdapTemplate.filter.get(0));
     }
 
