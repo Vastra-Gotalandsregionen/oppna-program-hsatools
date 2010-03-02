@@ -287,6 +287,7 @@ public class PersonRepository {
             unitFkfilter.or(new EqualsFilter(unitFkField, unit.getHsaIdentity()));
         }
 
+        filter.and(new NotFilter(new EqualsFilter("objectClass", "vgrAnstallning")));
         filter.and(new NotFilter(new LikeFilter("vgrStrukturPerson", "*OU=Privata Vårdgivare*")));
         filter.and(unitFkfilter);
 
