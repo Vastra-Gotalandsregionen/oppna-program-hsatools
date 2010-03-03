@@ -34,14 +34,10 @@ import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.util.time.TimeUtil;
 import se.vgregion.kivtools.util.time.TimeUtil.DateTimeFormat;
 
-import com.novell.ldap.LDAPException;
-import com.novell.ldap.LDAPSearchResults;
-
 /**
  * @author Anders Asplund - KnowIT
  */
 public class EmploymentRepository {
-    private static final int POOL_WAIT_TIME_MILLISECONDS = 2000;
     // Get LDAP entries that have hsaEndDate greater or equal current date and hsaStartDate less or equal current
     // date.
     private static final String ALL_EMPLOYMENT_FILTER = "(&(objectclass=vgrAnstallning)(|(!(hsaEndDate=*))(hsaEndDate>=%1$s))(|(hsaStartDate<=%1$s)(!(hsaStartDate=*))))";
@@ -67,7 +63,6 @@ public class EmploymentRepository {
      *             If something goes wrong.
      */
     public SikSearchResultList<Employment> getEmployments(DN dn) throws KivException {
-        // LDAPSearchResults searchResults = null;
         SikSearchResultList<Employment> result = new SikSearchResultList<Employment>();
         int maxResult = 0;
         DistinguishedName distinguishedName = new DistinguishedName(dn.toString());
@@ -83,34 +78,6 @@ public class EmploymentRepository {
         }
         return result;
     }
-
-    private SikSearchResultList<Employment> extractResult(LDAPSearchResults searchResults, int maxResult)
-            throws LDAPException {
-        SikSearchResultList<Employment> result = new SikSearchResultList<Employment>();
-        int count = 0;
-        while (searchResults.hasMore() && (++count < maxResult || maxResult == 0)) {
-            try {
-                result.add(EmploymentFactory.reconstitute(searchResults.next(), codeTablesService));
-            } catch (LDAPException e) {
-                if (e.getResultCode() == LDAPException.LDAP_TIMEOUT
-                        || e.getResultCode() == LDAPException.CONNECT_ERROR) {
-                    throw e;
-                } else {
-                    continue;
-                }
-            }
-        }
-        return result;
-    }
-
-    // private LDAPConnection getLDAPConnection() throws KivException {
-    // LDAPConnection lc = theConnectionPool.getConnection(POOL_WAIT_TIME_MILLISECONDS);
-    // if (lc == null) {
-    // throw new SikInternalException(this, "getLDAPConnection()",
-    // "Could not get a connection after waiting " + POOL_WAIT_TIME_MILLISECONDS + " ms.");
-    // }
-    // return lc;
-    // }
 
     /**
      * Create LDAP filter string with a condition that hsaEndDate must be greater or equal current date.

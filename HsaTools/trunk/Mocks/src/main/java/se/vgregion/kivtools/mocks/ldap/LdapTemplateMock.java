@@ -53,10 +53,12 @@ import se.vgregion.kivtools.util.reflection.ReflectionUtil;
  */
 public class LdapTemplateMock extends LdapTemplate {
     private String searchFilter;
+    private String base = "";
     private Map<Name, DirContextOperations> boundDNs = new HashMap<Name, DirContextOperations>();
     private List<DirContextOperations> dirContextOperationsForSearch = new ArrayList<DirContextOperations>();
     private Map<String, List<BasicAttributes>> attributes = new HashMap<String, List<BasicAttributes>>();
     private NamingException exceptionToThrow;
+    private String dn;
 
     public void addAttributeForSearch(BasicAttribute attribute) {
         List<BasicAttributes> basicAttributes = attributes.get(attribute.getID());
@@ -70,6 +72,14 @@ public class LdapTemplateMock extends LdapTemplate {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    public String getBase() {
+        return this.base;
+    }
+
+    public String getDn() {
+        return this.dn;
     }
 
     /**
@@ -118,7 +128,7 @@ public class LdapTemplateMock extends LdapTemplate {
     @Override
     public Object lookup(Name dn, ContextMapper mapper) {
         throwExceptionIfApplicable();
-
+        this.dn = dn.toString();
         DirContextOperations dirContextOperations = this.boundDNs.get(dn);
         if (dirContextOperations == null) {
             throw new NameNotFoundException("Name not found");
@@ -144,6 +154,7 @@ public class LdapTemplateMock extends LdapTemplate {
         throwExceptionIfApplicable();
 
         this.searchFilter = filter;
+        this.base = base;
         List result = search(base.toString(), filter, mapper);
         // Use ReflectionUtil since there is no set-method for cookie.
         ReflectionUtil.setField(dirContextProcessor, "cookie", new PagedResultsCookie(null));
@@ -156,6 +167,7 @@ public class LdapTemplateMock extends LdapTemplate {
         throwExceptionIfApplicable();
 
         this.searchFilter = filter;
+        this.base = base.toString();
         return search(base.toString(), filter, mapper);
     }
 
@@ -165,6 +177,7 @@ public class LdapTemplateMock extends LdapTemplate {
         throwExceptionIfApplicable();
 
         this.searchFilter = filter;
+        this.base = base.toString();
         return search(base.toString(), filter, mapper);
     }
 
@@ -174,6 +187,7 @@ public class LdapTemplateMock extends LdapTemplate {
         throwExceptionIfApplicable();
 
         this.searchFilter = filter;
+        this.base = base;
         List result = new ArrayList();
         for (DirContextOperations dirContextOperations : this.dirContextOperationsForSearch) {
             result.add(mapper.mapFromContext(dirContextOperations));
@@ -455,7 +469,7 @@ public class LdapTemplateMock extends LdapTemplate {
     @Override
     @SuppressWarnings("unchecked")
     public List search(Name base, String filter, int searchScope, String[] attrs, ContextMapper mapper) {
-        throw new UnsupportedOperationException("Method not implemented in mock");
+        return search(base.toString(), filter, mapper);
     }
 
     @Override
@@ -531,7 +545,9 @@ public class LdapTemplateMock extends LdapTemplate {
     @Override
     @SuppressWarnings("unchecked")
     public List search(String base, String filter, int searchScope, ContextMapper mapper) {
-        throw new UnsupportedOperationException("Method not implemented in mock");
+        this.base = base;
+        this.searchFilter = filter;
+        return search(base.toString(), filter, mapper);
     }
 
     @Override
@@ -583,7 +599,9 @@ public class LdapTemplateMock extends LdapTemplate {
 
     @Override
     public Object searchForObject(Name base, String filter, ContextMapper mapper) {
-        throw new UnsupportedOperationException("Method not implemented in mock");
+        this.base = base.toString();
+        this.searchFilter = filter;
+        return mapper.mapFromContext(dirContextOperationsForSearch.get(0));
     }
 
     @Override
