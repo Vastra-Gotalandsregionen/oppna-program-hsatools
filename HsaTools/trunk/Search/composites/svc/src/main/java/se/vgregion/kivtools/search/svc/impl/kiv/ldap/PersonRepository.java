@@ -64,7 +64,6 @@ import com.novell.ldap.LDAPSearchConstraints;
  * @author Anders Asplund - KnowIT
  */
 public class PersonRepository {
-    public static final String KIV_SEARCH_BASE = "ou=Personal,o=vgr";
     private static final DistinguishedName PERSON_SEARCH_BASE = new DistinguishedName("ou=Personal,o=vgr");
     private static final String LDAP_WILD_CARD = "*";
     // an "
@@ -109,7 +108,8 @@ public class PersonRepository {
      */
     public Person getPersonByVgrId(String vgrId) throws KivException {
         String searchFilter = "(objectclass=vgrUser)";
-        return searchPerson("cn=" + vgrId + "," + KIV_SEARCH_BASE, LDAPConnection.SCOPE_BASE, searchFilter);
+        return searchPerson("cn=" + vgrId + "," + PERSON_SEARCH_BASE.toString(), LDAPConnection.SCOPE_BASE,
+                searchFilter);
     }
 
     /**
