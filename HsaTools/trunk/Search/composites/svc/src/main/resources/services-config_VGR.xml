@@ -148,11 +148,6 @@
 		</property>
 	</bean>
 
-	<bean id="Search_Unitfactory"
-		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitFactory">
-		<property name="codeTablesService" ref="Search_CodeTablesService" />
-		<property name="displayValueTranslator" ref="Search_DisplayValueTranslator" />
-	</bean>
 	<!-- Organization tree builder settins -->
 
 	<bean id="vgrOrganizatioTreeFactory"
