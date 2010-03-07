@@ -26,16 +26,19 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.ldap.NamingException;
+import org.springframework.ldap.core.ContextMapper;
+import org.springframework.ldap.core.DirContextOperations;
+import org.springframework.ldap.core.DistinguishedName;
+import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.ldap.filter.EqualsFilter;
+import org.springframework.ldap.filter.Filter;
+
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.LDAPRuntimeExcepton;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
-import se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool;
-
-import com.novell.ldap.LDAPConnection;
-import com.novell.ldap.LDAPEntry;
-import com.novell.ldap.LDAPException;
-import com.novell.ldap.LDAPSearchResults;
+import se.vgregion.kivtools.search.svc.ldap.DirContextOperationsHelper;
 
 /**
  * Class that handles code, text pairing of ldap values.
@@ -43,19 +46,19 @@ import com.novell.ldap.LDAPSearchResults;
  * @author David & Jonas
  */
 public class CodeTablesServiceImpl implements CodeTablesService {
-  private static final String CODE_TABLES_BASE = "ou=listor,ou=System,o=VGR";
+  private static final DistinguishedName CODE_TABLES_BASE = DistinguishedName.immutableDistinguishedName("ou=listor,ou=System,o=VGR");
 
   private Map<CodeTableName, Map<String, String>> codeTables = new ConcurrentHashMap<CodeTableName, Map<String, String>>();
-  private String attribute = "description";
-  private LdapConnectionPool ldapConnectionPool;
+
+  private final LdapTemplate ldapTemplate;
 
   /**
-   * Set LdapConnectionPool to use for codeTable service.
+   * Constructs a new CodeTablesServiceImpl.
    * 
-   * @param ldapConnectionPool LdapConnectionPool to use in CodeTable service.
+   * @param ldapTemplate The Spring LDAP Template to use.
    */
-  public void setLdapConnectionPool(LdapConnectionPool ldapConnectionPool) {
-    this.ldapConnectionPool = ldapConnectionPool;
+  public CodeTablesServiceImpl(LdapTemplate ldapTemplate) {
+    this.ldapTemplate = ldapTemplate;
   }
 
   /**
@@ -73,30 +76,12 @@ public class CodeTablesServiceImpl implements CodeTablesService {
   }
 
   private void populateCodeTablesMap(CodeTableName codeTableName) throws KivException {
+    Filter searchFilter = new EqualsFilter("cn", codeTableName.toString());
+    CodeTableMapper codeTableMapper = new CodeTableMapper();
     try {
-      LDAPConnection connection = ldapConnectionPool.getConnection();
-      try {
-        LDAPSearchResults search = connection.search(CODE_TABLES_BASE, LDAPConnection.SCOPE_SUB, "(cn=" + codeTableName + ")", new String[] { attribute }, false);
-        Map<String, String> codeTableContent = new HashMap<String, String>();
-        LDAPEntry entry = search.next();
-        if (entry != null) {
-          String[] codePair = entry.getAttribute(attribute).getStringValueArray();
-          for (String code : codePair) {
-            if (!code.startsWith("* ")) {
-              String[] codeArr = code.split(";");
-              if (codeArr.length >= 2) {
-                codeTableContent.put(codeArr[0], codeArr[1]);
-              } else {
-                codeTableContent.put(codeArr[0], codeArr[0]);
-              }
-            }
-          }
-          codeTables.put(codeTableName, codeTableContent);
-        }
-      } finally {
-        ldapConnectionPool.freeConnection(connection);
-      }
-    } catch (LDAPException e) {
+      ldapTemplate.search(CODE_TABLES_BASE, searchFilter.encode(), codeTableMapper);
+      codeTables.put(codeTableName, codeTableMapper.getCodeTableContent());
+    } catch (NamingException e) {
       throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
     }
   }
@@ -140,5 +125,36 @@ public class CodeTablesServiceImpl implements CodeTablesService {
   @Override
   public List<String> getAllValuesItemsFromCodeTable(String codeTable) {
     return new ArrayList<String>(codeTables.get(CodeTableName.valueOf(codeTable)).values());
+  }
+
+  /**
+   * Mapper for code table data.
+   */
+  private static class CodeTableMapper implements ContextMapper {
+    private final Map<String, String> codeTableContent = new HashMap<String, String>();
+
+    @Override
+    public Object mapFromContext(Object ctx) {
+      DirContextOperationsHelper context = new DirContextOperationsHelper((DirContextOperations) ctx);
+
+      List<String> codePair = context.getStrings("description");
+
+      for (String code : codePair) {
+        if (!code.startsWith("* ")) {
+          String[] codeArr = code.split(";");
+          if (codeArr.length >= 2) {
+            codeTableContent.put(codeArr[0], codeArr[1]);
+          } else {
+            codeTableContent.put(codeArr[0], codeArr[0]);
+          }
+        }
+      }
+
+      return null;
+    }
+
+    public Map<String, String> getCodeTableContent() {
+      return codeTableContent;
+    }
   }
 }

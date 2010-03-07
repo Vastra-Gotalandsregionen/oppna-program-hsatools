@@ -43,27 +43,4 @@ public class LdapParseTest {
     assertEquals("No special characters to escape", "Hi This is a test #çà", LdapParse.escapeLDAPSearchFilter("Hi This is a test #çà"));
     assertEquals("Hi \\28This\\29 = is \\2a a \\5c test # ç à ô\\00", LdapParse.escapeLDAPSearchFilter("Hi (This) = is * a \\ test # ç à ô\u0000"));
   }
-
-  @Test
-  public void testGetDayName() {
-    assertEquals("Unexpected returned value for null", "", LdapParse.getDayName(null));
-    assertEquals("Unexpected returned value for empty string", "", LdapParse.getDayName(""));
-    assertEquals("Unexpected returned value for non numeric string", "", LdapParse.getDayName("xx"));
-    assertEquals("Unexpected returned value for 0", "Söndag", LdapParse.getDayName("0"));
-    assertEquals("Unexpected returned value for 1", "Måndag", LdapParse.getDayName("1"));
-    assertEquals("Unexpected returned value for 2", "Tisdag", LdapParse.getDayName("2"));
-    assertEquals("Unexpected returned value for 3", "Onsdag", LdapParse.getDayName("3"));
-    assertEquals("Unexpected returned value for 4", "Torsdag", LdapParse.getDayName("4"));
-    assertEquals("Unexpected returned value for 5", "Fredag", LdapParse.getDayName("5"));
-    assertEquals("Unexpected returned value for 6", "Lördag", LdapParse.getDayName("6"));
-    assertEquals("Unexpected returned value for 7", "", LdapParse.getDayName("7"));
-    assertEquals("Unexpected returned value for 10", "", LdapParse.getDayName("10"));
-  }
-  @Test
-  public void testLdapBooleanConverter(){
-    assertEquals("J", LdapParse.convertBooleanToString(true));
-    assertEquals("N", LdapParse.convertBooleanToString(false));
-    assertTrue(LdapParse.convertStringToBoolean("J"));
-    assertFalse(LdapParse.convertStringToBoolean("N"));
-  }
 }

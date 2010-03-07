@@ -135,14 +135,14 @@
 
 	<bean id="Registration_citizenRepository"
 		class="se.vgregion.kivtools.search.svc.registration.CitizenRepository">
-		<property name="ldapTemplate" ref="ldapTemplate" />
+		<property name="ldapTemplate" ref="ldapTemplateCitizen" />
 	</bean>
 
-	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
-		<constructor-arg ref="contextSource" />
+	<bean id="ldapTemplateCitizen" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSourceCitizen" />
 	</bean>
 
-	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+	<bean id="contextSourceCitizen" class="org.springframework.ldap.core.support.LdapContextSource">
 		<property name="url" value="ldap://ldappoc.vgregion.se:389" />
 		<property name="base" value="ou=medborgare,ou=anv,O=VGR" />
 		<!--        <property name="userName" value="" />-->

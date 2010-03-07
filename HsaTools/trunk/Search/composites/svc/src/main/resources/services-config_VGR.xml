@@ -31,13 +31,6 @@
 		class="se.vgregion.kivtools.search.svc.impl.mock.SearchServiceMockImpl"
 		/>
 	-->
-	<!--
-		Use this block of injections if connection to KIV is enabled <bean
-		id="Search_SearchService"
-		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.SearchServiceNovellLdapImpl">
-		<property name="ldapConnectionPool"
-		ref="Search_LdapConnectionPool"></property> </bean>
-	-->
 
 	<!--  -->
 	<bean id="Search_SearchService"
@@ -51,14 +44,14 @@
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.PersonRepository">
 		<property name="codeTablesService" ref="Search_CodeTablesService"></property>
 		<property name="unitFkField" value="vgrOrgRel" />
-		<property name="ldapTemplate" ref="ldapTemplatePerson" />
+		<property name="ldapTemplate" ref="ldapTemplate" />
 	</bean>
 
 	<bean id="Search_UnitRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository">
 		<property name="codeTablesService" ref="Search_CodeTablesService" />
 		<property name="unitMapper" ref="unitMapper" />
-		<property name="ldapTemplate" ref="ldapTemplateOrganisation" />
+		<property name="ldapTemplate" ref="ldapTemplate" />
 
 	</bean>
 
@@ -71,7 +64,7 @@
 	<bean id="Search_EmploymentRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.EmploymentRepository">
 		<property name="codeTablesService" ref="Search_CodeTablesService" />
-		<property name="ldapTemplate" ref="ldapTemplatePerson" />
+		<property name="ldapTemplate" ref="ldapTemplate" />
 	</bean>
 
 	<bean id="Search_HealthcareTypeConditionHelper"
@@ -86,14 +79,6 @@
 			value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-municipalities"></property>
 	</bean>
 
-	<bean id="Search_LdapConnectionPool" class="se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool"
-		destroy-method="release">
-		<property name="ldapHost" value="${hsatools.search.svc.ldap.ldaphost}" />
-		<property name="loginDN" value="${hsatools.search.svc.ldap.logindn}" />
-		<property name="password" value="${hsatools.search.svc.ldap.password}" />
-		<property name="maxConn" value="${hsatools.search.svc.ldap.maxConn}" />
-	</bean>
-
 	<!-- LDAP connection settings  -->
 	<bean id="propertyPlaceholder"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -104,8 +89,8 @@
 
 	<bean id="Search_CodeTablesService"
 		class="se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl"
-		init-method="init" depends-on="Search_LdapConnectionPool">
-		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool" />
+		init-method="init">
+		<constructor-arg ref="ldapTemplate"></constructor-arg>
 	</bean>
 
 	<bean id="Search_DisplayValueTranslator" class="se.vgregion.kivtools.search.util.DisplayValueTranslator">
@@ -152,30 +137,20 @@
 
 	<bean id="vgrOrganizatioTreeFactory"
 		class="se.vgregion.kivtools.search.svc.kiv.organizationtree.springldap.VgrOrganizationTreeFactory">
-		<property name="ldapTemplate" ref="ldapTemplateOrganisation" />
+		<property name="ldapTemplate" ref="ldapTemplate" />
 		<property name="treeLevelLimit" value="2" />
 	</bean>
 
 	<!-- Spring ldap -->
-	<bean id="contextSourceOrganisation" class="org.springframework.ldap.core.support.LdapContextSource">
+	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
 		<property name="url" value="ldap://${hsatools.search.svc.ldap.ldaphost}" />
 		<property name="base" value="" />
 		<property name="userDn" value="${hsatools.search.svc.ldap.logindn}" />
 		<property name="password" value="${hsatools.search.svc.ldap.password}" />
 		<property name="pooled" value="true" />
 	</bean>
-
-	<bean id="ldapTemplateOrganisation" class="org.springframework.ldap.core.LdapTemplate">
-		<constructor-arg ref="contextSourceOrganisation" />
-	</bean>
-		<bean id="contextSourcePerson" class="org.springframework.ldap.core.support.LdapContextSource">
-		<property name="url" value="ldap://${hsatools.search.svc.ldap.ldaphost}" />
-		<property name="base" value="" />
-		<property name="userDn" value="${hsatools.search.svc.ldap.logindn}" />
-		<property name="password" value="${hsatools.search.svc.ldap.password}" />
-		<property name="pooled" value="true" />
-	</bean>
-	<bean id="ldapTemplatePerson" class="org.springframework.ldap.core.LdapTemplate">
-		<constructor-arg ref="contextSourcePerson" />
+	
+	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSource" />
 	</bean>
 </beans>

@@ -49,22 +49,29 @@
 
 	<bean id="Search_PersonRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.PersonRepository">
-		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"></property>
 		<property name="codeTablesService" ref="Search_CodeTablesService"></property>
 		<property name="unitFkField" value="vgrOrgRel" />
+		<property name="ldapTemplate" ref="ldapTemplate" />
 	</bean>
 
 	<bean id="Search_UnitRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepositoryFTV">
-		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool" />
 		<property name="codeTablesService" ref="Search_CodeTablesService" />
-		<property name="unitFactory" ref="Search_Unitfactory" />
+		<property name="unitMapper" ref="unitMapper" />
+		<property name="ldapTemplate" ref="ldapTemplate" />
+
+	</bean>
+
+	<bean id="unitMapper"
+		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitMapper">
+		<constructor-arg ref="Search_CodeTablesService" />
+		<constructor-arg ref="Search_DisplayValueTranslator" />
 	</bean>
 
 	<bean id="Search_EmploymentRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.EmploymentRepository">
-		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool"></property>
 		<property name="codeTablesService" ref="Search_CodeTablesService" />
+		<property name="ldapTemplate" ref="ldapTemplate" />
 	</bean>
 
 	<bean id="Search_HealthcareTypeConditionHelper"
@@ -79,15 +86,6 @@
 			value="se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-municipalities"></property>
 	</bean>
 
-	<bean id="Search_LdapConnectionPool"
-		class="se.vgregion.kivtools.search.svc.ldap.LdapConnectionPool"
-		destroy-method="release">
-		<property name="ldapHost" value="${hsatools.search.svc.ldap.ldaphost}" />
-		<property name="loginDN" value="${hsatools.search.svc.ldap.logindn}" />
-		<property name="password" value="${hsatools.search.svc.ldap.password}" />
-		<property name="maxConn" value="${hsatools.search.svc.ldap.maxConn}" />
-	</bean>
-
 	<!-- LDAP connection settings  -->
 	<bean id="propertyPlaceholder"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -98,8 +96,8 @@
 
 	<bean id="Search_CodeTablesService"
 		class="se.vgregion.kivtools.search.svc.codetables.impl.vgr.CodeTablesServiceImpl"
-		init-method="init" depends-on="Search_LdapConnectionPool">
-		<property name="ldapConnectionPool" ref="Search_LdapConnectionPool" />
+		init-method="init">
+		<constructor-arg ref="ldapTemplate"></constructor-arg>
 	</bean>
 
 	<bean id="Search_DisplayValueTranslator" class="se.vgregion.kivtools.search.util.DisplayValueTranslator">
@@ -142,9 +140,16 @@
 		</property>
 	</bean>
 
-	<bean id="Search_Unitfactory"
-		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitFactory">
-		<property name="codeTablesService" ref="Search_CodeTablesService" />
-		<property name="displayValueTranslator" ref="Search_DisplayValueTranslator" />
+	<!-- Spring ldap -->
+	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://${hsatools.search.svc.ldap.ldaphost}" />
+		<property name="base" value="" />
+		<property name="userDn" value="${hsatools.search.svc.ldap.logindn}" />
+		<property name="password" value="${hsatools.search.svc.ldap.password}" />
+		<property name="pooled" value="true" />
+	</bean>
+	
+	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSource" />
 	</bean>
 </beans>

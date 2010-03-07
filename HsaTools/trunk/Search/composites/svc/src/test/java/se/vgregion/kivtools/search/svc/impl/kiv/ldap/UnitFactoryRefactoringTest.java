@@ -35,7 +35,6 @@ import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
-import se.vgregion.kivtools.search.svc.impl.mock.LDAPEntryMock;
 import se.vgregion.kivtools.search.util.DisplayValueTranslator;
 
 public class UnitFactoryRefactoringTest {
@@ -52,7 +51,6 @@ public class UnitFactoryRefactoringTest {
   private static final String TEST_TIMESTAMP = "20090101120102";
   private static final String TEST_TIME = "1-5#08:30#10:00";
   private static final String TEST_ZULUTIME = "20090101120102Z";
-  private LDAPEntryMock ldapEntry;
   private SimpleDateFormat dateFormat;
   private DirContextOperationsMock dirContextOperationsMock;
   private UnitMapper unitMapper;
@@ -74,65 +72,6 @@ public class UnitFactoryRefactoringTest {
     DisplayValueTranslator displayValueTranslator = new DisplayValueTranslator();
     displayValueTranslator.setTranslationMap(new HashMap<String, String>());
     unitMapper = new UnitMapper(codeTablesServiceMock, displayValueTranslator);
-
-    ldapEntry = new LDAPEntryMock();
-    ldapEntry.addAttribute("cn", CN);
-    ldapEntry.addAttribute("objectClass", TEST);
-    ldapEntry.addAttribute("ou", TEST + "\\, " + TEST);
-    ldapEntry.addAttribute("hsaIdentity", TEST);
-    ldapEntry.addAttribute("organizationalUnitNameShort", TEST);
-    ldapEntry.addAttribute("description", TEST);
-    ldapEntry.addAttribute("vgrInternalDescription", TEST);
-    ldapEntry.addAttribute("mail", TEST);
-    ldapEntry.addAttribute("l", TEST);
-    ldapEntry.addAttribute("labeledUri", TEST);
-    ldapEntry.addAttribute("vgrInternalSedfInvoiceAddress", TEST);
-    ldapEntry.addAttribute("vgrCareType", TEST);
-    ldapEntry.addAttribute("vgrAO3kod", TEST);
-    ldapEntry.addAttribute("hsaBusinessClassificationCode", TEST);
-    ldapEntry.addAttribute("hsaTextPhoneNumber", TEST);
-    ldapEntry.addAttribute("hsaTextPhoneNumber", TEST);
-    ldapEntry.addAttribute("mobileTelephoneNumber", TEST);
-    ldapEntry.addAttribute("hsaSedfSwitchboardTelephoneNo", TEST);
-    ldapEntry.addAttribute("hsaTelephoneNumber", TEST);
-    ldapEntry.addAttribute("hsaSmsTelephoneNumber", TEST);
-    ldapEntry.addAttribute("facsimileTelephoneNumber", TEST);
-    ldapEntry.addAttribute("pagerTelephoneNumber", TEST);
-    ldapEntry.addAttribute("hsaTelephoneNumber", TEST);
-    ldapEntry.addAttribute("hsaPublicTelephoneNumber", TEST);
-    ldapEntry.addAttribute("hsaTelephoneTime", TEST_TIME);
-    ldapEntry.addAttribute("hsaEndDate", TEST_ZULUTIME);
-    ldapEntry.addAttribute("hsaSurgeryHours", TEST_TIME);
-    ldapEntry.addAttribute("hsaDropInHours", TEST_TIME);
-    ldapEntry.addAttribute("hsaInternalAddress", TEST);
-    ldapEntry.addAttribute("hsaStreetAddress", TEST);
-    ldapEntry.addAttribute("hsaPostalAddress", TEST);
-    ldapEntry.addAttribute("hsaSedfDeliveryAddress", TEST);
-    ldapEntry.addAttribute("hsaSedfInvoiceAddress", TEST);
-    ldapEntry.addAttribute("hsaUnitPrescriptionCode", TEST);
-    ldapEntry.addAttribute("vgrAnsvarsnummer", TEST);
-    ldapEntry.addAttribute("hsaMunicipalityCode", TEST);
-    ldapEntry.addAttribute("vgrEdiCode", TEST);
-    ldapEntry.addAttribute("vgrEanCode", TEST);
-    ldapEntry.addAttribute("hsaMunicipalitySectionName", TEST);
-    ldapEntry.addAttribute("hsaMunicipalitySectionCode", TEST);
-    ldapEntry.addAttribute("hsaCountyCode", TEST);
-    ldapEntry.addAttribute("hsaCountyName", TEST);
-    ldapEntry.addAttribute("hsaManagementCode", TEST);
-    ldapEntry.addAttribute("hsaVisitingRules", TEST);
-    ldapEntry.addAttribute("hsaVisitingRuleAge", TEST);
-    ldapEntry.addAttribute("vgrTempInfo", TEST);
-    ldapEntry.addAttribute("vgrRefInfo", TEST);
-    ldapEntry.addAttribute("hsaAdministrationForm", TEST);
-    ldapEntry.addAttribute("vgrModifyTimestamp", TEST_TIMESTAMP);
-    ldapEntry.addAttribute("createTimeStamp", TEST_TIMESTAMP);
-    ldapEntry.addAttribute("hsaGeographicalCoordinates", TEST);
-    ldapEntry.addAttribute("hsaRoute", TEST);
-    ldapEntry.addAttribute("vgrVardVal", TEST);
-    ldapEntry.addAttribute("vgrAvtalskod", TEST);
-    ldapEntry.addAttribute("vgrLabeledURI", "http://" + TEST);
-    ldapEntry.addAttribute("hsaVisitingHours", TEST_TIME);
-    ldapEntry.addAttribute("hsaVisitingRuleReferral", TEST);
 
     // Fill dirContextOperationsMoch with same values as ldapEntry
     dirContextOperationsMock.addAttributeValue("cn", CN);
@@ -264,8 +203,8 @@ public class UnitFactoryRefactoringTest {
     assertEquals(EXPECTED_LIST_RESULT, unit.getHsaRoute().toString());
     assertFalse(unit.isVgrVardVal());
     assertTrue(unit.getIsUnit());
-    assertFalse("Expected false but was: " + unit.isShowVisitingRules(), unit.isShowVisitingRules());
-    assertFalse(unit.isShowAgeInterval());
+    assertTrue("Expected true but was: " + unit.isShowVisitingRules(), unit.isShowVisitingRules());
+    assertTrue(unit.isShowAgeInterval());
     assertEquals(TEST, unit.getContractCode());
     assertEquals("http://" + TEST, unit.getInternalWebsite());
     assertEquals(EXPECTED_HOURS, unit.getVisitingHours().get(0).getDisplayValue());
@@ -312,7 +251,7 @@ public class UnitFactoryRefactoringTest {
   }
 
   @Test
-  public void showVisitingRulesAndShowAgeIntervalReturnTrueForOtherThanBvcVcAndJc() {
+  public void showVisitingRulesAndShowAgeIntervalReturnTrueAlways() {
     dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1519");
 
     Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
@@ -321,25 +260,11 @@ public class UnitFactoryRefactoringTest {
   }
 
   @Test
-  public void showVisitingRulesAndShowAgeIntervalReturnFalseForBvcVcAndJc() {
-    dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1504");
+  public void isVgrVardvalReturnTrueForValueJ() {
+    dirContextOperationsMock.addAttributeValue("vgrVardVal", "J");
 
     Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
-    assertFalse(unit.isShowVisitingRules());
-    assertFalse(unit.isShowAgeInterval());
-
-    dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1500");
-
-    unit = unitMapper.mapFromContext(dirContextOperationsMock);
-    assertFalse(unit.isShowVisitingRules());
-    assertFalse(unit.isShowAgeInterval());
-
-    dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1502");
-    dirContextOperationsMock.addAttributeValue("vgrVardVal", "true");
-
-    unit = unitMapper.mapFromContext(dirContextOperationsMock);
-    assertFalse(unit.isShowVisitingRules());
-    assertFalse(unit.isShowAgeInterval());
+    assertTrue(unit.isVgrVardVal());
   }
 
   class CodeTablesServiceMock implements CodeTablesService {

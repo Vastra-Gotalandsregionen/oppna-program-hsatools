@@ -19,44 +19,13 @@
 
 package se.vgregion.kivtools.search.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
+ * Ldap specific parsing. Received from the Kiv Admin project.
+ * 
  * @author hangy2 , Hans Gyllensten / KnowIT
  * @author Jonas Liljenfeldt, Know IT
- * 
- *         Ldap specific parsing. Received from the Kiv Admin project
  */
 public class LdapParse {
-  private static Map<String, String> dayNames = new HashMap<String, String>();
-
-  static {
-    dayNames.put("1", "Måndag");
-    dayNames.put("2", "Tisdag");
-    dayNames.put("3", "Onsdag");
-    dayNames.put("4", "Torsdag");
-    dayNames.put("5", "Fredag");
-    dayNames.put("6", "Lördag");
-    dayNames.put("0", "Söndag");
-  }
-
-  /**
-   * Översätter ett string nummer till dag i klartext.
-   * 
-   * @param number String nummer mellan 0-6 representerar varsin dag.
-   * @return Den dag i klartext som motsvarar det inskickade nummret, t.ex. "6" blir "Lördag".
-   */
-  public static String getDayName(String number) {
-    String dayName = dayNames.get(number);
-
-    if (dayName == null) {
-      dayName = "";
-    }
-
-    return dayName;
-  }
-
   /**
    * Filters the query, prevents ldap injection.
    * 
@@ -106,15 +75,5 @@ public class LdapParse {
       value = "J";
     }
     return value;
-  }
-
-  /**
-   * Convert string to boolean.
-   * 
-   * @param booleanStr ldap boolean string to convert.
-   * @return true for "J" otherwise false.
-   */
-  public static boolean convertStringToBoolean(String booleanStr) {
-    return "J".equalsIgnoreCase(booleanStr);
   }
 }
