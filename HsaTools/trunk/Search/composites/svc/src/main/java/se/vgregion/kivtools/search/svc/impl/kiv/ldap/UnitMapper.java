@@ -49,7 +49,6 @@ import com.domainlanguage.time.TimePoint;
 public class UnitMapper implements ContextMapper {
   private CodeTablesService codeTablesService;
   private DisplayValueTranslator displayValueTranslator;
-  private DirContextOperationsHelper context;
 
   public UnitMapper(CodeTablesService codeTablesService, DisplayValueTranslator displayValueTranslator) {
     this.codeTablesService = codeTablesService;
@@ -59,7 +58,7 @@ public class UnitMapper implements ContextMapper {
   @Override
   public Unit mapFromContext(Object ctx) {
     Unit unit = new Unit();
-    context = new DirContextOperationsHelper((DirContextOperations) ctx);
+    DirContextOperationsHelper context = new DirContextOperationsHelper((DirContextOperations) ctx);
 
     unit.setOu(context.getString(UnitLdapAttributes.OU));
     unit.setDn(DN.createDNFromString(context.getDnString()).escape());
@@ -114,7 +113,7 @@ public class UnitMapper implements ContextMapper {
     unit.setMail(context.getString(UnitLdapAttributes.MAIL));
     unit.setMobileTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(UnitLdapAttributes.MOBILE_TELEPHONE_NUMBER)));
 
-    populateUnitName(unit);
+    populateUnitName(unit, context);
     unit.setObjectClass(context.getString(UnitLdapAttributes.OBJECT_CLASS));
     unit.setIsUnit(isUnitType(context.getString(UnitLdapAttributes.OBJECT_CLASS)));
     unit.setInternalDescription(context.getStrings(UnitLdapAttributes.VGR_INTERNAL_DESCRIPTION));
@@ -128,29 +127,20 @@ public class UnitMapper implements ContextMapper {
     unit.setVgrInternalSedfInvoiceAddress(context.getString(UnitLdapAttributes.VGR_INTERNAL_SEDF_INVOICE_ADDRESS));
     unit.setVgrTempInfo(context.getString(UnitLdapAttributes.VGR_TEMP_INFO));
     unit.setVgrRefInfo(context.getString(UnitLdapAttributes.VGR_REF_INFO));
-    unit.setVgrVardVal(Boolean.getBoolean(context.getString(UnitLdapAttributes.VGR_VARDVAL)));
+    unit.setVgrVardVal("J".equalsIgnoreCase(context.getString(UnitLdapAttributes.VGR_VARDVAL)));
     unit.setVisitingHours(WeekdayTime.createWeekdayTimeList(context.getStrings(UnitLdapAttributes.HSA_VISITING_HOURS)));
     unit.setVisitingRuleReferral(context.getString(UnitLdapAttributes.HSA_VISITING_RULE_REFERRAL));
 
-    assignCodeTableValuesToUnit(unit);
+    assignCodeTableValuesToUnit(unit, context);
     // As the last step, let HealthcareTypeConditionHelper figure out which
     // healthcare type(s) this unit belongs to
     HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
     List<HealthcareType> healthcareTypes = htch.getHealthcareTypesForUnit(unit);
     unit.setHealthcareTypes(healthcareTypes);
-    populateShowVisitingRulesAndAgeInterval(unit);
+    // Visiting rules and age interval should be shown at all times
+    unit.setShowVisitingRules(true);
+    unit.setShowAgeInterval(true);
     return unit;
-  }
-
-  private void populateShowVisitingRulesAndAgeInterval(Unit unit) {
-    // Rule for showing visiting rules
-    boolean show = true;
-    show &= !unit.hasHealthcareType("Barnavårdscentral");
-    show &= !unit.hasHealthcareType("Vårdcentral");
-    show &= !unit.hasHealthcareType("Jourcentral");
-    unit.setShowVisitingRules(show);
-    // VGR has the same rule for age interval
-    unit.setShowAgeInterval(show);
   }
 
   private static void populateGeoCoordinates(DirContextOperationsHelper context, Unit unit) {
@@ -174,7 +164,7 @@ public class UnitMapper implements ContextMapper {
     }
   }
 
-  private void populateUnitName(Unit unit) {
+  private void populateUnitName(Unit unit, DirContextOperationsHelper context) {
     // Name
     if (isUnitType(context.getString(UnitLdapAttributes.OBJECT_CLASS))) {
       // Is Unit
@@ -222,7 +212,7 @@ public class UnitMapper implements ContextMapper {
    * 
    * @param unit
    */
-  private void assignCodeTableValuesToUnit(Unit unit) {
+  private void assignCodeTableValuesToUnit(Unit unit, DirContextOperationsHelper context) {
 
     unit.setHsaBusinessClassificationCode(context.getStrings(UnitLdapAttributes.HSA_BUSINESS_CLASSIFICATION_CODE));
 

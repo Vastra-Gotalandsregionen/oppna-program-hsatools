@@ -313,12 +313,6 @@
 	        </dependency>
 
 	        <dependency>
-	            <groupId>org.openldap</groupId>
-	            <artifactId>jldap</artifactId>
-	            <version>200710</version>
-	        </dependency>
-
-	        <dependency>
 	            <groupId>quartz</groupId>
 	            <artifactId>quartz</artifactId>
 	            <version>1.5.2</version>
