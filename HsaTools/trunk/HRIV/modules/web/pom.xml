@@ -90,13 +90,13 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>com.steeplesoft.jsf.facestester</groupId>
-			<artifactId>facestester-core</artifactId>
+			<groupId>com.steeplesoft.jsf</groupId>
+			<artifactId>facestester</artifactId>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.steeplesoft.jsf.facestester</groupId>
-			<artifactId>facestester-connector-mojarra-jsf1.2</artifactId>
+			<groupId>com.steeplesoft.jsf</groupId>
+			<artifactId>facestester-jsf2</artifactId>
 		</dependency>
 	</dependencies>
 </project>
