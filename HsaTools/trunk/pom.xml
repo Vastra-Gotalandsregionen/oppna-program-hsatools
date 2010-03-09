@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>se.vgregion.common</groupId>
 		<artifactId>profile</artifactId>
-		<version>1.4</version>
+		<version>1.5</version>
 	</parent>
  
 	<!-- common library versions -->
@@ -375,22 +375,22 @@
 				<version>2.2</version>
 				<scope>test</scope>
 			</dependency>
-			
-			<dependency>
-				<groupId>com.steeplesoft.jsf.facestester</groupId>
-				<artifactId>facestester-core</artifactId>
-				<version>0.4-SNAPSHOT</version>
-				<scope>test</scope>
-			</dependency>
-			
-			<dependency>
-				<groupId>com.steeplesoft.jsf.facestester</groupId>
-				<artifactId>facestester-connector-mojarra-jsf1.2</artifactId>
-				<version>0.4-SNAPSHOT</version>
-				<scope>test</scope>
-			</dependency>
-			
-			<dependency>
+
+          <dependency>
+            <groupId>com.steeplesoft.jsf</groupId>
+            <artifactId>facestester</artifactId>
+            <version>0.3</version>
+            <scope>test</scope>
+          </dependency>
+
+          <dependency>
+            <groupId>com.steeplesoft.jsf</groupId>
+            <artifactId>facestester-jsf2</artifactId>
+            <version>0.3</version>
+            <scope>test</scope>
+          </dependency>
+
+          <dependency>
                 <groupId>net.tanesha.recaptcha4j</groupId>
                 <artifactId>recaptcha4j</artifactId>
                 <version>0.0.7</version>
