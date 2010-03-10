@@ -1,0 +1,40 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<h:outputText xmlns:h="http://java.sun.com/jsf/html" rendered="true">
+	<div class="footerholder">
+		<div id="footbordertopLeft"><p class="footertextmini"> </p></div>
+		<div id="footbordertopRight"><p class="footertextmini"> </p></div>
+		<div id="footerleft">
+			<p class="footertext">${msg.publishedBy}: ${msg.careDesk} &#160;&#160;&#160;&#160;<a href="mailto:vardredaktion@vgregion.se" class="mail-link">vardredaktion@vgregion.se</a></p>
+		</div>
+		<div id="footerright">
+			<p class="footertext"><a class="mail-link" href="http://vard.vgregion.se/sv/Om-Webbplatsen/">${msg.aboutSite}</a> &#160;&#160;&#160;&#160;<a class="mail-link" href="http://vard.vgregion.se/sv/Om-Cookies/">${msg.aboutCookies}</a></p>
+		</div>
+	</div>
+	<br class="clear" />
+	<div class="footerholder">
+		<div class="footertextBottom">
+			<div class="left"><a href="http://www.vgregion.se/"><img src="resources/images/logo-small.gif" class="bottomLogo" title="Västra Götalandsregionen" alt="Västra Götalandsregionen" /></a></div>
+			<div class="left"><p class="marginTopFive"><a href="#top" class="url">${msg.toTop}</a> ${msg.infoMaster}: <a href="mailto:vardredaktion@vgregion.se">Margreth Jonson Lekare</a>. ${msg.pageIsPartOf} <a href="http://www.vgregion.se/"><strong>www.vgregion.se</strong></a>. <h:outputText escape="false" value=" ${msg.mobileVersion}" /></p></div>
+		</div>
+	</div>
+</h:outputText>

@@ -1,0 +1,88 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<h:outputText rendered="true"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+	<div id="page">
+        <h:outputText rendered="${param.noHeader != '1'}">
+            <ui:include src="${Search_SettingsContainer.header}"/>
+        </h:outputText>
+		<div id="PageContent">
+			<div id="PageContentInner" class="clearfix"> 
+				<div id="TopMenu">
+				    <ul>
+				        <li>
+				        <a href="http://www.vgregion.se/ftv" target="_top">Startsida</a>
+				        </li>
+				
+				        <li class="selected">
+				        <a id="ctl00_VGRPageContent_VGRMainMenu_mainMenuList_ctl02_HyperLink1" href="http://www.vgregion.se/ftv/hittamottagning" target="_top">Hitta mottagning</a>
+				        </li>
+				
+				        <li>
+				        <a id="ctl00_VGRPageContent_VGRMainMenu_mainMenuList_ctl03_HyperLink1" title="Här hittar du information om att gå till tandläkaren." href="http://www.vgregion.se/ftv/attgatilltandlakaren" target="_top">Att gå till tandläkaren</a>
+				        </li>
+				
+				        <li>
+				        <a id="ctl00_VGRPageContent_VGRMainMenu_mainMenuList_ctl04_HyperLink1" title="Information om frisktandvårdsavtal från 35 kr i månaden. Trygghet med regelbunden tandvård till ett fast pris" href="http://www.vgregion.se/ftv/frisktandvard" target="_top">Frisktandvård</a>
+				        </li>
+				
+				        <li>
+				        <a id="ctl00_VGRPageContent_VGRMainMenu_mainMenuList_ctl05_HyperLink1" title="Allmän information om tänder och tandvård" href="http://www.vgregion.se/ftv/omtander" target="_top">Om tänder</a>
+				        </li>
+				
+				        <li>
+				        <a id="ctl00_VGRPageContent_VGRMainMenu_mainMenuList_ctl06_HyperLink1" href="http://www.vgregion.se/ftv/barnstander" target="_top">Barns tänder</a>
+				        </li>
+				
+				        <li>
+				        <a id="ctl00_VGRPageContent_VGRMainMenu_mainMenuList_ctl07_HyperLink1" href="http://www.vgregion.se/ftv/omfolktandvarden" target="_top">Om Folktandvården</a>
+				        </li>
+				    </ul>
+				</div>
+	            <div id="hriv-captions">
+	                <ui:insert name="HrivCaptions" />
+	            </div>
+	
+	            <div id="search-column">
+	                <div id="header-input-field-container">
+	                    <div class="boxinside">
+	                     <ui:include src="${Search_SettingsContainer.searchFormInclude}"/>
+	                    </div>
+	
+	                    <ui:include src="${Search_SettingsContainer.informationArea}"/>
+	                </div>
+	            </div>
+	
+	            <div id="main-column">
+	                <div id="yui-main">
+	                    <h:outputText rendered="${Search_SettingsContainer.mainTop != null }">
+	                        <ui:include src="${Search_SettingsContainer.mainTop}"/>
+	                    </h:outputText>
+	                    <ui:insert name="MainContainer"></ui:insert>
+	                </div>
+	            </div>
+			</div>
+        </div>
+    </div>
+    <ui:include src="${Search_SettingsContainer.footer}"/>
+</h:outputText>
