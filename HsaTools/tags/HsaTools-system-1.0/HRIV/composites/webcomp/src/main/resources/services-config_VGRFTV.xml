@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean id="propertyPlaceholderWebcomp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:se/vgregion/kivtools/hriv/presentation/kiv/ftv-composite-webcomp.properties" />
+		<property name="placeholderPrefix" value="#{" />
+		<property name="fileEncoding" value="UTF-8" />
+	</bean>
+
+	<bean id="fileUtil" class="se.vgregion.kivtools.util.file.FileUtilImpl" />
+	
+	<bean id="rssContentCache" class="se.vgregion.kivtools.hriv.presentation.RssContentCache" init-method="reloadRssCache">
+		<property name="nameToUrlMap">
+			<util:map>
+				<entry key="startpage" value="http://www.vgregion.se/sv/Ovriga-sidor/Nya-sidor-under-arbete/Folktandvarden-Vastra-Gotaland1/Folktandvarden-Vastra-Gotaland/Hitta-din-klinik1/Hitta-mottagning" />
+				<entry key="caretypes" value="http://vard.vgregion.se/Documents/vardtyper.htm" />
+			</util:map>
+		</property>
+		<property name="userSpecifiedCacheFolder" value="ftv/rssContentCache" />
+		<property name="httpFetcher" ref="Display_HttpFetcher" />
+		<property name="fileUtil" ref="fileUtil" />
+	</bean>
+	
+	<bean id="jobDetailRssContentCache"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="rssContentCache" />
+		<property name="targetMethod" value="reloadRssCache" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="simpleTriggerRssContentCache" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="jobDetailRssContentCache" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every hour -->
+		<property name="repeatInterval" value="3600000" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="startupDelay" value="10" />
+		<property name="triggers">
+			<list>
+				<ref bean="simpleTriggerRssContentCache" />
+			</list>
+		</property>
+	</bean>
+</beans>
