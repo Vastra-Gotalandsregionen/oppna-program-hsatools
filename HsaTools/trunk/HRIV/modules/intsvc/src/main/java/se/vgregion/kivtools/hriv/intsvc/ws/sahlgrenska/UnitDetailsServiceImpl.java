@@ -204,11 +204,11 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
       List<String> postalPostCodes = wsAddress.getPostCode();
       postalPostCodes.add(address.getZipCode().toString());
       wsAddress.setCity(address.getCity());
-      GeoCoordinates postalGeoCoordinates = new AddressType.GeoCoordinates();
-      postalGeoCoordinates.getXpos().add(String.valueOf(unit.getRt90X()));
-      postalGeoCoordinates.getYpos().add(String.valueOf(unit.getRt90Y()));
-      wsAddress.setGeoCoordinates(postalGeoCoordinates);
     }
+    GeoCoordinates postalGeoCoordinates = new AddressType.GeoCoordinates();
+    postalGeoCoordinates.getXpos().add(String.valueOf(unit.getRt90X()));
+    postalGeoCoordinates.getYpos().add(String.valueOf(unit.getRt90Y()));
+    wsAddress.setGeoCoordinates(postalGeoCoordinates);
     unitWs.getAddress().add(wsAddress);
   }
 
