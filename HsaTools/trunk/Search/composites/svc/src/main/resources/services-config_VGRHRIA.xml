@@ -150,7 +150,7 @@
 	</bean>
 
 	<!-- Spring ldap -->
-	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+	<bean id="contextSourceOrganisation" class="org.springframework.ldap.core.support.LdapContextSource">
 		<property name="url" value="ldap://${hsatools.search.svc.ldap.ldaphost}" />
 		<property name="base" value="" />
 		<property name="userDn" value="${hsatools.search.svc.ldap.logindn}" />
@@ -159,6 +159,6 @@
 	</bean>
 	
 	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
-		<constructor-arg ref="contextSource" />
+		<constructor-arg ref="contextSourceOrganisation" />
 	</bean>
 </beans>
