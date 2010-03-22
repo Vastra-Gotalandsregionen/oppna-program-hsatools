@@ -286,7 +286,7 @@ public class UnitMapper implements ContextMapper {
     unit.setHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(context.getStrings("hsaTelephoneNumber")));
 
     // hsaPublicTelephoneNumber
-    unit.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumberList(context.getStrings("telephoneNumber")));
+    unit.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumberList(context.getStrings("lthTelephoneNumber")));
 
     // hsaTelephoneTime
     unit.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(context.getStrings("telephoneHours")));

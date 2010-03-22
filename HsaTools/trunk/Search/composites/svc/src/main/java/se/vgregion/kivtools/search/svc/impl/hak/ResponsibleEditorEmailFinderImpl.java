@@ -36,6 +36,7 @@ import se.vgregion.kivtools.search.svc.ResponsibleEditorEmailFinder;
 import se.vgregion.kivtools.search.svc.impl.SingleAttributeMapper;
 import se.vgregion.kivtools.search.svc.impl.hak.ldap.Constants;
 import se.vgregion.kivtools.util.Arguments;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Implementation of the ResponsibleEditorEmailFinder interface for LTH. Searches for CN=Uppdateringsansvarig from the provided DN and as long as no node is found, the tree is traversed towards the
@@ -77,7 +78,11 @@ public class ResponsibleEditorEmailFinderImpl implements ResponsibleEditorEmailF
       // Retrieve email addresses for all found editors.
       Filter searchFilter = createSearchFilter(responsibleEditors);
       List<String> emailAddresses = ldapTemplate.search(Constants.SEARCH_BASE, searchFilter.encode(), new SingleAttributeMapper("mail"));
-      responsibleEditorEmails.addAll(emailAddresses);
+      for (String emailAddress : emailAddresses) {
+        if (!StringUtil.isEmpty(emailAddress)) {
+          responsibleEditorEmails.add(emailAddress);
+        }
+      }
     }
     return responsibleEditorEmails;
   }

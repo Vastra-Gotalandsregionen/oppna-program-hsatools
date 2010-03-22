@@ -216,7 +216,7 @@ public class UnitMapperTest {
     dirContextOperations.addAttributeValue("street", TEST);
     dirContextOperations.addAttributeValue("surgeryHours", TEST_TIME);
     dirContextOperations.addAttributeValue("telephoneHours", TEST_TIME);
-    dirContextOperations.addAttributeValue("telephoneNumber", "telephoneNumber");
+    dirContextOperations.addAttributeValue("lthTelephoneNumber", "telephoneNumber");
     dirContextOperations.addAttributeValue("vgrAO3kod", TEST);
     dirContextOperations.addAttributeValue("vgrAnsvarsnummer", TEST);
     dirContextOperations.addAttributeValue("vgrCareType", TEST);
