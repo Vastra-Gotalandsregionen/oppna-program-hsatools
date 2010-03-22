@@ -87,4 +87,20 @@ public class ResponsibleEditorEmailFinderImplTest {
     assertTrue(responsibleEditors.contains("beatrice.boll@lthalland.se"));
     ldapTemplate.assertSearchFilter("(&(objectClass=hkatPerson)(|(regionName=abc123)(regionName=def456)))");
   }
+
+  @Test
+  public void nullEmailAddressesAreNotAdded() {
+    DirContextOperationsMock responsibleEditor = new DirContextOperationsMock();
+    responsibleEditor.addAttributeValue("member", "cn=abc123,ou=test1,ou=test2$cn=def456,ou=test2");
+    this.ldapTemplate.addBoundDN(new DistinguishedName("cn=Uppdateringsansvarig, ou=Landstinget Halland, o=LTH"), responsibleEditor);
+    DirContextOperationsMock responsibleEditorEmail1 = new DirContextOperationsMock();
+    // No mail attribute added
+    DirContextOperationsMock responsibleEditorEmail2 = new DirContextOperationsMock();
+    responsibleEditorEmail2.addAttributeValue("mail", "beatrice.boll@lthalland.se");
+    this.ldapTemplate.addDirContextOperationForSearch(responsibleEditorEmail1);
+    this.ldapTemplate.addDirContextOperationForSearch(responsibleEditorEmail2);
+    List<String> responsibleEditors = responsibleEditorEmailFinder.findResponsibleEditors("ou=Centrumkliniken,ou=Landstinget Halland,o=LTH");
+    assertEquals(1, responsibleEditors.size());
+    assertTrue(responsibleEditors.contains("beatrice.boll@lthalland.se"));
+  }
 }
