@@ -115,6 +115,7 @@ public class UnitRepository {
 
       if (!found) {
         units.remove(units.get(j));
+        units.setTotalNumberOfFoundItems(units.getTotalNumberOfFoundItems() - 1);
       }
     }
   }

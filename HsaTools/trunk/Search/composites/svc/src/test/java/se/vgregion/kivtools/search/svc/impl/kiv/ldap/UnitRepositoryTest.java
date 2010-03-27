@@ -409,10 +409,6 @@ public class UnitRepositoryTest {
   public void testGetAllUnitsHsaIdentity() throws KivException {
     String expectedFilter = "(&(|(objectclass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")(objectclass=" + Constants.OBJECT_CLASS_FUNCTION_SPECIFIC + ")))";
 
-    // LDAPSearchResultsMock ldapSearchResults = new LDAPSearchResultsMock();
-    // LDAPEntryMock ldapEntry = new LDAPEntryMock();
-    // ldapEntry.addAttribute("hsaIdentity", "abc-123");
-    // ldapSearchResults.addLDAPEntry(ldapEntry);
     unitRepository.getAllUnitsHsaIdentity();
     ldapTemplateMock.assertSearchFilter(expectedFilter);
   }
@@ -422,16 +418,53 @@ public class UnitRepositoryTest {
     String expectedFilter = "(&(|(hsaBusinessClassificationCode=1)(hsaBusinessClassificationCode=5)(&(|(businessClassificationCode=1500)))(&(|(hsaIdentity=SE6460000000-E000000000222))(|(vgrAnsvarsnummer=12345)))(&(|(hsaIdentity=SE2321000131-E000000000110))(|(vgrAO3kod=5a3)(vgrAO3kod=4d7)(vgrAO3kod=1xp))))(|(objectclass="
         + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")(objectclass=" + Constants.OBJECT_CLASS_FUNCTION_SPECIFIC + ")))";
 
-    // LDAPSearchResultsMock ldapSearchResults = new LDAPSearchResultsMock();
-    // LDAPEntryMock ldapEntry = new LDAPEntryMock();
-    // ldapEntry.addAttribute("hsaIdentity", "abc-123");
-    // ldapSearchResults.addLDAPEntry(ldapEntry);
-    // ldapSearchResults.addLDAPEntry(new LDAPEntryMock());
-
     List<String> hsaIdentities = unitRepository.getAllUnitsHsaIdentity(Arrays.asList(Integer.valueOf(1), Integer.valueOf(5)));
     assertNotNull(hsaIdentities);
 
     ldapTemplateMock.assertSearchFilter(expectedFilter);
+  }
+
+  @Test
+  public void testRemoveUnallowedUnits() throws KivException {
+    DirContextOperationsMock entry1 = new DirContextOperationsMock();
+    entry1.addAttributeValue("hsaIdentity", "abc-123");
+    entry1.addAttributeValue("hsaBusinessClassificationCode", "1");
+    entry1.addAttributeValue("vgrAnsvarsnummer", "11223");
+    this.ldapTemplateMock.addDirContextOperationForSearch(entry1);
+
+    DirContextOperationsMock entry2 = new DirContextOperationsMock();
+    entry2.addAttributeValue("hsaIdentity", "abc-456");
+    entry2.addAttributeValue("hsaBusinessClassificationCode", "1504");
+    this.ldapTemplateMock.addDirContextOperationForSearch(entry2);
+
+    DirContextOperationsMock entry3 = new DirContextOperationsMock();
+    entry3.addAttributeValue("hsaIdentity", "SE6460000000-E000000000222");
+    entry3.addAttributeValue("hsaBusinessClassificationCode", "abc");
+    this.ldapTemplateMock.addDirContextOperationForSearch(entry3);
+
+    DirContextOperationsMock entry4 = new DirContextOperationsMock();
+    entry4.addAttributeValue("hsaIdentity", "abc-789");
+    entry4.addAttributeValue("hsaBusinessClassificationCode", "1");
+    entry4.addAttributeValue("vgrAnsvarsnummer", "12345");
+    this.ldapTemplateMock.addDirContextOperationForSearch(entry4);
+
+    HealthcareType healthcareType = new HealthcareType();
+    healthcareType.addCondition("conditionKey", "value1,value2");
+
+    Unit searchUnit = new Unit();
+    searchUnit.setName("unitName");
+    searchUnit.setHsaMunicipalityName("Göteborg");
+    searchUnit.setHsaMunicipalityCode("10032");
+    searchUnit.setHsaIdentity("hsaId-1");
+    searchUnit.setHealthcareTypes(Arrays.asList(healthcareType));
+    searchUnit.setVgrVardVal(true);
+
+    int maxResults = 10;
+    UnitNameComparator sortOrder = new UnitNameComparator();
+    SikSearchResultList<Unit> units = unitRepository.searchAdvancedUnits(searchUnit, maxResults, sortOrder, Arrays.asList(Integer.valueOf(1504)));
+    assertNotNull(units);
+    assertEquals(3, units.size());
+    assertEquals(3, units.getTotalNumberOfFoundItems());
   }
 
   private class CodeTableMock implements CodeTablesService {
