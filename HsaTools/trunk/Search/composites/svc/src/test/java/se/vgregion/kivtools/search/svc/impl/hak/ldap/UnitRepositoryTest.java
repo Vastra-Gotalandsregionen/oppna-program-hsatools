@@ -216,6 +216,7 @@ public class UnitRepositoryTest {
     SikSearchResultList<Unit> units = unitRepository.searchAdvancedUnits(searchUnit, maxResults, sortOrder, Arrays.asList(Integer.valueOf(1504)));
     assertNotNull(units);
     assertEquals(3, units.size());
+    assertEquals(3, units.getTotalNumberOfFoundItems());
   }
 
   @Test
