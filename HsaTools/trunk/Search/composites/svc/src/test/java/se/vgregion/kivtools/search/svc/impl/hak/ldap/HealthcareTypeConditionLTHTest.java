@@ -91,7 +91,7 @@ public class HealthcareTypeConditionLTHTest {
     assertFalse(healthcareType.isFiltered());
     assertEquals(Integer.valueOf(6), healthcareType.getIndex());
 
-    healthcareType = helper.getHealthcareTypeByName("Jourmottagning");
+    healthcareType = helper.getHealthcareTypeByName("Kvälls- och helgmottagning");
     assertNotNull(healthcareType);
     assertEquals("1500", healthcareType.getConditions().get("businessClassificationCode"));
     assertFalse(healthcareType.isFiltered());
