@@ -74,7 +74,7 @@
 	<bean id="rssContentCache" class="se.vgregion.kivtools.hriv.presentation.RssContentCache" init-method="reloadRssCache">
 		<property name="nameToUrlMap">
 			<util:map>
-				<entry key="startpage" value="http://vard.vgregion.se/Documents/hittavard_start.htm" />
+				<entry key="startpage" value="http://vard.vgregion.se/Documents/hittavard_startsida.htm" />
 				<entry key="caretypes" value="http://vard.vgregion.se/Documents/vardtyper.htm" />
 			</util:map>
 		</property>
