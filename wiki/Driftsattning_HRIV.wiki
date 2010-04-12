@@ -12,3 +12,6 @@ javax.net.ssl.keyStoreType: Exempelvis pkcs12.<br/>
 javax.net.ssl.keyStore: Sökväg till keystoren som håller klientcertifikatet som används för att ansluta till vårdvalssystemet.<br/>
 javax.net.ssl.keyStorePassword=Lösenord för ovan nämnda keystore.<br/>
 ssnEncryptionKey: Nyckel som används för kryptering av personnummer vid vårdvalslistning. Ska vara 24 tecken.
+
+Note: Efter uppgradering till JDK 1.6.0_19 så verkar det som om Sun/Oracle har styrt upp säkerheten lite och då fungerar det inte att peka ut nyckeln till Vårdvalslistningen enbart pga någon re-negotiation. För att det skall fungera måste även
+-Dsun.security.ssl.allowUnsafeRenegotiation=true läggas till.
