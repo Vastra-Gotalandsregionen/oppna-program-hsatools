@@ -34,7 +34,11 @@
 	<div class="footerholder">
 		<div class="footertextBottom">
 			<div class="left"><a href="http://www.vgregion.se/"><img src="resources/images/logo-small.gif" class="bottomLogo" title="Västra Götalandsregionen" alt="Västra Götalandsregionen" /></a></div>
-			<div class="left"><p class="marginTopFive"><a href="#top" class="url">${msg.toTop}</a> ${msg.infoMaster}: <a href="mailto:vardredaktion@vgregion.se">Margreth Jonson Lekare</a>. ${msg.pageIsPartOf} <a href="http://www.vgregion.se/"><strong>www.vgregion.se</strong></a>. <h:outputText escape="false" value=" ${msg.mobileVersion}" /></p></div>
+			<div class="left"><p class="marginTopFive"><a href="#top" class="url">${msg.toTop}</a>
+			<h:outputText rendered="${fn:length(units) le 0 and unit.hsaIdentity == null}">
+				${msg.infoMaster}: <a href="mailto:vardredaktion@vgregion.se">Margreth Jonson Lekare</a>. 
+			</h:outputText>
+			${msg.pageIsPartOf} <a href="http://www.vgregion.se/"><strong>www.vgregion.se</strong></a>. <h:outputText escape="false" value=" ${msg.mobileVersion}" /></p></div>
 		</div>
 	</div>
 </h:outputText>
