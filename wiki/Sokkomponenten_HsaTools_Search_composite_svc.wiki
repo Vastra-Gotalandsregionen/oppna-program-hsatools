@@ -1,5 +1,5 @@
 #summary Sökkomponenten, dess inställningar, och att skapa en ny sökkomponentimplementation
-#labels HRIV,Featured
+#labels HRIV
 
 = Sökkomponenten HsaTools-Search-composite-svc =
 
