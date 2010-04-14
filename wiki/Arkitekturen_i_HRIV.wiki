@@ -1,5 +1,5 @@
 #summary Arkitekturen i HRIV
-#labels HRIV
+#labels HRIV,Featured
 
 = Inledning =
 
