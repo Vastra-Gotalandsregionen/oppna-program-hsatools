@@ -1,6 +1,10 @@
 #summary Arkitekturen i HRIV
 #labels HRIV
 
+= Inledning =
+
+HRIV kan anpassas så att den kan anslutas till olika datakällor genom att [Sokkomponenten_HsaTools_Search_composite_svc implementera] ett [http://code.google.com/p/oppna-program-hsatools/source/browse/HsaTools/trunk/Search/composites/svc/src/main/java/se/vgregion/kivtools/search/svc/SearchService.java interface]. De två befintliga implementationerna ansluter till LDAP-kataloger. Den ena, som ansluter till Hallandskatalogen (HAK), följer HSA-standarden väl. Det är lämpligt att utgå ifrån [http://code.google.com/p/oppna-program-hsatools/source/browse/#svn/HsaTools/trunk/Search/composites/svc/src/main/java/se/vgregion/kivtools/search/svc/impl/hak denna implementation] för att anpassa HRIV till andra LDAP-kataloger som bygger på HSA-standarden.
+
 = Arkitekturen i HRIV =
 
 Ambitionen under utveckling av HRIV har varit att följa [http://code.google.com/p/oppna-program/wiki/Introduktion_till_RA referensarkitekturen]. HRIV tillhör samma system som Sök i Katalog (SIK), HsaTools, men är en egen [http://code.google.com/p/oppna-program/wiki/Anvisningar_Beroenden_Mellan_Komponenter verksamhetskomponent].
