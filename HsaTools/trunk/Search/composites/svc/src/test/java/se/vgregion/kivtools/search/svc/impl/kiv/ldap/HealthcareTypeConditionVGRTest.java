@@ -93,7 +93,7 @@ public class HealthcareTypeConditionVGRTest {
     healthcareType = helper.getHealthcareTypeByName("Gynekologi");
     assertNotNull(healthcareType);
     assertEquals("1311", healthcareType.getConditions().get("hsaBusinessClassificationCode"));
-    assertEquals("601,602,603,604,605", healthcareType.getConditions().get("vgrAO3kod"));
+    assertNull("vgrAO3kod", healthcareType.getConditions().get("vgrAO3kod"));
     assertTrue(healthcareType.isFiltered());
     assertEquals(Integer.valueOf(7), healthcareType.getIndex());
 
@@ -171,7 +171,7 @@ public class HealthcareTypeConditionVGRTest {
     healthcareType = helper.getHealthcareTypeByName("Övriga mottagningar");
     assertNotNull(healthcareType);
     assertEquals("1103,1104,1113,1133,1338,1343,1502,1507,1513,1514,1515,1516,1518,1606,2103,2202", healthcareType.getConditions().get("hsaBusinessClassificationCode"));
-    assertEquals("601,602,603,604,605", healthcareType.getConditions().get("vgrAO3kod"));
+    assertNull("vgrAO3kod", healthcareType.getConditions().get("vgrAO3kod"));
     assertTrue(healthcareType.isFiltered());
     assertEquals(Integer.valueOf(19), healthcareType.getIndex());
   }
