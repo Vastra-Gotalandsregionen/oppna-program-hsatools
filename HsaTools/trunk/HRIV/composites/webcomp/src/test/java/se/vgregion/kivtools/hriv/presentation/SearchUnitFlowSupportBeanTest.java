@@ -51,11 +51,10 @@ public class SearchUnitFlowSupportBeanTest {
   private SearchUnitFlowSupportBean bean = new SearchUnitFlowSupportBean();
   private UnitSearchSimpleForm form;
   private DisplayCloseUnitsSimpleForm displayCloseUnitsSimpleForm;
-  private static LogFactoryMock logfactoryMock;
 
   @BeforeClass
   public static void setupClass() {
-    logfactoryMock = LogFactoryMock.createInstance();
+    LogFactoryMock.createInstance();
   }
 
   @AfterClass
@@ -107,7 +106,7 @@ public class SearchUnitFlowSupportBeanTest {
   @Test
   public void testDoSearch() throws Exception {
     try {
-      SikSearchResultList<Unit> result = bean.doSearch(null);
+      bean.doSearch(null);
       fail("NullPointerException expected");
     } catch (NullPointerException e) {
       // Expected exception
@@ -270,11 +269,10 @@ public class SearchUnitFlowSupportBeanTest {
     assertNotNull(result);
     assertEquals(0, result.size());
 
-    bean.setShowUnitsWithTheseHsaBusinessClassificationCodes("1,2,3");
+    bean.setOnlyPublicUnits(true);
     result = bean.getAllUnitsPageList("1");
     assertNotNull(result);
     assertEquals(0, result.size());
-    this.searchService.assertShowUnitsWithHsaBusinessClassificationCodes(1, 2, 3);
 
     List<String> allUnitsId = new ArrayList<String>();
     allUnitsId.add("abc-123");

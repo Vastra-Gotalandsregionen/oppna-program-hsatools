@@ -50,7 +50,6 @@ public class SearchServiceMock implements SearchService {
   private List<SikSearchResultList<Unit>> searchAdvancedUnitsSearchResults = new ArrayList<SikSearchResultList<Unit>>();
   private int searchAdvancedUnitsCallCount;
   private int exceptionCallCount;
-  private List<Integer> classificationCodes;
   private Unit unitCriterion;
 
   public void setPersons(SikSearchResultList<Person> persons) {
@@ -171,13 +170,6 @@ public class SearchServiceMock implements SearchService {
     assertEquals("Unexpected value for maxSearchResults", expected, this.maxSearchResults);
   }
 
-  public void assertShowUnitsWithHsaBusinessClassificationCodes(int... classificationCodes) {
-    assertEquals("Unexpected number of classification codes", classificationCodes.length, this.classificationCodes.size());
-    for (int classificationCode : classificationCodes) {
-      assertTrue("Unexpected classification code", this.classificationCodes.contains(classificationCode));
-    }
-  }
-
   @Override
   public List<String> getAllUnitsHsaIdentity() throws KivException {
     throwExceptionIfApplicable();
@@ -185,7 +177,7 @@ public class SearchServiceMock implements SearchService {
   }
 
   @Override
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, boolean onlyPublicUnits) throws KivException {
     this.searchAdvancedUnitsCallCount++;
     throwExceptionIfApplicable();
     this.maxSearchResults = maxSearchResult;
@@ -195,9 +187,8 @@ public class SearchServiceMock implements SearchService {
   }
 
   @Override
-  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
+  public List<String> getAllUnitsHsaIdentity(boolean onlyPublicUnits) throws KivException {
     throwExceptionIfApplicable();
-    this.classificationCodes = showUnitsWithTheseHsaBusinessClassificationCodes;
     return this.allUnitsId;
   }
 
@@ -239,7 +230,7 @@ public class SearchServiceMock implements SearchService {
   }
 
   @Override
-  public List<Unit> getAllUnits(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
+  public List<Unit> getAllUnits(boolean onlyPublicUnits) throws KivException {
     return null;
   }
 }

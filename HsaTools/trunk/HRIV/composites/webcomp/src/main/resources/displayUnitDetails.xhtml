@@ -180,7 +180,7 @@
                                     </tr>
                                 </h:outputText>                                
                                 <h:outputText rendered="${(unit.showVisitingRules and unit.hsaVisitingRulesIsValid) or Search_SettingsContainer.testingMode}">
-	                                <!-- Besöksregler -->
+	                                <!-- Information för besökare till patient -->
                                     <tr>
                                         <th class="leftcol" id="visitingRulesHeaderCell">
                                             <span class="grey-header">${msg.visitingRules}</span>
@@ -189,6 +189,20 @@
 											${unit.hsaVisitingRules}
                                             <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaVisitingRulesIsValid}">
                                                 <span class="warning">hsaVisitingRules ${msg.missing}</span>
+                                            </h:outputText>
+                                        </td>
+                                    </tr>
+                                </h:outputText>
+                                <h:outputText rendered="${(unit.vpWInformation4 != null and unit.vpWInformation4 != '') or Search_SettingsContainer.testingMode}">
+	                                <!-- Besöksinformation till patient  -->
+                                    <tr>
+                                        <th class="leftcol" id="vpWInformation4HeaderCell">
+                                            <span class="grey-header">${msg.vpWInformation4}</span>
+                                        </th>
+                                        <td class="righttwocol paragraph" headers="vpWInformation4HeaderCell" colspan="3">
+											${unit.vpWInformation4}
+                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and (unit.vpWInformation4 == null or unit.vpWInformation4 == '')}">
+                                                <span class="warning">vpWInformation4 ${msg.missing}</span>
                                             </h:outputText>
                                         </td>
                                     </tr>

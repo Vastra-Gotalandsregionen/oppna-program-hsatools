@@ -22,9 +22,6 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
@@ -35,32 +32,15 @@ import se.vgregion.kivtools.util.reflection.ReflectionUtil;
  * Implementation of the UnitRepository for Hitta rätt i Administration for VGR.
  */
 public class UnitRepositoryHRIA extends UnitRepository {
-  private Log logger = LogFactory.getLog(this.getClass());
-
-  /**
-   * Remove units that don't have at least one valid hsaBusinessClassificationCode.
-   * 
-   * @param units
-   * @param showUnitsWithTheseHsaBusinessClassificationCodes
-   */
   @Override
-  protected void removeUnallowedUnits(SikSearchResultList<Unit> units, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) {
+  protected void removeUnallowedUnits(SikSearchResultList<Unit> units) {
 
     // Get all health care types that are unfiltered
     HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
     List<HealthcareType> allUnfilteredHealthcareTypes = htch.getAllUnfilteredHealthCareTypes();
 
     for (int j = units.size() - 1; j >= 0; j--) {
-      List<String> businessClassificationCodes = units.get(j).getHsaBusinessClassificationCode();
-      boolean found = unitHasValidBusinessClassificationCode(showUnitsWithTheseHsaBusinessClassificationCodes, businessClassificationCodes);
-
-      // The unit might still be valid because of the unfiltered healthcare types
-      if (!found) {
-        // If this unit does not match any unfiltered health care type, don't include in search result
-        found = unitMatchesUnfilteredHealtcareType(units.get(j), allUnfilteredHealthcareTypes);
-      }
-
-      if (found) {
+      if (unitMatchesUnfilteredHealtcareType(units.get(j), allUnfilteredHealthcareTypes)) {
         units.remove(units.get(j));
       }
     }
@@ -92,23 +72,6 @@ public class UnitRepositoryHRIA extends UnitRepository {
           found = true;
           break;
         }
-      }
-    }
-    return found;
-  }
-
-  private boolean unitHasValidBusinessClassificationCode(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes, List<String> businessClassificationCodes) {
-    boolean found = false;
-    for (String s : businessClassificationCodes) {
-      try {
-        if (showUnitsWithTheseHsaBusinessClassificationCodes.contains(Integer.parseInt(s))) {
-          found = true;
-        }
-      } catch (NumberFormatException e) {
-        logger.debug(e);
-        // We simply ignore this. hsaBusinessClassificationCodes
-        // should be integers, otherwise something is seriously
-        // wrong.
       }
     }
     return found;

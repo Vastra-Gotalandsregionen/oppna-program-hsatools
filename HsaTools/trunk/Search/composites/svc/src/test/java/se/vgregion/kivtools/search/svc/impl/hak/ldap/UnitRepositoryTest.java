@@ -21,7 +21,6 @@ package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -104,7 +103,7 @@ public class UnitRepositoryTest {
     Unit unit = new Unit();
     unit.setName("vårdcentral");
 
-    String expectedFilterString = "(|(&(objectClass=organizationalUnit)(|(description=*vårdcentral*)(ou=*vårdcentral*)))(&(objectClass=organizationalRole)(|(description=*vårdcentral*)(cn=*vårdcentral*))))";
+    String expectedFilterString = "(&(|(&(objectClass=organizationalUnit)(|(description=*vårdcentral*)(ou=*vårdcentral*)))(&(objectClass=organizationalRole)(|(description=*vårdcentral*)(cn=*vårdcentral*))))(hsaDestinationIndicator=03))";
 
     DirContextOperationsMock entry1 = new DirContextOperationsMock();
     entry1.addAttributeValue("hsaIdentity", "1");
@@ -120,7 +119,7 @@ public class UnitRepositoryTest {
     entry2.addAttributeValue("businessClassificationCode", "1");
     this.ldapTemplate.addDirContextOperationForSearch(entry2);
 
-    unitRepository.searchAdvancedUnits(unit, 0, new UnitNameComparator(), Arrays.asList(1));
+    unitRepository.searchAdvancedUnits(unit, 0, new UnitNameComparator(), true);
     ldapTemplate.assertSearchFilter(expectedFilterString);
   }
 
@@ -130,13 +129,13 @@ public class UnitRepositoryTest {
     unit.setDescription(Arrays.asList("\"description\""));
     unit.setHsaMunicipalityName("\"Kungsbacka\"");
 
-    String expectedFilterString = "(|(&(objectClass=organizationalUnit)(|(municipalityName=Kungsbacka)(|(postalAddress=Kungsbacka$*$*$*$*$*)(postalAddress=*$Kungsbacka$*$*$*$*)(postalAddress=*$*$Kungsbacka$*$*$*)(postalAddress=*$*$*$Kungsbacka$*$*)(postalAddress=*$*$*$*$Kungsbacka$*)(postalAddress=*$*$*$*$*$Kungsbacka))(|(streetAddress=Kungsbacka$*$*$*$*$*)(streetAddress=*$Kungsbacka$*$*$*$*)(streetAddress=*$*$Kungsbacka$*$*$*)(streetAddress=*$*$*$Kungsbacka$*$*)(streetAddress=*$*$*$*$Kungsbacka$*)(streetAddress=*$*$*$*$*$Kungsbacka))))(&(objectClass=organizationalRole)(|(municipalityName=Kungsbacka)(|(postalAddress=Kungsbacka$*$*$*$*$*)(postalAddress=*$Kungsbacka$*$*$*$*)(postalAddress=*$*$Kungsbacka$*$*$*)(postalAddress=*$*$*$Kungsbacka$*$*)(postalAddress=*$*$*$*$Kungsbacka$*)(postalAddress=*$*$*$*$*$Kungsbacka))(|(streetAddress=Kungsbacka$*$*$*$*$*)(streetAddress=*$Kungsbacka$*$*$*$*)(streetAddress=*$*$Kungsbacka$*$*$*)(streetAddress=*$*$*$Kungsbacka$*$*)(streetAddress=*$*$*$*$Kungsbacka$*)(streetAddress=*$*$*$*$*$Kungsbacka)))))";
+    String expectedFilterString = "(&(|(&(objectClass=organizationalUnit)(|(municipalityName=Kungsbacka)(|(postalAddress=Kungsbacka$*$*$*$*$*)(postalAddress=*$Kungsbacka$*$*$*$*)(postalAddress=*$*$Kungsbacka$*$*$*)(postalAddress=*$*$*$Kungsbacka$*$*)(postalAddress=*$*$*$*$Kungsbacka$*)(postalAddress=*$*$*$*$*$Kungsbacka))(|(streetAddress=Kungsbacka$*$*$*$*$*)(streetAddress=*$Kungsbacka$*$*$*$*)(streetAddress=*$*$Kungsbacka$*$*$*)(streetAddress=*$*$*$Kungsbacka$*$*)(streetAddress=*$*$*$*$Kungsbacka$*)(streetAddress=*$*$*$*$*$Kungsbacka))))(&(objectClass=organizationalRole)(|(municipalityName=Kungsbacka)(|(postalAddress=Kungsbacka$*$*$*$*$*)(postalAddress=*$Kungsbacka$*$*$*$*)(postalAddress=*$*$Kungsbacka$*$*$*)(postalAddress=*$*$*$Kungsbacka$*$*)(postalAddress=*$*$*$*$Kungsbacka$*)(postalAddress=*$*$*$*$*$Kungsbacka))(|(streetAddress=Kungsbacka$*$*$*$*$*)(streetAddress=*$Kungsbacka$*$*$*$*)(streetAddress=*$*$Kungsbacka$*$*$*)(streetAddress=*$*$*$Kungsbacka$*$*)(streetAddress=*$*$*$*$Kungsbacka$*)(streetAddress=*$*$*$*$*$Kungsbacka)))))(hsaDestinationIndicator=03))";
 
     DirContextOperationsMock entry1 = new DirContextOperationsMock();
     entry1.addAttributeValue("hsaIdentity", "1");
     this.ldapTemplate.addDirContextOperationForSearch(entry1);
 
-    unitRepository.searchAdvancedUnits(unit, 0, new UnitNameComparator(), Arrays.asList(1));
+    unitRepository.searchAdvancedUnits(unit, 0, new UnitNameComparator(), true);
     ldapTemplate.assertSearchFilter(expectedFilterString);
   }
 
@@ -146,7 +145,7 @@ public class UnitRepositoryTest {
     hsaIdentity1.addAttributeValue("hsaIdentity", "ABC-123");
     this.ldapTemplate.addDirContextOperationForSearch(hsaIdentity1);
 
-    String expectedFilter = "(&(|(objectclass=organizationalUnit)(objectclass=organizationalRole)))";
+    String expectedFilter = "(|(objectclass=organizationalUnit)(objectclass=organizationalRole))";
 
     List<String> allUnitsHsaIdentity = unitRepository.getAllUnitsHsaIdentity();
 
@@ -161,9 +160,9 @@ public class UnitRepositoryTest {
     hsaIdentity1.addAttributeValue("hsaIdentity", "ABC-123");
     this.ldapTemplate.addDirContextOperationForSearch(hsaIdentity1);
 
-    String expectedFilter = "(&(|(businessClassificationCode=123)(businessClassificationCode=456)(businessClassificationCode=1500)(&(hsaIdentity=SE6460000000-E000000000222)(vgrAnsvarsnummer=12345))(&(hsaIdentity=SE2321000131-E000000000110)(|(vgrAO3kod=5a3)(vgrAO3kod=4d7)(vgrAO3kod=1xp))))(|(objectclass=organizationalUnit)(objectclass=organizationalRole)))";
+    String expectedFilter = "(&(|(objectclass=organizationalUnit)(objectclass=organizationalRole))(hsaDestinationIndicator=03))";
 
-    List<String> allUnitsHsaIdentity = unitRepository.getAllUnitsHsaIdentity(Arrays.asList(Integer.valueOf(123), Integer.valueOf(456)));
+    List<String> allUnitsHsaIdentity = unitRepository.getAllUnitsHsaIdentity(true);
 
     ldapTemplate.assertSearchFilter(expectedFilter);
     assertEquals(1, allUnitsHsaIdentity.size());
@@ -180,8 +179,7 @@ public class UnitRepositoryTest {
   public void testRemoveUnallowedUnits() throws KivException {
     DirContextOperationsMock entry1 = new DirContextOperationsMock();
     entry1.addAttributeValue("hsaIdentity", "abc-123");
-    entry1.addAttributeValue("businessClassificationCode", "1");
-    entry1.addAttributeValue("vgrAnsvarsnummer", "11223");
+    entry1.addAttributeValue("businessClassificationCode", "1500");
     this.ldapTemplate.addDirContextOperationForSearch(entry1);
 
     DirContextOperationsMock entry2 = new DirContextOperationsMock();
@@ -196,8 +194,7 @@ public class UnitRepositoryTest {
 
     DirContextOperationsMock entry4 = new DirContextOperationsMock();
     entry4.addAttributeValue("hsaIdentity", "abc-789");
-    entry4.addAttributeValue("businessClassificationCode", "1");
-    entry4.addAttributeValue("vgrAnsvarsnummer", "12345");
+    entry4.addAttributeValue("businessClassificationCode", "1500");
     this.ldapTemplate.addDirContextOperationForSearch(entry4);
 
     HealthcareType healthcareType = new HealthcareType();
@@ -213,7 +210,7 @@ public class UnitRepositoryTest {
 
     int maxResults = 10;
     UnitNameComparator sortOrder = new UnitNameComparator();
-    SikSearchResultList<Unit> units = unitRepository.searchAdvancedUnits(searchUnit, maxResults, sortOrder, Arrays.asList(Integer.valueOf(1504)));
+    SikSearchResultList<Unit> units = unitRepository.searchAdvancedUnits(searchUnit, maxResults, sortOrder, true);
     assertNotNull(units);
     assertEquals(3, units.size());
     assertEquals(3, units.getTotalNumberOfFoundItems());
@@ -253,7 +250,7 @@ public class UnitRepositoryTest {
 
     Unit unit = new Unit();
     unit.setHsaMunicipalityName("Kungsbacka");
-    SikSearchResultList<Unit> units = unitRepository.searchAdvancedUnits(unit, 10, null, new ArrayList<Integer>());
+    SikSearchResultList<Unit> units = unitRepository.searchAdvancedUnits(unit, 10, null, false);
     assertNotNull(units);
     assertEquals(1, units.size());
   }
@@ -266,7 +263,7 @@ public class UnitRepositoryTest {
 
     Unit unit = new Unit();
     unit.setHsaMunicipalityName("Kungsbacka");
-    SikSearchResultList<Unit> units = unitRepository.searchAdvancedUnits(unit, 2, null, new ArrayList<Integer>());
+    SikSearchResultList<Unit> units = unitRepository.searchAdvancedUnits(unit, 2, null, false);
     assertNotNull(units);
     assertEquals(2, units.size());
     assertEquals(3, units.getTotalNumberOfFoundItems());
@@ -304,9 +301,9 @@ public class UnitRepositoryTest {
     hsaIdentity1.addAttributeValue("hsaIdentity", "ABC-123");
     this.ldapTemplate.addDirContextOperationForSearch(hsaIdentity1);
 
-    String expectedFilter = "(&(|(businessClassificationCode=123)(businessClassificationCode=456)(businessClassificationCode=1500)(&(hsaIdentity=SE6460000000-E000000000222)(vgrAnsvarsnummer=12345))(&(hsaIdentity=SE2321000131-E000000000110)(|(vgrAO3kod=5a3)(vgrAO3kod=4d7)(vgrAO3kod=1xp))))(|(objectclass=organizationalUnit)(objectclass=organizationalRole)))";
+    String expectedFilter = "(&(|(objectclass=organizationalUnit)(objectclass=organizationalRole))(hsaDestinationIndicator=03))";
 
-    List<Unit> allUnits = unitRepository.getAllUnits(Arrays.asList(Integer.valueOf(123), Integer.valueOf(456)));
+    List<Unit> allUnits = unitRepository.getAllUnits(true);
 
     ldapTemplate.assertSearchFilter(expectedFilter);
     assertEquals(1, allUnits.size());
@@ -316,6 +313,6 @@ public class UnitRepositoryTest {
   @Test(expected = KivException.class)
   public void getAllUnitsThrowsKivExceptionOnNamingException() throws KivException {
     this.ldapTemplate.setExceptionToThrow(new CommunicationException(null));
-    unitRepository.getAllUnits(new ArrayList<Integer>());
+    unitRepository.getAllUnits(false);
   }
 }

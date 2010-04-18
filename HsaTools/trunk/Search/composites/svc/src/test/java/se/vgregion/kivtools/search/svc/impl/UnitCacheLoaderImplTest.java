@@ -39,7 +39,7 @@ import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 
 public class UnitCacheLoaderImplTest {
   private final SearchServiceMock searchService = new SearchServiceMock();
-  private final UnitCacheLoaderImpl unitCacheLoader = new UnitCacheLoaderImpl(searchService, "123,456,");
+  private final UnitCacheLoaderImpl unitCacheLoader = new UnitCacheLoaderImpl(searchService, true);
 
   @Test
   public void cacheIsEmptyIfSearchServiceDoesNotReturnAnyHsaIdentities() {
@@ -94,7 +94,7 @@ public class UnitCacheLoaderImplTest {
     }
 
     @Override
-    public List<Unit> getAllUnits(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
+    public List<Unit> getAllUnits(boolean onlyPublicUnits) throws KivException {
       if (this.exceptionToThrow != null) {
         throw this.exceptionToThrow;
       }
@@ -114,7 +114,7 @@ public class UnitCacheLoaderImplTest {
     }
 
     @Override
-    public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
+    public List<String> getAllUnitsHsaIdentity(boolean onlyPublicUnits) throws KivException {
       return null;
     }
 
@@ -164,8 +164,7 @@ public class UnitCacheLoaderImplTest {
     }
 
     @Override
-    public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes)
-        throws KivException {
+    public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, boolean onlyPublicUnits) throws KivException {
       return null;
     }
 

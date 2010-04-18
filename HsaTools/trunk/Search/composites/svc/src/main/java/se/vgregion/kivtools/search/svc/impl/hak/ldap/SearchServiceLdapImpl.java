@@ -86,16 +86,16 @@ public class SearchServiceLdapImpl implements SearchService {
    * {@inheritDoc}
    */
   @Override
-  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
-    return this.unitRepository.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBusinessClassificationCodes);
+  public List<String> getAllUnitsHsaIdentity(boolean onlyPublicUnits) throws KivException {
+    return this.unitRepository.getAllUnitsHsaIdentity(onlyPublicUnits);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public List<Unit> getAllUnits(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
-    return unitRepository.getAllUnits(showUnitsWithTheseHsaBusinessClassificationCodes);
+  public List<Unit> getAllUnits(boolean onlyPublicUnits) throws KivException {
+    return unitRepository.getAllUnits(onlyPublicUnits);
   }
 
   /**
@@ -143,8 +143,8 @@ public class SearchServiceLdapImpl implements SearchService {
    * {@inheritDoc}
    */
   @Override
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
-    return unitRepository.searchAdvancedUnits(unit, maxSearchResult, sortOrder, showUnitsWithTheseHsaBusinessClassificationCodes);
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, boolean onlyPublicUnits) throws KivException {
+    return unitRepository.searchAdvancedUnits(unit, maxSearchResult, sortOrder, onlyPublicUnits);
   }
 
   /**
@@ -185,7 +185,7 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public SikSearchResultList<Person> searchPersonsByDn(String dn, int maxSearchResult) throws KivException {
-    List persons = personRepository.searchPersonsByDn(dn, maxSearchResult);
+    List<Person> persons = personRepository.searchPersonsByDn(dn, maxSearchResult);
     SikSearchResultList<Person> personsSearchList = new SikSearchResultList<Person>(persons);
     return personsSearchList;
   }

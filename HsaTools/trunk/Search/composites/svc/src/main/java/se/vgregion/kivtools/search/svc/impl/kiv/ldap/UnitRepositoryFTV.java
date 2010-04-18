@@ -19,17 +19,19 @@
 
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
+import org.springframework.ldap.core.DistinguishedName;
+
 /**
  * Implementation of the UnitRepository for Folktandvården.
  */
 public class UnitRepositoryFTV extends UnitRepository {
-  private static final String KIV_SEARCH_BASE = "ou=Folktandvården Västra Götaland,ou=Org,o=vgr";
+  private static final DistinguishedName KIV_SEARCH_BASE = new DistinguishedName("ou=Folktandvården Västra Götaland,ou=Org,o=vgr");
 
   /**
    * {@inheritDoc}
    */
   @Override
-  protected String getSearchBase() {
+  protected DistinguishedName getSearchBase() {
     return UnitRepositoryFTV.KIV_SEARCH_BASE;
   }
 }

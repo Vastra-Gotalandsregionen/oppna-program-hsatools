@@ -28,8 +28,6 @@ import java.util.Map;
 import javax.naming.Name;
 import javax.naming.directory.SearchControls;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.ldap.NamingException;
 import org.springframework.ldap.control.PagedResultsCookie;
 import org.springframework.ldap.control.PagedResultsDirContextProcessor;
@@ -52,7 +50,6 @@ import se.vgregion.kivtools.search.svc.impl.SingleAttributeMapper;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.search.util.LdapParse;
-import se.vgregion.kivtools.util.Arguments;
 import se.vgregion.kivtools.util.StringUtil;
 import se.vgregion.kivtools.util.reflection.ReflectionUtil;
 
@@ -65,7 +62,6 @@ public class UnitRepository {
 
   private static final String LDAP_WILD_CARD = "*";
   private static final String LDAP_EXACT_CARD = "\"";
-  private Log logger = LogFactory.getLog(this.getClass());
   private LdapTemplate ldapTemplate;
 
   public void setLdapTemplate(LdapTemplate ldapTemplate) {
@@ -78,15 +74,15 @@ public class UnitRepository {
    * @param unit Unit to base search filter on.
    * @param maxResult Maximum number of units to return.
    * @param sortOrder Sort order of the result list.
-   * @param showUnitsWithTheseHsaBusinessClassificationCodes List only units with these bs codes.
+   * @param onlyPublicUnits List only units that should be displayed to the public.
    * @return List of matching units.
    * @throws KivException If something goes wrong.
    */
-  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxResult, Comparator<Unit> sortOrder, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
-    Filter searchFilter = createAdvancedSearchFilter(unit, showUnitsWithTheseHsaBusinessClassificationCodes);
+  public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxResult, Comparator<Unit> sortOrder, boolean onlyPublicUnits) throws KivException {
+    Filter searchFilter = createAdvancedSearchFilter(unit, onlyPublicUnits);
     SikSearchResultList<Unit> units = searchUnits(searchFilter, SearchControls.SUBTREE_SCOPE, maxResult, sortOrder);
 
-    removeUnallowedUnits(units, showUnitsWithTheseHsaBusinessClassificationCodes);
+    removeUnallowedUnits(units);
 
     return units;
   }
@@ -95,25 +91,14 @@ public class UnitRepository {
    * Remove units that don't have at least one valid hsaBusinessClassificationCode.
    * 
    * @param units
-   * @param showUnitsWithTheseHsaBusinessClassificationCodes
    */
-  private void removeUnallowedUnits(SikSearchResultList<Unit> units, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) {
+  private void removeUnallowedUnits(SikSearchResultList<Unit> units) {
     // Get all health care types that are unfiltered
     HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
     List<HealthcareType> allUnfilteredHealthcareTypes = htch.getAllUnfilteredHealthCareTypes();
 
     for (int j = units.size() - 1; j >= 0; j--) {
-      List<String> businessClassificationCodes = units.get(j).getHsaBusinessClassificationCode();
-      boolean found = unitHasValidBusinessClassificationCode(showUnitsWithTheseHsaBusinessClassificationCodes, businessClassificationCodes);
-
-      // The unit might still be valid because of the unfiltered
-      // healthcare types
-      if (!found) {
-        // If this unit does not match any unfiltered health care type, don't include in search result
-        found = unitMatchesUnfilteredHealtcareType(units.get(j), allUnfilteredHealthcareTypes);
-      }
-
-      if (!found) {
+      if (!unitMatchesUnfilteredHealtcareType(units.get(j), allUnfilteredHealthcareTypes)) {
         units.remove(units.get(j));
         units.setTotalNumberOfFoundItems(units.getTotalNumberOfFoundItems() - 1);
       }
@@ -146,23 +131,6 @@ public class UnitRepository {
           found = true;
           break;
         }
-      }
-    }
-    return found;
-  }
-
-  private boolean unitHasValidBusinessClassificationCode(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes, List<String> businessClassificationCodes) {
-    boolean found = false;
-    for (String s : businessClassificationCodes) {
-      try {
-        if (showUnitsWithTheseHsaBusinessClassificationCodes.contains(Integer.parseInt(s))) {
-          found = true;
-        }
-      } catch (NumberFormatException e) {
-        logger.debug(e);
-        // We simply ignore this. hsaBusinessClassificationCodes
-        // should be integers, otherwise something is seriously
-        // wrong.
       }
     }
     return found;
@@ -220,17 +188,17 @@ public class UnitRepository {
    * @throws KivException If something goes wrong.
    */
   public List<String> getAllUnitsHsaIdentity() throws KivException {
-    return getAllUnitsHsaIdentity(new ArrayList<Integer>());
+    return getAllUnitsHsaIdentity(false);
   }
 
   /**
    * 
-   * @param showUnitsWithTheseHsaBusinessClassificationCodes Units to include to the result list.
+   * @param onlyPublicUnits Units to include to the result list.
    * @return List of all unit identity strings.
    * @throws KivException If something goes wrong.
    */
-  public List<String> getAllUnitsHsaIdentity(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
-    Filter filter = createAllUnitsFilter(showUnitsWithTheseHsaBusinessClassificationCodes);
+  public List<String> getAllUnitsHsaIdentity(boolean onlyPublicUnits) throws KivException {
+    Filter filter = createAllUnitsFilter(onlyPublicUnits);
 
     PagedResultsCookie cookie = null;
     PagedResultsDirContextProcessor control = new PagedResultsDirContextProcessor(100, cookie);
@@ -257,14 +225,14 @@ public class UnitRepository {
   }
 
   /**
-   * Retrieves a list of all Units and functions filtered with showUnitsWithTheseHsaBusinessClassificationCodes.
+   * Retrieves a list of all Units and functions filtered based on if only units for public display should be retrieved.
    * 
-   * @param showUnitsWithTheseHsaBusinessClassificationCodes Only select units from search that has business codes from this list.
+   * @param onlyPublicUnits Only select units from search that should be displayed to the public.
    * @return A list of units.
    * @throws KivException If something goes wrong.
    */
-  public List<Unit> getAllUnits(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
-    Filter filter = createAllUnitsFilter(showUnitsWithTheseHsaBusinessClassificationCodes);
+  public List<Unit> getAllUnits(boolean onlyPublicUnits) throws KivException {
+    Filter filter = createAllUnitsFilter(onlyPublicUnits);
 
     PagedResultsCookie cookie = null;
     PagedResultsDirContextProcessor control = new PagedResultsDirContextProcessor(100, cookie);
@@ -291,20 +259,23 @@ public class UnitRepository {
     return result;
   }
 
-  private Filter createAllUnitsFilter(List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) {
+  private Filter createAllUnitsFilter(boolean onlyPublicUnits) {
     // Get all health care types that are unfiltered
-    HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
-    List<HealthcareType> allUnfilteredHealthcareTypes = htch.getAllUnfilteredHealthCareTypes();
+    // HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
+    // List<HealthcareType> allUnfilteredHealthcareTypes = htch.getAllUnfilteredHealthCareTypes();
 
     OrFilter objectClassFilter = new OrFilter();
     objectClassFilter.or(new EqualsFilter("objectclass", Constants.OBJECT_CLASS_UNIT_SPECIFIC));
     objectClassFilter.or(new EqualsFilter("objectclass", Constants.OBJECT_CLASS_FUNCTION_SPECIFIC));
 
-    Filter businessClassificationCodeFilter = createBusinessClassificationCodeFilter(showUnitsWithTheseHsaBusinessClassificationCodes, allUnfilteredHealthcareTypes);
-
     AndFilter filter = new AndFilter();
-    filter.and(businessClassificationCodeFilter);
     filter.and(objectClassFilter);
+
+    if (onlyPublicUnits) {
+      filter.and(new EqualsFilter("hsaDestinationIndicator", "03"));
+    }
+    // Filter businessClassificationCodeFilter = createBusinessClassificationCodeFilter(onlyPublicUnits, allUnfilteredHealthcareTypes);
+
     return filter;
   }
 
@@ -315,21 +286,21 @@ public class UnitRepository {
    * @param healthcareTypes The list of health care types to include.
    * @return A populated filter.
    */
-  private Filter createBusinessClassificationCodeFilter(List<Integer> businessClassificationCodes, List<HealthcareType> healthcareTypes) {
-    OrFilter filter = new OrFilter();
-
-    if (businessClassificationCodes.size() > 0) {
-      for (Integer businessClassificationCode : businessClassificationCodes) {
-        filter.or(new EqualsFilter("businessClassificationCode", businessClassificationCode));
-      }
-
-      for (HealthcareType healthcareType : healthcareTypes) {
-        filter.or(createHealthCareTypeFilter(healthcareType));
-      }
-    }
-
-    return filter;
-  }
+  // private Filter createBusinessClassificationCodeFilter(List<Integer> businessClassificationCodes, List<HealthcareType> healthcareTypes) {
+  // OrFilter filter = new OrFilter();
+  //
+  // if (businessClassificationCodes.size() > 0) {
+  // for (Integer businessClassificationCode : businessClassificationCodes) {
+  // filter.or(new EqualsFilter("businessClassificationCode", businessClassificationCode));
+  // }
+  //
+  // for (HealthcareType healthcareType : healthcareTypes) {
+  // filter.or(createHealthCareTypeFilter(healthcareType));
+  // }
+  // }
+  //
+  // return filter;
+  // }
 
   /**
    * Creates a filter for the provided health care type.
@@ -337,22 +308,22 @@ public class UnitRepository {
    * @param healthcareType The health care type to create a filter for.
    * @return A populated filter.
    */
-  private Filter createHealthCareTypeFilter(HealthcareType healthcareType) {
-    Arguments.notNull("healthcareType", healthcareType);
-
-    AndFilter filter = new AndFilter();
-    for (Map.Entry<String, String> condition : healthcareType.getConditions().entrySet()) {
-      OrFilter conditionValueFilter = new OrFilter();
-      String[] conditionValues = condition.getValue().split(",");
-      for (String conditionValue : conditionValues) {
-        conditionValueFilter.or(new EqualsFilter(condition.getKey(), conditionValue));
-      }
-
-      filter.and(conditionValueFilter);
-    }
-
-    return filter;
-  }
+  // private Filter createHealthCareTypeFilter(HealthcareType healthcareType) {
+  // Arguments.notNull("healthcareType", healthcareType);
+  //
+  // AndFilter filter = new AndFilter();
+  // for (Map.Entry<String, String> condition : healthcareType.getConditions().entrySet()) {
+  // OrFilter conditionValueFilter = new OrFilter();
+  // String[] conditionValues = condition.getValue().split(",");
+  // for (String conditionValue : conditionValues) {
+  // conditionValueFilter.or(new EqualsFilter(condition.getKey(), conditionValue));
+  // }
+  //
+  // filter.and(conditionValueFilter);
+  // }
+  //
+  // return filter;
+  // }
 
   private SikSearchResultList<Unit> searchUnits(Filter searchFilter, int searchScope, int maxResult, Comparator<Unit> sortOrder) throws KivException {
     SikSearchResultList<Unit> result = new SikSearchResultList<Unit>();
@@ -442,15 +413,7 @@ public class UnitRepository {
     return searchFilter;
   }
 
-  /**
-   * create search filter that search for both Units (and Functions).
-   * 
-   * @param unit
-   * @param showUnitsWithTheseHsaBusinessClassificationCodes
-   * @return
-   * @throws Exception
-   */
-  private Filter createAdvancedSearchFilter(Unit unit, List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes) throws KivException {
+  private Filter createAdvancedSearchFilter(Unit unit, boolean onlyPublicUnits) throws KivException {
     Filter unitSearch = createAdvancedUnitSearchFilter(unit, Constants.OBJECT_CLASS_UNIT_SPECIFIC, Constants.LDAP_PROPERTY_UNIT_NAME);
     Filter functionSearch = createAdvancedUnitSearchFilter(unit, Constants.OBJECT_CLASS_FUNCTION_SPECIFIC, Constants.LDAP_PROPERTY_FUNCTION_NAME);
 
@@ -458,7 +421,14 @@ public class UnitRepository {
     searchFilter.or(unitSearch);
     searchFilter.or(functionSearch);
 
-    return searchFilter;
+    AndFilter filter = new AndFilter();
+    filter.and(searchFilter);
+
+    if (onlyPublicUnits) {
+      filter.and(new EqualsFilter("hsaDestinationIndicator", "03"));
+    }
+
+    return filter;
   }
 
   private Filter createUnitSearchFilter(SearchUnitCriterions searchUnitCriterions, String objectClass, String unitNameProperty) throws KivException {

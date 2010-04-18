@@ -213,13 +213,13 @@ public class UnitRepositoryTest {
     };
 
     // No hsaEndDate set, ie unit should be returned.
-    SikSearchResultList<Unit> resultList = unitRepository.searchAdvancedUnits(new Unit(), 1, null, Arrays.asList(1504));
+    SikSearchResultList<Unit> resultList = unitRepository.searchAdvancedUnits(new Unit(), 1, null, true);
     assertNotNull("Result should not be null!", resultList);
     assertEquals(1, resultList.size());
 
     // hsaEndDate set to a "past date", ie unit should NOT be returned.
     resultUnit2.setHsaEndDate(TimeUtil.parseStringToZuluTime("20081231235959Z"));
-    resultList = unitRepository.searchAdvancedUnits(new Unit(), 1, null, Arrays.asList(1504));
+    resultList = unitRepository.searchAdvancedUnits(new Unit(), 1, null, true);
     assertEquals(1, resultList.size());
     assertNotSame(resultUnit2, resultList.get(0));
   }
@@ -242,9 +242,9 @@ public class UnitRepositoryTest {
     UnitRepository unitRepository = new UnitRepository();
     unitRepository.setUnitMapper(unitMapper);
     unitRepository.setLdapTemplate(ldapTemplateMock);
-    unitRepository.searchAdvancedUnits(searchUnit, maxResults, sortOrder, new ArrayList<Integer>());
+    unitRepository.searchAdvancedUnits(searchUnit, maxResults, sortOrder, false);
 
-    String expectedFilter = "(|(&(objectclass=vgrOrganizationalUnit)(&(ou=*unitName*)(vgrVardval=*J*)(|(hsaMunicipalityName=*Göteborg*)(hsaMunicipalityCode=*10032*)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))(hsaIdentity=*hsaId*1*)(&(|(conditionKey=value1)(conditionKey=value2)))))(&(objectclass=vgrOrganizationalRole)(&(cn=*unitName*)(vgrVardval=*J*)(|(hsaMunicipalityName=*Göteborg*)(hsaMunicipalityCode=*10032*)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))(hsaIdentity=*hsaId*1*)(&(|(conditionKey=value1)(conditionKey=value2))))))";
+    String expectedFilter = "(&(|(&(objectclass=vgrOrganizationalUnit)(&(ou=*unitName*)(vgrVardval=*J*)(|(hsaMunicipalityName=*Göteborg*)(hsaMunicipalityCode=*10032*)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))(hsaIdentity=*hsaId*1*)(&(|(conditionKey=value1)(conditionKey=value2)))))(&(objectclass=vgrOrganizationalRole)(&(cn=*unitName*)(vgrVardval=*J*)(|(hsaMunicipalityName=*Göteborg*)(hsaMunicipalityCode=*10032*)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))(hsaIdentity=*hsaId*1*)(&(|(conditionKey=value1)(conditionKey=value2)))))))";
     ldapTemplateMock.assertSearchFilter(expectedFilter);
   }
 
@@ -323,12 +323,12 @@ public class UnitRepositoryTest {
   @Test
   public void testcreateAdvancedSearchFilter1() {
     StringBuffer correctResult = new StringBuffer();
-    correctResult.append("(|(&(objectclass=vgrOrganizationalUnit)(&(ou=*barn**och*ungdomsvård*)(|(hsaMunicipalityCode=*1490*))))");
-    correctResult.append("(&(objectclass=vgrOrganizationalRole)(&(cn=*barn**och*ungdomsvård*)(|(hsaMunicipalityCode=*1490*)))))");
+    correctResult.append("(&(|(&(objectclass=vgrOrganizationalUnit)(&(ou=*barn**och*ungdomsvård*)(|(hsaMunicipalityCode=*1490*))))");
+    correctResult.append("(&(objectclass=vgrOrganizationalRole)(&(cn=*barn**och*ungdomsvård*)(|(hsaMunicipalityCode=*1490*))))))");
     Unit unit = new Unit();
     unit.setName("barn- och ungdomsvård");
     unit.setHsaMunicipalityCode("1490");
-    String temp = unitRepository.createAdvancedSearchFilter(unit, new ArrayList<Integer>());
+    String temp = unitRepository.createAdvancedSearchFilter(unit, false);
     assertEquals(correctResult.toString(), temp);
   }
 
@@ -338,8 +338,8 @@ public class UnitRepositoryTest {
   @Test
   public void testcreateAdvancedSearchFilter2() {
     StringBuffer correctResult = new StringBuffer();
-    correctResult.append("(|(&(objectclass=vgrOrganizationalUnit)(&(|(hsaMunicipalityCode=*1490*))(&(|(hsaBusinessClassificationCode=1540)))))");
-    correctResult.append("(&(objectclass=vgrOrganizationalRole)(&(|(hsaMunicipalityCode=*1490*))(&(|(hsaBusinessClassificationCode=1540))))))");
+    correctResult.append("(&(|(&(objectclass=vgrOrganizationalUnit)(&(|(hsaMunicipalityCode=*1490*))(&(|(hsaBusinessClassificationCode=1540)))))");
+    correctResult.append("(&(objectclass=vgrOrganizationalRole)(&(|(hsaMunicipalityCode=*1490*))(&(|(hsaBusinessClassificationCode=1540)))))))");
     Unit unit = new Unit();
     unit.setHsaMunicipalityCode("1490");
     List<HealthcareType> healthcareTypeList = new ArrayList<HealthcareType>();
@@ -349,17 +349,17 @@ public class UnitRepositoryTest {
     ht.setConditions(conditions);
     healthcareTypeList.add(ht);
     unit.setHealthcareTypes(healthcareTypeList);
-    String temp = unitRepository.createAdvancedSearchFilter(unit, new ArrayList<Integer>());
+    String temp = unitRepository.createAdvancedSearchFilter(unit, false);
     assertEquals(correctResult.toString(), temp);
   }
 
   @Test
   public void testcreateAdvancedSearchFilter3() {
     StringBuffer correctResult = new StringBuffer();
-    correctResult.append("(|(&(objectclass=vgrOrganizationalUnit)(&(ou=*ambulans*)))(&(objectclass=vgrOrganizationalRole)(&(cn=*ambulans*))))");
+    correctResult.append("(&(|(&(objectclass=vgrOrganizationalUnit)(&(ou=*ambulans*)))(&(objectclass=vgrOrganizationalRole)(&(cn=*ambulans*)))))");
     Unit unit = new Unit();
     unit.setName("ambulans");
-    String temp = unitRepository.createAdvancedSearchFilter(unit, new ArrayList<Integer>());
+    String temp = unitRepository.createAdvancedSearchFilter(unit, false);
     assertEquals(correctResult.toString(), temp);
   }
 
@@ -414,11 +414,10 @@ public class UnitRepositoryTest {
   }
 
   @Test
-  public void testGetAllUnitsHsaIdentityBusinessClassificationCodes() throws KivException {
-    String expectedFilter = "(&(|(hsaBusinessClassificationCode=1)(hsaBusinessClassificationCode=5)(&(|(businessClassificationCode=1500)))(&(|(hsaIdentity=SE6460000000-E000000000222))(|(vgrAnsvarsnummer=12345)))(&(|(hsaIdentity=SE2321000131-E000000000110))(|(vgrAO3kod=5a3)(vgrAO3kod=4d7)(vgrAO3kod=1xp))))(|(objectclass="
-        + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")(objectclass=" + Constants.OBJECT_CLASS_FUNCTION_SPECIFIC + ")))";
+  public void testGetAllUnitsOnlyPublicUnits() throws KivException {
+    String expectedFilter = "(&(hsaDestinationIndicator=03)(|(objectclass=vgrOrganizationalUnit)(objectclass=vgrOrganizationalRole)))";
 
-    List<String> hsaIdentities = unitRepository.getAllUnitsHsaIdentity(Arrays.asList(Integer.valueOf(1), Integer.valueOf(5)));
+    List<String> hsaIdentities = unitRepository.getAllUnitsHsaIdentity(true);
     assertNotNull(hsaIdentities);
 
     ldapTemplateMock.assertSearchFilter(expectedFilter);
@@ -428,13 +427,13 @@ public class UnitRepositoryTest {
   public void testRemoveUnallowedUnits() throws KivException {
     DirContextOperationsMock entry1 = new DirContextOperationsMock();
     entry1.addAttributeValue("hsaIdentity", "abc-123");
-    entry1.addAttributeValue("hsaBusinessClassificationCode", "1");
+    entry1.addAttributeValue("hsaBusinessClassificationCode", "1504");
     entry1.addAttributeValue("vgrAnsvarsnummer", "11223");
     this.ldapTemplateMock.addDirContextOperationForSearch(entry1);
 
     DirContextOperationsMock entry2 = new DirContextOperationsMock();
     entry2.addAttributeValue("hsaIdentity", "abc-456");
-    entry2.addAttributeValue("hsaBusinessClassificationCode", "1504");
+    entry2.addAttributeValue("hsaBusinessClassificationCode", "1500");
     this.ldapTemplateMock.addDirContextOperationForSearch(entry2);
 
     DirContextOperationsMock entry3 = new DirContextOperationsMock();
@@ -461,7 +460,7 @@ public class UnitRepositoryTest {
 
     int maxResults = 10;
     UnitNameComparator sortOrder = new UnitNameComparator();
-    SikSearchResultList<Unit> units = unitRepository.searchAdvancedUnits(searchUnit, maxResults, sortOrder, Arrays.asList(Integer.valueOf(1504)));
+    SikSearchResultList<Unit> units = unitRepository.searchAdvancedUnits(searchUnit, maxResults, sortOrder, true);
     assertNotNull(units);
     assertEquals(3, units.size());
     assertEquals(3, units.getTotalNumberOfFoundItems());

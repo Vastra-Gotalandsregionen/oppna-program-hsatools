@@ -46,10 +46,19 @@ import se.vgregion.kivtools.util.time.TimeUtil;
 
 import com.domainlanguage.time.TimePoint;
 
+/**
+ * Context mapper for unit entries.
+ */
 public class UnitMapper implements ContextMapper {
   private CodeTablesService codeTablesService;
   private DisplayValueTranslator displayValueTranslator;
 
+  /**
+   * Constructs a new UnitMapper.
+   * 
+   * @param codeTablesService The CodeTablesService to use.
+   * @param displayValueTranslator The DisplayValueTranslator to use.
+   */
   public UnitMapper(CodeTablesService codeTablesService, DisplayValueTranslator displayValueTranslator) {
     this.codeTablesService = codeTablesService;
     this.displayValueTranslator = displayValueTranslator;
@@ -98,6 +107,7 @@ public class UnitMapper implements ContextMapper {
     unit.setHsaUnitPrescriptionCode(context.getString(UnitLdapAttributes.HSA_UNIT_PRESCRIPTION_CODE));
     unit.setHsaVisitingRuleAge(context.getString(UnitLdapAttributes.HSA_VISITING_RULE_AGE));
     unit.setHsaVisitingRules(context.getString(UnitLdapAttributes.HSA_VISITING_RULES));
+    unit.setVpWInformation4(context.getString(UnitLdapAttributes.VP_W_INFORMATION4));
     unit.setInternalDescription(context.getStrings(UnitLdapAttributes.VGR_INTERNAL_DESCRIPTION));
     unit.setIsUnit(isUnitType(context.getString(UnitLdapAttributes.OBJECT_CLASS)));
 
@@ -130,6 +140,13 @@ public class UnitMapper implements ContextMapper {
     unit.setVgrVardVal("J".equalsIgnoreCase(context.getString(UnitLdapAttributes.VGR_VARDVAL)));
     unit.setVisitingHours(WeekdayTime.createWeekdayTimeList(context.getStrings(UnitLdapAttributes.HSA_VISITING_HOURS)));
     unit.setVisitingRuleReferral(context.getString(UnitLdapAttributes.HSA_VISITING_RULE_REFERRAL));
+
+    List<String> indicators = context.getStrings(UnitLdapAttributes.HSA_DESTINATION_INDICATOR);
+    for (String indicator : indicators) {
+      unit.addHsaDestinationIndicator(indicator);
+    }
+
+    unit.setHsaBusinessType(context.getString(UnitLdapAttributes.HSA_BUSINESS_TYPE));
 
     assignCodeTableValuesToUnit(unit, context);
     // As the last step, let HealthcareTypeConditionHelper figure out which

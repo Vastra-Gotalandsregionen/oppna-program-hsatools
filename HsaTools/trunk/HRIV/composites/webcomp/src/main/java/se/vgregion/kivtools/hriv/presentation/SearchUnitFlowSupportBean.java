@@ -21,7 +21,6 @@ package se.vgregion.kivtools.hriv.presentation;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -70,8 +69,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
   private String googleMapsKey;
 
   private int meters;
-
-  private List<Integer> showUnitsWithTheseHsaBusinessClassificationCodes = new ArrayList<Integer>();
+  private boolean onlyPublicUnits;
 
   public void setSearchService(SearchService searchService) {
     this.searchService = searchService;
@@ -79,6 +77,10 @@ public class SearchUnitFlowSupportBean implements Serializable {
 
   public void setUnitCacheService(UnitCacheServiceImpl unitCacheService) {
     this.unitCacheService = unitCacheService;
+  }
+
+  public void setOnlyPublicUnits(boolean onlyPublicUnits) {
+    this.onlyPublicUnits = onlyPublicUnits;
   }
 
   /**
@@ -171,19 +173,19 @@ public class SearchUnitFlowSupportBean implements Serializable {
         if ("true".equals(theForm.getShowAll())) {
           effectiveMaxSearchResult = Integer.MAX_VALUE;
         }
-        list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBusinessClassificationCodes);
+        list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, onlyPublicUnits);
 
         // No hits with complete criterions. Try again but with cleaned unit name this time
         if (list.size() == 0 && !StringUtil.isEmpty(theForm.getUnitName())) {
           u.setName(cleanUnitName(theForm.getUnitName()));
-          list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBusinessClassificationCodes);
+          list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, onlyPublicUnits);
         }
 
         // Still no hits. Try again but with only the cleaned unit name this time if the user forgot to remove any care type or municipality selection.
         if (list.size() == 0 && lessSpecifiedSearchPossible(theForm)) {
           u = new Unit();
           u.setName(cleanUnitName(theForm.getUnitName()));
-          list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, showUnitsWithTheseHsaBusinessClassificationCodes);
+          list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, onlyPublicUnits);
         }
       }
 
@@ -267,7 +269,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
     List<String> allUnits;
     try {
       if (showFilteredByHsaBusinessClassificationCode) {
-        allUnits = searchService.getAllUnitsHsaIdentity(showUnitsWithTheseHsaBusinessClassificationCodes);
+        allUnits = searchService.getAllUnitsHsaIdentity(onlyPublicUnits);
       } else {
         allUnits = searchService.getAllUnitsHsaIdentity();
       }
@@ -397,19 +399,5 @@ public class SearchUnitFlowSupportBean implements Serializable {
     GeoUtil geoUtil = new GeoUtil();
     closeUnits = geoUtil.getCloseUnits(form.getAddress(), units, meters, googleMapsKey);
     return closeUnits;
-  }
-
-  /**
-   * Setter for the HsaBusinessClassificationCodes to show.
-   * 
-   * @param showUnitsWithTheseHsaBusinessClassificationCodes A comma-separated string of HsaBusinessClassificationCodes to show.
-   */
-  public void setShowUnitsWithTheseHsaBusinessClassificationCodes(String showUnitsWithTheseHsaBusinessClassificationCodes) {
-    List<String> tempList = Arrays.asList(showUnitsWithTheseHsaBusinessClassificationCodes.split(","));
-    for (String id : tempList) {
-      if (id.length() > 0) {
-        this.showUnitsWithTheseHsaBusinessClassificationCodes.add(Integer.parseInt(id));
-      }
-    }
   }
 }

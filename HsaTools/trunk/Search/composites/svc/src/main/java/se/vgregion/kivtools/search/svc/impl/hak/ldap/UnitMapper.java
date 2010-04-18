@@ -36,6 +36,7 @@ import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.domain.values.WeekdayTime;
+import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitLdapAttributes;
 import se.vgregion.kivtools.search.svc.ldap.DirContextOperationsHelper;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.search.util.geo.CoordinateTransformerService;
@@ -54,7 +55,7 @@ public class UnitMapper implements ContextMapper {
    * {@inheritDoc}
    */
   @Override
-  public Object mapFromContext(Object ctx) {
+  public Unit mapFromContext(Object ctx) {
     DirContextOperationsHelper context = new DirContextOperationsHelper((DirContextOperations) ctx);
 
     Unit unit = new Unit();
@@ -187,6 +188,11 @@ public class UnitMapper implements ContextMapper {
       DistinguishedName managerDN = new DistinguishedName(unit.getManagerDN());
       String manager = managerDN.removeLast().getValue();
       unit.setManager(manager);
+    }
+
+    List<String> indicators = context.getStrings(UnitLdapAttributes.HSA_DESTINATION_INDICATOR);
+    for (String indicator : indicators) {
+      unit.addHsaDestinationIndicator(indicator);
     }
 
     return unit;
