@@ -282,6 +282,8 @@ public class UnitTest {
     PojoTester.testProperty(unit, "visitingRuleReferral", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "manager", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "managerDN", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "hsaBusinessType", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "vpWInformation4", String.class, null, TEST, TEST2);
   }
 
   @Test
@@ -414,5 +416,21 @@ public class UnitTest {
     unit.setModifyTimestamp(TimePoint.parseFrom("20090101120102", "yyyyMMddHHmmss", TimeZone.getDefault()));
     assertEquals("2009-01-01 12:01:02", unit.getModifyTimestampFormatted());
     assertEquals("2009-01-01T12:01:02+01:00", unit.getModifyTimestampFormattedInW3CDatetimeFormat());
+  }
+
+  @Test
+  public void isForPublicDisplayReturnFalseIfHsaDestinationIndicatorDoesNotContain03() {
+    unit.addHsaDestinationIndicator("01");
+    unit.addHsaDestinationIndicator("02");
+
+    assertFalse("not for public display", unit.isForPublicDisplay());
+  }
+
+  @Test
+  public void isForPublicDisplayReturnTrueIfHsaDestinationIndicatorContains03() {
+    unit.addHsaDestinationIndicator("01");
+    unit.addHsaDestinationIndicator("03");
+
+    assertTrue("for public display", unit.isForPublicDisplay());
   }
 }

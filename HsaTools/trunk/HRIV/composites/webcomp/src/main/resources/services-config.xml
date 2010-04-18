@@ -34,7 +34,7 @@
 		<property name="pageSize" value="85"></property>
 		<property name="googleMapsKey" value="#{hsatools.hriv.webcomp.googleMapsKey}" />
 		<property name="meters" value="#{hsatools.hriv.webcomp.metersToCloseUnits}" />
-		<property name="showUnitsWithTheseHsaBusinessClassificationCodes" value="#{hsatools.hriv.webcomp.showUnitsWithTheseHsaBusinessClassificationCodes}" />
+		<property name="onlyPublicUnits" value="true" />
 	</bean>
 
 	<bean id="Search_SuggestionsSupportBean" class="se.vgregion.kivtools.hriv.presentation.SuggestionsSupportBean">

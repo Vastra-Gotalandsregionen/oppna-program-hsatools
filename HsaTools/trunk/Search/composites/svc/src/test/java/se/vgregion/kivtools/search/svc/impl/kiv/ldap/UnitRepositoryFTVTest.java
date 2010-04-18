@@ -40,6 +40,6 @@ public class UnitRepositoryFTVTest {
 
   @Test
   public void testGetSearchBase() {
-    assertEquals("ou=Folktandvården Västra Götaland,ou=Org,o=vgr", unitRepository.getSearchBase());
+    assertEquals("ou=Folktandvården Västra Götaland,ou=Org,o=vgr", unitRepository.getSearchBase().toString());
   }
 }

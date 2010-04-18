@@ -37,7 +37,7 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.util.DisplayValueTranslator;
 
-public class UnitFactoryRefactoringTest {
+public class UnitMapperTest {
   private static final String TEST = "Test";
   private static final String VGR_OU = "vgrOrganizationalUnit";
   private static final String OU = "organizationalUnit";
@@ -131,6 +131,8 @@ public class UnitFactoryRefactoringTest {
     dirContextOperationsMock.addAttributeValue("vgrLabeledURI", "http://" + TEST);
     dirContextOperationsMock.addAttributeValue("hsaVisitingHours", TEST_TIME);
     dirContextOperationsMock.addAttributeValue("hsaVisitingRuleReferral", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaBusinessType", TEST);
+    dirContextOperationsMock.addAttributeValue("vpWInformation4", TEST);
   }
 
   @Test
@@ -141,17 +143,84 @@ public class UnitFactoryRefactoringTest {
   }
 
   @Test
-  public void testReconstituteVgrOrgUnit() throws KivException {
+  public void testVgrOrgUnit() throws KivException {
     dirContextOperationsMock.addAttributeValue("objectClass", VGR_OU);
     dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1504");
     Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
     assertUnit(unit);
   }
 
+  @Test
+  public void testOrgUnit() throws KivException {
+
+    dirContextOperationsMock.addAttributeValue("objectClass", OU);
+    Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
+    assertTrue(unit.getIsUnit());
+    assertTrue(unit.isShowVisitingRules());
+    assertTrue(unit.isShowAgeInterval());
+  }
+
+  @Test
+  public void testVgrOrgRole() throws KivException {
+    dirContextOperationsMock.addAttributeValue("objectClass", VGR_ORG_ROLE);
+    Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
+    assertFalse(unit.getIsUnit());
+    assertEquals(TEST + "\\, " + TEST, unit.getOu());
+    assertEquals(CN, unit.getName());
+  }
+
+  @Test
+  public void testOrgRole() throws KivException {
+    dirContextOperationsMock.addAttributeValue("objectClass", ORG_ROLE);
+    dirContextOperationsMock.addAttributeValue("hsaGeographicalCoordinates", "X: 1234567, Y: 1234567");
+    Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
+    assertFalse(unit.getIsUnit());
+    assertEquals(1234567, unit.getRt90X());
+    assertEquals(1234567, unit.getRt90Y());
+    assertEquals(11.159754999084681, unit.getWgs84Lat(), 0.0);
+    assertEquals(13.376313261575913, unit.getWgs84Long(), 0.0);
+  }
+
+  @Test
+  public void testHttpsURI() throws KivException {
+    dirContextOperationsMock.addAttributeValue("objectClass", OU);
+    dirContextOperationsMock.addAttributeValue("vgrLabeledURI", "https://" + TEST);
+    Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
+    assertEquals("https://" + TEST, unit.getInternalWebsite());
+  }
+
+  @Test
+  public void showVisitingRulesAndShowAgeIntervalReturnTrueAlways() {
+    dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1519");
+
+    Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
+    assertTrue(unit.isShowVisitingRules());
+    assertTrue(unit.isShowAgeInterval());
+  }
+
+  @Test
+  public void isVgrVardvalReturnTrueForValueJ() {
+    dirContextOperationsMock.addAttributeValue("vgrVardVal", "J");
+
+    Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
+    assertTrue(unit.isVgrVardVal());
+  }
+
+  @Test
+  public void hsaDestinationIndicatorMapsAllValues() {
+    dirContextOperationsMock.addAttributeValue("hsaDestinationIndicator", new String[] { "01", "03" });
+
+    Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
+    List<String> hsaDestinationIndicator = unit.getHsaDestinationIndicator();
+    assertEquals("hsaDestinationIndicator", 2, hsaDestinationIndicator.size());
+    assertTrue("01 is not mapped", hsaDestinationIndicator.contains("01"));
+    assertTrue("03 is not mapped", hsaDestinationIndicator.contains("03"));
+  }
+
   private void assertUnit(Unit unit) {
     assertEquals(VGR_OU, unit.getObjectClass());
-    // assertEquals(TEST + "\\, " + TEST, unit.getOu());
-    // assertEquals(TEST + ", " + TEST, unit.getName());
+    assertEquals(TEST + "\\, " + TEST, unit.getOu());
+    assertEquals(TEST + ", " + TEST, unit.getName());
     assertEquals(TEST, unit.getHsaIdentity());
     assertEquals(TEST, unit.getOrganizationalUnitNameShort());
     assertEquals(EXPECTED_LIST_RESULT, unit.getDescription().toString());
@@ -209,62 +278,8 @@ public class UnitFactoryRefactoringTest {
     assertEquals("http://" + TEST, unit.getInternalWebsite());
     assertEquals(EXPECTED_HOURS, unit.getVisitingHours().get(0).getDisplayValue());
     assertEquals(TEST, unit.getVisitingRuleReferral());
-  }
-
-  @Test
-  public void testReconstituteOrgUnit() throws KivException {
-
-    dirContextOperationsMock.addAttributeValue("objectClass", OU);
-    Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
-    assertTrue(unit.getIsUnit());
-    assertTrue(unit.isShowVisitingRules());
-    assertTrue(unit.isShowAgeInterval());
-  }
-
-  @Test
-  public void testReconstituteVgrOrgRole() throws KivException {
-    dirContextOperationsMock.addAttributeValue("objectClass", VGR_ORG_ROLE);
-    Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
-    assertFalse(unit.getIsUnit());
-    assertEquals(TEST + "\\, " + TEST, unit.getOu());
-    assertEquals(CN, unit.getName());
-  }
-
-  @Test
-  public void testReconstituteOrgRole() throws KivException {
-    dirContextOperationsMock.addAttributeValue("objectClass", ORG_ROLE);
-    dirContextOperationsMock.addAttributeValue("hsaGeographicalCoordinates", "X: 1234567, Y: 1234567");
-    Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
-    assertFalse(unit.getIsUnit());
-    assertEquals(1234567, unit.getRt90X());
-    assertEquals(1234567, unit.getRt90Y());
-    assertEquals(11.159754999084681, unit.getWgs84Lat(), 0.0);
-    assertEquals(13.376313261575913, unit.getWgs84Long(), 0.0);
-  }
-
-  @Test
-  public void testHttpsURI() throws KivException {
-    dirContextOperationsMock.addAttributeValue("objectClass", OU);
-    dirContextOperationsMock.addAttributeValue("vgrLabeledURI", "https://" + TEST);
-    Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
-    assertEquals("https://" + TEST, unit.getInternalWebsite());
-  }
-
-  @Test
-  public void showVisitingRulesAndShowAgeIntervalReturnTrueAlways() {
-    dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1519");
-
-    Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
-    assertTrue(unit.isShowVisitingRules());
-    assertTrue(unit.isShowAgeInterval());
-  }
-
-  @Test
-  public void isVgrVardvalReturnTrueForValueJ() {
-    dirContextOperationsMock.addAttributeValue("vgrVardVal", "J");
-
-    Unit unit = unitMapper.mapFromContext(dirContextOperationsMock);
-    assertTrue(unit.isVgrVardVal());
+    assertEquals("hsaBusinessType", TEST, unit.getHsaBusinessType());
+    assertEquals("vpWInformation4", TEST, unit.getVpWInformation4());
   }
 
   class CodeTablesServiceMock implements CodeTablesService {

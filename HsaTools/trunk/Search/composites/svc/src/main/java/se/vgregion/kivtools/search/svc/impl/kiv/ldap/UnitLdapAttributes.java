@@ -79,4 +79,7 @@ public class UnitLdapAttributes {
   public static final String VGR_LABELED_URI = "vgrLabeledURI";
   public static final String HSA_VISITING_HOURS = "hsaVisitingHours";
   public static final String HSA_VISITING_RULE_REFERRAL = "hsaVisitingRuleReferral";
+  public static final String HSA_DESTINATION_INDICATOR = "hsaDestinationIndicator";
+  public static final String HSA_BUSINESS_TYPE = "hsaBusinessType";
+  public static final String VP_W_INFORMATION4 = "vpWInformation4";
 }

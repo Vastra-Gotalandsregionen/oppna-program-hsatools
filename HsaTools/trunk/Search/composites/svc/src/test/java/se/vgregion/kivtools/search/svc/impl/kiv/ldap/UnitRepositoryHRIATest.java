@@ -46,7 +46,7 @@ public class UnitRepositoryHRIATest {
 
     Unit resultUnit1 = new Unit();
     resultUnit1.setHsaIdentity("abc-123");
-    resultUnit1.setHsaBusinessClassificationCode(Arrays.asList("1"));
+    resultUnit1.setHsaBusinessClassificationCode(Arrays.asList("1502"));
     resultUnit1.setVgrAnsvarsnummer(Arrays.asList("11223"));
 
     Unit resultUnit2 = new Unit();
@@ -59,7 +59,7 @@ public class UnitRepositoryHRIATest {
 
     Unit resultUnit4 = new Unit();
     resultUnit4.setHsaIdentity("abc-789");
-    resultUnit4.setHsaBusinessClassificationCode(Arrays.asList("1"));
+    resultUnit4.setHsaBusinessClassificationCode(Arrays.asList("1502"));
     resultUnit4.setVgrAnsvarsnummer(Arrays.asList("12345"));
 
     result.add(resultUnit1);
@@ -73,7 +73,6 @@ public class UnitRepositoryHRIATest {
         return result;
       }
     };
-    // unitRepository.setLdapConnectionPool(ldapConnectionPool);
   }
 
   @Test
@@ -91,7 +90,7 @@ public class UnitRepositoryHRIATest {
 
     int maxResults = 10;
     UnitNameComparator sortOrder = new UnitNameComparator();
-    SikSearchResultList<Unit> units = unitRepository.searchAdvancedUnits(searchUnit, maxResults, sortOrder, Arrays.asList(Integer.valueOf(1504)));
+    SikSearchResultList<Unit> units = unitRepository.searchAdvancedUnits(searchUnit, maxResults, sortOrder, true);
     assertNotNull(units);
     assertEquals(1, units.size());
   }

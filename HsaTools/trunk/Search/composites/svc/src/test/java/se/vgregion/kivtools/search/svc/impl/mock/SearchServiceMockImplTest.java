@@ -21,7 +21,6 @@ package se.vgregion.kivtools.search.svc.impl.mock;
 
 import static org.junit.Assert.*;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Before;
@@ -110,14 +109,13 @@ public class SearchServiceMockImplTest {
 
   @Test
   public void testSearchAdvancedUnits() throws KivException {
-    SikSearchResultList<Unit> units = searchService.searchAdvancedUnits(null, 0, null, null);
+    SikSearchResultList<Unit> units = searchService.searchAdvancedUnits(null, 0, null, false);
     assertEquals(3, units.size());
   }
 
   @Test
   public void testGetAllUnitsHsaIdentityListOfInteger() throws KivException {
-    List<Integer> businessClassificationCodes = Collections.emptyList();
-    List<String> allUnitsHsaIdentity = searchService.getAllUnitsHsaIdentity(businessClassificationCodes);
+    List<String> allUnitsHsaIdentity = searchService.getAllUnitsHsaIdentity(false);
     assertEquals(3, allUnitsHsaIdentity.size());
     assertTrue(allUnitsHsaIdentity.contains("ABC001"));
     assertTrue(allUnitsHsaIdentity.contains("ABC002"));
@@ -162,7 +160,7 @@ public class SearchServiceMockImplTest {
 
   @Test
   public void testGetAllUnits() throws KivException {
-    List<Unit> units = searchService.getAllUnits(null);
+    List<Unit> units = searchService.getAllUnits(false);
     assertEquals(3, units.size());
   }
 

@@ -75,6 +75,8 @@ public class Unit implements Serializable, Comparable<Unit> {
   private String objectClass;
   // true=Unit, false=Function
   private boolean isUnit;
+  private final List<String> hsaDestinationIndicator = new ArrayList<String>();
+  private String hsaBusinessType;
 
   // Code tables values
   // Vårdform
@@ -178,6 +180,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   private String hsaManagementText;
   private String hsaVisitingRules;
   private String hsaVisitingRuleAge;
+  private String vpWInformation4;
 
   private String vgrTempInfo;
   private String vgrRefInfo;
@@ -1492,5 +1495,38 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   public Address getHsaConsigneeAddress() {
     return hsaConsigneeAddress;
+  }
+
+  /**
+   * Adds a new indicator to the list of destination indicators.
+   * 
+   * @param indicator The indicator to add.
+   */
+  public void addHsaDestinationIndicator(String indicator) {
+    this.getHsaDestinationIndicator().add(indicator);
+  }
+
+  public List<String> getHsaDestinationIndicator() {
+    return hsaDestinationIndicator;
+  }
+
+  public boolean isForPublicDisplay() {
+    return getHsaDestinationIndicator().contains("03");
+  }
+
+  public void setHsaBusinessType(String hsaBusinessType) {
+    this.hsaBusinessType = hsaBusinessType;
+  }
+
+  public String getHsaBusinessType() {
+    return hsaBusinessType;
+  }
+
+  public void setVpWInformation4(String vpWInformation4) {
+    this.vpWInformation4 = vpWInformation4;
+  }
+
+  public String getVpWInformation4() {
+    return vpWInformation4;
   }
 }

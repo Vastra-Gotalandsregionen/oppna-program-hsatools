@@ -19,8 +19,6 @@
 
 package se.vgregion.kivtools.search.svc.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -37,18 +35,18 @@ import se.vgregion.kivtools.search.svc.UnitCache;
  */
 public class UnitCacheLoaderImpl implements CacheLoader<UnitCache> {
   private final Log log = LogFactory.getLog(getClass());
-  private final List<Integer> businessClassificationCodesToFetch;
   private final SearchService searchService;
+  private final boolean onlyPublicUnits;
 
   /**
    * Constructs a new {@link UnitCacheLoaderImpl}.
    * 
    * @param searchService The {@link SearchService} implementation to use to fetch units.
-   * @param businessClassificationCodesToFetch Comma-separated list of business classification codes to fetch to the cache.
+   * @param onlyPublicUnits Denotes if only units that should be displayed to the public should be fetched to the cache.
    */
-  public UnitCacheLoaderImpl(final SearchService searchService, String businessClassificationCodesToFetch) {
+  public UnitCacheLoaderImpl(final SearchService searchService, boolean onlyPublicUnits) {
     this.searchService = searchService;
-    this.businessClassificationCodesToFetch = createBusinessClassificationCodeList(businessClassificationCodesToFetch);
+    this.onlyPublicUnits = onlyPublicUnits;
   }
 
   /**
@@ -59,7 +57,7 @@ public class UnitCacheLoaderImpl implements CacheLoader<UnitCache> {
     UnitCache cache = new UnitCache();
 
     try {
-      List<Unit> units = searchService.getAllUnits(this.businessClassificationCodesToFetch);
+      List<Unit> units = searchService.getAllUnits(onlyPublicUnits);
       for (Unit unit : units) {
         cache.add(unit);
       }
@@ -76,16 +74,5 @@ public class UnitCacheLoaderImpl implements CacheLoader<UnitCache> {
   @Override
   public UnitCache createEmptyCache() {
     return new UnitCache();
-  }
-
-  private List<Integer> createBusinessClassificationCodeList(String businessClassificationCodes) {
-    List<Integer> result = new ArrayList<Integer>();
-    List<String> tempList = Arrays.asList(businessClassificationCodes.split(","));
-    for (String id : tempList) {
-      if (id.length() > 0) {
-        result.add(Integer.parseInt(id));
-      }
-    }
-    return result;
   }
 }

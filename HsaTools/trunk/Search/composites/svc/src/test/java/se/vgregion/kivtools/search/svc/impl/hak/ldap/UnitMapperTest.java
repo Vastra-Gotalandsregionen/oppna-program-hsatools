@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -53,7 +54,7 @@ public class UnitMapperTest {
 
   @Test
   public void mapPopulatedContextReturnPopulatedUnit() {
-    Unit unit = (Unit) mapper.mapFromContext(dirContextOperations);
+    Unit unit = mapper.mapFromContext(dirContextOperations);
     assertEquals(EXPECTED_LIST_RESULT, unit.getBusinessClassificationCode().toString());
     assertEquals(TEST, unit.getName());
     assertEquals(EXPECTED_DATE_TIME, dateFormat.format(unit.getCreateTimestamp().asJavaUtilDate()));
@@ -118,7 +119,7 @@ public class UnitMapperTest {
   @Test
   public void validGeoCoordinatesArePopulatedCorrectly() throws KivException {
     dirContextOperations.addAttributeValue("geographicalCoordinates", "X: 1234567, Y: 1234567");
-    Unit unit = (Unit) mapper.mapFromContext(dirContextOperations);
+    Unit unit = mapper.mapFromContext(dirContextOperations);
     assertEquals(1234567, unit.getRt90X());
     assertEquals(1234567, unit.getRt90Y());
     assertEquals(11.159754999084681, unit.getWgs84Lat(), 0.0);
@@ -128,7 +129,7 @@ public class UnitMapperTest {
   @Test
   public void noManagerDNResultInNoManagerPopulated() throws KivException {
     dirContextOperations.addAttributeValue("managerDN", "");
-    Unit unit = (Unit) mapper.mapFromContext(dirContextOperations);
+    Unit unit = mapper.mapFromContext(dirContextOperations);
     assertEquals("", unit.getManagerDN());
     assertNull(unit.getManager());
   }
@@ -136,36 +137,47 @@ public class UnitMapperTest {
   @Test
   public void otherManagementDescriptionsAreMappedCorrectly() throws KivException {
     dirContextOperations.addAttributeValue("management", TEST);
-    Unit unit = (Unit) mapper.mapFromContext(dirContextOperations);
+    Unit unit = mapper.mapFromContext(dirContextOperations);
     assertNull(unit.getHsaManagementText());
     dirContextOperations.addAttributeValue("management", "2");
-    unit = (Unit) mapper.mapFromContext(dirContextOperations);
+    unit = mapper.mapFromContext(dirContextOperations);
     assertEquals("Kommun", unit.getHsaManagementText());
     dirContextOperations.addAttributeValue("management", "3");
-    unit = (Unit) mapper.mapFromContext(dirContextOperations);
+    unit = mapper.mapFromContext(dirContextOperations);
     assertEquals("Statlig", unit.getHsaManagementText());
     dirContextOperations.addAttributeValue("management", "4");
-    unit = (Unit) mapper.mapFromContext(dirContextOperations);
+    unit = mapper.mapFromContext(dirContextOperations);
     assertEquals("Privat, v\u00E5rdavtal", unit.getHsaManagementText());
     dirContextOperations.addAttributeValue("management", "5");
-    unit = (Unit) mapper.mapFromContext(dirContextOperations);
+    unit = mapper.mapFromContext(dirContextOperations);
     assertEquals("Privat, enl lag om l\u00E4karv\u00E5rdsers\u00E4ttning", unit.getHsaManagementText());
     dirContextOperations.addAttributeValue("management", "6");
-    unit = (Unit) mapper.mapFromContext(dirContextOperations);
+    unit = mapper.mapFromContext(dirContextOperations);
     assertEquals("Privat, utan offentlig finansiering", unit.getHsaManagementText());
     dirContextOperations.addAttributeValue("management", "7");
-    unit = (Unit) mapper.mapFromContext(dirContextOperations);
+    unit = mapper.mapFromContext(dirContextOperations);
     assertEquals("Kommunf\u00F6rbund/Kommunalf\u00F6rbund", unit.getHsaManagementText());
     dirContextOperations.addAttributeValue("management", "9");
-    unit = (Unit) mapper.mapFromContext(dirContextOperations);
+    unit = mapper.mapFromContext(dirContextOperations);
     assertEquals("\u00D6vrigt", unit.getHsaManagementText());
   }
 
   @Test
   public void cnIsUsedForUnitNameIfOuIsEmpty() throws KivException {
     dirContextOperations.addAttributeValue("ou", "");
-    Unit unit = (Unit) mapper.mapFromContext(dirContextOperations);
+    Unit unit = mapper.mapFromContext(dirContextOperations);
     assertEquals("Unit cn", unit.getName());
+  }
+
+  @Test
+  public void hsaDestinationIndicatorMapsAllValues() {
+    dirContextOperations.addAttributeValue("hsaDestinationIndicator", new String[] { "01", "03" });
+
+    Unit unit = mapper.mapFromContext(dirContextOperations);
+    List<String> hsaDestinationIndicator = unit.getHsaDestinationIndicator();
+    assertEquals("hsaDestinationIndicator", 2, hsaDestinationIndicator.size());
+    assertTrue("01 is not mapped", hsaDestinationIndicator.contains("01"));
+    assertTrue("03 is not mapped", hsaDestinationIndicator.contains("03"));
   }
 
   private void addUnitAttributes() {
