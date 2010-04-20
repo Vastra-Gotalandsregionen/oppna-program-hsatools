@@ -26,14 +26,17 @@ import java.util.List;
  */
 public class SitemapSupportBean {
   private final SitemapCacheServiceImpl sitemapCacheService;
+  private final SitemapGenerator sitemapGenerator;
 
   /**
    * Constructs a new {@link SitemapSupportBean}.
    * 
    * @param sitemapCacheService The {@link SitemapCacheServiceImpl} to get the entries for the sitemap from.
+   * @param sitemapGenerator The SitemapGenerator implementation to use to generate the sitemap XML.
    */
-  public SitemapSupportBean(SitemapCacheServiceImpl sitemapCacheService) {
+  public SitemapSupportBean(SitemapCacheServiceImpl sitemapCacheService, SitemapGenerator sitemapGenerator) {
     this.sitemapCacheService = sitemapCacheService;
+    this.sitemapGenerator = sitemapGenerator;
   }
 
   /**
@@ -48,23 +51,7 @@ public class SitemapSupportBean {
       sitemapCacheService.reloadCache();
       entries = sitemapCacheService.getCache().getEntries();
     }
-    StringBuilder output = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-        + "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:hsa=\"http://www.vgregion.se/schemas/hsa_schema\">\n");
 
-    for (SitemapEntry entry : entries) {
-      output.append("<url>\n");
-      output.append("<loc>").append(entry.getLocation()).append("</loc>\n");
-      output.append("<lastmod>").append(entry.getLastModified()).append("</lastmod>\n");
-      output.append("<changefreq>").append(entry.getChangeFrequency()).append("</changefreq>\n");
-      output.append("<priority>0.5</priority>\n");
-      for (SitemapEntry.ExtraInformation extraInformation : entry) {
-        output.append("<hsa:").append(extraInformation.getName()).append(">").append(extraInformation.getValue()).append("</hsa:").append(extraInformation.getName()).append(">\n");
-      }
-      output.append("</url>\n");
-    }
-
-    output.append("</urlset>");
-
-    return output.toString();
+    return sitemapGenerator.generate(entries);
   }
 }
