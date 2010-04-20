@@ -26,18 +26,21 @@ import org.junit.Test;
 public class SitemapSupportBeanTest {
   private SitemapCacheLoaderMock sitemapCacheLoader = new SitemapCacheLoaderMock();
   private SitemapCacheServiceImpl sitemapCacheService = new SitemapCacheServiceImpl(sitemapCacheLoader);
-  private SitemapSupportBean sitemapSupportBean = new SitemapSupportBean(sitemapCacheService);
+  private SitemapGenerator internalSitemapGenerator = new InternalSitemapGenerator();
+  private SitemapGenerator externalSitemapGenerator = new ExternalSitemapGenerator();
+  private SitemapSupportBean internalSitemapSupportBean = new SitemapSupportBean(sitemapCacheService, internalSitemapGenerator);
+  private SitemapSupportBean externalSitemapSupportBean = new SitemapSupportBean(sitemapCacheService, externalSitemapGenerator);
 
   @Test
   public void cacheIsReloadedIfEmpty() {
-    sitemapSupportBean.getSitemapContent();
+    internalSitemapSupportBean.getSitemapContent();
     sitemapCacheLoader.assertCacheLoaded();
   }
 
   @Test
   public void locAndLastmodUsesLocationAndLastModified() {
     sitemapCacheLoader.setUnitCache(createSitemapCache("abc-123", "2010-02-01T01:00:00+01:00"));
-    String sitemapContent = sitemapSupportBean.getSitemapContent();
+    String sitemapContent = internalSitemapSupportBean.getSitemapContent();
     String loc = getTagContent(sitemapContent, "loc");
     assertEquals("http://external.com/visaenhet?hsaidentity=abc-123", loc);
     String lastmod = getTagContent(sitemapContent, "lastmod");
@@ -47,7 +50,7 @@ public class SitemapSupportBeanTest {
   @Test
   public void changeFrequencyIsUsedForChangefreqTag() {
     sitemapCacheLoader.setUnitCache(createSitemapCache("abc-123", "2010-02-01T01:00:00+01:00"));
-    String sitemapContent = sitemapSupportBean.getSitemapContent();
+    String sitemapContent = internalSitemapSupportBean.getSitemapContent();
     String changefreq = getTagContent(sitemapContent, "changefreq");
     assertEquals("daily", changefreq);
   }
@@ -55,10 +58,18 @@ public class SitemapSupportBeanTest {
   @Test
   public void extraInformationIsAddedIfAvailable() {
     sitemapCacheLoader.setUnitCache(createSitemapCache("abc-123", "2010-02-01T01:00:00+01:00", "hsaIdentity", "abc-123"));
-    String sitemapContent = sitemapSupportBean.getSitemapContent();
+    String sitemapContent = internalSitemapSupportBean.getSitemapContent();
 
     String hsaIdentity = getTagContent(sitemapContent, "hsa:hsaIdentity");
     assertEquals("abc-123", hsaIdentity);
+  }
+
+  @Test
+  public void noExtraInformationIsAddedForExternalSitemap() {
+    sitemapCacheLoader.setUnitCache(createSitemapCache("abc-123", "2010-02-01T01:00:00+01:00", "hsaIdentity", "abc-123"));
+    String sitemapContent = externalSitemapSupportBean.getSitemapContent();
+
+    assertEquals("hsa namespace found in sitemap content", -1, sitemapContent.indexOf("hsa:"));
   }
 
   private String getTagContent(String content, String tag) {

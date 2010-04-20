@@ -39,6 +39,7 @@ import org.junit.Test;
 import org.springframework.web.context.WebApplicationContext;
 
 import se.vgregion.kivtools.search.svc.CacheLoader;
+import se.vgregion.kivtools.search.svc.InternalSitemapGenerator;
 import se.vgregion.kivtools.search.svc.SitemapCache;
 import se.vgregion.kivtools.search.svc.SitemapCacheServiceImpl;
 import se.vgregion.kivtools.search.svc.SitemapEntry;
@@ -52,7 +53,7 @@ public class SitemapTest {
   private static final String CONTEXTPATH = "test";
 
   private SitemapCacheServiceImpl sitemapCacheService = new SitemapCacheServiceImpl(new SitemapCacheLoaderMock());
-  private SitemapSupportBean sitemapSupportBean = new SitemapSupportBean(sitemapCacheService);
+  private SitemapSupportBean sitemapSupportBean = new SitemapSupportBean(sitemapCacheService, new InternalSitemapGenerator());
   private Sitemap sitemap;
 
   @Before
