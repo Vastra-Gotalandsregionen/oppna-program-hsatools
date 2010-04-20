@@ -132,7 +132,7 @@ public class UnitMapperTest {
     dirContextOperationsMock.addAttributeValue("hsaVisitingHours", TEST_TIME);
     dirContextOperationsMock.addAttributeValue("hsaVisitingRuleReferral", TEST);
     dirContextOperationsMock.addAttributeValue("hsaBusinessType", TEST);
-    dirContextOperationsMock.addAttributeValue("vpWInformation4", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaPatientVisitingRules", TEST);
   }
 
   @Test
@@ -279,7 +279,7 @@ public class UnitMapperTest {
     assertEquals(EXPECTED_HOURS, unit.getVisitingHours().get(0).getDisplayValue());
     assertEquals(TEST, unit.getVisitingRuleReferral());
     assertEquals("hsaBusinessType", TEST, unit.getHsaBusinessType());
-    assertEquals("vpWInformation4", TEST, unit.getVpWInformation4());
+    assertEquals("hsaPatientVisitingRules", TEST, unit.getHsaPatientVisitingRules());
   }
 
   class CodeTablesServiceMock implements CodeTablesService {

@@ -51,7 +51,7 @@ public class DirContextOperationsHelper {
    * @return the value of the attribute or an empty String if no attribute value could be found.
    */
   public String getString(final String attributeName) {
-    return emptyIfNull(dirContext.getStringAttribute(attributeName));
+    return emptyIfNull(dirContext.getStringAttribute(attributeName)).trim();
   }
 
   /**

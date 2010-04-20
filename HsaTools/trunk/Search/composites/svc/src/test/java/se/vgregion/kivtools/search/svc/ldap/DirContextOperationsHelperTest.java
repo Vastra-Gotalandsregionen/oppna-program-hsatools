@@ -39,6 +39,7 @@ public class DirContextOperationsHelperTest {
     dirContext.addAttributeValue("multiple1", "value1");
     dirContext.addAttributeValue("multiple2", "value1$value2$value3");
     dirContext.addAttributeValue("multiple3", "$$$value1$$value2$$value3$$$$");
+    dirContext.addAttributeValue("whitespace", " \n \r\n \t value \t \r\n \n  ");
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -56,6 +57,12 @@ public class DirContextOperationsHelperTest {
   public void getStringReturnCorrectValueForValidAttribute() {
     String result = helper.getString("single");
     assertEquals("single value", result);
+  }
+
+  @Test
+  public void getStringReturnTheFoundValueTrimmedFromWhitespaceAtStartAndEnd() {
+    String result = helper.getString("whitespace");
+    assertEquals("value", result);
   }
 
   @Test

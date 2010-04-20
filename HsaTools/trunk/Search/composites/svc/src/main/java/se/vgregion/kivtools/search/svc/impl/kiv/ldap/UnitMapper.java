@@ -107,7 +107,7 @@ public class UnitMapper implements ContextMapper {
     unit.setHsaUnitPrescriptionCode(context.getString(UnitLdapAttributes.HSA_UNIT_PRESCRIPTION_CODE));
     unit.setHsaVisitingRuleAge(context.getString(UnitLdapAttributes.HSA_VISITING_RULE_AGE));
     unit.setHsaVisitingRules(context.getString(UnitLdapAttributes.HSA_VISITING_RULES));
-    unit.setVpWInformation4(context.getString(UnitLdapAttributes.VP_W_INFORMATION4));
+    unit.setHsaPatientVisitingRules(context.getString(UnitLdapAttributes.HSA_PATIENT_VISITING_RULES));
     unit.setInternalDescription(context.getStrings(UnitLdapAttributes.VGR_INTERNAL_DESCRIPTION));
     unit.setIsUnit(isUnitType(context.getString(UnitLdapAttributes.OBJECT_CLASS)));
 
