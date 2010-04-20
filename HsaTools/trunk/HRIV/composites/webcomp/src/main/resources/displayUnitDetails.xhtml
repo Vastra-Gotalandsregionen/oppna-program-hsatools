@@ -193,16 +193,16 @@
                                         </td>
                                     </tr>
                                 </h:outputText>
-                                <h:outputText rendered="${(unit.vpWInformation4 != null and unit.vpWInformation4 != '') or Search_SettingsContainer.testingMode}">
+                                <h:outputText rendered="${(unit.hsaPatientVisitingRules != null and unit.hsaPatientVisitingRules != '') or Search_SettingsContainer.testingMode}">
 	                                <!-- Besöksinformation till patient  -->
                                     <tr>
-                                        <th class="leftcol" id="vpWInformation4HeaderCell">
-                                            <span class="grey-header">${msg.vpWInformation4}</span>
+                                        <th class="leftcol" id="hsaPatientVisitingRulesHeaderCell">
+                                            <span class="grey-header">${msg.patientVisitingRules}</span>
                                         </th>
-                                        <td class="righttwocol paragraph" headers="vpWInformation4HeaderCell" colspan="3">
-											${unit.vpWInformation4}
-                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and (unit.vpWInformation4 == null or unit.vpWInformation4 == '')}">
-                                                <span class="warning">vpWInformation4 ${msg.missing}</span>
+                                        <td class="righttwocol paragraph" headers="hsaPatientVisitingRulesHeaderCell" colspan="3">
+											${unit.hsaPatientVisitingRules}
+                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and (unit.hsaPatientVisitingRules == null or unit.hsaPatientVisitingRules == '')}">
+                                                <span class="warning">hsaPatientVisitingRules ${msg.missing}</span>
                                             </h:outputText>
                                         </td>
                                     </tr>

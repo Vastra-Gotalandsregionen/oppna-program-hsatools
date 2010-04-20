@@ -180,7 +180,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   private String hsaManagementText;
   private String hsaVisitingRules;
   private String hsaVisitingRuleAge;
-  private String vpWInformation4;
+  private String hsaPatientVisitingRules;
 
   private String vgrTempInfo;
   private String vgrRefInfo;
@@ -1522,11 +1522,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return hsaBusinessType;
   }
 
-  public void setVpWInformation4(String vpWInformation4) {
-    this.vpWInformation4 = vpWInformation4;
+  public void setHsaPatientVisitingRules(String hsaPatientVisitingRules) {
+    this.hsaPatientVisitingRules = hsaPatientVisitingRules;
   }
 
-  public String getVpWInformation4() {
-    return vpWInformation4;
+  public String getHsaPatientVisitingRules() {
+    return hsaPatientVisitingRules;
   }
 }

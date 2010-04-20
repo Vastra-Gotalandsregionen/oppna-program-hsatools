@@ -283,7 +283,7 @@ public class UnitTest {
     PojoTester.testProperty(unit, "manager", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "managerDN", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "hsaBusinessType", String.class, null, TEST, TEST2);
-    PojoTester.testProperty(unit, "vpWInformation4", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "hsaPatientVisitingRules", String.class, null, TEST, TEST2);
   }
 
   @Test
