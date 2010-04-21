@@ -112,7 +112,7 @@
 
 	<bean id="unitCacheLoader" class="se.vgregion.kivtools.search.svc.impl.UnitCacheLoaderImpl">
 		<constructor-arg ref="Search_SearchService"/>
-		<constructor-arg value="" />
+		<constructor-arg value="false" />
 	</bean>
 	
 	<bean id="unitCacheService" class="se.vgregion.kivtools.search.svc.UnitCacheServiceImpl">
