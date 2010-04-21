@@ -162,7 +162,6 @@ public class HealthcareTypeConditionVGRTest {
     healthcareType = helper.getHealthcareTypeByName("Vårdcentral");
     assertNotNull(healthcareType);
     assertEquals("02", healthcareType.getConditions().get("hsaBusinessType"));
-    assertEquals("J", healthcareType.getConditions().get("vgrVardval"));
     assertFalse(healthcareType.isFiltered());
     assertEquals(Integer.valueOf(18), healthcareType.getIndex());
 

@@ -161,10 +161,12 @@
                                 <h:outputText rendered="${(unit.showVisitingRules and unit.hsaVisitingRulesIsValid) or Search_SettingsContainer.testingMode}">
 	                                <!-- Information för besökare till patient -->
                                     <tr>
-                                        <th class="leftcol" id="visitingRulesHeaderCell">
+                                        <th colspan="4" class="leftcol" id="visitingRulesHeaderCell">
                                             <span class="grey-header">${msg.visitingRules}</span>
                                         </th>
-                                        <td class="righttwocol paragraph" headers="visitingRulesHeaderCell" colspan="3">
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="paragraph" headers="visitingRulesHeaderCell">
 											${unit.hsaVisitingRules}
                                             <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaVisitingRulesIsValid}">
                                                 <span class="warning">hsaVisitingRules ${msg.missing}</span>
@@ -175,10 +177,12 @@
                                 <h:outputText rendered="${(unit.hsaPatientVisitingRules != null and unit.hsaPatientVisitingRules != '') or Search_SettingsContainer.testingMode}">
 	                                <!-- Besöksinformation till patient  -->
                                     <tr>
-                                        <th class="leftcol" id="hsaPatientVisitingRulesHeaderCell">
+                                        <th colspan="4" class="leftcol" id="hsaPatientVisitingRulesHeaderCell">
                                             <span class="grey-header">${msg.patientVisitingRules}</span>
                                         </th>
-                                        <td class="righttwocol paragraph" headers="hsaPatientVisitingRulesHeaderCell" colspan="3">
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="paragraph" headers="hsaPatientVisitingRulesHeaderCell">
 											${unit.hsaPatientVisitingRules}
                                             <h:outputText rendered="${Search_SettingsContainer.testingMode==true and (unit.hsaPatientVisitingRules == null or unit.hsaPatientVisitingRules == '')}">
                                                 <span class="warning">hsaPatientVisitingRules ${msg.missing}</span>
