@@ -478,11 +478,6 @@ public class UnitRepository {
     filterList = new ArrayList<String>();
     addSearchFilter(filterList, Constants.LDAP_PROPERTY_UNIT_NAME, unit.getName());
 
-    // should be part of vgr vardval. This filter can only be used if vgrVardval is true.
-    if (unit.isVgrVardVal()) {
-      addSearchFilter(filterList, "vgrVardval", LdapParse.escapeLDAPSearchFilter(LdapParse.convertBooleanToString(unit.isVgrVardVal())));
-    }
-
     if (!StringUtil.isEmpty(orCriterias)) {
       filterList.add(orCriterias);
     }
