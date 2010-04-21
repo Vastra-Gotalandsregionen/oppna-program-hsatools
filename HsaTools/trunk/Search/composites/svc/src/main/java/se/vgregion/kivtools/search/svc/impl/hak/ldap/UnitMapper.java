@@ -179,7 +179,7 @@ public class UnitMapper implements ContextMapper {
     unit.setHealthcareTypes(healthcareTypes);
 
     // Show age interval?
-    unit.setShowAgeInterval(unit.getHsaVisitingRuleAgeIsValid());
+    unit.setShowAgeInterval(shouldAgeIntervalBeDisplayed(unit));
     // We always show visiting rules
     unit.setShowVisitingRules(true);
 
@@ -196,6 +196,15 @@ public class UnitMapper implements ContextMapper {
     }
 
     return unit;
+  }
+
+  private boolean shouldAgeIntervalBeDisplayed(Unit unit) {
+    boolean display = true;
+
+    display &= unit.getHsaVisitingRuleAgeIsValid();
+    display &= !"Alla åldrar".equals(unit.getHsaVisitingRuleAge());
+
+    return display;
   }
 
   private static void populateLocalityInformation(DirContextOperationsHelper context, Unit unit) {

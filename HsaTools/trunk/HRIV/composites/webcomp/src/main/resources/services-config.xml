@@ -71,6 +71,7 @@
 		<property name="unitSearchResultSortOrderInclude" value="#{hsatools.hriv.webcomp.unitSearchResultSortOrderInclude}" />
 		<property name="errorReportFormInclude" value="#{hsatools.hriv.webcomp.errorReportFormInclude}" />
 		<property name="errorReportConfirmInclude" value="#{hsatools.hriv.webcomp.errorReportConfirmInclude}" />
+		<property name="unitHoursInclude" value="#{hsatools.hriv.webcomp.unitHoursInclude}" />
 		<property name="searchFormInclude" value="#{hsatools.hriv.webcomp.searchFormInclude}" />
 		<property name="bodyInclude" value="#{hsatools.hriv.webcomp.bodyInclude}" />
 		<!-- This one comes from search-composite-svc-connection.properties, using ${} because of that -->

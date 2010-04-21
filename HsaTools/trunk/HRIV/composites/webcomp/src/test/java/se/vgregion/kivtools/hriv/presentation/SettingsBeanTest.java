@@ -319,6 +319,11 @@ public class SettingsBeanTest {
   }
 
   @Test
+  public void testUnitHoursInclude() {
+    PojoTester.testProperty(bean, "unitHoursInclude", String.class, null, TEST_STRING, TEST_STRING2);
+  }
+
+  @Test
   public void testPublicCaptchaKey() {
     PojoTester.testProperty(bean, "publicCaptchaKey", String.class, null, TEST_STRING, TEST_STRING2);
   }

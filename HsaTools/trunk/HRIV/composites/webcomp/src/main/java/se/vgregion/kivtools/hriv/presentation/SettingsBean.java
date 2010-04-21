@@ -38,6 +38,7 @@ public class SettingsBean implements Serializable {
   private String unitSearchResultSortOrderInclude;
   private String errorReportFormInclude;
   private String errorReportConfirmInclude;
+  private String unitHoursInclude;
   private String publicCaptchaKey;
   private boolean testingMode;
   private boolean useAccessibilityDatabaseIntegration;
@@ -527,5 +528,13 @@ public class SettingsBean implements Serializable {
 
   public String getUnitSearchResultSortOrderInclude() {
     return unitSearchResultSortOrderInclude;
+  }
+
+  public void setUnitHoursInclude(String unitHoursInclude) {
+    this.unitHoursInclude = unitHoursInclude;
+  }
+
+  public String getUnitHoursInclude() {
+    return unitHoursInclude;
   }
 }
