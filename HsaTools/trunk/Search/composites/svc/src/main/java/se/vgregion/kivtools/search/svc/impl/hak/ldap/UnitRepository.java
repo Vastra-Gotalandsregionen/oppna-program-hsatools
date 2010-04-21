@@ -445,6 +445,7 @@ public class UnitRepository {
     if (!StringUtil.isEmpty(searchUnitCriterions.getUnitName())) {
       OrFilter orUnitName = new OrFilter();
       orUnitName.or(createSearchFilter(unitNameProperty, searchUnitCriterions.getUnitName()));
+      orUnitName.or(createSearchFilter(Constants.LDAP_PROPERTY_DESCRIPTION, searchUnitCriterions.getUnitName()));
       andFilter2.and(orUnitName);
     }
 

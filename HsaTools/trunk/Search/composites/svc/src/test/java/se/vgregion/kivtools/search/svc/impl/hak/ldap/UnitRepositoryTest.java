@@ -62,15 +62,12 @@ public class UnitRepositoryTest {
 
   @Test
   public void testSearchUnit() throws KivException {
-    // Create test unit.
     SearchUnitCriterions searchUnitCriterions = new SearchUnitCriterions();
     searchUnitCriterions.setUnitId("\"abc-123\"");
     searchUnitCriterions.setUnitName("unitName");
     searchUnitCriterions.setLocation("municipalityName");
 
-    // Create ldapConnectionMock.
-
-    String expectedFilter = "(|(&(objectclass=organizationalUnit)(&(hsaIdentity=abc-123)(ou=*unitName*)(|(municipalityName=*municipalityName*)(postalAddress=*municipalityName*)(streetAddress=*municipalityName*))))(&(objectclass=organizationalRole)(&(hsaIdentity=abc-123)(cn=*unitName*)(|(municipalityName=*municipalityName*)(postalAddress=*municipalityName*)(streetAddress=*municipalityName*)))))";
+    String expectedFilter = "(|(&(objectclass=organizationalUnit)(&(hsaIdentity=abc-123)(|(ou=*unitName*)(description=*unitName*))(|(municipalityName=*municipalityName*)(postalAddress=*municipalityName*)(streetAddress=*municipalityName*))))(&(objectclass=organizationalRole)(&(hsaIdentity=abc-123)(|(cn=*unitName*)(description=*unitName*))(|(municipalityName=*municipalityName*)(postalAddress=*municipalityName*)(streetAddress=*municipalityName*)))))";
 
     SikSearchResultList<Unit> searchUnits = unitRepository.searchUnits(searchUnitCriterions, 0);
     ldapTemplate.assertSearchFilter(expectedFilter);
@@ -79,13 +76,21 @@ public class UnitRepositoryTest {
 
   @Test
   public void testSearchUnitNameWithDash() throws KivException {
-    // Create test unit.
     SearchUnitCriterions searchUnitCriterions = new SearchUnitCriterions();
     searchUnitCriterions.setUnitName("Kvalitet- och säkerhetsavdelningen");
 
-    // Create ldapConnectionMock.
+    String expectedFilter = "(|(&(objectclass=organizationalUnit)(|(ou=*Kvalitet*och*säkerhetsavdelningen*)(description=*Kvalitet*och*säkerhetsavdelningen*)))(&(objectclass=organizationalRole)(|(cn=*Kvalitet*och*säkerhetsavdelningen*)(description=*Kvalitet*och*säkerhetsavdelningen*))))";
+    SikSearchResultList<Unit> searchUnits = unitRepository.searchUnits(searchUnitCriterions, 0);
+    ldapTemplate.assertSearchFilter(expectedFilter);
+    assertEquals(0, searchUnits.size());
+  }
 
-    String expectedFilter = "(|(&(objectclass=organizationalUnit)(ou=*Kvalitet*och*säkerhetsavdelningen*))(&(objectclass=organizationalRole)(cn=*Kvalitet*och*säkerhetsavdelningen*)))";
+  @Test
+  public void searchUnitMatchesProvidedUnitNameAgainstDescriptionAsWellAsUnitName() throws KivException {
+    SearchUnitCriterions searchUnitCriterions = new SearchUnitCriterions();
+    searchUnitCriterions.setUnitName("teknik");
+
+    String expectedFilter = "(|(&(objectclass=organizationalUnit)(|(ou=*teknik*)(description=*teknik*)))(&(objectclass=organizationalRole)(|(cn=*teknik*)(description=*teknik*))))";
     SikSearchResultList<Unit> searchUnits = unitRepository.searchUnits(searchUnitCriterions, 0);
     ldapTemplate.assertSearchFilter(expectedFilter);
     assertEquals(0, searchUnits.size());
