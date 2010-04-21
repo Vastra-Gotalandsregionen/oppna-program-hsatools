@@ -708,7 +708,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @param hsaVisitingRuleAge The LDAP-value for the hsaVisitingRuleAge property.
    */
   public void setHsaVisitingRuleAge(String hsaVisitingRuleAge) {
-    if ("0-99".equals(hsaVisitingRuleAge)) {
+    if ("0-99".equals(hsaVisitingRuleAge) || "00-99".equals(hsaVisitingRuleAge)) {
       this.hsaVisitingRuleAge = "Alla \u00E5ldrar";
     } else if (hsaVisitingRuleAge.endsWith("-99")) {
       this.hsaVisitingRuleAge = hsaVisitingRuleAge.substring(0, hsaVisitingRuleAge.indexOf("-")) + " \u00E5r eller \u00E4ldre";

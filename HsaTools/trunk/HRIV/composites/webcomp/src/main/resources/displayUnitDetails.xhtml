@@ -105,28 +105,7 @@
                             </h:outputText>
 
                             <table class="borderless">
-                            	<h:outputText rendered="${fn:length(unit.hsaSurgeryHours) gt 0 or fn:length(unit.hsaDropInHours) gt 0 or Search_SettingsContainer.testingMode}">
-	                                <tr>
-	                                    <th class="leftcol">
-	                                        <span class="grey-header">${msg.openingHours}</span>
-	                                    </th>
-	                                    <td class="rightfourcol">
-	                                        <div jsfc="ui:repeat" value="${unit.hsaSurgeryHours}" var="time" class="paragraph">${time.displayValue}</div>
-	                                        <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaSurgeryHours) lt 1}">
-	                                            <span class="warning">hsaSurgeryHours ${msg.missing}</span>
-	                                        </h:outputText>
-	                                    </td>
-	                                    <th class="leftcol">
-	                                        <span class="grey-header">${msg.dropInHours}</span>
-	                                    </th>
-	                                    <td class="rightfourcol">
-	                                        <div jsfc="ui:repeat" value="${unit.hsaDropInHours}" var="time" class="paragraph">${time.displayValue}</div>
-	                                        <h:outputText rendered="${fn:length(unit.hsaDropInHours) lt 1}">
-												<div class="paragraph">${msg.noDropIn}</div>
-	                                        </h:outputText>
-	                                    </td>
-	                                </tr>
-                            	</h:outputText>
+		                        <ui:include src="${Search_SettingsContainer.unitHoursInclude}" />
                             	<h:outputText rendered="${unit.hsaManagementTextIsValid or (unit.showAgeInterval and unit.hsaVisitingRuleAgeIsValid) or Search_SettingsContainer.testingMode}">
 	                                <tr>
 	                                    <th class="leftcol" id="managementTextHeaderCell">

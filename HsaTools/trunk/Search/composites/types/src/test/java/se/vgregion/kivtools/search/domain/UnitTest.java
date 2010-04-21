@@ -318,6 +318,8 @@ public class UnitTest {
     assertNull(unit.getHsaVisitingRuleAge());
     unit.setHsaVisitingRuleAge("0-99");
     assertEquals("Alla \u00E5ldrar", unit.getHsaVisitingRuleAge());
+    unit.setHsaVisitingRuleAge("00-99");
+    assertEquals("Alla \u00E5ldrar", unit.getHsaVisitingRuleAge());
     unit.setHsaVisitingRuleAge("20-99");
     assertEquals("20 \u00E5r eller \u00E4ldre", unit.getHsaVisitingRuleAge());
     unit.setHsaVisitingRuleAge("20");

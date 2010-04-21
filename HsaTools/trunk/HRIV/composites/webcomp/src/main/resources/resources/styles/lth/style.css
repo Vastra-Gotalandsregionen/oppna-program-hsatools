@@ -831,6 +831,15 @@ table.Employment,table.Employment th,table.Employment td {
     width: 50em;
 }
 
+.search-result .borderless .rightthreecol {
+	width: 25em;
+	padding: 0.5em;
+}
+
+.rightaligned {
+	text-align: right;	
+}
+
 .leftcol {
     width: 14%;
 }

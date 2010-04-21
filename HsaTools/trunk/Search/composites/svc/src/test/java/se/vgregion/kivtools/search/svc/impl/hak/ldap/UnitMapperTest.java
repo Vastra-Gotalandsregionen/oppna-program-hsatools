@@ -180,6 +180,20 @@ public class UnitMapperTest {
     assertTrue("03 is not mapped", hsaDestinationIndicator.contains("03"));
   }
 
+  @Test
+  public void isShowAgeIntervalReturnFalseIfUnitIsAvailableForAllAges() {
+    dirContextOperations.addAttributeValue("hsaVisitingRuleAge", "00-99");
+    Unit unit = mapper.mapFromContext(dirContextOperations);
+    assertFalse("show age interval", unit.isShowAgeInterval());
+  }
+
+  @Test
+  public void isShowAgeIntervalReturnTrueForValidAgeRange() {
+    dirContextOperations.addAttributeValue("hsaVisitingRuleAge", "18-24");
+    Unit unit = mapper.mapFromContext(dirContextOperations);
+    assertTrue("show age interval", unit.isShowAgeInterval());
+  }
+
   private void addUnitAttributes() {
     dirContextOperations.setDn(DistinguishedName.immutableDistinguishedName("ou=Vårdcentralen Halmstad,ou=Landstinget Halland"));
     dirContextOperations.addAttributeValue("businessClassificationCode", TEST);
