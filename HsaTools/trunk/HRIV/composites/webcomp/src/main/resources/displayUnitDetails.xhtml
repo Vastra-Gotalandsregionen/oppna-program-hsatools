@@ -141,8 +141,10 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td headers="tempInfoHeaderCell" colspan="4" class="paragraph">
-                                            <h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.vgrTempInfoBody))}" />
+                                        <td headers="tempInfoHeaderCell" colspan="4">
+                                        	<div class="paragraph">
+                                            	<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.vgrTempInfoBody))}" />
+                                        	</div>
                                         </td>
                                     </tr>
                                 </h:outputText>
@@ -153,8 +155,10 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td colspan="4" class="paragraph">
-                                            <h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.vgrRefInfo))}" />
+                                        <td colspan="4">
+                                        	<div class="paragraph">
+                                            	<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.vgrRefInfo))}" />
+                                        	</div>
                                         </td>
                                     </tr>
                                 </h:outputText>                                
@@ -166,11 +170,13 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td colspan="4" class="paragraph" headers="visitingRulesHeaderCell">
-											${unit.hsaVisitingRules}
-                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaVisitingRulesIsValid}">
-                                                <span class="warning">hsaVisitingRules ${msg.missing}</span>
-                                            </h:outputText>
+                                        <td colspan="4" headers="visitingRulesHeaderCell">
+                                        	<div class="paragraph">
+                                        		<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.hsaVisitingRules))}" />
+	                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaVisitingRulesIsValid}">
+	                                                <span class="warning">hsaVisitingRules ${msg.missing}</span>
+	                                            </h:outputText>
+                                        	</div>
                                         </td>
                                     </tr>
                                 </h:outputText>
@@ -183,10 +189,12 @@
                                     </tr>
                                     <tr>
                                         <td colspan="4" class="paragraph" headers="hsaPatientVisitingRulesHeaderCell">
-											${unit.hsaPatientVisitingRules}
-                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and (unit.hsaPatientVisitingRules == null or unit.hsaPatientVisitingRules == '')}">
-                                                <span class="warning">hsaPatientVisitingRules ${msg.missing}</span>
-                                            </h:outputText>
+                                        	<div class="paragraph">
+                                        		<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.hsaPatientVisitingRules))}" />
+	                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and (unit.hsaPatientVisitingRules == null or unit.hsaPatientVisitingRules == '')}">
+	                                                <span class="warning">hsaPatientVisitingRules ${msg.missing}</span>
+	                                            </h:outputText>
+                                        	</div>
                                         </td>
                                     </tr>
                                 </h:outputText>
