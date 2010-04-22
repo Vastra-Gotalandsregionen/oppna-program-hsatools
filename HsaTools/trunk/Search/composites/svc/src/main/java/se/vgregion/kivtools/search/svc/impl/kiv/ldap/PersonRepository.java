@@ -26,6 +26,7 @@ import java.util.List;
 import javax.naming.Name;
 import javax.naming.directory.SearchControls;
 
+import org.springframework.ldap.NamingException;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.DistinguishedName;
@@ -128,6 +129,26 @@ public class PersonRepository {
       throw new KivException("Ldap error");
     }
     return result;
+  }
+
+  /**
+   * Retrieves a list of all persons.
+   * 
+   * @return a list of all persons.
+   * @throws KivException if search cannot be performed.
+   */
+  public List<Person> getAllPersons() throws KivException {
+    AndFilter filter = new AndFilter();
+    filter.and(new LikeFilter("vgr-id", "*"));
+
+    try {
+      // Since UnitMapper returns Units we are certain that the cast to List<Unit> is ok.
+      @SuppressWarnings("unchecked")
+      List<Person> result = ldapTemplate.search(PERSON_SEARCH_BASE, filter.encode(), SearchControls.SUBTREE_SCOPE, new PersonMapper(codeTablesService));
+      return result;
+    } catch (NamingException e) {
+      throw new KivException("Error getting persons from server: " + e.getMessage());
+    }
   }
 
   private Person searchPerson(String searchBase, int searchScope, String searchFilter) throws KivException {

@@ -66,7 +66,7 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public List<Person> getAllPersons() throws KivException {
-    throw new UnsupportedOperationException("Not implemented!!!");
+    return this.personRepository.getAllPersons();
   }
 
   /**

@@ -34,8 +34,7 @@ import javax.naming.directory.SearchControls;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.ldap.CommunicationException;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapTemplate;
@@ -52,15 +51,10 @@ import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.util.time.TimeSource;
 import se.vgregion.kivtools.util.time.TimeUtil;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = { "/services-config_VGR.xml" })
 public class PersonRepositoryTest {
   private PersonRepository personRepository;
   private Calendar calendar;
   private MockLdapTemplate mockLdapTemplate;
-  @Autowired
-  @Qualifier("ldapTemplatePerson")
-  private LdapTemplate ldapTemplate;
 
   @Before
   public void setUp() throws Exception {
@@ -168,8 +162,29 @@ public class PersonRepositoryTest {
   }
 
   @Test
-  public void testGetAllPersonsVgrId() {
+  public void testGetAllPersons() throws KivException {
+    LdapTemplateMock ldapTemplate = new LdapTemplateMock();
+    personRepository.setLdapTemplate(ldapTemplate);
 
+    DirContextOperationsMock regionName1 = new DirContextOperationsMock();
+    regionName1.addAttributeValue("vgr-id", "kal456");
+    DirContextOperationsMock regionName2 = new DirContextOperationsMock();
+    regionName2.addAttributeValue("vgr-id", "abc123");
+    ldapTemplate.addDirContextOperationForSearch(regionName1);
+    ldapTemplate.addDirContextOperationForSearch(regionName2);
+    List<Person> allPersons = personRepository.getAllPersons();
+    ldapTemplate.assertSearchFilter("(vgr-id=*)");
+    assertNotNull(allPersons);
+    assertEquals(2, allPersons.size());
+  }
+
+  @Test(expected = KivException.class)
+  public void getAllPersonsThrowsKivExceptionOnNamingException() throws KivException {
+    LdapTemplateMock ldapTemplate = new LdapTemplateMock();
+    personRepository.setLdapTemplate(ldapTemplate);
+
+    ldapTemplate.setExceptionToThrow(new CommunicationException(null));
+    personRepository.getAllPersons();
   }
 
   private List<Unit> generateTestUnitList() {

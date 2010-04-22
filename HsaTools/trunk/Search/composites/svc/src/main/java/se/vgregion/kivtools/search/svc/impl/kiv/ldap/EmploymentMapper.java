@@ -33,6 +33,7 @@ import se.vgregion.kivtools.search.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.domain.values.ZipCode;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.ldap.DirContextOperationsHelper;
+import se.vgregion.kivtools.util.StringUtil;
 
 import com.domainlanguage.time.TimePoint;
 
@@ -66,8 +67,8 @@ public class EmploymentMapper implements ContextMapper {
     employment.setVgrAnsvarsnummer(context.getString(LDAPEmploymentAttributes.VGR_ANSVARS_NUMMER.toString()));
 
     // Anst�llningsperiod
-    employment.setEmploymentPeriod(TimePoint.parseFrom(context.getString(LDAPEmploymentAttributes.HSA_START_DATE.toString()), "", TimeZone.getDefault()), TimePoint.parseFrom(context
-        .getString(LDAPEmploymentAttributes.HSA_END_DATE.toString()), "", TimeZone.getDefault()));
+    employment.setEmploymentPeriod(parseDateTime(context.getString(LDAPEmploymentAttributes.HSA_START_DATE.toString())), parseDateTime(context.getString(LDAPEmploymentAttributes.HSA_END_DATE
+        .toString())));
 
     // Fakturaadress e.g. S�dra �lvsborgs Sjukhus$L�ne- och fakturaservice $ $ $501 82$Bor�s
     employment.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress(context.getStrings(LDAPEmploymentAttributes.HSA_SEDF_INVOICE_ADDRESS.toString())));
@@ -121,7 +122,7 @@ public class EmploymentMapper implements ContextMapper {
 
     employment.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(context.getString(LDAPEmploymentAttributes.HSA_TEXT_PHONE_NUMBER.toString())));
 
-    employment.setModifyTimestamp(TimePoint.parseFrom(context.getString(LDAPEmploymentAttributes.MODIFY_TIMESTAMP.toString()), ""/* TODO Add pattern */, TimeZone.getDefault()));
+    employment.setModifyTimestamp(parseDateTime(context.getString(LDAPEmploymentAttributes.MODIFY_TIMESTAMP.toString())));
 
     employment.setModifyersName(context.getString(LDAPEmploymentAttributes.MODIFYERS_NAME.toString()));
 
@@ -136,5 +137,15 @@ public class EmploymentMapper implements ContextMapper {
     employment.setPosition(codeTablesService.getValueFromCode(CodeTableName.PA_TITLE_CODE, paTitleCode));
 
     return employment;
+  }
+
+  private TimePoint parseDateTime(final String dateTime) {
+    TimePoint result = null;
+
+    if (!StringUtil.isEmpty(dateTime)) {
+      result = TimePoint.parseFrom(dateTime, "yyyyMMddHHmmss'Z'", TimeZone.getDefault());
+    }
+
+    return result;
   }
 }

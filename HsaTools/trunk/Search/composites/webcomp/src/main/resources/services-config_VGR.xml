@@ -34,9 +34,72 @@
 	<bean id="smsRedirectService"  
 		class="se.vgregion.kivtools.search.sms.SmsRedirectServiceStub" />
 
+	<bean id="sitemapGenerator" class="se.vgregion.kivtools.search.svc.InternalSitemapGenerator" />
+	
 	<bean id="sitemapSupportBean" class="se.vgregion.kivtools.search.svc.SitemapSupportBean">
-		<constructor-arg><null/></constructor-arg>
-		<constructor-arg><null/></constructor-arg>
+		<constructor-arg ref="sitemapCacheService" />
+		<constructor-arg ref="sitemapGenerator" />
+	</bean>
+	
+	<bean id="sitemapCacheLoader" class="se.vgregion.kivtools.search.svc.impl.InternalSitemapCacheLoaderImpl">
+		<constructor-arg ref="unitCacheService" />
+		<constructor-arg ref="Search_SearchService" />
+		<constructor-arg value="http://sokikiv.vgregion.se/sokikiv" />
+		<constructor-arg value="daily" />
+	</bean>
+	
+	<bean id="sitemapCacheService" class="se.vgregion.kivtools.search.svc.SitemapCacheServiceImpl">
+		<constructor-arg ref="sitemapCacheLoader" />
+	</bean>
+
+	<bean id="sitemapCacheReload"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="sitemapCacheService" />
+		<property name="targetMethod" value="reloadCache" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="triggerSitemapCacheReload" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="sitemapCacheReload" />
+		<!-- 2 minutes so unitCacheReload has completed -->
+		<property name="startDelay" value="120000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean id="unitCacheLoader" class="se.vgregion.kivtools.search.svc.impl.UnitCacheLoaderImpl">
+		<constructor-arg ref="Search_SearchService"/>
+		<constructor-arg value="false" />
+	</bean>
+	
+	<bean id="unitCacheService" class="se.vgregion.kivtools.search.svc.UnitCacheServiceImpl">
+		<constructor-arg ref="unitCacheLoader" />
+	</bean>
+
+	<bean id="unitCacheReload"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="unitCacheService" />
+		<property name="targetMethod" value="reloadCache" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="triggerUnitCacheReload" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="unitCacheReload" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="startupDelay" value="10" />
+		<property name="triggers">
+			<list>
+				<ref bean="triggerUnitCacheReload" />
+				<ref bean="triggerSitemapCacheReload" />
+			</list>
+		</property>
 	</bean>
 </beans>
-

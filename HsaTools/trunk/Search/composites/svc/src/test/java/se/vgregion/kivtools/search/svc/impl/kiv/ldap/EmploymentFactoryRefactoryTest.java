@@ -19,8 +19,7 @@
 
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -34,118 +33,117 @@ import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 
 public class EmploymentFactoryRefactoryTest {
-    private static final String TEST = "Test";
-    private static final String EXPECTED_LIST_RESULT = "[" + TEST + "]";
-    private static final String TEST_DN = "ou=Test,ou=Org,o=vgr";
-    private static final String TEST_TIME = "1-5#08:30#10:00";
-    private DirContextOperationsMock dirContextOperationsMock;
-    private CodeTablesServiceMock codeTablesServiceMock;
+  private static final String TEST = "Test";
+  private static final String EXPECTED_LIST_RESULT = "[" + TEST + "]";
+  private static final String TEST_DN = "ou=Test,ou=Org,o=vgr";
+  private static final String TEST_TIME = "1-5#08:30#10:00";
+  private DirContextOperationsMock dirContextOperationsMock;
+  private CodeTablesServiceMock codeTablesServiceMock;
 
-    @Before
-    public void setUp() throws Exception {
-        codeTablesServiceMock = new CodeTablesServiceMock();
-        dirContextOperationsMock = new DirContextOperationsMock();
-        dirContextOperationsMock.setDn(new NameMock(
-                "ou=Folktandvården Fyrbodal,ou=Folktandvården Västra Götaland,ou=Org,o=vgr"));
+  @Before
+  public void setUp() throws Exception {
+    codeTablesServiceMock = new CodeTablesServiceMock();
+    dirContextOperationsMock = new DirContextOperationsMock();
+    dirContextOperationsMock.setDn(new NameMock("ou=Folktandvården Fyrbodal,ou=Folktandvården Västra Götaland,ou=Org,o=vgr"));
 
-        dirContextOperationsMock.addAttributeValue("cn", TEST);
-        dirContextOperationsMock.addAttributeValue("ou", TEST);
-        dirContextOperationsMock.addAttributeValue("hsaPersonIdentityNumber", TEST);
-        dirContextOperationsMock.addAttributeValue("vgrOrgRel", TEST);
-        dirContextOperationsMock.addAttributeValue("vgrStrukturPerson", TEST_DN);
-        dirContextOperationsMock.addAttributeValue("vgrAnsvarsnummer", TEST);
-        dirContextOperationsMock.addAttributeValue("hsaStartDate", TEST);
-        dirContextOperationsMock.addAttributeValue("hsaEndDate", TEST);
-        dirContextOperationsMock.addAttributeValue("hsaSedfInvoiceAddress", TEST);
-        dirContextOperationsMock.addAttributeValue("hsaStreetAddress", TEST);
-        dirContextOperationsMock.addAttributeValue("hsaInternalAddress", TEST);
-        dirContextOperationsMock.addAttributeValue("hsaPostalAddress", TEST);
-        dirContextOperationsMock.addAttributeValue("hsaSedfDeliveryAddress", TEST);
-        dirContextOperationsMock.addAttributeValue("facsimileTelephoneNumber", TEST);
-        dirContextOperationsMock.addAttributeValue("postalCode", TEST);
-        dirContextOperationsMock.addAttributeValue("labeledUri", TEST);
-        dirContextOperationsMock.addAttributeValue("vgrAnstform", TEST);
-        dirContextOperationsMock.addAttributeValue("title", TEST);
-        dirContextOperationsMock.addAttributeValue("vgrFormansgrupp", TEST);
-        dirContextOperationsMock.addAttributeValue("hsaSedfSwitchboardTelephoneNo", TEST);
-        dirContextOperationsMock.addAttributeValue("vgrAO3kod", TEST);
-        dirContextOperationsMock.addAttributeValue("organizationalUnitName", TEST);
-        dirContextOperationsMock.addAttributeValue("hsaTelephoneNumber", TEST);
-        dirContextOperationsMock.addAttributeValue("hsaPublicTelephoneNumber", TEST);
-        dirContextOperationsMock.addAttributeValue("mobileTelephoneNumber", TEST);
-        dirContextOperationsMock.addAttributeValue("hsaInternalPagerNumber", TEST);
-        dirContextOperationsMock.addAttributeValue("pagerTelephoneNumber", TEST);
-        dirContextOperationsMock.addAttributeValue("hsaTextPhoneNumber", TEST);
-        dirContextOperationsMock.addAttributeValue("modifyTimestamp", TEST);
-        dirContextOperationsMock.addAttributeValue("modifyersName", TEST);
-        dirContextOperationsMock.addAttributeValue("hsaTelephoneTime", TEST_TIME);
-        dirContextOperationsMock.addAttributeValue("description", TEST);
-        dirContextOperationsMock.addAttributeValue("l", TEST);
-        dirContextOperationsMock.addAttributeValue("paTitleCode", TEST);
+    dirContextOperationsMock.addAttributeValue("cn", TEST);
+    dirContextOperationsMock.addAttributeValue("ou", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaPersonIdentityNumber", TEST);
+    dirContextOperationsMock.addAttributeValue("vgrOrgRel", TEST);
+    dirContextOperationsMock.addAttributeValue("vgrStrukturPerson", TEST_DN);
+    dirContextOperationsMock.addAttributeValue("vgrAnsvarsnummer", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaStartDate", "20100101070300Z");
+    dirContextOperationsMock.addAttributeValue("hsaEndDate", "20101231224401Z");
+    dirContextOperationsMock.addAttributeValue("hsaSedfInvoiceAddress", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaStreetAddress", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaInternalAddress", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaPostalAddress", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaSedfDeliveryAddress", TEST);
+    dirContextOperationsMock.addAttributeValue("facsimileTelephoneNumber", TEST);
+    dirContextOperationsMock.addAttributeValue("postalCode", TEST);
+    dirContextOperationsMock.addAttributeValue("labeledUri", TEST);
+    dirContextOperationsMock.addAttributeValue("vgrAnstform", TEST);
+    dirContextOperationsMock.addAttributeValue("title", TEST);
+    dirContextOperationsMock.addAttributeValue("vgrFormansgrupp", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaSedfSwitchboardTelephoneNo", TEST);
+    dirContextOperationsMock.addAttributeValue("vgrAO3kod", TEST);
+    dirContextOperationsMock.addAttributeValue("organizationalUnitName", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaTelephoneNumber", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaPublicTelephoneNumber", TEST);
+    dirContextOperationsMock.addAttributeValue("mobileTelephoneNumber", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaInternalPagerNumber", TEST);
+    dirContextOperationsMock.addAttributeValue("pagerTelephoneNumber", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaTextPhoneNumber", TEST);
+    dirContextOperationsMock.addAttributeValue("modifyTimestamp", "20100405123456Z");
+    dirContextOperationsMock.addAttributeValue("modifyersName", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaTelephoneTime", TEST_TIME);
+    dirContextOperationsMock.addAttributeValue("description", TEST);
+    dirContextOperationsMock.addAttributeValue("l", TEST);
+    dirContextOperationsMock.addAttributeValue("paTitleCode", TEST);
+  }
+
+  @Test
+  public void testMapFromContext() {
+    EmploymentMapper employmentMapper = new EmploymentMapper(codeTablesServiceMock);
+    Employment mapFromContext = employmentMapper.mapFromContext(dirContextOperationsMock);
+    assertEmploymentResult(mapFromContext);
+  }
+
+  private void assertEmploymentResult(Employment employment) {
+    assertEquals(TEST, employment.getCn());
+    assertEquals(TEST, employment.getOu());
+    assertEquals(TEST, employment.getHsaPersonIdentityNumber());
+    assertEquals(TEST, employment.getVgrOrgRel());
+    assertEquals(TEST_DN, employment.getVgrStrukturPerson().toString());
+    assertEquals(TEST, employment.getVgrAnsvarsnummer());
+    assertNotNull(employment.getEmploymentPeriod());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaSedfInvoiceAddress().getAdditionalInfo().toString());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaStreetAddress().getAdditionalInfo().toString());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaInternalAddress().getAdditionalInfo().toString());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaPostalAddress().getAdditionalInfo().toString());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getHsaSedfDeliveryAddress().getAdditionalInfo().toString());
+    assertEquals(TEST, employment.getFacsimileTelephoneNumber().toString());
+    assertEquals(TEST, employment.getZipCode().getZipCode());
+    assertEquals(TEST, employment.getLabeledUri());
+    assertEquals(TEST, employment.getVgrAnstform());
+    assertEquals(TEST, employment.getTitle());
+    assertEquals(TEST, employment.getVgrFormansgrupp());
+    assertEquals(TEST, employment.getHsaSedfSwitchboardTelephoneNo().toString());
+    assertEquals(TEST, employment.getVgrAO3kod());
+    assertEquals(TEST, employment.getOu());
+    assertEquals(TEST, employment.getHsaTelephoneNumber().toString());
+    assertEquals(TEST, employment.getHsaPublicTelephoneNumber().toString());
+    assertEquals(TEST, employment.getMobileTelephoneNumber().toString());
+    assertEquals(TEST, employment.getHsaInternalPagerNumber().toString());
+    assertEquals(TEST, employment.getPagerTelephoneNumber().toString());
+    assertEquals(TEST, employment.getHsaTextPhoneNumber().toString());
+    assertNotNull(employment.getModifyTimestamp());
+    assertEquals(TEST, employment.getModifyersName());
+    assertEquals("Måndag-Fredag 08:30-10:00", employment.getHsaTelephoneTime().get(0).getDisplayValue());
+    assertEquals(EXPECTED_LIST_RESULT, employment.getDescription().toString());
+    assertEquals(TEST, employment.getLocality());
+    assertEquals("Translated " + TEST, employment.getPosition());
+  }
+
+  class CodeTablesServiceMock implements CodeTablesService {
+    @Override
+    public String getValueFromCode(CodeTableName codeTableName, String string) {
+      return "Translated " + string;
     }
 
-    @Test
-    public void testMapFromContext() {
-        EmploymentMapper employmentMapper = new EmploymentMapper(codeTablesServiceMock);
-        Employment mapFromContext = employmentMapper.mapFromContext(dirContextOperationsMock);
-        assertEmploymentResult(mapFromContext);
+    @Override
+    public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
+      return null;
     }
 
-    private void assertEmploymentResult(Employment employment) {
-        assertEquals(TEST, employment.getCn());
-        assertEquals(TEST, employment.getOu());
-        assertEquals(TEST, employment.getHsaPersonIdentityNumber());
-        assertEquals(TEST, employment.getVgrOrgRel());
-        assertEquals(TEST_DN, employment.getVgrStrukturPerson().toString());
-        assertEquals(TEST, employment.getVgrAnsvarsnummer());
-        assertNotNull(employment.getEmploymentPeriod());
-        assertEquals(EXPECTED_LIST_RESULT, employment.getHsaSedfInvoiceAddress().getAdditionalInfo().toString());
-        assertEquals(EXPECTED_LIST_RESULT, employment.getHsaStreetAddress().getAdditionalInfo().toString());
-        assertEquals(EXPECTED_LIST_RESULT, employment.getHsaInternalAddress().getAdditionalInfo().toString());
-        assertEquals(EXPECTED_LIST_RESULT, employment.getHsaPostalAddress().getAdditionalInfo().toString());
-        assertEquals(EXPECTED_LIST_RESULT, employment.getHsaSedfDeliveryAddress().getAdditionalInfo().toString());
-        assertEquals(TEST, employment.getFacsimileTelephoneNumber().toString());
-        assertEquals(TEST, employment.getZipCode().getZipCode());
-        assertEquals(TEST, employment.getLabeledUri());
-        assertEquals(TEST, employment.getVgrAnstform());
-        assertEquals(TEST, employment.getTitle());
-        assertEquals(TEST, employment.getVgrFormansgrupp());
-        assertEquals(TEST, employment.getHsaSedfSwitchboardTelephoneNo().toString());
-        assertEquals(TEST, employment.getVgrAO3kod());
-        assertEquals(TEST, employment.getOu());
-        assertEquals(TEST, employment.getHsaTelephoneNumber().toString());
-        assertEquals(TEST, employment.getHsaPublicTelephoneNumber().toString());
-        assertEquals(TEST, employment.getMobileTelephoneNumber().toString());
-        assertEquals(TEST, employment.getHsaInternalPagerNumber().toString());
-        assertEquals(TEST, employment.getPagerTelephoneNumber().toString());
-        assertEquals(TEST, employment.getHsaTextPhoneNumber().toString());
-        assertNotNull(employment.getModifyTimestamp());
-        assertEquals(TEST, employment.getModifyersName());
-        assertEquals("Måndag-Fredag 08:30-10:00", employment.getHsaTelephoneTime().get(0).getDisplayValue());
-        assertEquals(EXPECTED_LIST_RESULT, employment.getDescription().toString());
-        assertEquals(TEST, employment.getLocality());
-        assertEquals("Translated " + TEST, employment.getPosition());
+    @Override
+    public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
+      return null;
     }
 
-    class CodeTablesServiceMock implements CodeTablesService {
-        @Override
-        public String getValueFromCode(CodeTableName codeTableName, String string) {
-            return "Translated " + string;
-        }
-
-        @Override
-        public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
-            return null;
-        }
-
-        @Override
-        public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
-            return null;
-        }
-
-        @Override
-        public List<String> getAllValuesItemsFromCodeTable(String codeTableName) {
-            return null;
-        }
+    @Override
+    public List<String> getAllValuesItemsFromCodeTable(String codeTableName) {
+      return null;
     }
+  }
 }
