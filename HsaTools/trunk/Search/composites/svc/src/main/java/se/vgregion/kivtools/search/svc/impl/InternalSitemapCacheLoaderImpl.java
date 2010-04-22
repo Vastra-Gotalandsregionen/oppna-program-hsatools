@@ -85,6 +85,9 @@ public class InternalSitemapCacheLoaderImpl implements CacheLoader<SitemapCache>
     List<Person> persons = searchService.getAllPersons();
     for (Person person : persons) {
       TimePoint lastmod = TimePoint.atGMT(1970, 1, 1, 0, 0, 0);
+      if (person.getEmployments() == null) {
+        person.setEmployments(searchService.getEmployments(person.getDn()));
+      }
       if (person.getEmployments() != null) {
         for (Employment employment : person.getEmployments()) {
           if (lastmod.isBefore(employment.getModifyTimestamp())) {

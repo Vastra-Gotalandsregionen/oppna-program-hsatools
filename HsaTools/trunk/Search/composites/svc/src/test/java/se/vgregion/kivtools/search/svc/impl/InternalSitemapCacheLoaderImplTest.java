@@ -57,7 +57,7 @@ public class InternalSitemapCacheLoaderImplTest {
   public void loadCacheReloadsUnitCacheIfNoUnitsAreFound() {
     SitemapCache cache = loader.loadCache();
     assertNotNull(cache);
-    assertEquals(5, cache.getEntries().size());
+    assertEquals(6, cache.getEntries().size());
   }
 
   @Test
@@ -76,6 +76,12 @@ public class InternalSitemapCacheLoaderImplTest {
   public void loadCacheUsesModifyTimestampForLastmodIfUnitIsModified() {
     SitemapCache cache = loader.loadCache();
     assertEquals("2010-02-16T01:00:00+01:00", cache.getEntries().get(1).getLastModified());
+  }
+
+  @Test
+  public void loadCacheFetchesAPersonsEmploymentsIfNotAlreadyLoaded() {
+    SitemapCache cache = loader.loadCache();
+    assertEquals("2010-04-22T02:00:00+02:00", cache.getEntries().get(5).getLastModified());
   }
 
   @Test
@@ -129,6 +135,7 @@ public class InternalSitemapCacheLoaderImplTest {
     public SearchServiceMock() {
       persons.add(createPerson("kon829", "hsa-456", TimePoint.atMidnightGMT(2010, 2, 12), TimePoint.atMidnightGMT(2010, 2, 16), TimePoint.atMidnightGMT(2010, 1, 10)));
       persons.add(createPerson("krila8", "hsa-123"));
+      persons.add(createPerson("hanjo26", "hsa-789"));
     }
 
     public void setExceptionToThrow(KivException exceptionToThrow) {
@@ -139,6 +146,7 @@ public class InternalSitemapCacheLoaderImplTest {
       Person person = new Person();
       person.setVgrId(vgrid);
       person.setHsaIdentity(hsaIdentity);
+      person.setDn(vgrid);
       List<Employment> employments = new ArrayList<Employment>();
       for (int i = 0; employmentsModified != null && i < employmentsModified.length; i++) {
         Employment employment = new Employment();
@@ -157,6 +165,19 @@ public class InternalSitemapCacheLoaderImplTest {
         throw this.exceptionToThrow;
       }
       return this.persons;
+    }
+
+    @Override
+    public SikSearchResultList<Employment> getEmployments(String personDn) throws KivException {
+      SikSearchResultList<Employment> result = null;
+
+      if (personDn.contains("hanjo26")) {
+        Employment employment = new Employment();
+        employment.setModifyTimestamp(TimePoint.atMidnightGMT(2010, 4, 22));
+        result = new SikSearchResultList<Employment>();
+        result.add(employment);
+      }
+      return result;
     }
 
     // Not implemented
@@ -178,11 +199,6 @@ public class InternalSitemapCacheLoaderImplTest {
 
     @Override
     public List<String> getAllUnitsHsaIdentity(boolean onlyPublicUnits) throws KivException {
-      return null;
-    }
-
-    @Override
-    public SikSearchResultList<Employment> getEmployments(String personDn) throws KivException {
       return null;
     }
 

@@ -38,53 +38,47 @@ import se.vgregion.kivtools.util.time.TimeUtil.DateTimeFormat;
  * @author Anders Asplund - KnowIT
  */
 public class EmploymentRepository {
-    // Get LDAP entries that have hsaEndDate greater or equal current date and hsaStartDate less or equal current
-    // date.
-    private static final String ALL_EMPLOYMENT_FILTER = "(&(objectclass=vgrAnstallning)(|(!(hsaEndDate=*))(hsaEndDate>=%1$s))(|(hsaStartDate<=%1$s)(!(hsaStartDate=*))))";
+  // Get LDAP entries that have hsaEndDate greater or equal current date and hsaStartDate less or equal current
+  // date.
+  private static final String ALL_EMPLOYMENT_FILTER = "(&(objectclass=vgrAnstallning)(|(!(hsaEndDate=*))(hsaEndDate>=%1$s))(|(hsaStartDate<=%1$s)(!(hsaStartDate=*))))";
 
-    // private LdapConnectionPool theConnectionPool;
-    private CodeTablesService codeTablesService;
-    private LdapTemplate ldapTemplate;
+  // private LdapConnectionPool theConnectionPool;
+  private CodeTablesService codeTablesService;
+  private LdapTemplate ldapTemplate;
 
-    public void setLdapTemplate(LdapTemplate ldapTemplate) {
-        this.ldapTemplate = ldapTemplate;
+  public void setLdapTemplate(LdapTemplate ldapTemplate) {
+    this.ldapTemplate = ldapTemplate;
+  }
+
+  public void setCodeTablesService(CodeTablesService codeTablesService) {
+    this.codeTablesService = codeTablesService;
+  }
+
+  /**
+   * 
+   * @param dn Dn of the employments.
+   * @return A list of employments.
+   * @throws KivException If something goes wrong.
+   */
+  public SikSearchResultList<Employment> getEmployments(DN dn) throws KivException {
+    SikSearchResultList<Employment> result = new SikSearchResultList<Employment>();
+    DistinguishedName distinguishedName = new DistinguishedName(dn.toString());
+    String[] attributes = new String[] { "*", LDAPEmploymentAttributes.MODIFY_TIMESTAMP.toString() };
+
+    List<Employment> employments = ldapTemplate.search(distinguishedName, generateLDAPFilter(), SearchControls.ONELEVEL_SCOPE, attributes, new EmploymentMapper(codeTablesService));
+
+    if (employments != null) {
+      result.addAll(employments);
     }
+    return result;
+  }
 
-    public void setCodeTablesService(CodeTablesService codeTablesService) {
-        this.codeTablesService = codeTablesService;
-    }
-
-    /**
-     * 
-     * @param dn
-     *            Dn of the employments.
-     * @return A list of employments.
-     * @throws KivException
-     *             If something goes wrong.
-     */
-    public SikSearchResultList<Employment> getEmployments(DN dn) throws KivException {
-        SikSearchResultList<Employment> result = new SikSearchResultList<Employment>();
-        int maxResult = 0;
-        DistinguishedName distinguishedName = new DistinguishedName(dn.toString());
-        SearchControls searchControls = new SearchControls();
-        searchControls.setSearchScope(SearchControls.ONELEVEL_SCOPE);
-        searchControls.setCountLimit(maxResult);
-
-        List<Employment> employments = ldapTemplate.search(distinguishedName, generateLDAPFilter(),
-                new EmploymentMapper(codeTablesService));
-
-        if (employments != null) {
-            result.addAll(employments);
-        }
-        return result;
-    }
-
-    /**
-     * Create LDAP filter string with a condition that hsaEndDate must be greater or equal current date.
-     */
-    private String generateLDAPFilter() {
-        String zuluTime = TimeUtil.getCurrentTimeFormatted(DateTimeFormat.ZULU_TIME);
-        String filterString = String.format(ALL_EMPLOYMENT_FILTER, zuluTime);
-        return filterString;
-    }
+  /**
+   * Create LDAP filter string with a condition that hsaEndDate must be greater or equal current date.
+   */
+  private String generateLDAPFilter() {
+    String zuluTime = TimeUtil.getCurrentTimeFormatted(DateTimeFormat.ZULU_TIME);
+    String filterString = String.format(ALL_EMPLOYMENT_FILTER, zuluTime);
+    return filterString;
+  }
 }
