@@ -24,6 +24,7 @@ import java.util.List;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.svc.CacheLoader;
 import se.vgregion.kivtools.search.svc.SitemapCache;
+import se.vgregion.kivtools.search.svc.SitemapCache.EntryType;
 import se.vgregion.kivtools.search.svc.SitemapEntry;
 import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
 import se.vgregion.kivtools.util.StringUtil;
@@ -64,7 +65,7 @@ public class PublicSitemapCacheLoaderImpl implements CacheLoader<SitemapCache> {
       String lastmod = getLastModifiedDateTime(unit.getModifyTimestampFormattedInW3CDatetimeFormat(), unit.getCreateTimestampFormattedInW3CDatetimeFormat());
       SitemapEntry entry = new SitemapEntry(externalApplicationURL + "/" + "visaenhet?hsaidentity=" + unit.getHsaIdentity(), lastmod, "weekly");
       entry.addExtraInformation("hsaIdentity", unit.getHsaIdentity());
-      cache.add(entry);
+      cache.add(entry, EntryType.UNIT);
     }
 
     return cache;

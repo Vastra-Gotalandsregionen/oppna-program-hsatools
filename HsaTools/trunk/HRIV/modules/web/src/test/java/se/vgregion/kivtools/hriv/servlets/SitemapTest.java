@@ -41,6 +41,7 @@ import org.springframework.web.context.WebApplicationContext;
 import se.vgregion.kivtools.search.svc.CacheLoader;
 import se.vgregion.kivtools.search.svc.InternalSitemapGenerator;
 import se.vgregion.kivtools.search.svc.SitemapCache;
+import se.vgregion.kivtools.search.svc.SitemapCache.EntryType;
 import se.vgregion.kivtools.search.svc.SitemapCacheServiceImpl;
 import se.vgregion.kivtools.search.svc.SitemapEntry;
 import se.vgregion.kivtools.search.svc.SitemapSupportBean;
@@ -119,7 +120,7 @@ public class SitemapTest {
       SitemapCache sitemapCache = new SitemapCache();
 
       SitemapEntry unit = new SitemapEntry("http://externalurl/visaenhet?hsaidentity=abc-123", "2010-02-12T01:00:00+01:00", "weekly");
-      sitemapCache.add(unit);
+      sitemapCache.add(unit, EntryType.UNIT);
 
       return sitemapCache;
     }

@@ -27,7 +27,6 @@ import se.vgregion.kivtools.search.svc.SitemapCache;
 import se.vgregion.kivtools.search.svc.SitemapEntry;
 import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
 
-
 public class PublicSitemapCacheLoaderImplTest {
   private UnitCacheServiceImpl unitCacheService = new UnitCacheServiceImpl(new UnitCacheLoaderMock());
   private PublicSitemapCacheLoaderImpl loader = new PublicSitemapCacheLoaderImpl(unitCacheService, "http://external.com");
@@ -36,38 +35,38 @@ public class PublicSitemapCacheLoaderImplTest {
   public void createEmptyCacheReturnEmptyCache() {
     SitemapCache emptyCache = loader.createEmptyCache();
     assertNotNull(emptyCache);
-    assertEquals(0, emptyCache.getEntries().size());
+    assertEquals(0, emptyCache.getEntries(null).size());
   }
 
   @Test
   public void loadCacheReloadsUnitCacheIfNoUnitsAreFound() {
     SitemapCache cache = loader.loadCache();
     assertNotNull(cache);
-    assertEquals(3, cache.getEntries().size());
+    assertEquals(3, cache.getEntries(null).size());
   }
 
   @Test
   public void locationUsesExternalUrl() {
     SitemapCache cache = loader.loadCache();
-    assertEquals("http://external.com/visaenhet?hsaidentity=ABC-123", cache.getEntries().get(0).getLocation());
+    assertEquals("http://external.com/visaenhet?hsaidentity=ABC-123", cache.getEntries(null).get(0).getLocation());
   }
 
   @Test
   public void loadCacheUsesCreateTimestampForLastmodIfEntryIsNotModified() {
     SitemapCache cache = loader.loadCache();
-    assertEquals("2010-02-10T01:00:00+01:00", cache.getEntries().get(0).getLastModified());
+    assertEquals("2010-02-10T01:00:00+01:00", cache.getEntries(null).get(0).getLastModified());
   }
 
   @Test
   public void loadCacheUsesModifyTimestampForLastmodIfEntryIsModified() {
     SitemapCache cache = loader.loadCache();
-    assertEquals("2010-02-16T01:00:00+01:00", cache.getEntries().get(1).getLastModified());
+    assertEquals("2010-02-16T01:00:00+01:00", cache.getEntries(null).get(1).getLastModified());
   }
 
   @Test
   public void hsaIdentityIsAddedAsExtraInformation() {
     SitemapCache cache = loader.loadCache();
-    for (SitemapEntry.ExtraInformation extraInformation : cache.getEntries().get(2)) {
+    for (SitemapEntry.ExtraInformation extraInformation : cache.getEntries(null).get(2)) {
       if ("hsaIdentity".equals(extraInformation.getName())) {
         assertEquals("JKL-654", extraInformation.getValue());
       } else {

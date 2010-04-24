@@ -50,44 +50,44 @@ public class InternalSitemapCacheLoaderImplTest {
   public void createEmptyCacheReturnEmptyCache() {
     SitemapCache emptyCache = loader.createEmptyCache();
     assertNotNull(emptyCache);
-    assertEquals(0, emptyCache.getEntries().size());
+    assertEquals(0, emptyCache.getEntries(null).size());
   }
 
   @Test
   public void loadCacheReloadsUnitCacheIfNoUnitsAreFound() {
     SitemapCache cache = loader.loadCache();
     assertNotNull(cache);
-    assertEquals(6, cache.getEntries().size());
+    assertEquals(6, cache.getEntries(null).size());
   }
 
   @Test
   public void locationUsesInternalUrlForUnits() {
     SitemapCache cache = loader.loadCache();
-    assertEquals("http://internal.com/visaenhet?hsaidentity=ABC-123", cache.getEntries().get(0).getLocation());
+    assertEquals("http://internal.com/visaenhet?hsaidentity=ABC-123", cache.getEntries(null).get(0).getLocation());
   }
 
   @Test
   public void loadCacheUsesCreateTimestampForLastmodIfUnitIsNotModified() {
     SitemapCache cache = loader.loadCache();
-    assertEquals("2010-02-10T01:00:00+01:00", cache.getEntries().get(0).getLastModified());
+    assertEquals("2010-02-10T01:00:00+01:00", cache.getEntries(null).get(0).getLastModified());
   }
 
   @Test
   public void loadCacheUsesModifyTimestampForLastmodIfUnitIsModified() {
     SitemapCache cache = loader.loadCache();
-    assertEquals("2010-02-16T01:00:00+01:00", cache.getEntries().get(1).getLastModified());
+    assertEquals("2010-02-16T01:00:00+01:00", cache.getEntries(null).get(1).getLastModified());
   }
 
   @Test
   public void loadCacheFetchesAPersonsEmploymentsIfNotAlreadyLoaded() {
     SitemapCache cache = loader.loadCache();
-    assertEquals("2010-04-22T02:00:00+02:00", cache.getEntries().get(5).getLastModified());
+    assertEquals("2010-04-22T02:00:00+02:00", cache.getEntries(null).get(5).getLastModified());
   }
 
   @Test
   public void hsaIdentityIsAddedAsExtraInformationForUnits() {
     SitemapCache cache = loader.loadCache();
-    for (SitemapEntry.ExtraInformation extraInformation : cache.getEntries().get(2)) {
+    for (SitemapEntry.ExtraInformation extraInformation : cache.getEntries(null).get(2)) {
       if ("hsaIdentity".equals(extraInformation.getName())) {
         assertEquals("JKL-654", extraInformation.getValue());
       } else {
@@ -99,13 +99,13 @@ public class InternalSitemapCacheLoaderImplTest {
   @Test
   public void locationUsesInternalUrlForPersons() {
     SitemapCache cache = loader.loadCache();
-    assertEquals("http://internal.com/visaperson?vgrid=krila8", cache.getEntries().get(4).getLocation());
+    assertEquals("http://internal.com/visaperson?vgrid=krila8", cache.getEntries(null).get(4).getLocation());
   }
 
   @Test
   public void hsaIdentityIsAddedAsExtraInformationForPersons() {
     SitemapCache cache = loader.loadCache();
-    for (SitemapEntry.ExtraInformation extraInformation : cache.getEntries().get(3)) {
+    for (SitemapEntry.ExtraInformation extraInformation : cache.getEntries(null).get(3)) {
       if ("hsaIdentity".equals(extraInformation.getName())) {
         assertEquals("hsa-456", extraInformation.getValue());
       } else {
@@ -117,7 +117,7 @@ public class InternalSitemapCacheLoaderImplTest {
   @Test
   public void latestDateOnEmploymentIsUsedForLastmod() {
     SitemapCache cache = loader.loadCache();
-    assertEquals("2010-02-16T01:00:00+01:00", cache.getEntries().get(3).getLastModified());
+    assertEquals("2010-02-16T01:00:00+01:00", cache.getEntries(null).get(3).getLastModified());
   }
 
   @Test
@@ -125,7 +125,7 @@ public class InternalSitemapCacheLoaderImplTest {
     searchService.setExceptionToThrow(new KivException("error"));
     SitemapCache cache = loader.loadCache();
     assertNotNull(cache);
-    assertEquals(0, cache.getEntries().size());
+    assertEquals(0, cache.getEntries(null).size());
   }
 
   private static class SearchServiceMock implements SearchService {

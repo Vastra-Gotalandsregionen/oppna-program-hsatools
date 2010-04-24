@@ -23,6 +23,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.svc.SitemapCache.EntryType;
+
 public class SitemapSupportBeanTest {
   private SitemapCacheLoaderMock sitemapCacheLoader = new SitemapCacheLoaderMock();
   private SitemapCacheServiceImpl sitemapCacheService = new SitemapCacheServiceImpl(sitemapCacheLoader);
@@ -33,14 +35,14 @@ public class SitemapSupportBeanTest {
 
   @Test
   public void cacheIsReloadedIfEmpty() {
-    internalSitemapSupportBean.getSitemapContent();
+    internalSitemapSupportBean.getSitemapContent("true", "true");
     sitemapCacheLoader.assertCacheLoaded();
   }
 
   @Test
   public void locAndLastmodUsesLocationAndLastModified() {
-    sitemapCacheLoader.setUnitCache(createSitemapCache("abc-123", "2010-02-01T01:00:00+01:00"));
-    String sitemapContent = internalSitemapSupportBean.getSitemapContent();
+    sitemapCacheLoader.setSitemapCache(new SitemapCacheBuilder().withUnit("abc-123", "2010-02-01T01:00:00+01:00").buildSitemapCache());
+    String sitemapContent = internalSitemapSupportBean.getSitemapContent("true", "true");
     String loc = getTagContent(sitemapContent, "loc");
     assertEquals("http://external.com/visaenhet?hsaidentity=abc-123", loc);
     String lastmod = getTagContent(sitemapContent, "lastmod");
@@ -49,16 +51,16 @@ public class SitemapSupportBeanTest {
 
   @Test
   public void changeFrequencyIsUsedForChangefreqTag() {
-    sitemapCacheLoader.setUnitCache(createSitemapCache("abc-123", "2010-02-01T01:00:00+01:00"));
-    String sitemapContent = internalSitemapSupportBean.getSitemapContent();
+    sitemapCacheLoader.setSitemapCache(new SitemapCacheBuilder().withUnit("abc-123", "2010-02-01T01:00:00+01:00").buildSitemapCache());
+    String sitemapContent = internalSitemapSupportBean.getSitemapContent("true", "true");
     String changefreq = getTagContent(sitemapContent, "changefreq");
     assertEquals("daily", changefreq);
   }
 
   @Test
   public void extraInformationIsAddedIfAvailable() {
-    sitemapCacheLoader.setUnitCache(createSitemapCache("abc-123", "2010-02-01T01:00:00+01:00", "hsaIdentity", "abc-123"));
-    String sitemapContent = internalSitemapSupportBean.getSitemapContent();
+    sitemapCacheLoader.setSitemapCache(new SitemapCacheBuilder().withUnit("abc-123", "2010-02-01T01:00:00+01:00", "hsaIdentity", "abc-123").buildSitemapCache());
+    String sitemapContent = internalSitemapSupportBean.getSitemapContent("true", "true");
 
     String hsaIdentity = getTagContent(sitemapContent, "hsa:hsaIdentity");
     assertEquals("abc-123", hsaIdentity);
@@ -66,10 +68,37 @@ public class SitemapSupportBeanTest {
 
   @Test
   public void noExtraInformationIsAddedForExternalSitemap() {
-    sitemapCacheLoader.setUnitCache(createSitemapCache("abc-123", "2010-02-01T01:00:00+01:00", "hsaIdentity", "abc-123"));
-    String sitemapContent = externalSitemapSupportBean.getSitemapContent();
+    sitemapCacheLoader.setSitemapCache(new SitemapCacheBuilder().withUnit("abc-123", "2010-02-01T01:00:00+01:00", "hsaIdentity", "abc-123").buildSitemapCache());
+    String sitemapContent = externalSitemapSupportBean.getSitemapContent("true", "true");
 
     assertEquals("hsa namespace found in sitemap content", -1, sitemapContent.indexOf("hsa:"));
+  }
+
+  @Test
+  public void onlyPersonsArePresentInFileIfOnlyPersonsAreRequested() {
+    sitemapCacheLoader.setSitemapCache(new SitemapCacheBuilder().withUnit("abc-123", "2010-02-01T01:00:00+01:00").withPerson("def-456", "2010-04-24T05:11:23+01:00").buildSitemapCache());
+    String sitemapContent = externalSitemapSupportBean.getSitemapContent("true", "false");
+
+    assertFalse("units present", sitemapContent.contains("visaenhet"));
+    assertTrue("persons not present", sitemapContent.contains("visaperson"));
+  }
+
+  @Test
+  public void onlyUnitsArePresentInFileIfOnlyUnitsAreRequested() {
+    sitemapCacheLoader.setSitemapCache(new SitemapCacheBuilder().withUnit("abc-123", "2010-02-01T01:00:00+01:00").withPerson("def-456", "2010-04-24T05:11:23+01:00").buildSitemapCache());
+    String sitemapContent = externalSitemapSupportBean.getSitemapContent("false", "true");
+
+    assertTrue("units not present", sitemapContent.contains("visaenhet"));
+    assertFalse("persons present", sitemapContent.contains("visaperson"));
+  }
+
+  @Test
+  public void bothUnitsAndPersonsArePresentInFileIfNoSpecificTypeIsRequested() {
+    sitemapCacheLoader.setSitemapCache(new SitemapCacheBuilder().withUnit("abc-123", "2010-02-01T01:00:00+01:00").withPerson("def-456", "2010-04-24T05:11:23+01:00").buildSitemapCache());
+    String sitemapContent = externalSitemapSupportBean.getSitemapContent("", "");
+
+    assertTrue("units not present", sitemapContent.contains("visaenhet"));
+    assertTrue("persons not present", sitemapContent.contains("visaperson"));
   }
 
   private String getTagContent(String content, String tag) {
@@ -85,21 +114,37 @@ public class SitemapSupportBeanTest {
     return tagContent;
   }
 
-  private SitemapCache createSitemapCache(String hsaIdentity, String modifyTimestamp, String... extraInformation) {
-    SitemapCache unitCache = new SitemapCache();
-    SitemapEntry entry = new SitemapEntry("http://external.com/visaenhet?hsaidentity=" + hsaIdentity, modifyTimestamp, "daily");
-    for (int i = 0; extraInformation != null && i < extraInformation.length; i += 2) {
-      entry.addExtraInformation(extraInformation[i], extraInformation[i + 1]);
+  private static class SitemapCacheBuilder {
+    private final SitemapCache sitemapCache = new SitemapCache();
+
+    public SitemapCacheBuilder withPerson(final String hsaIdentity, String modifyTimestamp, String... extraInformation) {
+      createAndAddEntry(hsaIdentity, "http://external.com/visaperson?hsaidentity=" + hsaIdentity, modifyTimestamp, EntryType.PERSON, extraInformation);
+      return this;
     }
-    unitCache.add(entry);
-    return unitCache;
+
+    public SitemapCache buildSitemapCache() {
+      return this.sitemapCache;
+    }
+
+    public SitemapCacheBuilder withUnit(final String hsaIdentity, final String modifyTimestamp, final String... extraInformation) {
+      createAndAddEntry(hsaIdentity, "http://external.com/visaenhet?hsaidentity=" + hsaIdentity, modifyTimestamp, EntryType.UNIT, extraInformation);
+      return this;
+    }
+
+    private void createAndAddEntry(String hsaIdentity, String url, String modifyTimestamp, EntryType entryType, String... extraInformation) {
+      SitemapEntry entry = new SitemapEntry(url, modifyTimestamp, "daily");
+      for (int i = 0; extraInformation != null && i < extraInformation.length; i += 2) {
+        entry.addExtraInformation(extraInformation[i], extraInformation[i + 1]);
+      }
+      sitemapCache.add(entry, entryType);
+    }
   }
 
   private static class SitemapCacheLoaderMock implements CacheLoader<SitemapCache> {
     private boolean cacheLoaded;
     private SitemapCache sitemapCache = new SitemapCache();
 
-    public void setUnitCache(SitemapCache sitemapCache) {
+    public void setSitemapCache(SitemapCache sitemapCache) {
       this.sitemapCache = sitemapCache;
     }
 

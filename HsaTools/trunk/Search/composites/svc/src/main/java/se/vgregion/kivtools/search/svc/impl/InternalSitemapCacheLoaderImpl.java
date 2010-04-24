@@ -31,6 +31,7 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.CacheLoader;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SitemapCache;
+import se.vgregion.kivtools.search.svc.SitemapCache.EntryType;
 import se.vgregion.kivtools.search.svc.SitemapEntry;
 import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
 import se.vgregion.kivtools.util.StringUtil;
@@ -97,7 +98,7 @@ public class InternalSitemapCacheLoaderImpl implements CacheLoader<SitemapCache>
       }
       SitemapEntry entry = new SitemapEntry(internalApplicationURL + "/visaperson?vgrid=" + person.getVgrId(), TimeUtil.formatDateW3C(lastmod.asJavaUtilDate()), this.changeFrequency);
       entry.addExtraInformation("hsaIdentity", person.getHsaIdentity());
-      cache.add(entry);
+      cache.add(entry, EntryType.PERSON);
     }
   }
 
@@ -113,7 +114,7 @@ public class InternalSitemapCacheLoaderImpl implements CacheLoader<SitemapCache>
       String lastmod = getLastModifiedDateTime(unit.getModifyTimestampFormattedInW3CDatetimeFormat(), unit.getCreateTimestampFormattedInW3CDatetimeFormat());
       SitemapEntry entry = new SitemapEntry(internalApplicationURL + "/" + "visaenhet?hsaidentity=" + unit.getHsaIdentity(), lastmod, changeFrequency);
       entry.addExtraInformation("hsaIdentity", unit.getHsaIdentity());
-      cache.add(entry);
+      cache.add(entry, EntryType.UNIT);
     }
   }
 
