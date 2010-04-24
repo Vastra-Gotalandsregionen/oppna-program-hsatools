@@ -71,7 +71,7 @@ public class Sitemap extends HttpServlet {
 
     long startTimeMillis = System.currentTimeMillis();
 
-    String sitemapContent = sitemapSupportBean.getSitemapContent();
+    String sitemapContent = sitemapSupportBean.getSitemapContent(request.getParameter("persons"), request.getParameter("units"));
 
     long endTimeMillis = System.currentTimeMillis();
 

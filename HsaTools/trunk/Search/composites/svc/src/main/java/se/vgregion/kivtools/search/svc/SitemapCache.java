@@ -21,7 +21,9 @@ package se.vgregion.kivtools.search.svc;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import se.vgregion.kivtools.util.Arguments;
 
@@ -31,9 +33,30 @@ import se.vgregion.kivtools.util.Arguments;
  * @author Joakim Olsson
  */
 public class SitemapCache {
-  private final List<SitemapEntry> entries = new ArrayList<SitemapEntry>();
+  /**
+   * Enumeration of the different entry types that can be stored in the sitemap cache.
+   */
+  public enum EntryType {
+    PERSON, UNIT;
+  }
 
-  public List<SitemapEntry> getEntries() {
+  private final Map<EntryType, List<SitemapEntry>> entryMap = new HashMap<SitemapCache.EntryType, List<SitemapEntry>>();
+
+  /**
+   * Retrieves the specified type of entries or all entries if no entry type is provided.
+   * 
+   * @param entryType The type of entries to retrieve from the cache.
+   * @return the specified type of entries or all entries if no entry type was provided.
+   */
+  public List<SitemapEntry> getEntries(EntryType entryType) {
+    List<SitemapEntry> entries;
+    if (entryType != null) {
+      entries = getEntryList(entryType);
+    } else {
+      entries = new ArrayList<SitemapEntry>();
+      entries.addAll(getEntryList(EntryType.UNIT));
+      entries.addAll(getEntryList(EntryType.PERSON));
+    }
     return Collections.unmodifiableList(entries);
   }
 
@@ -41,12 +64,25 @@ public class SitemapCache {
    * Adds a new sitemap entry to the cache.
    * 
    * @param entry The sitemap entry to add to the cache.
+   * @param entryType The type of entry to add to the cache.
    */
-  public void add(SitemapEntry entry) {
+  public void add(SitemapEntry entry, EntryType entryType) {
     Arguments.notNull("entry", entry);
+    Arguments.notNull("entryType", entryType);
 
-    if (!this.entries.contains(entry)) {
-      this.entries.add(entry);
+    List<SitemapEntry> entries = getEntryList(entryType);
+
+    if (!entries.contains(entry)) {
+      entries.add(entry);
     }
+  }
+
+  private List<SitemapEntry> getEntryList(EntryType entryType) {
+    List<SitemapEntry> entries = entryMap.get(entryType);
+    if (entries == null) {
+      entries = new ArrayList<SitemapEntry>();
+      entryMap.put(entryType, entries);
+    }
+    return entries;
   }
 }

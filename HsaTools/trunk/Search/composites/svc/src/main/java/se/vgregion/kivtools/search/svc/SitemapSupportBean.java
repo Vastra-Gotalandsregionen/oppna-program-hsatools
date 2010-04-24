@@ -21,6 +21,8 @@ package se.vgregion.kivtools.search.svc;
 
 import java.util.List;
 
+import se.vgregion.kivtools.search.svc.SitemapCache.EntryType;
+
 /**
  * Supporting bean for sitemap-servlets.
  */
@@ -40,18 +42,40 @@ public class SitemapSupportBean {
   }
 
   /**
-   * Retrieves the content for the sitemap based on the units from the cache.
+   * Retrieves the content for the sitemap based on the units from the cache. The values of the persons and units parameters decide which information should be generated. If none or both are set to
+   * true, all information regarding both persons and units are generated, otherwise only the selected kind of information is generated.
    * 
+   * @param persons value of persons parameter to Sitemap-servlet.
+   * @param units value of units parameter to Sitemap-servlet.
    * @return The content for the sitemap.
    */
-  public String getSitemapContent() {
-    List<SitemapEntry> entries = sitemapCacheService.getCache().getEntries();
+  public String getSitemapContent(final String persons, final String units) {
+    EntryType entryType = getTypeOfEntriesToGenerate(persons, units);
+
+    List<SitemapEntry> entries = sitemapCacheService.getCache().getEntries(entryType);
     // Check if list of entries is populated, otherwise we fill it up!
     if (entries.size() < 1) {
       sitemapCacheService.reloadCache();
-      entries = sitemapCacheService.getCache().getEntries();
+      entries = sitemapCacheService.getCache().getEntries(entryType);
     }
 
     return sitemapGenerator.generate(entries);
+  }
+
+  private EntryType getTypeOfEntriesToGenerate(String persons, String units) {
+    boolean generatePersons = Boolean.parseBoolean(persons);
+    boolean generateUnits = Boolean.parseBoolean(units);
+
+    EntryType result;
+
+    if (generatePersons && !generateUnits) {
+      result = EntryType.PERSON;
+    } else if (generateUnits && !generatePersons) {
+      result = EntryType.UNIT;
+    } else {
+      result = null;
+    }
+
+    return result;
   }
 }
