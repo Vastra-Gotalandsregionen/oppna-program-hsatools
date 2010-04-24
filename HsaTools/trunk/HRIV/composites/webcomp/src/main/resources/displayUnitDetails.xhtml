@@ -134,71 +134,81 @@
 	                                    </h:outputText>
 	                                </tr>
                             	</h:outputText>
-                                <h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true}">
-                                    <tr>
-                                        <th colspan="4" id="tempInfoHeaderCell">
-                                            <span class="grey-header">${msg.temporary} ${msg.information}</span>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td headers="tempInfoHeaderCell" colspan="4">
-                                        	<div class="paragraph">
-                                            	<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.vgrTempInfoBody))}" />
-                                        	</div>
-                                        </td>
-                                    </tr>
-                                </h:outputText>
-                                <h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true and unit.vgrRefInfo != null and unit.vgrRefInfo != ''}">
-                                    <tr>
-                                        <th colspan="4" id="refInfoHeaderCell">
-                                            <span class="grey-header">${msg.referral}</span>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4">
-                                        	<div class="paragraph">
-                                            	<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.vgrRefInfo))}" />
-                                        	</div>
-                                        </td>
-                                    </tr>
-                                </h:outputText>                                
-                                <h:outputText rendered="${(unit.showVisitingRules and unit.hsaVisitingRulesIsValid) or Search_SettingsContainer.testingMode}">
-	                                <!-- Information för besökare till patient -->
-                                    <tr>
-                                        <th colspan="4" class="leftcol" id="visitingRulesHeaderCell">
-                                            <span class="grey-header">${msg.visitingRules}</span>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4" headers="visitingRulesHeaderCell">
-                                        	<div class="paragraph">
-                                        		<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.hsaVisitingRules))}" />
-	                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaVisitingRulesIsValid}">
-	                                                <span class="warning">hsaVisitingRules ${msg.missing}</span>
-	                                            </h:outputText>
-                                        	</div>
-                                        </td>
-                                    </tr>
-                                </h:outputText>
-                                <h:outputText rendered="${(unit.hsaPatientVisitingRules != null and unit.hsaPatientVisitingRules != '') or Search_SettingsContainer.testingMode}">
-	                                <!-- Besöksinformation till patient  -->
-                                    <tr>
-                                        <th colspan="4" class="leftcol" id="hsaPatientVisitingRulesHeaderCell">
-                                            <span class="grey-header">${msg.patientVisitingRules}</span>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4" class="paragraph" headers="hsaPatientVisitingRulesHeaderCell">
-                                        	<div class="paragraph">
-                                        		<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.hsaPatientVisitingRules))}" />
-	                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and (unit.hsaPatientVisitingRules == null or unit.hsaPatientVisitingRules == '')}">
-	                                                <span class="warning">hsaPatientVisitingRules ${msg.missing}</span>
-	                                            </h:outputText>
-                                        	</div>
-                                        </td>
-                                    </tr>
-                                </h:outputText>
                             </table>
+							<h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true}">
+	                            <div id="tempinfo-header" style="padding: 0px;">
+	                                <table class="borderless">
+	                                    <tr>
+	                                        <th class="leftcol">
+	                                            <span class="grey-header">${msg.temporary} ${msg.information}</span>
+	                                        </th>
+	                                    </tr>
+	                                </table>
+	                            </div>
+
+	                            <div id="tempinfo-body">
+	                            	<div class="paragraph">
+										<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.vgrTempInfoBody))}" />
+	                            	</div>
+								</div>
+							</h:outputText>
+							<h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true and unit.vgrRefInfo != null and unit.vgrRefInfo != ''}">
+	                            <div id="refinfo-header" style="padding: 0px;">
+	                                <table class="borderless">
+	                                    <tr>
+	                                        <th class="leftcol">
+	                                            <span class="grey-header">${msg.referral}</span>
+	                                        </th>
+	                                    </tr>
+	                                </table>
+	                            </div>
+
+	                            <div id="refinfo-body" class="paragraph">
+	                            	<div class="paragraph">
+										<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.vgrRefInfo))}" />
+	                            	</div>
+								</div>
+							</h:outputText>                                
+							<h:outputText rendered="${(unit.hsaPatientVisitingRules != null and unit.hsaPatientVisitingRules != '') or Search_SettingsContainer.testingMode}">
+	                            <div id="patientvisitingrules-header" style="padding: 0px;">
+	                                <table class="borderless">
+	                                    <tr>
+	                                        <th class="leftcol">
+	                                            <span class="grey-header">${msg.patientVisitingRules}</span>
+	                                        </th>
+	                                    </tr>
+	                                </table>
+	                            </div>
+
+	                            <div id="patientvisitingrules-body">
+	                            	<div class="paragraph">
+										<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.hsaPatientVisitingRules))}" />
+										<h:outputText rendered="${Search_SettingsContainer.testingMode==true and (unit.hsaPatientVisitingRules == null or unit.hsaPatientVisitingRules == '')}">
+											<span class="warning">hsaPatientVisitingRules ${msg.missing}</span>
+										</h:outputText>
+	                            	</div>
+								</div>
+							</h:outputText>
+							<h:outputText rendered="${(unit.showVisitingRules and unit.hsaVisitingRulesIsValid) or Search_SettingsContainer.testingMode}">
+	                            <div id="visitingrules-header" style="padding: 0px;">
+	                                <table class="borderless">
+	                                    <tr>
+	                                        <th class="leftcol">
+												<span class="grey-header">${msg.visitingRules}</span>
+	                                        </th>
+	                                    </tr>
+	                                </table>
+	                            </div>
+
+	                            <div id="visitingrules-body">
+	                            	<div class="paragraph">
+										<h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.hsaVisitingRules))}" />
+										<h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaVisitingRulesIsValid}">
+											<span class="warning">hsaVisitingRules ${msg.missing}</span>
+										</h:outputText>
+	                            	</div>
+								</div>
+							</h:outputText>
 
 							<h:outputText rendered="${unit.concatenatedDescription != ''}">
 	                            <div id="description-header" style="padding: 0px;">
