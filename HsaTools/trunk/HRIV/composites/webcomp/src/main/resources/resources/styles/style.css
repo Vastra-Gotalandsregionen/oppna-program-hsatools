@@ -959,11 +959,11 @@ div.autocomplete {
 	margin-bottom: 0.5em;
 }
 
-#description-header, #tempinfo-header, #patientvisitingrules-header, #visitingrules-header, mvk-header {
+#description-header, #tempinfo-header, #refinfo-header, #patientvisitingrules-header, #visitingrules-header, mvk-header {
 	padding: 1em;
 }
 
-#tempinfo-body, #patientvisitingrules-body, #visitingrules-body {
+#tempinfo-body, #refinfo-body, #patientvisitingrules-body, #visitingrules-body {
 	padding: 0.25em;
 	float: left;
 	margin-bottom:0.5em;
