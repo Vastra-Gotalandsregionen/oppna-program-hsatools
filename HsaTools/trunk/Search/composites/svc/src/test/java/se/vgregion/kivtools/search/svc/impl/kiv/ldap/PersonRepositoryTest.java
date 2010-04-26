@@ -45,6 +45,7 @@ import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.exceptions.KivException;
+import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
@@ -185,6 +186,15 @@ public class PersonRepositoryTest {
 
     ldapTemplate.setExceptionToThrow(new CommunicationException(null));
     personRepository.getAllPersons();
+  }
+
+  @Test(expected = KivNoDataFoundException.class)
+  public void getPersonByVgrIdThrowsKivNoDataFoundExceptionOnNamingException() throws KivException {
+    LdapTemplateMock ldapTemplate = new LdapTemplateMock();
+    personRepository.setLdapTemplate(ldapTemplate);
+
+    ldapTemplate.setExceptionToThrow(new CommunicationException(null));
+    personRepository.getPersonByVgrId("abc123");
   }
 
   private List<Unit> generateTestUnitList() {

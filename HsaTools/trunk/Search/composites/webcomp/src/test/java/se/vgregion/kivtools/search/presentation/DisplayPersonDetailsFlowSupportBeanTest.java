@@ -58,11 +58,10 @@ public class DisplayPersonDetailsFlowSupportBeanTest {
     assertEquals(personMock, person);
   }
 
-  @Test
-  public void testGetPersonDetailsExceptionHandling() throws Exception {
+  @Test(expected = KivException.class)
+  public void getPersonDetailsThrowsExceptionOnMissingPerson() throws Exception {
     searchServiceMock.addExceptionToThrow(new KivException("exception"));
-    Person person = displayPersonDetailsFlowSupportBean.getPersonDetails(VGR_ID);
-    assertNotNull(person);
+    displayPersonDetailsFlowSupportBean.getPersonDetails(VGR_ID);
   }
 
   @Test

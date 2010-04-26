@@ -195,6 +195,57 @@ public class LdapTemplateMock extends LdapTemplate {
   }
 
   @Override
+  public Object searchForObject(Name base, String filter, ContextMapper mapper) {
+    this.searchBase = base.toString();
+    this.searchFilter = filter;
+    return mapper.mapFromContext(dirContextOperationsForSearch.get(0));
+  }
+
+  @Override
+  public Object searchForObject(String base, String filter, ContextMapper mapper) {
+    throwExceptionIfApplicable();
+    this.searchBase = base;
+    this.searchFilter = filter;
+    return mapper.mapFromContext(dirContextOperationsForSearch.get(0));
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public List search(Name base, String filter, int searchScope, String[] attrs, AttributesMapper mapper) {
+    List result = new ArrayList();
+    this.searchFilter = filter;
+
+    for (String attributeKey : attrs) {
+      List<BasicAttributes> list = attributesMap.get(attributeKey);
+      try {
+        for (BasicAttributes basicAttributes : list) {
+          result.add(mapper.mapFromAttributes(basicAttributes));
+        }
+      } catch (javax.naming.NamingException e) {
+        throw new RuntimeException("Exception during search", e);
+      }
+
+    }
+    return result;
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public List search(Name base, String filter, int searchScope, String[] attrs, ContextMapper mapper) {
+    return search(base.toString(), filter, mapper);
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public List search(String base, String filter, int searchScope, ContextMapper mapper) {
+    this.searchBase = base;
+    this.searchFilter = filter;
+    return search(base.toString(), filter, mapper);
+  }
+
+  // Unimplemented methods
+
+  @Override
   public void afterPropertiesSet() throws Exception {
     throw new UnsupportedOperationException("Method not implemented in mock");
   }
@@ -442,32 +493,6 @@ public class LdapTemplateMock extends LdapTemplate {
   }
 
   @Override
-  @SuppressWarnings("unchecked")
-  public List search(Name base, String filter, int searchScope, String[] attrs, AttributesMapper mapper) {
-    List result = new ArrayList();
-    this.searchFilter = filter;
-
-    for (String attributeKey : attrs) {
-      List<BasicAttributes> list = attributesMap.get(attributeKey);
-      try {
-        for (BasicAttributes basicAttributes : list) {
-          result.add(mapper.mapFromAttributes(basicAttributes));
-        }
-      } catch (javax.naming.NamingException e) {
-        throw new RuntimeException("Exception during search", e);
-      }
-
-    }
-    return result;
-  }
-
-  @Override
-  @SuppressWarnings("unchecked")
-  public List search(Name base, String filter, int searchScope, String[] attrs, ContextMapper mapper) {
-    return search(base.toString(), filter, mapper);
-  }
-
-  @Override
   public void search(Name base, String filter, NameClassPairCallbackHandler handler) {
     throw new UnsupportedOperationException("Method not implemented in mock");
   }
@@ -535,14 +560,6 @@ public class LdapTemplateMock extends LdapTemplate {
 
   @Override
   @SuppressWarnings("unchecked")
-  public List search(String base, String filter, int searchScope, ContextMapper mapper) {
-    this.searchBase = base;
-    this.searchFilter = filter;
-    return search(base.toString(), filter, mapper);
-  }
-
-  @Override
-  @SuppressWarnings("unchecked")
   public List search(String base, String filter, int searchScope, String[] attrs, AttributesMapper mapper) {
     throw new UnsupportedOperationException("Method not implemented in mock");
   }
@@ -583,18 +600,6 @@ public class LdapTemplateMock extends LdapTemplate {
 
   @Override
   public void search(String base, String filter, SearchControls controls, NameClassPairCallbackHandler handler) {
-    throw new UnsupportedOperationException("Method not implemented in mock");
-  }
-
-  @Override
-  public Object searchForObject(Name base, String filter, ContextMapper mapper) {
-    this.searchBase = base.toString();
-    this.searchFilter = filter;
-    return mapper.mapFromContext(dirContextOperationsForSearch.get(0));
-  }
-
-  @Override
-  public Object searchForObject(String base, String filter, ContextMapper mapper) {
     throw new UnsupportedOperationException("Method not implemented in mock");
   }
 

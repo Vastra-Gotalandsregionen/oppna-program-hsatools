@@ -54,8 +54,8 @@
 
 	<decision-state id="Decision.displayPersonDetails">		
 		<if test="errorReportingForm.reportText!=null" then="Error.report"/>
-		<if test="requestParameters.vgrid!=null" then="Display.personDetails" />
-		<if test="requestParameters.personDn!=null" then="Display.personDetailsByDn" />
+		<if test="requestParameters.vgrid!=null" then="Search.searchPersonUnique" />
+		<if test="requestParameters.personDn!=null" then="Search.searchPersonUnique" />
 		<if test="requestParameters.dn!=null" then="Display.unitOrganisation" />
 		<if test="requestParameters.hsaidentity!=null" then="Display.unitOrganisation" else="Search.validateSearchParams"/>
 	</decision-state>
@@ -79,15 +79,20 @@
 					to="Search.displayPersonSearchResult">
 		</transition>
 	</action-state>
+
+	<action-state id="Search.searchPersonUnique">
+		<evaluate expression="Display_DisplayPersonDetailsFlowSupportBean.getPersonDetails(flowScope.vgrid)" result="flowScope.person" />
+		<evaluate expression="userEventService.retrieveUserEvents(person.givenName, person.sn, person.telephoneNumberOfFirstEmployment, person.mobileNumberOfFirstEmployment)" result="flowScope.userEvents" />
+		<set name="errorReportingForm.dn" value="flowScope.person.dn" />
+		<set name="errorReportingForm.reportText" value="null" />
+		<set name="flowScope.vgrid" value="flowScope.person.vgrId" />
+		<transition on="success" to="Display.personDetails" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException" to="Search.searchPersonNoHit" />
+	</action-state>
+	
+	<view-state id="Search.searchPersonNoHit" view="/person404.xhtml"/>
 	
 	<view-state id="Display.personDetails" view="/displayPersonDetails.xhtml">
-		<on-entry>
-			<evaluate expression="Display_DisplayPersonDetailsFlowSupportBean.getPersonDetails(flowScope.vgrid)" result="flowScope.person" />
-			<evaluate expression="userEventService.retrieveUserEvents(person.givenName, person.sn, person.telephoneNumberOfFirstEmployment, person.mobileNumberOfFirstEmployment)" result="flowScope.userEvents" />
-			<set name="errorReportingForm.dn" value="flowScope.person.dn" />
-			<set name="errorReportingForm.reportText" value="null" />
-			<set name="flowScope.vgrid" value="flowScope.person.vgrId" />
-		</on-entry>
 		<transition on="doCancel" to="Search.displayPersonSearchResult" />
 		<transition on="doSearch" to="Search.validateSearchParams" />
 		<transition on="doSubmitErrorReport" to="Error.report" />

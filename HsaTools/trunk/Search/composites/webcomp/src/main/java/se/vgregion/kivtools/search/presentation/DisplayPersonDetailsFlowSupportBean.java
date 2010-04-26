@@ -51,20 +51,16 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
    * 
    * @param vgrId The unique identifier for the person to retrieve details for.
    * @return A populated Person-object.
+   * @throws KivException if there is a problem retrieving the person from the LDAP directory.
    */
-  public Person getPersonDetails(String vgrId) {
+  public Person getPersonDetails(String vgrId) throws KivException {
     LOGGER.debug(CLASS_NAME + "::getPersonDetails(vgrId=" + vgrId + ")");
-    try {
-      Person person = searchService.getPersonById(vgrId);
-      if (person.getEmployments() == null) {
-        List<Employment> employments = searchService.getEmploymentsForPerson(person);
-        person.setEmployments(employments);
-      }
-      return person;
-    } catch (KivException e) {
-      LOGGER.error(e);
-      return new Person();
+    Person person = searchService.getPersonById(vgrId);
+    if (person.getEmployments() == null) {
+      List<Employment> employments = searchService.getEmploymentsForPerson(person);
+      person.setEmployments(employments);
     }
+    return person;
   }
 
   /**
