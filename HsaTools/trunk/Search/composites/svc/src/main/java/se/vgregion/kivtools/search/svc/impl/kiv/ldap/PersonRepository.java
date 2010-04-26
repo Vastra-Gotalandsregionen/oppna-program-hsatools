@@ -45,6 +45,7 @@ import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.exceptions.KivException;
+import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.comparators.PersonNameComparator;
@@ -152,8 +153,12 @@ public class PersonRepository {
   }
 
   private Person searchPerson(String searchBase, int searchScope, String searchFilter) throws KivException {
-    Person result = (Person) ldapTemplate.searchForObject(searchBase, searchFilter, new PersonMapper(codeTablesService));
-    return result;
+    try {
+      Person result = (Person) ldapTemplate.searchForObject(searchBase, searchFilter, new PersonMapper(codeTablesService));
+      return result;
+    } catch (NamingException e) {
+      throw new KivNoDataFoundException("Error getting person from server: " + e.getMessage());
+    }
   }
 
   private SikSearchResultList<Person> searchPersons(String searchFilter, int searchScope, int maxResult) throws KivException {
