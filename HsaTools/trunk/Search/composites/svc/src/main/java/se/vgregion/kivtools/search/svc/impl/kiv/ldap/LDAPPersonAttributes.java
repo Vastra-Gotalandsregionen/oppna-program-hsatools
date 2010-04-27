@@ -70,7 +70,7 @@ public enum LDAPPersonAttributes {
   /** hsaStartDate. */
   HSA_START_DATE("hsaStartDate"),
   /** hsaEndDate. */
-  HSA_END_DATE("hsaEndDate");
+  HSA_END_DATE("hsaEndDate"), CREATE_TIMESTAMP("createTimestamp"), MODIFY_TIMESTAMP("modifyTimestamp");
 
   private String value;
 

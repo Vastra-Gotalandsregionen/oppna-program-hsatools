@@ -1145,19 +1145,6 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   /**
-   * Gets the units modify timestamp as a formatted string.
-   * 
-   * @return The units modify timestamp as a formatted string (yyyy-MM-dd HH:mm:ss).
-   */
-  public String getModifyTimestampFormatted() {
-    if (modifyTimestamp != null) {
-      return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(modifyTimestamp.asJavaUtilDate());
-    } else {
-      return "";
-    }
-  }
-
-  /**
    * Gets the units modify timestamp as a W3C-formatted string.
    * 
    * @return The units modify timestamp as a W3C-formatted string (yyyy-MM-dd'T'HH:mm:ssZ).
@@ -1176,19 +1163,6 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   public void setCreateTimestamp(TimePoint createTimestamp) {
     this.createTimestamp = createTimestamp;
-  }
-
-  /**
-   * Gets the units create timestamp as a formatted string.
-   * 
-   * @return The units create timestamp as a formatted string (yyyy-MM-dd HH:mm:ss).
-   */
-  public String getCreateTimestampFormatted() {
-    if (createTimestamp != null) {
-      return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(createTimestamp.asJavaUtilDate());
-    } else {
-      return "";
-    }
   }
 
   /**

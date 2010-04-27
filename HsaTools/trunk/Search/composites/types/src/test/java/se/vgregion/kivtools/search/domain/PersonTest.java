@@ -78,6 +78,8 @@ public class PersonTest {
         .preceding(TimePoint.atMidnight(2009, 11, 3, TimeZone.getDefault()), Duration.days(21)));
     PojoTester.testProperty(person, "employments", List.class, null, Arrays.asList(new Employment()), Arrays.asList(new Employment(), new Employment()));
     PojoTester.testProperty(person, "profileImagePresent", boolean.class, false, true, false);
+    PojoTester.testProperty(person, "createTimestamp", TimePoint.class, null, TimePoint.atMidnight(2009, 11, 3, TimeZone.getDefault()), TimePoint.atMidnight(2010, 03, 18, TimeZone.getDefault()));
+    PojoTester.testProperty(person, "modifyTimestamp", TimePoint.class, null, TimePoint.atMidnight(2009, 11, 3, TimeZone.getDefault()), TimePoint.atMidnight(2010, 03, 18, TimeZone.getDefault()));
   }
 
   @Test

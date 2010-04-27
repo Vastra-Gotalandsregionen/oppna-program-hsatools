@@ -56,5 +56,10 @@
         	<groupId>commons-codec</groupId>
         	<artifactId>commons-codec</artifactId>
         </dependency>
+        
+        <dependency>
+	        <groupId>com.domain</groupId>
+	        <artifactId>TimeAndMoney</artifactId>
+        </dependency>
 	</dependencies>
 </project>

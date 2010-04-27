@@ -23,11 +23,14 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.faces.model.SelectItem;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.domainlanguage.time.TimePoint;
 
 public class PresentationHelperTest {
   private PresentationHelper helper;
@@ -125,5 +128,18 @@ public class PresentationHelperTest {
     String expected = "%26%3D+a%C3%A5%C3%A4%C3%B6";
     String result = PresentationHelper.urlEncode(input);
     assertEquals(expected, result);
+  }
+
+  @Test
+  public void formatDateTimeReturnEmptyStringForNullValue() {
+    String result = PresentationHelper.formatDateTime(null);
+    assertEquals("empty string", "", result);
+  }
+
+  @Test
+  public void formatDateTimeReturnProvidedValueFormattedAsIso8601() {
+    TimePoint input = TimePoint.at(2010, 4, 27, 21, 25, 04, TimeZone.getDefault());
+    String result = PresentationHelper.formatDateTime(input);
+    assertEquals("ISO 8601 formatted date", "2010-04-27 21:25:04", result);
   }
 }

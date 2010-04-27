@@ -88,6 +88,10 @@ public class Person implements Serializable {
   // List of Employment objects
   private List<Employment> employments;
   private boolean profileImagePresent;
+  // Skapad
+  private TimePoint createTimestamp;
+  // Senast uppdaterad
+  private TimePoint modifyTimestamp;
 
   public String getDn() {
     return dn;
@@ -335,5 +339,21 @@ public class Person implements Serializable {
     }
 
     return mobileNumber;
+  }
+
+  public void setCreateTimestamp(TimePoint createTimestamp) {
+    this.createTimestamp = createTimestamp;
+  }
+
+  public TimePoint getCreateTimestamp() {
+    return createTimestamp;
+  }
+
+  public void setModifyTimestamp(TimePoint modifyTimestamp) {
+    this.modifyTimestamp = modifyTimestamp;
+  }
+
+  public TimePoint getModifyTimestamp() {
+    return modifyTimestamp;
   }
 }

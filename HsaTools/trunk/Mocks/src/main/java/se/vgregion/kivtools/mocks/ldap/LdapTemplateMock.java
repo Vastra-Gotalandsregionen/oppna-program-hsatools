@@ -125,6 +125,12 @@ public class LdapTemplateMock extends LdapTemplate {
     assertEquals(expectedFilter, this.searchFilter);
   }
 
+  private void throwExceptionIfApplicable() {
+    if (this.exceptionToThrow != null) {
+      throw this.exceptionToThrow;
+    }
+  }
+
   @Override
   public Object lookup(Name dn, ContextMapper mapper) {
     throwExceptionIfApplicable();
@@ -141,10 +147,9 @@ public class LdapTemplateMock extends LdapTemplate {
     return result;
   }
 
-  private void throwExceptionIfApplicable() {
-    if (this.exceptionToThrow != null) {
-      throw this.exceptionToThrow;
-    }
+  @Override
+  public Object lookup(Name dn, String[] attributes, ContextMapper mapper) {
+    return lookup(dn, mapper);
   }
 
   @Override
@@ -240,6 +245,13 @@ public class LdapTemplateMock extends LdapTemplate {
   public List search(String base, String filter, int searchScope, ContextMapper mapper) {
     this.searchBase = base;
     this.searchFilter = filter;
+    return search(base.toString(), filter, mapper);
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public List search(String base, String filter, int searchScope, String[] attrs, ContextMapper mapper) {
+    throwExceptionIfApplicable();
     return search(base.toString(), filter, mapper);
   }
 
@@ -387,11 +399,6 @@ public class LdapTemplateMock extends LdapTemplate {
 
   @Override
   public Object lookup(Name dn, String[] attributes, AttributesMapper mapper) {
-    throw new UnsupportedOperationException("Method not implemented in mock");
-  }
-
-  @Override
-  public Object lookup(Name dn, String[] attributes, ContextMapper mapper) {
     throw new UnsupportedOperationException("Method not implemented in mock");
   }
 
@@ -561,12 +568,6 @@ public class LdapTemplateMock extends LdapTemplate {
   @Override
   @SuppressWarnings("unchecked")
   public List search(String base, String filter, int searchScope, String[] attrs, AttributesMapper mapper) {
-    throw new UnsupportedOperationException("Method not implemented in mock");
-  }
-
-  @Override
-  @SuppressWarnings("unchecked")
-  public List search(String base, String filter, int searchScope, String[] attrs, ContextMapper mapper) {
     throw new UnsupportedOperationException("Method not implemented in mock");
   }
 

@@ -34,28 +34,27 @@ public class DisplayPersonDetailsFlowSupportBeanTest {
 
   private static final String PERSON_DN = "cn=Nina Kanin,ou=abc,ou=def";
   private static final String VGR_ID = "vgrId";
-  private DisplayPersonDetailsFlowSupportBean displayPersonDetailsFlowSupportBean = new DisplayPersonDetailsFlowSupportBean();
-  private Person personMock = new Person();
-  private SearchServiceMock searchServiceMock;
+  private final DisplayPersonDetailsFlowSupportBean displayPersonDetailsFlowSupportBean = new DisplayPersonDetailsFlowSupportBean();
+  private final Person person = new Person();
+  private final SearchServiceMock searchServiceMock = new SearchServiceMock();
 
   @Before
   public void setup() throws Exception {
-    searchServiceMock = new SearchServiceMock();
-    searchServiceMock.setPerson(personMock);
+    searchServiceMock.setPerson(person);
     displayPersonDetailsFlowSupportBean.setSearchService(searchServiceMock);
   }
 
   @Test
   public void testGetPersonDetails() throws Exception {
     Person person = displayPersonDetailsFlowSupportBean.getPersonDetails(VGR_ID);
-    assertEquals(personMock, person);
+    assertEquals(person, person);
   }
 
   @Test
   public void testGetPersonDetailsPersonAlreadyGotEmployments() throws Exception {
-    personMock.setEmployments(new ArrayList<Employment>());
+    person.setEmployments(new ArrayList<Employment>());
     Person person = displayPersonDetailsFlowSupportBean.getPersonDetails(VGR_ID);
-    assertEquals(personMock, person);
+    assertEquals(person, person);
   }
 
   @Test(expected = KivException.class)
@@ -72,9 +71,9 @@ public class DisplayPersonDetailsFlowSupportBeanTest {
 
   @Test
   public void testGetPersonDetailsByDnPersonAlreadyGotEmployments() throws Exception {
-    personMock.setEmployments(new ArrayList<Employment>());
+    person.setEmployments(new ArrayList<Employment>());
     Person person = displayPersonDetailsFlowSupportBean.getPersonDetailsByDn(PERSON_DN);
-    assertEquals(personMock, person);
+    assertEquals(person, person);
   }
 
   @Test

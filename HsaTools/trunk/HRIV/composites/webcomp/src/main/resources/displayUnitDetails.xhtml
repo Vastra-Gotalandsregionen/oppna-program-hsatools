@@ -37,10 +37,10 @@
             </h:outputText>
             <meta name="resource-type" content="organisation" />
             <meta name="keywords" content="Hitta-rätt-i-vården, HRIV, sök, organisation, enhet, telefonnummer, adress, ${unit.name}" />
-            <meta name="date" content="${unit.createTimestampFormatted}" />
-            <meta name="creation-date" content="${unit.createTimestampFormatted}" />
-            <meta name="last-modified" content="${unit.modifyTimestampFormatted}" />
-            <meta name="revised" content="${unit.modifyTimestampFormatted}" />
+            <meta name="date" content="${presentationHelper.formatDateTime(unit.createTimestamp)}" />
+            <meta name="creation-date" content="${presentationHelper.formatDateTime(unit.createTimestamp)}" />
+            <meta name="last-modified" content="${presentationHelper.formatDateTime(unit.modifyTimestamp)}" />
+            <meta name="revised" content="${presentationHelper.formatDateTime(unit.modifyTimestamp)}" />
             <meta name="DC.title" content="${unit.name} - Hitta rätt i vården" />
             <meta name="DC.subject" content="Hitta-rätt-i-vården, sök, organisation, enhet, mottagning, telefonnummer, adress, ort, ${unit.name}, ${unit.locality}, ${unit.hsaMunicipalityName}" />
             <h:outputText rendered="${unit.concatenatedDescription == ''}">

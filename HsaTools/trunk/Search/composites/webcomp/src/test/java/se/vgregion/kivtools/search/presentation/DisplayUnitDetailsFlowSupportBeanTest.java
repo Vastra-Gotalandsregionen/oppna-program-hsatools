@@ -19,52 +19,50 @@
 
 package se.vgregion.kivtools.search.presentation;
 
-import static org.easymock.EasyMock.*;
-import static org.easymock.classextension.EasyMock.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.svc.SearchService;
 
 public class DisplayUnitDetailsFlowSupportBeanTest {
-
   private static final String HSA_ID = "hsaId";
-  private static final String DN = "dn";
-  DisplayUnitDetailsFlowSupportBean displayUnitDetailsFlowSupportBean = new DisplayUnitDetailsFlowSupportBean();
-  Unit unitMock = new Unit();
+  private static final String UNIT_DN = "cn=dn,o=VGR";
+  private final DisplayUnitDetailsFlowSupportBean displayUnitDetailsFlowSupportBean = new DisplayUnitDetailsFlowSupportBean();
+  private final Unit unit = new Unit();
+  private final SearchServiceMock searchServiceMock = new SearchServiceMock();
 
   @Before
   public void setup() throws Exception {
-    unitMock.setName("unitName");
-    SearchService searchServiceMock = createMock(SearchService.class);
-    expect(searchServiceMock.getUnitByDN(DN)).andReturn(unitMock);
-    expect(searchServiceMock.getUnitByHsaId(HSA_ID)).andReturn(unitMock);
-    replay(searchServiceMock);
+    unit.setHsaIdentity(HSA_ID);
+    unit.setName("unitName");
+    unit.setDn(DN.createDNFromString(UNIT_DN));
+    searchServiceMock.addUnit(unit);
     displayUnitDetailsFlowSupportBean.setSearchService(searchServiceMock);
   }
 
   @Test
-  public void testGetUnitDetails() {
-    assertEquals(unitMock.getName(), displayUnitDetailsFlowSupportBean.getUnitDetails(HSA_ID).getName());
+  public void testGetUnitDetails() throws KivException {
+    assertEquals(unit.getName(), displayUnitDetailsFlowSupportBean.getUnitDetails(HSA_ID).getName());
+  }
+
+  @Test(expected = KivException.class)
+  public void getUnitDetailsThrowsExceptionOnMissingUnit() throws Exception {
+    searchServiceMock.addExceptionToThrow(new KivException("exception"));
+    displayUnitDetailsFlowSupportBean.getUnitDetails(HSA_ID);
   }
 
   @Test
-  public void testUnitByDn() {
-    assertEquals(unitMock.getName(), displayUnitDetailsFlowSupportBean.getUnitByDn(DN).getName());
+  public void testUnitByDn() throws KivException {
+    assertEquals(unit.getName(), displayUnitDetailsFlowSupportBean.getUnitByDn(UNIT_DN).getName());
   }
 
-  @Test
-  public void testExceptionHandling() throws Exception {
-    SearchService searchServiceMock = createMock(SearchService.class);
-    expect(searchServiceMock.getUnitByDN(DN)).andThrow(new KivException("Test"));
-    expect(searchServiceMock.getUnitByHsaId(HSA_ID)).andThrow(new KivException("Test"));
-    replay(searchServiceMock);
-    displayUnitDetailsFlowSupportBean.setSearchService(searchServiceMock);
-    assertNotNull(displayUnitDetailsFlowSupportBean.getUnitByDn(DN));
-    assertNotNull(displayUnitDetailsFlowSupportBean.getUnitDetails(HSA_ID));
+  @Test(expected = KivException.class)
+  public void getUnitByDnThrowsExceptionOnMissingUnit() throws Exception {
+    searchServiceMock.addExceptionToThrow(new KivException("exception"));
+    displayUnitDetailsFlowSupportBean.getUnitByDn(UNIT_DN);
   }
 }
