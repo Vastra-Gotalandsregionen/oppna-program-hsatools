@@ -32,16 +32,17 @@ import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 
-public class PersonFactoryRefactoringTest {
+import com.domainlanguage.time.TimePoint;
+
+public class PersonMapperTest {
   private static final String DN = "cn=abcd12,ou=Personal,o=vgr";
   private static final String TEST = "Test";
-  private DirContextOperationsMock dirContextOperationsMock;
-  private se.vgregion.kivtools.search.svc.impl.kiv.ldap.PersonFactoryRefactoringTest.CodeTablesServiceMock codeTablesServiceMock;
+  private CodeTablesServiceMock codeTablesServiceMock = new CodeTablesServiceMock();
+  private DirContextOperationsMock dirContextOperationsMock = new DirContextOperationsMock();
+  private PersonMapper personMapper = new PersonMapper(codeTablesServiceMock);
 
   @Before
   public void setUp() throws Exception {
-    codeTablesServiceMock = new CodeTablesServiceMock();
-    dirContextOperationsMock = new DirContextOperationsMock();
     dirContextOperationsMock.setDn(new NameMock(DN));
     dirContextOperationsMock.addAttributeValue("cn", TEST);
     dirContextOperationsMock.addAttributeValue("vgr-id", TEST);
@@ -65,16 +66,25 @@ public class PersonFactoryRefactoringTest {
     dirContextOperationsMock.addAttributeValue("hsaLanguageKnowledgeText", TEST);
     dirContextOperationsMock.addAttributeValue("hsaTitle", TEST);
     dirContextOperationsMock.addAttributeValue("hsaPersonPrescriptionCode", TEST);
-    dirContextOperationsMock.addAttributeValue("hsaStartDate", TEST);
-    dirContextOperationsMock.addAttributeValue("hsaEndDate", TEST);
+    dirContextOperationsMock.addAttributeValue("hsaStartDate", "20100101070300Z");
+    dirContextOperationsMock.addAttributeValue("hsaEndDate", "20101231224401Z");
     dirContextOperationsMock.addAttributeValue("hsaLanguageKnowledgeCode", TEST);
   }
 
   @Test
   public void testPersonMapper() {
-    PersonMapper personMapper = new PersonMapper(codeTablesServiceMock);
     Person person = personMapper.mapFromContext(dirContextOperationsMock);
     assertPersonResult(person);
+  }
+
+  @Test
+  public void createAndModifyTimestampsAreMappedCorrectly() {
+    dirContextOperationsMock.addAttributeValue("createTimestamp", "20100101064500Z");
+    dirContextOperationsMock.addAttributeValue("modifyTimestamp", "20100427152833Z");
+
+    Person person = personMapper.mapFromContext(dirContextOperationsMock);
+    assertEquals("create timestamp", TimePoint.atGMT(2010, 1, 1, 5, 45, 0), person.getCreateTimestamp());
+    assertEquals("modify timestamp", TimePoint.atGMT(2010, 4, 27, 13, 28, 33), person.getModifyTimestamp());
   }
 
   private void assertPersonResult(Person person) {

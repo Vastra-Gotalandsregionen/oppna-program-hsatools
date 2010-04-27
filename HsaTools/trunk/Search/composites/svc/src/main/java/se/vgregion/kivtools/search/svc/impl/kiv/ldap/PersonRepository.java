@@ -126,7 +126,7 @@ public class PersonRepository {
       if (vgrIds != null) {
         result.addAll(vgrIds);
       }
-    } catch (org.springframework.ldap.NamingException e1) {
+    } catch (NamingException e1) {
       throw new KivException("Ldap error");
     }
     return result;
@@ -143,9 +143,10 @@ public class PersonRepository {
     filter.and(new LikeFilter("vgr-id", "*"));
 
     try {
+      String[] attributes = new String[] { "*", "createTimestamp", "modifyTimestamp" };
       // Since UnitMapper returns Units we are certain that the cast to List<Unit> is ok.
       @SuppressWarnings("unchecked")
-      List<Person> result = ldapTemplate.search(PERSON_SEARCH_BASE, filter.encode(), SearchControls.SUBTREE_SCOPE, new PersonMapper(codeTablesService));
+      List<Person> result = ldapTemplate.search(PERSON_SEARCH_BASE, filter.encode(), SearchControls.SUBTREE_SCOPE, attributes, new PersonMapper(codeTablesService));
       return result;
     } catch (NamingException e) {
       throw new KivException("Error getting persons from server: " + e.getMessage());
@@ -154,8 +155,14 @@ public class PersonRepository {
 
   private Person searchPerson(String searchBase, int searchScope, String searchFilter) throws KivException {
     try {
-      Person result = (Person) ldapTemplate.searchForObject(searchBase, searchFilter, new PersonMapper(codeTablesService));
-      return result;
+      String[] attributes = new String[] { "*", "createTimestamp", "modifyTimestamp" };
+      // Since PersonMapper return Persons we are certain that the suppression is ok
+      @SuppressWarnings("unchecked")
+      List<Person> result = ldapTemplate.search(searchBase, searchFilter, searchScope, attributes, new PersonMapper(codeTablesService));
+      if (result.size() == 0) {
+        throw new KivNoDataFoundException("Error getting person from server");
+      }
+      return result.get(0);
     } catch (NamingException e) {
       throw new KivNoDataFoundException("Error getting person from server: " + e.getMessage());
     }
@@ -167,6 +174,7 @@ public class PersonRepository {
     searchControls.setCountLimit(0);
     searchControls.setSearchScope(searchScope);
     searchControls.setReturningObjFlag(true);
+    searchControls.setReturningAttributes(new String[] { "*", "createTimestamp", "modifyTimestamp" });
     // Since PersonMapper returns a Person we are certain that a cast to List<Person> is ok
     @SuppressWarnings("unchecked")
     List<Person> persons = ldapTemplate.search(PERSON_SEARCH_BASE, searchFilter, searchControls, new PersonMapper(codeTablesService));

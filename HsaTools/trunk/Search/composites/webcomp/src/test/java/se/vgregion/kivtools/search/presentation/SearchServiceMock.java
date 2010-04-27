@@ -31,6 +31,7 @@ import java.util.Map;
 import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
@@ -130,6 +131,20 @@ public class SearchServiceMock implements SearchService {
   }
 
   @Override
+  public Unit getUnitByDN(String dn) throws KivException {
+    throwExceptionIfApplicable();
+    Unit result = null;
+    DN realDn = DN.createDNFromString(dn);
+    for (Unit unit : units.values()) {
+      if (realDn.equals(unit.getDn())) {
+        result = unit;
+        break;
+      }
+    }
+    return result;
+  }
+
+  @Override
   public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws KivException {
     throwExceptionIfApplicable();
     return new SikSearchResultList<Unit>();
@@ -221,11 +236,6 @@ public class SearchServiceMock implements SearchService {
 
   @Override
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, boolean onlyPublicUnits) throws KivException {
-    return null;
-  }
-
-  @Override
-  public Unit getUnitByDN(String dn) throws KivException {
     return null;
   }
 

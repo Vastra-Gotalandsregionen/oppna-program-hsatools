@@ -20,10 +20,13 @@
 package se.vgregion.kivtools.util.presentation;
 
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.faces.model.SelectItem;
 
 import se.vgregion.kivtools.util.StringUtil;
+
+import com.domainlanguage.time.TimePoint;
 
 /**
  * Helper-class for handling presentation logic etc.
@@ -113,5 +116,21 @@ public class PresentationHelper {
    */
   public static String urlEncode(String input) {
     return StringUtil.urlEncode(input, "UTF-8");
+  }
+
+  /**
+   * Formats the provided date in ISO 8601 format.
+   * 
+   * @param dateTime The date/time to format.
+   * @return the provided date/time in ISO 8601 format or an empty string if no date/time was provided.
+   */
+  public static String formatDateTime(TimePoint dateTime) {
+    String result = "";
+
+    if (dateTime != null) {
+      result = dateTime.toString("yyyy-MM-dd HH:mm:ss", TimeZone.getDefault());
+    }
+
+    return result;
   }
 }

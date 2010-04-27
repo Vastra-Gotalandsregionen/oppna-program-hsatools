@@ -32,7 +32,7 @@ import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 
-public class EmploymentFactoryRefactoryTest {
+public class EmploymentMapperTest {
   private static final String TEST = "Test";
   private static final String EXPECTED_LIST_RESULT = "[" + TEST + "]";
   private static final String TEST_DN = "ou=Test,ou=Org,o=vgr";

@@ -43,4 +43,14 @@ public class LdapParseTest {
     assertEquals("No special characters to escape", "Hi This is a test #çà", LdapParse.escapeLDAPSearchFilter("Hi This is a test #çà"));
     assertEquals("Hi \\28This\\29 = is \\2a a \\5c test # ç à ô\\00", LdapParse.escapeLDAPSearchFilter("Hi (This) = is * a \\ test # ç à ô\u0000"));
   }
+
+  @Test
+  public void convertBooleanToStringReturnNForFalse() {
+    assertEquals("false = 'J'", "N", LdapParse.convertBooleanToString(false));
+  }
+
+  @Test
+  public void convertBooleanToStringReturnJForTrue() {
+    assertEquals("true = 'N'", "J", LdapParse.convertBooleanToString(true));
+  }
 }

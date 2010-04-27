@@ -50,15 +50,11 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
    * 
    * @param hsaId The hsaIdentity for the unit to retrieve details for.
    * @return A Unit object populated with the details for the unit with the provided hsaIdentity.
+   * @throws KivException if there is a problem retrieving the unit from the LDAP directory.
    */
-  public Unit getUnitDetails(String hsaId) {
+  public Unit getUnitDetails(String hsaId) throws KivException {
     LOGGER.debug(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
-    try {
-      return getSearchService().getUnitByHsaId(hsaId);
-    } catch (KivException e) {
-      LOGGER.error(e);
-      return new Unit();
-    }
+    return getSearchService().getUnitByHsaId(hsaId);
   }
 
   /**
@@ -66,15 +62,10 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
    * 
    * @param dn The dn for the unit to retrieve details for.
    * @return A Unit object populated with the details for the unit with the provided dn.
+   * @throws KivException if there is a problem retrieving the unit from the LDAP directory.
    */
-  public Unit getUnitByDn(String dn) {
+  public Unit getUnitByDn(String dn) throws KivException {
     LOGGER.debug(CLASS_NAME + "::getUnitDetailsByDn(dn=" + dn + ")");
-    try {
-      Unit u = getSearchService().getUnitByDN(dn);
-      return u;
-    } catch (KivException e) {
-      LOGGER.error(e);
-      return new Unit();
-    }
+    return getSearchService().getUnitByDN(dn);
   }
 }

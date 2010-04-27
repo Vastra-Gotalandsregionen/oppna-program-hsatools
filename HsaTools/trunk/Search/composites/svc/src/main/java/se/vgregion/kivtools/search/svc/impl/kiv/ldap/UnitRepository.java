@@ -43,6 +43,7 @@ import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
+import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
@@ -63,6 +64,7 @@ public class UnitRepository {
   private static final String LDAP_WILD_CARD = "*";
   // an "
   private static final String LDAP_EXACT_CARD = "\"";
+  private static final String[] ATTRIBUTES = new String[] { "*", "objectClass", "createTimestamp" };
   private CodeTablesService codeTablesService;
   private LdapTemplate ldapTemplate;
   private UnitMapper unitMapper;
@@ -212,7 +214,7 @@ public class UnitRepository {
   public Unit getUnitByDN(DN dn) throws KivException {
     Unit u = null;
     DistinguishedName distinguishedName = new DistinguishedName(dn.escape().toString());
-    u = (Unit) ldapTemplate.lookup(distinguishedName, unitMapper);
+    u = (Unit) ldapTemplate.lookup(distinguishedName, ATTRIBUTES, unitMapper);
     return u;
   }
 
@@ -256,7 +258,7 @@ public class UnitRepository {
 
     // Since UnitMapper returns Units we are certain that the cast to List<Unit> is ok.
     @SuppressWarnings("unchecked")
-    List<Unit> result = ldapTemplate.search(getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, unitMapper);
+    List<Unit> result = ldapTemplate.search(getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES, unitMapper);
     return result;
   }
 
@@ -277,7 +279,7 @@ public class UnitRepository {
     SikSearchResultList<Unit> result = null;
     // Since UnitMapper return a Unit we are certain that the cast to List<Unit> is ok
     @SuppressWarnings("unchecked")
-    List<Unit> search = ldapTemplate.search(getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, unitMapper);
+    List<Unit> search = ldapTemplate.search(getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES, unitMapper);
 
     result = cleanAndSortResult(search, maxResult, sortOrder);
 
@@ -285,9 +287,13 @@ public class UnitRepository {
   }
 
   private Unit searchUnit(DistinguishedName searchBase, int searchScope, String searchFilter) throws KivException {
-    Unit result = new Unit();
-    result = (Unit) ldapTemplate.searchForObject(searchBase, searchFilter, unitMapper);
-    return result;
+    // Since UnitMapper return Units we are certain that the suppression is ok
+    @SuppressWarnings("unchecked")
+    List<Unit> result = ldapTemplate.search(searchBase, searchFilter, searchScope, ATTRIBUTES, unitMapper);
+    if (result.size() == 0) {
+      throw new KivNoDataFoundException("Error getting unit from server");
+    }
+    return result.get(0);
   }
 
   private SikSearchResultList<Unit> cleanAndSortResult(List<Unit> units, int maxResult, Comparator<Unit> sortOrder) {
@@ -666,7 +672,7 @@ public class UnitRepository {
 
     // Since UnitMapper return a Unit we are certain that the cast to List<Unit> is ok
     @SuppressWarnings("unchecked")
-    List<Unit> search = ldapTemplate.search(parentDn.toString(), "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")", SearchControls.SUBTREE_SCOPE, unitMapper);
+    List<Unit> search = ldapTemplate.search(parentDn.toString(), "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")", SearchControls.SUBTREE_SCOPE, ATTRIBUTES, unitMapper);
     subUnits = cleanAndSortResult(search, maxResult, null);
     removeUnitParentFromList(parentUnit, subUnits);
     return subUnits;

@@ -401,22 +401,18 @@ public class UnitTest {
   @Test
   public void testCreateTimestamp() {
     assertNull(unit.getCreateTimestamp());
-    assertEquals("", unit.getCreateTimestampFormatted());
     assertEquals("", unit.getCreateTimestampFormattedInW3CDatetimeFormat());
 
     unit.setCreateTimestamp(TimePoint.parseFrom("20090101120102", "yyyyMMddHHmmss", TimeZone.getDefault()));
-    assertEquals("2009-01-01 12:01:02", unit.getCreateTimestampFormatted());
     assertEquals("2009-01-01T12:01:02+01:00", unit.getCreateTimestampFormattedInW3CDatetimeFormat());
   }
 
   @Test
   public void testModifyTimestamp() {
     assertNull(unit.getModifyTimestamp());
-    assertEquals("", unit.getModifyTimestampFormatted());
     assertEquals("", unit.getModifyTimestampFormattedInW3CDatetimeFormat());
 
     unit.setModifyTimestamp(TimePoint.parseFrom("20090101120102", "yyyyMMddHHmmss", TimeZone.getDefault()));
-    assertEquals("2009-01-01 12:01:02", unit.getModifyTimestampFormatted());
     assertEquals("2009-01-01T12:01:02+01:00", unit.getModifyTimestampFormattedInW3CDatetimeFormat());
   }
 

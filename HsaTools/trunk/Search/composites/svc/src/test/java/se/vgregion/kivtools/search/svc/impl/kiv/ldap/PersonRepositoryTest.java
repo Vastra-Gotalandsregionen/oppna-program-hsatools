@@ -87,6 +87,15 @@ public class PersonRepositoryTest {
     assertEquals(2, allPersonsVgrId.size());
   }
 
+  @Test(expected = KivException.class)
+  public void getAllPersonsVgrIdThrowsKivExceptionOnNamingException() throws KivException {
+    LdapTemplateMock ldapTemplate = new LdapTemplateMock();
+    personRepository.setLdapTemplate(ldapTemplate);
+
+    ldapTemplate.setExceptionToThrow(new CommunicationException(null));
+    personRepository.getAllPersonsVgrId();
+  }
+
   @Test
   public void testEmploymentTitleSearch() throws KivException {
     mockLdapTemplate.result.put("(&(objectclass=vgrUser)(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(vgr-id=anama))", Arrays.asList((Object) new Unit()));
@@ -186,6 +195,23 @@ public class PersonRepositoryTest {
 
     ldapTemplate.setExceptionToThrow(new CommunicationException(null));
     personRepository.getAllPersons();
+  }
+
+  @Test
+  public void testGetPersonByVgrId() throws KivException {
+    LdapTemplateMock ldapTemplate = new LdapTemplateMock();
+    personRepository.setLdapTemplate(ldapTemplate);
+
+    DirContextOperationsMock dirContext = new DirContextOperationsMock();
+    DistinguishedName dn = DistinguishedName.immutableDistinguishedName("cn=Kalle Kula,ou=Landstinget Halland");
+    dirContext.setDn(dn);
+    dirContext.addAttributeValue("givenName", "Kalle");
+    ldapTemplate.addDirContextOperationForSearch(dirContext);
+
+    Person person = personRepository.getPersonByVgrId("ksn829");
+
+    ldapTemplate.assertSearchFilter("(objectclass=vgrUser)");
+    assertNotNull(person);
   }
 
   @Test(expected = KivNoDataFoundException.class)

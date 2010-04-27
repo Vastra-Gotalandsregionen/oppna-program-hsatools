@@ -37,9 +37,17 @@ import se.vgregion.kivtools.util.StringUtil;
 
 import com.domainlanguage.time.TimePoint;
 
+/**
+ * Context mapper for employment entries.
+ */
 public class EmploymentMapper implements ContextMapper {
   private CodeTablesService codeTablesService;
 
+  /**
+   * Constructs a new EmploymentMapper.
+   * 
+   * @param codeTablesService The CodeTablesService to use.
+   */
   public EmploymentMapper(CodeTablesService codeTablesService) {
     super();
     this.codeTablesService = codeTablesService;
