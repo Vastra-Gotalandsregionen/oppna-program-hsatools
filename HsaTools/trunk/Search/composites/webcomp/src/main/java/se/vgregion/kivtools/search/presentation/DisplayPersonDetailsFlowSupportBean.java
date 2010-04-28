@@ -22,12 +22,16 @@ package se.vgregion.kivtools.search.presentation;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.webflow.context.ExternalContext;
 
 import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.exceptions.KivException;
+import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.svc.SearchService;
 
 /**
@@ -50,26 +54,36 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
    * Retrieves person details for the provided vgrId.
    * 
    * @param vgrId The unique identifier for the person to retrieve details for.
+   * @param externalContext The external Faces-context.
    * @return A populated Person-object.
    * @throws KivException if there is a problem retrieving the person from the LDAP directory.
    */
-  public Person getPersonDetails(String vgrId) throws KivException {
+  public Person getPersonDetails(String vgrId, ExternalContext externalContext) throws KivException {
     LOGGER.debug(CLASS_NAME + "::getPersonDetails(vgrId=" + vgrId + ")");
-    Person person = searchService.getPersonById(vgrId);
-    if (person.getEmployments() == null) {
-      List<Employment> employments = searchService.getEmploymentsForPerson(person);
-      person.setEmployments(employments);
+    try {
+      Person person = searchService.getPersonById(vgrId);
+      if (person.getEmployments() == null) {
+        List<Employment> employments = searchService.getEmploymentsForPerson(person);
+        person.setEmployments(employments);
+      }
+      return person;
+    } catch (KivNoDataFoundException e) {
+      if (externalContext.getNativeResponse() instanceof HttpServletResponse) {
+        ((HttpServletResponse) externalContext.getNativeResponse()).setStatus(404);
+      }
+      throw e;
     }
-    return person;
   }
 
   /**
    * Retrieves person details for the provided distinguished name.
    * 
    * @param personDn The distinguished name for the person to retrieve details for.
+   * @param externalContext The external Faces-context.
    * @return A populated Person-object.
+   * @throws KivException if there is a problem retrieving the person from the LDAP directory.
    */
-  public Person getPersonDetailsByDn(String personDn) {
+  public Person getPersonDetailsByDn(String personDn, ExternalContext externalContext) throws KivException {
     LOGGER.debug(CLASS_NAME + "::getPersonDetails(personDn=" + personDn + ")");
     try {
       Person person = searchService.getPersonByDn(personDn);
@@ -78,9 +92,11 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
         person.setEmployments(employments);
       }
       return person;
-    } catch (KivException e) {
-      LOGGER.error(e);
-      return new Person();
+    } catch (KivNoDataFoundException e) {
+      if (externalContext.getNativeResponse() instanceof HttpServletResponse) {
+        ((HttpServletResponse) externalContext.getNativeResponse()).setStatus(404);
+      }
+      throw e;
     }
   }
 }

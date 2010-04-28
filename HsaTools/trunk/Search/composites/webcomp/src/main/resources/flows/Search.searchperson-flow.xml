@@ -81,7 +81,7 @@
 	</action-state>
 
 	<action-state id="Search.searchPersonUnique">
-		<evaluate expression="Display_DisplayPersonDetailsFlowSupportBean.getPersonDetails(flowScope.vgrid)" result="flowScope.person" />
+		<evaluate expression="Display_DisplayPersonDetailsFlowSupportBean.getPersonDetails(flowScope.vgrid, externalContext)" result="flowScope.person" />
 		<evaluate expression="userEventService.retrieveUserEvents(person.givenName, person.sn, person.telephoneNumberOfFirstEmployment, person.mobileNumberOfFirstEmployment)" result="flowScope.userEvents" />
 		<set name="errorReportingForm.dn" value="flowScope.person.dn" />
 		<set name="errorReportingForm.reportText" value="null" />
@@ -100,7 +100,7 @@
 	
 	<view-state id="Display.personDetailsByDn" view="/displayPersonDetails.xhtml">
 		<on-entry>
-			<evaluate expression="Display_DisplayPersonDetailsFlowSupportBean.getPersonDetailsByDn(flowScope.personDn)" result="flowScope.person" />
+			<evaluate expression="Display_DisplayPersonDetailsFlowSupportBean.getPersonDetailsByDn(flowScope.personDn, externalContext)" result="flowScope.person" />
 			<evaluate expression="userEventService.retrieveUserEvents(person.givenName, person.sn, person.telephoneNumberOfFirstEmployment, person.mobileNumberOfFirstEmployment)" result="flowScope.userEvents" />
 			<set name="errorReportingForm.dn" value="flowScope.person.dn" />
 			<set name="errorReportingForm.reportText" value="null" />
