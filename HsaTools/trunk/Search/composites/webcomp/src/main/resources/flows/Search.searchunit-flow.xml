@@ -66,7 +66,7 @@
 	</action-state>
 
 	<action-state id="Search.searchUnitUniqueById">
-		<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitDetails(flowScope.hsaidentity)" result="flowScope.unit"/>
+		<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitDetails(flowScope.hsaidentity, externalContext)" result="flowScope.unit"/>
 		<set name="errorReportingForm.dn" value="flowScope.unit.dn.toString()" />
 		<set name="errorReportingForm.reportText" value="null" />
 		<set name="flowScope.dn" value="flowScope.unit.dn.toString()" />
@@ -75,7 +75,7 @@
 	</action-state>
 
 	<action-state id="Search.searchUnitUniqueByDn">
-		<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitByDn(flowScope.dn)" result="flowScope.unit" />
+		<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitByDn(flowScope.dn, externalContext)" result="flowScope.unit" />
 		<set name="errorReportingForm.dn" value="flowScope.unit.dn.toString()" />
 		<set name="errorReportingForm.reportText" value="null" />
 		<set name="flowScope.dn" value="flowScope.unit.dn.toString()" />

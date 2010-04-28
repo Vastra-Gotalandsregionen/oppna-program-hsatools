@@ -23,12 +23,19 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import javax.servlet.ServletContext;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockServletContext;
+import org.springframework.webflow.context.servlet.ServletExternalContext;
 
 import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.exceptions.KivException;
+import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 
 public class DisplayPersonDetailsFlowSupportBeanTest {
 
@@ -37,6 +44,10 @@ public class DisplayPersonDetailsFlowSupportBeanTest {
   private final DisplayPersonDetailsFlowSupportBean displayPersonDetailsFlowSupportBean = new DisplayPersonDetailsFlowSupportBean();
   private final Person person = new Person();
   private final SearchServiceMock searchServiceMock = new SearchServiceMock();
+  private final ServletContext servletContext = new MockServletContext();
+  private final MockHttpServletRequest request = new MockHttpServletRequest(servletContext);
+  private final MockHttpServletResponse response = new MockHttpServletResponse();
+  private final ServletExternalContext externalContext = new ServletExternalContext(servletContext, request, response);
 
   @Before
   public void setup() throws Exception {
@@ -46,40 +57,49 @@ public class DisplayPersonDetailsFlowSupportBeanTest {
 
   @Test
   public void testGetPersonDetails() throws Exception {
-    Person person = displayPersonDetailsFlowSupportBean.getPersonDetails(VGR_ID);
+    Person person = displayPersonDetailsFlowSupportBean.getPersonDetails(VGR_ID, externalContext);
     assertEquals(person, person);
   }
 
   @Test
   public void testGetPersonDetailsPersonAlreadyGotEmployments() throws Exception {
     person.setEmployments(new ArrayList<Employment>());
-    Person person = displayPersonDetailsFlowSupportBean.getPersonDetails(VGR_ID);
+    Person person = displayPersonDetailsFlowSupportBean.getPersonDetails(VGR_ID, externalContext);
     assertEquals(person, person);
   }
 
-  @Test(expected = KivException.class)
-  public void getPersonDetailsThrowsExceptionOnMissingPerson() throws Exception {
-    searchServiceMock.addExceptionToThrow(new KivException("exception"));
-    displayPersonDetailsFlowSupportBean.getPersonDetails(VGR_ID);
+  @Test
+  public void getPersonDetailsSets404StatusCodeAndThrowsExceptionOnMissingPerson() throws Exception {
+    searchServiceMock.addExceptionToThrow(new KivNoDataFoundException("exception"));
+    try {
+      displayPersonDetailsFlowSupportBean.getPersonDetails(VGR_ID, externalContext);
+      fail("KivException should be thrown");
+    } catch (KivException e) {
+      assertEquals("http status code", 404, response.getStatus());
+    }
   }
 
   @Test
-  public void testGetPersonDetailsByDn() {
-    Person person = displayPersonDetailsFlowSupportBean.getPersonDetailsByDn(PERSON_DN);
+  public void testGetPersonDetailsByDn() throws KivException {
+    Person person = displayPersonDetailsFlowSupportBean.getPersonDetailsByDn(PERSON_DN, externalContext);
     assertNotNull(person);
   }
 
   @Test
   public void testGetPersonDetailsByDnPersonAlreadyGotEmployments() throws Exception {
     person.setEmployments(new ArrayList<Employment>());
-    Person person = displayPersonDetailsFlowSupportBean.getPersonDetailsByDn(PERSON_DN);
+    Person person = displayPersonDetailsFlowSupportBean.getPersonDetailsByDn(PERSON_DN, externalContext);
     assertEquals(person, person);
   }
 
   @Test
-  public void testGetPersonDetailsByDnExceptionHandling() throws Exception {
-    searchServiceMock.addExceptionToThrow(new KivException("exception"));
-    Person person = displayPersonDetailsFlowSupportBean.getPersonDetailsByDn(PERSON_DN);
-    assertNotNull(person);
+  public void getPersonDetailsByDnSets404StatusCodeAndThrowsExceptionOnMissingPerson() throws Exception {
+    searchServiceMock.addExceptionToThrow(new KivNoDataFoundException("exception"));
+    try {
+      displayPersonDetailsFlowSupportBean.getPersonDetailsByDn(PERSON_DN, externalContext);
+      fail("KivException should be thrown");
+    } catch (KivException e) {
+      assertEquals("http status code", 404, response.getStatus());
+    }
   }
 }

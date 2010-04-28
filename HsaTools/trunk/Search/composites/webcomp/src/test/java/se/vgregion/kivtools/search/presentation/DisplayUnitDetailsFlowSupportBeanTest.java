@@ -21,12 +21,19 @@ package se.vgregion.kivtools.search.presentation;
 
 import static org.junit.Assert.*;
 
+import javax.servlet.ServletContext;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockServletContext;
+import org.springframework.webflow.context.servlet.ServletExternalContext;
 
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.exceptions.KivException;
+import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 
 public class DisplayUnitDetailsFlowSupportBeanTest {
   private static final String HSA_ID = "hsaId";
@@ -34,6 +41,10 @@ public class DisplayUnitDetailsFlowSupportBeanTest {
   private final DisplayUnitDetailsFlowSupportBean displayUnitDetailsFlowSupportBean = new DisplayUnitDetailsFlowSupportBean();
   private final Unit unit = new Unit();
   private final SearchServiceMock searchServiceMock = new SearchServiceMock();
+  private final ServletContext servletContext = new MockServletContext();
+  private final MockHttpServletRequest request = new MockHttpServletRequest(servletContext);
+  private final MockHttpServletResponse response = new MockHttpServletResponse();
+  private final ServletExternalContext externalContext = new ServletExternalContext(servletContext, request, response);
 
   @Before
   public void setup() throws Exception {
@@ -46,23 +57,33 @@ public class DisplayUnitDetailsFlowSupportBeanTest {
 
   @Test
   public void testGetUnitDetails() throws KivException {
-    assertEquals(unit.getName(), displayUnitDetailsFlowSupportBean.getUnitDetails(HSA_ID).getName());
+    assertEquals(unit.getName(), displayUnitDetailsFlowSupportBean.getUnitDetails(HSA_ID, externalContext).getName());
   }
 
-  @Test(expected = KivException.class)
-  public void getUnitDetailsThrowsExceptionOnMissingUnit() throws Exception {
-    searchServiceMock.addExceptionToThrow(new KivException("exception"));
-    displayUnitDetailsFlowSupportBean.getUnitDetails(HSA_ID);
+  @Test
+  public void getUnitDetailsSets404StatusCodeAndThrowsExceptionOnMissingUnit() throws Exception {
+    searchServiceMock.addExceptionToThrow(new KivNoDataFoundException("exception"));
+    try {
+      displayUnitDetailsFlowSupportBean.getUnitDetails(HSA_ID, externalContext);
+      fail("KivException should be thrown");
+    } catch (KivException e) {
+      assertEquals("http status code", 404, response.getStatus());
+    }
   }
 
   @Test
   public void testUnitByDn() throws KivException {
-    assertEquals(unit.getName(), displayUnitDetailsFlowSupportBean.getUnitByDn(UNIT_DN).getName());
+    assertEquals(unit.getName(), displayUnitDetailsFlowSupportBean.getUnitByDn(UNIT_DN, externalContext).getName());
   }
 
-  @Test(expected = KivException.class)
-  public void getUnitByDnThrowsExceptionOnMissingUnit() throws Exception {
-    searchServiceMock.addExceptionToThrow(new KivException("exception"));
-    displayUnitDetailsFlowSupportBean.getUnitByDn(UNIT_DN);
+  @Test
+  public void getUnitByDnSets404StatusCodeAndThrowsExceptionOnMissingUnit() throws Exception {
+    searchServiceMock.addExceptionToThrow(new KivNoDataFoundException("exception"));
+    try {
+      displayUnitDetailsFlowSupportBean.getUnitByDn(UNIT_DN, externalContext);
+      fail("KivException should be thrown");
+    } catch (KivException e) {
+      assertEquals("http status code", 404, response.getStatus());
+    }
   }
 }
