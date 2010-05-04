@@ -122,14 +122,7 @@
 				           								</a>
 										            </td>
 													<ui:include src="${Search_SettingsContainer.settings.personDetailsAncestorListInclude}" />
-										            <h:outputText rendered="${fn:trim(employment.hsaTelephoneNumber) != ''}">
-											            <td class="tel"><span class="type">Work</span><span class="value">${employment.hsaTelephoneNumber.formattedPhoneNumber}</span></td>
-											        </h:outputText>
-										            <h:outputText rendered="${fn:trim(employment.hsaTelephoneNumber) == ''}">
-											            <h:outputText rendered="${fn:trim(employment.hsaSedfSwitchboardTelephoneNo) != ''}">
-												            <td class="tel"><span class="type">Work</span><span class="value">${employment.hsaSedfSwitchboardTelephoneNo.formattedPhoneNumber} (växel)</span></td>
-											            </h:outputText>
-										            </h:outputText>
+													<ui:include src="${Search_SettingsContainer.settings.personSearchResultTelephoneInclude}" />
 										        </tr>
 										    </ui:repeat>
 								        </tbody>
