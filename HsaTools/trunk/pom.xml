@@ -19,8 +19,8 @@
 
   <parent>
     <groupId>se.vgregion.common</groupId>
-    <artifactId>profile</artifactId>
-    <version>1.5</version>
+    <artifactId>profile-open</artifactId>
+    <version>2.3</version>
   </parent>
 
   <!-- common library versions -->
@@ -137,7 +137,7 @@
 
       <!-- VGR Reference Architecture -->
       <dependency>
-        <groupId>se.vgr.javg</groupId>
+        <groupId>se.vgregion.javg</groupId>
         <artifactId>javg-rt-support</artifactId>
         <version>${javg.version}</version>
       </dependency>
