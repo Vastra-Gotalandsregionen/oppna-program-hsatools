@@ -98,9 +98,9 @@ public class PersonRepositoryTest {
 
   @Test
   public void testEmploymentTitleSearch() throws KivException {
-    mockLdapTemplate.result.put("(&(objectclass=vgrUser)(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(vgr-id=anama))", Arrays.asList((Object) new Unit()));
+    mockLdapTemplate.result.put("(&(objectclass=vgrUser)(vgr-id=anama))", Arrays.asList((Object) new Unit()));
     String expectedLdapQuestion1 = "(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(title=*employmentTitle*))";
-    String expectedLdapQuestion2 = "(&(objectclass=vgrUser)(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(vgr-id=anama))";
+    String expectedLdapQuestion2 = "(&(objectclass=vgrUser)(vgr-id=anama))";
     mockLdapTemplate.result.put(expectedLdapQuestion1, Arrays.asList((Object) "anama"));
 
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
@@ -115,20 +115,20 @@ public class PersonRepositoryTest {
     List<Object> units = new ArrayList<Object>();
     units.add(new Unit());
 
-    mockLdapTemplate.result.put("(&(objectclass=vgrUser)(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*)))", units);
+    mockLdapTemplate.result.put("(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*)))", units);
 
     mockLdapTemplate.result
         .put(
-            "(&(objectclass=vgrUser)(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(vgr-id=anama))",
+            "(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(vgr-id=anama))",
             units);
 
-    mockLdapTemplate.result.put("(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(title=*employmentTitle*))", Arrays
-        .asList((Object) "anama"));
+    mockLdapTemplate.result.put("(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(title=*employmentTitle*))",
+        Arrays.asList((Object) "anama"));
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
     searchPersonCriterion.setGivenName("Kalle");
     searchPersonCriterion.setSurname("Svensson");
 
-    String expectedResult = "(&(objectclass=vgrUser)(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*)))";
+    String expectedResult = "(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*)))";
 
     SikSearchResultList<Person> searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
     assertEquals(expectedResult, mockLdapTemplate.filter.get(0));
@@ -142,7 +142,7 @@ public class PersonRepositoryTest {
     searchPersonCriterion.setEmail("email");
     searchPersonCriterion.setAdministration("administration");
     searchPersons = personRepository.searchPersons(searchPersonCriterion, 10);
-    String expectedResult2 = "(&(objectclass=vgrUser)(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(vgr-id=anama))";
+    String expectedResult2 = "(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(vgr-id=anama))";
     assertEquals(1, searchPersons.size());
     assertEquals(expectedResult2, mockLdapTemplate.filter.get(2));
   }
@@ -161,14 +161,11 @@ public class PersonRepositoryTest {
 
   @Test
   public void testGetPersonsForUnits() throws Exception {
-    mockLdapTemplate.result.put(
-        "(&(!(objectClass=vgrAnstallning))(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4)))", Arrays
-            .asList((Object) new Unit()));
+    mockLdapTemplate.result.put("(&(!(objectClass=vgrAnstallning))(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4)))", Arrays.asList((Object) new Unit()));
     List<Unit> units = generateTestUnitList();
     List<Person> persons = personRepository.getPersonsForUnits(units, 5);
     assertFalse(persons.isEmpty());
-    assertEquals("(&(!(objectClass=vgrAnstallning))(!(vgrStrukturPerson=*OU=Privata Vårdgivare*))(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4)))",
-        mockLdapTemplate.filter.get(0));
+    assertEquals("(&(!(objectClass=vgrAnstallning))(|(vgrOrgRel=unit0)(vgrOrgRel=unit1)(vgrOrgRel=unit2)(vgrOrgRel=unit3)(vgrOrgRel=unit4)))", mockLdapTemplate.filter.get(0));
   }
 
   @Test
