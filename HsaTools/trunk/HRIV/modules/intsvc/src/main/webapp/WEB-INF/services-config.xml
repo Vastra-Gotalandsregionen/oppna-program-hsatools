@@ -112,7 +112,6 @@
 
 	<bean id="Transfer_ftp" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClientImpl">
 		<property name="ftpclient" ref="Commons_FtpClient" />
-		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
 		<property name="hostname" value="${eniroHostname}" />
 		<property name="username" value="${eniroUser}" />
 		<property name="password" value="${eniroPassword}" />

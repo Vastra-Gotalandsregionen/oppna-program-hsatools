@@ -19,13 +19,9 @@
 
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.isA;
-import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.replay;
-import static org.junit.Assert.assertEquals;
+import static org.easymock.EasyMock.*;
+import static org.easymock.classextension.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.io.InputStream;
 
@@ -78,12 +74,11 @@ public class SftpClientImplTest {
     mockSession.connect();
     expect(mockSession.openChannel("sftp")).andReturn(mockChannelSftp);
     mockChannelSftp.connect();
-    mockChannelSftp.put(isA(InputStream.class), eq(FTPDESTINATIONFILENAME));
+    mockChannelSftp.put(isA(InputStream.class), eq(FTPDESTINATIONFILENAME + ".xml"));
     mockChannelSftp.disconnect();
     mockSession.disconnect();
     replay(mockJSch, mockSession, mockChannelSftp);
     sftpClientImpl.setJsch(mockJSch);
-    sftpClientImpl.setFtpDestinationFileName(FTPDESTINATIONFILENAME);
     sftpClientImpl.setHostname(HOSTNAME);
     sftpClientImpl.setPassword(PASSWORD);
     sftpClientImpl.setUsername(USERNAME);
@@ -93,7 +88,7 @@ public class SftpClientImplTest {
 
   @Test
   public void testSendFile() {
-    assertEquals(true, sftpClientImpl.sendFile(FILE_CONTENT));
+    assertEquals(true, sftpClientImpl.sendFile(FILE_CONTENT, FTPDESTINATIONFILENAME, "xml"));
   }
 
   @Test
@@ -104,7 +99,7 @@ public class SftpClientImplTest {
 
     sftpClientImpl.setJsch(mockJSch);
 
-    assertEquals(false, sftpClientImpl.sendFile(FILE_CONTENT));
+    assertEquals(false, sftpClientImpl.sendFile(FILE_CONTENT, null, null));
   }
 
   @Test
@@ -118,13 +113,13 @@ public class SftpClientImplTest {
     mockSession.connect();
     expect(mockSession.openChannel("sftp")).andReturn(mockChannelSftp);
     mockChannelSftp.connect();
-    mockChannelSftp.put(isA(InputStream.class), eq(FTPDESTINATIONFILENAME));
+    mockChannelSftp.put(isA(InputStream.class), eq(FTPDESTINATIONFILENAME + ".xml"));
     expectLastCall().andThrow(new SftpException(1, "Test"));
     replay(mockJSch, mockSession, mockChannelSftp);
 
     sftpClientImpl.setJsch(mockJSch);
 
-    assertEquals(false, sftpClientImpl.sendFile(FILE_CONTENT));
+    assertEquals(false, sftpClientImpl.sendFile(FILE_CONTENT, FTPDESTINATIONFILENAME, "xml"));
     assertEquals("Error in SftpClient\n", logFactoryMock.getError(true));
   }
 }

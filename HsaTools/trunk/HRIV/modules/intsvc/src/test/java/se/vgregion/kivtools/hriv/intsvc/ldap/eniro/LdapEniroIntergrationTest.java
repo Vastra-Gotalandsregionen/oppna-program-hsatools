@@ -49,7 +49,7 @@ public class LdapEniroIntergrationTest {
     String fileContent;
 
     @Override
-    public boolean sendFile(String fileContent) {
+    public boolean sendFile(String fileContent, final String basename, final String suffix) {
       this.fileContent = fileContent;
       return true;
     }
