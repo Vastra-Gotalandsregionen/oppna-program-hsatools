@@ -42,7 +42,6 @@ public class FtpClientImpl implements FtpClient {
   private int port;
   private String username;
   private String password;
-  private String ftpDestinationFileName;
 
   public void setFtpclient(FTPClient ftpsclient) {
     this.ftpclient = ftpsclient;
@@ -64,14 +63,10 @@ public class FtpClientImpl implements FtpClient {
     this.password = password;
   }
 
-  public void setFtpDestinationFileName(String ftpDestinationFileName) {
-    this.ftpDestinationFileName = ftpDestinationFileName;
-  }
-
   /**
    * {@inheritDoc}
    */
-  public boolean sendFile(String fileContent) {
+  public boolean sendFile(String fileContent, String basename, String suffix) {
     if (fileContent == null) {
       throw new IllegalArgumentException("Input string \"fileContent\" is null.");
     }
@@ -82,14 +77,19 @@ public class FtpClientImpl implements FtpClient {
       ftpclient.enterLocalPassiveMode();
       boolean loginSuccess = ftpclient.login(username, password);
       logger.debug("Unit details pusher: FTP login status: " + loginSuccess + ". Server reply: " + ftpclient.getReplyString());
+      String temporaryFilename = basename + "-uploading." + suffix;
+      String finalFilename = basename + "-" + TimeUtil.getCurrentTimeFormatted(DateTimeFormat.SCIENTIFIC_TIME) + "." + suffix;
+
       // Try to remove old file. Deletion should not be necessary but try to just in case something went wrong.
-      boolean deleteSuccess = ftpclient.deleteFile(ftpDestinationFileName + "-uploading.xml");
+      boolean deleteSuccess = ftpclient.deleteFile(temporaryFilename);
       if (deleteSuccess) {
-        logger.debug("Unit details pusher: Deleted " + ftpDestinationFileName + " on server.");
+        logger.debug("Unit details pusher: Deleted " + basename + " on server.");
       }
-      success = ftpclient.storeFile(ftpDestinationFileName + "-uploading.xml", inputStream);
+      success = ftpclient.storeFile(temporaryFilename, inputStream);
+      logger.debug("Send file. Server reply: " + ftpclient.getReplyString());
       if (success) {
-        success = ftpclient.rename(ftpDestinationFileName + "-uploading.xml", ftpDestinationFileName + "-" + TimeUtil.getCurrentTimeFormatted(DateTimeFormat.SCIENTIFIC_TIME) + ".xml");
+        success = ftpclient.rename(temporaryFilename, finalFilename);
+        logger.debug("Rename file. Server reply: " + ftpclient.getReplyString());
       }
       inputStream.close();
       // Logout from the FTP Server and disconnect

@@ -18,6 +18,7 @@
  */
 
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
+
 /**
  * 
  * @author David Bennehult
@@ -31,6 +32,7 @@ package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 public interface FtpClient {
   /**
    * Send file to source.
+   * 
    * @param fileContent content to send.
    * @return true if operation was successful.
    */
@@ -38,7 +40,9 @@ public interface FtpClient {
    * Sends the provided file content to the configured server.
    * 
    * @param fileContent The file content to send.
+   * @param basename The base of the filename.
+   * @param suffix The filename suffix.
    * @return True if sending was successful, otherwise false.
    */
-  boolean sendFile(String fileContent);
+  boolean sendFile(String fileContent, String basename, String suffix);
 }

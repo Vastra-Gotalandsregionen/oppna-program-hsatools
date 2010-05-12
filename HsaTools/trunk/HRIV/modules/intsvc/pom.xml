@@ -88,7 +88,7 @@
               <clearOutputDir>false</clearOutputDir>
               <packageName>se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro</packageName>
               <schemaDirectory>${basedir}/../../../Search/composites/schema/src/main/resources/wsdl/</schemaDirectory>
-              <schemaFiles>eniro1.1.xsd</schemaFiles>
+              <schemaFiles>eniro1.4.xsd</schemaFiles>
               <verbose>true</verbose>
               <staleFile>${project.build.directory}/generated-sources/jaxb/stale/.staleFlagEniro</staleFile>
             </configuration>

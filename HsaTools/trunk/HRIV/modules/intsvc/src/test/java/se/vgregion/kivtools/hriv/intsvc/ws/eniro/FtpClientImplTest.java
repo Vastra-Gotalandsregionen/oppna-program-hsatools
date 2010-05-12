@@ -19,9 +19,7 @@
 
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,18 +48,17 @@ public class FtpClientImplTest {
   public void setup() throws SocketException, IOException {
     mockFtpClient = new FtpClientMock();
     ftpClientImpl.setFtpclient(mockFtpClient);
-    ftpClientImpl.setFtpDestinationFileName(FTPDESTINATIONFILENAME);
     ftpClientImpl.setHostname(HOSTNAME);
     ftpClientImpl.setPassword(PASSWORD);
     ftpClientImpl.setUsername(USERNAME);
     ftpClientImpl.setPort(PORT);
   }
-  
+
   @BeforeClass
-  public static void beforeClass(){
+  public static void beforeClass() {
     logFactoryMock = LogFactoryMock.createInstance();
   }
-  
+
   @AfterClass
   public static void afterClass() {
     LogFactoryMock.resetInstance();
@@ -69,7 +66,7 @@ public class FtpClientImplTest {
 
   @Test
   public void testSendFile() {
-    boolean result = ftpClientImpl.sendFile(FILE_CONTENT);
+    boolean result = ftpClientImpl.sendFile(FILE_CONTENT, FTPDESTINATIONFILENAME, "xml");
 
     // Verify result from sendFile
     assertTrue(result);
@@ -89,13 +86,13 @@ public class FtpClientImplTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testSendFileWithIllegalArgumentException() {
-    ftpClientImpl.sendFile(null);
+    ftpClientImpl.sendFile(null, null, null);
   }
 
   @Test
   public void testSendFileWithIOException() {
     mockFtpClient.throwIOException = true;
-    assertFalse(ftpClientImpl.sendFile("hej"));
+    assertFalse(ftpClientImpl.sendFile("hej", null, null));
     assertEquals("Error in FtpClient\n", logFactoryMock.getError(true));
   }
 

@@ -75,6 +75,7 @@ public class EniroOrganisationBuilder {
     Organization organization = new Organization();
     organization.setLoadType("Full");
     organization.setType("Municipality");
+    organization.setCountry("SE");
 
     for (UnitComposition unitComposition : unitCompositions) {
       String unitParentDn = unitComposition.getParentDn();

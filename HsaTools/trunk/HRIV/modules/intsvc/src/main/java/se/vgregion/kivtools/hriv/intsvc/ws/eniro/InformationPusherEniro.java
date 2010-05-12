@@ -19,12 +19,10 @@
 
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.naming.directory.SearchControls;
 
@@ -82,30 +80,44 @@ public class InformationPusherEniro implements InformationPusher {
 
   /**
    * Trigger service for generate unit tree xml file and push it to chosen ftp server.
-   * 
-   * @inheritDoc
    */
   public void doService() {
-    Map<String, List<String>> localityMunicipalityMap = new HashMap<String, List<String>>();
-    localityMunicipalityMap.put("Göteborg", Arrays.asList("1440", "1480", "1401", "1488", "1441", "1463", "1481", "1402", "1415", "1407"));
-    localityMunicipalityMap.put("Borås", Arrays.asList("1489", "1443", "1490", "1466", "1463", "1465", "1452", "1491", "1442"));
-    localityMunicipalityMap.put("Uddevalla", Arrays.asList("1460", "1438", "1439", "1462", "1484", "1461", "1430", "1421", "1427", "1486", "1435", "1419", "1488", "1485", "1487", "1492"));
-    localityMunicipalityMap.put("Skövde", Arrays.asList("1445", "1499", "1444", "1447", "1471", "1497", "1446", "1494", "1493", "1495", "1496", "1472", "1498", "1473", "1470"));
+    boolean success = true;
+
+    success &= handleLocality("Göteborg", Arrays.asList("1440", "1480", "1401", "1488", "1441", "1463", "1481", "1402", "1415", "1407"), "Vastra Gotalandsregionen Goteborg");
+    success &= handleLocality("Borås", Arrays.asList("1489", "1443", "1490", "1466", "1463", "1465", "1452", "1491", "1442"), "Vastra Gotalandsregionen Boras");
+    success &= handleLocality("Uddevalla", Arrays.asList("1460", "1438", "1439", "1462", "1484", "1461", "1430", "1421", "1427", "1486", "1435", "1419", "1488", "1485", "1487", "1492"),
+        "Vastra Gotalandsregionen Uddevalla");
+    success &= handleLocality("Skövde", Arrays.asList("1445", "1499", "1444", "1447", "1471", "1497", "1446", "1494", "1493", "1495", "1496", "1472", "1498", "1473", "1470"),
+        "Vastra Gotalandsregionen Skovde");
+
+    if (success) {
+      logger.info("Unit details pusher: Completed with success.");
+    } else {
+      logger.error("Unit details pusher: Completed with failure.");
+    }
+  }
+
+  private boolean handleLocality(final String locality, final List<String> municipalities, final String basename) {
+    boolean success = true;
 
     // Get units that belongs to the organization.
-    List<UnitComposition> collectedUnits = new ArrayList<UnitComposition>();
+    List<UnitComposition> units = getUnitsFromLdap(municipalities);
+    if (!units.isEmpty()) {
+      updateUnitsWithLocality(units, locality);
 
-    for (Entry<String, List<String>> entry : localityMunicipalityMap.entrySet()) {
-      List<UnitComposition> units = getUnitsFromLdap(entry.getValue());
-      updateUnitsWithLocality(units, entry.getKey());
-      collectedUnits.addAll(units);
+      // Generate organization tree object.
+      Organization organization = eniroOrganisationBuilder.generateOrganisation(units);
+      organization.setId("232100-0131 VGR " + locality);
+      organization.setName("Västra Götalandsregionen " + locality);
+
+      // create XML presentation of organization tree object.
+      String generatedUnitDetailsXmlFile = XmlMarshaller.generateXmlContentOfObject(organization);
+
+      success = sendFileToFtpServer(generatedUnitDetailsXmlFile, basename, "xml");
     }
 
-    // Generate organization tree object.
-    Organization organization = eniroOrganisationBuilder.generateOrganisation(collectedUnits);
-    // create XML presentation of organization tree object.
-    String generatedUnitDetailsXmlFile = XmlMarshaller.generateXmlContentOfObject(organization);
-    sendFileToFtpServer(generatedUnitDetailsXmlFile);
+    return success;
   }
 
   /**
@@ -120,12 +132,8 @@ public class InformationPusherEniro implements InformationPusher {
     }
   }
 
-  private void sendFileToFtpServer(String generatedUnitDetailsXmlFile) {
-    if (ftpClient.sendFile(generatedUnitDetailsXmlFile)) {
-      logger.info("Unit details pusher: Completed with success.");
-    } else {
-      logger.error("Unit details pusher: Completed with failure.");
-    }
+  private boolean sendFileToFtpServer(String generatedUnitDetailsXmlFile, final String basename, final String suffix) {
+    return ftpClient.sendFile(generatedUnitDetailsXmlFile, basename, suffix);
   }
 
   private List<UnitComposition> getUnitsFromLdap(List<String> municipalityCodes) {

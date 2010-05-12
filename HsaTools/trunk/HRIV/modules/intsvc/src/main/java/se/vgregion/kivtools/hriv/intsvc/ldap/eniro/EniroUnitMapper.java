@@ -29,17 +29,21 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextOperations;
 
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition.UnitType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
+import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.AddressType.GeoCoordinates;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Hours;
+import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneHours;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
-import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.AddressType.GeoCoordinates;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
 import se.vgregion.kivtools.search.domain.values.AddressHelper;
+import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.svc.ldap.DirContextOperationsHelper;
 import se.vgregion.kivtools.util.StringUtil;
 
@@ -48,7 +52,6 @@ import se.vgregion.kivtools.util.StringUtil;
  * 
  */
 public class EniroUnitMapper implements ContextMapper {
-
   private List<String> nonCareCenter;
 
   /**
@@ -60,9 +63,7 @@ public class EniroUnitMapper implements ContextMapper {
   }
 
   /**
-   * 
-   * @author David Bennehult & Joakim Olsson
-   * 
+   * Enumeration of type of address.
    */
   enum ADDRESS_TYPE {
     GOODS("goods"), DELIVERY("delivery"), POST("post"), BILLING("billing"), VISIT("visit");
@@ -74,12 +75,10 @@ public class EniroUnitMapper implements ContextMapper {
   }
 
   /**
-   * 
-   * @author David Bennehult & Joakim Olsson
-   * 
+   * Enumeration of type of hours.
    */
   enum HOURS_TYPE {
-    VISIT("visit"), DROP_IN("dropIn"), CLOSED("closed");
+    OPEN("open"), VISIT("visit"), DROP_IN("dropin"), CLOSED("closed");
     private String value;
 
     HOURS_TYPE(String value) {
@@ -88,9 +87,19 @@ public class EniroUnitMapper implements ContextMapper {
   }
 
   /**
-   * 
-   * @author David Bennehult & Joakim Olsson
-   * 
+   * Enumeration of type of telephone hours.
+   */
+  enum TELEPHONE_HOURS_TYPE {
+    PHONEOPEN("phoneopen"), PHONE("phone"), VOICEMAIL("voicemail");
+    private String value;
+
+    TELEPHONE_HOURS_TYPE(String value) {
+      this.value = value;
+    }
+  }
+
+  /**
+   * Enumeration of type of phone.
    */
   enum PHONE_TYPE {
     FIXED("fixed"), FAX("fax"), SWITCH("switch"), OTHER("other");
@@ -142,55 +151,17 @@ public class EniroUnitMapper implements ContextMapper {
     return name;
   }
 
-  /**
-   * Generate a Hours object from string of type [fromDay]-[toDay]#[fromHour]#[toHour], e.g 1-5#08:00#17:00. Multiple hours are separated in the string with a dollar-sign.
-   * 
-   * @param value The hours-string in the above format.
-   * @return The list of generated Hours objects.
-   */
-  private List<Hours> generateHoursObjects(List<String> values) {
-    List<Hours> hoursList = new ArrayList<Hours>();
-
-    for (String value : values) {
-      Hours hours = new Hours();
-      if (!StringUtil.isEmpty(value)) {
-        String[] hoursInfo = value.split("#");
-
-        if (hoursInfo.length == 3) {
-          String[] dayFromAndTo = hoursInfo[0].split("-");
-          hours.setType(HOURS_TYPE.VISIT.value);
-          hours.setDayFrom(Integer.valueOf(dayFromAndTo[0]));
-          if (dayFromAndTo.length > 1) {
-            hours.setDayTo(Integer.valueOf(dayFromAndTo[1]));
-          } else {
-            hours.setDayTo(Integer.valueOf(dayFromAndTo[0]));
-          }
-          try {
-            String fromTime = hoursInfo[1];
-            String toTime = hoursInfo[2];
-            XMLGregorianCalendar fromTimeGreg = DatatypeFactory.newInstance().newXMLGregorianCalendar("2000-01-20T" + fromTime + ":00Z");
-            XMLGregorianCalendar toTimeGreg = DatatypeFactory.newInstance().newXMLGregorianCalendar("2000-01-20T" + toTime + ":00Z");
-            hours.setTimeFrom(fromTimeGreg);
-            hours.setTimeTo(toTimeGreg);
-          } catch (DatatypeConfigurationException e) {
-            e.printStackTrace();
-          }
-        }
-        hoursList.add(hours);
-      }
-    }
-    return hoursList;
-  }
-
   private TelephoneType getPublicTelephoneType(DirContextOperationsHelper context) {
     String publicTelephoneNumber = context.getString("hsaPublicTelephoneNumber");
     TelephoneType telephoneType = null;
 
     if (!StringUtil.isEmpty(publicTelephoneNumber)) {
+      PhoneNumber phoneNumber = PhoneNumber.createPhoneNumber(publicTelephoneNumber);
       telephoneType = new TelephoneType();
       telephoneType.setType(PHONE_TYPE.FIXED.value);
-      telephoneType.getTelephoneNumber().add(publicTelephoneNumber);
-      telephoneType.getHours().addAll(generateHoursObjects(context.getStrings("hsaTelephoneTime")));
+      telephoneType.getTelephoneNumber().add(phoneNumber.getFormattedPhoneNumber().toString());
+      TelephoneHourConverter telephoneHourConverter = new TelephoneHourConverter(TELEPHONE_HOURS_TYPE.PHONEOPEN.value, context.getStrings("hsaTelephoneTime"));
+      telephoneType.getTelephoneHours().addAll(telephoneHourConverter.getResult());
     }
     return telephoneType;
   }
@@ -199,7 +170,8 @@ public class EniroUnitMapper implements ContextMapper {
     Address address = null;
     if (context.hasAttribute("hsaStreetAddress")) {
       address = createBaseAddress(context.getString("hsaStreetAddress"));
-      address.getHours().addAll(generateHoursObjects(context.getStrings("hsaSurgeryHours")));
+      HourConverter hourConverter = new HourConverter(HOURS_TYPE.VISIT.value, context.getStrings("hsaSurgeryHours"));
+      address.getHours().addAll(hourConverter.getResult());
       // Set address type
       address.setType(ADDRESS_TYPE.VISIT.value);
       // Get geoCoordinates
@@ -269,5 +241,115 @@ public class EniroUnitMapper implements ContextMapper {
       }
     }
     return address;
+  }
+
+  /**
+   * Helper-class for converting a list of strings to a list of Hour/TelephoneHours objects. The strings should follow the format [fromDay]-[toDay]#[fromHour]#[toHour], e.g 1-5#08:00#17:00.
+   * 
+   * @param <T> The type of object in the result list.
+   */
+  private abstract static class AbstractHourConverter<T> {
+    private final String type;
+    private final List<String> values;
+
+    AbstractHourConverter(final String type, final List<String> values) {
+      this.type = type;
+      this.values = values;
+    }
+
+    List<T> getResult() {
+      List<T> hoursList = new ArrayList<T>();
+
+      for (String value : values) {
+        if (!StringUtil.isEmpty(value)) {
+          String[] hoursInfo = value.split("#");
+
+          if (hoursInfo.length == 3) {
+            String[] dayFromAndTo = hoursInfo[0].split("-");
+            String dayFrom = dayFromAndTo[0];
+            String dayTo;
+            if (dayFromAndTo.length > 1) {
+              dayTo = dayFromAndTo[1];
+            } else {
+              dayTo = dayFromAndTo[0];
+            }
+            String timeFrom = hoursInfo[1];
+            String timeTo = hoursInfo[2];
+            hoursList.add(buildResultEntry(type, dayFrom, dayTo, timeFrom, timeTo));
+          }
+        }
+      }
+      return hoursList;
+    }
+
+    /**
+     * Method for building a result entry.
+     * 
+     * @param hourType The type of the result.
+     * @param dayFrom The start-day.
+     * @param dayTo The end-day.
+     * @param timeFrom The start-time.
+     * @param timeTo The end-time.
+     * @return a populated result entry.
+     */
+    protected abstract T buildResultEntry(final String hourType, final String dayFrom, final String dayTo, final String timeFrom, final String timeTo);
+  }
+
+  /**
+   * Implementation of AbstractHourConverter which generates Hours-objects.
+   */
+  private static class HourConverter extends AbstractHourConverter<Hours> {
+    private Log logger = LogFactory.getLog(this.getClass());
+
+    HourConverter(String type, List<String> values) {
+      super(type, values);
+    }
+
+    @Override
+    protected Hours buildResultEntry(String hourType, String dayFrom, String dayTo, String timeFrom, String timeTo) {
+      Hours hours = new Hours();
+      hours.setType(hourType);
+      hours.setDayFrom(Integer.valueOf(dayFrom));
+      hours.setDayTo(Integer.valueOf(dayTo));
+      try {
+        DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+        XMLGregorianCalendar fromTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeFrom + ":00Z");
+        XMLGregorianCalendar toTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeTo + ":00Z");
+        hours.setTimeFrom(fromTimeGreg);
+        hours.setTimeTo(toTimeGreg);
+      } catch (DatatypeConfigurationException e) {
+        logger.fatal("Unable to get a DatatypeFactory instance", e);
+      }
+      return hours;
+    }
+  }
+
+  /**
+   * Implementation of AbstractHourConverter which generates TelephoneHours-objects.
+   */
+  private static class TelephoneHourConverter extends AbstractHourConverter<TelephoneHours> {
+    private Log logger = LogFactory.getLog(this.getClass());
+
+    TelephoneHourConverter(String type, List<String> values) {
+      super(type, values);
+    }
+
+    @Override
+    protected TelephoneHours buildResultEntry(String hourType, String dayFrom, String dayTo, String timeFrom, String timeTo) {
+      TelephoneHours hours = new TelephoneHours();
+      hours.setType(hourType);
+      hours.setDayFrom(Integer.valueOf(dayFrom));
+      hours.setDayTo(Integer.valueOf(dayTo));
+      try {
+        DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+        XMLGregorianCalendar fromTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeFrom + ":00Z");
+        XMLGregorianCalendar toTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeTo + ":00Z");
+        hours.setTimeFrom(fromTimeGreg);
+        hours.setTimeTo(toTimeGreg);
+      } catch (DatatypeConfigurationException e) {
+        logger.fatal("Unable to get a DatatypeFactory instance", e);
+      }
+      return hours;
+    }
   }
 }
