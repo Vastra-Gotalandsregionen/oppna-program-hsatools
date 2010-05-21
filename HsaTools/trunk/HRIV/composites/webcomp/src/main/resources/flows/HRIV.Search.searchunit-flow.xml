@@ -110,7 +110,7 @@
 
 	<view-state id="Display.unitDetailsById" view="/displayUnitDetails.xhtml">
 		<on-entry>
-			<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitDetails(flowScope.hsaidentity)" result="flowScope.unit"/>
+			<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitDetails(flowScope.hsaidentity, externalContext)" result="flowScope.unit"/>
 			<evaluate expression="Display_DisplayAccessibilityDatabaseBean.assignAccessibilityDatabaseId(flowScope.unit)" />
 			<set name="errorReportingForm.dn" value="flowScope.unit.dn.toString()" />
 			<set name="errorReportingForm.reportText" value="flowScope.savedReportText" />
@@ -122,6 +122,7 @@
 		<transition on="gotoCaretypes" to="Display.caretypes" />
 		<transition on="viewAccessibilityInfoAction" to="Display.viewAccessibilityInfo" />
 		<transition on="doSubmitErrorReport" to="Error.report" />
+        <transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException" to="Search.searchUnitNoHit" />
 	</view-state>
 	
 	<view-state id="Display.viewAccessibilityInfo" view="/displayUnitAccessibilityInfo.xhtml">
@@ -143,6 +144,8 @@
 		<evaluate expression="Display_DisplayAccessibilityDatabaseBean.filterAccessibilityDatabaseInfo(flowScope.unit, flowScope.accessibilityDatabaseFilterForm)" />
 		<transition on="success" to="Display.viewAccessibilityInfo" />
 	</action-state>
+
+    <view-state id="Search.searchUnitNoHit" view="/unit404.xhtml"/>
 
 	<view-state id="Search.ErrorHandle" view="/displayError.xhtml">
 		<transition on="confirm" to="Search.displayUnitSearchResult" />

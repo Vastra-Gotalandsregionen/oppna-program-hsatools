@@ -21,11 +21,15 @@ package se.vgregion.kivtools.hriv.presentation;
 
 import java.io.Serializable;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.webflow.context.ExternalContext;
 
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
+import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.util.MvkClient;
@@ -65,10 +69,11 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
    * Retrieves details for the unit with the provided hsaIdentity.
    * 
    * @param hsaId The hsaIdentity of the unit to retrieve details for.
+   * @param externalContext The external Faces-context.
    * @return A populated Unit object.
-   * @throws NoConnectionToServerException if no connection to the server can be established.
+   * @throws KivException if there is a problem retrieving the unit from the LDAP directory.
    */
-  public Unit getUnitDetails(String hsaId) throws NoConnectionToServerException {
+  public Unit getUnitDetails(String hsaId, ExternalContext externalContext) throws KivException {
     logger.debug(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
     Unit u = null;
     try {
@@ -77,9 +82,11 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
       // We have no good connection to LDAP server and should be able to
       // tell the user we have no hope of success.
       throw e;
-    } catch (KivException e) {
-      logger.debug(e.getMessage(), e);
-      return new Unit();
+    } catch (KivNoDataFoundException e) {
+      if (externalContext.getNativeResponse() instanceof HttpServletResponse) {
+        ((HttpServletResponse) externalContext.getNativeResponse()).setStatus(404);
+      }   
+      throw e;
     }
 
     if ("true".equals(useMvkIntegration)) {
