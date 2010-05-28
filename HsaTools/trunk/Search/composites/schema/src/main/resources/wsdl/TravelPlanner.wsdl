@@ -1,0 +1,1456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vasttrafik.se/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://www.vasttrafik.se/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.vasttrafik.se/">
+
+      <s:element name="GetAllSuggestions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="identifier" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="searchString" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllSuggestionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllSuggestionsResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+
+      <s:element name="GetStopsSuggestions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="identifier" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="searchString" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStopsSuggestionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStopsSuggestionsResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+
+      <s:element name="GetRegionStopsSuggestions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="identifier" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="searchString" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRegionStopsSuggestionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRegionStopsSuggestionsResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+
+      <s:element name="GetAddressesSuggestions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="identifier" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="searchString" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAddressesSuggestionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAddressesSuggestionsResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTravelRoute">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fromId" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="toId" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="dateTimeTravel" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="whenId" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="priorityId" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="numberOfResultBefore" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="numberOfResulsAfter" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="callerId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTravelRouteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTravelRouteResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRoute">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="identifier" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="fromId" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="toId" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="dateTimeTravel" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="whenId" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="priorityId" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="numberOfResultBefore" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="numberOfResulsAfter" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRouteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRouteResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTravelRouteExtended">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fromId" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="toId" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="dateTimeTravel" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="whenId" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="priorityId" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="numberOfResultBefore" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="numberOfResulsAfter" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="viaId" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="viaTime" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="changeMarginalId" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="changeMarginalTime" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="callerId" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTravelRouteExtendedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTravelRouteExtendedResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRouteExtended">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="identifier" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="fromId" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="toId" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="dateTimeTravel" type="s:dateTime"/>
+            <s:element minOccurs="1" maxOccurs="1" name="whenId" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="priorityId" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="numberOfResultBefore" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="numberOfResulsAfter" type="s:int"/>
+            <s:element minOccurs="0" maxOccurs="1" name="viaId" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="viaTime" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="changeMarginalId" type="s:int"/>
+            <s:element minOccurs="1" maxOccurs="1" name="changeMarginalTime" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRouteExtendedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRouteExtendedResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+
+      <s:element name="GetStopListBasedOnCoordinate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="identifier" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="xCoord" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="yCoord" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStopListBasedOnCoordinateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStopListBasedOnCoordinateResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+
+      <s:element name="GetAllStops">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="identifier" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllStopsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllStopsResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+
+      <s:element name="GetTravelPlannerDescription">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="identifier" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTravelPlannerDescriptionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTravelPlannerDescriptionResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+
+      <s:element name="GetTravelParkingWGS84based">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="identifier" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTravelParkingWGS84basedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTravelParkingWGS84basedResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+
+      <s:element name="GetVistaGadgetVersion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="identifier" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVistaGadgetVersionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetVistaGadgetVersionResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+
+      <s:element name="GetSMSCodes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="identifier" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSMSCodesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSMSCodesResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string"/>
+    </s:schema>
+  </wsdl:types>
+
+  <wsdl:message name="GetAllSuggestionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllSuggestions"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllSuggestionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllSuggestionsResponse"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetStopsSuggestionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStopsSuggestions"/>
+  </wsdl:message>
+  <wsdl:message name="GetStopsSuggestionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStopsSuggestionsResponse"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetRegionStopsSuggestionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRegionStopsSuggestions"/>
+  </wsdl:message>
+  <wsdl:message name="GetRegionStopsSuggestionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRegionStopsSuggestionsResponse"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetAddressesSuggestionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAddressesSuggestions"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressesSuggestionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAddressesSuggestionsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelRouteSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTravelRoute"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelRouteSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTravelRouteResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetRouteSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRoute"/>
+  </wsdl:message>
+  <wsdl:message name="GetRouteSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRouteResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelRouteExtendedSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTravelRouteExtended"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelRouteExtendedSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTravelRouteExtendedResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetRouteExtendedSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRouteExtended"/>
+  </wsdl:message>
+  <wsdl:message name="GetRouteExtendedSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRouteExtendedResponse"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetStopListBasedOnCoordinateSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStopListBasedOnCoordinate"/>
+  </wsdl:message>
+  <wsdl:message name="GetStopListBasedOnCoordinateSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStopListBasedOnCoordinateResponse"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetAllStopsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllStops"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllStopsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllStopsResponse"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetTravelPlannerDescriptionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTravelPlannerDescription"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelPlannerDescriptionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTravelPlannerDescriptionResponse"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetTravelParkingWGS84basedSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTravelParkingWGS84based"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelParkingWGS84basedSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTravelParkingWGS84basedResponse"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetVistaGadgetVersionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVistaGadgetVersion"/>
+  </wsdl:message>
+  <wsdl:message name="GetVistaGadgetVersionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVistaGadgetVersionResponse"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetSMSCodesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSMSCodes"/>
+  </wsdl:message>
+  <wsdl:message name="GetSMSCodesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSMSCodesResponse"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetAllSuggestionsHttpGetIn">
+    <wsdl:part name="identifier" type="s:string"/>
+    <wsdl:part name="searchString" type="s:string"/>
+    <wsdl:part name="count" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllSuggestionsHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetStopsSuggestionsHttpGetIn">
+    <wsdl:part name="identifier" type="s:string"/>
+    <wsdl:part name="searchString" type="s:string"/>
+    <wsdl:part name="count" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetStopsSuggestionsHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetRegionStopsSuggestionsHttpGetIn">
+    <wsdl:part name="identifier" type="s:string"/>
+    <wsdl:part name="searchString" type="s:string"/>
+    <wsdl:part name="count" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetRegionStopsSuggestionsHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetAddressesSuggestionsHttpGetIn">
+    <wsdl:part name="identifier" type="s:string"/>
+    <wsdl:part name="searchString" type="s:string"/>
+    <wsdl:part name="count" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressesSuggestionsHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelRouteHttpGetIn">
+    <wsdl:part name="fromId" type="s:string"/>
+    <wsdl:part name="toId" type="s:string"/>
+    <wsdl:part name="dateTimeTravel" type="s:string"/>
+    <wsdl:part name="whenId" type="s:string"/>
+    <wsdl:part name="priorityId" type="s:string"/>
+    <wsdl:part name="numberOfResultBefore" type="s:string"/>
+    <wsdl:part name="numberOfResulsAfter" type="s:string"/>
+    <wsdl:part name="callerId" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelRouteHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetRouteHttpGetIn">
+    <wsdl:part name="identifier" type="s:string"/>
+    <wsdl:part name="fromId" type="s:string"/>
+    <wsdl:part name="toId" type="s:string"/>
+    <wsdl:part name="dateTimeTravel" type="s:string"/>
+    <wsdl:part name="whenId" type="s:string"/>
+    <wsdl:part name="priorityId" type="s:string"/>
+    <wsdl:part name="numberOfResultBefore" type="s:string"/>
+    <wsdl:part name="numberOfResulsAfter" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetRouteHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelRouteExtendedHttpGetIn">
+    <wsdl:part name="fromId" type="s:string"/>
+    <wsdl:part name="toId" type="s:string"/>
+    <wsdl:part name="dateTimeTravel" type="s:string"/>
+    <wsdl:part name="whenId" type="s:string"/>
+    <wsdl:part name="priorityId" type="s:string"/>
+    <wsdl:part name="numberOfResultBefore" type="s:string"/>
+    <wsdl:part name="numberOfResulsAfter" type="s:string"/>
+    <wsdl:part name="viaId" type="s:string"/>
+    <wsdl:part name="viaTime" type="s:string"/>
+    <wsdl:part name="changeMarginalId" type="s:string"/>
+    <wsdl:part name="changeMarginalTime" type="s:string"/>
+    <wsdl:part name="callerId" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelRouteExtendedHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetRouteExtendedHttpGetIn">
+    <wsdl:part name="identifier" type="s:string"/>
+    <wsdl:part name="fromId" type="s:string"/>
+    <wsdl:part name="toId" type="s:string"/>
+    <wsdl:part name="dateTimeTravel" type="s:string"/>
+    <wsdl:part name="whenId" type="s:string"/>
+    <wsdl:part name="priorityId" type="s:string"/>
+    <wsdl:part name="numberOfResultBefore" type="s:string"/>
+    <wsdl:part name="numberOfResulsAfter" type="s:string"/>
+    <wsdl:part name="viaId" type="s:string"/>
+    <wsdl:part name="viaTime" type="s:string"/>
+    <wsdl:part name="changeMarginalId" type="s:string"/>
+    <wsdl:part name="changeMarginalTime" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetRouteExtendedHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetStopListBasedOnCoordinateHttpGetIn">
+    <wsdl:part name="identifier" type="s:string"/>
+    <wsdl:part name="xCoord" type="s:string"/>
+    <wsdl:part name="yCoord" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetStopListBasedOnCoordinateHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllStops_OldHttpGetIn"/>
+  <wsdl:message name="GetAllStops_OldHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllStopsHttpGetIn">
+    <wsdl:part name="identifier" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllStopsHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetTravelPlannerDescriptionHttpGetIn">
+    <wsdl:part name="identifier" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelPlannerDescriptionHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetTravelParkingWGS84basedHttpGetIn">
+    <wsdl:part name="identifier" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelParkingWGS84basedHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetVistaGadgetVersionHttpGetIn">
+    <wsdl:part name="identifier" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetVistaGadgetVersionHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetSMSCodesHttpGetIn">
+    <wsdl:part name="identifier" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetSMSCodesHttpGetOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetAllSuggestionsHttpPostIn">
+    <wsdl:part name="identifier" type="s:string"/>
+    <wsdl:part name="searchString" type="s:string"/>
+    <wsdl:part name="count" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllSuggestionsHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetStopsSuggestionsHttpPostIn">
+    <wsdl:part name="identifier" type="s:string"/>
+    <wsdl:part name="searchString" type="s:string"/>
+    <wsdl:part name="count" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetStopsSuggestionsHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetRegionStopsSuggestionsHttpPostIn">
+    <wsdl:part name="identifier" type="s:string"/>
+    <wsdl:part name="searchString" type="s:string"/>
+    <wsdl:part name="count" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetRegionStopsSuggestionsHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetAddressesSuggestionsHttpPostIn">
+    <wsdl:part name="identifier" type="s:string"/>
+    <wsdl:part name="searchString" type="s:string"/>
+    <wsdl:part name="count" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAddressesSuggestionsHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelRouteHttpPostIn">
+    <wsdl:part name="fromId" type="s:string"/>
+    <wsdl:part name="toId" type="s:string"/>
+    <wsdl:part name="dateTimeTravel" type="s:string"/>
+    <wsdl:part name="whenId" type="s:string"/>
+    <wsdl:part name="priorityId" type="s:string"/>
+    <wsdl:part name="numberOfResultBefore" type="s:string"/>
+    <wsdl:part name="numberOfResulsAfter" type="s:string"/>
+    <wsdl:part name="callerId" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelRouteHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetRouteHttpPostIn">
+    <wsdl:part name="identifier" type="s:string"/>
+    <wsdl:part name="fromId" type="s:string"/>
+    <wsdl:part name="toId" type="s:string"/>
+    <wsdl:part name="dateTimeTravel" type="s:string"/>
+    <wsdl:part name="whenId" type="s:string"/>
+    <wsdl:part name="priorityId" type="s:string"/>
+    <wsdl:part name="numberOfResultBefore" type="s:string"/>
+    <wsdl:part name="numberOfResulsAfter" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetRouteHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelRouteExtendedHttpPostIn">
+    <wsdl:part name="fromId" type="s:string"/>
+    <wsdl:part name="toId" type="s:string"/>
+    <wsdl:part name="dateTimeTravel" type="s:string"/>
+    <wsdl:part name="whenId" type="s:string"/>
+    <wsdl:part name="priorityId" type="s:string"/>
+    <wsdl:part name="numberOfResultBefore" type="s:string"/>
+    <wsdl:part name="numberOfResulsAfter" type="s:string"/>
+    <wsdl:part name="viaId" type="s:string"/>
+    <wsdl:part name="viaTime" type="s:string"/>
+    <wsdl:part name="changeMarginalId" type="s:string"/>
+    <wsdl:part name="changeMarginalTime" type="s:string"/>
+    <wsdl:part name="callerId" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelRouteExtendedHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetRouteExtendedHttpPostIn">
+    <wsdl:part name="identifier" type="s:string"/>
+    <wsdl:part name="fromId" type="s:string"/>
+    <wsdl:part name="toId" type="s:string"/>
+    <wsdl:part name="dateTimeTravel" type="s:string"/>
+    <wsdl:part name="whenId" type="s:string"/>
+    <wsdl:part name="priorityId" type="s:string"/>
+    <wsdl:part name="numberOfResultBefore" type="s:string"/>
+    <wsdl:part name="numberOfResulsAfter" type="s:string"/>
+    <wsdl:part name="viaId" type="s:string"/>
+    <wsdl:part name="viaTime" type="s:string"/>
+    <wsdl:part name="changeMarginalId" type="s:string"/>
+    <wsdl:part name="changeMarginalTime" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetRouteExtendedHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetStopListBasedOnCoordinateHttpPostIn">
+    <wsdl:part name="identifier" type="s:string"/>
+    <wsdl:part name="xCoord" type="s:string"/>
+    <wsdl:part name="yCoord" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetStopListBasedOnCoordinateHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllStops_OldHttpPostIn"/>
+  <wsdl:message name="GetAllStops_OldHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllStopsHttpPostIn">
+    <wsdl:part name="identifier" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetAllStopsHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetTravelPlannerDescriptionHttpPostIn">
+    <wsdl:part name="identifier" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelPlannerDescriptionHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetTravelParkingWGS84basedHttpPostIn">
+    <wsdl:part name="identifier" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetTravelParkingWGS84basedHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetVistaGadgetVersionHttpPostIn">
+    <wsdl:part name="identifier" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetVistaGadgetVersionHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetSMSCodesHttpPostIn">
+    <wsdl:part name="identifier" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetSMSCodesHttpPostOut">
+    <wsdl:part name="Body" element="tns:string"/>
+  </wsdl:message>
+  <wsdl:portType name="TravelPlannerSoap">
+ 
+    <wsdl:operation name="GetAllSuggestions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of stops and adresses matching the search string for with highest ranking in search algoritm, handles spelling mistakes etc.</wsdl:documentation>
+      <wsdl:input message="tns:GetAllSuggestionsSoapIn"/>
+      <wsdl:output message="tns:GetAllSuggestionsSoapOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetStopsSuggestions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of stops matching the search string for with highest ranking in search algoritm, handles spelling mistakes etc.</wsdl:documentation>
+      <wsdl:input message="tns:GetStopsSuggestionsSoapIn"/>
+      <wsdl:output message="tns:GetStopsSuggestionsSoapOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetRegionStopsSuggestions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of region stops matching the search string for with highest ranking in search algoritm, handles spelling mistakes etc.</wsdl:documentation>
+      <wsdl:input message="tns:GetRegionStopsSuggestionsSoapIn"/>
+      <wsdl:output message="tns:GetRegionStopsSuggestionsSoapOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetAddressesSuggestions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of addresses matching the search string for with highest ranking in search algoritm, handles spelling mistakes etc.</wsdl:documentation>
+      <wsdl:input message="tns:GetAddressesSuggestionsSoapIn"/>
+      <wsdl:output message="tns:GetAddressesSuggestionsSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelRoute">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">[This method is depricated. Use GetRoute with identifier instead.]</wsdl:documentation>
+      <wsdl:input message="tns:GetTravelRouteSoapIn"/>
+      <wsdl:output message="tns:GetTravelRouteSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoute">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a travelplanner route with default change marginal time of 5-7 minutes and no via stop. whenId = 1 is leave no earlier than, whenId = 2 is arrive no earlier than. priorityid = 1 is shortest journey, priorityid = 2 is few changes, priorityid = 3 is no changes. Identifier is a distributed id.</wsdl:documentation>
+      <wsdl:input message="tns:GetRouteSoapIn"/>
+      <wsdl:output message="tns:GetRouteSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelRouteExtended">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">[This method is depricated. Use GetRouteExtended with identifier instead.]</wsdl:documentation>
+      <wsdl:input message="tns:GetTravelRouteExtendedSoapIn"/>
+      <wsdl:output message="tns:GetTravelRouteExtendedSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetRouteExtended">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a travelplanner route. If the change margin is reduced to less than 5 minutes. Users of this web service are required to inform end users that V√§sttrafik's travel guarantee isn't valid if the change margin is reduced. whenId = 1 is leave no earlier than, whenId = 2 is arrive no earlier than. priorityid = 1 is shortest journey, priorityid = 2 is few changes, priorityid = 3 is no changes. changeMarginalId = 1 is default change marginal of 5-7 minutes, changeMarginalId = 2 is reduced change marginal, changeMarginalId = 3 is increased change marginal of 'changeMarginalTime' minutes. Identifier is a distributed id.</wsdl:documentation>
+      <wsdl:input message="tns:GetRouteExtendedSoapIn"/>
+      <wsdl:output message="tns:GetRouteExtendedSoapOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetStopListBasedOnCoordinate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets 10 nearest stops and their distance from a given point in RT90 coordinate sysem</wsdl:documentation>
+      <wsdl:input message="tns:GetStopListBasedOnCoordinateSoapIn"/>
+      <wsdl:output message="tns:GetStopListBasedOnCoordinateSoapOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetAllStops">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets All stops with their id, coordinates and priority in xml</wsdl:documentation>
+      <wsdl:input message="tns:GetAllStopsSoapIn"/>
+      <wsdl:output message="tns:GetAllStopsSoapOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetTravelPlannerDescription">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the description file for the travelplanner, includes id's, vehicletypes etc</wsdl:documentation>
+      <wsdl:input message="tns:GetTravelPlannerDescriptionSoapIn"/>
+      <wsdl:output message="tns:GetTravelPlannerDescriptionSoapOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetTravelParkingWGS84based">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Exposes a PendelParking point file where the coordinates are given in WGS 84 coordinate system</wsdl:documentation>
+      <wsdl:input message="tns:GetTravelParkingWGS84basedSoapIn"/>
+      <wsdl:output message="tns:GetTravelParkingWGS84basedSoapOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetVistaGadgetVersion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Vista Gadget Version info XML.</wsdl:documentation>
+      <wsdl:input message="tns:GetVistaGadgetVersionSoapIn"/>
+      <wsdl:output message="tns:GetVistaGadgetVersionSoapOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetSMSCodes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get SMS Codes. Information of prices for sms tickets when traveling with V√§sttrafik</wsdl:documentation>
+      <wsdl:input message="tns:GetSMSCodesSoapIn"/>
+      <wsdl:output message="tns:GetSMSCodesSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="TravelPlannerHttpGet">
+
+    <wsdl:operation name="GetAllSuggestions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of stops and adresses matching the search string for with highest ranking in search algoritm, handles spelling mistakes etc.</wsdl:documentation>
+      <wsdl:input message="tns:GetAllSuggestionsHttpGetIn"/>
+      <wsdl:output message="tns:GetAllSuggestionsHttpGetOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetStopsSuggestions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of stops matching the search string for with highest ranking in search algoritm, handles spelling mistakes etc.</wsdl:documentation>
+      <wsdl:input message="tns:GetStopsSuggestionsHttpGetIn"/>
+      <wsdl:output message="tns:GetStopsSuggestionsHttpGetOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetRegionStopsSuggestions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of region stops matching the search string for with highest ranking in search algoritm, handles spelling mistakes etc.</wsdl:documentation>
+      <wsdl:input message="tns:GetRegionStopsSuggestionsHttpGetIn"/>
+      <wsdl:output message="tns:GetRegionStopsSuggestionsHttpGetOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetAddressesSuggestions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of addresses matching the search string for with highest ranking in search algoritm, handles spelling mistakes etc.</wsdl:documentation>
+      <wsdl:input message="tns:GetAddressesSuggestionsHttpGetIn"/>
+      <wsdl:output message="tns:GetAddressesSuggestionsHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelRoute">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">[This method is depricated. Use GetRoute with identifier instead.]</wsdl:documentation>
+      <wsdl:input message="tns:GetTravelRouteHttpGetIn"/>
+      <wsdl:output message="tns:GetTravelRouteHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoute">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a travelplanner route with default change marginal time of 5-7 minutes and no via stop. whenId = 1 is leave no earlier than, whenId = 2 is arrive no earlier than. priorityid = 1 is shortest journey, priorityid = 2 is few changes, priorityid = 3 is no changes. Identifier is a distributed id.</wsdl:documentation>
+      <wsdl:input message="tns:GetRouteHttpGetIn"/>
+      <wsdl:output message="tns:GetRouteHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelRouteExtended">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">[This method is depricated. Use GetRouteExtended with identifier instead.]</wsdl:documentation>
+      <wsdl:input message="tns:GetTravelRouteExtendedHttpGetIn"/>
+      <wsdl:output message="tns:GetTravelRouteExtendedHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetRouteExtended">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a travelplanner route. If the change margin is reduced to less than 5 minutes. Users of this web service are required to inform end users that V√§sttrafik's travel guarantee isn't valid if the change margin is reduced. whenId = 1 is leave no earlier than, whenId = 2 is arrive no earlier than. priorityid = 1 is shortest journey, priorityid = 2 is few changes, priorityid = 3 is no changes. changeMarginalId = 1 is default change marginal of 5-7 minutes, changeMarginalId = 2 is reduced change marginal, changeMarginalId = 3 is increased change marginal of 'changeMarginalTime' minutes. Identifier is a distributed id.</wsdl:documentation>
+      <wsdl:input message="tns:GetRouteExtendedHttpGetIn"/>
+      <wsdl:output message="tns:GetRouteExtendedHttpGetOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetStopListBasedOnCoordinate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets 10 nearest stops and their distance from a given point in RT90 coordinate sysem</wsdl:documentation>
+      <wsdl:input message="tns:GetStopListBasedOnCoordinateHttpGetIn"/>
+      <wsdl:output message="tns:GetStopListBasedOnCoordinateHttpGetOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetAllStops">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets All stops with their id, coordinates and priority in xml</wsdl:documentation>
+      <wsdl:input message="tns:GetAllStopsHttpGetIn"/>
+      <wsdl:output message="tns:GetAllStopsHttpGetOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetTravelPlannerDescription">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the description file for the travelplanner, includes id's, vehicletypes etc</wsdl:documentation>
+      <wsdl:input message="tns:GetTravelPlannerDescriptionHttpGetIn"/>
+      <wsdl:output message="tns:GetTravelPlannerDescriptionHttpGetOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetTravelParkingWGS84based">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Exposes a PendelParking point file where the coordinates are given in WGS 84 coordinate system</wsdl:documentation>
+      <wsdl:input message="tns:GetTravelParkingWGS84basedHttpGetIn"/>
+      <wsdl:output message="tns:GetTravelParkingWGS84basedHttpGetOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetVistaGadgetVersion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Vista Gadget Version info XML.</wsdl:documentation>
+      <wsdl:input message="tns:GetVistaGadgetVersionHttpGetIn"/>
+      <wsdl:output message="tns:GetVistaGadgetVersionHttpGetOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetSMSCodes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get SMS Codes. Information of prices for sms tickets when traveling with V√§sttrafik</wsdl:documentation>
+      <wsdl:input message="tns:GetSMSCodesHttpGetIn"/>
+      <wsdl:output message="tns:GetSMSCodesHttpGetOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="TravelPlannerHttpPost">
+
+    <wsdl:operation name="GetAllSuggestions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of stops and adresses matching the search string for with highest ranking in search algoritm, handles spelling mistakes etc.</wsdl:documentation>
+      <wsdl:input message="tns:GetAllSuggestionsHttpPostIn"/>
+      <wsdl:output message="tns:GetAllSuggestionsHttpPostOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetStopsSuggestions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of stops matching the search string for with highest ranking in search algoritm, handles spelling mistakes etc.</wsdl:documentation>
+      <wsdl:input message="tns:GetStopsSuggestionsHttpPostIn"/>
+      <wsdl:output message="tns:GetStopsSuggestionsHttpPostOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetRegionStopsSuggestions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of region stops matching the search string for with highest ranking in search algoritm, handles spelling mistakes etc.</wsdl:documentation>
+      <wsdl:input message="tns:GetRegionStopsSuggestionsHttpPostIn"/>
+      <wsdl:output message="tns:GetRegionStopsSuggestionsHttpPostOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetAddressesSuggestions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of addresses matching the search string for with highest ranking in search algoritm, handles spelling mistakes etc.</wsdl:documentation>
+      <wsdl:input message="tns:GetAddressesSuggestionsHttpPostIn"/>
+      <wsdl:output message="tns:GetAddressesSuggestionsHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelRoute">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">[This method is depricated. Use GetRoute with identifier instead.]</wsdl:documentation>
+      <wsdl:input message="tns:GetTravelRouteHttpPostIn"/>
+      <wsdl:output message="tns:GetTravelRouteHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoute">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a travelplanner route with default change marginal time of 5-7 minutes and no via stop. whenId = 1 is leave no earlier than, whenId = 2 is arrive no earlier than. priorityid = 1 is shortest journey, priorityid = 2 is few changes, priorityid = 3 is no changes. Identifier is a distributed id.</wsdl:documentation>
+      <wsdl:input message="tns:GetRouteHttpPostIn"/>
+      <wsdl:output message="tns:GetRouteHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelRouteExtended">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">[This method is depricated. Use GetRouteExtended with identifier instead.]</wsdl:documentation>
+      <wsdl:input message="tns:GetTravelRouteExtendedHttpPostIn"/>
+      <wsdl:output message="tns:GetTravelRouteExtendedHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetRouteExtended">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a travelplanner route. If the change margin is reduced to less than 5 minutes. Users of this web service are required to inform end users that V√§sttrafik's travel guarantee isn't valid if the change margin is reduced. whenId = 1 is leave no earlier than, whenId = 2 is arrive no earlier than. priorityid = 1 is shortest journey, priorityid = 2 is few changes, priorityid = 3 is no changes. changeMarginalId = 1 is default change marginal of 5-7 minutes, changeMarginalId = 2 is reduced change marginal, changeMarginalId = 3 is increased change marginal of 'changeMarginalTime' minutes. Identifier is a distributed id.</wsdl:documentation>
+      <wsdl:input message="tns:GetRouteExtendedHttpPostIn"/>
+      <wsdl:output message="tns:GetRouteExtendedHttpPostOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetStopListBasedOnCoordinate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets 10 nearest stops and their distance from a given point in RT90 coordinate sysem</wsdl:documentation>
+      <wsdl:input message="tns:GetStopListBasedOnCoordinateHttpPostIn"/>
+      <wsdl:output message="tns:GetStopListBasedOnCoordinateHttpPostOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetAllStops">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets All stops with their id, coordinates and priority in xml</wsdl:documentation>
+      <wsdl:input message="tns:GetAllStopsHttpPostIn"/>
+      <wsdl:output message="tns:GetAllStopsHttpPostOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetTravelPlannerDescription">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the description file for the travelplanner, includes id's, vehicletypes etc</wsdl:documentation>
+      <wsdl:input message="tns:GetTravelPlannerDescriptionHttpPostIn"/>
+      <wsdl:output message="tns:GetTravelPlannerDescriptionHttpPostOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetTravelParkingWGS84based">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Exposes a PendelParking point file where the coordinates are given in WGS 84 coordinate system</wsdl:documentation>
+      <wsdl:input message="tns:GetTravelParkingWGS84basedHttpPostIn"/>
+      <wsdl:output message="tns:GetTravelParkingWGS84basedHttpPostOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetVistaGadgetVersion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Vista Gadget Version info XML.</wsdl:documentation>
+      <wsdl:input message="tns:GetVistaGadgetVersionHttpPostIn"/>
+      <wsdl:output message="tns:GetVistaGadgetVersionHttpPostOut"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetSMSCodes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get SMS Codes. Information of prices for sms tickets when traveling with V√§sttrafik</wsdl:documentation>
+      <wsdl:input message="tns:GetSMSCodesHttpPostIn"/>
+      <wsdl:output message="tns:GetSMSCodesHttpPostOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TravelPlannerSoap" type="tns:TravelPlannerSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <wsdl:operation name="GetAllSuggestions">
+      <soap:operation soapAction="http://www.vasttrafik.se/GetAllSuggestions" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetStopsSuggestions">
+      <soap:operation soapAction="http://www.vasttrafik.se/GetStopsSuggestions" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetRegionStopsSuggestions">
+      <soap:operation soapAction="http://www.vasttrafik.se/GetRegionStopsSuggestions" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetAddressesSuggestions">
+      <soap:operation soapAction="http://www.vasttrafik.se/GetAddressesSuggestions" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelRoute">
+      <soap:operation soapAction="http://www.vasttrafik.se/GetTravelRoute" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoute">
+      <soap:operation soapAction="http://www.vasttrafik.se/GetRoute" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelRouteExtended">
+      <soap:operation soapAction="http://www.vasttrafik.se/GetTravelRouteExtended" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRouteExtended">
+      <soap:operation soapAction="http://www.vasttrafik.se/GetRouteExtended" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetStopListBasedOnCoordinate">
+      <soap:operation soapAction="http://www.vasttrafik.se/GetStopListBasedOnCoordinate" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetAllStops">
+      <soap:operation soapAction="http://www.vasttrafik.se/GetAllStops" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetTravelPlannerDescription">
+      <soap:operation soapAction="http://www.vasttrafik.se/GetTravelPlannerDescription" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetTravelParkingWGS84based">
+      <soap:operation soapAction="http://www.vasttrafik.se/GetTravelParkingWGS84based" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetVistaGadgetVersion">
+      <soap:operation soapAction="http://www.vasttrafik.se/GetVistaGadgetVersion" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetSMSCodes">
+      <soap:operation soapAction="http://www.vasttrafik.se/GetSMSCodes" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="TravelPlannerSoap12" type="tns:TravelPlannerSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <wsdl:operation name="GetAllSuggestions">
+      <soap12:operation soapAction="http://www.vasttrafik.se/GetAllSuggestions" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetStopsSuggestions">
+      <soap12:operation soapAction="http://www.vasttrafik.se/GetStopsSuggestions" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetRegionStopsSuggestions">
+      <soap12:operation soapAction="http://www.vasttrafik.se/GetRegionStopsSuggestions" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetAddressesSuggestions">
+      <soap12:operation soapAction="http://www.vasttrafik.se/GetAddressesSuggestions" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelRoute">
+      <soap12:operation soapAction="http://www.vasttrafik.se/GetTravelRoute" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoute">
+      <soap12:operation soapAction="http://www.vasttrafik.se/GetRoute" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelRouteExtended">
+      <soap12:operation soapAction="http://www.vasttrafik.se/GetTravelRouteExtended" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRouteExtended">
+      <soap12:operation soapAction="http://www.vasttrafik.se/GetRouteExtended" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetStopListBasedOnCoordinate">
+      <soap12:operation soapAction="http://www.vasttrafik.se/GetStopListBasedOnCoordinate" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetAllStops">
+      <soap12:operation soapAction="http://www.vasttrafik.se/GetAllStops" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetTravelPlannerDescription">
+      <soap12:operation soapAction="http://www.vasttrafik.se/GetTravelPlannerDescription" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetTravelParkingWGS84based">
+      <soap12:operation soapAction="http://www.vasttrafik.se/GetTravelParkingWGS84based" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetVistaGadgetVersion">
+      <soap12:operation soapAction="http://www.vasttrafik.se/GetVistaGadgetVersion" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetSMSCodes">
+      <soap12:operation soapAction="http://www.vasttrafik.se/GetSMSCodes" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="TravelPlannerHttpGet" type="tns:TravelPlannerHttpGet">
+    <http:binding verb="GET"/>
+
+    <wsdl:operation name="GetAllSuggestions">
+      <http:operation location="/GetAllSuggestions"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetStopsSuggestions">
+      <http:operation location="/GetStopsSuggestions"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetRegionStopsSuggestions">
+      <http:operation location="/GetRegionStopsSuggestions"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetAddressesSuggestions">
+      <http:operation location="/GetAddressesSuggestions"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelRoute">
+      <http:operation location="/GetTravelRoute"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoute">
+      <http:operation location="/GetRoute"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelRouteExtended">
+      <http:operation location="/GetTravelRouteExtended"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRouteExtended">
+      <http:operation location="/GetRouteExtended"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetStopListBasedOnCoordinate">
+      <http:operation location="/GetStopListBasedOnCoordinate"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetAllStops">
+      <http:operation location="/GetAllStops"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetTravelPlannerDescription">
+      <http:operation location="/GetTravelPlannerDescription"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetTravelParkingWGS84based">
+      <http:operation location="/GetTravelParkingWGS84based"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetVistaGadgetVersion">
+      <http:operation location="/GetVistaGadgetVersion"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetSMSCodes">
+      <http:operation location="/GetSMSCodes"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="TravelPlannerHttpPost" type="tns:TravelPlannerHttpPost">
+    <http:binding verb="POST"/>
+
+    <wsdl:operation name="GetAllSuggestions">
+      <http:operation location="/GetAllSuggestions"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetStopsSuggestions">
+      <http:operation location="/GetStopsSuggestions"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetRegionStopsSuggestions">
+      <http:operation location="/GetRegionStopsSuggestions"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetAddressesSuggestions">
+      <http:operation location="/GetAddressesSuggestions"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelRoute">
+      <http:operation location="/GetTravelRoute"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoute">
+      <http:operation location="/GetRoute"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelRouteExtended">
+      <http:operation location="/GetTravelRouteExtended"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRouteExtended">
+      <http:operation location="/GetRouteExtended"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetStopListBasedOnCoordinate">
+      <http:operation location="/GetStopListBasedOnCoordinate"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetAllStops">
+      <http:operation location="/GetAllStops"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetTravelPlannerDescription">
+      <http:operation location="/GetTravelPlannerDescription"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetTravelParkingWGS84based">
+      <http:operation location="/GetTravelParkingWGS84based"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetVistaGadgetVersion">
+      <http:operation location="/GetVistaGadgetVersion"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetSMSCodes">
+      <http:operation location="/GetSMSCodes"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TravelPlanner">
+    <wsdl:port name="TravelPlannerSoap" binding="tns:TravelPlannerSoap">
+      <soap:address location="http://www.vasttrafik.se/External_Services/TravelPlanner.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="TravelPlannerSoap12" binding="tns:TravelPlannerSoap12">
+      <soap12:address location="http://www.vasttrafik.se/External_Services/TravelPlanner.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="TravelPlannerHttpGet" binding="tns:TravelPlannerHttpGet">
+      <http:address location="http://www.vasttrafik.se/External_Services/TravelPlanner.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="TravelPlannerHttpPost" binding="tns:TravelPlannerHttpPost">
+      <http:address location="http://www.vasttrafik.se/External_Services/TravelPlanner.asmx"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
