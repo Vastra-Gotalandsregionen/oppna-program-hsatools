@@ -32,6 +32,7 @@ public class Link implements Serializable {
   private final String href;
   private final String name;
   private final String toParamName;
+  private final String fromParamName;
 
   /**
    * Constructs a new Link object.
@@ -40,11 +41,12 @@ public class Link implements Serializable {
    * @param name The name of the link.
    * @param toParamName The to-parameter name of the link.
    */
-  public Link(String href, String name, String toParamName) {
+  public Link(String href, String name, String toParamName, String fromParamName) {
     super();
     this.href = href;
     this.name = name;
     this.toParamName = toParamName;
+    this.fromParamName = fromParamName;
   }
 
   public String getToParamName() {
@@ -58,4 +60,8 @@ public class Link implements Serializable {
   public String getName() {
     return name;
   }
+
+public String getFromParamName() {
+	return fromParamName;
+}
 }

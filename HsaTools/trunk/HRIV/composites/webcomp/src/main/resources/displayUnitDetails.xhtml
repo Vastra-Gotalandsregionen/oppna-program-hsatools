@@ -379,7 +379,10 @@
 	                                        </th>
 	                                        <td class="directions-right-col">
 	                                            <ui:repeat value="${Search_SettingsContainer.findRouteLinksArray}" var="link">
-	                                                <h:outputText rendered="${link.toParamName != ''}">
+	                                                <h:outputText rendered="${link.toParamName != '' and link.fromParamName != ''}">
+	                                                    <a href="${link.href}?${link.fromParamName}=&amp;${link.toParamName}=${Search_VasttrafikSearchService.getStopIdByAddress(fn:trim(unit.hsaStreetAddress.street), fn:trim(unit.hsaMunicipalityName))}" class="url">${link.name}</a><br/>
+	                                                </h:outputText>
+	                                                <h:outputText rendered="${link.toParamName != '' and link.fromParamName == ''}">
 	                                                    <a href="${link.href}?${link.toParamName}=${fn:trim(unit.hsaStreetAddress.street)}" class="url">${link.name}</a><br/>
 	                                                </h:outputText>
 	                                                <h:outputText rendered="${link.toParamName == ''}">

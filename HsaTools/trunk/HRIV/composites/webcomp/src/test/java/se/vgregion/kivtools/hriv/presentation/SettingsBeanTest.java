@@ -209,7 +209,7 @@ public class SettingsBeanTest {
     assertNotNull(bean.getFindRouteLinksArray());
     ArrayList<Link> routeLinksArray = bean.getFindRouteLinksArray();
     assertEquals(0, bean.getFindRouteLinksArray().size());
-    routeLinksArray.add(new Link("", "", ""));
+    routeLinksArray.add(new Link("", "", "", ""));
     assertEquals(1, bean.getFindRouteLinksArray().size());
   }
 
