@@ -165,6 +165,24 @@
 							<staleFile>${project.build.directory}/generated-sources/jaxws/stale/.staleFlagSignicat</staleFile>
 						</configuration>
 					</execution>
+					
+					<!-- V√§sttrafik -->
+					<execution>
+						<id>3</id>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						<configuration>
+							<wsdlDirectory>${basedir}/../schema/src/main/resources/wsdl/</wsdlDirectory>
+							<wsdlFiles>
+								<wsdlFile>TravelPlanner.wsdl</wsdlFile>
+							</wsdlFiles>
+							<packageName>se.vgregion.kivtools.search.svc.ws.domain.vasttrafik</packageName>
+							<extension>true</extension>
+							<sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
+							<staleFile>${project.build.directory}/generated-sources/jaxws/stale/.staleFlagVasttrafik</staleFile>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>
