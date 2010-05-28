@@ -332,10 +332,16 @@ public class SettingsBean implements Serializable {
       String href = routeLinkComponents[0];
       String name = routeLinkComponents[1];
       String toParamName = "";
+      String fromParamName = "";
       if (routeLinkComponents.length > 2) {
         toParamName = routeLinkComponents[2];
       }
-      Link l = new Link(href, name, toParamName);
+      
+      if(routeLinkComponents.length > 3){
+        fromParamName = routeLinkComponents[3];
+      }
+
+      Link l = new Link(href, name, toParamName, fromParamName);
       addRouteLink(l);
     }
   }
