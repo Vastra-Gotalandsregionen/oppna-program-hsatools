@@ -54,8 +54,7 @@
 	</bean>
  	
 	<!-- LDAP connection settings  -->
-	<bean id="propertyPlaceholderLdapConnectionProperties"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location"
 			value="classpath:se/vgregion/kivtools/search/svc/impl/hak/ldap/search-composite-svc-connection.properties" />
 		<property name="fileEncoding" value="UTF-8" />

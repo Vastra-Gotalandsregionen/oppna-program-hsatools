@@ -229,7 +229,7 @@ public class UnitMapperTest {
     assertEquals(TEST, unit.getLocality());
     assertEquals("http://" + TEST, unit.getLabeledURI());
     assertEquals(TEST, unit.getVgrInternalSedfInvoiceAddress());
-    assertEquals(TEST, unit.getVgrCareType());
+    assertEquals(TEST, unit.getCareType());
     assertEquals(TEST, unit.getVgrAO3kod());
     assertEquals("[1504]", unit.getHsaBusinessClassificationCode().toString());
     assertEquals(TEST, unit.getHsaTextPhoneNumber().getPhoneNumber());

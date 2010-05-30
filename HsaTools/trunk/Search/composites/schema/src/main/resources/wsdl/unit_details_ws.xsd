@@ -129,6 +129,18 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="GeoCoordinatesWGS84" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Geographical coordinates according to
+						the WGS84 format</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="latitude" type="xs:NMTOKENS" />
+						<xs:element name="longitude" type="xs:NMTOKENS" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
 			<xs:element ref="hr:Label" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Can represent name, title, unitname or other
@@ -258,6 +270,7 @@
 					<xs:documentation>The name of the unit</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="ShortName" type="xs:string" minOccurs="0" />
 			<xs:element ref="hr:Description" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Free text description of the unit or
@@ -288,6 +301,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="DrivingDirections" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 			<xs:element ref="hr:Telephone" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Telephone contact information related to
@@ -320,6 +334,7 @@
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="MvkEnable" type="xs:boolean" />
+			<xs:element name="MvkServices" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 			<xs:element name="Management" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Description of management form,
@@ -345,6 +360,7 @@
 					</xs:simpleContent>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="CareType" type="xs:string" minOccurs="0" />
 			<xs:element name="Person" type="hr:PersonType" minOccurs="0"
 				maxOccurs="unbounded">
 				<xs:annotation>

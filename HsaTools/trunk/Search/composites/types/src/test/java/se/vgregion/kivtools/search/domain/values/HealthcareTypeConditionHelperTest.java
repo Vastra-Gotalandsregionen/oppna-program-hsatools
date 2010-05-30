@@ -141,12 +141,12 @@ public class HealthcareTypeConditionHelperTest {
     assertEquals(0, healthcareTypes.size());
 
     List<String> classificationCodes = new ArrayList<String>();
-    unit.setVgrCareType("");
+    unit.setCareType("");
     unit.setHsaBusinessClassificationCode(classificationCodes);
     healthcareTypes = helper.getHealthcareTypesForUnit(unit);
     assertEquals(0, healthcareTypes.size());
 
-    unit.setVgrCareType("01");
+    unit.setCareType("01");
     classificationCodes.add("1000");
     healthcareTypes = helper.getHealthcareTypesForUnit(unit);
     assertEquals(1, healthcareTypes.size());

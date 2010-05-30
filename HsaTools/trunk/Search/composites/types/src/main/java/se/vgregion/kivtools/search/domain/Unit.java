@@ -80,9 +80,9 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   // Code tables values
   // Vårdform
-  private String vgrCareType;
+  private String careType;
   // Vårdform klartext
-  private String vgrCareTypeText;
+  private String careTypeText;
   // Ansvarsområdes kod
   private String vgrAO3kod;
   // Ansvarsområdeskodens namn
@@ -120,7 +120,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   private String vgrInternalSedfInvoiceAddress;
   // HSA identitet
   private String hsaIdentity;
-  private List<HealthcareType> healthcareTypes;
+  private final List<HealthcareType> healthcareTypes = new ArrayList<HealthcareType>();
   // Ansvarsnr
   private List<String> vgrAnsvarsnummer;
   // Arbetsplatskod
@@ -157,9 +157,9 @@ public class Unit implements Serializable, Comparable<Unit> {
   // Direkttelefon
   private List<PhoneNumber> hsaTelephoneNumber;
   // Telefon publik
-  private List<PhoneNumber> hsaPublicTelephoneNumber;
+  private final List<PhoneNumber> hsaPublicTelephoneNumber = new ArrayList<PhoneNumber>();
   // Telefontid
-  private List<WeekdayTime> hsaTelephoneTime;
+  private final List<WeekdayTime> hsaTelephoneTime = new ArrayList<WeekdayTime>();
   // Giltighetsslutdatum
   private Date hsaEndDate;
 
@@ -172,8 +172,8 @@ public class Unit implements Serializable, Comparable<Unit> {
   // Kommundelskod
   private String hsaMunicipalitySectionCode;
 
-  private List<WeekdayTime> hsaSurgeryHours;
-  private List<WeekdayTime> hsaDropInHours;
+  private final List<WeekdayTime> hsaSurgeryHours = new ArrayList<WeekdayTime>();
+  private final List<WeekdayTime> hsaDropInHours = new ArrayList<WeekdayTime>();
   private List<WeekdayTime> visitingHours;
   private String vgrOrganizationalRole;
   // Detta skall vara businessClass i ldap
@@ -205,12 +205,12 @@ public class Unit implements Serializable, Comparable<Unit> {
   private GeoCoordinate geoCoordinate;
   // units
   private String distanceToTarget;
-  private List<String> mvkCaseTypes;
+  private final List<String> mvkCaseTypes = new ArrayList<String>();
 
   private boolean vgrVardVal;
 
   // Vägbeskrivning
-  private List<String> hsaRoute;
+  private final List<String> hsaRoute = new ArrayList<String>();
   private String hsaRouteConcatenated = "";
 
   private Integer accessibilityDatabaseId;
@@ -259,16 +259,48 @@ public class Unit implements Serializable, Comparable<Unit> {
     return hsaSurgeryHours;
   }
 
-  public void setHsaSurgeryHours(List<WeekdayTime> hsaSurgeryHours) {
-    this.hsaSurgeryHours = hsaSurgeryHours;
+  /**
+   * Adds a new surgery hour to the unit.
+   * 
+   * @param hours The surgery hour to add.
+   */
+  public void addHsaSurgeryHours(WeekdayTime hours) {
+    this.hsaSurgeryHours.add(hours);
+  }
+
+  /**
+   * Adds a list of surgery hours to the unit.
+   * 
+   * @param hours The list of surgery hours to add.
+   */
+  public void addHsaSurgeryHours(List<WeekdayTime> hours) {
+    if (hours != null) {
+      this.hsaSurgeryHours.addAll(hours);
+    }
   }
 
   public List<WeekdayTime> getHsaDropInHours() {
     return hsaDropInHours;
   }
 
-  public void setHsaDropInHours(List<WeekdayTime> list) {
-    this.hsaDropInHours = list;
+  /**
+   * Adds a new dropin hour to the unit.
+   * 
+   * @param hours The dropin hour to add.
+   */
+  public void addHsaDropInHours(WeekdayTime hours) {
+    this.hsaDropInHours.add(hours);
+  }
+
+  /**
+   * Adds a list of dropin hours to the unit.
+   * 
+   * @param hours The list of dropin hours to add.
+   */
+  public void addHsaDropInHours(List<WeekdayTime> hours) {
+    if (hours != null) {
+      this.hsaDropInHours.addAll(hours);
+    }
   }
 
   public String getVgrEANCode() {
@@ -434,20 +466,20 @@ public class Unit implements Serializable, Comparable<Unit> {
     this.vgrInternalSedfInvoiceAddress = vgrInternalSedfInvoiceAddress;
   }
 
-  public String getVgrCareType() {
-    return vgrCareType;
+  public String getCareType() {
+    return careType;
   }
 
-  public void setVgrCareType(String vgrCareType) {
-    this.vgrCareType = vgrCareType;
+  public void setCareType(String careType) {
+    this.careType = careType;
   }
 
-  public String getVgrCareTypeText() {
-    return vgrCareTypeText;
+  public String getCareTypeText() {
+    return careTypeText;
   }
 
-  public void setVgrCareTypeText(String vgrCareTypeText) {
-    this.vgrCareTypeText = vgrCareTypeText;
+  public void setCareTypeText(String careTypeText) {
+    this.careTypeText = careTypeText;
   }
 
   public String getVgrAO3kod() {
@@ -578,16 +610,37 @@ public class Unit implements Serializable, Comparable<Unit> {
     return hsaPublicTelephoneNumber;
   }
 
-  public void setHsaPublicTelephoneNumber(List<PhoneNumber> hsaPublicTelephoneNumber) {
-    this.hsaPublicTelephoneNumber = hsaPublicTelephoneNumber;
+  /**
+   * Adds a hsaPublicTelephoneNumber to the unit.
+   * 
+   * @param telephoneNumber the hsaPublicTelephoneNumber to add.
+   */
+  public void addHsaPublicTelephoneNumber(PhoneNumber telephoneNumber) {
+    this.hsaPublicTelephoneNumber.add(telephoneNumber);
   }
 
   public List<WeekdayTime> getHsaTelephoneTime() {
     return hsaTelephoneTime;
   }
 
-  public void setHsaTelephoneTime(List<WeekdayTime> hsaTelephoneTime) {
-    this.hsaTelephoneTime = hsaTelephoneTime;
+  /**
+   * Adds a new telephone time to the unit.
+   * 
+   * @param telephoneTime The telephone time to add.
+   */
+  public void addHsaTelephoneTime(WeekdayTime telephoneTime) {
+    this.hsaTelephoneTime.add(telephoneTime);
+  }
+
+  /**
+   * Adds a list of telephone times to the unit.
+   * 
+   * @param telephoneTimes The list of telephone times to add.
+   */
+  public void addHsaTelephoneTimes(List<WeekdayTime> telephoneTimes) {
+    if (telephoneTimes != null) {
+      this.hsaTelephoneTime.addAll(telephoneTimes);
+    }
   }
 
   public Address getHsaInternalAddress() {
@@ -1056,8 +1109,8 @@ public class Unit implements Serializable, Comparable<Unit> {
    * 
    * @return True if the units care type is not empty, otherwise false.
    */
-  public boolean getVgrCareTypeIsValid() {
-    if (StringUtil.isEmpty(getVgrCareType())) {
+  public boolean getCareTypeIsValid() {
+    if (StringUtil.isEmpty(getCareType())) {
       return false;
     }
     return true;
@@ -1083,49 +1136,19 @@ public class Unit implements Serializable, Comparable<Unit> {
   public boolean getContentValidationOk() {
     boolean valid = true;
 
-    // name
     valid &= getNameIsValid();
-
-    // hsaMunicapilatyName
     valid &= getHsaMunicapilatyNameIsValid();
-
-    // hsaStreetAdress
     valid &= getHsaStreetAddressIsValid();
-
-    // hsaRoute
     valid &= getHsaRouteIsValid();
-
-    // coordinates
     valid &= getHsaGeographicalCoordinatesIsValid();
-
-    // surgeryHours
     valid &= getHsaSurgeryHoursIsValid();
-
-    // dropInHours
     valid &= getHsaDropInHoursIsValid();
-
-    // hsaPublicTelephoneNumber
     valid &= getHsaPublicTelephoneNumberIsValid();
-
-    // hsaTelephoneTime
     valid &= getHsaTelephoneTimeIsValid();
-
-    // labeledURI
     valid &= getLabeledURIIsValid();
-
-    // description
     valid &= getDescriptionIsValid();
-
-    // hsaVisitingRuleAge
     valid &= getHsaVisitingRuleAgeIsValid();
-
-    // hsaVisitingRules
     valid &= getHsaVisitingRulesIsValid();
-
-    // vgrCareType NOT USED NOW
-    // valid &= getVgrCareTypeIsValid();
-
-    // hsaManagementText
     valid &= getHsaManagementTextIsValid();
 
     return valid;
@@ -1260,10 +1283,10 @@ public class Unit implements Serializable, Comparable<Unit> {
    * 
    * @param hsaRoutelist The list of strings the hsaRoute consists of.
    */
-  public void setHsaRoute(List<String> hsaRoutelist) {
-    this.hsaRoute = hsaRoutelist;
+  public void addHsaRoute(List<String> hsaRoutelist) {
     if (hsaRoutelist != null && hsaRoutelist.size() > 0) {
-      for (String s : hsaRoute) {
+      for (String s : hsaRoutelist) {
+        this.hsaRoute.add(s);
         this.hsaRouteConcatenated += s + "";
       }
     }
@@ -1273,8 +1296,24 @@ public class Unit implements Serializable, Comparable<Unit> {
     return healthcareTypes;
   }
 
-  public void setHealthcareTypes(List<HealthcareType> healthcareTypes) {
-    this.healthcareTypes = healthcareTypes;
+  /**
+   * Adds a new healthcare type to the unit.
+   * 
+   * @param healthcareType The healthcare type to add.
+   */
+  public void addHealthcareType(HealthcareType healthcareType) {
+    this.healthcareTypes.add(healthcareType);
+  }
+
+  /**
+   * Adds a list of healthcare types to the unit.
+   * 
+   * @param addedHealthcareTypes The list of healthcare types to add.
+   */
+  public void addHealthcareTypes(List<HealthcareType> addedHealthcareTypes) {
+    if (addedHealthcareTypes != null) {
+      this.healthcareTypes.addAll(addedHealthcareTypes);
+    }
   }
 
   /**
@@ -1323,8 +1362,13 @@ public class Unit implements Serializable, Comparable<Unit> {
     this.hsaBusinessClassificationText = hsaBusinessClassificationText;
   }
 
-  public void setMvkCaseTypes(List<String> caseTypes) {
-    this.mvkCaseTypes = caseTypes;
+  /**
+   * Adds a MVK casetype to the unit.
+   * 
+   * @param caseType The casetype to add.
+   */
+  public void addMvkCaseType(String caseType) {
+    this.mvkCaseTypes.add(caseType);
   }
 
   public List<String> getMvkCaseTypes() {

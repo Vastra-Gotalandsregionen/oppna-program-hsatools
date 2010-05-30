@@ -88,21 +88,24 @@ public class UnitMapper implements ContextMapper {
     unit.setHsaConsigneeAddress(AddressHelper.convertToAddress(context.getStrings(UnitLdapAttributes.HSA_CONSIGNEE_ADDRESS)));
     unit.setHsaCountyCode(context.getString(UnitLdapAttributes.HSA_COUNTY_CODE));
     unit.setHsaCountyName(context.getString(UnitLdapAttributes.HSA_COUNTY_NAME));
-    unit.setHsaDropInHours(WeekdayTime.createWeekdayTimeList(context.getStrings(UnitLdapAttributes.HSA_DROPIN_HOURS)));
+    unit.addHsaDropInHours(WeekdayTime.createWeekdayTimeList(context.getStrings(UnitLdapAttributes.HSA_DROPIN_HOURS)));
     unit.setHsaEndDate(TimeUtil.parseStringToZuluTime(context.getString(UnitLdapAttributes.HSA_END_DATE)));
     unit.setHsaInternalAddress(AddressHelper.convertToAddress(context.getStrings(UnitLdapAttributes.HSA_INTERNAL_ADDRESS)));
     unit.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(context.getString(UnitLdapAttributes.PAGER_TELEPHONE_NUMBER)));
     unit.setHsaPostalAddress(AddressHelper.convertToAddress(context.getStrings(UnitLdapAttributes.HSA_POSTAL_ADDRESS)));
-    unit.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumberList(context.getStrings(UnitLdapAttributes.HSA_PUBLIC_TELEPHONE_NUMBER)));
-    unit.setHsaRoute(context.getStrings(UnitLdapAttributes.HSA_ROUTE));
+    List<PhoneNumber> hsaPublicTelephoneNumbers = PhoneNumber.createPhoneNumberList(context.getStrings(UnitLdapAttributes.HSA_PUBLIC_TELEPHONE_NUMBER));
+    for (PhoneNumber hsaPublicTelephoneNumber : hsaPublicTelephoneNumbers) {
+      unit.addHsaPublicTelephoneNumber(hsaPublicTelephoneNumber);
+    }
+    unit.addHsaRoute(context.getStrings(UnitLdapAttributes.HSA_ROUTE));
     unit.setHsaSedfDeliveryAddress(AddressHelper.convertToAddress(context.getStrings(UnitLdapAttributes.HSA_SEDF_DELIVERY_ADDRESS)));
     unit.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress(context.getStrings(UnitLdapAttributes.HSA_SEDF_INVOICE_ADDRESS)));
     unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(context.getString(UnitLdapAttributes.HSA_SEDF_SWITCHBOARD_TELEPHONE_NO)));
     unit.setHsaSmsTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(UnitLdapAttributes.HSA_SMS_TELEPHONE_NUMBER)));
     unit.setHsaStreetAddress(AddressHelper.convertToStreetAddress(context.getStrings(UnitLdapAttributes.HSA_STREET_ADDRESS)));
-    unit.setHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(context.getStrings(UnitLdapAttributes.HSA_SURGERY_HOURS)));
+    unit.addHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(context.getStrings(UnitLdapAttributes.HSA_SURGERY_HOURS)));
     unit.setHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(context.getStrings(UnitLdapAttributes.HSA_TELEPHONE_NUMBER)));
-    unit.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(context.getStrings(UnitLdapAttributes.HSA_TELEPHONE_TIME)));
+    unit.addHsaTelephoneTimes(WeekdayTime.createWeekdayTimeList(context.getStrings(UnitLdapAttributes.HSA_TELEPHONE_TIME)));
     unit.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(context.getString(UnitLdapAttributes.HSA_TEXT_PHONE_NUMBER)));
     unit.setHsaUnitPrescriptionCode(context.getString(UnitLdapAttributes.HSA_UNIT_PRESCRIPTION_CODE));
     unit.setHsaVisitingRuleAge(context.getString(UnitLdapAttributes.HSA_VISITING_RULE_AGE));
@@ -153,7 +156,7 @@ public class UnitMapper implements ContextMapper {
     // healthcare type(s) this unit belongs to
     HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
     List<HealthcareType> healthcareTypes = htch.getHealthcareTypesForUnit(unit);
-    unit.setHealthcareTypes(healthcareTypes);
+    unit.addHealthcareTypes(healthcareTypes);
     // Visiting rules and age interval should be shown at all times
     unit.setShowVisitingRules(true);
     unit.setShowAgeInterval(true);
@@ -255,9 +258,9 @@ public class UnitMapper implements ContextMapper {
     String vgrAO3Text = codeTablesService.getValueFromCode(CodeTableName.VGR_AO3_CODE, unit.getVgrAO3kod());
     unit.setVgrAO3kodText(vgrAO3Text);
 
-    unit.setVgrCareType(context.getString(UnitLdapAttributes.VGR_CARE_TYPE));
-    String vgrCareTypeText = codeTablesService.getValueFromCode(CodeTableName.VGR_CARE_TYPE, unit.getVgrCareType());
-    unit.setVgrCareTypeText(vgrCareTypeText);
+    unit.setCareType(context.getString(UnitLdapAttributes.VGR_CARE_TYPE));
+    String careTypeText = codeTablesService.getValueFromCode(CodeTableName.VGR_CARE_TYPE, unit.getCareType());
+    unit.setCareTypeText(careTypeText);
 
     unit.setHsaMunicipalityCode(context.getString(UnitLdapAttributes.HSA_MUNICIPALITY_CODE));
     String municipalityName = codeTablesService.getValueFromCode(CodeTableName.HSA_MUNICIPALITY_CODE, unit.getHsaMunicipalityCode());

@@ -87,8 +87,7 @@
 	</bean>
 
 	<!-- LDAP connection settings  -->
-	<bean id="propertyPlaceholder"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location"
 			value="classpath:se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties" />
 			<property name="ignoreUnresolvablePlaceholders" value="true" />

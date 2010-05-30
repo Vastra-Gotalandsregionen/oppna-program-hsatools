@@ -103,7 +103,7 @@ public class UnitMapperTest {
     assertEquals("[hsaTelephoneNumber]", unit.getHsaTelephoneNumber().toString());
     assertEquals(TEST, unit.getVgrAO3kod());
     assertEquals(EXPECTED_LIST_RESULT, unit.getVgrAnsvarsnummer().toString());
-    assertEquals(TEST, unit.getVgrCareType());
+    assertEquals(TEST, unit.getCareType());
     assertEquals(TEST, unit.getVgrEANCode());
     assertEquals(TEST, unit.getVgrEDICode());
     assertEquals(TEST, unit.getVgrInternalSedfInvoiceAddress());
@@ -245,7 +245,7 @@ public class UnitMapperTest {
     dirContextOperations.addAttributeValue("lthTelephoneNumber", "telephoneNumber");
     dirContextOperations.addAttributeValue("vgrAO3kod", TEST);
     dirContextOperations.addAttributeValue("vgrAnsvarsnummer", TEST);
-    dirContextOperations.addAttributeValue("vgrCareType", TEST);
+    dirContextOperations.addAttributeValue("careType", TEST);
     dirContextOperations.addAttributeValue("vgrEanCode", TEST);
     dirContextOperations.addAttributeValue("vgrEdiCode", TEST);
     dirContextOperations.addAttributeValue("vgrInternalSedfInvoiceAddress", TEST);

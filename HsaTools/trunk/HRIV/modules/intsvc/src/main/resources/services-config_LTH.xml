@@ -28,4 +28,21 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
+	<bean id="mvkClient" class="se.vgregion.kivtools.search.util.MvkClient">
+		<property name="httpFetcher" ref="httpFetcher" />
+		<property name="mvkGuid" value="01d52494-7497-4a5f-9b49-7f7ea64e624d" />
+		<property name="mvkUrl"
+			value="https://kontakt.vardguiden.se/vg/veconfig.nsf/dispveInfo?readform" />
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:ldap_LTH.properties</value>
+				<value>classpath:security_LTH.properties</value>
+			</list>
+		</property>
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
 </beans>

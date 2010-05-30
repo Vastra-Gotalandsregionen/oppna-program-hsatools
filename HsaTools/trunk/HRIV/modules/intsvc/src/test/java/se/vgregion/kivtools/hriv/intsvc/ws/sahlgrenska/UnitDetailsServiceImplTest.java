@@ -21,6 +21,7 @@ package se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -40,7 +41,6 @@ import se.vgregion.kivtools.search.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.domain.values.ZipCode;
 import se.vgregion.kivtools.search.exceptions.InvalidFormatException;
 import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 import se.vgregion.kivtools.search.util.MvkClient;
 import se.vgregion.kivtools.util.time.TimeSource;
 import se.vgregion.kivtools.util.time.TimeUtil;
@@ -51,6 +51,7 @@ public class UnitDetailsServiceImplTest {
   private UnitDetailsServiceImpl unitDetailsService;
   private HttpFetcherMock httpFetcher;
   private Calendar calendar;
+  private final SearchServiceMock searchService = new SearchServiceMock();
 
   @Before
   public void setup() throws Exception {
@@ -64,7 +65,7 @@ public class UnitDetailsServiceImplTest {
     mvkClient.setMvkGuid("uid123");
 
     unitDetailsService = new UnitDetailsServiceImpl();
-    unitDetailsService.setUnitRepository(new UnitRepositoryMock());
+    unitDetailsService.setSearchService(searchService);
     unitDetailsService.setMvkClient(mvkClient);
   }
 
@@ -93,13 +94,7 @@ public class UnitDetailsServiceImplTest {
 
   @Test
   public void testGetUnitDetailsKivException() throws Exception {
-    UnitRepository unitRepositoryMock = new UnitRepository() {
-      @Override
-      public Unit getUnitByHsaId(String hsaId) throws KivException {
-        throw new KivException("Test");
-      }
-    };
-    unitDetailsService.setUnitRepository(unitRepositoryMock);
+    this.searchService.setExceptionToThrow(new KivException("Test"));
 
     try {
       unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY);
@@ -182,15 +177,192 @@ public class UnitDetailsServiceImplTest {
     assertTrue(organization.getUnit().get(0).isMvkEnable());
   }
 
-  private static class UnitRepositoryMock extends UnitRepository {
-    private Map<String, Unit> units;
+  @Test
+  public void shortNameIsSetCorrectly() {
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=dummy&guid=uid123", "<xml></xml>");
 
-    public UnitRepositoryMock() {
-      this.units = createUnitMocks(generateUnitAddress());
+    Unit unit = new UnitBuilder().hsaIdentity("dummy").shortname("tandreg varberg").build();
+    unitDetailsService.setSearchService(new OneUnitSearchService(unit));
+
+    Organization organization = unitDetailsService.getUnitDetails("dummy");
+    assertEquals("short name", "tandreg varberg", organization.getUnit().get(0).getShortName());
+  }
+
+  @Test
+  public void drivingDirectionsAreSetCorrectly() {
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=dummy&guid=uid123", "<xml></xml>");
+
+    Unit unit = new UnitBuilder().hsaIdentity("dummy").routePart("rakt fram").routePart("till höger").build();
+    unitDetailsService.setSearchService(new OneUnitSearchService(unit));
+
+    Organization organization = unitDetailsService.getUnitDetails("dummy");
+    List<String> drivingDirections = organization.getUnit().get(0).getDrivingDirections();
+    assertEquals("driving directions", 2, drivingDirections.size());
+    assertEquals("driving directions part 1", "rakt fram", drivingDirections.get(0));
+    assertEquals("driving directions part 2", "till höger", drivingDirections.get(1));
+  }
+
+  @Test
+  public void careTypeIsSetCorrectly() {
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=dummy&guid=uid123", "<xml></xml>");
+
+    Unit unit = new UnitBuilder().hsaIdentity("dummy").careType("02").build();
+    unitDetailsService.setSearchService(new OneUnitSearchService(unit));
+
+    Organization organization = unitDetailsService.getUnitDetails("dummy");
+    assertEquals("care type", "02", organization.getUnit().get(0).getCareType());
+  }
+
+  @Test
+  public void unitCoordinatesAreSetCorrectly() {
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=dummy&guid=uid123", "<xml></xml>");
+
+    Unit unit = new UnitBuilder().hsaIdentity("dummy").address("storgatan 1").rt90(123456, 789012).wgs84(12.3456, 78.9012).build();
+    unitDetailsService.setSearchService(new OneUnitSearchService(unit));
+
+    Organization organization = unitDetailsService.getUnitDetails("dummy");
+    se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Address address = organization.getUnit().get(0).getAddress().get(0);
+    assertEquals("rt90 x", "123456", address.getGeoCoordinates().getXpos().get(0));
+    assertEquals("rt90 y", "789012", address.getGeoCoordinates().getYpos().get(0));
+    assertEquals("wgs84 lat", "12.3456", address.getGeoCoordinatesWGS84().getLatitude().get(0));
+    assertEquals("wgs84 long", "78.9012", address.getGeoCoordinatesWGS84().getLongitude().get(0));
+  }
+
+  @Test
+  public void mvkServicesAreSetCorrectly() {
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=dummy&guid=uid123", "<?xml version=\"1.0\"?><casetypes><casetype>abc</casetype><casetype>def</casetype></casetypes>");
+
+    Unit unit = new UnitBuilder().hsaIdentity("dummy").build();
+    unitDetailsService.setSearchService(new OneUnitSearchService(unit));
+
+    Organization organization = unitDetailsService.getUnitDetails("dummy");
+    List<String> mvkServices = organization.getUnit().get(0).getMvkServices();
+    assertEquals("mvk case types", 2, mvkServices.size());
+    assertEquals("case type 1", "abc", mvkServices.get(0));
+    assertEquals("case type 2", "def", mvkServices.get(1));
+  }
+
+  @Test
+  public void addressWithoutStreetInformationIsConcatenated() {
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=dummy&guid=uid123", "<xml></xml>");
+
+    Unit unit = new UnitBuilder().hsaIdentity("dummy").address("", "abc", "def").build();
+    unitDetailsService.setSearchService(new OneUnitSearchService(unit));
+
+    Organization organization = unitDetailsService.getUnitDetails("dummy");
+    se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Address address = organization.getUnit().get(0).getAddress().get(0);
+    assertTrue("isConcatenated", address.isIsConcatenated());
+    assertEquals("concatenated address", "abcdef", address.getConcatenatedAddress());
+  }
+
+  private static class UnitBuilder {
+    private String shortName;
+    private String hsaIdentity;
+    private List<String> route;
+    private String careType;
+    private int rt90x;
+    private int rt90y;
+    private double wgs84Lat;
+    private double wgs84Long;
+    private String street;
+    private List<String> additionalInfo;
+
+    public Unit build() {
+      Unit unit = new Unit();
+      unit.setHsaIdentity(hsaIdentity);
+      unit.setOrganizationalUnitNameShort(shortName);
+      unit.addHsaRoute(route);
+      unit.setCareType(careType);
+      unit.setRt90X(rt90x);
+      unit.setRt90Y(rt90y);
+      unit.setWgs84Lat(wgs84Lat);
+      unit.setWgs84Long(wgs84Long);
+      if (this.street != null) {
+        Address address = new Address();
+        address.setStreet(street);
+        unit.setHsaStreetAddress(address);
+        address.setAdditionalInfo(additionalInfo);
+      }
+      return unit;
+    }
+
+    public UnitBuilder address(String street, String... additionalInfo) {
+      this.street = street;
+      if (additionalInfo != null) {
+        this.additionalInfo = new ArrayList<String>();
+        for (String string : additionalInfo) {
+          this.additionalInfo.add(string);
+        }
+      }
+      return this;
+    }
+
+    public UnitBuilder wgs84(double wgs84Lat, double wgs84Long) {
+      this.wgs84Lat = wgs84Lat;
+      this.wgs84Long = wgs84Long;
+      return this;
+    }
+
+    public UnitBuilder rt90(int rt90x, int rt90y) {
+      this.rt90x = rt90x;
+      this.rt90y = rt90y;
+      return this;
+    }
+
+    public UnitBuilder careType(String careType) {
+      this.careType = careType;
+      return this;
+    }
+
+    public UnitBuilder routePart(String routePart) {
+      if (this.route == null) {
+        this.route = new ArrayList<String>();
+      }
+      this.route.add(routePart);
+      return this;
+    }
+
+    public UnitBuilder hsaIdentity(String hsaIdentity) {
+      this.hsaIdentity = hsaIdentity;
+      return this;
+    }
+
+    public UnitBuilder shortname(String shortName) {
+      this.shortName = shortName;
+      return this;
+    }
+  }
+
+  private static class OneUnitSearchService extends SearchServiceMockBase {
+    private final Unit unit;
+
+    public OneUnitSearchService(final Unit unit) {
+      this.unit = unit;
     }
 
     @Override
     public Unit getUnitByHsaId(String hsaId) throws KivException {
+      return this.unit;
+    }
+  }
+
+  private static class SearchServiceMock extends SearchServiceMockBase {
+    private Map<String, Unit> units;
+    private KivException exceptionToThrow;
+
+    public SearchServiceMock() {
+      this.units = createUnitMocks(generateUnitAddress());
+    }
+
+    public void setExceptionToThrow(KivException exceptionToThrow) {
+      this.exceptionToThrow = exceptionToThrow;
+    }
+
+    @Override
+    public Unit getUnitByHsaId(String hsaId) throws KivException {
+      if (this.exceptionToThrow != null) {
+        throw this.exceptionToThrow;
+      }
       return units.get(hsaId);
     }
 
@@ -204,20 +376,20 @@ public class UnitDetailsServiceImplTest {
         unit.setDescription(Arrays.asList("En trevlig mottagning"));
         unit.setHsaStreetAddress(addressList.get(i));
         unit.setHsaPostalAddress(addressList.get(i));
-        unit.setHsaPublicTelephoneNumber(Arrays.asList(PhoneNumber.createPhoneNumber("1111")));
+        unit.addHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("1111"));
         unit.setLabeledURI("http://unit" + i);
         unit.setMail("unit" + i + "@vgregion.se");
 
         unit.setHsaVisitingRules("Ingen parfym tack");
         try {
-          unit.setHsaDropInHours(Arrays.asList(new WeekdayTime(1, 5, 8, 0, 17, 0), new WeekdayTime(6, 6, 10, 0, 14, 0), new WeekdayTime(7, 7, 10, 0, 12, 0)));
-          unit.setHsaTelephoneTime(Arrays.asList(new WeekdayTime(1, 5, 8, 0, 17, 0)));
-          unit.setHsaSurgeryHours(Arrays.asList(new WeekdayTime(1, 5, 8, 0, 17, 0), new WeekdayTime(6, 6, 10, 0, 14, 0)));
+          unit.addHsaDropInHours(Arrays.asList(new WeekdayTime(1, 5, 8, 0, 17, 0), new WeekdayTime(6, 6, 10, 0, 14, 0), new WeekdayTime(7, 7, 10, 0, 12, 0)));
+          unit.addHsaTelephoneTime(new WeekdayTime(1, 5, 8, 0, 17, 0));
+          unit.addHsaSurgeryHours(Arrays.asList(new WeekdayTime(1, 5, 8, 0, 17, 0), new WeekdayTime(6, 6, 10, 0, 14, 0)));
         } catch (InvalidFormatException e) {
           throw new RuntimeException(e);
         }
         unit.setHsaManagementText("Landsting/region");
-        unit.setHealthcareTypes(Arrays.asList(new HealthcareType(null, "Vårdcentral", false, 0), new HealthcareType(null, "Akutmottagning", false, 1)));
+        unit.addHealthcareTypes(Arrays.asList(new HealthcareType(null, "Vårdcentral", false, 0), new HealthcareType(null, "Akutmottagning", false, 1)));
 
         switch (i) {
           case 0:

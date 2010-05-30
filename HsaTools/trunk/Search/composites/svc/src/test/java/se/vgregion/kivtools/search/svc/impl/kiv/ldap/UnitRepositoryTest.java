@@ -234,7 +234,7 @@ public class UnitRepositoryTest {
     searchUnit.setHsaMunicipalityName("Göteborg");
     searchUnit.setHsaMunicipalityCode("10032");
     searchUnit.setHsaIdentity("hsaId-1");
-    searchUnit.setHealthcareTypes(Arrays.asList(healthcareType));
+    searchUnit.addHealthcareType(healthcareType);
     searchUnit.setVgrVardVal(true);
 
     int maxResults = 10;
@@ -342,13 +342,11 @@ public class UnitRepositoryTest {
     correctResult.append("(&(objectclass=vgrOrganizationalRole)(&(|(hsaMunicipalityCode=*1490*))(&(|(hsaBusinessClassificationCode=1540)))))))");
     Unit unit = new Unit();
     unit.setHsaMunicipalityCode("1490");
-    List<HealthcareType> healthcareTypeList = new ArrayList<HealthcareType>();
     HealthcareType ht = new HealthcareType();
     Map<String, String> conditions = new HashMap<String, String>();
     conditions.put("hsaBusinessClassificationCode", "1540");
     ht.setConditions(conditions);
-    healthcareTypeList.add(ht);
-    unit.setHealthcareTypes(healthcareTypeList);
+    unit.addHealthcareType(ht);
     String temp = unitRepository.createAdvancedSearchFilter(unit, false);
     assertEquals(correctResult.toString(), temp);
   }
@@ -455,7 +453,7 @@ public class UnitRepositoryTest {
     searchUnit.setHsaMunicipalityName("Göteborg");
     searchUnit.setHsaMunicipalityCode("10032");
     searchUnit.setHsaIdentity("hsaId-1");
-    searchUnit.setHealthcareTypes(Arrays.asList(healthcareType));
+    searchUnit.addHealthcareType(healthcareType);
     searchUnit.setVgrVardVal(true);
 
     int maxResults = 10;
