@@ -19,9 +19,6 @@
 
 package se.vgregion.kivtools.search.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -67,10 +64,8 @@ public class MvkClient {
 
     // Get and assign case types
     NodeList caseTypesNodeList = doc.getElementsByTagName("casetype");
-    List<String> caseTypes = new ArrayList<String>();
     for (int i = 0; i < caseTypesNodeList.getLength(); i++) {
-      caseTypes.add(caseTypesNodeList.item(i).getTextContent());
+      unit.addMvkCaseType(caseTypesNodeList.item(i).getTextContent());
     }
-    unit.setMvkCaseTypes(caseTypes);
   }
 }

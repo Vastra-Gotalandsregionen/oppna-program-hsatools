@@ -85,7 +85,7 @@ public class UnitRepositoryHRIATest {
     searchUnit.setHsaMunicipalityName("Göteborg");
     searchUnit.setHsaMunicipalityCode("10032");
     searchUnit.setHsaIdentity("hsaId-1");
-    searchUnit.setHealthcareTypes(Arrays.asList(healthcareType));
+    searchUnit.addHealthcareType(healthcareType);
     searchUnit.setVgrVardVal(true);
 
     int maxResults = 10;

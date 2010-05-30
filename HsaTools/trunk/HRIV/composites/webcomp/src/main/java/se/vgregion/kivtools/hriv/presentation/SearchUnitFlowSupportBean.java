@@ -368,11 +368,9 @@ public class SearchUnitFlowSupportBean implements Serializable {
     if (healthcareTypeIndex != null) {
       HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
       HealthcareType ht = htch.getHealthcareTypeByIndex(healthcareTypeIndex);
-      List<HealthcareType> healthcareTypes = new ArrayList<HealthcareType>();
       if (ht != null) {
-        healthcareTypes.add(ht);
+        unit.addHealthcareType(ht);
       }
-      unit.setHealthcareTypes(healthcareTypes);
     }
 
     return unit;

@@ -35,19 +35,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class PersonalRecord {
 
   @XmlElement
-  private String fullName;
+  private final String fullName;
 
   @XmlElement
-  private String firstName;
+  private final String firstName;
 
   @XmlElement
-  private String lastName;
+  private final String lastName;
 
   /**
    * Empty constructor.
    */
   public PersonalRecord() {
-    super();
+    fullName = null;
+    firstName = null;
+    lastName = null;
   }
 
   /**
@@ -67,23 +69,11 @@ public class PersonalRecord {
     return fullName;
   }
 
-  public void setFullName(String fullName) {
-    this.fullName = fullName;
-  }
-
   public String getFirstName() {
     return firstName;
   }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
   public String getLastName() {
     return lastName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
   }
 }

@@ -158,10 +158,10 @@ public class DisplayUnitDetailsFacesTest extends FacesTesterBase {
     unit.setName("Akutklinik");
     unit.setLocality("Angered");
     unit.setVgrVardVal(true);
-    unit.setHealthcareTypes(Arrays.asList(new HealthcareType(null, "Vårdcentral", false, null)));
+    unit.addHealthcareType(new HealthcareType(null, "Vårdcentral", false, null));
 
-    unit.setHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(Arrays.asList("2-5#08:00#12:00")));
-    unit.setHsaDropInHours(WeekdayTime.createWeekdayTimeList(Arrays.asList("3-4#08:00#12:00")));
+    unit.addHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(Arrays.asList("2-5#08:00#12:00")));
+    unit.addHsaDropInHours(WeekdayTime.createWeekdayTimeList(Arrays.asList("3-4#08:00#12:00")));
 
     unit.setHsaManagementText("ManagementText");
     unit.setShowAgeInterval(true);
@@ -179,14 +179,14 @@ public class DisplayUnitDetailsFacesTest extends FacesTesterBase {
 
     unit.setDescription(Arrays.asList("Description"));
 
-    unit.setHsaPublicTelephoneNumber(Arrays.asList(PhoneNumber.createPhoneNumber("031-123456")));
-    unit.setMvkCaseTypes(Arrays.asList("casetype"));
+    unit.addHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("031-123456"));
+    unit.addMvkCaseType("casetype");
 
-    unit.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(Arrays.asList("4-5#08:00#12:00")));
+    unit.addHsaTelephoneTimes(WeekdayTime.createWeekdayTimeList(Arrays.asList("4-5#08:00#12:00")));
     unit.setLabeledURI("hittavard.vgregion.se");
 
     unit.setHsaStreetAddress(AddressHelper.convertToStreetAddress(Arrays.asList("Storgatan 1", "2 trappor", "412 63 Angered")));
-    unit.setHsaRoute(Arrays.asList("Route"));
+    unit.addHsaRoute(Arrays.asList("Route"));
     unit.setWgs84Lat(57.7146);
     unit.setWgs84Long(11.998);
 

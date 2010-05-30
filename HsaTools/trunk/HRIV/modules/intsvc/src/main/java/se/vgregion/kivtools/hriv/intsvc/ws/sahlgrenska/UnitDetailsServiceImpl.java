@@ -29,6 +29,8 @@ import org.apache.commons.logging.LogFactory;
 
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Address;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.AddressType;
+import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.AddressType.GeoCoordinates;
+import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.AddressType.GeoCoordinatesWGS84;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Description;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.EAliasType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.ObjectFactory;
@@ -37,7 +39,6 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.ReferralInformatio
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.TelephoneType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.TemporaryInformation;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.UnitType;
-import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.AddressType.GeoCoordinates;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.UnitType.Locality;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.UnitType.VisitingConditions;
 import se.vgregion.kivtools.search.domain.Unit;
@@ -45,7 +46,7 @@ import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
+import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.util.MvkClient;
 import se.vgregion.kivtools.util.StringUtil;
 
@@ -56,12 +57,12 @@ import se.vgregion.kivtools.util.StringUtil;
  */
 public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> {
   private Log log = LogFactory.getLog(this.getClass());
-  private UnitRepository unitRepository;
+  private SearchService searchService;
   private MvkClient mvkClient;
   private ObjectFactory objectFactory = new ObjectFactory();
 
-  public void setUnitRepository(UnitRepository unitRepository) {
-    this.unitRepository = unitRepository;
+  public void setSearchService(SearchService searchService) {
+    this.searchService = searchService;
   }
 
   public void setMvkClient(MvkClient mvkClient) {
@@ -76,12 +77,14 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
     if (hsaIdentity != null && !"".equals(hsaIdentity)) {
       Unit unit = null;
       try {
-        unit = unitRepository.getUnitByHsaId(hsaIdentity);
+        unit = searchService.getUnitByHsaId(hsaIdentity);
       } catch (KivException e) {
         log.error("Unable to retrieve unit details.", e);
       }
-      mvkClient.assignCaseTypes(unit);
-      organization.getUnit().add(generateWebServiceUnit(unit));
+      if (!StringUtil.isEmpty(unit.getHsaIdentity())) {
+        mvkClient.assignCaseTypes(unit);
+        organization.getUnit().add(generateWebServiceUnit(unit));
+      }
     }
     return organization;
   }
@@ -90,54 +93,48 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
     se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Unit unitWs = objectFactory.createUnit();
     unitWs.setId(unit.getHsaIdentity());
     unitWs.setName(unit.getName());
+    unitWs.setShortName(unit.getOrganizationalUnitNameShort());
 
-    // Description
     Description description = new Description();
     description.setValue(unit.getConcatenatedDescription());
     unitWs.getDescription().add(description);
 
     if (unit.getShouldVgrTempInfoBeShown()) {
-      // Temp Info
       TemporaryInformation temporaryInformation = new TemporaryInformation();
       temporaryInformation.setValue(unit.getVgrTempInfoBody());
       unitWs.getTemporaryInformation().add(temporaryInformation);
 
-      // Ref info
       ReferralInformation referralInformation = new ReferralInformation();
       referralInformation.setValue(unit.getVgrRefInfo());
       unitWs.getReferralInformation().add(referralInformation);
     }
 
-    // Set unitWs street address
     setAddress(unitWs, unit.getHsaStreetAddress(), "Visit", unit);
-    // Set unitWs post address
     setAddress(unitWs, unit.getHsaPostalAddress(), "Post", unit);
-    // Set telephone
+
+    unitWs.getDrivingDirections().addAll(unit.getHsaRoute());
+
     TelephoneType telephoneType = new TelephoneType();
     for (PhoneNumber phoneNumber : unit.getHsaPublicTelephoneNumber()) {
       telephoneType.getTelephoneNumber().add(phoneNumber.getPhoneNumber());
     }
     unitWs.getTelephone().add(telephoneType);
 
-    // Set URL
     EAliasType unitWeb = new EAliasType();
     unitWeb.setLabel("Mottagningens webbplats");
     unitWeb.setType("URL");
     unitWeb.setAlias(unit.getLabeledURI());
     unitWs.getEAlias().add(unitWeb);
 
-    // Set e-mail address
     EAliasType email = new EAliasType();
     email.setLabel("Mottagningens e-post");
     email.setType("E-mail");
     email.setAlias(unit.getMail());
     unitWs.getEAlias().add(email);
 
-    // Set visiting rules
     VisitingConditions visitingConditions = new UnitType.VisitingConditions();
     visitingConditions.setVisitingRules(unit.getHsaVisitingRules());
 
-    // Drop in hours
     String dropInConcatenated = "";
     for (WeekdayTime dropInInfo : unit.getHsaDropInHours()) {
       dropInConcatenated += dropInInfo.getDisplayValue() + ", ";
@@ -145,7 +142,6 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
     dropInConcatenated = stripEndingCommaAndSpace(dropInConcatenated);
     visitingConditions.setDropInHours(dropInConcatenated);
 
-    // Visiting hours
     String visitingHoursConcatenated = "";
     for (WeekdayTime visitingHoursInfo : unit.getHsaSurgeryHours()) {
       visitingHoursConcatenated += visitingHoursInfo.getDisplayValue() + ", ";
@@ -153,7 +149,6 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
     visitingHoursConcatenated = stripEndingCommaAndSpace(visitingHoursConcatenated);
     visitingConditions.setVisitingHours(visitingHoursConcatenated);
 
-    // Telephone hours
     String telephoneHoursConcatenated = "";
     for (WeekdayTime telephoneHoursInfo : unit.getHsaTelephoneTime()) {
       telephoneHoursConcatenated += telephoneHoursInfo.getDisplayValue() + ", ";
@@ -162,12 +157,10 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
     visitingConditions.setTelephoneHours(telephoneHoursConcatenated);
     unitWs.getVisitingConditions().add(visitingConditions);
 
-    // Management
     UnitType.Management management = new UnitType.Management();
     management.setValue(unit.getHsaManagementText());
     unitWs.setManagement(management);
 
-    // Business classification
     List<HealthcareType> businessClassifications = unit.getHealthcareTypes();
     for (HealthcareType businessClassificationHT : businessClassifications) {
       UnitType.BusinessClassification businessClassification = new UnitType.BusinessClassification();
@@ -175,41 +168,47 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
       unitWs.getBusinessClassification().add(businessClassification);
     }
 
-    // Location
+    unitWs.setCareType(unit.getCareType());
+
     if (!StringUtil.isEmpty(unit.getHsaMunicipalityName())) {
       Locality locality = new Locality();
       locality.setValue(unit.getHsaMunicipalityName());
       unitWs.setLocality(locality);
     }
 
-    // Set if unit is connected to MVK
     unitWs.setMvkEnable(checkIfConnectedToMvk(unit));
+    unitWs.getMvkServices().addAll(unit.getMvkCaseTypes());
 
     return unitWs;
   }
 
   private void setAddress(se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Unit unitWs, se.vgregion.kivtools.search.domain.values.Address address, String addressType, Unit unit) {
-    // Set unitWs street address
-    Address wsAddress = objectFactory.createAddress();
+    if (address != null) {
+      Address wsAddress = objectFactory.createAddress();
 
-    if ("".equalsIgnoreCase(address.getStreet())) {
-      wsAddress.setIsConcatenated(true);
-      wsAddress.setConcatenatedAddress(address.getAdditionalInfoToString());
-    } else {
-      wsAddress.setType(addressType);
-      List<String> additionalInfo = new ArrayList<String>();
-      additionalInfo.addAll(address.getAdditionalInfo());
-      String additionalInfoConcatenated = StringUtil.concatenate(additionalInfo);
-      setStreetNameAndNumberForAddress(wsAddress, address.getStreet(), additionalInfoConcatenated);
-      List<String> postalPostCodes = wsAddress.getPostCode();
-      postalPostCodes.add(address.getZipCode().toString());
-      wsAddress.setCity(address.getCity());
+      if (StringUtil.isEmpty(address.getStreet())) {
+        wsAddress.setIsConcatenated(true);
+        wsAddress.setConcatenatedAddress(address.getAdditionalInfoToString());
+      } else {
+        wsAddress.setType(addressType);
+        List<String> additionalInfo = new ArrayList<String>();
+        additionalInfo.addAll(address.getAdditionalInfo());
+        String additionalInfoConcatenated = StringUtil.concatenate(additionalInfo);
+        setStreetNameAndNumberForAddress(wsAddress, address.getStreet(), additionalInfoConcatenated);
+        List<String> postalPostCodes = wsAddress.getPostCode();
+        postalPostCodes.add(address.getZipCode().toString());
+        wsAddress.setCity(address.getCity());
+      }
+      GeoCoordinates postalGeoCoordinates = new AddressType.GeoCoordinates();
+      postalGeoCoordinates.getXpos().add(String.valueOf(unit.getRt90X()));
+      postalGeoCoordinates.getYpos().add(String.valueOf(unit.getRt90Y()));
+      wsAddress.setGeoCoordinates(postalGeoCoordinates);
+      GeoCoordinatesWGS84 postalGeoCoordinatesWgs84 = new AddressType.GeoCoordinatesWGS84();
+      postalGeoCoordinatesWgs84.getLatitude().add(String.valueOf(unit.getWgs84LatRounded()));
+      postalGeoCoordinatesWgs84.getLongitude().add(String.valueOf(unit.getWgs84LongRounded()));
+      wsAddress.setGeoCoordinatesWGS84(postalGeoCoordinatesWgs84);
+      unitWs.getAddress().add(wsAddress);
     }
-    GeoCoordinates postalGeoCoordinates = new AddressType.GeoCoordinates();
-    postalGeoCoordinates.getXpos().add(String.valueOf(unit.getRt90X()));
-    postalGeoCoordinates.getYpos().add(String.valueOf(unit.getRt90Y()));
-    wsAddress.setGeoCoordinates(postalGeoCoordinates);
-    unitWs.getAddress().add(wsAddress);
   }
 
   private boolean checkIfConnectedToMvk(Unit unit) {

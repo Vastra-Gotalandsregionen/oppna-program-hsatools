@@ -26,10 +26,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-	<bean id="propertyPlaceholderWebcomp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="classpath:se/vgregion/kivtools/hriv/presentation/kiv/hria-composite-webcomp.properties" />
 		<property name="placeholderPrefix" value="#{" />
 		<property name="fileEncoding" value="UTF-8" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
 	</bean>
 
 	<bean id="fileUtil" class="se.vgregion.kivtools.util.file.FileUtilImpl" />

@@ -21,13 +21,9 @@ package se.vgregion.kivtools.hriv.presentation.comparators;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.hriv.presentation.comparators.UnitCareTypeNameComparator;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
 
@@ -75,8 +71,6 @@ public class UnitCareTypeNameComparatorTest {
 
   @Test
   public void testEmptyHealthcareTypes() {
-    unit1.setHealthcareTypes(new ArrayList<HealthcareType>());
-    unit2.setHealthcareTypes(new ArrayList<HealthcareType>());
     unit1.setName(UNIT_NAME);
     unit2.setName(UNIT_NAME);
 
@@ -86,10 +80,8 @@ public class UnitCareTypeNameComparatorTest {
 
   @Test
   public void testSameHealthcareType() {
-    List<HealthcareType> healthcareTypes = new ArrayList<HealthcareType>();
-    healthcareTypes.add(healthcareType1);
-    unit1.setHealthcareTypes(healthcareTypes);
-    unit2.setHealthcareTypes(healthcareTypes);
+    unit1.addHealthcareType(healthcareType1);
+    unit2.addHealthcareType(healthcareType1);
 
     int result = comparator.compare(unit1, unit2);
     assertEquals(0, result);
@@ -97,9 +89,7 @@ public class UnitCareTypeNameComparatorTest {
 
   @Test
   public void testEmptyUnit1() {
-    List<HealthcareType> healthcareTypes = new ArrayList<HealthcareType>();
-    healthcareTypes.add(healthcareType1);
-    unit2.setHealthcareTypes(healthcareTypes);
+    unit2.addHealthcareType(healthcareType1);
 
     int result = comparator.compare(unit1, unit2);
     assertEquals(1, result);
@@ -107,9 +97,7 @@ public class UnitCareTypeNameComparatorTest {
 
   @Test
   public void testEmptyUnit2() {
-    List<HealthcareType> healthcareTypes = new ArrayList<HealthcareType>();
-    healthcareTypes.add(healthcareType1);
-    unit1.setHealthcareTypes(healthcareTypes);
+    unit1.addHealthcareType(healthcareType1);
 
     int result = comparator.compare(unit1, unit2);
     assertEquals(-1, result);

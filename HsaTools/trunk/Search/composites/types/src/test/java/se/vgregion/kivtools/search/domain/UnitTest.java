@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -51,37 +52,12 @@ public class UnitTest {
   private static final String TEST2 = "TEST2";
 
   private Unit unit;
-  private List<HealthcareType> healthcareTypes;
 
   @Before
   public void setUp() {
     unit = new Unit();
-    healthcareTypes = new ArrayList<HealthcareType>();
-    unit.setHealthcareTypes(healthcareTypes);
   }
 
-  /*
-   * The tests commented below should probably go into a unit test for UnitFactory TODO: Move into UnitFactoryTest.java
-   * 
-   * @Test public void testIsShowAgeIntervalAndVisitingRulesNoHealtcareType() { assertTrue("Age interval and visiting rules should be displayed for a unit without healtcare types BVC, VC and JC",
-   * unit.isShowAgeIntervalAndVisitingRules()); }
-   * 
-   * @Test public void testIsShowAgeIntervalAndVisitingRulesBVCHealtcareType() { HealthcareType healthcareType = new HealthcareType(); healthcareType.setDisplayName("Barnavårdscentral");
-   * healthcareTypes.add(healthcareType); assertFalse("Age interval and visiting rules should not be displayed for a unit with healtcare type BVC", unit.isShowAgeIntervalAndVisitingRules()); }
-   * 
-   * @Test public void testIsShowAgeIntervalAndVisitingRulesVCHealtcareType() { HealthcareType healthcareType = new HealthcareType(); healthcareType.setDisplayName("Vårdcentral");
-   * healthcareTypes.add(healthcareType); assertFalse("Age interval and visiting rules should not be displayed for a unit with healtcare type VC", unit.isShowAgeIntervalAndVisitingRules()); }
-   * 
-   * @Test public void testIsShowAgeIntervalAndVisitingRulesJCHealtcareType() { HealthcareType healthcareType = new HealthcareType(); healthcareType.setDisplayName("Jourcentral");
-   * healthcareTypes.add(healthcareType); assertFalse("Age interval and visiting rules should not be displayed for a unit with healtcare type JC", unit.isShowAgeIntervalAndVisitingRules()); }
-   * 
-   * @Test public void testIsShowInVgrVardVal() { assertFalse("Unit not in VGR Vardval should not show info regarding vardval", unit.isShowInVgrVardVal());
-   * 
-   * unit.setVgrVardVal(true); assertFalse("Unit should not show info regarding vardval if it isn't of type Vårdcentral", unit.isShowInVgrVardVal());
-   * 
-   * HealthcareType healthcareType = new HealthcareType(); healthcareType.setDisplayName("Vårdcentral"); healthcareTypes.add(healthcareType);
-   * assertTrue("Unit should show info regarding vardval if it is of type Vårdcentral and is part of VGR Vardval", unit.isShowInVgrVardVal()); }
-   */
   @Test
   public void testGetDnBase64() throws UnsupportedEncodingException {
     DN dn = DN.createDNFromString("CN=Hedvig h Blomfrö,OU=Falkenbergsnämnden,OU=Förtroendevalda,OU=Landstinget  Halland,DC=hkat,DC=lthalland,DC=com");
@@ -126,38 +102,22 @@ public class UnitTest {
 
     ArrayList<String> routelist = new ArrayList<String>();
     routelist.add("Via centralen");
-    unit.setHsaRoute(routelist);
+    unit.addHsaRoute(routelist);
     assertFalse(unit.getContentValidationOk());
 
     unit.setHsaGeographicalCoordinates("coords");
     assertFalse(unit.getContentValidationOk());
 
-    List<WeekdayTime> surgeryHours = new ArrayList<WeekdayTime>();
-    unit.setHsaSurgeryHours(surgeryHours);
+    unit.addHsaSurgeryHours(new WeekdayTime(1, 5, 9, 0, 16, 0));
     assertFalse(unit.getContentValidationOk());
 
-    surgeryHours.add(new WeekdayTime(1, 5, 9, 0, 16, 0));
+    unit.addHsaDropInHours(new WeekdayTime(1, 5, 9, 0, 16, 0));
     assertFalse(unit.getContentValidationOk());
 
-    List<WeekdayTime> dropInHours = new ArrayList<WeekdayTime>();
-    unit.setHsaDropInHours(dropInHours);
+    unit.addHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("031-12345"));
     assertFalse(unit.getContentValidationOk());
 
-    dropInHours.add(new WeekdayTime(1, 5, 9, 0, 16, 0));
-    assertFalse(unit.getContentValidationOk());
-
-    List<PhoneNumber> telephoneNumbers = new ArrayList<PhoneNumber>();
-    unit.setHsaPublicTelephoneNumber(telephoneNumbers);
-    assertFalse(unit.getContentValidationOk());
-
-    telephoneNumbers.add(PhoneNumber.createPhoneNumber("031-12345"));
-    assertFalse(unit.getContentValidationOk());
-
-    List<WeekdayTime> telephoneTime = new ArrayList<WeekdayTime>();
-    unit.setHsaTelephoneTime(telephoneTime);
-    assertFalse(unit.getContentValidationOk());
-
-    telephoneTime.add(new WeekdayTime(1, 5, 9, 0, 16, 0));
+    unit.addHsaTelephoneTime(new WeekdayTime(1, 5, 9, 0, 16, 0));
     assertFalse(unit.getContentValidationOk());
 
     unit.setLabeledURI("http://angered.vgregion.se");
@@ -241,8 +201,8 @@ public class UnitTest {
     PojoTester.testProperty(unit, "mail", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "locality", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "vgrInternalSedfInvoiceAddress", String.class, null, TEST, TEST2);
-    PojoTester.testProperty(unit, "vgrCareType", String.class, null, TEST, TEST2);
-    PojoTester.testProperty(unit, "vgrCareTypeText", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "careType", String.class, null, TEST, TEST2);
+    PojoTester.testProperty(unit, "careTypeText", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "vgrAO3kod", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "vgrAO3kodText", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "hsaIdentity", String.class, null, TEST, TEST2);
@@ -272,7 +232,6 @@ public class UnitTest {
     PojoTester.testProperty(unit, "isUnit", boolean.class, false, true, false);
     PojoTester.testProperty(unit, "hsaBusinessClassificationCode", List.class, null, Arrays.asList(TEST), Arrays.asList(TEST2));
     PojoTester.testProperty(unit, "hsaBusinessClassificationText", List.class, null, Arrays.asList(TEST), Arrays.asList(TEST2));
-    PojoTester.testProperty(unit, "mvkCaseTypes", List.class, null, Arrays.asList(TEST), Arrays.asList(TEST2));
     PojoTester.testProperty(unit, "hsaEndDate", Date.class, null, new Date(), new Date());
     PojoTester.testProperty(unit, "showAgeInterval", boolean.class, false, true, false);
     PojoTester.testProperty(unit, "showVisitingRules", boolean.class, false, true, false);
@@ -362,18 +321,19 @@ public class UnitTest {
     assertEquals(TEST2, unit.getVgrRefInfo());
   }
 
-  @Test
-  public void testFormattedAncestor() {
-    try {
-      unit.getFormattedAncestor();
-      fail("NullPointerException expected");
-    } catch (NullPointerException e) {
-      // Expected exception
-    }
+  @Test(expected = NullPointerException.class)
+  public void getFormattedAncestorThrowsNullPointerExceptionIfNoHsaIdentityIsSet() {
+    unit.getFormattedAncestor();
+  }
 
+  @Test
+  public void formattedAncestorIsEmptyIfHsaIdentityDoesNotContainTheLetterF() {
     unit.setHsaIdentity("123-ABC");
     assertEquals("", unit.getFormattedAncestor());
+  }
 
+  @Test
+  public void formattedAncestorIsEmptyIfUnitIsAHospital() {
     unit.setHsaIdentity("123-FGH");
     // Make sure that HealthcareTypeConditionHelper is reset to it's correct state.
     HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper() {
@@ -383,16 +343,24 @@ public class UnitTest {
       }
     };
 
-    ArrayList<HealthcareType> healthcareTypes = new ArrayList<HealthcareType>();
-    HealthcareType healtcareType = healthcareTypeConditionHelper.getHealthcareTypeByName("Sjukhus");
-    healthcareTypes.add(healtcareType);
-    unit.setHealthcareTypes(healthcareTypes);
+    HealthcareType healthcareType = healthcareTypeConditionHelper.getHealthcareTypeByName("Sjukhus");
+    unit.addHealthcareType(healthcareType);
     assertEquals("", unit.getFormattedAncestor());
+  }
 
-    healthcareTypes.clear();
-    healtcareType = healthcareTypeConditionHelper.getHealthcareTypeByName("Akutmottagning");
-    healthcareTypes.add(healtcareType);
-    unit.setHealthcareTypes(healthcareTypes);
+  @Test
+  public void formattedAncestorIsCorrectIfHsaIdentityContainsTheLetterFAndIsNotAHospital() {
+    unit.setHsaIdentity("123-FGH");
+    // Make sure that HealthcareTypeConditionHelper is reset to it's correct state.
+    HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper() {
+      {
+        super.resetInternalCache();
+        super.setImplResourcePath("testproperties.healthcaretypeconditionhelper.two_properties");
+      }
+    };
+
+    HealthcareType healthcareType = healthcareTypeConditionHelper.getHealthcareTypeByName("Akutmottagning");
+    unit.addHealthcareType(healthcareType);
     DN dn = DN.createDNFromString("ou=SubUnit,ou=AncestorUnit,o=VGR");
     unit.setDn(dn);
     assertEquals(", tillhör AncestorUnit", unit.getFormattedAncestor());
@@ -430,5 +398,17 @@ public class UnitTest {
     unit.addHsaDestinationIndicator("03");
 
     assertTrue("for public display", unit.isForPublicDisplay());
+  }
+
+  @Test
+  public void mvkCaseTypesIsNeverNull() {
+    assertEquals("mvkCaseTypes", Collections.emptyList(), unit.getMvkCaseTypes());
+  }
+
+  @Test
+  public void addMvkCaseTypesAddsTheProvidedStringToMvkCaseTypes() {
+    unit.addMvkCaseType(TEST);
+    assertEquals("mvkCaseTypes", 1, unit.getMvkCaseTypes().size());
+    assertEquals("mvk case type", TEST, unit.getMvkCaseTypes().get(0));
   }
 }

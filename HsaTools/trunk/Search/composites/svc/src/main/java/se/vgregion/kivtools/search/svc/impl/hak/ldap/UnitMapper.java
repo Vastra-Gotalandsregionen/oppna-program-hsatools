@@ -36,7 +36,6 @@ import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.domain.values.WeekdayTime;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitLdapAttributes;
 import se.vgregion.kivtools.search.svc.ldap.DirContextOperationsHelper;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.search.util.geo.CoordinateTransformerService;
@@ -79,28 +78,15 @@ public class UnitMapper implements ContextMapper {
       unit.setName(cn);
     }
 
-    // organizationalUnitNameShort
     unit.setOrganizationalUnitNameShort(context.getString("organizationalUnitNameShort"));
-
-    // description
     unit.setDescription(context.getStrings("description"));
-
-    // mail
     unit.setMail(context.getString("mail"));
 
     // l (=locality)
     unit.setLocality(WordUtils.capitalize(context.getString("l").toLowerCase()));
-
-    // labeledURI
     unit.setLabeledURI(context.getString("labeledURI"));
-
-    // vgrCareType
-    unit.setVgrCareType(context.getString("vgrCareType"));
-
-    // vgrAO3kod
+    unit.setCareType(context.getString("careType"));
     unit.setVgrAO3kod(context.getString("vgrAO3kod"));
-
-    // hsaIdentity
     unit.setHsaIdentity(context.getString("hsaIdentity"));
 
     // BusinessClassification
@@ -110,26 +96,17 @@ public class UnitMapper implements ContextMapper {
 
     populatePhoneNumbers(context, unit);
 
-    // hsaSurgeryHours
-    unit.setHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(context.getStrings("surgeryHours")));
-
-    // hsaDropInHours
-    unit.setHsaDropInHours(WeekdayTime.createWeekdayTimeList(context.getStrings("dropInHours")));
+    unit.addHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(context.getStrings("surgeryHours")));
+    unit.addHsaDropInHours(WeekdayTime.createWeekdayTimeList(context.getStrings("dropInHours")));
 
     populateAddresses(context, unit);
 
-    // hsaUnitPrescriptionCode
     unit.setHsaUnitPrescriptionCode(context.getString("hsaUnitPrescriptionCode"));
-
-    // vgrAnsvarsnummer
     unit.setVgrAnsvarsnummer(context.getStrings("vgrAnsvarsnummer"));
 
     populateLocalityInformation(context, unit);
 
-    // EDI-kod
     unit.setVgrEDICode(context.getString("vgrEdiCode"));
-
-    // EAN-kod
     unit.setVgrEANCode(context.getString("vgrEanCode"));
 
     // �garformkod
@@ -138,10 +115,7 @@ public class UnitMapper implements ContextMapper {
     // �garform klartext
     unit.setHsaManagementName(context.getString("hsaManagementName"));
 
-    // Visiting rules
     unit.setHsaVisitingRules(context.getString("hsaVisitingRules"));
-
-    // Visiting rule age
     unit.setHsaVisitingRuleAge(context.getString("hsaVisitingRuleAge"));
 
     // Temporary information
@@ -154,29 +128,26 @@ public class UnitMapper implements ContextMapper {
     // Drifts- & juridisk formklartext
     unit.setHsaAdministrationFormText(context.getString("hsaAdministrationFormText"));
 
-    // Senast uppdaterad
     if (context.hasAttribute("whenChanged")) {
       unit.setModifyTimestamp(TimePoint.parseFrom(context.getString("whenChanged"), "yyyyMMddHHmmss", TimeZone.getDefault()));
     }
 
-    // Skapad
     if (context.hasAttribute("whenCreated")) {
       unit.setCreateTimestamp(TimePoint.parseFrom(context.getString("whenCreated"), "yyyyMMddHHmmss", TimeZone.getDefault()));
     }
 
     populateGeoCoordinates(context, unit);
 
-    // management
     unit.setHsaManagementText(getManagementDescription(context.getString("management")));
 
     if (context.getString("route") != null) {
-      unit.setHsaRoute(context.getStrings("route"));
+      unit.addHsaRoute(context.getStrings("route"));
     }
 
     // As the last step, let HealthcareTypeConditionHelper figure out which healthcare type(s) this unit belongs to
     HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
     List<HealthcareType> healthcareTypes = htch.getHealthcareTypesForUnit(unit);
-    unit.setHealthcareTypes(healthcareTypes);
+    unit.addHealthcareTypes(healthcareTypes);
 
     // Show age interval?
     unit.setShowAgeInterval(shouldAgeIntervalBeDisplayed(unit));
@@ -190,7 +161,7 @@ public class UnitMapper implements ContextMapper {
       unit.setManager(manager);
     }
 
-    List<String> indicators = context.getStrings(UnitLdapAttributes.HSA_DESTINATION_INDICATOR);
+    List<String> indicators = context.getStrings("hsaDestinationIndicator");
     for (String indicator : indicators) {
       unit.addHsaDestinationIndicator(indicator);
     }
@@ -208,7 +179,6 @@ public class UnitMapper implements ContextMapper {
   }
 
   private static void populateLocalityInformation(DirContextOperationsHelper context, Unit unit) {
-    // hsaMunicipalityName
     unit.setHsaMunicipalityName(context.getString("municipalityName"));
 
     // Kommunkod
@@ -228,7 +198,6 @@ public class UnitMapper implements ContextMapper {
   }
 
   private static void populateGeoCoordinates(DirContextOperationsHelper context, Unit unit) {
-    // Coordinates
     if (context.getString("geographicalCoordinates") != null) {
       String hsaGeographicalCoordinates = context.getString("geographicalCoordinates");
       unit.setHsaGeographicalCoordinates(hsaGeographicalCoordinates);
@@ -250,61 +219,36 @@ public class UnitMapper implements ContextMapper {
   }
 
   private static void populateAddresses(DirContextOperationsHelper context, Unit unit) {
-    // vgrInternalSedfInvoiceAddress
     unit.setVgrInternalSedfInvoiceAddress(context.getString("vgrInternalSedfInvoiceAddress"));
-
-    // hsaInternalAddress
     unit.setHsaInternalAddress(AddressHelper.convertToAddress(context.getStrings("hsaInternalAddress")));
 
-    // hsaStreetAddress
-    // unit.setHsaStreetAddress(AddressHelper.convertToStreetAddress(LdapORMHelper.getMultipleValues(unitEntry.getAttribute("postalAddress"))));
     List<String> addressList = new ArrayList<String>();
     addressList.add(context.getString("street"));
     addressList.add(context.getString("postalCode") + " " + context.getString("l"));
 
     unit.setHsaStreetAddress(AddressHelper.convertToStreetAddress(addressList));
-
-    // hsaPostalAddress
     unit.setHsaPostalAddress(AddressHelper.convertToAddress(context.getStrings("postalAddress")));
-
-    // hsaSedfDeliveryAddress
     unit.setHsaSedfDeliveryAddress(AddressHelper.convertToAddress(context.getStrings("hsaDeliveryAddress")));
-
-    // hsaSedfInvoiceAddress
     unit.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress(context.getStrings("hsaInvoiceAddress")));
     unit.setHsaConsigneeAddress(AddressHelper.convertToAddress(context.getStrings("hsaConsigneeAddress")));
   }
 
   private static void populatePhoneNumbers(DirContextOperationsHelper context, Unit unit) {
-    // hsaTextPhoneNumber
     unit.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(context.getString("hsaTextPhoneNumber")));
-
-    // mobileTelephoneNumber
     unit.setMobileTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString("mobile")));
-
-    // hsaSedfSwitchboardTelephoneNo
     unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(context.getString("hsaSwitchboardNumber")));
-
-    // hsaInternalPagerNumber
     unit.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(context.getString("hsaInternalPagerNumber")));
-
-    // hsaSmsTelephoneNumber
     unit.setHsaSmsTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString("hsaSmsTelephoneNumber")));
-
-    // facsimileTelephoneNumber
     unit.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString("facsimileTelephoneNumber")));
-
-    // pagerTelephoneNumber
     unit.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString("pager")));
-
-    // hsaTelephoneNumber
     unit.setHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(context.getStrings("hsaTelephoneNumber")));
 
-    // hsaPublicTelephoneNumber
-    unit.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumberList(context.getStrings("lthTelephoneNumber")));
+    List<PhoneNumber> hsaPublicTelephoneNumbers = PhoneNumber.createPhoneNumberList(context.getStrings("lthTelephoneNumber"));
+    for (PhoneNumber hsaPublicTelephoneNumber : hsaPublicTelephoneNumbers) {
+      unit.addHsaPublicTelephoneNumber(hsaPublicTelephoneNumber);
+    }
 
-    // hsaTelephoneTime
-    unit.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(context.getStrings("telephoneHours")));
+    unit.addHsaTelephoneTimes(WeekdayTime.createWeekdayTimeList(context.getStrings("telephoneHours")));
   }
 
   private static String getManagementDescription(String code) {
