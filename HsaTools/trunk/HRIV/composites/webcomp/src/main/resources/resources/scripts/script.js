@@ -170,13 +170,47 @@ function writeImage(blockId, blockName) {
 	document.write('<img src="resources/images/icoPlus.gif" id="icon_' + blockId + '" onclick="toggleAccessibilityItem(\'' + blockId + '\');" align="left"/><li onclick="toggleAccessibilityItem(\'' + blockId + '\');">' + blockName + '</li>');
 }
 
-function drawAccInfoToggleButton() {
+function drawAccInfoToggleButton(showHeadlinesLabel, showAllInfoLabel, toTopLabel) {
+	var state = 'minimize';
 	var accInfoToggleElem = document.getElementById("acc-info-toggle");
-	accInfoToggleElem.innerHTML = '<input type="button" name="toggleAll" value="Växla visa/dölj" onclick="toggleAllAccInfo();" />';
+	accInfoToggleElem.innerHTML = '<input type="button" name="toggleAll" value="' + showAllInfoLabel+ '" onclick="toggleAllAccInfo(\''+state+' \', \''+showHeadlinesLabel+'\', \''+showAllInfoLabel+'\', \''+toTopLabel+'\');" />';
 }
 
-function toggleAllAccInfo() {
+function toggleAllAccInfo(state, showHeadlinesLabel, showAllInfoLabel, toTopLabel) {
 	//Old way with prototype: $$("div.accessibilityItemShowable").each(function(elmt) { toggleAccessibilityItem(elmt.id) } );
+	var accInfoToggleElem = document.getElementById("acc-info-toggle");
+	var newState;
+	var trimmed = state.replace(/^\s+|\s+$/g, '') ;
+	
 	var accessibilityItemShowableElems = YAHOO.util.Dom.getElementsByClassName('accessibilityItemShowable');
 	YAHOO.util.Dom.batch(accessibilityItemShowableElems, function(elmt) { toggleAccessibilityItem(elmt.id) } ); 
+	
+	if(trimmed=='minimize'){
+		newState = 'minimizeNot';
+		accInfoToggleElem.innerHTML = '<input type="button" name="toggleAll" value="' + showHeadlinesLabel+ '" onclick="toggleAllAccInfo(\''+newState+' \', \''+showHeadlinesLabel+'\', \''+showAllInfoLabel+'\', \''+toTopLabel+'\');" /> <a href="#top" class="url">' + toTopLabel+'</a>';
+	}else{
+		newState = 'minimize';
+		accInfoToggleElem.innerHTML = '<input type="button" name="toggleAll" value="' + showAllInfoLabel+ '" onclick="toggleAllAccInfo(\''+newState+' \', \''+showHeadlinesLabel+'\', \''+showAllInfoLabel+'\', \''+toTopLabel+'\');" /> <a href="#top" class="url">' + toTopLabel+'</a>';
+	}
+}
+
+//Create an instance of Eniro Map. OBS! The coordinates (WGS84) have to transform to Mercator, EPSG:4326.
+function drawMap(longitud, latitud, unitName, publicPhoneNumber, caretypeCustomized, phoneLabel, showDetailsLabel, hsaId)
+{
+    var emap = new Eniro.API.Map("map-right-of-address-div", "resources/scripts/vgr/eniro/MapAPI-1.2", {
+       activeLayers: [ Eniro.Map.LAYER_MAP ],
+       zoomBar: true,
+       scaleLine: false
+    });
+
+    var proj = new OpenLayers.Projection("EPSG:4326");
+	var point = new OpenLayers.LonLat(longitud, latitud);
+	point.transform(proj, emap.getProjectionObject());
+    emap.setCenter(point, 15);
+    
+	var marker = new Eniro.Feature.PopupFeature(emap.getCenter(), {}, {
+	       popupContents: function() { return '<a href="visaenhet?hsaidentity='+hsaId+'">'+unitName+'</a><br/>'+caretypeCustomized+'<br/>' + phoneLabel+': ' +publicPhoneNumber + '<br/><a href="visaenhet?hsaidentity='+hsaId+'">'+showDetailsLabel+'</a><br/>'; },
+	       mouseover: true
+	   });
+    emap.addFeature(marker);
 }

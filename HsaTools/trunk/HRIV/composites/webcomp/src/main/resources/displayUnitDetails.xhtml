@@ -71,7 +71,7 @@
 
         <ui:define name="MainContainer">
 
-            <script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${Search_SettingsContainer.googleMapsKey}" />
+            <!-- >script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${Search_SettingsContainer.googleMapsKey}" /-->
 
             <div class="yui-u search-result">
                 <ui:include src="${Search_SettingsContainer.errorReportConfirmInclude}" />
@@ -382,9 +382,11 @@
 	                                                <h:outputText rendered="${link.toParamName != '' and link.fromParamName != ''}">
 	                                                    <a href="${link.href}?${link.fromParamName}=&amp;${link.toParamName}=${Search_VasttrafikSearchService.getStopIdByAddress(fn:trim(unit.hsaStreetAddress.street), fn:trim(unit.hsaMunicipalityName))}" class="url">${link.name}</a><br/>
 	                                                </h:outputText>
+	                                                
 	                                                <h:outputText rendered="${link.toParamName != '' and link.fromParamName == ''}">
 	                                                    <a href="${link.href}?${link.toParamName}=${fn:trim(unit.hsaStreetAddress.street)}" class="url">${link.name}</a><br/>
 	                                                </h:outputText>
+	                            
 	                                                <h:outputText rendered="${link.toParamName == ''}">
 	                                                    <a href="${link.href}" class="url">${link.name}</a><br/>
 	                                                </h:outputText>
@@ -411,11 +413,7 @@
                             <div id="map-right-of-address-div">
                                 <!--  Map cell start (dont remove this comment) -->
                                 <div id="map"/>
-                                <noscript>
-                                    <h:outputText rendered="${unit.wgs84Lat!=0.0}">
-                                        <img src="http://maps.google.com/staticmap?center=${unit.wgs84Lat},${unit.wgs84Long}&amp;zoom=15&amp;size=350x350&amp;maptype=mobile&amp;markers=${unit.wgs84Lat},${unit.wgs84Long},red&amp;key=${Search_SettingsContainer.googleMapsKey}&amp;sensor=false" alt="Karta"/>
-                                    </h:outputText>
-                                </noscript>
+                                
                                 <!--  Map cell end (dont remove this comment) -->
                             </div>
 
@@ -432,7 +430,14 @@
                                 <h:outputText escape="false" rendered="${Search_SettingsContainer.testingMode==true and Search_SettingsContainer.showUnitCodeOnServer == facesContext.externalContext.request.serverName}" value="${Search_SettingsContainer.showUnitCode2}" />
                             </h:outputText>
                         </div>
-                        <ui:include src="${Search_SettingsContainer.googleMapInitInclude}" />
+                        <!-- ui:include src="${Search_SettingsContainer.googleMapInitInclude}" /-->
+                        <script type="text/javascript" charset="utf-8">
+				                 // <![CDATA[]
+				                 drawMap('${unit.wgs84Long}', '${unit.wgs84Lat}', '${fn:trim(unit.name)}','${fn:trim(unit.hsaPublicTelephoneNumber[0])}', '${fn:trim(unit.caretypeCustomized)}', '${msg.telephone}', '${msg.showDetails}', '${unit.hsaIdentity}');
+				              	 // ]]>
+				              </script>
+                        
+                        
                         <!--  Display unit widget end (dont remove this comment) -->
                         <ui:include src="${Search_SettingsContainer.errorReportFormInclude}" />
                     </div>
@@ -446,6 +451,9 @@
                     </p>
                 </h:outputText>
             </div>
+            
+            
+              
         </ui:define>
 
     </ui:composition></div>

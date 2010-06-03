@@ -1050,6 +1050,8 @@ div.autocomplete {
 #map-right-of-address-div {
 	float: right;
 	border: 1px solid #ccc;
+	height: 350px;
+	width: 350px;
 }
 
 #startpage-intro {
@@ -1101,4 +1103,12 @@ div.autocomplete {
 
 #contactTable {
 	float: none;
+}
+
+#accessibillityInfoDiv{
+	font-size: 1.2em;	
+}
+
+#accessibillityInfoDiv label{
+	font-weight: bold;
 }
