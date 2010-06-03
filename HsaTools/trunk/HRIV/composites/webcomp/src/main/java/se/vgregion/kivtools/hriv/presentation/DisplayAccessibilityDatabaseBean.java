@@ -146,14 +146,9 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 
     // Create array with selected disabilities
     boolean[] selectedDisabilities = new boolean[5];
-
-    selectedDisabilities[0] = form.getHear();
-    selectedDisabilities[1] = form.getSee();
-    selectedDisabilities[2] = form.getMove();
-    selectedDisabilities[3] = form.getSubstances();
-    selectedDisabilities[4] = form.getInfo();
-
-    // Attentive or Available?
+    setAllDisabilitiesWhenNoSelection(selectedDisabilities, form);
+   
+   // Attentive or Available?
     String listType = form.getListType();
     boolean attentive = "attentive".equals(listType);
 
@@ -169,6 +164,29 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
     }
   }
 
+  private void setAllDisabilitiesWhenNoSelection(boolean[] selectedDisabilities, AccessibilityDatabaseFilterForm form){
+	  if(form.getHear()==false && form.getSee()==false && form.getMove()==false && form.getSubstances()==false && form.getInfo()==false){
+		  
+		  for(int i = 0; i<selectedDisabilities.length; i++){
+			  selectedDisabilities[i] = true;
+		  }
+		  
+		  form.setHear(true);
+		  form.setSee(true);
+		  form.setMove(true);
+		  form.setSubstances(true);
+		  form.setInfo(true);
+		  
+	  }else{
+		  	selectedDisabilities[0] = form.getHear();
+		    selectedDisabilities[1] = form.getSee();
+		    selectedDisabilities[2] = form.getMove();
+		    selectedDisabilities[3] = form.getSubstances();
+		    selectedDisabilities[4] = form.getInfo();
+
+	  }
+	
+  }
   /**
    * Gets the message bundle for the provided language.
    * 
