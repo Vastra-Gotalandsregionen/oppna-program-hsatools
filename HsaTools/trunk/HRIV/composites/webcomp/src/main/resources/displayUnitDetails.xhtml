@@ -71,8 +71,6 @@
 
         <ui:define name="MainContainer">
 
-            <!-- >script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${Search_SettingsContainer.googleMapsKey}" /-->
-
             <div class="yui-u search-result">
                 <ui:include src="${Search_SettingsContainer.errorReportConfirmInclude}" />
 
@@ -430,7 +428,7 @@
                                 <h:outputText escape="false" rendered="${Search_SettingsContainer.testingMode==true and Search_SettingsContainer.showUnitCodeOnServer == facesContext.externalContext.request.serverName}" value="${Search_SettingsContainer.showUnitCode2}" />
                             </h:outputText>
                         </div>
-                        <!-- ui:include src="${Search_SettingsContainer.googleMapInitInclude}" /-->
+                        
                         <script type="text/javascript" charset="utf-8">
 				                 // <![CDATA[]
 				                 drawMap('${unit.wgs84Long}', '${unit.wgs84Lat}', '${fn:trim(unit.name)}','${fn:trim(unit.hsaPublicTelephoneNumber[0])}', '${fn:trim(unit.caretypeCustomized)}', '${msg.telephone}', '${msg.showDetails}', '${unit.hsaIdentity}');
