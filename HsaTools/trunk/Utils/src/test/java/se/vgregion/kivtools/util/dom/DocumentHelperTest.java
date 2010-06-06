@@ -21,8 +21,12 @@ package se.vgregion.kivtools.util.dom;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.junit.Test;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 public class DocumentHelperTest {
 
@@ -55,5 +59,34 @@ public class DocumentHelperTest {
     Document document = DocumentHelper.getDocumentFromString(input);
     assertNotNull(document);
     assertEquals(0, document.getChildNodes().getLength());
+  }
+
+  @Test
+  public void getDocumentFromResourceReturnAnEmptyDocumentIfResourceIsNotFound() {
+    Document document = DocumentHelper.getDocumentFromResource("testxml/unknown_resource.xml");
+    assertNotNull(document);
+    assertEquals(0, document.getChildNodes().getLength());
+  }
+
+  @Test
+  public void getDocumentFromResourceLoadsProvidedDocumentFromClasspath() {
+    Document document = DocumentHelper.getDocumentFromResource("testxml/doc_with_criteria.xml");
+    assertNotNull(document);
+    assertEquals(2, document.getChildNodes().getLength());
+  }
+
+  @Test
+  public void getDocumentFromInputSourceReturnEmptyDocumentOnIOException() {
+    InputSource inputSource = new InputSource(new ExceptionThrowingInputStream());
+    Document document = DocumentHelper.getDocumentFromInputSource(inputSource);
+    assertNotNull(document);
+    assertEquals(0, document.getChildNodes().getLength());
+  }
+
+  private static class ExceptionThrowingInputStream extends InputStream {
+    @Override
+    public int read() throws IOException {
+      throw new IOException();
+    }
   }
 }

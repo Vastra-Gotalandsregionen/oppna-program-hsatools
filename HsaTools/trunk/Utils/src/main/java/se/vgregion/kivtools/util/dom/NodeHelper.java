@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.search.domain.values.accessibility;
+package se.vgregion.kivtools.util.dom;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -26,8 +26,6 @@ import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Helper-class for getting information from XML Node objects.
- * 
- * @author argoyle
  */
 public class NodeHelper {
   /**

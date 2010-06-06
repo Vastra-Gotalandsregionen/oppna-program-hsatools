@@ -127,4 +127,10 @@
 	</bean>
 	
 	<bean id="presentationHelper" class="se.vgregion.kivtools.util.presentation.PresentationHelper" />
+
+	<!-- Västtrafik web service -->
+	<bean id="Search_VasttrafikSearchService"
+		class="se.vgregion.kivtools.search.svc.impl.vasttrafik.VasttrafikSearchServiceImpl" init-method="init">
+		<property name="vasttrafikWebServiceId" value="4ccae049-078a-4ea7-85bb-7b5d7d4c15ac"/>
+	</bean>
 </beans>

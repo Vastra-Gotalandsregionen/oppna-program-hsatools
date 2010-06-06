@@ -22,30 +22,30 @@ package se.vgregion.kivtools.search.svc.impl.vasttrafik;
 import se.vgregion.kivtools.search.svc.ws.domain.vasttrafik.TravelPlanner;
 import se.vgregion.kivtools.search.svc.ws.domain.vasttrafik.TravelPlannerSoap;
 
-public class VasttrafikSearchServiceImpl implements VasttrafikSearcService{
-
+/**
+ * SOAP-implementation of the VasttrafikSearchService.
+ */
+public class VasttrafikSearchServiceImpl implements VasttrafikSearchService {
   private TravelPlanner travelPlanner;
   private String vasttrafikWebServiceId;
   private TravelPlannerSoap travelPlannerSoap;
-  
+
   @Override
-  public String getStopIdByAddress(String address, String city) {
-    String xmlString = travelPlannerSoap.getAddressesSuggestions(vasttrafikWebServiceId, address, 10);
+  public String getStopIdByAddress(String streetAddress, String municipality) {
+    String xmlString = travelPlannerSoap.getAddressesSuggestions(vasttrafikWebServiceId, streetAddress, 10);
     XMLResultParse xmlResultParse = new XMLResultParse();
-    return xmlResultParse.getStopId(xmlString, address, city);
-    
+    return xmlResultParse.getStopId(xmlString, streetAddress, municipality);
   }
 
   public void setVasttrafikWebServiceId(String vasttrafikWebServiceId) {
     this.vasttrafikWebServiceId = vasttrafikWebServiceId;
   }
-  
-  @Override
-  public void init(){
+
+  /**
+   * Initialization method called by Spring.
+   */
+  public void init() {
     travelPlanner = new TravelPlanner();
     travelPlannerSoap = travelPlanner.getTravelPlannerSoap12();
-    
   }
-
-
 }
