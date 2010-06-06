@@ -26,6 +26,8 @@ import java.util.List;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import se.vgregion.kivtools.util.dom.NodeHelper;
+
 /**
  * Representation of a accessibility criteria.
  */

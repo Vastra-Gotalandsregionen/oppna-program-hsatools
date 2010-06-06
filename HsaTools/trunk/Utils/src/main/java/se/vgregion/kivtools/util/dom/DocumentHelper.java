@@ -20,6 +20,7 @@
 package se.vgregion.kivtools.util.dom;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -47,23 +48,65 @@ public class DocumentHelper {
    * @return A populated DOM Document or an empty document if parsing was unsuccessful.
    */
   public static Document getDocumentFromString(String content) {
-    DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder docBuilder = null;
-    Document doc = null;
+    InputSource inputSource = new InputSource(new StringReader(content));
+    return getDocumentFromInputSource(inputSource);
+  }
+
+  /**
+   * Loads the provided resource from the classpath and parses its content to a W3C DOM-document.
+   * 
+   * @param resourceName The name of the resource to load and parse.
+   * @return A populated DOM Document or an empty document if parsing was unsuccessful.
+   */
+  public static Document getDocumentFromResource(String resourceName) {
+    DocumentBuilder builder = createDocumentBuilder();
+    Document document;
+
+    InputStream inputStream = DocumentHelper.class.getClassLoader().getResourceAsStream(resourceName);
+    if (inputStream != null) {
+      InputSource inputSource = new InputSource(inputStream);
+      document = getDocumentFromInputSource(inputSource);
+    } else {
+      document = builder.newDocument();
+    }
+
+    return document;
+  }
+
+  /**
+   * Parses the provided InputSource to a W3C DOM-document.
+   * 
+   * @param inputSource The InputSource to parse.
+   * @return A populated DOM Document or an empty document if parsing was unsuccessful.
+   */
+  public static Document getDocumentFromInputSource(final InputSource inputSource) {
+    DocumentBuilder builder = createDocumentBuilder();
+    Document document;
     try {
-      docBuilder = docBuilderFactory.newDocumentBuilder();
-      InputSource inputSource = new InputSource(new StringReader(content));
-      doc = docBuilder.parse(inputSource);
-      doc.normalize();
-    } catch (ParserConfigurationException e) {
-      throw new RuntimeException("Unable to create a DocumentBuilder", e);
+
+      document = builder.parse(inputSource);
+      document.normalize();
     } catch (SAXException e) {
       LOGGER.error("Error parsing xml", e);
-      doc = docBuilder.newDocument();
+      document = builder.newDocument();
     } catch (IOException e) {
       LOGGER.error("Error parsing xml", e);
-      doc = docBuilder.newDocument();
+      document = builder.newDocument();
     }
-    return doc;
+
+    return document;
+  }
+
+  private static DocumentBuilder createDocumentBuilder() {
+    DocumentBuilder builder;
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    factory.setNamespaceAware(false);
+    factory.setValidating(false);
+    try {
+      builder = factory.newDocumentBuilder();
+    } catch (ParserConfigurationException e) {
+      throw new RuntimeException("Unable to create a DocumentBuilder", e);
+    }
+    return builder;
   }
 }

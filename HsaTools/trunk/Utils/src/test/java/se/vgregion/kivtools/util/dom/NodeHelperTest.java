@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.search.domain.values.accessibility;
+package se.vgregion.kivtools.util.dom;
 
 import static org.junit.Assert.*;
 
@@ -26,10 +26,11 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import se.vgregion.kivtools.search.domain.values.accessibility.NodeHelper;
-
 public class NodeHelperTest {
-  private static final Document DOC_WITH_CRITERIA = XmlHelper.getDocumentFromResource("testxml/doc_with_criteria.xml");
+  private static final Document DOC_WITH_CRITERIA = DocumentHelper.getDocumentFromString("<?xml version=\"1.0\"?><doc>\n" + "  <criteria objectName=\"crit1\" status=\"15\" type=\"2\">\n"
+      + "    <Disabilities>\n" + "      <hear />\n" + "      <see />\n" + "    </Disabilities>\n" + "    <bcriteria>bcrit</bcriteria>\n" + "    <input>input</input>\n" + "  </criteria>\n"
+      + "  <criteria objectName=\"crit2\" status=\"16\" type=\"1\">\n" + "    <Disabilities>\n" + "      <move />\n" + "      <substances />\n" + "    </Disabilities>\n"
+      + "    <bcriteria>bcrit2</bcriteria>\n" + "    <input>input2</input>\n" + "  </criteria>\n" + "  <criteria>\n" + "  </criteria>\n" + "</doc>\n");
   private NodeList nodeList;
 
   @Before

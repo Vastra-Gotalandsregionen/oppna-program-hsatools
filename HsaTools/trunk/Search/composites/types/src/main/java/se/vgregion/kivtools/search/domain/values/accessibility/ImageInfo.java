@@ -24,6 +24,8 @@ import java.io.Serializable;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import se.vgregion.kivtools.util.dom.NodeHelper;
+
 /**
  * Representation of an image for an accessibility package.
  */

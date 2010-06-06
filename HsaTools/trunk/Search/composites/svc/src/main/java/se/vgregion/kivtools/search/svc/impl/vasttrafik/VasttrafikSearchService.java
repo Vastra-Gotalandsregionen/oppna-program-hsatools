@@ -19,15 +19,16 @@
 
 package se.vgregion.kivtools.search.svc.impl.vasttrafik;
 
-public interface VasttrafikSearcService {
-	
-	/**
-	   * Look up the stop id of a specific address by using the web service that V√§sttrafik provides 
-	   * @param address
-	   * @return id - E.g 00001100!1876736235 the first 7 digits represents the stop id and the rest of the digits represents the id of the address.    
-	   */
-	public String getStopIdByAddress(String address, String city);
-	
-	public void init();
-
+/**
+ * Search service for Västtrafik with methods for retrieving a stopId based on an address.
+ */
+public interface VasttrafikSearchService {
+  /**
+   * Look up the stop id of a specific street address by using the web service that Västtrafik provides.
+   * 
+   * @param streetAddress The street address to find a stopId for.
+   * @param municipality The municipality the street is in.
+   * @return id - E.g 00001100!1876736235 the first 7 digits represents the stop id and the rest of the digits represents the id of the address.
+   */
+  public String getStopIdByAddress(String streetAddress, String municipality);
 }

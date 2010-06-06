@@ -23,47 +23,51 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import se.vgregion.kivtools.search.domain.values.accessibility.NodeHelper;
 import se.vgregion.kivtools.util.dom.DocumentHelper;
+import se.vgregion.kivtools.util.dom.NodeHelper;
 
+/**
+ * Parser for the Västtrafik stoplist result.
+ */
 public class XMLResultParse {
-	/**
-	   * Parses the string of a xml to get the stop id 
-	   * @param xmlString
-	   * @return id a empty String will return if there is no match.
-	   */
-	  public String getStopId(String xmlString, String address, String city){
-	    String stopId = "";
-	    Document documentFromString = DocumentHelper.getDocumentFromString(xmlString);
-	    documentFromString.normalize();
-	    
-	    NodeList elementsByTagName = documentFromString.getElementsByTagName("item");
-	    
-	    for(int i = 0; i<elementsByTagName.getLength(); i++){
-	      if(isCityValid(elementsByTagName.item(i), address, city)){
-	        stopId = NodeHelper.getAttributeTextContent(elementsByTagName.item(i), "stop_id_with_hash_key");
-	        return stopId;
-	      }
-	    }
-	    return stopId;
-	  }
-	  
-	  private boolean isCityValid(Node node, String searchAddress, String searchCity){
-	    String city = null;
-	    boolean valid = false;
-	   
-	    NodeList subObjectChildren = node.getChildNodes();
-	    for (int i = 0; i < subObjectChildren.getLength(); i++) {
-	      if (NodeHelper.isNodeName(subObjectChildren.item(i), "county")) {
-	        city = subObjectChildren.item(i).getTextContent();
-	      }
-	    }
-	    
-	    if(city!=null && searchCity.trim().equalsIgnoreCase(city.trim())){
-	      valid = true;
-	    }
-	    return valid;
-	  }
+  /**
+   * Parses the string of a xml to get the stop id.
+   * 
+   * @param xmlString The XML-string to parse.
+   * @param streetAddress The street address that was used in the search.
+   * @param municipality The municipality the street address should be located in.
+   * @return id a empty String will return if there is no match.
+   */
+  public String getStopId(String xmlString, String streetAddress, String municipality) {
+    String stopId = "";
+    Document documentFromString = DocumentHelper.getDocumentFromString(xmlString);
+    documentFromString.normalize();
 
+    NodeList elementsByTagName = documentFromString.getElementsByTagName("item");
 
+    for (int i = 0; i < elementsByTagName.getLength(); i++) {
+      if (isMunicipalityValid(elementsByTagName.item(i), streetAddress, municipality)) {
+        stopId = NodeHelper.getAttributeTextContent(elementsByTagName.item(i), "stop_id_with_hash_key");
+        return stopId;
+      }
+    }
+    return stopId;
+  }
+
+  private boolean isMunicipalityValid(Node node, String searchAddress, String searchMunicipality) {
+    String municipality = null;
+    boolean valid = false;
+
+    NodeList subObjectChildren = node.getChildNodes();
+    for (int i = 0; i < subObjectChildren.getLength(); i++) {
+      if (NodeHelper.isNodeName(subObjectChildren.item(i), "county")) {
+        municipality = subObjectChildren.item(i).getTextContent();
+      }
+    }
+
+    if (municipality != null && searchMunicipality.trim().equalsIgnoreCase(municipality.trim())) {
+      valid = true;
+    }
+    return valid;
+  }
 }
