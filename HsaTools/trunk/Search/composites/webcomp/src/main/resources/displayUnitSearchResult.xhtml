@@ -50,7 +50,8 @@
 
 
 	<ui:define name="MainContainer">
-        <div class="clearfix">
+	<h:outputText id="progressBar"/>
+        <div id="messageDiv" class="clearfix">
 			<h:outputText rendered="${fn:trim(rootCauseException.message) != ''}">
 				<h2 id="error-reporting-container">
 					${rootCauseException.message}

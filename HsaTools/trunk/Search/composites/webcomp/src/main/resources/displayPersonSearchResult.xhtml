@@ -35,7 +35,7 @@
 		<ui:define name="TabContainer">
 			<h1 class="structural">Sök Person</h1>
 			<ul class="tab-container clearfix">
-				<li><a href="#" class="active">Person</a></li>
+				<li><a href="#" class="active">Person Bajs</a></li>
 				<li>
 					<h:outputText>
 						<a href="Search.searchunit-flow.flow">Enhet</a>
@@ -49,7 +49,8 @@
 		</ui:define>
 	
 		<ui:define name="MainContainer">
-	        <div class="clearfix">
+			<h:outputText id="progressBar"/>
+	        <div id="messageDiv" class="clearfix">
 				<h:outputText rendered="${fn:trim(rootCauseException.message) != ''}">
 					<h2 id="error-reporting-container">
 						${rootCauseException.message}

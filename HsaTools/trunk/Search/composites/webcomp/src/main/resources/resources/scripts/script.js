@@ -177,3 +177,22 @@ function clearInputs() {
 
 	return false;
 }
+
+
+function showProgressText(){
+	var progress = document.getElementById("progressBar");
+	progress.innerHTML = "<h2>Sökning pågår</h2>";
+
+	var messageDiv = null;
+	var searchResult = null; 
+	messageDiv = document.getElementById("messageDiv");
+	searchResult = document.getElementById("search-result-container");
+	
+	if(messageDiv !=null){
+		messageDiv.style.visibility = 'hidden'; 
+	}
+
+	if(searchResult !=null){
+		searchResult.style.visibility = 'hidden'; 
+	}
+}
