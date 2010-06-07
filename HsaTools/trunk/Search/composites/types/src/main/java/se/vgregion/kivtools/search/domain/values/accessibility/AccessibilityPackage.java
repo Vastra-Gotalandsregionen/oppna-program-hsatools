@@ -38,7 +38,7 @@ public final class AccessibilityPackage implements Serializable {
   private final ArrayList<ImageInfo> images = new ArrayList<ImageInfo>();
   private final ArrayList<Criteria> criterias = new ArrayList<Criteria>();
   private String id;
-
+  private ArrayList<String> notetexts = new ArrayList<String>();
   /**
    * Private constructor to prevent instantiation.
    */
@@ -67,6 +67,11 @@ public final class AccessibilityPackage implements Serializable {
       if (NodeHelper.isNodeName(accessibilityPackageChildren.item(i), "objectName") || NodeHelper.isNodeName(accessibilityPackageChildren.item(i), "name")) {
         accessibilityPackage.name = accessibilityPackageChildren.item(i).getTextContent();
       }
+      
+      if (NodeHelper.isNodeName(accessibilityPackageChildren.item(i), "notetext")) {            
+    	  accessibilityPackage.notetexts.add(accessibilityPackageChildren.item(i).getTextContent());
+        }
+      
       if (NodeHelper.isNodeName(accessibilityPackageChildren.item(i), "images")) {
         for (int j = 0; j < accessibilityPackageChildren.item(i).getChildNodes().getLength(); j++) {
           if (NodeHelper.isNodeName(accessibilityPackageChildren.item(i).getChildNodes().item(j), "image")) {
@@ -135,4 +140,13 @@ public final class AccessibilityPackage implements Serializable {
 
     return visibleCriterias;
   }
+
+	public void setNotetexts(ArrayList<String> notetexts) {
+		this.notetexts = notetexts;
+	}
+	
+	public ArrayList<String> getNotetexts() {
+		return notetexts;
+	}
+
 }
