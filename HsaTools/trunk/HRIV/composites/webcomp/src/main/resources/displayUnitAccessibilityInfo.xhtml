@@ -156,6 +156,10 @@
 												<h:outputText rendered="${package.hasVisibleCriterias() == 'true'}">
 													<ul class="accessibilityBlockItem">
 														<li>${package.name}<br/>
+														&nbsp;<ui:repeat value="${package.notetexts}" var="note">
+															<h:outputText value="${note}"/>
+															<br/>
+														</ui:repeat><br/>
 														&nbsp;<ui:repeat value="${package.images}" var="image">
 															<h:outputText rendered="${image.urlLarge != null}">
 																<img src="${image.urlLarge}" alt="${image.shortDescription}" /><br/>
