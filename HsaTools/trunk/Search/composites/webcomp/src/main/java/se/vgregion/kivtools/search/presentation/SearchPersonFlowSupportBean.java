@@ -21,6 +21,8 @@ package se.vgregion.kivtools.search.presentation;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -36,6 +38,8 @@ import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.TimeMeasurement;
+import se.vgregion.kivtools.search.svc.comparators.PersonNameComparator;
+import se.vgregion.kivtools.search.svc.comparators.PersonNameWeightedComparator;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.search.util.LogUtils;
 import se.vgregion.kivtools.search.util.PagedSearchMetaDataHelper;
@@ -127,6 +131,8 @@ public class SearchPersonFlowSupportBean implements Serializable {
         LogUtils.printSikSearchResultListToLog(this, "doSearch", overAllTime, LOGGER, list);
         if (list.size() == 0) {
           throw new KivNoDataFoundException();
+        }else{
+        	Collections.sort(list, new PersonNameWeightedComparator(searchPersonCriterion.getGivenName(), searchPersonCriterion.getSurname()));
         }
       }
       return list;
