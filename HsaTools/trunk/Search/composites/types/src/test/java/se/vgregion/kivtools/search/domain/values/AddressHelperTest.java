@@ -26,9 +26,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import se.vgregion.kivtools.search.domain.values.Address;
-import se.vgregion.kivtools.search.domain.values.AddressHelper;
-
 public class AddressHelperTest {
 
   private static final String CITY = "Göteborg";
@@ -163,5 +160,15 @@ public class AddressHelperTest {
     assertEquals("Unexpected value for zipcode", ZIPCODE, address.getZipCode().getZipCode());
     assertEquals("Unexpected value for city", CITY, address.getCity());
     assertEquals("Unexpected value for additionalInfo", EXCEPTIONED_STREET, address.getAdditionalInfoToString());
+  }
+
+  @Test
+  public void kungsportsAvenynConsideredAValidStreetAddress() {
+    List<String> origAddress = new ArrayList<String>();
+    origAddress.add("Kungsportsavenyn 31-35");
+    origAddress.add("411 36 Göteborg");
+    Address address = AddressHelper.convertToStreetAddress(origAddress);
+    assertNotNull("address", address);
+    assertEquals("street", "Kungsportsavenyn 31-35", address.getStreet());
   }
 }

@@ -57,6 +57,7 @@ public class AddressHelper implements Serializable {
     VALID_STREET_SUFFIX.add("dalslands sjukhus");
     VALID_STREET_SUFFIX.add("stig");
     VALID_STREET_SUFFIX.add("centrum");
+    VALID_STREET_SUFFIX.add("aveny");
 
     EXCEPTIONED_STREET_SUFFIX.add("bruna str\u00E5ket");
     EXCEPTIONED_STREET_SUFFIX.add("vita str\u00E5ket");
