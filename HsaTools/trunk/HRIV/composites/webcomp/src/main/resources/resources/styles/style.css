@@ -338,6 +338,7 @@ h3.person {
 
 .vcard div.single-row {
 	clear: both;
+	
 }
 
 .organization-hierarchy {
@@ -346,10 +347,13 @@ h3.person {
 
 .tel-adr-container {
 	padding-right: 1em;
+	padding-bottom: 1em;
+	padding-top: 0.5em;
 	float: right;
-	width: 42%;
+	width: 35%;
 	font-size: 1.1em;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
+	
 }
 
 .tel-containter,.adr-container {
@@ -364,7 +368,8 @@ h3.person {
 	padding-top: 0.5em;
 	padding-right: 1em;
 	width: 53%;
-	height: 100%;
+	
+	
 }
 
 .vcard .unit-tempinfo {
@@ -374,7 +379,7 @@ h3.person {
 	padding-top: 0.5em;
 	padding-right: 1em;
 	width: 53%;
-	height: 100%;
+	
 }
 
 .vcard div.three-col {
@@ -516,6 +521,9 @@ th.leftcol,.rightcol { /*margin-bottom: 0.5em;*/
 	width: 90px ! important;
 }
 
+th.leftcol_small{
+	width: 55px;
+}
 .search-result .borderless .righttwocol { /* width: 50em; */
 	padding: 0.5em;
 }
@@ -1074,6 +1082,12 @@ div.autocomplete {
 	text-align: right;
 	padding: 2px;
 	float: right;
+	clear: both;
+}
+
+.vardval-participant-searchresult img{
+	float: right;
+	clear: both;
 }
 
 .confirm-registration-box {
@@ -1112,3 +1126,4 @@ div.autocomplete {
 #accessibillityInfoDiv label{
 	font-weight: bold;
 }
+

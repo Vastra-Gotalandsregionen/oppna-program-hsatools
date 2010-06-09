@@ -106,18 +106,9 @@
 		                        <ui:include src="${Search_SettingsContainer.unitHoursInclude}" />
                             	<h:outputText rendered="${unit.hsaManagementTextIsValid or (unit.showAgeInterval and unit.hsaVisitingRuleAgeIsValid) or Search_SettingsContainer.testingMode}">
 	                                <tr>
-	                                    <th class="leftcol" id="managementTextHeaderCell">
-	                                        <span class="grey-header">${msg.management}</span>
-	                                    </th>
-	                                    <td class="rightfourcol paragraph" headers="managementTextHeaderCell">
-					            			${unit.hsaManagementText}
-	                                        <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaManagementTextIsValid}">
-	                                            <span class="warning">hsaManagementText ${msg.missing}</span>
-	                                        </h:outputText>
-	                                    </td>
-	                                    <h:outputText rendered="${unit.showAgeInterval}">
+	                                <h:outputText rendered="${unit.showAgeInterval}">
 		                                    <!-- Besöksregler -->
-	                                        <th class="leftcol" id="visitingRuleAgeHeaderCell">
+	                                        <th class="leftcol_small" id="visitingRuleAgeHeaderCell">
 	                                            <span class="grey-header">${msg.visitingRuleAge}</span>
 	                                        </th>
 	                                        <td class="rightfourcol paragraph" headers="visitingRuleAgeHeaderCell">
@@ -130,9 +121,19 @@
 	                                    <h:outputText rendered="${!unit.showAgeInterval}">
 	                                        <th></th><td></td>
 	                                    </h:outputText>
+	                                    <th class="leftcol_small" id="managementTextHeaderCell">
+	                                        <span class="grey-header">${msg.management}</span>
+	                                    </th>
+	                                    <td class="rightfourcol paragraph" headers="managementTextHeaderCell">
+					            			${unit.hsaManagementText}
+	                                        <h:outputText rendered="${Search_SettingsContainer.testingMode==true and !unit.hsaManagementTextIsValid}">
+	                                            <span class="warning">hsaManagementText ${msg.missing}</span>
+	                                        </h:outputText>
+	                                    </td>
 	                                </tr>
                             	</h:outputText>
                             </table>
+                            
 							<h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true}">
 	                            <div id="tempinfo-header" style="padding: 0px;">
 	                                <table class="borderless">
