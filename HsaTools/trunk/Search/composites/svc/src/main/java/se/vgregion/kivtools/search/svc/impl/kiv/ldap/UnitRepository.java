@@ -483,7 +483,14 @@ public class UnitRepository {
 
     filterList = new ArrayList<String>();
     addSearchFilter(filterList, Constants.LDAP_PROPERTY_UNIT_NAME, unit.getName());
+    addSearchFilter(filterList, "hsaBusinessClassificationCode", unit.getName());
+    String unitNameOrBusinessClassificationCode = makeOr(filterList);
 
+    filterList = new ArrayList<String>();
+
+    if (!StringUtil.isEmpty(unitNameOrBusinessClassificationCode)) {
+      filterList.add(unitNameOrBusinessClassificationCode);
+    }
     if (!StringUtil.isEmpty(orCriterias)) {
       filterList.add(orCriterias);
     }
