@@ -76,9 +76,9 @@
 */
 .search-form .text {
 	float: left;
+	padding-right:2em;
+	width:20em;
 	/*width: 240px;*/
-	
-	margin-right: 0.5em;
 }
 
 .search-form .textname {
