@@ -19,7 +19,10 @@
 
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -244,7 +247,7 @@ public class UnitRepositoryTest {
     unitRepository.setLdapTemplate(ldapTemplateMock);
     unitRepository.searchAdvancedUnits(searchUnit, maxResults, sortOrder, false);
 
-    String expectedFilter = "(&(|(&(objectclass=vgrOrganizationalUnit)(&(ou=*unitName*)(|(hsaMunicipalityName=*Göteborg*)(hsaMunicipalityCode=*10032*)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))(hsaIdentity=*hsaId*1*)(&(|(conditionKey=value1)(conditionKey=value2)))))(&(objectclass=vgrOrganizationalRole)(&(cn=*unitName*)(|(hsaMunicipalityName=*Göteborg*)(hsaMunicipalityCode=*10032*)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))(hsaIdentity=*hsaId*1*)(&(|(conditionKey=value1)(conditionKey=value2)))))))";
+    String expectedFilter = "(&(|(&(objectclass=vgrOrganizationalUnit)(&(|(ou=*unitName*)(hsaBusinessClassificationCode=*unitName*))(|(hsaMunicipalityName=*Göteborg*)(hsaMunicipalityCode=*10032*)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))(hsaIdentity=*hsaId*1*)(&(|(conditionKey=value1)(conditionKey=value2)))))(&(objectclass=vgrOrganizationalRole)(&(|(cn=*unitName*)(hsaBusinessClassificationCode=*unitName*))(|(hsaMunicipalityName=*Göteborg*)(hsaMunicipalityCode=*10032*)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))(hsaIdentity=*hsaId*1*)(&(|(conditionKey=value1)(conditionKey=value2)))))))";
     ldapTemplateMock.assertSearchFilter(expectedFilter);
   }
 
@@ -323,8 +326,8 @@ public class UnitRepositoryTest {
   @Test
   public void testcreateAdvancedSearchFilter1() {
     StringBuffer correctResult = new StringBuffer();
-    correctResult.append("(&(|(&(objectclass=vgrOrganizationalUnit)(&(ou=*barn**och*ungdomsvård*)(|(hsaMunicipalityCode=*1490*))))");
-    correctResult.append("(&(objectclass=vgrOrganizationalRole)(&(cn=*barn**och*ungdomsvård*)(|(hsaMunicipalityCode=*1490*))))))");
+    correctResult.append("(&(|(&(objectclass=vgrOrganizationalUnit)(&(|(ou=*barn**och*ungdomsvård*)(hsaBusinessClassificationCode=*barn**och*ungdomsvård*))(|(hsaMunicipalityCode=*1490*))))");
+    correctResult.append("(&(objectclass=vgrOrganizationalRole)(&(|(cn=*barn**och*ungdomsvård*)(hsaBusinessClassificationCode=*barn**och*ungdomsvård*))(|(hsaMunicipalityCode=*1490*))))))");
     Unit unit = new Unit();
     unit.setName("barn- och ungdomsvård");
     unit.setHsaMunicipalityCode("1490");
@@ -354,7 +357,8 @@ public class UnitRepositoryTest {
   @Test
   public void testcreateAdvancedSearchFilter3() {
     StringBuffer correctResult = new StringBuffer();
-    correctResult.append("(&(|(&(objectclass=vgrOrganizationalUnit)(&(ou=*ambulans*)))(&(objectclass=vgrOrganizationalRole)(&(cn=*ambulans*)))))");
+    correctResult
+        .append("(&(|(&(objectclass=vgrOrganizationalUnit)(&(|(ou=*ambulans*)(hsaBusinessClassificationCode=*ambulans*))))(&(objectclass=vgrOrganizationalRole)(&(|(cn=*ambulans*)(hsaBusinessClassificationCode=*ambulans*))))))");
     Unit unit = new Unit();
     unit.setName("ambulans");
     String temp = unitRepository.createAdvancedSearchFilter(unit, false);
