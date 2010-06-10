@@ -346,6 +346,10 @@ public class SearchUnitFlowSupportBean implements Serializable {
     list.add(theForm.getMunicipality());
     unit.setHsaStreetAddress(AddressHelper.convertToAddress(list));
 
+    List<String> hsaBusinessClassificationCode = new ArrayList<String>();
+    hsaBusinessClassificationCode.add(theForm.getUnitName());
+    unit.setHsaBusinessClassificationCode(hsaBusinessClassificationCode);
+
     // hsaPostalAddress
     list = new ArrayList<String>();
     list.add(theForm.getMunicipality());
