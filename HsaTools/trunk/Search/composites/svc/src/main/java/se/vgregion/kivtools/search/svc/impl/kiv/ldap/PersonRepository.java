@@ -333,8 +333,6 @@ public class PersonRepository {
     employmentEndDateFilter.or(new GreaterThanOrEqualsFilter("hsaEndDate", today));
 
     employmentFilter.and(employmentEndDateFilter);
-    
-    employmentFilter.and(new NotFilter(new EqualsFilter("vgrSecrMar", "J")));
 
     // Add title to employmentFilter instead of andFilter since it's an employment attribute
     employmentFilter.and(new LikeFilter(LDAPPersonAttributes.EMPLOYMENT_TITLE.toString(), "*" + person.getEmploymentTitle() + "*"));
@@ -379,7 +377,7 @@ public class PersonRepository {
     if (!StringUtil.isEmpty(person.getAdministration())) {
       userFilter.and(generateOrFilterFromList(CodeTableName.VGR_AO3_CODE, LDAPPersonAttributes.ADMINISTRATION, person.getAdministration()));
     }
-    
+
     userFilter.and(new NotFilter(new EqualsFilter("vgrSecrMark", "J")));
 
     return userFilter;

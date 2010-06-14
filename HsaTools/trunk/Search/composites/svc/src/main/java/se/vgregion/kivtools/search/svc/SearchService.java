@@ -194,4 +194,13 @@ public interface SearchService {
    * @throws KivException If something goes wrong fetching the image.
    */
   public byte[] getProfileImageByDn(String dn) throws KivException;
+
+  /**
+   * 
+   * @param parentUnit Unit to get subunits for.
+   * @param maxSearchResult Sets maximum number of units in search result list.
+   * @return A list of sub units to the parent unit
+   * @throws KivException If something goes wrong doing search.
+   */
+  public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException;
 }

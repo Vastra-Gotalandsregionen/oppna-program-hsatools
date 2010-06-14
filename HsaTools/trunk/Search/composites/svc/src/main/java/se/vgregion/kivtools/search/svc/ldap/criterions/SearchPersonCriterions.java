@@ -139,4 +139,5 @@ public class SearchPersonCriterions {
 
     return empty;
   }
+
 }

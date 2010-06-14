@@ -211,4 +211,13 @@ public class SearchServiceLdapImpl implements SearchService {
   public byte[] getProfileImageByDn(String dn) throws KivException {
     throw new UnsupportedOperationException("Not implemented!");
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException {
+    return unitRepository.getFirstLevelSubUnits(parentUnit);
+  }
+
 }

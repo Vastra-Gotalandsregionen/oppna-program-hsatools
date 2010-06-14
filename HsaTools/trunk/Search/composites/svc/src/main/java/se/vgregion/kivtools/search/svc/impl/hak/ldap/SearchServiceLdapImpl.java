@@ -202,6 +202,14 @@ public class SearchServiceLdapImpl implements SearchService {
    * {@inheritDoc}
    */
   @Override
+  public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException {
+    throw new NotImplementedException("Not used by LTH.");
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
     return personRepository.searchPersons(person, maxResult);
   }
@@ -221,4 +229,5 @@ public class SearchServiceLdapImpl implements SearchService {
   public byte[] getProfileImageByDn(String dn) throws KivException {
     return personRepository.getProfileImageByDn(dn);
   }
+
 }

@@ -361,4 +361,9 @@ public class SearchServiceMockImpl implements SearchService {
   public List<Unit> getAllUnits(boolean onlyPublicUnits) throws KivException {
     return this.unitList;
   }
+
+  @Override
+  public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException {
+    return null;
+  }
 }
