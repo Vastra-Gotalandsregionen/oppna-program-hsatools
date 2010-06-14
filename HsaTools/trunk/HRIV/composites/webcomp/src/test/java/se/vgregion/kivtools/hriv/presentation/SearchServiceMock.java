@@ -19,7 +19,7 @@
 
 package se.vgregion.kivtools.hriv.presentation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -232,5 +232,10 @@ public class SearchServiceMock implements SearchService {
   @Override
   public List<Unit> getAllUnits(boolean onlyPublicUnits) throws KivException {
     return null;
+  }
+
+  @Override
+  public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException {
+    return new SikSearchResultList<Unit>();
   }
 }

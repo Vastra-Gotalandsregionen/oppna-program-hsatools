@@ -128,4 +128,9 @@ public class SearchServiceMockBase implements SearchService {
   public byte[] getProfileImageByDn(String dn) throws KivException {
     return null;
   }
+
+  @Override
+  public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException {
+    return null;
+  }
 }
