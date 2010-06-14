@@ -97,10 +97,10 @@
 	</view-state>
 
 	<action-state id="Display.subUnitsById">
-		<evaluate expression="Search_SearchUnitFlowSupportBean.getSubUnits(flowScope.parentHsaIdentity)" result="flowScope.units"/>
-		<transition on="success" to="Search.displayUnitSearchResult" />
+		<evaluate expression="Search_SearchUnitFlowSupportBean.getFirstLevelSubUnits(flowScope.parentHsaIdentity)" result="flowScope.units"/>
+		<transition on="success" to="Search.displaySubUnitSearchResult" />
 		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
-					to="Search.displayUnitSearchResult">
+					to="Search.displaySubUnitSearchResult">
 		</transition>
 	</action-state>
 
@@ -108,6 +108,9 @@
 		<evaluate expression="errorReportingFlowSupportBean.reportError(errorReportingForm.dn, errorReportingForm.reportText, requestParameters.detailLink)" result="flowScope.errorReportDone" />
 		<transition to="Display.unitDetailsByDn" />
 	</action-state>
+	
+	<view-state id="Search.displaySubUnitSearchResult" view="/displaySubUnitSearchResult.xhtml">
+	</view-state>
 
 	<global-transitions>
 		<transition on-exception="java.lang.Exception" to="Search.ErrorHandle" />

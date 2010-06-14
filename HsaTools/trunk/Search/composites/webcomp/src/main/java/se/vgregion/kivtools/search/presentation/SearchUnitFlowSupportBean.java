@@ -22,7 +22,6 @@ package se.vgregion.kivtools.search.presentation;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -134,8 +133,8 @@ public class SearchUnitFlowSupportBean implements Serializable {
         LogUtils.printSikSearchResultListToLog(this, "doSearch", overAllTime, LOGGER, list);
         if (list.size() == 0) {
           throw new KivNoDataFoundException();
-        }else{
-        	Collections.sort(list, new UnitNameComparator());
+        } else {
+          Collections.sort(list, new UnitNameComparator());
         }
       }
     } catch (KivNoDataFoundException e) {
@@ -272,6 +271,23 @@ public class SearchUnitFlowSupportBean implements Serializable {
     try {
       Unit parentUnit = getSearchService().getUnitByHsaId(parentHsaId);
       subUnits = getSearchService().getSubUnits(parentUnit, maxSearchResult);
+    } catch (KivException e) {
+      LOGGER.error(e);
+    }
+    return subUnits;
+  }
+
+  /**
+   * Gets all sub units for the unit with the provided HsaIdentity.
+   * 
+   * @param parentHsaId The HsaIdentity of the unit to find sub units for.
+   * @return A list of all sub units for the unit with the provided HsaIdentity.
+   */
+  public SikSearchResultList<Unit> getFirstLevelSubUnits(String parentHsaId) {
+    SikSearchResultList<Unit> subUnits = new SikSearchResultList<Unit>();
+    try {
+      Unit parentUnit = getSearchService().getUnitByHsaId(parentHsaId);
+      subUnits = getSearchService().getFirstLevelSubUnits(parentUnit);
     } catch (KivException e) {
       LOGGER.error(e);
     }

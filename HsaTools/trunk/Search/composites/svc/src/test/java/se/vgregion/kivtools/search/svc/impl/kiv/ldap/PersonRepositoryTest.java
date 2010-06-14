@@ -19,7 +19,9 @@
 
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,12 +101,13 @@ public class PersonRepositoryTest {
   @Test
   public void testEmploymentTitleSearch() throws KivException {
     mockLdapTemplate.result.put("(&(objectclass=vgrUser)(vgr-id=anama))", Arrays.asList((Object) new Unit()));
-    String expectedLdapQuestion1 = "(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(!(vgrSecrMar=J))(title=*employmentTitle*))";
+    String expectedLdapQuestion1 = "(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(title=*employmentTitle*))";
     String expectedLdapQuestion2 = "(&(objectclass=vgrUser)(!(vgrSecrMark=J))(vgr-id=anama))";
     mockLdapTemplate.result.put(expectedLdapQuestion1, Arrays.asList((Object) "anama"));
 
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
     searchPersonCriterion.setEmploymentTitle("employmentTitle");
+    personRepository.setLdapTemplate(mockLdapTemplate);
     personRepository.searchPersons(searchPersonCriterion, 1);
     assertEquals(expectedLdapQuestion1, mockLdapTemplate.filter.get(0));
     assertEquals(expectedLdapQuestion2, mockLdapTemplate.filter.get(1));
@@ -122,8 +125,8 @@ public class PersonRepositoryTest {
             "(&(objectclass=vgrUser)(|(givenName=*Kalle*)(hsaNickName=*Kalle*))(|(sn=*Svensson*)(hsaMiddleName=*Svensson*))(vgr-id=*vgr-id*)(vgrStrukturPerson=*unitName*)(hsaSpecialityCode=specialityCode)(hsaTitle=profGroup)(mail=*email*)(hsaLanguageKnowledgeCode=languageCode)(|(vgrAO3kod=administration1)(vgrAO3kod=administration2))(!(vgrSecrMark=J))(vgr-id=anama))",
             units);
 
-    mockLdapTemplate.result.put("(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(!(vgrSecrMar=J))(title=*employmentTitle*))",
-        Arrays.asList((Object) "anama"));
+    mockLdapTemplate.result.put("(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(title=*employmentTitle*))", Arrays
+        .asList((Object) "anama"));
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
     searchPersonCriterion.setGivenName("Kalle");
     searchPersonCriterion.setSurname("Svensson");

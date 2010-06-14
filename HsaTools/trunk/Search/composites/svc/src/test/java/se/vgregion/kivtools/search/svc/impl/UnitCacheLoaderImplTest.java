@@ -19,7 +19,9 @@
 
 package se.vgregion.kivtools.search.svc.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -190,6 +192,11 @@ public class UnitCacheLoaderImplTest {
 
     @Override
     public List<Person> getAllPersons() throws KivException {
+      return null;
+    }
+
+    @Override
+    public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException {
       return null;
     }
   }

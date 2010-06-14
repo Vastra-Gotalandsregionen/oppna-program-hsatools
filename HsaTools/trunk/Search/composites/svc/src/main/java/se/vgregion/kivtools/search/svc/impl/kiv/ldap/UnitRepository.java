@@ -685,6 +685,26 @@ public class UnitRepository {
     return subUnits;
   }
 
+  /**
+   * 
+   * @param parentUnit - unit to get subunits for
+   * @param maxResult - maximum of unit to be return in the result
+   * @return A list the first level of subunits for current unit.
+   * @throws KivException If something goes wrong doing search.
+   */
+  public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException {
+    SikSearchResultList<Unit> subUnits = null;
+
+    DistinguishedName parentDn = new DistinguishedName(parentUnit.getDn().toString());
+
+    // Since UnitMapper return a Unit we are certain that the cast to List<Unit> is ok
+    @SuppressWarnings("unchecked")
+    List<Unit> search = ldapTemplate.search(parentDn.toString(), "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")", SearchControls.ONELEVEL_SCOPE, ATTRIBUTES, unitMapper);
+    subUnits = cleanAndSortResult(search, 0, null);
+    removeUnitParentFromList(parentUnit, subUnits);
+    return subUnits;
+  }
+
   // Remove parent unit from search result list
   private void removeUnitParentFromList(Unit parentUnit, SikSearchResultList<Unit> subUnits) {
     for (Unit unit : subUnits) {
