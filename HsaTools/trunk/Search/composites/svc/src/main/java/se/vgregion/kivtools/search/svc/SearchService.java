@@ -198,7 +198,6 @@ public interface SearchService {
   /**
    * 
    * @param parentUnit Unit to get subunits for.
-   * @param maxSearchResult Sets maximum number of units in search result list.
    * @return A list of sub units to the parent unit
    * @throws KivException If something goes wrong doing search.
    */
