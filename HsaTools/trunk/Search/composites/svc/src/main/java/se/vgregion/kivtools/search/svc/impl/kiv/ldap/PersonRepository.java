@@ -68,6 +68,8 @@ public class PersonRepository {
   private String unitFkField;
   private CodeTablesService codeTablesService;
 
+  private static final String CN_EQUALS = "cn=";
+
   public void setLdapTemplate(LdapTemplate ldapTemplate) {
     this.ldapTemplate = ldapTemplate;
   }
@@ -208,6 +210,7 @@ public class PersonRepository {
         Name dn = dirContext.getDn();
         if (dn != null) {
           DistinguishedName distinguishedName = new DistinguishedName(dn);
+          distinguishedName.removeFirst(new DistinguishedName(PERSON_SEARCH_BASE));
           returnValue = distinguishedName.removeFirst().toString();
         }
         return returnValue;
@@ -217,9 +220,8 @@ public class PersonRepository {
     // Since the mapper return a String we are certain that the cast to List<String> is ok
     @SuppressWarnings("unchecked")
     List<String> personDNs = ldapTemplate.search(PERSON_SEARCH_BASE, searchFilter, contextMapper);
-
     for (String dn : personDNs) {
-      filter.or(new EqualsFilter("vgr-id", dn));
+      filter.or(new EqualsFilter("vgr-id", dn.replace(CN_EQUALS, "")));
     }
     return filter;
   }
@@ -307,8 +309,12 @@ public class PersonRepository {
    */
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
     Filter employmentFilter = null;
+
     if (!StringUtil.isEmpty(person.getEmploymentTitle())) {
       employmentFilter = getPersonDNsByEmployment(generateFreeTextSearchEmploymentFilter(person).encode(), SearchControls.SUBTREE_SCOPE, Integer.MAX_VALUE);
+      if (StringUtil.isEmpty(employmentFilter.encode())) {
+        return new SikSearchResultList<Person>();
+      }
     }
 
     AndFilter searchPersonFilter = generateFreeTextSearchPersonFilter(person);
@@ -395,4 +401,5 @@ public class PersonRepository {
     }
     return orFilter;
   }
+
 }
