@@ -155,6 +155,9 @@ public class SearchPersonFlowSupportBean implements Serializable {
       searchPersonCriterion.setLanguageKnowledge(personSearchSimpleForm.getLanguageKnowledge());
       searchPersonCriterion.setProfession(personSearchSimpleForm.getProfession());
       searchPersonCriterion.setEmployedAtUnit(personSearchSimpleForm.getEmployedAtUnit());
+      searchPersonCriterion.setPhone(personSearchSimpleForm.getPhone());
+      searchPersonCriterion.setEmploymentPosition(personSearchSimpleForm.getEmploymentPosition());
+      searchPersonCriterion.setDescription(personSearchSimpleForm.getDescription());
     }
     return searchPersonCriterion;
   }

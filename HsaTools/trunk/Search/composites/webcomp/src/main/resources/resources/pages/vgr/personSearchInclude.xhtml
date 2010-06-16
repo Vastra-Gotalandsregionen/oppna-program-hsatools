@@ -89,6 +89,20 @@
                     </div>
                 </div>
                 <div class="textname">
+                    <label for="employmentPosition">${msg.position}</label>
+                    <div>
+                      <input id="employmentPosition" name="employmentPosition" type="text" class="search-input-name-field" value="${personSearchSimpleForm.employmentPosition}" />
+                    </div>
+                </div>
+          	</div>
+          	<div class="fromRow">
+          		<div class="textname">
+                    <label for="phone">${msg.telephone}</label>
+                    <div>
+                      <input id="phone" name="phone" type="text" class="search-input-name-field" value="${personSearchSimpleForm.phone}" />
+                    </div>                    
+                </div>
+                <div class="textname">
                     <label for="email">${msg.email}</label>
                     <div>
                       <input id="email" name="email" type="text" class="search-input-name-field" value="${personSearchSimpleForm.email}" />
@@ -118,6 +132,12 @@
                         <input id="languageKnowledge" name="languageKnowledge" type="text" class="search-input-name-field" value="${personSearchSimpleForm.languageKnowledge}" />
                         <div id="autocomplete_languageKnowledge" class="autocomplete"></div>
                     </div>
+                </div>
+                <div class="textname">
+                    <label for="description">${msg.description}</label>
+                    <div>
+                      <input id="description" name="description" type="text" class="search-input-name-field" value="${personSearchSimpleForm.description}" />
+                    </div>                    
                 </div>
             </div>
             <input type="hidden" id="searchType" name="searchType" value="${personSearchSimpleForm.searchType}" />
