@@ -41,6 +41,9 @@ public class PersonSearchSimpleForm implements Serializable {
   private String email;
   private String specialityArea;
   private String languageKnowledge;
+  private String phone;
+  private String employmentPosition;
+  private String description;
 
   public String getGivenName() {
     return givenName;
@@ -143,6 +146,30 @@ public class PersonSearchSimpleForm implements Serializable {
     isEmpty &= StringUtil.isEmpty(userId);
 
     return isEmpty;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public String getEmploymentPosition() {
+    return employmentPosition;
+  }
+
+  public void setEmploymentPosition(String employmentPosition) {
+    this.employmentPosition = employmentPosition;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
 }

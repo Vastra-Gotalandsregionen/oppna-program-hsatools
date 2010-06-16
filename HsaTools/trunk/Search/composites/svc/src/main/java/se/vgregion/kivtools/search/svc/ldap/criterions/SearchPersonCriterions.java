@@ -37,6 +37,9 @@ public class SearchPersonCriterions {
   private String email;
   private String languageKnowledge;
   private String administration;
+  private String phone;
+  private String employmentPosition;
+  private String description;
 
   public String getGivenName() {
     return givenName;
@@ -136,8 +139,35 @@ public class SearchPersonCriterions {
     empty &= StringUtil.isEmpty(email);
     empty &= StringUtil.isEmpty(languageKnowledge);
     empty &= StringUtil.isEmpty(administration);
+    empty &= StringUtil.isEmpty(phone);
+    empty &= StringUtil.isEmpty(description);
+    empty &= StringUtil.isEmpty(employmentPosition);
 
     return empty;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public String getEmploymentPosition() {
+    return employmentPosition;
+  }
+
+  public void setEmploymentPosition(String employmentPosition) {
+    this.employmentPosition = employmentPosition;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
 }

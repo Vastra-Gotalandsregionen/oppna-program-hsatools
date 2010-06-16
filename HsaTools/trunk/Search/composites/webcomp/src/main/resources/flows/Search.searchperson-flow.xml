@@ -49,6 +49,9 @@
 	<input name="email" value="flowScope.personSearchSimpleForm.email" />
 	<input name="specialityArea" value="flowScope.personSearchSimpleForm.specialityArea" />
 	<input name="languageKnowledge" value="flowScope.personSearchSimpleForm.languageKnowledge" />
+	<input name="phone" value="flowScope.personSearchSimpleForm.phone" />
+	<input name="employmentPosition" value="flowScope.personSearchSimpleForm.employmentPosition" />
+	<input name="description" value="flowScope.personSearchSimpleForm.description" />
 
 	<!-- No input parameter shows new search screen -->
 

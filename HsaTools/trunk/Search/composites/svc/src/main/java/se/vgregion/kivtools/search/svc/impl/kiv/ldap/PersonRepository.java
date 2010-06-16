@@ -310,7 +310,8 @@ public class PersonRepository {
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
     Filter employmentFilter = null;
 
-    if (!StringUtil.isEmpty(person.getEmploymentTitle())) {
+    if (!StringUtil.isEmpty(person.getEmploymentTitle()) || !StringUtil.isEmpty(person.getEmploymentPosition()) || !StringUtil.isEmpty(person.getPhone())
+        || !StringUtil.isEmpty(person.getDescription())) {
       employmentFilter = getPersonDNsByEmployment(generateFreeTextSearchEmploymentFilter(person).encode(), SearchControls.SUBTREE_SCOPE, Integer.MAX_VALUE);
       if (StringUtil.isEmpty(employmentFilter.encode())) {
         return new SikSearchResultList<Person>();
@@ -341,9 +342,43 @@ public class PersonRepository {
     employmentFilter.and(employmentEndDateFilter);
 
     // Add title to employmentFilter instead of andFilter since it's an employment attribute
-    employmentFilter.and(new LikeFilter(LDAPPersonAttributes.EMPLOYMENT_TITLE.toString(), "*" + person.getEmploymentTitle() + "*"));
+    if (!StringUtil.isEmpty(person.getEmploymentTitle())) {
+      employmentFilter.and(new LikeFilter(LDAPPersonAttributes.EMPLOYMENT_TITLE.toString(), "*" + person.getEmploymentTitle() + "*"));
+    }
 
+    if (!StringUtil.isEmpty(person.getPhone())) {
+      OrFilter phonesFilter = new OrFilter();
+      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.HSA_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.MOBILE_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.HSA_INTERNAL_PAGER_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.PAGER_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.HSA_TEXT_PHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      employmentFilter.and(phonesFilter);
+    }
+
+    if (!StringUtil.isEmpty(person.getDescription())) {
+      employmentFilter.and(new LikeFilter(LDAPEmploymentAttributes.DESCRIPTION.toString(), "*" + person.getDescription() + "*"));
+    }
+
+    if (!StringUtil.isEmpty(person.getEmploymentPosition())) {
+      addPaTitleCodeFilter(employmentFilter, person);
+    }
     return employmentFilter;
+  }
+
+  private void addPaTitleCodeFilter(AndFilter employmentFilter, SearchPersonCriterions person) {
+    List<String> paTitleCodeList = codeTablesService.getCodeFromTextValue(CodeTableName.PA_TITLE_CODE, person.getEmploymentPosition());
+    OrFilter employmentPositionFilter = new OrFilter();
+    if (paTitleCodeList != null && paTitleCodeList.size() > 0) {
+      for (String code : paTitleCodeList) {
+        employmentPositionFilter.or(new LikeFilter(LDAPEmploymentAttributes.PA_TITLE_CODE.toString(), code));
+      }
+      employmentFilter.and(employmentPositionFilter);
+    } else {
+      employmentPositionFilter.or(new LikeFilter(LDAPEmploymentAttributes.PA_TITLE_CODE.toString(), "crap_string_when_no_code_found"));
+      employmentFilter.and(employmentPositionFilter);
+    }
+
   }
 
   private AndFilter generateFreeTextSearchPersonFilter(SearchPersonCriterions person) {
