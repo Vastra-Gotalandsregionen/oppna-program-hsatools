@@ -19,9 +19,7 @@
 
 package se.vgregion.kivtools.search.svc.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -36,7 +34,6 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.SitemapCache;
-import se.vgregion.kivtools.search.svc.SitemapEntry;
 import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
@@ -87,14 +84,12 @@ public class InternalSitemapCacheLoaderImplTest {
   }
 
   @Test
-  public void hsaIdentityIsAddedAsExtraInformationForUnits() {
+  public void unitIsAddedAsExtraInformation() {
     SitemapCache cache = loader.loadCache();
-    for (SitemapEntry.ExtraInformation extraInformation : cache.getEntries(null).get(2)) {
-      if ("hsaIdentity".equals(extraInformation.getName())) {
-        assertEquals("JKL-654", extraInformation.getValue());
-      } else {
-        fail("Unexpected extra information found");
-      }
+
+    for (Object extraInformation : cache.getEntries(null).get(2)) {
+      assertTrue("extra information is a unit", extraInformation instanceof se.vgregion.kivtools.svc.sitemap.Unit);
+      assertEquals("JKL-654", ((se.vgregion.kivtools.svc.sitemap.Unit) extraInformation).getHsaIdentity());
     }
   }
 
@@ -105,14 +100,11 @@ public class InternalSitemapCacheLoaderImplTest {
   }
 
   @Test
-  public void hsaIdentityIsAddedAsExtraInformationForPersons() {
+  public void personIsAddedAsExtraInformation() {
     SitemapCache cache = loader.loadCache();
-    for (SitemapEntry.ExtraInformation extraInformation : cache.getEntries(null).get(3)) {
-      if ("hsaIdentity".equals(extraInformation.getName())) {
-        assertEquals("hsa-456", extraInformation.getValue());
-      } else {
-        fail("Unexpected extra information found");
-      }
+    for (Object extraInformation : cache.getEntries(null).get(3)) {
+      assertTrue("extra information is a person", extraInformation instanceof se.vgregion.kivtools.svc.sitemap.Person);
+      assertEquals("hsa-456", ((se.vgregion.kivtools.svc.sitemap.Person) extraInformation).getHsaIdentity());
     }
   }
 

@@ -123,12 +123,12 @@ public class SearchServiceMockImpl implements SearchService {
       p = new ArrayList<PhoneNumber>();
       p.add(PhoneNumber.createPhoneNumber("031-123456"));
       p.add(PhoneNumber.createPhoneNumber("031-654321"));
-      u.setHsaTelephoneNumber(p);
+      u.addHsaTelephoneNumber(p);
       a = new ArrayList<String>();
       a.add("Storgatan 1");
       a.add("411 01 Göteborg");
       u.setHsaMunicipalityName("Göteborg");
-      u.setDescription(d);
+      u.addDescription(d);
       u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
       u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
     } else if (hsaId.equalsIgnoreCase("ABC002")) {
@@ -137,12 +137,12 @@ public class SearchServiceMockImpl implements SearchService {
       p = new ArrayList<PhoneNumber>();
       p.add(PhoneNumber.createPhoneNumber("031-123456"));
       p.add(PhoneNumber.createPhoneNumber("031-654321"));
-      u.setHsaTelephoneNumber(p);
+      u.addHsaTelephoneNumber(p);
       a = new ArrayList<String>();
       a.add("Stenungsundsvägen 1");
       a.add("472 91 Henån");
       u.setHsaMunicipalityName("Orust");
-      u.setDescription(d);
+      u.addDescription(d);
       u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
       u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
     } else if (hsaId.equalsIgnoreCase("ABC003")) {
@@ -151,12 +151,12 @@ public class SearchServiceMockImpl implements SearchService {
       p = new ArrayList<PhoneNumber>();
       p.add(PhoneNumber.createPhoneNumber("031-123456"));
       p.add(PhoneNumber.createPhoneNumber("031-654321"));
-      u.setHsaTelephoneNumber(p);
+      u.addHsaTelephoneNumber(p);
       a = new ArrayList<String>();
       a.add("Storgatan 1");
       a.add("411 01 Uddevalla");
       u.setHsaMunicipalityName("Uddevalla");
-      u.setDescription(d);
+      u.addDescription(d);
       u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
       u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
     }
@@ -209,7 +209,7 @@ public class SearchServiceMockImpl implements SearchService {
     p = new ArrayList<PhoneNumber>();
     p.add(PhoneNumber.createPhoneNumber("031-123456"));
     p.add(PhoneNumber.createPhoneNumber("031-654321"));
-    u.setHsaTelephoneNumber(p);
+    u.addHsaTelephoneNumber(p);
     a = new ArrayList<String>();
     a.add("Storgatan 1");
     a.add("411 01 Göteborg");
@@ -266,7 +266,7 @@ public class SearchServiceMockImpl implements SearchService {
     p = new ArrayList<PhoneNumber>();
     p.add(PhoneNumber.createPhoneNumber("031-123456"));
     p.add(PhoneNumber.createPhoneNumber("031-654321"));
-    u.setHsaTelephoneNumber(p);
+    u.addHsaTelephoneNumber(p);
     a = new ArrayList<String>();
     a.add("Storgatan 1");
     a.add("411 01 Göteborg");
@@ -280,7 +280,7 @@ public class SearchServiceMockImpl implements SearchService {
     p = new ArrayList<PhoneNumber>();
     p.add(PhoneNumber.createPhoneNumber("031-123456"));
     p.add(PhoneNumber.createPhoneNumber("031-654321"));
-    u.setHsaTelephoneNumber(p);
+    u.addHsaTelephoneNumber(p);
     a = new ArrayList<String>();
     a.add("Storgatan 1");
     a.add("411 01 Göteborg");
@@ -294,7 +294,7 @@ public class SearchServiceMockImpl implements SearchService {
     p = new ArrayList<PhoneNumber>();
     p.add(PhoneNumber.createPhoneNumber("031-123456"));
     p.add(PhoneNumber.createPhoneNumber("031-654321"));
-    u.setHsaTelephoneNumber(p);
+    u.addHsaTelephoneNumber(p);
     a = new ArrayList<String>();
     a.add("Storgatan 1");
     a.add("411 01 Uddevalla");

@@ -131,7 +131,7 @@ public class UnitRepositoryTest {
   @Test
   public void testSearchAdvancedUnitExactMatch() throws KivException {
     Unit unit = new Unit();
-    unit.setDescription(Arrays.asList("\"description\""));
+    unit.addDescription(Arrays.asList("\"description\""));
     unit.setHsaMunicipalityName("\"Kungsbacka\"");
 
     String expectedFilterString = "(&(|(&(objectClass=organizationalUnit)(|(municipalityName=Kungsbacka)(|(postalAddress=Kungsbacka$*$*$*$*$*)(postalAddress=*$Kungsbacka$*$*$*$*)(postalAddress=*$*$Kungsbacka$*$*$*)(postalAddress=*$*$*$Kungsbacka$*$*)(postalAddress=*$*$*$*$Kungsbacka$*)(postalAddress=*$*$*$*$*$Kungsbacka))(|(streetAddress=Kungsbacka$*$*$*$*$*)(streetAddress=*$Kungsbacka$*$*$*$*)(streetAddress=*$*$Kungsbacka$*$*$*)(streetAddress=*$*$*$Kungsbacka$*$*)(streetAddress=*$*$*$*$Kungsbacka$*)(streetAddress=*$*$*$*$*$Kungsbacka))))(&(objectClass=organizationalRole)(|(municipalityName=Kungsbacka)(|(postalAddress=Kungsbacka$*$*$*$*$*)(postalAddress=*$Kungsbacka$*$*$*$*)(postalAddress=*$*$Kungsbacka$*$*$*)(postalAddress=*$*$*$Kungsbacka$*$*)(postalAddress=*$*$*$*$Kungsbacka$*)(postalAddress=*$*$*$*$*$Kungsbacka))(|(streetAddress=Kungsbacka$*$*$*$*$*)(streetAddress=*$Kungsbacka$*$*$*$*)(streetAddress=*$*$Kungsbacka$*$*$*)(streetAddress=*$*$*$Kungsbacka$*$*)(streetAddress=*$*$*$*$Kungsbacka$*)(streetAddress=*$*$*$*$*$Kungsbacka)))))(hsaDestinationIndicator=03))";

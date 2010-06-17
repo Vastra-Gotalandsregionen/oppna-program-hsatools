@@ -98,7 +98,7 @@ public class PersonTest {
     assertEquals("", person.getTelephoneNumberOfFirstEmployment());
 
     PhoneNumber phoneNumber = PhoneNumber.createPhoneNumber("031-123456");
-    employment.setHsaTelephoneNumbers(Arrays.asList(phoneNumber));
+    employment.addHsaTelephoneNumbers(Arrays.asList(phoneNumber));
     assertEquals("031-123456", person.getTelephoneNumberOfFirstEmployment());
   }
 

@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.DN;
 
 public class UnitCacheTest {
   private UnitCache unitCache = new UnitCache();
@@ -37,6 +38,9 @@ public class UnitCacheTest {
     unitCache.add(createUnit("def-456"));
     // Add same hsaIdentity again to make sure that duplicates are removed.
     unitCache.add(createUnit("def-456"));
+    Unit unit = createUnit("unit with dn");
+    unit.setDn(DN.createDNFromString("ou=Tandreglering Halmstad,ou=lthalland.se,o=lth"));
+    unitCache.add(unit);
   }
 
   @Test
@@ -48,7 +52,20 @@ public class UnitCacheTest {
   @Test
   public void testGetUnits() {
     List<Unit> units = unitCache.getUnits();
-    assertEquals(2, units.size());
+    assertEquals(3, units.size());
+  }
+
+  @Test
+  public void getUnitByHsaDnStringReturnNullForMissingUnit() {
+    Unit unit = unitCache.getUnitByDnString("ou=Vårdcentralen Varberg,ou=lthalland.se,o=lth");
+    assertNull("unit", unit);
+  }
+
+  @Test
+  public void getUnitByHsaDnStringReturnMatchingUnit() {
+    Unit unit = unitCache.getUnitByDnString("ou=Tandreglering Halmstad,ou=lthalland.se,o=lth");
+    assertNotNull("unit", unit);
+    assertEquals("unit dn", DN.createDNFromString("ou=Tandreglering Halmstad,ou=lthalland.se,o=lth"), unit.getDn());
   }
 
   private Unit createUnit(String hsaIdentity) {

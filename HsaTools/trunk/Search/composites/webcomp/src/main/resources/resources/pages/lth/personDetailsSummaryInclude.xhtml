@@ -29,7 +29,7 @@
 		<span class="family-name">${person.sn}</span> 
 	</h2>
 	<ui:repeat value="${person.employments}" var="employment">
-		<div><h:outputText>${employment.title}</h:outputText><h:outputText render="${employment.vgrStrukturPerson.ancestors != null}">, ${employment.vgrStrukturPerson.ancestors[0].unitName}</h:outputText></div>	
+		<div><h:outputText>${employment.title}</h:outputText><h:outputText render="${employment.ou != ''}">, ${employment.ou}</h:outputText></div>	
 	</ui:repeat>
 	<h:outputText rendered="${not empty userEvents}">
 		<a href="#list-activities">Visa dagens aktiviteter</a>

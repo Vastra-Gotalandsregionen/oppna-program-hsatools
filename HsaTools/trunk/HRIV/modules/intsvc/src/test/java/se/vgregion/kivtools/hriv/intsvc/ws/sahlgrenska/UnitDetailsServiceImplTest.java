@@ -373,7 +373,7 @@ public class UnitDetailsServiceImplTest {
         Unit unit = new Unit();
         unit.setName(UNIT_NAME + i);
         unit.setHsaIdentity(UNIT_HSA_IDENTITY + i);
-        unit.setDescription(Arrays.asList("En trevlig mottagning"));
+        unit.addDescription(Arrays.asList("En trevlig mottagning"));
         unit.setHsaStreetAddress(addressList.get(i));
         unit.setHsaPostalAddress(addressList.get(i));
         unit.addHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("1111"));

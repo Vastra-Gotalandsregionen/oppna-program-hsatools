@@ -40,6 +40,7 @@ public class Link implements Serializable {
    * @param href The hyperlink reference to use.
    * @param name The name of the link.
    * @param toParamName The to-parameter name of the link.
+   * @param fromParamName The from-parameter name of the link.
    */
   public Link(String href, String name, String toParamName, String fromParamName) {
     super();
@@ -61,7 +62,7 @@ public class Link implements Serializable {
     return name;
   }
 
-public String getFromParamName() {
-	return fromParamName;
-}
+  public String getFromParamName() {
+    return fromParamName;
+  }
 }

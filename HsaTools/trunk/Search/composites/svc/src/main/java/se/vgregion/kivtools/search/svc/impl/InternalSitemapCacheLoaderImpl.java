@@ -97,7 +97,10 @@ public class InternalSitemapCacheLoaderImpl implements CacheLoader<SitemapCache>
         }
       }
       SitemapEntry entry = new SitemapEntry(internalApplicationURL + "/visaperson?vgrid=" + person.getVgrId(), TimeUtil.formatDateW3C(lastmod.asJavaUtilDate()), this.changeFrequency);
-      entry.addExtraInformation("hsaIdentity", person.getHsaIdentity());
+
+      se.vgregion.kivtools.svc.sitemap.Person sitemapPerson = SitemapPersonMapper.map(person, unitCacheService.getCache());
+
+      entry.addExtraInformation(sitemapPerson);
       cache.add(entry, EntryType.PERSON);
     }
   }
@@ -113,7 +116,10 @@ public class InternalSitemapCacheLoaderImpl implements CacheLoader<SitemapCache>
     for (Unit unit : units) {
       String lastmod = getLastModifiedDateTime(unit.getModifyTimestampFormattedInW3CDatetimeFormat(), unit.getCreateTimestampFormattedInW3CDatetimeFormat());
       SitemapEntry entry = new SitemapEntry(internalApplicationURL + "/" + "visaenhet?hsaidentity=" + unit.getHsaIdentity(), lastmod, changeFrequency);
-      entry.addExtraInformation("hsaIdentity", unit.getHsaIdentity());
+
+      se.vgregion.kivtools.svc.sitemap.Unit sitemapUnit = SitemapUnitMapper.map(unit);
+
+      entry.addExtraInformation(sitemapUnit);
       cache.add(entry, EntryType.UNIT);
     }
   }

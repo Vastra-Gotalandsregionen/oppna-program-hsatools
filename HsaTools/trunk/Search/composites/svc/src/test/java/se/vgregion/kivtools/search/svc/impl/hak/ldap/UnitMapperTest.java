@@ -233,7 +233,7 @@ public class UnitMapperTest {
     dirContextOperations.addAttributeValue("municipalityCode", TEST);
     dirContextOperations.addAttributeValue("municipalityName", TEST);
     dirContextOperations.addAttributeValue("objectClass", TEST);
-    dirContextOperations.addAttributeValue("organizationalUnitNameShort", TEST);
+    dirContextOperations.addAttributeValue("ouShort", TEST);
     dirContextOperations.addAttributeValue("ou", TEST);
     dirContextOperations.addAttributeValue("pager", TEST);
     dirContextOperations.addAttributeValue("postalAddress", TEST);

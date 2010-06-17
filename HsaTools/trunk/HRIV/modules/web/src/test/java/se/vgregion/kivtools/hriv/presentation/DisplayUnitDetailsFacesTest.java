@@ -177,7 +177,7 @@ public class DisplayUnitDetailsFacesTest extends FacesTesterBase {
     unit.setShowVisitingRules(true);
     unit.setHsaVisitingRules("VisitingRules");
 
-    unit.setDescription(Arrays.asList("Description"));
+    unit.addDescription(Arrays.asList("Description"));
 
     unit.addHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("031-123456"));
     unit.addMvkCaseType("casetype");

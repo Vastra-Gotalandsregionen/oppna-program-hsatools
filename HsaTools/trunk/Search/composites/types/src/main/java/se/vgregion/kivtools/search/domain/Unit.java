@@ -107,9 +107,9 @@ public class Unit implements Serializable, Comparable<Unit> {
   private String hsaAdministrationFormText;
 
   // Extern beskrivning
-  private List<String> description;
+  private final List<String> description = new ArrayList<String>();
   // Intern beskrivning
-  private List<String> internalDescription;
+  private final List<String> internalDescription = new ArrayList<String>();
   // E-postadress
   private String mail;
   // Stadsdel
@@ -155,7 +155,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   // Faxnummer
   private PhoneNumber facsimileTelephoneNumber;
   // Direkttelefon
-  private List<PhoneNumber> hsaTelephoneNumber;
+  private final List<PhoneNumber> hsaTelephoneNumber = new ArrayList<PhoneNumber>();
   // Telefon publik
   private final List<PhoneNumber> hsaPublicTelephoneNumber = new ArrayList<PhoneNumber>();
   // Telefontid
@@ -201,9 +201,8 @@ public class Unit implements Serializable, Comparable<Unit> {
   private double wgs84Long;
   private int rt90X;
   private int rt90Y;
-  // Needed for calculation of close
+  // Needed for calculation of close units
   private GeoCoordinate geoCoordinate;
-  // units
   private String distanceToTarget;
   private final List<String> mvkCaseTypes = new ArrayList<String>();
 
@@ -590,20 +589,45 @@ public class Unit implements Serializable, Comparable<Unit> {
     return description;
   }
 
-  public void setDescription(List<String> description) {
-    this.description = description;
+  /**
+   * Adds a list of external descriptions to the unit.
+   * 
+   * @param descriptions the external descriptions to add.
+   */
+  public void addDescription(List<String> descriptions) {
+    if (descriptions != null) {
+      this.description.addAll(descriptions);
+    }
   }
 
-  public void setInternalDescription(List<String> internalDescription) {
-    this.internalDescription = internalDescription;
+  public List<String> getInternalDescription() {
+    return this.internalDescription;
+  }
+
+  /**
+   * Adds a list of internal descriptions to the unit.
+   * 
+   * @param descriptions the internal descriptions to add.
+   */
+  public void addInternalDescription(List<String> descriptions) {
+    if (descriptions != null) {
+      this.internalDescription.addAll(descriptions);
+    }
   }
 
   public List<PhoneNumber> getHsaTelephoneNumber() {
     return hsaTelephoneNumber;
   }
 
-  public void setHsaTelephoneNumber(List<PhoneNumber> hsaTelephoneNumber) {
-    this.hsaTelephoneNumber = hsaTelephoneNumber;
+  /**
+   * Adds a list of telephone numbers to the unit.
+   * 
+   * @param hsaTelephoneNumbers The list of telephone numbers to add
+   */
+  public void addHsaTelephoneNumber(List<PhoneNumber> hsaTelephoneNumbers) {
+    if (hsaTelephoneNumbers != null) {
+      this.hsaTelephoneNumber.addAll(hsaTelephoneNumbers);
+    }
   }
 
   public List<PhoneNumber> getHsaPublicTelephoneNumber() {

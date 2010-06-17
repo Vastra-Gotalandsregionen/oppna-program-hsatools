@@ -147,8 +147,8 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
     // Create array with selected disabilities
     boolean[] selectedDisabilities = new boolean[5];
     setAllDisabilitiesWhenNoSelection(selectedDisabilities, form);
-   
-   // Attentive or Available?
+
+    // Attentive or Available?
     String listType = form.getListType();
     boolean attentive = "attentive".equals(listType);
 
@@ -164,29 +164,41 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
     }
   }
 
-  private void setAllDisabilitiesWhenNoSelection(boolean[] selectedDisabilities, AccessibilityDatabaseFilterForm form){
-	  if(form.getHear()==false && form.getSee()==false && form.getMove()==false && form.getSubstances()==false && form.getInfo()==false){
-		  
-		  for(int i = 0; i<selectedDisabilities.length; i++){
-			  selectedDisabilities[i] = true;
-		  }
-		  
-		  form.setHear(true);
-		  form.setSee(true);
-		  form.setMove(true);
-		  form.setSubstances(true);
-		  form.setInfo(true);
-		  
-	  }else{
-		  	selectedDisabilities[0] = form.getHear();
-		    selectedDisabilities[1] = form.getSee();
-		    selectedDisabilities[2] = form.getMove();
-		    selectedDisabilities[3] = form.getSubstances();
-		    selectedDisabilities[4] = form.getInfo();
+  private void setAllDisabilitiesWhenNoSelection(boolean[] selectedDisabilities, AccessibilityDatabaseFilterForm form) {
+    if (noSelection(form)) {
+      for (int i = 0; i < selectedDisabilities.length; i++) {
+        selectedDisabilities[i] = true;
+      }
 
-	  }
-	
+      form.setHear(true);
+      form.setSee(true);
+      form.setMove(true);
+      form.setSubstances(true);
+      form.setInfo(true);
+
+    } else {
+      selectedDisabilities[0] = form.getHear();
+      selectedDisabilities[1] = form.getSee();
+      selectedDisabilities[2] = form.getMove();
+      selectedDisabilities[3] = form.getSubstances();
+      selectedDisabilities[4] = form.getInfo();
+
+    }
+
   }
+
+  private boolean noSelection(AccessibilityDatabaseFilterForm form) {
+    boolean selection = false;
+
+    selection &= form.getHear();
+    selection &= form.getSee();
+    selection &= form.getMove();
+    selection &= form.getSubstances();
+    selection &= form.getInfo();
+
+    return !selection;
+  }
+
   /**
    * Gets the message bundle for the provided language.
    * 

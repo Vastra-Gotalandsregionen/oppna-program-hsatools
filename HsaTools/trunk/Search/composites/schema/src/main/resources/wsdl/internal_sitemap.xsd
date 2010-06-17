@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2010 Västra Götalandsregionen This library is free software; you can redistribute it and/or modify it under 
+	the terms of version 2.1 of the GNU Lesser General Public License as published by the Free Software Foundation. This library 
+	is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+	or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received 
+	a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 
+	59 Temple Place, Suite 330, Boston, MA 02111-1307 USA -->
+
+<xs:schema targetNamespace="http://www.vgregion.se/schemas/hsa" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.vgregion.se/schemas/hsa" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xs:simpleType name="AddressType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Visit" />
+			<xs:enumeration value="Goods" />
+			<xs:enumeration value="Delivery" />
+			<xs:enumeration value="Post" />
+			<xs:enumeration value="Billing" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="Address">
+		<xs:sequence>
+			<xs:element name="type" type="AddressType" />
+			<xs:element name="label" type="xs:string" />
+			<xs:element name="street" type="xs:string" minOccurs="0" />
+			<xs:element name="postcode" type="xs:string" minOccurs="0" />
+			<xs:element name="city" type="xs:string" />
+			<xs:element name="concatenated" type="xs:boolean" />
+			<xs:element name="concatenatedAddress" type="xs:string" />
+			<xs:element name="geoCoordinates" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="rt90Xpos" type="xs:string" />
+						<xs:element name="rt90Ypos" type="xs:string" />
+						<xs:element name="wgs84Latitude" type="xs:string" />
+						<xs:element name="wgs84Longitude" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="TelephoneType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Mobile" />
+			<xs:enumeration value="Fixed" />
+			<xs:enumeration value="Fax" />
+			<xs:enumeration value="Switch" />
+			<xs:enumeration value="Other" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="TelephoneNumber">
+		<xs:sequence>
+			<xs:element name="type" type="TelephoneType" />
+			<xs:element name="label" type="xs:string" />
+			<xs:element name="areaCode" type="xs:string" />
+			<xs:element name="telephoneNumber" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="E-AliasType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="URL" />
+			<xs:enumeration value="E-mail" />
+			<xs:enumeration value="E-id" />
+			<xs:enumeration value="Other" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="E-Alias">
+		<xs:sequence>
+			<xs:element name="type" type="E-AliasType" />
+			<xs:element name="label" type="xs:string" />
+			<xs:element name="alias" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Employment">
+		<xs:sequence>
+			<xs:element name="title" type="xs:string" />
+			<xs:element name="unitIdentity" type="xs:string" />
+			<xs:element name="description" type="xs:string" minOccurs="0" />
+			<xs:element name="telephone" type="TelephoneNumber" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="telephoneTime" type="xs:string" minOccurs="0" />
+			<xs:element name="address" type="Address" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="OrganizationEntity" abstract="true">
+		<xs:sequence>
+			<xs:element name="hsaIdentity" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="Unit">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="OrganizationEntity">
+					<xs:sequence>
+						<xs:element name="name" type="xs:string" />
+						<xs:element name="internalDescription" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="externalDescription" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="temporaryInformation" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="referralInformation" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="managerIdentity" type="xs:string" minOccurs="0" />
+						<xs:element name="telephone" type="TelephoneNumber" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="telephoneTime" type="xs:string" minOccurs="0" />
+						<xs:element name="address" type="Address" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="eAlias" type="E-Alias" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="municipalityName" type="xs:string" minOccurs="0" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Person">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="OrganizationEntity">
+					<xs:sequence>
+						<xs:element name="givenName" type="xs:string" />
+						<xs:element name="nickName" type="xs:string" minOccurs="0" />
+						<xs:element name="middleName" type="xs:string" minOccurs="0" />
+						<xs:element name="surname" type="xs:string" />
+						<xs:element name="userId" type="xs:string" />
+						<xs:element name="title" type="xs:string" minOccurs="0" />
+						<xs:element name="speciality" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="employment" type="Employment" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="eAlias" type="E-Alias" minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

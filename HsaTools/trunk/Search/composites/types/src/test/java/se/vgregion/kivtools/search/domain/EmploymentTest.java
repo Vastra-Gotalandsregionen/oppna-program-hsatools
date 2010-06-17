@@ -22,8 +22,8 @@ package se.vgregion.kivtools.search.domain;
 import static org.junit.Assert.*;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -87,29 +87,41 @@ public class EmploymentTest {
     PojoTester.testProperty(employment, "hsaTextPhoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber("031-123456"), PhoneNumber.createPhoneNumber("0303-10000"));
     PojoTester.testProperty(employment, "hsaSedfSwitchboardTelephoneNo", PhoneNumber.class, null, PhoneNumber.createPhoneNumber("031-123456"), PhoneNumber.createPhoneNumber("0303-10000"));
     PojoTester.testProperty(employment, "zipCode", ZipCode.class, null, new ZipCode("12345"), new ZipCode("54321"));
-    PojoTester.testProperty(employment, "modifyTimestamp", TimePoint.class, null, TimePoint.at(2009, 11, 3, 12, 1, 2, TimeZone.getDefault()), TimePoint.at(2008, 7, 8, 23, 14, 27, TimeZone
-        .getDefault()));
+    PojoTester.testProperty(employment, "modifyTimestamp", TimePoint.class, null, TimePoint.at(2009, 11, 3, 12, 1, 2, TimeZone.getDefault()),
+        TimePoint.at(2008, 7, 8, 23, 14, 27, TimeZone.getDefault()));
     PojoTester.testProperty(employment, "employmentPeriod", TimeInterval.class, null, TimeInterval.startingFrom(TimePoint.atMidnight(2009, 11, 3, TimeZone.getDefault()), Duration.days(30)),
         TimeInterval.preceding(TimePoint.atMidnight(2009, 11, 3, TimeZone.getDefault()), Duration.days(21)));
     PojoTester.testProperty(employment, "description", List.class, null, Arrays.asList("Test"), Arrays.asList("Test1", "Test2"));
-    PojoTester.testProperty(employment, "hsaTelephoneNumbers", List.class, new ArrayList<PhoneNumber>(), Arrays.asList(PhoneNumber.createPhoneNumber("031-123456")), Arrays.asList(PhoneNumber
-        .createPhoneNumber("0303-10000"), PhoneNumber.createPhoneNumber("031-123456")));
-    PojoTester.testProperty(employment, "hsaTelephoneTime", List.class, null, WeekdayTime.createWeekdayTimeList(Arrays.asList("1-5#8:30#10:00")), WeekdayTime.createWeekdayTimeList(Arrays
-        .asList("1#18:00#18:30")));
     PojoTester.testProperty(employment, "primaryEmployment", boolean.class, false, true, false);
+  }
+
+  @Test
+  public void testHsaTelephoneTime() {
+    assertEquals("hsaTelephoneTime initial value", Collections.emptyList(), employment.getHsaTelephoneTime());
+
+    employment.addHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(Arrays.asList("1-5#8:30#10:00")));
+    assertEquals("hsaTelephoneTime count", 1, employment.getHsaTelephoneTime().size());
+  }
+
+  @Test
+  public void testHsaTelephoneNumbers() {
+    assertEquals("hsaTelephoneNumbers initial value", Collections.emptyList(), employment.getHsaTelephoneNumbers());
+
+    employment.addHsaTelephoneNumbers(Arrays.asList(PhoneNumber.createPhoneNumber("031-123456")));
+    assertEquals("hsaTelephoneNumbers count", 1, employment.getHsaTelephoneNumbers().size());
   }
 
   @Test
   public void testHsaTelephoneNumber() {
     assertNull(employment.getHsaTelephoneNumber());
-    employment.setHsaTelephoneNumbers(PhoneNumber.createPhoneNumberList(Arrays.asList("031-123456", "0303-10000")));
+    employment.addHsaTelephoneNumbers(PhoneNumber.createPhoneNumberList(Arrays.asList("031-123456", "0303-10000")));
     assertEquals("031-123456", employment.getHsaTelephoneNumber().getPhoneNumber());
   }
 
   @Test
   public void testHsaTelephoneNumbersCSVString() {
     assertEquals("", employment.getHsaTelephoneNumbersCSVString());
-    employment.setHsaTelephoneNumbers(PhoneNumber.createPhoneNumberList(Arrays.asList("031-123456", "0303-10000")));
+    employment.addHsaTelephoneNumbers(PhoneNumber.createPhoneNumberList(Arrays.asList("031-123456", "0303-10000")));
     assertEquals("031 - 12 34 56 , 0303 - 100 00", employment.getHsaTelephoneNumbersCSVString());
   }
 
@@ -121,11 +133,11 @@ public class EmploymentTest {
   }
 
   @Test
-  public void testGetVgrStrukturPersonBase64() throws UnsupportedEncodingException {
+  public void testGetDnBase64() throws UnsupportedEncodingException {
     DN dn = DN.createDNFromString("CN=Hedvig h Blomfrö,OU=Falkenbergsnämnden,OU=Förtroendevalda,OU=Landstinget  Halland,DC=hkat,DC=lthalland,DC=com");
-    employment.setVgrStrukturPerson(dn);
+    employment.setDn(dn);
     String expected = "Y249SGVkdmlnIGggQmxvbWZy9ixvdT1GYWxrZW5iZXJnc27kbW5kZW4sb3U9RvZydHJvZW5kZXZh\r\nbGRhLG91PUxhbmRzdGluZ2V0ICBIYWxsYW5kLGRjPWhrYXQsZGM9bHRoYWxsYW5kLGRjPWNvbQ==\r\n";
-    String result = employment.getVgrStrukturPersonBase64();
+    String result = employment.getDnBase64();
     assertEquals("Unexpected value for Base64-encoded DN", expected, result);
   }
 

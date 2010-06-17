@@ -47,7 +47,7 @@ import se.vgregion.kivtools.search.svc.SitemapEntry;
 import se.vgregion.kivtools.search.svc.SitemapSupportBean;
 
 public class SitemapTest {
-  private static final String RESULT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:hsa=\"http://www.vgregion.se/schemas/hsa_schema\">\n<url>\n<loc>http://externalurl/visaenhet?hsaidentity=abc-123</loc>\n<lastmod>2010-02-12T01:00:00+01:00</lastmod>\n<changefreq>weekly</changefreq>\n<priority>0.5</priority>\n</url>\n</urlset>";
+  private static final String RESULT = "<?xml version=\"1.0\" encoding=\"iso-8859-1\" standalone=\"yes\"?><urlset xmlns:ns2=\"http://www.vgregion.se/schemas/hsa\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>http://externalurl/visaenhet?hsaidentity=abc-123</loc><lastmod>2010-02-12T01:00:00+01:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url></urlset>";
   private static final String SCHEME = "http";
   private static final String SERVERNAME = "localhost";
   private static final int SERVER_PORT = 8080;
