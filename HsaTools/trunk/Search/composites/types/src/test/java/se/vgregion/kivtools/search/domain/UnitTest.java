@@ -124,10 +124,8 @@ public class UnitTest {
     assertFalse(unit.getContentValidationOk());
 
     List<String> description = new ArrayList<String>();
-    unit.setDescription(description);
-    assertFalse(unit.getContentValidationOk());
-
     description.add("Beskrivning");
+    unit.addDescription(description);
     assertFalse(unit.getContentValidationOk());
 
     unit.setHsaVisitingRuleAge("0-99");
@@ -213,7 +211,6 @@ public class UnitTest {
     PojoTester.testProperty(unit, "mobileTelephoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
     PojoTester.testProperty(unit, "hsaSmsTelephoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
     PojoTester.testProperty(unit, "facsimileTelephoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
-    PojoTester.testProperty(unit, "hsaTelephoneNumber", List.class, null, Arrays.asList(PhoneNumber.createPhoneNumber(TEST)), Arrays.asList(PhoneNumber.createPhoneNumber(TEST2)));
     PojoTester.testProperty(unit, "hsaUnitPrescriptionCode", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "ou", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "vgrEDICode", String.class, null, TEST, TEST2);
@@ -243,6 +240,14 @@ public class UnitTest {
     PojoTester.testProperty(unit, "managerDN", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "hsaBusinessType", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "hsaPatientVisitingRules", String.class, null, TEST, TEST2);
+  }
+
+  @Test
+  public void testHsaTelephoneNumbers() {
+    assertEquals("hsaTelephoneNumber initial value", Collections.emptyList(), unit.getHsaTelephoneNumber());
+
+    unit.addHsaTelephoneNumber(Arrays.asList(PhoneNumber.createPhoneNumber("031-123456")));
+    assertEquals("hsaTelephoneNumber count", 1, unit.getHsaTelephoneNumber().size());
   }
 
   @Test

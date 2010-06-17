@@ -102,7 +102,7 @@ public class Employment implements Serializable {
   // Faxnummer
   private PhoneNumber facsimileTelephoneNumber;
   // Direkttelefon visas inom organisationen
-  private List<PhoneNumber> hsaTelephoneNumber = new ArrayList<PhoneNumber>();
+  private final List<PhoneNumber> hsaTelephoneNumber = new ArrayList<PhoneNumber>();
   // Direkttelefon visas för allmänheten
   private PhoneNumber hsaPublicTelephoneNumber;
   // Mobilnummer
@@ -116,7 +116,7 @@ public class Employment implements Serializable {
   // Växeltelefon
   private PhoneNumber hsaSedfSwitchboardTelephoneNo;
   // Telefontid
-  private List<WeekdayTime> hsaTelephoneTime;
+  private final List<WeekdayTime> hsaTelephoneTime = new ArrayList<WeekdayTime>();
 
   private String locality;
 
@@ -134,6 +134,15 @@ public class Employment implements Serializable {
 
   public DN getDn() {
     return dn;
+  }
+
+  /**
+   * Gets the DN as a Base64-encoded string.
+   * 
+   * @return The employments DN as a Base64-encoded string.
+   */
+  public String getDnBase64() {
+    return StringUtil.base64Encode(dn.toString());
   }
 
   public void setDn(DN dn) {
@@ -315,8 +324,15 @@ public class Employment implements Serializable {
     return this.hsaTelephoneNumber;
   }
 
-  public void setHsaTelephoneNumbers(List<PhoneNumber> hsaTelephoneNumbers) {
-    this.hsaTelephoneNumber = hsaTelephoneNumbers;
+  /**
+   * Adds telephone numbers to the employment.
+   * 
+   * @param hsaTelephoneNumbers The telephone numbers to add.
+   */
+  public void addHsaTelephoneNumbers(List<PhoneNumber> hsaTelephoneNumbers) {
+    if (hsaTelephoneNumbers != null) {
+      this.hsaTelephoneNumber.addAll(hsaTelephoneNumbers);
+    }
   }
 
   public PhoneNumber getHsaPublicTelephoneNumber() {
@@ -363,8 +379,15 @@ public class Employment implements Serializable {
     return hsaTelephoneTime;
   }
 
-  public void setHsaTelephoneTime(List<WeekdayTime> hsaTelephoneTime) {
-    this.hsaTelephoneTime = hsaTelephoneTime;
+  /**
+   * Adds new telephone times to the employment.
+   * 
+   * @param telephoneTimes The telephone times to add.
+   */
+  public void addHsaTelephoneTime(List<WeekdayTime> telephoneTimes) {
+    if (telephoneTimes != null) {
+      this.hsaTelephoneTime.addAll(telephoneTimes);
+    }
   }
 
   public List<String> getDescription() {
@@ -439,15 +462,6 @@ public class Employment implements Serializable {
 
   public Address getHsaConsigneeAddress() {
     return hsaConsigneeAddress;
-  }
-
-  /**
-   * Gets the DN as a Base64-encoded string.
-   * 
-   * @return The units DN as a Base64-encoded string.
-   */
-  public String getVgrStrukturPersonBase64() {
-    return StringUtil.base64Encode(vgrStrukturPerson.toString());
   }
 
   public void setPrimaryEmployment(boolean primaryEmployment) {

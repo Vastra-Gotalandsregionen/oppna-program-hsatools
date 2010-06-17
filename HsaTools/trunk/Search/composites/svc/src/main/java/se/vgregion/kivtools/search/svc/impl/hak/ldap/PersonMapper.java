@@ -165,7 +165,7 @@ public class PersonMapper implements ContextMapper {
     employment.setDescription(context.getStrings("description"));
     employment.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(context.getString("hsaSwitchboardNumber")));
     employment.setName(context.getString("company"));
-    employment.setHsaTelephoneNumbers(PhoneNumber.createPhoneNumberList(context.getStrings("telephoneNumber")));
+    employment.addHsaTelephoneNumbers(PhoneNumber.createPhoneNumberList(context.getStrings("telephoneNumber")));
     employment.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString("hsaTelephoneNumber")));
     employment.setMobileTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString("mobile")));
     employment.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(context.getString("hsaInternalPagerNumber")));
@@ -177,8 +177,10 @@ public class PersonMapper implements ContextMapper {
       employment.setModifyTimestamp(TimePoint.parseFrom(context.getString("whenCreated"), "yyyyMMddHHmmss", TimeZone.getDefault()));
     }
     // employment.setModifyersName(LdapORMHelper.getSingleValue(personEntry.getAttribute("modifyersName")));
-    employment.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(context.getStrings("telephoneHours")));
-    employment.setVgrStrukturPerson(DN.createDNFromString(context.getString("distinguishedName")));
+    employment.addHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(context.getStrings("telephoneHours")));
+    DN employmentDn = DN.createDNFromString(context.getString("distinguishedName"));
+    employment.setDn(employmentDn);
+    employment.setVgrStrukturPerson(employmentDn.getUnit());
     employment.setZipCode(new ZipCode(context.getString("postalCode")));
     if ("Ja".equals(context.getString("mainNode"))) {
       employment.setPrimaryEmployment(true);

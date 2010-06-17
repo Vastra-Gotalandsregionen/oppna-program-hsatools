@@ -217,6 +217,55 @@ public class DisplayAccessibilityDatabaseBeanTest {
     assertEquals("Svårt att höra", bundle.getProperty("hearing"));
   }
 
+  @Test
+  public void allDisabilitiesAreUsedIfUserMadeNoSelection() {
+    httpFetcher.addContent("http://localhost/tdb?method=getId&hsaid=ABC-123", "<?xml version=\"1.0\"?><string>246</string>");
+    httpFetcher.addContent("http://localhost/tdb?method=getInfo&lang=2&facilityId=246", DisplayAccessibilityDatabaseBeanTest.getStringFromResource("testxml/doc_with_subnodes.xml"));
+
+    AccessibilityDatabaseFilterForm form = new AccessibilityDatabaseFilterForm();
+    form.setLanguageId("2");
+    form.setFormerLanguageId("2");
+
+    Unit unit = new Unit();
+    unit.setHsaIdentity("ABC-123");
+
+    Document doc = DOC_WITH_SUBOBJECTS;
+    Node businessObjectNode = doc.getElementsByTagName("businessobject").item(0);
+    AccessibilityObject businessObject = AccessibilityObject.createAccessibilityObjectFromNode(businessObjectNode);
+
+    List<AccessibilityObject> subObjects = new ArrayList<AccessibilityObject>();
+    AccessibilityInformation accessibilityInformation = new AccessibilityInformation(businessObject, subObjects);
+    unit.setAccessibilityInformation(accessibilityInformation);
+
+    Node subObjectNode = doc.getElementsByTagName("subobject").item(0);
+    AccessibilityObject subObject = AccessibilityObject.createAccessibilityObjectFromNode(subObjectNode);
+    subObjects.add(subObject);
+    accessibilityInformation = new AccessibilityInformation(businessObject, subObjects);
+    unit.setAccessibilityInformation(accessibilityInformation);
+
+    bean.filterAccessibilityDatabaseInfo(unit, form);
+
+    Block block = businessObject.getBlocks().get(0);
+    List<Criteria> criterias = block.getPackages().get(0).getCriterias();
+
+    assertFalse(criterias.get(0).getShow());
+    assertTrue(criterias.get(1).getShow());
+    assertTrue(criterias.get(2).getShow());
+    assertTrue(criterias.get(3).getShow());
+    assertTrue(criterias.get(4).getShow());
+    assertTrue(criterias.get(5).getShow());
+
+    block = subObject.getBlocks().get(0);
+    criterias = block.getPackages().get(0).getCriterias();
+
+    assertFalse(criterias.get(0).getShow());
+    assertTrue(criterias.get(1).getShow());
+    assertTrue(criterias.get(2).getShow());
+    assertTrue(criterias.get(3).getShow());
+    assertTrue(criterias.get(4).getShow());
+    assertTrue(criterias.get(5).getShow());
+  }
+
   private static Document getDocumentFromResource(String resourceName) {
     Document document;
     try {

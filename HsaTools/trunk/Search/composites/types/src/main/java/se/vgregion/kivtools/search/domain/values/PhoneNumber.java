@@ -131,39 +131,48 @@ public final class PhoneNumber implements Serializable, Comparable<PhoneNumber>,
     String regex = "\\D*";
     strPhoneNumber = strPhoneNumber.replaceAll(regex, "");
 
-    String areaCode;
+    PhoneNumber result;
+
     // The phone number must have at least 7 digits to pass formatting
     if (strPhoneNumber.length() < 7) {
-      return new PhoneNumber(this.phoneNumber);
-    }
-
-    // Split phone number correctly after area code
-    if (LOCAL_AREA_CODES.contains(strPhoneNumber.substring(0, 2))) {
-      // Two-digit area code
-      areaCode = strPhoneNumber.substring(0, 2);
-      strPhoneNumber = strPhoneNumber.substring(2);
-    } else if (LOCAL_AREA_CODES.contains(strPhoneNumber.substring(0, 3))) {
-      // Three-digit area code
-      areaCode = strPhoneNumber.substring(0, 3);
-      strPhoneNumber = strPhoneNumber.substring(3);
+      result = new PhoneNumber(this.phoneNumber);
     } else {
-      // Four-digit area code
-      areaCode = strPhoneNumber.substring(0, 4);
-      strPhoneNumber = strPhoneNumber.substring(4);
-    }
-    String tempNumber = "";
-    for (int i = strPhoneNumber.length(); i > 0; i -= 2) {
-      String head = strPhoneNumber.substring(0, i - 2);
-      String tail = strPhoneNumber.substring(i - 2, i);
+      String areaCode;
+      // Split phone number correctly after area code
+      if (LOCAL_AREA_CODES.contains(strPhoneNumber.substring(0, 2))) {
+        // Two-digit area code
+        areaCode = strPhoneNumber.substring(0, 2);
+        strPhoneNumber = strPhoneNumber.substring(2);
+      } else if (LOCAL_AREA_CODES.contains(strPhoneNumber.substring(0, 3))) {
+        // Three-digit area code
+        areaCode = strPhoneNumber.substring(0, 3);
+        strPhoneNumber = strPhoneNumber.substring(3);
+      } else {
+        // Four-digit area code
+        areaCode = strPhoneNumber.substring(0, 4);
+        strPhoneNumber = strPhoneNumber.substring(4);
+      }
 
-      tempNumber = " " + tail + tempNumber;
-      if (head.length() == 3) {
-        tempNumber = head + tempNumber;
-        break;
+      if (strPhoneNumber.length() > 3) {
+        String tempNumber = "";
+        for (int i = strPhoneNumber.length(); i > 0; i -= 2) {
+          String head = strPhoneNumber.substring(0, i - 2);
+          String tail = strPhoneNumber.substring(i - 2, i);
+
+          tempNumber = " " + tail + tempNumber;
+          if (head.length() == 3) {
+            tempNumber = head + tempNumber;
+            break;
+          }
+        }
+
+        result = new PhoneNumber(areaCode + " - " + tempNumber.trim());
+      } else {
+        result = new PhoneNumber(this.phoneNumber);
       }
     }
 
-    return new PhoneNumber(areaCode + " - " + tempNumber.trim());
+    return result;
   }
 
   public boolean isEmpty() {

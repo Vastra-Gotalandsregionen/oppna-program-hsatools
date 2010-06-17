@@ -185,6 +185,39 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<version>1.3</version>
+				<executions>
+					<execution>
+						<id>sitemap</id>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+						<configuration>
+							<packageName>org.sitemap</packageName>
+							<schemaDirectory>${basedir}/../../../Search/composites/schema/src/main/resources/wsdl/</schemaDirectory>
+							<schemaFiles>sitemap.xsd</schemaFiles>
+							<staleFile>${project.build.directory}/generated-sources/jaxb/.staleFlagSitemap</staleFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>internal_sitemap</id>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+						<configuration>
+							<packageName>se.vgregion.kivtools.svc.sitemap</packageName>
+							<schemaDirectory>${basedir}/../../../Search/composites/schema/src/main/resources/wsdl/</schemaDirectory>
+							<schemaFiles>internal_sitemap.xsd</schemaFiles>
+							<staleFile>${project.build.directory}/generated-sources/jaxb-internal-sitemap/.staleFlagInternalSitemap</staleFile>
+							<outputDirectory>target/generated-sources/jaxb-internal-sitemap</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
     </build>
 </project>

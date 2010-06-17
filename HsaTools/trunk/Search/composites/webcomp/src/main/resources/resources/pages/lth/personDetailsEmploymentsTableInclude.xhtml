@@ -25,6 +25,9 @@
 		<tr>
 			<th id="job-organisation-${employment.cn}">Organisation</th>
 			<td headers="job-organisation-${employment.cn}">
+				<h:outputText rendered="${fn:trim(employment.vgrStrukturPerson.unit.isUnitAndAdministrationOnSameLevel) == 'false'}">
+					<a href="visaenhetdn?dn=${employment.vgrStrukturPerson.unit.urlEncoded}">${employment.vgrStrukturPerson.unit.unitName}</a>,
+				</h:outputText>	                                   											
 				<ui:repeat value="${employment.vgrStrukturPerson.ancestors}" var="ancestorDn">
 					<a href="visaenhetdn?dn=${ancestorDn.urlEncoded}">${ancestorDn.unitName}</a>
 					<h:outputText rendered="${ancestorDn.position lt fn:length(employment.vgrStrukturPerson.ancestors)}">, </h:outputText>

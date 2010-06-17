@@ -78,8 +78,8 @@ public class UnitMapper implements ContextMapper {
       unit.setName(cn);
     }
 
-    unit.setOrganizationalUnitNameShort(context.getString("organizationalUnitNameShort"));
-    unit.setDescription(context.getStrings("description"));
+    unit.setOrganizationalUnitNameShort(context.getString("ouShort"));
+    unit.addDescription(context.getStrings("description"));
     unit.setMail(context.getString("mail"));
 
     // l (=locality)
@@ -241,7 +241,7 @@ public class UnitMapper implements ContextMapper {
     unit.setHsaSmsTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString("hsaSmsTelephoneNumber")));
     unit.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString("facsimileTelephoneNumber")));
     unit.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString("pager")));
-    unit.setHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(context.getStrings("hsaTelephoneNumber")));
+    unit.addHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(context.getStrings("hsaTelephoneNumber")));
 
     List<PhoneNumber> hsaPublicTelephoneNumbers = PhoneNumber.createPhoneNumberList(context.getStrings("lthTelephoneNumber"));
     for (PhoneNumber hsaPublicTelephoneNumber : hsaPublicTelephoneNumbers) {

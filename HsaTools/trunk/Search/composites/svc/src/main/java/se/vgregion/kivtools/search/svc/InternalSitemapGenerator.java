@@ -17,7 +17,17 @@
  */
 package se.vgregion.kivtools.search.svc;
 
+import java.io.StringWriter;
+import java.math.BigDecimal;
 import java.util.List;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
+import org.sitemap.TChangeFreq;
+import org.sitemap.TUrl;
+import org.sitemap.Urlset;
 
 /**
  * Implementation of SitemapGenerator for internal use. The generated XML contains a private namespace where additional attributes can be added.
@@ -25,23 +35,32 @@ import java.util.List;
 public class InternalSitemapGenerator implements SitemapGenerator {
   @Override
   public String generate(List<SitemapEntry> sitemapEntries) {
-    StringBuilder output = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-        + "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:hsa=\"http://www.vgregion.se/schemas/hsa_schema\">\n");
+    try {
+      JAXBContext jaxbContext = JAXBContext.newInstance("org.sitemap:se.vgregion.kivtools.svc.sitemap");
+      Marshaller marshaller = jaxbContext.createMarshaller();
+      marshaller.setProperty(Marshaller.JAXB_ENCODING, "iso-8859-1");
+      StringWriter writer = new StringWriter();
+      Urlset urlset = new Urlset();
 
-    for (SitemapEntry entry : sitemapEntries) {
-      output.append("<url>\n");
-      output.append("<loc>").append(entry.getLocation()).append("</loc>\n");
-      output.append("<lastmod>").append(entry.getLastModified()).append("</lastmod>\n");
-      output.append("<changefreq>").append(entry.getChangeFrequency()).append("</changefreq>\n");
-      output.append("<priority>0.5</priority>\n");
-      for (SitemapEntry.ExtraInformation extraInformation : entry) {
-        output.append("<hsa:").append(extraInformation.getName()).append(">").append(extraInformation.getValue()).append("</hsa:").append(extraInformation.getName()).append(">\n");
+      for (SitemapEntry entry : sitemapEntries) {
+        TUrl url = new TUrl();
+        url.setLoc(entry.getLocation());
+        url.setLastmod(entry.getLastModified());
+        url.setChangefreq(TChangeFreq.fromValue(entry.getChangeFrequency()));
+        url.setPriority(BigDecimal.valueOf(0.5));
+
+        for (Object extraInformation : entry) {
+          url.getAny().add(extraInformation);
+        }
+
+        urlset.getUrl().add(url);
       }
-      output.append("</url>\n");
+
+      marshaller.marshal(urlset, writer);
+
+      return writer.toString();
+    } catch (JAXBException e) {
+      throw new RuntimeException("Unable to create XML from provided content", e);
     }
-
-    output.append("</urlset>");
-
-    return output.toString();
   }
 }

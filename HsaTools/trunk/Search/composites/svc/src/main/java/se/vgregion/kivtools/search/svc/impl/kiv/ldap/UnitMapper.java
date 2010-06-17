@@ -83,7 +83,7 @@ public class UnitMapper implements ContextMapper {
     if (!StringUtil.isEmpty(timeStamp)) {
       unit.setModifyTimestamp(TimePoint.parseFrom(timeStamp, "yyyyMMddHHmmss", TimeZone.getDefault()));
     }
-    unit.setDescription(context.getStrings(UnitLdapAttributes.DESCRIPTION));
+    unit.addDescription(context.getStrings(UnitLdapAttributes.DESCRIPTION));
     unit.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(UnitLdapAttributes.FACSIMILE_TELEPHONE_NUMBER)));
     unit.setHsaConsigneeAddress(AddressHelper.convertToAddress(context.getStrings(UnitLdapAttributes.HSA_CONSIGNEE_ADDRESS)));
     unit.setHsaCountyCode(context.getString(UnitLdapAttributes.HSA_COUNTY_CODE));
@@ -104,14 +104,14 @@ public class UnitMapper implements ContextMapper {
     unit.setHsaSmsTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(UnitLdapAttributes.HSA_SMS_TELEPHONE_NUMBER)));
     unit.setHsaStreetAddress(AddressHelper.convertToStreetAddress(context.getStrings(UnitLdapAttributes.HSA_STREET_ADDRESS)));
     unit.addHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(context.getStrings(UnitLdapAttributes.HSA_SURGERY_HOURS)));
-    unit.setHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(context.getStrings(UnitLdapAttributes.HSA_TELEPHONE_NUMBER)));
+    unit.addHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(context.getStrings(UnitLdapAttributes.HSA_TELEPHONE_NUMBER)));
     unit.addHsaTelephoneTimes(WeekdayTime.createWeekdayTimeList(context.getStrings(UnitLdapAttributes.HSA_TELEPHONE_TIME)));
     unit.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(context.getString(UnitLdapAttributes.HSA_TEXT_PHONE_NUMBER)));
     unit.setHsaUnitPrescriptionCode(context.getString(UnitLdapAttributes.HSA_UNIT_PRESCRIPTION_CODE));
     unit.setHsaVisitingRuleAge(context.getString(UnitLdapAttributes.HSA_VISITING_RULE_AGE));
     unit.setHsaVisitingRules(context.getString(UnitLdapAttributes.HSA_VISITING_RULES));
     unit.setHsaPatientVisitingRules(context.getString(UnitLdapAttributes.HSA_PATIENT_VISITING_RULES));
-    unit.setInternalDescription(context.getStrings(UnitLdapAttributes.VGR_INTERNAL_DESCRIPTION));
+    unit.addInternalDescription(context.getStrings(UnitLdapAttributes.VGR_INTERNAL_DESCRIPTION));
     unit.setIsUnit(isUnitType(context.getString(UnitLdapAttributes.OBJECT_CLASS)));
 
     String labeledURI = context.getString(UnitLdapAttributes.LABELED_URI);
@@ -129,7 +129,6 @@ public class UnitMapper implements ContextMapper {
     populateUnitName(unit, context);
     unit.setObjectClass(context.getString(UnitLdapAttributes.OBJECT_CLASS));
     unit.setIsUnit(isUnitType(context.getString(UnitLdapAttributes.OBJECT_CLASS)));
-    unit.setInternalDescription(context.getStrings(UnitLdapAttributes.VGR_INTERNAL_DESCRIPTION));
 
     unit.setOrganizationalUnitNameShort(context.getString(UnitLdapAttributes.ORGANIZATIONAL_UNITNAME_SHORT));
     unit.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(UnitLdapAttributes.PAGER_TELEPHONE_NUMBER)));

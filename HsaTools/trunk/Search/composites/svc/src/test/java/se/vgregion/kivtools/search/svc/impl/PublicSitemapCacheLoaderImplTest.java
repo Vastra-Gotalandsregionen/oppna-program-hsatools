@@ -24,7 +24,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import se.vgregion.kivtools.search.svc.SitemapCache;
-import se.vgregion.kivtools.search.svc.SitemapEntry;
 import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
 
 public class PublicSitemapCacheLoaderImplTest {
@@ -61,17 +60,5 @@ public class PublicSitemapCacheLoaderImplTest {
   public void loadCacheUsesModifyTimestampForLastmodIfEntryIsModified() {
     SitemapCache cache = loader.loadCache();
     assertEquals("2010-02-16T01:00:00+01:00", cache.getEntries(null).get(1).getLastModified());
-  }
-
-  @Test
-  public void hsaIdentityIsAddedAsExtraInformation() {
-    SitemapCache cache = loader.loadCache();
-    for (SitemapEntry.ExtraInformation extraInformation : cache.getEntries(null).get(2)) {
-      if ("hsaIdentity".equals(extraInformation.getName())) {
-        assertEquals("JKL-654", extraInformation.getValue());
-      } else {
-        fail("Unexpected extra information found");
-      }
-    }
   }
 }

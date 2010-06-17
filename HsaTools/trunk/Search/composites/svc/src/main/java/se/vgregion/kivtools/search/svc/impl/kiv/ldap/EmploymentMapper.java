@@ -118,7 +118,7 @@ public class EmploymentMapper implements ContextMapper {
 
     employment.setName(context.getString(LDAPEmploymentAttributes.ORGANIZATIONAL_UNIT_NAME.toString()));
 
-    employment.setHsaTelephoneNumbers(PhoneNumber.createPhoneNumberList(context.getStrings(LDAPEmploymentAttributes.HSA_TELEPHONE_NUMBER.toString())));
+    employment.addHsaTelephoneNumbers(PhoneNumber.createPhoneNumberList(context.getStrings(LDAPEmploymentAttributes.HSA_TELEPHONE_NUMBER.toString())));
 
     employment.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(LDAPEmploymentAttributes.HSA_PUBLIC_TELEPHONE_NUMBER.toString())));
 
@@ -134,7 +134,7 @@ public class EmploymentMapper implements ContextMapper {
 
     employment.setModifyersName(context.getString(LDAPEmploymentAttributes.MODIFYERS_NAME.toString()));
 
-    employment.setHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(context.getStrings(LDAPEmploymentAttributes.HSA_TELEPHONE_TIME.toString())));
+    employment.addHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(context.getStrings(LDAPEmploymentAttributes.HSA_TELEPHONE_TIME.toString())));
 
     employment.setDescription(context.getStrings(LDAPEmploymentAttributes.DESCRIPTION.toString()));
 

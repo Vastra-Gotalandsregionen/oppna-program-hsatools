@@ -21,9 +21,12 @@ package se.vgregion.kivtools.search.svc;
 
 import static org.junit.Assert.*;
 
+import java.io.UnsupportedEncodingException;
+
 import org.junit.Test;
 
 import se.vgregion.kivtools.search.svc.SitemapCache.EntryType;
+import se.vgregion.kivtools.svc.sitemap.Unit;
 
 public class SitemapSupportBeanTest {
   private SitemapCacheLoaderMock sitemapCacheLoader = new SitemapCacheLoaderMock();
@@ -59,10 +62,12 @@ public class SitemapSupportBeanTest {
 
   @Test
   public void extraInformationIsAddedIfAvailable() {
-    sitemapCacheLoader.setSitemapCache(new SitemapCacheBuilder().withUnit("abc-123", "2010-02-01T01:00:00+01:00", "hsaIdentity", "abc-123").buildSitemapCache());
+    Unit extraInformation = new Unit();
+    extraInformation.setHsaIdentity("abc-123");
+    sitemapCacheLoader.setSitemapCache(new SitemapCacheBuilder().withUnit("abc-123", "2010-02-01T01:00:00+01:00", extraInformation).buildSitemapCache());
     String sitemapContent = internalSitemapSupportBean.getSitemapContent("true", "true");
 
-    String hsaIdentity = getTagContent(sitemapContent, "hsa:hsaIdentity");
+    String hsaIdentity = getTagContent(sitemapContent, "ns2:hsaIdentity");
     assertEquals("abc-123", hsaIdentity);
   }
 
@@ -101,6 +106,12 @@ public class SitemapSupportBeanTest {
     assertTrue("persons not present", sitemapContent.contains("visaperson"));
   }
 
+  @Test(expected = RuntimeException.class)
+  public void exceptionIsThrownOnInvalidExtraInformation() {
+    sitemapCacheLoader.setSitemapCache(new SitemapCacheBuilder().withUnit("abc-123", "2010-02-01T01:00:00+01:00", "invalid extra content").buildSitemapCache());
+    internalSitemapSupportBean.getSitemapContent("true", "true");
+  }
+
   private String getTagContent(String content, String tag) {
     int startIndex = content.indexOf("<" + tag + ">");
     int endIndex = content.indexOf("</" + tag + ">");
@@ -117,7 +128,7 @@ public class SitemapSupportBeanTest {
   private static class SitemapCacheBuilder {
     private final SitemapCache sitemapCache = new SitemapCache();
 
-    public SitemapCacheBuilder withPerson(final String hsaIdentity, String modifyTimestamp, String... extraInformation) {
+    public SitemapCacheBuilder withPerson(final String hsaIdentity, String modifyTimestamp, Object... extraInformation) {
       createAndAddEntry(hsaIdentity, "http://external.com/visaperson?hsaidentity=" + hsaIdentity, modifyTimestamp, EntryType.PERSON, extraInformation);
       return this;
     }
@@ -126,15 +137,15 @@ public class SitemapSupportBeanTest {
       return this.sitemapCache;
     }
 
-    public SitemapCacheBuilder withUnit(final String hsaIdentity, final String modifyTimestamp, final String... extraInformation) {
+    public SitemapCacheBuilder withUnit(final String hsaIdentity, final String modifyTimestamp, final Object... extraInformation) {
       createAndAddEntry(hsaIdentity, "http://external.com/visaenhet?hsaidentity=" + hsaIdentity, modifyTimestamp, EntryType.UNIT, extraInformation);
       return this;
     }
 
-    private void createAndAddEntry(String hsaIdentity, String url, String modifyTimestamp, EntryType entryType, String... extraInformation) {
+    private void createAndAddEntry(String hsaIdentity, String url, String modifyTimestamp, EntryType entryType, Object... extraInformation) {
       SitemapEntry entry = new SitemapEntry(url, modifyTimestamp, "daily");
-      for (int i = 0; extraInformation != null && i < extraInformation.length; i += 2) {
-        entry.addExtraInformation(extraInformation[i], extraInformation[i + 1]);
+      for (int i = 0; extraInformation != null && i < extraInformation.length; i++) {
+        entry.addExtraInformation(extraInformation[i]);
       }
       sitemapCache.add(entry, entryType);
     }

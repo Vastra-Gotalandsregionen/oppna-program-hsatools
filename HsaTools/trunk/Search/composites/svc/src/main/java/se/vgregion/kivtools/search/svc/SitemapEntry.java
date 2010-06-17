@@ -20,21 +20,19 @@
 package se.vgregion.kivtools.search.svc;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import se.vgregion.kivtools.util.Arguments;
 
 /**
  * Representation of an entry in a sitemap.
  */
-public final class SitemapEntry implements Iterable<SitemapEntry.ExtraInformation> {
+public final class SitemapEntry implements Iterable<Object> {
   private final String location;
   private final String lastModified;
   private final String changeFrequency;
-  private final Map<String, String> extraInformation = new HashMap<String, String>();
+  private final List<Object> extraInformation = new ArrayList<Object>();
 
   /**
    * Constructs a new SitemapEntry.
@@ -94,49 +92,17 @@ public final class SitemapEntry implements Iterable<SitemapEntry.ExtraInformatio
   /**
    * Adds extra information to the sitemap entry.
    * 
-   * @param name The name of the extra information.
-   * @param value The value of the extra information.
+   * @param extraInformationObject The object with extra information to add.
    */
-  public void addExtraInformation(String name, String value) {
-    this.extraInformation.put(name, value);
+  public void addExtraInformation(Object extraInformationObject) {
+    this.extraInformation.add(extraInformationObject);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Iterator<SitemapEntry.ExtraInformation> iterator() {
-    List<ExtraInformation> entries = new ArrayList<ExtraInformation>();
-    for (Map.Entry<String, String> entry : extraInformation.entrySet()) {
-      entries.add(new ExtraInformation(entry.getKey(), entry.getValue()));
-    }
-    return entries.iterator();
-  }
-
-  /**
-   * Extra information for a sitemap entry.
-   */
-  public static final class ExtraInformation {
-    private final String name;
-    private final String value;
-
-    /**
-     * Constructs a new ExtraInformation.
-     * 
-     * @param name the name of the extra information.
-     * @param value the value of the extra information.
-     */
-    public ExtraInformation(final String name, final String value) {
-      this.name = name;
-      this.value = value;
-    }
-
-    public String getName() {
-      return name;
-    }
-
-    public String getValue() {
-      return value;
-    }
+  public Iterator<Object> iterator() {
+    return extraInformation.iterator();
   }
 }

@@ -21,7 +21,9 @@ package se.vgregion.kivtools.search.svc;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.util.Arguments;
@@ -33,6 +35,7 @@ import se.vgregion.kivtools.util.Arguments;
  */
 public class UnitCache {
   private final List<Unit> units = new ArrayList<Unit>();
+  private final Map<String, Unit> unitsByDn = new HashMap<String, Unit>();
 
   public List<Unit> getUnits() {
     return Collections.unmodifiableList(units);
@@ -48,6 +51,19 @@ public class UnitCache {
 
     if (!this.units.contains(unit)) {
       this.units.add(unit);
+      if (unit.getDn() != null) {
+        this.unitsByDn.put(unit.getDn().toString(), unit);
+      }
     }
+  }
+
+  /**
+   * Retrieves a unit from the cache using it's DN-string.
+   * 
+   * @param dnString The DN-string to use to retrieve a unit.
+   * @return the found unit or null if no unit was found.
+   */
+  public Unit getUnitByDnString(String dnString) {
+    return unitsByDn.get(dnString);
   }
 }
