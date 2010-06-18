@@ -282,7 +282,7 @@ public class UnitMapperTest {
     assertEquals("hsaPatientVisitingRules", TEST, unit.getHsaPatientVisitingRules());
   }
 
-  class CodeTablesServiceMock implements CodeTablesService {
+  public static class CodeTablesServiceMock implements CodeTablesService {
     @Override
     public String getValueFromCode(CodeTableName codeTableName, String string) {
       return "Translated " + string;
