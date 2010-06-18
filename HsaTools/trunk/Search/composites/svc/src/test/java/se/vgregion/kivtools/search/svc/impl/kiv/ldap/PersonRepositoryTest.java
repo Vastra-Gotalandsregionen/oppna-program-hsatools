@@ -114,6 +114,24 @@ public class PersonRepositoryTest {
   }
 
   @Test
+  public void testDetailSearchOnEmploymentAttributes() throws KivException {
+
+    String expectedLdapQuestion = "(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(title=*employmentTitle*)(|(hsaTelephoneNumber=*031-232323*)(mobileTelephoneNumber=*031-232323*)(hsaInternalPagerNumber=*031-232323*)(pagerTelephoneNumber=*031-232323*)(hsaTextPhoneNumber=*031-232323*))(description=*Description about something*)(|(paTitleCode=employmentTitle)(paTitleCode=Kurator)))";
+    mockLdapTemplate.result.put(expectedLdapQuestion, Arrays.asList((Object) "anama"));
+
+    SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
+    searchPersonCriterion.setEmploymentTitle("employmentTitle");
+    searchPersonCriterion.setPhone("031-232323");
+    searchPersonCriterion.setDescription("Description about something");
+    searchPersonCriterion.setEmploymentPosition("Kurator");
+
+    personRepository.setLdapTemplate(mockLdapTemplate);
+    personRepository.searchPersons(searchPersonCriterion, 1);
+    assertEquals(expectedLdapQuestion, mockLdapTemplate.filter.get(0));
+
+  }
+
+  @Test
   public void testSearchPersons() throws KivException {
     List<Object> units = new ArrayList<Object>();
     units.add(new Unit());
@@ -240,7 +258,8 @@ public class PersonRepositoryTest {
     codeTableServiceMock.addListToMap(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, Arrays.asList("languageCode"));
     codeTableServiceMock.addListToMap(CodeTableName.HSA_TITLE, Arrays.asList("profGroup"));
     codeTableServiceMock.addListToMap(CodeTableName.VGR_AO3_CODE, Arrays.asList("administration1,administration2".split(",")));
-    codeTableServiceMock.addListToMap(CodeTableName.PA_TITLE_CODE, Arrays.asList("employmentTitle"));
+    codeTableServiceMock.addListToMap(CodeTableName.PA_TITLE_CODE, Arrays.asList("employmentTitle", "Kurator"));
+
     return codeTableServiceMock;
   }
 

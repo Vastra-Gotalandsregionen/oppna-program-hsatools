@@ -375,7 +375,7 @@ public class PersonRepository {
       }
       employmentFilter.and(employmentPositionFilter);
     } else {
-      employmentPositionFilter.or(new LikeFilter(LDAPEmploymentAttributes.PA_TITLE_CODE.toString(), "crap_string_when_no_code_found"));
+      employmentPositionFilter.or(new LikeFilter(LDAPEmploymentAttributes.PA_TITLE_CODE.toString(), "NO_VALID_CODE_TABLE_CODE_FOUND"));
       employmentFilter.and(employmentPositionFilter);
     }
 
