@@ -184,15 +184,25 @@
 		<servlet-name>Display Unit By hsaId</servlet-name>
 		<url-pattern>/visaenhet</url-pattern>
 	</servlet-mapping>
-
+ 
 	<servlet>
-		<servlet-name>Display Persons in Unit</servlet-name>
+		<servlet-name>Display Persons in Unit and subunits</servlet-name>
 		<jsp-file>/displayPersonsByUnit.jsp</jsp-file>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Display Persons in Unit</servlet-name>
+		<servlet-name>Display Persons in Unit and subunits</servlet-name>
 		<url-pattern>/visaorganisation</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Display Persons in Unit</servlet-name>
+		<jsp-file>/displayPersonsForThisUnit.jsp</jsp-file>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Display Persons in Unit</servlet-name>
+		<url-pattern>/visadennaorganisation</url-pattern>
 	</servlet-mapping>
 
 	<servlet>

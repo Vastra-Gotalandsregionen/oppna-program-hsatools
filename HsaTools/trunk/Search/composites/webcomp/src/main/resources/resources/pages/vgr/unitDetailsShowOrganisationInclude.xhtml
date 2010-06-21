@@ -21,7 +21,10 @@
 
 				<div>
 					<div class="show-persons">
-					   	<a href="visaorganisation?hsaidentity=${unit.hsaIdentity}">Visa personer på enhet</a>
+					   	<a href="visadennaorganisation?hsaidentityOnlyThisUnit=${unit.hsaIdentity}">Visa personer på denna enhet</a>
+					</div>
+					<div class="show-persons">
+					   	<a href="visaorganisation?hsaidentity=${unit.hsaIdentity}">Visa personer på denna enhet och underliggande enheter</a>
 					</div>
 					<div class="show-subunits">
 					   	<a href="visaunderliggandeenheter?parentHsaIdentity=${unit.hsaIdentity}">Visa underliggande enheter</a>
