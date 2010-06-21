@@ -304,4 +304,52 @@ public class SearchPersonFlowSupportBean implements Serializable {
     }
     return persons;
   }
+
+  /**
+   * Gets all persons in the organization from only this unit with the provided hsaIdentity .
+   * 
+   * @param hsaIdentity The hsaIdentity of the root unit.
+   * @return A list of persons.
+   * @throws KivNoDataFoundException If no matching persons are found.
+   */
+  public SikSearchResultList<Person> getOrganisation(String hsaIdentity) throws KivNoDataFoundException {
+    LOGGER.debug(CLASS_NAME + ".getOrganisationOnlyOneLevel()");
+
+    try {
+      TimeMeasurement overAllTime = new TimeMeasurement();
+      // start measurement
+      overAllTime.start();
+      SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
+
+      if (!StringUtil.isEmpty(hsaIdentity)) {
+        Unit unit = null;
+        unit = getSearchService().getUnitByHsaId(hsaIdentity);
+
+        List<Unit> units = new ArrayList<Unit>();
+        units.add(unit);
+        persons = getSearchService().getPersonsForUnits(units, maxSearchResult);
+
+        // fetch all employments
+        SikSearchResultList<Employment> empList = null;
+        for (Person pers : persons) {
+          empList = getSearchService().getEmployments(pers.getDn());
+          pers.setEmployments(empList);
+        }
+      }
+
+      // stop measurement
+      overAllTime.stop();
+
+      LogUtils.printSikSearchResultListToLog(this, "getOrganisationOnlyOneLevel", overAllTime, LOGGER, persons);
+      if (persons.size() == 0) {
+        throw new KivNoDataFoundException();
+      }
+      return persons;
+    } catch (KivNoDataFoundException e) {
+      throw e;
+    } catch (KivException e) {
+      LOGGER.error(e);
+      return new SikSearchResultList<Person>();
+    }
+  }
 }
