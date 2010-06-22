@@ -21,7 +21,7 @@
 
 <h:outputText xmlns:h="http://java.sun.com/jsf/html" rendered="true">
 	<div id="pageHeader">
-		<form action="http://vard.vgregion.se/sv/Sok1/" method="get">
+		<form action="http://xhitta.vgregion.se/search.xhtml" method="get">
 			<div id="pageHeaderSearch">
 				<div class="headerlinks">
 					<ul>
@@ -32,7 +32,9 @@
 							<h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" escape="false" value="${Search_SettingsContainer.listenLinkCode2}" />
 						</li>					
 					</ul>
-					<input name="quicksearchquery" id="SearchText" accesskey="4" title="${msg.quickSearch}" class="topSearch" type="text" />
+					<input name="scoped" value="true" type="hidden" />
+					<input name="filter" value="scope:VGRegionvardportalen" type="hidden" />
+					<input name="q" id="SearchText" accesskey="4" title="${msg.quickSearch}" class="topSearch" type="text" />
 					<input name="Search" value="${msg.search}" id="Search" class="standardButton marginTopFive" type="submit" />
 				</div>
 			</div>
