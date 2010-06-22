@@ -67,7 +67,7 @@ import se.vgregion.kivtools.util.time.TimeUtil;
 
 import com.thoughtworks.xstream.XStream;
 
-@Ignore
+//@Ignore
 public class KivwsOfUnitRepositoryTest  {
     private UnitRepository unitRepository;
     private UnitMapper unitMapper;
@@ -133,7 +133,7 @@ public class KivwsOfUnitRepositoryTest  {
         // Snapshot of Vardcentral.
         kivwsOfUnitRepositoryTest.writeObjectToXml("(hsaBusinessType=02)","careUnits.xml", false);
         // Snapshot of Tandvard
-        kivwsOfUnitRepositoryTest.writeObjectToXml("(|(hsaBusinessClassificationCode=1000)(hsaBusinessClassificationCode=1100)(hsaBusinessClassificationCode=1500)(hsaBusinessClassificationCode=1600)(hsaBusinessClassificationCode=1800)(hsaBusinessClassificationCode=1801)(hsaBusinessClassificationCode=1812))","dentalUnits.xml", false);
+        kivwsOfUnitRepositoryTest.writeObjectToXml("(hsaBusinessClassificationCode=1500)","dutyUnits.xml", false);
     }
 
     @After
@@ -365,7 +365,7 @@ public class KivwsOfUnitRepositoryTest  {
                
                 
                 if (searchQuery.contains("cn=")){
-                    // Make query against kivws
+                    // Make query against ki∂jvws
                     ArrayOfFunction kivswSearchFunction = vgRegionWebServiceImplPort.searchFunction(searchQuery,
                             new ArrayOfString(), VGRegionDirectory.KIV, null);
                     createObjectOutputStream.writeObject(kivswSearchFunction);
