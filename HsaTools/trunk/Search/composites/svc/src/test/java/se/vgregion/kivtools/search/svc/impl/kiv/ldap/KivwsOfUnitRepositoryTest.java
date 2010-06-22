@@ -128,7 +128,12 @@ public class KivwsOfUnitRepositoryTest  {
     public static void main(String[] args) throws Exception {
         KivwsOfUnitRepositoryTest kivwsOfUnitRepositoryTest = new KivwsOfUnitRepositoryTest();
         kivwsOfUnitRepositoryTest.setUp();
-        kivwsOfUnitRepositoryTest.writeObjectToXml("(cn=Infektionsmottagning Telefonrådgivning)","kivwsFunctionObject.xml", false);
+        // Snapshot of Akutvard.
+        kivwsOfUnitRepositoryTest.writeObjectToXml("(|(hsaBusinessClassificationCode=1000)(hsaBusinessClassificationCode=1100)(hsaBusinessClassificationCode=1500)(hsaBusinessClassificationCode=1600)(hsaBusinessClassificationCode=1800)(hsaBusinessClassificationCode=1801)(hsaBusinessClassificationCode=1812))","emergencyUnits.xml", false);
+        // Snapshot of Vardcentral.
+        kivwsOfUnitRepositoryTest.writeObjectToXml("(hsaBusinessType=02)","careUnits.xml", false);
+        // Snapshot of Tandvard
+        kivwsOfUnitRepositoryTest.writeObjectToXml("(|(hsaBusinessClassificationCode=1000)(hsaBusinessClassificationCode=1100)(hsaBusinessClassificationCode=1500)(hsaBusinessClassificationCode=1600)(hsaBusinessClassificationCode=1800)(hsaBusinessClassificationCode=1801)(hsaBusinessClassificationCode=1812))","dentalUnits.xml", false);
     }
 
     @After
