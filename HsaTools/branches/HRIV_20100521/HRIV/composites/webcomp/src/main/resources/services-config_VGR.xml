@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean id="propertyPlaceholderWebcomp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:se/vgregion/kivtools/hriv/presentation/kiv/hriv-composite-webcomp.properties" />
+		<property name="placeholderPrefix" value="#{" />
+		<property name="fileEncoding" value="UTF-8" />
+	</bean>
+
+	<bean id="Controller_registerOnUnit"
+		class="se.vgregion.kivtools.hriv.presentation.RegisterOnUnitController"
+		init-method="initEndpoint">
+		
+		<property name="externalApplicationURL">
+			<bean
+				class="org.springframework.beans.factory.config.PropertyPathFactoryBean">
+				<property name="targetObject">
+					<ref bean="Search_SettingsContainer" />
+				</property>
+				<property name="propertyPath">
+					<value>externalApplicationURL</value>
+				</property>
+			</bean>
+		</property>
+
+		<!--
+			To change from Test to prod, change test to id in the following urls	    -->
+		<property name="serviceUrl"
+			value="https://id.signicat.com/std/method/vgr?method=sign" />
+		<!--
+		<property name="serviceUrl"
+			value="http://kivsearch.vgregion.se:8080/testtools/Sign.jsp?method=sign" />
+		-->
+			
+		<property name="signatureServiceEndpoint"
+			value="https://id.signicat.com/signatureservice/services/signatureservice" />
+		<!--
+		<property name="signatureServiceEndpoint"
+			value="http://kivsearch.vgregion.se:8080/testtools/ws/signatureservice/services/signatureservice" />
+		-->
+
+		<property name="vardValService" ref="Registration_vardValService" />
+		<property name="searchService" ref="Search_SearchService" />
+		<property name="citizenRepository" ref="Registration_citizenRepository" />
+	</bean>
+
+	<bean id="fileUtil" class="se.vgregion.kivtools.util.file.FileUtilImpl" />
+	
+	<bean id="rssContentCache" class="se.vgregion.kivtools.hriv.presentation.RssContentCache" init-method="reloadRssCache">
+		<property name="nameToUrlMap">
+			<util:map>
+				<entry key="startpage" value="http://vard.vgregion.se/Documents/hittavard_start.htm" />
+				<entry key="caretypes" value="http://vard.vgregion.se/Documents/vardtyper.htm" />
+			</util:map>
+		</property>
+		<property name="httpFetcher" ref="Display_HttpFetcher" />
+		<property name="fileUtil" ref="fileUtil" />
+	</bean>
+	
+	<bean id="jobDetailRssContentCache"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="rssContentCache" />
+		<property name="targetMethod" value="reloadRssCache" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="simpleTriggerRssContentCache" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="jobDetailRssContentCache" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every hour -->
+		<property name="repeatInterval" value="3600000" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="startupDelay" value="10" />
+		<property name="triggers">
+			<list>
+				<ref bean="simpleTriggerRssContentCache" />
+			</list>
+		</property>
+	</bean>
+	
+	<!--	<bean id="Registration_vardValService"-->
+	<!--
+		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl"
+		/>
+	-->
+
+	<bean id="Registration_vardValService"
+		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl"
+		init-method="setEndpoint">
+		<property name="service">
+			<bean
+				class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceFactory"
+				factory-method="getIVardvalservice">
+				<constructor-arg value="https://vardval.vgregion.se/vardvalservice/VardvalService.svc?WSDL"/>
+				<constructor-arg value="urn:VGRegion.VGPrimärvård.Vårdval.Service"/>
+				<constructor-arg value="VårdvalService"/>
+			</bean>
+		</property>
+		<!--
+		<property name="webserviceEndpoint"
+			value="http://kivsearch.vgregion.se:8080/testtools/ws/VardvalService/VardvalService.svc" />
+		-->
+		<property name="webserviceEndpoint"
+			value="https://vardval.vgregion.se/vardvalservice/VardvalService.svc" />
+	</bean>
+
+	<bean id="Registration_citizenRepository"
+		class="se.vgregion.kivtools.search.svc.registration.CitizenRepository">
+		<property name="ldapTemplate" ref="ldapTemplateCitizen" />
+	</bean>
+
+	<bean id="ldapTemplateCitizen" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSourceCitizen" />
+	</bean>
+
+	<bean id="contextSourceCitizen" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://ldappoc.vgregion.se:389" />
+		<property name="base" value="ou=medborgare,ou=anv,O=VGR" />
+		<!--        <property name="userName" value="" />-->
+		<!--        <property name="password" value="" />-->
+		<property name="pooled" value="true" />
+	</bean>
+	
+	<bean id="sitemapGenerator" class="se.vgregion.kivtools.search.svc.ExternalSitemapGenerator" />
+	
+	<bean id="sitemapSupportBean" class="se.vgregion.kivtools.search.svc.SitemapSupportBean">
+		<constructor-arg ref="sitemapCacheService" />
+		<constructor-arg ref="sitemapGenerator" />
+	</bean>
+	
+	<bean id="sitemapCacheLoader" class="se.vgregion.kivtools.search.svc.impl.PublicSitemapCacheLoaderImpl">
+		<constructor-arg ref="unitCacheService"/>
+		<constructor-arg value="#{hsatools.hriv.webcomp.externalApplicationURL}" />
+	</bean>
+	
+	<bean id="sitemapCacheService" class="se.vgregion.kivtools.search.svc.SitemapCacheServiceImpl">
+		<constructor-arg ref="sitemapCacheLoader" />
+	</bean>
+
+	<bean id="sitemapCacheReload"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="sitemapCacheService" />
+		<property name="targetMethod" value="reloadCache" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="triggerSitemapCacheReload" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="sitemapCacheReload" />
+		<!-- 5 minutes so unitCacheReload has completed -->
+		<property name="startDelay" value="300000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean id="unitCacheLoader" class="se.vgregion.kivtools.search.svc.impl.UnitCacheLoaderImpl">
+		<constructor-arg ref="Search_SearchService"/>
+		<constructor-arg value="true" />
+	</bean>
+	
+	<bean id="unitCacheService" class="se.vgregion.kivtools.search.svc.UnitCacheServiceImpl">
+		<constructor-arg ref="unitCacheLoader" />
+	</bean>
+
+	<bean id="unitCacheReload"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="unitCacheService" />
+		<property name="targetMethod" value="reloadCache" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="triggerUnitCacheReload" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="unitCacheReload" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="startupDelay" value="10" />
+		<property name="triggers">
+			<list>
+				<ref bean="triggerUnitCacheReload" />
+				<ref bean="triggerSitemapCacheReload" />
+			</list>
+		</property>
+	</bean>
+</beans>

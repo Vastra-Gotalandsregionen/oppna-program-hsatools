@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright 2009 Västra Götalandsregionen
+    
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+    
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+    
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+-->
+
+	<!--
+		This is the Web-app (can also be Portlet) Maven POM. Template version:
+		1.0-SNAPSHOT Generation time : 2008-06-09 13:23:02 CEST
+	-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<groupId>HsaTools</groupId>
+		<artifactId>HsaTools-HRIV</artifactId>
+		<version>1.1-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>HsaTools-HRIV-module-web</artifactId>
+	<packaging>war</packaging>
+
+	<name>HsaTools-HRIV-module-web</name>
+	<description>HsaTools-HRIV-module-web</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>HsaTools-HRIV-composite-webcomp</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>se.vgregion.javg</groupId>
+			<artifactId>javg-rt-support</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>spring-webflow</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>spring-faces</artifactId>
+		</dependency>
+		
+		<!--
+			We use a Servlet Filter from spring-web to control UTF-8 encodings.
+			Facelets doesn't do this for us.
+		-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.el</groupId>
+			<artifactId>jboss-el</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.facelets</groupId>
+			<artifactId>jsf-facelets</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.sourceforge.jwebunit</groupId>
+			<artifactId>jwebunit-core</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.sourceforge.jwebunit</groupId>
+			<artifactId>jwebunit-htmlunit-plugin</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.steeplesoft.jsf</groupId>
+			<artifactId>facestester</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.steeplesoft.jsf</groupId>
+			<artifactId>facestester-jsf2</artifactId>
+		</dependency>
+	</dependencies>
+</project>
