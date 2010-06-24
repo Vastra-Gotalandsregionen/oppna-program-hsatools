@@ -35,7 +35,7 @@ import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRException_Exception;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService;
 
 /**
- * Class that handles code, text pairing of ldap values.
+ * Class that handles code from a webservice.
  * 
  * @author David & Nhi
  */
