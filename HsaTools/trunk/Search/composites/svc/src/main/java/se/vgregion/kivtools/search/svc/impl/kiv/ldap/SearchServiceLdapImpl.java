@@ -220,4 +220,8 @@ public class SearchServiceLdapImpl implements SearchService {
     return unitRepository.getFirstLevelSubUnits(parentUnit);
   }
 
+  public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException {
+    return unitRepository.getUnitByHsaIdAndHasNotCareTypeInpatient(hsaId);
+  }
+
 }

@@ -199,5 +199,10 @@ public class UnitCacheLoaderImplTest {
     public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException {
       return null;
     }
+
+    @Override
+    public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException {
+      return null;
+    }
   }
 }

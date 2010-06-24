@@ -202,4 +202,6 @@ public interface SearchService {
    * @throws KivException If something goes wrong doing search.
    */
   public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException;
+
+  public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException;
 }

@@ -230,4 +230,12 @@ public class SearchServiceLdapImpl implements SearchService {
     return personRepository.getProfileImageByDn(dn);
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException {
+    throw new NotImplementedException("Not used by LTH.");
+  }
+
 }
