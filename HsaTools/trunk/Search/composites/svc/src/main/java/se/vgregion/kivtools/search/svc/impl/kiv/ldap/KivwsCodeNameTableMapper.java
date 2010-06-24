@@ -27,6 +27,12 @@ import org.springframework.ldap.core.ContextMapper;
 
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap;
 
+/**
+ * Map the return result from webservice to the code name table
+ * 
+ * @author Nhi Ly
+ * 
+ */
 public class KivwsCodeNameTableMapper implements ContextMapper {
 
   private final Map<String, String> codeTableContent = new HashMap<String, String>();
