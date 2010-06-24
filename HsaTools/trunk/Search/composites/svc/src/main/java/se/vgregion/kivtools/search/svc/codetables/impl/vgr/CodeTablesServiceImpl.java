@@ -35,6 +35,7 @@ import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.Filter;
 
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
+import se.vgregion.kivtools.search.domain.values.CodeTableNameInterface;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.LDAPRuntimeExcepton;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
@@ -87,7 +88,15 @@ public class CodeTablesServiceImpl implements CodeTablesService {
   }
 
   @Override
-  public String getValueFromCode(CodeTableName codeTableName, String code) {
+  public String getValueFromCode(CodeTableNameInterface codeTableName, String code) {
+
+    if (codeTableName instanceof CodeTableName) {
+      codeTableName = (CodeTableName) codeTableName;
+
+    } else {
+      throw new RuntimeException("Object codeTableName is not a type of CodeTableName");
+    }
+
     Map<String, String> chosenCodeTable = codeTables.get(codeTableName);
     String value = "";
     if (chosenCodeTable != null) {
@@ -97,7 +106,15 @@ public class CodeTablesServiceImpl implements CodeTablesService {
   }
 
   @Override
-  public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
+  public List<String> getCodeFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
+
+    if (codeTableName instanceof CodeTableName) {
+      codeTableName = (CodeTableName) codeTableName;
+
+    } else {
+      throw new RuntimeException("Object codeTableName is not a type of CodeTableName");
+    }
+
     String stringToMatch = textValue.toLowerCase();
     List<String> codes = new ArrayList<String>();
     Map<String, String> chosenCodeTable = codeTables.get(codeTableName);
@@ -110,7 +127,15 @@ public class CodeTablesServiceImpl implements CodeTablesService {
   }
 
   @Override
-  public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
+  public List<String> getValuesFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
+
+    if (codeTableName instanceof CodeTableName) {
+      codeTableName = (CodeTableName) codeTableName;
+
+    } else {
+      throw new RuntimeException("Object codeTableName is not a type of CodeTableName");
+    }
+
     String stringToMatch = textValue.toLowerCase();
     List<String> values = new ArrayList<String>();
     Map<String, String> chosenCodeTable = codeTables.get(codeTableName);

@@ -46,6 +46,7 @@ import se.vgregion.kivtools.mocks.ldap.LdapTemplateMock;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
+import se.vgregion.kivtools.search.domain.values.CodeTableNameInterface;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
@@ -286,17 +287,17 @@ public class PersonRepositoryTest {
     }
 
     @Override
-    public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
+    public List<String> getCodeFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
       return codeTables.get(codeTableName);
     }
 
     @Override
-    public String getValueFromCode(CodeTableName codeTableName, String string) {
+    public String getValueFromCode(CodeTableNameInterface codeTableName, String string) {
       return null;
     }
 
     @Override
-    public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
+    public List<String> getValuesFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
       return null;
     }
 

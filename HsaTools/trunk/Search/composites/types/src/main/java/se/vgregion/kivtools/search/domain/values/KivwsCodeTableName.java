@@ -22,36 +22,36 @@ package se.vgregion.kivtools.search.domain.values;
 /**
  * Enum types of valid code table names.
  * 
- * @author David & Jonas
+ * @author David & Nhi
  * 
  */
-public enum CodeTableName implements CodeTableNameInterface {
+public enum KivwsCodeTableName implements CodeTableNameInterface {
   /** Administration Form. */
-  HSA_ADMINISTRATION_FORM("list_hsaAdministrationForm"),
+  HSA_ADMINISTRATION_FORM("hsaadministrationform"),
   /** Business classification code. */
-  HSA_BUSINESSCLASSIFICATION_CODE("list_hsaBusinessClassificationCode"),
+  HSA_BUSINESSCLASSIFICATION_CODE("hsabusinessclassificationcode"),
   /** County code. */
-  HSA_COUNTY_CODE("list_hsaCountyCode"),
+  HSA_COUNTY_CODE("hsacountycode"),
   /** Municipality code. */
-  HSA_MUNICIPALITY_CODE("list_hsaMunicipalityCode"),
+  HSA_MUNICIPALITY_CODE("hsamunicipalitycode"),
   /** Management code. */
-  HSA_MANAGEMENT_CODE("list_hsaManagementCode"),
+  HSA_MANAGEMENT_CODE("hsamanagementcode"),
   /** Speciality code. */
-  HSA_SPECIALITY_CODE("list_hsaSpecialityCode"),
+  HSA_SPECIALITY_CODE("hsaspecialitycode"),
   /** AO3 code (responsibility area code). */
-  VGR_AO3_CODE("list_vgrAO3kod"),
+  VGR_AO3_CODE("vgrao3kod"),
   /** Care type. */
-  VGR_CARE_TYPE("list_vgrCareType"),
+  VGR_CARE_TYPE("vgrcaretype"),
   /** Language knowledge. */
-  HSA_LANGUAGE_KNOWLEDGE_CODE("list_hsaLanguageKnowledgeCode"),
+  HSA_LANGUAGE_KNOWLEDGE_CODE("hsalanguageknowledgecode"),
   /** Employment titles. */
-  PA_TITLE_CODE("list_paTitleCode"),
+  PA_TITLE_CODE("patitlecode"),
   /** Profession title. */
-  HSA_TITLE("list_hsaTitle");
+  HSA_TITLE("hsatitle");
 
   private final String codeTableName;
 
-  private CodeTableName(String s) {
+  private KivwsCodeTableName(String s) {
     codeTableName = s;
   }
 

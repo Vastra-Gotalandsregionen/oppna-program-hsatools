@@ -19,7 +19,8 @@
 
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ import org.junit.Test;
 import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
 import se.vgregion.kivtools.mocks.ldap.NameMock;
 import se.vgregion.kivtools.search.domain.Employment;
-import se.vgregion.kivtools.search.domain.values.CodeTableName;
+import se.vgregion.kivtools.search.domain.values.CodeTableNameInterface;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 
 public class EmploymentMapperTest {
@@ -127,17 +128,17 @@ public class EmploymentMapperTest {
 
   class CodeTablesServiceMock implements CodeTablesService {
     @Override
-    public String getValueFromCode(CodeTableName codeTableName, String string) {
+    public String getValueFromCode(CodeTableNameInterface codeTableName, String string) {
       return "Translated " + string;
     }
 
     @Override
-    public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
+    public List<String> getCodeFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
       return null;
     }
 
     @Override
-    public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
+    public List<String> getValuesFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
       return null;
     }
 

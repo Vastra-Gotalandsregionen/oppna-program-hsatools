@@ -19,7 +19,7 @@
 
 package se.vgregion.kivtools.search.presentation.kiv;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,8 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import se.vgregion.kivtools.search.domain.values.CodeTableName;
-import se.vgregion.kivtools.search.presentation.kiv.SuggestionBean;
+import se.vgregion.kivtools.search.domain.values.CodeTableNameInterface;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 
 public class SuggestionBeanTest {
@@ -104,17 +103,17 @@ public class SuggestionBeanTest {
     private List<String> descriptionValues = new ArrayList<String>();
 
     @Override
-    public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
+    public List<String> getCodeFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
       return null;
     }
 
     @Override
-    public String getValueFromCode(CodeTableName codeTableName, String string) {
+    public String getValueFromCode(CodeTableNameInterface codeTableName, String string) {
       return null;
     }
 
     @Override
-    public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
+    public List<String> getValuesFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
       return descriptionValues;
     }
 
