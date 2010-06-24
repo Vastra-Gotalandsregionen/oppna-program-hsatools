@@ -469,6 +469,19 @@ public class UnitRepositoryTest {
     assertEquals(3, units.getTotalNumberOfFoundItems());
   }
 
+  // TODO: Cannot put two different care types 01 and 03 to the list. Correct query should be (&(hsaIdentity=abc-123)(|(vgrCareType=01)(vgrCareType=03)))
+  @Test
+  public void testGetUnitByHsaIdHasNotCareTypeInpatient() throws KivException {
+    ldapTemplateMock.addDirContextOperationForSearch(new DirContextOperationsMock());
+    CodeTableMock codeTableMock = new CodeTableMock();
+    codeTableMock.values.put(CodeTableName.VGR_CARE_TYPE, "01");
+    unitRepository.setCodeTablesService(codeTableMock);
+    String expectedFilter = "(&(hsaIdentity=abc-123)(|(vgrCareType=01)(vgrCareType=01)))";
+    unitRepository.getUnitByHsaIdAndHasNotCareTypeInpatient("abc-123");
+
+    ldapTemplateMock.assertSearchFilter(expectedFilter);
+  }
+
   private class CodeTableMock implements CodeTablesService {
 
     private Map<CodeTableName, String> values = new HashMap<CodeTableName, String>();

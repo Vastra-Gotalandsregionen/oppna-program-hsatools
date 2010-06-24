@@ -69,6 +69,9 @@ public class UnitRepository {
   private LdapTemplate ldapTemplate;
   private UnitMapper unitMapper;
 
+  private static final String OPPENVÅRD = "Öppenvård";
+  private static final String HEMSJUKVÅRD = "Hemsjukvård";
+
   public void setCodeTablesService(CodeTablesService codeTablesService) {
     this.codeTablesService = codeTablesService;
   }
@@ -202,6 +205,27 @@ public class UnitRepository {
   public Unit getUnitByHsaId(String hsaId) throws KivException {
     String searchFilter = "(hsaIdentity=" + hsaId + ")";
     return searchUnit(getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilter);
+  }
+
+  /**
+   * Fetch unit by the unit hsa id and does not have careType inpatient.
+   * 
+   * @param hsaId The hsa id of the unit.
+   * @return The unit with the given hsa id.
+   * @throws KivException .
+   */
+  public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException {
+    String searchFilterString = null;
+    List<String> andFilterList = new ArrayList<String>();
+    List<String> careTypes = new ArrayList<String>();
+    careTypes.add(OPPENVÅRD);
+    careTypes.add(HEMSJUKVÅRD);
+    Filter careTypesFilterList = generateCareTypeFilterFromList(CodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, careTypes);
+    // Filter hsaIdentityFilter = createSearchFilter(LDAPUnitAttributes.UNIT_ID.toString(), hsaId);
+    andFilterList.add("(hsaIdentity=" + hsaId + ")");
+    andFilterList.add(careTypesFilterList.encode());
+    searchFilterString = makeAnd(andFilterList);
+    return searchUnit(getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilterString);
   }
 
   /**
@@ -452,6 +476,23 @@ public class UnitRepository {
 
   private Filter generateOrFilterFromList(CodeTableName codeTableName, LDAPUnitAttributes criterion, String criterionValue) {
     List<String> codeFromTextValues = codeTablesService.getCodeFromTextValue(codeTableName, criterionValue);
+    OrFilter orFilter = new OrFilter();
+    if (codeFromTextValues.size() > 0) {
+      for (String value : codeFromTextValues) {
+        orFilter.or(new LikeFilter(criterion.toString(), value));
+      }
+    } else {
+      orFilter.or(new EqualsFilter(criterion.toString(), "NO_VALID_CODE_TABLE_CODE_FOUND"));
+    }
+    return orFilter;
+  }
+
+  private Filter generateCareTypeFilterFromList(CodeTableName codeTableName, LDAPUnitAttributes criterion, List<String> careTypes) {
+    List<String> codeFromTextValues = new ArrayList<String>();
+    for (String careType : careTypes) {
+      codeFromTextValues.addAll(codeTablesService.getCodeFromTextValue(codeTableName, careType));
+    }
+
     OrFilter orFilter = new OrFilter();
     if (codeFromTextValues.size() > 0) {
       for (String value : codeFromTextValues) {
