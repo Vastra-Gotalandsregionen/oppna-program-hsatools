@@ -19,7 +19,9 @@
 
 package se.vgregion.kivtools.search.svc.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -263,6 +265,11 @@ public class InternalSitemapCacheLoaderImplTest {
 
     @Override
     public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException {
+      return null;
+    }
+
+    @Override
+    public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException {
       return null;
     }
   }
