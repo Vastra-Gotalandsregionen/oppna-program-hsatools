@@ -77,7 +77,7 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
     logger.debug(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
     Unit u = null;
     try {
-      u = searchService.getUnitByHsaId(hsaId);
+      u = searchService.getUnitByHsaIdAndHasNotCareTypeInpatient(hsaId);
     } catch (NoConnectionToServerException e) {
       // We have no good connection to LDAP server and should be able to
       // tell the user we have no hope of success.
@@ -85,7 +85,7 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
     } catch (KivNoDataFoundException e) {
       if (externalContext.getNativeResponse() instanceof HttpServletResponse) {
         ((HttpServletResponse) externalContext.getNativeResponse()).setStatus(404);
-      }   
+      }
       throw e;
     }
 

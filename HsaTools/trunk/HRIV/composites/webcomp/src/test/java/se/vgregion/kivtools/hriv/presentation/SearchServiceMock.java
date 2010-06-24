@@ -238,4 +238,9 @@ public class SearchServiceMock implements SearchService {
   public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException {
     return new SikSearchResultList<Unit>();
   }
+
+  @Override
+  public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException {
+    return null;
+  }
 }
