@@ -43,6 +43,7 @@ import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
 import se.vgregion.kivtools.mocks.ldap.LdapTemplateMock;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
+import se.vgregion.kivtools.search.domain.values.CodeTableNameInterface;
 import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
@@ -473,7 +474,7 @@ public class UnitRepositoryTest {
     private Map<CodeTableName, String> values = new HashMap<CodeTableName, String>();
 
     @Override
-    public List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue) {
+    public List<String> getCodeFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
       List<String> codes = new ArrayList<String>();
       if (values.containsKey(codeTableName)) {
         codes = Arrays.asList(values.get(codeTableName));
@@ -482,12 +483,12 @@ public class UnitRepositoryTest {
     }
 
     @Override
-    public String getValueFromCode(CodeTableName codeTableName, String code) {
+    public String getValueFromCode(CodeTableNameInterface codeTableName, String code) {
       return null;
     }
 
     @Override
-    public List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue) {
+    public List<String> getValuesFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
       return null;
     }
 

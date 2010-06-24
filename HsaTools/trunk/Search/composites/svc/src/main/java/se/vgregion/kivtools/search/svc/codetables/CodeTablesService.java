@@ -21,7 +21,7 @@ package se.vgregion.kivtools.search.svc.codetables;
 
 import java.util.List;
 
-import se.vgregion.kivtools.search.domain.values.CodeTableName;
+import se.vgregion.kivtools.search.domain.values.CodeTableNameInterface;
 
 /**
  * Provides mapping between codes and descriptions for values.
@@ -37,7 +37,7 @@ public interface CodeTablesService {
    * @param code The code to lookup.
    * @return The description for the provided code.
    */
-  String getValueFromCode(CodeTableName codeTableName, String code);
+  String getValueFromCode(CodeTableNameInterface codeTableName, String code);
 
   /**
    * Retrieves a list of codes where the description in the table identified by the provided code table name matches the provided text value.
@@ -46,7 +46,7 @@ public interface CodeTablesService {
    * @param textValue The text value to get matches for.
    * @return A list of codes for the entries where the description matched the provided value.
    */
-  List<String> getCodeFromTextValue(CodeTableName codeTableName, String textValue);
+  List<String> getCodeFromTextValue(CodeTableNameInterface codeTableName, String textValue);
 
   /**
    * Retrieves a list of descriptions that matches the provided text value from the table identified by the provided code table name.
@@ -55,7 +55,7 @@ public interface CodeTablesService {
    * @param textValue The text value to get matches for.
    * @return A list of descriptions for the entries where the description matched the provided value.
    */
-  List<String> getValuesFromTextValue(CodeTableName codeTableName, String textValue);
+  List<String> getValuesFromTextValue(CodeTableNameInterface codeTableName, String textValue);
 
   /**
    * This method will return all item values for a chosen code table.
