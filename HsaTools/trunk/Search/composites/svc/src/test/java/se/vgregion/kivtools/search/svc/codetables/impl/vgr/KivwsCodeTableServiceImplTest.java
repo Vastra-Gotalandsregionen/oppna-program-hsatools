@@ -49,7 +49,7 @@ import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService_Servic
 
 import com.thoughtworks.xstream.XStream;
 
-//@Ignore
+@Ignore
 public class KivwsCodeTableServiceImplTest {
   private VGRegionWebService_Service regionWebServiceService;
   private static VGRegionWebService vgRegionWebServiceImplPort;
