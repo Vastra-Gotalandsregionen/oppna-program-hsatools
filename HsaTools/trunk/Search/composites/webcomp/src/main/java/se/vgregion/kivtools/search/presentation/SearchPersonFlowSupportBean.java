@@ -352,4 +352,60 @@ public class SearchPersonFlowSupportBean implements Serializable {
       return new SikSearchResultList<Person>();
     }
   }
+
+  /**
+   * Gets all administrators which have adminType C, D and K in this unit.
+   * 
+   * @param hsaIdentity The hsaIdentity of the root unit.
+   * @return A list of persons.
+   * @throws KivNoDataFoundException If no matching persons are found.
+   */
+  public SikSearchResultList<Person> getUnitAdministrators(String hsaIdentity) throws KivNoDataFoundException {
+    LOGGER.debug(CLASS_NAME + ".getUnitAdministrators()");
+
+    try {
+      TimeMeasurement overAllTime = new TimeMeasurement();
+      // start measurement
+      overAllTime.start();
+      SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
+
+      if (!StringUtil.isEmpty(hsaIdentity)) {
+        List<String> unitAdministratorVgrIds = getSearchService().getUnitAdministratorVgrIds(hsaIdentity);
+        // Admin types that we are interested of
+        List<String> validAdminTypes = new ArrayList<String>();
+        validAdminTypes.add("C");
+        validAdminTypes.add("D");
+        validAdminTypes.add("K");
+
+        // Do not need to fetch employment for person, is done in SearchService impl.
+        for (String id : unitAdministratorVgrIds) {
+          Person administrator = getSearchService().getPersonById(id);
+          if (isAdministratorAdminTypeValid(administrator, validAdminTypes))
+            persons.add(getSearchService().getPersonById(id));
+        }
+      }
+      // stop measurement
+      overAllTime.stop();
+      LogUtils.printSikSearchResultListToLog(this, "getUnitAdministrators", overAllTime, LOGGER, persons);
+      if (persons.size() == 0) {
+        throw new KivNoDataFoundException();
+      }
+      return persons;
+    } catch (KivNoDataFoundException e) {
+      throw e;
+    } catch (KivException e) {
+      LOGGER.error(e);
+      return new SikSearchResultList<Person>();
+    }
+  }
+
+  private boolean isAdministratorAdminTypeValid(Person administrator, List<String> validAdminTypes) {
+    for (String adminType : validAdminTypes) {
+      for (String personAdminType : administrator.getVgrAdminTypes())
+        if (personAdminType.equalsIgnoreCase(adminType)) {
+          return true;
+        }
+    }
+    return false;
+  }
 }

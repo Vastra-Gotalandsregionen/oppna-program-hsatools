@@ -70,6 +70,7 @@ public class PersonMapperTest {
     dirContextOperationsMock.addAttributeValue("hsaStartDate", "20100101070300Z");
     dirContextOperationsMock.addAttributeValue("hsaEndDate", "20101231224401Z");
     dirContextOperationsMock.addAttributeValue("hsaLanguageKnowledgeCode", TEST);
+    dirContextOperationsMock.addAttributeValue("vgrAdminType", TEST);
   }
 
   @Test
@@ -114,6 +115,7 @@ public class PersonMapperTest {
     assertEquals(TEST, person.getHsaTitle());
     assertEquals(TEST, person.getHsaPersonPrescriptionCode());
     assertNotNull(person.getEmploymentPeriod());
+    assertEquals("[" + TEST + "]", person.getVgrAdminTypes().toString());
   }
 
   class CodeTablesServiceMock implements CodeTablesService {

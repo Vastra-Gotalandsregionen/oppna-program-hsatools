@@ -82,4 +82,5 @@ public class UnitLdapAttributes {
   public static final String HSA_DESTINATION_INDICATOR = "hsaDestinationIndicator";
   public static final String HSA_BUSINESS_TYPE = "hsaBusinessType";
   public static final String HSA_PATIENT_VISITING_RULES = "hsaPatientVisitingRules";
+  public static final String VGR_OBJECT_MANAGERS = "vgrObjectManagers";
 }

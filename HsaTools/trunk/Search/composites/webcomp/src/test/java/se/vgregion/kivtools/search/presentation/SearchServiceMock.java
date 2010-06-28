@@ -261,4 +261,9 @@ public class SearchServiceMock implements SearchService {
   public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException {
     return null;
   }
+
+  @Override
+  public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException {
+    return null;
+  }
 }

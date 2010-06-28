@@ -159,6 +159,11 @@ public class UnitMapper implements ContextMapper {
     // Visiting rules and age interval should be shown at all times
     unit.setShowVisitingRules(true);
     unit.setShowAgeInterval(true);
+
+    List<String> vgrObjectManagers = context.getStrings(UnitLdapAttributes.VGR_OBJECT_MANAGERS);
+    if (vgrObjectManagers != null && vgrObjectManagers.size() > 0) {
+      unit.setVgrObjectManagers(vgrObjectManagers);
+    }
     return unit;
   }
 

@@ -70,7 +70,9 @@ public enum LDAPPersonAttributes {
   /** hsaStartDate. */
   HSA_START_DATE("hsaStartDate"),
   /** hsaEndDate. */
-  HSA_END_DATE("hsaEndDate"), CREATE_TIMESTAMP("createTimestamp"), MODIFY_TIMESTAMP("modifyTimestamp");
+  HSA_END_DATE("hsaEndDate"), CREATE_TIMESTAMP("createTimestamp"), MODIFY_TIMESTAMP("modifyTimestamp"),
+  /** vgrAdminType */
+  VGR_ADMIN_TYPE("vgrAdminType");
 
   private String value;
 

@@ -134,6 +134,8 @@ public class PersonMapper implements ContextMapper {
     person.setCreateTimestamp(parseDateTime(dirContext.getString(LDAPPersonAttributes.CREATE_TIMESTAMP.toString())));
     person.setModifyTimestamp(parseDateTime(dirContext.getString(LDAPPersonAttributes.MODIFY_TIMESTAMP.toString())));
 
+    person.setVgrAdminTypes(dirContext.getStrings(LDAPPersonAttributes.VGR_ADMIN_TYPE.toString()));
+
     return person;
   }
 

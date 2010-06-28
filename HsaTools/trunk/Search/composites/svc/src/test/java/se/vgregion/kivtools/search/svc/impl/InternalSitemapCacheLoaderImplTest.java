@@ -272,5 +272,10 @@ public class InternalSitemapCacheLoaderImplTest {
     public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException {
       return null;
     }
+
+    @Override
+    public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException {
+      return null;
+    }
   }
 }
