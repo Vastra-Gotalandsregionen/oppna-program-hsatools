@@ -238,4 +238,9 @@ public class SearchServiceLdapImpl implements SearchService {
     throw new NotImplementedException("Not used by LTH.");
   }
 
+  @Override
+  public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException {
+    throw new NotImplementedException("Not used by LTH.");
+  }
+
 }

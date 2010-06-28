@@ -61,6 +61,7 @@ import se.vgregion.kivtools.util.time.TimeUtil;
  */
 public class UnitRepository {
   private static final DistinguishedName KIV_SEARCH_BASE = new DistinguishedName("ou=Org,o=vgr");
+  private static final DistinguishedName KIV_PERSONAL_SEARCH_BASE = new DistinguishedName("ou=Personal,o=vgr");
   private static final String LDAP_WILD_CARD = "*";
   // an "
   private static final String LDAP_EXACT_CARD = "\"";
@@ -758,5 +759,27 @@ public class UnitRepository {
 
   protected DistinguishedName getSearchBase() {
     return KIV_SEARCH_BASE;
+  }
+
+  public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException {
+    Unit unit = getUnitByHsaId(hsaId);
+    List<String> administratorVgrIds = new ArrayList<String>();
+    for (String dn : unit.getVgrObjectManagers()) {
+      dn.trim();
+      String vgrId = extractVgrId(dn);
+      if (vgrId != null && vgrId.length() > 0) {
+        administratorVgrIds.add(vgrId);
+      }
+    }
+    return administratorVgrIds;
+  }
+
+  private String extractVgrId(String personDN) {
+    String vgrId = null;
+    String[] split = personDN.split(",");
+    if (split[0].startsWith("cn")) {
+      vgrId = split[0].replace("cn=", "");
+    }
+    return vgrId;
   }
 }

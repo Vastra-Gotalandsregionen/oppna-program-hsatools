@@ -222,6 +222,8 @@ public class Unit implements Serializable, Comparable<Unit> {
   private String contractCode;
   private String visitingRuleReferral;
 
+  private List<String> vgrObjectManagers = new ArrayList<String>();
+
   public boolean isVgrVardVal() {
     return vgrVardVal;
   }
@@ -1571,4 +1573,13 @@ public class Unit implements Serializable, Comparable<Unit> {
   public String getHsaPatientVisitingRules() {
     return hsaPatientVisitingRules;
   }
+
+  public void setVgrObjectManagers(List<String> vgrObjectManagers) {
+    this.vgrObjectManagers = vgrObjectManagers;
+  }
+
+  public List<String> getVgrObjectManagers() {
+    return vgrObjectManagers;
+  }
+
 }

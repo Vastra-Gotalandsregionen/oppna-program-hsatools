@@ -203,5 +203,21 @@ public interface SearchService {
    */
   public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException;
 
+  /**
+   * Retrieves a unit by hsaIdentity and the unit has not a care type slutenvård
+   * 
+   * @param hsaId
+   * @return A unit
+   * @throws KivException
+   */
   public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException;
+
+  /**
+   * Retrieves a list of persons which is administrators at the unit and has admin type C, D and K.
+   * 
+   * @param hsaId
+   * @return A list of persons
+   * @throws KivException
+   */
+  public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException;
 }

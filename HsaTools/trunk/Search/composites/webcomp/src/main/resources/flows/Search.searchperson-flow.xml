@@ -38,6 +38,8 @@
 	<input name="dn" />
 	<input name="personDn" />
 	<input name="hsaidentityOnlyThisUnit" />
+	<input name="unitAdministrators" />
+	
 
 	<input name="givenName" value="flowScope.personSearchSimpleForm.givenName" />
 	<input name="surname" value="flowScope.personSearchSimpleForm.surname" />
@@ -61,6 +63,7 @@
 		<if test="requestParameters.vgrid!=null" then="Search.searchPersonUnique" />
 		<if test="requestParameters.personDn!=null" then="Search.searchPersonUnique" />
 		<if test="requestParameters.dn!=null" then="Display.unitOrganisation" />
+		<if test="requestParameters.unitAdministrators!=null" then="Display.unitAdministrators"/>
 		<if test="requestParameters.hsaidentityOnlyThisUnit!=null" then="Display.unitOrganisationOnlyOneLevel"/>
 		<if test="requestParameters.hsaidentity!=null" then="Display.unitOrganisation" else="Search.validateSearchParams"/>
 		
@@ -128,6 +131,14 @@
 	
 	<action-state id="Display.unitOrganisationOnlyOneLevel">
 		<evaluate expression="Search_SearchPersonFlowSupportBean.getOrganisation(flowScope.hsaidentityOnlyThisUnit)" result="flowScope.persons" />
+		<transition on="success" to="Search.displayPersonSearchResult" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
+					to="Search.displayPersonSearchResult">
+		</transition>
+	</action-state>
+	
+	<action-state id="Display.unitAdministrators">
+		<evaluate expression="Search_SearchPersonFlowSupportBean.getUnitAdministrators(flowScope.unitAdministrators)" result="flowScope.persons" />
 		<transition on="success" to="Search.displayPersonSearchResult" />
 		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
 					to="Search.displayPersonSearchResult">

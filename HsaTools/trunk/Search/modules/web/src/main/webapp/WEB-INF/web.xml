@@ -269,6 +269,16 @@
 		<servlet-name>Display All Persons</servlet-name>
 		<url-pattern>/visaallapersoner</url-pattern>
 	</servlet-mapping>		
+	
+	<servlet>
+		<servlet-name>Display administrator for a unit</servlet-name>
+		<jsp-file>/displayAdministratorsByUnit.jsp</jsp-file>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Display administrator for a unit</servlet-name>
+		<url-pattern>/visaadministrator</url-pattern>
+	</servlet-mapping>
 	<!--   Step 2 Persons -->
 	<servlet>
 		<servlet-name>Display Range of Persons</servlet-name>

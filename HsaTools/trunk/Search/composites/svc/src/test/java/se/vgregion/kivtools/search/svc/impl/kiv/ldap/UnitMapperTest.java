@@ -135,6 +135,8 @@ public class UnitMapperTest {
     dirContextOperationsMock.addAttributeValue("hsaVisitingRuleReferral", TEST);
     dirContextOperationsMock.addAttributeValue("hsaBusinessType", TEST);
     dirContextOperationsMock.addAttributeValue("hsaPatientVisitingRules", TEST);
+    dirContextOperationsMock.addAttributeValue("vgrObjectManagers", TEST);
+
   }
 
   @Test
@@ -282,6 +284,8 @@ public class UnitMapperTest {
     assertEquals(TEST, unit.getVisitingRuleReferral());
     assertEquals("hsaBusinessType", TEST, unit.getHsaBusinessType());
     assertEquals("hsaPatientVisitingRules", TEST, unit.getHsaPatientVisitingRules());
+    assertEquals(EXPECTED_LIST_RESULT, unit.getVgrObjectManagers().toString());
+
   }
 
   public static class CodeTablesServiceMock implements CodeTablesService {

@@ -224,4 +224,11 @@ public class SearchServiceLdapImpl implements SearchService {
     return unitRepository.getUnitByHsaIdAndHasNotCareTypeInpatient(hsaId);
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException {
+    return unitRepository.getUnitAdministratorVgrIds(hsaId);
+  }
 }

@@ -92,6 +92,7 @@ public class Person implements Serializable {
   private TimePoint createTimestamp;
   // Senast uppdaterad
   private TimePoint modifyTimestamp;
+  private List<String> vgrAdminTypes;
 
   public String getDn() {
     return dn;
@@ -355,5 +356,13 @@ public class Person implements Serializable {
 
   public TimePoint getModifyTimestamp() {
     return modifyTimestamp;
+  }
+
+  public void setVgrAdminTypes(List<String> vgrAdminTypes) {
+    this.vgrAdminTypes = vgrAdminTypes;
+  }
+
+  public List<String> getVgrAdminTypes() {
+    return vgrAdminTypes;
   }
 }
