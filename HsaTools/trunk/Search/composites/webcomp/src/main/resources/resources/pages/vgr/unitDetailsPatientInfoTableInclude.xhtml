@@ -41,7 +41,15 @@
 		</tr>
 		<tr class="cols">
 			<td headers="visitingRuleReferral" colspan="2">${unit.visitingRuleReferral}</td>
-			<td headers="visitingRules" colspan="62">${unit.hsaVisitingRules}</td>
+			<td headers="visitingRules" colspan="2">${unit.hsaVisitingRules}</td>
+		</tr>
+		<tr>
+			<th id="visitingRuleReferral" colspan="2"></th>
+			<th id="visitingRules" colspan="2">${msg.patientVisitingRules}</th>
+		</tr>
+		<tr class="cols">
+			<td headers="visitingRuleReferral" colspan="2"></td>
+			<td headers="visitingRules" colspan="2">${unit.hsaPatientVisitingRules}</td>
 		</tr>
 		<tr class="cols">
 			<th id="temporaryInformation" colspan="2">${msg.temporaryInformation}</th>
@@ -51,5 +59,6 @@
 			<td headers="temporaryInformation" colspan="2"><h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.vgrTempInfoBody))}" /></td>
 			<td headers="referralInformation" colspan="2"><h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.vgrRefInfo))}" /></td>
 		</tr>
+		
 	</tbody>
 </table>
