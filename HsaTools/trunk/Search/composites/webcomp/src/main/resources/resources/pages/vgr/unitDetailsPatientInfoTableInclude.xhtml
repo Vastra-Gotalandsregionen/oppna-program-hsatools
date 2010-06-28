@@ -35,30 +35,31 @@
 			<th id="visitingRuleAge">${msg.visitingRuleAge}</th>
 			<td headers="visitingRuleAge">${unit.hsaVisitingRuleAge}</td>
 		</tr>
-		<tr>
-			<th id="visitingRuleReferral" colspan="2">${msg.visitingRuleReferral}</th>
-			<th id="visitingRules" colspan="2">${msg.visitingRules}</th>
+		<tr class="cols">
+			<th id="temporaryInformation" colspan="2">${msg.visitingRuleReferral}</th>
+			<th id="referralInformation" colspan="2">${msg.visitingRules}</th>
 		</tr>
 		<tr class="cols">
-			<td headers="visitingRuleReferral" colspan="2">${unit.visitingRuleReferral}</td>
-			<td headers="visitingRules" colspan="2">${unit.hsaVisitingRules}</td>
-		</tr>
-		<tr>
-			<th id="visitingRuleReferral" colspan="2"></th>
-			<th id="visitingRules" colspan="2">${msg.patientVisitingRules}</th>
+			<td headers="temporaryInformation" colspan="2">${unit.visitingRuleReferral}</td>
+			<td headers="referralInformation" colspan="2">${unit.hsaVisitingRules}</td>
 		</tr>
 		<tr class="cols">
-			<td headers="visitingRuleReferral" colspan="2"></td>
-			<td headers="visitingRules" colspan="2">${unit.hsaPatientVisitingRules}</td>
+			<th id="temporaryInformation" colspan="2"></th>
+			<th id="referralInformation" colspan="2">${msg.patientVisitingRules}</th>
 		</tr>
 		<tr class="cols">
-			<th id="temporaryInformation" colspan="2">${msg.temporaryInformation}</th>
-			<th id="referralInformation" colspan="2">${msg.referralInformation}</th>
+			<td headers="temporaryInformation" colspan="2"></td>
+			<td headers="referralInformation" colspan="2">${unit.hsaPatientVisitingRules}</td>
 		</tr>
-		<tr class="cols">
-			<td headers="temporaryInformation" colspan="2"><h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.vgrTempInfoBody))}" /></td>
-			<td headers="referralInformation" colspan="2"><h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.vgrRefInfo))}" /></td>
-		</tr>
-		
+		<h:outputText rendered="${unit.vgrTempInfoBody != '' and unit.shouldVgrTempInfoBeShown == true}">
+			<tr class="cols">
+				<th id="temporaryInformation" colspan="2">${msg.temporaryInformation}</th>
+				<th id="referralInformation" colspan="2">${msg.referralInformation}</th>
+			</tr>
+			<tr class="cols">
+				<td headers="temporaryInformation" colspan="2"><h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.vgrTempInfoBody))}" /></td>
+				<td headers="referralInformation" colspan="2"><h:outputText escape="false" value="${presentationHelper.replaceNewlineWithBr(presentationHelper.escapeXhtml(unit.vgrRefInfo))}" /></td>
+			</tr>
+		</h:outputText>
 	</tbody>
 </table>
