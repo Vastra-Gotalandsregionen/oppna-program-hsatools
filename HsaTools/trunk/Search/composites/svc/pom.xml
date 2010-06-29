@@ -177,6 +177,7 @@
 						</goals>
 						<configuration>
 							<wsdlDirectory>${basedir}/../schema/src/main/resources/wsdl/</wsdlDirectory>
+							<wsdlLocation>http://www.vasttrafik.se/External_Services/TravelPlanner.asmx?wsdl</wsdlLocation>
 							<wsdlFiles>
 								<wsdlFile>TravelPlanner.wsdl</wsdlFile>
 							</wsdlFiles>
@@ -195,6 +196,7 @@
 						</goals>
 						<configuration>
 							<wsdlDirectory>${basedir}/../schema/src/main/resources/wsdl/</wsdlDirectory>
+							<wsdlLocation>https://kivws.vgregion.se/services?wsdl</wsdlLocation>
 							<wsdlFiles>
 								<wsdlFile>kivws.wsdl</wsdlFile>
 							</wsdlFiles>
