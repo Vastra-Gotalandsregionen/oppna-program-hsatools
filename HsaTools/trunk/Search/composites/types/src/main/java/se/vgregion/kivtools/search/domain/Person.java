@@ -93,6 +93,7 @@ public class Person implements Serializable {
   // Senast uppdaterad
   private TimePoint modifyTimestamp;
   private List<String> vgrAdminTypes;
+  private String hsaManagerCode;
 
   public String getDn() {
     return dn;
@@ -364,5 +365,13 @@ public class Person implements Serializable {
 
   public List<String> getVgrAdminTypes() {
     return vgrAdminTypes;
+  }
+
+  public void setHsaManagerCode(String hsaManagerCode) {
+    this.hsaManagerCode = hsaManagerCode;
+  }
+
+  public String getHsaManagerCode() {
+    return hsaManagerCode;
   }
 }
