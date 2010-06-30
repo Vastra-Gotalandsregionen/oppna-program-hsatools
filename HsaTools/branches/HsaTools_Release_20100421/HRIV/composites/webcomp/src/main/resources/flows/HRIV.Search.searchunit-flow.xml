@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+    start-state="Decision.startOrSearch">
+
+	<var name="unitSearchSimpleForm" class="se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm" />
+	<var name="displayCloseUnitsSimpleForm" class="se.vgregion.kivtools.hriv.presentation.forms.DisplayCloseUnitsSimpleForm" />
+	<var name="accessibilityDatabaseFilterForm" class="se.vgregion.kivtools.hriv.presentation.forms.AccessibilityDatabaseFilterForm" />
+	<var name="errorReportingForm" class="se.vgregion.kivtools.hriv.presentation.forms.ErrorReportingForm" />
+	<var name="units" class="java.util.ArrayList" />
+	<var name="coordinateUnits" class="java.util.ArrayList" />
+	
+	<input name="hsaidentity" />
+	<input name="dn" />
+	<input name="unitName" value="flowScope.unitSearchSimpleForm.unitName" />
+	<input name="healthcareType" value="flowScope.unitSearchSimpleForm.healthcareType" />
+	<input name="municipality" value="flowScope.unitSearchSimpleForm.municipality" />
+	<input name="resultType" value="flowScope.unitSearchSimpleForm.resultType" />
+	<input name="sortOrder" value="flowScope.unitSearchSimpleForm.sortOrder" />
+	<input name="showAll" value="flowScope.unitSearchSimpleForm.showAll" />
+	<input name="address" value="flowScope.displayCloseUnitsSimpleForm.address" />
+
+	<decision-state id="Decision.startOrSearch">
+		<if test="requestParameters.startpage!=null" then="Display.startpage" />
+		<if test="requestParameters.caretypes!=null" then="Display.caretypes" />
+		<if test="requestParameters.searchwidget!=null" then="Display.searchWidget" />
+		<if test="requestParameters.viewAccessibilityInfo!=null" then="Display.viewAccessibilityInfo" />
+		<if test="requestParameters.address!=null" then="Display.closeUnitsOnMap" />
+		<if test="errorReportingForm.reportText!=null" then="Error.report"/>
+		<if test="requestParameters.hsaidentity!=null || requestParameters.dn!=null" then="Decision.displayUnitDetails" else="Search.validateSearchParams"/>
+	</decision-state>
+
+	<decision-state id="Decision.displayUnitDetails">
+		<if test="requestParameters.hsaidentity!=null" then="Display.unitDetailsById" else="Search.displayUnitSearchResult"/>
+	</decision-state>
+
+	<view-state id="Search.displayUnitSearchResult" view="/displayUnitSearchResult.xhtml">
+		<transition on="gotoStartpage" to="Display.startpage" />
+		<transition on="gotoCaretypes" to="Display.caretypes" />
+		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="showDetails" to="Display.unitDetailsById" />
+		<transition on="doShowCloseUnitsOnMap" to="Display.closeUnitsOnMap" />
+	</view-state>
+
+	<view-state id="Display.closeUnitsOnMap" view="/displayUnitSearchResult.xhtml">
+		<on-entry>
+			<evaluate expression="Search_SearchUnitFlowSupportBean.getCloseUnits(flowScope.displayCloseUnitsSimpleForm)" result="flowScope.coordinateUnits" />
+			<evaluate expression="flowScope.displayCloseUnitsSimpleForm.setSearchFlag()" />
+		</on-entry>
+		<transition on="gotoStartpage" to="Display.startpage" />
+		<transition on="gotoCaretypes" to="Display.caretypes" />
+		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="showDetails" to="Display.unitDetailsById" />
+		<on-exit>
+			<evaluate expression="flowScope.displayCloseUnitsSimpleForm.resetSearchFlag()" />
+		</on-exit>
+	</view-state>
+
+	<view-state id="Search.displayUnitSearchResultResultOnly" view="/displayUnitSearchResultListOnly.xhtml">
+		<transition on="gotoStartpage" to="Display.startpage" />
+		<transition on="gotoCaretypes" to="Display.caretypes" />
+		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="showDetails" to="Display.unitDetailsById" />
+	</view-state>
+
+	<action-state id="Search.validateSearchParams">
+		<evaluate expression="flowScope.units.clear()" />
+		<transition on="success" to="Search.searchUnit" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.IncorrectUserInputException"
+					to="Search.displayUnitSearchResult">
+		</transition>
+	</action-state>
+	
+	<action-state id="Search.searchUnit">
+		<evaluate expression="Search_SearchUnitFlowSupportBean.doSearch(flowScope.unitSearchSimpleForm)" result="flowScope.units"/>
+
+		<transition on="success" to="Decision.resultFormatChooser" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
+					to="Decision.resultFormatChooser">
+		</transition>
+	</action-state>
+
+	<decision-state id="Decision.resultFormatChooser">
+		<if test="requestParameters.resultOnly==1" then="Search.displayUnitSearchResultResultOnly" />
+		<if test="requestParameters.resultOnly!=1" then="Search.displayUnitSearchResult" />
+	</decision-state>
+
+	<view-state id="Display.unitDetailsById" view="/displayUnitDetails.xhtml">
+		<on-entry>
+			<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitDetails(flowScope.hsaidentity)" result="flowScope.unit"/>
+			<evaluate expression="Display_DisplayAccessibilityDatabaseBean.assignAccessibilityDatabaseId(flowScope.unit)" />
+			<set name="errorReportingForm.dn" value="flowScope.unit.dn.toString()" />
+			<set name="errorReportingForm.reportText" value="flowScope.savedReportText" />
+			<set name="flowScope.errorReportingPossible" value="true" />
+		</on-entry>
+		<transition on="doCancel" to="Search.displayUnitSearchResult"></transition>
+		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="gotoStartpage" to="Display.startpage" />
+		<transition on="gotoCaretypes" to="Display.caretypes" />
+		<transition on="viewAccessibilityInfoAction" to="Display.viewAccessibilityInfo" />
+		<transition on="doSubmitErrorReport" to="Error.report" />
+	</view-state>
+	
+	<view-state id="Display.viewAccessibilityInfo" view="/displayUnitAccessibilityInfo.xhtml">
+		<on-entry>
+			<evaluate expression="Display_DisplayAccessibilityDatabaseBean.getMessageBundle(flowScope.accessibilityDatabaseFilterForm.languageId)" result="flowScope.msgLocalized"/>
+		</on-entry>
+		<transition on="changeLanguage" to="Display.viewAccessibilityInfo" />
+		<transition on="goBack" to="Display.unitDetailsById" />
+		<transition on="doFilter" to="Filter.accessibilityInfo" />
+		<transition on="gotoStartpage" to="Display.startpage" />
+		<transition on="gotoCaretypes" to="Display.caretypes" />
+		<transition on="doSearch" to="Search.validateSearchParams" />
+	</view-state>
+
+	<action-state id="Filter.accessibilityInfo">
+		<on-entry>
+			<evaluate expression="Display_DisplayAccessibilityDatabaseBean.assignAccessibilityDatabaseInfo(flowScope.unit, flowScope.accessibilityDatabaseFilterForm)" />
+		</on-entry>
+		<evaluate expression="Display_DisplayAccessibilityDatabaseBean.filterAccessibilityDatabaseInfo(flowScope.unit, flowScope.accessibilityDatabaseFilterForm)" />
+		<transition on="success" to="Display.viewAccessibilityInfo" />
+	</action-state>
+
+	<view-state id="Search.ErrorHandle" view="/displayError.xhtml">
+		<transition on="confirm" to="Search.displayUnitSearchResult" />
+	</view-state>
+
+	<view-state id="Display.startpage" view="/startpage.xhtml">
+		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="gotoCaretypes" to="Display.caretypes" />
+		<transition on="gotoStartpage" to="Display.startpage" />
+	</view-state>
+
+	<view-state id="Display.caretypes" view="/caretypes.xhtml">
+		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="gotoCaretypes" to="Display.caretypes" />
+		<transition on="gotoStartpage" to="Display.startpage" />
+	</view-state>
+
+	<view-state id="Display.searchWidget" view="/searchWidget.xhtml">
+	</view-state>
+
+	<action-state id="Error.report">
+		<evaluate expression="errorReportingFlowSupportBean.reportError(errorReportingForm.dn, errorReportingForm.reportText, requestParameters.detailLink, requestParameters.recaptcha_challenge_field, requestParameters.recaptcha_response_field, externalContext.nativeRequest.remoteAddr)" result="flowScope.errorReportDone" />
+		<transition on="success" to="Display.unitDetailsById" >
+			<set name="flowScope.savedReportText" value="null" />
+		</transition>
+		<transition on="failure" to="Display.unitDetailsById" >
+			<set name="flowScope.savedReportText" value="errorReportingForm.reportText" />
+		</transition>
+	</action-state>
+
+	<global-transitions>
+		<transition on-exception="java.lang.Exception" to="Search.ErrorHandle" />
+	</global-transitions>
+</flow>

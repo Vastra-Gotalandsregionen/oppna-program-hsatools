@@ -1,0 +1,63 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<table xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<caption>Telefonnummer</caption>
+	<tbody>
+		<tr>
+			<th id="job-tjanste-telefon-${employment.cn}">Tjänstetelefon</th>
+			
+			<td headers="job-tjanste-telefon-${employment.cn}" colspan="5">
+				${employment.hsaTelephoneNumbersCSVString}
+	        </td>
+		</tr>
+		<tr>
+			<th id="job-publiktelefon-${employment.cn}">Publik telefon</th>
+			<td headers="job-publiktelefon-${employment.cn}">${employment.hsaPublicTelephoneNumber.formattedPhoneNumber}</td>
+			<th id="job-telefontid-${employment.cn}">Telefontid</th>
+			<td headers="job-telefontid-${employment.cn}">
+				<div value="${employment.hsaTelephoneTime}" var="time" jsfc="ui:repeat">
+					${time.displayValue}
+				</div>
+			</td>
+			<th id="job-vaxeltelefon-${employment.cn}">Växeltelefon</th>
+			<td headers="job-vaxeltelefon-${employment.cn}">${employment.hsaSedfSwitchboardTelephoneNo.formattedPhoneNumber}</td>
+		</tr>
+		<tr>
+			<th id="job-mobiltelefon-${employment.cn}">Mobiltelefon</th>
+			<td headers="job-mobiltelefon-${employment.cn}">${employment.mobileTelephoneNumber.formattedPhoneNumber}</td>
+			<th id="job-minicall-${employment.cn}">Minicall</th>
+			<td headers="job-minicall-${employment.cn}">${employment.pagerTelephoneNumber.formattedPhoneNumber}</td>
+			<th id="job-personsokare-${employment.cn}">Personsökare</th>
+			<td headers="job-personsokare-${employment.cn}">${employment.hsaInternalPagerNumber.formattedPhoneNumber}</td>
+		</tr>
+		<tr>
+			<th id="job-texttelefon-${employment.cn}">Texttelefon</th>
+			<td headers="job-texttelefon-${employment.cn}">${employment.hsaTextPhoneNumber.formattedPhoneNumber}</td>
+			<th id="job-faxnummer-${employment.cn}">Faxnummer</th>
+			<td headers="job-faxnummer-${employment.cn}">${employment.facsimileTelephoneNumber.formattedPhoneNumber}</td>
+			<th />
+			<td />
+		</tr>
+	</tbody>
+</table>

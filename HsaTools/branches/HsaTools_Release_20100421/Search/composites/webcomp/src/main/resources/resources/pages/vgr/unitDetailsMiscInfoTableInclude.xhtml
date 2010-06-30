@@ -1,0 +1,69 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+	<div xmlns:ui="http://java.sun.com/jsf/facelets"
+		 xmlns:h="http://java.sun.com/jsf/html">
+		<table>
+			<caption>Övrig information</caption>
+			<tbody>
+				<tr>
+					<th id="ansvarsnummer">Ansvarsnummer</th>
+					<td headers="ansvarsnummer"><span jsfc="ui:repeat"
+						value="${unit.vgrAnsvarsnummer}" var="anvsarsnummer">
+					${anvsarsnummer} </span></td>
+					<th id="arbetsplatskod">Arbetsplatskod</th>
+					<td headers="arbetsplatskod">${unit.hsaUnitPrescriptionCode}</td>
+				</tr>
+				<tr>
+					<th id="main-i-nummer">I-nummer</th>
+					<td headers="main-i-nummer">${unit.vgrInternalSedfInvoiceAddress}</td>
+					<th id="main-vardform">Vårdform</th>
+					<td headers="main-vardform">${unit.vgrCareTypeText}</td>
+				</tr>
+				<tr>
+					<th id="main-ansvarsomrkod">Ansvarsomr.kod</th>
+					<td headers="main-ansvarsomrkod">${unit.vgrAO3kod}</td>
+					<th id="main-HSA-identitet">HSA-identitet</th>
+					<td headers="main-HSA-identitet">${unit.hsaIdentity}</td>
+				</tr>
+				<tr>
+					<th id="main-verksamhetskod-klartext">Verksamhetskod - klartext</th>
+					<td headers="main-verksamhetskod-klartext">${unit.hsaBusinessClassificationTextFormatted}
+					</td>
+					<th id="kommunnamn">Kommunnamn</th>
+					<td headers="kommunnamn">${unit.hsaMunicipalityName}</td>
+				</tr>
+				<tr>
+					<th id="main-vardval-klartext">${msg.careSelection}</th>
+					<td headers="main-vardval-klartext">
+						<h:outputText rendered="${unit.vgrVardVal == 'true'}">${msg.yes}</h:outputText>
+						<h:outputText rendered="${unit.vgrVardVal == 'false'}">${msg.no}</h:outputText>
+					</td>
+					<th id="contract-code">${msg.contractCode}</th>
+					<td headers="contract-code">${unit.contractCode}</td>
+				</tr>
+				<tr>
+					<th id="main-management-klartext">${msg.management}</th>
+					<td headers="main-management-klartext" colspan="3">${unit.hsaManagementText}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>

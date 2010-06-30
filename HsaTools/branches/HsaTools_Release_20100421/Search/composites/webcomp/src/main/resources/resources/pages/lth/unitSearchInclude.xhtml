@@ -1,0 +1,56 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<form id="searchUnitForm" action="Search.searchunit-flow.flow" method="get" class="search-form"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+		xmlns:c="http://java.sun.com/jstl/core">
+    <div id="formContainer">
+  		<div class="text">
+			<label for="unitName">Enhet</label>
+			<div class="autocomplete_container" id="unitName_container">
+				<input id="unitName" name="unitName" type="text" class="search-input-field" value="${unitSearchSimpleForm.unitName}" />
+				<span class="info">Ange namn på enhet du vill söka efter</span>
+				<div id="autocomplete_unitName" class="autocomplete"></div>
+			</div>
+		</div>
+		
+		<div class="text">
+			<label for="location">Var</label>
+            <input id="location" name="location" type="text" class="search-input-field" value="${unitSearchSimpleForm.location}" />
+			<span class="info">Söker i Besöksadress, Postadress, Kommun</span>
+		</div>
+
+		<div class="submit-area">
+			<input type="submit" id="submitButton" value="Sök" />
+	    </div>
+        <script type="text/javascript" charset="utf-8">
+            // <![CDATA[]
+	            initAutocompleterUnitName();
+            // ]]>
+        </script>
+    </div>
+    <script type="text/javascript">
+		document.getElementById("unitName").focus();
+	</script>
+</form>
