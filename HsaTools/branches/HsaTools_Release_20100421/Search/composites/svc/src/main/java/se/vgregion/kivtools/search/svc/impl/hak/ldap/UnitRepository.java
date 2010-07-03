@@ -467,24 +467,28 @@ public class UnitRepository {
     AndFilter searchFilter = new AndFilter();
     searchFilter.and(new EqualsFilter("objectClass", objectClass));
 
-    OrFilter additionalCriterias = new OrFilter();
+    OrFilter localityCriterias = new OrFilter();
     if (!StringUtil.isEmpty(unit.getHsaMunicipalityName())) {
-      additionalCriterias.or(createSearchFilter("municipalityName", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName())));
+      localityCriterias.or(createSearchFilter("municipalityName", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName())));
     }
     if (!StringUtil.isEmpty(unit.getHsaMunicipalityCode())) {
-      additionalCriterias.or(createSearchFilter("municipalityCode", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityCode())));
+      localityCriterias.or(createSearchFilter("municipalityCode", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityCode())));
     }
     if (!StringUtil.isEmpty(unit.getHsaMunicipalityName())) {
-      additionalCriterias.or(addAddressSearchFilter("postalAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName())));
-      additionalCriterias.or(addAddressSearchFilter("streetAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName())));
+      localityCriterias.or(addAddressSearchFilter("postalAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName())));
+      localityCriterias.or(addAddressSearchFilter("streetAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName())));
     }
+    
+    OrFilter unitNameCriterias = new OrFilter();
     // Add like search for unit name in description field
     if (!StringUtil.isEmpty(unit.getName())) {
-      additionalCriterias.or(createSearchFilter(Constants.LDAP_PROPERTY_DESCRIPTION, unit.getName()));
-      additionalCriterias.or(createSearchFilter(unitNameProperty, unit.getName()));
+    	unitNameCriterias.or(createSearchFilter(Constants.LDAP_PROPERTY_DESCRIPTION, unit.getName()));
+    	unitNameCriterias.or(createSearchFilter(unitNameProperty, unit.getName()));
     }
 
-    searchFilter.and(additionalCriterias);
+    searchFilter.and(localityCriterias);
+    searchFilter.and(unitNameCriterias);
+    
     if (!StringUtil.isEmpty(unit.getHsaIdentity())) {
       searchFilter.and(createSearchFilter("hsaIdentity", unit.getHsaIdentity()));
     }
