@@ -61,7 +61,6 @@ import se.vgregion.kivtools.util.time.TimeUtil;
  */
 public class UnitRepository {
   private static final DistinguishedName KIV_SEARCH_BASE = new DistinguishedName("ou=Org,o=vgr");
-  private static final DistinguishedName KIV_PERSONAL_SEARCH_BASE = new DistinguishedName("ou=Personal,o=vgr");
   private static final String LDAP_WILD_CARD = "*";
   // an "
   private static final String LDAP_EXACT_CARD = "\"";
@@ -98,13 +97,13 @@ public class UnitRepository {
    * @throws KivException If an error occur.
    */
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxResult, Comparator<Unit> sortOrder, boolean onlyPublicUnits) throws KivException {
-    String searchFilter = createAdvancedSearchFilter(unit, onlyPublicUnits);
+    String searchFilter = this.createAdvancedSearchFilter(unit, onlyPublicUnits);
     // Perform search without limit since the information will be filtered
-    SikSearchResultList<Unit> units = searchUnits(searchFilter, SearchControls.SUBTREE_SCOPE, Integer.MAX_VALUE, sortOrder);
+    SikSearchResultList<Unit> units = this.searchUnits(searchFilter, SearchControls.SUBTREE_SCOPE, Integer.MAX_VALUE, sortOrder);
 
-    removeUnallowedUnits(units);
+    this.removeUnallowedUnits(units);
 
-    removeOutdatedUnits(units);
+    this.removeOutdatedUnits(units);
 
     int numberOfHits = units.size();
 
@@ -146,7 +145,7 @@ public class UnitRepository {
     List<HealthcareType> allUnfilteredHealthcareTypes = htch.getAllUnfilteredHealthCareTypes();
 
     for (int j = units.size() - 1; j >= 0; j--) {
-      if (!unitMatchesUnfilteredHealtcareType(units.get(j), allUnfilteredHealthcareTypes)) {
+      if (!this.unitMatchesUnfilteredHealtcareType(units.get(j), allUnfilteredHealthcareTypes)) {
         units.remove(units.get(j));
       }
     }
@@ -192,8 +191,8 @@ public class UnitRepository {
    * @throws KivException .
    */
   public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions searchUnitCriterions, int maxResult) throws KivException {
-    String searchFilter = createSearchFilter(searchUnitCriterions);
-    return searchUnits(searchFilter, SearchControls.SUBTREE_SCOPE, maxResult, new UnitNameComparator());
+    String searchFilter = this.createSearchFilter(searchUnitCriterions);
+    return this.searchUnits(searchFilter, SearchControls.SUBTREE_SCOPE, maxResult, new UnitNameComparator());
   }
 
   /**
@@ -205,7 +204,7 @@ public class UnitRepository {
    */
   public Unit getUnitByHsaId(String hsaId) throws KivException {
     String searchFilter = "(hsaIdentity=" + hsaId + ")";
-    return searchUnit(getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilter);
+    return this.searchUnit(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilter);
   }
 
   /**
@@ -221,12 +220,12 @@ public class UnitRepository {
     List<String> careTypes = new ArrayList<String>();
     careTypes.add(OPPENVÅRD);
     careTypes.add(HEMSJUKVÅRD);
-    Filter careTypesFilterList = generateCareTypeFilterFromList(CodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, careTypes);
+    Filter careTypesFilterList = this.generateCareTypeFilterFromList(CodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, careTypes);
     // Filter hsaIdentityFilter = createSearchFilter(LDAPUnitAttributes.UNIT_ID.toString(), hsaId);
     andFilterList.add("(hsaIdentity=" + hsaId + ")");
     andFilterList.add(careTypesFilterList.encode());
-    searchFilterString = makeAnd(andFilterList);
-    return searchUnit(getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilterString);
+    searchFilterString = this.makeAnd(andFilterList);
+    return this.searchUnit(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilterString);
   }
 
   /**
@@ -239,7 +238,7 @@ public class UnitRepository {
   public Unit getUnitByDN(DN dn) throws KivException {
     Unit u = null;
     DistinguishedName distinguishedName = new DistinguishedName(dn.escape().toString());
-    u = (Unit) ldapTemplate.lookup(distinguishedName, ATTRIBUTES, unitMapper);
+    u = (Unit) this.ldapTemplate.lookup(distinguishedName, ATTRIBUTES, this.unitMapper);
     return u;
   }
 
@@ -250,7 +249,7 @@ public class UnitRepository {
    * @throws KivException .
    */
   public List<String> getAllUnitsHsaIdentity() throws KivException {
-    return getAllUnitsHsaIdentity(false);
+    return this.getAllUnitsHsaIdentity(false);
   }
 
   /**
@@ -261,14 +260,14 @@ public class UnitRepository {
    * @throws KivException .
    */
   public List<String> getAllUnitsHsaIdentity(boolean onlyPublicUnits) throws KivException {
-    String searchFilter = createAllUnitsFilter(onlyPublicUnits);
+    String searchFilter = this.createAllUnitsFilter(onlyPublicUnits);
 
     String[] attributes = new String[1];
     attributes[0] = "hsaIdentity";
 
     // Since SingleAttributeMapper return a String we are certain that the cast to List<String> is ok
     @SuppressWarnings("unchecked")
-    List<String> result = ldapTemplate.search(getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, attributes, new SingleAttributeMapper(UnitLdapAttributes.HSA_IDENTITY));
+    List<String> result = this.ldapTemplate.search(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, attributes, new SingleAttributeMapper(UnitLdapAttributes.HSA_IDENTITY));
     return result;
   }
 
@@ -279,11 +278,11 @@ public class UnitRepository {
    * @return A list of units.
    */
   public List<Unit> getAllUnits(boolean onlyPublicUnits) {
-    String searchFilter = createAllUnitsFilter(onlyPublicUnits);
+    String searchFilter = this.createAllUnitsFilter(onlyPublicUnits);
 
     // Since UnitMapper returns Units we are certain that the cast to List<Unit> is ok.
     @SuppressWarnings("unchecked")
-    List<Unit> result = ldapTemplate.search(getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES, unitMapper);
+    List<Unit> result = this.ldapTemplate.search(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES, this.unitMapper);
     return result;
   }
 
@@ -296,7 +295,7 @@ public class UnitRepository {
     }
     filterList.add(searchFilter);
     // (&(par3=value3)(par4=value4
-    searchFilter = makeAnd(filterList);
+    searchFilter = this.makeAnd(filterList);
     return searchFilter;
   }
 
@@ -304,9 +303,9 @@ public class UnitRepository {
     SikSearchResultList<Unit> result = null;
     // Since UnitMapper return a Unit we are certain that the cast to List<Unit> is ok
     @SuppressWarnings("unchecked")
-    List<Unit> search = ldapTemplate.search(getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES, unitMapper);
+    List<Unit> search = this.ldapTemplate.search(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES, this.unitMapper);
 
-    result = cleanAndSortResult(search, maxResult, sortOrder);
+    result = this.cleanAndSortResult(search, maxResult, sortOrder);
 
     return result;
   }
@@ -314,7 +313,7 @@ public class UnitRepository {
   private Unit searchUnit(DistinguishedName searchBase, int searchScope, String searchFilter) throws KivException {
     // Since UnitMapper return Units we are certain that the suppression is ok
     @SuppressWarnings("unchecked")
-    List<Unit> result = ldapTemplate.search(searchBase, searchFilter, searchScope, ATTRIBUTES, unitMapper);
+    List<Unit> result = this.ldapTemplate.search(searchBase, searchFilter, searchScope, ATTRIBUTES, this.unitMapper);
     if (result.size() == 0) {
       throw new KivNoDataFoundException("Error getting unit from server");
     }
@@ -325,7 +324,7 @@ public class UnitRepository {
     // Make sure we don't return duplicates
     Comparator<Unit> sortOrderCurrent = sortOrder;
     SikSearchResultList<Unit> result = new SikSearchResultList<Unit>(units);
-    SikSearchResultList<Unit> resultNoDuplicates = deduplicateResult(result);
+    SikSearchResultList<Unit> resultNoDuplicates = this.deduplicateResult(result);
 
     if (sortOrderCurrent == null) {
       // No sort order was supplied, default to sorting on unit name.
@@ -383,26 +382,26 @@ public class UnitRepository {
    */
   String createSearchFilter(SearchUnitCriterions searchUnitCriterions) throws KivException {
     // create a plain unit search filter
-    String unitSearchString = createUnitSearchFilter(searchUnitCriterions);
+    String unitSearchString = this.createUnitSearchFilter(searchUnitCriterions);
 
     // create a plain function search filter
-    String functionSearchString = makeFunctionSearchStringFromUnitSearchString(unitSearchString);
+    String functionSearchString = this.makeFunctionSearchStringFromUnitSearchString(unitSearchString);
 
     // add both filters together
     List<String> filterList = new ArrayList<String>();
     filterList.add(unitSearchString);
     filterList.add(functionSearchString);
     // (|(par1=value1)(par2=value2))
-    String fullSearchString = makeOr(filterList);
+    String fullSearchString = this.makeOr(filterList);
     return fullSearchString;
   }
 
   String createAdvancedSearchFilter(Unit unit, boolean onlyPublicUnits) {
     // create a plain unit search filter
-    String unitSearchString = createAdvancedUnitSearchFilter(unit);
+    String unitSearchString = this.createAdvancedUnitSearchFilter(unit);
 
     // create a plain function search filter
-    String functionSearchString = makeFunctionSearchStringFromUnitSearchString(unitSearchString);
+    String functionSearchString = this.makeFunctionSearchStringFromUnitSearchString(unitSearchString);
 
     // add filters together
     List<String> filterList = new ArrayList<String>();
@@ -413,7 +412,7 @@ public class UnitRepository {
       filterList.add(functionSearchString);
     }
     // (|(par1=value1)(par2=value2))
-    String orCriterias = makeOr(filterList);
+    String orCriterias = this.makeOr(filterList);
 
     filterList.clear();
     filterList.add(orCriterias);
@@ -422,7 +421,7 @@ public class UnitRepository {
       filterList.add("(hsaDestinationIndicator=03)");
     }
 
-    String andCriterias = makeAnd(filterList);
+    String andCriterias = this.makeAnd(filterList);
     return andCriterias;
   }
 
@@ -436,38 +435,39 @@ public class UnitRepository {
     // Create or hsaIdentity
     if (!StringUtil.isEmpty(searchUnitCriterions.getUnitId())) {
       OrFilter orHsaIdentity = new OrFilter();
-      orHsaIdentity.or(createSearchFilter("hsaIdentity", searchUnitCriterions.getUnitId()));
+      orHsaIdentity.or(this.createSearchFilter("hsaIdentity", searchUnitCriterions.getUnitId()));
       andFilter2.and(orHsaIdentity);
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getUnitName())) {
       OrFilter orUnitName = new OrFilter();
-      orUnitName.or(createSearchFilter(Constants.LDAP_PROPERTY_UNIT_NAME, searchUnitCriterions.getUnitName()));
+      orUnitName.or(this.createSearchFilter(Constants.LDAP_PROPERTY_UNIT_NAME, searchUnitCriterions.getUnitName()));
       andFilter2.and(orUnitName);
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getAdministrationName())) {
-      Filter orFilter = generateOrFilterFromList(CodeTableName.VGR_AO3_CODE, LDAPUnitAttributes.ADMINISTRATION, searchUnitCriterions.getAdministrationName());
+      Filter orFilter = this.generateOrFilterFromList(CodeTableName.VGR_AO3_CODE, LDAPUnitAttributes.ADMINISTRATION, searchUnitCriterions.getAdministrationName());
       andFilter2.and(orFilter);
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getLiableCode())) {
-      andFilter2.and(createSearchFilter("vgrAnsvarsnummer", searchUnitCriterions.getLiableCode()));
+      andFilter2.and(this.createSearchFilter("vgrAnsvarsnummer", searchUnitCriterions.getLiableCode()));
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getBusinessClassificationName())) {
-      Filter orFilter = generateOrFilterFromList(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, LDAPUnitAttributes.BUSINESS_CLASSIFICATION_CODE, searchUnitCriterions.getBusinessClassificationName());
+      Filter orFilter = this.generateOrFilterFromList(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, LDAPUnitAttributes.BUSINESS_CLASSIFICATION_CODE,
+          searchUnitCriterions.getBusinessClassificationName());
       andFilter2.and(orFilter);
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getCareTypeName())) {
-      Filter orFilter = generateOrFilterFromList(CodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, searchUnitCriterions.getCareTypeName());
+      Filter orFilter = this.generateOrFilterFromList(CodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, searchUnitCriterions.getCareTypeName());
       andFilter2.and(orFilter);
     }
     // create or criteria
     if (!StringUtil.isEmpty(searchUnitCriterions.getLocation())) {
       OrFilter orMunicipalityAndAddresses = new OrFilter();
       OrFilter orMunicipalityName = new OrFilter();
-      orMunicipalityName.or(createSearchFilter("hsaMunicipalityName", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation())));
+      orMunicipalityName.or(this.createSearchFilter("hsaMunicipalityName", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation())));
       // Create or criteria a bit special...
-      OrFilter orPostalAddress = createAddressSearchFilter(filterList, "hsaPostalAddress", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation()));
+      OrFilter orPostalAddress = this.createAddressSearchFilter(filterList, "hsaPostalAddress", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation()));
       // Create or criteria
-      OrFilter orStreetAddress = createAddressSearchFilter(filterList, "hsaStreetAddress", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation()));
+      OrFilter orStreetAddress = this.createAddressSearchFilter(filterList, "hsaStreetAddress", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation()));
       orMunicipalityAndAddresses.or(orMunicipalityName).or(orPostalAddress).or(orStreetAddress);
       andFilter2.and(orMunicipalityAndAddresses);
     }
@@ -476,7 +476,7 @@ public class UnitRepository {
   }
 
   private Filter generateOrFilterFromList(CodeTableName codeTableName, LDAPUnitAttributes criterion, String criterionValue) {
-    List<String> codeFromTextValues = codeTablesService.getCodeFromTextValue(codeTableName, criterionValue);
+    List<String> codeFromTextValues = this.codeTablesService.getCodeFromTextValue(codeTableName, criterionValue);
     OrFilter orFilter = new OrFilter();
     if (codeFromTextValues.size() > 0) {
       for (String value : codeFromTextValues) {
@@ -491,7 +491,7 @@ public class UnitRepository {
   private Filter generateCareTypeFilterFromList(CodeTableName codeTableName, LDAPUnitAttributes criterion, List<String> careTypes) {
     List<String> codeFromTextValues = new ArrayList<String>();
     for (String careType : careTypes) {
-      codeFromTextValues.addAll(codeTablesService.getCodeFromTextValue(codeTableName, careType));
+      codeFromTextValues.addAll(this.codeTablesService.getCodeFromTextValue(codeTableName, careType));
     }
 
     OrFilter orFilter = new OrFilter();
@@ -511,22 +511,22 @@ public class UnitRepository {
     String searchFilter = "(&(objectclass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")";
 
     // or criterias
-    addSearchFilter(filterList, "hsaMunicipalityName", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
+    this.addSearchFilter(filterList, "hsaMunicipalityName", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
     if (unit.getHsaMunicipalityCode() != null) {
-      addSearchFilter(filterList, "hsaMunicipalityCode", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityCode()));
+      this.addSearchFilter(filterList, "hsaMunicipalityCode", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityCode()));
     }
 
     // a bit special...
-    createAddressSearchFilter(filterList, "hsaPostalAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
+    this.createAddressSearchFilter(filterList, "hsaPostalAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
 
-    createAddressSearchFilter(filterList, "hsaStreetAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
+    this.createAddressSearchFilter(filterList, "hsaStreetAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName()));
     // (|(par1=value1)(par2=value2))
-    String orCriterias = makeOr(filterList);
+    String orCriterias = this.makeOr(filterList);
 
     filterList = new ArrayList<String>();
-    addSearchFilter(filterList, Constants.LDAP_PROPERTY_UNIT_NAME, unit.getName());
-    addSearchFilter(filterList, "hsaBusinessClassificationCode", unit.getName());
-    String unitNameOrBusinessClassificationCode = makeOr(filterList);
+    this.addSearchFilter(filterList, Constants.LDAP_PROPERTY_UNIT_NAME, unit.getName());
+    this.addSearchFilter(filterList, "hsaBusinessClassificationCode", unit.getName());
+    String unitNameOrBusinessClassificationCode = this.makeOr(filterList);
 
     filterList = new ArrayList<String>();
 
@@ -537,15 +537,15 @@ public class UnitRepository {
       filterList.add(orCriterias);
     }
 
-    addSearchFilter(filterList, "hsaIdentity", unit.getHsaIdentity());
+    this.addSearchFilter(filterList, "hsaIdentity", unit.getHsaIdentity());
 
     // Take all health care type conditions into consideration...
     if (unit.getHealthcareTypes() != null && unit.getHealthcareTypes().size() > 0) {
-      addHealthCareTypeConditions(filterList, unit.getHealthcareTypes());
+      this.addHealthCareTypeConditions(filterList, unit.getHealthcareTypes());
     }
 
     // (&(par3=value3)(par4=value4))
-    String andCriterias = makeAnd(filterList);
+    String andCriterias = this.makeAnd(filterList);
     if (StringUtil.isEmpty(andCriterias)) {
       return "";
     }
@@ -564,7 +564,7 @@ public class UnitRepository {
     String searchValueCurrent = searchValue;
     if (!StringUtil.isEmpty(searchValueCurrent)) {
       searchValueCurrent = searchValueCurrent.trim();
-      if (isExactMatchFilter(searchValueCurrent)) {
+      if (this.isExactMatchFilter(searchValueCurrent)) {
         // remove "
         searchValueCurrent = Formatter.replaceStringInString(searchValueCurrent, LDAP_EXACT_CARD, "");
         // exact match
@@ -590,7 +590,7 @@ public class UnitRepository {
     Filter filter = null;
     if (!StringUtil.isEmpty(currentSearchValue)) {
       currentSearchValue = currentSearchValue.trim();
-      if (isExactMatchFilter(currentSearchValue)) {
+      if (this.isExactMatchFilter(currentSearchValue)) {
         // remove "
         currentSearchValue = Formatter.replaceStringInString(currentSearchValue, LDAP_EXACT_CARD, "");
         filter = new EqualsFilter(searchField, currentSearchValue.trim());
@@ -613,10 +613,10 @@ public class UnitRepository {
     OrFilter temp = null;
     if (!StringUtil.isEmpty(searchValueCurrent)) {
       searchValueCurrent = searchValueCurrent.trim();
-      if (isExactMatchFilter(searchValueCurrent)) {
+      if (this.isExactMatchFilter(searchValueCurrent)) {
         // remove "
         searchValueCurrent = Formatter.replaceStringInString(searchValueCurrent, LDAP_EXACT_CARD, "");
-        temp = buildAddressSearch(searchField, searchValueCurrent);
+        temp = this.buildAddressSearch(searchField, searchValueCurrent);
         // exact match
         filterList.add(temp.encode());
       } else {
@@ -624,7 +624,7 @@ public class UnitRepository {
         searchValueCurrent = Formatter.replaceStringInString(searchValueCurrent, " ", LDAP_WILD_CARD);
         searchValueCurrent = Formatter.replaceStringInString(searchValueCurrent, "-", LDAP_WILD_CARD);
         searchValueCurrent = LDAP_WILD_CARD + searchValueCurrent + LDAP_WILD_CARD;
-        temp = buildAddressSearch(searchField, searchValueCurrent);
+        temp = this.buildAddressSearch(searchField, searchValueCurrent);
         // wildcard match
         filterList.add(temp.encode());
       }
@@ -696,10 +696,10 @@ public class UnitRepository {
         for (int i = 0; i < conditionValues.length; i++) {
           conditionComponentFilter.add("(" + condition.getKey() + "=" + conditionValues[i] + ")");
         }
-        String conditionComponentsQuery = makeOr(conditionComponentFilter);
+        String conditionComponentsQuery = this.makeOr(conditionComponentFilter);
         conditionComponents.add(conditionComponentsQuery);
       }
-      String healthCareTypeCondition = makeAnd(conditionComponents);
+      String healthCareTypeCondition = this.makeAnd(conditionComponents);
 
       // Add to top level, should be okay in same way as a valid
       // hsaBusinessClassificationCode
@@ -721,9 +721,9 @@ public class UnitRepository {
 
     // Since UnitMapper return a Unit we are certain that the cast to List<Unit> is ok
     @SuppressWarnings("unchecked")
-    List<Unit> search = ldapTemplate.search(parentDn.toString(), "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")", SearchControls.SUBTREE_SCOPE, ATTRIBUTES, unitMapper);
-    subUnits = cleanAndSortResult(search, maxResult, null);
-    removeUnitParentFromList(parentUnit, subUnits);
+    List<Unit> search = this.ldapTemplate.search(parentDn.toString(), "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")", SearchControls.SUBTREE_SCOPE, ATTRIBUTES, this.unitMapper);
+    subUnits = this.cleanAndSortResult(search, maxResult, null);
+    this.removeUnitParentFromList(parentUnit, subUnits);
     return subUnits;
   }
 
@@ -741,9 +741,9 @@ public class UnitRepository {
 
     // Since UnitMapper return a Unit we are certain that the cast to List<Unit> is ok
     @SuppressWarnings("unchecked")
-    List<Unit> search = ldapTemplate.search(parentDn.toString(), "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")", SearchControls.ONELEVEL_SCOPE, ATTRIBUTES, unitMapper);
-    subUnits = cleanAndSortResult(search, 0, null);
-    removeUnitParentFromList(parentUnit, subUnits);
+    List<Unit> search = this.ldapTemplate.search(parentDn.toString(), "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")", SearchControls.ONELEVEL_SCOPE, ATTRIBUTES, this.unitMapper);
+    subUnits = this.cleanAndSortResult(search, 0, null);
+    this.removeUnitParentFromList(parentUnit, subUnits);
     return subUnits;
   }
 
@@ -762,11 +762,11 @@ public class UnitRepository {
   }
 
   public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException {
-    Unit unit = getUnitByHsaId(hsaId);
+    Unit unit = this.getUnitByHsaId(hsaId);
     List<String> administratorVgrIds = new ArrayList<String>();
     for (String dn : unit.getVgrObjectManagers()) {
       dn.trim();
-      String vgrId = extractVgrId(dn);
+      String vgrId = this.extractVgrId(dn);
       if (vgrId != null && vgrId.length() > 0) {
         administratorVgrIds.add(vgrId);
       }

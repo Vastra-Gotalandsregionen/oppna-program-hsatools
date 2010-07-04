@@ -66,8 +66,6 @@
 		<if test="requestParameters.unitAdministrators!=null" then="Display.unitAdministrators"/>
 		<if test="requestParameters.hsaidentityOnlyThisUnit!=null" then="Display.unitOrganisationOnlyOneLevel"/>
 		<if test="requestParameters.hsaidentity!=null" then="Display.unitOrganisation" else="Search.validateSearchParams"/>
-		
-		
 	</decision-state>
 	
 	<view-state id="Search.displayPersonSearchResult" view="/displayPersonSearchResult.xhtml">

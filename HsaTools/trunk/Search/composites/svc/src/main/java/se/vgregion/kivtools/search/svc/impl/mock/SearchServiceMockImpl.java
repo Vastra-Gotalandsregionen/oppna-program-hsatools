@@ -39,14 +39,14 @@ import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
  * Mock implementation of the SearchService to use when no connection to an LDAP-server is available.
  */
 public class SearchServiceMockImpl implements SearchService {
-  private SikSearchResultList<Person> personList = new SikSearchResultList<Person>();
-  private SikSearchResultList<Unit> unitList = new SikSearchResultList<Unit>();
+  private final SikSearchResultList<Person> personList = new SikSearchResultList<Person>();
+  private final SikSearchResultList<Unit> unitList = new SikSearchResultList<Unit>();
 
   /**
    * Constructs a new mock-service.
    */
   public SearchServiceMockImpl() {
-    init();
+    this.init();
   }
 
   @Override
@@ -166,7 +166,7 @@ public class SearchServiceMockImpl implements SearchService {
   @Override
   public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws KivException {
     SikSearchResultList<Person> tempList = new SikSearchResultList<Person>();
-    for (Person p : personList) {
+    for (Person p : this.personList) {
       if (p.getVgrId().indexOf(vgrId) >= 0) {
         tempList.add(p);
       }
@@ -176,7 +176,7 @@ public class SearchServiceMockImpl implements SearchService {
 
   @Override
   public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions unit, int maxSearchResult) throws KivException {
-    return unitList;
+    return this.unitList;
   }
 
   @Override
@@ -219,8 +219,8 @@ public class SearchServiceMockImpl implements SearchService {
   }
 
   private void init() {
-    initPersons(personList);
-    initUnits(unitList);
+    this.initPersons(this.personList);
+    this.initUnits(this.unitList);
   }
 
   private void initPersons(SikSearchResultList<Person> list) {
@@ -336,7 +336,7 @@ public class SearchServiceMockImpl implements SearchService {
   @Override
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
     SikSearchResultList<Person> result = new SikSearchResultList<Person>();
-    initPersons(result);
+    this.initPersons(result);
     return result;
   }
 
@@ -353,7 +353,7 @@ public class SearchServiceMockImpl implements SearchService {
   @Override
   public List<Person> getAllPersons() throws KivException {
     SikSearchResultList<Person> result = new SikSearchResultList<Person>();
-    initPersons(result);
+    this.initPersons(result);
     return result;
   }
 

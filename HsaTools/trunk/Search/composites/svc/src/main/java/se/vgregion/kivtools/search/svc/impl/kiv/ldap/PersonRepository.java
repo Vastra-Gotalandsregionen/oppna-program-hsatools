@@ -90,8 +90,8 @@ public class PersonRepository {
    * @throws KivException .
    */
   public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws KivException {
-    String searchFilter = createSearchPersonsFilterVgrId(vgrId);
-    return searchPersons(searchFilter, SearchControls.SUBTREE_SCOPE, maxResult);
+    String searchFilter = this.createSearchPersonsFilterVgrId(vgrId);
+    return this.searchPersons(searchFilter, SearchControls.SUBTREE_SCOPE, maxResult);
   }
 
   /**
@@ -103,7 +103,7 @@ public class PersonRepository {
    */
   public Person getPersonByVgrId(String vgrId) throws KivException {
     String searchFilter = "(objectclass=vgrUser)";
-    return searchPerson("cn=" + vgrId + "," + PERSON_SEARCH_BASE.toString(), SearchControls.OBJECT_SCOPE, searchFilter);
+    return this.searchPerson("cn=" + vgrId + "," + PERSON_SEARCH_BASE.toString(), SearchControls.OBJECT_SCOPE, searchFilter);
   }
 
   /**
@@ -123,7 +123,7 @@ public class PersonRepository {
     try {
       // Since SingleAttributeMapper return a String we are certain that a cast to List<String> is ok
       @SuppressWarnings("unchecked")
-      List<String> vgrIds = ldapTemplate.search(PERSON_SEARCH_BASE, andFilter.encode(), SearchControls.ONELEVEL_SCOPE, attributes, new SingleAttributeMapper("vgr-id"));
+      List<String> vgrIds = this.ldapTemplate.search(PERSON_SEARCH_BASE, andFilter.encode(), SearchControls.ONELEVEL_SCOPE, attributes, new SingleAttributeMapper("vgr-id"));
 
       if (vgrIds != null) {
         result.addAll(vgrIds);
@@ -148,7 +148,7 @@ public class PersonRepository {
       String[] attributes = new String[] { "*", "createTimestamp", "modifyTimestamp" };
       // Since UnitMapper returns Units we are certain that the cast to List<Unit> is ok.
       @SuppressWarnings("unchecked")
-      List<Person> result = ldapTemplate.search(PERSON_SEARCH_BASE, filter.encode(), SearchControls.SUBTREE_SCOPE, attributes, new PersonMapper(codeTablesService));
+      List<Person> result = this.ldapTemplate.search(PERSON_SEARCH_BASE, filter.encode(), SearchControls.SUBTREE_SCOPE, attributes, new PersonMapper(this.codeTablesService));
       return result;
     } catch (NamingException e) {
       throw new KivException("Error getting persons from server: " + e.getMessage());
@@ -160,7 +160,7 @@ public class PersonRepository {
       String[] attributes = new String[] { "*", "createTimestamp", "modifyTimestamp" };
       // Since PersonMapper return Persons we are certain that the suppression is ok
       @SuppressWarnings("unchecked")
-      List<Person> result = ldapTemplate.search(searchBase, searchFilter, searchScope, attributes, new PersonMapper(codeTablesService));
+      List<Person> result = this.ldapTemplate.search(searchBase, searchFilter, searchScope, attributes, new PersonMapper(this.codeTablesService));
       if (result.size() == 0) {
         throw new KivNoDataFoundException("Error getting person from server");
       }
@@ -179,7 +179,7 @@ public class PersonRepository {
     searchControls.setReturningAttributes(new String[] { "*", "createTimestamp", "modifyTimestamp" });
     // Since PersonMapper returns a Person we are certain that a cast to List<Person> is ok
     @SuppressWarnings("unchecked")
-    List<Person> persons = ldapTemplate.search(PERSON_SEARCH_BASE, searchFilter, searchControls, new PersonMapper(codeTablesService));
+    List<Person> persons = this.ldapTemplate.search(PERSON_SEARCH_BASE, searchFilter, searchControls, new PersonMapper(this.codeTablesService));
     SikSearchResultList<Person> result = null;
 
     if (persons == null) {
@@ -219,7 +219,7 @@ public class PersonRepository {
 
     // Since the mapper return a String we are certain that the cast to List<String> is ok
     @SuppressWarnings("unchecked")
-    List<String> personDNs = ldapTemplate.search(PERSON_SEARCH_BASE, searchFilter, contextMapper);
+    List<String> personDNs = this.ldapTemplate.search(PERSON_SEARCH_BASE, searchFilter, contextMapper);
     for (String dn : personDNs) {
       filter.or(new EqualsFilter("vgr-id", dn.replace(CN_EQUALS, "")));
     }
@@ -228,7 +228,7 @@ public class PersonRepository {
 
   private String createSearchPersonsFilterVgrId(String vgrId) throws KivException {
     String searchFilter = "(&(objectclass=vgrUser)";
-    searchFilter += createSearchFilterItem("vgr-id", vgrId);
+    searchFilter += this.createSearchFilterItem("vgr-id", vgrId);
     searchFilter += ")";
     return searchFilter;
   }
@@ -245,7 +245,7 @@ public class PersonRepository {
     String currentSearchValue = searchValue;
     if (!StringUtil.isEmpty(currentSearchValue)) {
       currentSearchValue = currentSearchValue.trim();
-      if (isExactMatchFilter(currentSearchValue)) {
+      if (this.isExactMatchFilter(currentSearchValue)) {
         // remove "
         currentSearchValue = Formatter.replaceStringInString(currentSearchValue, LDAP_EXACT_CARD, "");
         // exact match
@@ -289,13 +289,13 @@ public class PersonRepository {
     // Generate or filter condition
     OrFilter unitFkfilter = new OrFilter();
     for (Unit unit : units) {
-      unitFkfilter.or(new EqualsFilter(unitFkField, unit.getHsaIdentity()));
+      unitFkfilter.or(new EqualsFilter(this.unitFkField, unit.getHsaIdentity()));
     }
 
     filter.and(new NotFilter(new EqualsFilter("objectClass", "vgrAnstallning")));
     filter.and(unitFkfilter);
 
-    persons = searchPersons(filter.encode(), SearchControls.SUBTREE_SCOPE, maxResult);
+    persons = this.searchPersons(filter.encode(), SearchControls.SUBTREE_SCOPE, maxResult);
     return persons;
   }
 
@@ -312,18 +312,18 @@ public class PersonRepository {
 
     if (!StringUtil.isEmpty(person.getEmploymentTitle()) || !StringUtil.isEmpty(person.getEmploymentPosition()) || !StringUtil.isEmpty(person.getPhone())
         || !StringUtil.isEmpty(person.getDescription())) {
-      employmentFilter = getPersonDNsByEmployment(generateFreeTextSearchEmploymentFilter(person).encode(), SearchControls.SUBTREE_SCOPE, Integer.MAX_VALUE);
+      employmentFilter = this.getPersonDNsByEmployment(this.generateFreeTextSearchEmploymentFilter(person).encode(), SearchControls.SUBTREE_SCOPE, Integer.MAX_VALUE);
       if (StringUtil.isEmpty(employmentFilter.encode())) {
         return new SikSearchResultList<Person>();
       }
     }
 
-    AndFilter searchPersonFilter = generateFreeTextSearchPersonFilter(person);
+    AndFilter searchPersonFilter = this.generateFreeTextSearchPersonFilter(person);
     if (employmentFilter != null) {
       searchPersonFilter.and(employmentFilter);
     }
 
-    return searchPersons(searchPersonFilter.encode(), SearchControls.SUBTREE_SCOPE, maxResult);
+    return this.searchPersons(searchPersonFilter.encode(), SearchControls.SUBTREE_SCOPE, maxResult);
   }
 
   private Filter generateFreeTextSearchEmploymentFilter(SearchPersonCriterions person) {
@@ -361,13 +361,13 @@ public class PersonRepository {
     }
 
     if (!StringUtil.isEmpty(person.getEmploymentPosition())) {
-      addPaTitleCodeFilter(employmentFilter, person);
+      this.addPaTitleCodeFilter(employmentFilter, person);
     }
     return employmentFilter;
   }
 
   private void addPaTitleCodeFilter(AndFilter employmentFilter, SearchPersonCriterions person) {
-    List<String> paTitleCodeList = codeTablesService.getCodeFromTextValue(CodeTableName.PA_TITLE_CODE, person.getEmploymentPosition());
+    List<String> paTitleCodeList = this.codeTablesService.getCodeFromTextValue(CodeTableName.PA_TITLE_CODE, person.getEmploymentPosition());
     OrFilter employmentPositionFilter = new OrFilter();
     if (paTitleCodeList != null && paTitleCodeList.size() > 0) {
       for (String code : paTitleCodeList) {
@@ -404,19 +404,19 @@ public class PersonRepository {
       userFilter.and(new LikeFilter(LDAPPersonAttributes.EMPLOYED_AT_UNIT.toString(), "*" + person.getEmployedAtUnit() + "*"));
     }
     if (!StringUtil.isEmpty(person.getSpecialityArea())) {
-      userFilter.and(generateOrFilterFromList(CodeTableName.HSA_SPECIALITY_CODE, LDAPPersonAttributes.SPECIALITY_AREA_CODE, person.getSpecialityArea()));
+      userFilter.and(this.generateOrFilterFromList(CodeTableName.HSA_SPECIALITY_CODE, LDAPPersonAttributes.SPECIALITY_AREA_CODE, person.getSpecialityArea()));
     }
     if (!StringUtil.isEmpty(person.getProfession())) {
-      userFilter.and(generateOrFilterFromList(CodeTableName.HSA_TITLE, LDAPPersonAttributes.PROFESSION, person.getProfession()));
+      userFilter.and(this.generateOrFilterFromList(CodeTableName.HSA_TITLE, LDAPPersonAttributes.PROFESSION, person.getProfession()));
     }
     if (!StringUtil.isEmpty(person.getEmail())) {
       userFilter.and(new LikeFilter(LDAPPersonAttributes.E_MAIL.toString(), "*" + person.getEmail() + "*"));
     }
     if (!StringUtil.isEmpty(person.getLanguageKnowledge())) {
-      userFilter.and(generateOrFilterFromList(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, LDAPPersonAttributes.LANGUAGE_KNOWLEDGE_CODE, person.getLanguageKnowledge()));
+      userFilter.and(this.generateOrFilterFromList(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, LDAPPersonAttributes.LANGUAGE_KNOWLEDGE_CODE, person.getLanguageKnowledge()));
     }
     if (!StringUtil.isEmpty(person.getAdministration())) {
-      userFilter.and(generateOrFilterFromList(CodeTableName.VGR_AO3_CODE, LDAPPersonAttributes.ADMINISTRATION, person.getAdministration()));
+      userFilter.and(this.generateOrFilterFromList(CodeTableName.VGR_AO3_CODE, LDAPPersonAttributes.ADMINISTRATION, person.getAdministration()));
     }
 
     userFilter.and(new NotFilter(new EqualsFilter("vgrSecrMark", "J")));
@@ -425,7 +425,7 @@ public class PersonRepository {
   }
 
   private Filter generateOrFilterFromList(CodeTableName codeTableName, LDAPPersonAttributes criterion, String criterionValue) {
-    List<String> codeFromTextValues = codeTablesService.getCodeFromTextValue(codeTableName, criterionValue);
+    List<String> codeFromTextValues = this.codeTablesService.getCodeFromTextValue(codeTableName, criterionValue);
     OrFilter orFilter = new OrFilter();
     if (codeFromTextValues.size() > 0) {
       for (String value : codeFromTextValues) {
@@ -436,5 +436,4 @@ public class PersonRepository {
     }
     return orFilter;
   }
-
 }

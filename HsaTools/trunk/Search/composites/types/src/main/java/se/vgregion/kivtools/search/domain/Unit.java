@@ -225,7 +225,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   private List<String> vgrObjectManagers = new ArrayList<String>();
 
   public boolean isVgrVardVal() {
-    return vgrVardVal;
+    return this.vgrVardVal;
   }
 
   public void setVgrVardVal(boolean vgrVardVal) {
@@ -233,7 +233,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getDistanceToTarget() {
-    return distanceToTarget;
+    return this.distanceToTarget;
   }
 
   public void setDistanceToTarget(String distanceToTarget) {
@@ -241,7 +241,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public GeoCoordinate getGeoCoordinate() {
-    return geoCoordinate;
+    return this.geoCoordinate;
   }
 
   public void setGeoCoordinate(GeoCoordinate geoCoordinate) {
@@ -249,7 +249,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaRouteConcatenated() {
-    return hsaRouteConcatenated;
+    return this.hsaRouteConcatenated;
   }
 
   public void setHsaRouteConcatenated(String hsaRouteConcatenated) {
@@ -257,7 +257,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<WeekdayTime> getHsaSurgeryHours() {
-    return hsaSurgeryHours;
+    return this.hsaSurgeryHours;
   }
 
   /**
@@ -281,7 +281,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<WeekdayTime> getHsaDropInHours() {
-    return hsaDropInHours;
+    return this.hsaDropInHours;
   }
 
   /**
@@ -305,7 +305,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getVgrEANCode() {
-    return vgrEANCode;
+    return this.vgrEANCode;
   }
 
   public void setVgrEANCode(String vgrEANCode) {
@@ -313,7 +313,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaMunicipalityCode() {
-    return hsaMunicipalityCode;
+    return this.hsaMunicipalityCode;
   }
 
   public void setHsaMunicipalityCode(String hsaMunicipalityCode) {
@@ -321,7 +321,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaMunicipalitySectionName() {
-    return hsaMunicipalitySectionName;
+    return this.hsaMunicipalitySectionName;
   }
 
   public void setHsaMunicipalitySectionName(String hsaMunicipalitySectionName) {
@@ -329,7 +329,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaMunicipalitySectionCode() {
-    return hsaMunicipalitySectionCode;
+    return this.hsaMunicipalitySectionCode;
   }
 
   public void setHsaMunicipalitySectionCode(String hsaMunicipalitySectionCode) {
@@ -337,7 +337,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaCountyCode() {
-    return hsaCountyCode;
+    return this.hsaCountyCode;
   }
 
   public void setHsaCountyCode(String hsaCountyCode) {
@@ -345,7 +345,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaCountyName() {
-    return hsaCountyName;
+    return this.hsaCountyName;
   }
 
   public void setHsaCountyName(String hsaCountyName) {
@@ -353,7 +353,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaManagementCode() {
-    return hsaManagementCode;
+    return this.hsaManagementCode;
   }
 
   public void setHsaManagementCode(String hsaManagementCode) {
@@ -361,7 +361,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaManagementName() {
-    return hsaManagementName;
+    return this.hsaManagementName;
   }
 
   public void setHsaManagementName(String hsaManagementName) {
@@ -369,7 +369,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaAdministrationForm() {
-    return hsaAdministrationForm;
+    return this.hsaAdministrationForm;
   }
 
   public void setHsaAdministrationForm(String hsaAdministrationForm) {
@@ -377,7 +377,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaAdministrationFormText() {
-    return hsaAdministrationFormText;
+    return this.hsaAdministrationFormText;
   }
 
   public void setHsaAdministrationFormText(String hsaAdministrationFormText) {
@@ -385,7 +385,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public DN getDn() {
-    return dn;
+    return this.dn;
   }
 
   public void setDn(DN dn) {
@@ -398,11 +398,11 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return The units DN as a Base64-encoded string.
    */
   public String getDnBase64() {
-    return StringUtil.base64Encode(dn.toString());
+    return StringUtil.base64Encode(this.dn.toString());
   }
 
   public String getName() {
-    return name;
+    return this.name;
   }
 
   public void setName(String name) {
@@ -410,7 +410,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getOrganizationalUnitNameShort() {
-    return organizationalUnitNameShort;
+    return this.organizationalUnitNameShort;
   }
 
   public void setOrganizationalUnitNameShort(String organizationalUnitNameShort) {
@@ -418,7 +418,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getLdapDistinguishedName() {
-    return ldapDistinguishedName;
+    return this.ldapDistinguishedName;
   }
 
   public void setLdapDistinguishedName(String ldapDistinguishedName) {
@@ -426,7 +426,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getMail() {
-    return mail;
+    return this.mail;
   }
 
   public void setMail(String mail) {
@@ -434,7 +434,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getLabeledURI() {
-    return labeledURI;
+    return this.labeledURI;
   }
 
   /**
@@ -452,7 +452,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getLocality() {
-    return locality;
+    return this.locality;
   }
 
   public void setLocality(String locality) {
@@ -460,7 +460,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getVgrInternalSedfInvoiceAddress() {
-    return vgrInternalSedfInvoiceAddress;
+    return this.vgrInternalSedfInvoiceAddress;
   }
 
   public void setVgrInternalSedfInvoiceAddress(String vgrInternalSedfInvoiceAddress) {
@@ -468,7 +468,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getCareType() {
-    return careType;
+    return this.careType;
   }
 
   public void setCareType(String careType) {
@@ -476,7 +476,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getCareTypeText() {
-    return careTypeText;
+    return this.careTypeText;
   }
 
   public void setCareTypeText(String careTypeText) {
@@ -484,7 +484,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getVgrAO3kod() {
-    return vgrAO3kod;
+    return this.vgrAO3kod;
   }
 
   public void setVgrAO3kod(String vgrAO3kod) {
@@ -492,7 +492,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getVgrAO3kodText() {
-    return vgrAO3kodText;
+    return this.vgrAO3kodText;
   }
 
   public void setVgrAO3kodText(String vgrAO3kodText) {
@@ -500,7 +500,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaIdentity() {
-    return hsaIdentity;
+    return this.hsaIdentity;
   }
 
   public void setHsaIdentity(String hsaIdentity) {
@@ -508,7 +508,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public PhoneNumber getHsaSedfSwitchboardTelephoneNo() {
-    return hsaSedfSwitchboardTelephoneNo;
+    return this.hsaSedfSwitchboardTelephoneNo;
   }
 
   public void setHsaSedfSwitchboardTelephoneNo(PhoneNumber hsaSedfSwitchboardTelephoneNo) {
@@ -516,7 +516,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public PhoneNumber getHsaInternalPagerNumber() {
-    return hsaInternalPagerNumber;
+    return this.hsaInternalPagerNumber;
   }
 
   public void setHsaInternalPagerNumber(PhoneNumber hsaInternalPagerNumber) {
@@ -524,7 +524,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public PhoneNumber getPagerTelephoneNumber() {
-    return pagerTelephoneNumber;
+    return this.pagerTelephoneNumber;
   }
 
   public void setPagerTelephoneNumber(PhoneNumber pagerTelephoneNumber) {
@@ -532,7 +532,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public PhoneNumber getHsaTextPhoneNumber() {
-    return hsaTextPhoneNumber;
+    return this.hsaTextPhoneNumber;
   }
 
   public void setHsaTextPhoneNumber(PhoneNumber hsaTextPhoneNumber) {
@@ -540,7 +540,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public PhoneNumber getMobileTelephoneNumber() {
-    return mobileTelephoneNumber;
+    return this.mobileTelephoneNumber;
   }
 
   public void setMobileTelephoneNumber(PhoneNumber mobileTelephoneNumber) {
@@ -548,7 +548,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public PhoneNumber getHsaSmsTelephoneNumber() {
-    return hsaSmsTelephoneNumber;
+    return this.hsaSmsTelephoneNumber;
   }
 
   public void setHsaSmsTelephoneNumber(PhoneNumber hsaSmsTelephoneNumber) {
@@ -556,7 +556,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public PhoneNumber getFacsimileTelephoneNumber() {
-    return facsimileTelephoneNumber;
+    return this.facsimileTelephoneNumber;
   }
 
   public void setFacsimileTelephoneNumber(PhoneNumber facsimileTelephoneNumber) {
@@ -564,7 +564,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaUnitPrescriptionCode() {
-    return hsaUnitPrescriptionCode;
+    return this.hsaUnitPrescriptionCode;
   }
 
   public void setHsaUnitPrescriptionCode(String hsaUnitPrescriptionCode) {
@@ -572,7 +572,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaMunicipalityName() {
-    return hsaMunicipalityName;
+    return this.hsaMunicipalityName;
   }
 
   public void setHsaMunicipalityName(String hsaMunicipalityName) {
@@ -580,7 +580,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getOu() {
-    return ou;
+    return this.ou;
   }
 
   public void setOu(String ou) {
@@ -588,7 +588,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<String> getDescription() {
-    return description;
+    return this.description;
   }
 
   /**
@@ -618,7 +618,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<PhoneNumber> getHsaTelephoneNumber() {
-    return hsaTelephoneNumber;
+    return this.hsaTelephoneNumber;
   }
 
   /**
@@ -633,7 +633,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<PhoneNumber> getHsaPublicTelephoneNumber() {
-    return hsaPublicTelephoneNumber;
+    return this.hsaPublicTelephoneNumber;
   }
 
   /**
@@ -646,7 +646,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<WeekdayTime> getHsaTelephoneTime() {
-    return hsaTelephoneTime;
+    return this.hsaTelephoneTime;
   }
 
   /**
@@ -670,7 +670,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public Address getHsaInternalAddress() {
-    return hsaInternalAddress;
+    return this.hsaInternalAddress;
   }
 
   public void setHsaInternalAddress(Address hsaInternalAddress) {
@@ -678,7 +678,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public Address getHsaStreetAddress() {
-    return hsaStreetAddress;
+    return this.hsaStreetAddress;
   }
 
   public void setHsaStreetAddress(Address hsaStreetAddress) {
@@ -686,7 +686,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public Address getHsaPostalAddress() {
-    return hsaPostalAddress;
+    return this.hsaPostalAddress;
   }
 
   public void setHsaPostalAddress(Address hsaPostalAddress) {
@@ -694,7 +694,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public Address getHsaSedfDeliveryAddress() {
-    return hsaSedfDeliveryAddress;
+    return this.hsaSedfDeliveryAddress;
   }
 
   public void setHsaSedfDeliveryAddress(Address hsaSedfDeliveryAddress) {
@@ -702,7 +702,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public Address getHsaSedfInvoiceAddress() {
-    return hsaSedfInvoiceAddress;
+    return this.hsaSedfInvoiceAddress;
   }
 
   public void setHsaSedfInvoiceAddress(Address hsaSedfInvoiceAddress) {
@@ -710,7 +710,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<String> getVgrAnsvarsnummer() {
-    return vgrAnsvarsnummer;
+    return this.vgrAnsvarsnummer;
   }
 
   public void setVgrAnsvarsnummer(List<String> vgrAnsvarsnummer) {
@@ -718,7 +718,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getVgrEDICode() {
-    return vgrEDICode;
+    return this.vgrEDICode;
   }
 
   public void setVgrEDICode(String vgrEDICode) {
@@ -726,7 +726,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getVgrOrganizationalRole() {
-    return vgrOrganizationalRole;
+    return this.vgrOrganizationalRole;
   }
 
   public void setVgrOrganizationalRole(String vgrOrganizationalRole) {
@@ -734,17 +734,17 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaManagementText() {
-    return hsaManagementText;
+    return this.hsaManagementText;
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    if (hsaIdentity == null) {
+    if (this.hsaIdentity == null) {
       result = prime * result;
     } else {
-      result = prime * result + hsaIdentity.hashCode();
+      result = prime * result + this.hsaIdentity.hashCode();
     }
     return result;
   }
@@ -756,15 +756,15 @@ public class Unit implements Serializable, Comparable<Unit> {
       if (obj == null) {
         result = false;
       } else {
-        if (getClass() != obj.getClass()) {
+        if (this.getClass() != obj.getClass()) {
           result = false;
         } else {
           Unit other = (Unit) obj;
-          if (hsaIdentity == null) {
+          if (this.hsaIdentity == null) {
             if (other.hsaIdentity != null) {
               result = false;
             }
-          } else if (!hsaIdentity.equals(other.hsaIdentity)) {
+          } else if (!this.hsaIdentity.equals(other.hsaIdentity)) {
             result = false;
           }
         }
@@ -778,7 +778,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaVisitingRuleAge() {
-    return hsaVisitingRuleAge;
+    return this.hsaVisitingRuleAge;
   }
 
   /**
@@ -799,7 +799,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaVisitingRules() {
-    return hsaVisitingRules;
+    return this.hsaVisitingRules;
   }
 
   public void setHsaVisitingRules(String hsaVisitingRules) {
@@ -807,7 +807,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getVgrTempInfo() {
-    return vgrTempInfo;
+    return this.vgrTempInfo;
   }
 
   /**
@@ -836,7 +836,7 @@ public class Unit implements Serializable, Comparable<Unit> {
         // Start showing one week
         cal.add(Calendar.DAY_OF_YEAR, -7);
         // earlier
-        setVgrTempInfoStart(cal.getTime());
+        this.setVgrTempInfoStart(cal.getTime());
       } catch (ParseException e) {
         // KIV validates this field. Nothing we can do if it is incorrect.
         LOG.error("Unable to parse provided startdate as a date", e);
@@ -856,18 +856,18 @@ public class Unit implements Serializable, Comparable<Unit> {
         cal.setTime(endDate);
         // Stop showing the day after
         cal.add(Calendar.DAY_OF_YEAR, 1);
-        setVgrTempInfoEnd(cal.getTime());
+        this.setVgrTempInfoEnd(cal.getTime());
       } catch (ParseException e) {
         // KIV validates this field. Nothing we can do if it is incorrect.
         LOG.error("Unable to parse provided enddate as a date", e);
       }
       // Message
-      setVgrTempInfoBody(vgrTempInfo.substring(vgrTempInfo.indexOf(" ") + 1));
+      this.setVgrTempInfoBody(vgrTempInfo.substring(vgrTempInfo.indexOf(" ") + 1));
     }
   }
 
   public Date getVgrTempInfoStart() {
-    return vgrTempInfoStart;
+    return this.vgrTempInfoStart;
   }
 
   public void setVgrTempInfoStart(Date vgrTempInfoStart) {
@@ -875,7 +875,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public Date getVgrTempInfoEnd() {
-    return vgrTempInfoEnd;
+    return this.vgrTempInfoEnd;
   }
 
   public void setVgrTempInfoEnd(Date vgrTempInfoEnd) {
@@ -883,7 +883,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getVgrTempInfoBody() {
-    return vgrTempInfoBody;
+    return this.vgrTempInfoBody;
   }
 
   public void setVgrTempInfoBody(String vgrTempInfoBody) {
@@ -899,15 +899,15 @@ public class Unit implements Serializable, Comparable<Unit> {
     boolean show = false;
     Date now = TimeUtil.asDate();
 
-    if (vgrTempInfoStart != null && vgrTempInfoEnd != null) {
-      show = now.after(vgrTempInfoStart) && now.before(vgrTempInfoEnd);
+    if (this.vgrTempInfoStart != null && this.vgrTempInfoEnd != null) {
+      show = now.after(this.vgrTempInfoStart) && now.before(this.vgrTempInfoEnd);
     }
 
     return show;
   }
 
   public String getVgrRefInfo() {
-    return vgrRefInfo;
+    return this.vgrRefInfo;
   }
 
   public void setVgrRefInfo(String vgrRefInfo) {
@@ -915,11 +915,11 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getConcatenatedDescription() {
-    return getConcatenatedDescription(false);
+    return this.getConcatenatedDescription(false);
   }
 
   public String getInternalConcatenatedDescription() {
-    return getConcatenatedDescription(true);
+    return this.getConcatenatedDescription(true);
   }
 
   /***
@@ -929,12 +929,12 @@ public class Unit implements Serializable, Comparable<Unit> {
    */
   private String getConcatenatedDescription(boolean useInteralDescription) {
     String concatenatedDescription = "";
-    if (useInteralDescription && internalDescription != null && internalDescription.size() > 0) {
-      for (String s : internalDescription) {
+    if (useInteralDescription && this.internalDescription != null && this.internalDescription.size() > 0) {
+      for (String s : this.internalDescription) {
         concatenatedDescription += s + "";
       }
-    } else if (!useInteralDescription && description != null && description.size() > 0) {
-      for (String s : description) {
+    } else if (!useInteralDescription && this.description != null && this.description.size() > 0) {
+      for (String s : this.description) {
         concatenatedDescription += s + "";
       }
     }
@@ -947,9 +947,9 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return The units healthcare types as a comma separated string.
    */
   public String getCaretypeCustomized() {
-    if (healthcareTypes != null) {
+    if (this.healthcareTypes != null) {
       String healthcareTypeString = "";
-      for (HealthcareType htc : healthcareTypes) {
+      for (HealthcareType htc : this.healthcareTypes) {
         healthcareTypeString += htc.getDisplayName() + ", ";
       }
       if (!"".equals(healthcareTypeString)) {
@@ -968,7 +968,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units name is not empty, otherwise false.
    */
   public boolean getNameIsValid() {
-    if (StringUtil.isEmpty(getName())) {
+    if (StringUtil.isEmpty(this.getName())) {
       return false;
     }
     return true;
@@ -980,7 +980,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units municipality name is not empty, otherwise false.
    */
   public boolean getHsaMunicapilatyNameIsValid() {
-    if (StringUtil.isEmpty(getHsaMunicipalityName())) {
+    if (StringUtil.isEmpty(this.getHsaMunicipalityName())) {
       return false;
     }
     return true;
@@ -992,7 +992,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units street address is set and is not empty, otherwise false.
    */
   public boolean getHsaStreetAddressIsValid() {
-    if (getHsaStreetAddress() == null || getHsaStreetAddress().isEmpty()) {
+    if (this.getHsaStreetAddress() == null || this.getHsaStreetAddress().isEmpty()) {
       return false;
     }
     return true;
@@ -1004,7 +1004,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units surgery hours is not empty, otherwise false.
    */
   public boolean getHsaSurgeryHoursIsValid() {
-    if (Evaluator.isEmptyWeekDayTime(getHsaSurgeryHours())) {
+    if (Evaluator.isEmptyWeekDayTime(this.getHsaSurgeryHours())) {
       return false;
     }
     return true;
@@ -1016,7 +1016,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units drop in hours is not empty, otherwise false.
    */
   public boolean getHsaDropInHoursIsValid() {
-    if (Evaluator.isEmptyWeekDayTime(getHsaDropInHours())) {
+    if (Evaluator.isEmptyWeekDayTime(this.getHsaDropInHours())) {
       return false;
     }
     return true;
@@ -1028,7 +1028,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units public telephone number is not empty, otherwise false.
    */
   public boolean getHsaPublicTelephoneNumberIsValid() {
-    if (Evaluator.isEmptyPhoneNumber(getHsaPublicTelephoneNumber())) {
+    if (Evaluator.isEmptyPhoneNumber(this.getHsaPublicTelephoneNumber())) {
       return false;
     }
     return true;
@@ -1040,7 +1040,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units telephone time is not empty, otherwise false.
    */
   public boolean getHsaTelephoneTimeIsValid() {
-    if (Evaluator.isEmptyWeekDayTime(getHsaTelephoneTime())) {
+    if (Evaluator.isEmptyWeekDayTime(this.getHsaTelephoneTime())) {
       return false;
     }
     return true;
@@ -1052,7 +1052,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units geographical coordinates is not empty, otherwise false.
    */
   public boolean getHsaGeographicalCoordinatesIsValid() {
-    if (StringUtil.isEmpty(getHsaGeographicalCoordinates())) {
+    if (StringUtil.isEmpty(this.getHsaGeographicalCoordinates())) {
       return false;
     }
     return true;
@@ -1064,7 +1064,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units labeled URI is not empty, otherwise false.
    */
   public boolean getLabeledURIIsValid() {
-    if (StringUtil.isEmpty(getLabeledURI()) || !(getLabeledURI().startsWith("http://") || getLabeledURI().startsWith("https://"))) {
+    if (StringUtil.isEmpty(this.getLabeledURI()) || !(this.getLabeledURI().startsWith("http://") || this.getLabeledURI().startsWith("https://"))) {
       return false;
     }
     return true;
@@ -1076,7 +1076,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units description is not empty, otherwise false.
    */
   public boolean getDescriptionIsValid() {
-    if (Evaluator.isEmpty(getDescription())) {
+    if (Evaluator.isEmpty(this.getDescription())) {
       return false;
     }
     return true;
@@ -1088,7 +1088,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units organizational role is not empty, otherwise false.
    */
   public boolean getVgrOrganizationalRoleIsValid() {
-    if (StringUtil.isEmpty(getVgrOrganizationalRole())) {
+    if (StringUtil.isEmpty(this.getVgrOrganizationalRole())) {
       return false;
     }
     return true;
@@ -1100,7 +1100,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units business classification name is not empty, otherwise false.
    */
   public boolean getHsaBusinessClassificationNameIsValid() {
-    if (Evaluator.isEmptyBusinessClassification(healthcareTypes)) {
+    if (Evaluator.isEmptyBusinessClassification(this.healthcareTypes)) {
       return false;
     }
     return true;
@@ -1112,7 +1112,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units visiting rule age is not empty, otherwise false.
    */
   public boolean getHsaVisitingRuleAgeIsValid() {
-    if (StringUtil.isEmpty(getHsaVisitingRuleAge())) {
+    if (StringUtil.isEmpty(this.getHsaVisitingRuleAge())) {
       return false;
     }
     return true;
@@ -1124,7 +1124,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units visiting rules are not empty, otherwise false.
    */
   public boolean getHsaVisitingRulesIsValid() {
-    if (StringUtil.isEmpty(getHsaVisitingRules())) {
+    if (StringUtil.isEmpty(this.getHsaVisitingRules())) {
       return false;
     }
     return true;
@@ -1136,7 +1136,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units care type is not empty, otherwise false.
    */
   public boolean getCareTypeIsValid() {
-    if (StringUtil.isEmpty(getCareType())) {
+    if (StringUtil.isEmpty(this.getCareType())) {
       return false;
     }
     return true;
@@ -1148,7 +1148,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if the units management text is not empty, otherwise false.
    */
   public boolean getHsaManagementTextIsValid() {
-    if (StringUtil.isEmpty(getHsaManagementText())) {
+    if (StringUtil.isEmpty(this.getHsaManagementText())) {
       return false;
     }
     return true;
@@ -1162,26 +1162,26 @@ public class Unit implements Serializable, Comparable<Unit> {
   public boolean getContentValidationOk() {
     boolean valid = true;
 
-    valid &= getNameIsValid();
-    valid &= getHsaMunicapilatyNameIsValid();
-    valid &= getHsaStreetAddressIsValid();
-    valid &= getHsaRouteIsValid();
-    valid &= getHsaGeographicalCoordinatesIsValid();
-    valid &= getHsaSurgeryHoursIsValid();
-    valid &= getHsaDropInHoursIsValid();
-    valid &= getHsaPublicTelephoneNumberIsValid();
-    valid &= getHsaTelephoneTimeIsValid();
-    valid &= getLabeledURIIsValid();
-    valid &= getDescriptionIsValid();
-    valid &= getHsaVisitingRuleAgeIsValid();
-    valid &= getHsaVisitingRulesIsValid();
-    valid &= getHsaManagementTextIsValid();
+    valid &= this.getNameIsValid();
+    valid &= this.getHsaMunicapilatyNameIsValid();
+    valid &= this.getHsaStreetAddressIsValid();
+    valid &= this.getHsaRouteIsValid();
+    valid &= this.getHsaGeographicalCoordinatesIsValid();
+    valid &= this.getHsaSurgeryHoursIsValid();
+    valid &= this.getHsaDropInHoursIsValid();
+    valid &= this.getHsaPublicTelephoneNumberIsValid();
+    valid &= this.getHsaTelephoneTimeIsValid();
+    valid &= this.getLabeledURIIsValid();
+    valid &= this.getDescriptionIsValid();
+    valid &= this.getHsaVisitingRuleAgeIsValid();
+    valid &= this.getHsaVisitingRulesIsValid();
+    valid &= this.getHsaManagementTextIsValid();
 
     return valid;
   }
 
   private boolean getHsaRouteIsValid() {
-    return !Evaluator.isEmpty(getHsaRoute());
+    return !Evaluator.isEmpty(this.getHsaRoute());
   }
 
   public void setModifyTimestamp(TimePoint modifyTimestamp) {
@@ -1190,7 +1190,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public TimePoint getModifyTimestamp() {
-    return modifyTimestamp;
+    return this.modifyTimestamp;
   }
 
   /**
@@ -1199,15 +1199,15 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return The units modify timestamp as a W3C-formatted string (yyyy-MM-dd'T'HH:mm:ssZ).
    */
   public String getModifyTimestampFormattedInW3CDatetimeFormat() {
-    if (modifyTimestamp != null) {
-      return TimeUtil.formatDateW3C(modifyTimestamp.asJavaUtilDate());
+    if (this.modifyTimestamp != null) {
+      return TimeUtil.formatDateW3C(this.modifyTimestamp.asJavaUtilDate());
     } else {
       return "";
     }
   }
 
   public TimePoint getCreateTimestamp() {
-    return createTimestamp;
+    return this.createTimestamp;
   }
 
   public void setCreateTimestamp(TimePoint createTimestamp) {
@@ -1220,15 +1220,15 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return The units create timestamp as a W3C-formatted string (yyyy-MM-dd'T'HH:mm:ssZ).
    */
   public String getCreateTimestampFormattedInW3CDatetimeFormat() {
-    if (createTimestamp != null) {
-      return TimeUtil.formatDateW3C(createTimestamp.asJavaUtilDate());
+    if (this.createTimestamp != null) {
+      return TimeUtil.formatDateW3C(this.createTimestamp.asJavaUtilDate());
     } else {
       return "";
     }
   }
 
   public String getHsaGeographicalCoordinates() {
-    return hsaGeographicalCoordinates;
+    return this.hsaGeographicalCoordinates;
   }
 
   public void setHsaGeographicalCoordinates(String hsaGeographicalCoordinates) {
@@ -1236,11 +1236,11 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public double getWgs84Lat() {
-    return wgs84Lat;
+    return this.wgs84Lat;
   }
 
   public double getWgs84LatRounded() {
-    return (double) Math.round(wgs84Lat * 10000) / 10000;
+    return (double) Math.round(this.wgs84Lat * 10000) / 10000;
   }
 
   public void setWgs84Lat(double wgs84Lat) {
@@ -1248,11 +1248,11 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public double getWgs84Long() {
-    return wgs84Long;
+    return this.wgs84Long;
   }
 
   public double getWgs84LongRounded() {
-    return (double) Math.round(wgs84Long * 10000) / 10000;
+    return (double) Math.round(this.wgs84Long * 10000) / 10000;
 
   }
 
@@ -1261,7 +1261,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public int getRt90X() {
-    return rt90X;
+    return this.rt90X;
   }
 
   public void setRt90X(int rt90X) {
@@ -1269,7 +1269,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public int getRt90Y() {
-    return rt90Y;
+    return this.rt90Y;
   }
 
   public void setRt90Y(int rt90Y) {
@@ -1277,7 +1277,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public Integer getAccessibilityDatabaseId() {
-    return accessibilityDatabaseId;
+    return this.accessibilityDatabaseId;
   }
 
   public void setAccessibilityDatabaseId(int accessibilityDatabaseId) {
@@ -1285,7 +1285,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getObjectClass() {
-    return objectClass;
+    return this.objectClass;
   }
 
   public void setObjectClass(String objectClass) {
@@ -1293,7 +1293,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public boolean getIsUnit() {
-    return isUnit;
+    return this.isUnit;
   }
 
   public void setIsUnit(boolean isUnit) {
@@ -1301,7 +1301,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<String> getHsaRoute() {
-    return hsaRoute;
+    return this.hsaRoute;
   }
 
   /**
@@ -1319,7 +1319,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<HealthcareType> getHealthcareTypes() {
-    return healthcareTypes;
+    return this.healthcareTypes;
   }
 
   /**
@@ -1349,7 +1349,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    */
   public List<HealthcareType> getHealthcareTypesCustomized() {
     List<HealthcareType> healthcareTypesCustomized = new ArrayList<HealthcareType>();
-    for (HealthcareType ht : healthcareTypes) {
+    for (HealthcareType ht : this.healthcareTypes) {
       HealthcareType htNew = new HealthcareType(ht.getConditions(), ht.getDisplayName(), ht.isFiltered(), ht.getIndex());
       healthcareTypesCustomized.add(htNew);
     }
@@ -1360,7 +1360,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<String> getHsaBusinessClassificationCode() {
-    return hsaBusinessClassificationCode;
+    return this.hsaBusinessClassificationCode;
   }
 
   /**
@@ -1369,7 +1369,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return business classification code
    */
   public List<String> getBusinessClassificationCode() {
-    return hsaBusinessClassificationCode;
+    return this.hsaBusinessClassificationCode;
   }
 
   public void setHsaBusinessClassificationCode(List<String> hsaBusinessClassificationCode) {
@@ -1377,11 +1377,11 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<String> getHsaBusinessClassificationText() {
-    return hsaBusinessClassificationText;
+    return this.hsaBusinessClassificationText;
   }
 
   public String getHsaBusinessClassificationTextFormatted() {
-    return StringUtil.concatenate(hsaBusinessClassificationText);
+    return StringUtil.concatenate(this.hsaBusinessClassificationText);
   }
 
   public void setHsaBusinessClassificationText(List<String> hsaBusinessClassificationText) {
@@ -1398,7 +1398,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<String> getMvkCaseTypes() {
-    return mvkCaseTypes;
+    return this.mvkCaseTypes;
   }
 
   /**
@@ -1409,11 +1409,11 @@ public class Unit implements Serializable, Comparable<Unit> {
   public String getFormattedAncestor() {
     String formattedAncestor = "";
     // Should be safe to use this condition as that is specified by HSA standard.
-    if (hsaIdentity.indexOf("F") > 0) {
+    if (this.hsaIdentity.indexOf("F") > 0) {
       // Hospitals should not be included
       HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper();
-      if (!getHealthcareTypes().contains(healthcareTypeConditionHelper.getHealthcareTypeByName("Sjukhus"))) {
-        formattedAncestor = ", tillhör " + dn.getAncestor(1).getUnitName();
+      if (!this.getHealthcareTypes().contains(healthcareTypeConditionHelper.getHealthcareTypeByName("Sjukhus"))) {
+        formattedAncestor = ", tillhör " + this.dn.getAncestor(1).getUnitName();
       }
     }
 
@@ -1426,7 +1426,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public AccessibilityInformation getAccessibilityInformation() {
-    return accessibilityInformation;
+    return this.accessibilityInformation;
   }
 
   public void setAccessibilityInformation(AccessibilityInformation accessibilityInformation) {
@@ -1434,7 +1434,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public Date getHsaEndDate() {
-    return hsaEndDate;
+    return this.hsaEndDate;
   }
 
   public void setHsaEndDate(Date hsaEndDate) {
@@ -1447,7 +1447,7 @@ public class Unit implements Serializable, Comparable<Unit> {
    * @return True if information should be shown, otherwise false.
    */
   public boolean isShowInVgrVardVal() {
-    return isVgrVardVal() && hasHealthcareType("Vårdcentral");
+    return this.isVgrVardVal() && this.hasHealthcareType("Vårdcentral");
   }
 
   /**
@@ -1459,8 +1459,8 @@ public class Unit implements Serializable, Comparable<Unit> {
   public boolean hasHealthcareType(String healthcareType) {
     boolean result = false;
 
-    if (healthcareType != null && getHealthcareTypes() != null) {
-      for (HealthcareType ht : getHealthcareTypes()) {
+    if (healthcareType != null && this.getHealthcareTypes() != null) {
+      for (HealthcareType ht : this.getHealthcareTypes()) {
         if (healthcareType.equals(ht.getDisplayName())) {
           result = true;
         }
@@ -1470,7 +1470,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public boolean isShowAgeInterval() {
-    return showAgeInterval;
+    return this.showAgeInterval;
   }
 
   public void setShowAgeInterval(boolean showAgeInterval) {
@@ -1478,7 +1478,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public boolean isShowVisitingRules() {
-    return showVisitingRules;
+    return this.showVisitingRules;
   }
 
   public void setShowVisitingRules(boolean showVisitingRules) {
@@ -1486,7 +1486,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getInternalWebsite() {
-    return internalWebsite;
+    return this.internalWebsite;
   }
 
   public void setInternalWebsite(String internalWebsite) {
@@ -1494,7 +1494,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getContractCode() {
-    return contractCode;
+    return this.contractCode;
   }
 
   public void setContractCode(String contractCode) {
@@ -1502,7 +1502,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<WeekdayTime> getVisitingHours() {
-    return visitingHours;
+    return this.visitingHours;
   }
 
   public void setVisitingHours(List<WeekdayTime> visitingHours) {
@@ -1510,7 +1510,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getVisitingRuleReferral() {
-    return visitingRuleReferral;
+    return this.visitingRuleReferral;
   }
 
   public void setVisitingRuleReferral(String visitingRuleReferral) {
@@ -1522,7 +1522,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getManager() {
-    return manager;
+    return this.manager;
   }
 
   public void setManagerDN(String managerDN) {
@@ -1530,7 +1530,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getManagerDN() {
-    return managerDN;
+    return this.managerDN;
   }
 
   public void setHsaConsigneeAddress(Address hsaConsigneeAddress) {
@@ -1538,7 +1538,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public Address getHsaConsigneeAddress() {
-    return hsaConsigneeAddress;
+    return this.hsaConsigneeAddress;
   }
 
   /**
@@ -1551,11 +1551,11 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<String> getHsaDestinationIndicator() {
-    return hsaDestinationIndicator;
+    return this.hsaDestinationIndicator;
   }
 
   public boolean isForPublicDisplay() {
-    return getHsaDestinationIndicator().contains("03");
+    return this.getHsaDestinationIndicator().contains("03");
   }
 
   public void setHsaBusinessType(String hsaBusinessType) {
@@ -1563,7 +1563,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaBusinessType() {
-    return hsaBusinessType;
+    return this.hsaBusinessType;
   }
 
   public void setHsaPatientVisitingRules(String hsaPatientVisitingRules) {
@@ -1571,7 +1571,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaPatientVisitingRules() {
-    return hsaPatientVisitingRules;
+    return this.hsaPatientVisitingRules;
   }
 
   public void setVgrObjectManagers(List<String> vgrObjectManagers) {
@@ -1579,7 +1579,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public List<String> getVgrObjectManagers() {
-    return vgrObjectManagers;
+    return this.vgrObjectManagers;
   }
 
 }

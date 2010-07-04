@@ -42,7 +42,7 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
   private SearchService searchService;
 
   public SearchService getSearchService() {
-    return searchService;
+    return this.searchService;
   }
 
   public void setSearchService(SearchService searchService) {
@@ -60,7 +60,7 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
   public Unit getUnitDetails(String hsaId, ExternalContext externalContext) throws KivException {
     LOGGER.debug(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
     try {
-      return getSearchService().getUnitByHsaId(hsaId);
+      return this.getSearchService().getUnitByHsaId(hsaId);
     } catch (KivNoDataFoundException e) {
       if (externalContext.getNativeResponse() instanceof HttpServletResponse) {
         ((HttpServletResponse) externalContext.getNativeResponse()).setStatus(404);
@@ -80,7 +80,7 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
   public Unit getUnitByDn(String dn, ExternalContext externalContext) throws KivException {
     LOGGER.debug(CLASS_NAME + "::getUnitDetailsByDn(dn=" + dn + ")");
     try {
-      return getSearchService().getUnitByDN(dn);
+      return this.getSearchService().getUnitByDN(dn);
     } catch (KivNoDataFoundException e) {
       if (externalContext.getNativeResponse() instanceof HttpServletResponse) {
         ((HttpServletResponse) externalContext.getNativeResponse()).setStatus(404);

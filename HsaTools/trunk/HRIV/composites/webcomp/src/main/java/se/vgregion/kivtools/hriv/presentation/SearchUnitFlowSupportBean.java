@@ -58,7 +58,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
   private static final String CLASS_NAME = SearchUnitFlowSupportBean.class.getName();
   private static final long serialVersionUID = 1L;
 
-  private Log logger = LogFactory.getLog(this.getClass());
+  private final Log logger = LogFactory.getLog(this.getClass());
 
   private SearchService searchService;
   private UnitCacheServiceImpl unitCacheService;
@@ -89,7 +89,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @return The number of meters that denotes close units.
    */
   public int getMeters() {
-    return meters;
+    return this.meters;
   }
 
   /**
@@ -107,7 +107,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @return The Google Maps key to use.
    */
   public String getGoogleMapsKey() {
-    return googleMapsKey;
+    return this.googleMapsKey;
   }
 
   /**
@@ -143,7 +143,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @param theForm The form to clean.
    */
   public void cleanSearchSimpleForm(UnitSearchSimpleForm theForm) {
-    logger.debug(CLASS_NAME + ".cleanSearchSimpleForm()");
+    this.logger.debug(CLASS_NAME + ".cleanSearchSimpleForm()");
     theForm.setMunicipality("");
     theForm.setUnitName("");
     theForm.setHealthcareType("");
@@ -157,7 +157,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @throws KivException If there are any problems during the search.
    */
   public SikSearchResultList<Unit> doSearch(UnitSearchSimpleForm theForm) throws KivException {
-    logger.debug(CLASS_NAME + ".doSearch()");
+    this.logger.debug(CLASS_NAME + ".doSearch()");
 
     try {
       TimeMeasurement overAllTime = new TimeMeasurement();
@@ -166,33 +166,33 @@ public class SearchUnitFlowSupportBean implements Serializable {
       SikSearchResultList<Unit> list = new SikSearchResultList<Unit>();
 
       if (!theForm.isEmpty()) {
-        Unit u = mapSearchCriteriaToUnit(theForm);
+        Unit u = this.mapSearchCriteriaToUnit(theForm);
 
-        Comparator<Unit> sortOrder = evaluateSortOrder(theForm);
-        int effectiveMaxSearchResult = maxSearchResult;
+        Comparator<Unit> sortOrder = this.evaluateSortOrder(theForm);
+        int effectiveMaxSearchResult = this.maxSearchResult;
         if ("true".equals(theForm.getShowAll())) {
           effectiveMaxSearchResult = Integer.MAX_VALUE;
         }
-        list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, onlyPublicUnits);
+        list = this.searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, this.onlyPublicUnits);
 
         // No hits with complete criterions. Try again but with cleaned unit name this time
         if (list.size() == 0 && !StringUtil.isEmpty(theForm.getUnitName())) {
-          u.setName(cleanUnitName(theForm.getUnitName()));
-          list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, onlyPublicUnits);
+          u.setName(this.cleanUnitName(theForm.getUnitName()));
+          list = this.searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, this.onlyPublicUnits);
         }
 
         // Still no hits. Try again but with only the cleaned unit name this time if the user forgot to remove any care type or municipality selection.
-        if (list.size() == 0 && lessSpecifiedSearchPossible(theForm)) {
+        if (list.size() == 0 && this.lessSpecifiedSearchPossible(theForm)) {
           u = new Unit();
-          u.setName(cleanUnitName(theForm.getUnitName()));
-          list = searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, onlyPublicUnits);
+          u.setName(this.cleanUnitName(theForm.getUnitName()));
+          list = this.searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, this.onlyPublicUnits);
         }
       }
 
       // stop measurement
       overAllTime.stop();
 
-      LogUtils.printSikSearchResultListToLog(this, "doSearch", overAllTime, logger, list);
+      LogUtils.printSikSearchResultListToLog(this, "doSearch", overAllTime, this.logger, list);
       if (list.size() == 0) {
         throw new KivNoDataFoundException();
       }
@@ -202,7 +202,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
     } catch (KivNoDataFoundException e) {
       throw e;
     } catch (KivException e) {
-      logger.debug(e.getMessage(), e);
+      this.logger.debug(e.getMessage(), e);
       return new SikSearchResultList<Unit>();
     }
   }
@@ -269,14 +269,14 @@ public class SearchUnitFlowSupportBean implements Serializable {
     List<String> allUnits;
     try {
       if (showFilteredByHsaBusinessClassificationCode) {
-        allUnits = searchService.getAllUnitsHsaIdentity(onlyPublicUnits);
+        allUnits = this.searchService.getAllUnitsHsaIdentity(this.onlyPublicUnits);
       } else {
-        allUnits = searchService.getAllUnitsHsaIdentity();
+        allUnits = this.searchService.getAllUnitsHsaIdentity();
       }
     } catch (KivNoDataFoundException e) {
       throw e;
     } catch (KivException e) {
-      logger.debug(e.getMessage(), e);
+      this.logger.debug(e.getMessage(), e);
       allUnits = new ArrayList<String>();
     }
 
@@ -290,7 +290,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @throws KivNoDataFoundException If no result was found
    */
   public List<String> getAllUnitsHsaIdentity() throws KivNoDataFoundException {
-    return getAllUnitsHsaIdentity(false);
+    return this.getAllUnitsHsaIdentity(false);
   }
 
   /**
@@ -304,9 +304,9 @@ public class SearchUnitFlowSupportBean implements Serializable {
   public List<String> getRangeUnitsPageList(Integer startIndex, Integer endIndex) throws KivNoDataFoundException {
     List<String> result = new ArrayList<String>();
 
-    List<String> list = getAllUnitsHsaIdentity(true);
+    List<String> list = this.getAllUnitsHsaIdentity(true);
     if (startIndex < 0 || startIndex > endIndex || endIndex > list.size() - 1) {
-      logger.error("getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + "), Error input parameters are wrong (result list size=" + list.size() + ")");
+      this.logger.error("getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + "), Error input parameters are wrong (result list size=" + list.size() + ")");
     } else {
       for (int position = startIndex; position <= endIndex; position++) {
         result.add(list.get(position));
@@ -324,19 +324,19 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @throws KivNoDataFoundException If no result was found.
    */
   public List<PagedSearchMetaData> getAllUnitsPageList(String pageSizeString) throws KivNoDataFoundException {
-    List<String> unitHsaIdList = getAllUnitsHsaIdentity(true);
+    List<String> unitHsaIdList = this.getAllUnitsHsaIdentity(true);
     if (StringUtil.isInteger(pageSizeString)) {
       int temp = Integer.parseInt(pageSizeString);
-      if (temp > pageSize) {
+      if (temp > this.pageSize) {
         // we can only increase the page size
-        pageSize = temp;
+        this.pageSize = temp;
       }
     }
-    return PagedSearchMetaDataHelper.buildPagedSearchMetaData(unitHsaIdList, pageSize);
+    return PagedSearchMetaDataHelper.buildPagedSearchMetaData(unitHsaIdList, this.pageSize);
   }
 
   private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm) {
-    logger.debug(CLASS_NAME + ".mapSearchCriteriaToUnit(...)");
+    this.logger.debug(CLASS_NAME + ".mapSearchCriteriaToUnit(...)");
     Unit unit = new Unit();
 
     // unit name
@@ -388,14 +388,14 @@ public class SearchUnitFlowSupportBean implements Serializable {
    */
   public ArrayList<Unit> getCloseUnits(DisplayCloseUnitsSimpleForm form) {
     ArrayList<Unit> closeUnits = new ArrayList<Unit>();
-    List<Unit> units = unitCacheService.getCache().getUnits();
+    List<Unit> units = this.unitCacheService.getCache().getUnits();
     if (units.isEmpty()) {
       // Units are not set, probably because the unit population is not finished yet.
       return closeUnits;
     }
 
     GeoUtil geoUtil = new GeoUtil();
-    closeUnits = geoUtil.getCloseUnits(form.getAddress(), units, meters, googleMapsKey);
+    closeUnits = geoUtil.getCloseUnits(form.getAddress(), units, this.meters, this.googleMapsKey);
     return closeUnits;
   }
 }

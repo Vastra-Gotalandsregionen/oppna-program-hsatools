@@ -96,7 +96,7 @@ public class Person implements Serializable {
   private String hsaManagerCode;
 
   public String getDn() {
-    return dn;
+    return this.dn;
   }
 
   public void setDn(String dn) {
@@ -104,7 +104,7 @@ public class Person implements Serializable {
   }
 
   public String getCn() {
-    return cn;
+    return this.cn;
   }
 
   public void setCn(String cn) {
@@ -112,7 +112,7 @@ public class Person implements Serializable {
   }
 
   public String getVgrId() {
-    return vgrId;
+    return this.vgrId;
   }
 
   public void setVgrId(String vgrId) {
@@ -120,7 +120,7 @@ public class Person implements Serializable {
   }
 
   public String getHsaPersonIdentityNumber() {
-    return hsaPersonIdentityNumber;
+    return this.hsaPersonIdentityNumber;
   }
 
   public void setHsaPersonIdentityNumber(String hsaPersonIdentityNumber) {
@@ -128,7 +128,7 @@ public class Person implements Serializable {
   }
 
   public String getGivenName() {
-    return givenName;
+    return this.givenName;
   }
 
   public void setGivenName(String givenName) {
@@ -136,7 +136,7 @@ public class Person implements Serializable {
   }
 
   public String getSn() {
-    return sn;
+    return this.sn;
   }
 
   public void setSn(String sn) {
@@ -144,7 +144,7 @@ public class Person implements Serializable {
   }
 
   public String getHsaMiddleName() {
-    return hsaMiddleName;
+    return this.hsaMiddleName;
   }
 
   public void setHsaMiddleName(String hsaMiddleName) {
@@ -152,7 +152,7 @@ public class Person implements Serializable {
   }
 
   public String getInitials() {
-    return initials;
+    return this.initials;
   }
 
   public void setInitials(String initials) {
@@ -160,7 +160,7 @@ public class Person implements Serializable {
   }
 
   public String getHsaNickName() {
-    return hsaNickName;
+    return this.hsaNickName;
   }
 
   public void setHsaNickName(String hsaNickName) {
@@ -168,7 +168,7 @@ public class Person implements Serializable {
   }
 
   public String getFullName() {
-    return fullName;
+    return this.fullName;
   }
 
   public void setFullName(String fullName) {
@@ -176,7 +176,7 @@ public class Person implements Serializable {
   }
 
   public List<String> getVgrStrukturPersonDN() {
-    return vgrStrukturPersonDN;
+    return this.vgrStrukturPersonDN;
   }
 
   public void setVgrStrukturPersonDN(List<String> vgrStrukturPersonDN) {
@@ -184,7 +184,7 @@ public class Person implements Serializable {
   }
 
   public List<String> getVgrOrgRel() {
-    return vgrOrgRel;
+    return this.vgrOrgRel;
   }
 
   public void setVgrOrgRel(List<String> vgrOrgRel) {
@@ -192,7 +192,7 @@ public class Person implements Serializable {
   }
 
   public List<String> getVgrAnstform() {
-    return vgrAnstform;
+    return this.vgrAnstform;
   }
 
   public void setVgrAnstform(List<String> vgrAnstform) {
@@ -200,7 +200,7 @@ public class Person implements Serializable {
   }
 
   public String getHsaIdentity() {
-    return hsaIdentity;
+    return this.hsaIdentity;
   }
 
   public void setHsaIdentity(String hsaIdentity) {
@@ -208,7 +208,7 @@ public class Person implements Serializable {
   }
 
   public String getMail() {
-    return mail;
+    return this.mail;
   }
 
   public void setMail(String mail) {
@@ -216,7 +216,7 @@ public class Person implements Serializable {
   }
 
   public List<String> getHsaSpecialityName() {
-    return hsaSpecialityName;
+    return this.hsaSpecialityName;
   }
 
   public void setHsaSpecialityName(List<String> hsaSpecialityName) {
@@ -224,7 +224,7 @@ public class Person implements Serializable {
   }
 
   public List<String> getHsaSpecialityCode() {
-    return hsaSpecialityCode;
+    return this.hsaSpecialityCode;
   }
 
   public void setHsaSpecialityCode(List<String> hsaSpecialityCode) {
@@ -232,7 +232,7 @@ public class Person implements Serializable {
   }
 
   public List<String> getVgrAO3kod() {
-    return vgrAO3kod;
+    return this.vgrAO3kod;
   }
 
   public void setVgrAO3kod(List<String> vgrAO3kod) {
@@ -240,7 +240,7 @@ public class Person implements Serializable {
   }
 
   public List<String> getVgrAnsvarsnummer() {
-    return vgrAnsvarsnummer;
+    return this.vgrAnsvarsnummer;
   }
 
   public void setVgrAnsvarsnummer(List<String> vgrAnsvarsnummer) {
@@ -248,7 +248,7 @@ public class Person implements Serializable {
   }
 
   public List<String> getHsaLanguageKnowledgeCode() {
-    return hsaLanguageKnowledgeCode;
+    return this.hsaLanguageKnowledgeCode;
   }
 
   public void setHsaLanguageKnowledgeCode(List<String> hsaLanguageKnowledgeCode) {
@@ -256,7 +256,7 @@ public class Person implements Serializable {
   }
 
   public List<String> getHsaLanguageKnowledgeText() {
-    return hsaLanguageKnowledgeText;
+    return this.hsaLanguageKnowledgeText;
   }
 
   public void setHsaLanguageKnowledgeText(List<String> hsaLanguageKnowledgeText) {
@@ -264,7 +264,7 @@ public class Person implements Serializable {
   }
 
   public String getHsaTitle() {
-    return hsaTitle;
+    return this.hsaTitle;
   }
 
   public void setHsaTitle(String hsaTitle) {
@@ -272,7 +272,7 @@ public class Person implements Serializable {
   }
 
   public List<Employment> getEmployments() {
-    return employments;
+    return this.employments;
   }
 
   public void setEmployments(List<Employment> employments) {
@@ -280,7 +280,7 @@ public class Person implements Serializable {
   }
 
   public TimeInterval getEmploymentPeriod() {
-    return employmentPeriod;
+    return this.employmentPeriod;
   }
 
   public void setEmploymentPeriod(TimeInterval employmentPeriod) {
@@ -294,11 +294,11 @@ public class Person implements Serializable {
    * @param stopDate The end date of the employment period.
    */
   public void setEmploymentPeriod(TimePoint startDate, TimePoint stopDate) {
-    setEmploymentPeriod(TimeInterval.over(startDate, stopDate));
+    this.setEmploymentPeriod(TimeInterval.over(startDate, stopDate));
   }
 
   public String getHsaPersonPrescriptionCode() {
-    return hsaPersonPrescriptionCode;
+    return this.hsaPersonPrescriptionCode;
   }
 
   public void setHsaPersonPrescriptionCode(String hsaPersonPrescriptionCode) {
@@ -310,7 +310,7 @@ public class Person implements Serializable {
   }
 
   public boolean isProfileImagePresent() {
-    return profileImagePresent;
+    return this.profileImagePresent;
   }
 
   /**
@@ -321,8 +321,8 @@ public class Person implements Serializable {
   public String getTelephoneNumberOfFirstEmployment() {
     String telephoneNumber = "";
 
-    if (employments != null && employments.size() > 0 && employments.get(0).getHsaTelephoneNumber() != null) {
-      telephoneNumber = employments.get(0).getHsaTelephoneNumber().getPhoneNumber();
+    if (this.employments != null && this.employments.size() > 0 && this.employments.get(0).getHsaTelephoneNumber() != null) {
+      telephoneNumber = this.employments.get(0).getHsaTelephoneNumber().getPhoneNumber();
     }
 
     return telephoneNumber;
@@ -336,8 +336,8 @@ public class Person implements Serializable {
   public String getMobileNumberOfFirstEmployment() {
     String mobileNumber = "";
 
-    if (employments != null && employments.size() > 0 && employments.get(0).getMobileTelephoneNumber() != null) {
-      mobileNumber = employments.get(0).getMobileTelephoneNumber().getPhoneNumber();
+    if (this.employments != null && this.employments.size() > 0 && this.employments.get(0).getMobileTelephoneNumber() != null) {
+      mobileNumber = this.employments.get(0).getMobileTelephoneNumber().getPhoneNumber();
     }
 
     return mobileNumber;
@@ -348,7 +348,7 @@ public class Person implements Serializable {
   }
 
   public TimePoint getCreateTimestamp() {
-    return createTimestamp;
+    return this.createTimestamp;
   }
 
   public void setModifyTimestamp(TimePoint modifyTimestamp) {
@@ -356,7 +356,7 @@ public class Person implements Serializable {
   }
 
   public TimePoint getModifyTimestamp() {
-    return modifyTimestamp;
+    return this.modifyTimestamp;
   }
 
   public void setVgrAdminTypes(List<String> vgrAdminTypes) {
@@ -364,7 +364,7 @@ public class Person implements Serializable {
   }
 
   public List<String> getVgrAdminTypes() {
-    return vgrAdminTypes;
+    return this.vgrAdminTypes;
   }
 
   public void setHsaManagerCode(String hsaManagerCode) {
@@ -372,6 +372,6 @@ public class Person implements Serializable {
   }
 
   public String getHsaManagerCode() {
-    return hsaManagerCode;
+    return this.hsaManagerCode;
   }
 }

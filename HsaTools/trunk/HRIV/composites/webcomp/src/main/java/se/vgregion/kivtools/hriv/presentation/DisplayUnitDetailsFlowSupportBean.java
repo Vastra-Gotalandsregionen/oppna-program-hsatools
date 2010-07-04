@@ -44,13 +44,13 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
   private static final long serialVersionUID = 7930671677796612164L;
   private static final String CLASS_NAME = DisplayUnitDetailsFlowSupportBean.class.getName();
 
-  private Log logger = LogFactory.getLog(this.getClass());
+  private final Log logger = LogFactory.getLog(this.getClass());
   private SearchService searchService;
   private MvkClient mvkClient;
   private String useMvkIntegration;
 
   public String getUseMvkIntegration() {
-    return useMvkIntegration;
+    return this.useMvkIntegration;
   }
 
   public void setUseMvkIntegration(String useMvkIntegration) {
@@ -74,10 +74,10 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
    * @throws KivException if there is a problem retrieving the unit from the LDAP directory.
    */
   public Unit getUnitDetails(String hsaId, ExternalContext externalContext) throws KivException {
-    logger.debug(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
+    this.logger.debug(CLASS_NAME + "::getUnitDetails(hsaId=" + hsaId + ")");
     Unit u = null;
     try {
-      u = searchService.getUnitByHsaIdAndHasNotCareTypeInpatient(hsaId);
+      u = this.searchService.getUnitByHsaIdAndHasNotCareTypeInpatient(hsaId);
     } catch (NoConnectionToServerException e) {
       // We have no good connection to LDAP server and should be able to
       // tell the user we have no hope of success.
@@ -89,8 +89,8 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
       throw e;
     }
 
-    if ("true".equals(useMvkIntegration)) {
-      mvkClient.assignCaseTypes(u);
+    if ("true".equals(this.useMvkIntegration)) {
+      this.mvkClient.assignCaseTypes(u);
     }
 
     return u;

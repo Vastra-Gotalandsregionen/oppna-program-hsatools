@@ -50,7 +50,7 @@ import se.vgregion.kivtools.util.http.HttpFetcher;
 @SuppressWarnings("serial")
 public class DisplayAccessibilityDatabaseBean implements Serializable {
   private HttpFetcher httpFetcher;
-  private Log logger = LogFactory.getLog(this.getClass());
+  private final Log logger = LogFactory.getLog(this.getClass());
   private Boolean useAccessibilityDatabaseIntegration = Boolean.TRUE;
   private String accessibilityDatabaseIntegrationGetIdUrl;
   private String accessibilityDatabaseIntegrationGetInfoUrl;
@@ -64,13 +64,13 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
   public void assignAccessibilityDatabaseInfo(Unit unit, AccessibilityDatabaseFilterForm form) {
     if (this.useAccessibilityDatabaseIntegration) {
       // First find out the accessibility database id
-      if (assignAccessibilityDatabaseId(unit)) {
+      if (this.assignAccessibilityDatabaseId(unit)) {
 
         int languageId = Integer.parseInt(form.getLanguageId());
 
-        String url = accessibilityDatabaseIntegrationGetInfoUrl + languageId + "&facilityId=" + unit.getAccessibilityDatabaseId();
+        String url = this.accessibilityDatabaseIntegrationGetInfoUrl + languageId + "&facilityId=" + unit.getAccessibilityDatabaseId();
 
-        String content = httpFetcher.fetchUrl(url);
+        String content = this.httpFetcher.fetchUrl(url);
 
         // Now read the content and get accessibility info
         Document doc = DocumentHelper.getDocumentFromString(content);
@@ -108,8 +108,8 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 
     if (this.useAccessibilityDatabaseIntegration) {
       // Get accessibility Id
-      String url = accessibilityDatabaseIntegrationGetIdUrl + u.getHsaIdentity();
-      String content = httpFetcher.fetchUrl(url);
+      String url = this.accessibilityDatabaseIntegrationGetIdUrl + u.getHsaIdentity();
+      String content = this.httpFetcher.fetchUrl(url);
 
       // Now read the content into a XML document and get accessibility id
       Document doc = DocumentHelper.getDocumentFromString(content);
@@ -121,7 +121,7 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
           u.setAccessibilityDatabaseId(accessabilityId);
         }
       } catch (NumberFormatException e) {
-        logger.error("We did not get a valid accessability database id. Skip it.");
+        this.logger.error("We did not get a valid accessability database id. Skip it.");
         result = false;
       }
     }
@@ -140,13 +140,13 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
 
     // If language has changed we need to download new data
     if (!form.getLanguageId().equals(form.getFormerLanguageId())) {
-      assignAccessibilityDatabaseInfo(u, form);
+      this.assignAccessibilityDatabaseInfo(u, form);
       form.setFormerLanguageId(form.getLanguageId());
     }
 
     // Create array with selected disabilities
     boolean[] selectedDisabilities = new boolean[5];
-    setAllDisabilitiesWhenNoSelection(selectedDisabilities, form);
+    this.setAllDisabilitiesWhenNoSelection(selectedDisabilities, form);
 
     // Attentive or Available?
     String listType = form.getListType();
@@ -155,17 +155,17 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
     if (u.getAccessibilityInformation() != null) {
       // Business object
       AccessibilityObject businessObject = u.getAccessibilityInformation().getBusinessObject();
-      updateCriteriasInAccesibilityObject(businessObject, selectedDisabilities, attentive);
+      this.updateCriteriasInAccesibilityObject(businessObject, selectedDisabilities, attentive);
 
       // Sub objects
       for (AccessibilityObject subObject : u.getAccessibilityInformation().getSubObjects()) {
-        updateCriteriasInAccesibilityObject(subObject, selectedDisabilities, attentive);
+        this.updateCriteriasInAccesibilityObject(subObject, selectedDisabilities, attentive);
       }
     }
   }
 
   private void setAllDisabilitiesWhenNoSelection(boolean[] selectedDisabilities, AccessibilityDatabaseFilterForm form) {
-    if (noSelection(form)) {
+    if (this.noSelection(form)) {
       for (int i = 0; i < selectedDisabilities.length; i++) {
         selectedDisabilities[i] = true;
       }
@@ -212,13 +212,13 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
       case 1:
         // Fall through
       case 5:
-        properties = loadProperties("tdb_messages.properties");
+        properties = this.loadProperties("tdb_messages.properties");
         break;
       case 4:
-        properties = loadProperties("tdb_messages_de.properties");
+        properties = this.loadProperties("tdb_messages_de.properties");
         break;
       default:
-        properties = loadProperties("tdb_messages_en.properties");
+        properties = this.loadProperties("tdb_messages_en.properties");
     }
 
     return properties;
@@ -237,7 +237,7 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
       Resource res = new UrlResource(this.getClass().getResource(resource));
       properties = PropertiesLoaderUtils.loadProperties(res);
     } catch (IOException e) {
-      logger.debug("Unable to read properties file for resource '" + resource + "'");
+      this.logger.debug("Unable to read properties file for resource '" + resource + "'");
     }
 
     return properties;
@@ -262,7 +262,7 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
             continue;
           }
 
-          boolean disabilities = checkDisabilities(c, selectedDisabilities);
+          boolean disabilities = this.checkDisabilities(c, selectedDisabilities);
           c.setShow(disabilities);
         }
       }
