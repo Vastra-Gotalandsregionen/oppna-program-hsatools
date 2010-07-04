@@ -129,6 +129,25 @@ public class UnitRepositoryTest {
   }
 
   @Test
+  public void providingBothNameAndMunicipalityToSearchAdvancedUnitsResultInAndAndQuery() throws KivException {
+	  Unit unit = new Unit();
+	  unit.setName("vårdcentral");
+	  unit.setHsaMunicipalityName("Kungsbacka");
+	  
+	  String expectedFilterString = "(&(|(&(objectClass=organizationalUnit)(|(municipalityName=*Kungsbacka*)(|(postalAddress=*Kungsbacka*$*$*$*$*$*)(postalAddress=*$*Kungsbacka*$*$*$*$*)(postalAddress=*$*$*Kungsbacka*$*$*$*)(postalAddress=*$*$*$*Kungsbacka*$*$*)(postalAddress=*$*$*$*$*Kungsbacka*$*)(postalAddress=*$*$*$*$*$*Kungsbacka*))(|(streetAddress=*Kungsbacka*$*$*$*$*$*)(streetAddress=*$*Kungsbacka*$*$*$*$*)(streetAddress=*$*$*Kungsbacka*$*$*$*)(streetAddress=*$*$*$*Kungsbacka*$*$*)(streetAddress=*$*$*$*$*Kungsbacka*$*)(streetAddress=*$*$*$*$*$*Kungsbacka*)))(|(description=*vårdcentral*)(ou=*vårdcentral*)))(&(objectClass=organizationalRole)(|(municipalityName=*Kungsbacka*)(|(postalAddress=*Kungsbacka*$*$*$*$*$*)(postalAddress=*$*Kungsbacka*$*$*$*$*)(postalAddress=*$*$*Kungsbacka*$*$*$*)(postalAddress=*$*$*$*Kungsbacka*$*$*)(postalAddress=*$*$*$*$*Kungsbacka*$*)(postalAddress=*$*$*$*$*$*Kungsbacka*))(|(streetAddress=*Kungsbacka*$*$*$*$*$*)(streetAddress=*$*Kungsbacka*$*$*$*$*)(streetAddress=*$*$*Kungsbacka*$*$*$*)(streetAddress=*$*$*$*Kungsbacka*$*$*)(streetAddress=*$*$*$*$*Kungsbacka*$*)(streetAddress=*$*$*$*$*$*Kungsbacka*)))(|(description=*vårdcentral*)(cn=*vårdcentral*))))(hsaDestinationIndicator=03))";
+	  
+	  DirContextOperationsMock entry1 = new DirContextOperationsMock();
+	  entry1.addAttributeValue("hsaIdentity", "1");
+	  entry1.addAttributeValue(Constants.LDAP_PROPERTY_UNIT_NAME, "abbesta");
+	  entry1.addAttributeValue(Constants.LDAP_PROPERTY_DESCRIPTION, "vårdcentral");
+	  entry1.addAttributeValue("businessClassificationCode", "1");
+	  this.ldapTemplate.addDirContextOperationForSearch(entry1);
+	  
+	  unitRepository.searchAdvancedUnits(unit, 0, new UnitNameComparator(), true);
+	  ldapTemplate.assertSearchFilter(expectedFilterString);
+  }
+  
+  @Test
   public void testSearchAdvancedUnitExactMatch() throws KivException {
     Unit unit = new Unit();
     unit.addDescription(Arrays.asList("\"description\""));

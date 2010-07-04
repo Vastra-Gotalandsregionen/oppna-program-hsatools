@@ -79,10 +79,10 @@ public class UnitRepository {
    * @throws KivException If something goes wrong.
    */
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxResult, Comparator<Unit> sortOrder, boolean onlyPublicUnits) throws KivException {
-    Filter searchFilter = createAdvancedSearchFilter(unit, onlyPublicUnits);
-    SikSearchResultList<Unit> units = searchUnits(searchFilter, SearchControls.SUBTREE_SCOPE, maxResult, sortOrder);
+    Filter searchFilter = this.createAdvancedSearchFilter(unit, onlyPublicUnits);
+    SikSearchResultList<Unit> units = this.searchUnits(searchFilter, SearchControls.SUBTREE_SCOPE, maxResult, sortOrder);
 
-    removeUnallowedUnits(units);
+    this.removeUnallowedUnits(units);
 
     return units;
   }
@@ -98,7 +98,7 @@ public class UnitRepository {
     List<HealthcareType> allUnfilteredHealthcareTypes = htch.getAllUnfilteredHealthCareTypes();
 
     for (int j = units.size() - 1; j >= 0; j--) {
-      if (!unitMatchesUnfilteredHealtcareType(units.get(j), allUnfilteredHealthcareTypes)) {
+      if (!this.unitMatchesUnfilteredHealtcareType(units.get(j), allUnfilteredHealthcareTypes)) {
         units.remove(units.get(j));
         units.setTotalNumberOfFoundItems(units.getTotalNumberOfFoundItems() - 1);
       }
@@ -145,9 +145,9 @@ public class UnitRepository {
    * @throws KivException .
    */
   public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions searchUnitCriterions, int maxResult) throws KivException {
-    Filter searchFilter = createSearchFilter(searchUnitCriterions);
+    Filter searchFilter = this.createSearchFilter(searchUnitCriterions);
     // String searchFilter = createUnitSearchFilter(unit);
-    return searchUnits(searchFilter, SearchControls.SUBTREE_SCOPE, maxResult, new UnitNameComparator());
+    return this.searchUnits(searchFilter, SearchControls.SUBTREE_SCOPE, maxResult, new UnitNameComparator());
   }
 
   /**
@@ -158,7 +158,7 @@ public class UnitRepository {
    */
   public Unit getUnitByHsaId(String hsaId) throws KivException {
     Filter searchFilter = new EqualsFilter("hsaIdentity", hsaId);
-    return searchUnit(UNIT_SEARCH_BASE, SearchControls.SUBTREE_SCOPE, searchFilter);
+    return this.searchUnit(UNIT_SEARCH_BASE, SearchControls.SUBTREE_SCOPE, searchFilter);
   }
 
   /**
@@ -174,7 +174,7 @@ public class UnitRepository {
     Unit unit;
     try {
       // UnitMapper return a unit so we are certain that the cast is ok
-      unit = (Unit) ldapTemplate.lookup(distinguishedName, unitMapper);
+      unit = (Unit) this.ldapTemplate.lookup(distinguishedName, unitMapper);
     } catch (NamingException e) {
       throw new KivException("Error getting unit from server: " + e.getMessage());
     }
@@ -188,7 +188,7 @@ public class UnitRepository {
    * @throws KivException If something goes wrong.
    */
   public List<String> getAllUnitsHsaIdentity() throws KivException {
-    return getAllUnitsHsaIdentity(false);
+    return this.getAllUnitsHsaIdentity(false);
   }
 
   /**
@@ -198,7 +198,7 @@ public class UnitRepository {
    * @throws KivException If something goes wrong.
    */
   public List<String> getAllUnitsHsaIdentity(boolean onlyPublicUnits) throws KivException {
-    Filter filter = createAllUnitsFilter(onlyPublicUnits);
+    Filter filter = this.createAllUnitsFilter(onlyPublicUnits);
 
     PagedResultsCookie cookie = null;
     PagedResultsDirContextProcessor control = new PagedResultsDirContextProcessor(100, cookie);
@@ -232,7 +232,7 @@ public class UnitRepository {
    * @throws KivException If something goes wrong.
    */
   public List<Unit> getAllUnits(boolean onlyPublicUnits) throws KivException {
-    Filter filter = createAllUnitsFilter(onlyPublicUnits);
+    Filter filter = this.createAllUnitsFilter(onlyPublicUnits);
 
     PagedResultsCookie cookie = null;
     PagedResultsDirContextProcessor control = new PagedResultsDirContextProcessor(100, cookie);
@@ -331,14 +331,14 @@ public class UnitRepository {
     try {
       // Since UnitMapper returns unit the assignment to List<Unit> is safe
       @SuppressWarnings("unchecked")
-      List<Unit> searchResult = ldapTemplate.search(UNIT_SEARCH_BASE, searchFilter.encode(), searchScope, unitMapper);
+      List<Unit> searchResult = this.ldapTemplate.search(UNIT_SEARCH_BASE, searchFilter.encode(), searchScope, unitMapper);
       result.addAll(searchResult);
     } catch (NamingException e) {
       throw new KivException("Error searching units from server: " + e.getMessage());
     }
 
     // Make sure we don't return duplicates
-    SikSearchResultList<Unit> resultNoDuplicates = deduplicateUnits(result);
+    SikSearchResultList<Unit> resultNoDuplicates = this.deduplicateUnits(result);
 
     Comparator<Unit> effectiveSortOrder = sortOrder;
     if (effectiveSortOrder == null) {
@@ -362,7 +362,7 @@ public class UnitRepository {
     try {
       // UnitMapper return a Unit so we are pretty certain that List<Unit> is ok.
       @SuppressWarnings("unchecked")
-      List<Unit> searchResult = ldapTemplate.search(searchBase, searchFilter.encode(), searchScope, new UnitMapper());
+      List<Unit> searchResult = this.ldapTemplate.search(searchBase, searchFilter.encode(), searchScope, new UnitMapper());
 
       if (searchResult.size() > 0) {
         result = searchResult.get(0);
@@ -402,10 +402,10 @@ public class UnitRepository {
    */
   private Filter createSearchFilter(SearchUnitCriterions unit) throws KivException {
     // create a plain unit search filter
-    Filter unitSearchFilter = createUnitSearchFilter(unit, Constants.OBJECT_CLASS_UNIT_SPECIFIC, Constants.LDAP_PROPERTY_UNIT_NAME);
+    Filter unitSearchFilter = this.createUnitSearchFilter(unit, Constants.OBJECT_CLASS_UNIT_SPECIFIC, Constants.LDAP_PROPERTY_UNIT_NAME);
 
     // create a plain function search filter
-    Filter functionSearchFilter = createUnitSearchFilter(unit, Constants.OBJECT_CLASS_FUNCTION_SPECIFIC, Constants.LDAP_PROPERTY_FUNCTION_NAME);
+    Filter functionSearchFilter = this.createUnitSearchFilter(unit, Constants.OBJECT_CLASS_FUNCTION_SPECIFIC, Constants.LDAP_PROPERTY_FUNCTION_NAME);
 
     OrFilter searchFilter = new OrFilter();
     searchFilter.or(unitSearchFilter);
@@ -414,8 +414,8 @@ public class UnitRepository {
   }
 
   private Filter createAdvancedSearchFilter(Unit unit, boolean onlyPublicUnits) throws KivException {
-    Filter unitSearch = createAdvancedUnitSearchFilter(unit, Constants.OBJECT_CLASS_UNIT_SPECIFIC, Constants.LDAP_PROPERTY_UNIT_NAME);
-    Filter functionSearch = createAdvancedUnitSearchFilter(unit, Constants.OBJECT_CLASS_FUNCTION_SPECIFIC, Constants.LDAP_PROPERTY_FUNCTION_NAME);
+    Filter unitSearch = this.createAdvancedUnitSearchFilter(unit, Constants.OBJECT_CLASS_UNIT_SPECIFIC, Constants.LDAP_PROPERTY_UNIT_NAME);
+    Filter functionSearch = this.createAdvancedUnitSearchFilter(unit, Constants.OBJECT_CLASS_FUNCTION_SPECIFIC, Constants.LDAP_PROPERTY_FUNCTION_NAME);
 
     OrFilter searchFilter = new OrFilter();
     searchFilter.or(unitSearch);
@@ -439,13 +439,13 @@ public class UnitRepository {
     // Create or hsaIdentity
     if (!StringUtil.isEmpty(searchUnitCriterions.getUnitId())) {
       OrFilter orHsaIdentity = new OrFilter();
-      orHsaIdentity.or(createSearchFilter("hsaIdentity", searchUnitCriterions.getUnitId()));
+      orHsaIdentity.or(this.createSearchFilter("hsaIdentity", searchUnitCriterions.getUnitId()));
       andFilter2.and(orHsaIdentity);
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getUnitName())) {
       OrFilter orUnitName = new OrFilter();
-      orUnitName.or(createSearchFilter(unitNameProperty, searchUnitCriterions.getUnitName()));
-      orUnitName.or(createSearchFilter(Constants.LDAP_PROPERTY_DESCRIPTION, searchUnitCriterions.getUnitName()));
+      orUnitName.or(this.createSearchFilter(unitNameProperty, searchUnitCriterions.getUnitName()));
+      orUnitName.or(this.createSearchFilter(Constants.LDAP_PROPERTY_DESCRIPTION, searchUnitCriterions.getUnitName()));
       andFilter2.and(orUnitName);
     }
 
@@ -453,9 +453,9 @@ public class UnitRepository {
     if (!StringUtil.isEmpty(searchUnitCriterions.getLocation())) {
       OrFilter orMunicipalityAndAddresses = new OrFilter();
       OrFilter orMunicipalityName = new OrFilter();
-      orMunicipalityName.or(createSearchFilter("municipalityName", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation())));
-      Filter orPostalAddress = createSearchFilter("postalAddress", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation()));
-      Filter orStreetAddress = createSearchFilter("streetAddress", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation()));
+      orMunicipalityName.or(this.createSearchFilter("municipalityName", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation())));
+      Filter orPostalAddress = this.createSearchFilter("postalAddress", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation()));
+      Filter orStreetAddress = this.createSearchFilter("streetAddress", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation()));
       orMunicipalityAndAddresses.or(orMunicipalityName).or(orPostalAddress).or(orStreetAddress);
       andFilter2.and(orMunicipalityAndAddresses);
     }
@@ -467,31 +467,35 @@ public class UnitRepository {
     AndFilter searchFilter = new AndFilter();
     searchFilter.and(new EqualsFilter("objectClass", objectClass));
 
-    OrFilter additionalCriterias = new OrFilter();
+    OrFilter localityCriterias = new OrFilter();
     if (!StringUtil.isEmpty(unit.getHsaMunicipalityName())) {
-      additionalCriterias.or(createSearchFilter("municipalityName", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName())));
+      localityCriterias.or(this.createSearchFilter("municipalityName", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName())));
     }
     if (!StringUtil.isEmpty(unit.getHsaMunicipalityCode())) {
-      additionalCriterias.or(createSearchFilter("municipalityCode", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityCode())));
+      localityCriterias.or(this.createSearchFilter("municipalityCode", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityCode())));
     }
     if (!StringUtil.isEmpty(unit.getHsaMunicipalityName())) {
-      additionalCriterias.or(addAddressSearchFilter("postalAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName())));
-      additionalCriterias.or(addAddressSearchFilter("streetAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName())));
-    }
-    // Add like search for unit name in description field
-    if (!StringUtil.isEmpty(unit.getName())) {
-      additionalCriterias.or(createSearchFilter(Constants.LDAP_PROPERTY_DESCRIPTION, unit.getName()));
-      additionalCriterias.or(createSearchFilter(unitNameProperty, unit.getName()));
+      localityCriterias.or(this.addAddressSearchFilter("postalAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName())));
+      localityCriterias.or(this.addAddressSearchFilter("streetAddress", LdapParse.escapeLDAPSearchFilter(unit.getHsaMunicipalityName())));
     }
 
-    searchFilter.and(additionalCriterias);
+    OrFilter unitNameCriterias = new OrFilter();
+    // Add like search for unit name in description field
+    if (!StringUtil.isEmpty(unit.getName())) {
+      unitNameCriterias.or(this.createSearchFilter(Constants.LDAP_PROPERTY_DESCRIPTION, unit.getName()));
+      unitNameCriterias.or(this.createSearchFilter(unitNameProperty, unit.getName()));
+    }
+
+    searchFilter.and(localityCriterias);
+    searchFilter.and(unitNameCriterias);
+
     if (!StringUtil.isEmpty(unit.getHsaIdentity())) {
-      searchFilter.and(createSearchFilter("hsaIdentity", unit.getHsaIdentity()));
+      searchFilter.and(this.createSearchFilter("hsaIdentity", unit.getHsaIdentity()));
     }
 
     // Take all health care type conditions into consideration...
     if (unit.getHealthcareTypes() != null && unit.getHealthcareTypes().size() > 0) {
-      searchFilter.and(createHealtCareTypeConditions(unit.getHealthcareTypes()));
+      searchFilter.and(this.createHealtCareTypeConditions(unit.getHealthcareTypes()));
     }
 
     return searchFilter;
@@ -530,7 +534,7 @@ public class UnitRepository {
     Filter filter = null;
     if (!StringUtil.isEmpty(currentSearchValue)) {
       currentSearchValue = currentSearchValue.trim();
-      if (isExactMatchFilter(currentSearchValue)) {
+      if (this.isExactMatchFilter(currentSearchValue)) {
         // remove "
         currentSearchValue = Formatter.replaceStringInString(currentSearchValue, LDAP_EXACT_CARD, "");
         filter = new EqualsFilter(searchField, currentSearchValue.trim());
@@ -557,17 +561,17 @@ public class UnitRepository {
     Filter temp = null;
     if (!StringUtil.isEmpty(searchValueCurrent)) {
       searchValueCurrent = searchValueCurrent.trim();
-      if (isExactMatchFilter(searchValueCurrent)) {
+      if (this.isExactMatchFilter(searchValueCurrent)) {
         // remove "
         searchValueCurrent = Formatter.replaceStringInString(searchValueCurrent, LDAP_EXACT_CARD, "");
-        temp = buildAddressSearch(searchField, searchValueCurrent);
+        temp = this.buildAddressSearch(searchField, searchValueCurrent);
         // exact match
       } else {
         // change spaces to wildcards
         searchValueCurrent = Formatter.replaceStringInString(searchValueCurrent, " ", LDAP_WILD_CARD);
         searchValueCurrent = Formatter.replaceStringInString(searchValueCurrent, "-", LDAP_WILD_CARD);
         searchValueCurrent = LDAP_WILD_CARD + searchValueCurrent + LDAP_WILD_CARD;
-        temp = buildAddressSearch(searchField, searchValueCurrent);
+        temp = this.buildAddressSearch(searchField, searchValueCurrent);
       }
     }
     return temp;
