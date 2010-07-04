@@ -65,7 +65,7 @@ public class EmploymentRepository {
     DistinguishedName distinguishedName = new DistinguishedName(dn.toString());
     String[] attributes = new String[] { "*", LDAPEmploymentAttributes.MODIFY_TIMESTAMP.toString() };
 
-    List<Employment> employments = ldapTemplate.search(distinguishedName, generateLDAPFilter(), SearchControls.ONELEVEL_SCOPE, attributes, new EmploymentMapper(codeTablesService));
+    List<Employment> employments = this.ldapTemplate.search(distinguishedName, this.generateLDAPFilter(), SearchControls.ONELEVEL_SCOPE, attributes, new EmploymentMapper(this.codeTablesService));
 
     if (employments != null) {
       result.addAll(employments);

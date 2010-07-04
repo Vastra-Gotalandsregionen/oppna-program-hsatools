@@ -76,7 +76,7 @@ public final class PhoneNumber implements Serializable, Comparable<PhoneNumber>,
   }
 
   public String getPhoneNumber() {
-    return phoneNumber;
+    return this.phoneNumber;
   }
 
   /**
@@ -175,8 +175,9 @@ public final class PhoneNumber implements Serializable, Comparable<PhoneNumber>,
     return result;
   }
 
+  @Override
   public boolean isEmpty() {
-    return StringUtil.isEmpty(phoneNumber);
+    return StringUtil.isEmpty(this.phoneNumber);
   }
 
   @Override

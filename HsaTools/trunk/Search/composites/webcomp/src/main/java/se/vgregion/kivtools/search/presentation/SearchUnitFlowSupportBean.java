@@ -72,7 +72,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @return The SearchService to use.
    */
   public SearchService getSearchService() {
-    return searchService;
+    return this.searchService;
   }
 
   /**
@@ -121,8 +121,8 @@ public class SearchUnitFlowSupportBean implements Serializable {
       // start measurement
       overAllTime.start();
       if (!theForm.isEmpty()) {
-        SearchUnitCriterions u = mapSearchCriterias(theForm);
-        list = getSearchService().searchUnits(u, maxSearchResult);
+        SearchUnitCriterions u = this.mapSearchCriterias(theForm);
+        list = this.getSearchService().searchUnits(u, this.maxSearchResult);
 
         // stop measurement
         overAllTime.stop();
@@ -155,7 +155,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
   public List<String> getAllUnitsHsaIdentity() throws KivNoDataFoundException {
     List<String> result;
     try {
-      result = getSearchService().getAllUnitsHsaIdentity();
+      result = this.getSearchService().getAllUnitsHsaIdentity();
     } catch (KivNoDataFoundException e) {
       throw e;
     } catch (KivException e) {
@@ -176,7 +176,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
   public List<String> getRangeUnitsPageList(Integer startIndex, Integer endIndex) throws KivNoDataFoundException {
     List<String> result = new ArrayList<String>();
     try {
-      List<String> list = getSearchService().getAllUnitsHsaIdentity();
+      List<String> list = this.getSearchService().getAllUnitsHsaIdentity();
       if (startIndex < 0 || startIndex > endIndex || endIndex > list.size() - 1) {
         throw new SikInternalException(this, "getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + ")", "Error input parameters are wrong (result list size=" + list.size()
             + ")");
@@ -203,15 +203,15 @@ public class SearchUnitFlowSupportBean implements Serializable {
   public List<PagedSearchMetaData> getAllUnitsPageList(String pageSizeString) throws KivNoDataFoundException {
     List<PagedSearchMetaData> result;
     try {
-      List<String> unitHsaIdList = getSearchService().getAllUnitsHsaIdentity();
+      List<String> unitHsaIdList = this.getSearchService().getAllUnitsHsaIdentity();
       if (StringUtil.isInteger(pageSizeString)) {
         int temp = Integer.parseInt(pageSizeString);
-        if (temp > pageSize) {
+        if (temp > this.pageSize) {
           // we can only increase the page size
-          pageSize = temp;
+          this.pageSize = temp;
         }
       }
-      result = PagedSearchMetaDataHelper.buildPagedSearchMetaData(unitHsaIdList, pageSize);
+      result = PagedSearchMetaDataHelper.buildPagedSearchMetaData(unitHsaIdList, this.pageSize);
     } catch (KivNoDataFoundException e) {
       throw e;
     } catch (KivException e) {
@@ -229,13 +229,13 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @throws KivNoDataFoundException If no result was found.
    */
   public List<Unit> getAllUnitsGeocoded(String googleKey) throws KivNoDataFoundException {
-    List<String> allUnitsHsaIdentity = getAllUnitsHsaIdentity();
+    List<String> allUnitsHsaIdentity = this.getAllUnitsHsaIdentity();
     List<Unit> allUnitsWithPositionInfo = new ArrayList<Unit>();
     GeoUtil geoUtil = new GeoUtil();
     try {
       for (String hsaId : allUnitsHsaIdentity) {
         // Get coordinates from Google.
-        Unit u = getSearchService().getUnitByHsaId(hsaId);
+        Unit u = this.getSearchService().getUnitByHsaId(hsaId);
         if (u != null) {
           if (u.getHsaStreetAddressIsValid()) {
             int[] rt90Coordinates = geoUtil.geocodeToRT90(u.getHsaStreetAddress(), googleKey);
@@ -269,8 +269,8 @@ public class SearchUnitFlowSupportBean implements Serializable {
   public SikSearchResultList<Unit> getSubUnits(String parentHsaId) {
     SikSearchResultList<Unit> subUnits = new SikSearchResultList<Unit>();
     try {
-      Unit parentUnit = getSearchService().getUnitByHsaId(parentHsaId);
-      subUnits = getSearchService().getSubUnits(parentUnit, maxSearchResult);
+      Unit parentUnit = this.getSearchService().getUnitByHsaId(parentHsaId);
+      subUnits = this.getSearchService().getSubUnits(parentUnit, this.maxSearchResult);
     } catch (KivException e) {
       LOGGER.error(e);
     }
@@ -286,8 +286,8 @@ public class SearchUnitFlowSupportBean implements Serializable {
   public SikSearchResultList<Unit> getFirstLevelSubUnits(String parentHsaId) {
     SikSearchResultList<Unit> subUnits = new SikSearchResultList<Unit>();
     try {
-      Unit parentUnit = getSearchService().getUnitByHsaId(parentHsaId);
-      subUnits = getSearchService().getFirstLevelSubUnits(parentUnit);
+      Unit parentUnit = this.getSearchService().getUnitByHsaId(parentHsaId);
+      subUnits = this.getSearchService().getFirstLevelSubUnits(parentUnit);
     } catch (KivException e) {
       LOGGER.error(e);
     }

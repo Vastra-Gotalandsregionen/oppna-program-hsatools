@@ -125,7 +125,7 @@ public class Employment implements Serializable {
   private boolean primaryEmployment;
 
   public String getCn() {
-    return cn;
+    return this.cn;
   }
 
   public void setCn(String cn) {
@@ -133,7 +133,7 @@ public class Employment implements Serializable {
   }
 
   public DN getDn() {
-    return dn;
+    return this.dn;
   }
 
   /**
@@ -142,7 +142,7 @@ public class Employment implements Serializable {
    * @return The employments DN as a Base64-encoded string.
    */
   public String getDnBase64() {
-    return StringUtil.base64Encode(dn.toString());
+    return StringUtil.base64Encode(this.dn.toString());
   }
 
   public void setDn(DN dn) {
@@ -150,7 +150,7 @@ public class Employment implements Serializable {
   }
 
   public String getOu() {
-    return ou;
+    return this.ou;
   }
 
   public void setOu(String ou) {
@@ -158,7 +158,7 @@ public class Employment implements Serializable {
   }
 
   public String getHsaPersonIdentityNumber() {
-    return hsaPersonIdentityNumber;
+    return this.hsaPersonIdentityNumber;
   }
 
   public void setHsaPersonIdentityNumber(String hsaPersonIdentityNumber) {
@@ -166,7 +166,7 @@ public class Employment implements Serializable {
   }
 
   public String getVgrOrgRel() {
-    return vgrOrgRel;
+    return this.vgrOrgRel;
   }
 
   public void setVgrOrgRel(String vgrOrgRel) {
@@ -174,7 +174,7 @@ public class Employment implements Serializable {
   }
 
   public String getVgrAnsvarsnummer() {
-    return vgrAnsvarsnummer;
+    return this.vgrAnsvarsnummer;
   }
 
   public void setVgrAnsvarsnummer(String vgrAnsvarsnummer) {
@@ -182,7 +182,7 @@ public class Employment implements Serializable {
   }
 
   public Address getHsaSedfInvoiceAddress() {
-    return hsaSedfInvoiceAddress;
+    return this.hsaSedfInvoiceAddress;
   }
 
   public void setHsaSedfInvoiceAddress(Address hsaSedfInvoiceAddress) {
@@ -190,7 +190,7 @@ public class Employment implements Serializable {
   }
 
   public Address getHsaStreetAddress() {
-    return hsaStreetAddress;
+    return this.hsaStreetAddress;
   }
 
   public void setHsaStreetAddress(Address hsaStreetAddress) {
@@ -198,7 +198,7 @@ public class Employment implements Serializable {
   }
 
   public Address getHsaInternalAddress() {
-    return hsaInternalAddress;
+    return this.hsaInternalAddress;
   }
 
   public void setHsaInternalAddress(Address hsaInternalAddress) {
@@ -206,7 +206,7 @@ public class Employment implements Serializable {
   }
 
   public Address getHsaPostalAddress() {
-    return hsaPostalAddress;
+    return this.hsaPostalAddress;
   }
 
   public void setHsaPostalAddress(Address hsaPostalAddress) {
@@ -214,7 +214,7 @@ public class Employment implements Serializable {
   }
 
   public Address getHsaSedfDeliveryAddress() {
-    return hsaSedfDeliveryAddress;
+    return this.hsaSedfDeliveryAddress;
   }
 
   public void setHsaSedfDeliveryAddress(Address hsaSedfDeliveryAddress) {
@@ -222,7 +222,7 @@ public class Employment implements Serializable {
   }
 
   public PhoneNumber getFacsimileTelephoneNumber() {
-    return facsimileTelephoneNumber;
+    return this.facsimileTelephoneNumber;
   }
 
   public void setFacsimileTelephoneNumber(PhoneNumber facsimileTelephoneNumber) {
@@ -230,7 +230,7 @@ public class Employment implements Serializable {
   }
 
   public ZipCode getZipCode() {
-    return zipCode;
+    return this.zipCode;
   }
 
   public void setZipCode(ZipCode zipCode) {
@@ -238,7 +238,7 @@ public class Employment implements Serializable {
   }
 
   public String getLabeledUri() {
-    return labeledUri;
+    return this.labeledUri;
   }
 
   public void setLabeledUri(String labeledUri) {
@@ -246,7 +246,7 @@ public class Employment implements Serializable {
   }
 
   public String getVgrAnstform() {
-    return vgrAnstform;
+    return this.vgrAnstform;
   }
 
   public void setVgrAnstform(String vgrAnstform) {
@@ -254,7 +254,7 @@ public class Employment implements Serializable {
   }
 
   public String getTitle() {
-    return title;
+    return this.title;
   }
 
   public void setTitle(String title) {
@@ -262,7 +262,7 @@ public class Employment implements Serializable {
   }
 
   public String getVgrFormansgrupp() {
-    return vgrFormansgrupp;
+    return this.vgrFormansgrupp;
   }
 
   public void setVgrFormansgrupp(String vgrFormansgrupp) {
@@ -270,7 +270,7 @@ public class Employment implements Serializable {
   }
 
   public PhoneNumber getHsaSedfSwitchboardTelephoneNo() {
-    return hsaSedfSwitchboardTelephoneNo;
+    return this.hsaSedfSwitchboardTelephoneNo;
   }
 
   public void setHsaSedfSwitchboardTelephoneNo(PhoneNumber hsaSedfSwitchboardTelephoneNo) {
@@ -278,7 +278,7 @@ public class Employment implements Serializable {
   }
 
   public String getVgrAO3kod() {
-    return vgrAO3kod;
+    return this.vgrAO3kod;
   }
 
   public void setVgrAO3kod(String vgrAO3kod) {
@@ -286,7 +286,7 @@ public class Employment implements Serializable {
   }
 
   public String getName() {
-    return name;
+    return this.name;
   }
 
   public void setName(String name) {
@@ -299,8 +299,8 @@ public class Employment implements Serializable {
    * @return The first of the hsaTelephoneNumbers or null if the property is not set.
    */
   public PhoneNumber getHsaTelephoneNumber() {
-    if (!hsaTelephoneNumber.isEmpty()) {
-      return hsaTelephoneNumber.get(0);
+    if (!this.hsaTelephoneNumber.isEmpty()) {
+      return this.hsaTelephoneNumber.get(0);
     }
     return null;
   }
@@ -311,11 +311,11 @@ public class Employment implements Serializable {
    */
   public String getHsaTelephoneNumbersCSVString() {
     StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < hsaTelephoneNumber.size(); i++) {
+    for (int i = 0; i < this.hsaTelephoneNumber.size(); i++) {
       if (i > 0) {
         sb.append(" , ");
       }
-      sb.append(hsaTelephoneNumber.get(i).getFormattedPhoneNumber().getPhoneNumber());
+      sb.append(this.hsaTelephoneNumber.get(i).getFormattedPhoneNumber().getPhoneNumber());
     }
     return sb.toString();
   }
@@ -336,7 +336,7 @@ public class Employment implements Serializable {
   }
 
   public PhoneNumber getHsaPublicTelephoneNumber() {
-    return hsaPublicTelephoneNumber;
+    return this.hsaPublicTelephoneNumber;
   }
 
   public void setHsaPublicTelephoneNumber(PhoneNumber hsaPublicTelephoneNumber) {
@@ -344,7 +344,7 @@ public class Employment implements Serializable {
   }
 
   public PhoneNumber getMobileTelephoneNumber() {
-    return mobileTelephoneNumber;
+    return this.mobileTelephoneNumber;
   }
 
   public void setMobileTelephoneNumber(PhoneNumber mobileTelephoneNumber) {
@@ -352,7 +352,7 @@ public class Employment implements Serializable {
   }
 
   public PhoneNumber getHsaInternalPagerNumber() {
-    return hsaInternalPagerNumber;
+    return this.hsaInternalPagerNumber;
   }
 
   public void setHsaInternalPagerNumber(PhoneNumber hsaInternalPagerNumber) {
@@ -360,7 +360,7 @@ public class Employment implements Serializable {
   }
 
   public PhoneNumber getPagerTelephoneNumber() {
-    return pagerTelephoneNumber;
+    return this.pagerTelephoneNumber;
   }
 
   public void setPagerTelephoneNumber(PhoneNumber pagerTelephoneNumber) {
@@ -368,7 +368,7 @@ public class Employment implements Serializable {
   }
 
   public PhoneNumber getHsaTextPhoneNumber() {
-    return hsaTextPhoneNumber;
+    return this.hsaTextPhoneNumber;
   }
 
   public void setHsaTextPhoneNumber(PhoneNumber hsaTextPhoneNumber) {
@@ -376,7 +376,7 @@ public class Employment implements Serializable {
   }
 
   public List<WeekdayTime> getHsaTelephoneTime() {
-    return hsaTelephoneTime;
+    return this.hsaTelephoneTime;
   }
 
   /**
@@ -391,7 +391,7 @@ public class Employment implements Serializable {
   }
 
   public List<String> getDescription() {
-    return description;
+    return this.description;
   }
 
   public void setDescription(List<String> description) {
@@ -399,7 +399,7 @@ public class Employment implements Serializable {
   }
 
   public TimePoint getModifyTimestamp() {
-    return modifyTimestamp;
+    return this.modifyTimestamp;
   }
 
   public void setModifyTimestamp(TimePoint modifyTimestamp) {
@@ -407,7 +407,7 @@ public class Employment implements Serializable {
   }
 
   public String getModifyersName() {
-    return modifyersName;
+    return this.modifyersName;
   }
 
   public void setModifyersName(String modifyersName) {
@@ -415,7 +415,7 @@ public class Employment implements Serializable {
   }
 
   public TimeInterval getEmploymentPeriod() {
-    return employmentPeriod;
+    return this.employmentPeriod;
   }
 
   public void setEmploymentPeriod(TimeInterval employmentPeriod) {
@@ -429,11 +429,11 @@ public class Employment implements Serializable {
    * @param stopDate The stop date of the employment period.
    */
   public void setEmploymentPeriod(TimePoint startDate, TimePoint stopDate) {
-    setEmploymentPeriod(TimeInterval.over(startDate, stopDate));
+    this.setEmploymentPeriod(TimeInterval.over(startDate, stopDate));
   }
 
   public DN getVgrStrukturPerson() {
-    return vgrStrukturPerson;
+    return this.vgrStrukturPerson;
   }
 
   public void setVgrStrukturPerson(DN vgrStrukturPerson) {
@@ -441,7 +441,7 @@ public class Employment implements Serializable {
   }
 
   public String getLocality() {
-    return locality;
+    return this.locality;
   }
 
   public void setLocality(String locality) {
@@ -453,7 +453,7 @@ public class Employment implements Serializable {
   }
 
   public String getPosition() {
-    return position;
+    return this.position;
   }
 
   public void setHsaConsigneeAddress(Address hsaConsigneeAddress) {
@@ -461,7 +461,7 @@ public class Employment implements Serializable {
   }
 
   public Address getHsaConsigneeAddress() {
-    return hsaConsigneeAddress;
+    return this.hsaConsigneeAddress;
   }
 
   public void setPrimaryEmployment(boolean primaryEmployment) {
@@ -469,6 +469,6 @@ public class Employment implements Serializable {
   }
 
   public boolean isPrimaryEmployment() {
-    return primaryEmployment;
+    return this.primaryEmployment;
   }
 }

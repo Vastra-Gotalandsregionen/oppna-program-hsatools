@@ -46,7 +46,7 @@ public class PersonSearchSimpleForm implements Serializable {
   private String description;
 
   public String getGivenName() {
-    return givenName;
+    return this.givenName;
   }
 
   public void setGivenName(String givenName) {
@@ -54,7 +54,7 @@ public class PersonSearchSimpleForm implements Serializable {
   }
 
   public String getSurname() {
-    return surname;
+    return this.surname;
   }
 
   public void setSurname(String surname) {
@@ -62,7 +62,7 @@ public class PersonSearchSimpleForm implements Serializable {
   }
 
   public String getUserId() {
-    return userId;
+    return this.userId;
   }
 
   public void setUserId(String userId) {
@@ -70,7 +70,7 @@ public class PersonSearchSimpleForm implements Serializable {
   }
 
   public String getSearchType() {
-    return searchType;
+    return this.searchType;
   }
 
   public void setSearchType(String searchType) {
@@ -78,7 +78,7 @@ public class PersonSearchSimpleForm implements Serializable {
   }
 
   public String getAdministration() {
-    return administration;
+    return this.administration;
   }
 
   public void setAdministration(String administration) {
@@ -86,7 +86,7 @@ public class PersonSearchSimpleForm implements Serializable {
   }
 
   public String getEmployedAtUnit() {
-    return employedAtUnit;
+    return this.employedAtUnit;
   }
 
   public void setEmployedAtUnit(String employedAtUnit) {
@@ -94,7 +94,7 @@ public class PersonSearchSimpleForm implements Serializable {
   }
 
   public String getProfession() {
-    return profession;
+    return this.profession;
   }
 
   public void setProfession(String profession) {
@@ -102,7 +102,7 @@ public class PersonSearchSimpleForm implements Serializable {
   }
 
   public String getEmail() {
-    return email;
+    return this.email;
   }
 
   public void setEmail(String email) {
@@ -110,7 +110,7 @@ public class PersonSearchSimpleForm implements Serializable {
   }
 
   public String getSpecialityArea() {
-    return specialityArea;
+    return this.specialityArea;
   }
 
   public void setSpecialityArea(String specialityArea) {
@@ -118,7 +118,7 @@ public class PersonSearchSimpleForm implements Serializable {
   }
 
   public String getLanguageKnowledge() {
-    return languageKnowledge;
+    return this.languageKnowledge;
   }
 
   public void setLanguageKnowledge(String languageKnowledge) {
@@ -126,7 +126,7 @@ public class PersonSearchSimpleForm implements Serializable {
   }
 
   public String getEmploymentTitle() {
-    return employmentTitle;
+    return this.employmentTitle;
   }
 
   public void setEmploymentTitle(String employmentTitle) {
@@ -141,15 +141,15 @@ public class PersonSearchSimpleForm implements Serializable {
   public boolean isEmpty() {
     boolean isEmpty = true;
 
-    isEmpty &= StringUtil.isEmpty(givenName);
-    isEmpty &= StringUtil.isEmpty(surname);
-    isEmpty &= StringUtil.isEmpty(userId);
+    isEmpty &= StringUtil.isEmpty(this.givenName);
+    isEmpty &= StringUtil.isEmpty(this.surname);
+    isEmpty &= StringUtil.isEmpty(this.userId);
 
     return isEmpty;
   }
 
   public String getPhone() {
-    return phone;
+    return this.phone;
   }
 
   public void setPhone(String phone) {
@@ -157,7 +157,7 @@ public class PersonSearchSimpleForm implements Serializable {
   }
 
   public String getEmploymentPosition() {
-    return employmentPosition;
+    return this.employmentPosition;
   }
 
   public void setEmploymentPosition(String employmentPosition) {
@@ -165,7 +165,7 @@ public class PersonSearchSimpleForm implements Serializable {
   }
 
   public String getDescription() {
-    return description;
+    return this.description;
   }
 
   public void setDescription(String description) {

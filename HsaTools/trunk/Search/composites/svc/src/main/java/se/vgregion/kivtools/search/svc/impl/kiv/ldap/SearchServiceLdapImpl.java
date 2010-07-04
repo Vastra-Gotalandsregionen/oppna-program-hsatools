@@ -90,7 +90,7 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public List<Unit> getAllUnits(boolean onlyPublicUnits) throws KivException {
-    return unitRepository.getAllUnits(onlyPublicUnits);
+    return this.unitRepository.getAllUnits(onlyPublicUnits);
   }
 
   /**
@@ -98,7 +98,7 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public SikSearchResultList<Employment> getEmployments(String personDn) throws KivException {
-    return employmentRepository.getEmployments(DN.createDNFromString(personDn));
+    return this.employmentRepository.getEmployments(DN.createDNFromString(personDn));
   }
 
   /**
@@ -106,9 +106,9 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public Person getPersonById(String vgrId) throws KivException {
-    Person person = personRepository.getPersonByVgrId(vgrId);
+    Person person = this.personRepository.getPersonByVgrId(vgrId);
     if (person != null) {
-      person.setEmployments(employmentRepository.getEmployments(DN.createDNFromString(person.getDn())));
+      person.setEmployments(this.employmentRepository.getEmployments(DN.createDNFromString(person.getDn())));
     }
     return person;
   }
@@ -118,7 +118,7 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public Unit getUnitByHsaId(String hsaId) throws KivException {
-    return unitRepository.getUnitByHsaId(hsaId);
+    return this.unitRepository.getUnitByHsaId(hsaId);
   }
 
   /**
@@ -129,7 +129,7 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public SikSearchResultList<Person> searchPersons(String vgrId, int maxSearchResult) throws KivException {
-    return personRepository.searchPersons(vgrId, maxSearchResult);
+    return this.personRepository.searchPersons(vgrId, maxSearchResult);
   }
 
   /**
@@ -137,7 +137,7 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions searchUnitCriterions, int maxSearchResult) throws KivException {
-    return unitRepository.searchUnits(searchUnitCriterions, maxSearchResult);
+    return this.unitRepository.searchUnits(searchUnitCriterions, maxSearchResult);
   }
 
   /**
@@ -145,7 +145,7 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, boolean onlyPublicUnits) throws KivException {
-    return unitRepository.searchAdvancedUnits(unit, maxSearchResult, sortOrder, onlyPublicUnits);
+    return this.unitRepository.searchAdvancedUnits(unit, maxSearchResult, sortOrder, onlyPublicUnits);
   }
 
   /**
@@ -153,7 +153,7 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public Unit getUnitByDN(String dn) throws KivException {
-    return unitRepository.getUnitByDN(DN.createDNFromString(dn));
+    return this.unitRepository.getUnitByDN(DN.createDNFromString(dn));
   }
 
   /**
@@ -169,7 +169,7 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public SikSearchResultList<Person> getPersonsForUnits(List<Unit> units, int maxResult) throws KivException {
-    return personRepository.getPersonsForUnits(units, maxResult);
+    return this.personRepository.getPersonsForUnits(units, maxResult);
   }
 
   /**
@@ -185,7 +185,7 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws KivException {
-    return unitRepository.getSubUnits(parentUnit, maxSearchResult);
+    return this.unitRepository.getSubUnits(parentUnit, maxSearchResult);
   }
 
   /**
@@ -193,7 +193,7 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
-    return personRepository.searchPersons(person, maxResult);
+    return this.personRepository.searchPersons(person, maxResult);
   }
 
   /**
@@ -217,11 +217,12 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException {
-    return unitRepository.getFirstLevelSubUnits(parentUnit);
+    return this.unitRepository.getFirstLevelSubUnits(parentUnit);
   }
 
+  @Override
   public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException {
-    return unitRepository.getUnitByHsaIdAndHasNotCareTypeInpatient(hsaId);
+    return this.unitRepository.getUnitByHsaIdAndHasNotCareTypeInpatient(hsaId);
   }
 
   /**
@@ -229,6 +230,6 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException {
-    return unitRepository.getUnitAdministratorVgrIds(hsaId);
+    return this.unitRepository.getUnitAdministratorVgrIds(hsaId);
   }
 }

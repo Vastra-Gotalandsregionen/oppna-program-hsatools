@@ -71,7 +71,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
    * @return The SearchService to use.
    */
   public SearchService getSearchService() {
-    return searchService;
+    return this.searchService;
   }
 
   /**
@@ -107,16 +107,16 @@ public class SearchPersonFlowSupportBean implements Serializable {
       TimeMeasurement overAllTime = new TimeMeasurement();
       // start measurement
       overAllTime.start();
-      SearchPersonCriterions searchPersonCriterion = createSearchPersonCriterion(theForm);
+      SearchPersonCriterions searchPersonCriterion = this.createSearchPersonCriterion(theForm);
       if (!searchPersonCriterion.isEmpty()) {
         // perform a search
-        list = getSearchService().searchPersons(searchPersonCriterion, maxSearchResult);
+        list = this.getSearchService().searchPersons(searchPersonCriterion, this.maxSearchResult);
 
         // fetch all employments
         // Not done this way in HAK implementation. Employment info is on person entry.
         SikSearchResultList<Employment> empList = null;
         for (Person pers : list) {
-          empList = getSearchService().getEmployments(pers.getDn());
+          empList = this.getSearchService().getEmployments(pers.getDn());
           if (!empList.isEmpty()) {
             pers.setEmployments(empList);
             // add the datasource time for fetching employments
@@ -180,18 +180,18 @@ public class SearchPersonFlowSupportBean implements Serializable {
       SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
 
       if (StringUtil.isEmpty(hsaIdentity)) {
-        SikSearchResultList<Person> personsWithoutEmploymentsList = getSearchService().searchPersonsByDn(dn, maxSearchResult);
+        SikSearchResultList<Person> personsWithoutEmploymentsList = this.getSearchService().searchPersonsByDn(dn, this.maxSearchResult);
         for (Person p : personsWithoutEmploymentsList) {
-          SikSearchResultList<Person> searchPersons = getSearchService().searchPersons(p.getVgrId(), maxSearchResult);
+          SikSearchResultList<Person> searchPersons = this.getSearchService().searchPersons(p.getVgrId(), this.maxSearchResult);
           persons.addAll(searchPersons);
         }
       } else {
-        persons = getPersonsForUnitsRecursive(hsaIdentity);
+        persons = this.getPersonsForUnitsRecursive(hsaIdentity);
 
         // fetch all employments
         SikSearchResultList<Employment> empList = null;
         for (Person pers : persons) {
-          empList = getSearchService().getEmployments(pers.getDn());
+          empList = this.getSearchService().getEmployments(pers.getDn());
           pers.setEmployments(empList);
         }
       }
@@ -220,7 +220,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
    */
   public List<String> getAllPersonsVgrId() throws KivNoDataFoundException {
     try {
-      List<String> listOfVgrIds = getSearchService().getAllPersonsId();
+      List<String> listOfVgrIds = this.getSearchService().getAllPersonsId();
       return listOfVgrIds;
     } catch (KivNoDataFoundException e) {
       throw e;
@@ -240,7 +240,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
    */
   public List<String> getRangePersonsVgrIdPageList(Integer startIndex, Integer endIndex) throws KivNoDataFoundException {
     List<String> result = new ArrayList<String>();
-    List<String> list = getAllPersonsVgrId();
+    List<String> list = this.getAllPersonsVgrId();
     if (startIndex < 0 || startIndex > endIndex) {
       LOGGER.error("getRangeUnitsPageList(startIndex=" + startIndex + ", endIndex=" + endIndex + "), Error input parameters are wrong (result list size=" + list.size() + ")");
     } else {
@@ -267,15 +267,15 @@ public class SearchPersonFlowSupportBean implements Serializable {
   public List<PagedSearchMetaData> getAllPersonsVgrIdPageList(String pageSizeString) throws KivNoDataFoundException {
     List<PagedSearchMetaData> result;
     try {
-      List<String> personVgrIdList = getSearchService().getAllPersonsId();
+      List<String> personVgrIdList = this.getSearchService().getAllPersonsId();
       if (StringUtil.isInteger(pageSizeString)) {
         int temp = Integer.parseInt(pageSizeString);
-        if (temp > pageSize) {
+        if (temp > this.pageSize) {
           // we can only increase the page size
-          pageSize = temp;
+          this.pageSize = temp;
         }
       }
-      result = PagedSearchMetaDataHelper.buildPagedSearchMetaData(personVgrIdList, pageSize);
+      result = PagedSearchMetaDataHelper.buildPagedSearchMetaData(personVgrIdList, this.pageSize);
     } catch (KivNoDataFoundException e) {
       throw e;
     } catch (KivException e) {
@@ -294,11 +294,11 @@ public class SearchPersonFlowSupportBean implements Serializable {
   public SikSearchResultList<Person> getPersonsForUnitsRecursive(String hsaIdentity) {
     SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
     try {
-      Unit parentUnit = getSearchService().getUnitByHsaId(hsaIdentity);
-      SikSearchResultList<Unit> subUnits = getSearchService().getSubUnits(parentUnit, maxSearchResult);
+      Unit parentUnit = this.getSearchService().getUnitByHsaId(hsaIdentity);
+      SikSearchResultList<Unit> subUnits = this.getSearchService().getSubUnits(parentUnit, this.maxSearchResult);
       // Add parent to list
       subUnits.add(parentUnit);
-      persons = getSearchService().getPersonsForUnits(subUnits, maxSearchResult);
+      persons = this.getSearchService().getPersonsForUnits(subUnits, this.maxSearchResult);
     } catch (KivException e) {
       LOGGER.error(e);
     }
@@ -323,16 +323,16 @@ public class SearchPersonFlowSupportBean implements Serializable {
 
       if (!StringUtil.isEmpty(hsaIdentity)) {
         Unit unit = null;
-        unit = getSearchService().getUnitByHsaId(hsaIdentity);
+        unit = this.getSearchService().getUnitByHsaId(hsaIdentity);
 
         List<Unit> units = new ArrayList<Unit>();
         units.add(unit);
-        persons = getSearchService().getPersonsForUnits(units, maxSearchResult);
+        persons = this.getSearchService().getPersonsForUnits(units, this.maxSearchResult);
 
         // fetch all employments
         SikSearchResultList<Employment> empList = null;
         for (Person pers : persons) {
-          empList = getSearchService().getEmployments(pers.getDn());
+          empList = this.getSearchService().getEmployments(pers.getDn());
           pers.setEmployments(empList);
         }
       }
@@ -370,7 +370,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
       SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
 
       if (!StringUtil.isEmpty(hsaIdentity)) {
-        List<String> unitAdministratorVgrIds = getSearchService().getUnitAdministratorVgrIds(hsaIdentity);
+        List<String> unitAdministratorVgrIds = this.getSearchService().getUnitAdministratorVgrIds(hsaIdentity);
         // Admin types that we are interested of
         List<String> validAdminTypes = new ArrayList<String>();
         validAdminTypes.add("C");
@@ -379,9 +379,10 @@ public class SearchPersonFlowSupportBean implements Serializable {
 
         // Do not need to fetch employment for person, is done in SearchService impl.
         for (String id : unitAdministratorVgrIds) {
-          Person administrator = getSearchService().getPersonById(id);
-          if (isAdministratorAdminTypeValid(administrator, validAdminTypes))
-            persons.add(getSearchService().getPersonById(id));
+          Person administrator = this.getSearchService().getPersonById(id);
+          if (this.isAdministratorAdminTypeValid(administrator, validAdminTypes)) {
+            persons.add(this.getSearchService().getPersonById(id));
+          }
         }
       }
       // stop measurement
@@ -401,10 +402,11 @@ public class SearchPersonFlowSupportBean implements Serializable {
 
   private boolean isAdministratorAdminTypeValid(Person administrator, List<String> validAdminTypes) {
     for (String adminType : validAdminTypes) {
-      for (String personAdminType : administrator.getVgrAdminTypes())
+      for (String personAdminType : administrator.getVgrAdminTypes()) {
         if (personAdminType.equalsIgnoreCase(adminType)) {
           return true;
         }
+      }
     }
     return false;
   }

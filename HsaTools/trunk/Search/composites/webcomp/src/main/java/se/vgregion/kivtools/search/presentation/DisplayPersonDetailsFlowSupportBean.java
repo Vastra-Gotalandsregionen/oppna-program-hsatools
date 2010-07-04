@@ -61,9 +61,9 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
   public Person getPersonDetails(String vgrId, ExternalContext externalContext) throws KivException {
     LOGGER.debug(CLASS_NAME + "::getPersonDetails(vgrId=" + vgrId + ")");
     try {
-      Person person = searchService.getPersonById(vgrId);
+      Person person = this.searchService.getPersonById(vgrId);
       if (person.getEmployments() == null) {
-        List<Employment> employments = searchService.getEmploymentsForPerson(person);
+        List<Employment> employments = this.searchService.getEmploymentsForPerson(person);
         person.setEmployments(employments);
       }
       return person;
@@ -86,9 +86,9 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
   public Person getPersonDetailsByDn(String personDn, ExternalContext externalContext) throws KivException {
     LOGGER.debug(CLASS_NAME + "::getPersonDetails(personDn=" + personDn + ")");
     try {
-      Person person = searchService.getPersonByDn(personDn);
+      Person person = this.searchService.getPersonByDn(personDn);
       if (person.getEmployments() == null) {
-        List<Employment> employments = searchService.getEmploymentsForPerson(person);
+        List<Employment> employments = this.searchService.getEmploymentsForPerson(person);
         person.setEmployments(employments);
       }
       return person;
