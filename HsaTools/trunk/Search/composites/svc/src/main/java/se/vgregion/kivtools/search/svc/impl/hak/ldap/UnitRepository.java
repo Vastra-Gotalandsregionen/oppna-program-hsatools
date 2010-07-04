@@ -42,7 +42,6 @@ import org.springframework.ldap.filter.OrFilter;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
-import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
@@ -51,7 +50,6 @@ import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.search.util.LdapParse;
 import se.vgregion.kivtools.util.StringUtil;
-import se.vgregion.kivtools.util.reflection.ReflectionUtil;
 
 /**
  * @author Anders and Hans, Know IT
@@ -82,58 +80,7 @@ public class UnitRepository {
     Filter searchFilter = this.createAdvancedSearchFilter(unit, onlyPublicUnits);
     SikSearchResultList<Unit> units = this.searchUnits(searchFilter, SearchControls.SUBTREE_SCOPE, maxResult, sortOrder);
 
-    this.removeUnallowedUnits(units);
-
     return units;
-  }
-
-  /**
-   * Remove units that don't have at least one valid hsaBusinessClassificationCode.
-   * 
-   * @param units
-   */
-  private void removeUnallowedUnits(SikSearchResultList<Unit> units) {
-    // Get all health care types that are unfiltered
-    HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
-    List<HealthcareType> allUnfilteredHealthcareTypes = htch.getAllUnfilteredHealthCareTypes();
-
-    for (int j = units.size() - 1; j >= 0; j--) {
-      if (!this.unitMatchesUnfilteredHealtcareType(units.get(j), allUnfilteredHealthcareTypes)) {
-        units.remove(units.get(j));
-        units.setTotalNumberOfFoundItems(units.getTotalNumberOfFoundItems() - 1);
-      }
-    }
-  }
-
-  private boolean unitMatchesUnfilteredHealtcareType(Unit unit, List<HealthcareType> allUnfilteredHealthcareTypes) {
-    boolean found = false;
-    for (HealthcareType h : allUnfilteredHealthcareTypes) {
-      for (Map.Entry<String, String> condition : h.getConditions().entrySet()) {
-        String key = condition.getKey();
-        String[] conditionValues = condition.getValue().split(",");
-        Object value = ReflectionUtil.getProperty(unit, key);
-
-        boolean conditionFulfilled = false;
-        if (value instanceof String) {
-          for (String v : conditionValues) {
-            if (v.equals(value)) {
-              conditionFulfilled = true;
-            }
-          }
-        } else if (value instanceof List<?>) {
-          for (String v : conditionValues) {
-            if (((List<?>) value).contains(v)) {
-              conditionFulfilled = true;
-            }
-          }
-        }
-        if (conditionFulfilled) {
-          found = true;
-          break;
-        }
-      }
-    }
-    return found;
   }
 
   /**
