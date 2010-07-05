@@ -28,9 +28,9 @@
     <div id="formContainer">
         <div class="formRow">
     		<div class="text">
-				<label for="unitName">Enhet</label>
+				<label for="unitName" title="Label - Something about this label">Enhet</label>
 				<div>
-	                <input id="unitName" name="unitName" type="text" class="search-input-field" value="${unitSearchSimpleForm.unitName}" />
+	                <input id="unitName" name="unitName" type="text" class="search-input-field" value="${unitSearchSimpleForm.unitName}" title="Ange delar eller hela namnet på enhet du vill söka efter"/>
 					<span>Ange delar eller hela namnet på enhet du vill söka efter</span>
 				</div>
 			</div>
@@ -38,7 +38,7 @@
 			<div class="text">
 				<label for="location">Var</label>
 				<div>
-	                <input id="location" name="location" type="text" class="search-input-field" value="${unitSearchSimpleForm.location}" />
+	                <input id="location" name="location" type="text" class="search-input-field" value="${unitSearchSimpleForm.location}" title="Söker i Besöksadress, Postadress, Kommun"/>
 					<span>Söker i Besöksadress, Postadress, Kommun</span>
 				</div>
 			</div>
@@ -117,5 +117,9 @@
          </div>
      <script type="text/javascript">
 		document.getElementById("unitName").focus();
+
+		var myTooltip = new YAHOO.widget.Tooltip("myTooltip", {
+		    context: ["unitName", "location"]
+		});
 	</script>
 </form>
