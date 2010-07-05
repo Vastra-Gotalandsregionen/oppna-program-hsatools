@@ -179,10 +179,8 @@ function clearInputs() {
 }
 
 
-function showProgressText(){
-	var progress = document.getElementById("progressBar");
-	progress.innerHTML = "<h2>Sökning pågår</h2>";
 
+function showProgressText(){
 	var messageDiv = null;
 	var searchResult = null; 
 	messageDiv = document.getElementById("messageDiv");
@@ -195,4 +193,21 @@ function showProgressText(){
 	if(searchResult !=null){
 		searchResult.style.visibility = 'hidden'; 
 	}
+	
+	// Initialize the temporary Panel to display while waiting for external content to load
+	var waitPanel = new YAHOO.widget.Panel("wait",  
+		{ width:"240px", 
+		  fixedcenter:true, 
+		  close:false, 
+		  draggable:false, 
+		  zindex:4,
+		  modal:true,
+		  visible:false
+		});
+
+	waitPanel.setBody('Sökning pågår....');
+	waitPanel.render(document.body);
+	
+	// Show the Panel
+	waitPanel.show();	
 }
