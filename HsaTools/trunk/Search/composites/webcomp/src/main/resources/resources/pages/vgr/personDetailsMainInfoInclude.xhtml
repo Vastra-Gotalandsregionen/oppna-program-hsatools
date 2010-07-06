@@ -47,7 +47,11 @@
 		</tr>
 		<tr>
 			<th id="main-hsa-managaer-code">${msg.managerCode}</th>
-			<td headers="main-hsa-managaer-code">${person.hsaManagerCode}</td>
+			<td headers="main-hsa-managaer-code">
+			<ui:repeat value="${person.employments}" var="employment">
+				${employment.hsaManagerCode}
+			</ui:repeat>
+			</td>
 			<th id="empty"></th>
 			<td headers="empty"></td>
 		</tr> 

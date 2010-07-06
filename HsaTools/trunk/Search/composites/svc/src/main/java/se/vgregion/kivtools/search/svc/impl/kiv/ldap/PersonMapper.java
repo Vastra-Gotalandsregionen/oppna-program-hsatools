@@ -136,7 +136,7 @@ public class PersonMapper implements ContextMapper {
 
     person.setVgrAdminTypes(dirContext.getStrings(LDAPPersonAttributes.VGR_ADMIN_TYPE.toString()));
 
-    person.setHsaManagerCode(dirContext.getString(LDAPPersonAttributes.HSA_MANAGER_CODE.toString()));
+    person.setVgrManagedObjects(dirContext.getStrings(LDAPPersonAttributes.VGR_MANAGED_OBJECTS.toString()));
 
     return person;
   }

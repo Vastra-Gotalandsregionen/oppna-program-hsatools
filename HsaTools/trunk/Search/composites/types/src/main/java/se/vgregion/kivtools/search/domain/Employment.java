@@ -124,6 +124,8 @@ public class Employment implements Serializable {
 
   private boolean primaryEmployment;
 
+  private String hsaManagerCode;
+
   public String getCn() {
     return this.cn;
   }
@@ -470,5 +472,13 @@ public class Employment implements Serializable {
 
   public boolean isPrimaryEmployment() {
     return this.primaryEmployment;
+  }
+
+  public void setHsaManagerCode(String hsaManagerCode) {
+    this.hsaManagerCode = hsaManagerCode;
+  }
+
+  public String getHsaManagerCode() {
+    return hsaManagerCode;
   }
 }

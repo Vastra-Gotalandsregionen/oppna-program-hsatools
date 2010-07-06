@@ -73,8 +73,8 @@ public enum LDAPPersonAttributes {
   HSA_END_DATE("hsaEndDate"), CREATE_TIMESTAMP("createTimestamp"), MODIFY_TIMESTAMP("modifyTimestamp"),
   /** vgrAdminType */
   VGR_ADMIN_TYPE("vgrAdminType"),
-  /** hsaManagerCode */
-  HSA_MANAGER_CODE("hsaManagerCode");
+  /** vgrManagedObjects */
+  VGR_MANAGED_OBJECTS("vgrManagedObjects");
 
   private String value;
 

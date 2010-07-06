@@ -141,6 +141,8 @@ public class EmploymentMapper implements ContextMapper {
     // Locality
     employment.setLocality(context.getString(LDAPEmploymentAttributes.L.toString()));
 
+    employment.setHsaManagerCode(context.getString(LDAPEmploymentAttributes.HSA_MANAGER_CODE.toString()));
+
     String paTitleCode = context.getString(LDAPEmploymentAttributes.PA_TITLE_CODE.toString());
     employment.setPosition(codeTablesService.getValueFromCode(CodeTableName.PA_TITLE_CODE, paTitleCode));
 
