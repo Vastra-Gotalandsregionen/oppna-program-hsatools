@@ -107,6 +107,8 @@ public enum LDAPEmploymentAttributes {
   DESCRIPTION("description"),
   /** */
   L("l"),
+  /** hsaManagerCode */
+  HSA_MANAGER_CODE("hsaManagerCode"),
   /** */
   PA_TITLE_CODE("paTitleCode");
 
