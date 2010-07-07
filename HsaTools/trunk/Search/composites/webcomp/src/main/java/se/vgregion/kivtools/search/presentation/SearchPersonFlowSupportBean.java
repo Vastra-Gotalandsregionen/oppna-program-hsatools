@@ -22,7 +22,9 @@ package se.vgregion.kivtools.search.presentation;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,6 +32,7 @@ import org.apache.commons.logging.LogFactory;
 import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm;
@@ -409,5 +412,141 @@ public class SearchPersonFlowSupportBean implements Serializable {
       }
     }
     return false;
+  }
+
+  /**
+   * Retrieves all persons who are administrator for a specific person. Search performs from the current unit where this specific person belongs to and goes up to its parent units to retrieve those
+   * administrator also. The administrator must have vgrAdminType=E or F.
+   * 
+   * @param vgrid the id of the person
+   * @return A list of persons
+   * @throws KivNoDataFoundException
+   */
+  public SikSearchResultList<Person> getAdministratorForPerson(String vgrId) throws KivNoDataFoundException {
+
+    LOGGER.debug(CLASS_NAME + ".getUnitAdministrators()");
+
+    try {
+      TimeMeasurement overAllTime = new TimeMeasurement();
+      // start measurement
+      overAllTime.start();
+      SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
+
+      if (!StringUtil.isEmpty(vgrId)) {
+        Person person = this.getSearchService().getPersonById(vgrId);
+
+        if (person != null) {
+          List<Employment> employments = person.getEmployments();
+          Set<DN> unitDNs = getUnitDNs(employments);
+
+          Set<Unit> personEmploymentUnits = new HashSet<Unit>();
+          for (DN dn : unitDNs) {
+            personEmploymentUnits.add(this.getSearchService().getUnitByDN(dn.toString()));
+          }
+
+          Set<String> administratorVgrID = new HashSet<String>();
+          for (Unit unit : personEmploymentUnits) {
+            administratorVgrID.addAll(this.getSearchService().getUnitAdministratorVgrIds(unit.getHsaIdentity()));
+          }
+
+          if (administratorVgrID != null && administratorVgrID.size() > 0) {
+            // AdminTypes that we are interested of
+            List<String> validAdminTypes = new ArrayList<String>();
+            validAdminTypes.add("E");
+            validAdminTypes.add("F");
+
+            // Do not need to fetch employment for person, is done in SearchService impl.
+            for (String id : administratorVgrID) {
+              if (!person.getVgrId().equals(id)) {
+                Person administrator = this.getSearchService().getPersonById(id);
+                if (isAdministratorAdminTypeValid(administrator, validAdminTypes) && isUnitAdministrator(administrator, personEmploymentUnits))
+                  persons.add(administrator);
+              }
+            }
+          }
+        }
+      }
+      // stop measurement
+      overAllTime.stop();
+      LogUtils.printSikSearchResultListToLog(this, "getUnitAdministrators", overAllTime, LOGGER, persons);
+      if (persons.size() == 0) {
+        throw new KivNoDataFoundException();
+      }
+      return persons;
+    } catch (KivNoDataFoundException e) {
+      throw e;
+    } catch (KivException e) {
+      LOGGER.error(e);
+      return new SikSearchResultList<Person>();
+    }
+  }
+
+  /**
+   * Gets DN for the current unit and its ancestors.
+   * 
+   * @param employments
+   * @return List of unit DN
+   */
+  private Set<DN> getUnitDNs(List<Employment> employments) {
+    Set<DN> personEmploymentUnitDNs = new HashSet<DN>();
+    for (Employment employment : employments) {
+      DN vgrStrukturPersonDN = employment.getVgrStrukturPerson();
+      personEmploymentUnitDNs.add(vgrStrukturPersonDN);
+      List<DN> ancestors = getAncestors(vgrStrukturPersonDN);
+      if (ancestors != null && ancestors.size() > 0) {
+        personEmploymentUnitDNs.addAll(ancestors);
+      }
+    }
+    return personEmploymentUnitDNs;
+  }
+
+  /**
+   * Check if the person is administrator for this unit
+   * 
+   * @param person
+   * @param units
+   * @return Return true if the user is administrator at least for one of the units. Else false
+   */
+  private boolean isUnitAdministrator(Person person, Set<Unit> units) {
+    for (Unit unit : units) {
+      if (person.getVgrManagedObjects().contains(unit.getDn().toString())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Gets a list of the DN's ancestors.
+   * 
+   * @param childDN the current DN of the unit.
+   * @return returns a list of the DN's ancestor.
+   */
+  private List<DN> getAncestors(DN childDN) {
+    int currentFromGeneration = 1;
+    List<DN> ancestors = new ArrayList<DN>();
+    DN parent = childDN.getParentDN();
+
+    int currentPosition = 1;
+    while (parent != null) {
+      if (--currentFromGeneration <= 0) {
+        ancestors.add(parent);
+      }
+      currentPosition++;
+      parent = parent.getParentDN();
+    }
+
+    if (ancestors.size() < Math.abs(3)) {
+      return null;
+    }
+
+    // Remove generations at the end
+    if (ancestors.size() > 3) {
+      ancestors = ancestors.subList(0, ancestors.size() - 3);
+    } else if (ancestors.size() == 3) {
+      ancestors = ancestors.subList(0, 1);
+    }
+
+    return ancestors;
   }
 }
