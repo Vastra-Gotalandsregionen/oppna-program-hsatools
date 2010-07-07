@@ -424,7 +424,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
    */
   public SikSearchResultList<Person> getAdministratorForPerson(String vgrId) throws KivNoDataFoundException {
 
-    LOGGER.debug(CLASS_NAME + ".getUnitAdministrators()");
+    LOGGER.debug(CLASS_NAME + ".getAdministratorForPerson()");
 
     try {
       TimeMeasurement overAllTime = new TimeMeasurement();
@@ -468,7 +468,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
       }
       // stop measurement
       overAllTime.stop();
-      LogUtils.printSikSearchResultListToLog(this, "getUnitAdministrators", overAllTime, LOGGER, persons);
+      LogUtils.printSikSearchResultListToLog(this, "getAdministratorForPerson", overAllTime, LOGGER, persons);
       if (persons.size() == 0) {
         throw new KivNoDataFoundException();
       }
