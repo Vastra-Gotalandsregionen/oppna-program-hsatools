@@ -213,7 +213,7 @@ public interface SearchService {
   public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException;
 
   /**
-   * Retrieves a list of persons which is administrators at the unit and has admin type C, D and K.
+   * Retrieves a list of persons which is administrators in that unit.
    * 
    * @param hsaId
    * @return A list of persons
