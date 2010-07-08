@@ -37,6 +37,7 @@ public class UnitSearchSimpleForm implements Serializable {
   private String liableCode;
   private String businessClassificationName;
   private String careTypeName;
+  private String showAll;
 
   public String getSearchType() {
     return searchType;
@@ -110,5 +111,13 @@ public class UnitSearchSimpleForm implements Serializable {
     isEmpty &= StringUtil.isEmpty(careTypeName);
 
     return isEmpty;
+  }
+
+  public void setShowAll(String showAll) {
+    this.showAll = showAll;
+  }
+
+  public String getShowAll() {
+    return showAll;
   }
 }

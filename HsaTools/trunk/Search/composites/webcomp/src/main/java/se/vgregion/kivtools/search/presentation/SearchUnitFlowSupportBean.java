@@ -122,7 +122,11 @@ public class SearchUnitFlowSupportBean implements Serializable {
       overAllTime.start();
       if (!theForm.isEmpty()) {
         SearchUnitCriterions u = this.mapSearchCriterias(theForm);
-        list = this.getSearchService().searchUnits(u, this.maxSearchResult);
+        int currentMaxSearchResult = this.maxSearchResult;
+        if ("true".equals(theForm.getShowAll())) {
+          currentMaxSearchResult = Integer.MAX_VALUE;
+        }
+        list = this.getSearchService().searchUnits(u, currentMaxSearchResult);
 
         // stop measurement
         overAllTime.stop();
