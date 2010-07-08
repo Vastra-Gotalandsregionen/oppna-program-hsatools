@@ -41,6 +41,7 @@
     <input name="liableCode" value="flowScope.unitSearchSimpleForm.liableCode" />
     <input name="businessClassificationName" value="flowScope.unitSearchSimpleForm.businessClassificationName" />
     <input name="careTypeName" value="flowScope.unitSearchSimpleForm.careTypeName" />
+    <input name="showAll" value="flowScope.unitSearchSimpleForm.showAll" />
     
 	<decision-state id="Decision.displayUnitDetails">
 		<if test="errorReportingForm.reportText!=null" then="Error.report"/>
@@ -50,6 +51,7 @@
 	</decision-state>
 
 	<view-state id="Search.displayUnitSearchResult" view="/displayUnitSearchResult.xhtml">
+		
 	</view-state>
 
 	<action-state id="Search.validateSearchParams">
@@ -63,6 +65,15 @@
 		<evaluate expression="Search_SearchUnitFlowSupportBean.doSearch(flowScope.unitSearchSimpleForm)" result="flowScope.units" />
 		<transition on="success" to="Search.displayUnitSearchResult" />
 		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException" to="Search.displayUnitSearchResult" />
+	</action-state>
+	
+	<action-state id="Search.showAllUnits">
+		<on-entry>
+			<set name="flowScope.unitSearchSimpleForm.showAll" value="true"></set>
+			<evaluate expression="Search_UnitSearchSimpleFormValidator.validate(flowScope.unitSearchSimpleForm)" />
+		</on-entry>
+		<transition on="success" to="Search.searchUnit" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.IncorrectUserInputException" to="Search.displayUnitSearchResult" />
 	</action-state>
 
 	<action-state id="Search.searchUnitUniqueById">

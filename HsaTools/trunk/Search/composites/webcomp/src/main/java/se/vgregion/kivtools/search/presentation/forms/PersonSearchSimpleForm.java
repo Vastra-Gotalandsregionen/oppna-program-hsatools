@@ -44,6 +44,7 @@ public class PersonSearchSimpleForm implements Serializable {
   private String phone;
   private String employmentPosition;
   private String description;
+  private String showAll;
 
   public String getGivenName() {
     return this.givenName;
@@ -170,6 +171,14 @@ public class PersonSearchSimpleForm implements Serializable {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public void setShowAll(String showAll) {
+    this.showAll = showAll;
+  }
+
+  public String getShowAll() {
+    return showAll;
   }
 
 }

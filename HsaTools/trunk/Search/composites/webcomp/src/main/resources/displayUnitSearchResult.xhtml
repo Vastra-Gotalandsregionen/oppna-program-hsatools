@@ -62,10 +62,11 @@
 					<strong>${fn:length(units)}</strong> träffar
 				</h2>
 			</h:outputText>
-			<h:outputText rendered="${fn:length(units) >= Search_MaxSearchResult}">
+			<h:outputText rendered="${fn:length(units) >= Search_MaxSearchResult and 'true' != unitSearchSimpleForm.showAll}">
 				<p id="search-warning-container">
 					Din sökning har genererat allt för många träffar. I resultatlistan nedan visas de ${Search_MaxSearchResult} första träffarna. Prova att skriva ett mer detaljerat sökord. Tips: Om du skriver tecknet " runt orden så blir det exakt sökning. (Exempel: "IT-Samordning")
 				</p>
+				<a href="${facesContext.externalContext.request.requestURL}?${facesContext.externalContext.request.queryString}&amp;showAll=true">${msg.showAllHits}</a>
 			</h:outputText>
 			<h:outputText rendered="${fn:trim(rootCauseException.message) == '' and fn:length(units) eq 0}">
 				<ui:include src="${Search_SettingsContainer.settings.siteInformationInclude}" />

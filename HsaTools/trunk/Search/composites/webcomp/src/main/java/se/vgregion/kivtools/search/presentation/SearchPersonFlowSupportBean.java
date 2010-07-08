@@ -112,8 +112,13 @@ public class SearchPersonFlowSupportBean implements Serializable {
       overAllTime.start();
       SearchPersonCriterions searchPersonCriterion = this.createSearchPersonCriterion(theForm);
       if (!searchPersonCriterion.isEmpty()) {
+
+        int currentMaxSearchResult = this.maxSearchResult;
+        if ("true".equals(theForm.getShowAll())) {
+          currentMaxSearchResult = Integer.MAX_VALUE;
+        }
         // perform a search
-        list = this.getSearchService().searchPersons(searchPersonCriterion, this.maxSearchResult);
+        list = this.getSearchService().searchPersons(searchPersonCriterion, currentMaxSearchResult);
 
         // fetch all employments
         // Not done this way in HAK implementation. Employment info is on person entry.

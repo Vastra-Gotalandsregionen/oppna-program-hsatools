@@ -56,6 +56,7 @@
 	<input name="phone" value="flowScope.personSearchSimpleForm.phone" />
 	<input name="employmentPosition" value="flowScope.personSearchSimpleForm.employmentPosition" />
 	<input name="description" value="flowScope.personSearchSimpleForm.description" />
+	<input name="showAll" value="flowScope.personSearchSimpleForm.showAll" />
 
 	<!-- No input parameter shows new search screen -->
 
