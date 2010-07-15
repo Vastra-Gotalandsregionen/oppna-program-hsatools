@@ -353,6 +353,9 @@ public class PersonRepository {
       phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.HSA_INTERNAL_PAGER_NUMBER.toString(), "*" + person.getPhone() + "*"));
       phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.PAGER_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
       phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.HSA_TEXT_PHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.HSA_PUBLIC_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.FACSIMILE_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.HSA_SEDF_SWITCHBOARD_TELEPHONE.toString(), "*" + person.getPhone() + "*"));
       employmentFilter.and(phonesFilter);
     }
 

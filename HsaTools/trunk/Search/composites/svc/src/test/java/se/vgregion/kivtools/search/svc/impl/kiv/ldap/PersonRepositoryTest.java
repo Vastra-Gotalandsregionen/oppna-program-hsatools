@@ -117,7 +117,7 @@ public class PersonRepositoryTest {
   @Test
   public void testDetailSearchOnEmploymentAttributes() throws KivException {
 
-    String expectedLdapQuestion = "(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(title=*employmentTitle*)(|(hsaTelephoneNumber=*031-232323*)(mobileTelephoneNumber=*031-232323*)(hsaInternalPagerNumber=*031-232323*)(pagerTelephoneNumber=*031-232323*)(hsaTextPhoneNumber=*031-232323*))(description=*Description about something*)(|(paTitleCode=employmentTitle)(paTitleCode=Kurator)))";
+    String expectedLdapQuestion = "(&(objectclass=vgrAnstallning)(hsaStartDate<=20090919162348Z)(|(!(hsaEndDate=*))(hsaEndDate>=20090919162348Z))(title=*employmentTitle*)(|(hsaTelephoneNumber=*031-232323*)(mobileTelephoneNumber=*031-232323*)(hsaInternalPagerNumber=*031-232323*)(pagerTelephoneNumber=*031-232323*)(hsaTextPhoneNumber=*031-232323*)(hsaPublicTelephoneNumber=*031-232323*)(facsimileTelephoneNumber=*031-232323*)(hsaSedfSwitchboardTelephoneNo=*031-232323*))(description=*Description about something*)(|(paTitleCode=employmentTitle)(paTitleCode=Kurator)))";
     mockLdapTemplate.result.put(expectedLdapQuestion, Arrays.asList((Object) "anama"));
 
     SearchPersonCriterions searchPersonCriterion = new SearchPersonCriterions();
