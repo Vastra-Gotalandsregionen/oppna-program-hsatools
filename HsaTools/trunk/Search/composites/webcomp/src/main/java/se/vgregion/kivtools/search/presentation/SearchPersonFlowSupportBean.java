@@ -541,15 +541,13 @@ public class SearchPersonFlowSupportBean implements Serializable {
       parent = parent.getParentDN();
     }
 
-    if (ancestors.size() < Math.abs(3)) {
-      return null;
-    }
-
     // Remove generations at the end
     if (ancestors.size() > 3) {
-      ancestors = ancestors.subList(0, ancestors.size() - 3);
+      ancestors = ancestors.subList(0, ancestors.size() - 2);
     } else if (ancestors.size() == 3) {
       ancestors = ancestors.subList(0, 1);
+    } else {
+      ancestors.clear();
     }
 
     return ancestors;
