@@ -378,20 +378,37 @@ public class SearchPersonFlowSupportBean implements Serializable {
       SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
 
       if (!StringUtil.isEmpty(hsaIdentity)) {
-        List<String> unitAdministratorVgrIds = this.getSearchService().getUnitAdministratorVgrIds(hsaIdentity);
-        // Admin types that we are interested of
-        List<String> validAdminTypes = new ArrayList<String>();
-        validAdminTypes.add("C");
-        validAdminTypes.add("D");
-        validAdminTypes.add("K");
+        Unit currentUnit = this.getSearchService().getUnitByHsaId(hsaIdentity);
+        if (currentUnit != null) {
+          Set<DN> unitDNs = new HashSet<DN>();
+          unitDNs.add(currentUnit.getDn());
+          unitDNs.addAll(getAncestors(currentUnit.getDn()));
 
-        // Do not need to fetch employment for person, is done in SearchService impl.
-        for (String id : unitAdministratorVgrIds) {
-          Person administrator = this.getSearchService().getPersonById(id);
-          if (this.isAdministratorAdminTypeValid(administrator, validAdminTypes)) {
-            persons.add(this.getSearchService().getPersonById(id));
+          List<Unit> units = new ArrayList<Unit>();
+          for (DN dn : unitDNs) {
+            units.add(this.getSearchService().getUnitByDN(dn.toString()));
+          }
+
+          Set<String> unitAdministratorVgrIds = new HashSet<String>();
+          for (Unit unit : units) {
+            unitAdministratorVgrIds.addAll(this.getSearchService().getUnitAdministratorVgrIds(unit.getHsaIdentity()));
+          }
+
+          // Admin types that we are interested of
+          List<String> validAdminTypes = new ArrayList<String>();
+          validAdminTypes.add("C");
+          validAdminTypes.add("D");
+          validAdminTypes.add("K");
+
+          // Do not need to fetch employment for person, is done in SearchService impl.
+          for (String id : unitAdministratorVgrIds) {
+            Person administrator = this.getSearchService().getPersonById(id);
+            if (this.isAdministratorAdminTypeValid(administrator, validAdminTypes)) {
+              persons.add(this.getSearchService().getPersonById(id));
+            }
           }
         }
+
       }
       // stop measurement
       overAllTime.stop();
