@@ -188,26 +188,33 @@ function showProgressText(){
 	
 	if(messageDiv !=null){
 		messageDiv.style.visibility = 'hidden'; 
-	}
+	} 
 
 	if(searchResult !=null){
 		searchResult.style.visibility = 'hidden'; 
 	}
 	
-	// Initialize the temporary Panel to display while waiting for external content to load
+	// Initialize the temporary Panel to display.
 	var waitPanel = new YAHOO.widget.Panel("wait",  
 		{ width:"240px", 
+		  height:"50px",
 		  fixedcenter:true, 
 		  close:false, 
 		  draggable:false, 
-		  zindex:4,
+		  zindex:0,
 		  modal:true,
 		  visible:false
 		});
 
-	waitPanel.setBody('Sökning pågår....');
+	waitPanel.setBody('<h2>Sökning pågår....</h2>');
 	waitPanel.render(document.body);
 	
 	// Show the Panel
-	waitPanel.show();	
+	waitPanel.show();		
+	
+	//Workaround the bug that makes the autocomplete input fields lay on top of the loading modal panel. Hide the advanced search panel.
+   	document.getElementById("advanced_search").style.display = "none";
+	document.getElementById("advancedLinkText").style.display="block";
+	document.getElementById("simpleLinkText").style.display="none";
+	document.getElementById("searchType").value = "simple";
 }
