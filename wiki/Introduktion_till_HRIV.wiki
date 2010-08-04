@@ -1,9 +1,26 @@
 #summary Introduktion till Hitta rätt i vården-projektet
 #labels HRIV,Featured
 
+<wiki:toc max_depth="3" />
+
 = Introduktion =
 Hitta-rätt-i-vården är en Java EE-webbapplikation vars syfte är att göra det möjligt att presentera vårdrelaterad information från en [http://www.carelink.se/tjanster/hsa/ HSA]-kompatibel datakälla (läs: LDAPv3-katalog). HRIV delar viss funktionalitet med applikationen Sök-i-Katalog som har samma gränssnitt mot datakällan.
 
 Dokumentationen kring HRIV är tänkt att beskriva dess uppbyggnad och bör göra det enklare att underhålla och vidareutveckla applikationen.
 
-Förutom KIV (Katalog i väst) som är en LDAP katalog innehållande alla vårdenheter, integrerar HRIV mot tjänsterna Tillgänglighetsdatabasen, Mina vårdkontakter, vårdval och Google maps. För mer information se http://code.google.com/p/oppna-program-hsatools/wiki/Arkitekturen_i_HRIV
+= Starthjälp för HRIV-utvecklare =
+För att enklare komma igång med HRIV projektet bör man läsa wiki sidan [HRIV_committers]
+
+= Ramverk och Arkitekturbeskrivning =
+För att bättre förstå ramverk och arkitektur som HRIV använder sig av kan man läsa [Ramverk_i_HRIV] och  [Arkitekturen_i_HRIV]
+
+= Webbservice i HRIV =
+I HRIV finns två webservice tjänster som möjliggör hämtning av Personinformation och Enhetsinformation. Båda webbservicarna ligger under paketet HsaTools-HRIV-module-intsvc.
+Personinformation webbservicen är av typen REST och möjlig gör sökning av personinformation i KIV se [PersonalRecordService] för mer information.
+
+Enhetsinformation webservicen är av typen SOAP och möjliggör hämtning av enhetsinformation med hjälp av hsa identity.
+
+Båda tjänsterna är implementerade med hjälp av Spring webservice http://static.springsource.org/spring-ws/sites/1.5/
+
+= Externa tjänster i HRIV =
+Förutom KIV (Katalog i väst) som är en LDAP katalog innehållande alla vårdenheter, integrerar HRIV mot tjänsterna Tillgänglighetsdatabasen, Mina vårdkontakter, vårdval och Google maps. För mer information se [Arkitekturen_i_HRIV]
