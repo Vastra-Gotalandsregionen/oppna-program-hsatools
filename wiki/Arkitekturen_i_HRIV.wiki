@@ -17,9 +17,28 @@ Det mesta arbetet sker i HsaTools-HRIV-composite-webcomp, som innehåller det so
 
 HsaTools-HRIV-app används för att skapa en EAR-fil.
 
-Översiktsbild med exempel från Västra Götaland:
-http://oppna-program-hsatools.googlecode.com/svn/wiki/bilder/HsaTools/HRIV/hriv_high_level_graph.png 
-Översiktsbild för tjänster som användas i HRIV:
+Översiktsbild med exempel från Västra Götaland:<br>
+http://oppna-program-hsatools.googlecode.com/svn/wiki/bilder/HsaTools/HRIV/hriv_high_level_graph.png
+<br> 
+Översiktsbild för tjänster som användas i HRIV:<br>
 http://oppna-program-hsatools.googlecode.com/svn/wiki/bilder/HsaTools/HRIV/HRIV_services.png
+
+Beskrivning av de olika tjänsterna:<br>
+
+<b>1.</b>
+Tillgänglighetsdatabasen är en extern tjänst som en vårdenhet kan vara kopplad till. Tjänsten visar tillgänglighetsinformation för den valda vårdenheten. Tjänsten är av typen REST service och består av två anrop. 
+För att hämta vårdenehetens unika id i tillgänglighetsdatabasen används anropet
+http://tdb.episerverhotell.net/webservices/tdbdataservice.asmx/GetTDBId tillsammans med parametern HSAId innehållande vårdenhetens ”hsa identity”.
+
+För att hämta tillgänglighetsinformation för vårdenheten används anropet
+http://tdb.episerverhotell.net/webservices/tdbdataservice.asmx/GetFacility tillsammans med parametern langId som är siffra för vilket språk informationen skall visas för. Och parametern facilityId som är vårdenhetens unika id i tillgänglighetsdatabasen. 
+
+<b>2.</b>
+Mina vårdkontakter är en extern e-tjänst för att kommunicera med vald vårdenhet. 
+Med e-tjänsten Mina vårdkontakter (www.minavardkontakter.se) kan du till exempel beställa tid, av- och omboka tid, förnya recept eller be mottagningen kontakta dig. Varje mottagning bestämmer vilka ärenden man kan utföra hos dem. 
+
+<b>3.</b>
+Vårdval är en tjänst som tillhandahålls av VGR och möjliggör för medborgare i Västra Götaland att lista sig på en vald vårdcentral. Tjänsten kräver att användaren har e-legitimation för att kunna använda sig av tjänsten. Tjänsten vårdval består av en SOAP webservice mot VGR som registrerar användarens vårdval. Vårdaval tjänsten använder även sig av en autentiserings service som tillhandahåls av Signicat (http://www.signicat.com). 
+
 
 Läs om [http://code.google.com/p/oppna-program-hsatools/wiki/Sokkomponenten_HsaTools_Search_composite_svc sökkomponentanpassningar] för en introduktion av de anpassningar som kan göras i HRIV.
