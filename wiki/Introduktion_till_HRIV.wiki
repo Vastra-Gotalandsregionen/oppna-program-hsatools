@@ -28,11 +28,10 @@ Båda tjänsterna är implementerade med hjälp av Spring webservice http://stat
 Katalog i väst, förkortad till KIV, är en LDAP katalog som innehåller bland annat alla vårdenheter som finns i västra götalands regionen. HRIV använder sig av KIV för att hämta ut information  om en vårdenhet som presenteras på sidan.
 
 == Vårdval tjänsten ===
-Med hjälp av integrationen med externa tjänsten vårdval kan medborgare i västra götaland själv lista sig till en vald vårdcentral på nätet. Tjänsten kan bara användas om man har e-legitimation, eftersom det krävs att man kan logga in på en säker sida med hjälp av sitt e-legitimation. Där kan användaren sedan lista sig till den vårdcentral som man har sökt upp på HRIV sidan.
+Med hjälp av integrationen med externa tjänsten vårdval kan medborgare i västra götaland själv lista sig till en vald vårdcentral på nätet. Tjänsten kan bara användas om man har e-legitimation, eftersom det krävs att man kan logga in på en säker sida med hjälp av sitt e-legitimation. Där kan användaren sedan lista sig till den vårdcentral som man har sökt upp på HRIV sidan. För mer information se [Arkitekturen_i_HRIV]
 
 == Mina vårdkontakter ==
-Med tjänsten Mina vårdkontakter har en användare möjligheten att på nätet att utföra vissa tjänster som till exempel beställa tid, av- och omboka tid, förnya recept eller be mottagningen kontakta dig. Även denna tjänst kräver att man har ett e-legitimation. 
+Med tjänsten Mina vårdkontakter har en användare möjligheten att på nätet att utföra vissa tjänster som till exempel beställa tid, av- och omboka tid, förnya recept eller be mottagningen kontakta dig. Även denna tjänst kräver att man har ett e-legitimation. För mer information se [Arkitekturen_i_HRIV]
 
-
-
-För mer information se [Arkitekturen_i_HRIV]
+== Tillgänglighetsdatabasen ==
+Med hjälp av integration av den externa tjänsten Tillgänglighetsdatabasen i HRIV kan funktionshindrade person få information som kan hjälpa en vid ett besök till vald vårdcentral. För mer information se [Arkitekturen_i_HRIV]
