@@ -3,6 +3,10 @@
 
 = Starthjälp för HRIV-utvecklare =
 
+<wiki:toc max_depth="3" />
+
+= Lathund =
+
 [http://code.google.com/p/oppna-program/wiki/Anvisningar_Utvecklingsmiljo Referensarkitekturen] tillhandahåller gedigna anvisningar för hur utvecklingsmiljön sätts upp.
 
 Kortvarianten är som följer:
