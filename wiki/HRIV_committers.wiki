@@ -5,11 +5,11 @@
 
 = Starthjälp för HRIV-utvecklare =
 
-HRIV är uppbyggd efter den referensarkitekturen som är framtagen för västra götalands regionen, se [Introduktion_till_RA] för vidare läsning. HRIV använder sig av Spring framework för implementation av olika funktioner i HRIV. 
+HRIV är uppbyggd efter den referensarkitekturen som är framtagen för västra götalands regionen, se [http://code.google.com/p/oppna-program/wiki/Anvisningar_Utvecklingsmiljo Referensarkitekturen] för vidare läsning. HRIV använder sig av Spring framework för implementation av olika funktioner i HRIV. 
 
 == Spring Web Flow och Spring MVC ==
 Eftersom HRIV följer RA så används Spring Web Flow tillsammans med facelets. Vid dem fall som vanliga Servlet hantering används, implementeras dessa med hjälp av Spring MVC och annotaions.
-För mera information se [Introduktion_till_RA] och http://www.springsource.org/documentation  
+För mera information se [http://code.google.com/p/oppna-program/wiki/Anvisningar_Utvecklingsmiljo Referensarkitekturen] och http://www.springsource.org/documentation  
 
 == Spring LDAP ==
 För integration med LDAP katalogen KIV används Spring LDAP som är ett Java bibliotek som förenklar LDAP operationer, baserat på Springs JdbcTemplate. För vidare läsning se http://www.springsource.org/ldap
