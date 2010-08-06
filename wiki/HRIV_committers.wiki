@@ -9,13 +9,13 @@ HRIV är uppbyggd efter den referensarkitekturen som är framtagen för västra 
 
 == Spring Web Flow och Spring MVC ==
 Eftersom HRIV följer RA så används Spring Web Flow tillsammans med facelets. Vid dem fall som vanliga Servlet hantering används, implementeras dessa med hjälp av Spring MVC och annotaions.
-För mera information se [http://code.google.com/p/oppna-program/wiki/Anvisningar_Utvecklingsmiljo Referensarkitekturen] och [http://www.springsource.org/documentation]
+För mera information se [http://code.google.com/p/oppna-program/wiki/Anvisningar_Utvecklingsmiljo Referensarkitekturen] och [http://www.springsource.org/documentation Spring Framework]
 
 == Spring LDAP ==
-För integration med LDAP katalogen KIV används Spring LDAP som är ett Java bibliotek som förenklar LDAP operationer, baserat på Springs JdbcTemplate. För vidare läsning se [http://www.springsource.org/ldap]
+För integration med LDAP katalogen KIV används Spring LDAP som är ett Java bibliotek som förenklar LDAP operationer, baserat på Springs JdbcTemplate. För vidare läsning se [http://www.springsource.org/ldap Spring LDAP]
 
 == Spring Web Services ==
-De webbservice implementationer som finns i HRIV är implementerade med hjälp av Spring Web Service ([http://static.springsource.org/spring-ws/sites/1.5/]) och Spring MVC ([http://www.springsource.org/about]). För SOAP service används Spring Web Service som följer ”contract-first service” implementation. När det gäller REST service implementation används vanliga Spring MVC annotation implementation. För vidare läsning om hur de olika Spring lösningarna fungerar kan man läsa referensdokumentationen [http://www.springsource.org/documentation] och  [http://static.springsource.org/spring-ws/sites/1.5/reference.html] 
+De webbservice implementationer som finns i HRIV är implementerade med hjälp av Spring Web Service ([http://static.springsource.org/spring-ws/sites/1.5/ Spring ws]) och Spring MVC ([http://www.springsource.org/about Spring Framework]). För SOAP service används Spring Web Service som följer ”contract-first service” implementation. När det gäller REST service implementation används vanliga Spring MVC annotation implementation. För vidare läsning om hur de olika Spring lösningarna fungerar kan man läsa referensdokumentationen [http://www.springsource.org/documentation Spring framework] och  [http://static.springsource.org/spring-ws/sites/1.5/reference.html Spring ws] 
 
 = Lathund =
 
