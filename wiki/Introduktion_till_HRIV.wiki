@@ -22,5 +22,13 @@ Enhetsinformation webservicen är av typen SOAP och möjliggör hämtning av enh
 
 Båda tjänsterna är implementerade med hjälp av Spring webservice http://static.springsource.org/spring-ws/sites/1.5/
 
-= Externa tjänster i HRIV =
-Förutom KIV (Katalog i väst) som är en LDAP katalog innehållande alla vårdenheter, integrerar HRIV mot tjänsterna Tillgänglighetsdatabasen, Mina vårdkontakter, vårdval och Google maps. För mer information se [Arkitekturen_i_HRIV]
+= Externa tjänster och funktioner i HRIV =
+Förutom KIV (Katalog i väst) som är en LDAP katalog innehållande alla vårdenheter, integrerar HRIV mot tjänsterna Tillgänglighetsdatabasen, Mina vårdkontakter, vårdval och Google maps. 
+
+== Vårdval tjänsten ===
+Med hjälp av integrationen med externa tjänsten vårdval kan medborgare i västra götaland själv lista sig till en vald vårdcentral på nätet. Tjänsten kan bara användas om man har e-legitimation, eftersom det krävs att man kan logga in på en säker sida med hjälp av sitt e-legitimation. Där kan användaren sedan lista sig till den vårdcentral som man har sökt upp på HRIV sidan.
+
+== Mina vårdkontakter ==
+Med tjänsten Mina vårdkontakter har en användare möjligheten att på nätet att utföra vissa tjänster som till exempel beställa tid, av- och omboka tid, förnya recept eller be mottagningen kontakta dig. Även denna tjänst kräver att man har ett e-legitimation. 
+
+För mer information se [Arkitekturen_i_HRIV]
