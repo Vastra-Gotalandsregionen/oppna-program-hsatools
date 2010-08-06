@@ -18,9 +18,9 @@ För att bättre förstå ramverk och arkitektur som HRIV använder sig av kan m
 I HRIV finns två webservice tjänster som möjliggör hämtning av Personinformation och Enhetsinformation. Båda webbservicarna ligger under paketet HsaTools-HRIV-module-intsvc.
 Personinformation webbservicen är av typen REST och möjlig gör sökning av personinformation i KIV se [PersonalRecordService] för mer information.
 
-Enhetsinformation webservicen är av typen SOAP och möjliggör hämtning av enhetsinformation med hjälp av hsa identity. se [http://oppna-program-hsatools.googlecode.com/files/UnitDetails%20webservice.pdf Unit webservice]för mer information.
+Enhetsinformation webservicen är av typen SOAP och möjliggör hämtning av enhetsinformation med hjälp av hsa identity. se [http://oppna-program-hsatools.googlecode.com/files/UnitDetails%20webservice.pdf Unit webservice] för mer information.
 
-Båda tjänsterna är implementerade med hjälp av Spring webservice [http://static.springsource.org/spring-ws/sites/1.5/ Spring ws
+Båda tjänsterna är implementerade med hjälp av Spring webservice [http://static.springsource.org/spring-ws/sites/1.5/ Spring ws]
 
 = Externa tjänster och funktioner i HRIV =
 
@@ -36,5 +36,5 @@ Med tjänsten Mina vårdkontakter har en användare möjligheten att på nätet 
 == Tillgänglighetsdatabasen ==
 Med hjälp av integration av den externa tjänsten Tillgänglighetsdatabasen i HRIV kan funktionshindrade person få information som kan hjälpa en vid ett besök till vald vårdcentral. För mer information se [Arkitekturen_i_HRIV]
 
-== Google Map ==
-För att kunna visa vald vårdenhet på karta för användaren används integration av tjänsten Google map. För vidare läsning se [http://code.google.com/intl/sv-SE/apis/maps/index.html]
+== Google Maps ==
+För att kunna visa vald vårdenhet på karta för användaren används integration av tjänsten Google map. För vidare läsning se [http://code.google.com/intl/sv-SE/apis/maps/index.html Google Maps]
