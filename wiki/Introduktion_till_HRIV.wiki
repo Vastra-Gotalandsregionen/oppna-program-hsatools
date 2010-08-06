@@ -18,9 +18,9 @@ För att bättre förstå ramverk och arkitektur som HRIV använder sig av kan m
 I HRIV finns två webservice tjänster som möjliggör hämtning av Personinformation och Enhetsinformation. Båda webbservicarna ligger under paketet HsaTools-HRIV-module-intsvc.
 Personinformation webbservicen är av typen REST och möjlig gör sökning av personinformation i KIV se [PersonalRecordService] för mer information.
 
-Enhetsinformation webservicen är av typen SOAP och möjliggör hämtning av enhetsinformation med hjälp av hsa identity. se http://oppna-program-hsatools.googlecode.com/files/UnitDetails%20webservice.pdf för mer information.
+Enhetsinformation webservicen är av typen SOAP och möjliggör hämtning av enhetsinformation med hjälp av hsa identity. se [http://oppna-program-hsatools.googlecode.com/files/UnitDetails%20webservice.pdf Unit webservice]för mer information.
 
-Båda tjänsterna är implementerade med hjälp av Spring webservice http://static.springsource.org/spring-ws/sites/1.5/
+Båda tjänsterna är implementerade med hjälp av Spring webservice [http://static.springsource.org/spring-ws/sites/1.5/ Spring ws
 
 = Externa tjänster och funktioner i HRIV =
 
