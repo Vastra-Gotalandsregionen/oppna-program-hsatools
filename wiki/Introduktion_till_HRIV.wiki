@@ -35,3 +35,6 @@ Med tjänsten Mina vårdkontakter har en användare möjligheten att på nätet 
 
 == Tillgänglighetsdatabasen ==
 Med hjälp av integration av den externa tjänsten Tillgänglighetsdatabasen i HRIV kan funktionshindrade person få information som kan hjälpa en vid ett besök till vald vårdcentral. För mer information se [Arkitekturen_i_HRIV]
+
+== Google Map ==
+För att kunna visa vald vårdenhet på karta för användaren används integration av tjänsten Google map. För vidare läsning se [http://code.google.com/intl/sv-SE/apis/maps/index.html]
