@@ -163,11 +163,25 @@ public class SearchPersonFlowSupportBean implements Serializable {
       searchPersonCriterion.setLanguageKnowledge(personSearchSimpleForm.getLanguageKnowledge());
       searchPersonCriterion.setProfession(personSearchSimpleForm.getProfession());
       searchPersonCriterion.setEmployedAtUnit(personSearchSimpleForm.getEmployedAtUnit());
-      searchPersonCriterion.setPhone(personSearchSimpleForm.getPhone());
+      searchPersonCriterion.setPhone(trimPhoneNumber(personSearchSimpleForm.getPhone()));
       searchPersonCriterion.setEmploymentPosition(personSearchSimpleForm.getEmploymentPosition());
       searchPersonCriterion.setDescription(personSearchSimpleForm.getDescription());
     }
     return searchPersonCriterion;
+  }
+
+  private String trimPhoneNumber(String phone) {
+    String trimmedPhone = null;
+    if (!StringUtil.isEmpty(phone)) {
+      trimmedPhone = new String(phone);
+      if (phone.startsWith("0")) {
+        trimmedPhone = trimmedPhone.substring(1);
+      }
+      if (phone.contains("-")) {
+        trimmedPhone = trimmedPhone.replace("-", "");
+      }
+    }
+    return trimmedPhone;
   }
 
   /**
