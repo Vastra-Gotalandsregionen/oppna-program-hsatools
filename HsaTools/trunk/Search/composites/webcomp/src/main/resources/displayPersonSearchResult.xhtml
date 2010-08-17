@@ -49,7 +49,7 @@
 		</ui:define>
 	
 		<ui:define name="MainContainer">
-			<h:outputText id="progressBar"/>
+			
 	        <div id="messageDiv" class="clearfix">
 				<h:outputText rendered="${fn:trim(rootCauseException.message) != ''}">
 					<h2 id="error-reporting-container">
@@ -135,6 +135,8 @@
 					</ui:repeat>
 				</ul>
 			</h:outputText>
+			
 		</ui:define>
+		<div id="progressBar"/>
 	</ui:composition>
 </div>
