@@ -23,94 +23,136 @@ function initGMap(hitsSize) {
 		return;
 	}
 
+	
 	if (document.getElementById("map-div") != null) {
-		document.getElementById("map-div").style.visibility = "hidden";
-	}
-	if (document.getElementById("map-div") != null) {
-		map = new GMap2(document.getElementById("map-div"));
-		return map;
+		var emap = new Eniro.API.Map("map-div", "resources/scripts/vgr/eniro/MapAPI-1.2", {
+		       activeLayers: [ Eniro.Map.LAYER_MAP ],
+		       zoomBar: true,
+		       scaleLine: false,
+		       zoom:8
+		    });
+		return emap;
 	}
 }
 
-/* Show map according to address (which we geocode with help from Google Maps). */
+/* Show map according to address. */
 function showAddress(hsaid, address, tel, careTypeName, name, distance,
 		printError, map) {
+	
 	if (map == null) {
-		map = new GMap2(document.getElementById("map"));
+		map = new Eniro.API.Map("map-div", "resources/scripts/vgr/eniro/MapAPI-1.2", {
+		       activeLayers: [ Eniro.Map.LAYER_MAP ],
+		       zoomBar: true,
+		       scaleLine: false
+		    });
 	}
-	var geocoder = new GClientGeocoder();
-	geocoder
-			.getLatLng(
-					address + ", sweden",
-					function(point) {
-						if (point) {
-							map.setCenter(point, 11);
-							var marker = new GMarker(point);
-							map.addOverlay(marker);
-							GEvent
-									.addListener(
-											marker,
-											"mouseover",
-											function() {
-												var label = '<span style="font-size: 9px"><b><a href="visaenhet?hsaidentity='
-														+ hsaid
-														+ '">'
-														+ name
-														+ '</a></b><br/>'
-														+ careTypeName
-														+ '<br/>Telefon: '
-														+ tel + '<br/>';
-												if (distance != '') {
-													label += 'Avst&aring;nd till adress: ' + distance + ' km<br/>'
-												}
-												label += '<a href="visaenhet?hsaidentity=' + hsaid + '">Visa detaljer</a></span>'
-												marker
-														.openInfoWindowHtml(label);
-											});
-							map.addControl(new GLargeMapControl());
-							map.addControl(new GMapTypeControl());
-						} else {
-							if (printError == 'true') {
-								printMapError();
-							}
-						}
-					});
+	
+	var xmlDoc = null;
+	var xmlhttp = null;
+	
+	if (!window.ActiveXObject && window.XMLHttpRequest)
+	  {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  xmlhttp=new XMLHttpRequest();
+	  }
+	else
+	  {// code for IE6
+	  xmlhttp=new ActiveXObject("Msxml2.XMLHTTP");
+	  }
+	var addressWithoutStreetNumber = address.replace(/[0-9]/,'');
+	xmlhttp.open( "GET", "getEniroGeoCoding?name="+addressWithoutStreetNumber, true);
+	xmlhttp.onreadystatechange = statusUpdate;
+	xmlhttp.send(null);
+	
+	function statusUpdate()
+	{
+		if (xmlhttp.readyState==4){
+			if(xmlhttp.status==200){
+				xmlDoc=xmlhttp.responseXML; 
+				if(xmlDoc!=null && xmlDoc.getElementsByTagName("x")[0]!=null && xmlDoc.getElementsByTagName("y")[0]!=null){
+					var xCoordinate=xmlDoc.getElementsByTagName("x")[0].childNodes[0].nodeValue;
+					var yCoordinate=xmlDoc.getElementsByTagName("y")[0].childNodes[0].nodeValue;
+					if(xCoordinate!=null && yCoordinate!=null){
+						drawMarkerOnMap(xCoordinate, yCoordinate, hsaid, tel, careTypeName, name, distance, printError, map);
+					}
+				}
+			}	
+		}
+	}
+}
+
+function drawMarkerOnMap(xCoordinate, yCoordinate, hsaid, tel, careTypeName, name, distance, printError, map){
+
+	var proj = new OpenLayers.Projection("EPSG:4326");
+	var point = new OpenLayers.LonLat(xCoordinate, yCoordinate);
+	point.transform(proj, map.getProjectionObject());
+    map.setCenter(point, 8);
+    
+    if(point){
+		var label = '<span style="font-size: 9px"><b><a href="visaenhet?hsaidentity='
+			+ hsaid
+			+ '">'
+			+ name
+			+ '</a></b><br/>'
+			+ careTypeName
+			+ '<br/>Telefon: '
+			+ tel + '<br/>';
+		
+		if (distance != '') {
+			label += 'Avst&aring;nd till adress: ' + distance + ' km<br/>'
+		}
+		
+		label += '<a href="visaenhet?hsaidentity=' + hsaid + '">Visa detaljer</a></span>';
+		var marker = new Eniro.Feature.PopupFeature(map.getCenter(), {}, {
+		       popupContents: function() { return label; },
+		       mouseover: true
+		   });
+		map.addFeature(marker);
+    }else {
+		if (printError == 'true') {
+			printMapError();
+		}
+	}
 }
 
 /* Show map according to WGS84 coordinates in degrees (decimal format). */
 function showAddressByCoordinates(hsaid, lat, lon, tel, careTypeName, name,
 		distance, printError, map) {
 	if (map == null) {
-		map = new GMap2(document.getElementById("map"));
+		map = new Eniro.API.Map("map-div", "resources/scripts/vgr/eniro/MapAPI-1.2", {
+		       activeLayers: [ Eniro.Map.LAYER_MAP ],
+		       zoomBar: false,
+		       scaleLine: false
+		    });
 	}
-	var point = new GLatLng(lat, lon);
-	if (point) {
-		map.setCenter(point, 11);
-		var marker = new GMarker(point);
-		map.addOverlay(marker);
-		GEvent
-				.addListener(
-						marker,
-						"mouseover",
-						function() {
-							var label = '<span style="font-size: 9px"><b><a href="visaenhet?hsaidentity='
-									+ hsaid
-									+ '">'
-									+ name
-									+ '</a></b><br/>'
-									+ careTypeName
-									+ '<br/>Telefon: '
-									+ tel
-									+ '<br/>';
-							if (distance != '') {
-								label += 'Avstånd till adress: ' + distance + ' km<br/>'
-							}
-							label += '<a href="visaenhet?hsaidentity=' + hsaid + '">Visa detaljer</a></span>'
-							marker.openInfoWindowHtml(label);
-						});
-		map.addControl(new GLargeMapControl());
-		map.addControl(new GMapTypeControl());
-	} else {
+	
+	var proj = new OpenLayers.Projection("EPSG:4326");
+	var point = new OpenLayers.LonLat(lon, lat);
+	point.transform(proj, map.getProjectionObject());
+    map.setCenter(point, 8);
+    
+    if(point){
+    var label = '<span style="font-size: 9px"><b><a href="visaenhet?hsaidentity='
+		+ hsaid
+		+ '">'
+		+ name
+		+ '</a></b><br/>'
+		+ careTypeName
+		+ '<br/>Telefon: '
+		+ tel
+		+ '<br/>';
+	
+    if (distance != '') {
+		label += 'Avstånd till adress: ' + distance + ' km<br/>'
+	}
+	
+	label += '<a href="visaenhet?hsaidentity=' + hsaid + '">Visa detaljer</a></span>';
+
+	var marker = new Eniro.Feature.PopupFeature(map.getCenter(), {}, {
+	       popupContents: function() { return label; },
+	       mouseover: true
+	   });
+    map.addFeature(marker);
+    } else {
 		if (printError == 'true') {
 			printMapError();
 		}
@@ -130,7 +172,7 @@ function printMapError() {
 		mapDiv.style.height = "50px";
 		mapDiv.style.width = "200px";
 		mapDiv.style.backgroundColor = "#FFFFFF";
-	}
+	} 
 }
 
 function getDirections(to, from) {
