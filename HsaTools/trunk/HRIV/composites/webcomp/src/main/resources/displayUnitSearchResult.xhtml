@@ -63,8 +63,6 @@
 
 	<ui:define name="MainContainer">
 	
-		<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${Search_SettingsContainer.googleMapsKey}" />
-	
 		<div id="search-result-caption">
 			<div id="search-result-caption-text">
 				<h1 class="structural">${msg.searchResult}</h1>
@@ -93,8 +91,7 @@
 			<div class="search-result">
 				<h:outputText rendered="${fn:length(units) gt 0 or fn:length(coordinateUnits) gt 0}">
 					<h:outputText rendered="${unitSearchSimpleForm.resultType gt 1}">
-						<div id="search-result-container">
-		
+						<div id="search-result-container-map">
 							<div id="spinner-div" class="spin-div">
 								<div class="spin-div-text">
 									<h:outputText value="${msg.generatingMap}" />
@@ -113,8 +110,8 @@
 										// ]]>
 									</h:outputText>
 								</script>
+								
 								<script type="text/javascript" charset="utf-8" defer="defer">
-		
 									<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == true}">
 										<ui:repeat value="${coordinateUnits}" var="theUnit">
 								           	<h:outputText rendered="${theUnit.wgs84Lat!=0.0}">
@@ -126,7 +123,7 @@
 								           		<ui:repeat value="${theUnit.hsaStreetAddress}" var="address">
 							           				<h:outputText rendered="${fn:length(address.street) gt 0}">
 													// <![CDATA[]
-				     									showAddress('${fn:trim(theUnit.hsaIdentity)}', '${fn:trim(address.street)}, ${fn:trim(address.zipCode.formattedZipCode)}, ${fn:trim(address.city)}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '${theUnit.distanceToTarget}', 'false', map);
+				     									showAddress('${fn:trim(theUnit.hsaIdentity)}', '${fn:trim(address.street)},${fn:trim(address.city)}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '${theUnit.distanceToTarget}', 'false', map);
 													// ]]>
 													</h:outputText>
 												</ui:repeat>
@@ -140,17 +137,20 @@
 											// <![CDATA[]
 												showAddressByCoordinates('${fn:trim(theUnit.hsaIdentity)}', '${theUnit.wgs84Lat}', '${theUnit.wgs84Long}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '', 'false', map);
 											// ]]>
-											</h:outputText>			
+											</h:outputText>
+													
 					        			   	<h:outputText rendered="${theUnit.wgs84Lat==0.0 and Search_SettingsContainer.fallbackOnAddressForMap==true}">
+					        			   	
 								           		<ui:repeat value="${theUnit.hsaStreetAddress}" var="address">
 							           				<h:outputText rendered="${fn:length(address.street) gt 0}">
 													// <![CDATA[]
-				     									showAddress('${fn:trim(theUnit.hsaIdentity)}', '${fn:trim(address.street)}, ${fn:trim(address.zipCode.formattedZipCode)}, ${fn:trim(address.city)}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '', 'false', map);
+				     									showAddress('${fn:trim(theUnit.hsaIdentity)}', '${fn:trim(address.street)},${fn:trim(address.city)}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '', 'false', map);
 													// ]]>
 													</h:outputText>
 												</ui:repeat>
 											</h:outputText>			
 										</ui:repeat>
+							
 									</h:outputText>
 								</script>
 								<script type="text/javascript" charset="utf-8">

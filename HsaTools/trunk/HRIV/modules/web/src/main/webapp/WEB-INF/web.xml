@@ -1,24 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!--
+	<!--
 
-    Copyright 2010 Västra Götalandsregionen
-
-      This library is free software; you can redistribute it and/or modify
-      it under the terms of version 2.1 of the GNU Lesser General Public
-      License as published by the Free Software Foundation.
-
-      This library is distributed in the hope that it will be useful,
-      but WITHOUT ANY WARRANTY; without even the implied warranty of
-      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-      GNU Lesser General Public License for more details.
-
-      You should have received a copy of the GNU Lesser General Public
-      License along with this library; if not, write to the
-      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
-      Boston, MA 02111-1307  USA
-
-
--->
+		Copyright 2010 Västra Götalandsregionen This library is free software;
+		you can redistribute it and/or modify it under the terms of version
+		2.1 of the GNU Lesser General Public License as published by the Free
+		Software Foundation. This library is distributed in the hope that it
+		will be useful, but WITHOUT ANY WARRANTY; without even the implied
+		warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+		the GNU Lesser General Public License for more details. You should
+		have received a copy of the GNU Lesser General Public License along
+		with this library; if not, write to the Free Software Foundation,
+		Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+	-->
 
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
@@ -32,12 +25,12 @@
 			se.vgr.javg.util.webcomponent.support.FaceletsClasspathResourceResolver 
 		</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:/services-config.xml</param-value>
 	</context-param>
-	
+
 	<!-- jboss el expressions allow method params -->
 	<context-param>
 		<param-name>com.sun.faces.expressionFactory</param-name>
@@ -48,12 +41,12 @@
 		<param-name>facelets.REFRESH_PERIOD</param-name>
 		<param-value>2</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>facelets.DEVELOPMENT</param-name>
 		<param-value>true</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
 		<param-value>server</param-value>
@@ -61,22 +54,22 @@
 			<param-value>client</param-value>
 		-->
 	</context-param>
-	
+
 	<context-param>
 		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
 		<param-value>.xhtml</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>com.sun.faces.validateXml</param-name>
 		<param-value>true</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>com.sun.faces.verifyObjects</param-name>
 		<param-value>true</param-value>
 	</context-param>
-	
+
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -152,7 +145,8 @@
 		<servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
 		<url-pattern>*.flow</url-pattern>
 	</servlet-mapping>
-  
+
+
 	<!--  Servlet used as workaround for non-working actionlinks i jsf -->
 	<servlet>
 		<servlet-name>Display Unit By hsaId</servlet-name>
@@ -250,18 +244,31 @@
 		<servlet-name>Logout</servlet-name>
 		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>eniroGeoCoding</servlet-name>
+		<servlet-class>se.vgregion.kivtools.hriv.servlets.EniroMapService</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 	
+	<servlet-mapping>
+		<servlet-name>eniroGeoCoding</servlet-name>
+		<url-pattern>/getEniroGeoCoding</url-pattern>
+	</servlet-mapping>
+
+
+
 	<error-page>
 		<exception-type>javax.servlet.ServletException</exception-type>
 		<location>/displayError.jsf</location>
 	</error-page>
-	
+
 	<error-page>
 		<exception-type>
 			org.springframework.webflow.execution.repository.support.InvalidContinuationIdException</exception-type>
 		<location>/displayError.jsf</location>
 	</error-page>
-	
+
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
