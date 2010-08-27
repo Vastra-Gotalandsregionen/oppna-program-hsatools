@@ -414,6 +414,9 @@
                                 <div id="map"/>
                                 
                                 <!--  Map cell end (dont remove this comment) -->
+                                <div style="padding-left:5px; padding-bottom:2px; font-size: 10px; font-weight: bold;">
+                                	<a class="url" href="#" id="showMapPopupButton" onClick="showMapInPopup('${unit.wgs84Long}', '${unit.wgs84Lat}', '${fn:trim(unit.name)}','${fn:trim(unit.hsaPublicTelephoneNumber[0])}', '${fn:trim(unit.caretypeCustomized)}', '${msg.telephone}', '${msg.showDetails}', '${unit.hsaIdentity}');"><img src="resources/images/zoom.gif" alt="Visa stor karta"/>Visa stor karta</a>
+                                </div>
                             </div>
 
                             <div id="directions-container" style="display: none;">
@@ -422,7 +425,7 @@
                                     <div id="map-div"/>
                                 </div>
                             </div>
-
+							
                             <h:outputText rendered="${Search_SettingsContainer.useShowUnitCode == 'true'}">
                                 <h:outputText escape="false" rendered="${Search_SettingsContainer.testingMode==true and Search_SettingsContainer.showUnitCodeOnServer == facesContext.externalContext.request.serverName}" value="${Search_SettingsContainer.showUnitCode1}" />
                                 <h:outputText escape="false" rendered="${Search_SettingsContainer.testingMode==true and Search_SettingsContainer.showUnitCodeOnServer == facesContext.externalContext.request.serverName}" value="${unit.hsaIdentity}" />
@@ -431,10 +434,10 @@
                         </div>
                         
                         <script type="text/javascript" charset="utf-8">
-				                 // <![CDATA[]
-				                 drawMap('${unit.wgs84Long}', '${unit.wgs84Lat}', '${fn:trim(unit.name)}','${fn:trim(unit.hsaPublicTelephoneNumber[0])}', '${fn:trim(unit.caretypeCustomized)}', '${msg.telephone}', '${msg.showDetails}', '${unit.hsaIdentity}');
-				              	 // ]]>
-				              </script>
+		                 // <![CDATA[]
+		                 drawMap('${unit.wgs84Long}', '${unit.wgs84Lat}', '${fn:trim(unit.name)}','${fn:trim(unit.hsaPublicTelephoneNumber[0])}', '${fn:trim(unit.caretypeCustomized)}', '${msg.telephone}', '${msg.showDetails}', '${unit.hsaIdentity}');
+		              	 // ]]>
+		              	</script>
                         
                         
                         <!--  Display unit widget end (dont remove this comment) -->
@@ -451,8 +454,6 @@
                 </h:outputText>
             </div>
             
-            
-              
         </ui:define>
 
     </ui:composition></div>

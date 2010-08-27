@@ -1127,3 +1127,21 @@ div.autocomplete {
 	font-weight: bold;
 }
 
+
+
+
+/* Popup for map */
+#eniroMapPopup.yui-panel .hd {
+	background-color:#cdcdcd;
+	border-color: #cdcdcd;
+}
+	
+#eniroMapPopup.yui-panel {
+	border-color: #cdcdcd;
+}
+
+#panelBody{
+	height: 600px;
+	width: 792px;
+}
+
