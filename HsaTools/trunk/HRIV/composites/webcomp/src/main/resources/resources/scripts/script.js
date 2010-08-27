@@ -214,3 +214,47 @@ function drawMap(longitud, latitud, unitName, publicPhoneNumber, caretypeCustomi
 	   });
     emap.addFeature(marker);
 }
+
+function showMapInPopup(longitud, latitud, unitName, publicPhoneNumber, caretypeCustomized, phoneLabel, showDetailsLabel, hsaId){
+	// Instantiate a Panel from markup 
+	
+	var emap = new Eniro.API.Map("panelBody", "resources/scripts/vgr/eniro/MapAPI-1.2", {
+	       activeLayers: [ Eniro.Map.LAYER_MAP ],
+	       zoomBar: true,
+	       scaleLine: false
+	    });
+	
+	var proj = new OpenLayers.Projection("EPSG:4326");
+	var point = new OpenLayers.LonLat(longitud, latitud);
+	point.transform(proj, emap.getProjectionObject());
+    emap.setCenter(point, 15);
+    
+	var marker = new Eniro.Feature.PopupFeature(emap.getCenter(), {}, {
+	       popupContents: function() { return '<a href="visaenhet?hsaidentity='+hsaId+'">'+unitName+'</a><br/>'+caretypeCustomized+'<br/>' + phoneLabel+': ' +publicPhoneNumber + '<br/><a href="visaenhet?hsaidentity='+hsaId+'">'+showDetailsLabel+'</a><br/>'; },
+	       mouseover: true
+	   });
+    emap.addFeature(marker);
+	
+	var eniroMapPopupPanel = new YAHOO.widget.Panel("eniroMapPopup",  
+			{ width:"800px", 
+			  height:"600px",
+			  fixedcenter:true, 
+			  close:true, 
+			  draggable:false, 
+			  zindex:914748364,
+			  modal:true,
+			  constraintoviewport: true,
+			  visible:true
+			});
+	
+	eniroMapPopupPanel.setHeader(unitName);
+	
+	//Work around for the IE, Safari and Chrome, to remove the marker when user closes the panel
+	eniroMapPopupPanel.hideEvent.subscribe(function() {
+		eniroMapPopupPanel.setBody("");
+	});
+	
+	eniroMapPopupPanel.render(document.body);
+	eniroMapPopupPanel.show();	
+
+}
