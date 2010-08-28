@@ -19,7 +19,11 @@
 
 package se.vgregion.kivtools.hriv.intsvc.ws.sahlgrenska;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,29 +59,29 @@ public class UnitDetailsServiceImplTest {
 
   @Before
   public void setup() throws Exception {
-    httpFetcher = new HttpFetcherMock();
+    this.httpFetcher = new HttpFetcherMock();
 
-    setupTimeSource();
+    this.setupTimeSource();
 
     MvkClient mvkClient = new MvkClient();
-    mvkClient.setHttpFetcher(httpFetcher);
+    mvkClient.setHttpFetcher(this.httpFetcher);
     mvkClient.setMvkUrl("http://localhost?mvk=1");
     mvkClient.setMvkGuid("uid123");
 
-    unitDetailsService = new UnitDetailsServiceImpl();
-    unitDetailsService.setSearchService(searchService);
-    unitDetailsService.setMvkClient(mvkClient);
+    this.unitDetailsService = new UnitDetailsServiceImpl();
+    this.unitDetailsService.setSearchService(this.searchService);
+    this.unitDetailsService.setMvkClient(mvkClient);
   }
 
   private void setupTimeSource() {
-    calendar = Calendar.getInstance();
-    calendar.set(2009, 8, 19, 16, 23);
-    calendar.set(Calendar.SECOND, 48);
-    calendar.set(Calendar.MILLISECOND, 0);
+    this.calendar = Calendar.getInstance();
+    this.calendar.set(2009, 8, 19, 16, 23);
+    this.calendar.set(Calendar.SECOND, 48);
+    this.calendar.set(Calendar.MILLISECOND, 0);
     TimeSource timeSource = new TimeSource() {
       @Override
       public long millis() {
-        return calendar.getTimeInMillis();
+        return UnitDetailsServiceImplTest.this.calendar.getTimeInMillis();
       }
     };
     TimeUtil.setTimeSource(timeSource);
@@ -87,7 +91,7 @@ public class UnitDetailsServiceImplTest {
   public void testGetUnitDetails() {
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=" + UNIT_HSA_IDENTITY + 1 + "&guid=uid123", "<xml></xml>");
 
-    Organization organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 1);
+    Organization organization = this.unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 1);
     se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Unit unit = organization.getUnit().get(0);
     assertEquals(UNIT_HSA_IDENTITY + 1, unit.getId());
   }
@@ -97,7 +101,7 @@ public class UnitDetailsServiceImplTest {
     this.searchService.setExceptionToThrow(new KivException("Test"));
 
     try {
-      unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY);
+      this.unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY);
       fail("NullPointerException expected");
     } catch (NullPointerException e) {
       // Expected exception
@@ -106,8 +110,8 @@ public class UnitDetailsServiceImplTest {
 
   @Test
   public void testGetUnitDetailsWithNullAndEmptyString() {
-    assertNotNull(unitDetailsService.getUnitDetails(null));
-    assertNotNull(unitDetailsService.getUnitDetails(""));
+    assertNotNull(this.unitDetailsService.getUnitDetails(null));
+    assertNotNull(this.unitDetailsService.getUnitDetails(""));
   }
 
   @Test
@@ -119,7 +123,7 @@ public class UnitDetailsServiceImplTest {
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=" + UNIT_HSA_IDENTITY + 2 + "&guid=uid123", "<xml></xml>");
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=" + UNIT_HSA_IDENTITY + 3 + "&guid=uid123", "<xml></xml>");
 
-    Organization organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 0);
+    Organization organization = this.unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 0);
     se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Unit unit = organization.getUnit().get(0);
     se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Address addressWs = unit.getAddress().get(0);
     assertEquals("En trevlig mottagning", unit.getDescription().get(0).getValue());
@@ -140,7 +144,7 @@ public class UnitDetailsServiceImplTest {
     assertEquals("Götlaborg", unit.getLocality().getValue());
 
     // Check Unit 1
-    organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 1);
+    organization = this.unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 1);
     unit = organization.getUnit().get(0);
     addressWs = unit.getAddress().get(0);
     assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
@@ -150,7 +154,7 @@ public class UnitDetailsServiceImplTest {
     assertNull(unit.getLocality());
 
     // Check Unit 2
-    organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 2);
+    organization = this.unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 2);
     unit = organization.getUnit().get(0);
     addressWs = unit.getAddress().get(0);
     assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
@@ -159,7 +163,7 @@ public class UnitDetailsServiceImplTest {
     assertEquals(0, unit.getReferralInformation().size());
 
     // Check Unit 3
-    organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 3);
+    organization = this.unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 3);
     unit = organization.getUnit().get(0);
     addressWs = unit.getAddress().get(0);
     assertEquals("Desc1, Desc2, Teststreet", addressWs.getStreetName());
@@ -173,7 +177,7 @@ public class UnitDetailsServiceImplTest {
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=" + UNIT_HSA_IDENTITY + 0 + "&guid=uid123",
         "<?xml version=\"1.0\"?><casetypes><casetype>abc</casetype><casetype>def</casetype></casetypes>");
 
-    Organization organization = unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 0);
+    Organization organization = this.unitDetailsService.getUnitDetails(UNIT_HSA_IDENTITY + 0);
     assertTrue(organization.getUnit().get(0).isMvkEnable());
   }
 
@@ -182,9 +186,9 @@ public class UnitDetailsServiceImplTest {
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=dummy&guid=uid123", "<xml></xml>");
 
     Unit unit = new UnitBuilder().hsaIdentity("dummy").shortname("tandreg varberg").build();
-    unitDetailsService.setSearchService(new OneUnitSearchService(unit));
+    this.unitDetailsService.setSearchService(new OneUnitSearchService(unit));
 
-    Organization organization = unitDetailsService.getUnitDetails("dummy");
+    Organization organization = this.unitDetailsService.getUnitDetails("dummy");
     assertEquals("short name", "tandreg varberg", organization.getUnit().get(0).getShortName());
   }
 
@@ -193,9 +197,9 @@ public class UnitDetailsServiceImplTest {
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=dummy&guid=uid123", "<xml></xml>");
 
     Unit unit = new UnitBuilder().hsaIdentity("dummy").routePart("rakt fram").routePart("till höger").build();
-    unitDetailsService.setSearchService(new OneUnitSearchService(unit));
+    this.unitDetailsService.setSearchService(new OneUnitSearchService(unit));
 
-    Organization organization = unitDetailsService.getUnitDetails("dummy");
+    Organization organization = this.unitDetailsService.getUnitDetails("dummy");
     List<String> drivingDirections = organization.getUnit().get(0).getDrivingDirections();
     assertEquals("driving directions", 2, drivingDirections.size());
     assertEquals("driving directions part 1", "rakt fram", drivingDirections.get(0));
@@ -207,9 +211,9 @@ public class UnitDetailsServiceImplTest {
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=dummy&guid=uid123", "<xml></xml>");
 
     Unit unit = new UnitBuilder().hsaIdentity("dummy").careType("02").build();
-    unitDetailsService.setSearchService(new OneUnitSearchService(unit));
+    this.unitDetailsService.setSearchService(new OneUnitSearchService(unit));
 
-    Organization organization = unitDetailsService.getUnitDetails("dummy");
+    Organization organization = this.unitDetailsService.getUnitDetails("dummy");
     assertEquals("care type", "02", organization.getUnit().get(0).getCareType());
   }
 
@@ -218,9 +222,9 @@ public class UnitDetailsServiceImplTest {
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=dummy&guid=uid123", "<xml></xml>");
 
     Unit unit = new UnitBuilder().hsaIdentity("dummy").address("storgatan 1").rt90(123456, 789012).wgs84(12.3456, 78.9012).build();
-    unitDetailsService.setSearchService(new OneUnitSearchService(unit));
+    this.unitDetailsService.setSearchService(new OneUnitSearchService(unit));
 
-    Organization organization = unitDetailsService.getUnitDetails("dummy");
+    Organization organization = this.unitDetailsService.getUnitDetails("dummy");
     se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Address address = organization.getUnit().get(0).getAddress().get(0);
     assertEquals("rt90 x", "123456", address.getGeoCoordinates().getXpos().get(0));
     assertEquals("rt90 y", "789012", address.getGeoCoordinates().getYpos().get(0));
@@ -233,9 +237,9 @@ public class UnitDetailsServiceImplTest {
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=dummy&guid=uid123", "<?xml version=\"1.0\"?><casetypes><casetype>abc</casetype><casetype>def</casetype></casetypes>");
 
     Unit unit = new UnitBuilder().hsaIdentity("dummy").build();
-    unitDetailsService.setSearchService(new OneUnitSearchService(unit));
+    this.unitDetailsService.setSearchService(new OneUnitSearchService(unit));
 
-    Organization organization = unitDetailsService.getUnitDetails("dummy");
+    Organization organization = this.unitDetailsService.getUnitDetails("dummy");
     List<String> mvkServices = organization.getUnit().get(0).getMvkServices();
     assertEquals("mvk case types", 2, mvkServices.size());
     assertEquals("case type 1", "abc", mvkServices.get(0));
@@ -247,12 +251,23 @@ public class UnitDetailsServiceImplTest {
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=dummy&guid=uid123", "<xml></xml>");
 
     Unit unit = new UnitBuilder().hsaIdentity("dummy").address("", "abc", "def").build();
-    unitDetailsService.setSearchService(new OneUnitSearchService(unit));
+    this.unitDetailsService.setSearchService(new OneUnitSearchService(unit));
 
-    Organization organization = unitDetailsService.getUnitDetails("dummy");
+    Organization organization = this.unitDetailsService.getUnitDetails("dummy");
     se.vgregion.kivtools.hriv.intsvc.ws.domain.sahlgrenska.Address address = organization.getUnit().get(0).getAddress().get(0);
     assertTrue("isConcatenated", address.isIsConcatenated());
     assertEquals("concatenated address", "abcdef", address.getConcatenatedAddress());
+  }
+
+  @Test
+  public void managementIsSetToAHyphenIfNoValueIsFound() {
+    this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=dummy&guid=uid123", "<xml></xml>");
+
+    Unit unit = new UnitBuilder().hsaIdentity("dummy").build();
+    this.unitDetailsService.setSearchService(new OneUnitSearchService(unit));
+
+    Organization organization = this.unitDetailsService.getUnitDetails("dummy");
+    assertEquals("management", "-", organization.getUnit().get(0).getManagement().getValue());
   }
 
   private static class UnitBuilder {
@@ -269,19 +284,19 @@ public class UnitDetailsServiceImplTest {
 
     public Unit build() {
       Unit unit = new Unit();
-      unit.setHsaIdentity(hsaIdentity);
-      unit.setOrganizationalUnitNameShort(shortName);
-      unit.addHsaRoute(route);
-      unit.setCareType(careType);
-      unit.setRt90X(rt90x);
-      unit.setRt90Y(rt90y);
-      unit.setWgs84Lat(wgs84Lat);
-      unit.setWgs84Long(wgs84Long);
+      unit.setHsaIdentity(this.hsaIdentity);
+      unit.setOrganizationalUnitNameShort(this.shortName);
+      unit.addHsaRoute(this.route);
+      unit.setCareType(this.careType);
+      unit.setRt90X(this.rt90x);
+      unit.setRt90Y(this.rt90y);
+      unit.setWgs84Lat(this.wgs84Lat);
+      unit.setWgs84Long(this.wgs84Long);
       if (this.street != null) {
         Address address = new Address();
-        address.setStreet(street);
+        address.setStreet(this.street);
         unit.setHsaStreetAddress(address);
-        address.setAdditionalInfo(additionalInfo);
+        address.setAdditionalInfo(this.additionalInfo);
       }
       return unit;
     }
@@ -347,11 +362,11 @@ public class UnitDetailsServiceImplTest {
   }
 
   private static class SearchServiceMock extends SearchServiceMockBase {
-    private Map<String, Unit> units;
+    private final Map<String, Unit> units;
     private KivException exceptionToThrow;
 
     public SearchServiceMock() {
-      this.units = createUnitMocks(generateUnitAddress());
+      this.units = this.createUnitMocks(this.generateUnitAddress());
     }
 
     public void setExceptionToThrow(KivException exceptionToThrow) {
@@ -363,7 +378,7 @@ public class UnitDetailsServiceImplTest {
       if (this.exceptionToThrow != null) {
         throw this.exceptionToThrow;
       }
-      return units.get(hsaId);
+      return this.units.get(hsaId);
     }
 
     // Create 4 units with hsaIdentity UnitHsaIdentity<0 to 3>
