@@ -92,7 +92,7 @@
 		                           </div>
 		
 				                    <div class="three-col email-container">
-										<span class="description">E-post:</span>
+										<span class="description">${msg.email}:</span>
 										<a href="mailto:${aPerson.mail}"><span class="email">${aPerson.mail}</span></a>
 				                    </div>
 				                    <div class="vgrId-container">
@@ -106,10 +106,10 @@
 								    	<caption class="structural">Anställningar</caption>
 								        <thead>
 									        <tr>
-									            <th scope="col">${msg.employmentTitle}</th>
+									            <th scope="col">${msg.staffCategory}</th>
 									            <th scope="col">${msg.department}</th>
 									            <th scope="col">${msg.administration}</th>
-									            <th scope="col">Telefon</th>
+									            <th scope="col">${msg.telephone}</th>
 									        </tr>
 								        </thead>
 								        <tbody>
