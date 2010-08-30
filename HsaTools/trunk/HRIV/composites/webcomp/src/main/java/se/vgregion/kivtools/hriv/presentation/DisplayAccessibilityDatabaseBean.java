@@ -190,11 +190,11 @@ public class DisplayAccessibilityDatabaseBean implements Serializable {
   private boolean noSelection(AccessibilityDatabaseFilterForm form) {
     boolean selection = false;
 
-    selection &= form.getHear();
-    selection &= form.getSee();
-    selection &= form.getMove();
-    selection &= form.getSubstances();
-    selection &= form.getInfo();
+    selection |= form.getHear();
+    selection |= form.getSee();
+    selection |= form.getMove();
+    selection |= form.getSubstances();
+    selection |= form.getInfo();
 
     return !selection;
   }
