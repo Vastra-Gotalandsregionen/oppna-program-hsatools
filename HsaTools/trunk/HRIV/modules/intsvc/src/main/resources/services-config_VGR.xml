@@ -31,10 +31,9 @@
 	<context:component-scan base-package="se.vgregion.kivtools.hriv.intsvc.restServices" />
 
 	<bean id="mvkClient" class="se.vgregion.kivtools.search.util.MvkClient">
-		<property name="httpFetcher" ref="httpFetcher" />
-		<property name="mvkGuid" value="098b464a-b657-484f-8a86-e68962a0e996" />
-		<property name="mvkUrl"
-			value="https://kontakt.vardguiden.se/vg/veconfig.nsf/dispveInfo?readform" />
+		<constructor-arg ref="httpFetcher"/>
+		<constructor-arg value="098b464a-b657-484f-8a86-e68962a0e996"/>
+		<constructor-arg value="https://kontakt.vardguiden.se/vg/veconfig.nsf/dispveInfo?readform"/>
 	</bean>
 
 	<bean id="Commons_FtpsClient" class="org.apache.commons.net.ftp.FTPSClient" />

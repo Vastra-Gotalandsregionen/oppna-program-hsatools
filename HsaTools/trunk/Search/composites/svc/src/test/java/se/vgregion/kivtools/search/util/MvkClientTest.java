@@ -19,44 +19,22 @@
 
 package se.vgregion.kivtools.search.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.mocks.http.HttpFetcherMock;
 import se.vgregion.kivtools.search.domain.Unit;
 
 public class MvkClientTest {
-  private static LogFactoryMock logFactoryMock;
-  private MvkClient mvkClient;
-  private HttpFetcherMock httpFetcher;
-
-  @BeforeClass
-  public static void setup() {
-    logFactoryMock = LogFactoryMock.createInstance();
-  }
-
-  @AfterClass
-  public static void afterClass() {
-    LogFactoryMock.resetInstance();
-  }
-
-  @Before
-  public void setUp() throws Exception {
-    httpFetcher = new HttpFetcherMock();
-    mvkClient = new MvkClient();
-    mvkClient.setHttpFetcher(httpFetcher);
-    mvkClient.setMvkUrl("http://localhost?mvk=1");
-    mvkClient.setMvkGuid("uid123");
-  }
+  private final HttpFetcherMock httpFetcher = new HttpFetcherMock();
+  private final MvkClient mvkClient = new MvkClient(this.httpFetcher, "uid123", "http://localhost?mvk=1");
 
   @Test
   public void testInstantiation() {
-    MvkClient mvkClient = new MvkClient();
+    MvkClient mvkClient = new MvkClient(null, null, null);
     assertNotNull(mvkClient);
   }
 

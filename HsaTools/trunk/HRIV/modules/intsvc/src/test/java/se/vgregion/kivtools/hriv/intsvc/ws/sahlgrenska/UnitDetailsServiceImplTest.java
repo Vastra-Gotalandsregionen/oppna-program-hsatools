@@ -53,20 +53,15 @@ public class UnitDetailsServiceImplTest {
   private static final String UNIT_NAME = "UnitName";
   private static final String UNIT_HSA_IDENTITY = "UnitHsaIdentity";
   private UnitDetailsServiceImpl unitDetailsService;
-  private HttpFetcherMock httpFetcher;
+  private final HttpFetcherMock httpFetcher = new HttpFetcherMock();
   private Calendar calendar;
   private final SearchServiceMock searchService = new SearchServiceMock();
 
   @Before
   public void setup() throws Exception {
-    this.httpFetcher = new HttpFetcherMock();
-
     this.setupTimeSource();
 
-    MvkClient mvkClient = new MvkClient();
-    mvkClient.setHttpFetcher(this.httpFetcher);
-    mvkClient.setMvkUrl("http://localhost?mvk=1");
-    mvkClient.setMvkGuid("uid123");
+    MvkClient mvkClient = new MvkClient(this.httpFetcher, "uid123", "http://localhost?mvk=1");
 
     this.unitDetailsService = new UnitDetailsServiceImpl();
     this.unitDetailsService.setSearchService(this.searchService);

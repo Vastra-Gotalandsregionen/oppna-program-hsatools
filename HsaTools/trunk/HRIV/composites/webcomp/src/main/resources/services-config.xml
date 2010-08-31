@@ -48,9 +48,9 @@
 	
 	<bean id="Display_MvkClient"
 		class="se.vgregion.kivtools.search.util.MvkClient">
-		<property name="httpFetcher" ref="Display_HttpFetcher" />
-		<property name="mvkGuid" value="#{hsatools.hriv.webcomp.mvkGuid}" />
-		<property name="mvkUrl" value="#{hsatools.hriv.webcomp.mvkUrlBeforeHsaidAndGuidParams}" />
+		<constructor-arg ref="Display_HttpFetcher"/>
+		<constructor-arg value="#{hsatools.hriv.webcomp.mvkGuid}"/>
+		<constructor-arg value="#{hsatools.hriv.webcomp.mvkUrlBeforeHsaidAndGuidParams}"/>
 	</bean>
 	
 	<bean id="Display_DisplayUnitDetailsFlowSupportBean"

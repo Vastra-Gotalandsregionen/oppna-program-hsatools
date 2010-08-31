@@ -34,6 +34,7 @@ import se.vgregion.kivtools.search.svc.SitemapCache;
 import se.vgregion.kivtools.search.svc.SitemapCache.EntryType;
 import se.vgregion.kivtools.search.svc.SitemapEntry;
 import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
+import se.vgregion.kivtools.search.util.MvkClient;
 import se.vgregion.kivtools.util.StringUtil;
 import se.vgregion.kivtools.util.time.TimeUtil;
 
@@ -43,23 +44,26 @@ import com.domainlanguage.time.TimePoint;
  * Implementation of the CacheLoader interface which populates a SitemapCache by using the {@link UnitCacheServiceImpl}.
  */
 public class InternalSitemapCacheLoaderImpl implements CacheLoader<SitemapCache> {
-  private final Log log = LogFactory.getLog(getClass());
+  private final Log log = LogFactory.getLog(this.getClass());
   private final UnitCacheServiceImpl unitCacheService;
   private final String internalApplicationURL;
   private final String changeFrequency;
   private final SearchService searchService;
+  private final MvkClient mvkClient;
 
   /**
    * Constructs a new {@link InternalSitemapCacheLoaderImpl}.
    * 
    * @param unitCacheService The {@link UnitCacheServiceImpl} implementation to use to fetch units.
    * @param searchService The {@link SearchService} implementation to use to fetch persons.
+   * @param mvkClient The MvkClient to use to fetch MVK casetypes for units.
    * @param internalApplicationURL The internal URL to the application.
    * @param changeFrequency The change frequency of the sitemap entries.
    */
-  public InternalSitemapCacheLoaderImpl(final UnitCacheServiceImpl unitCacheService, final SearchService searchService, final String internalApplicationURL, String changeFrequency) {
+  public InternalSitemapCacheLoaderImpl(final UnitCacheServiceImpl unitCacheService, final SearchService searchService, MvkClient mvkClient, final String internalApplicationURL, String changeFrequency) {
     this.unitCacheService = unitCacheService;
     this.searchService = searchService;
+    this.mvkClient = mvkClient;
     this.internalApplicationURL = internalApplicationURL;
     this.changeFrequency = changeFrequency;
   }
@@ -72,10 +76,10 @@ public class InternalSitemapCacheLoaderImpl implements CacheLoader<SitemapCache>
     SitemapCache cache = new SitemapCache();
 
     try {
-      populateUnits(cache);
-      populatePersons(cache);
+      this.populateUnits(cache);
+      this.populatePersons(cache);
     } catch (KivException e) {
-      log.error("Exception while populating sitemap cache", e);
+      this.log.error("Exception while populating sitemap cache", e);
       cache = new SitemapCache();
     }
 
@@ -83,11 +87,11 @@ public class InternalSitemapCacheLoaderImpl implements CacheLoader<SitemapCache>
   }
 
   private void populatePersons(SitemapCache cache) throws KivException {
-    List<Person> persons = searchService.getAllPersons();
+    List<Person> persons = this.searchService.getAllPersons();
     for (Person person : persons) {
       TimePoint lastmod = TimePoint.atGMT(1970, 1, 1, 0, 0, 0);
       if (person.getEmployments() == null) {
-        person.setEmployments(searchService.getEmployments(person.getDn()));
+        person.setEmployments(this.searchService.getEmployments(person.getDn()));
       }
       if (person.getEmployments() != null) {
         for (Employment employment : person.getEmployments()) {
@@ -96,9 +100,9 @@ public class InternalSitemapCacheLoaderImpl implements CacheLoader<SitemapCache>
           }
         }
       }
-      SitemapEntry entry = new SitemapEntry(internalApplicationURL + "/visaperson?vgrid=" + person.getVgrId(), TimeUtil.formatDateW3C(lastmod.asJavaUtilDate()), this.changeFrequency);
+      SitemapEntry entry = new SitemapEntry(this.internalApplicationURL + "/visaperson?vgrid=" + person.getVgrId(), TimeUtil.formatDateW3C(lastmod.asJavaUtilDate()), this.changeFrequency);
 
-      se.vgregion.kivtools.svc.sitemap.Person sitemapPerson = SitemapPersonMapper.map(person, unitCacheService.getCache());
+      se.vgregion.kivtools.svc.sitemap.Person sitemapPerson = SitemapPersonMapper.map(person, this.unitCacheService.getCache());
 
       entry.addExtraInformation(sitemapPerson);
       cache.add(entry, EntryType.PERSON);
@@ -106,16 +110,18 @@ public class InternalSitemapCacheLoaderImpl implements CacheLoader<SitemapCache>
   }
 
   private void populateUnits(SitemapCache cache) {
-    List<Unit> units = unitCacheService.getCache().getUnits();
+    List<Unit> units = this.unitCacheService.getCache().getUnits();
     // Check if list of units is populated, otherwise we fill it up!
     if (units.size() < 1) {
-      unitCacheService.reloadCache();
-      units = unitCacheService.getCache().getUnits();
+      this.unitCacheService.reloadCache();
+      units = this.unitCacheService.getCache().getUnits();
     }
 
     for (Unit unit : units) {
-      String lastmod = getLastModifiedDateTime(unit.getModifyTimestampFormattedInW3CDatetimeFormat(), unit.getCreateTimestampFormattedInW3CDatetimeFormat());
-      SitemapEntry entry = new SitemapEntry(internalApplicationURL + "/" + "visaenhet?hsaidentity=" + unit.getHsaIdentity(), lastmod, changeFrequency);
+      this.mvkClient.assignCaseTypes(unit);
+
+      String lastmod = this.getLastModifiedDateTime(unit.getModifyTimestampFormattedInW3CDatetimeFormat(), unit.getCreateTimestampFormattedInW3CDatetimeFormat());
+      SitemapEntry entry = new SitemapEntry(this.internalApplicationURL + "/" + "visaenhet?hsaidentity=" + unit.getHsaIdentity(), lastmod, this.changeFrequency);
 
       se.vgregion.kivtools.svc.sitemap.Unit sitemapUnit = SitemapUnitMapper.map(unit);
 
