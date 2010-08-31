@@ -44,10 +44,13 @@ public class SitemapUnitMapper extends AbstractSitemapMapper {
     result.setName(unit.getName());
     result.setMunicipalityName(unit.getHsaMunicipalityName());
     result.setTelephoneTime(StringUtil.concatenate(getWeekdayTimeStrings(unit.getHsaTelephoneTime())));
+    result.setVisitingHours(StringUtil.concatenate(getWeekdayTimeStrings(unit.getHsaSurgeryHours())));
+    result.setDropInHours(StringUtil.concatenate(getWeekdayTimeStrings(unit.getHsaDropInHours())));
     result.getInternalDescription().addAll(unit.getInternalDescription());
     result.getExternalDescription().addAll(unit.getDescription());
     result.getTemporaryInformation().add(unit.getVgrTempInfoBody());
     result.getReferralInformation().add(unit.getVgrRefInfo());
+    result.setVisitingRules(unit.getHsaVisitingRules());
 
     result.getTelephone().addAll(mapPhoneNumbers(unit.getHsaPublicTelephoneNumber(), "Telefon", TelephoneType.FIXED));
     result.getTelephone().addAll(mapPhoneNumbers(unit.getHsaTelephoneNumber(), "Direkttelefon", TelephoneType.FIXED));
@@ -70,6 +73,9 @@ public class SitemapUnitMapper extends AbstractSitemapMapper {
     mapAddressIfNotNull(unit.getHsaSedfDeliveryAddress(), geoCoordinates, "Leveransadress", AddressType.DELIVERY, result.getAddress());
     mapAddressIfNotNull(unit.getHsaSedfInvoiceAddress(), geoCoordinates, "Fakturaadress", AddressType.BILLING, result.getAddress());
     mapAddressIfNotNull(unit.getHsaConsigneeAddress(), geoCoordinates, "Godsadress", AddressType.GOODS, result.getAddress());
+
+    result.setMvkEnable(unit.getMvkCaseTypes().size() > 0);
+    result.getMvkServices().addAll(unit.getMvkCaseTypes());
 
     return result;
   }

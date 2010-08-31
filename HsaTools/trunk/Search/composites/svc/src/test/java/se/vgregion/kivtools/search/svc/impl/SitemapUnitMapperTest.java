@@ -19,7 +19,11 @@
 
 package se.vgregion.kivtools.search.svc.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,63 +52,63 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void hsaIdentityIsMapped() {
-    Unit unit = builder.hsaIdentity("abc-123").build();
+    Unit unit = this.builder.hsaIdentity("abc-123").build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("hsaIdentity", "abc-123", result.getHsaIdentity());
   }
 
   @Test
   public void nameIsMapped() {
-    Unit unit = builder.name("Vårdcentralen").build();
+    Unit unit = this.builder.name("Vårdcentralen").build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("name", "Vårdcentralen", result.getName());
   }
 
   @Test
   public void telephoneTimesAreMapped() throws InvalidFormatException {
-    Unit unit = builder.telephoneTime(new WeekdayTime("1-4#08:30#10:00")).telephoneTime(new WeekdayTime("5-5#08:00#11:00")).build();
+    Unit unit = this.builder.telephoneTime(new WeekdayTime("1-4#08:30#10:00")).telephoneTime(new WeekdayTime("5-5#08:00#11:00")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("telephone time", "Måndag-Torsdag 08:30-10:00, Fredag 08:00-11:00", result.getTelephoneTime());
   }
 
   @Test
   public void municipalityIsMapped() {
-    Unit unit = builder.municipality("Varberg").build();
+    Unit unit = this.builder.municipality("Varberg").build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("municipality", "Varberg", result.getMunicipalityName());
   }
 
   @Test
   public void internalDescriptionIsMapped() {
-    Unit unit = builder.internalDescription("internal 1").internalDescription("internal 2").build();
+    Unit unit = this.builder.internalDescription("internal 1").internalDescription("internal 2").build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("internal description", "[internal 1, internal 2]", result.getInternalDescription().toString());
   }
 
   @Test
   public void externalDescriptionIsMapped() {
-    Unit unit = builder.externalDescription("external 1").externalDescription("external 2").build();
+    Unit unit = this.builder.externalDescription("external 1").externalDescription("external 2").build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("external description", "[external 1, external 2]", result.getExternalDescription().toString());
   }
 
   @Test
   public void temporaryInformationIsMapped() {
-    Unit unit = builder.temporaryInformation("tillfälligt stängt").build();
+    Unit unit = this.builder.temporaryInformation("tillfälligt stängt").build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("temporary information", "[tillfälligt stängt]", result.getTemporaryInformation().toString());
   }
 
   @Test
   public void referralInformationIsMapped() {
-    Unit unit = builder.referralInformation("besökare hänvisas till dörren på baksidan").build();
+    Unit unit = this.builder.referralInformation("besökare hänvisas till dörren på baksidan").build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("referral information", "[besökare hänvisas till dörren på baksidan]", result.getReferralInformation().toString());
   }
 
   @Test
   public void publicTelephoneNumberIsMapped() {
-    Unit unit = builder.publicTelephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).publicTelephoneNumber(PhoneNumber.createPhoneNumber("0340-67890")).build();
+    Unit unit = this.builder.publicTelephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).publicTelephoneNumber(PhoneNumber.createPhoneNumber("0340-67890")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("public telephone number", 2, result.getTelephone().size());
     assertEquals("first label", "Telefon", result.getTelephone().get(0).getLabel());
@@ -119,7 +123,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void unparseablePhoneNumberStoredWithoutAreaCode() {
-    Unit unit = builder.publicTelephoneNumber(PhoneNumber.createPhoneNumber("abcdef")).build();
+    Unit unit = this.builder.publicTelephoneNumber(PhoneNumber.createPhoneNumber("abcdef")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("public telephone number", 1, result.getTelephone().size());
     assertNull("area code", result.getTelephone().get(0).getAreaCode());
@@ -128,7 +132,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void switchboardTelephoneNumberIsMapped() {
-    Unit unit = builder.switchboardTelephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
+    Unit unit = this.builder.switchboardTelephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("switchboard telephone number", 1, result.getTelephone().size());
     assertEquals("label", "Växel", result.getTelephone().get(0).getLabel());
@@ -139,7 +143,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void internalPagerNumberIsMapped() {
-    Unit unit = builder.internalPagerNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
+    Unit unit = this.builder.internalPagerNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("internal pager number", 1, result.getTelephone().size());
     assertEquals("label", "Personsökare", result.getTelephone().get(0).getLabel());
@@ -150,7 +154,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void pagerNumberIsMapped() {
-    Unit unit = builder.pagerNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
+    Unit unit = this.builder.pagerNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("pager number", 1, result.getTelephone().size());
     assertEquals("label", "Minicall", result.getTelephone().get(0).getLabel());
@@ -161,7 +165,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void textTelephoneNumberIsMapped() {
-    Unit unit = builder.textTelephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
+    Unit unit = this.builder.textTelephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("text telephone number", 1, result.getTelephone().size());
     assertEquals("label", "Texttelefon", result.getTelephone().get(0).getLabel());
@@ -172,7 +176,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void mobilePhoneNumberIsMapped() {
-    Unit unit = builder.mobilePhoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
+    Unit unit = this.builder.mobilePhoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("mobile phone number", 1, result.getTelephone().size());
     assertEquals("label", "Mobil", result.getTelephone().get(0).getLabel());
@@ -183,7 +187,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void smsPhoneNumberIsMapped() {
-    Unit unit = builder.smsPhoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
+    Unit unit = this.builder.smsPhoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("sms phone number", 1, result.getTelephone().size());
     assertEquals("label", "SMS", result.getTelephone().get(0).getLabel());
@@ -194,7 +198,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void faxNumberIsMapped() {
-    Unit unit = builder.faxNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
+    Unit unit = this.builder.faxNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("fax number", 1, result.getTelephone().size());
     assertEquals("label", "Fax", result.getTelephone().get(0).getLabel());
@@ -205,7 +209,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void directPhoneNumberIsMapped() {
-    Unit unit = builder.directPhoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).directPhoneNumber(PhoneNumber.createPhoneNumber("0340-67890")).build();
+    Unit unit = this.builder.directPhoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).directPhoneNumber(PhoneNumber.createPhoneNumber("0340-67890")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("direct phone number", 2, result.getTelephone().size());
     assertEquals("first label", "Direkttelefon", result.getTelephone().get(0).getLabel());
@@ -220,7 +224,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void labeledUriIsMapped() {
-    Unit unit = builder.labeledUri("http://uri").build();
+    Unit unit = this.builder.labeledUri("http://uri").build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("ealias", 1, result.getEAlias().size());
     assertEquals("alias", "http://uri", result.getEAlias().get(0).getAlias());
@@ -230,7 +234,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void emailIsMapped() {
-    Unit unit = builder.email("a@b.c").build();
+    Unit unit = this.builder.email("a@b.c").build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("ealias", 1, result.getEAlias().size());
     assertEquals("alias", "a@b.c", result.getEAlias().get(0).getAlias());
@@ -240,7 +244,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void postalAddressIsMapped() {
-    Unit unit = builder.postalAddress(createAddress("Storgatan 1", "412 63", "Göteborg")).build();
+    Unit unit = this.builder.postalAddress(this.createAddress("Storgatan 1", "412 63", "Göteborg")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("address", 1, result.getAddress().size());
     se.vgregion.kivtools.svc.sitemap.Address address = result.getAddress().get(0);
@@ -254,7 +258,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void addressIsConcatenatedIfNotARealAddress() {
-    Unit unit = builder.postalAddress(createAddress("Storgatan 1", "412 63")).build();
+    Unit unit = this.builder.postalAddress(this.createAddress("Storgatan 1", "412 63")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     se.vgregion.kivtools.svc.sitemap.Address address = result.getAddress().get(0);
     assertTrue("concatenated", address.isConcatenated());
@@ -263,7 +267,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void geoCoordinatesAreSetOnAddressIfAvailableOnUnit() {
-    Unit unit = builder.rt90(12345, 67890).wgs84(12.345, 67.890).postalAddress(createAddress("Storgatan 1", "412 63", "Göteborg")).build();
+    Unit unit = this.builder.rt90(12345, 67890).wgs84(12.345, 67.890).postalAddress(this.createAddress("Storgatan 1", "412 63", "Göteborg")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     GeoCoordinates geoCoordinates = result.getAddress().get(0).getGeoCoordinates();
     assertNotNull("geo coordinates", geoCoordinates);
@@ -275,7 +279,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void internalAddressIsMapped() {
-    Unit unit = builder.internalAddress(createAddress("Storgatan 1", "412 63", "Göteborg")).build();
+    Unit unit = this.builder.internalAddress(this.createAddress("Storgatan 1", "412 63", "Göteborg")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("address", 1, result.getAddress().size());
     se.vgregion.kivtools.svc.sitemap.Address address = result.getAddress().get(0);
@@ -285,7 +289,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void streetAddressIsMapped() {
-    Unit unit = builder.streetAddress(createAddress("Storgatan 1", "412 63", "Göteborg")).build();
+    Unit unit = this.builder.streetAddress(this.createAddress("Storgatan 1", "412 63", "Göteborg")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("address", 1, result.getAddress().size());
     se.vgregion.kivtools.svc.sitemap.Address address = result.getAddress().get(0);
@@ -295,7 +299,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void deliveryAddressIsMapped() {
-    Unit unit = builder.deliveryAddress(createAddress("Storgatan 1", "412 63", "Göteborg")).build();
+    Unit unit = this.builder.deliveryAddress(this.createAddress("Storgatan 1", "412 63", "Göteborg")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("address", 1, result.getAddress().size());
     se.vgregion.kivtools.svc.sitemap.Address address = result.getAddress().get(0);
@@ -305,7 +309,7 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void invoiceAddressIsMapped() {
-    Unit unit = builder.invoiceAddress(createAddress("Storgatan 1", "412 63", "Göteborg")).build();
+    Unit unit = this.builder.invoiceAddress(this.createAddress("Storgatan 1", "412 63", "Göteborg")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("address", 1, result.getAddress().size());
     se.vgregion.kivtools.svc.sitemap.Address address = result.getAddress().get(0);
@@ -315,12 +319,54 @@ public class SitemapUnitMapperTest {
 
   @Test
   public void consigneeAddressIsMapped() {
-    Unit unit = builder.consigneeAddress(createAddress("Storgatan 1", "412 63", "Göteborg")).build();
+    Unit unit = this.builder.consigneeAddress(this.createAddress("Storgatan 1", "412 63", "Göteborg")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
     assertEquals("address", 1, result.getAddress().size());
     se.vgregion.kivtools.svc.sitemap.Address address = result.getAddress().get(0);
     assertEquals("label", "Godsadress", address.getLabel());
     assertEquals("type", AddressType.GOODS, address.getType());
+  }
+
+  @Test
+  public void visitingHoursAreMapped() throws Exception {
+    Unit unit = this.builder.visitingHours(new WeekdayTime("1-4#08:30#10:00")).visitingHours(new WeekdayTime("5-5#08:00#11:00")).build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertEquals("visiting hours", "Måndag-Torsdag 08:30-10:00, Fredag 08:00-11:00", result.getVisitingHours());
+  }
+
+  @Test
+  public void dropInHoursIsMapped() throws Exception {
+    Unit unit = this.builder.dropInHours(new WeekdayTime("1-4#08:30#10:00")).dropInHours(new WeekdayTime("5-5#08:00#11:00")).build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertEquals("visiting hours", "Måndag-Torsdag 08:30-10:00, Fredag 08:00-11:00", result.getDropInHours());
+  }
+
+  @Test
+  public void visitingRulesAreMapped() {
+    Unit unit = this.builder.visitingRules("Ingen parfym tack").build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertEquals("visiting rules", "Ingen parfym tack", result.getVisitingRules());
+  }
+
+  @Test
+  public void mvkEnableIsTrueIfAtLeastOneMvkCaseTypeIsPresentOnUnit() {
+    Unit unit = this.builder.mvkCaseType("casetype 1").build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertTrue("mvk enable", result.isMvkEnable());
+  }
+
+  @Test
+  public void mvkEnableIsFalseIfNoMvkCaseTypesArePresentOnUnit() {
+    Unit unit = this.builder.build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertFalse("mvk enable", result.isMvkEnable());
+  }
+
+  @Test
+  public void mvkServicesAreMapped() {
+    Unit unit = this.builder.mvkCaseType("casetype 1").mvkCaseType("casetype 2").build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertEquals("mvk services", "[casetype 1, casetype 2]", result.getMvkServices().toString());
   }
 
   private Address createAddress(String... addressLines) {
@@ -336,7 +382,7 @@ public class SitemapUnitMapperTest {
     private final List<String> externalDescription = new ArrayList<String>();
     private String temporaryInformation;
     private String referralInformation;
-    private List<PhoneNumber> publicTelephoneNumbers = new ArrayList<PhoneNumber>();
+    private final List<PhoneNumber> publicTelephoneNumbers = new ArrayList<PhoneNumber>();
     private PhoneNumber switchboardTelephoneNumber;
     private PhoneNumber internalPagerNumber;
     private PhoneNumber pagerNumber;
@@ -344,7 +390,7 @@ public class SitemapUnitMapperTest {
     private PhoneNumber mobilePhoneNumber;
     private PhoneNumber smsPhoneNumber;
     private PhoneNumber faxNumber;
-    private List<PhoneNumber> directPhoneNumbers = new ArrayList<PhoneNumber>();
+    private final List<PhoneNumber> directPhoneNumbers = new ArrayList<PhoneNumber>();
     private String labeledUri;
     private String email;
     private Address postalAddress;
@@ -357,46 +403,67 @@ public class SitemapUnitMapperTest {
     private Address deliveryAddress;
     private Address invoiceAddress;
     private Address consigneeAddress;
+    private final List<WeekdayTime> visitingHours = new ArrayList<WeekdayTime>();
+    private final List<WeekdayTime> dropInHours = new ArrayList<WeekdayTime>();
+    private final List<String> mvkCaseTypes = new ArrayList<String>();
+    private String visitingRules;
 
     public Unit build() {
       Unit unit = new Unit();
 
-      unit.setHsaIdentity(hsaIdentity);
-      unit.setName(name);
-      unit.setHsaMunicipalityName(municipality);
-      unit.addHsaTelephoneTimes(telephoneTime);
-      unit.addInternalDescription(internalDescription);
-      unit.addDescription(externalDescription);
-      unit.setVgrTempInfoBody(temporaryInformation);
-      unit.setVgrRefInfo(referralInformation);
+      unit.setHsaIdentity(this.hsaIdentity);
+      unit.setName(this.name);
+      unit.setHsaMunicipalityName(this.municipality);
+      unit.addHsaTelephoneTimes(this.telephoneTime);
+      unit.addHsaDropInHours(this.dropInHours);
+      unit.addHsaSurgeryHours(this.visitingHours);
+      unit.setHsaVisitingRules(this.visitingRules);
+      unit.addInternalDescription(this.internalDescription);
+      unit.addDescription(this.externalDescription);
+      unit.setVgrTempInfoBody(this.temporaryInformation);
+      unit.setVgrRefInfo(this.referralInformation);
       for (PhoneNumber telephoneNumber : this.publicTelephoneNumbers) {
         unit.addHsaPublicTelephoneNumber(telephoneNumber);
       }
-      unit.setHsaSedfSwitchboardTelephoneNo(switchboardTelephoneNumber);
-      unit.setHsaInternalPagerNumber(internalPagerNumber);
-      unit.setPagerTelephoneNumber(pagerNumber);
-      unit.setHsaTextPhoneNumber(textTelephoneNumber);
-      unit.setMobileTelephoneNumber(mobilePhoneNumber);
-      unit.setHsaSmsTelephoneNumber(smsPhoneNumber);
-      unit.setFacsimileTelephoneNumber(faxNumber);
-      unit.addHsaTelephoneNumber(directPhoneNumbers);
-      if (labeledUri != null) {
-        unit.setLabeledURI(labeledUri);
+      unit.setHsaSedfSwitchboardTelephoneNo(this.switchboardTelephoneNumber);
+      unit.setHsaInternalPagerNumber(this.internalPagerNumber);
+      unit.setPagerTelephoneNumber(this.pagerNumber);
+      unit.setHsaTextPhoneNumber(this.textTelephoneNumber);
+      unit.setMobileTelephoneNumber(this.mobilePhoneNumber);
+      unit.setHsaSmsTelephoneNumber(this.smsPhoneNumber);
+      unit.setFacsimileTelephoneNumber(this.faxNumber);
+      unit.addHsaTelephoneNumber(this.directPhoneNumbers);
+      if (this.labeledUri != null) {
+        unit.setLabeledURI(this.labeledUri);
       }
-      unit.setMail(email);
-      unit.setHsaPostalAddress(postalAddress);
-      unit.setHsaInternalAddress(internalAddress);
-      unit.setHsaStreetAddress(streetAddress);
-      unit.setHsaSedfDeliveryAddress(deliveryAddress);
-      unit.setHsaSedfInvoiceAddress(invoiceAddress);
-      unit.setHsaConsigneeAddress(consigneeAddress);
+      unit.setMail(this.email);
+      unit.setHsaPostalAddress(this.postalAddress);
+      unit.setHsaInternalAddress(this.internalAddress);
+      unit.setHsaStreetAddress(this.streetAddress);
+      unit.setHsaSedfDeliveryAddress(this.deliveryAddress);
+      unit.setHsaSedfInvoiceAddress(this.invoiceAddress);
+      unit.setHsaConsigneeAddress(this.consigneeAddress);
 
-      unit.setRt90X(rt90x);
-      unit.setRt90Y(rt90y);
-      unit.setWgs84Lat(latitude);
-      unit.setWgs84Long(longitude);
+      unit.setRt90X(this.rt90x);
+      unit.setRt90Y(this.rt90y);
+      unit.setWgs84Lat(this.latitude);
+      unit.setWgs84Long(this.longitude);
+
+      for (String mvkCaseType : this.mvkCaseTypes) {
+        unit.addMvkCaseType(mvkCaseType);
+      }
 
       return unit;
+    }
+
+    public UnitBuilder visitingRules(String visitingRules) {
+      this.visitingRules = visitingRules;
+      return this;
+    }
+
+    public UnitBuilder mvkCaseType(String mvkCaseType) {
+      this.mvkCaseTypes.add(mvkCaseType);
+      return this;
     }
 
     public UnitBuilder consigneeAddress(Address consigneeAddress) {
@@ -523,6 +590,16 @@ public class SitemapUnitMapperTest {
 
     public UnitBuilder telephoneTime(WeekdayTime telephoneTime) {
       this.telephoneTime.add(telephoneTime);
+      return this;
+    }
+
+    public UnitBuilder visitingHours(WeekdayTime telephoneTime) {
+      this.visitingHours.add(telephoneTime);
+      return this;
+    }
+
+    public UnitBuilder dropInHours(WeekdayTime telephoneTime) {
+      this.dropInHours.add(telephoneTime);
       return this;
     }
 

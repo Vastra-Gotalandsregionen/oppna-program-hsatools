@@ -110,6 +110,11 @@
 						<xs:element name="address" type="Address" minOccurs="0" maxOccurs="unbounded" />
 						<xs:element name="eAlias" type="E-Alias" minOccurs="0" maxOccurs="unbounded" />
 						<xs:element name="municipalityName" type="xs:string" minOccurs="0" />
+						<xs:element name="visitingHours" type="xs:string" minOccurs="0" />
+						<xs:element name="dropInHours" type="xs:string" minOccurs="0" />
+						<xs:element name="visitingRules" type="xs:string" minOccurs="0" />
+						<xs:element name="mvkEnable" type="xs:boolean" />
+						<xs:element name="mvkServices" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>

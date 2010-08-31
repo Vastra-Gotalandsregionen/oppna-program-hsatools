@@ -82,9 +82,19 @@
 		<constructor-arg ref="sitemapGenerator" />
 	</bean>
 	
+	<bean id="httpFetcher" class="se.vgregion.kivtools.util.http.HttpFetcherImpl">
+	</bean>
+
+	<bean id="mvkClient" class="se.vgregion.kivtools.search.util.MvkClient">
+		<constructor-arg ref="httpFetcher"/>
+		<constructor-arg value="01d52494-7497-4a5f-9b49-7f7ea64e624d"/>
+		<constructor-arg value="https://kontakt.vardguiden.se/vg/veconfig.nsf/dispveInfo?readform"/>
+	</bean>
+	
 	<bean id="sitemapCacheLoader" class="se.vgregion.kivtools.search.svc.impl.InternalSitemapCacheLoaderImpl">
 		<constructor-arg ref="unitCacheService" />
 		<constructor-arg ref="Search_SearchService" />
+		<constructor-arg ref="mvkClient" />
 		<constructor-arg value="http://internkatalogen.lthalland.se/sik" />
 		<constructor-arg value="daily" />
 	</bean>

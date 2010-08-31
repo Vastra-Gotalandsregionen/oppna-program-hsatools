@@ -32,20 +32,14 @@ import se.vgregion.kivtools.util.http.HttpFetcher;
  * @author Jonas Liljenfeldt, Know IT
  */
 public class MvkClient {
-  private HttpFetcher httpFetcher;
-  private String mvkGuid;
-  private String mvkUrl;
+  private final HttpFetcher httpFetcher;
+  private final String mvkGuid;
+  private final String mvkUrl;
 
-  public void setMvkUrl(String mvkUrl) {
-    this.mvkUrl = mvkUrl;
-  }
-
-  public void setMvkGuid(String mvkGuid) {
-    this.mvkGuid = mvkGuid;
-  }
-
-  public void setHttpFetcher(HttpFetcher httpFetcher) {
+  public MvkClient(HttpFetcher httpFetcher, String mvkGuid, String mvkUrl) {
     this.httpFetcher = httpFetcher;
+    this.mvkGuid = mvkGuid;
+    this.mvkUrl = mvkUrl;
   }
 
   /**
@@ -55,9 +49,9 @@ public class MvkClient {
    */
   public void assignCaseTypes(Unit unit) {
     // Get accessibility info
-    String mvkUrlString = mvkUrl + "&hsaid=" + unit.getHsaIdentity() + "&guid=" + mvkGuid;
+    String mvkUrlString = this.mvkUrl + "&hsaid=" + unit.getHsaIdentity() + "&guid=" + this.mvkGuid;
 
-    String content = httpFetcher.fetchUrl(mvkUrlString);
+    String content = this.httpFetcher.fetchUrl(mvkUrlString);
 
     // Now read the buffered stream and get mvk info
     Document doc = DocumentHelper.getDocumentFromString(content);

@@ -39,55 +39,59 @@ import se.vgregion.kivtools.search.svc.SitemapCache;
 import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
+import se.vgregion.kivtools.search.util.MvkClient;
+import se.vgregion.kivtools.util.http.HttpFetcher;
 
 import com.domainlanguage.time.TimePoint;
 
 public class InternalSitemapCacheLoaderImplTest {
-  private UnitCacheServiceImpl unitCacheService = new UnitCacheServiceImpl(new UnitCacheLoaderMock());
-  private SearchServiceMock searchService = new SearchServiceMock();
-  private InternalSitemapCacheLoaderImpl loader = new InternalSitemapCacheLoaderImpl(unitCacheService, searchService, "http://internal.com", "weekly");
+  private final UnitCacheServiceImpl unitCacheService = new UnitCacheServiceImpl(new UnitCacheLoaderMock());
+  private final SearchServiceMock searchService = new SearchServiceMock();
+  private final HttpFetcherStaticMock httpFetcher = new HttpFetcherStaticMock();
+  private final MvkClient mvkClient = new MvkClient(this.httpFetcher, "uid123", "http://localhost?mvk=1");
+  private final InternalSitemapCacheLoaderImpl loader = new InternalSitemapCacheLoaderImpl(this.unitCacheService, this.searchService, this.mvkClient, "http://internal.com", "weekly");
 
   @Test
   public void createEmptyCacheReturnEmptyCache() {
-    SitemapCache emptyCache = loader.createEmptyCache();
+    SitemapCache emptyCache = this.loader.createEmptyCache();
     assertNotNull(emptyCache);
     assertEquals(0, emptyCache.getEntries(null).size());
   }
 
   @Test
   public void loadCacheReloadsUnitCacheIfNoUnitsAreFound() {
-    SitemapCache cache = loader.loadCache();
+    SitemapCache cache = this.loader.loadCache();
     assertNotNull(cache);
     assertEquals(6, cache.getEntries(null).size());
   }
 
   @Test
   public void locationUsesInternalUrlForUnits() {
-    SitemapCache cache = loader.loadCache();
+    SitemapCache cache = this.loader.loadCache();
     assertEquals("http://internal.com/visaenhet?hsaidentity=ABC-123", cache.getEntries(null).get(0).getLocation());
   }
 
   @Test
   public void loadCacheUsesCreateTimestampForLastmodIfUnitIsNotModified() {
-    SitemapCache cache = loader.loadCache();
+    SitemapCache cache = this.loader.loadCache();
     assertEquals("2010-02-10T01:00:00+01:00", cache.getEntries(null).get(0).getLastModified());
   }
 
   @Test
   public void loadCacheUsesModifyTimestampForLastmodIfUnitIsModified() {
-    SitemapCache cache = loader.loadCache();
+    SitemapCache cache = this.loader.loadCache();
     assertEquals("2010-02-16T01:00:00+01:00", cache.getEntries(null).get(1).getLastModified());
   }
 
   @Test
   public void loadCacheFetchesAPersonsEmploymentsIfNotAlreadyLoaded() {
-    SitemapCache cache = loader.loadCache();
+    SitemapCache cache = this.loader.loadCache();
     assertEquals("2010-04-22T02:00:00+02:00", cache.getEntries(null).get(5).getLastModified());
   }
 
   @Test
   public void unitIsAddedAsExtraInformation() {
-    SitemapCache cache = loader.loadCache();
+    SitemapCache cache = this.loader.loadCache();
 
     for (Object extraInformation : cache.getEntries(null).get(2)) {
       assertTrue("extra information is a unit", extraInformation instanceof se.vgregion.kivtools.svc.sitemap.Unit);
@@ -97,13 +101,13 @@ public class InternalSitemapCacheLoaderImplTest {
 
   @Test
   public void locationUsesInternalUrlForPersons() {
-    SitemapCache cache = loader.loadCache();
+    SitemapCache cache = this.loader.loadCache();
     assertEquals("http://internal.com/visaperson?vgrid=krila8", cache.getEntries(null).get(4).getLocation());
   }
 
   @Test
   public void personIsAddedAsExtraInformation() {
-    SitemapCache cache = loader.loadCache();
+    SitemapCache cache = this.loader.loadCache();
     for (Object extraInformation : cache.getEntries(null).get(3)) {
       assertTrue("extra information is a person", extraInformation instanceof se.vgregion.kivtools.svc.sitemap.Person);
       assertEquals("hsa-456", ((se.vgregion.kivtools.svc.sitemap.Person) extraInformation).getHsaIdentity());
@@ -112,16 +116,22 @@ public class InternalSitemapCacheLoaderImplTest {
 
   @Test
   public void latestDateOnEmploymentIsUsedForLastmod() {
-    SitemapCache cache = loader.loadCache();
+    SitemapCache cache = this.loader.loadCache();
     assertEquals("2010-02-16T01:00:00+01:00", cache.getEntries(null).get(3).getLastModified());
   }
 
   @Test
   public void cacheLoadingIsStoppedAtKivException() {
-    searchService.setExceptionToThrow(new KivException("error"));
-    SitemapCache cache = loader.loadCache();
+    this.searchService.setExceptionToThrow(new KivException("error"));
+    SitemapCache cache = this.loader.loadCache();
     assertNotNull(cache);
     assertEquals(0, cache.getEntries(null).size());
+  }
+
+  @Test
+  public void mvkClientIsCalledForEachUnitToPopulateMvkServices() {
+    this.loader.loadCache();
+    assertEquals("calls to MVK", 3, this.httpFetcher.callCount);
   }
 
   private static class SearchServiceMock implements SearchService {
@@ -129,9 +139,9 @@ public class InternalSitemapCacheLoaderImplTest {
     private KivException exceptionToThrow;
 
     public SearchServiceMock() {
-      persons.add(createPerson("kon829", "hsa-456", TimePoint.atMidnightGMT(2010, 2, 12), TimePoint.atMidnightGMT(2010, 2, 16), TimePoint.atMidnightGMT(2010, 1, 10)));
-      persons.add(createPerson("krila8", "hsa-123"));
-      persons.add(createPerson("hanjo26", "hsa-789"));
+      this.persons.add(this.createPerson("kon829", "hsa-456", TimePoint.atMidnightGMT(2010, 2, 12), TimePoint.atMidnightGMT(2010, 2, 16), TimePoint.atMidnightGMT(2010, 1, 10)));
+      this.persons.add(this.createPerson("krila8", "hsa-123"));
+      this.persons.add(this.createPerson("hanjo26", "hsa-789"));
     }
 
     public void setExceptionToThrow(KivException exceptionToThrow) {
@@ -276,6 +286,16 @@ public class InternalSitemapCacheLoaderImplTest {
     @Override
     public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException {
       return null;
+    }
+  }
+
+  private static class HttpFetcherStaticMock implements HttpFetcher {
+    private int callCount;
+
+    @Override
+    public String fetchUrl(String urlToFetch) {
+      this.callCount++;
+      return "<xml></xml>";
     }
   }
 }
