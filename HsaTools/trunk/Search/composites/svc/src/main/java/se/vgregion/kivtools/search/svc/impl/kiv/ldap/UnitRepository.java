@@ -296,11 +296,14 @@ public class UnitRepository {
       filterList.add("(hsaDestinationIndicator=03)");
     }
 
-    List<String> careTypes = new ArrayList<String>();
-    careTypes.add(OPPENVARD);
-    careTypes.add(HEMSJUKVARD);
-    Filter careTypesFilterList = this.generateCareTypeFilterFromList(CodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, careTypes);
-    filterList.add(careTypesFilterList.encode());
+    // List<String> careTypes = new ArrayList<String>();
+    // careTypes.add(OPPENVARD);
+    // careTypes.add(HEMSJUKVARD);
+    // Filter careTypesFilterList = this.generateCareTypeFilterFromList(CodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, careTypes);
+    // filterList.add(careTypesFilterList.encode());
+
+    // Gets unit which has careType Öppenvård and Hemsjukvård
+    filterList.add("(|(vgrCareType=01)(vgrCareType=03))");
 
     filterList.add(searchFilter);
     // (&(par3=value3)(par4=value4

@@ -408,31 +408,17 @@ public class UnitRepositoryTest {
     }
   }
 
-  // TODO: Cannot put two different care types 01 and 03 to the list.
-  // Correct query should be (&(|(vgrCareType=01)(vgrCareType=03))(|(objectclass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")(objectclass=" + Constants.OBJECT_CLASS_FUNCTION_SPECIFIC + ")))";
   @Test
   public void testGetAllUnitsHsaIdentity() throws KivException {
-    String expectedFilter = "(&(|(vgrCareType=01)(vgrCareType=01))(|(objectclass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")(objectclass=" + Constants.OBJECT_CLASS_FUNCTION_SPECIFIC + ")))";
-
-    CodeTableMock codeTableMock = new CodeTableMock();
-    codeTableMock.values.put(CodeTableName.VGR_CARE_TYPE, "01");
-    // codeTableMock.values.put(CodeTableName.VGR_CARE_TYPE, "03");
-    unitRepository.setCodeTablesService(codeTableMock);
+    String expectedFilter = "(&(|(vgrCareType=01)(vgrCareType=03))(|(objectclass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")(objectclass=" + Constants.OBJECT_CLASS_FUNCTION_SPECIFIC + ")))";
 
     unitRepository.getAllUnitsHsaIdentity();
     ldapTemplateMock.assertSearchFilter(expectedFilter);
   }
 
-  // TODO: Cannot put two different care types 01 and 03 to the list.
-  // Correct query should be "(&(hsaDestinationIndicator=03)(|(vgrCareType=01)(vgrCareType=03))(|(objectclass=vgrOrganizationalUnit)(objectclass=vgrOrganizationalRole)))";
   @Test
   public void testGetAllUnitsOnlyPublicUnits() throws KivException {
-    String expectedFilter = "(&(hsaDestinationIndicator=03)(|(vgrCareType=01)(vgrCareType=01))(|(objectclass=vgrOrganizationalUnit)(objectclass=vgrOrganizationalRole)))";
-
-    CodeTableMock codeTableMock = new CodeTableMock();
-    codeTableMock.values.put(CodeTableName.VGR_CARE_TYPE, "01");
-    // codeTableMock.values.put(CodeTableName.VGR_CARE_TYPE, "03");
-    unitRepository.setCodeTablesService(codeTableMock);
+    String expectedFilter = "(&(hsaDestinationIndicator=03)(|(vgrCareType=01)(vgrCareType=03))(|(objectclass=vgrOrganizationalUnit)(objectclass=vgrOrganizationalRole)))";
 
     List<String> hsaIdentities = unitRepository.getAllUnitsHsaIdentity(true);
     assertNotNull(hsaIdentities);
