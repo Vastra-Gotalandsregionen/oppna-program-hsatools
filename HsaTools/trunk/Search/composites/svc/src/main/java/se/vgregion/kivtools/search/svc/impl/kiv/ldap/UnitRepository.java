@@ -69,8 +69,8 @@ public class UnitRepository {
   private LdapTemplate ldapTemplate;
   private UnitMapper unitMapper;
 
-  private static final String OPPENVÅRD = "Öppenvård";
-  private static final String HEMSJUKVÅRD = "Hemsjukvård";
+  private static final String OPPENVARD = "Öppenvård";
+  private static final String HEMSJUKVARD = "Hemsjukvård";
 
   public void setCodeTablesService(CodeTablesService codeTablesService) {
     this.codeTablesService = codeTablesService;
@@ -104,6 +104,8 @@ public class UnitRepository {
     this.removeUnallowedUnits(units);
 
     this.removeOutdatedUnits(units);
+
+    // this.removeUnitsWithCareTypeInpatient(units);
 
     int numberOfHits = units.size();
 
@@ -218,8 +220,8 @@ public class UnitRepository {
     String searchFilterString = null;
     List<String> andFilterList = new ArrayList<String>();
     List<String> careTypes = new ArrayList<String>();
-    careTypes.add(OPPENVÅRD);
-    careTypes.add(HEMSJUKVÅRD);
+    careTypes.add(OPPENVARD);
+    careTypes.add(HEMSJUKVARD);
     Filter careTypesFilterList = this.generateCareTypeFilterFromList(CodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, careTypes);
     // Filter hsaIdentityFilter = createSearchFilter(LDAPUnitAttributes.UNIT_ID.toString(), hsaId);
     andFilterList.add("(hsaIdentity=" + hsaId + ")");
@@ -293,6 +295,13 @@ public class UnitRepository {
     if (onlyPublicUnits) {
       filterList.add("(hsaDestinationIndicator=03)");
     }
+
+    List<String> careTypes = new ArrayList<String>();
+    careTypes.add(OPPENVARD);
+    careTypes.add(HEMSJUKVARD);
+    Filter careTypesFilterList = this.generateCareTypeFilterFromList(CodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, careTypes);
+    filterList.add(careTypesFilterList.encode());
+
     filterList.add(searchFilter);
     // (&(par3=value3)(par4=value4
     searchFilter = this.makeAnd(filterList);
@@ -398,6 +407,7 @@ public class UnitRepository {
 
   String createAdvancedSearchFilter(Unit unit, boolean onlyPublicUnits) {
     // create a plain unit search filter
+
     String unitSearchString = this.createAdvancedUnitSearchFilter(unit);
 
     // create a plain function search filter
@@ -411,6 +421,7 @@ public class UnitRepository {
     if (!"".equals(functionSearchString)) {
       filterList.add(functionSearchString);
     }
+
     // (|(par1=value1)(par2=value2))
     String orCriterias = this.makeOr(filterList);
 
@@ -451,8 +462,8 @@ public class UnitRepository {
       andFilter2.and(this.createSearchFilter("vgrAnsvarsnummer", searchUnitCriterions.getLiableCode()));
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getBusinessClassificationName())) {
-      Filter orFilter = this.generateOrFilterFromList(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, LDAPUnitAttributes.BUSINESS_CLASSIFICATION_CODE,
-          searchUnitCriterions.getBusinessClassificationName());
+      Filter orFilter = this.generateOrFilterFromList(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, LDAPUnitAttributes.BUSINESS_CLASSIFICATION_CODE, searchUnitCriterions
+          .getBusinessClassificationName());
       andFilter2.and(orFilter);
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getCareTypeName())) {
