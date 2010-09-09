@@ -16,7 +16,8 @@
 
   <name>HsaTools-system</name>
   <description>HsaTools-system</description>
-
+  <url>http://oppna-program-hsatools.googlecode.com</url>
+  
   <parent>
     <groupId>se.vgregion.common</groupId>
     <artifactId>profile-open</artifactId>
@@ -419,14 +420,6 @@
       <artifactId>commons-collections</artifactId>
     </dependency>
   </dependencies>
-
-  <distributionManagement>
-    <repository>
-      <id>svn-repo</id>
-      <name>oppna-program release repo</name>
-      <url>svn:https://oppna-program.googlecode.com/svn/maven</url>
-    </repository>
-  </distributionManagement>
 
   <pluginRepositories>
     <pluginRepository>
