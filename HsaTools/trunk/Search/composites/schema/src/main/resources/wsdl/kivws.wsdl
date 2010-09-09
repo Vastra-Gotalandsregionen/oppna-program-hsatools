@@ -1,133 +1,138 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="VGRegionWebService" targetNamespace="http://services.ws.vgregion.se/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://services.ws.vgregion.se/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="VGRegionWebService" targetNamespace="http://services.ws.vgregion.se/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://services.ws.vgregion.se/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <wsdl:types>
 <xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://exceptions.ws.vgregion.se" xmlns:tns="http://exceptions.ws.vgregion.se" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <xsd:complexType name="VGRException">
-<xsd:sequence/>
+<xsd:sequence />
 </xsd:complexType>
 </xsd:schema>
-<xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://objects.ws.vgregion.se" xmlns:ns0="http://constants.ws.vgregion.se" xmlns:ns1="http://services.ws.vgregion.se/" xmlns:tns="http://objects.ws.vgregion.se" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<xsd:import namespace="http://constants.ws.vgregion.se"/>
-<xsd:import namespace="http://services.ws.vgregion.se/"/>
-<xsd:complexType name="ArrayOfPerson">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="Person" nillable="true" type="tns:Person"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Transaction">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="attrName" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="changeType" nillable="true" type="ns0:ChangeType"/>
-<xsd:element minOccurs="0" name="event" nillable="true" type="ns0:Event"/>
-<xsd:element minOccurs="0" name="objectDN" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="timestamp" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="value" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="valueB" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
+<xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://objects.ws.vgregion.se" xmlns:ns0="http://services.ws.vgregion.se/" xmlns:ns1="http://constants.ws.vgregion.se" xmlns:tns="http://objects.ws.vgregion.se" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:import namespace="http://services.ws.vgregion.se/" />
+<xsd:import namespace="http://constants.ws.vgregion.se" />
+<xsd:import namespace="http://exceptions.ws.vgregion.se" />
 <xsd:complexType name="Server">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="attributes" nillable="true" type="ns1:string2ArrayOfAnyTypeMap"/>
-<xsd:element minOccurs="0" name="dn" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="ArrayOfResource">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="Resource" nillable="true" type="tns:Resource"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Employment">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="attributes" nillable="true" type="ns1:string2ArrayOfAnyTypeMap"/>
-<xsd:element minOccurs="0" name="dn" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="ArrayOfUnit">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="Unit" nillable="true" type="tns:Unit"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="UnsurePerson">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="attributes" nillable="true" type="ns1:string2ArrayOfAnyTypeMap"/>
-<xsd:element minOccurs="0" name="dn" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Function">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="attributes" nillable="true" type="ns1:string2ArrayOfAnyTypeMap"/>
-<xsd:element minOccurs="0" name="dn" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="ArrayOfEmployment">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="Employment" nillable="true" type="tns:Employment"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="ArrayOfFunction">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="Function" nillable="true" type="tns:Function"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="ArrayOfUnsurePerson">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="UnsurePerson" nillable="true" type="tns:UnsurePerson"/>
+<xsd:element minOccurs="0" name="attributes" nillable="true" type="ns0:string2ArrayOfAnyTypeMap" />
+<xsd:element minOccurs="0" name="dn" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
 <xsd:complexType name="Person">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="attributes" nillable="true" type="ns1:string2ArrayOfAnyTypeMap"/>
-<xsd:element minOccurs="0" name="dn" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="employments" nillable="true" type="tns:ArrayOfEmployment"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Unit">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="attributes" nillable="true" type="ns1:string2ArrayOfAnyTypeMap"/>
-<xsd:element minOccurs="0" name="dn" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="ArrayOfDeletedObject">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="DeletedObject" nillable="true" type="tns:DeletedObject"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Resource">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="attributes" nillable="true" type="ns1:string2ArrayOfAnyTypeMap"/>
-<xsd:element minOccurs="0" name="dn" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="ArrayOfTransaction">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="Transaction" nillable="true" type="tns:Transaction"/>
+<xsd:element minOccurs="0" name="attributes" nillable="true" type="ns0:string2ArrayOfAnyTypeMap" />
+<xsd:element minOccurs="0" name="dn" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="employments" nillable="true" type="tns:ArrayOfEmployment" />
 </xsd:sequence>
 </xsd:complexType>
 <xsd:complexType name="DeletedObject">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="hsaIdentity" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="objectDN" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="timestamp" nillable="true" type="xsd:string"/>
+<xsd:element minOccurs="0" name="hsaIdentity" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="objectDN" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="timestamp" nillable="true" type="xsd:string" />
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ArrayOfTransaction">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="Transaction" nillable="true" type="tns:Transaction" />
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="Unit">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="attributes" nillable="true" type="ns0:string2ArrayOfAnyTypeMap" />
+<xsd:element minOccurs="0" name="dn" nillable="true" type="xsd:string" />
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ArrayOfEmployment">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="Employment" nillable="true" type="tns:Employment" />
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ArrayOfUnit">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="Unit" nillable="true" type="tns:Unit" />
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="Employment">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="attributes" nillable="true" type="ns0:string2ArrayOfAnyTypeMap" />
+<xsd:element minOccurs="0" name="dn" nillable="true" type="xsd:string" />
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="Function">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="attributes" nillable="true" type="ns0:string2ArrayOfAnyTypeMap" />
+<xsd:element minOccurs="0" name="dn" nillable="true" type="xsd:string" />
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ArrayOfResource">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="Resource" nillable="true" type="tns:Resource" />
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ArrayOfFunction">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="Function" nillable="true" type="tns:Function" />
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="Resource">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="attributes" nillable="true" type="ns0:string2ArrayOfAnyTypeMap" />
+<xsd:element minOccurs="0" name="dn" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
 <xsd:complexType name="ArrayOfServer">
 <xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="Server" nillable="true" type="tns:Server"/>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="Server" nillable="true" type="tns:Server" />
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ArrayOfPerson">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="Person" nillable="true" type="tns:Person" />
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ArrayOfUnsurePerson">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="UnsurePerson" nillable="true" type="tns:UnsurePerson" />
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="UnsurePerson">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="attributes" nillable="true" type="ns0:string2ArrayOfAnyTypeMap" />
+<xsd:element minOccurs="0" name="dn" nillable="true" type="xsd:string" />
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="Transaction">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="attrName" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="changeType" nillable="true" type="ns1:ChangeType" />
+<xsd:element minOccurs="0" name="event" nillable="true" type="ns1:Event" />
+<xsd:element minOccurs="0" name="objectDN" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="timestamp" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="value" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="valueB" nillable="true" type="xsd:string" />
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ArrayOfDeletedObject">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="DeletedObject" nillable="true" type="tns:DeletedObject" />
 </xsd:sequence>
 </xsd:complexType>
 </xsd:schema>
 <xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://services.ws.vgregion.se/" xmlns:ns0="http://cxf.apache.org/arrays" xmlns:ns1="http://objects.ws.vgregion.se" xmlns:ns2="http://constants.ws.vgregion.se" xmlns:ns3="http://exceptions.ws.vgregion.se" xmlns:tns="http://services.ws.vgregion.se/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<xsd:import namespace="http://cxf.apache.org/arrays"/>
-<xsd:import namespace="http://objects.ws.vgregion.se"/>
-<xsd:import namespace="http://constants.ws.vgregion.se"/>
-<xsd:import namespace="http://exceptions.ws.vgregion.se"/>
+<xsd:import namespace="http://cxf.apache.org/arrays" />
+<xsd:import namespace="http://objects.ws.vgregion.se" />
+<xsd:import namespace="http://constants.ws.vgregion.se" />
+<xsd:import namespace="http://exceptions.ws.vgregion.se" />
+<xsd:complexType name="ArrayOfString">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="string" nillable="true" type="xsd:string" />
+</xsd:sequence>
+</xsd:complexType>
 <xsd:complexType name="string2stringMap">
 <xsd:sequence>
 <xsd:element maxOccurs="unbounded" minOccurs="0" name="entry">
 <xsd:complexType>
 <xsd:sequence>
-<xsd:element minOccurs="0" name="key" type="xsd:string"/>
-<xsd:element minOccurs="0" name="value" type="xsd:string"/>
+<xsd:element minOccurs="0" name="key" type="xsd:string" />
+<xsd:element minOccurs="0" name="value" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
 </xsd:element>
@@ -138,414 +143,413 @@
 <xsd:element maxOccurs="unbounded" minOccurs="0" name="entry">
 <xsd:complexType>
 <xsd:sequence>
-<xsd:element minOccurs="0" name="key" type="xsd:string"/>
-<xsd:element minOccurs="0" name="value" type="ns0:ArrayOfAnyType"/>
+<xsd:element minOccurs="0" name="key" type="xsd:string" />
+<xsd:element minOccurs="0" name="value" type="ns0:ArrayOfAnyType" />
 </xsd:sequence>
 </xsd:complexType>
 </xsd:element>
 </xsd:sequence>
 </xsd:complexType>
-<xsd:complexType name="ArrayOfString">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="string" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:element name="getPersonTransactions" type="tns:getPersonTransactions"/>
+<xsd:element name="getPersonTransactions" type="tns:getPersonTransactions" />
 <xsd:complexType name="getPersonTransactions">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getPersonTransactionsResponse" type="tns:getPersonTransactionsResponse"/>
+<xsd:element name="getPersonTransactionsResponse" type="tns:getPersonTransactionsResponse" />
 <xsd:complexType name="getPersonTransactionsResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfTransaction"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfTransaction" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getReturnAttributesForServer" type="tns:getReturnAttributesForServer"/>
+<xsd:element name="getReturnAttributesForServer" type="tns:getReturnAttributesForServer" />
 <xsd:complexType name="getReturnAttributesForServer">
-<xsd:sequence/>
+<xsd:sequence />
 </xsd:complexType>
-<xsd:element name="getReturnAttributesForServerResponse" type="tns:getReturnAttributesForServerResponse"/>
+<xsd:element name="getReturnAttributesForServerResponse" type="tns:getReturnAttributesForServerResponse" />
 <xsd:complexType name="getReturnAttributesForServerResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getPersonEmploymentAtSpecificTime" type="tns:getPersonEmploymentAtSpecificTime"/>
+<xsd:element name="getPersonEmploymentAtSpecificTime" type="tns:getPersonEmploymentAtSpecificTime" />
 <xsd:complexType name="getPersonEmploymentAtSpecificTime">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="arg1" nillable="true" type="xsd:string"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg1" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getPersonEmploymentAtSpecificTimeResponse" type="tns:getPersonEmploymentAtSpecificTimeResponse"/>
+<xsd:element name="getPersonEmploymentAtSpecificTimeResponse" type="tns:getPersonEmploymentAtSpecificTimeResponse" />
 <xsd:complexType name="getPersonEmploymentAtSpecificTimeResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:Person"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:Person" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getSearchAttributesForPerson" type="tns:getSearchAttributesForPerson"/>
+<xsd:element name="getSearchAttributesForPerson" type="tns:getSearchAttributesForPerson" />
 <xsd:complexType name="getSearchAttributesForPerson">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getSearchAttributesForPersonResponse" type="tns:getSearchAttributesForPersonResponse"/>
+<xsd:element name="getSearchAttributesForPersonResponse" type="tns:getSearchAttributesForPersonResponse" />
 <xsd:complexType name="getSearchAttributesForPersonResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getUnitAtSpecificTime" type="tns:getUnitAtSpecificTime"/>
+<xsd:element name="getUnitAtSpecificTime" type="tns:getUnitAtSpecificTime" />
 <xsd:complexType name="getUnitAtSpecificTime">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="arg1" nillable="true" type="xsd:string"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg1" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getUnitAtSpecificTimeResponse" type="tns:getUnitAtSpecificTimeResponse"/>
+<xsd:element name="getUnitAtSpecificTimeResponse" type="tns:getUnitAtSpecificTimeResponse" />
 <xsd:complexType name="getUnitAtSpecificTimeResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:Unit"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:Unit" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getSearchAttributesForUnit" type="tns:getSearchAttributesForUnit"/>
+<xsd:element name="getSearchAttributesForUnit" type="tns:getSearchAttributesForUnit" />
 <xsd:complexType name="getSearchAttributesForUnit">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getSearchAttributesForUnitResponse" type="tns:getSearchAttributesForUnitResponse"/>
+<xsd:element name="getSearchAttributesForUnitResponse" type="tns:getSearchAttributesForUnitResponse" />
 <xsd:complexType name="getSearchAttributesForUnitResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="searchPerson" type="tns:searchPerson"/>
+<xsd:element name="searchPerson" type="tns:searchPerson" />
 <xsd:complexType name="searchPerson">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="arg1" nillable="true" type="tns:ArrayOfString"/>
-<xsd:element minOccurs="0" name="arg2" nillable="true" type="ns2:VGRegionDirectory"/>
-<xsd:element minOccurs="0" name="arg3" nillable="true" type="xsd:string"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg1" nillable="true" type="tns:ArrayOfString" />
+<xsd:element minOccurs="0" name="arg2" nillable="true" type="ns2:VGRegionDirectory" />
+<xsd:element minOccurs="0" name="arg3" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg4" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="searchPersonResponse" type="tns:searchPersonResponse"/>
+<xsd:element name="searchPersonResponse" type="tns:searchPersonResponse" />
 <xsd:complexType name="searchPersonResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfPerson"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfPerson" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getDeletedUnits" type="tns:getDeletedUnits"/>
+<xsd:element name="getDeletedUnits" type="tns:getDeletedUnits" />
 <xsd:complexType name="getDeletedUnits">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getDeletedUnitsResponse" type="tns:getDeletedUnitsResponse"/>
+<xsd:element name="getDeletedUnitsResponse" type="tns:getDeletedUnitsResponse" />
 <xsd:complexType name="getDeletedUnitsResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfDeletedObject"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfDeletedObject" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="searchResource" type="tns:searchResource"/>
+<xsd:element name="searchResource" type="tns:searchResource" />
 <xsd:complexType name="searchResource">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="arg1" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg1" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="searchResourceResponse" type="tns:searchResourceResponse"/>
+<xsd:element name="searchResourceResponse" type="tns:searchResourceResponse" />
 <xsd:complexType name="searchResourceResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfResource"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfResource" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="searchFunction" type="tns:searchFunction"/>
+<xsd:element name="searchFunction" type="tns:searchFunction" />
 <xsd:complexType name="searchFunction">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="arg1" nillable="true" type="tns:ArrayOfString"/>
-<xsd:element minOccurs="0" name="arg2" nillable="true" type="ns2:VGRegionDirectory"/>
-<xsd:element minOccurs="0" name="arg3" nillable="true" type="xsd:string"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg1" nillable="true" type="tns:ArrayOfString" />
+<xsd:element minOccurs="0" name="arg2" nillable="true" type="ns2:VGRegionDirectory" />
+<xsd:element minOccurs="0" name="arg3" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg4" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="searchFunctionResponse" type="tns:searchFunctionResponse"/>
+<xsd:element name="searchFunctionResponse" type="tns:searchFunctionResponse" />
 <xsd:complexType name="searchFunctionResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfFunction"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfFunction" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getUnitTransactions" type="tns:getUnitTransactions"/>
+<xsd:element name="getUnitTransactions" type="tns:getUnitTransactions" />
 <xsd:complexType name="getUnitTransactions">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getUnitTransactionsResponse" type="tns:getUnitTransactionsResponse"/>
+<xsd:element name="getUnitTransactionsResponse" type="tns:getUnitTransactionsResponse" />
 <xsd:complexType name="getUnitTransactionsResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfTransaction"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfTransaction" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getSearchAttributesForResource" type="tns:getSearchAttributesForResource"/>
+<xsd:element name="getSearchAttributesForResource" type="tns:getSearchAttributesForResource" />
 <xsd:complexType name="getSearchAttributesForResource">
-<xsd:sequence/>
+<xsd:sequence />
 </xsd:complexType>
-<xsd:element name="getSearchAttributesForResourceResponse" type="tns:getSearchAttributesForResourceResponse"/>
+<xsd:element name="getSearchAttributesForResourceResponse" type="tns:getSearchAttributesForResourceResponse" />
 <xsd:complexType name="getSearchAttributesForResourceResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getAttributeCodesAndCleartexts" type="tns:getAttributeCodesAndCleartexts"/>
+<xsd:element name="getAttributeCodesAndCleartexts" type="tns:getAttributeCodesAndCleartexts" />
 <xsd:complexType name="getAttributeCodesAndCleartexts">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getAttributeCodesAndCleartextsResponse" type="tns:getAttributeCodesAndCleartextsResponse"/>
+<xsd:element name="getAttributeCodesAndCleartextsResponse" type="tns:getAttributeCodesAndCleartextsResponse" />
 <xsd:complexType name="getAttributeCodesAndCleartextsResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:string2stringMap"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:string2stringMap" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getPersonAtSpecificTime" type="tns:getPersonAtSpecificTime"/>
+<xsd:element name="getPersonAtSpecificTime" type="tns:getPersonAtSpecificTime" />
 <xsd:complexType name="getPersonAtSpecificTime">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="arg1" nillable="true" type="xsd:string"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg1" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getPersonAtSpecificTimeResponse" type="tns:getPersonAtSpecificTimeResponse"/>
+<xsd:element name="getPersonAtSpecificTimeResponse" type="tns:getPersonAtSpecificTimeResponse" />
 <xsd:complexType name="getPersonAtSpecificTimeResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:Person"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:Person" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getReturnAttributesForFunction" type="tns:getReturnAttributesForFunction"/>
+<xsd:element name="getReturnAttributesForFunction" type="tns:getReturnAttributesForFunction" />
 <xsd:complexType name="getReturnAttributesForFunction">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getReturnAttributesForFunctionResponse" type="tns:getReturnAttributesForFunctionResponse"/>
+<xsd:element name="getReturnAttributesForFunctionResponse" type="tns:getReturnAttributesForFunctionResponse" />
 <xsd:complexType name="getReturnAttributesForFunctionResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="searchPersonEmployment" type="tns:searchPersonEmployment"/>
+<xsd:element name="searchPersonEmployment" type="tns:searchPersonEmployment" />
 <xsd:complexType name="searchPersonEmployment">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="arg1" nillable="true" type="tns:ArrayOfString"/>
-<xsd:element minOccurs="0" name="arg2" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="arg3" nillable="true" type="tns:ArrayOfString"/>
-<xsd:element minOccurs="0" name="arg4" nillable="true" type="ns2:VGRegionDirectory"/>
-<xsd:element minOccurs="0" name="arg5" nillable="true" type="xsd:string"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg1" nillable="true" type="tns:ArrayOfString" />
+<xsd:element minOccurs="0" name="arg2" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg3" nillable="true" type="tns:ArrayOfString" />
+<xsd:element minOccurs="0" name="arg4" nillable="true" type="ns2:VGRegionDirectory" />
+<xsd:element minOccurs="0" name="arg5" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg6" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="searchPersonEmploymentResponse" type="tns:searchPersonEmploymentResponse"/>
+<xsd:element name="searchPersonEmploymentResponse" type="tns:searchPersonEmploymentResponse" />
 <xsd:complexType name="searchPersonEmploymentResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfPerson"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfPerson" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getSearchAttributesForEmployment" type="tns:getSearchAttributesForEmployment"/>
+<xsd:element name="getSearchAttributesForEmployment" type="tns:getSearchAttributesForEmployment" />
 <xsd:complexType name="getSearchAttributesForEmployment">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getSearchAttributesForEmploymentResponse" type="tns:getSearchAttributesForEmploymentResponse"/>
+<xsd:element name="getSearchAttributesForEmploymentResponse" type="tns:getSearchAttributesForEmploymentResponse" />
 <xsd:complexType name="getSearchAttributesForEmploymentResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="searchServer" type="tns:searchServer"/>
+<xsd:element name="searchServer" type="tns:searchServer" />
 <xsd:complexType name="searchServer">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="arg1" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg1" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="searchServerResponse" type="tns:searchServerResponse"/>
+<xsd:element name="searchServerResponse" type="tns:searchServerResponse" />
 <xsd:complexType name="searchServerResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfServer"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfServer" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getSearchAttributesForServer" type="tns:getSearchAttributesForServer"/>
+<xsd:element name="getSearchAttributesForServer" type="tns:getSearchAttributesForServer" />
 <xsd:complexType name="getSearchAttributesForServer">
-<xsd:sequence/>
+<xsd:sequence />
 </xsd:complexType>
-<xsd:element name="getSearchAttributesForServerResponse" type="tns:getSearchAttributesForServerResponse"/>
+<xsd:element name="getSearchAttributesForServerResponse" type="tns:getSearchAttributesForServerResponse" />
 <xsd:complexType name="getSearchAttributesForServerResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getSearchAttributesForFunction" type="tns:getSearchAttributesForFunction"/>
+<xsd:element name="getSearchAttributesForFunction" type="tns:getSearchAttributesForFunction" />
 <xsd:complexType name="getSearchAttributesForFunction">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getSearchAttributesForFunctionResponse" type="tns:getSearchAttributesForFunctionResponse"/>
+<xsd:element name="getSearchAttributesForFunctionResponse" type="tns:getSearchAttributesForFunctionResponse" />
 <xsd:complexType name="getSearchAttributesForFunctionResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getReturnAttributesForEmployment" type="tns:getReturnAttributesForEmployment"/>
+<xsd:element name="getReturnAttributesForEmployment" type="tns:getReturnAttributesForEmployment" />
 <xsd:complexType name="getReturnAttributesForEmployment">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getReturnAttributesForEmploymentResponse" type="tns:getReturnAttributesForEmploymentResponse"/>
+<xsd:element name="getReturnAttributesForEmploymentResponse" type="tns:getReturnAttributesForEmploymentResponse" />
 <xsd:complexType name="getReturnAttributesForEmploymentResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="searchUnit" type="tns:searchUnit"/>
+<xsd:element name="searchUnit" type="tns:searchUnit" />
 <xsd:complexType name="searchUnit">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="arg1" nillable="true" type="tns:ArrayOfString"/>
-<xsd:element minOccurs="0" name="arg2" nillable="true" type="ns2:VGRegionDirectory"/>
-<xsd:element minOccurs="0" name="arg3" nillable="true" type="xsd:string"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg1" nillable="true" type="tns:ArrayOfString" />
+<xsd:element minOccurs="0" name="arg2" nillable="true" type="ns2:VGRegionDirectory" />
+<xsd:element minOccurs="0" name="arg3" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg4" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="searchUnitResponse" type="tns:searchUnitResponse"/>
+<xsd:element name="searchUnitResponse" type="tns:searchUnitResponse" />
 <xsd:complexType name="searchUnitResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfUnit"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfUnit" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="searchUnsurePerson" type="tns:searchUnsurePerson"/>
+<xsd:element name="searchUnsurePerson" type="tns:searchUnsurePerson" />
 <xsd:complexType name="searchUnsurePerson">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="arg1" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg1" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="searchUnsurePersonResponse" type="tns:searchUnsurePersonResponse"/>
+<xsd:element name="searchUnsurePersonResponse" type="tns:searchUnsurePersonResponse" />
 <xsd:complexType name="searchUnsurePersonResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfUnsurePerson"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfUnsurePerson" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getFunctionAtSpecificTime" type="tns:getFunctionAtSpecificTime"/>
+<xsd:element name="getFunctionAtSpecificTime" type="tns:getFunctionAtSpecificTime" />
 <xsd:complexType name="getFunctionAtSpecificTime">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="arg1" nillable="true" type="xsd:string"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
+<xsd:element minOccurs="0" name="arg1" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getFunctionAtSpecificTimeResponse" type="tns:getFunctionAtSpecificTimeResponse"/>
+<xsd:element name="getFunctionAtSpecificTimeResponse" type="tns:getFunctionAtSpecificTimeResponse" />
 <xsd:complexType name="getFunctionAtSpecificTimeResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:Function"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:Function" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getReturnAttributesForPerson" type="tns:getReturnAttributesForPerson"/>
+<xsd:element name="getReturnAttributesForPerson" type="tns:getReturnAttributesForPerson" />
 <xsd:complexType name="getReturnAttributesForPerson">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getReturnAttributesForPersonResponse" type="tns:getReturnAttributesForPersonResponse"/>
+<xsd:element name="getReturnAttributesForPersonResponse" type="tns:getReturnAttributesForPersonResponse" />
 <xsd:complexType name="getReturnAttributesForPersonResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getSearchAttributesForUnsurePerson" type="tns:getSearchAttributesForUnsurePerson"/>
+<xsd:element name="getSearchAttributesForUnsurePerson" type="tns:getSearchAttributesForUnsurePerson" />
 <xsd:complexType name="getSearchAttributesForUnsurePerson">
-<xsd:sequence/>
+<xsd:sequence />
 </xsd:complexType>
-<xsd:element name="getSearchAttributesForUnsurePersonResponse" type="tns:getSearchAttributesForUnsurePersonResponse"/>
+<xsd:element name="getSearchAttributesForUnsurePersonResponse" type="tns:getSearchAttributesForUnsurePersonResponse" />
 <xsd:complexType name="getSearchAttributesForUnsurePersonResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getReturnAttributesForUnit" type="tns:getReturnAttributesForUnit"/>
+<xsd:element name="getReturnAttributesForUnit" type="tns:getReturnAttributesForUnit" />
 <xsd:complexType name="getReturnAttributesForUnit">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="ns2:VGRegionDirectory" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getReturnAttributesForUnitResponse" type="tns:getReturnAttributesForUnitResponse"/>
+<xsd:element name="getReturnAttributesForUnitResponse" type="tns:getReturnAttributesForUnitResponse" />
 <xsd:complexType name="getReturnAttributesForUnitResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getFunctionTransactions" type="tns:getFunctionTransactions"/>
+<xsd:element name="getFunctionTransactions" type="tns:getFunctionTransactions" />
 <xsd:complexType name="getFunctionTransactions">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string"/>
+<xsd:element minOccurs="0" name="arg0" nillable="true" type="xsd:string" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getFunctionTransactionsResponse" type="tns:getFunctionTransactionsResponse"/>
+<xsd:element name="getFunctionTransactionsResponse" type="tns:getFunctionTransactionsResponse" />
 <xsd:complexType name="getFunctionTransactionsResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfTransaction"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="ns1:ArrayOfTransaction" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getReturnAttributesForResource" type="tns:getReturnAttributesForResource"/>
+<xsd:element name="getReturnAttributesForResource" type="tns:getReturnAttributesForResource" />
 <xsd:complexType name="getReturnAttributesForResource">
-<xsd:sequence/>
+<xsd:sequence />
 </xsd:complexType>
-<xsd:element name="getReturnAttributesForResourceResponse" type="tns:getReturnAttributesForResourceResponse"/>
+<xsd:element name="getReturnAttributesForResourceResponse" type="tns:getReturnAttributesForResourceResponse" />
 <xsd:complexType name="getReturnAttributesForResourceResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="getReturnAttributesForUnsurePerson" type="tns:getReturnAttributesForUnsurePerson"/>
+<xsd:element name="getReturnAttributesForUnsurePerson" type="tns:getReturnAttributesForUnsurePerson" />
 <xsd:complexType name="getReturnAttributesForUnsurePerson">
-<xsd:sequence/>
+<xsd:sequence />
 </xsd:complexType>
-<xsd:element name="getReturnAttributesForUnsurePersonResponse" type="tns:getReturnAttributesForUnsurePersonResponse"/>
+<xsd:element name="getReturnAttributesForUnsurePersonResponse" type="tns:getReturnAttributesForUnsurePersonResponse" />
 <xsd:complexType name="getReturnAttributesForUnsurePersonResponse">
 <xsd:sequence>
-<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString"/>
+<xsd:element minOccurs="0" name="return" nillable="true" type="tns:ArrayOfString" />
 </xsd:sequence>
 </xsd:complexType>
-<xsd:element name="VGRException" nillable="true" type="ns3:VGRException"/>
+<xsd:element name="VGRException" nillable="true" type="ns3:VGRException" />
 </xsd:schema>
 <xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://cxf.apache.org/arrays" xmlns:tns="http://cxf.apache.org/arrays" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <xsd:complexType name="ArrayOfAnyType">
 <xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="anyType" nillable="true" type="xsd:anyType"/>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="anyType" nillable="true" type="xsd:anyType" />
 </xsd:sequence>
 </xsd:complexType>
 </xsd:schema>
 <xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://constants.ws.vgregion.se" xmlns:tns="http://constants.ws.vgregion.se" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<xsd:simpleType name="Event">
+<xsd:simpleType name="VGRegionDirectory">
 <xsd:restriction base="xsd:string">
-<xsd:enumeration value="ADD"/>
-<xsd:enumeration value="MODIFY"/>
-<xsd:enumeration value="DELETE"/>
+<xsd:enumeration value="KIV" />
+<xsd:enumeration value="HSA" />
 </xsd:restriction>
 </xsd:simpleType>
 <xsd:simpleType name="ChangeType">
 <xsd:restriction base="xsd:string">
-<xsd:enumeration value="ADD_VALUE"/>
-<xsd:enumeration value="REMOVE_VALUE"/>
+<xsd:enumeration value="ADD_VALUE" />
+<xsd:enumeration value="REMOVE_VALUE" />
 </xsd:restriction>
 </xsd:simpleType>
-<xsd:simpleType name="VGRegionDirectory">
+<xsd:simpleType name="Event">
 <xsd:restriction base="xsd:string">
-<xsd:enumeration value="KIV"/>
-<xsd:enumeration value="HSA"/>
+<xsd:enumeration value="ADD" />
+<xsd:enumeration value="MODIFY" />
+<xsd:enumeration value="DELETE" />
 </xsd:restriction>
 </xsd:simpleType>
 </xsd:schema>
@@ -1037,371 +1041,371 @@
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="VGRegionWebServiceSoapBinding" type="tns:VGRegionWebService">
-    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="getPersonTransactions">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getPersonTransactions">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getPersonTransactionsResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getPersonEmploymentAtSpecificTime">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getPersonEmploymentAtSpecificTime">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getPersonEmploymentAtSpecificTimeResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getReturnAttributesForServer">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getReturnAttributesForServer">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getReturnAttributesForServerResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getSearchAttributesForPerson">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getSearchAttributesForPerson">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getSearchAttributesForPersonResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getSearchAttributesForUnit">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getSearchAttributesForUnit">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getSearchAttributesForUnitResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getUnitAtSpecificTime">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getUnitAtSpecificTime">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getUnitAtSpecificTimeResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getDeletedUnits">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getDeletedUnits">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getDeletedUnitsResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="searchPerson">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="searchPerson">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="searchPersonResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="searchResource">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="searchResource">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="searchResourceResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="searchFunction">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="searchFunction">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="searchFunctionResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getUnitTransactions">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getUnitTransactions">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getUnitTransactionsResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getAttributeCodesAndCleartexts">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getAttributeCodesAndCleartexts">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getAttributeCodesAndCleartextsResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getSearchAttributesForResource">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getSearchAttributesForResource">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getSearchAttributesForResourceResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getPersonAtSpecificTime">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getPersonAtSpecificTime">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getPersonAtSpecificTimeResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getReturnAttributesForFunction">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getReturnAttributesForFunction">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getReturnAttributesForFunctionResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="searchPersonEmployment">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="searchPersonEmployment">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="searchPersonEmploymentResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getSearchAttributesForEmployment">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getSearchAttributesForEmployment">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getSearchAttributesForEmploymentResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="searchServer">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="searchServer">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="searchServerResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getSearchAttributesForServer">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getSearchAttributesForServer">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getSearchAttributesForServerResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getReturnAttributesForEmployment">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getReturnAttributesForEmployment">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getReturnAttributesForEmploymentResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getSearchAttributesForFunction">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getSearchAttributesForFunction">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getSearchAttributesForFunctionResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="searchUnit">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="searchUnit">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="searchUnitResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getFunctionAtSpecificTime">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getFunctionAtSpecificTime">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getFunctionAtSpecificTimeResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="searchUnsurePerson">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="searchUnsurePerson">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="searchUnsurePersonResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getReturnAttributesForPerson">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getReturnAttributesForPerson">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getReturnAttributesForPersonResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getSearchAttributesForUnsurePerson">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getSearchAttributesForUnsurePerson">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getSearchAttributesForUnsurePersonResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getReturnAttributesForUnit">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getReturnAttributesForUnit">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getReturnAttributesForUnitResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getFunctionTransactions">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getFunctionTransactions">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getFunctionTransactionsResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getReturnAttributesForResource">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getReturnAttributesForResource">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getReturnAttributesForResourceResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getReturnAttributesForUnsurePerson">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="" style="document" />
       <wsdl:input name="getReturnAttributesForUnsurePerson">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output name="getReturnAttributesForUnsurePersonResponse">
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
       <wsdl:fault name="VGRException">
-        <soap:fault name="VGRException" use="literal"/>
+        <soap:fault name="VGRException" use="literal" />
       </wsdl:fault>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="VGRegionWebService">
     <wsdl:port binding="tns:VGRegionWebServiceSoapBinding" name="VGRegionWebServiceImplPort">
-      <soap:address location="https://kivws.vgregion.se/services"/>
+      <soap:address location="https://kivws.vgregion.se/services" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

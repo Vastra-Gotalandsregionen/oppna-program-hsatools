@@ -38,7 +38,6 @@ import javax.xml.ws.BindingProvider;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -67,7 +66,7 @@ import se.vgregion.kivtools.util.time.TimeUtil;
 
 import com.thoughtworks.xstream.XStream;
 
-@Ignore
+//@Ignore
 public class KivwsOfUnitRepositoryTest {
   private UnitRepository unitRepository;
   private UnitMapper unitMapper;
@@ -166,7 +165,7 @@ public class KivwsOfUnitRepositoryTest {
   @Test
   public void testKivwsResponseTime() throws VGRException_Exception {
     long startTime = System.currentTimeMillis();
-    ArrayOfUnit searchUnit = vgRegionWebServiceImplPort.searchUnit("(ou=Vårdcentralen Majorna)", new ArrayOfString(), VGRegionDirectory.KIV, null);
+    ArrayOfUnit searchUnit = vgRegionWebServiceImplPort.searchUnit("(ou=Vårdcentralen Majorna)", new ArrayOfString(), VGRegionDirectory.KIV, null, null);
     long endTime = System.currentTimeMillis();
     System.out.println("Antal ms :" + (endTime - startTime));
     assertTrue(searchUnit.getUnit().size() > 0);
@@ -177,7 +176,7 @@ public class KivwsOfUnitRepositoryTest {
   public void testGetAllPublicUnits() throws VGRException_Exception {
     String allUnitsQuery = getAllUnitsQuery(true);
     String kivwsQuery = "(hsaDestinationIndicator=03)";
-    compareKivwsAndLdapResults(allUnitsQuery, kivwsQuery, kivwsQuery);
+    compareKivwsAndLdapResults(allUnitsQuery, kivwsQuery, kivwsQuery, Integer.valueOf(1));
   }
 
   // Test return all Units
@@ -185,7 +184,8 @@ public class KivwsOfUnitRepositoryTest {
   public void testGetAllUnits() throws VGRException_Exception {
     String allUnitsQuery = getAllUnitsQuery(false);
     String kivwsQuery = "(ou=*)";
-    compareKivwsAndLdapResults(allUnitsQuery, kivwsQuery, kivwsQuery);
+    String kivwsQueryCN = "(cn=*)";
+    compareKivwsAndLdapResults(allUnitsQuery, kivwsQuery, kivwsQueryCN, Integer.valueOf(1));
   }
 
   private String getAllUnitsQuery(boolean onlyPublicUnits) {
@@ -218,7 +218,7 @@ public class KivwsOfUnitRepositoryTest {
     String kivwsLdapQueryWithOU = "(&(ou=*Sahlgrenska*)(|(hsaMunicipalityCode=1480)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*))))";
     String kivwsLdapQueryWithCN = "(&(cn=*Sahlgrenska*)(|(hsaMunicipalityCode=1480)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*))))";
     String originalLdapQuery = "(|(&(objectclass=vgrOrganizationalUnit)(&(ou=*Sahlgrenska*)(|(hsaMunicipalityCode=1480)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))))(&(objectclass=vgrOrganizationalRole)(&(cn=*Sahlgrenska*)(|(hsaMunicipalityCode=1480)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*))))))";
-    compareKivwsAndLdapResults(originalLdapQuery, kivwsLdapQueryWithOU, kivwsLdapQueryWithCN);
+    compareKivwsAndLdapResults(originalLdapQuery, kivwsLdapQueryWithOU, kivwsLdapQueryWithCN, Integer.valueOf(2));
   }
 
   // Fungerar inte vet inte varför wildcard sökning av Göteborg inte fungerar i hsaPostalAddress arrayen likaså
@@ -228,7 +228,7 @@ public class KivwsOfUnitRepositoryTest {
     String kivwsLdapQueryWithOU = "(&(ou=Bårhus Sahlgrenska)(|(hsaMunicipalityCode=1480)(|(hsaPostalAddress=Göteborg$*$*$*$*$*)(hsaPostalAddress=*$Göteborg$*$*$*$*)(hsaPostalAddress=*$*$Göteborg$*$*$*)(hsaPostalAddress=*$*$*$Göteborg$*$*)(hsaPostalAddress=*$*$*$*$Göteborg$*)(hsaPostalAddress=*$*$*$*$*$Göteborg))(|(hsaStreetAddress=Göteborg$*$*$*$*$*)(hsaStreetAddress=*$Göteborg$*$*$*$*)(hsaStreetAddress=*$*$Göteborg$*$*$*)(hsaStreetAddress=*$*$*$Göteborg$*$*)(hsaStreetAddress=*$*$*$*$Göteborg$*)(hsaStreetAddress=*$*$*$*$*$Göteborg))))";
     String kivwsLdapQueryWithCN = "(&(cn=Bårhus Sahlgrenska)(|(hsaMunicipalityCode=1480)(|(hsaPostalAddress=Göteborg$*$*$*$*$*)(hsaPostalAddress=*$Göteborg$*$*$*$*)(hsaPostalAddress=*$*$Göteborg$*$*$*)(hsaPostalAddress=*$*$*$Göteborg$*$*)(hsaPostalAddress=*$*$*$*$Göteborg$*)(hsaPostalAddress=*$*$*$*$*$Göteborg))(|(hsaStreetAddress=Göteborg$*$*$*$*$*)(hsaStreetAddress=*$Göteborg$*$*$*$*)(hsaStreetAddress=*$*$Göteborg$*$*$*)(hsaStreetAddress=*$*$*$Göteborg$*$*)(hsaStreetAddress=*$*$*$*$Göteborg$*)(hsaStreetAddress=*$*$*$*$*$Göteborg))))";
     String originalLdapQuery = "(|(&(objectclass=vgrOrganizationalUnit)(&(ou=Bårhus Sahlgrenska)(|(hsaMunicipalityCode=1480)(|(hsaPostalAddress=Göteborg$*$*$*$*$*)(hsaPostalAddress=*$Göteborg$*$*$*$*)(hsaPostalAddress=*$*$Göteborg$*$*$*)(hsaPostalAddress=*$*$*$Göteborg$*$*)(hsaPostalAddress=*$*$*$*$Göteborg$*)(hsaPostalAddress=*$*$*$*$*$Göteborg))(|(hsaStreetAddress=Göteborg$*$*$*$*$*)(hsaStreetAddress=*$Göteborg$*$*$*$*)(hsaStreetAddress=*$*$Göteborg$*$*$*)(hsaStreetAddress=*$*$*$Göteborg$*$*)(hsaStreetAddress=*$*$*$*$Göteborg$*)(hsaStreetAddress=*$*$*$*$*$Göteborg)))))(&(objectclass=vgrOrganizationalRole)(&(cn=Bårhus Sahlgrenska)(|(hsaMunicipalityCode=1480)(|(hsaPostalAddress=Göteborg$*$*$*$*$*)(hsaPostalAddress=*$Göteborg$*$*$*$*)(hsaPostalAddress=*$*$Göteborg$*$*$*)(hsaPostalAddress=*$*$*$Göteborg$*$*)(hsaPostalAddress=*$*$*$*$Göteborg$*)(hsaPostalAddress=*$*$*$*$*$Göteborg))(|(hsaStreetAddress=Göteborg$*$*$*$*$*)(hsaStreetAddress=*$Göteborg$*$*$*$*)(hsaStreetAddress=*$*$Göteborg$*$*$*)(hsaStreetAddress=*$*$*$Göteborg$*$*)(hsaStreetAddress=*$*$*$*$Göteborg$*)(hsaStreetAddress=*$*$*$*$*$Göteborg))))))";
-    compareKivwsAndLdapResults(originalLdapQuery, kivwsLdapQueryWithOU, kivwsLdapQueryWithCN);
+    compareKivwsAndLdapResults(originalLdapQuery, kivwsLdapQueryWithOU, kivwsLdapQueryWithCN, Integer.valueOf(2));
   }
 
   // Fungerar ej vgrA03 saknas
@@ -236,7 +236,7 @@ public class KivwsOfUnitRepositoryTest {
   public void testSearchUnitOtherParams() throws KivException, VGRException_Exception {
     String ldapQuery = "(|(&(objectclass=vgrOrganizationalUnit)(&(vgrAO3kod=603)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1502)(vgrCareType=01)))(&(objectclass=vgrOrganizationalRole)(&(vgrAO3kod=603)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1502)(vgrCareType=01))))";
     String kivwsQuery = "(&(vgrAO3kod=603)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1502)(vgrCareType=01))";
-    compareKivwsAndLdapResults(ldapQuery, kivwsQuery, null);
+    compareKivwsAndLdapResults(ldapQuery, kivwsQuery, null, Integer.valueOf(2));
   }
 
   // @Test
@@ -257,22 +257,21 @@ public class KivwsOfUnitRepositoryTest {
     String kivwsWithCN = "(&(hsaIdentity=*SE2321000131*E000000000109*)(cn=*Sahlgrenska*)(hsaBusinessClassificationCode=3022))";
 
     String ldapQuery = "(|(&(objectclass=vgrOrganizationalUnit)(&(hsaIdentity=*SE2321000131*E000000000109*)(ou=*Sahlgrenska*)(hsaBusinessClassificationCode=3022)))(&(objectclass=vgrOrganizationalRole)(&(hsaIdentity=*SE2321000131*E000000000109*)(cn=*Sahlgrenska*)(hsaBusinessClassificationCode=3022))))";
-    compareKivwsAndLdapResults(ldapQuery, kivwsWithOU, kivwsWithCN);
+    compareKivwsAndLdapResults(ldapQuery, kivwsWithOU, kivwsWithCN, Integer.valueOf(2));
   }
 
   // TODO: Don't know what to do!!
   // Test fetching sub units for a chosen unit
   @Test
   public void testGetSubUnits() throws Exception {
-    String base = "ou=Folktandvården Fyrbodal,ou=Folktandvården Västra Götaland,ou=Org,o=vgr";
-
+    String base = "ou=Folktandvården Västra Götaland,ou=Org,o=vgr";
     DistinguishedName parentDn = new DistinguishedName(base);
 
     // Since UnitMapper return a Unit we are certain that the cast to List<Unit> is ok
     @SuppressWarnings("unchecked")
     List<Unit> unitsFromLdap = ldapTemplate.search(parentDn.toString(), "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")", SearchControls.SUBTREE_SCOPE, ATTRIBUTES, unitMapper);
 
-    ArrayOfUnit unitsFromkivsw = vgRegionWebServiceImplPort.searchUnit("(ou=*)", new ArrayOfString(), VGRegionDirectory.KIV, base);
+    ArrayOfUnit unitsFromkivsw = vgRegionWebServiceImplPort.searchUnit("(ou=*)", new ArrayOfString(), VGRegionDirectory.KIV, base, null);
 
     assertEquals(unitsFromkivsw.getUnit().size(), unitsFromLdap.size());
   }
@@ -285,23 +284,23 @@ public class KivwsOfUnitRepositoryTest {
     // DirContextOperationsMock());
     // unitRepository.getUnitByDN(DN.createDNFromString(dn));
     // assertEquals(DN.createDNFromString(dn).toString(), ldapTemplateMock.getDn());
-
-    compareKivwsAndLdapResults(DN.createDNFromString(dn).toString(), DN.createDNFromString(dn).toString(), null);
+    ldapTemplate.lookup(dn);
+    compareKivwsAndLdapResults(DN.createDNFromString(dn).toString(), DN.createDNFromString(dn).toString(), null, Integer.valueOf(2));
   }
 
   @SuppressWarnings("unchecked")
-  private void compareKivwsAndLdapResults(String originalLdapQuery, String kivwsLdapQueryWithOU, String kivwsLdapQueryWithCN) throws VGRException_Exception {
+  private void compareKivwsAndLdapResults(String originalLdapQuery, String kivwsLdapQueryWithOU, String kivwsLdapQueryWithCN, Integer searchLevel) throws VGRException_Exception {
 
     // Make query agianst ldap.
-    List<Unit> unitsFromldap = ldapTemplate.search(unitRepository.getSearchBase(), originalLdapQuery, SearchControls.SUBTREE_SCOPE, ATTRIBUTES, unitMapper);
+    List<Unit> unitsFromldap = ldapTemplate.search(unitRepository.getSearchBase(), originalLdapQuery, SearchControls.ONELEVEL_SCOPE, ATTRIBUTES, unitMapper);
     // Make query against kivws
-    ArrayOfUnit kivswSearchUnit = vgRegionWebServiceImplPort.searchUnit(kivwsLdapQueryWithOU, new ArrayOfString(), VGRegionDirectory.KIV, null);
+    ArrayOfUnit kivswSearchUnit = vgRegionWebServiceImplPort.searchUnit(kivwsLdapQueryWithOU, new ArrayOfString(), VGRegionDirectory.KIV, null, searchLevel.toString());
 
     int kivwsSearchFunctionSize = 0;
     // Make query agianst kivws function method if no result from above
     ArrayOfFunction kivswSearchFunctions = new ArrayOfFunction();
     if (kivwsLdapQueryWithCN != null) {
-      kivswSearchFunctions = vgRegionWebServiceImplPort.searchFunction(kivwsLdapQueryWithCN, new ArrayOfString(), VGRegionDirectory.KIV, null);
+      kivswSearchFunctions = vgRegionWebServiceImplPort.searchFunction(kivwsLdapQueryWithCN, new ArrayOfString(), VGRegionDirectory.KIV, null, searchLevel.toString());
       kivwsSearchFunctionSize = kivswSearchFunctions.getFunction().size();
     }
     int kivwsSearchSize = kivswSearchUnit.getUnit().size();
@@ -353,12 +352,12 @@ public class KivwsOfUnitRepositoryTest {
 
         if (searchQuery.contains("cn=")) {
           // Make query against ki∂jvws
-          ArrayOfFunction kivswSearchFunction = vgRegionWebServiceImplPort.searchFunction(searchQuery, new ArrayOfString(), VGRegionDirectory.KIV, null);
+          ArrayOfFunction kivswSearchFunction = vgRegionWebServiceImplPort.searchFunction(searchQuery, new ArrayOfString(), VGRegionDirectory.KIV, null, null);
           createObjectOutputStream.writeObject(kivswSearchFunction);
         } else {
 
           // Make query against kivws
-          ArrayOfUnit kivswSearchUnit = vgRegionWebServiceImplPort.searchUnit(searchQuery, new ArrayOfString(), VGRegionDirectory.KIV, null);
+          ArrayOfUnit kivswSearchUnit = vgRegionWebServiceImplPort.searchUnit(searchQuery, new ArrayOfString(), VGRegionDirectory.KIV, null, null);
           createObjectOutputStream.writeObject(kivswSearchUnit);
         }
 
