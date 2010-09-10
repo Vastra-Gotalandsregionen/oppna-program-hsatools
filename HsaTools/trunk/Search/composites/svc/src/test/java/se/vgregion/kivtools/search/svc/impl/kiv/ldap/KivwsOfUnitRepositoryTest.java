@@ -38,6 +38,7 @@ import javax.xml.ws.BindingProvider;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -66,7 +67,7 @@ import se.vgregion.kivtools.util.time.TimeUtil;
 
 import com.thoughtworks.xstream.XStream;
 
-//@Ignore
+@Ignore
 public class KivwsOfUnitRepositoryTest {
   private UnitRepository unitRepository;
   private UnitMapper unitMapper;
@@ -118,7 +119,7 @@ public class KivwsOfUnitRepositoryTest {
     unitMapper = new UnitMapper(codeTablesService, displayValueTranslator);
     unitRepository = new UnitRepository();
     // unitRepository.setLdapTemplate(ldapTemplateMock);
-    unitRepository.setUnitMapper(unitMapper);
+    //unitRepository.setUnitMapper(unitMapper);
   }
 
   public static void main(String[] args) throws Exception {
@@ -278,21 +279,15 @@ public class KivwsOfUnitRepositoryTest {
 
   @Test
   public void testGetUnitByDN() throws KivException, VGRException_Exception {
-    String dn = "ou=Vårdcentralen Angered";// ,ou=Org,o=VGR";
-
-    // ldapTemplateMock.addBoundDN(new DistinguishedName("ou=Vårdcentralen Angered"), new
-    // DirContextOperationsMock());
-    // unitRepository.getUnitByDN(DN.createDNFromString(dn));
-    // assertEquals(DN.createDNFromString(dn).toString(), ldapTemplateMock.getDn());
-    ldapTemplate.lookup(dn);
-    compareKivwsAndLdapResults(DN.createDNFromString(dn).toString(), DN.createDNFromString(dn).toString(), null, Integer.valueOf(2));
+    String dn = "ou=Vårdcentralen Angered";
+    compareKivwsAndLdapResults(DN.createDNFromString(dn).toString(), "(" + DN.createDNFromString(dn).toString() +")", null, Integer.valueOf(2));
   }
 
   @SuppressWarnings("unchecked")
   private void compareKivwsAndLdapResults(String originalLdapQuery, String kivwsLdapQueryWithOU, String kivwsLdapQueryWithCN, Integer searchLevel) throws VGRException_Exception {
 
     // Make query agianst ldap.
-    List<Unit> unitsFromldap = ldapTemplate.search(unitRepository.getSearchBase(), originalLdapQuery, SearchControls.ONELEVEL_SCOPE, ATTRIBUTES, unitMapper);
+    List<Unit> unitsFromldap = ldapTemplate.search(unitRepository.getSearchBase(), originalLdapQuery, searchLevel, ATTRIBUTES, unitMapper);
     // Make query against kivws
     ArrayOfUnit kivswSearchUnit = vgRegionWebServiceImplPort.searchUnit(kivwsLdapQueryWithOU, new ArrayOfString(), VGRegionDirectory.KIV, null, searchLevel.toString());
 
