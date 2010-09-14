@@ -61,6 +61,7 @@ public class UnitRepositoryTest {
   private UnitRepository unitRepository;
   private UnitMapper unitMapper;
   private LdapTemplateMock ldapTemplateMock = new LdapTemplateMock();
+  private SpringLdapSearchService springLdapSearchService;
 
   @Before
   public void setUp() throws Exception {
@@ -77,11 +78,15 @@ public class UnitRepositoryTest {
     displayValueTranslator.setTranslationMap(new HashMap<String, String>());
 
     CodeTablesServiceImpl codeTablesService = new CodeTablesServiceImpl(ldapTemplateMock);
-
+    springLdapSearchService = new SpringLdapSearchService();
     unitMapper = new UnitMapper(codeTablesService, displayValueTranslator);
     unitRepository = new UnitRepository();
-    unitRepository.setLdapTemplate(ldapTemplateMock);
-    unitRepository.setUnitMapper(unitMapper);
+    // unitRepository.setLdapTemplate(ldapTemplateMock);
+    // unitRepository.setUnitMapper(unitMapper);
+
+    springLdapSearchService.setLdapTemplate(ldapTemplateMock);
+    springLdapSearchService.setUnitMapper(unitMapper);
+    unitRepository.setSearchService(springLdapSearchService);
   }
 
   @After
@@ -119,8 +124,9 @@ public class UnitRepositoryTest {
     searchUnitCriterions.setLocation("municipalityName");
 
     unitRepository = new UnitRepository();
-    unitRepository.setUnitMapper(unitMapper);
-    unitRepository.setLdapTemplate(ldapTemplateMock);
+    unitRepository.setSearchService(springLdapSearchService);
+    // unitRepository.setUnitMapper(unitMapper);
+    // unitRepository.setLdapTemplate(ldapTemplateMock);
     String expectedFilter = "(|(&(objectclass=vgrOrganizationalUnit)(&(ou=*unitName*)(|(hsaMunicipalityName=*municipalityName*)(|(hsaPostalAddress=*municipalityName*$*$*$*$*$*)(hsaPostalAddress=*$*municipalityName*$*$*$*$*)(hsaPostalAddress=*$*$*municipalityName*$*$*$*)(hsaPostalAddress=*$*$*$*municipalityName*$*$*)(hsaPostalAddress=*$*$*$*$*municipalityName*$*)(hsaPostalAddress=*$*$*$*$*$*municipalityName*))(|(hsaStreetAddress=*municipalityName*$*$*$*$*$*)(hsaStreetAddress=*$*municipalityName*$*$*$*$*)(hsaStreetAddress=*$*$*municipalityName*$*$*$*)(hsaStreetAddress=*$*$*$*municipalityName*$*$*)(hsaStreetAddress=*$*$*$*$*municipalityName*$*)(hsaStreetAddress=*$*$*$*$*$*municipalityName*)))))(&(objectclass=vgrOrganizationalRole)(&(cn=*unitName*)(|(hsaMunicipalityName=*municipalityName*)(|(hsaPostalAddress=*municipalityName*$*$*$*$*$*)(hsaPostalAddress=*$*municipalityName*$*$*$*$*)(hsaPostalAddress=*$*$*municipalityName*$*$*$*)(hsaPostalAddress=*$*$*$*municipalityName*$*$*)(hsaPostalAddress=*$*$*$*$*municipalityName*$*)(hsaPostalAddress=*$*$*$*$*$*municipalityName*))(|(hsaStreetAddress=*municipalityName*$*$*$*$*$*)(hsaStreetAddress=*$*municipalityName*$*$*$*$*)(hsaStreetAddress=*$*$*municipalityName*$*$*$*)(hsaStreetAddress=*$*$*$*municipalityName*$*$*)(hsaStreetAddress=*$*$*$*$*municipalityName*$*)(hsaStreetAddress=*$*$*$*$*$*municipalityName*))))))";
 
     unitRepository.searchUnits(searchUnitCriterions, 0);
@@ -136,8 +142,9 @@ public class UnitRepositoryTest {
     searchUnitCriterions.setLocation("\"municipalityName\"");
 
     unitRepository = new UnitRepository();
-    unitRepository.setUnitMapper(unitMapper);
-    unitRepository.setLdapTemplate(ldapTemplateMock);
+    unitRepository.setSearchService(springLdapSearchService);
+    // unitRepository.setUnitMapper(unitMapper);
+    // unitRepository.setLdapTemplate(ldapTemplateMock);
     String expectedFilter = "(|(&(objectclass=vgrOrganizationalUnit)(&(ou=unitName)(|(hsaMunicipalityName=municipalityName)(|(hsaPostalAddress=municipalityName$*$*$*$*$*)(hsaPostalAddress=*$municipalityName$*$*$*$*)(hsaPostalAddress=*$*$municipalityName$*$*$*)(hsaPostalAddress=*$*$*$municipalityName$*$*)(hsaPostalAddress=*$*$*$*$municipalityName$*)(hsaPostalAddress=*$*$*$*$*$municipalityName))(|(hsaStreetAddress=municipalityName$*$*$*$*$*)(hsaStreetAddress=*$municipalityName$*$*$*$*)(hsaStreetAddress=*$*$municipalityName$*$*$*)(hsaStreetAddress=*$*$*$municipalityName$*$*)(hsaStreetAddress=*$*$*$*$municipalityName$*)(hsaStreetAddress=*$*$*$*$*$municipalityName)))))(&(objectclass=vgrOrganizationalRole)(&(cn=unitName)(|(hsaMunicipalityName=municipalityName)(|(hsaPostalAddress=municipalityName$*$*$*$*$*)(hsaPostalAddress=*$municipalityName$*$*$*$*)(hsaPostalAddress=*$*$municipalityName$*$*$*)(hsaPostalAddress=*$*$*$municipalityName$*$*)(hsaPostalAddress=*$*$*$*$municipalityName$*)(hsaPostalAddress=*$*$*$*$*$municipalityName))(|(hsaStreetAddress=municipalityName$*$*$*$*$*)(hsaStreetAddress=*$municipalityName$*$*$*$*)(hsaStreetAddress=*$*$municipalityName$*$*$*)(hsaStreetAddress=*$*$*$municipalityName$*$*)(hsaStreetAddress=*$*$*$*$municipalityName$*)(hsaStreetAddress=*$*$*$*$*$municipalityName))))))";
 
     unitRepository.searchUnits(searchUnitCriterions, 0);
@@ -160,8 +167,9 @@ public class UnitRepositoryTest {
     codeTableMock.values.put(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "1505");
     codeTableMock.values.put(CodeTableName.VGR_CARE_TYPE, "01");
     unitRepository = new UnitRepository();
-    unitRepository.setUnitMapper(unitMapper);
-    unitRepository.setLdapTemplate(ldapTemplateMock);
+    unitRepository.setSearchService(springLdapSearchService);
+    // unitRepository.setUnitMapper(unitMapper);
+    // unitRepository.setLdapTemplate(ldapTemplateMock);
     unitRepository.setCodeTablesService(codeTableMock);
     String expectedFilter = "(|(&(objectclass=vgrOrganizationalUnit)(&(vgrAO3kod=01)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1505)(vgrCareType=01)))(&(objectclass=vgrOrganizationalRole)(&(vgrAO3kod=01)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1505)(vgrCareType=01))))";
 
@@ -244,8 +252,9 @@ public class UnitRepositoryTest {
     int maxResults = 10;
     UnitNameComparator sortOrder = new UnitNameComparator();
     UnitRepository unitRepository = new UnitRepository();
-    unitRepository.setUnitMapper(unitMapper);
-    unitRepository.setLdapTemplate(ldapTemplateMock);
+    unitRepository.setSearchService(springLdapSearchService);
+    // unitRepository.setUnitMapper(unitMapper);
+    // unitRepository.setLdapTemplate(ldapTemplateMock);
     unitRepository.searchAdvancedUnits(searchUnit, maxResults, sortOrder, false);
 
     String expectedFilter = "(&(|(&(objectclass=vgrOrganizationalUnit)(&(|(ou=*unitName*)(hsaBusinessClassificationCode=*unitName*))(|(hsaMunicipalityName=*Göteborg*)(hsaMunicipalityCode=*10032*)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))(hsaIdentity=*hsaId*1*)(&(|(conditionKey=value1)(conditionKey=value2)))))(&(objectclass=vgrOrganizationalRole)(&(|(cn=*unitName*)(hsaBusinessClassificationCode=*unitName*))(|(hsaMunicipalityName=*Göteborg*)(hsaMunicipalityCode=*10032*)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))(hsaIdentity=*hsaId*1*)(&(|(conditionKey=value1)(conditionKey=value2)))))))";
@@ -266,7 +275,7 @@ public class UnitRepositoryTest {
     CodeTableMock codeTableMock = new CodeTableMock();
     codeTableMock.values.put(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "3");
     unitRepository.setCodeTablesService(codeTableMock);
-    unitRepository.setLdapTemplate(ldapTemplateMock);
+    // unitRepository.setLdapTemplate(ldapTemplateMock);
 
     unitRepository.searchUnits(searchUnitCriterions, 10);
 
@@ -452,7 +461,8 @@ public class UnitRepositoryTest {
 
     HealthcareType healthcareType = new HealthcareType();
     healthcareType.addCondition("conditionKey", "value1,value2");
-
+  
+    
     Unit searchUnit = new Unit();
     searchUnit.setName("unitName");
     searchUnit.setHsaMunicipalityName("Göteborg");
