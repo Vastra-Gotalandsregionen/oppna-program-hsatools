@@ -1009,6 +1009,7 @@ div.autocomplete {
 .accessibilityInfoItem {
 	/* list-style-image: url(../images/icoPlus.gif); */
 	list-style: none;
+	font-size: 1.15em;
 }
 
 .accessibilityBlockItem {
