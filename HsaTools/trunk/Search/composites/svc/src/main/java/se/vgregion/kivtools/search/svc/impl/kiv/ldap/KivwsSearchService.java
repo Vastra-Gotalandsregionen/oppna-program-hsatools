@@ -20,15 +20,12 @@
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.naming.Name;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.ldap.core.ContextMapper;
 
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfFunction;
@@ -38,7 +35,6 @@ import se.vgregion.kivtools.search.svc.ws.domain.kivws.Function;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRException_Exception;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionDirectory;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService;
-import se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap.Entry;
 import se.vgregion.kivtools.util.Arguments;
 
 public class KivwsSearchService implements SearchService {
@@ -57,9 +53,8 @@ public class KivwsSearchService implements SearchService {
 
   @Override
   public Unit lookupUnit(Name name, List<String> attrs) {
-    if (name == null || name.size() == 0 || attrs == null) {
-      return new Unit();
-    }
+    Arguments.notNull("name", name);
+    Arguments.notNull("attrs", attrs);
 
     Unit unit = null;
     ArrayOfString arrayOfString = new ArrayOfString();
@@ -93,7 +88,7 @@ public class KivwsSearchService implements SearchService {
   @Override
   public List<String> searchSingleAttribute(Name base, String filter, int searchScope, List<String> attrs, String mappingAttribute) {
     List<String> result = new ArrayList<String>();
-    SingleAttributeMaper singleAttributeMaper = new SingleAttributeMaper(mappingAttribute);
+    SingleAttributeMapper singleAttributeMaper = new SingleAttributeMapper(mappingAttribute);
     ArrayOfString arrayOfString = new ArrayOfString();
     arrayOfString.getString().addAll(attrs);
     try {
@@ -159,46 +154,4 @@ public class KivwsSearchService implements SearchService {
     }
     return result;
   }
-
-  class SingleAttributeMaper implements ContextMapper {
-
-    private String attributeName;
-    private Map<String, List<Object>> ldapAttributes;
-
-    public SingleAttributeMaper(String attributeName) {
-      Arguments.notEmpty("attributeName", attributeName);
-      this.attributeName = attributeName;
-    }
-
-    @Override
-    public String mapFromContext(Object ctx) {
-      ldapAttributes = new HashMap<String, List<Object>>();
-      List<Entry> attributes = null;
-      if (ctx instanceof Function) {
-        Function kivwsFunction = (Function) ctx;
-        attributes = kivwsFunction.getAttributes().getValue().getEntry();
-      } else if (ctx instanceof se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit) {
-        se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit kivwsUnit = (se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit) ctx;
-        attributes = kivwsUnit.getAttributes().getValue().getEntry();
-      } else {
-        throw new RuntimeException("Object is not a type of Function or Unit");
-      }
-
-      for (Entry entry : attributes) {
-        ldapAttributes.put(entry.getKey(), entry.getValue().getAnyType());
-      }
-
-      return getSingleValue(attributeName);
-    }
-
-    private String getSingleValue(String key) {
-      String returnValue = "";
-      if (ldapAttributes.containsKey(key)) {
-        returnValue = (String) ldapAttributes.get(key).get(0);
-      }
-      return returnValue;
-    }
-
-  }
-
 }

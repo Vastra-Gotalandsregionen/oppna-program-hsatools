@@ -129,6 +129,12 @@ public class KivwsCodeTableMapperTest {
     kivwsCodeTableMapper.getCodeTableContent();
     codeTables.put(KivwsCodeTableName.VGR_CARE_TYPE, kivwsCodeTableMapper.getCodeTableContent());
   }
+  
+  @Test(expected=RuntimeException.class)
+  public void testException() {
+    KivwsCodeNameTableMapper kivwsCodeNameTableMapper = new KivwsCodeNameTableMapper();
+    kivwsCodeNameTableMapper.mapFromContext("Not valid class type");
+  }
 
   @Test
   public void administrationTest() {
