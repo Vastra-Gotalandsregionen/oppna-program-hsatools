@@ -239,11 +239,17 @@ public class Unit implements Serializable, Comparable<Unit> {
   public void setDistanceToTarget(String distanceToTarget) {
     this.distanceToTarget = distanceToTarget;
   }
-
+  /**
+   * Only used by HAK
+   * @return {@link GeoCoordinate}
+   */
   public GeoCoordinate getGeoCoordinate() {
     return this.geoCoordinate;
   }
-
+  /**
+   * Only used by HAK
+   * @param geoCoordinate
+   */
   public void setGeoCoordinate(GeoCoordinate geoCoordinate) {
     this.geoCoordinate = geoCoordinate;
   }
