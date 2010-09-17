@@ -93,8 +93,15 @@
 }
 
 .search-advanced-link {
-	clear: both;
-	float: right;
+	clear:both;
+	float: left;
+	margin-top: 5px;
+}
+
+.search-advanced-link a{
+	font-size: 1.1em;
+	color: black;
+	font-weight: bold;
 }
 
 .advanced_search {
