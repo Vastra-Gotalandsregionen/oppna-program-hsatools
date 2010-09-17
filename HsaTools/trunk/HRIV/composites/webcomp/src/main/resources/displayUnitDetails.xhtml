@@ -313,29 +313,29 @@
 
                             <div class="address" id="address-div">
                                 <table class="borderless" id="address-table">
-                                	<h:outputText rendered="${fn:length(unit.hsaStreetAddress.street) gt 0 or Search_SettingsContainer.testingMode}">
-	                                    <tr>
-	                                        <th class="leftcol" id="adressHeaderCell">
-	                                            <span class="grey-header">${msg.address}</span>
-	                                        </th>
-	                                        <td id="address-borderless-address" class="paragraph">
-	                                            <div class="adr">
-	                                                <span class="street-address">${unit.hsaStreetAddress.street}</span>
-	                                                <span class="postal-code">${unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
-	                                                <span class="locality">${unit.hsaStreetAddress.city}</span>
-	                                            </div>
-	                                            <span>${unit.hsaStreetAddress.street}</span><br/>
-	                                            <span>${unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
-	                                            <span>${unit.hsaStreetAddress.city}</span>
-	                                            <div jsfc="ui:repeat" value="${unit.hsaStreetAddress.additionalInfo}" var="additionalInformation">
-			    	                    	${additionalInformation}
-	                                            </div>
-	                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaStreetAddress.street) lt 1}">
-	                                                <span class="warning">hsaStreetAddress ${msg.missing} ${msg.orNotParsable}</span>
-	                                            </h:outputText>
-	                                        </td>
-	                                    </tr>
-                                	</h:outputText>
+                                <h:outputText rendered="${unit.hsaStreetAddress != null or Search_SettingsContainer.testingMode}">
+                                <tr>
+                                        <th class="leftcol" id="adressHeaderCell">
+                                            <span class="grey-header">${msg.address}</span>
+                                        </th>
+                                        <td id="address-borderless-address" class="paragraph">
+                                            <div class="adr">
+                                                <span class="street-address">${unit.hsaStreetAddress.street}</span>
+                                                <span class="postal-code">${unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
+                                                <span class="locality">${unit.hsaStreetAddress.city}</span>
+                                            </div>
+                                            <span>${unit.hsaStreetAddress.street}</span><br/>
+                                            <span>${unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
+                                            <span>${unit.hsaStreetAddress.city}</span>
+                                            <div jsfc="ui:repeat" value="${unit.hsaStreetAddress.additionalInfo}" var="additionalInformation">
+		    	                    	${additionalInformation}
+                                            </div>
+                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaStreetAddress.street) lt 1}">
+                                                <span class="warning">hsaStreetAddress ${msg.missing} ${msg.orNotParsable}</span>
+                                            </h:outputText>
+                                        </td>
+                                    </tr>
+                                    </h:outputText>
                                 	<h:outputText rendered="${unit.hsaRouteConcatenated != '' or Search_SettingsContainer.testingMode}">
 	                                    <tr>
 	                                        <th class="leftcol">
@@ -409,16 +409,17 @@
                                 </script>
                             </div>
 
+							<h:outputText rendered="${unit.wgs84Lat!=0.0}">
                             <div id="map-right-of-address-div">
                                 <!--  Map cell start (dont remove this comment) -->
                                 <div id="map"/>
-                                
                                 <!--  Map cell end (dont remove this comment) -->
                                 <div style="padding-left:5px; padding-bottom:2px; font-size: 10px; font-weight: bold;">
                                 	<a class="url" href="#" id="showMapPopupButton" onClick="showMapInPopup('${unit.wgs84Long}', '${unit.wgs84Lat}', '${fn:trim(unit.name)}','${fn:trim(unit.hsaPublicTelephoneNumber[0])}', '${fn:trim(unit.caretypeCustomized)}', '${msg.telephone}', '${msg.showDetails}', '${unit.hsaIdentity}');"><img src="resources/images/zoom.gif" alt="Visa stor karta"/>Visa stor karta</a>
                                 </div>
                             </div>
-
+							</h:outputText>							
+							
                             <div id="directions-container" style="display: none;">
                                 <div id="dir-div" />
                                 <div id="map-div-container" >
@@ -432,13 +433,13 @@
                                 <h:outputText escape="false" rendered="${Search_SettingsContainer.testingMode==true and Search_SettingsContainer.showUnitCodeOnServer == facesContext.externalContext.request.serverName}" value="${Search_SettingsContainer.showUnitCode2}" />
                             </h:outputText>
                         </div>
-                        
+                        <h:outputText rendered="${unit.wgs84Lat!=0.0}">
                         <script type="text/javascript" charset="utf-8">
 		                 // <![CDATA[]
 		                 drawMap('${unit.wgs84Long}', '${unit.wgs84Lat}', '${fn:trim(unit.name)}','${fn:trim(unit.hsaPublicTelephoneNumber[0])}', '${fn:trim(unit.caretypeCustomized)}', '${msg.telephone}', '${msg.showDetails}', '${unit.hsaIdentity}');
 		              	 // ]]>
 		              	</script>
-                        
+		              	</h:outputText>
                         
                         <!--  Display unit widget end (dont remove this comment) -->
                         <ui:include src="${Search_SettingsContainer.errorReportFormInclude}" />
