@@ -119,7 +119,7 @@ public class KivwsOfUnitRepositoryTest {
     unitMapper = new UnitMapper(codeTablesService, displayValueTranslator);
     unitRepository = new UnitRepository();
     // unitRepository.setLdapTemplate(ldapTemplateMock);
-    //unitRepository.setUnitMapper(unitMapper);
+    // unitRepository.setUnitMapper(unitMapper);
   }
 
   public static void main(String[] args) throws Exception {
@@ -237,7 +237,7 @@ public class KivwsOfUnitRepositoryTest {
   public void testSearchUnitOtherParams() throws KivException, VGRException_Exception {
     String ldapQuery = "(|(&(objectclass=vgrOrganizationalUnit)(&(vgrAO3kod=603)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1502)(vgrCareType=01)))(&(objectclass=vgrOrganizationalRole)(&(vgrAO3kod=603)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1502)(vgrCareType=01))))";
     String kivwsQuery = "(&(vgrAO3kod=603)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1502)(vgrCareType=01))";
-    compareKivwsAndLdapResults(ldapQuery, kivwsQuery, null, Integer.valueOf(2));
+    compareKivwsAndLdapResults(ldapQuery, kivwsQuery, kivwsQuery, Integer.valueOf(2));
   }
 
   // @Test
@@ -280,7 +280,7 @@ public class KivwsOfUnitRepositoryTest {
   @Test
   public void testGetUnitByDN() throws KivException, VGRException_Exception {
     String dn = "ou=Vårdcentralen Angered";
-    compareKivwsAndLdapResults(DN.createDNFromString(dn).toString(), "(" + DN.createDNFromString(dn).toString() +")", null, Integer.valueOf(2));
+    compareKivwsAndLdapResults(DN.createDNFromString(dn).toString(), "(" + DN.createDNFromString(dn).toString() + ")", null, Integer.valueOf(2));
   }
 
   @SuppressWarnings("unchecked")
