@@ -314,7 +314,7 @@
 
                             <div class="address" id="address-div">
                                 <table class="borderless" id="address-table">
-                                	<h:outputText rendered="${fn:length(unit.hsaStreetAddress.street) gt 0 or Search_SettingsContainer.testingMode}">
+                                	<h:outputText rendered="${unit.hsaStreetAddress != null or Search_SettingsContainer.testingMode}">
 	                                    <tr>
 	                                        <th class="leftcol" id="adressHeaderCell">
 	                                            <span class="grey-header">${msg.address}</span>
