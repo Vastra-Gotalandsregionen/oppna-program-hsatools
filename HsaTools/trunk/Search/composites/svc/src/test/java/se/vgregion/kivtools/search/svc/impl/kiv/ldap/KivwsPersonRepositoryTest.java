@@ -85,10 +85,15 @@ public class KivwsPersonRepositoryTest {
     codeTableServiceMock.addListToMap(CodeTableName.PA_TITLE_CODE, Arrays.asList("employmentTitle", "Kurator"));
     kivwsPersonRepository.setCodeTablesService(codeTableServiceMock);
     KivwsFactoryBean kivwsFactoryBean = new KivwsFactoryBean();
+    
+    
+    // Integration test
+    /*
     DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
     Resource resource = defaultResourceLoader.getResource("classpath:se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties");
     Properties loadAllProperties = PropertiesLoaderUtils.loadProperties(resource);
     kivwsFactoryBean.setProperties(loadAllProperties);
+    */
     //vgRegionWebService = kivwsFactoryBean.createWebService();
   }
   
