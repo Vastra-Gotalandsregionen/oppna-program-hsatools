@@ -19,14 +19,14 @@
 
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 import java.util.Properties;
 
 import javax.xml.ws.BindingProvider;
 
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService_Service;
-
-
 
 public class KivwsFactoryBean {
 
@@ -35,8 +35,17 @@ public class KivwsFactoryBean {
   public void setProperties(Properties properties) {
     this.properties = properties;
   }
-  
-  public VGRegionWebService createWebService(){
+
+  public VGRegionWebService createWebService() {
+   
+    // This will set login for basic http auth used in webservice 
+    Authenticator.setDefault(new Authenticator() {
+      @Override
+      protected PasswordAuthentication getPasswordAuthentication() {
+        return new PasswordAuthentication(properties.getProperty("hsatools.search.svc.kivws.username"), properties.getProperty("hsatools.search.svc.kivws.password").toCharArray());
+      }
+    });
+    
     VGRegionWebService_Service vgRegionWebServiceService = new VGRegionWebService_Service();
     VGRegionWebService vgRegionWebServiceImplPort = vgRegionWebServiceService.getVGRegionWebServiceImplPort();
     // Setup username and password authentication for webservice.
@@ -45,5 +54,5 @@ public class KivwsFactoryBean {
     bindingProvider.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, properties.getProperty("hsatools.search.svc.kivws.password"));
     return vgRegionWebServiceImplPort;
   }
-  
+
 }
