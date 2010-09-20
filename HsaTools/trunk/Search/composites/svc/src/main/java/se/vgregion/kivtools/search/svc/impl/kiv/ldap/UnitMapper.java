@@ -85,7 +85,6 @@ public class UnitMapper implements ContextMapper {
     }
     unit.addDescription(context.getStrings(UnitLdapAttributes.DESCRIPTION));
     unit.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(UnitLdapAttributes.FACSIMILE_TELEPHONE_NUMBER)));
-    unit.setHsaConsigneeAddress(AddressHelper.convertToAddress(context.getStrings(UnitLdapAttributes.HSA_CONSIGNEE_ADDRESS)));
     unit.setHsaCountyCode(context.getString(UnitLdapAttributes.HSA_COUNTY_CODE));
     unit.setHsaCountyName(context.getString(UnitLdapAttributes.HSA_COUNTY_NAME));
     unit.addHsaDropInHours(WeekdayTime.createWeekdayTimeList(context.getStrings(UnitLdapAttributes.HSA_DROPIN_HOURS)));
@@ -101,7 +100,6 @@ public class UnitMapper implements ContextMapper {
     unit.setHsaSedfDeliveryAddress(AddressHelper.convertToAddress(context.getStrings(UnitLdapAttributes.HSA_SEDF_DELIVERY_ADDRESS)));
     unit.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress(context.getStrings(UnitLdapAttributes.HSA_SEDF_INVOICE_ADDRESS)));
     unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(context.getString(UnitLdapAttributes.HSA_SEDF_SWITCHBOARD_TELEPHONE_NO)));
-    unit.setHsaSmsTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(UnitLdapAttributes.HSA_SMS_TELEPHONE_NUMBER)));
     unit.setHsaStreetAddress(AddressHelper.convertToStreetAddress(context.getStrings(UnitLdapAttributes.HSA_STREET_ADDRESS)));
     unit.addHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(context.getStrings(UnitLdapAttributes.HSA_SURGERY_HOURS)));
     unit.addHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(context.getStrings(UnitLdapAttributes.HSA_TELEPHONE_NUMBER)));
@@ -134,8 +132,6 @@ public class UnitMapper implements ContextMapper {
     unit.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(UnitLdapAttributes.PAGER_TELEPHONE_NUMBER)));
     populateGeoCoordinates(context, unit);
     unit.setVgrAnsvarsnummer(context.getStrings(UnitLdapAttributes.VGR_ANSVARSNUMMER));
-    unit.setVgrEANCode(context.getString(UnitLdapAttributes.VGR_EAN_CODE));
-    unit.setVgrEDICode(context.getString(UnitLdapAttributes.VGR_EDI_CODE));
     unit.setVgrInternalSedfInvoiceAddress(context.getString(UnitLdapAttributes.VGR_INTERNAL_SEDF_INVOICE_ADDRESS));
     unit.setVgrTempInfo(context.getString(UnitLdapAttributes.VGR_TEMP_INFO));
     unit.setVgrRefInfo(context.getString(UnitLdapAttributes.VGR_REF_INFO));

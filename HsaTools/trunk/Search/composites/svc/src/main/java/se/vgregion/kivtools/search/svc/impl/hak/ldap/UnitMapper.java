@@ -106,9 +106,6 @@ public class UnitMapper implements ContextMapper {
 
     populateLocalityInformation(context, unit);
 
-    unit.setVgrEDICode(context.getString("vgrEdiCode"));
-    unit.setVgrEANCode(context.getString("vgrEanCode"));
-
     // �garformkod
     unit.setHsaManagementCode(context.getString("hsaManagementCode"));
 
@@ -238,7 +235,6 @@ public class UnitMapper implements ContextMapper {
     unit.setMobileTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString("mobile")));
     unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(context.getString("hsaSwitchboardNumber")));
     unit.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(context.getString("hsaInternalPagerNumber")));
-    unit.setHsaSmsTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString("hsaSmsTelephoneNumber")));
     unit.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString("facsimileTelephoneNumber")));
     unit.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString("pager")));
     unit.addHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(context.getStrings("hsaTelephoneNumber")));

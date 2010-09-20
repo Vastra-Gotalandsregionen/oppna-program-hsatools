@@ -394,13 +394,6 @@ public class KivwsUnitMapperTest {
     } else if (!kivLdapUnit.getHsaSedfSwitchboardTelephoneNo().equals(kivwsUnit.getHsaSedfSwitchboardTelephoneNo())) {
       return false;
     }
-    if (kivLdapUnit.getHsaSmsTelephoneNumber() == null) {
-      if (kivwsUnit.getHsaSmsTelephoneNumber() != null) {
-        return false;
-      }
-    } else if (!kivLdapUnit.getHsaSmsTelephoneNumber().equals(kivwsUnit.getHsaSmsTelephoneNumber())) {
-      return false;
-    }
     if (kivLdapUnit.getHsaStreetAddress() == null) {
       if (kivwsUnit.getHsaStreetAddress() != null) {
         return false;
@@ -596,20 +589,6 @@ public class KivwsUnitMapperTest {
         return false;
       }
     } else if (!kivLdapUnit.getVgrAnsvarsnummer().equals(kivwsUnit.getVgrAnsvarsnummer())) {
-      return false;
-    }
-    if (kivLdapUnit.getVgrEANCode() == null) {
-      if (kivwsUnit.getVgrEANCode() != null) {
-        return false;
-      }
-    } else if (!kivLdapUnit.getVgrEANCode().equals(kivwsUnit.getVgrEANCode())) {
-      return false;
-    }
-    if (kivLdapUnit.getVgrEDICode() == null) {
-      if (kivwsUnit.getVgrEDICode() != null) {
-        return false;
-      }
-    } else if (!kivLdapUnit.getVgrEDICode().equals(kivwsUnit.getVgrEDICode())) {
       return false;
     }
     if (kivLdapUnit.getVgrInternalSedfInvoiceAddress() == null) {

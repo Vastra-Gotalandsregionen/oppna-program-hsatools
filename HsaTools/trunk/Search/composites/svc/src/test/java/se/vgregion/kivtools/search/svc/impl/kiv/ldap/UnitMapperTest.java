@@ -241,7 +241,7 @@ public class UnitMapperTest {
     assertEquals(TEST, unit.getMobileTelephoneNumber().getPhoneNumber());
     assertEquals(TEST, unit.getHsaSedfSwitchboardTelephoneNo().getPhoneNumber());
     assertEquals(EXPECTED_LIST_RESULT, unit.getHsaTelephoneNumber().toString());
-    assertEquals(TEST, unit.getHsaSmsTelephoneNumber().getPhoneNumber());
+    //assertEquals(TEST, unit.getHsaSmsTelephoneNumber().getPhoneNumber());
     assertEquals(TEST, unit.getFacsimileTelephoneNumber().getPhoneNumber());
     assertEquals(TEST, unit.getPagerTelephoneNumber().getPhoneNumber());
     assertEquals(EXPECTED_LIST_RESULT, unit.getHsaTelephoneNumber().toString());
@@ -258,8 +258,6 @@ public class UnitMapperTest {
     assertEquals(TEST, unit.getHsaUnitPrescriptionCode());
     assertEquals(EXPECTED_LIST_RESULT, unit.getVgrAnsvarsnummer().toString());
     assertEquals(TEST, unit.getHsaMunicipalityCode());
-    assertEquals(TEST, unit.getVgrEDICode());
-    assertEquals(TEST, unit.getVgrEANCode());
     assertEquals(TEST, unit.getHsaMunicipalitySectionName());
     assertEquals(TEST, unit.getHsaMunicipalitySectionCode());
     assertEquals(TEST, unit.getHsaCountyCode());

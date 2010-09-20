@@ -109,8 +109,6 @@ public class KivwsUnitMapper implements ContextMapper {
         unit.addDescription((List<String>) getMultiValue(KivwsAttributes.DESCRIPTION));
         unit.setFacsimileTelephoneNumber(PhoneNumber
                 .createPhoneNumber((String) getSingleValue(KivwsAttributes.FACSIMILE_TELEPHONE_NUMBER)));
-        unit.setHsaConsigneeAddress(AddressHelper
-                .convertToAddress((List<String>) getMultiValue(KivwsAttributes.HSA_CONSIGNEE_ADDRESS)));
         unit.setHsaCountyCode((String) getSingleValue(KivwsAttributes.HSA_COUNTY_CODE));
         unit.addHsaDropInHours(WeekdayTime
                 .createWeekdayTimeList((List<String>) getMultiValue(KivwsAttributes.HSA_DROPIN_HOURS)));
@@ -133,8 +131,6 @@ public class KivwsUnitMapper implements ContextMapper {
                 .convertToAddress(getAddressValue(KivwsAttributes.HSA_SEDF_INVOICE_ADDRESS)));
         unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber
                 .createPhoneNumber((String) getSingleValue(KivwsAttributes.HSA_SEDF_SWITCHBOARD_TELEPHONE_NO)));
-        unit.setHsaSmsTelephoneNumber(PhoneNumber
-                .createPhoneNumber((String) getSingleValue(KivwsAttributes.HSA_SMS_TELEPHONE_NUMBER)));
         unit.setHsaStreetAddress(AddressHelper
                 .convertToStreetAddress((List<String>) getMultiValue(KivwsAttributes.HSA_STREET_ADDRESS)));
         unit.addHsaSurgeryHours(WeekdayTime
@@ -175,8 +171,6 @@ public class KivwsUnitMapper implements ContextMapper {
                 .createPhoneNumber((String) getSingleValue(KivwsAttributes.PAGER_TELEPHONE_NUMBER)));
         populateGeoCoordinates(unit);
         unit.setVgrAnsvarsnummer((List<String>) getMultiValue(KivwsAttributes.VGR_ANSVARSNUMMER));
-        unit.setVgrEANCode((String) getSingleValue(KivwsAttributes.VGR_EAN_CODE));
-        unit.setVgrEDICode((String) getSingleValue(KivwsAttributes.VGR_EDI_CODE));
         unit
                 .setVgrInternalSedfInvoiceAddress((String) getSingleValue(KivwsAttributes.VGR_INTERNAL_SEDF_INVOICE_ADDRESS));
         unit.setVgrTempInfo((String) getSingleValue(KivwsAttributes.VGR_TEMP_INFO));
