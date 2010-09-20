@@ -137,8 +137,6 @@ public class Unit implements Serializable, Comparable<Unit> {
   private Address hsaSedfDeliveryAddress;
   // Fakturaadress
   private Address hsaSedfInvoiceAddress;
-  private Address hsaConsigneeAddress;
-
   // Phone numbers
   // Växeltelefon
   private PhoneNumber hsaSedfSwitchboardTelephoneNo;
@@ -150,8 +148,6 @@ public class Unit implements Serializable, Comparable<Unit> {
   private PhoneNumber hsaTextPhoneNumber;
   // Mobiltelefon
   private PhoneNumber mobileTelephoneNumber;
-  // SMS
-  private PhoneNumber hsaSmsTelephoneNumber;
   // Faxnummer
   private PhoneNumber facsimileTelephoneNumber;
   // Direkttelefon
@@ -162,11 +158,6 @@ public class Unit implements Serializable, Comparable<Unit> {
   private final List<WeekdayTime> hsaTelephoneTime = new ArrayList<WeekdayTime>();
   // Giltighetsslutdatum
   private Date hsaEndDate;
-
-  // EDI-kod
-  private String vgrEDICode;
-  // EAN-kod
-  private String vgrEANCode;
   // Kommundelsnamn
   private String hsaMunicipalitySectionName;
   // Kommundelskod
@@ -239,15 +230,19 @@ public class Unit implements Serializable, Comparable<Unit> {
   public void setDistanceToTarget(String distanceToTarget) {
     this.distanceToTarget = distanceToTarget;
   }
+
   /**
    * Only used by HAK
+   * 
    * @return {@link GeoCoordinate}
    */
   public GeoCoordinate getGeoCoordinate() {
     return this.geoCoordinate;
   }
+
   /**
    * Only used by HAK
+   * 
    * @param geoCoordinate
    */
   public void setGeoCoordinate(GeoCoordinate geoCoordinate) {
@@ -308,14 +303,6 @@ public class Unit implements Serializable, Comparable<Unit> {
     if (hours != null) {
       this.hsaDropInHours.addAll(hours);
     }
-  }
-
-  public String getVgrEANCode() {
-    return this.vgrEANCode;
-  }
-
-  public void setVgrEANCode(String vgrEANCode) {
-    this.vgrEANCode = vgrEANCode;
   }
 
   public String getHsaMunicipalityCode() {
@@ -553,14 +540,6 @@ public class Unit implements Serializable, Comparable<Unit> {
     this.mobileTelephoneNumber = mobileTelephoneNumber;
   }
 
-  public PhoneNumber getHsaSmsTelephoneNumber() {
-    return this.hsaSmsTelephoneNumber;
-  }
-
-  public void setHsaSmsTelephoneNumber(PhoneNumber hsaSmsTelephoneNumber) {
-    this.hsaSmsTelephoneNumber = hsaSmsTelephoneNumber;
-  }
-
   public PhoneNumber getFacsimileTelephoneNumber() {
     return this.facsimileTelephoneNumber;
   }
@@ -721,14 +700,6 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   public void setVgrAnsvarsnummer(List<String> vgrAnsvarsnummer) {
     this.vgrAnsvarsnummer = vgrAnsvarsnummer;
-  }
-
-  public String getVgrEDICode() {
-    return this.vgrEDICode;
-  }
-
-  public void setVgrEDICode(String vgrEDICode) {
-    this.vgrEDICode = vgrEDICode;
   }
 
   public String getVgrOrganizationalRole() {
@@ -1537,14 +1508,6 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   public String getManagerDN() {
     return this.managerDN;
-  }
-
-  public void setHsaConsigneeAddress(Address hsaConsigneeAddress) {
-    this.hsaConsigneeAddress = hsaConsigneeAddress;
-  }
-
-  public Address getHsaConsigneeAddress() {
-    return this.hsaConsigneeAddress;
   }
 
   /**
