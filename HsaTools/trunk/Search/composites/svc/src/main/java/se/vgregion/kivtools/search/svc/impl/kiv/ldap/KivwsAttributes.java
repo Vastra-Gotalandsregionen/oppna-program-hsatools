@@ -51,7 +51,6 @@ public class KivwsAttributes {
   public static final String HSA_INTERNAL_ADDRESS = "hsainternaladdress";
   public static final String HSA_STREET_ADDRESS = "hsastreetaddress";
   public static final String HSA_POSTAL_ADDRESS = "hsapostaladdress";
-  public static final String HSA_CONSIGNEE_ADDRESS = "hsaconsigneeaddress";
   public static final String HSA_SEDF_DELIVERY_ADDRESS = "hsasedfdeliveryaddress";
   public static final String HSA_SEDF_INVOICE_ADDRESS = "hsasedfinvoiceaddress";
   public static final String HSA_UNIT_PRESCRIPTION_CODE = "hsaunitprescriptioncode";

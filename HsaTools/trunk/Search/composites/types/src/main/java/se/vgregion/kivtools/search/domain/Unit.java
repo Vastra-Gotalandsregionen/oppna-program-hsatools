@@ -137,6 +137,8 @@ public class Unit implements Serializable, Comparable<Unit> {
   private Address hsaSedfDeliveryAddress;
   // Fakturaadress
   private Address hsaSedfInvoiceAddress;
+  private Address hsaConsigneeAddress;
+
   // Phone numbers
   // Växeltelefon
   private PhoneNumber hsaSedfSwitchboardTelephoneNo;
@@ -1508,6 +1510,14 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   public String getManagerDN() {
     return this.managerDN;
+  }
+
+  public void setHsaConsigneeAddress(Address hsaConsigneeAddress) {
+    this.hsaConsigneeAddress = hsaConsigneeAddress;
+  }
+
+  public Address getHsaConsigneeAddress() {
+    return this.hsaConsigneeAddress;
   }
 
   /**

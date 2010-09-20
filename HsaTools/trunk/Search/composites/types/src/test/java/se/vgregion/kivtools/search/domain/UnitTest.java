@@ -183,7 +183,6 @@ public class UnitTest {
     PojoTester.testProperty(unit, "distanceToTarget", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "geoCoordinate", GeoCoordinate.class, null, new GeoCoordinate(0, 0, null), new GeoCoordinate(0, 123.0, null));
     PojoTester.testProperty(unit, "hsaRouteConcatenated", String.class, "", TEST, TEST2);
-    PojoTester.testProperty(unit, "vgrEANCode", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "hsaMunicipalityCode", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "hsaMunicipalitySectionName", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "hsaMunicipalitySectionCode", String.class, null, TEST, TEST2);
@@ -209,11 +208,9 @@ public class UnitTest {
     PojoTester.testProperty(unit, "pagerTelephoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
     PojoTester.testProperty(unit, "hsaTextPhoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
     PojoTester.testProperty(unit, "mobileTelephoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
-    PojoTester.testProperty(unit, "hsaSmsTelephoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
     PojoTester.testProperty(unit, "facsimileTelephoneNumber", PhoneNumber.class, null, PhoneNumber.createPhoneNumber(TEST), PhoneNumber.createPhoneNumber(TEST2));
     PojoTester.testProperty(unit, "hsaUnitPrescriptionCode", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "ou", String.class, null, TEST, TEST2);
-    PojoTester.testProperty(unit, "vgrEDICode", String.class, null, TEST, TEST2);
     PojoTester.testProperty(unit, "hsaInternalAddress", Address.class, null, new Address(TEST, null, TEST, null), new Address(TEST2, null, TEST2, null));
     PojoTester.testProperty(unit, "hsaPostalAddress", Address.class, null, new Address(TEST, null, TEST, null), new Address(TEST2, null, TEST2, null));
     PojoTester.testProperty(unit, "hsaSedfDeliveryAddress", Address.class, null, new Address(TEST, null, TEST, null), new Address(TEST2, null, TEST2, null));

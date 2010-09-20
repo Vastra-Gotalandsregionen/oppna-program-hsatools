@@ -59,7 +59,7 @@ public class SitemapUnitMapper extends AbstractSitemapMapper {
     mapPhoneNumberIfNotNull(unit.getPagerTelephoneNumber(), "Minicall", TelephoneType.OTHER, result.getTelephone());
     mapPhoneNumberIfNotNull(unit.getHsaTextPhoneNumber(), "Texttelefon", TelephoneType.FIXED, result.getTelephone());
     mapPhoneNumberIfNotNull(unit.getMobileTelephoneNumber(), "Mobil", TelephoneType.MOBILE, result.getTelephone());
-    mapPhoneNumberIfNotNull(unit.getHsaSmsTelephoneNumber(), "SMS", TelephoneType.MOBILE, result.getTelephone());
+    //mapPhoneNumberIfNotNull(unit.getHsaSmsTelephoneNumber(), "SMS", TelephoneType.MOBILE, result.getTelephone());
     mapPhoneNumberIfNotNull(unit.getFacsimileTelephoneNumber(), "Fax", TelephoneType.FAX, result.getTelephone());
 
     mapEAliasIfNotNull(unit.getLabeledURI(), "Hemsida", EAliasType.URL, result.getEAlias());

@@ -186,17 +186,6 @@ public class SitemapUnitMapperTest {
   }
 
   @Test
-  public void smsPhoneNumberIsMapped() {
-    Unit unit = this.builder.smsPhoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
-    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
-    assertEquals("sms phone number", 1, result.getTelephone().size());
-    assertEquals("label", "SMS", result.getTelephone().get(0).getLabel());
-    assertEquals("type", TelephoneType.MOBILE, result.getTelephone().get(0).getType());
-    assertEquals("area code", "0300", result.getTelephone().get(0).getAreaCode());
-    assertEquals("telephone number", "123 45", result.getTelephone().get(0).getTelephoneNumber());
-  }
-
-  @Test
   public void faxNumberIsMapped() {
     Unit unit = this.builder.faxNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
@@ -430,7 +419,7 @@ public class SitemapUnitMapperTest {
       unit.setPagerTelephoneNumber(this.pagerNumber);
       unit.setHsaTextPhoneNumber(this.textTelephoneNumber);
       unit.setMobileTelephoneNumber(this.mobilePhoneNumber);
-      unit.setHsaSmsTelephoneNumber(this.smsPhoneNumber);
+      //unit.setHsaSmsTelephoneNumber(this.smsPhoneNumber);
       unit.setFacsimileTelephoneNumber(this.faxNumber);
       unit.addHsaTelephoneNumber(this.directPhoneNumbers);
       if (this.labeledUri != null) {
