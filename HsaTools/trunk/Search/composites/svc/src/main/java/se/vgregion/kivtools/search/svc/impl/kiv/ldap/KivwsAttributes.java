@@ -41,10 +41,8 @@ public class KivwsAttributes {
   public static final String MOBILE_TELEPHONE_NUMBER = "mobileTelephoneNumber";
   public static final String HSA_SEDF_SWITCHBOARD_TELEPHONE_NO = "hsasedfswitchboardtelephoneno";
   public static final String HSA_TELEPHONE_NUMBER = "hsatelephonenumber";
-  public static final String HSA_SMS_TELEPHONE_NUMBER = "hsasmstelephonenumber";
   public static final String FACSIMILE_TELEPHONE_NUMBER = "facsimiletelephonenumber";
   public static final String PAGER_TELEPHONE_NUMBER = "pagerTelephoneNumber";
-  //public static final String HSA_PUBLIC_TELEPHONE_NUMBER = "hsaPublicTelephoneNumber";
   public static final String HSA_PUBLIC_TELEPHONE_NUMBER = "hsapublictelephonenumber";
   public static final String HSA_TELEPHONE_TIME = "hsatelephonetime";
   public static final String HSA_END_DATE = "hsaenddate";
@@ -59,8 +57,6 @@ public class KivwsAttributes {
   public static final String HSA_UNIT_PRESCRIPTION_CODE = "hsaunitprescriptioncode";
   public static final String VGR_ANSVARSNUMMER = "vgransvarsnummer";
   public static final String HSA_MUNICIPALITY_CODE = "hsamunicipalitycode";
-  public static final String VGR_EDI_CODE = "vgredicode";
-  public static final String VGR_EAN_CODE = "vgreancode";
   public static final String HSA_MUNICIPALITY_SECTION_NAME = "hsamunicipalitysectionname";
   public static final String HSA_MUNICIPALITY_SECTION_CODE = "hsamunicipalitysectioncode";
   public static final String HSA_COUNTY_CODE = "hsacountycode";
@@ -72,7 +68,6 @@ public class KivwsAttributes {
   public static final String VGR_REF_INFO = "vgrrefinfo";
   public static final String HSA_ADMINISTRATION_FORM = "hsaadministrationform";
   public static final String VGR_MODIFY_TIMESTAMP = "vgrmodifytimestamp";
-  //public static final String VGR_MODIFY_TIMESTAMP = "vgrModifyTimestamp";
   public static final String CREATE_TIMESTAMP = "createtimestamp";
   public static final String HSA_GEOGRAPHICAL_COORDINATES = "hsageographicalcoordinates";
   public static final String HSA_ROUTE = "hsaroute";
