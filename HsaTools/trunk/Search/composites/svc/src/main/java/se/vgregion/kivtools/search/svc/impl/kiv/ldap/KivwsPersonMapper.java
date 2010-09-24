@@ -34,8 +34,18 @@ import se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap.
 import se.vgregion.kivtools.util.Arguments;
 
 enum KivwsPersonAttributes {
-  cn;
+  cn("cn"), hsaidentity("hsaidentity"), hsatitle("hsatitle"), givenname("givenname"), mail("mail"), sn("sn"), vgrid("vgr-id"), hsanickname("hsanickname"), hsaspecialitycode("hsaspecialitycode"), hsalanguageknowledgecode("hsalanguageknowledgecode"), hsamiddlename("hsamiddlename");
+  
+  private KivwsPersonAttributes(String value) {
+    this.value = value;
+  }
+  
+  private String value;
 
+  @Override
+  public String toString() {
+    return value;
+  }
 }
 
 public class KivwsPersonMapper implements ContextMapper {
@@ -55,7 +65,17 @@ public class KivwsPersonMapper implements ContextMapper {
     for (Entry entry : entries.getEntry()) {
       attributes.put(entry.getKey(), entry.getValue().getAnyType());
     }
+    person.setHsaIdentity(getSingleValue(KivwsPersonAttributes.hsaidentity.toString()));
     person.setCn(getSingleValue(KivwsPersonAttributes.cn.toString()));
+    person.setHsaTitle(getSingleValue(KivwsPersonAttributes.hsatitle.toString()));
+    person.setGivenName(getSingleValue(KivwsPersonAttributes.givenname.toString()));
+    person.setMail(getSingleValue(KivwsPersonAttributes.mail.toString()));
+    person.setSn(getSingleValue(KivwsPersonAttributes.sn.toString()));
+    person.setVgrId(getSingleValue(KivwsPersonAttributes.vgrid.toString()));
+    person.setHsaNickName(getSingleValue(KivwsPersonAttributes.hsanickname.toString()));
+    person.setHsaSpecialityCode(getMultiValue(KivwsPersonAttributes.hsaspecialitycode.toString()));
+    person.setHsaLanguageKnowledgeCode(getMultiValue(KivwsPersonAttributes.hsalanguageknowledgecode.toString()));
+    person.setHsaMiddleName(getSingleValue(KivwsPersonAttributes.hsamiddlename.toString()));
 
     return person;
   }

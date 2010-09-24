@@ -19,16 +19,12 @@
 
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.io.FileReader;
 import java.io.ObjectInputStream;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -52,45 +48,25 @@ public class KivwsPersonMapperTest {
     arrayOfPerson = (ArrayOfPerson) objectInputStream.readObject();
     kivwsPersonMapper = new KivwsPersonMapper();
   }
-@Ignore
+
   @Test
   public void testMapFromContext() {
     List<Person> person = arrayOfPerson.getPerson();
     // Person 1
-    se.vgregion.kivtools.search.domain.Person personsResult = kivwsPersonMapper.mapFromContext(person.get(0));
-    assertEquals("", personsResult.getCn());
-    assertEquals("", personsResult.getCreateTimestamp());
-    assertEquals("", personsResult.getDn());
-    assertEquals("", personsResult.getEmploymentPeriod());
-    assertEquals("", personsResult.getEmployments());
-    assertEquals("", personsResult.getFullName());
-    assertEquals("Anders", personsResult.getGivenName());
-    assertEquals("SE2321000131-P000000098362", personsResult.getHsaIdentity());
-    assertEquals("", personsResult.getHsaLanguageKnowledgeCode());
-    assertEquals("", personsResult.getHsaLanguageKnowledgeText());
-    assertEquals("", personsResult.getHsaMiddleName());
-    assertEquals("", personsResult.getHsaNickName());
-    assertEquals("", personsResult.getHsaPersonIdentityNumber());
-    assertEquals("3352564", personsResult.getHsaPersonPrescriptionCode());
-    assertEquals("", personsResult.getHsaSpecialityCode());
-    assertEquals("", personsResult.getHsaSpecialityName());
-    assertEquals("Läkare", personsResult.getHsaTitle());
-    assertEquals("", personsResult.getInitials());
-    assertEquals("", personsResult.getMail());
-    assertEquals("", personsResult.getMobileNumberOfFirstEmployment());
-    assertEquals("", personsResult.getMobileNumberOfFirstEmployment());
-    assertEquals("", personsResult.getModifyTimestamp());
-    assertEquals("", personsResult.getSn());
-    assertEquals("", personsResult.getTelephoneNumberOfFirstEmployment());
-    assertEquals("", personsResult.getVgrAdminTypes());
-    assertEquals("", personsResult.getVgrAnsvarsnummer());
-    assertEquals("", personsResult.getVgrAO3kod());
-    assertEquals("", personsResult.getVgrId());
-    assertEquals("", personsResult.getVgrManagedObjects());
-    assertEquals("", personsResult.getVgrOrgRel());
-    assertEquals("", personsResult.getVgrStrukturPersonDN());
+    se.vgregion.kivtools.search.domain.Person personsResult = kivwsPersonMapper.mapFromContext(person.get(1));
+    
+    assertEquals("SE2321000131-P0000111111111", personsResult.getHsaIdentity());
+    assertEquals("Sjuksköterska", personsResult.getHsaTitle());
+    assertEquals("Jane", personsResult.getGivenName());
+    assertEquals("jane.doe@vgregion.se", personsResult.getMail());
+    assertEquals("testsn", personsResult.getSn());
+    assertEquals("jane17", personsResult.getVgrId());
 
-
+    assertEquals("JaneD", personsResult.getHsaNickName());
+    assertEquals("30100", personsResult.getHsaSpecialityCode().get(0));
+    assertEquals("30200", personsResult.getHsaSpecialityCode().get(1));
+    assertEquals("[ENG, SWE]", personsResult.getHsaLanguageKnowledgeCode().toString());
+    assertEquals("x", personsResult.getHsaMiddleName());
   }
 
 }

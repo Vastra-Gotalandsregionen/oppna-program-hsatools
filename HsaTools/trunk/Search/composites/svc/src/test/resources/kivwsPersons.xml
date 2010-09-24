@@ -34,27 +34,10 @@
           <value class="se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap">
             <entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>hsaidentity</key>
-                <value>
-                  <anyType>
-                    <string>SE2321000131-P000000098362</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
                 <key>cardnumber</key>
                 <value>
                   <anyType>
-                    <string>9752267985700530170</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>serialnumber</key>
-                <value>
-                  <anyType>
-                    <string>723ed3ffb91ddda486d289f87ad364fe</string>
-                    <string>B7282A176749484953DA3D83F243ABD0</string>
+                    <string>9752267985700128264</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -67,6 +50,120 @@
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>createtimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20070810180216Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>creatorsname</key>
+                <value>
+                  <anyType>
+                    <string>cn=KIVMETA01,ou=System,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsapersonprescriptioncode</key>
+                <value>
+                  <anyType>
+                    <string>5374202</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectsource_TEXT</key>
+                <value>
+                  <anyType>
+                    <string>Heroma(J),Skatteverket(J), Systemgenererat</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>givenname</key>
+                <value>
+                  <anyType>
+                    <string>Aikaterini</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectapprovaltime</key>
+                <value>
+                  <anyType>
+                    <string>20080125102418Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>fullname</key>
+                <value>
+                  <anyType>
+                    <string>John Doe</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrtilltalskod</key>
+                <value>
+                  <anyType>
+                    <string>00</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaspecialitycode_TEXT</key>
+                <value>
+                  <anyType>
+                    <string>Obstetrik och gynekologi</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>validnotbefore</key>
+                <value>
+                  <anyType>
+                    <string>20090428095202Z</string>
+                    <string>20090428095206Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>userprincipalname</key>
+                <value>
+                  <anyType>
+                    <string>SE2321000131-P000005456393@vgregion.se</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaidentity</key>
+                <value>
+                  <anyType>
+                    <string>SE2321000131-P000005456393</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>serialnumber</key>
+                <value>
+                  <anyType>
+                    <string>2846B4E8069C9CA1947248E11749F1B0</string>
+                    <string>840DAF0EF93AE1DAAFF06D3D6DB9DDD</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsanickname</key>
+                <value>
+                  <anyType>
+                    <string>JohnD</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
                 <key>logindisabled</key>
                 <value>
                   <anyType>
@@ -75,58 +172,18 @@
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>hsapersonprescriptioncode</key>
-                <value>
-                  <anyType>
-                    <string>3352564</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>givenname</key>
-                <value>
-                  <anyType>
-                    <string>Anders</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
                 <key>mail</key>
                 <value>
                   <anyType>
-                    <string>anders.avall@vgregion.se</string>
+                    <string>john.doe@vgregion.se</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>vgrobjectapprovaltime</key>
+                <key>validnotafter</key>
                 <value>
                   <anyType>
-                    <string>20090327075646Z</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>fullname</key>
-                <value>
-                  <anyType>
-                    <string>Anders Rickard Åvall</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>sn</key>
-                <value>
-                  <anyType>
-                    <string>Åvall</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>vgrtilltalskod</key>
-                <value>
-                  <anyType>
-                    <string>10</string>
+                    <string>20140421215959Z</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -134,15 +191,15 @@
                 <key>vgrobjectsource</key>
                 <value>
                   <anyType>
-                    <string>010</string>
+                    <string>120</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>hsamifareserialnumber</key>
+                <key>sn</key>
                 <value>
                   <anyType>
-                    <string>9752267985700530170@1328317707</string>
+                    <string>John</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -150,7 +207,7 @@
                 <key>vgr-id</key>
                 <value>
                   <anyType>
-                    <string>andav</string>
+                    <string>johnd1</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -158,7 +215,31 @@
                 <key>cn</key>
                 <value>
                   <anyType>
-                    <string>andav</string>
+                    <string>johnd1</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrmodifyersname</key>
+                <value>
+                  <anyType>
+                    <string>cn=test,ou=Personal,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrmodifytimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20100203093623Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsalanguageknowledgecode</key>
+                <value>
+                  <anyType>
+                    <string>GRE</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -166,15 +247,31 @@
                 <key>vgrobjectapprovedby</key>
                 <value>
                   <anyType>
-                    <string>lispe7</string>
+                    <string>test</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>initials</key>
+                <key>hsaspecialitycode</key>
                 <value>
                   <anyType>
-                    <string>R</string>
+                    <string>10500</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>modifiersname</key>
+                <value>
+                  <anyType>
+                    <string>cn=test2,ou=System,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>modifytimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20100917140355Z</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -182,64 +279,8 @@
                 <key>usercertificate</key>
                 <value>
                   <anyType>
-                    <byte-array>MIIE+TCCA+GgAwIBAgIRALcoKhdnSUhJU9o9g/JDq9AwDQYJKoZIhvcNAQEFBQAwNjELMAkGA1UE
-BhMCU0UxETAPBgNVBAoMCENhcmVsaW5rMRQwEgYDVQQDDAtTSVRIUyBDQSB2MzAeFw0wOTExMjUx
-MzIxMDBaFw0xNDExMjEyMjU5NThaMIH9MQswCQYDVQQGEwJzZTEgMB4GA1UEBwwXVsOkc3RyYSBH
-w7Z0YWxhbmRzIGzDpG4xIzAhBgNVBAoMGlbDpHN0cmEgR8O2dGFsYW5kc3JlZ2lvbmVuMSAwHgYD
-VQQDDBdBbmRlcnMgUiDDhXZhbGwtMTgwM0EtMTEPMA0GA1UEBAwGw4V2YWxsMQ8wDQYDVQQqDAZB
-bmRlcnMxIzAhBgNVBAUTGlNFMjMyMTAwMDEzMS1QMDAwMDAwMDk4MzYyMScwJQYJKoZIhvcNAQkB
-FhhhbmRlcnMuYXZhbGxAdmdyZWdpb24uc2UxFTATBgNVBAwMDMOWdmVybMOka2FyZTCBnTANBgkq
-hkiG9w0BAQEFAAOBiwAwgYcCgYEAl9liBNlxzhHAQJj9mZpubAy0Pz1tjfdFbM4si/HAzr+3OtTa
-P/2MYF1Dy9vY55dAOIA67ch5uDm6bfOxiaAPAXq0RAOGmMxsqPfzGE+PwAbMuPsct/j8DnjcQqPz
-EFqGkm+efcgq7bcb2D8kZVCBdrvX3i5WPwg+VkGtRe6hDEcCAQOjggG+MIIBujAOBgNVHQ8BAf8E
-BAMCAEAwHwYGKoVwIgIBBBUTEzk3NTIyNjc5ODU3MDA1MzAxNzAwGwYDVR0JBBQwEjAQBgNVBAwx
-CQwHTMOka2FyZTCBsAYDVR0fBIGoMIGlMIGioIGfoIGchm9sZGFwOi8vc2l0aHNjcmwuY2FyZWxp
-bmsuc2p1bmV0Lm9yZy9jbj1TSVRIUyUyMENBJTIwdmVyJTIwMyxvPVNJVEhTJTIwQ0EsYz1TRT9j
-ZXJ0aWZpY2F0ZVJldm9jYXRpb25MaXN0O2JpbmFyeT+GKWh0dHA6Ly93d3cuY2FyZWxpbmsuc2Uv
-c2l0aHMtY2EvY2EwMDMuY3JsMDwGCCsGAQUFBwEBBDAwLjAsBggrBgEFBQcwAYYgaHR0cDovL3Np
-dGhzb2NzcC50cnVzdC50ZWxpYS5jb20wIwYDVR0RBBwwGoEYYW5kZXJzLmF2YWxsQHZncmVnaW9u
-LnNlMBQGA1UdIAQNMAswCQYHKoVwSgEBBDAdBgNVHQ4EFgQUMRuC5kPwwDnM/aSmsb1RxB8HpMUw
-HwYDVR0jBBgwFoAUfC45IzJE6A9OZvINKP5AvsK24qAwDQYJKoZIhvcNAQEFBQADggEBAHeVHndo
-W8zBqxvpkeRxfnr3EI5S5A0HhLyZacwzyjHLOyq0CHIX1psXSrqyO0QfWHqAwg1bu+i8ADWTqYHv
-s8HY/660yyZR0ScM03DGatQCJfcfnn8slB/6uTRIYq7q5R2daRFGh6uA2aDSkNJM8ARD0bhpB0TO
-58EzT0xq7MWzGmKk96oOdmSkLWpTtcIahqac+1wwezyAYPYgO9eex3/ZQAayyIP7IyFb8TSNZsxh
-yLvhjHG1nr7ggre6Um/CyxLT1SGGjT2XkUKDG9Loiyp5qds4bD7C+OK7toBrWZxBwDgeKoUk23En
-wQKOuTgBo8OcmUpRjq0uaQjZ83onYtg=</byte-array>
-                    <byte-array>MIIFXTCCBEWgAwIBAgIQcj7T/7kd3aSG0on4etNk/jANBgkqhkiG9w0BAQUFADA2MQswCQYDVQQG
-EwJTRTERMA8GA1UECgwIQ2FyZWxpbmsxFDASBgNVBAMMC1NJVEhTIENBIHYzMB4XDTA5MTEyNTEz
-MjA1OFoXDTE0MTEyMTIyNTk1OVowgf0xCzAJBgNVBAYTAnNlMSAwHgYDVQQHDBdWw6RzdHJhIEfD
-tnRhbGFuZHMgbMOkbjEjMCEGA1UECgwaVsOkc3RyYSBHw7Z0YWxhbmRzcmVnaW9uZW4xIDAeBgNV
-BAMMF0FuZGVycyBSIMOFdmFsbC0xODAzQS0xMQ8wDQYDVQQEDAbDhXZhbGwxDzANBgNVBCoMBkFu
-ZGVyczEjMCEGA1UEBRMaU0UyMzIxMDAwMTMxLVAwMDAwMDAwOTgzNjIxJzAlBgkqhkiG9w0BCQEW
-GGFuZGVycy5hdmFsbEB2Z3JlZ2lvbi5zZTEVMBMGA1UEDAwMw5Z2ZXJsw6RrYXJlMIGfMA0GCSqG
-SIb3DQEBAQUAA4GNADCBiQKBgQCF3VzXOS5lUu1c75mPSUmIpKiShlLSnYt08ae+qFQCxCEmTRlU
-5LnHe68HwWLjN7Ci5uApnH3KdZq/WvwD6pABTuK5becQ3LCVRwTMsIgQqYK91GcpGPPuVu9dSLQ2
-CpLabk49s0REMXO9RC3Qsodmys5aNcpBampH/BGtWuIsLwIDAQABo4ICITCCAh0wDgYDVR0PAQH/
-BAQDAgCgMB8GBiqFcCICAQQVExM5NzUyMjY3OTg1NzAwNTMwMTcwMBsGA1UdCQQUMBIwEAYDVQQM
-MQkMB0zDpGthcmUwgbAGA1UdHwSBqDCBpTCBoqCBn6CBnIZvbGRhcDovL3NpdGhzY3JsLmNhcmVs
-aW5rLnNqdW5ldC5vcmcvY249U0lUSFMlMjBDQSUyMHZlciUyMDMsbz1TSVRIUyUyMENBLGM9U0U/
-Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdDtiaW5hcnk/hilodHRwOi8vd3d3LmNhcmVsaW5rLnNl
-L3NpdGhzLWNhL2NhMDAzLmNybDA8BggrBgEFBQcBAQQwMC4wLAYIKwYBBQUHMAGGIGh0dHA6Ly9z
-aXRoc29jc3AudHJ1c3QudGVsaWEuY29tMFsGA1UdEQRUMFKgNgYKKwYBBAGCNxQCA6AoDCZTRTIz
-MjEwMDAxMzEtUDAwMDAwMDA5ODM2MkB2Z3JlZ2lvbi5zZYEYYW5kZXJzLmF2YWxsQHZncmVnaW9u
-LnNlMBQGA1UdIAQNMAswCQYHKoVwSgEBBDApBgNVHSUEIjAgBgorBgEEAYI3FAICBggrBgEFBQcD
-BAYIKwYBBQUHAwIwHQYDVR0OBBYEFHvWRa3Gw2C/CPyRpWwiYIIb2P7SMB8GA1UdIwQYMBaAFHwu
-OSMyROgPTmbyDSj+QL7CtuKgMA0GCSqGSIb3DQEBBQUAA4IBAQBsAf/2W4DaaiavTKJ0LlSItqSX
-DVsKGJqjZcfdXJQjkFqzFKdfZd3A8uvxvrPu5NjWQolwcZz9smkSIKuR16AwFIqgTZ5aSrPb42vI
-4uDeLsCKmCGJ1bHjdEAPyqAsDy0H8bq5SffuMgu9GEBBkqygNgz7lhKWldZFeybU/eGEgg0cKM/Y
-51EbAwfpcKCD3irROLJPyq6x9XvYbvsOv827Gm3TNS+XIqPb0ZFLiC1uOzKfhMBFPrX+R0aOy2Nh
-iYvLqjsy9SQicLuBRCDOn2Bg1MTCMpX0nFGOio95qPkz1OOXu861zeVkqNEASOYJNXaFQ1Vjwk4Y
-7uekxIl60n1b</byte-array>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>city</key>
-                <value>
-                  <anyType>
-                    <string>notes</string>
-                    <string>Hosp_prescriptionCode_33333532353634</string>
-                    <string>Hosp_hsaTitle_4C4B</string>
+                    <byte-array>test1</byte-array>
+                    <byte-array>test2</byte-array>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -255,7 +296,7 @@ iYvLqjsy9SQicLuBRCDOn2Bg1MTCMpX0nFGOio95qPkz1OOXu861zeVkqNEASOYJNXaFQ1Vjwk4Y
           </name>
           <declaredType>java.lang.String</declaredType>
           <scope>se.vgregion.kivtools.search.svc.ws.domain.kivws.Person</scope>
-          <value class="string">cn=andav,ou=Personal,o=VGR</value>
+          <value class="string">cn=test,ou=Personal,o=VGR</value>
           <nil>false</nil>
         </dn>
         <employments>
@@ -277,26 +318,10 @@ iYvLqjsy9SQicLuBRCDOn2Bg1MTCMpX0nFGOio95qPkz1OOXu861zeVkqNEASOYJNXaFQ1Vjwk4Y
           <value class="se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap">
             <entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>hsaidentity</key>
-                <value>
-                  <anyType>
-                    <string>SE2321000131-P000000107293</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>serialnumber</key>
-                <value>
-                  <anyType>
-                    <string>AA5584CA5EB29425039D615626C7F2AF</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
                 <key>cardnumber</key>
                 <value>
                   <anyType>
-                    <string>9752267985700397976</string>
+                    <string>975226798574444444</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -304,7 +329,138 @@ iYvLqjsy9SQicLuBRCDOn2Bg1MTCMpX0nFGOio95qPkz1OOXu861zeVkqNEASOYJNXaFQ1Vjwk4Y
                 <key>hsatitle</key>
                 <value>
                   <anyType>
-                    <string>Läkare</string>
+                    <string>Sjuksköterska</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>createtimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20090116121250Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>creatorsname</key>
+                <value>
+                  <anyType>
+                    <string>cn=test,ou=System,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectsource_TEXT</key>
+                <value>
+                  <anyType>
+                    <string>Heroma(N),Västfolket(J), Systemgenererat</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>givenname</key>
+                <value>
+                  <anyType>
+                    <string>Jane</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectapprovaltime</key>
+                <value>
+                  <anyType>
+                    <string>20070206150027Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsamiddlename</key>
+                <value>
+                  <anyType>
+                    <string>x</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>fullname</key>
+                <value>
+                  <anyType>
+                    <string>Jane x Doe</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrtilltalskod</key>
+                <value>
+                  <anyType>
+                    <string>23</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaspecialitycode_TEXT</key>
+                <value>
+                  <anyType>
+                    <string>Barn- och ungdomsmedicin</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>validnotbefore</key>
+                <value>
+                  <anyType>
+                    <string>20090602091846Z</string>
+                    <string>20090602091849Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>userprincipalname</key>
+                <value>
+                  <anyType>
+                    <string>SE2321000131-P0000111111111@vgregion.se</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>initials</key>
+                <value>
+                  <anyType>
+                    <string>I</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>city</key>
+                <value>
+                  <anyType>
+                    <string>notes</string>
+                    <string>Hosp_hsaTitle_534A</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaidentity</key>
+                <value>
+                  <anyType>
+                    <string>SE2321000131-P0000111111111</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>serialnumber</key>
+                <value>
+                  <anyType>
+                    <string>2BB3C7FFEA97BCB8FDF1E5</string>
+                    <string>2F7A6B9B46AC67AF3A744E</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsanickname</key>
+                <value>
+                  <anyType>
+                    <string>JaneD</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -317,34 +473,19 @@ iYvLqjsy9SQicLuBRCDOn2Bg1MTCMpX0nFGOio95qPkz1OOXu861zeVkqNEASOYJNXaFQ1Vjwk4Y
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>hsapersonprescriptioncode</key>
+                <key>mail</key>
                 <value>
                   <anyType>
-                    <string>4989232</string>
+                    <string>jane.doe@vgregion.se</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>givenname</key>
+                <key>validnotafter</key>
                 <value>
                   <anyType>
-                    <string>David</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>vgrobjectapprovaltime</key>
-                <value>
-                  <anyType>
-                    <string>20090813110948Z</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>fullname</key>
-                <value>
-                  <anyType>
-                    <string>Nils David Åberg</string>
+                    <string>20140529220000Z</string>
+                    <string>20140529220001Z</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -352,15 +493,7 @@ iYvLqjsy9SQicLuBRCDOn2Bg1MTCMpX0nFGOio95qPkz1OOXu861zeVkqNEASOYJNXaFQ1Vjwk4Y
                 <key>sn</key>
                 <value>
                   <anyType>
-                    <string>Åberg</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>vgrtilltalskod</key>
-                <value>
-                  <anyType>
-                    <string>20</string>
+                    <string>testsn</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -373,18 +506,10 @@ iYvLqjsy9SQicLuBRCDOn2Bg1MTCMpX0nFGOio95qPkz1OOXu861zeVkqNEASOYJNXaFQ1Vjwk4Y
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>hsamifareserialnumber</key>
-                <value>
-                  <anyType>
-                    <string>9752267985700397976@1330369499</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
                 <key>vgr-id</key>
                 <value>
                   <anyType>
-                    <string>davab1</string>
+                    <string>jane17</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -392,23 +517,57 @@ iYvLqjsy9SQicLuBRCDOn2Bg1MTCMpX0nFGOio95qPkz1OOXu861zeVkqNEASOYJNXaFQ1Vjwk4Y
                 <key>cn</key>
                 <value>
                   <anyType>
-                    <string>davab1</string>
+                    <string>test17</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>vgrobjectapprovedby</key>
+                <key>vgrmodifyersname</key>
                 <value>
                   <anyType>
-                    <string>chral6</string>
+                    <string>cn=jane17,ou=Personal,o=VGR</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>initials</key>
+                <key>vgrmodifytimestamp</key>
                 <value>
                   <anyType>
-                    <string>N</string>
+                    <string>20081120085232Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsalanguageknowledgecode</key>
+                <value>
+                  <anyType>
+                    <string>ENG</string>
+                    <string>SWE</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaspecialitycode</key>
+                <value>
+                  <anyType>
+                    <string>30100</string>
+                    <string>30200</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>modifytimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20100917091129Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>modifiersname</key>
+                <value>
+                  <anyType>
+                    <string>cn=test2,ou=System,o=VGR</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -416,60 +575,9 @@ iYvLqjsy9SQicLuBRCDOn2Bg1MTCMpX0nFGOio95qPkz1OOXu861zeVkqNEASOYJNXaFQ1Vjwk4Y
                 <key>usercertificate</key>
                 <value>
                   <anyType>
-                    <byte-array>MIIEnzCCA4egAwIBAgIRAKpVhMpespQlA51hVibH8q8wDQYJKoZIhvcNAQEFBQAwNjELMAkGA1UE
-BhMCU0UxETAPBgNVBAoMCENhcmVsaW5rMRQwEgYDVQQDDAtTSVRIUyBDQSB2MzAeFw0wOTA5MTQw
-ODUyNTNaFw0xNDA5MDcyMTU5NThaMIHIMQswCQYDVQQGEwJzZTEgMB4GA1UEBwwXVsOkc3RyYSBH
-w7Z0YWxhbmRzIGzDpG4xIzAhBgNVBAoMGlbDpHN0cmEgR8O2dGFsYW5kc3JlZ2lvbmVuMR8wHQYD
-VQQDDBZEYXZpZCBOIMOFYmVyZy0xQTMxRC0xMQ8wDQYDVQQEDAbDhWJlcmcxDjAMBgNVBCoMBURh
-dmlkMSMwIQYDVQQFExpTRTIzMjEwMDAxMzEtUDAwMDAwMDEwNzI5MzELMAkGA1UEDAwCU1QwgZ0w
-DQYJKoZIhvcNAQEBBQADgYsAMIGHAoGBAIn33ebLWUnhOzfJ6SPG+AOBznQb9KQToMEflwJEk6Hd
-PZaIx1n/9eY+0dX/edtxfIC2HklL0K21z8NG22W2YMdikvOTGs85I5bC6whbqWkagyE+ClRi/uJw
-eRNWw5ump1hnhSQDEBIJRVxgchX8L0pX0gy+4ULv/E9dxLLqOYxHAgEDo4IBmTCCAZUwDgYDVR0P
-AQH/BAQDAgBAMB8GBiqFcCICAQQVExM5NzUyMjY3OTg1NzAwMzk3OTc2MBsGA1UdCQQUMBIwEAYD
-VQQMMQkMB0zDpGthcmUwgbAGA1UdHwSBqDCBpTCBoqCBn6CBnIZvbGRhcDovL3NpdGhzY3JsLmNh
-cmVsaW5rLnNqdW5ldC5vcmcvY249U0lUSFMlMjBDQSUyMHZlciUyMDMsbz1TSVRIUyUyMENBLGM9
-U0U/Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdDtiaW5hcnk/hilodHRwOi8vd3d3LmNhcmVsaW5r
-LnNlL3NpdGhzLWNhL2NhMDAzLmNybDA8BggrBgEFBQcBAQQwMC4wLAYIKwYBBQUHMAGGIGh0dHA6
-Ly9zaXRoc29jc3AudHJ1c3QudGVsaWEuY29tMBQGA1UdIAQNMAswCQYHKoVwSgEBBDAdBgNVHQ4E
-FgQU0HC4sV/F5LlSTjXuJNao401PRKgwHwYDVR0jBBgwFoAUfC45IzJE6A9OZvINKP5AvsK24qAw
-DQYJKoZIhvcNAQEFBQADggEBACvcKwHCWH8Nf+jTapTfKw6dfZn5ZdzoQuAIHq7p7KclELw6oND2
-pT2YlDlvYhcepXpxiacFQW3BsUaYGlU5aDiHC2t1jS6UVykA2QSkuJFLE4VfMqEopbugf19/SHes
-LVLELxdl3BpGBJ5lPFE/6Ag96eyAQK49zcjzgdkgEx/tamJHfqMN/3BuOFXAeGAvYsEyJGYzdTxJ
-OcqFLjb7vfo1eOW4yMRTxo55kLD8ln8+SvmCyPgJ/YRLpDEgitTzSh5aY6ghgCEtoFyYb/TIALBX
-Fj1Kuhf5wXZPo0t9XDRGxKgflzaZNKfOtepadzb4eRVuPipt7KSwZjvGvRZaxzM=</byte-array>
-                    <byte-array>MIIFDjCCA/agAwIBAgIQPRcPpVVsQUSH8BswPnQAvzANBgkqhkiG9w0BAQUFADA2MQswCQYDVQQG
-EwJTRTERMA8GA1UECgwIQ2FyZWxpbmsxFDASBgNVBAMMC1NJVEhTIENBIHYzMB4XDTA5MDkxNDA4
-NTI0OVoXDTE0MDkwNzIxNTk1OVowgcgxCzAJBgNVBAYTAnNlMSAwHgYDVQQHDBdWw6RzdHJhIEfD
-tnRhbGFuZHMgbMOkbjEjMCEGA1UECgwaVsOkc3RyYSBHw7Z0YWxhbmRzcmVnaW9uZW4xHzAdBgNV
-BAMMFkRhdmlkIE4gw4ViZXJnLTFBMzFELTExDzANBgNVBAQMBsOFYmVyZzEOMAwGA1UEKgwFRGF2
-aWQxIzAhBgNVBAUTGlNFMjMyMTAwMDEzMS1QMDAwMDAwMTA3MjkzMQswCQYDVQQMDAJTVDCBnzAN
-BgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAg2iL1SYxN1b8seTJtUJob8odqNa0gzvufs07qS/bpRhn
-dTekKr126Kyk3ZdVB/V2O210ZIHSwn5mM4E9BPsd32HNKPyidxqxwYj6O/afRdDs9XKqxeVpGmZt
-Mn6TiOlZ84POfR721p7l1r5E+ddplo3Y8XyBzXf3sJTuFRCpA9UCAwEAAaOCAgcwggIDMA4GA1Ud
-DwEB/wQEAwIAoDAfBgYqhXAiAgEEFRMTOTc1MjI2Nzk4NTcwMDM5Nzk3NjAbBgNVHQkEFDASMBAG
-A1UEDDEJDAdMw6RrYXJlMIGwBgNVHR8EgagwgaUwgaKggZ+ggZyGb2xkYXA6Ly9zaXRoc2NybC5j
-YXJlbGluay5zanVuZXQub3JnL2NuPVNJVEhTJTIwQ0ElMjB2ZXIlMjAzLG89U0lUSFMlMjBDQSxj
-PVNFP2NlcnRpZmljYXRlUmV2b2NhdGlvbkxpc3Q7YmluYXJ5P4YpaHR0cDovL3d3dy5jYXJlbGlu
-ay5zZS9zaXRocy1jYS9jYTAwMy5jcmwwPAYIKwYBBQUHAQEEMDAuMCwGCCsGAQUFBzABhiBodHRw
-Oi8vc2l0aHNvY3NwLnRydXN0LnRlbGlhLmNvbTBBBgNVHREEOjA4oDYGCisGAQQBgjcUAgOgKAwm
-U0UyMzIxMDAwMTMxLVAwMDAwMDAxMDcyOTNAdmdyZWdpb24uc2UwFAYDVR0gBA0wCzAJBgcqhXBK
-AQEEMCkGA1UdJQQiMCAGCisGAQQBgjcUAgIGCCsGAQUFBwMEBggrBgEFBQcDAjAdBgNVHQ4EFgQU
-Po6nQRiqJ8DlBCgvTMsx+pb+bDswHwYDVR0jBBgwFoAUfC45IzJE6A9OZvINKP5AvsK24qAwDQYJ
-KoZIhvcNAQEFBQADggEBAAedd23FkE7xqceaPv7PHfaWSruFUJyUXPxoLBKgKIRzsmm6FqonauZr
-5X2N6u4DF7V4LNthgOj++/17oevANEVq+Sy+A6HkiyQQ6cMM6UWnpPM1LSfXf4EgJBsA9XJI5D+I
-hzDuQUEJM8GzP1j4u72C9mlsxhH8AacZ8S6YaqnlkwFzdLJASg5fnyl6dxOBsrtw5+qndsJbiXUs
-yLjcA97lXtfseotj2cwXKRP91koqyrcXBm2mBtN73uylIHiV3FI16H+EFiseja//1iXwdHUTPkWl
-lvRUevdWTHWHMZu+3lOH4Hhb7awIMl2K2TLHAqMOpme2JPDuLTTs5f/p3Xw=</byte-array>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>city</key>
-                <value>
-                  <anyType>
-                    <string>notes</string>
-                    <string>Hosp_prescriptionCode_34393839323332</string>
-                    <string>Hosp_hsaTitle_4C4B</string>
+                    <byte-array>test1
+</byte-array>
+                    <byte-array>test2</byte-array>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -481,7 +589,7 @@ lvRUevdWTHWHMZu+3lOH4Hhb7awIMl2K2TLHAqMOpme2JPDuLTTs5f/p3Xw=</byte-array>
           <name reference="../../../se.vgregion.kivtools.search.svc.ws.domain.kivws.Person/dn/name"/>
           <declaredType>java.lang.String</declaredType>
           <scope>se.vgregion.kivtools.search.svc.ws.domain.kivws.Person</scope>
-          <value class="string">cn=davab1,ou=Personal,o=VGR</value>
+          <value class="string">cn=jane17,ou=Personal,o=VGR</value>
           <nil>true</nil>
         </dn>
         <employments>
@@ -499,18 +607,10 @@ lvRUevdWTHWHMZu+3lOH4Hhb7awIMl2K2TLHAqMOpme2JPDuLTTs5f/p3Xw=</byte-array>
           <value class="se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap">
             <entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>hsaidentity</key>
-                <value>
-                  <anyType>
-                    <string>SE2321000131-P000000215805</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
                 <key>cardnumber</key>
                 <value>
                   <anyType>
-                    <string>9752267985700068767</string>
+                    <string>975226798570222222</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -518,7 +618,131 @@ lvRUevdWTHWHMZu+3lOH4Hhb7awIMl2K2TLHAqMOpme2JPDuLTTs5f/p3Xw=</byte-array>
                 <key>hsatitle</key>
                 <value>
                   <anyType>
-                    <string>Sjuksköterska</string>
+                    <string>Läkare</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>createtimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20060306050159Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>creatorsname</key>
+                <value>
+                  <anyType>
+                    <string>cn=Palsjuk SnapShot Connector,cn=DSet01,ou=System,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsapersonprescriptioncode</key>
+                <value>
+                  <anyType>
+                    <string>4874756</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectsource_TEXT</key>
+                <value>
+                  <anyType>
+                    <string>Heroma(J),Västfolket(J), Systemgenererat</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>givenname</key>
+                <value>
+                  <anyType>
+                    <string>John2</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectapprovaltime</key>
+                <value>
+                  <anyType>
+                    <string>20070307093437Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>fullname</key>
+                <value>
+                  <anyType>
+                    <string>John2 Doe</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrtilltalskod</key>
+                <value>
+                  <anyType>
+                    <string>00</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaspecialitycode_TEXT</key>
+                <value>
+                  <anyType>
+                    <string>Allmänmedicin</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>validnotbefore</key>
+                <value>
+                  <anyType>
+                    <string>20090409093203Z</string>
+                    <string>20090409093206Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>userprincipalname</key>
+                <value>
+                  <anyType>
+                    <string>SE2321000131-P00044444444@vgregion.se</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>city</key>
+                <value>
+                  <anyType>
+                    <string>notes</string>
+                    <string>Hosp_prescriptionCode_34383734373536</string>
+                    <string>Hosp_hsaTitle_4C4B</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaidentity</key>
+                <value>
+                  <anyType>
+                    <string>SE2321000131-P00044444444</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>serialnumber</key>
+                <value>
+                  <anyType>
+                    <string>3811A910A4019D7288E719B5976</string>
+                    <string>DDF06331719B595FCC3719B5963E</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsanickname</key>
+                <value>
+                  <anyType>
+                    <string>JohnD2</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -531,34 +755,18 @@ lvRUevdWTHWHMZu+3lOH4Hhb7awIMl2K2TLHAqMOpme2JPDuLTTs5f/p3Xw=</byte-array>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>givenname</key>
-                <value>
-                  <anyType>
-                    <string>David</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
                 <key>mail</key>
                 <value>
                   <anyType>
-                    <string>david.ademark@vgregion.se</string>
+                    <string>john2.doe@vgregion.se</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>vgrobjectapprovaltime</key>
+                <key>validnotafter</key>
                 <value>
                   <anyType>
-                    <string>20080107081440Z</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>fullname</key>
-                <value>
-                  <anyType>
-                    <string>Sven David Roger Ådemark</string>
+                    <string>20140403220000Z</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -566,15 +774,7 @@ lvRUevdWTHWHMZu+3lOH4Hhb7awIMl2K2TLHAqMOpme2JPDuLTTs5f/p3Xw=</byte-array>
                 <key>sn</key>
                 <value>
                   <anyType>
-                    <string>Ådemark</string>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>vgrtilltalskod</key>
-                <value>
-                  <anyType>
-                    <string>20</string>
+                    <string>John2 Doe</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -590,7 +790,7 @@ lvRUevdWTHWHMZu+3lOH4Hhb7awIMl2K2TLHAqMOpme2JPDuLTTs5f/p3Xw=</byte-array>
                 <key>vgr-id</key>
                 <value>
                   <anyType>
-                    <string>davad1</string>
+                    <string>johnd2</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -598,7 +798,7 @@ lvRUevdWTHWHMZu+3lOH4Hhb7awIMl2K2TLHAqMOpme2JPDuLTTs5f/p3Xw=</byte-array>
                 <key>cn</key>
                 <value>
                   <anyType>
-                    <string>davad1</string>
+                    <string>johnd2</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -606,7 +806,7 @@ lvRUevdWTHWHMZu+3lOH4Hhb7awIMl2K2TLHAqMOpme2JPDuLTTs5f/p3Xw=</byte-array>
                 <key>vgrmodifyersname</key>
                 <value>
                   <anyType>
-                    <string>cn=annan107,ou=Personal,o=VGR</string>
+                    <string>cn=test,ou=Personal,o=VGR</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -614,23 +814,39 @@ lvRUevdWTHWHMZu+3lOH4Hhb7awIMl2K2TLHAqMOpme2JPDuLTTs5f/p3Xw=</byte-array>
                 <key>vgrmodifytimestamp</key>
                 <value>
                   <anyType>
-                    <string>20080107071542Z</string>
+                    <string>20100312143354Z</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>vgrobjectapprovedby</key>
+                <key>hsalanguageknowledgecode</key>
                 <value>
                   <anyType>
-                    <string>annan107</string>
+                    <string>SPA</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
               <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>initials</key>
+                <key>hsaspecialitycode</key>
                 <value>
                   <anyType>
-                    <string>SR</string>
+                    <string>80100</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>modifiersname</key>
+                <value>
+                  <anyType>
+                    <string>cn=Admin,ou=System,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>modifytimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20100906111810Z</string>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -638,62 +854,8 @@ lvRUevdWTHWHMZu+3lOH4Hhb7awIMl2K2TLHAqMOpme2JPDuLTTs5f/p3Xw=</byte-array>
                 <key>usercertificate</key>
                 <value>
                   <anyType>
-                    <byte-array>MIIFbTCCBFWgAwIBAgIRAIVr7/qW+URKfQu9ZrqBq9kwDQYJKoZIhvcNAQEFBQAwNjELMAkGA1UE
-BhMCU0UxETAPBgNVBAoMCENhcmVsaW5rMRQwEgYDVQQDDAtTSVRIUyBDQSB2MzAeFw0wOTAzMTcx
-MTM4MjhaFw0xNDAzMTIyMjU5NTlaMIIBAzELMAkGA1UEBhMCc2UxIDAeBgNVBAcMF1bDpHN0cmEg
-R8O2dGFsYW5kcyBsw6RuMSMwIQYDVQQKDBpWw6RzdHJhIEfDtnRhbGFuZHNyZWdpb25lbjEiMCAG
-A1UEAwwZRGF2aWQgU1Igw4VkZW1hcmstMzRBRkQtMTERMA8GA1UEBAwIw4VkZW1hcmsxDjAMBgNV
-BCoMBURhdmlkMSMwIQYDVQQFExpTRTIzMjEwMDAxMzEtUDAwMDAwMDIxNTgwNTEoMCYGCSqGSIb3
-DQEJARYZZGF2aWQuYWRlbWFya0B2Z3JlZ2lvbi5zZTEXMBUGA1UEDAwOU2p1a3Nrw7Z0ZXJza2Ew
-gZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAI7knjwuR5pD3TdTLIFNgYWFRrV/r1Y/quQE5qbo
-y5+JHpvCisBlgGf6KLXYFhpm2JoV1GlKGofaIJD19auQGBWPDWhknOapc5DungFc+HwXaVlHK+IO
-ayfjekBsPPDxlLuCmn3PlH989CRQEzmfGsElf3eWuZwZwV48uJvS/3hZAgMBAAGjggIpMIICJTAO
-BgNVHQ8BAf8EBAMCAKAwHwYGKoVwIgIBBBUTEzk3NTIyNjc5ODU3MDAwNjg3NjcwIgYDVR0JBBsw
-GTAXBgNVBAwxEAwOU2p1a3Nrw7Z0ZXJza2EwgbAGA1UdHwSBqDCBpTCBoqCBn6CBnIZvbGRhcDov
-L3NpdGhzY3JsLmNhcmVsaW5rLnNqdW5ldC5vcmcvY249U0lUSFMlMjBDQSUyMHZlciUyMDMsbz1T
-SVRIUyUyMENBLGM9U0U/Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdDtiaW5hcnk/hilodHRwOi8v
-d3d3LmNhcmVsaW5rLnNlL3NpdGhzLWNhL2NhMDAzLmNybDA8BggrBgEFBQcBAQQwMC4wLAYIKwYB
-BQUHMAGGIGh0dHA6Ly9zaXRoc29jc3AudHJ1c3QudGVsaWEuY29tMFwGA1UdEQRVMFOgNgYKKwYB
-BAGCNxQCA6AoDCZTRTIzMjEwMDAxMzEtUDAwMDAwMDIxNTgwNUB2Z3JlZ2lvbi5zZYEZZGF2aWQu
-YWRlbWFya0B2Z3JlZ2lvbi5zZTAUBgNVHSAEDTALMAkGByqFcEoBAQMwKQYDVR0lBCIwIAYKKwYB
-BAGCNxQCAgYIKwYBBQUHAwQGCCsGAQUFBwMCMB0GA1UdDgQWBBQR1aZUEPcoc3wYGbf74tQEegBj
-7TAfBgNVHSMEGDAWgBR8LjkjMkToD05m8g0o/kC+wrbioDANBgkqhkiG9w0BAQUFAAOCAQEAra8K
-yD6a0jCDOEYaiFmtKK1louW1HO0W9fqkxAt8ie+IGqOXgieT6nxmigkoeYq83cHafwx+MNWUvRD7
-WjnGCXRIPt2RVK1jZK9ABVE2M/fChPQqZ7cXBvH+ZnVGH/v1HHv2617B7aH+N0zsMGPlz8SE/UIM
-ThCC6H41qqdJ3ochfPIZSt4cfbQKVSJH2g4qaado6G/Kswsqzy9xJFYpbiBkKAmf07sr/oWphR9E
-EC0wjPdlnNbNeBkx8+woJ7YwHIBPcT44hg3hOAy+MbCetfZ3noj8/GF0qzLoIE1y75l34Da3y1+C
-UtqwHFUvGgU1YCpPmR6ppnCO1LnYIEQV9Q==</byte-array>
-                    <byte-array>MIIFCDCCA/CgAwIBAgIRAP83Sil4MliPSxjYPrsT5/4wDQYJKoZIhvcNAQEFBQAwNjELMAkGA1UE
-BhMCU0UxETAPBgNVBAoMCENhcmVsaW5rMRQwEgYDVQQDDAtTSVRIUyBDQSB2MzAeFw0wOTAzMTcx
-MTM4MzJaFw0xNDAzMTIyMzAwMDBaMIIBAzELMAkGA1UEBhMCc2UxIDAeBgNVBAcMF1bDpHN0cmEg
-R8O2dGFsYW5kcyBsw6RuMSMwIQYDVQQKDBpWw6RzdHJhIEfDtnRhbGFuZHNyZWdpb25lbjEiMCAG
-A1UEAwwZRGF2aWQgU1Igw4VkZW1hcmstMzRBRkQtMTERMA8GA1UEBAwIw4VkZW1hcmsxDjAMBgNV
-BCoMBURhdmlkMSMwIQYDVQQFExpTRTIzMjEwMDAxMzEtUDAwMDAwMDIxNTgwNTEoMCYGCSqGSIb3
-DQEJARYZZGF2aWQuYWRlbWFya0B2Z3JlZ2lvbi5zZTEXMBUGA1UEDAwOU2p1a3Nrw7Z0ZXJza2Ew
-gZ0wDQYJKoZIhvcNAQEBBQADgYsAMIGHAoGBAIJJPtOVoPsGgTq4nx4gYVdTvvrSyOzOdnGbK+xQ
-/AKYaZ3Q2gyqeKjGZN4P2tb3kQJ4aSQgp0EmLTx+ZosS2uq2YSrjjOX8ui8VjkN6BuTAH54oK/AF
-2n7xal+5zoLslJFC2X/8hGkY7ZfspU9N1DhTHh0n/z7GVW4wAfkADUqtAgEDo4IBxjCCAcIwDgYD
-VR0PAQH/BAQDAgBAMB8GBiqFcCICAQQVExM5NzUyMjY3OTg1NzAwMDY4NzY3MCIGA1UdCQQbMBkw
-FwYDVQQMMRAMDlNqdWtza8O2dGVyc2thMIGwBgNVHR8EgagwgaUwgaKggZ+ggZyGb2xkYXA6Ly9z
-aXRoc2NybC5jYXJlbGluay5zanVuZXQub3JnL2NuPVNJVEhTJTIwQ0ElMjB2ZXIlMjAzLG89U0lU
-SFMlMjBDQSxjPVNFP2NlcnRpZmljYXRlUmV2b2NhdGlvbkxpc3Q7YmluYXJ5P4YpaHR0cDovL3d3
-dy5jYXJlbGluay5zZS9zaXRocy1jYS9jYTAwMy5jcmwwPAYIKwYBBQUHAQEEMDAuMCwGCCsGAQUF
-BzABhiBodHRwOi8vc2l0aHNvY3NwLnRydXN0LnRlbGlhLmNvbTAkBgNVHREEHTAbgRlkYXZpZC5h
-ZGVtYXJrQHZncmVnaW9uLnNlMBQGA1UdIAQNMAswCQYHKoVwSgEBAzAdBgNVHQ4EFgQUoi/IN+h5
-XD2EUbjX2UD/hgR4p48wHwYDVR0jBBgwFoAUfC45IzJE6A9OZvINKP5AvsK24qAwDQYJKoZIhvcN
-AQEFBQADggEBAIDjABKMD4NAtqSKX8aI+2qLRh9hTlhcIetoV/GIGfh7f4F3/pCtyI6yDl7v/iq3
-T1Tbp6fKyoCeutwepflvN822B7Iz+JUApaV4PWQEmqWA3tdEoUq0vk3EmgalXuD0dJ/js2r3TGj3
-LsSDXs2qPl/h8jeyG4t5LPyjLIRXdnmY1hxvuGEguIVyP5JOuo3GjUI1TRdVh6IgVrNwEO8JzrbI
-h4Z5c/UeC5D9mCX721JWSkfB+W/rPaXpOG7FUKHvsahQeDjQz9E3J7x2mR5Kh+pHiG7Pp/NU5loR
-Z6iAsO9KfdpjY7fRRbiT3Z+pf3AHymfkFQyR3vEZ2fhTz8ftpUw=</byte-array>
-                  </anyType>
-                </value>
-              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
-                <key>city</key>
-                <value>
-                  <anyType>
-                    <string>Hosp_hsaTitle_534A</string>
+                    <byte-array>test1</byte-array>
+                    <byte-array>test2</byte-array>
                   </anyType>
                 </value>
               </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
@@ -705,7 +867,7 @@ Z6iAsO9KfdpjY7fRRbiT3Z+pf3AHymfkFQyR3vEZ2fhTz8ftpUw=</byte-array>
           <name reference="../../../se.vgregion.kivtools.search.svc.ws.domain.kivws.Person/dn/name"/>
           <declaredType>java.lang.String</declaredType>
           <scope>se.vgregion.kivtools.search.svc.ws.domain.kivws.Person</scope>
-          <value class="string">cn=davad1,ou=Personal,o=VGR</value>
+          <value class="string">cn=arala,ou=Personal,o=VGR</value>
           <nil>true</nil>
         </dn>
         <employments>
@@ -714,7 +876,836 @@ Z6iAsO9KfdpjY7fRRbiT3Z+pf3AHymfkFQyR3vEZ2fhTz8ftpUw=</byte-array>
           <scope>se.vgregion.kivtools.search.svc.ws.domain.kivws.Person</scope>
           <nil>true</nil>
         </employments>
-      </se.vgregion.kivtools.search.svc.ws.domain.kivws.Person>   
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.Person>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.Person>
+        <attributes>
+          <name reference="../../../se.vgregion.kivtools.search.svc.ws.domain.kivws.Person/attributes/name"/>
+          <declaredType>se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap</declaredType>
+          <scope>se.vgregion.kivtools.search.svc.ws.domain.kivws.Person</scope>
+          <value class="se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap">
+            <entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>cardnumber</key>
+                <value>
+                  <anyType>
+                    <string>975226711111111111</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsatitle</key>
+                <value>
+                  <anyType>
+                    <string>Sjuksköterska</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>createtimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20060304094457Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>creatorsname</key>
+                <value>
+                  <anyType>
+                    <string>cn=Palsjuk SnapShot Connector,cn=DSet01,ou=System,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectsource_TEXT</key>
+                <value>
+                  <anyType>
+                    <string>Heroma(J),Västfolket(J), Systemgenererat</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>givenname</key>
+                <value>
+                  <anyType>
+                    <string>John3</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>fullname</key>
+                <value>
+                  <anyType>
+                    <string>John3 Doe</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrtilltalskod</key>
+                <value>
+                  <anyType>
+                    <string>00</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>validnotbefore</key>
+                <value>
+                  <anyType>
+                    <string>20090601093533Z</string>
+                    <string>20090601093536Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>userprincipalname</key>
+                <value>
+                  <anyType>
+                    <string>SE2321000131-P4444444444444444@vgregion.se</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>initials</key>
+                <value>
+                  <anyType>
+                    <string>O</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>city</key>
+                <value>
+                  <anyType>
+                    <string>notes</string>
+                    <string>Hosp_hsaTitle_534A</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaidentity</key>
+                <value>
+                  <anyType>
+                    <string>SE2321000131-P4444444444444444</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>serialnumber</key>
+                <value>
+                  <anyType>
+                    <string>2447A6963BFD103E3D4955CBE3D495515</string>
+                    <string>3D49553D49553D49553D4955</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsanickname</key>
+                <value>
+                  <anyType>
+                    <string>John3</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>logindisabled</key>
+                <value>
+                  <anyType>
+                    <string>TRUE</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>mail</key>
+                <value>
+                  <anyType>
+                    <string>john3.doe@vgregion.se</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>validnotafter</key>
+                <value>
+                  <anyType>
+                    <string>20140527215959Z</string>
+                    <string>20140527220000Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectsource</key>
+                <value>
+                  <anyType>
+                    <string>110</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>sn</key>
+                <value>
+                  <anyType>
+                    <string>john3doe</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgr-id</key>
+                <value>
+                  <anyType>
+                    <string>johnd3</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>cn</key>
+                <value>
+                  <anyType>
+                    <string>johnd3</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrmodifyersname</key>
+                <value>
+                  <anyType>
+                    <string>cn=test,ou=Personal,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrmodifytimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20070927132020Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsalanguageknowledgecode</key>
+                <value>
+                  <anyType>
+                    <string>SWE</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaspecialitycode</key>
+                <value>
+                  <anyType>
+                    <string>3002</string>
+                    <string>3003</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>modifytimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20100917085337Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>modifiersname</key>
+                <value>
+                  <anyType>
+                    <string>cn=test,ou=System,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>usercertificate</key>
+                <value>
+                  <anyType>
+                    <byte-array>tset1</byte-array>
+                    <byte-array>test2</byte-array>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+            </entry>
+          </value>
+          <nil>true</nil>
+        </attributes>
+        <dn>
+          <name reference="../../../se.vgregion.kivtools.search.svc.ws.domain.kivws.Person/dn/name"/>
+          <declaredType>java.lang.String</declaredType>
+          <scope>se.vgregion.kivtools.search.svc.ws.domain.kivws.Person</scope>
+          <value class="string">cn=test,ou=Personal,o=VGR</value>
+          <nil>true</nil>
+        </dn>
+        <employments>
+          <name reference="../../../se.vgregion.kivtools.search.svc.ws.domain.kivws.Person/employments/name"/>
+          <declaredType>se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfEmployment</declaredType>
+          <scope>se.vgregion.kivtools.search.svc.ws.domain.kivws.Person</scope>
+          <nil>true</nil>
+        </employments>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.Person>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.Person>
+        <attributes>
+          <name reference="../../../se.vgregion.kivtools.search.svc.ws.domain.kivws.Person/attributes/name"/>
+          <declaredType>se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap</declaredType>
+          <scope>se.vgregion.kivtools.search.svc.ws.domain.kivws.Person</scope>
+          <value class="se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap">
+            <entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>cardnumber</key>
+                <value>
+                  <anyType>
+                    <string>97522679844444444</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>createtimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20060303134526Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>creatorsname</key>
+                <value>
+                  <anyType>
+                    <string>cn=Palkan SnapShot Connector,cn=DSet01,ou=System,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectsource_TEXT</key>
+                <value>
+                  <anyType>
+                    <string>Heroma(J),Västfolket(J), Systemgenererat</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>givenname</key>
+                <value>
+                  <anyType>
+                    <string>John4</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectapprovaltime</key>
+                <value>
+                  <anyType>
+                    <string>20061120154407Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>fullname</key>
+                <value>
+                  <anyType>
+                    <string>John4 Doe</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrmanagedobjects</key>
+                <value>
+                  <anyType>
+                    <string>ou=Södra Älvsborgs Sjukhus,ou=Org,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrtilltalskod</key>
+                <value>
+                  <anyType>
+                    <string>30</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaspecialitycode_TEXT</key>
+                <value>
+                  <anyType>
+                    <string>Psykiatrisk vård</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>validnotbefore</key>
+                <value>
+                  <anyType>
+                    <string>20090429113511Z</string>
+                    <string>20090429093511Z</string>
+                    <string>20090429093514Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>userprincipalname</key>
+                <value>
+                  <anyType>
+                    <string>SE2321000131-P01111111111111@vgregion.se</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>initials</key>
+                <value>
+                  <anyType>
+                    <string>M</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>city</key>
+                <value>
+                  <anyType>
+                    <string>notes</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaidentity</key>
+                <value>
+                  <anyType>
+                    <string>SE2321000131-P01111111111111</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>serialnumber</key>
+                <value>
+                  <anyType>
+                    <string>27972432550784892550784854942729584</string>
+                    <string>150B4BA2C611EB255078487F0F6C570</string>
+                    <string>296E01F60AB538C6E255078488A</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsanickname</key>
+                <value>
+                  <anyType>
+                    <string>John4</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgradmintype</key>
+                <value>
+                  <anyType>
+                    <string>K</string>
+                    <string>E</string>
+                    <string>N</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>logindisabled</key>
+                <value>
+                  <anyType>
+                    <string>FALSE</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>mail</key>
+                <value>
+                  <anyType>
+                    <string>john4.doe@vgregion.se</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>validnotafter</key>
+                <value>
+                  <anyType>
+                    <string>20140424000000Z</string>
+                    <string>20140423220000Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>sn</key>
+                <value>
+                  <anyType>
+                    <string>John4</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectsource</key>
+                <value>
+                  <anyType>
+                    <string>110</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>logintime</key>
+                <value>
+                  <anyType>
+                    <string>20100328084514Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgr-id</key>
+                <value>
+                  <anyType>
+                    <string>john4</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>cn</key>
+                <value>
+                  <anyType>
+                    <string>john4</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrmodifyersname</key>
+                <value>
+                  <anyType>
+                    <string>cn=test,ou=Personal,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrmodifytimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20100609092350Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsalanguageknowledgecode</key>
+                <value>
+                  <anyType>
+                    <string>ENG</string>
+                    <string>SRP</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaspecialitycode</key>
+                <value>
+                  <anyType>
+                    <string>3028</string>
+                    <string>40100</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>modifytimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20100917130903Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>modifiersname</key>
+                <value>
+                  <anyType>
+                    <string>cn=test,ou=System,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>usercertificate</key>
+                <value>
+                  <anyType>
+                    <byte-array>test1</byte-array>
+                    <byte-array>test2</byte-array>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+            </entry>
+          </value>
+          <nil>true</nil>
+        </attributes>
+        <dn>
+          <name reference="../../../se.vgregion.kivtools.search.svc.ws.domain.kivws.Person/dn/name"/>
+          <declaredType>java.lang.String</declaredType>
+          <scope>se.vgregion.kivtools.search.svc.ws.domain.kivws.Person</scope>
+          <value class="string">cn=test,ou=Personal,o=VGR</value>
+          <nil>true</nil>
+        </dn>
+        <employments>
+          <name reference="../../../se.vgregion.kivtools.search.svc.ws.domain.kivws.Person/employments/name"/>
+          <declaredType>se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfEmployment</declaredType>
+          <scope>se.vgregion.kivtools.search.svc.ws.domain.kivws.Person</scope>
+          <nil>true</nil>
+        </employments>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.Person>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.Person>
+        <attributes>
+          <name reference="../../../se.vgregion.kivtools.search.svc.ws.domain.kivws.Person/attributes/name"/>
+          <declaredType>se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap</declaredType>
+          <scope>se.vgregion.kivtools.search.svc.ws.domain.kivws.Person</scope>
+          <value class="se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap">
+            <entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>cardnumber</key>
+                <value>
+                  <anyType>
+                    <string>9757001985700133702</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsatitle</key>
+                <value>
+                  <anyType>
+                    <string>Sjuksköterska</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>creatorsname</key>
+                <value>
+                  <anyType>
+                    <string>cn=Palkan SnapShot Connector,cn=DSet01,ou=System,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>createtimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20060303045644Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectsource_TEXT</key>
+                <value>
+                  <anyType>
+                    <string>Heroma(J),Västfolket(J), Systemgenererat</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>givenname</key>
+                <value>
+                  <anyType>
+                    <string>John5</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectapprovaltime</key>
+                <value>
+                  <anyType>
+                    <string>20100223153132Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>fullname</key>
+                <value>
+                  <anyType>
+                    <string>John5 Doe</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrtilltalskod</key>
+                <value>
+                  <anyType>
+                    <string>12</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaspecialitycode_TEXT</key>
+                <value>
+                  <anyType>
+                    <string>Psykiatrisk vård</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>validnotbefore</key>
+                <value>
+                  <anyType>
+                    <string>20090428091523Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>userprincipalname</key>
+                <value>
+                  <anyType>
+                    <string>SE2321000131-P55555555555@vgregion.se</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>city</key>
+                <value>
+                  <anyType>
+                    <string>notes</string>
+                    <string>Hosp_hsaTitle_534A</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaidentity</key>
+                <value>
+                  <anyType>
+                    <string>SE2321000131-P55555555555</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsanickname</key>
+                <value>
+                  <anyType>
+                    <string>John5D</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>logindisabled</key>
+                <value>
+                  <anyType>
+                    <string>TRUE</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>mail</key>
+                <value>
+                  <anyType>
+                    <string>john5.doe@vgregion.se</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>validnotafter</key>
+                <value>
+                  <anyType>
+                    <string>20140422235959Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectsource</key>
+                <value>
+                  <anyType>
+                    <string>110</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>sn</key>
+                <value>
+                  <anyType>
+                    <string>john5d</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgr-id</key>
+                <value>
+                  <anyType>
+                    <string>john5d</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>cn</key>
+                <value>
+                  <anyType>
+                    <string>john5d</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrmodifyersname</key>
+                <value>
+                  <anyType>
+                    <string>cn=test,ou=Personal,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrmodifytimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20090129152746Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsalanguageknowledgecode</key>
+                <value>
+                  <anyType>
+                    <string>SWE</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>vgrobjectapprovedby</key>
+                <value>
+                  <anyType>
+                    <string>test</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>hsaspecialitycode</key>
+                <value>
+                  <anyType>
+                    <string>3028</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>modifiersname</key>
+                <value>
+                  <anyType>
+                    <string>cn=test,ou=System,o=VGR</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>modifytimestamp</key>
+                <value>
+                  <anyType>
+                    <string>20100517141500Z</string>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+              <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+                <key>usercertificate</key>
+                <value>
+                  <anyType>
+                    <byte-array>test1</byte-array>
+                    <byte-array>test2</byte-array>
+                  </anyType>
+                </value>
+              </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap_-Entry>
+            </entry>
+          </value>
+          <nil>true</nil>
+        </attributes>
+        <dn>
+          <name reference="../../../se.vgregion.kivtools.search.svc.ws.domain.kivws.Person/dn/name"/>
+          <declaredType>java.lang.String</declaredType>
+          <scope>se.vgregion.kivtools.search.svc.ws.domain.kivws.Person</scope>
+          <value class="string">cn=test,ou=Personal,o=VGR</value>
+          <nil>true</nil>
+        </dn>
+        <employments>
+          <name reference="../../../se.vgregion.kivtools.search.svc.ws.domain.kivws.Person/employments/name"/>
+          <declaredType>se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfEmployment</declaredType>
+          <scope>se.vgregion.kivtools.search.svc.ws.domain.kivws.Person</scope>
+          <nil>true</nil>
+        </employments>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.Person>
     </person>
   </se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfPerson>
 </object-stream>
