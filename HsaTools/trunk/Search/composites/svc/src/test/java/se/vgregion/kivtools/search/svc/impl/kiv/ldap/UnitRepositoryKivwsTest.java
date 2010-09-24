@@ -22,13 +22,10 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,12 +34,9 @@ import javax.naming.Name;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.filter.Filter;
 
-import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
 import se.vgregion.kivtools.mocks.ldap.LdapTemplateMock;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
@@ -50,6 +44,7 @@ import se.vgregion.kivtools.search.domain.values.CodeTableNameInterface;
 import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
+import se.vgregion.kivtools.search.domain.values.KivwsCodeTableName;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
@@ -151,9 +146,9 @@ public class UnitRepositoryKivwsTest {
 
     // Create ldapConnectionMock.
     CodeTableMock codeTableMock = new CodeTableMock();
-    codeTableMock.values.put(CodeTableName.VGR_AO3_CODE, "01");
-    codeTableMock.values.put(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "1505");
-    codeTableMock.values.put(CodeTableName.VGR_CARE_TYPE, "01");
+    codeTableMock.values.put(KivwsCodeTableName.VGR_AO3_CODE, "01");
+    codeTableMock.values.put(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "1505");
+    codeTableMock.values.put(KivwsCodeTableName.VGR_CARE_TYPE, "01");
 
     unitRepository.setCodeTablesService(codeTableMock);
     String expectedFilterOU = "(&(vgrAO3kod=01)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1505)(vgrCareType=01))";
@@ -169,8 +164,8 @@ public class UnitRepositoryKivwsTest {
     searchUnitCriterions = new SearchUnitCriterions();
     searchUnitCriterions.setBusinessClassificationName("123");
 
-    expectedFilterOU = "(hsaBusinessClassificationCode=NO_VALID_CODE_TABLE_CODE_FOUND)";
-    expectedFilterCN = "(hsaBusinessClassificationCode=NO_VALID_CODE_TABLE_CODE_FOUND)";
+    expectedFilterOU = "(hsaBusinessClassificationCode=1505)";
+    expectedFilterCN = "(hsaBusinessClassificationCode=1505)";
 
     unitRepository.searchUnits(searchUnitCriterions, 0);
 
@@ -290,7 +285,7 @@ public class UnitRepositoryKivwsTest {
     searchUnitCriterions.setBusinessClassificationName("3");
 
     CodeTableMock codeTableMock = new CodeTableMock();
-    codeTableMock.values.put(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "3");
+    codeTableMock.values.put(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "3");
     unitRepository.setCodeTablesService(codeTableMock);
 
     unitRepository.searchUnits(searchUnitCriterions, 10);
@@ -436,12 +431,12 @@ public class UnitRepositoryKivwsTest {
   public void testRemoveUnallowedUnits() throws KivException {
     HealthcareType healthcareType = new HealthcareType();
     healthcareType.addCondition("conditionKey", "value1,value2");
-    
+
     Unit unit1 = new Unit();
     unit1.setHsaIdentity("abc-123");
     unit1.setHsaBusinessClassificationCode(Arrays.asList("1504"));
     unit1.setVgrAnsvarsnummer(Arrays.asList("112233"));
-    
+
     Unit unit2 = new Unit();
     unit2.setHsaIdentity("abc-456");
     unit2.setHsaBusinessClassificationCode(Arrays.asList("1500"));
@@ -449,12 +444,12 @@ public class UnitRepositoryKivwsTest {
     Unit unit3 = new Unit();
     unit3.setHsaIdentity("SE6460000000-E000000000222");
     unit3.setHsaBusinessClassificationCode(Arrays.asList("abc"));
-    
+
     Unit unit4 = new Unit();
     unit4.setHsaIdentity("abc-789");
     unit4.setHsaBusinessClassificationCode(Arrays.asList("1"));
     unit4.setVgrAnsvarsnummer(Arrays.asList("12345"));
-    
+
     searchServiceMock.resultList.add(unit1);
     searchServiceMock.resultList.add(unit2);
     searchServiceMock.resultList.add(unit3);
@@ -483,17 +478,17 @@ public class UnitRepositoryKivwsTest {
     String expectedCN = "(&(hsaIdentity=abc-123)(|(vgrCareType=01)(vgrCareType=01)))";
 
     CodeTableMock codeTableMock = new CodeTableMock();
-    codeTableMock.values.put(CodeTableName.VGR_CARE_TYPE, "01");
+    codeTableMock.values.put(KivwsCodeTableName.VGR_CARE_TYPE, "01");
     unitRepository.setCodeTablesService(codeTableMock);
     unitRepository.getUnitByHsaIdAndHasNotCareTypeInpatient("abc-123");
-    
+
     assertEquals(expectedOU, searchServiceMock.filterOU);
     assertEquals(expectedCN, searchServiceMock.filterCN);
   }
 
   private class CodeTableMock implements CodeTablesService {
 
-    private Map<CodeTableName, String> values = new HashMap<CodeTableName, String>();
+    private Map<KivwsCodeTableName, String> values = new HashMap<KivwsCodeTableName, String>();
 
     @Override
     public List<String> getCodeFromTextValue(CodeTableNameInterface codeTableName, String textValue) {

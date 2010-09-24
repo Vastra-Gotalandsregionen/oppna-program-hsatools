@@ -25,7 +25,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
     <bean id="suggestionBean" class="se.vgregion.kivtools.search.presentation.kiv.SuggestionBean">
-      <property name="codeTablesService" ref="Search_CodeTablesService" />
+      <property name="codeTablesService" ref="Search_KivwsCodeTablesService" />
     </bean>
 </beans>
 
