@@ -20,12 +20,7 @@
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,20 +28,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.naming.Name;
 import javax.naming.directory.SearchControls;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.LdapTemplate;
-
-import com.thoughtworks.xstream.XStream;
 
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
@@ -56,10 +45,6 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
-import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfPerson;
-import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfString;
-import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRException_Exception;
-import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionDirectory;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService;
 import se.vgregion.kivtools.util.time.TimeSource;
 import se.vgregion.kivtools.util.time.TimeUtil;
@@ -85,46 +70,15 @@ public class KivwsPersonRepositoryTest {
     codeTableServiceMock.addListToMap(CodeTableName.PA_TITLE_CODE, Arrays.asList("employmentTitle", "Kurator"));
     kivwsPersonRepository.setCodeTablesService(codeTableServiceMock);
     KivwsFactoryBean kivwsFactoryBean = new KivwsFactoryBean();
-    
-    
-    // Integration test
-    /*
-    DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
-    Resource resource = defaultResourceLoader.getResource("classpath:se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties");
-    Properties loadAllProperties = PropertiesLoaderUtils.loadProperties(resource);
-    kivwsFactoryBean.setProperties(loadAllProperties);
-    */
-    //vgRegionWebService = kivwsFactoryBean.createWebService();
-  }
-  
-  private void kivwsIntegrationTest(String filter)  {
-    ArrayOfPerson searchPerson = null;
-    try {
-      searchPerson = vgRegionWebService.searchPerson(filter, new ArrayOfString(), VGRegionDirectory.KIV, null, null);
-      XStream xStream = new XStream();
-      FileWriter fileWriter = new FileWriter(new File("kivwsPersons.xml"));
-      ObjectOutputStream createObjectOutputStream = xStream.createObjectOutputStream(fileWriter);
-      createObjectOutputStream.writeObject(searchPerson);
-      createObjectOutputStream.flush();
-      createObjectOutputStream.close();
-    } catch (VGRException_Exception e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    assertNotNull(searchPerson);
   }
 
   @Test
   public void testSearchPersonsStringInt() throws KivException {
-    String expectedFilter = "(vgr-id=*dav*)";
+    String expectedFilter = "(vgr-id=*anders*)";
     String expectedBase = "ou=Personal,o=vgr";
-    SikSearchResultList<Person> searchPersonsResult = kivwsPersonRepository.searchPersons("dav", 2);
+    SikSearchResultList<Person> searchPersonsResult = kivwsPersonRepository.searchPersons("anders", 2);
     assertEquals(expectedBase, ldapTemplateMock.base.get(0));
     assertEquals(expectedFilter, ldapTemplateMock.filter.get(0));
-    //kivwsIntegrationTest(expectedFilter);
   }
 
   @Test
@@ -134,7 +88,6 @@ public class KivwsPersonRepositoryTest {
     Person personByVgrId = kivwsPersonRepository.getPersonByVgrId("andav");
     assertEquals(expectedBase, ldapTemplateMock.base.get(0));
     assertEquals(expectedFilter, ldapTemplateMock.filter.get(0));
-    //kivwsIntegrationTest(expectedFilter);
   }
 
   @Test
@@ -144,7 +97,6 @@ public class KivwsPersonRepositoryTest {
     List<String> allPersonsVgrId = kivwsPersonRepository.getAllPersonsVgrId();
     assertEquals(expectedBase, ldapTemplateMock.base.get(0));
     assertEquals(expectedFilter, ldapTemplateMock.filter.get(0));
-    //kivwsIntegrationTest(expectedFilter);
   }
 
   @Test
@@ -155,17 +107,7 @@ public class KivwsPersonRepositoryTest {
     assertEquals(expectedBase, ldapTemplateMock.base.get(0));
     assertEquals(expectedFilter, ldapTemplateMock.filter.get(0));
     assertEquals(2, ldapTemplateMock.searchScope);
-    //kivwsIntegrationTest(expectedFilter);
   }
-
-  // @Test
-  // public void testGetPersonDNsByEmployment() throws KivException {
-  // String expectedFilter = "(vgr-id=*)";
-  // String expectedBase = "ou=Personal,o=vgr";
-  // kivwsPersonRepository.getPersonDNsByEmployment("dn", 2, 2);
-  // assertEquals(expectedBase, ldapTemplateMock.base.get(0));
-  // assertEquals(expectedFilter, ldapTemplateMock.filter.get(0));
-  // }
 
   @Test
   public void testGetPersonsForUnits() throws KivException {
@@ -181,7 +123,6 @@ public class KivwsPersonRepositoryTest {
     SikSearchResultList<Person> personsForUnits = kivwsPersonRepository.getPersonsForUnits(Arrays.asList(unit1, unit2), 2);
     assertEquals(expectedBase, ldapTemplateMock.base.get(0));
     assertEquals(expectedFilter, ldapTemplateMock.filter.get(0));
-    //kivwsIntegrationTest(expectedFilter);
   }
 
   @Test
@@ -213,7 +154,7 @@ public class KivwsPersonRepositoryTest {
     assertEquals(expectedBase, ldapTemplateMock.base.get(0));
     assertEquals(expectedFilter1, ldapTemplateMock.filter.get(0));
     assertEquals(expectedFilter2, ldapTemplateMock.filter.get(1));
-   
+
   }
 
   class LdapTemplateMock extends LdapTemplate {
