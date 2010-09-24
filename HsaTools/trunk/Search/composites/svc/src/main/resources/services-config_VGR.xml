@@ -45,7 +45,7 @@
 
 	<bean id="Search_UnitRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepositoryKivws">
-		<property name="codeTablesService" ref="Search_CodeTablesService" />
+		<property name="codeTablesService" ref="Search_KivwsCodeTablesService" />
 		<property name="searchService" ref="searchServiceKivws" />
 	</bean>
 
@@ -56,7 +56,7 @@
 			<bean factory-bean="kivws" factory-method="createWebService" />
 		</property>
 	</bean>
-
+	
 	<bean id="kivws"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.KivwsFactoryBean">
 		<property name="properties" ref="prop" />
@@ -81,7 +81,7 @@
 
 	<bean id="kivwsUnitMapper"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.KivwsUnitMapper">
-		<constructor-arg ref="Search_CodeTablesService" />
+		<constructor-arg ref="Search_KivwsCodeTablesService" />
 		<constructor-arg ref="Search_DisplayValueTranslator" />
 	</bean>
 
@@ -122,6 +122,16 @@
 		init-method="init">
 		<constructor-arg ref="ldapTemplate"></constructor-arg>
 	</bean>
+	
+	<bean id="Search_KivwsCodeTablesService"
+		class="se.vgregion.kivtools.search.svc.codetables.impl.vgr.KivwsCodeTablesServiceImpl"
+		init-method="init">
+		<constructor-arg>
+			<bean factory-bean="kivws" factory-method="createWebService" />
+		</constructor-arg>
+	</bean>
+	
+	
 
 	<bean id="Search_DisplayValueTranslator" class="se.vgregion.kivtools.search.util.DisplayValueTranslator">
 		<property name="translationMap">
@@ -140,7 +150,7 @@
 
 	<bean id="jobDetailCodeTableCacheUpdate"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="Search_CodeTablesService" />
+		<property name="targetObject" ref="Search_KivwsCodeTablesService" />
 		<property name="targetMethod" value="init" />
 		<property name="concurrent" value="false" />
 	</bean>

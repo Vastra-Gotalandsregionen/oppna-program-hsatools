@@ -38,10 +38,10 @@ import org.springframework.ldap.filter.LikeFilter;
 import org.springframework.ldap.filter.OrFilter;
 
 import se.vgregion.kivtools.search.domain.Unit;
-import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
+import se.vgregion.kivtools.search.domain.values.KivwsCodeTableName;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
@@ -60,7 +60,7 @@ import se.vgregion.kivtools.util.time.TimeUtil;
  * @author davidbennehult
  * 
  */
-public class UnitRepositoryKivws extends UnitRepository{
+public class UnitRepositoryKivws extends UnitRepository {
   private static final DistinguishedName KIV_SEARCH_BASE = new DistinguishedName("ou=Org,o=vgr");
   private static final String LDAP_WILD_CARD = "*";
   // an "
@@ -236,7 +236,7 @@ public class UnitRepositoryKivws extends UnitRepository{
     List<String> careTypes = new ArrayList<String>();
     careTypes.add(OPPENVARD);
     careTypes.add(HEMSJUKVARD);
-    Filter careTypesFilterList = this.generateCareTypeFilterFromList(CodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, careTypes);
+    Filter careTypesFilterList = this.generateCareTypeFilterFromList(KivwsCodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, careTypes);
     // Filter hsaIdentityFilter = createSearchFilter(LDAPUnitAttributes.UNIT_ID.toString(), hsaId);
     andFilterList.add("(hsaIdentity=" + hsaId + ")");
     andFilterList.add(careTypesFilterList.encode());
@@ -312,7 +312,7 @@ public class UnitRepositoryKivws extends UnitRepository{
     // List<String> careTypes = new ArrayList<String>();
     // careTypes.add(OPPENVARD);
     // careTypes.add(HEMSJUKVARD);
-    // Filter careTypesFilterList = this.generateCareTypeFilterFromList(CodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, careTypes);
+    // Filter careTypesFilterList = this.generateCareTypeFilterFromList(KivwsCodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, careTypes);
     // filterList.add(careTypesFilterList.encode());
 
     // Gets unit which has careType Öppenvård and Hemsjukvård
@@ -436,7 +436,7 @@ public class UnitRepositoryKivws extends UnitRepository{
     }
 
     List<String> filterList = new ArrayList<String>();
-    // filterList.add(result);
+    filterList.add(result);
     // add filters together
     // if (!"".equals(unitSearchString)) {
     // filterList.add(unitSearchString);
@@ -477,19 +477,19 @@ public class UnitRepositoryKivws extends UnitRepository{
       andFilter.and(orUnitName);
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getAdministrationName())) {
-      Filter orFilter = this.generateOrFilterFromList(CodeTableName.VGR_AO3_CODE, LDAPUnitAttributes.ADMINISTRATION, searchUnitCriterions.getAdministrationName());
+      Filter orFilter = this.generateOrFilterFromList(KivwsCodeTableName.VGR_AO3_CODE, LDAPUnitAttributes.ADMINISTRATION, searchUnitCriterions.getAdministrationName());
       andFilter.and(orFilter);
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getLiableCode())) {
       andFilter.and(this.createSearchFilter("vgrAnsvarsnummer", searchUnitCriterions.getLiableCode()));
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getBusinessClassificationName())) {
-      Filter orFilter = this.generateOrFilterFromList(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, LDAPUnitAttributes.BUSINESS_CLASSIFICATION_CODE, searchUnitCriterions
+      Filter orFilter = this.generateOrFilterFromList(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, LDAPUnitAttributes.BUSINESS_CLASSIFICATION_CODE, searchUnitCriterions
           .getBusinessClassificationName());
       andFilter.and(orFilter);
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getCareTypeName())) {
-      Filter orFilter = this.generateOrFilterFromList(CodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, searchUnitCriterions.getCareTypeName());
+      Filter orFilter = this.generateOrFilterFromList(KivwsCodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, searchUnitCriterions.getCareTypeName());
       andFilter.and(orFilter);
     }
     // create or criteria
@@ -508,7 +508,7 @@ public class UnitRepositoryKivws extends UnitRepository{
     return andFilter.encode();
   }
 
-  private Filter generateOrFilterFromList(CodeTableName codeTableName, LDAPUnitAttributes criterion, String criterionValue) {
+  private Filter generateOrFilterFromList(KivwsCodeTableName codeTableName, LDAPUnitAttributes criterion, String criterionValue) {
     List<String> codeFromTextValues = this.codeTablesService.getCodeFromTextValue(codeTableName, criterionValue);
     OrFilter orFilter = new OrFilter();
     if (codeFromTextValues.size() > 0) {
@@ -521,7 +521,7 @@ public class UnitRepositoryKivws extends UnitRepository{
     return orFilter;
   }
 
-  private Filter generateCareTypeFilterFromList(CodeTableName codeTableName, LDAPUnitAttributes criterion, List<String> careTypes) {
+  private Filter generateCareTypeFilterFromList(KivwsCodeTableName codeTableName, LDAPUnitAttributes criterion, List<String> careTypes) {
     List<String> codeFromTextValues = new ArrayList<String>();
     for (String careType : careTypes) {
       codeFromTextValues.addAll(this.codeTablesService.getCodeFromTextValue(codeTableName, careType));
