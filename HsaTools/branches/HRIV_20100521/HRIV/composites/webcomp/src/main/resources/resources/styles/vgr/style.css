@@ -1,0 +1,185 @@
+/**
+ * Copyright 2010 Västra Götalandsregionen
+ *
+ *   This library is free software; you can redistribute it and/or modify
+ *   it under the terms of version 2.1 of the GNU Lesser General Public
+ *   License as published by the Free Software Foundation.
+ *
+ *   This library is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public
+ *   License along with this library; if not, write to the
+ *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ *   Boston, MA 02111-1307  USA
+ *
+ */
+
+.structural {
+	left: -9999px;
+	position: absolute;
+}
+
+.yui-ge div.first {
+	border-right: 1px solid white;
+}
+
+.search-result td, .search-result th {
+	vertical-align: baseline;
+}
+
+.borderless-no-width-limit {
+	width: 100%;
+}
+
+.search-result h1.hriv-header-no-margin {
+	float: none;
+}
+
+#centercontent #search-result-container {
+	margin: 0em 2em 0em 0em;
+	padding: 0em;
+	list-style: none;
+	list-style-type: none;
+	width: 100%;
+}
+
+#search-result-caption {
+	padding: 0.5em;
+	float: left;
+	width: 49.6em;
+}
+
+#boxmiddle ul#search-result-container li {
+	margin: 0 0 0.5em;
+	padding: 1em 1em 1em 1em;
+	border: 0.1em solid #bcbcbc;
+}
+
+#boxmiddle ul#search-result-container li.selected-item {
+	padding: 0.65em 0.65em 1.1em 1.1em;
+	border: 0.5em solid #F3F1F2;
+	border-width: 0.5em 0.5em 0 0;
+	background: url(../../images/vgr/selected_search_Item_bg.gif) no-repeat bottom
+		left;
+}
+
+h3.fn {
+	color: #0033CC;
+	display: block;
+	font-size: 1.3em;
+	padding-bottom: 0em;
+	font-weight: normal;
+}
+
+.hits-header {
+	color: #666;
+	font-size: 1em;
+	padding-bottom: 0em;
+	font-weight: bold;
+}
+
+.vcard td.tel .type,.vcard .tel .type,.adr-container .type {
+	display: none;
+}
+
+.vcard .heading {
+	font-size: 1.25em;
+	font-weight: bold;
+}
+
+.rightaligned {
+	text-align: right;	
+}
+
+.search-result .borderless th,.search-result .borderless td {
+	border-width: 0em;
+	padding: 0.25em;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.summary {
+	clear: both;
+	margin-bottom: 0.1em;
+}
+
+.summary h1 {
+/*	font-size: 2.4em;*/
+	color: #333;
+	float: none;
+}
+
+#boxmiddle #accessibilityInfo {
+	font-size: 1.2em;
+}
+
+#boxmiddle ul.accessibilityInfoItem,#boxmiddle ul.accessibilityBlockItem,#boxmiddle ul.accessibilityCriteriaItem {
+	margin-bottom: 0.2em;
+	padding: 0px;
+	width: 100%;
+}
+
+#boxmiddle ul.accessibilityInfoItem {
+	list-style: none;
+}
+
+#boxmiddle ul.accessibilityBlockItem {
+	list-style: disc;
+}
+
+#boxmiddle ul.accessibilityCriteriaItem {
+	list-style: circle;
+	margin-left: 1em;
+}
+
+#boxmiddle ul.accessibilityCriteriaItem ul {
+	list-style: square;
+}
+
+#boxmiddle ul.accessibilityInfoItem li,#boxmiddle ul.accessibilityBlockItem li,#boxmiddle ul.accessibilityCriteriaItem li {
+	border: 0px;
+	list-style-image: none;
+	display: list-item;
+}
+
+#boxmiddle ul.accessibilityInfoItem li {
+	list-style: none;
+}
+
+#boxmiddle ul.accessibilityBlockItem li {
+	list-style: disc;
+}
+
+#boxmiddle ul.accessibilityCriteriaItem li {
+	list-style: circle;
+}
+
+#boxmiddle ul.accessibilityCriteriaItem ul li {
+	list-style: square;
+}
+
+.borderless-container table {
+	border: 0;
+	width: 70%;
+}
+
+#startpage-image-holder {
+	float: right;
+}
+
+.vardval-participant {
+	text-align: right;
+	padding: 2px;
+	float: left;
+}
+
+.vardval-participant-searchresult {
+	text-align: right;
+	padding: 2px;
+	float: right;
+}

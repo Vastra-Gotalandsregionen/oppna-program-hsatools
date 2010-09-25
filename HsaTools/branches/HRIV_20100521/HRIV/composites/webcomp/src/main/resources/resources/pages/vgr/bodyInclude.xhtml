@@ -22,36 +22,41 @@
 <h:outputText rendered="true"
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:ui="http://java.sun.com/jsf/facelets">
-	<div id="wrapper">
-	    <div id="custom-doc">
+	    <div id="doc4" class="yui-t2">
 	        <h:outputText rendered="${param.noHeader != '1'}">
 	            <ui:include src="${Search_SettingsContainer.header}"/>
 	        </h:outputText>
 	        <div id="bd">
-	            <div id="hriv-captions">
-	                <ui:insert name="HrivCaptions" />
+				<div id="yui-main">
+					<div class="yui-b">
+						<div class="yui-ge">
+							<div class="yui-u first">
+								<div id="boxmiddle">
+									<div class="col-inside" id="divPrintRegion">
+										<div id="centercontent">
+								            <div id="hriv-captions">
+								                <ui:insert name="HrivCaptions" />
+								            </div>
+						                    <h:outputText rendered="${Search_SettingsContainer.mainTop != null }">
+						                        <ui:include src="${Search_SettingsContainer.mainTop}"/>
+						                    </h:outputText>
+						                    <ui:insert name="MainContainer"></ui:insert>
+						                    <div class="col-extender"></div>
+										</div>
+					                </div>
+					            </div>
+					        </div>
+					    </div>
+					</div>
 	            </div>
-	
-	            <div id="search-column">
-	                <div id="header-input-field-container">
-	                    <div class="boxinside">
-	                     <ui:include src="${Search_SettingsContainer.searchFormInclude}"/>
-	                    </div>
-	
-	                    <ui:include src="${Search_SettingsContainer.informationArea}"/>
-	                </div>
-	            </div>
-	
-	            <div id="main-column">
-	                <div id="yui-main">
-	                    <h:outputText rendered="${Search_SettingsContainer.mainTop != null }">
-	                        <ui:include src="${Search_SettingsContainer.mainTop}"/>
-	                    </h:outputText>
-	                    <ui:insert name="MainContainer"></ui:insert>
-	                </div>
-	            </div>
-	        </div>
+	            <div class="yui-b">
+	            	<div class="col-inside">
+						<div class="form-search-organizational-unit">
+		                     <ui:include src="${Search_SettingsContainer.searchFormInclude}"/>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
 	        <ui:include src="${Search_SettingsContainer.footer}"/>
 	    </div>
-	</div>
 </h:outputText>

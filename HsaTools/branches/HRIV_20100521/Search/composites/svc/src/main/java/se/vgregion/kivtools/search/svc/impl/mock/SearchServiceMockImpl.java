@@ -20,6 +20,7 @@
 package se.vgregion.kivtools.search.svc.impl.mock;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -28,7 +29,9 @@ import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.domain.values.DN;
+import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.PhoneNumber;
+import se.vgregion.kivtools.search.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
@@ -39,14 +42,14 @@ import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
  * Mock implementation of the SearchService to use when no connection to an LDAP-server is available.
  */
 public class SearchServiceMockImpl implements SearchService {
-  private SikSearchResultList<Person> personList = new SikSearchResultList<Person>();
-  private SikSearchResultList<Unit> unitList = new SikSearchResultList<Unit>();
+  private final SikSearchResultList<Person> personList = new SikSearchResultList<Person>();
+  private final SikSearchResultList<Unit> unitList = new SikSearchResultList<Unit>();
 
   /**
    * Constructs a new mock-service.
    */
   public SearchServiceMockImpl() {
-    init();
+    this.init();
   }
 
   @Override
@@ -111,51 +114,12 @@ public class SearchServiceMockImpl implements SearchService {
 
   @Override
   public Unit getUnitByHsaId(String hsaId) throws KivException {
-    Unit u = new Unit();
-    List<String> a;
-    List<PhoneNumber> p;
-    List<String> d = new ArrayList<String>();
-    d.add("Bla bla bla");
-    d.add("Bla bla bla");
-    if (hsaId.equalsIgnoreCase("ABC001")) {
-      u.setName("VGR IT");
-      u.setHsaIdentity("ABC001");
-      p = new ArrayList<PhoneNumber>();
-      p.add(PhoneNumber.createPhoneNumber("031-123456"));
-      p.add(PhoneNumber.createPhoneNumber("031-654321"));
-      u.setHsaTelephoneNumber(p);
-      a = new ArrayList<String>();
-      a.add("Storgatan 1");
-      a.add("411 01 Göteborg");
-      u.setDescription(d);
-      u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
-      u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
-    } else if (hsaId.equalsIgnoreCase("ABC002")) {
-      u.setName("Sahlgrenska Sjukhuset");
-      u.setHsaIdentity("ABC002");
-      p = new ArrayList<PhoneNumber>();
-      p.add(PhoneNumber.createPhoneNumber("031-123456"));
-      p.add(PhoneNumber.createPhoneNumber("031-654321"));
-      u.setHsaTelephoneNumber(p);
-      a = new ArrayList<String>();
-      a.add("Storgatan 1");
-      a.add("411 01 Göteborg");
-      u.setDescription(d);
-      u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
-      u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
-    } else if (hsaId.equalsIgnoreCase("ABC003")) {
-      u.setName("Uddevalla vårdcentral");
-      u.setHsaIdentity("ABC003");
-      p = new ArrayList<PhoneNumber>();
-      p.add(PhoneNumber.createPhoneNumber("031-123456"));
-      p.add(PhoneNumber.createPhoneNumber("031-654321"));
-      u.setHsaTelephoneNumber(p);
-      a = new ArrayList<String>();
-      a.add("Storgatan 1");
-      a.add("411 01 Uddevalla");
-      u.setDescription(d);
-      u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
-      u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
+    Unit u = null;
+    for (Unit unit : this.unitList) {
+      if (hsaId.equals(unit.getHsaIdentity())) {
+        u = unit;
+        break;
+      }
     }
     return u;
   }
@@ -163,7 +127,7 @@ public class SearchServiceMockImpl implements SearchService {
   @Override
   public SikSearchResultList<Person> searchPersons(String vgrId, int maxResult) throws KivException {
     SikSearchResultList<Person> tempList = new SikSearchResultList<Person>();
-    for (Person p : personList) {
+    for (Person p : this.personList) {
       if (p.getVgrId().indexOf(vgrId) >= 0) {
         tempList.add(p);
       }
@@ -173,7 +137,7 @@ public class SearchServiceMockImpl implements SearchService {
 
   @Override
   public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions unit, int maxSearchResult) throws KivException {
-    return unitList;
+    return this.unitList;
   }
 
   @Override
@@ -216,8 +180,8 @@ public class SearchServiceMockImpl implements SearchService {
   }
 
   private void init() {
-    initPersons(personList);
-    initUnits(unitList);
+    this.initPersons(this.personList);
+    this.initUnits(this.unitList);
   }
 
   private void initPersons(SikSearchResultList<Person> list) {
@@ -254,50 +218,113 @@ public class SearchServiceMockImpl implements SearchService {
 
   private void initUnits(SikSearchResultList<Unit> list) {
     Unit u;
-    List<String> a;
-    List<PhoneNumber> p;
+    List<String> description = Arrays.asList("Fusce elementum enim id lacus fringilla mollis. Aliquam et libero leo, at sollicitudin purus. "
+        + "In hac habitasse platea dictumst. Donec nec aliquam leo. Sed dui lorem, aliquam id placerat id, posuere sed metus. "
+        + "Integer feugiat ultrices nisl at congue. Sed at posuere lorem. Class aptent taciti sociosqu ad litora torquent per "
+        + "conubia nostra, per inceptos himenaeos. Phasellus at turpis mi. Praesent sit amet diam diam. Integer in dolor sed erat dapibus malesuada quis eu nulla.");
 
     u = new Unit();
-    u.setName("VGR IT");
     u.setHsaIdentity("ABC001");
-    p = new ArrayList<PhoneNumber>();
-    p.add(PhoneNumber.createPhoneNumber("031-123456"));
-    p.add(PhoneNumber.createPhoneNumber("031-654321"));
-    u.setHsaTelephoneNumber(p);
-    a = new ArrayList<String>();
-    a.add("Storgatan 1");
-    a.add("411 01 Göteborg");
-    u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
+    u.setName("VGR IT");
+    u.setLocality("Göteborg");
+    u.setDescription(description);
     u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
+    u.setHsaManagementText("Offentlig vårdgivare");
+    u.setHsaVisitingRuleAge("0-60");
+    u.setHsaVisitingRules("Endast tidsbokade besök");
+    u.setShowVisitingRules(true);
+    u.setShowAgeInterval(true);
+    u.setLabeledURI("http://localhost:8180");
+    u.setWgs84Lat(57.6696);
+    u.setWgs84Long(12.572);
+    u.setMvkCaseTypes(Arrays.asList("yadda"));
+    u.setHsaRoute(Arrays.asList("Från riksväg 40, avfart Bollebygd.", "Kör mot Bollebygds centrum och parkera på Gästgivartorget.",
+        "Om man går till hörnan vid Systembolaget och står med ryggen mot gamla riksväg 40 ser man Vårdcentralen."));
+    this.initHealthcareTypes(u);
+    this.initUnitPhoneNumbers(u);
+    this.initUnitAddresses(u, "Storgatan 1", "411 01 Göteborg");
+    this.initUnitHours(u);
     list.add(u);
 
     u = new Unit();
     u.setHsaIdentity("ABC002");
     u.setName("Sahlgrenska Sjukhuset");
-    p = new ArrayList<PhoneNumber>();
-    p.add(PhoneNumber.createPhoneNumber("031-123456"));
-    p.add(PhoneNumber.createPhoneNumber("031-654321"));
-    u.setHsaTelephoneNumber(p);
-    a = new ArrayList<String>();
-    a.add("Storgatan 1");
-    a.add("411 01 Göteborg");
-    u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
+    u.setLocality("Göteborg");
+    u.setDescription(description);
     u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
+    u.setHsaManagementText("Offentlig vårdgivare");
+    u.setHsaVisitingRuleAge("0-60");
+    u.setHsaVisitingRules("Endast tidsbokade besök");
+    u.setShowVisitingRules(true);
+    u.setShowAgeInterval(true);
+    u.setLabeledURI("http://localhost:8180");
+    u.setWgs84Lat(57.6696);
+    u.setWgs84Long(12.572);
+    u.setMvkCaseTypes(Arrays.asList("yadda"));
+    u.setHsaRoute(Arrays.asList("Från riksväg 40, avfart Bollebygd.", "Kör mot Bollebygds centrum och parkera på Gästgivartorget.",
+        "Om man går till hörnan vid Systembolaget och står med ryggen mot gamla riksväg 40 ser man Vårdcentralen."));
+    this.initHealthcareTypes(u);
+    this.initUnitPhoneNumbers(u);
+    this.initUnitAddresses(u, "Storgatan 1", "411 01 Göteborg");
+    this.initUnitHours(u);
     list.add(u);
 
     u = new Unit();
-    u.setHsaIdentity("ABC003");
+    u.setHsaIdentity("SE2321000131-E000000000420");
     u.setName("Uddevalla vårdcentral");
+    u.setLocality("Uddevalla");
+    u.setDescription(description);
+    u.setVgrTempInfo("20090108-20990118 temporary information");
+    u.setVgrRefInfo("Hänvisning till baksidan");
+    u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
+    u.setHsaManagementText("Offentlig vårdgivare");
+    u.setHsaVisitingRuleAge("0-60");
+    u.setHsaVisitingRules("Endast tidsbokade besök");
+    u.setShowVisitingRules(true);
+    u.setShowAgeInterval(true);
+    u.setLabeledURI("http://localhost:8180");
+    u.setWgs84Lat(57.6696);
+    u.setWgs84Long(12.572);
+    u.setAccessibilityDatabaseId(123);
+    u.setMvkCaseTypes(Arrays.asList("yadda"));
+    u.setHsaRoute(Arrays.asList("Från riksväg 40, avfart Bollebygd.", "Kör mot Bollebygds centrum och parkera på Gästgivartorget.",
+        "Om man går till hörnan vid Systembolaget och står med ryggen mot gamla riksväg 40 ser man Vårdcentralen."));
+    this.initHealthcareTypes(u);
+    this.initUnitPhoneNumbers(u);
+    this.initUnitAddresses(u, "Storgatan 1", "411 01 Uddevalla");
+    this.initUnitHours(u);
+    list.add(u);
+  }
+
+  private void initHealthcareTypes(Unit u) {
+    u.setVgrVardVal(true);
+    HealthcareType healthcareType = new HealthcareType();
+    healthcareType.setDisplayName("Vårdcentral");
+    u.setHealthcareTypes(Arrays.asList(healthcareType));
+  }
+
+  private void initUnitHours(Unit unit) {
+    List<WeekdayTime> hours = WeekdayTime.createWeekdayTimeList(Arrays.asList("1-5#08:00#12:00", "1-5#13:00#16:30"));
+    unit.setHsaSurgeryHours(hours);
+    unit.setHsaDropInHours(hours);
+    unit.setHsaTelephoneTime(hours);
+  }
+
+  private void initUnitAddresses(Unit u, String street, String zipCity) {
+    List<String> a;
+    a = new ArrayList<String>();
+    a.add(street);
+    a.add(zipCity);
+    u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
+  }
+
+  private void initUnitPhoneNumbers(Unit u) {
+    List<PhoneNumber> p;
     p = new ArrayList<PhoneNumber>();
     p.add(PhoneNumber.createPhoneNumber("031-123456"));
     p.add(PhoneNumber.createPhoneNumber("031-654321"));
     u.setHsaTelephoneNumber(p);
-    a = new ArrayList<String>();
-    a.add("Storgatan 1");
-    a.add("411 01 Uddevalla");
-    u.setHsaStreetAddress(AddressHelper.convertToStreetAddress(a));
-    u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
-    list.add(u);
+    u.setHsaPublicTelephoneNumber(p);
   }
 
   @Override
@@ -333,7 +360,7 @@ public class SearchServiceMockImpl implements SearchService {
   @Override
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
     SikSearchResultList<Person> result = new SikSearchResultList<Person>();
-    initPersons(result);
+    this.initPersons(result);
     return result;
   }
 
@@ -350,7 +377,7 @@ public class SearchServiceMockImpl implements SearchService {
   @Override
   public List<Person> getAllPersons() throws KivException {
     SikSearchResultList<Person> result = new SikSearchResultList<Person>();
-    initPersons(result);
+    this.initPersons(result);
     return result;
   }
 
