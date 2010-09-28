@@ -38,6 +38,7 @@ public class SettingsBean implements Serializable {
   private String unitAccessibilityInclude;
   private String unitSearchResultSingleUnitInclude;
   private String unitSearchResultSortOrderInclude;
+  private String stylesheetInclude;
   private String errorReportFormInclude;
   private String errorReportConfirmInclude;
   private String unitHoursInclude;
@@ -554,5 +555,13 @@ public class SettingsBean implements Serializable {
 
   public String getUnitAccessibilityInclude() {
     return this.unitAccessibilityInclude;
+  }
+
+  public void setStylesheetInclude(String stylesheetInclude) {
+    this.stylesheetInclude = stylesheetInclude;
+  }
+
+  public String getStylesheetInclude() {
+    return this.stylesheetInclude;
   }
 }

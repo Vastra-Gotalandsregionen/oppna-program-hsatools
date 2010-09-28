@@ -18,7 +18,7 @@
  */
 
 
-#bd { position:relative; clear:both; margin-top:-30px; border: 1px solid #c2c2c2; border-top:none; background:url(../images/bd-btm-bg.png) repeat-x 0 100%; overflow:hidden; }
+#bd { position:relative; clear:both; margin-top:-30px; border: 1px solid #c2c2c2; border-top:none; background:url(../../images/bd-btm-bg.png) repeat-x 0 100%; overflow:hidden; }
 .yui-t2 .yui-b { width:250px; } 
 .yui-t2 #yui-main .yui-b { margin-left:250px; } /** @override YUI */
 .yui-ge div.first { position:relative; width:468px; } /** @override YUI */
@@ -26,16 +26,21 @@
 .box { width: 224px; overflow:hidden; }
 .rounded-bot-center { overflow:hidden; }
 
+.yui-ge div.first ul li
+{
+font:1.1em/1.3 Verdana,Arial,Helvetica,sans-serif;
+list-style-image:url("../../images/punktlistepunkt-red.gif");
+list-style-type:circle;
+margin:0;
+padding:0;
+}
+
 .yui-t2 .yui-b { width:18.9em; }  
 .yui-t2 #yui-main .yui-b { margin-left:18.9em; } 
 .yui-ge div.first { width:34.8em; } 
 .yui-ge .yui-u { width:18.9em; }
 .box { width:16.9em; overflow:hidden; }
 
-/***************************************************************************/
-/******************************** NYTT *************************************/
-/******************************** NYTT *************************************/
-/***************************************************************************/
 .form-search-organizational-unit, .form-search-organizational-unit .box-hd, .form-search-organizational-unit .box-bd { width:211px; }
 .form-search-organizational-unit .box-bot { width:206px; }
 .form-search-organizational-unit .box-bd { overflow:hidden;  }
@@ -43,3 +48,4 @@
 .form-search-organizational-unit .box-bd .box-bd-inner .box-bd-inner-content { padding:13px 10px 8px; width: 178px; }
 #yui-main { width:100%; }
 
+.share { margin: 0 0 1em 0; padding:1em 1em 1em; background: #fff url(../../images/share-bg.png) repeat-x 0 100%; border-top:1px solid #c2c2c2; border-bottom:1px solid #c2c2c2;  }
