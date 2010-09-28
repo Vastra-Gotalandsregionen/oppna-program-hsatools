@@ -71,6 +71,8 @@
         <ui:repeat value="${Search_SettingsContainer.scriptPaths}" var="script">
             <script type="text/javascript" src="${script}" />
         </ui:repeat>
+        <ui:include src="${Search_SettingsContainer.stylesheetInclude}" />
+        
         <link rel="Shortcut Icon" type="image/ico" href="${Search_SettingsContainer.favIcon}" />
     </head>
     <body onload="if (document.getElementById('unitName').value == '') {document.getElementById('unitName').value = '${msg.defaultSearchUnitName}';}" onunload="GUnload()" class="yui-skin-sam">
