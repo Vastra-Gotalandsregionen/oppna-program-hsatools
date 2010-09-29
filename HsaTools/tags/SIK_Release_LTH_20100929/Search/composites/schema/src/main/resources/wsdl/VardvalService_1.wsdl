@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="VårdvalService" targetNamespace="urn:VGRegion.VGPrimärvård.Vårdval.Service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:tns="urn:VGRegion.VGPrimärvård.Vårdval.Service" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="urn:VGRegion.VGPrimärvård.Vårdval.Service/Imports">
+      <xsd:import schemaLocation="VardvalService.xsd" namespace="urn:VGRegion.VGPrimärvård.Vårdval.Service"/>
+      <xsd:import schemaLocation="VardvalService_1.xsd" namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+      <xsd:import schemaLocation="VardvalService_1_2.xsd" namespace="http://schemas.microsoft.com/Message"/>
+      <xsd:import schemaLocation="VardvalService_1_2_3.xsd" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IVårdvalService_GetAllVårdvalAsCsvStream_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllVårdvalAsCsvStream"/>
+  </wsdl:message>
+  <wsdl:message name="IVårdvalService_GetAllVårdvalAsCsvStream_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllVårdvalAsCsvStreamResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IVårdvalService_GetAllVårdvalAsCsvStream_VårdvalServiceErrorFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:VårdvalServiceError"/>
+  </wsdl:message>
+  <wsdl:message name="GetVårdvalRequest">
+    <wsdl:part name="parameters" element="tns:GetVårdvalRequest"/>
+  </wsdl:message>
+  <wsdl:message name="GetVårdvalResponse">
+    <wsdl:part name="parameters" element="tns:GetVårdvalResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IVårdvalService_GetVårdval_VårdvalServiceErrorFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:VårdvalServiceError"/>
+  </wsdl:message>
+  <wsdl:message name="SetVårdvalRequest">
+    <wsdl:part name="parameters" element="tns:SetVårdvalRequest"/>
+  </wsdl:message>
+  <wsdl:message name="SetVårdvalResponse">
+    <wsdl:part name="parameters" element="tns:SetVårdvalResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IVårdvalService_SetVårdval_VårdvalServiceErrorFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:VårdvalServiceError"/>
+  </wsdl:message>
+  <wsdl:message name="GetVårdvalOchPersonRequest">
+    <wsdl:part name="parameters" element="tns:GetVårdvalOchPersonRequest"/>
+  </wsdl:message>
+  <wsdl:message name="GetVårdvalOchPersonResponse">
+    <wsdl:part name="parameters" element="tns:GetVårdvalOchPersonResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IVårdvalService_GetVårdvalOchPerson_VårdvalServiceErrorFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:VårdvalServiceError"/>
+  </wsdl:message>
+  <wsdl:message name="IVårdvalService_UpdateValidVårdcentralerMedAvtal_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateValidVårdcentralerMedAvtal"/>
+  </wsdl:message>
+  <wsdl:message name="IVårdvalService_UpdateValidVårdcentralerMedAvtal_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateValidVårdcentralerMedAvtalResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IVårdvalService_UpdateValidVårdcentralerMedAvtal_VårdvalServiceErrorFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:VårdvalServiceError"/>
+  </wsdl:message>
+  <wsdl:message name="IVårdvalService_GetVårdcentralerMedGiltigaAvtal_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetVårdcentralerMedGiltigaAvtal"/>
+  </wsdl:message>
+  <wsdl:message name="IVårdvalService_GetVårdcentralerMedGiltigaAvtal_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetVårdcentralerMedGiltigaAvtalResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IVårdvalService_GetVårdcentralerMedGiltigaAvtal_VårdvalServiceErrorFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:VårdvalServiceError"/>
+  </wsdl:message>
+  <wsdl:portType name="IVårdvalService">
+    <wsdl:operation name="GetAllVårdvalAsCsvStream">
+      <wsdl:input wsaw:Action="GetAllVardvalAsCsvStream" message="tns:IVårdvalService_GetAllVårdvalAsCsvStream_InputMessage"/>
+      <wsdl:output wsaw:Action="urn:VGRegion.VGPrimärvård.Vårdval.Service/IVårdvalService/GetAllVårdvalAsCsvStreamResponse" message="tns:IVårdvalService_GetAllVårdvalAsCsvStream_OutputMessage"/>
+      <wsdl:fault wsaw:Action="VardvalServiceFault" name="VårdvalServiceErrorFault" message="tns:IVårdvalService_GetAllVårdvalAsCsvStream_VårdvalServiceErrorFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetVårdval">
+      <wsdl:input wsaw:Action="GetVardval" name="GetVårdvalRequest" message="tns:GetVårdvalRequest"/>
+      <wsdl:output wsaw:Action="urn:VGRegion.VGPrimärvård.Vårdval.Service/IVårdvalService/GetVårdvalResponse" name="GetVårdvalResponse" message="tns:GetVårdvalResponse"/>
+      <wsdl:fault wsaw:Action="VardvalServiceFault" name="VårdvalServiceErrorFault" message="tns:IVårdvalService_GetVårdval_VårdvalServiceErrorFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="SetVårdval">
+      <wsdl:input wsaw:Action="SetVardval" name="SetVårdvalRequest" message="tns:SetVårdvalRequest"/>
+      <wsdl:output wsaw:Action="urn:VGRegion.VGPrimärvård.Vårdval.Service/IVårdvalService/SetVårdvalResponse" name="SetVårdvalResponse" message="tns:SetVårdvalResponse"/>
+      <wsdl:fault wsaw:Action="VardvalServiceFault" name="VårdvalServiceErrorFault" message="tns:IVårdvalService_SetVårdval_VårdvalServiceErrorFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetVårdvalOchPerson">
+      <wsdl:input wsaw:Action="GetVardvalOchPerson" name="GetVårdvalOchPersonRequest" message="tns:GetVårdvalOchPersonRequest"/>
+      <wsdl:output wsaw:Action="urn:VGRegion.VGPrimärvård.Vårdval.Service/IVårdvalService/GetVårdvalOchPersonResponse" name="GetVårdvalOchPersonResponse" message="tns:GetVårdvalOchPersonResponse"/>
+      <wsdl:fault wsaw:Action="VardvalServiceFault" name="VårdvalServiceErrorFault" message="tns:IVårdvalService_GetVårdvalOchPerson_VårdvalServiceErrorFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateValidVårdcentralerMedAvtal">
+      <wsdl:input wsaw:Action="UpdateValidVårdcentralerMedAvtal" message="tns:IVårdvalService_UpdateValidVårdcentralerMedAvtal_InputMessage"/>
+      <wsdl:output wsaw:Action="urn:VGRegion.VGPrimärvård.Vårdval.Service/IVårdvalService/UpdateValidVårdcentralerMedAvtalResponse" message="tns:IVårdvalService_UpdateValidVårdcentralerMedAvtal_OutputMessage"/>
+      <wsdl:fault wsaw:Action="VardvalServiceFault" name="VårdvalServiceErrorFault" message="tns:IVårdvalService_UpdateValidVårdcentralerMedAvtal_VårdvalServiceErrorFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetVårdcentralerMedGiltigaAvtal">
+      <wsdl:input wsaw:Action="GetVardcentralerMedGiltigaAvtal" message="tns:IVårdvalService_GetVårdcentralerMedGiltigaAvtal_InputMessage"/>
+      <wsdl:output wsaw:Action="urn:VGRegion.VGPrimärvård.Vårdval.Service/IVårdvalService/GetVårdcentralerMedGiltigaAvtalResponse" message="tns:IVårdvalService_GetVårdcentralerMedGiltigaAvtal_OutputMessage"/>
+      <wsdl:fault wsaw:Action="VardvalServiceFault" name="VårdvalServiceErrorFault" message="tns:IVårdvalService_GetVårdcentralerMedGiltigaAvtal_VårdvalServiceErrorFault_FaultMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IVårdvalService" type="tns:IVårdvalService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetAllVårdvalAsCsvStream">
+      <soap:operation soapAction="GetAllVardvalAsCsvStream" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="VårdvalServiceErrorFault">
+        <soap:fault name="VårdvalServiceErrorFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetVårdval">
+      <soap:operation soapAction="GetVardval" style="document"/>
+      <wsdl:input name="GetVårdvalRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetVårdvalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="VårdvalServiceErrorFault">
+        <soap:fault name="VårdvalServiceErrorFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SetVårdval">
+      <soap:operation soapAction="SetVardval" style="document"/>
+      <wsdl:input name="SetVårdvalRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SetVårdvalResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="VårdvalServiceErrorFault">
+        <soap:fault name="VårdvalServiceErrorFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetVårdvalOchPerson">
+      <soap:operation soapAction="GetVardvalOchPerson" style="document"/>
+      <wsdl:input name="GetVårdvalOchPersonRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetVårdvalOchPersonResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="VårdvalServiceErrorFault">
+        <soap:fault name="VårdvalServiceErrorFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateValidVårdcentralerMedAvtal">
+      <soap:operation soapAction="UpdateValidVårdcentralerMedAvtal" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="VårdvalServiceErrorFault">
+        <soap:fault name="VårdvalServiceErrorFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetVårdcentralerMedGiltigaAvtal">
+      <soap:operation soapAction="GetVardcentralerMedGiltigaAvtal" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="VårdvalServiceErrorFault">
+        <soap:fault name="VårdvalServiceErrorFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="VårdvalService">
+    <wsdl:port name="BasicHttpBinding_IVårdvalService" binding="tns:BasicHttpBinding_IVårdvalService">
+      <soap:address location="http://utv-vardval.vgregion.se/VardvalServiceWSDL/VardvalService.svc"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
