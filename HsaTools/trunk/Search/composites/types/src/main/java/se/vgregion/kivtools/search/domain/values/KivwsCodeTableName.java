@@ -30,6 +30,8 @@ public enum KivwsCodeTableName implements CodeTableNameInterface {
   HSA_ADMINISTRATION_FORM("hsaadministrationform"),
   /** Business classification code. */
   HSA_BUSINESSCLASSIFICATION_CODE("hsabusinessclassificationcode"),
+  /** Business type code **/
+  HSA_BUSINESS_TYPE("hsabusinesstype"),
   /** County code. */
   HSA_COUNTY_CODE("hsacountycode"),
   /** Municipality code. */
@@ -41,7 +43,7 @@ public enum KivwsCodeTableName implements CodeTableNameInterface {
   /** AO3 code (responsibility area code). */
   VGR_AO3_CODE("vgrao3kod"),
   /** Care type. */
-  VGR_CARE_TYPE("vgrcaretype"),
+  CARE_TYPE("vgrcaretype"),
   /** Language knowledge. */
   HSA_LANGUAGE_KNOWLEDGE_CODE("hsalanguageknowledgecode"),
   /** Employment titles. */

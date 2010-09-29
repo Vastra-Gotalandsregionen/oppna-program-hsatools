@@ -100,7 +100,7 @@ public class UnitMapper implements ContextMapper {
     unit.setHsaSedfDeliveryAddress(AddressHelper.convertToAddress(context.getStrings(UnitLdapAttributes.HSA_SEDF_DELIVERY_ADDRESS)));
     unit.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress(context.getStrings(UnitLdapAttributes.HSA_SEDF_INVOICE_ADDRESS)));
     unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(context.getString(UnitLdapAttributes.HSA_SEDF_SWITCHBOARD_TELEPHONE_NO)));
-    unit.setHsaStreetAddress(AddressHelper.convertToStreetAddress(context.getStrings(UnitLdapAttributes.HSA_STREET_ADDRESS)));
+    unit.setHsaStreetAddress(AddressHelper.convertToAddress(context.getStrings(UnitLdapAttributes.HSA_STREET_ADDRESS)));
     unit.addHsaSurgeryHours(WeekdayTime.createWeekdayTimeList(context.getStrings(UnitLdapAttributes.HSA_SURGERY_HOURS)));
     unit.addHsaTelephoneNumber(PhoneNumber.createPhoneNumberList(context.getStrings(UnitLdapAttributes.HSA_TELEPHONE_NUMBER)));
     unit.addHsaTelephoneTimes(WeekdayTime.createWeekdayTimeList(context.getStrings(UnitLdapAttributes.HSA_TELEPHONE_TIME)));

@@ -43,6 +43,7 @@
 	<util:properties id="prop"
 		location="classpath:se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties" />
 
+ 
 	<bean id="Search_UnitRepository"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepositoryKivws">
 		<property name="codeTablesService" ref="Search_KivwsCodeTablesService" />
@@ -63,15 +64,14 @@
 	</bean>
 
 	<!-- UnitRepository using springladap templates -->
-	<!--	<bean id="Search_UnitRepository"-->
-	<!--
-		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository">
-	-->
-	<!--
-		<property name="codeTablesService" ref="Search_CodeTablesService" />
-	-->
-	<!--		<property name="searchService" ref="springLdapSearchService" />-->
-	<!--	</bean>-->
+	
+<!--	<bean id="Search_UnitRepository"-->
+<!--		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository">-->
+<!--		<property name="codeTablesService" ref="Search_CodeTablesService" />-->
+<!--		<property name="searchService" ref="springLdapSearchService" />-->
+<!--	</bean>-->
+<!--	-->
+	
 
 	<bean id="springLdapSearchService"
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.SpringLdapSearchService">
@@ -130,8 +130,6 @@
 			<bean factory-bean="kivws" factory-method="createWebService" />
 		</constructor-arg>
 	</bean>
-	
-	
 
 	<bean id="Search_DisplayValueTranslator" class="se.vgregion.kivtools.search.util.DisplayValueTranslator">
 		<property name="translationMap">

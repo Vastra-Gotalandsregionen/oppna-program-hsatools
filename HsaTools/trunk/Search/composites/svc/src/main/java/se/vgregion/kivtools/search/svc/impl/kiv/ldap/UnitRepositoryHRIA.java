@@ -52,7 +52,7 @@ public class UnitRepositoryHRIA extends UnitRepository {
       for (Map.Entry<String, String> condition : h.getConditions().entrySet()) {
         String key = condition.getKey();
         String[] conditionValues = condition.getValue().split(",");
-        Object value = ReflectionUtil.getProperty(unit, key);
+        Object value = ReflectionUtil.getProperty(unit, key, true);
 
         boolean conditionFulfilled = false;
         if (value instanceof String) {

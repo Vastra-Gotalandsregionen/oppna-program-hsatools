@@ -19,437 +19,543 @@
 
 package se.vgregion.kivtools.search.svc.codetables.impl.vgr;
 
-import java.io.File;
+import static org.junit.Assert.assertEquals;
+
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
-import javax.xml.ws.BindingProvider;
-
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.ldap.core.support.LdapContextSource;
 
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.domain.values.KivwsCodeTableName;
+import se.vgregion.kivtools.search.svc.impl.kiv.ldap.KivwsFactoryBean;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfDeletedObject;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfFunction;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfPerson;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfResource;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfServer;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfString;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfTransaction;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfUnit;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfUnsurePerson;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.Function;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.Person;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRException_Exception;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionDirectory;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService;
-import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService_Service;
 
 import com.thoughtworks.xstream.XStream;
 
-@Ignore
 public class KivwsCodeTableServiceImplTest {
-  private VGRegionWebService_Service regionWebServiceService;
-  private static VGRegionWebService vgRegionWebServiceImplPort;
-  private LdapTemplate ldapTemplate;
-  private CodeTablesServiceImpl codeTablesService;
-  private KivwsCodeTablesServiceImpl kivwsCodeTableService;
+  private VGRegionWebService kivWebService;
+  private static Map<String, String2StringMap> codeValuesMap;
+  private KivwsServiceMock kivwsServiceMock;
+  private KivwsCodeTablesServiceImpl kivwsCodeTablesServiceImpl;
+
+  @SuppressWarnings("unchecked")
+  @BeforeClass
+  public static void berforeClass() throws IOException, ClassNotFoundException {
+    DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
+    Resource codeAndCleartexts = defaultResourceLoader.getResource("classpath:codesAndCleartexts.xml");
+    XStream xStream = new XStream();
+    ObjectInputStream objectInputStream = xStream.createObjectInputStream(codeAndCleartexts.getInputStream());
+    codeValuesMap = (Map<String, String2StringMap>) objectInputStream.readObject();
+  }
 
   @Before
   public void setup() throws Exception {
+    kivwsServiceMock = new KivwsServiceMock();
+    kivwsCodeTablesServiceImpl = new KivwsCodeTablesServiceImpl(kivwsServiceMock);
+    kivwsCodeTablesServiceImpl.init();
+  }
 
-    // Load property file for webservice connection.
+  /**
+   * Use to generate a snapshot of the KivwsCodeTables
+   * 
+   * @throws VGRException_Exception
+   * @throws IOException
+   */
+  @SuppressWarnings("unused")
+  private void writeToFile() throws VGRException_Exception, IOException {
     DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
     Resource resource = defaultResourceLoader.getResource("classpath:se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties");
     Properties loadAllProperties = PropertiesLoaderUtils.loadProperties(resource);
 
-    // Create KIVWS webservice.
-    regionWebServiceService = new VGRegionWebService_Service();
-    vgRegionWebServiceImplPort = regionWebServiceService.getVGRegionWebServiceImplPort();
+    KivwsFactoryBean kivwsFactoryBean = new KivwsFactoryBean();
+    kivwsFactoryBean.setProperties(loadAllProperties);
+    kivWebService = kivwsFactoryBean.createWebService();
 
-    // Setup username and password authentication for webservice.
-    BindingProvider bindingProvider = (BindingProvider) vgRegionWebServiceImplPort;
-    bindingProvider.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, loadAllProperties.getProperty("hsatools.search.svc.kivws.username"));
-    bindingProvider.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, loadAllProperties.getProperty("hsatools.search.svc.kivws.password"));
+    KivwsCodeTableName[] values = KivwsCodeTableName.values();
+    Map<String, String2StringMap> codeValues = new HashMap<String, String2StringMap>();
 
-    kivwsCodeTableService = new KivwsCodeTablesServiceImpl(vgRegionWebServiceImplPort);
-    kivwsCodeTableService.init();
+    for (KivwsCodeTableName kivwsCodeTableName : values) {
+      String2StringMap attributeCodesAndCleartexts = kivWebService.getAttributeCodesAndCleartexts(kivwsCodeTableName.toString());
+      codeValues.put(kivwsCodeTableName.toString(), attributeCodesAndCleartexts);
+    }
+    FileWriter fileWriter = new FileWriter("codesAndCleartexts.xml");
+    XStream xStream = new XStream();
+    ObjectOutputStream createObjectOutputStream = xStream.createObjectOutputStream(fileWriter);
+    createObjectOutputStream.writeObject(codeValues);
+    createObjectOutputStream.flush();
+    createObjectOutputStream.close();
 
-    // Create LdapTemplate
-    LdapContextSource ldapContextSource = new LdapContextSource();
-    ldapContextSource.setUrl("ldap://" + loadAllProperties.getProperty("hsatools.search.svc.ldap.ldaphost"));
-    ldapContextSource.setPassword(loadAllProperties.getProperty("hsatools.search.svc.ldap.password"));
-    ldapContextSource.setUserDn(loadAllProperties.getProperty("hsatools.search.svc.ldap.logindn"));
-    ldapContextSource.afterPropertiesSet();
-    ldapTemplate = new LdapTemplate(ldapContextSource);
-    codeTablesService = new CodeTablesServiceImpl(ldapTemplate);
-    codeTablesService.init();
   }
 
   @Test
-  public void hsaAdministrationFormTest() {
-    List<String> allValuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.HSA_ADMINISTRATION_FORM.name());
-    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTableService.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_ADMINISTRATION_FORM.name());
+  public void hsaAdministrationFormTest() throws VGRException_Exception, IOException {
+    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTablesServiceImpl.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_ADMINISTRATION_FORM.name());
+    assertEquals(33, allValuesItemsFromKivwsCodeTable.size());
 
-    compareResults(allValuesItemsFromKivwsCodeTable, allValuesItemsFromCodeTable);
   }
 
   @Test
   public void hsaBusinessClassificationCodeTest() {
-    List<String> allValuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE.name());
-    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTableService.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE.name());
-
-    compareResults(allValuesItemsFromKivwsCodeTable, allValuesItemsFromCodeTable);
+    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTablesServiceImpl.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE.name());
+    assertEquals(303, allValuesItemsFromKivwsCodeTable.size());
   }
 
   @Test
   public void hsaCountyCodeTest() {
-    List<String> allValuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.HSA_COUNTY_CODE.name());
-    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTableService.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_COUNTY_CODE.name());
+    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTablesServiceImpl.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_COUNTY_CODE.name());
+    assertEquals(1, allValuesItemsFromKivwsCodeTable.size());
 
-    compareResults(allValuesItemsFromKivwsCodeTable, allValuesItemsFromCodeTable);
   }
 
   // @Ignore
   @Test
   public void hsaLanguageKnowledgeCodeTest() {
-    List<String> allValuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE.name());
-    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTableService.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE.name());
+    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTablesServiceImpl.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE.name());
+    assertEquals(183, allValuesItemsFromKivwsCodeTable.size());
 
-    List<String> allValuesItemsFromCodeTableTemp = new ArrayList<String>();
-    allValuesItemsFromCodeTableTemp.addAll(allValuesItemsFromCodeTable);
-
-    for (String str : allValuesItemsFromCodeTableTemp) {
-      if (str.startsWith("----")) {
-        allValuesItemsFromCodeTable.remove(str);
-      }
-    }
-
-    compareResults(allValuesItemsFromKivwsCodeTable, allValuesItemsFromCodeTable);
   }
 
   @Test
   public void hsaManagementCodeTest() {
-    List<String> allValuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.HSA_MANAGEMENT_CODE.name());
-    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTableService.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_MANAGEMENT_CODE.name());
+    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTablesServiceImpl.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_MANAGEMENT_CODE.name());
+    assertEquals(8, allValuesItemsFromKivwsCodeTable.size());
 
-    compareResults(allValuesItemsFromKivwsCodeTable, allValuesItemsFromCodeTable);
   }
 
   @Test
   public void hsaMunicipalityCodeTest() {
-    List<String> allValuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.HSA_MUNICIPALITY_CODE.name());
-    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTableService.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_MUNICIPALITY_CODE.name());
+    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTablesServiceImpl.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_MUNICIPALITY_CODE.name());
 
-    compareResults(allValuesItemsFromKivwsCodeTable, allValuesItemsFromCodeTable);
+    assertEquals(49, allValuesItemsFromKivwsCodeTable.size());
   }
 
   @Test
   public void hsaSpecialityCodeTest() {
-    List<String> allValuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.HSA_SPECIALITY_CODE.name());
-    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTableService.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_SPECIALITY_CODE.name());
+    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTablesServiceImpl.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_SPECIALITY_CODE.name());
+    assertEquals(88, allValuesItemsFromKivwsCodeTable.size());
 
-    compareResults(allValuesItemsFromKivwsCodeTable, allValuesItemsFromCodeTable);
   }
 
   @Test
   public void hsaPATitleTest() {
-    List<String> allValuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.PA_TITLE_CODE.name());
-    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTableService.getAllValuesItemsFromCodeTable(KivwsCodeTableName.PA_TITLE_CODE.name());
+    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTablesServiceImpl.getAllValuesItemsFromCodeTable(KivwsCodeTableName.PA_TITLE_CODE.name());
+    assertEquals(209, allValuesItemsFromKivwsCodeTable.size());
 
-    compareResults(allValuesItemsFromKivwsCodeTable, allValuesItemsFromCodeTable);
   }
 
   @Test
   public void hsavgrAO0CodeTest() {
-    List<String> allValuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.VGR_AO3_CODE.name());
-    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTableService.getAllValuesItemsFromCodeTable(KivwsCodeTableName.VGR_AO3_CODE.name());
+    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTablesServiceImpl.getAllValuesItemsFromCodeTable(KivwsCodeTableName.VGR_AO3_CODE.name());
+    assertEquals(63, allValuesItemsFromKivwsCodeTable.size());
 
-    compareResults(allValuesItemsFromKivwsCodeTable, allValuesItemsFromCodeTable);
   }
 
   @Test
   public void vgrCareTypeTest() {
-    List<String> allValuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.VGR_CARE_TYPE.name());
-    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTableService.getAllValuesItemsFromCodeTable(KivwsCodeTableName.VGR_CARE_TYPE.name());
+    List<String> allValuesItemsFromKivwsCodeTable = kivwsCodeTablesServiceImpl.getAllValuesItemsFromCodeTable(KivwsCodeTableName.CARE_TYPE.name());
+    assertEquals(3, allValuesItemsFromKivwsCodeTable.size());
 
-    List<String> allValuesItemsFromCodeTableTemp = new ArrayList<String>();
-    allValuesItemsFromCodeTableTemp.addAll(allValuesItemsFromCodeTable);
-
-    for (String str : allValuesItemsFromCodeTableTemp) {
-      if (str.startsWith("----")) {
-        allValuesItemsFromCodeTable.remove(str);
-      }
-    }
-
-    compareResults(allValuesItemsFromKivwsCodeTable, allValuesItemsFromCodeTable);
   }
 
   @Test
   public void languageKnowledgeValueFromTextValueTest() {
-    String searchString = "Odjibwa (Chippewa)";
-    List<String> ldapCodeFromTextValue = codeTablesService.getValuesFromTextValue(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, searchString);
-    List<String> kivwsCodeFromTextValue = kivwsCodeTableService.getValuesFromTextValue(KivwsCodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, searchString);
-
-    compareResults(kivwsCodeFromTextValue, ldapCodeFromTextValue);
+    String searchString = "ja";
+    List<String> kivwsCodeFromTextValue = kivwsCodeTablesServiceImpl.getValuesFromTextValue(KivwsCodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, searchString);
+    assertEquals(8, kivwsCodeFromTextValue.size());
   }
 
-  // Return value of the keys from LDAP are upper case and from webservice are lower case
-  @Ignore
   @Test
   public void languageKnowledgeCodeFromTextValueTest() {
-
     String searchString = "Odjibwa (Chippewa)";
-    List<String> ldapCodeFromTextValue = codeTablesService.getCodeFromTextValue(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, searchString);
-    List<String> kivwsCodeFromTextValue = kivwsCodeTableService.getCodeFromTextValue(KivwsCodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, searchString);
+    List<String> kivwsCodeFromTextValue = kivwsCodeTablesServiceImpl.getCodeFromTextValue(KivwsCodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, searchString);
+    assertEquals("oji", kivwsCodeFromTextValue.get(0));
 
-    compareResults(kivwsCodeFromTextValue, ldapCodeFromTextValue);
   }
 
   // TODO: Update the code to upper case
   @Test
   public void languageKnowledgeValueFromCodeTest() {
-
-    String valueFromCode = codeTablesService.getValueFromCode(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, "OJI");
-    String valueFromKivwsCode = kivwsCodeTableService.getValueFromCode(KivwsCodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, "oji");
-
-    compareCodeValues(valueFromKivwsCode, valueFromCode, "Odjibwa (Chippewa)");
+    String valueFromKivwsCode = kivwsCodeTablesServiceImpl.getValueFromCode(KivwsCodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, "oji");
+    assertEquals("Odjibwa (Chippewa)", valueFromKivwsCode);
   }
 
   @Test
   public void hsaAdminitrationFormCodeFromTextValueTest() {
     String searchString = "Regionala statliga myndigheter";
-    List<String> ldapCodeFromTextValue = codeTablesService.getCodeFromTextValue(CodeTableName.HSA_ADMINISTRATION_FORM, searchString);
-    List<String> kivwsCodeFromTextValue = kivwsCodeTableService.getCodeFromTextValue(KivwsCodeTableName.HSA_ADMINISTRATION_FORM, searchString);
+    List<String> kivwsCodeFromTextValue = kivwsCodeTablesServiceImpl.getCodeFromTextValue(KivwsCodeTableName.HSA_ADMINISTRATION_FORM, searchString);
+    assertEquals("89", kivwsCodeFromTextValue.get(0));
 
-    compareResults(kivwsCodeFromTextValue, ldapCodeFromTextValue);
   }
 
   @Test
   public void hsaAdministrationFormValueFromCodeTest() {
     String searchString = "89";
-    String valueFromCode = codeTablesService.getValueFromCode(CodeTableName.HSA_ADMINISTRATION_FORM, searchString);
-    String valueFromKivwsCode = kivwsCodeTableService.getValueFromCode(KivwsCodeTableName.HSA_ADMINISTRATION_FORM, searchString);
+    String resultString = "Regionala statliga myndigheter";
+    String valueFromKivwsCode = kivwsCodeTablesServiceImpl.getValueFromCode(KivwsCodeTableName.HSA_ADMINISTRATION_FORM, searchString);
+    assertEquals(resultString, valueFromKivwsCode);
 
-    compareCodeValues(valueFromKivwsCode, valueFromCode, "Regionala statliga myndigheter");
   }
 
   @Test
   public void hsaBusinessClassificationCode_CodeFromTextValueTest() {
-    String searchString = "Arbetsrehabilitering";
-    List<String> ldapCodeFromTextValue = codeTablesService.getCodeFromTextValue(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, searchString);
-    List<String> kivwsCodeFromTextValue = kivwsCodeTableService.getCodeFromTextValue(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, searchString);
-
-    compareResults(kivwsCodeFromTextValue, ldapCodeFromTextValue);
+    String searchString = "Medicinteknisk verksamhet/MTA";
+    List<String> kivwsCodeFromTextValue = kivwsCodeTablesServiceImpl.getCodeFromTextValue(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, searchString);
+    assertEquals("2009", kivwsCodeFromTextValue.get(0));
   }
 
   @Test
   public void hsaBusinessClassificationCode_ValueFromCodeTest() {
-    String searchString = "1503";
-    String valueFromCode = codeTablesService.getValueFromCode(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, searchString);
-    String valueFromKivwsCode = kivwsCodeTableService.getValueFromCode(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, searchString);
+    String searchString = "2009";
+    String expectedString = "Medicinteknisk verksamhet/MTA";
+    String valueFromKivwsCode = kivwsCodeTablesServiceImpl.getValueFromCode(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, searchString);
+    assertEquals(expectedString, valueFromKivwsCode);
 
-    compareCodeValues(valueFromKivwsCode, valueFromCode, "Arbetsrehabilitering");
   }
 
   @Test
   public void hsaCountyCode_CodeFromTextValueTest() {
     String searchString = "Västra Götalands län";
-    List<String> ldapCodeFromTextValue = codeTablesService.getCodeFromTextValue(CodeTableName.HSA_COUNTY_CODE, searchString);
-    List<String> kivwsCodeFromTextValue = kivwsCodeTableService.getCodeFromTextValue(KivwsCodeTableName.HSA_COUNTY_CODE, searchString);
+    List<String> kivwsCodeFromTextValue = kivwsCodeTablesServiceImpl.getCodeFromTextValue(KivwsCodeTableName.HSA_COUNTY_CODE, searchString);
+    assertEquals("14", kivwsCodeFromTextValue.get(0));
 
-    compareResults(kivwsCodeFromTextValue, ldapCodeFromTextValue);
   }
 
   @Test
   public void hsaCountyCode_ValueFromCodeTest() {
     String searchString = "14";
-    String valueFromCode = codeTablesService.getValueFromCode(CodeTableName.HSA_COUNTY_CODE, searchString);
-    String valueFromKivwsCode = kivwsCodeTableService.getValueFromCode(KivwsCodeTableName.HSA_COUNTY_CODE, searchString);
+    String expectedString = "Västra Götalands län";
+    String valueFromKivwsCode = kivwsCodeTablesServiceImpl.getValueFromCode(KivwsCodeTableName.HSA_COUNTY_CODE, searchString);
+    assertEquals(expectedString, valueFromKivwsCode);
 
-    compareCodeValues(valueFromKivwsCode, valueFromCode, "Västra Götalands län");
   }
 
   @Test
   public void hsaManagentCode_CodeFromTextValueTest() {
     String searchString = "Landsting/Region";
-    List<String> ldapCodeFromTextValue = codeTablesService.getCodeFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, searchString);
-    List<String> kivwsCodeFromTextValue = kivwsCodeTableService.getCodeFromTextValue(KivwsCodeTableName.HSA_MANAGEMENT_CODE, searchString);
+    List<String> kivwsCodeFromTextValue = kivwsCodeTablesServiceImpl.getCodeFromTextValue(KivwsCodeTableName.HSA_MANAGEMENT_CODE, searchString);
+    assertEquals("1", kivwsCodeFromTextValue.get(0));
 
-    compareResults(kivwsCodeFromTextValue, ldapCodeFromTextValue);
   }
 
   @Test
   public void hsaManagementCode_ValueFromCodeTest() {
     String searchString = "1";
-    String valueFromCode = codeTablesService.getValueFromCode(CodeTableName.HSA_MANAGEMENT_CODE, searchString);
-    String valueFromKivwsCode = kivwsCodeTableService.getValueFromCode(KivwsCodeTableName.HSA_MANAGEMENT_CODE, searchString);
+    String expectedString = "Landsting/Region";
+    String valueFromKivwsCode = kivwsCodeTablesServiceImpl.getValueFromCode(KivwsCodeTableName.HSA_MANAGEMENT_CODE, searchString);
+    assertEquals(expectedString, valueFromKivwsCode);
 
-    compareCodeValues(valueFromKivwsCode, valueFromCode, "Landsting/Region");
   }
 
   @Test
   public void hsaMunicipalityCode_CodeFromTextValueTest() {
     String searchString = "Götene";
-    List<String> ldapCodeFromTextValue = codeTablesService.getCodeFromTextValue(CodeTableName.HSA_MUNICIPALITY_CODE, searchString);
-    List<String> kivwsCodeFromTextValue = kivwsCodeTableService.getCodeFromTextValue(KivwsCodeTableName.HSA_MUNICIPALITY_CODE, searchString);
-
-    compareResults(kivwsCodeFromTextValue, ldapCodeFromTextValue);
+    List<String> kivwsCodeFromTextValue = kivwsCodeTablesServiceImpl.getCodeFromTextValue(KivwsCodeTableName.HSA_MUNICIPALITY_CODE, searchString);
+    assertEquals("1471", kivwsCodeFromTextValue.get(0));
   }
 
   @Test
   public void hsaMunicipalityCode_ValueFromCodeTest() {
     String searchString = "1471";
-    String valueFromCode = codeTablesService.getValueFromCode(CodeTableName.HSA_MUNICIPALITY_CODE, searchString);
-    String valueFromKivwsCode = kivwsCodeTableService.getValueFromCode(KivwsCodeTableName.HSA_MUNICIPALITY_CODE, searchString);
+    String expectedString = "Götene";
+    String valueFromKivwsCode = kivwsCodeTablesServiceImpl.getValueFromCode(KivwsCodeTableName.HSA_MUNICIPALITY_CODE, searchString);
+    assertEquals(expectedString, valueFromKivwsCode);
 
-    compareCodeValues(valueFromKivwsCode, valueFromCode, "Götene");
   }
 
   @Test
   public void hsaSpecialityCode_CodeFromTextValueTest() {
     String searchString = "Kirurgisk bakteriologi och virologi";
-    List<String> ldapCodeFromTextValue = codeTablesService.getCodeFromTextValue(CodeTableName.HSA_SPECIALITY_CODE, searchString);
-    List<String> kivwsCodeFromTextValue = kivwsCodeTableService.getCodeFromTextValue(KivwsCodeTableName.HSA_SPECIALITY_CODE, searchString);
+    List<String> kivwsCodeFromTextValue = kivwsCodeTablesServiceImpl.getCodeFromTextValue(KivwsCodeTableName.HSA_SPECIALITY_CODE, searchString);
+    assertEquals("60200", kivwsCodeFromTextValue.get(0));
 
-    compareResults(kivwsCodeFromTextValue, ldapCodeFromTextValue);
   }
 
   @Test
   public void hsaSpecialityCode_ValueFromCodeTest() {
     String searchString = "60200";
-    String valueFromCode = codeTablesService.getValueFromCode(CodeTableName.HSA_SPECIALITY_CODE, searchString);
-    String valueFromKivwsCode = kivwsCodeTableService.getValueFromCode(KivwsCodeTableName.HSA_SPECIALITY_CODE, searchString);
-
-    compareCodeValues(valueFromKivwsCode, valueFromCode, "Kirurgisk bakteriologi och virologi");
+    String expectedString = "Kirurgisk bakteriologi och virologi";
+    String valueFromKivwsCode = kivwsCodeTablesServiceImpl.getValueFromCode(KivwsCodeTableName.HSA_SPECIALITY_CODE, searchString);
+    assertEquals(expectedString, valueFromKivwsCode);
   }
 
   @Test
   public void hsaPATitleCode_CodeFromTextValueTest() {
     String searchString = "Sjuksköterska, handikapp- och äldreomsorg/geriatrik";
-    List<String> ldapCodeFromTextValue = codeTablesService.getCodeFromTextValue(CodeTableName.PA_TITLE_CODE, searchString);
-    List<String> kivwsCodeFromTextValue = kivwsCodeTableService.getCodeFromTextValue(KivwsCodeTableName.PA_TITLE_CODE, searchString);
+    List<String> kivwsCodeFromTextValue = kivwsCodeTablesServiceImpl.getCodeFromTextValue(KivwsCodeTableName.PA_TITLE_CODE, searchString);
+    assertEquals("206014", kivwsCodeFromTextValue.get(0));
 
-    compareResults(kivwsCodeFromTextValue, ldapCodeFromTextValue);
   }
 
   @Test
   public void hsaPATitleCode_ValueFromCodeTest() {
     String searchString = "206014";
-    String valueFromCode = codeTablesService.getValueFromCode(CodeTableName.PA_TITLE_CODE, searchString);
-    String valueFromKivwsCode = kivwsCodeTableService.getValueFromCode(KivwsCodeTableName.PA_TITLE_CODE, searchString);
+    String expectedString = "Sjuksköterska, handikapp- och äldreomsorg/geriatrik";
+    String valueFromKivwsCode = kivwsCodeTablesServiceImpl.getValueFromCode(KivwsCodeTableName.PA_TITLE_CODE, searchString);
+    assertEquals(expectedString, valueFromKivwsCode);
 
-    compareCodeValues(valueFromKivwsCode, valueFromCode, "Sjuksköterska, handikapp- och äldreomsorg/geriatrik");
   }
 
   @Test
   public void hsaVgrAO3Code_CodeFromTextValueTest() {
     String searchString = "Regionstyrelsen (ägarutskott, arkivnämnd, regiongem. förv.org- och verks)";
-    List<String> ldapCodeFromTextValue = codeTablesService.getCodeFromTextValue(CodeTableName.VGR_AO3_CODE, searchString);
-    List<String> kivwsCodeFromTextValue = kivwsCodeTableService.getCodeFromTextValue(KivwsCodeTableName.VGR_AO3_CODE, searchString);
-
-    compareResults(kivwsCodeFromTextValue, ldapCodeFromTextValue);
+    List<String> kivwsCodeFromTextValue = kivwsCodeTablesServiceImpl.getCodeFromTextValue(KivwsCodeTableName.VGR_AO3_CODE, searchString);
+    assertEquals("020", kivwsCodeFromTextValue.get(0));
   }
 
   @Test
   public void hsaVgrAO3Code_ValueFromCodeTest() {
     String searchString = "020";
-    String valueFromCode = codeTablesService.getValueFromCode(CodeTableName.VGR_AO3_CODE, searchString);
-    String valueFromKivwsCode = kivwsCodeTableService.getValueFromCode(KivwsCodeTableName.VGR_AO3_CODE, searchString);
-
-    compareCodeValues(valueFromKivwsCode, valueFromCode, "Regionstyrelsen (ägarutskott, arkivnämnd, regiongem. förv.org- och verks)");
+    String expectedString = "Regionstyrelsen (ägarutskott, arkivnämnd, regiongem. förv.org- och verks)";
+    String valueFromKivwsCode = kivwsCodeTablesServiceImpl.getValueFromCode(KivwsCodeTableName.VGR_AO3_CODE, searchString);
+    assertEquals(expectedString, valueFromKivwsCode);
   }
 
   @Test
   public void hsaCareTypeCodeFromTextValueTest() {
     String searchString = "Slutenvård";
-    List<String> ldapCodeFromTextValue = codeTablesService.getCodeFromTextValue(CodeTableName.VGR_CARE_TYPE, searchString);
-    List<String> kivwsCodeFromTextValue = kivwsCodeTableService.getCodeFromTextValue(KivwsCodeTableName.VGR_CARE_TYPE, searchString);
-
-    compareResults(kivwsCodeFromTextValue, ldapCodeFromTextValue);
+    List<String> kivwsCodeFromTextValue = kivwsCodeTablesServiceImpl.getCodeFromTextValue(KivwsCodeTableName.CARE_TYPE, searchString);
+    assertEquals("02", kivwsCodeFromTextValue.get(0));
   }
 
   @Test
   public void hsaCareTypeValueFromCodeTest() {
     String searchString = "02";
-    String valueFromCode = codeTablesService.getValueFromCode(CodeTableName.VGR_CARE_TYPE, searchString);
-    String valueFromKivwsCode = kivwsCodeTableService.getValueFromCode(KivwsCodeTableName.VGR_CARE_TYPE, searchString);
+    String expectedString = "Slutenvård";
+    String valueFromKivwsCode = kivwsCodeTablesServiceImpl.getValueFromCode(KivwsCodeTableName.CARE_TYPE, searchString);
+    assertEquals(expectedString, valueFromKivwsCode);
 
-    compareCodeValues(valueFromKivwsCode, valueFromCode, "Slutenvård");
+  }
+
+  @Test
+  public void testHsaBusinessTypes() {
+    List<String> allValuesItemsFromCodeTable = kivwsCodeTablesServiceImpl.getAllValuesItemsFromCodeTable(KivwsCodeTableName.HSA_BUSINESS_TYPE.name());
+    assertEquals("Vårdcentral", allValuesItemsFromCodeTable.get(1));
   }
 
   @Test(expected = RuntimeException.class)
   public void getValueFromCodeExceptionTest() {
     String searchString = "02";
-    kivwsCodeTableService.getValueFromCode(CodeTableName.VGR_CARE_TYPE, searchString);
+    kivwsCodeTablesServiceImpl.getValueFromCode(CodeTableName.VGR_CARE_TYPE, searchString);
   }
 
   @Test(expected = RuntimeException.class)
   public void getCodeFromTextValueExceptionTest() {
     String searchString = "Regionstyrelsen (ägarutskott, arkivnämnd, regiongem. förv.org- och verks)";
-    kivwsCodeTableService.getCodeFromTextValue(CodeTableName.VGR_AO3_CODE, searchString);
+    kivwsCodeTablesServiceImpl.getCodeFromTextValue(CodeTableName.VGR_AO3_CODE, searchString);
   }
 
   @Test(expected = RuntimeException.class)
   public void getValuesFromTextValueExceptionTest() {
     String searchString = "Slutenvård";
-    kivwsCodeTableService.getValuesFromTextValue(CodeTableName.VGR_CARE_TYPE, searchString);
+    kivwsCodeTablesServiceImpl.getValuesFromTextValue(CodeTableName.VGR_CARE_TYPE, searchString);
   }
 
-  private void compareResults(List<String> kivwsCodeTable, List<String> ldapCodeTable) {
-    Collections.sort(kivwsCodeTable);
-    Collections.sort(ldapCodeTable);
+  class KivwsServiceMock implements VGRegionWebService {
 
-    Assert.assertEquals(ldapCodeTable.size(), kivwsCodeTable.size());
-
-    for (int i = 0; i < kivwsCodeTable.size(); i++) {
-      Assert.assertEquals(ldapCodeTable.get(i), kivwsCodeTable.get(i));
+    @Override
+    public String2StringMap getAttributeCodesAndCleartexts(String arg0) throws VGRException_Exception {
+      return codeValuesMap.get(arg0);
     }
-  }
 
-  private void compareCodeValues(String kivwsResult, String LdapResult, String expectedResult) {
-    Assert.assertEquals(LdapResult, kivwsResult);
-    Assert.assertEquals(expectedResult, LdapResult);
-    Assert.assertEquals(expectedResult, kivwsResult);
-  }
-
-  /**
-   * Write the KivwsCodeTableName object to a xml-file
-   * 
-   * @param kivwsCodeTableName
-   * @param fileName
-   */
-  private static void writeObjectToXml(KivwsCodeTableName kivwsCodeTableName, String fileName) {
-
-    try {
-      File file = new File(fileName + ".xml");
-      FileWriter fileWriter = new FileWriter(file);
-      XStream xStream = new XStream();
-      ObjectOutputStream createObjectOutputStream = xStream.createObjectOutputStream(fileWriter);
-
-      // Make query against kivws
-      String codeNameString = kivwsCodeTableName.toString();
-      String2StringMap attributeCodesAndCleartexts = vgRegionWebServiceImplPort.getAttributeCodesAndCleartexts(codeNameString);
-      createObjectOutputStream.writeObject(attributeCodesAndCleartexts);
-
-      createObjectOutputStream.flush();
-      createObjectOutputStream.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (VGRException_Exception e1) {
-      e1.printStackTrace();
+    @Override
+    public ArrayOfDeletedObject getDeletedUnits(String arg0) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
     }
-  }
 
-  // Use to generate xml-file for unit test
-  public static void main(String[] args) throws Exception {
-    KivwsCodeTableServiceImplTest kivwsCodeTableServiceImplTest = new KivwsCodeTableServiceImplTest();
-    kivwsCodeTableServiceImplTest.setup();
+    @Override
+    public Function getFunctionAtSpecificTime(String arg0, String arg1) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
 
-    for (KivwsCodeTableName kivwsCodeTableName : KivwsCodeTableName.values()) {
-      KivwsCodeTableServiceImplTest.writeObjectToXml(kivwsCodeTableName, kivwsCodeTableName.toString());
+    @Override
+    public ArrayOfTransaction getFunctionTransactions(String arg0) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public Person getPersonAtSpecificTime(String arg0, String arg1) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public Person getPersonEmploymentAtSpecificTime(String arg0, String arg1) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfTransaction getPersonTransactions(String arg0) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getReturnAttributesForEmployment(VGRegionDirectory arg0) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getReturnAttributesForFunction(VGRegionDirectory arg0) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getReturnAttributesForPerson(VGRegionDirectory arg0) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getReturnAttributesForResource() throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getReturnAttributesForServer() throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getReturnAttributesForUnit(VGRegionDirectory arg0) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getReturnAttributesForUnsurePerson() throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getSearchAttributesForEmployment(VGRegionDirectory arg0) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getSearchAttributesForFunction(VGRegionDirectory arg0) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getSearchAttributesForPerson(VGRegionDirectory arg0) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getSearchAttributesForResource() throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getSearchAttributesForServer() throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getSearchAttributesForUnit(VGRegionDirectory arg0) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getSearchAttributesForUnsurePerson() throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public Unit getUnitAtSpecificTime(String arg0, String arg1) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfTransaction getUnitTransactions(String arg0) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfFunction searchFunction(String arg0, ArrayOfString arg1, VGRegionDirectory arg2, String arg3, String arg4) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfPerson searchPerson(String arg0, ArrayOfString arg1, VGRegionDirectory arg2, String arg3, String arg4) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfPerson searchPersonEmployment(String arg0, ArrayOfString arg1, String arg2, ArrayOfString arg3, VGRegionDirectory arg4, String arg5, String arg6) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfResource searchResource(String arg0, ArrayOfString arg1) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfServer searchServer(String arg0, ArrayOfString arg1) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfUnit searchUnit(String arg0, ArrayOfString arg1, VGRegionDirectory arg2, String arg3, String arg4) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfUnsurePerson searchUnsurePerson(String arg0, ArrayOfString arg1) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
     }
 
   }

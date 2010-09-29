@@ -37,22 +37,33 @@ public final class ReflectionUtil {
    * 
    * @param object The object to check.
    * @param methodName The name of the method to look for.
+   * @param ignoreCasesensitive if this is true method will try to get property with out regarding case sensitivity of the method.
    * @param parameters The types of any parameters for the method.
    * @return True if the class of the provided object has a method with the provided methodName, otherwise false.
    */
-  public static boolean hasMethod(Object object, String methodName, Class<?>... parameters) {
+  public static boolean hasMethod(Object object, String methodName, boolean ignoreCasesensitive, Class<?>... parameters) {
     boolean result = false;
 
     if (object != null) {
-      try {
-        object.getClass().getMethod(methodName, parameters);
-        result = true;
-      } catch (SecurityException e) {
-        // Just treat a SecurityException as if the method does not exist.
-        result = false;
-      } catch (NoSuchMethodException e) {
-        // The method does not exist.
-        result = false;
+      if (ignoreCasesensitive) {
+        Method[] declaredMethods = object.getClass().getDeclaredMethods();
+        for (Method method : declaredMethods) {
+          if (method.getName().equalsIgnoreCase(methodName)) {
+            result = true;
+            break;
+          }
+        }
+      } else {
+        try {
+          object.getClass().getMethod(methodName, parameters);
+          result = true;
+        } catch (SecurityException e) {
+          // Just treat a SecurityException as if the method does not exist.
+          result = false;
+        } catch (NoSuchMethodException e) {
+          // The method does not exist.
+          result = false;
+        }
       }
     }
 
@@ -64,10 +75,11 @@ public final class ReflectionUtil {
    * 
    * @param object The object to call the method on.
    * @param methodName The name of the method to call.
+   * @param ignoreCasesensitive if this is true method will try to get property with out regarding case sensitivity of the method.
    * @return Any result that the method returns.
    */
-  public static Object callMethod(Object object, String methodName) {
-    return callMethod(object, methodName, null, null);
+  public static Object callMethod(Object object, String methodName, boolean ignoreCasesensitive) {
+    return callMethod(object, methodName, ignoreCasesensitive, null, null);
   }
 
   /**
@@ -75,16 +87,22 @@ public final class ReflectionUtil {
    * 
    * @param object The object to call the method on.
    * @param methodName The name of the method to call.
+   * @param ignoreCasesensitive if this is true method will try to get property with out regarding case sensitivity of the method.
    * @param types The types of the arguments to the method.
    * @param values The value of the arguments to the method.
    * @return Any result that the method returns.
    */
-  public static Object callMethod(Object object, String methodName, Class<?>[] types, Object[] values) {
+  public static Object callMethod(Object object, String methodName, boolean ignoreCasesensitive, Class<?>[] types, Object[] values) {
     Object result = null;
 
-    if (object != null && hasMethod(object, methodName, types)) {
+    if (object != null && hasMethod(object, methodName, ignoreCasesensitive, types)) {
       try {
-        Method method = object.getClass().getMethod(methodName, types);
+        Method method = null;
+        if (ignoreCasesensitive) {
+          method = callMethodIgnoreCasesensitive(object, methodName);
+        } else {
+          method = object.getClass().getMethod(methodName, types);
+        }
         result = method.invoke(object, values);
       } catch (SecurityException e) {
         // Just treat a SecurityException as if the method does not exist.
@@ -107,16 +125,29 @@ public final class ReflectionUtil {
     return result;
   }
 
+  private static Method callMethodIgnoreCasesensitive(Object object, String methodName) {
+    Method method = null;
+    Method[] declaredMethods = object.getClass().getDeclaredMethods();
+    for (Method methodTmp : declaredMethods) {
+      if (methodTmp.getName().equalsIgnoreCase(methodName)) {
+        method = methodTmp;
+        break;
+      }
+    }
+    return method;
+  }
+
   /**
    * Gets the value of the property with the provided name from the provided object by using the get/is/has-method for the property.
    * 
    * @param object The object to get the property from.
    * @param propertyName The name of the property to get.
+   * @param ignoreCasesensitive if this is true method will try to get property with out regarding case sensitivity of the method.
    * @param <T> The expected type of the property.
    * @return The value of the named property or null if no property with that name was found.
    */
   @SuppressWarnings("unchecked")
-  public static <T> T getProperty(Object object, String propertyName) {
+  public static <T> T getProperty(Object object, String propertyName, boolean ignoreCasesensitive) {
     Arguments.notNull("object", object);
     Arguments.notNull("propertyName", propertyName);
 
@@ -124,12 +155,12 @@ public final class ReflectionUtil {
 
     T result = null;
 
-    if (hasMethod(object, "get" + name)) {
-      result = (T) callMethod(object, "get" + name);
-    } else if (hasMethod(object, "is" + name)) {
-      result = (T) callMethod(object, "is" + name);
-    } else if (hasMethod(object, "has" + name)) {
-      result = (T) callMethod(object, "has" + name);
+    if (hasMethod(object, "get" + name, ignoreCasesensitive)) {
+      result = (T) callMethod(object, "get" + name, ignoreCasesensitive);
+    } else if (hasMethod(object, "is" + name, ignoreCasesensitive)) {
+      result = (T) callMethod(object, "is" + name, ignoreCasesensitive);
+    } else if (hasMethod(object, "has" + name, ignoreCasesensitive)) {
+      result = (T) callMethod(object, "has" + name, ignoreCasesensitive);
     }
 
     return result;
@@ -143,15 +174,16 @@ public final class ReflectionUtil {
    * @param type The type of the property.
    * @param value The value to set the property to.
    * @param <T> The expected type of the property.
+   * @param ignoreCasesensitive if this is true method will try to get property with out regarding case sensitivity of the method.
    */
-  public static <T> void setProperty(Object object, String propertyName, Class<T> type, T value) {
+  public static <T> void setProperty(Object object, String propertyName, Class<T> type, T value, boolean ignoreCasesensitive) {
     Arguments.notNull("object", object);
     Arguments.notNull("propertyName", propertyName);
 
     String name = propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
 
-    if (hasMethod(object, "set" + name, type)) {
-      callMethod(object, "set" + name, new Class<?>[] { type }, new Object[] { value });
+    if (hasMethod(object, "set" + name, ignoreCasesensitive, type)) {
+      callMethod(object, "set" + name, ignoreCasesensitive, new Class<?>[] { type }, new Object[] { value });
     }
   }
 

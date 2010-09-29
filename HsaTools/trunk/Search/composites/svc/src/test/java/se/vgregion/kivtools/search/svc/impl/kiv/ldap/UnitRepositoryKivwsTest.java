@@ -148,7 +148,7 @@ public class UnitRepositoryKivwsTest {
     CodeTableMock codeTableMock = new CodeTableMock();
     codeTableMock.values.put(KivwsCodeTableName.VGR_AO3_CODE, "01");
     codeTableMock.values.put(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "1505");
-    codeTableMock.values.put(KivwsCodeTableName.VGR_CARE_TYPE, "01");
+    codeTableMock.values.put(KivwsCodeTableName.CARE_TYPE, "01");
 
     unitRepository.setCodeTablesService(codeTableMock);
     String expectedFilterOU = "(&(vgrAO3kod=01)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1505)(vgrCareType=01))";
@@ -478,7 +478,7 @@ public class UnitRepositoryKivwsTest {
     String expectedCN = "(&(hsaIdentity=abc-123)(|(vgrCareType=01)(vgrCareType=01)))";
 
     CodeTableMock codeTableMock = new CodeTableMock();
-    codeTableMock.values.put(KivwsCodeTableName.VGR_CARE_TYPE, "01");
+    codeTableMock.values.put(KivwsCodeTableName.CARE_TYPE, "01");
     unitRepository.setCodeTablesService(codeTableMock);
     unitRepository.getUnitByHsaIdAndHasNotCareTypeInpatient("abc-123");
 

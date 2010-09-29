@@ -19,7 +19,11 @@
 
 package se.vgregion.kivtools.util.reflection;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,42 +46,42 @@ public class ReflectionUtilTest {
   @Test
   public void testHasMethod() {
 
-    assertFalse("No method should be found since we didn't provide an object", ReflectionUtil.hasMethod(null, "getString"));
-    assertFalse("No method should be found since we provided an invalid method name", ReflectionUtil.hasMethod(testClass, "getInteger"));
-    assertFalse("No method should be found since we provided the name of a private method", ReflectionUtil.hasMethod(testClass, "getStringPrivate"));
-    assertTrue("Method not found", ReflectionUtil.hasMethod(testClass, "getString"));
+    assertFalse("No method should be found since we didn't provide an object", ReflectionUtil.hasMethod(null, "getString", false));
+    assertFalse("No method should be found since we provided an invalid method name", ReflectionUtil.hasMethod(testClass, "getInteger", false));
+    assertFalse("No method should be found since we provided the name of a private method", ReflectionUtil.hasMethod(testClass, "getStringPrivate", false));
+    assertTrue("Method not found", ReflectionUtil.hasMethod(testClass, "getString", false));
   }
 
   @Test
   public void testCallMethod() {
-    assertNull("No result should be returned since we didn't provide an object", ReflectionUtil.callMethod(null, "getString"));
-    assertNull("No result should be returned since we provided an invalid method name", ReflectionUtil.callMethod(testClass, "getInteger"));
-    assertNull("No result should be returned since we provided the name of a private method", ReflectionUtil.callMethod(testClass, "getStringPrivate"));
-    assertEquals("Unexpected result", "test", ReflectionUtil.callMethod(testClass, "getString"));
+    assertNull("No result should be returned since we didn't provide an object", ReflectionUtil.callMethod(null, "getString", false));
+    assertNull("No result should be returned since we provided an invalid method name", ReflectionUtil.callMethod(testClass, "getInteger", false));
+    assertNull("No result should be returned since we provided the name of a private method", ReflectionUtil.callMethod(testClass, "getStringPrivate", false));
+    assertEquals("Unexpected result", "test", ReflectionUtil.callMethod(testClass, "getString", false));
   }
 
   @Test
   public void testGetProperty() {
     testClass.setTestProperty("Test");
-    String result = ReflectionUtil.getProperty(testClass, "testProperty");
+    String result = ReflectionUtil.getProperty(testClass, "testProperty", false);
     assertEquals("Test", result);
-    result = ReflectionUtil.getProperty(testClass, "unknown");
+    result = ReflectionUtil.getProperty(testClass, "unknown", false);
     assertNull(result);
 
     testClass.setValid(true);
-    Boolean booleanResult = ReflectionUtil.getProperty(testClass, "valid");
+    Boolean booleanResult = ReflectionUtil.getProperty(testClass, "valid", false);
     assertTrue(booleanResult);
 
     testClass.setChildren(false);
-    booleanResult = ReflectionUtil.getProperty(testClass, "children");
+    booleanResult = ReflectionUtil.getProperty(testClass, "children", false);
     assertFalse(booleanResult);
   }
 
   @Test
   public void testSetProperty() {
-    ReflectionUtil.setProperty(testClass, "testProperty", String.class, "Test2");
+    ReflectionUtil.setProperty(testClass, "testProperty", String.class, "Test2", false);
     assertEquals("Test2", testClass.getTestProperty());
-    ReflectionUtil.setProperty(testClass, "valid", boolean.class, true);
+    ReflectionUtil.setProperty(testClass, "valid", boolean.class, true, false);
     assertTrue(testClass.isValid());
   }
 
@@ -89,10 +93,25 @@ public class ReflectionUtilTest {
     assertTrue(testClass.isValid());
   }
 
+  @Test
+  public void testGetPropertyIgnoreCasesensitive() {
+    String result = ReflectionUtil.getProperty(testClass, "camelcaseproperty", true);
+    assertEquals("noncamelcasepropertyname", result);
+
+  }
+
   class TestClass {
     private String testProperty;
     private boolean valid;
     private boolean children;
+
+    public String getCamelCaseProperty() {
+      return "noncamelcasepropertyname";
+    }
+
+    // public String getNoncamelcasepropery() {
+    // return "noncamelcasepropery";
+    // }
 
     public String getString() {
       return "test";
