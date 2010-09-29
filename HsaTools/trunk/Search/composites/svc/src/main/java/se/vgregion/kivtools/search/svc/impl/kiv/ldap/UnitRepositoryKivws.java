@@ -158,7 +158,7 @@ public class UnitRepositoryKivws extends UnitRepository {
       for (Map.Entry<String, String> condition : h.getConditions().entrySet()) {
         String key = condition.getKey();
         String[] conditionValues = condition.getValue().split(",");
-        Object value = ReflectionUtil.getProperty(unit, key);
+        Object value = ReflectionUtil.getProperty(unit, key, true);
 
         boolean conditionFulfilled = false;
         if (value instanceof String) {
@@ -236,7 +236,7 @@ public class UnitRepositoryKivws extends UnitRepository {
     List<String> careTypes = new ArrayList<String>();
     careTypes.add(OPPENVARD);
     careTypes.add(HEMSJUKVARD);
-    Filter careTypesFilterList = this.generateCareTypeFilterFromList(KivwsCodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, careTypes);
+    Filter careTypesFilterList = this.generateCareTypeFilterFromList(KivwsCodeTableName.CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, careTypes);
     // Filter hsaIdentityFilter = createSearchFilter(LDAPUnitAttributes.UNIT_ID.toString(), hsaId);
     andFilterList.add("(hsaIdentity=" + hsaId + ")");
     andFilterList.add(careTypesFilterList.encode());
@@ -489,7 +489,7 @@ public class UnitRepositoryKivws extends UnitRepository {
       andFilter.and(orFilter);
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getCareTypeName())) {
-      Filter orFilter = this.generateOrFilterFromList(KivwsCodeTableName.VGR_CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, searchUnitCriterions.getCareTypeName());
+      Filter orFilter = this.generateOrFilterFromList(KivwsCodeTableName.CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, searchUnitCriterions.getCareTypeName());
       andFilter.and(orFilter);
     }
     // create or criteria

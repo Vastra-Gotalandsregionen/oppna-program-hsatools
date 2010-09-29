@@ -31,7 +31,6 @@ import java.util.Map;
 import javax.naming.directory.SearchControls;
 
 import org.springframework.ldap.core.DistinguishedName;
-import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.Filter;
@@ -48,7 +47,6 @@ import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
-import se.vgregion.kivtools.search.svc.impl.SingleAttributeMapper;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.search.util.LdapParse;
@@ -156,7 +154,7 @@ public class UnitRepository {
       for (Map.Entry<String, String> condition : h.getConditions().entrySet()) {
         String key = condition.getKey();
         String[] conditionValues = condition.getValue().split(",");
-        Object value = ReflectionUtil.getProperty(unit, key);
+        Object value = ReflectionUtil.getProperty(unit, key, true);
 
         boolean conditionFulfilled = false;
         if (value instanceof String) {

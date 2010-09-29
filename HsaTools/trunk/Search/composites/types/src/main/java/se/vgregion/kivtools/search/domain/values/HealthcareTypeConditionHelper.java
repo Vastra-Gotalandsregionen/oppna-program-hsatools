@@ -83,10 +83,10 @@ public class HealthcareTypeConditionHelper {
         // this field.
         String key = condition.getKey();
         key = key.substring(0, 1).toUpperCase() + key.substring(1);
-        if (ReflectionUtil.hasMethod(unit, "get" + key)) {
+        if (ReflectionUtil.hasMethod(unit, "get" + key, true)) {
           // Field exists, does it have correct value?
 
-          Object value = ReflectionUtil.callMethod(unit, "get" + key);
+          Object value = ReflectionUtil.callMethod(unit, "get" + key, true);
           String conditionValue = condition.getValue();
           conditionsFulfilled &= checkConditionFulfilled(value, conditionValue);
         }

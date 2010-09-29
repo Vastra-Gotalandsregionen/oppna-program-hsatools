@@ -41,10 +41,10 @@ public class PojoTester {
    * @param testValue2 The second test value.
    */
   public static <T> void testProperty(Object object, String propertyName, Class<T> type, T defaultValue, T testValue1, T testValue2) {
-    assertEquals("Unexpected default value for " + propertyName, defaultValue, ReflectionUtil.getProperty(object, propertyName));
-    ReflectionUtil.setProperty(object, propertyName, type, testValue1);
-    assertEquals("Unexpected testvalue1 for " + propertyName, testValue1, ReflectionUtil.getProperty(object, propertyName));
-    ReflectionUtil.setProperty(object, propertyName, type, testValue2);
-    assertEquals("Unexpected testvalue2 for " + propertyName, testValue2, ReflectionUtil.getProperty(object, propertyName));
+    assertEquals("Unexpected default value for " + propertyName, defaultValue, ReflectionUtil.getProperty(object, propertyName, false));
+    ReflectionUtil.setProperty(object, propertyName, type, testValue1, false);
+    assertEquals("Unexpected testvalue1 for " + propertyName, testValue1, ReflectionUtil.getProperty(object, propertyName, false));
+    ReflectionUtil.setProperty(object, propertyName, type, testValue2, false);
+    assertEquals("Unexpected testvalue2 for " + propertyName, testValue2, ReflectionUtil.getProperty(object, propertyName, false));
   }
 }
