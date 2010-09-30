@@ -123,7 +123,7 @@
 				factory-method="getIVardvalservice">
 				<constructor-arg value="https://vardval.vgregion.se/vardvalservice/VardvalService.svc?WSDL"/>
 				<constructor-arg value="urn:VGRegion.VGPrimärvård.Vårdval.Service"/>
-				<constructor-arg value="VårdvalService"/>
+				<constructor-arg value="VårdvalService-00000000-generated"/>
 			</bean>
 		</property>
 		<!--
