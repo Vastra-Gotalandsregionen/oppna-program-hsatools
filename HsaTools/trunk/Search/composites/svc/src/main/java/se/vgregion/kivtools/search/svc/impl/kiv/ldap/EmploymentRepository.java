@@ -60,6 +60,7 @@ public class EmploymentRepository {
    * @return A list of employments.
    * @throws KivException If something goes wrong.
    */
+  @SuppressWarnings("unchecked")
   public SikSearchResultList<Employment> getEmployments(DN dn) throws KivException {
     SikSearchResultList<Employment> result = new SikSearchResultList<Employment>();
     DistinguishedName distinguishedName = new DistinguishedName(dn.toString());
@@ -74,11 +75,12 @@ public class EmploymentRepository {
   }
 
   /**
-   * Create LDAP filter string with a condition that hsaEndDate must be greater or equal current date.
+   * Create LDAP filter string with a condition that hsaEndDate must be greater or equal current date. Set the time to 00:00:00 (HH:mm:ss) so the employment that expires today will still be returned.
    */
   private String generateLDAPFilter() {
     String zuluTime = TimeUtil.getCurrentTimeFormatted(DateTimeFormat.ZULU_TIME);
-    String filterString = String.format(ALL_EMPLOYMENT_FILTER, zuluTime);
+    String zuluTimeResetTime = zuluTime.substring(0, 8).concat("000000Z");
+    String filterString = String.format(ALL_EMPLOYMENT_FILTER, zuluTimeResetTime);
     return filterString;
   }
 }
