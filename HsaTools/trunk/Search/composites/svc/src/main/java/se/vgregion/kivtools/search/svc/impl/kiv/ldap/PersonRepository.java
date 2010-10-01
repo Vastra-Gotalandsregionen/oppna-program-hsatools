@@ -390,14 +390,14 @@ public class PersonRepository {
 
     if (!StringUtil.isEmpty(person.getGivenName())) {
       OrFilter firstNameFilter = new OrFilter();
-      firstNameFilter.or(new LikeFilter(LDAPPersonAttributes.GIVEN_NAME.toString(), "*" + person.getGivenName() + "*"));
-      firstNameFilter.or(new LikeFilter("hsaNickName", "*" + person.getGivenName() + "*"));
+      firstNameFilter.or(createSearchFilter(LDAPPersonAttributes.GIVEN_NAME.toString(), person.getGivenName()));
+      firstNameFilter.or(createSearchFilter("hsaNickName", person.getGivenName()));
       userFilter.and(firstNameFilter);
     }
     if (!StringUtil.isEmpty(person.getSurname())) {
       OrFilter surnameFilter = new OrFilter();
-      surnameFilter.or(new LikeFilter(LDAPPersonAttributes.SURNAME.toString(), "*" + person.getSurname() + "*"));
-      surnameFilter.or(new LikeFilter("hsaMiddleName", "*" + person.getSurname() + "*"));
+      surnameFilter.or(createSearchFilter(LDAPPersonAttributes.SURNAME.toString(), person.getSurname()));
+      surnameFilter.or(createSearchFilter("hsaMiddleName", person.getSurname()));
       userFilter.and(surnameFilter);
     }
     if (!StringUtil.isEmpty(person.getUserId())) {
@@ -425,6 +425,32 @@ public class PersonRepository {
     userFilter.and(new NotFilter(new EqualsFilter("vgrSecrMark", "J")));
 
     return userFilter;
+  }
+
+  /**
+   * e.g. searchField=givenName searchValue=hans result=(givenName=*hans*)
+   * 
+   * e.g. searchField=givenName searchValue=hans-erik result=(givenName=*hans*erik*)
+   * 
+   * e.g. searchField=givenName searchValue="hans-erik" result=(givenName=hans-erik)
+   */
+  private Filter createSearchFilter(String searchField, String searchValue) {
+    String currentSearchValue = searchValue;
+    Filter filter = null;
+    if (!StringUtil.isEmpty(currentSearchValue)) {
+      currentSearchValue = currentSearchValue.trim();
+      if (this.isExactMatchFilter(currentSearchValue)) {
+        // remove "
+        currentSearchValue = Formatter.replaceStringInString(currentSearchValue, LDAP_EXACT_CARD, "");
+        filter = new EqualsFilter(searchField, currentSearchValue.trim());
+      } else {
+        // change spaces to wildcards
+        currentSearchValue = Formatter.replaceStringInString(currentSearchValue, " ", LDAP_WILD_CARD);
+        currentSearchValue = Formatter.replaceStringInString(currentSearchValue, "-", LDAP_WILD_CARD);
+        filter = new LikeFilter(searchField, LDAP_WILD_CARD + currentSearchValue + LDAP_WILD_CARD);
+      }
+    }
+    return filter;
   }
 
   private Filter generateOrFilterFromList(CodeTableName codeTableName, LDAPPersonAttributes criterion, String criterionValue) {
