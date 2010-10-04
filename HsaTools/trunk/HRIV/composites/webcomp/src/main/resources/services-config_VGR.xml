@@ -50,7 +50,8 @@
 		</property>
 
 		<!--
-			To change from Test to prod, change test to id in the following urls	    -->
+			To change from Test to prod, change test to id in the following urls
+	    -->
 		<property name="serviceUrl"
 			value="https://id.signicat.com/std/method/vgr?method=sign" />
 		<!--
@@ -121,9 +122,9 @@
 			<bean
 				class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceFactory"
 				factory-method="getIVardvalservice">
-				<constructor-arg value="https://vardval.vgregion.se/vardvalservice/VardvalService.svc?WSDL"/>
+				<constructor-arg value="https://vardval.vgregion.se/VardvalService_Mex/VGRegion.VGPrimarvard.Vardval.Service.wsdl"/>
 				<constructor-arg value="urn:VGRegion.VGPrimärvård.Vårdval.Service"/>
-				<constructor-arg value="VårdvalService-00000000-generated"/>
+				<constructor-arg value="VårdvalService"/>
 			</bean>
 		</property>
 		<!--
