@@ -78,4 +78,6 @@ public class KivwsAttributes {
   public static final String HSA_DESTINATION_INDICATOR = "hsadestinationindicator";
   public static final String HSA_BUSINESS_TYPE = "hsabusinesstype";
   public static final String HSA_PATIENT_VISITING_RULES = "hsapatientvisitingrules";
+  public static final String HSA_RESPONSIBLE_HEALTH_CARE_PROVIDER = "hsaresponsiblehealthcareprovider";
+  public static final String HSA_HEALTH_CARE_UNIT_MEMBER = "hsahealthcareunitmember";
 }

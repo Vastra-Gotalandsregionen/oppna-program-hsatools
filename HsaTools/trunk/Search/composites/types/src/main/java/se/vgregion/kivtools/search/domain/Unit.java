@@ -215,6 +215,9 @@ public class Unit implements Serializable, Comparable<Unit> {
   private String contractCode;
   private String visitingRuleReferral;
 
+  private String hsaResponsibleHealthCareProvider;
+  private final List<String> hsaHealthCareUnitMembers = new ArrayList<String>();
+
   private List<String> vgrObjectManagers = new ArrayList<String>();
 
   public boolean isVgrVardVal() {
@@ -1561,4 +1564,21 @@ public class Unit implements Serializable, Comparable<Unit> {
     return this.vgrObjectManagers;
   }
 
+  public void setHsaResponsibleHealthCareProvider(String hsaResponsibleHealthCareProvider) {
+    this.hsaResponsibleHealthCareProvider = hsaResponsibleHealthCareProvider;
+  }
+
+  public String getHsaResponsibleHealthCareProvider() {
+    return hsaResponsibleHealthCareProvider;
+  }
+
+  public List<String> getHsaHealthCareUnitMembers() {
+    return hsaHealthCareUnitMembers;
+  }
+
+  public void addHsaHealthCareUnitMembers(List<String> hsaHealthCareUnitMembers) {
+    if (hsaHealthCareUnitMembers != null) {
+      this.hsaHealthCareUnitMembers.addAll(hsaHealthCareUnitMembers);
+    }
+  }
 }
