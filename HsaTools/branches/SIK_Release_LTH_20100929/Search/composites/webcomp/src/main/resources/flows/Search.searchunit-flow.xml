@@ -46,8 +46,8 @@
 	<decision-state id="Decision.displayUnitDetails">
 		<if test="errorReportingForm.reportText!=null" then="Error.report"/>
 		<if test="requestParameters.parentHsaIdentity!=null" then="Display.subUnitsById"/>
-		<if test="requestParameters.hsaidentity!=null" then="Search.searchUnitUniqueById"/>
-		<if test="requestParameters.dn!=null" then="Search.searchUnitUniqueByDn" else="Search.validateSearchParams"/>
+		<if test="requestParameters.hsaidentity!=null" then="Display.unitDetails"/>
+		<if test="requestParameters.dn!=null" then="Display.unitDetailsByDn" else="Search.validateSearchParams"/>
 	</decision-state>
 
 	<view-state id="Search.displayUnitSearchResult" view="/displayUnitSearchResult.xhtml">
@@ -76,29 +76,32 @@
 		<transition on-exception="se.vgregion.kivtools.search.exceptions.IncorrectUserInputException" to="Search.displayUnitSearchResult" />
 	</action-state>
 
-	<action-state id="Search.searchUnitUniqueById">
-		<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitDetails(flowScope.hsaidentity, externalContext)" result="flowScope.unit"/>
-		<set name="errorReportingForm.dn" value="flowScope.unit.dn.toString()" />
-		<set name="errorReportingForm.reportText" value="null" />
-		<set name="flowScope.dn" value="flowScope.unit.dn.toString()" />
-		<transition on="success" to="Display.unitDetails" />
-		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException" to="Search.searchUnitNoHit" />
-	</action-state>
-
-	<action-state id="Search.searchUnitUniqueByDn">
-		<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitByDn(flowScope.dn, externalContext)" result="flowScope.unit" />
-		<set name="errorReportingForm.dn" value="flowScope.unit.dn.toString()" />
-		<set name="errorReportingForm.reportText" value="null" />
-		<set name="flowScope.dn" value="flowScope.unit.dn.toString()" />
-		<transition on="success" to="Display.unitDetails" />
-		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException" to="Search.searchUnitNoHit" />
-	</action-state>
-
 	<view-state id="Display.unitDetails" view="/displayUnitDetails.xhtml">
-		<transition on="doCancel" to="Search.displayUnitSearchResult"></transition>
+		<on-entry>
+			<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitDetails(flowScope.hsaidentity, externalContext)" result="flowScope.unit"/>
+			<set name="errorReportingForm.dn" value="flowScope.unit.dn.toString()" />
+			<set name="errorReportingForm.reportText" value="null" />
+			<set name="flowScope.dn" value="flowScope.unit.dn.toString()" />
+		</on-entry>
+		<transition on="doCancel" to="Search.displayUnitSearchResult" />
 		<transition on="doSearch" to="Search.validateSearchParams" />
 		<transition on="displayUnit" to="Display.unitDetailsByDn" />
 		<transition on="doSubmitErrorReport" to="Error.report" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException" to="Search.searchUnitNoHit" />
+	</view-state>
+	
+	<view-state id="Display.unitDetailsByDn" view="/displayUnitDetails.xhtml">
+		<on-entry>
+			<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitByDn(flowScope.dn, externalContext)" result="flowScope.unit" />
+			<set name="errorReportingForm.dn" value="flowScope.unit.dn.toString()" />
+			<set name="errorReportingForm.reportText" value="null" />
+			<set name="flowScope.dn" value="flowScope.unit.dn.toString()" />
+		</on-entry>
+		<transition on="doCancel" to="Search.displayUnitSearchResult" />
+		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="displayUnit" to="Display.unitDetailsByDn" />
+		<transition on="doSubmitErrorReport" to="Error.report" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException" to="Search.searchUnitNoHit" />
 	</view-state>
 	
 	<view-state id="Search.searchUnitNoHit" view="/unit404.xhtml"/>
