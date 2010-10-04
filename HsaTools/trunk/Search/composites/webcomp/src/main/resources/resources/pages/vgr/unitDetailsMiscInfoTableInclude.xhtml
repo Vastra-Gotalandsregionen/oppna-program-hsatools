@@ -25,31 +25,29 @@
 			<caption>Övrig information</caption>
 			<tbody>
 				<tr>
-					<th id="ansvarsnummer">Ansvarsnummer</th>
-					<td headers="ansvarsnummer"><span jsfc="ui:repeat"
-						value="${unit.vgrAnsvarsnummer}" var="anvsarsnummer">
-					${anvsarsnummer} </span></td>
-					<th id="arbetsplatskod">Arbetsplatskod</th>
-					<td headers="arbetsplatskod">${unit.hsaUnitPrescriptionCode}</td>
+					<th id="main-HSA-identitet">HSA-identitet</th>
+					<td headers="main-HSA-identitet">${unit.hsaIdentity}</td>
+					<th id="main-hsamanagement">${msg.management}</th>
+					<td headers="main-hsamanagement">${unit.hsaManagementText}</td>
 				</tr>
 				<tr>
-					<th id="main-i-nummer">I-nummer</th>
-					<td headers="main-i-nummer">${unit.vgrInternalSedfInvoiceAddress}</td>
+					<th id="main-verksamhetskod-klartext">Verksamhetskod - klartext</th>
+					<td headers="main-verksamhetskod-klartext">${unit.hsaBusinessClassificationTextFormatted}</td>
 					<th id="main-vardform">Vårdform</th>
 					<td headers="main-vardform">${unit.careTypeText}</td>
 				</tr>
 				<tr>
-					<th id="main-ansvarsomrkod">Ansvarsomr.kod</th>
-					<td headers="main-ansvarsomrkod">${unit.vgrAO3kod}</td>
-					<th id="main-HSA-identitet">HSA-identitet</th>
-					<td headers="main-HSA-identitet">${unit.hsaIdentity}</td>
-				</tr>
-				<tr>
-					<th id="main-verksamhetskod-klartext">Verksamhetskod - klartext</th>
-					<td headers="main-verksamhetskod-klartext">${unit.hsaBusinessClassificationTextFormatted}
+					<th id="main-hsaResponsibleHealthCareProvider">Vårdenhet </th>
+					<td headers="main-hsaResponsibleHealthCareProvider">
+						<h:outputText rendered="${unit.hsaResponsibleHealthCareProvider == null or unit.hsaResponsibleHealthCareProvider == ''}">${msg.no}</h:outputText>
+						<h:outputText rendered="${fn:length(unit.hsaResponsibleHealthCareProvider) gt 0}">${msg.yes}</h:outputText>
 					</td>
-					<th id="kommunnamn">Kommunnamn</th>
-					<td headers="kommunnamn">${unit.hsaMunicipalityName}</td>
+					<th id="main-vardval-klartext">Tillhörande enhet  </th>
+					<td headers="main-vardval-klartext">
+						<div jsfc="ui:repeat" value="${unit.hsaHealthCareUnitMembers}" var="healthCareUnitMember">
+							${healthCareUnitMember}
+						</div>
+					</td>
 				</tr>
 				<tr>
 					<th id="main-vardval-klartext">${msg.contractSigningForVGPV}</th>
@@ -61,9 +59,24 @@
 					<td headers="contract-code">${unit.contractCode}</td>
 				</tr>
 				<tr>
-					<th id="main-management-klartext">${msg.management}</th>
-					<td headers="main-management-klartext" colspan="3">${unit.hsaManagementText}</td>
+					<th id="main-ansvarsomrkod">Ansvarsomr.kod</th>
+					<td headers="main-ansvarsomrkod">${unit.vgrAO3kod}</td>
+					<th id="ansvarsnummer">Ansvarsnummer</th>
+					<td headers="ansvarsnummer"><span jsfc="ui:repeat"
+						value="${unit.vgrAnsvarsnummer}" var="anvsarsnummer">
+					${anvsarsnummer} </span></td>
 				</tr>
+				<tr>
+					<th id="arbetsplatskod">Arbetsplatskod</th>
+					<td headers="arbetsplatskod">${unit.hsaUnitPrescriptionCode}</td>
+					<th id="main-i-nummer">I-nummer</th>
+					<td headers="main-i-nummer">${unit.vgrInternalSedfInvoiceAddress}</td>
+				</tr>
+				<tr>
+					<th id="kommunnamn">Kommunnamn</th>
+					<td headers="kommunnamn">${unit.hsaMunicipalityName}</td>
+				</tr>				
 			</tbody>
 		</table>
+		
 	</div>
