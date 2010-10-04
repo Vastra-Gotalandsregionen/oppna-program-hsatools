@@ -45,7 +45,9 @@
 					<th id="main-vardval-klartext">Tillhörande enhet  </th>
 					<td headers="main-vardval-klartext">
 						<div jsfc="ui:repeat" value="${unit.hsaHealthCareUnitMembers}" var="healthCareUnitMember">
-							${healthCareUnitMember}
+							<a href="visaenhet?hsaidentity=${healthCareUnitMember}">
+											${healthCareUnitMember}
+							</a>
 						</div>
 					</td>
 				</tr>
