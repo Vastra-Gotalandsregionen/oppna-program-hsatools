@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="DsmlService"
+	targetNamespace="http://www.stream.dsml.services.novell.com"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:ns0="http://schemas.novell.com"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:tns="http://www.stream.dsml.services.novell.com"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<types>
+		<schema targetNamespace="http://schemas.novell.com"
+			xmlns="http://www.w3.org/2001/XMLSchema"
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<import schemaLocation="DSMLv2.xsd"
+				namespace="urn:oasis:names:tc:DSML:2:0:core" />
+			<annotation>
+				<documentation xml:lang="en">
+					XML type for Element type.
+				</documentation>
+			</annotation>
+			<!-- <xsd:element name="element" type="xsd:anyType" />  
+				<complexType name="element">
+				<xsd:element name="element" type="xsd:anyType" />
+				
+				</complexType> -->
+		</schema>
+	</types>
+	<message name="batchRequestRequest">
+		<!-- <part type="xsd:string" name="body" />  -->
+
+		<part element="dsml:batchRequest" name="body" />
+		<!--  <part element="ns0:element" name="arg0" />  -->
+	</message>
+	<message name="batchRequestResponse">
+		<part element="dsml:batchResponse" name="body" />
+		<!-- <part element="ns0:element" name="result" /> -->
+	</message>
+	<portType name="DsmlService">
+		<operation name="batchRequest">
+			<input message="tns:batchRequestRequest" />
+			<output message="tns:batchRequestResponse" />
+		</operation>
+	</portType>
+	<binding name="DsmlBinding" type="tns:DsmlService">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="batchRequest">
+			<soap:operation soapAction="#batchRequest" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<service name="DsmlService">
+		<port binding="tns:DsmlBinding" name="DsmlPort">
+			<soap:address
+				location="http://138.233.20.181:8080/novell-dsml/stream" />
+		</port>
+	</service>
+
+</definitions>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="Decision.displayUnitDetails">
+
+	<var name="unitSearchSimpleForm" class="se.vgregion.kivtools.search.presentation.forms.UnitSearchSimpleForm" />
+	<var name="errorReportingForm" class="se.vgregion.kivtools.search.presentation.forms.ErrorReportingForm" />
+	<var name="units" class="java.util.ArrayList" />
+	
+	<input name="hsaidentity" />
+	<input name="parentHsaIdentity" />
+	<input name="dn" />
+
+    <input name="unitName" value="flowScope.unitSearchSimpleForm.unitName" />
+    <input name="location" value="flowScope.unitSearchSimpleForm.location" />
+    <input name="searchType" value="flowScope.unitSearchSimpleForm.searchType" />
+    <input name="administrationName" value="flowScope.unitSearchSimpleForm.administrationName" />
+    <input name="liableCode" value="flowScope.unitSearchSimpleForm.liableCode" />
+    <input name="businessClassificationName" value="flowScope.unitSearchSimpleForm.businessClassificationName" />
+    <input name="careTypeName" value="flowScope.unitSearchSimpleForm.careTypeName" />
+    <input name="showAll" value="flowScope.unitSearchSimpleForm.showAll" />
+    
+	<decision-state id="Decision.displayUnitDetails">
+		<if test="errorReportingForm.reportText!=null" then="Error.report"/>
+		<if test="requestParameters.parentHsaIdentity!=null" then="Display.subUnitsById"/>
+		<if test="requestParameters.hsaidentity!=null" then="Search.searchUnitUniqueById"/>
+		<if test="requestParameters.dn!=null" then="Search.searchUnitUniqueByDn" else="Search.validateSearchParams"/>
+	</decision-state>
+
+	<view-state id="Search.displayUnitSearchResult" view="/displayUnitSearchResult.xhtml">
+		
+	</view-state>
+
+	<action-state id="Search.validateSearchParams">
+		<evaluate expression="flowScope.units.clear()" />
+		<evaluate expression="Search_UnitSearchSimpleFormValidator.validate(flowScope.unitSearchSimpleForm)" />
+		<transition on="success" to="Search.searchUnit" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.IncorrectUserInputException" to="Search.displayUnitSearchResult" />
+	</action-state>	
+
+	<action-state id="Search.searchUnit">
+		<evaluate expression="Search_SearchUnitFlowSupportBean.doSearch(flowScope.unitSearchSimpleForm)" result="flowScope.units" />
+		<transition on="success" to="Search.displayUnitSearchResult" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException" to="Search.displayUnitSearchResult" />
+	</action-state>
+	
+	<action-state id="Search.showAllUnits">
+		<on-entry>
+			<set name="flowScope.unitSearchSimpleForm.showAll" value="true"></set>
+			<evaluate expression="Search_UnitSearchSimpleFormValidator.validate(flowScope.unitSearchSimpleForm)" />
+		</on-entry>
+		<transition on="success" to="Search.searchUnit" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.IncorrectUserInputException" to="Search.displayUnitSearchResult" />
+	</action-state>
+
+	<action-state id="Search.searchUnitUniqueById">
+		<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitDetails(flowScope.hsaidentity, externalContext)" result="flowScope.unit"/>
+		<set name="errorReportingForm.dn" value="flowScope.unit.dn.toString()" />
+		<set name="errorReportingForm.reportText" value="null" />
+		<set name="flowScope.dn" value="flowScope.unit.dn.toString()" />
+		<transition on="success" to="Display.unitDetails" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException" to="Search.searchUnitNoHit" />
+	</action-state>
+
+	<action-state id="Search.searchUnitUniqueByDn">
+		<evaluate expression="Display_DisplayUnitDetailsFlowSupportBean.getUnitByDn(flowScope.dn, externalContext)" result="flowScope.unit" />
+		<set name="errorReportingForm.dn" value="flowScope.unit.dn.toString()" />
+		<set name="errorReportingForm.reportText" value="null" />
+		<set name="flowScope.dn" value="flowScope.unit.dn.toString()" />
+		<transition on="success" to="Display.unitDetails" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException" to="Search.searchUnitNoHit" />
+	</action-state>
+
+	<view-state id="Display.unitDetails" view="/displayUnitDetails.xhtml">
+		<transition on="doCancel" to="Search.displayUnitSearchResult"></transition>
+		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="displayUnit" to="Display.unitDetailsByDn" />
+		<transition on="doSubmitErrorReport" to="Error.report" />
+	</view-state>
+	
+	<view-state id="Search.searchUnitNoHit" view="/unit404.xhtml"/>
+
+	<view-state id="Search.ErrorHandle" view="/displayError.xhtml">
+		<transition on="confirm" to="Search.displayUnitSearchResult" />
+	</view-state>
+
+	<action-state id="Display.subUnitsById">
+		<evaluate expression="Search_SearchUnitFlowSupportBean.getFirstLevelSubUnits(flowScope.parentHsaIdentity)" result="flowScope.units"/>
+		<transition on="success" to="Search.displaySubUnitSearchResult" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
+					to="Search.displaySubUnitSearchResult">
+		</transition>
+	</action-state>
+
+	<action-state id="Error.report">
+		<evaluate expression="errorReportingFlowSupportBean.reportError(errorReportingForm.dn, errorReportingForm.reportText, requestParameters.detailLink)" result="flowScope.errorReportDone" />
+		<transition to="Display.unitDetailsByDn" />
+	</action-state>
+	
+	<view-state id="Search.displaySubUnitSearchResult" view="/displaySubUnitSearchResult.xhtml">
+	</view-state>
+
+	<global-transitions>
+		<transition on-exception="java.lang.Exception" to="Search.ErrorHandle" />
+	</global-transitions>
+</flow>
