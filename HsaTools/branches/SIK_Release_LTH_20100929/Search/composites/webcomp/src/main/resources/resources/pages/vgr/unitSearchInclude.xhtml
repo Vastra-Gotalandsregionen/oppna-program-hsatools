@@ -1,0 +1,121 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<form id="searchUnitForm" method="get" action="Search.searchunit-flow.flow" class="search-form"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+		xmlns:c="http://java.sun.com/jstl/core">
+    <div id="formContainer">
+        <div class="formRow">
+    		<div class="text">
+				<label for="unitName" title="Label - Something about this label">Enhet</label>
+				<div>
+	                <input id="unitName" name="unitName" type="text" class="search-input-field" value="${unitSearchSimpleForm.unitName}"/>
+					<span>Ange delar eller hela namnet på enhet du vill söka efter</span>
+				</div>
+			</div>
+			
+			<div class="text">
+				<label for="location">Var</label>
+				<div>
+	                <input id="location" name="location" type="text" class="search-input-field" value="${unitSearchSimpleForm.location}"/>
+					<span>Söker i Besöksadress, Postadress, Kommun</span>
+				</div>
+			</div>
+	        <div style="float: right">
+    			<div class="submit-area">
+    				<input type="submit" id="submitButton" value="Sök" onclick="showProgressText()"/>
+    		    </div>
+                 <div class="submit-area">
+                    <input type="submit" onclick="return clearInputs()" id="clearButton" value="Rensa" />
+                </div>
+            </div>
+        </div>
+       
+   		<c:set var="displaySimple" value="none"/>
+   		<c:set var="displayAdvanced" value="none"/>
+   		<c:choose>
+   			<c:when test="${unitSearchSimpleForm.searchType eq 'advanced'}">
+	   			<c:set var="displayAdvanced" value="block"/>
+   			</c:when>
+   			<c:otherwise>
+	   			<c:set var="displaySimple" value="block"/>
+   			</c:otherwise>
+   		</c:choose>
+
+        <div id="advanced_search" class="advanced_search" style="display: ${displayAdvanced};">
+           <div class="formRow">
+                <div class="textname">
+                    <label for="administrationName">${msg.administration}</label>
+                    <div class="autocomplete_container" id="administration_container">
+                        <input id="administrationName" name="administrationName" type="text" class="search-input-name-field" value="${unitSearchSimpleForm.administrationName}" />
+                        <div id="autocomplete_administrationName" class="autocomplete"></div>
+                    </div>
+                </div>
+                <div class="textname">
+                    <label for="liableCode">${msg.responsibilityCode}</label>
+                    <input id="liableCode" name="liableCode" type="text" class="search-input-name-field" value="${unitSearchSimpleForm.liableCode}" />
+                </div>
+            </div>
+            <div class="formRow">
+                <div class="textname">
+                    <label for="businessClassificationName">${msg.businessClassificationCode}</label>
+                    <div class="autocomplete_container" id="businessClassificationName_container">
+                        <input id="businessClassificationName" name="businessClassificationName" type="text" class="search-input-name-field" value="${unitSearchSimpleForm.businessClassificationName}" />
+                        <div id="autocomplete_businessClassificationName" class="autocomplete"></div>
+                    </div>
+                </div>
+                <div class="textname">
+                    <label for="careTypeName">${msg.careType}</label>
+                    <select id="careTypeName" name="careTypeName" class="search-input-name-field">
+                        <option value=""></option>
+                        <ui:repeat value="${presentationHelper.getSelectItemsFromStrings(Search_CodeTablesService.getAllValuesItemsFromCodeTable('VGR_CARE_TYPE'))}" var="option">
+                            <h:outputText rendered="${option.value == unitSearchSimpleForm.careTypeName}">
+                                <option value="${option.value}" selected="selected">${option.label}</option>
+                            </h:outputText>
+                            <h:outputText rendered="${option.value != unitSearchSimpleForm.careTypeName}">
+                                <option value="${option.value}">${option.label}</option>
+                            </h:outputText>
+                        </ui:repeat>
+                    </select>
+                </div>
+            </div>
+            <input type="hidden" id="searchType" name="searchType" value="${unitSearchSimpleForm.searchType}" />
+            <script type="text/javascript" charset="utf-8">
+                // <![CDATA[]
+                        initAutocompleter('administrationName', 'VGR_AO3_CODE');
+                        initAutocompleter('businessClassificationName', 'HSA_BUSINESSCLASSIFICATION_CODE');
+                // ]]>
+            </script>
+        </div>
+        <div class="search-advanced-link">
+          <a class="search-advanced-link" onclick="return toggleAdvancedSearch();" href="#">
+            <span id="advancedLinkText" style="display: ${displaySimple};">${msg.advancedSearch}</span>
+            <span id="simpleLinkText" style="display: ${displayAdvanced};">${msg.simpleSearch}</span>
+           </a>
+         </div>
+         </div>
+     <script type="text/javascript">
+		document.getElementById("unitName").focus();
+	</script>
+</form>

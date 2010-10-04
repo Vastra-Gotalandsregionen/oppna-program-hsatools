@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+    start-state="Decision.displayPersonDetails">
+
+	<var name="personSearchSimpleForm" class="se.vgregion.kivtools.search.presentation.forms.PersonSearchSimpleForm" />
+	<var name="errorReportingForm" class="se.vgregion.kivtools.search.presentation.forms.ErrorReportingForm" />
+	<var name="persons" class="java.util.ArrayList" />
+	<var name="currentDate" class="java.util.Date"/>
+	<!-- Get person with specified vgrId -->
+	<input name="vgrid" />
+
+	<!-- Find all persons in unit described by hsaIdentity or dn-->
+	<input name="hsaidentity" />
+	<input name="dn" />
+	<input name="personDn" />
+	<input name="hsaidentityOnlyThisUnit" />
+	<input name="unitAdministrators" />
+	<input name="personAdministrators" />
+	
+
+	<input name="givenName" value="flowScope.personSearchSimpleForm.givenName" />
+	<input name="surname" value="flowScope.personSearchSimpleForm.surname" />
+	<input name="userId" value="flowScope.personSearchSimpleForm.userId" />
+	<input name="searchType" value="flowScope.personSearchSimpleForm.searchType" />
+	<input name="administration" value="flowScope.personSearchSimpleForm.administration" />
+	<input name="employedAtUnit" value="flowScope.personSearchSimpleForm.employedAtUnit" />
+	<input name="profession" value="flowScope.personSearchSimpleForm.profession" />
+	<input name="employmentTitle" value="flowScope.personSearchSimpleForm.employmentTitle" />
+	<input name="email" value="flowScope.personSearchSimpleForm.email" />
+	<input name="specialityArea" value="flowScope.personSearchSimpleForm.specialityArea" />
+	<input name="languageKnowledge" value="flowScope.personSearchSimpleForm.languageKnowledge" />
+	<input name="phone" value="flowScope.personSearchSimpleForm.phone" />
+	<input name="employmentPosition" value="flowScope.personSearchSimpleForm.employmentPosition" />
+	<input name="description" value="flowScope.personSearchSimpleForm.description" />
+	<input name="showAll" value="flowScope.personSearchSimpleForm.showAll" />
+
+	<!-- No input parameter shows new search screen -->
+
+	<decision-state id="Decision.displayPersonDetails">		
+		<if test="errorReportingForm.reportText!=null" then="Error.report"/>
+		<if test="requestParameters.vgrid!=null" then="Search.searchPersonUnique" />
+		<if test="requestParameters.personDn!=null" then="Search.searchPersonUnique" />
+		<if test="requestParameters.dn!=null" then="Display.unitOrganisation" />
+		<if test="requestParameters.unitAdministrators!=null" then="Display.unitAdministrators"/>
+		<if test="requestParameters.personAdministrators!=null" then="Display.personAdministrators"/>
+		<if test="requestParameters.hsaidentityOnlyThisUnit!=null" then="Display.unitOrganisationOnlyOneLevel"/>
+		<if test="requestParameters.hsaidentity!=null" then="Display.unitOrganisation" else="Search.validateSearchParams"/>
+		
+		
+	</decision-state>
+	
+	<view-state id="Search.displayPersonSearchResult" view="/displayPersonSearchResult.xhtml">
+	</view-state>
+
+	<action-state id="Search.validateSearchParams">
+		<evaluate expression="flowScope.persons.clear()" />
+		<evaluate expression="Search_PersonSearchSimpleFormValidator.validate(flowScope.personSearchSimpleForm)" />
+		<transition on="success" to="Search.searchPerson" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.IncorrectUserInputException"
+					to="Search.displayPersonSearchResult">
+		</transition>
+	</action-state>
+
+	<action-state id="Search.searchPerson">
+		<evaluate expression="Search_SearchPersonFlowSupportBean.doSearch(flowScope.personSearchSimpleForm)" result="flowScope.persons" />
+		<transition on="success" to="Search.displayPersonSearchResult" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
+					to="Search.displayPersonSearchResult">
+		</transition>
+	</action-state>
+
+	<action-state id="Search.searchPersonUnique">
+		<evaluate expression="Display_DisplayPersonDetailsFlowSupportBean.getPersonDetails(flowScope.vgrid, externalContext)" result="flowScope.person" />
+		<evaluate expression="userEventService.retrieveUserEvents(person.givenName, person.sn, person.telephoneNumberOfFirstEmployment, person.mobileNumberOfFirstEmployment)" result="flowScope.userEvents" />
+		<set name="errorReportingForm.dn" value="flowScope.person.dn" />
+		<set name="errorReportingForm.reportText" value="null" />
+		<set name="flowScope.vgrid" value="flowScope.person.vgrId" />
+		<transition on="success" to="Display.personDetails" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException" to="Search.searchPersonNoHit" />
+	</action-state>
+	
+	<view-state id="Search.searchPersonNoHit" view="/person404.xhtml"/>
+	
+	<view-state id="Display.personDetails" view="/displayPersonDetails.xhtml">
+		<transition on="doCancel" to="Search.displayPersonSearchResult" />
+		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="doSubmitErrorReport" to="Error.report" />
+	</view-state>	
+	
+	<view-state id="Display.personDetailsByDn" view="/displayPersonDetails.xhtml">
+		<on-entry>
+			<evaluate expression="Display_DisplayPersonDetailsFlowSupportBean.getPersonDetailsByDn(flowScope.personDn, externalContext)" result="flowScope.person" />
+			<evaluate expression="userEventService.retrieveUserEvents(person.givenName, person.sn, person.telephoneNumberOfFirstEmployment, person.mobileNumberOfFirstEmployment)" result="flowScope.userEvents" />
+			<set name="errorReportingForm.dn" value="flowScope.person.dn" />
+			<set name="errorReportingForm.reportText" value="null" />
+			<set name="flowScope.vgrid" value="flowScope.person.vgrId" />
+		</on-entry>
+		<transition on="doCancel" to="Search.displayPersonSearchResult" />
+		<transition on="doSearch" to="Search.validateSearchParams" />
+		<transition on="doSubmitErrorReport" to="Error.report" />
+	</view-state>	
+	
+	<action-state id="Display.unitOrganisation">
+		<evaluate expression="Search_SearchPersonFlowSupportBean.getOrganisation(flowScope.hsaidentity, flowScope.dn)" result="flowScope.persons" />
+		<transition on="success" to="Search.displayPersonSearchResult" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
+					to="Search.displayPersonSearchResult">
+		</transition>
+	</action-state>
+	
+	<action-state id="Display.unitOrganisationOnlyOneLevel">
+		<evaluate expression="Search_SearchPersonFlowSupportBean.getOrganisation(flowScope.hsaidentityOnlyThisUnit)" result="flowScope.persons" />
+		<transition on="success" to="Search.displayPersonSearchResult" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
+					to="Search.displayPersonSearchResult">
+		</transition>
+	</action-state>
+	
+	<action-state id="Display.unitAdministrators">
+		<evaluate expression="Search_SearchPersonFlowSupportBean.getUnitAdministrators(flowScope.unitAdministrators)" result="flowScope.persons" />
+		<transition on="success" to="Search.displayPersonSearchResult" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
+					to="Search.displayPersonSearchResult">
+		</transition>
+	</action-state>
+	
+	<action-state id="Display.personAdministrators">
+		<evaluate expression="Search_SearchPersonFlowSupportBean.getAdministratorForPerson(flowScope.personAdministrators)" result="flowScope.persons" />
+		<transition on="success" to="Search.displayPersonSearchResult" />
+		<transition on-exception="se.vgregion.kivtools.search.exceptions.KivNoDataFoundException"
+					to="Search.displayPersonSearchResult">
+		</transition>
+	</action-state>
+	
+	<view-state id="Search.ErrorHandle" view="/displayError.xhtml">
+		<transition on="confirm" to="Search.displayPersonSearchResult" />
+	</view-state>
+
+	<action-state id="Error.report">
+		<evaluate expression="errorReportingFlowSupportBean.reportError(errorReportingForm.dn, errorReportingForm.reportText, requestParameters.detailLink)" result="flowScope.errorReportDone" />
+		<transition to="Display.personDetails" />
+	</action-state>
+
+	<global-transitions>
+		<transition on-exception="java.lang.Exception"
+			to="Search.ErrorHandle" />
+	</global-transitions>
+</flow>
