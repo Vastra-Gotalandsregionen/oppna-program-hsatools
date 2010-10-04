@@ -22,6 +22,9 @@ package se.vgregion.kivtools.util.email;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -33,6 +36,8 @@ import se.vgregion.kivtools.util.Arguments;
  * @author Joakim Olsson
  */
 public class EmailSenderSpringImpl implements EmailSender {
+  private final Log log = LogFactory.getLog(this.getClass());
+
   private MailSender mailSender;
   private final List<String> alwaysRecipients = new ArrayList<String>();
 
@@ -60,13 +65,17 @@ public class EmailSenderSpringImpl implements EmailSender {
     Arguments.notEmpty("body", body);
 
     List<String> allRecipients = new ArrayList<String>();
-    allRecipients.addAll(alwaysRecipients);
+    allRecipients.addAll(this.alwaysRecipients);
     allRecipients.addAll(recipientAddresses);
     SimpleMailMessage message = new SimpleMailMessage();
     message.setFrom(fromAddress);
     message.setTo(allRecipients.toArray(new String[allRecipients.size()]));
     message.setSubject(subject);
     message.setText(body);
-    mailSender.send(message);
+    try {
+      this.mailSender.send(message);
+    } catch (MailException e) {
+      this.log.error("Unable to send email", e);
+    }
   }
 }
