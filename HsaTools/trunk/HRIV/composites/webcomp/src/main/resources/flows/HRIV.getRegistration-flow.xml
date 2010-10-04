@@ -36,7 +36,7 @@
 		</on-render>
 		<transition
 			on-exception="se.vgregion.kivtools.hriv.presentation.exceptions.VardvalRegistrationException"
-			to="Display.registrationError">
+			to="Display.currentRegistrationError">
 		</transition>
 	</view-state>
 
