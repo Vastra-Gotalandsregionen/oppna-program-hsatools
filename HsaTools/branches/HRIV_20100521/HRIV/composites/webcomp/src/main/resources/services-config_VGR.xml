@@ -120,9 +120,9 @@
 			<bean
 				class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceFactory"
 				factory-method="getIVardvalservice">
-				<constructor-arg value="https://vardval.vgregion.se/vardvalservice/VardvalService.svc?WSDL"/>
+				<constructor-arg value="https://vardval.vgregion.se/VardvalService_Mex/VGRegion.VGPrimarvard.Vardval.Service.wsdl"/>
 				<constructor-arg value="urn:VGRegion.VGPrimärvård.Vårdval.Service"/>
-				<constructor-arg value="VårdvalService-00000000-generated"/>
+				<constructor-arg value="VårdvalService"/>
 			</bean>
 		</property>
 		<!--
