@@ -19,22 +19,18 @@
 
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
-
-import javax.naming.InvalidNameException;
-import javax.naming.Name;
 
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DistinguishedName;
 
 import se.vgregion.kivtools.mocks.LogFactoryMock;
@@ -96,7 +92,7 @@ public class KivwsSearchServiceTest {
     kivwsSearchService.lookupUnit(distinguishedName, Arrays.asList("attr1", "attr2"));
     assertTrue(vgRegionWebServiceMock.attrs.getString().contains("attr1"));
     assertTrue(vgRegionWebServiceMock.attrs.getString().contains("attr2"));
-    assertEquals("ou=Primärvårdsrehab Majorna", vgRegionWebServiceMock.filter);
+    assertEquals("(ou=Primärvårdsrehab Majorna)", vgRegionWebServiceMock.filter);
   }
 
   @Test
