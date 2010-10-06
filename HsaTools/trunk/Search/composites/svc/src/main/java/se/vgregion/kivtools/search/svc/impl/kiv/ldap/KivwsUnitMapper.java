@@ -132,7 +132,7 @@ public class KivwsUnitMapper implements ContextMapper {
     unit.setHsaVisitingRules((String) getSingleValue(KivwsAttributes.HSA_VISITING_RULES));
     unit.setHsaPatientVisitingRules((String) getSingleValue(KivwsAttributes.HSA_PATIENT_VISITING_RULES));
     unit.addInternalDescription((List<String>) getMultiValue(KivwsAttributes.VGR_INTERNAL_DESCRIPTION));
-    unit.setIsUnit((ctx instanceof Unit));
+    unit.setIsUnit((ctx instanceof se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit));
 
     String labeledURI = (String) getSingleValue(KivwsAttributes.LABELED_URI);
     labeledURI = fixURI(labeledURI);
@@ -179,6 +179,7 @@ public class KivwsUnitMapper implements ContextMapper {
 
     unit.setHsaResponsibleHealthCareProvider(getSingleValue(KivwsAttributes.HSA_RESPONSIBLE_HEALTH_CARE_PROVIDER));
     unit.addHsaHealthCareUnitMembers((List<String>) getMultiValue(KivwsAttributes.HSA_HEALTH_CARE_UNIT_MEMBER));
+    unit.setVgrObjectManagers((List<String>) getMultiValue(KivwsAttributes.VGR_OBJECT_MANAGERS));
 
     return unit;
   }
