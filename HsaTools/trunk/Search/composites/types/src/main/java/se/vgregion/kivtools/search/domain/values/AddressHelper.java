@@ -265,37 +265,115 @@ public class AddressHelper implements Serializable {
 
             // 2. rip out postal code (always 5 characters)
             // *******************************************
-            int zipRow = findZipAndCity(tempAdressList);
+            if (!isZipAndCityInSeperateRowsUpdateAddress(tempAdressList, address)) {
+              int zipRow = findZipAndCity(tempAdressList);
 
-            if (zipRow != -1) {
-              // Zip and city found
-              foundZipCode = true;
-              String zipAndCity = tempAdressList.get(zipRow);
-              String zipCode = getZipcode(zipAndCity);
-              address.setZipCode(new ZipCode(zipCode));
+              if (zipRow != -1) {
+                // Zip and city found
+                foundZipCode = true;
+                String zipAndCity = tempAdressList.get(zipRow);
+                String zipCode = getZipcode(zipAndCity);
+                address.setZipCode(new ZipCode(zipCode));
 
-              String city = getCity(zipAndCity);
-              address.setCity(city);
-              foundCity = !StringUtil.isEmpty(city);
+                String city = getCity(zipAndCity);
+                address.setCity(city);
+                foundCity = !StringUtil.isEmpty(city);
 
-              if (foundZipCode) {
-                // ok remove this row
-                tempAdressList.remove(zipRow);
-                if (foundCity) {
-                  address.setAdditionalInfo(tempAdressList);
+                if (foundZipCode) {
+                  // ok remove this row
+                  tempAdressList.remove(zipRow);
+                  if (foundCity) {
+                    address.setAdditionalInfo(tempAdressList);
+                  }
                 }
               }
-            }
 
-            if (!foundStreet || !foundCity) {
-              // if there was no street or no city found
-              address = createNewUnparsedAddress(origAddressList);
+              if (!foundStreet || !foundCity) {
+                // if there was no street or no city found
+                address = createNewUnparsedAddress(origAddressList);
+              }
             }
           }
         }
       }
     }
     return address;
+  }
+
+  private static boolean isZipAndCityInSeperateRowsUpdateAddress(List<String> tempAddressList, Address address) {
+    boolean foundZipCode = false;
+    boolean foundCity = false;
+    boolean successFoundCityAndZipCode = false;
+    int zipRow = findZipCode(tempAddressList);
+    String city = null;
+    String zipCode = null;
+    if (zipRow != -1) {
+      zipCode = tempAddressList.get(zipRow);
+      foundZipCode = !StringUtil.isEmpty(zipCode);
+      int cityRow = findCity(tempAddressList);
+      if (cityRow != -1) {
+        city = tempAddressList.get(cityRow);
+        foundCity = !StringUtil.isEmpty(city);
+      }
+      if (foundZipCode && foundCity) {
+        address.setZipCode(new ZipCode(zipCode));
+        address.setCity(city);
+        tempAddressList.remove(zipCode);
+        tempAddressList.remove(city);
+        address.setAdditionalInfo(tempAddressList);
+        successFoundCityAndZipCode = true;
+      }
+    }
+    return successFoundCityAndZipCode;
+  }
+
+  /**
+   * Helper-method to find which row (if any) contains the zip.
+   * 
+   * @param addressList The list of strings in the address.
+   * @return The index of the row in the provided list of strings that contains the zip.
+   */
+  private static int findZipCode(List<String> addressList) {
+    int foundRow = -1;
+
+    String temp = "";
+    for (int row = addressList.size() - 1; row >= 0; row--) {
+      temp = addressList.get(row);
+      temp = temp.replaceAll(" ", "");
+      int tempSize = temp.length();
+      if (tempSize == ZIPCODE_LENGTH) {
+        // there might be a zipCode here
+        if (StringUtil.containsOnlyNumbers(temp, false)) {
+          // ok we have a postalCode here...
+          foundRow = row;
+          break;
+        }
+      }
+    }
+
+    return foundRow;
+  }
+
+  /**
+   * Helper-method to find which row (if any) contains the city.
+   * 
+   * @param addressList The list of strings in the address.
+   * @return The index of the row in the provided list of strings that contains the city.
+   */
+  private static int findCity(List<String> addressList) {
+    int foundRow = -1;
+
+    String temp = "";
+    for (int row = addressList.size() - 1; row >= 0; row--) {
+      temp = addressList.get(row);
+      temp = temp.replaceAll(" ", "");
+      if (StringUtil.containsNoNumbers(temp)) {
+        foundRow = row;
+        break;
+      }
+    }
+
+    return foundRow;
   }
 
   /**
