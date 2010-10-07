@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
+import se.vgregion.kivtools.search.domain.values.CodeTableNameInterface;
+import se.vgregion.kivtools.search.domain.values.KivwsCodeTableName;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.util.presentation.PresentationHelper;
 
@@ -47,7 +49,7 @@ public class SuggestionBean {
     this.codeTablesService = codeTablesService;
   }
 
-  private String generateSuggestionForCodeTable(HttpServletResponse response, CodeTableName codeTableName, String value) throws IOException {
+  private String generateSuggestionForCodeTable(HttpServletResponse response, CodeTableNameInterface codeTableName, String value) throws IOException {
     String decodedValue = decodeUserInput(value);
     List<String> codeValues = codeTablesService.getValuesFromTextValue(codeTableName, decodedValue);
     String suggestionsXml = buildXml(codeValues);
@@ -69,7 +71,7 @@ public class SuggestionBean {
    */
   @RequestMapping("/suggestions_HSA_SPECIALITY_CODE.servlet")
   public String getSuggestionsForSpeciality(HttpServletResponse response, @RequestParam("query") String query) throws IOException {
-    return generateSuggestionForCodeTable(response, CodeTableName.HSA_SPECIALITY_CODE, query);
+    return generateSuggestionForCodeTable(response, KivwsCodeTableName.HSA_SPECIALITY_CODE, query);
   }
 
   /**
@@ -95,7 +97,7 @@ public class SuggestionBean {
    */
   @RequestMapping("/suggestions_HSA_TITLE.servlet")
   public String getSuggestionsForProfession(HttpServletResponse response, @RequestParam("query") String query) throws IOException {
-    return generateSuggestionForCodeTable(response, CodeTableName.HSA_TITLE, query);
+    return generateSuggestionForCodeTable(response, KivwsCodeTableName.HSA_TITLE, query);
   }
 
   /**
@@ -108,7 +110,7 @@ public class SuggestionBean {
    */
   @RequestMapping("/suggestions_HSA_LANGUAGE_KNOWLEDGE_CODE.servlet")
   public String getSuggestionsForLanguageKnowledge(HttpServletResponse response, @RequestParam("query") String query) throws IOException {
-    return generateSuggestionForCodeTable(response, CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, query);
+    return generateSuggestionForCodeTable(response, KivwsCodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, query);
   }
 
   /**
@@ -121,7 +123,7 @@ public class SuggestionBean {
    */
   @RequestMapping("/suggestions_HSA_BUSINESSCLASSIFICATION_CODE.servlet")
   public String getSuggestionsForBusinessClassification(HttpServletResponse response, @RequestParam("query") String query) throws IOException {
-    return generateSuggestionForCodeTable(response, CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, query);
+    return generateSuggestionForCodeTable(response, KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, query);
   }
 
   private String decodeUserInput(String input) {
