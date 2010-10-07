@@ -722,7 +722,7 @@ public class UnitRepositoryKivws extends UnitRepository {
     DistinguishedName parentDn = new DistinguishedName(parentUnit.getDn().toString());
 
     // Since UnitMapper return a Unit we are certain that the cast to List<Unit> is ok
-    List<Unit> search = searchService.searchUnits(parentDn, "(objectClass=" + Constants.OBJECT_CLASS_UNIT_SPECIFIC + ")", SearchControls.ONELEVEL_SCOPE, ATTRIBUTES);
+    List<Unit> search = searchService.searchUnits(parentDn, "(ou=*)", SearchControls.ONELEVEL_SCOPE, ATTRIBUTES);
     subUnits = this.cleanAndSortResult(search, null);
     this.removeUnitParentFromList(parentUnit, subUnits);
     getMaxResultList(subUnits.size(), subUnits);
