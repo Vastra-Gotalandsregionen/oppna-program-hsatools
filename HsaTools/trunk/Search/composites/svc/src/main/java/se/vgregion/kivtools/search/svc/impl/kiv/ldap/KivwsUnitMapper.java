@@ -122,7 +122,7 @@ public class KivwsUnitMapper implements ContextMapper {
     unit.setHsaSedfDeliveryAddress(AddressHelper.convertToAddress((List<String>) getMultiValue(KivwsAttributes.HSA_SEDF_DELIVERY_ADDRESS)));
     unit.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress((List<String>) getMultiValue(KivwsAttributes.HSA_SEDF_INVOICE_ADDRESS)));
     unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber((String) getSingleValue(KivwsAttributes.HSA_SEDF_SWITCHBOARD_TELEPHONE_NO)));
-    unit.setHsaStreetAddress(AddressHelper.convertToAddress((List<String>) getMultiValue(KivwsAttributes.HSA_STREET_ADDRESS)));
+    unit.setHsaStreetAddress(AddressHelper.convertToStreetAddress((List<String>) getMultiValue(KivwsAttributes.HSA_STREET_ADDRESS)));
     unit.addHsaSurgeryHours(WeekdayTime.createWeekdayTimeList((List<String>) getMultiValue(KivwsAttributes.HSA_SURGERY_HOURS)));
     unit.addHsaTelephoneNumber(PhoneNumber.createPhoneNumberList((List<String>) getMultiValue(KivwsAttributes.HSA_TELEPHONE_NUMBER)));
     unit.addHsaTelephoneTimes(WeekdayTime.createWeekdayTimeList((List<String>) getMultiValue(KivwsAttributes.HSA_TELEPHONE_TIME)));
