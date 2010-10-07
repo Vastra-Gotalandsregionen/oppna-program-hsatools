@@ -80,4 +80,5 @@ public class KivwsAttributes {
   public static final String HSA_PATIENT_VISITING_RULES = "hsapatientvisitingrules";
   public static final String HSA_RESPONSIBLE_HEALTH_CARE_PROVIDER = "hsaresponsiblehealthcareprovider";
   public static final String HSA_HEALTH_CARE_UNIT_MEMBER = "hsahealthcareunitmember";
+  public static final String VGR_OBJECT_MANAGERS = "vgrobjectmanagers";
 }
