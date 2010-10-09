@@ -21,7 +21,8 @@ package se.vgregion.kivtools.search.svc;
 
 import java.util.List;
 
-import se.vgregion.kivtools.search.svc.SitemapCache.EntryType;
+import se.vgregion.kivtools.search.svc.cache.SitemapCache.EntryType;
+import se.vgregion.kivtools.search.svc.impl.cache.SitemapCacheServiceImpl;
 
 /**
  * Supporting bean for sitemap-servlets.

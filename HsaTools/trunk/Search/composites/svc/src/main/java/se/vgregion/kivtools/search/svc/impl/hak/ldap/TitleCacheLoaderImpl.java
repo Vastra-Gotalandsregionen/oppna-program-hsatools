@@ -19,16 +19,14 @@
 
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
-import javax.naming.directory.SearchControls;
+import java.util.List;
 
-import org.springframework.ldap.control.PagedResultsCookie;
-import org.springframework.ldap.control.PagedResultsDirContextProcessor;
-import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.ldap.filter.EqualsFilter;
-import org.springframework.ldap.filter.Filter;
-
-import se.vgregion.kivtools.search.svc.CacheLoader;
-import se.vgregion.kivtools.search.svc.TitleCache;
+import se.vgregion.kivtools.search.domain.Employment;
+import se.vgregion.kivtools.search.domain.Person;
+import se.vgregion.kivtools.search.svc.cache.CacheLoader;
+import se.vgregion.kivtools.search.svc.cache.TitleCache;
+import se.vgregion.kivtools.search.svc.impl.cache.PersonCacheServiceImpl;
+import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * Implementation of the TitleCacheLoader for LTH.
@@ -36,10 +34,10 @@ import se.vgregion.kivtools.search.svc.TitleCache;
  * @author Joakim Olsson
  */
 public class TitleCacheLoaderImpl implements CacheLoader<TitleCache> {
-  private LdapTemplate ldapTemplate;
+  private final PersonCacheServiceImpl personCacheService;
 
-  public void setLdapTemplate(LdapTemplate ldapTemplate) {
-    this.ldapTemplate = ldapTemplate;
+  public TitleCacheLoaderImpl(final PersonCacheServiceImpl personCacheService) {
+    this.personCacheService = personCacheService;
   }
 
   /**
@@ -49,16 +47,22 @@ public class TitleCacheLoaderImpl implements CacheLoader<TitleCache> {
   public TitleCache loadCache() {
     TitleCache titleCache = new TitleCache();
 
-    PagedResultsCookie cookie = null;
-    PagedResultsDirContextProcessor control = new PagedResultsDirContextProcessor(100, cookie);
-    SearchControls searchControls = new SearchControls();
-    searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+    List<Person> persons = this.personCacheService.getCache().getPersons();
+    // Check if list of persons is populated, otherwise we fill it up!
+    if (persons.isEmpty()) {
+      this.personCacheService.reloadCache();
+      persons = this.personCacheService.getCache().getPersons();
+    }
 
-    Filter filter = new EqualsFilter("objectClass", "hkatPerson");
-
-    do {
-      this.ldapTemplate.search(Constants.SEARCH_BASE, filter.encode(), searchControls, new TitleMapper(titleCache), control);
-    } while (control.getCookie().getCookie() != null);
+    for (Person person : persons) {
+      if (person.getEmployments() != null) {
+        for (Employment employment : person.getEmployments()) {
+          if (!StringUtil.isEmpty(employment.getTitle())) {
+            titleCache.add(employment.getTitle());
+          }
+        }
+      }
+    }
 
     return titleCache;
   }

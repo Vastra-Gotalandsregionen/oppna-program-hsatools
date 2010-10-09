@@ -91,15 +91,15 @@
 		<constructor-arg value="https://kontakt.vardguiden.se/vg/veconfig.nsf/dispveInfo?readform"/>
 	</bean>
 	
-	<bean id="sitemapCacheLoader" class="se.vgregion.kivtools.search.svc.impl.InternalSitemapCacheLoaderImpl">
+	<bean id="sitemapCacheLoader" class="se.vgregion.kivtools.search.svc.impl.cache.InternalSitemapCacheLoaderImpl">
 		<constructor-arg ref="unitCacheService" />
-		<constructor-arg ref="Search_SearchService" />
+		<constructor-arg ref="personCacheService" />
 		<constructor-arg ref="mvkClient" />
 		<constructor-arg value="http://internkatalogen.lthalland.se/sik" />
 		<constructor-arg value="daily" />
 	</bean>
 	
-	<bean id="sitemapCacheService" class="se.vgregion.kivtools.search.svc.SitemapCacheServiceImpl">
+	<bean id="sitemapCacheService" class="se.vgregion.kivtools.search.svc.impl.cache.SitemapCacheServiceImpl">
 		<constructor-arg ref="sitemapCacheLoader" />
 	</bean>
 
@@ -119,12 +119,12 @@
 		<property name="repeatInterval" value="86400000" />
 	</bean>
 
-	<bean id="unitCacheLoader" class="se.vgregion.kivtools.search.svc.impl.UnitCacheLoaderImpl">
+	<bean id="unitCacheLoader" class="se.vgregion.kivtools.search.svc.impl.cache.UnitCacheLoaderImpl">
 		<constructor-arg ref="Search_SearchService"/>
 		<constructor-arg value="false" />
 	</bean>
 	
-	<bean id="unitCacheService" class="se.vgregion.kivtools.search.svc.UnitCacheServiceImpl">
+	<bean id="unitCacheService" class="se.vgregion.kivtools.search.svc.impl.cache.UnitCacheServiceImpl">
 		<constructor-arg ref="unitCacheLoader" />
 	</bean>
 
@@ -144,27 +144,51 @@
 		<property name="repeatInterval" value="86400000" />
 	</bean>
 
-	<bean id="personNameCacheLoader" class="se.vgregion.kivtools.search.svc.impl.hak.ldap.PersonNameCacheLoaderImpl">
-		<property name="ldapTemplate" ref="ldapTemplateLTH" />
+	<bean id="personCacheLoader" class="se.vgregion.kivtools.search.svc.impl.cache.PersonCacheLoaderImpl">
+		<constructor-arg ref="Search_SearchService"/>
 	</bean>
 	
-	<bean id="unitNameCacheLoader" class="se.vgregion.kivtools.search.svc.impl.hak.ldap.UnitNameCacheLoaderImpl">
-		<property name="ldapTemplate" ref="ldapTemplateLTH" />
+	<bean id="personCacheService" class="se.vgregion.kivtools.search.svc.impl.cache.PersonCacheServiceImpl">
+		<constructor-arg ref="personCacheLoader" />
+	</bean>
+
+	<bean id="personCacheReload"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="personCacheService" />
+		<property name="targetMethod" value="reloadCache" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="triggerPersonCacheReload" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="personCacheReload" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean id="personNameCacheLoader" class="se.vgregion.kivtools.search.svc.impl.cache.PersonNameCacheLoaderImpl">
+		<constructor-arg ref="personCacheService" />
+	</bean>
+	
+	<bean id="unitNameCacheLoader" class="se.vgregion.kivtools.search.svc.impl.cache.UnitNameCacheLoaderImpl">
+		<constructor-arg ref="unitCacheService" />
 	</bean>
 	
 	<bean id="titleCacheLoader" class="se.vgregion.kivtools.search.svc.impl.hak.ldap.TitleCacheLoaderImpl">
-		<property name="ldapTemplate" ref="ldapTemplateLTH" />
+		<constructor-arg ref="personCacheService" />
 	</bean>
 	
-	<bean id="personNameCacheService" class="se.vgregion.kivtools.search.svc.PersonNameCacheServiceImpl">
+	<bean id="personNameCacheService" class="se.vgregion.kivtools.search.svc.impl.cache.PersonNameCacheServiceImpl">
 		<constructor-arg ref="personNameCacheLoader" />
 	</bean>
 	
-	<bean id="unitNameCacheService" class="se.vgregion.kivtools.search.svc.UnitNameCacheServiceImpl">
+	<bean id="unitNameCacheService" class="se.vgregion.kivtools.search.svc.impl.cache.UnitNameCacheServiceImpl">
 		<constructor-arg ref="unitNameCacheLoader" />
 	</bean>
 	
-	<bean id="titleCacheService" class="se.vgregion.kivtools.search.svc.TitleCacheServiceImpl">
+	<bean id="titleCacheService" class="se.vgregion.kivtools.search.svc.impl.cache.TitleCacheServiceImpl">
 		<constructor-arg ref="titleCacheLoader" />
 	</bean>
 	
@@ -220,10 +244,11 @@
 		<property name="startupDelay" value="10" />
 		<property name="triggers">
 			<list>
+				<ref bean="triggerTitleCacheReload" />
+				<ref bean="triggerPersonCacheReload" />
+				<ref bean="triggerUnitCacheReload" />
 				<ref bean="triggerPersonNameCacheReload" />
 				<ref bean="triggerUnitNameCacheReload" />
-				<ref bean="triggerTitleCacheReload" />
-				<ref bean="triggerUnitCacheReload" />
 				<ref bean="triggerSitemapCacheReload" />
 			</list>
 		</property>

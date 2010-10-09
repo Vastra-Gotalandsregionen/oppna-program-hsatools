@@ -35,7 +35,7 @@ import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.exceptions.InvalidFormatException;
-import se.vgregion.kivtools.search.svc.UnitCache;
+import se.vgregion.kivtools.search.svc.cache.UnitCache;
 import se.vgregion.kivtools.svc.sitemap.AddressType;
 import se.vgregion.kivtools.svc.sitemap.EAliasType;
 import se.vgregion.kivtools.svc.sitemap.TelephoneNumber;

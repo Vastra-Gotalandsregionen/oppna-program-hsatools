@@ -234,7 +234,8 @@ public class SearchServiceLdapImpl implements SearchService {
    */
   @Override
   public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException {
-    throw new NotImplementedException("Not used by LTH.");
+    return this.getUnitByHsaId(hsaId);
+    // throw new NotImplementedException("Not used by LTH.");
   }
 
   @Override

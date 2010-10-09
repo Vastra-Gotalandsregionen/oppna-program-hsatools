@@ -27,7 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
-import se.vgregion.kivtools.search.svc.TitleCache;
+import se.vgregion.kivtools.search.svc.cache.TitleCache;
 
 public class TitleMapperTest {
   private TitleCache titleCache;

@@ -38,11 +38,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.context.WebApplicationContext;
 
-import se.vgregion.kivtools.search.svc.CacheLoader;
 import se.vgregion.kivtools.search.svc.InternalSitemapGenerator;
-import se.vgregion.kivtools.search.svc.SitemapCache;
-import se.vgregion.kivtools.search.svc.SitemapCache.EntryType;
-import se.vgregion.kivtools.search.svc.SitemapCacheServiceImpl;
+import se.vgregion.kivtools.search.svc.cache.CacheLoader;
+import se.vgregion.kivtools.search.svc.cache.SitemapCache;
+import se.vgregion.kivtools.search.svc.cache.SitemapCache.EntryType;
+import se.vgregion.kivtools.search.svc.impl.cache.SitemapCacheServiceImpl;
 import se.vgregion.kivtools.search.svc.SitemapEntry;
 import se.vgregion.kivtools.search.svc.SitemapSupportBean;
 

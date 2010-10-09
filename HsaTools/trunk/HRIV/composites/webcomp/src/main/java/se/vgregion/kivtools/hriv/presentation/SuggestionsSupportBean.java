@@ -30,8 +30,8 @@ import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
 import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
+import se.vgregion.kivtools.search.svc.impl.cache.UnitCacheServiceImpl;
 import se.vgregion.kivtools.util.StringUtil;
 
 /**

@@ -19,38 +19,26 @@
 
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
-import se.vgregion.kivtools.mocks.ldap.LdapTemplateMock;
-import se.vgregion.kivtools.search.svc.TitleCache;
+import se.vgregion.kivtools.search.svc.cache.TitleCache;
+import se.vgregion.kivtools.search.svc.impl.cache.PersonCacheLoaderMock;
+import se.vgregion.kivtools.search.svc.impl.cache.PersonCacheServiceImpl;
 
 public class TitleCacheLoaderImplTest {
-  private TitleCacheLoaderImpl titleCacheLoaderImpl;
-  private LdapTemplateMock ldapTemplate;
-
-  @Before
-  public void setUp() throws Exception {
-    ldapTemplate = new LdapTemplateMock();
-    titleCacheLoaderImpl = new TitleCacheLoaderImpl();
-    titleCacheLoaderImpl.setLdapTemplate(ldapTemplate);
-  }
-
-  @Test
-  public void testInstantiation() {
-    TitleCacheLoaderImpl unitNameCacheLoaderImpl = new TitleCacheLoaderImpl();
-    assertNotNull(unitNameCacheLoaderImpl);
-  }
+  private final PersonCacheServiceImpl personCacheService = new PersonCacheServiceImpl(new PersonCacheLoaderMock());
+  private final TitleCacheLoaderImpl titleCacheLoaderImpl = new TitleCacheLoaderImpl(this.personCacheService);
 
   @Test
   public void createEmptyCacheReturnNewEmptyCacheEachTime() {
-    TitleCache emptyCache1 = titleCacheLoaderImpl.createEmptyCache();
-    TitleCache emptyCache2 = titleCacheLoaderImpl.createEmptyCache();
+    TitleCache emptyCache1 = this.titleCacheLoaderImpl.createEmptyCache();
+    TitleCache emptyCache2 = this.titleCacheLoaderImpl.createEmptyCache();
     assertEquals(0, emptyCache1.getMatchingTitles("").size());
     assertEquals(0, emptyCache2.getMatchingTitles("").size());
     assertNotSame(emptyCache1, emptyCache2);
@@ -58,18 +46,7 @@ public class TitleCacheLoaderImplTest {
 
   @Test
   public void testLoadCache() {
-    DirContextOperationsMock person1 = new DirContextOperationsMock();
-    person1.addAttributeValue("title", "Assistent");
-    DirContextOperationsMock person2 = new DirContextOperationsMock();
-    person2.addAttributeValue("   ", "Assistent");
-    DirContextOperationsMock person3 = new DirContextOperationsMock();
-    this.ldapTemplate.addDirContextOperationForSearch(person1);
-    this.ldapTemplate.addDirContextOperationForSearch(person2);
-    this.ldapTemplate.addDirContextOperationForSearch(person3);
-
-    TitleCache titleCache = titleCacheLoaderImpl.loadCache();
-
-    this.ldapTemplate.assertSearchFilter("(objectClass=hkatPerson)");
+    TitleCache titleCache = this.titleCacheLoaderImpl.loadCache();
 
     List<String> matchingTitles = titleCache.getMatchingTitles("sis");
     assertEquals(1, matchingTitles.size());

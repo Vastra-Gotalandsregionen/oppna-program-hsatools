@@ -28,9 +28,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import se.vgregion.kivtools.search.svc.PersonNameCacheServiceImpl;
-import se.vgregion.kivtools.search.svc.TitleCacheServiceImpl;
-import se.vgregion.kivtools.search.svc.UnitNameCacheServiceImpl;
+import se.vgregion.kivtools.search.svc.impl.cache.PersonNameCacheServiceImpl;
+import se.vgregion.kivtools.search.svc.impl.cache.TitleCacheServiceImpl;
+import se.vgregion.kivtools.search.svc.impl.cache.UnitNameCacheServiceImpl;
 import se.vgregion.kivtools.util.presentation.PresentationHelper;
 
 /**

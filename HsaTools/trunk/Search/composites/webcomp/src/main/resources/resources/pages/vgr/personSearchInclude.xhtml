@@ -26,20 +26,22 @@
 		xmlns:c="http://java.sun.com/jstl/core">
     <div id="formContainer">
         <div class="formRow">
-    		<div class="textname">
-    			<label for="givenName">Förnamn</label>
-    		    <div>	
-                  <input id="givenName" name="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" />
-                  <span>Ange delar eller hela förnamnet du vill söka efter</span>
-                </div>
-    		</div>
-    		<div class="textname">
-                <label for="surname">Efternamn</label>
-                <div>
-                  <input id="surname" name="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" />
-                  <span>Ange delar eller hela efternamnet du vill söka efter</span>
-                </div>
-    		</div>
+			<div class="textname">
+				<label for="givenName">Förnamn</label>
+				<div class="autocomplete_container" id="givenName_container">
+					<input id="givenName" name="givenName" type="text" class="search-input-name-field" value="${personSearchSimpleForm.givenName}" />
+					<div id="autocomplete_givenName" class="autocomplete"></div>
+				</div>
+                <span class="info">Ange delar eller hela förnamnet du vill söka efter</span>
+			</div>
+			<div class="textname">
+				<label for="surname">Efternamn</label>
+				<div class="autocomplete_container" id="surname_container">
+					<input id="surname" name="surname" type="text" class="search-input-name-field" value="${personSearchSimpleForm.surname}" />
+					<div id="autocomplete_surname" class="autocomplete"></div>
+				</div>
+                <span class="info">Ange delar eller hela efternamnet du vill söka efter</span>
+			</div>
     		<div class="userIdText">
                 <label for="userId">${msg.userId}</label>
                 <div>
@@ -142,7 +144,9 @@
             </div>
             <input type="hidden" id="searchType" name="searchType" value="${personSearchSimpleForm.searchType}" />
             <script type="text/javascript" charset="utf-8">
-                // <![CDATA[]
+                // <![CDATA[
+			            initAutocompleterGivenName();
+			            initAutocompleterSurname();
                         initAutocompleter('administration', 'VGR_AO3_CODE');
                         initAutocompleter('profession', 'HSA_TITLE');
                         initAutocompleter('specialityArea', 'HSA_SPECIALITY_CODE');

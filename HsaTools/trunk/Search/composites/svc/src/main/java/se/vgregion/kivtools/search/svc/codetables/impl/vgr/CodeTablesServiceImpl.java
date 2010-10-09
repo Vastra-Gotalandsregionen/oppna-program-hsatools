@@ -49,7 +49,7 @@ import se.vgregion.kivtools.search.svc.ldap.DirContextOperationsHelper;
 public class CodeTablesServiceImpl implements CodeTablesService {
   private static final DistinguishedName CODE_TABLES_BASE = DistinguishedName.immutableDistinguishedName("ou=listor,ou=System,o=VGR");
 
-  private Map<CodeTableName, Map<String, String>> codeTables = new ConcurrentHashMap<CodeTableName, Map<String, String>>();
+  private final Map<CodeTableName, Map<String, String>> codeTables = new ConcurrentHashMap<CodeTableName, Map<String, String>>();
 
   private final LdapTemplate ldapTemplate;
 
@@ -66,10 +66,10 @@ public class CodeTablesServiceImpl implements CodeTablesService {
    * Initializes the code table service.
    */
   public void init() {
-    codeTables.clear();
+    this.codeTables.clear();
     for (CodeTableName codeTableName : CodeTableName.values()) {
       try {
-        populateCodeTablesMap(codeTableName);
+        this.populateCodeTablesMap(codeTableName);
       } catch (KivException e) {
         throw new LDAPRuntimeExcepton(e.getMessage());
       }
@@ -80,8 +80,8 @@ public class CodeTablesServiceImpl implements CodeTablesService {
     Filter searchFilter = new EqualsFilter("cn", codeTableName.toString());
     CodeTableMapper codeTableMapper = new CodeTableMapper();
     try {
-      ldapTemplate.search(CODE_TABLES_BASE, searchFilter.encode(), codeTableMapper);
-      codeTables.put(codeTableName, codeTableMapper.getCodeTableContent());
+      this.ldapTemplate.search(CODE_TABLES_BASE, searchFilter.encode(), codeTableMapper);
+      this.codeTables.put(codeTableName, codeTableMapper.getCodeTableContent());
     } catch (NamingException e) {
       throw new KivException("An error occured in communication with the LDAP server. Message: " + e.getMessage());
     }
@@ -89,15 +89,11 @@ public class CodeTablesServiceImpl implements CodeTablesService {
 
   @Override
   public String getValueFromCode(CodeTableNameInterface codeTableName, String code) {
-
-    if (codeTableName instanceof CodeTableName) {
-      codeTableName = (CodeTableName) codeTableName;
-
-    } else {
+    if (!(codeTableName instanceof CodeTableName)) {
       throw new RuntimeException("Object codeTableName is not a type of CodeTableName");
     }
 
-    Map<String, String> chosenCodeTable = codeTables.get(codeTableName);
+    Map<String, String> chosenCodeTable = this.codeTables.get(codeTableName);
     String value = "";
     if (chosenCodeTable != null) {
       value = chosenCodeTable.get(code);
@@ -107,17 +103,13 @@ public class CodeTablesServiceImpl implements CodeTablesService {
 
   @Override
   public List<String> getCodeFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
-
-    if (codeTableName instanceof CodeTableName) {
-      codeTableName = (CodeTableName) codeTableName;
-
-    } else {
+    if (!(codeTableName instanceof CodeTableName)) {
       throw new RuntimeException("Object codeTableName is not a type of CodeTableName");
     }
 
     String stringToMatch = textValue.toLowerCase();
     List<String> codes = new ArrayList<String>();
-    Map<String, String> chosenCodeTable = codeTables.get(codeTableName);
+    Map<String, String> chosenCodeTable = this.codeTables.get(codeTableName);
     for (Entry<String, String> entry : chosenCodeTable.entrySet()) {
       if (entry.getValue().toLowerCase().contains(stringToMatch)) {
         codes.add(entry.getKey());
@@ -128,17 +120,13 @@ public class CodeTablesServiceImpl implements CodeTablesService {
 
   @Override
   public List<String> getValuesFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
-
-    if (codeTableName instanceof CodeTableName) {
-      codeTableName = (CodeTableName) codeTableName;
-
-    } else {
+    if (!(codeTableName instanceof CodeTableName)) {
       throw new RuntimeException("Object codeTableName is not a type of CodeTableName");
     }
 
     String stringToMatch = textValue.toLowerCase();
     List<String> values = new ArrayList<String>();
-    Map<String, String> chosenCodeTable = codeTables.get(codeTableName);
+    Map<String, String> chosenCodeTable = this.codeTables.get(codeTableName);
     for (String value : chosenCodeTable.values()) {
       if (value.toLowerCase().contains(stringToMatch)) {
         values.add(value);
@@ -149,7 +137,12 @@ public class CodeTablesServiceImpl implements CodeTablesService {
 
   @Override
   public List<String> getAllValuesItemsFromCodeTable(String codeTable) {
-    return new ArrayList<String>(codeTables.get(CodeTableName.valueOf(codeTable)).values());
+    ArrayList<String> values = new ArrayList<String>();
+    CodeTableName codeTableEnum = CodeTableName.valueOf(codeTable);
+    if (this.codeTables.containsKey(codeTable)) {
+      values.addAll(this.codeTables.get(codeTableEnum).values());
+    }
+    return values;
   }
 
   /**
@@ -168,9 +161,9 @@ public class CodeTablesServiceImpl implements CodeTablesService {
         if (!code.startsWith("* ")) {
           String[] codeArr = code.split(";");
           if (codeArr.length >= 2) {
-            codeTableContent.put(codeArr[0], codeArr[1]);
+            this.codeTableContent.put(codeArr[0], codeArr[1]);
           } else {
-            codeTableContent.put(codeArr[0], codeArr[0]);
+            this.codeTableContent.put(codeArr[0], codeArr[0]);
           }
         }
       }
@@ -179,7 +172,7 @@ public class CodeTablesServiceImpl implements CodeTablesService {
     }
 
     public Map<String, String> getCodeTableContent() {
-      return codeTableContent;
+      return this.codeTableContent;
     }
   }
 }

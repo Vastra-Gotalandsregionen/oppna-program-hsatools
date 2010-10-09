@@ -67,6 +67,10 @@
 	display: block;
 }
 
+#header-input-field-container span.info {
+	margin-top: 1em;
+}
+
 #header-input-field-container div {
 	text-align: left;
 }
@@ -440,7 +444,7 @@ a.unit {
 }
 
 .info {
-	width: 270px;
+	width: 205px;
 }
 
 #description-toggle-image,important-toggle-image {
