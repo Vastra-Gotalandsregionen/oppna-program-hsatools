@@ -19,7 +19,10 @@
 
 package se.vgregion.kivtools.search.svc.codetables.impl.vgr;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,9 +49,9 @@ public class CodeTablesServiceImplTest {
   private static String[] paTitleCode = { "104510;Ledning, kultur, turism och fritid", "105010;Ledning, tekniskt arbete", "105510;Ledning, räddningstjänst" };
   private static String[] hsaTitleCode = { "1;Doctor" };
 
-  private LdapTemplateMock ldapTemplate = new LdapTemplateMock();
+  private final LdapTemplateMock ldapTemplate = new LdapTemplateMock();
 
-  private CodeTablesServiceImpl codeTablesService = new CodeTablesServiceImpl(ldapTemplate);
+  private final CodeTablesServiceImpl codeTablesService = new CodeTablesServiceImpl(this.ldapTemplate);
 
   @Before
   public void setup() {
@@ -56,96 +59,103 @@ public class CodeTablesServiceImplTest {
     for (CodeTableName codeTableName : CodeTableName.values()) {
       DirContextOperationsMock dirContextOperations = new DirContextOperationsMock();
       dirContextOperations.addAttributeValue("description", managementCodeAttributes);
-      ldapTemplate.addSearchResult("(cn=" + codeTableName.toString() + ")", dirContextOperations);
+      this.ldapTemplate.addSearchResult("(cn=" + codeTableName.toString() + ")", dirContextOperations);
     }
     DirContextOperationsMock dirContextOperations = new DirContextOperationsMock();
     dirContextOperations.addAttributeValue("description", hsaLanguageKnowledgeCode);
-    ldapTemplate.addSearchResult("(cn=" + CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE.toString() + ")", dirContextOperations);
+    this.ldapTemplate.addSearchResult("(cn=" + CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE.toString() + ")", dirContextOperations);
     dirContextOperations = new DirContextOperationsMock();
     dirContextOperations.addAttributeValue("description", paTitleCode);
-    ldapTemplate.addSearchResult("(cn=" + CodeTableName.PA_TITLE_CODE.toString() + ")", dirContextOperations);
+    this.ldapTemplate.addSearchResult("(cn=" + CodeTableName.PA_TITLE_CODE.toString() + ")", dirContextOperations);
     dirContextOperations = new DirContextOperationsMock();
     dirContextOperations.addAttributeValue("description", hsaTitleCode);
-    ldapTemplate.addSearchResult("(cn=" + CodeTableName.HSA_TITLE.toString() + ")", dirContextOperations);
+    this.ldapTemplate.addSearchResult("(cn=" + CodeTableName.HSA_TITLE.toString() + ")", dirContextOperations);
 
-    codeTablesService.init();
+    this.codeTablesService.init();
   }
 
   @Test(expected = LDAPRuntimeExcepton.class)
   public void initThrowsExceptionOnNamingException() {
     this.ldapTemplate.setExceptionToThrow(new CommunicationException(null));
-    codeTablesService.init();
+    this.codeTablesService.init();
   }
 
   @Test
   public void testLanguageKnowledgeCode() {
-    assertEquals("Afar", codeTablesService.getValueFromCode(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, "AAR"));
+    assertEquals("Afar", this.codeTablesService.getValueFromCode(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, "AAR"));
   }
 
   @Test
   public void testPaTitleCode() {
-    assertEquals("Ledning, tekniskt arbete", codeTablesService.getValueFromCode(CodeTableName.PA_TITLE_CODE, "105010"));
+    assertEquals("Ledning, tekniskt arbete", this.codeTablesService.getValueFromCode(CodeTableName.PA_TITLE_CODE, "105010"));
   }
 
   @Test
   public void testHsaTitle() {
-    assertEquals("Doctor", codeTablesService.getValueFromCode(CodeTableName.HSA_TITLE, "1"));
+    assertEquals("Doctor", this.codeTablesService.getValueFromCode(CodeTableName.HSA_TITLE, "1"));
   }
 
   @Test
   public void testGetCodeFromTextValueFullValue() {
-    List<String> codes = codeTablesService.getCodeFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "Landsting/Region");
+    List<String> codes = this.codeTablesService.getCodeFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "Landsting/Region");
     assertEquals(1, codes.size());
     assertEquals("1", codes.get(0));
   }
 
   @Test
   public void testGetCodeFromTextValueNoMatch() {
-    List<String> codes = codeTablesService.getCodeFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "Test123Test");
+    List<String> codes = this.codeTablesService.getCodeFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "Test123Test");
     assertEquals(0, codes.size());
   }
 
   @Test
   public void testGetCodeFromTextValueSubstring() {
-    List<String> codes = codeTablesService.getCodeFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "st");
+    List<String> codes = this.codeTablesService.getCodeFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "st");
     assertEquals(2, codes.size());
-    assertListContentEqual(codes, "1", "3");
+    this.assertListContentEqual(codes, "1", "3");
   }
 
   @Test
   public void testGetValuesFromTextValueFullValue() {
-    List<String> codes = codeTablesService.getValuesFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "Landsting/Region");
+    List<String> codes = this.codeTablesService.getValuesFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "Landsting/Region");
     assertEquals(1, codes.size());
     assertEquals("Landsting/Region", codes.get(0));
   }
 
   @Test
   public void testGetValuesFromTextValueNoMatch() {
-    List<String> codes = codeTablesService.getValuesFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "Test123Test");
+    List<String> codes = this.codeTablesService.getValuesFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "Test123Test");
     assertEquals(0, codes.size());
   }
 
   @Test
   public void testGetValuesFromTextValueSubstring() {
-    List<String> codes = codeTablesService.getValuesFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "st");
+    List<String> codes = this.codeTablesService.getValuesFromTextValue(CodeTableName.HSA_MANAGEMENT_CODE, "st");
     assertEquals(2, codes.size());
-    assertListContentEqual(codes, "Landsting/Region", "Statlig");
+    this.assertListContentEqual(codes, "Landsting/Region", "Statlig");
   }
 
   @Test
   public void testGetAllValueItemsFromCodeTable() {
-    List<String> allValuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.PA_TITLE_CODE.name());
+    List<String> allValuesItemsFromCodeTable = this.codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.PA_TITLE_CODE.name());
     assertNotNull(allValuesItemsFromCodeTable);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testGetAllValueItemsFromCodeTableException() {
-    codeTablesService.getAllValuesItemsFromCodeTable("noValidCodeTable");
+    this.codeTablesService.getAllValuesItemsFromCodeTable("noValidCodeTable");
+  }
+
+  @Test
+  public void getAllValueItemsFromCodeTableForUninitializedCodeTableReturnEmptyList() {
+    List<String> allValuesItemsFromCodeTable = this.codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.HSA_COUNTY_CODE.name());
+    assertNotNull(allValuesItemsFromCodeTable);
+    assertTrue("values is not empty", allValuesItemsFromCodeTable.isEmpty());
   }
 
   @Test
   public void testTopTenFiltered() {
-    List<String> valuesItemsFromCodeTable = codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE.name());
+    List<String> valuesItemsFromCodeTable = this.codeTablesService.getAllValuesItemsFromCodeTable(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE.name());
     assertFalse(valuesItemsFromCodeTable.contains("* Svenska"));
   }
 
@@ -160,7 +170,7 @@ public class CodeTablesServiceImplTest {
   }
 
   private static class LdapTemplateMock extends LdapTemplate {
-    private Map<String, DirContextOperations> searchResults = new HashMap<String, DirContextOperations>();
+    private final Map<String, DirContextOperations> searchResults = new HashMap<String, DirContextOperations>();
     private NamingException exceptionToThrow;
 
     public void addSearchResult(String filter, DirContextOperations searchResult) {
@@ -176,7 +186,7 @@ public class CodeTablesServiceImplTest {
       if (this.exceptionToThrow != null) {
         throw this.exceptionToThrow;
       }
-      Object result = mapper.mapFromContext(searchResults.get(filter));
+      Object result = mapper.mapFromContext(this.searchResults.get(filter));
       List<Object> resultList = new ArrayList<Object>();
       resultList.add(result);
       return resultList;

@@ -27,12 +27,13 @@
 		xmlns:c="http://java.sun.com/jstl/core">
     <div id="formContainer">
         <div class="formRow">
-    		<div class="text">
-				<label for="unitName" title="Label - Something about this label">Enhet</label>
-				<div>
-	                <input id="unitName" name="unitName" type="text" class="search-input-field" value="${unitSearchSimpleForm.unitName}"/>
-					<span>Ange delar eller hela namnet på enhet du vill söka efter</span>
+	  		<div class="text">
+				<label for="unitName">Enhet</label>
+				<div class="autocomplete_container" id="unitName_container">
+					<input id="unitName" name="unitName" type="text" class="search-input-field" value="${unitSearchSimpleForm.unitName}" />
+					<div id="autocomplete_unitName" class="autocomplete"></div>
 				</div>
+				<span class="info">Ange delar eller hela namnet på enhet du vill söka efter</span>
 			</div>
 			
 			<div class="text">
@@ -102,7 +103,8 @@
             </div>
             <input type="hidden" id="searchType" name="searchType" value="${unitSearchSimpleForm.searchType}" />
             <script type="text/javascript" charset="utf-8">
-                // <![CDATA[]
+                // <![CDATA[
+			            initAutocompleterUnitName();
                         initAutocompleter('administrationName', 'VGR_AO3_CODE');
                         initAutocompleter('businessClassificationName', 'HSA_BUSINESSCLASSIFICATION_CODE');
                 // ]]>

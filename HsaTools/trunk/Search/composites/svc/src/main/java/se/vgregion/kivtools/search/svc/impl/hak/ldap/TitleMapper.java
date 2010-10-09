@@ -22,7 +22,7 @@ package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextOperations;
 
-import se.vgregion.kivtools.search.svc.TitleCache;
+import se.vgregion.kivtools.search.svc.cache.TitleCache;
 import se.vgregion.kivtools.util.StringUtil;
 
 /**

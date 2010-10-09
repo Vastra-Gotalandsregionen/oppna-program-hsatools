@@ -22,7 +22,7 @@ import java.util.List;
 import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
-import se.vgregion.kivtools.search.svc.UnitCache;
+import se.vgregion.kivtools.search.svc.cache.UnitCache;
 import se.vgregion.kivtools.svc.sitemap.AddressType;
 import se.vgregion.kivtools.svc.sitemap.EAliasType;
 import se.vgregion.kivtools.svc.sitemap.TelephoneType;

@@ -27,13 +27,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import se.vgregion.kivtools.search.svc.CacheLoader;
-import se.vgregion.kivtools.search.svc.PersonNameCache;
-import se.vgregion.kivtools.search.svc.PersonNameCacheServiceImpl;
-import se.vgregion.kivtools.search.svc.TitleCache;
-import se.vgregion.kivtools.search.svc.TitleCacheServiceImpl;
-import se.vgregion.kivtools.search.svc.UnitNameCache;
-import se.vgregion.kivtools.search.svc.UnitNameCacheServiceImpl;
+import se.vgregion.kivtools.search.svc.cache.CacheLoader;
+import se.vgregion.kivtools.search.svc.cache.PersonNameCache;
+import se.vgregion.kivtools.search.svc.cache.TitleCache;
+import se.vgregion.kivtools.search.svc.cache.UnitNameCache;
+import se.vgregion.kivtools.search.svc.impl.cache.PersonNameCacheServiceImpl;
+import se.vgregion.kivtools.search.svc.impl.cache.TitleCacheServiceImpl;
+import se.vgregion.kivtools.search.svc.impl.cache.UnitNameCacheServiceImpl;
 
 public class SuggestionBeanTest {
   private SuggestionBean suggestionBean;

@@ -40,10 +40,10 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
-import se.vgregion.kivtools.search.svc.CacheLoader;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.UnitCache;
-import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
+import se.vgregion.kivtools.search.svc.cache.CacheLoader;
+import se.vgregion.kivtools.search.svc.cache.UnitCache;
+import se.vgregion.kivtools.search.svc.impl.cache.UnitCacheServiceImpl;
 
 public class SearchUnitFlowSupportBeanTest {
   private SearchServiceMock searchService = new SearchServiceMock();

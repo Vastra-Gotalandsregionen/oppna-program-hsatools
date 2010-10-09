@@ -21,6 +21,7 @@ package se.vgregion.kivtools.search.svc.impl.mock;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import se.vgregion.kivtools.search.domain.Employment;
@@ -34,6 +35,8 @@ import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
+
+import com.domainlanguage.time.TimePoint;
 
 /**
  * Mock implementation of the SearchService to use when no connection to an LDAP-server is available.
@@ -57,26 +60,31 @@ public class SearchServiceMockImpl implements SearchService {
     e = new Employment();
     e.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("031-123456"));
     e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
+    e.setModifyTimestamp(TimePoint.from(new Date()));
     employments.add(e);
 
     e = new Employment();
     e.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("031-23 23 23"));
     e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
+    e.setModifyTimestamp(TimePoint.from(new Date()));
     employments.add(e);
 
     e = new Employment();
     e.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("08-2283393"));
     e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
+    e.setModifyTimestamp(TimePoint.from(new Date()));
     employments.add(e);
 
     e = new Employment();
     e.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("030012350"));
     e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
+    e.setModifyTimestamp(TimePoint.from(new Date()));
     employments.add(e);
 
     e = new Employment();
     e.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("+46822412350"));
     e.setVgrStrukturPerson(DN.createDNFromString("ou=Systemutveckling,ou=Systemintegration,ou=VGR IT,ou=Regionservice,ou=Org,o=vgr"));
+    e.setModifyTimestamp(TimePoint.from(new Date()));
     employments.add(e);
 
     return employments;
@@ -369,7 +377,7 @@ public class SearchServiceMockImpl implements SearchService {
 
   @Override
   public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException {
-    return null;
+    return this.getUnitByHsaId(hsaId);
   }
 
   @Override

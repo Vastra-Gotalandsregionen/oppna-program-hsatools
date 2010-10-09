@@ -50,6 +50,99 @@ function initAutocompleter(fieldName, codeTable) {
 
 }
 
+function initAutocompleterUnitName() {
+	var myDS = new YAHOO.util.XHRDataSource("suggestions_unitname_vgr.servlet");
+	myDS.responseType = YAHOO.util.XHRDataSource.TYPE_XML;
+	myDS.scriptQueryAppend = "output=xml";
+	myDS.responseSchema = {
+		fields : [ 'description' ],
+		resultNode : 'suggestion'
+	};
+	var myAutoComp = new YAHOO.widget.AutoComplete("unitName", "autocomplete_unitName", myDS);
+	myAutoComp.resultTypeList = false;
+	myAutoComp.autoHighlight = false;
+	myAutoComp.minQueryLength = 2;
+	myAutoComp.maxResultsDisplayed = 50;
+	myAutoComp.typeAhead = true;
+	myAutoComp.useIFrame = true;
+	myAutoComp.formatResult = function(oResultData, sQuery, sResultMatch) {
+		var query = sQuery.toLowerCase();
+		var description = sResultMatch;
+		var descriptionMatchIndex = description.toLowerCase().indexOf(query);
+		var displayDescription;
+
+		if (descriptionMatchIndex > -1) {
+			displayDescription = highlightMatch(description, query,
+					descriptionMatchIndex);
+		}
+		return displayDescription;
+	}
+}
+
+function initAutocompleterGivenName() {
+	var myDS = new YAHOO.util.XHRDataSource("suggestions_givenname_vgr.servlet");
+	myDS.responseType = YAHOO.util.XHRDataSource.TYPE_XML;
+	myDS.scriptQueryAppend = "output=xml";
+	myDS.responseSchema = {
+		fields : [ 'description' ],
+		resultNode : 'suggestion'
+	};
+	var myAutoComp = new YAHOO.widget.AutoComplete("givenName", "autocomplete_givenName", myDS);
+	myAutoComp.resultTypeList = false;
+	myAutoComp.autoHighlight = false;
+	myAutoComp.minQueryLength = 2;
+	myAutoComp.maxResultsDisplayed = 50;
+	myAutoComp.typeAhead = true;
+	myAutoComp.useIFrame = true;
+	myAutoComp.generateRequest = function(sQuery) {
+		return "?givenName=" + sQuery + "&surname=" + document.getElementById('surname').value; 
+	}; 
+	myAutoComp.formatResult = function(oResultData, sQuery, sResultMatch) {
+		var query = sQuery.toLowerCase();
+		var description = sResultMatch;
+		var descriptionMatchIndex = description.toLowerCase().indexOf(query);
+		var displayDescription;
+
+		if (descriptionMatchIndex > -1) {
+			displayDescription = highlightMatch(description, query,
+					descriptionMatchIndex);
+		}
+		return displayDescription;
+	}
+}
+
+function initAutocompleterSurname() {
+	var myDS = new YAHOO.util.XHRDataSource("suggestions_surname_vgr.servlet");
+	myDS.responseType = YAHOO.util.XHRDataSource.TYPE_XML;
+	myDS.scriptQueryAppend = "output=xml";
+	myDS.responseSchema = {
+		fields : [ 'description' ],
+		resultNode : 'suggestion'
+	};
+	var myAutoComp = new YAHOO.widget.AutoComplete("surname", "autocomplete_surname", myDS);
+	myAutoComp.resultTypeList = false;
+	myAutoComp.autoHighlight = false;
+	myAutoComp.minQueryLength = 2;
+	myAutoComp.maxResultsDisplayed = 50;
+	myAutoComp.typeAhead = true;
+	myAutoComp.useIFrame = true;
+	myAutoComp.generateRequest = function(sQuery) {
+		return "?givenName=" + document.getElementById('givenName').value + "&surname=" + sQuery; 
+	}; 
+	myAutoComp.formatResult = function(oResultData, sQuery, sResultMatch) {
+		var query = sQuery.toLowerCase();
+		var description = sResultMatch;
+		var descriptionMatchIndex = description.toLowerCase().indexOf(query);
+		var displayDescription;
+
+		if (descriptionMatchIndex > -1) {
+			displayDescription = highlightMatch(description, query,
+					descriptionMatchIndex);
+		}
+		return displayDescription;
+	}
+}
+
 // Helper function for the formatter
 function highlightMatch(full, snippet, matchindex) {
 	return full.substring(0, matchindex) + "<strong>"

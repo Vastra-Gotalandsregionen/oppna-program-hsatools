@@ -26,6 +26,8 @@
 
     <bean id="suggestionBean" class="se.vgregion.kivtools.search.presentation.kiv.SuggestionBean">
       <property name="codeTablesService" ref="Search_KivwsCodeTablesService" />
+      <property name="personNameCacheService" ref="personNameCacheService" />
+      <property name="unitNameCacheService" ref="unitNameCacheService" />
     </bean>
 </beans>
 

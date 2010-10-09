@@ -30,10 +30,10 @@ import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.MunicipalityHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
-import se.vgregion.kivtools.search.svc.CacheLoader;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.UnitCache;
-import se.vgregion.kivtools.search.svc.UnitCacheServiceImpl;
+import se.vgregion.kivtools.search.svc.cache.CacheLoader;
+import se.vgregion.kivtools.search.svc.cache.UnitCache;
+import se.vgregion.kivtools.search.svc.impl.cache.UnitCacheServiceImpl;
 
 public class SuggestionsSupportBeanTest {
 

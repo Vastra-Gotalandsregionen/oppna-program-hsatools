@@ -25,7 +25,10 @@ import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
 
-import se.vgregion.kivtools.search.svc.SitemapCache.EntryType;
+import se.vgregion.kivtools.search.svc.cache.CacheLoader;
+import se.vgregion.kivtools.search.svc.cache.SitemapCache;
+import se.vgregion.kivtools.search.svc.cache.SitemapCache.EntryType;
+import se.vgregion.kivtools.search.svc.impl.cache.SitemapCacheServiceImpl;
 import se.vgregion.kivtools.svc.sitemap.Unit;
 
 public class SitemapSupportBeanTest {
