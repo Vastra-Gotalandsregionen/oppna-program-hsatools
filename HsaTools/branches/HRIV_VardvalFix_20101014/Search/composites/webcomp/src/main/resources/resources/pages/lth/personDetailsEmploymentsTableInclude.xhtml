@@ -1,0 +1,45 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<table xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<caption>Anställning - ${employment.title}</caption>
+	<tbody>
+		<tr>
+			<th id="job-organisation-${employment.cn}">Organisation</th>
+			<td headers="job-organisation-${employment.cn}">
+				<ui:repeat value="${employment.vgrStrukturPerson.ancestors}" var="ancestorDn">
+					<a href="visaenhetdn?dn=${ancestorDn.urlEncoded}">${ancestorDn.unitName}</a>
+					<h:outputText rendered="${ancestorDn.position lt fn:length(employment.vgrStrukturPerson.ancestors)}">, </h:outputText>
+				</ui:repeat>
+			</td>
+		</tr>
+		<h:outputText rendered="${not employment.description.isEmpty()}">
+			<tr>
+				<th id="job-beskrivning-${employment.cn}">Beskrivning</th>
+				<td headers="job-beskrivning-${employment.cn}">
+					<div value="${employment.description}" var="descriptionItem" jsfc="ui:repeat">
+						${descriptionItem}
+					</div>
+				</td>
+			</tr>
+		</h:outputText>
+	</tbody>
+</table>

@@ -1,0 +1,43 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<h:outputText rendered="true" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:outputText rendered="${fn:length(unit.hsaSurgeryHours) gt 0 or fn:length(unit.hsaDropInHours) gt 0 or Search_SettingsContainer.testingMode}">
+		<tr>
+			<th class="leftcol"><span class="grey-header">${msg.openingHours}</span></th>
+			<td class="rightfourcol">
+				<div jsfc="ui:repeat" value="${unit.hsaSurgeryHours}" var="time" class="paragraph">${time.displayValue}</div>
+				<h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaSurgeryHours) lt 1}">
+					<span class="warning">hsaSurgeryHours ${msg.missing}</span>
+				</h:outputText>
+			</td>
+			<th class="leftcol"><span class="grey-header">${msg.dropInHours}</span></th>
+			<td class="rightfourcol">
+				<div jsfc="ui:repeat" value="${unit.hsaDropInHours}" var="time" class="paragraph">${time.displayValue}</div>
+				<h:outputText rendered="${fn:length(unit.hsaDropInHours) lt 1}">
+					<div class="paragraph">${msg.noDropIn}</div>
+				</h:outputText>
+			</td>
+		</tr>
+	</h:outputText>
+</h:outputText>
