@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- Import customized bean configurations for chosen project. -->
+	<import resource="services-config_${maven.profilename}.xml"/>
+
+	<bean id="Search_SearchUnitFlowSupportBean"
+		class="se.vgregion.kivtools.hriv.presentation.SearchUnitFlowSupportBean">
+		<property name="searchService" ref="Search_SearchService" />
+		<property name="maxSearchResult" ref="Search_MaxSearchResult"></property>
+		<property name="pageSize" value="85"></property>
+		<property name="googleMapsKey" value="#{hsatools.hriv.webcomp.googleMapsKey}" />
+		<property name="meters" value="#{hsatools.hriv.webcomp.metersToCloseUnits}" />
+		<property name="onlyPublicUnits" value="true" />
+	</bean>
+
+	<bean id="Search_SuggestionsSupportBean" class="se.vgregion.kivtools.hriv.presentation.SuggestionsSupportBean">
+		<constructor-arg ref="Search_SearchUnitFlowSupportBean"/>
+		<constructor-arg ref="unitCacheService" />
+	</bean>
+
+	<bean id="Display_HttpFetcher"
+		class="se.vgregion.kivtools.util.http.HttpFetcherImpl">
+	</bean>
+	
+	<bean id="Display_MvkClient"
+		class="se.vgregion.kivtools.search.util.MvkClient">
+		<property name="httpFetcher" ref="Display_HttpFetcher" />
+		<property name="mvkGuid" value="#{hsatools.hriv.webcomp.mvkGuid}" />
+		<property name="mvkUrl" value="#{hsatools.hriv.webcomp.mvkUrlBeforeHsaidAndGuidParams}" />
+	</bean>
+	
+	<bean id="Display_DisplayUnitDetailsFlowSupportBean"
+		class="se.vgregion.kivtools.hriv.presentation.DisplayUnitDetailsFlowSupportBean">
+		<property name="searchService" ref="Search_SearchService" />
+		<property name="useMvkIntegration" value="#{hsatools.hriv.webcomp.useMvk}" />
+		<property name="mvkClient" ref="Display_MvkClient" />
+	</bean>
+	
+	<bean id="Search_MaxSearchResult" class="java.lang.Integer" scope="prototype">
+		<constructor-arg index="0" value="500" type="java.lang.String"/>
+	</bean>
+
+	<bean id="Search_SettingsContainer" class="se.vgregion.kivtools.hriv.presentation.SettingsBean" scope="prototype">
+		<property name="resourceBundleInclude" value="#{hsatools.hriv.webcomp.resourceBundleInclude}" />
+		<property name="googleMapInitInclude" value="#{hsatools.hriv.webcomp.googleMapInitInclude}" />
+		<property name="unitSearchResultSingleUnitInclude" value="#{hsatools.hriv.webcomp.unitSearchResultSingleUnitInclude}" />
+		<property name="unitSearchResultSortOrderInclude" value="#{hsatools.hriv.webcomp.unitSearchResultSortOrderInclude}" />
+		<property name="errorReportFormInclude" value="#{hsatools.hriv.webcomp.errorReportFormInclude}" />
+		<property name="errorReportConfirmInclude" value="#{hsatools.hriv.webcomp.errorReportConfirmInclude}" />
+		<property name="unitHoursInclude" value="#{hsatools.hriv.webcomp.unitHoursInclude}" />
+		<property name="searchFormInclude" value="#{hsatools.hriv.webcomp.searchFormInclude}" />
+		<property name="bodyInclude" value="#{hsatools.hriv.webcomp.bodyInclude}" />
+		<!-- This one comes from search-composite-svc-connection.properties, using ${} because of that -->
+		<property name="publicCaptchaKey" value="${hsatools.search.svc.recaptcha.publickey}" />
+		<property name="testingMode" value="#{hsatools.hriv.webcomp.testingMode}" />
+		<property name="useAccessibilityDatabaseIntegration" value="#{hsatools.hriv.webcomp.useAccessibilityDatabaseIntegration}" />
+		<property name="fallbackOnAddressForMap" value="#{hsatools.hriv.webcomp.fallbackOnAddressForMap}" />
+		<property name="googleMapsKey" value="#{hsatools.hriv.webcomp.googleMapsKey}" />
+		<property name="distanceToUnits" value="#{hsatools.hriv.webcomp.metersToCloseUnits}" />
+		<property name="findRouteLinks" value="#{hsatools.hriv.webcomp.findRouteLinks}" />
+		<property name="styles" value="#{hsatools.hriv.webcomp.styles}" />
+		<property name="scripts" value="#{hsatools.hriv.webcomp.scripts}" />
+		<property name="header" value="#{hsatools.hriv.webcomp.header}" />
+		<property name="footer" value="#{hsatools.hriv.webcomp.footer}" />
+		<property name="useShowUnitCode" value="#{hsatools.hriv.webcomp.useShowUnitCode}" />
+		<property name="showUnitCodeOnServer" value="#{hsatools.hriv.webcomp.showUnitCodeOnServer}" />
+		<property name="showUnitCode1" value="#{hsatools.hriv.webcomp.showUnitCode1}" />
+		<property name="showUnitCode2" value="#{hsatools.hriv.webcomp.showUnitCode2}" />
+		<property name="useTrackingCode" value="#{hsatools.hriv.webcomp.useTrackingCode}" />
+		<property name="trackingCodeOnServer" value="#{hsatools.hriv.webcomp.trackingCodeOnServer}" />
+		<property name="trackingCode" value="#{hsatools.hriv.webcomp.trackingCode}" />
+		<property name="useListenLink" value="#{hsatools.hriv.webcomp.useListenLink}" />
+		<property name="listenLinkCode1" value="#{hsatools.hriv.webcomp.listenLinkCode1}" />
+		<property name="listenLinkCode2" value="#{hsatools.hriv.webcomp.listenLinkCode2}" />
+		<property name="usePrinting" value="#{hsatools.hriv.webcomp.usePrinting}" />
+		<property name="useMvk" value="#{hsatools.hriv.webcomp.useMvk}" />
+		<property name="mainTop" value="#{hsatools.hriv.webcomp.mainTop}" />
+		<property name="startPage" value="#{hsatools.hriv.webcomp.startPage}" />
+		<property name="careTypePage" value="#{hsatools.hriv.webcomp.careTypePage}" />
+		<property name="mvkLoginUrl" value="#{hsatools.hriv.webcomp.mvkLoginUrl}" />
+		<property name="metaAuthor" value="#{hsatools.hriv.webcomp.metaAuthor}" />
+		<property name="metaCopyright" value="#{hsatools.hriv.webcomp.metaCopyright}" />
+		<property name="useShowCloseUnits" value="#{hsatools.hriv.webcomp.useShowCloseUnits}" />
+		<property name="showLinkToIM" value="#{hsatools.hriv.webcomp.showLinkToIM}" />
+		<property name="linkToIMBase" value="#{hsatools.hriv.webcomp.linkToIMBase}" />
+		<property name="linkToIMOnServer" value="#{hsatools.hriv.webcomp.linkToIMOnServer}" />
+		<property name="title" value="#{hsatools.hriv.webcomp.startpage.title}" />
+		<property name="searchResultTitle" value="#{hsatools.hriv.webcomp.searchresult.title}" />
+		<property name="verifyV1" value="#{hsatools.hriv.webcomp.verifyV1}" />
+		<property name="geoRegion" value="#{hsatools.hriv.webcomp.geoRegion}" />
+		<property name="mobileUrl" value="#{hsatools.hriv.webcomp.mobileUrl}" />
+		<property name="informationArea" value="#{hsatools.hriv.webcomp.informationArea}" />
+		<property name="externalApplicationURL" value="#{hsatools.hriv.webcomp.externalApplicationURL}" />
+		<property name="favIcon" value="#{hsatools.hriv.webcomp.favIcon}" />
+		<property name="careTypeInfoUrl" value="#{hsatools.hriv.webcomp.careTypeInfoUrl}" />
+	</bean>
+
+	<bean id="Display_DisplayAccessibilityDatabaseBean" class="se.vgregion.kivtools.hriv.presentation.DisplayAccessibilityDatabaseBean">
+		<property name="useAccessibilityDatabaseIntegration" value="#{hsatools.hriv.webcomp.useAccessibilityDatabaseIntegration}" />
+		<property name="accessibilityDatabaseIntegrationGetIdUrl" value="#{hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetIdUrl}" />
+		<property name="accessibilityDatabaseIntegrationGetInfoUrl" value="#{hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetInfoUrl}" />
+		<property name="httpFetcher" ref="Display_HttpFetcher" />
+	</bean>
+	
+	<bean id="presentationHelper" class="se.vgregion.kivtools.util.presentation.PresentationHelper" />
+</beans>
