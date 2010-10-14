@@ -140,7 +140,7 @@
 						</goals>
 						<configuration>
 							<wsdlDirectory>${basedir}/../schema/src/main/resources/wsdl/</wsdlDirectory>
-							<wsdlLocation>https://vardval.vgregion.se/vardvalservice/VardvalService.svc?WSDL</wsdlLocation>
+							<wsdlLocation>https://vardval.vgregion.se/VardvalService_Mex/VGRegion.VGPrimarvard.Vardval.Service.wsdl</wsdlLocation>
 							<wsdlFiles>
 								<wsdlFile>VardvalService_1.wsdl</wsdlFile>
 							</wsdlFiles>
