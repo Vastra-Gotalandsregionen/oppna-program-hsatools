@@ -22,6 +22,7 @@
 <div id="unit-details-report" xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:ui="http://java.sun.com/jsf/facelets"
 		xmlns:h="http://java.sun.com/jsf/html">
+	<h:outputText rendered="false">
 	<div class="report-form">
 		<h2>${msg.reportError}</h2>
 		<h:form id="errorReportingForm">
@@ -67,4 +68,5 @@
 			<div class="submit-area"><h:commandButton id="doSubmitErrorReport" value="${msg.sendErrorReport}" action="doSubmitErrorReport"/></div>
 		</h:form>
 	</div>
+	</h:outputText>
 </div>
