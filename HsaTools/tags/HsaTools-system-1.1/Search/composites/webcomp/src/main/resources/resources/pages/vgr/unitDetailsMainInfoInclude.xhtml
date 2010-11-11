@@ -1,0 +1,39 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<table xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html">
+	<caption>Övergripande information</caption>
+	<tbody>
+		<tr>
+			<th id="main-e-post">E-post</th>
+			<td headers="main-e-post"><a href="mailto:${unit.mail}">${unit.mail}</a></td>
+			<th id="main-extern-hemsida">${msg.externalWebsite}</th>
+			<td headers="main-extern-hemsida"><a href="${unit.labeledURI}">${unit.labeledURI}</a></td>
+		</tr>
+		<tr>
+			<th></th>
+			<td></td>
+			<th id="main-intern-hemsida">${msg.internalWebsite}</th>
+			<td headers="main-intern-hemsida"><a href="${unit.internalWebsite}">${unit.internalWebsite}</a></td>
+		</tr>
+	</tbody>
+</table>
