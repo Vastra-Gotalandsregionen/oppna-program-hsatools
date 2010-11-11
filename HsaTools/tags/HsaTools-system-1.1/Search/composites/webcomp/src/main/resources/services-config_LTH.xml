@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="classpath:resources/settings/lth/sik-composite-webcomp.properties" />
+		<property name="placeholderPrefix" value="#{" />
+		<property name="fileEncoding" value="UTF-8" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+
+	<bean id="Search_SettingsContainer" class="se.vgregion.kivtools.search.presentation.SettingsBean"
+		scope="prototype">
+		<constructor-arg index="0"
+			value="classpath:resources/settings/lth/sik-composite-webcomp.properties" />
+		<property name="useTrackingCode" value="#{google.useTrackingCode}" />
+		<property name="trackingCodeOnServer" value="#{google.trackingCodeOnServer}" />
+		<property name="trackingCode" value="#{google.trackingCode}" />
+	</bean>
+
+	<bean id="userEventService"
+		class="se.vgregion.kivtools.search.userevent.impl.hak.UserEventServiceNetwise">
+		<property name="service">
+			<bean
+				class="se.vgregion.kivtools.search.userevent.impl.hak.UserEventServiceFactoryNetwise"
+				factory-method="getUserEventSoap">
+				<constructor-arg value="http://linawebservices.lthalland.se/UserEvent.asmx?WSDL"/>
+				<constructor-arg value="http://lina.lthalland.se/"/>
+				<constructor-arg value="UserEvent"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="smsRedirectService"  
+		class="se.vgregion.kivtools.search.sms.impl.hak.SmsRedirectServiceNetwise">
+		<property name="smsRedirectSoap">
+			<bean
+				class="se.vgregion.kivtools.search.sms.impl.hak.SmsRedirectServiceFactory"
+				factory-method="getSmsRedirectSoap" >
+				<constructor-arg value="http://linawebservices.lthalland.se/SMSRedirect.asmx?WSDL"/>
+				<constructor-arg value="http://lina.lthalland.se/"/>
+				<constructor-arg value="SMSRedirect"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="errorReportingFlowSupportBean" class="se.vgregion.kivtools.search.presentation.ErrorReportingFlowSupportBean">
+		<property name="errorReportingService" ref="errorReportingService" />
+	</bean>
+	
+	<bean id="profileImageBean" class="se.vgregion.kivtools.search.presentation.hak.ProfileImageBean">
+		<property name="searchService" ref="Search_SearchService" />
+	</bean>
+	    
+	<bean id="sitemapGenerator" class="se.vgregion.kivtools.search.svc.InternalSitemapGenerator" />
+	
+	<bean id="sitemapSupportBean" class="se.vgregion.kivtools.search.svc.SitemapSupportBean">
+		<constructor-arg ref="sitemapCacheService" />
+		<constructor-arg ref="sitemapGenerator" />
+	</bean>
+	
+	<bean id="httpFetcher" class="se.vgregion.kivtools.util.http.HttpFetcherImpl">
+	</bean>
+
+	<bean id="mvkClient" class="se.vgregion.kivtools.search.util.MvkClient">
+		<constructor-arg ref="httpFetcher"/>
+		<constructor-arg value="01d52494-7497-4a5f-9b49-7f7ea64e624d"/>
+		<constructor-arg value="https://kontakt.vardguiden.se/vg/veconfig.nsf/dispveInfo?readform"/>
+	</bean>
+	
+	<bean id="sitemapCacheLoader" class="se.vgregion.kivtools.search.svc.impl.cache.InternalSitemapCacheLoaderImpl">
+		<constructor-arg ref="unitCacheService" />
+		<constructor-arg ref="personCacheService" />
+		<constructor-arg ref="mvkClient" />
+		<constructor-arg value="http://internkatalogen.lthalland.se/sik" />
+		<constructor-arg value="daily" />
+	</bean>
+	
+	<bean id="sitemapCacheService" class="se.vgregion.kivtools.search.svc.impl.cache.SitemapCacheServiceImpl">
+		<constructor-arg ref="sitemapCacheLoader" />
+	</bean>
+
+	<bean id="sitemapCacheReload"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="sitemapCacheService" />
+		<property name="targetMethod" value="reloadCache" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="triggerSitemapCacheReload" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="sitemapCacheReload" />
+		<!-- 2 minutes so unitCacheReload has completed -->
+		<property name="startDelay" value="120000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean id="unitCacheLoader" class="se.vgregion.kivtools.search.svc.impl.cache.UnitCacheLoaderImpl">
+		<constructor-arg ref="Search_SearchService"/>
+		<constructor-arg value="false" />
+	</bean>
+	
+	<bean id="unitCacheService" class="se.vgregion.kivtools.search.svc.impl.cache.UnitCacheServiceImpl">
+		<constructor-arg ref="unitCacheLoader" />
+	</bean>
+
+	<bean id="unitCacheReload"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="unitCacheService" />
+		<property name="targetMethod" value="reloadCache" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="triggerUnitCacheReload" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="unitCacheReload" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean id="personCacheLoader" class="se.vgregion.kivtools.search.svc.impl.cache.PersonCacheLoaderImpl">
+		<constructor-arg ref="Search_SearchService"/>
+	</bean>
+	
+	<bean id="personCacheService" class="se.vgregion.kivtools.search.svc.impl.cache.PersonCacheServiceImpl">
+		<constructor-arg ref="personCacheLoader" />
+	</bean>
+
+	<bean id="personCacheReload"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="personCacheService" />
+		<property name="targetMethod" value="reloadCache" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="triggerPersonCacheReload" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="personCacheReload" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean id="personNameCacheLoader" class="se.vgregion.kivtools.search.svc.impl.cache.PersonNameCacheLoaderImpl">
+		<constructor-arg ref="personCacheService" />
+	</bean>
+	
+	<bean id="unitNameCacheLoader" class="se.vgregion.kivtools.search.svc.impl.cache.UnitNameCacheLoaderImpl">
+		<constructor-arg ref="unitCacheService" />
+	</bean>
+	
+	<bean id="titleCacheLoader" class="se.vgregion.kivtools.search.svc.impl.hak.ldap.TitleCacheLoaderImpl">
+		<constructor-arg ref="personCacheService" />
+	</bean>
+	
+	<bean id="personNameCacheService" class="se.vgregion.kivtools.search.svc.impl.cache.PersonNameCacheServiceImpl">
+		<constructor-arg ref="personNameCacheLoader" />
+	</bean>
+	
+	<bean id="unitNameCacheService" class="se.vgregion.kivtools.search.svc.impl.cache.UnitNameCacheServiceImpl">
+		<constructor-arg ref="unitNameCacheLoader" />
+	</bean>
+	
+	<bean id="titleCacheService" class="se.vgregion.kivtools.search.svc.impl.cache.TitleCacheServiceImpl">
+		<constructor-arg ref="titleCacheLoader" />
+	</bean>
+	
+	<bean id="personNameCacheReload"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="personNameCacheService" />
+		<property name="targetMethod" value="reloadCache" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="triggerPersonNameCacheReload" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="personNameCacheReload" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean id="unitNameCacheReload"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="unitNameCacheService" />
+		<property name="targetMethod" value="reloadCache" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="triggerUnitNameCacheReload" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="unitNameCacheReload" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean id="titleCacheReload"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="titleCacheService" />
+		<property name="targetMethod" value="reloadCache" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="triggerTitleCacheReload" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="titleCacheReload" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 24 hours -->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="startupDelay" value="10" />
+		<property name="triggers">
+			<list>
+				<ref bean="triggerTitleCacheReload" />
+				<ref bean="triggerPersonCacheReload" />
+				<ref bean="triggerUnitCacheReload" />
+				<ref bean="triggerPersonNameCacheReload" />
+				<ref bean="triggerUnitNameCacheReload" />
+				<ref bean="triggerSitemapCacheReload" />
+			</list>
+		</property>
+	</bean>
+</beans>
