@@ -12,7 +12,7 @@
   <groupId>HsaTools</groupId>
   <artifactId>HsaTools-system</artifactId>
   <packaging>pom</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1</version>
 
   <name>HsaTools-system</name>
   <description>HsaTools-system</description>
@@ -512,7 +512,21 @@
   </profiles>
 
   <scm>
-    <developerConnection>scm:svn:https://oppna-program-hsatools.googlecode.com/svn/HsaTools/trunk/</developerConnection>
-    <url>http://oppna-program-hsatools.googlecode.com/svn/HsaTools/trunk/</url>
+    <developerConnection>scm:svn:https://oppna-program-hsatools.googlecode.com/svn/HsaTools/tags/HsaTools-system-1.1</developerConnection>
+    <url>http://oppna-program-hsatools.googlecode.com/svn/HsaTools/tags/HsaTools-system-1.1</url>
   </scm>
+
+	<distributionManagement>
+	  <repository>
+	    <uniqueVersion>false</uniqueVersion>
+	    <id>internal-repo</id>
+	    <url>http://portalutv.vgregion.se/nexus/content/repositories/releases/</url>
+	  </repository>
+	  <snapshotRepository>
+	    <uniqueVersion>false</uniqueVersion>
+	    <id>internal-repo</id>
+	    <url>http://portalutv.vgregion.se/nexus/content/repositories/snapshots/</url>
+	  </snapshotRepository>
+	</distributionManagement>
 </project>
+
