@@ -30,7 +30,7 @@ Generation time : 2007-10-09 10:07:02 CEST
 	<parent>
 		<groupId>HsaTools</groupId>
 		<artifactId>HsaTools-Search</artifactId>
-		<version>1.2-SNAPSHOT</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
