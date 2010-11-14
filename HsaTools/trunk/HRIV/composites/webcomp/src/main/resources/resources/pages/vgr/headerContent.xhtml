@@ -20,44 +20,52 @@
 -->
 
 <h:outputText xmlns:h="http://java.sun.com/jsf/html" rendered="true">
-	<div id="pageHeader">
+	<div id="top-nav">
+		<ul>
+			<li><a href="http://vard.vgregion.se/sv/Other-languages/">${msg.otherLanguages}</a>&#160; | &#160;</li>
+			<li><a href="http://vard.vgregion.se/sv/Teckenspraksfilmer/">${msg.fingerLanguage}</a></li>
+			<li>
+				<h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" escape="false" value="&#160; | &#160;${Search_SettingsContainer.listenLinkCode1}" />
+				<h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" value="${facesContext.externalContext.request.queryString}" />
+				<h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" escape="false" value="${Search_SettingsContainer.listenLinkCode2}" />
+			</li>
+		</ul>
+	</div>
+
+	<div id="hd">
 		<form action="http://xhitta.vgregion.se/search.xhtml" method="get">
-			<div id="pageHeaderSearch">
-				<div class="headerlinks">
-					<ul>
-						<li><a href="http://vard.vgregion.se/sv/Other-languages/">${msg.otherLanguages}</a>&#160; | &#160;</li>
-						<li><a href="http://vard.vgregion.se/sv/Teckenspraksfilmer/">${msg.fingerLanguage}</a></li>
-						<li><h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" escape="false" value="&#160; | &#160;${Search_SettingsContainer.listenLinkCode1}" />
-							<h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" value="${facesContext.externalContext.request.queryString}" />
-							<h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" escape="false" value="${Search_SettingsContainer.listenLinkCode2}" />
-						</li>					
-					</ul>
-					<input name="scoped" value="true" type="hidden" />
-					<input name="filter" value="scope:VGRegionvardportalen" type="hidden" />
-					<input name="q" id="SearchText" accesskey="4" title="${msg.quickSearch}" class="topSearch" type="text" />
-					<input name="Search" value="${msg.search}" id="Search" class="standardButton marginTopFive" type="submit" />
-				</div>
+			<div id="logo">
+				<a href="#">&#160;</a>
+			</div>
+			<div id="top-search">
+				<input name="scoped" value="true" type="hidden" />
+				<input name="filter" value="scope:VGRegionvardportalen" type="hidden" />
+				<div class="search-text-lft"><input name="q" id="SearchText" accesskey="4" title="${msg.quickSearch}" class="search-text" type="text" /></div>
+				<input name="Search" id="Search" class="search-btn" value="${msg.search}" type="submit" />
 			</div>
 		</form>
 	</div>
 
-	<div id="header">
-		<div class="headimageholder"><a accesskey="S"
-			href="http://vard.vgregion.se/sv/#body-content" /><a accesskey="1"
-			href="http://vard.vgregion.se/"> <img
-			alt="V&#229;rden i V&#228;stra G&#246;taland"
-			src="resources/images/head-img.gif" /> </a></div>
-	<h1>${msg.topHeader}</h1>
+	<div id="nav" class="rounded">
+	    <div class="rounded-bot-lft"></div>
+	    <div class="rounded-bot-rt"></div>
+	    <div class="rounded-bot-center">
+	    	<ul>
+	            <li><a href="http://vard.vgregion.se/sv/" title="Startsidan">${msg.startPage}</a></li>
+	            <li><a href="http://vard.vgregion.se/sv/Sjukdomar-och-besvar/" title="Sjukdomar och besvär">${msg.diseases}</a></li>
+	            <li><a href="http://vard.vgregion.se/sv/Undersokningar--behandlingar/" title="Undersökningar och behandlingar">${msg.investigationsAndTreatments}</a></li>
+	            <li class="sel first"><a href="startpage.jsp?startpage=1" title="Hitta rätt i vården">${msg.applicationName}</a></li>
+	            <li><a href="http://vard.vgregion.se/sv/Regler-och-rattigheter/" title="Regler och rättigheter">${msg.rulesAndRights}</a></li>
+	            <li><a href="http://vard.vgregion.se/sv/Mina-tjanster/" title="Mina tjänster">${msg.mvkHeader}</a></li>
+	        </ul>
+	    </div>
 	</div>
-	<div id="menucontainer">
-		<ul>
-			<li><a class="first" href="http://vard.vgregion.se/sv/Startsidan/"> ${msg.startPage}</a></li>
-			<li><a href="http://vard.vgregion.se/sv/Sjukdomar-och-besvar/">${msg.diseases}</a></li>
-			<li><a href="http://vard.vgregion.se/sv/Undersokningar--behandlingar/">${msg.investigationsAndTreatments}</a></li>
-			<li><a href="startpage.jsp?startpage=1" class="selected first">${msg.applicationName}</a></li>
-			<li><a href="http://vard.vgregion.se/sv/Regler-och-rattigheter/">${msg.rulesAndRights}</a></li>
-			<li><a href="http://vard.vgregion.se/sv/Mina-tjanster/">${msg.mvkHeader}</a></li>
-		</ul>
-	</div>
+
+    <div class="rounded">
+        <div class="rounded-top-lft"></div>
+        <div class="rounded-top-rt"></div>
+        <div class="rounded-top-center"></div>
+    </div>
+
 	<a name="top" />
 </h:outputText>

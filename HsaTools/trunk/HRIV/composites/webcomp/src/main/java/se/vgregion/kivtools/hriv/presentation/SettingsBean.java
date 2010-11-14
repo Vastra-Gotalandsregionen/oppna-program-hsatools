@@ -34,6 +34,8 @@ public class SettingsBean implements Serializable {
   private static final long serialVersionUID = 246274450053259084L;
   private String resourceBundleInclude;
   private String googleMapInitInclude;
+  private String unitDetailsInclude;
+  private String unitAccessibilityInclude;
   private String unitSearchResultSingleUnitInclude;
   private String unitSearchResultSortOrderInclude;
   private String errorReportFormInclude;
@@ -46,9 +48,9 @@ public class SettingsBean implements Serializable {
   private String googleMapsKey;
   private String distanceToUnits;
   private String styles;
-  private ArrayList<Link> findRouteLinksArray = new ArrayList<Link>();
+  private final ArrayList<Link> findRouteLinksArray = new ArrayList<Link>();
   private String header;
-  private ArrayList<String> scriptPaths = new ArrayList<String>();
+  private final ArrayList<String> scriptPaths = new ArrayList<String>();
   private String footer;
   private String useShowUnitCode;
   private String showUnitCodeOnServer;
@@ -85,7 +87,7 @@ public class SettingsBean implements Serializable {
   private String searchFormInclude;
 
   public String getInformationArea() {
-    return informationArea;
+    return this.informationArea;
   }
 
   public void setInformationArea(String informationArea) {
@@ -93,7 +95,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getMobileUrl() {
-    return mobileUrl;
+    return this.mobileUrl;
   }
 
   public void setMobileUrl(String mobileUrl) {
@@ -101,7 +103,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getVerifyV1() {
-    return verifyV1;
+    return this.verifyV1;
   }
 
   public void setVerifyV1(String verifyV1) {
@@ -109,7 +111,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getTitle() {
-    return title;
+    return this.title;
   }
 
   public void setTitle(String title) {
@@ -117,7 +119,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getSearchResultTitle() {
-    return searchResultTitle;
+    return this.searchResultTitle;
   }
 
   public void setSearchResultTitle(String searchResultTitle) {
@@ -125,7 +127,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getLinkToIMOnServer() {
-    return linkToIMOnServer;
+    return this.linkToIMOnServer;
   }
 
   public void setLinkToIMOnServer(String linkToIMOnServer) {
@@ -133,7 +135,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getShowLinkToIM() {
-    return showLinkToIM;
+    return this.showLinkToIM;
   }
 
   public void setShowLinkToIM(String showLinkToIM) {
@@ -141,7 +143,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getLinkToIMBase() {
-    return linkToIMBase;
+    return this.linkToIMBase;
   }
 
   public void setLinkToIMBase(String linkToIMBase) {
@@ -149,7 +151,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getUseShowCloseUnits() {
-    return useShowCloseUnits;
+    return this.useShowCloseUnits;
   }
 
   public void setUseShowCloseUnits(String useShowCloseUnits) {
@@ -157,7 +159,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getMetaAuthor() {
-    return metaAuthor;
+    return this.metaAuthor;
   }
 
   public void setMetaAuthor(String metaAuthor) {
@@ -165,7 +167,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getMetaCopyright() {
-    return metaCopyright;
+    return this.metaCopyright;
   }
 
   public void setMetaCopyright(String metaCopyright) {
@@ -173,7 +175,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getMvkLoginUrl() {
-    return mvkLoginUrl;
+    return this.mvkLoginUrl;
   }
 
   public void setMvkLoginUrl(String mvkLoginUrl) {
@@ -181,7 +183,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getUseMvk() {
-    return useMvk;
+    return this.useMvk;
   }
 
   public void setUseMvk(String useMvk) {
@@ -189,7 +191,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getUsePrinting() {
-    return usePrinting;
+    return this.usePrinting;
   }
 
   public void setUsePrinting(String usePrinting) {
@@ -197,7 +199,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getUseListenLink() {
-    return useListenLink;
+    return this.useListenLink;
   }
 
   public void setUseListenLink(String useListenLink) {
@@ -205,7 +207,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getListenLinkCode2() {
-    return listenLinkCode2;
+    return this.listenLinkCode2;
   }
 
   public void setListenLinkCode2(String listenLinkCode2) {
@@ -213,7 +215,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getListenLinkCode1() {
-    return listenLinkCode1;
+    return this.listenLinkCode1;
   }
 
   public void setListenLinkCode1(String listenLinkCode1) {
@@ -221,7 +223,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getUseTrackingCode() {
-    return useTrackingCode;
+    return this.useTrackingCode;
   }
 
   public void setUseTrackingCode(String useTrackingCode) {
@@ -229,7 +231,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getTrackingCodeOnServer() {
-    return trackingCodeOnServer;
+    return this.trackingCodeOnServer;
   }
 
   public void setTrackingCodeOnServer(String trackingCodeOnServer) {
@@ -237,7 +239,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getTrackingCode() {
-    return trackingCode;
+    return this.trackingCode;
   }
 
   public void setTrackingCode(String trackingCode) {
@@ -245,7 +247,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getShowUnitCode1() {
-    return showUnitCode1;
+    return this.showUnitCode1;
   }
 
   public void setShowUnitCode1(String showUnitCode1) {
@@ -253,7 +255,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getShowUnitCode2() {
-    return showUnitCode2;
+    return this.showUnitCode2;
   }
 
   public void setShowUnitCode2(String showUnitCode2) {
@@ -261,7 +263,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getUseShowUnitCode() {
-    return useShowUnitCode;
+    return this.useShowUnitCode;
   }
 
   public void setUseShowUnitCode(String useShowUnitCode) {
@@ -269,7 +271,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getShowUnitCodeOnServer() {
-    return showUnitCodeOnServer;
+    return this.showUnitCodeOnServer;
   }
 
   public void setShowUnitCodeOnServer(String showUnitCodeOnServer) {
@@ -277,7 +279,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getFooter() {
-    return footer;
+    return this.footer;
   }
 
   public void setFooter(String footer) {
@@ -285,7 +287,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getHeader() {
-    return header;
+    return this.header;
   }
 
   public void setHeader(String header) {
@@ -308,11 +310,11 @@ public class SettingsBean implements Serializable {
   }
 
   public ArrayList<Link> getFindRouteLinksArray() {
-    return findRouteLinksArray;
+    return this.findRouteLinksArray;
   }
 
   public String getStyles() {
-    return styles;
+    return this.styles;
   }
 
   public void setStyles(String styles) {
@@ -336,18 +338,18 @@ public class SettingsBean implements Serializable {
       if (routeLinkComponents.length > 2) {
         toParamName = routeLinkComponents[2];
       }
-      
-      if(routeLinkComponents.length > 3){
+
+      if (routeLinkComponents.length > 3) {
         fromParamName = routeLinkComponents[3];
       }
 
       Link l = new Link(href, name, toParamName, fromParamName);
-      addRouteLink(l);
+      this.addRouteLink(l);
     }
   }
 
   public String getDistanceToUnits() {
-    return distanceToUnits;
+    return this.distanceToUnits;
   }
 
   public void setDistanceToUnits(String distanceToUnits) {
@@ -355,7 +357,7 @@ public class SettingsBean implements Serializable {
   }
 
   public boolean isFallbackOnAddressForMap() {
-    return fallbackOnAddressForMap;
+    return this.fallbackOnAddressForMap;
   }
 
   public void setFallbackOnAddressForMap(boolean fallbackOnAddressForMap) {
@@ -363,19 +365,19 @@ public class SettingsBean implements Serializable {
   }
 
   public void setTestingMode(boolean b) {
-    testingMode = b;
+    this.testingMode = b;
   }
 
   public boolean getTestingMode() {
-    return testingMode;
+    return this.testingMode;
   }
 
   public String getTestingModeAsString() {
-    return String.valueOf(testingMode);
+    return String.valueOf(this.testingMode);
   }
 
   public boolean isUseAccessibilityDatabaseIntegration() {
-    return useAccessibilityDatabaseIntegration;
+    return this.useAccessibilityDatabaseIntegration;
   }
 
   public void setUseAccessibilityDatabaseIntegration(boolean useAccessibilityDatabaseIntegration) {
@@ -383,7 +385,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getGoogleMapsKey() {
-    return googleMapsKey;
+    return this.googleMapsKey;
   }
 
   public void setGoogleMapsKey(String googleMapsKey) {
@@ -391,15 +393,15 @@ public class SettingsBean implements Serializable {
   }
 
   void addRouteLink(Link l) {
-    findRouteLinksArray.add(l);
+    this.findRouteLinksArray.add(l);
   }
 
   public List<String> getScriptPaths() {
-    return Collections.unmodifiableList(scriptPaths);
+    return Collections.unmodifiableList(this.scriptPaths);
   }
 
   public String getMainTop() {
-    return mainTop;
+    return this.mainTop;
   }
 
   public void setMainTop(String mainTop) {
@@ -407,7 +409,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getStartPage() {
-    return startPage;
+    return this.startPage;
   }
 
   public void setStartPage(String startPage) {
@@ -415,7 +417,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getCareTypePage() {
-    return careTypePage;
+    return this.careTypePage;
   }
 
   public void setCareTypePage(String careTypePage) {
@@ -423,7 +425,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getGeoRegion() {
-    return geoRegion;
+    return this.geoRegion;
   }
 
   public void setGeoRegion(String geoRegion) {
@@ -431,7 +433,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getResourceBundleInclude() {
-    return resourceBundleInclude;
+    return this.resourceBundleInclude;
   }
 
   public void setResourceBundleInclude(String resourceBundleInclude) {
@@ -439,7 +441,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getExternalApplicationURL() {
-    return externalApplicationURL;
+    return this.externalApplicationURL;
   }
 
   public void setExternalApplicationURL(String externalApplicationURL) {
@@ -452,7 +454,7 @@ public class SettingsBean implements Serializable {
    * @return the favIcon
    */
   public String getFavIcon() {
-    return favIcon;
+    return this.favIcon;
   }
 
   /**
@@ -469,7 +471,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getGoogleMapInitInclude() {
-    return googleMapInitInclude;
+    return this.googleMapInitInclude;
   }
 
   public void setErrorReportFormInclude(String errorReportFormInclude) {
@@ -477,7 +479,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getErrorReportFormInclude() {
-    return errorReportFormInclude;
+    return this.errorReportFormInclude;
   }
 
   public void setErrorReportConfirmInclude(String errorReportConfirmInclude) {
@@ -485,7 +487,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getErrorReportConfirmInclude() {
-    return errorReportConfirmInclude;
+    return this.errorReportConfirmInclude;
   }
 
   public void setPublicCaptchaKey(String publicCaptchaKey) {
@@ -493,7 +495,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getPublicCaptchaKey() {
-    return publicCaptchaKey;
+    return this.publicCaptchaKey;
   }
 
   public void setCareTypeInfoUrl(String careTypeInfoUrl) {
@@ -501,7 +503,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getCareTypeInfoUrl() {
-    return careTypeInfoUrl;
+    return this.careTypeInfoUrl;
   }
 
   public void setSearchFormInclude(String searchFormInclude) {
@@ -509,7 +511,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getSearchFormInclude() {
-    return searchFormInclude;
+    return this.searchFormInclude;
   }
 
   public void setBodyInclude(String bodyInclude) {
@@ -517,7 +519,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getBodyInclude() {
-    return bodyInclude;
+    return this.bodyInclude;
   }
 
   public void setUnitSearchResultSingleUnitInclude(String unitSearchResultSingleUnitInclude) {
@@ -525,7 +527,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getUnitSearchResultSingleUnitInclude() {
-    return unitSearchResultSingleUnitInclude;
+    return this.unitSearchResultSingleUnitInclude;
   }
 
   public void setUnitSearchResultSortOrderInclude(String unitSearchResultSortOrderInclude) {
@@ -533,7 +535,7 @@ public class SettingsBean implements Serializable {
   }
 
   public String getUnitSearchResultSortOrderInclude() {
-    return unitSearchResultSortOrderInclude;
+    return this.unitSearchResultSortOrderInclude;
   }
 
   public void setUnitHoursInclude(String unitHoursInclude) {
@@ -541,6 +543,22 @@ public class SettingsBean implements Serializable {
   }
 
   public String getUnitHoursInclude() {
-    return unitHoursInclude;
+    return this.unitHoursInclude;
+  }
+
+  public void setUnitDetailsInclude(String unitDetailsInclude) {
+    this.unitDetailsInclude = unitDetailsInclude;
+  }
+
+  public String getUnitDetailsInclude() {
+    return this.unitDetailsInclude;
+  }
+
+  public void setUnitAccessibilityInclude(String unitAccessibilityInclude) {
+    this.unitAccessibilityInclude = unitAccessibilityInclude;
+  }
+
+  public String getUnitAccessibilityInclude() {
+    return this.unitAccessibilityInclude;
   }
 }
