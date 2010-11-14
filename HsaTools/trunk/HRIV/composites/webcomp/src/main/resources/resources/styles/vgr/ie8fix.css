@@ -17,4 +17,62 @@
  *
  */
 
+﻿
 
+
+
+.yui-t2 .yui-b { width:250px; } 
+.yui-t2 #yui-main .yui-b { margin-left:250px;} 
+.yui-ge div.first { width:470px; } 
+.yui-ge .yui-u { width:250px; } 
+.box { width: 224px; }
+#yui-main { width:100%; }
+
+
+#top-nav {
+height:27px; /* Kan behövas för att få rätt höjd på top-nav, annars ta bort */
+}
+
+.col-inside {
+padding:0em;
+width:17em;
+margin-left:1em;
+}
+
+
+.rounded-top-lft  {
+width:20px;
+margin-right:-3px;
+}
+.rounded-bot-lft {
+width:20px;
+margin-right:-3px;
+}
+.rounded-bot-center {
+margin:0 14px 0 17px;
+width:auto;
+height:46px;
+}
+
+
+
+
+
+.rounded-top-center {
+margin:0 14px 0 17px;
+width:auto;
+
+}
+.rounded-bot-rt {
+width:17px;
+margin-left:-3px;
+}
+.rounded-top-rt {
+width:17px;
+margin-left:-3px;
+}
+
+
+
+
+.share { margin: 0 0 1em 0; padding:1em 1em 1em; background: #fff url(../../images/share-bg.png) repeat-x 0 100%; border-top:1px solid #c2c2c2; border-bottom:1px solid #c2c2c2;}
