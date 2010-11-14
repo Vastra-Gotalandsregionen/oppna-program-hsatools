@@ -22,9 +22,6 @@
 .yui-ge div.first { width:470px; } /** @override YUI */
 .yui-ge .yui-u { width:250px; } /** @override YUI */
 .box { width: 224px; }
-
-/***************************************************************************/
-/******************************** NYTT *************************************/
-/******************************** NYTT *************************************/
-/***************************************************************************/
 #yui-main { width:100%; }
+
+.share { margin: 0 0 1em 0; padding:1em 1em 1em; background: #fff url(../../images/share-bg.png) repeat-x 0 100%; border-top:1px solid #c2c2c2; border-bottom:1px solid #c2c2c2;  }
