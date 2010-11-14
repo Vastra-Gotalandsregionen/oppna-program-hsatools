@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Copyright 2010 Västra Götalandsregionen
  *
  *   This library is free software; you can redistribute it and/or modify
@@ -49,3 +49,54 @@ padding:0;
 #yui-main { width:100%; }
 
 .share { margin: 0 0 1em 0; padding:1em 1em 1em; background: #fff url(../../images/share-bg.png) repeat-x 0 100%; border-top:1px solid #c2c2c2; border-bottom:1px solid #c2c2c2;  }
+
+.col-inside {
+padding:0;
+width:17em;
+margin-left:1em;
+}
+.form-search-organizational-unit .box-bd .box-bd-inner {
+padding:0 24px 0 0;
+}
+
+.form-search-organizational-unit .box-bd .box-bd-inner .box-bd-inner-content {
+padding:1em 0.6em 0.04em;
+}
+.form-search-organizational-unit .box-bot {
+padding:0 0 0 34px;
+width:211px;
+}
+
+#top-nav {
+height:27px; /* Kan behövas för att få rätt höjd på top-nav, annars ta bort */
+}
+
+.rounded-top-lft  {
+width:20px;
+margin-right:-3px;
+}
+.rounded-bot-lft {
+width:20px;
+margin-right:-3px;
+}
+.rounded-bot-center {
+margin:0 14px 0 17px;
+width:auto;
+height:46px;
+}
+
+.rounded-top-center {
+margin:0 14px 0 17px;
+width:auto;
+
+}
+.rounded-bot-rt {
+width:17px;
+margin-left:-3px;
+}
+.rounded-top-rt {
+width:17px;
+margin-left:-3px;
+}
+
+
