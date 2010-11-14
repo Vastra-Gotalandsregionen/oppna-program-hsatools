@@ -25,8 +25,8 @@
 	<h:outputText rendered="${unit.wgs84Lat!=0.0}">
 	    <script type="text/javascript" charset="utf-8">
 	        // <![CDATA[]
-	        document.getElementById("map").style.height = "33.6em";
-	        document.getElementById("map").style.width = "33.6em";
+	        document.getElementById("map").style.height = "26.6em";
+	        document.getElementById("map").style.width = "26.6em";
 	        showAddressByCoordinates('${fn:trim(unit.hsaIdentity)}', '${unit.wgs84Lat}', '${unit.wgs84Long}', '${fn:trim(unit.hsaPublicTelephoneNumber[0])}', '${fn:trim(unit.caretypeCustomized)}', '${fn:trim(unit.name)}', '', 'true', null);
 	        // ]]>
 	    </script>

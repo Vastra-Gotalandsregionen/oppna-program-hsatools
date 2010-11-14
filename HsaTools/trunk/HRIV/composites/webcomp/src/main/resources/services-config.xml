@@ -67,6 +67,8 @@
 	<bean id="Search_SettingsContainer" class="se.vgregion.kivtools.hriv.presentation.SettingsBean" scope="prototype">
 		<property name="resourceBundleInclude" value="#{hsatools.hriv.webcomp.resourceBundleInclude}" />
 		<property name="googleMapInitInclude" value="#{hsatools.hriv.webcomp.googleMapInitInclude}" />
+		<property name="unitDetailsInclude" value="#{hsatools.hriv.webcomp.unitDetailsInclude}" />
+		<property name="unitAccessibilityInclude" value="#{hsatools.hriv.webcomp.unitAccessibilityInclude}" />
 		<property name="unitSearchResultSingleUnitInclude" value="#{hsatools.hriv.webcomp.unitSearchResultSingleUnitInclude}" />
 		<property name="unitSearchResultSortOrderInclude" value="#{hsatools.hriv.webcomp.unitSearchResultSortOrderInclude}" />
 		<property name="errorReportFormInclude" value="#{hsatools.hriv.webcomp.errorReportFormInclude}" />
