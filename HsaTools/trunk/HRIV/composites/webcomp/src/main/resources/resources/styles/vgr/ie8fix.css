@@ -29,9 +29,21 @@
 #yui-main { width:100%; }
 
 
-#top-nav {
-height:27px; /* Kan behövas för att få rätt höjd på top-nav, annars ta bort */
+
+
+
+#centercontent {
+margin-left:2em;
+width:48em;
 }
+
+
+#print-element {
+width:48em;
+}
+
+
+
 
 .col-inside {
 padding:0em;
@@ -54,10 +66,6 @@ width:auto;
 height:46px;
 }
 
-
-
-
-
 .rounded-top-center {
 margin:0 14px 0 17px;
 width:auto;
@@ -71,6 +79,8 @@ margin-left:-3px;
 width:17px;
 margin-left:-3px;
 }
+
+
 
 
 

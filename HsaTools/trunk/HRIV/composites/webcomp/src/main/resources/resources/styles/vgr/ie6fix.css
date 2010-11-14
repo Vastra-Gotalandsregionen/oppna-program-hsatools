@@ -66,11 +66,6 @@ padding:1em 0.6em 0.04em;
 padding:0 0 0 34px;
 width:211px;
 }
-
-#top-nav {
-height:27px; /* Kan behövas för att få rätt höjd på top-nav, annars ta bort */
-}
-
 .rounded-top-lft  {
 width:20px;
 margin-right:-3px;
@@ -98,5 +93,11 @@ margin-left:-3px;
 width:17px;
 margin-left:-3px;
 }
+
+
+#centercontent {margin-left:2em;width:40em;}
+#boxmiddle, #print-element, .yui-ge div.first, .col-extender, #search-result-caption {width:40em;}
+.vcard {width:40em;}
+
 
 
