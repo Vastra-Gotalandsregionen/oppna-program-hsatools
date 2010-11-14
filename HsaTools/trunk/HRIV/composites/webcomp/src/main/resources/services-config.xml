@@ -76,6 +76,7 @@
 		<property name="unitHoursInclude" value="#{hsatools.hriv.webcomp.unitHoursInclude}" />
 		<property name="searchFormInclude" value="#{hsatools.hriv.webcomp.searchFormInclude}" />
 		<property name="bodyInclude" value="#{hsatools.hriv.webcomp.bodyInclude}" />
+		<property name="stylesheetInclude" value="#{hsatools.hriv.webcomp.stylesheetInclude}" />
 		<!-- This one comes from search-composite-svc-connection.properties, using ${} because of that -->
 		<property name="publicCaptchaKey" value="${hsatools.search.svc.recaptcha.publickey}" />
 		<property name="testingMode" value="#{hsatools.hriv.webcomp.testingMode}" />

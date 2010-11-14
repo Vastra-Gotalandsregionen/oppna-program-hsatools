@@ -22,13 +22,14 @@
 <h:outputText xmlns:h="http://java.sun.com/jsf/html" rendered="true">
 	<div id="top-nav">
 		<ul>
-			<li><a href="http://vard.vgregion.se/sv/Other-languages/">${msg.otherLanguages}</a>&#160; | &#160;</li>
-			<li><a href="http://vard.vgregion.se/sv/Teckenspraksfilmer/">${msg.fingerLanguage}</a></li>
+			<li><a href="http://vard.vgregion.se/vgrtemplates/adjust" title="Anpassa">Anpassa</a></li>
 			<li>
 				<h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" escape="false" value="&#160; | &#160;${Search_SettingsContainer.listenLinkCode1}" />
 				<h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" value="${facesContext.externalContext.request.queryString}" />
-				<h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" escape="false" value="${Search_SettingsContainer.listenLinkCode2}" />
+				<h:outputText rendered="${Search_SettingsContainer.useListenLink==true}" escape="false" value="${Search_SettingsContainer.listenLinkCode2}" />&#160; | &#160;
 			</li>
+			<li><a href="http://vard.vgregion.se/sv/Other-languages/">${msg.otherLanguages}</a>&#160; | &#160;</li>
+			<li><a href="http://vard.vgregion.se/sv/Teckenspraksfilmer/">${msg.fingerLanguage}</a></li>
 		</ul>
 	</div>
 

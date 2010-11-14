@@ -356,4 +356,9 @@ public class SettingsBeanTest {
   public void testUnitSearchResultSortOrderInclude() {
     PojoTester.testProperty(this.bean, "unitSearchResultSortOrderInclude", String.class, null, TEST_STRING, "Test2");
   }
+
+  @Test
+  public void testStylesheetInclude() {
+    PojoTester.testProperty(this.bean, "stylesheetInclude", String.class, null, TEST_STRING, "Test2");
+  }
 }
