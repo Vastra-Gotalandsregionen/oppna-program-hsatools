@@ -280,7 +280,7 @@ public class SearchServiceMockImpl implements SearchService {
     list.add(u);
 
     u = new Unit();
-    u.setHsaIdentity("ABC003");
+    u.setHsaIdentity("SE2321000131-E000000000420");
     u.setName("Uddevalla vårdcentral");
     u.setLocality("Uddevalla");
     u.addDescription(description);
