@@ -24,9 +24,14 @@
 .box { width: 224px; }
 #yui-main { width:100%; }
 
+#centercontent {
+margin-left:2em;
+width:48em;
+}
 
-#top-nav {
-height:27px; /* Kan behövas för att få rätt höjd på top-nav, annars ta bort */
+
+#print-element {
+width:48em;
 }
 
 .col-inside {
