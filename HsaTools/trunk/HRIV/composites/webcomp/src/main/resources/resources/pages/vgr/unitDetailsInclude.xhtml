@@ -285,27 +285,11 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
                                                 <span class="warning">hsaStreetAddress ${msg.missing} ${msg.orNotParsable}</span>
                                             </h:outputText>
                                         </td>
-                                    </tr>
-                                    </h:outputText>
-                                	<h:outputText rendered="${unit.hsaRouteConcatenated != '' or Search_SettingsContainer.testingMode}">
-	                                    <tr>
-	                                        <th class="leftcol">
-	                                            <span class="grey-header">${msg.routeDescription}</span>
-	                                        </th>
-	                                        <td class="directions-right-col paragraph">
-	                                            <h:outputText value="${unit.hsaRouteConcatenated}" />
-	                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaRouteConcatenated) lt 1}">
-	                                                <span class="warning">hsaRoute ${msg.missing}</span>
-	                                            </h:outputText>
-	                                        </td>
-	                                    </tr>
-                                	</h:outputText>
-                                	<h:outputText rendered="${unit.wgs84Lat!=0.0 or Search_SettingsContainer.testingMode}">
-	                                    <tr>
+                                	    <h:outputText rendered="${unit.wgs84Lat!=0.0 or Search_SettingsContainer.testingMode}">
 	                                        <th class="leftcol">
 	                                            <span class="grey-header">${msg.coordinates}</span>
 	                                        </th>
-	                                        <td class="directions-right-col paragraph">
+	                                        <td class="paragraph">
 	                                            <h:outputText rendered="${unit.wgs84Lat!=0.0}">
 	                                                <div class="geo">
 							     				${msg.latitude}: <abbr class="latitude" id="abbr-latitude">
@@ -320,29 +304,43 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
 	                                                <span class="warning">hsaGeographicalCoordinates ${msg.missing}</span>
 	                                            </h:outputText>
 	                                        </td>
-	                                    </tr>
-	                                </h:outputText>
-                                	<h:outputText rendered="${unit.wgs84Lat!=0.0 or fn:length(unit.hsaStreetAddress.street) gt 0 or Search_SettingsContainer.testingMode}">
+	                                    </h:outputText>
+                                    </tr>
+                                </h:outputText>
+                                <h:outputText rendered="${unit.hsaRouteConcatenated != '' or Search_SettingsContainer.testingMode}">
 	                                    <tr>
-	                                        <th class="leftcol">
-	                                            <span class="grey-header">${msg.findRoute}</span>
+	                                        <th class="leftcol" rowspan="3">
+	                                            <span class="grey-header">${msg.routeDescription}</span>
 	                                        </th>
-	                                        <td class="directions-right-col">
-	                                            <ui:repeat value="${Search_SettingsContainer.findRouteLinksArray}" var="link">
-	                                                <h:outputText rendered="${link.toParamName != '' and link.fromParamName != ''}">
-	                                                    <a href="${link.href}?${link.fromParamName}=&amp;${link.toParamName}=${Search_VasttrafikSearchService.getStopIdByAddress(fn:trim(unit.hsaStreetAddress.street), fn:trim(unit.hsaMunicipalityName))}" class="url">${link.name}</a><br/>
-	                                                </h:outputText>
-	                                                
-	                                                <h:outputText rendered="${link.toParamName != '' and link.fromParamName == ''}">
-	                                                    <a href="${link.href}?${link.toParamName}=${fn:trim(unit.hsaStreetAddress.street)}" class="url">${link.name}</a><br/>
-	                                                </h:outputText>
-	                            
-	                                                <h:outputText rendered="${link.toParamName == ''}">
-	                                                    <a href="${link.href}" class="url">${link.name}</a><br/>
-	                                                </h:outputText>
-	                                            </ui:repeat>
+	                                        <td class="directions-right-col paragraph" rowspan="3">
+	                                            <h:outputText value="${unit.hsaRouteConcatenated}" />
+	                                            <h:outputText rendered="${Search_SettingsContainer.testingMode==true and fn:length(unit.hsaRouteConcatenated) lt 1}">
+	                                                <span class="warning">hsaRoute ${msg.missing}</span>
+	                                            </h:outputText>
 	                                        </td>
+                                	        <h:outputText rendered="${unit.wgs84Lat!=0.0 or fn:length(unit.hsaStreetAddress.street) gt 0 or Search_SettingsContainer.testingMode}">
+		                                        <th class="leftcol">
+		                                            <span class="grey-header">${msg.findRoute}</span>
+		                                        </th>
+		                                        <td class="directions-right-col">
+		                                            <ui:repeat value="${Search_SettingsContainer.findRouteLinksArray}" var="link">
+		                                                <h:outputText rendered="${link.toParamName != '' and link.fromParamName != ''}">
+		                                                    <a href="${link.href}?${link.fromParamName}=&amp;${link.toParamName}=${Search_VasttrafikSearchService.getStopIdByAddress(fn:trim(unit.hsaStreetAddress.street), fn:trim(unit.hsaMunicipalityName))}" class="url">${link.name}</a><br/>
+		                                                </h:outputText>
+		                                                
+		                                                <h:outputText rendered="${link.toParamName != '' and link.fromParamName == ''}">
+		                                                    <a href="${link.href}?${link.toParamName}=${fn:trim(unit.hsaStreetAddress.street)}" class="url">${link.name}</a><br/>
+		                                                </h:outputText>
+		                            
+		                                                <h:outputText rendered="${link.toParamName == ''}">
+		                                                    <a href="${link.href}" class="url">${link.name}</a><br/>
+		                                                </h:outputText>
+		                                            </ui:repeat>
+		                                        </td>
+		                                	</h:outputText>
 	                                    </tr>
+                                	</h:outputText>
+                                	<h:outputText rendered="${unit.wgs84Lat!=0.0 or fn:length(unit.hsaStreetAddress.street) gt 0 or Search_SettingsContainer.testingMode}">
 	                                    <tr class="directions-row">
 	                                        <th id="directionsFromCellHeader"></th>
 	                                        <td id="directionsFromCellBody" class="paragraph"></td>
@@ -361,14 +359,11 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
                             </div>
 
 							<h:outputText rendered="${unit.wgs84Lat!=0.0}">
-                            <div id="map-right-of-address-div">
-                                <!--  Map cell start (dont remove this comment) -->
-                                <div id="map"/>
-                                <!--  Map cell end (dont remove this comment) -->
-                                <div style="padding-left:5px; padding-bottom:2px; font-size: 10px; font-weight: bold;">
-                                	<a class="url" href="#" id="showMapPopupButton" onClick="showMapInPopup('${unit.wgs84Long}', '${unit.wgs84Lat}', '${fn:trim(unit.name)}','${fn:trim(unit.hsaPublicTelephoneNumber[0])}', '${fn:trim(unit.caretypeCustomized)}', '${msg.telephone}', '${msg.showDetails}', '${unit.hsaIdentity}');"><img src="resources/images/zoom.gif" alt="Visa stor karta"/>Visa stor karta</a>
-                                </div>
-                            </div>
+	                            <div>
+	                            	<a class="url" href="#" id="showMapPopupButton" onClick="showMapInPopup('${unit.wgs84Long}', '${unit.wgs84Lat}', '${fn:trim(unit.name)}','${fn:trim(unit.hsaPublicTelephoneNumber[0])}', '${fn:trim(unit.caretypeCustomized)}', '${msg.telephone}', '${msg.showDetails}', '${unit.hsaIdentity}');"><img src="resources/images/zoom.gif" alt="Visa stor karta"/>Visa stor karta</a>
+	                            </div>
+	                            <div id="map-right-of-address-div" class="clear">
+	                            </div>
 							</h:outputText>							
 							
                             <div id="directions-container" style="display: none;">
