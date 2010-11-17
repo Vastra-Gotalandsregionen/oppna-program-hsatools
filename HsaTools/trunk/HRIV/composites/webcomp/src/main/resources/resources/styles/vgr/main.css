@@ -384,8 +384,8 @@ div.avskiljare { background:url(img/avskiljare.gif) left top repeat-x;width:19.2
 #startpage-intro {width:35em;}
 p.warning {color:#cc0000;}
 
-.search-result ul {background:#fff;float:left;margin-bottom:2em;width:48em;}
-.search-result li {padding:1em;display:table;border:solid 1px #ccc;float:left;margin-top:1em;}
+.search-result ul#search-result-container {background:#fff;float:left;margin-bottom:2em;width:48em;}
+.search-result ul#search-result-container li {padding:1em;display:table;border:solid 1px #ccc;float:left;margin-top:1em;}
 /*.search-result li:hover {border:solid 1px #9c132f;background:#feeefe;}*/
 .search-result h1 {float:left;}
 ul#search-result-container h2 a {color:#666;}
@@ -406,8 +406,7 @@ ul#search-result-container h2 a {color:#666;}
 .vcard {width:46.8em;}
 .search-result .borderless {border:0 none;float:left;width:50em;margin-top:1em;}
 #description-body, mvk-body {clear:both;margin-bottom:1.5em;padding:0.25em;}
-#map {float:left; border:solid 1px #999;}
-#address-table {width:20em;}
+#address-table {width:100%;}
 #address-table th{vertical-align:top;padding-right:0.4em;}
 #address-table td{line-height:1.3em;}
 span.grey-header {color:#444;font-size:1em;font-weight:bold;}

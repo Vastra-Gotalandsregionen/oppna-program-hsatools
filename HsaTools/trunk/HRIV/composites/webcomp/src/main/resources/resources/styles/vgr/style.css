@@ -220,3 +220,32 @@ h3.fn {
 	font-size: 1em;
 	clear: both;
 }
+
+.directions-right-col {
+	width: 16em;
+}
+
+#map {
+	text-align: right;
+}
+
+#map-right-of-address-div {
+	border: 1px solid #ccc;
+	height: 549px;
+	width: 549px;
+}
+
+/* Popup for map */
+#eniroMapPopup.yui-panel .hd {
+	background-color:#cdcdcd;
+	border-color: #cdcdcd;
+}
+	
+#eniroMapPopup.yui-panel {
+	border-color: #cdcdcd;
+}
+
+#panelBody{
+	height: 600px;
+	width: 792px;
+}
