@@ -225,6 +225,33 @@ h3.fn {
 	width: 16em;
 }
 
+#search-result-container-map {
+	float: left;
+}
+
+#map-div {
+	width: 55em;
+	height: 40em;
+}
+
+#map-div-container #map-div {
+/*	float: right;*/
+	width: 28em;
+	visibility: hidden;
+}
+
+/* Used when generating map */
+.spin-div {
+	background: #fff url('../../images/spinner.gif') no-repeat center center;
+	width: 400px;
+	height: 100px;
+}
+
+.spin-div-text {
+	text-align: center;
+	width: 400px;
+}
+
 #map {
 	text-align: right;
 }
