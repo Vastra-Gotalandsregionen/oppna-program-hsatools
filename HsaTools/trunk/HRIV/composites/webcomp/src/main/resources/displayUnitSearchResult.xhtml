@@ -51,7 +51,7 @@
 				<h:outputText rendered="${(displayCloseUnitsSimpleForm.searchFlag == true and fn:length(coordinateUnits) gt 0) or (displayCloseUnitsSimpleForm.searchFlag == false and fn:length(units) gt 0)}">
 					<h:outputText rendered="${Search_SettingsContainer.usePrinting==true and unitSearchSimpleForm.resultType gt 1}">
 						<script type="text/javascript" charset="utf-8">
-							// <![CDATA[]
+							// <![CDATA[
 								drawPrintLabel('map-div');
 							// ]]>
 						</script>
@@ -100,13 +100,13 @@
 							<div id="map-div">
 								<script type="text/javascript" charset="utf-8">
 									<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == true}">
-										// <![CDATA[]
-										map = initGMap('${fn:length(coordinateUnits)}');							
+										// <![CDATA[
+										var map = initGMap('${fn:length(coordinateUnits)}');							
 										// ]]>
 									</h:outputText>
 									<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == false}">
-										// <![CDATA[]
-										map = initGMap('${fn:length(units)}');							
+										// <![CDATA[
+										var map = initGMap('${fn:length(units)}');							
 										// ]]>
 									</h:outputText>
 								</script>
@@ -115,14 +115,14 @@
 									<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == true}">
 										<ui:repeat value="${coordinateUnits}" var="theUnit">
 								           	<h:outputText rendered="${theUnit.wgs84Lat!=0.0}">
-											// <![CDATA[]
+											// <![CDATA[
 												showAddressByCoordinates('${fn:trim(theUnit.hsaIdentity)}', '${theUnit.wgs84Lat}', '${theUnit.wgs84Long}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '${theUnit.distanceToTarget}', 'false', map);
 											// ]]>
 											</h:outputText>			
 					        			   	<h:outputText rendered="${theUnit.wgs84Lat==0.0 and Search_SettingsContainer.fallbackOnAddressForMap==true}">
 								           		<ui:repeat value="${theUnit.hsaStreetAddress}" var="address">
 							           				<h:outputText rendered="${fn:length(address.street) gt 0}">
-													// <![CDATA[]
+													// <![CDATA[
 				     									showAddress('${fn:trim(theUnit.hsaIdentity)}', '${fn:trim(address.street)},${fn:trim(address.city)}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '${theUnit.distanceToTarget}', 'false', map);
 													// ]]>
 													</h:outputText>
@@ -134,7 +134,7 @@
 									<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == false}">
 										<ui:repeat value="${units}" var="theUnit">
 								           	<h:outputText rendered="${theUnit.wgs84Lat!=0.0}">
-											// <![CDATA[]
+											// <![CDATA[
 												showAddressByCoordinates('${fn:trim(theUnit.hsaIdentity)}', '${theUnit.wgs84Lat}', '${theUnit.wgs84Long}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '', 'false', map);
 											// ]]>
 											</h:outputText>
@@ -143,7 +143,7 @@
 					        			   	
 								           		<ui:repeat value="${theUnit.hsaStreetAddress}" var="address">
 							           				<h:outputText rendered="${fn:length(address.street) gt 0}">
-													// <![CDATA[]
+													// <![CDATA[
 				     									showAddress('${fn:trim(theUnit.hsaIdentity)}', '${fn:trim(address.street)},${fn:trim(address.city)}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '', 'false', map);
 													// ]]>
 													</h:outputText>
@@ -154,7 +154,7 @@
 									</h:outputText>
 								</script>
 								<script type="text/javascript" charset="utf-8">
-									// <![CDATA[]
+									// <![CDATA[
 										adjustMapVisibility();
 									// ]]>
 								</script>
