@@ -92,18 +92,16 @@ function drawMarkerOnMap(xCoordinate, yCoordinate, hsaid, tel, careTypeName, nam
 			+ hsaid
 			+ '">'
 			+ name
-			+ '</a></b><br/>'
-			+ careTypeName
-			+ '<br/>Telefon: '
-			+ tel + '<br/>';
+			+ '</a></b></br>Telefon: '
+			+ tel + '</br>';
 		
 		if (distance != '') {
-			label += 'Avst&aring;nd till adress: ' + distance + ' km<br/>'
+			label += 'Avst&aring;nd till adress: ' + distance + ' km</br>'
 		}
 		
 		label += '<a href="visaenhet?hsaidentity=' + hsaid + '">Visa detaljer</a></span>';
 		var marker = new Eniro.Feature.PopupFeature(map.getCenter(), {}, {
-		       popupContents: function() { return label; },
+		       popupContents: label,
 		       mouseover: true
 		   });
 		map.addFeature(marker);
@@ -131,13 +129,12 @@ function showAddressByCoordinates(hsaid, lat, lon, tel, careTypeName, name,
     map.setCenter(point, 8);
     
     if(point){
-    var label = '<span style="font-size: 9px"><b><a href="visaenhet?hsaidentity='
+    var label = '<span style="font-size: 9px;">'
+    	+ '<b><a href="visaenhet?hsaidentity='
 		+ hsaid
 		+ '">'
 		+ name
-		+ '</a></b><br/>'
-		+ careTypeName
-		+ '<br/>Telefon: '
+		+ '</a></b><br/>Telefon: '
 		+ tel
 		+ '<br/>';
 	
@@ -148,7 +145,7 @@ function showAddressByCoordinates(hsaid, lat, lon, tel, careTypeName, name,
 	label += '<a href="visaenhet?hsaidentity=' + hsaid + '">Visa detaljer</a></span>';
 
 	var marker = new Eniro.Feature.PopupFeature(map.getCenter(), {}, {
-	       popupContents: function() { return label; },
+	       popupContents: label,
 	       mouseover: true
 	   });
     map.addFeature(marker);
@@ -458,4 +455,18 @@ function closeUnitsFormValidate(address) {
 	});
 	
 	return false;
+}
+
+function toggleExtendDescription() {
+	if (document.getElementById("description-body-long").style.display == 'none') {
+		document.getElementById("toggle-extend-description-link-span").innerHTML = "&nbsp;";
+		document.getElementById("description-toggle-image").src = "resources/images/vgr/mindre.png";
+		document.getElementById("description-body-long").style.display = "block";
+		document.getElementById("description-body-short").style.display = "none";
+	} else {
+		document.getElementById("description-toggle-image").src = "resources/images/vgr/mer.png";
+		document.getElementById("toggle-extend-description-link-span").innerHTML = "&nbsp;";
+		document.getElementById("description-body-short").style.display = "block";
+		document.getElementById("description-body-long").style.display = "none";
+	}
 }

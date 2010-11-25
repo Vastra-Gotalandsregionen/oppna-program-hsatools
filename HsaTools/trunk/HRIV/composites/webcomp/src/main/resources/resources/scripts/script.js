@@ -209,7 +209,7 @@ function drawMap(longitud, latitud, unitName, publicPhoneNumber, caretypeCustomi
     emap.setCenter(point, 15);
     
 	var marker = new Eniro.Feature.PopupFeature(emap.getCenter(), {}, {
-	       popupContents: function() { return '<a href="visaenhet?hsaidentity='+hsaId+'">'+unitName+'</a><br/>'+caretypeCustomized+'<br/>' + phoneLabel+': ' +publicPhoneNumber + '<br/><a href="visaenhet?hsaidentity='+hsaId+'">'+showDetailsLabel+'</a><br/>'; },
+	       popupContents: function() { return '<b><a href="visaenhet?hsaidentity='+hsaId+'">'+unitName+'</a></b><br/>' + phoneLabel+': ' +publicPhoneNumber + '<br/><a href="visaenhet?hsaidentity='+hsaId+'">'+showDetailsLabel+'</a><br/>'; },
 	       mouseover: true
 	   });
     emap.addFeature(marker);

@@ -186,17 +186,16 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
 	                                    <span class="warning">Fältet "beskrivning" är tomt!</span>
 	                                </h:outputText>
 	
-	                                <div id="description-extend">
-	                                    <h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 400}">
-	                                        <div id="description-toggle-area" />
-	                                        <script type="text/javascript" charset="utf-8">
-	                                            // <![CDATA[]
-	                                            drawToggleDescription();
-	                                            // ]]>
-	                                        </script>
-	                                    </h:outputText>
-	                                </div>
-	                            </div>
+									<div id="description-extend">
+										<h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 400}">
+											<div id="description-toggle-area"></div>
+											<a onclick="toggleExtendDescription();" class="url" href="#">
+												<img src="resources/images/vgr/mer.png" alt="" id="description-toggle-image" />
+												<span id="toggle-extend-description-link-span"></span>
+											</a>
+										</h:outputText>
+									</div>
+								</div>
 							</h:outputText>
 
                             <div class="unit-details-header">
