@@ -92,18 +92,16 @@ function drawMarkerOnMap(xCoordinate, yCoordinate, hsaid, tel, careTypeName, nam
 			+ hsaid
 			+ '">'
 			+ name
-			+ '</a></b><br/>'
-			+ careTypeName
-			+ '<br/>Telefon: '
-			+ tel + '<br/>';
+			+ '</a></b></br>Telefon: '
+			+ tel + '</br>';
 		
 		if (distance != '') {
-			label += 'Avst&aring;nd till adress: ' + distance + ' km<br/>'
+			label += 'Avst&aring;nd till adress: ' + distance + ' km</br>'
 		}
 		
 		label += '<a href="visaenhet?hsaidentity=' + hsaid + '">Visa detaljer</a></span>';
 		var marker = new Eniro.Feature.PopupFeature(map.getCenter(), {}, {
-		       popupContents: function() { return label; },
+		       popupContents: label,
 		       mouseover: true
 		   });
 		map.addFeature(marker);
@@ -131,13 +129,12 @@ function showAddressByCoordinates(hsaid, lat, lon, tel, careTypeName, name,
     map.setCenter(point, 8);
     
     if(point){
-    var label = '<span style="font-size: 9px"><b><a href="visaenhet?hsaidentity='
+    var label = '<span style="font-size: 9px;">'
+    	+ '<b><a href="visaenhet?hsaidentity='
 		+ hsaid
 		+ '">'
 		+ name
-		+ '</a></b><br/>'
-		+ careTypeName
-		+ '<br/>Telefon: '
+		+ '</a></b><br/>Telefon: '
 		+ tel
 		+ '<br/>';
 	
@@ -148,7 +145,7 @@ function showAddressByCoordinates(hsaid, lat, lon, tel, careTypeName, name,
 	label += '<a href="visaenhet?hsaidentity=' + hsaid + '">Visa detaljer</a></span>';
 
 	var marker = new Eniro.Feature.PopupFeature(map.getCenter(), {}, {
-	       popupContents: function() { return label; },
+	       popupContents: label,
 	       mouseover: true
 	   });
     map.addFeature(marker);
@@ -236,13 +233,11 @@ function initAutocompleter() {
 	myAutoComp.itemSelectEvent.subscribe(itemSelectHandler);
 
 	var workingHandler = function(oSelf, sQuery, aResults) {
-		// document.getElementById('acIndicator').style.padding = '2.5em 0 0 0';
 		document.getElementById('acIndicator').style.display = 'inline';
 		document.getElementById('healthcare-selection').style.padding = "0";
 	};
 
 	var readyHandler = function(oSelf) {
-		// document.getElementById('acIndicator').style.padding = '0';
 		document.getElementById('acIndicator').style.display = 'none';
 		document.getElementById('healthcare-selection').style.padding = "2em 0 0 0";
 	};
@@ -253,7 +248,6 @@ function initAutocompleter() {
 		var sQuery = aArgs[1];
 		var aResults = aArgs[2];
 		if (aResults.length == 0) {
-			// document.getElementById('acIndicator').style.padding = '0';
 			document.getElementById('acIndicator').style.display = 'none';
 			document.getElementById('healthcare-selection').style.padding = "2em 0 0 0";
 		}

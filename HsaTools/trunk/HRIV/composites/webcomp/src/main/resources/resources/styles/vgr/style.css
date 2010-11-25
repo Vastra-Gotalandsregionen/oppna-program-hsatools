@@ -252,6 +252,37 @@ h3.fn {
 	width: 400px;
 }
 
+#description-toggle-area {
+}
+
+#description-toggle-image {
+	border:none;
+}
+#toggle-extend-description-link-span {
+}
+
+#description-body-short, #description-body-long {
+	border-bottom:solid 1px #9C132F;
+}
+
+#description-extend {
+	margin:0; float:left;
+}
+#description-extend img {
+	border:none;
+	margin:0;
+	padding:0;
+	margin-left:275px;
+}
+#description-extend a {
+	text-decoration:none;
+	margin:0;
+	padding:0;
+	float:left;
+	outline:none;
+	width:100px;
+}
+
 #map {
 	text-align: right;
 }
