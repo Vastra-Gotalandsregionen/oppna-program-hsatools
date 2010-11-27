@@ -67,7 +67,7 @@
 
 	<view-state id="Display.closeUnitsOnMap" view="/displayUnitSearchResult.xhtml">
 		<on-entry>
-			<evaluate expression="Search_SearchUnitFlowSupportBean.getCloseUnits(flowScope.displayCloseUnitsSimpleForm)" result="flowScope.coordinateUnits" />
+			<evaluate expression="Search_SearchUnitFlowSupportBean.getCloseUnits(flowScope.displayCloseUnitsSimpleForm)" result="flowScope.units" />
 			<evaluate expression="flowScope.displayCloseUnitsSimpleForm.setSearchFlag()" />
 		</on-entry>
 		<transition on="gotoStartpage" to="Display.startpage" />

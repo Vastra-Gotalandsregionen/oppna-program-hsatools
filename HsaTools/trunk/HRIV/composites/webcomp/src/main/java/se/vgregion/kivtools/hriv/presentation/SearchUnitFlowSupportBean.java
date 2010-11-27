@@ -386,16 +386,19 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @param form The form with the address to get close units for.
    * @return A list of Units that is within the distance of the address in the provided form.
    */
-  public ArrayList<Unit> getCloseUnits(DisplayCloseUnitsSimpleForm form) {
-    ArrayList<Unit> closeUnits = new ArrayList<Unit>();
+  public SikSearchResultList<Unit> getCloseUnits(DisplayCloseUnitsSimpleForm form) {
+    SikSearchResultList<Unit> result = new SikSearchResultList<Unit>();
     List<Unit> units = this.unitCacheService.getCache().getUnits();
     if (units.isEmpty()) {
       // Units are not set, probably because the unit population is not finished yet.
-      return closeUnits;
+      return result;
     }
 
     GeoUtil geoUtil = new GeoUtil();
-    closeUnits = geoUtil.getCloseUnits(form.getAddress(), units, this.meters, this.googleMapsKey);
-    return closeUnits;
+    ArrayList<Unit> closeUnits = geoUtil.getCloseUnits(form.getAddress(), units, this.meters, this.googleMapsKey);
+    result.addAll(closeUnits);
+    result.setTotalNumberOfFoundItems(closeUnits.size());
+
+    return result;
   }
 }

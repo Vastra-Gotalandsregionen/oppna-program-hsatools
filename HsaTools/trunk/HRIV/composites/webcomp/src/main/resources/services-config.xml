@@ -30,6 +30,7 @@
 	<bean id="Search_SearchUnitFlowSupportBean"
 		class="se.vgregion.kivtools.hriv.presentation.SearchUnitFlowSupportBean">
 		<property name="searchService" ref="Search_SearchService" />
+		<property name="unitCacheService" ref="unitCacheService" />
 		<property name="maxSearchResult" ref="Search_MaxSearchResult"></property>
 		<property name="pageSize" value="85"></property>
 		<property name="googleMapsKey" value="#{hsatools.hriv.webcomp.googleMapsKey}" />
