@@ -220,9 +220,10 @@ public class StringUtil {
    * Concatenates an arbitrary amount of strings into a nicely formatted concatenated string. Skips empty stringPart elements.
    * 
    * @param stringParts The list of strings to concatenate.
+   * @param separator The separator to use.
    * @return The concatenated strings.
    */
-  public static String concatenate(List<String> stringParts) {
+  public static String concatenate(List<String> stringParts, String separator) {
     StringBuilder concatenatedString = new StringBuilder();
     if (stringParts != null) {
 
@@ -238,12 +239,22 @@ public class StringUtil {
         if (stringPartsList.get(i) != null) {
           concatenatedString.append(stringPartsList.get(i).trim());
           if (i < stringPartsList.size() - 1 && stringPartsList.get(i + 1) != null) {
-            concatenatedString.append(", ");
+            concatenatedString.append(separator);
           }
         }
       }
     }
     return concatenatedString.toString();
+  }
+
+  /**
+   * Concatenates an arbitrary amount of strings into a nicely formatted concatenated string using comma as separator. Skips empty stringPart elements.
+   * 
+   * @param stringParts The list of strings to concatenate.
+   * @return The concatenated strings.
+   */
+  public static String concatenate(List<String> stringParts) {
+    return concatenate(stringParts, ", ");
   }
 
   /**

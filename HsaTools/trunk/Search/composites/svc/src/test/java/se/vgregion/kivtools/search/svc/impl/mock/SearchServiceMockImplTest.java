@@ -76,7 +76,7 @@ public class SearchServiceMockImplTest {
     assertEquals(0, persons.size());
 
     persons = this.searchService.searchPersons("and", 10);
-    assertEquals(1, persons.size());
+    assertEquals(6, persons.size());
   }
 
   @Test
@@ -147,7 +147,7 @@ public class SearchServiceMockImplTest {
   @Test
   public void testSearchPersonsSearchPersonCriterionsInt() throws KivException {
     SikSearchResultList<Person> persons = this.searchService.searchPersons((SearchPersonCriterions) null, 10);
-    assertEquals(3, persons.size());
+    assertEquals(23, persons.size());
   }
 
   @Test
@@ -169,6 +169,6 @@ public class SearchServiceMockImplTest {
   @Test
   public void testGetAllPersons() throws KivException {
     List<Person> allPersons = this.searchService.getAllPersons();
-    assertEquals(3, allPersons.size());
+    assertEquals(23, allPersons.size());
   }
 }

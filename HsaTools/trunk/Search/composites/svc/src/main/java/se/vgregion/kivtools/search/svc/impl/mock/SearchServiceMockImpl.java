@@ -38,6 +38,7 @@ import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
+import se.vgregion.kivtools.util.StringUtil;
 
 import com.domainlanguage.time.TimePoint;
 
@@ -95,27 +96,13 @@ public class SearchServiceMockImpl implements SearchService {
 
   @Override
   public Person getPersonById(String vgrId) throws KivException {
-    Person p = new Person();
-    if (vgrId.equalsIgnoreCase("anders1")) {
-      p.setGivenName("Anders");
-      p.setSn("Asplund");
-      p.setHsaMiddleName("Sandin");
-      p.setFullName("Anders Sandin Asplund");
-      p.setMail("anders.asplund@knowit.se");
-      p.setVgrId("anders1");
-    } else if (vgrId.equalsIgnoreCase("hangy2")) {
-      p.setGivenName("Hans");
-      p.setSn("Gyllensten");
-      p.setFullName("Hans Gyllensten");
-      p.setMail("hans.gyllensten@knowit.se");
-      p.setVgrId("hangy2");
+    Person p = null;
 
-    } else if (vgrId.equalsIgnoreCase("pj3")) {
-      p.setGivenName("Per-Johan");
-      p.setSn("Andersson");
-      p.setFullName("Per-Johan Andersson");
-      p.setMail("per.johan@andersson@knowit.se");
-      p.setVgrId("pj3");
+    for (Person person : this.personList) {
+      if (person.getVgrId().equalsIgnoreCase(vgrId)) {
+        p = person;
+        break;
+      }
     }
     return p;
   }
@@ -193,35 +180,40 @@ public class SearchServiceMockImpl implements SearchService {
   }
 
   private void initPersons(SikSearchResultList<Person> list) {
+    list.add(this.createPerson("Anders", "Sandin", "Asplund", "anders.asplund@knowit.se", "anders1", "anders1"));
+    list.add(this.createPerson("Hasse", "", "Asplöv", "hasse.asplov@knowit.se", "anders2", "anders2"));
+    list.add(this.createPerson("Pelle", "", "Aspkvist", "pelle.aspkvist@knowit.se", "anders3", "anders3"));
+    list.add(this.createPerson("Jonas", "", "Aspblad", "jonas.aspblad@knowit.se", "anders4", "anders4"));
+    list.add(this.createPerson("Nisse", "", "Aspgren", "nisse.aspgren@knowit.se", "anders5", "anders5"));
+    list.add(this.createPerson("Pecka", "", "Aspquist", "pecka.aspquist@knowit.se", "anders6", "anders6"));
+    list.add(this.createPerson("Hans", "", "Gyllensten", "hans.gyllensten@knowit.se", "hangy2", "hangy2"));
+    list.add(this.createPerson("Peo", "", "Gyllenkvist", "peo.gyllenkvist@knowit.se", "hangy3", "hangy3"));
+    list.add(this.createPerson("Jonathan", "", "Gyllengren", "jonathan.gyllengren@knowit.se", "hangy4", "hangy4"));
+    list.add(this.createPerson("Anna", "", "Gyllenhammar", "anna.gyllenhammar@knowit.se", "hangy5", "hangy5"));
+    list.add(this.createPerson("Niklas", "", "Gyllenblad", "niklas.gyllenblad@knowit.se", "hangy6", "hangy6"));
+    list.add(this.createPerson("Petrov", "", "Gyllelöv", "petrov.gyllenlov@knowit.se", "hangy7", "hangy7"));
+    list.add(this.createPerson("Per-Johan", "", "Andersson", "per.johan.andersson@knowit.se", "cn=ulfsa3,ou=Personal,o=vgr", "pj3"));
+    list.add(this.createPerson("Per-Olof", "", "Anderssen", "per.olof.anderssen@knowit.se", "cn=ulfsa4,ou=Personal,o=vgr", "pj4"));
+    list.add(this.createPerson("Joakim", "", "Anderson", "joakim.anderson@knowit.se", "cn=ulfsa5,ou=Personal,o=vgr", "pj5"));
+    list.add(this.createPerson("Anton", "", "Andersen", "anton.andersen@knowit.se", "cn=ulfsa6,ou=Personal,o=vgr", "pj6"));
+    list.add(this.createPerson("Nicklas", "", "Anderssund", "nicklas.anderssund@knowit.se", "cn=ulfsa7,ou=Personal,o=vgr", "pj7"));
+    list.add(this.createPerson("Pierre", "", "Anderslind", "pierre.anderslind@knowit.se", "cn=ulfsa8,ou=Personal,o=vgr", "pj8"));
+    list.add(this.createPerson("Susanna", "", "Anderslind", "susanna.anderslind@knowit.se", "cn=ulfsa9,ou=Personal,o=vgr", "pj9"));
+    list.add(this.createPerson("Susanne", "", "Anderslind", "susanne.anderslind@knowit.se", "cn=ulfs10,ou=Personal,o=vgr", "pj10"));
+    list.add(this.createPerson("Susan", "", "Anderslind", "susan.anderslind@knowit.se", "cn=ulfs11,ou=Personal,o=vgr", "pj11"));
+    list.add(this.createPerson("Sanna", "", "Anderslind", "sanna.anderslind@knowit.se", "cn=ulfs12,ou=Personal,o=vgr", "pj12"));
+    list.add(this.createPerson("Ann-Sofie", "", "Anderslind", "ann.sofie.anderslind@knowit.se", "cn=ulfs13,ou=Personal,o=vgr", "pj13"));
+  }
+
+  private Person createPerson(String givenName, String middleName, String surname, String email, String dn, String vgrId) {
     Person p = new Person();
-
-    p.setGivenName("Anders");
-    p.setSn("Asplund");
-    p.setHsaMiddleName("Sandin");
-    p.setFullName("Anders Sandin Asplund");
-    p.setMail("anders.asplund@knowit.se");
-    p.setDn("anders1");
-    p.setVgrId("anders1");
-    list.add(p);
-
-    p = new Person();
-    p.setGivenName("Hans");
-    p.setSn("Gyllensten");
-    p.setFullName("Hans Gyllensten");
-    p.setMail("hans.gyllensten@knowit.se");
-    p.setDn("hangy2");
-    p.setVgrId("hangy2");
-    list.add(p);
-
-    p = new Person();
-    p.setGivenName("Per-Johan");
-    p.setSn("Andersson");
-    p.setFullName("Per-Johan Andersson");
-    p.setMail("per.johan@andersson@knowit.se");
-    p.setDn("pj3");
-    p.setVgrId("pj3");
-    p.setDn("cn=ulfsa3,ou=Personal,o=vgr");
-    list.add(p);
+    p.setGivenName(givenName);
+    p.setSn(surname);
+    p.setFullName(StringUtil.concatenate(Arrays.asList(givenName, middleName, surname), " "));
+    p.setMail(email);
+    p.setDn(dn);
+    p.setVgrId(vgrId);
+    return p;
   }
 
   private void initUnits(SikSearchResultList<Unit> list) {
@@ -230,9 +222,6 @@ public class SearchServiceMockImpl implements SearchService {
         + "In hac habitasse platea dictumst. Donec nec aliquam leo. Sed dui lorem, aliquam id placerat id, posuere sed metus. "
         + "Integer feugiat ultrices nisl at congue. Sed at posuere lorem. Class aptent taciti sociosqu ad litora torquent per "
         + "conubia nostra, per inceptos himenaeos. Phasellus at turpis mi. Praesent sit amet diam diam. Integer in dolor sed erat dapibus malesuada quis eu nulla.");
-    List<String> a;
-    List<PhoneNumber> p;
-
     u = new Unit();
     u.setName("VGR IT");
     u.setHsaIdentity("ABC001");

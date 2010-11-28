@@ -495,6 +495,16 @@ div.autocomplete {
 }
 
 /*--------------- END YUI AC */
+
+/* Person search, lower z-index for elements further down the page */
+#givenName_container {
+	z-index: 9005;
+}
+
+#surname_container {
+	z-index: 9004;
+}
+
 #administration_container {
 	z-index: 9003;
 }
@@ -509,6 +519,11 @@ div.autocomplete {
 
 #languageKnowledge_container {
 	z-index: 9000;
+}
+
+/* Unit search, lower z-index for elements further down the page */
+#unitName_container {
+	z-index: 9001;
 }
 
 #businessClassificationName_container {
