@@ -19,7 +19,10 @@
 
 package se.vgregion.kivtools.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -144,7 +147,7 @@ public class StringUtilTest {
 
     assertEquals("Empty string expected for null String values", "", StringUtil.concatenate("", null));
     assertEquals("Empty string expected for null String values", "", StringUtil.concatenate(null, null));
-    assertEquals("Empty string expected for null String values", "Göteborg", StringUtil.concatenate(null, "Göteborg"));
+    assertEquals("Empty string expected for null String values", "Göteborg", StringUtil.concatenate((String) null, "Göteborg"));
     assertEquals("Empty string expected for null String values", "Göteborg", StringUtil.concatenate("Göteborg", null));
     assertEquals("Empty string expected for null String values", "Göteborg", StringUtil.concatenate("Göteborg", null, null, null));
 
