@@ -51,20 +51,20 @@
 
 		<!--
 			To change from Test to prod, change test to id in the following urls
-		<property name="serviceUrl"
-			value="https://id.signicat.com/std/method/vgr?method=sign" />
 	    -->
 		<property name="serviceUrl"
-			value="http://kivsearch.vgregion.se:8080/testtools/Sign.jsp?method=sign" />
+			value="https://id.signicat.com/std/method/vgr?method=sign" />
 		<!--
+		<property name="serviceUrl"
+			value="http://kivsearch.vgregion.se:8080/testtools/Sign.jsp?method=sign" />
 		-->
 			
-		<!--
 		<property name="signatureServiceEndpoint"
 			value="https://id.signicat.com/signatureservice/services/signatureservice" />
-		-->
+		<!--
 		<property name="signatureServiceEndpoint"
 			value="http://kivsearch.vgregion.se:8080/testtools/ws/signatureservice/services/signatureservice" />
+		-->
 
 		<property name="vardValService" ref="Registration_vardValService" />
 		<property name="searchService" ref="Search_SearchService" />

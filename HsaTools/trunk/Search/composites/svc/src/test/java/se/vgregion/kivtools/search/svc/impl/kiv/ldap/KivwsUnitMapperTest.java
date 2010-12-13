@@ -93,13 +93,19 @@ public class KivwsUnitMapperTest {
     this.kivwsUnitMapper.mapFromContext(new String());
   }
 
+  @Test
+  public void geoCoordinateIsSetAlongWithWGS84Coordinates() {
+    Unit kivwsUnitResult = this.kivwsUnitMapper.mapFromContext(kivwsObject.getUnit().get(0));
+    assertNotNull("geoCoordinate", kivwsUnitResult.getGeoCoordinate());
+  }
+
   private void assertResult(Unit kivLdapUnitResult, Unit kivwsUnitResult) {
     assertNotNull(kivLdapUnitResult);
     assertNotNull(kivwsUnitResult);
-    // assertTrue("KivLdapUnit is not equal KivwsUnit",comapreUnits(kivwsUnitResult, kivLdapUnitResult));
+    // assertTrue("KivLdapUnit is not equal KivwsUnit",compareUnits(kivwsUnitResult, kivLdapUnitResult));
   }
 
-  private boolean comapreUnits(Unit kivwsUnit, Unit kivLdapUnit) {
+  private boolean compareUnits(Unit kivwsUnit, Unit kivLdapUnit) {
     if (kivLdapUnit.getAccessibilityDatabaseId() == null) {
       if (kivwsUnit.getAccessibilityDatabaseId() != null) {
         return false;

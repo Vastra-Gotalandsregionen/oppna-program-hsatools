@@ -19,6 +19,9 @@
 
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
+import geo.google.datamodel.GeoAltitude;
+import geo.google.datamodel.GeoCoordinate;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -201,6 +204,7 @@ public class KivwsUnitMapper implements ContextMapper {
 
         unit.setWgs84Lat(wgs84Coords[0]);
         unit.setWgs84Long(wgs84Coords[1]);
+        unit.setGeoCoordinate(new GeoCoordinate(wgs84Coords[1], wgs84Coords[0], new GeoAltitude()));
       }
     }
   }
