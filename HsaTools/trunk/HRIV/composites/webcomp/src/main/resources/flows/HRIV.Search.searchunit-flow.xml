@@ -31,7 +31,6 @@
 	<var name="accessibilityDatabaseFilterForm" class="se.vgregion.kivtools.hriv.presentation.forms.AccessibilityDatabaseFilterForm" />
 	<var name="errorReportingForm" class="se.vgregion.kivtools.hriv.presentation.forms.ErrorReportingForm" />
 	<var name="units" class="java.util.ArrayList" />
-	<var name="coordinateUnits" class="java.util.ArrayList" />
 	
 	<input name="hsaidentity" />
 	<input name="dn" />

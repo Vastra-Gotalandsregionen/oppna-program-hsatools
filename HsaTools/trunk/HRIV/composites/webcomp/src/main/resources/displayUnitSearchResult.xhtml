@@ -48,7 +48,7 @@
 	<ui:define name="HrivCaptions">
 		<div id="hits-type-caption">
 			<div id="type-caption">
-				<h:outputText rendered="${(displayCloseUnitsSimpleForm.searchFlag == true and fn:length(coordinateUnits) gt 0) or (displayCloseUnitsSimpleForm.searchFlag == false and fn:length(units) gt 0)}">
+				<h:outputText rendered="${(displayCloseUnitsSimpleForm.searchFlag == true and fn:length(units) gt 0) or (displayCloseUnitsSimpleForm.searchFlag == false and fn:length(units) gt 0)}">
 					<h:outputText rendered="${Search_SettingsContainer.usePrinting==true and unitSearchSimpleForm.resultType gt 1}">
 						<script type="text/javascript" charset="utf-8">
 							// <![CDATA[
@@ -73,7 +73,7 @@
 				</h:outputText>
 				<h:outputText rendered="${fn:length(units) gt 0 or displayCloseUnitsSimpleForm.searchFlag == true}">
 					<div id="about-searchinformation-container">
-						<h2><strong><h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == true}">${fn:length(coordinateUnits)}</h:outputText>
+						<h2><strong><h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == true}">${fn:length(units)}</h:outputText>
 						<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == false}">${units.getTotalNumberOfFoundItems()}</h:outputText></strong> ${msg.hits}</h2>
 					</div>
 				</h:outputText>
@@ -89,7 +89,7 @@
 
 		<div id="print-area">
 			<div class="search-result">
-				<h:outputText rendered="${fn:length(units) gt 0 or fn:length(coordinateUnits) gt 0}">
+				<h:outputText rendered="${fn:length(units) gt 0 or fn:length(units) gt 0}">
 					<h:outputText rendered="${unitSearchSimpleForm.resultType gt 1}">
 						<div id="search-result-container-map">
 							<div id="spinner-div" class="spin-div">
@@ -101,7 +101,7 @@
 								<script type="text/javascript" charset="utf-8">
 									<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == true}">
 										// <![CDATA[
-										var map = initGMap('${fn:length(coordinateUnits)}');							
+										var map = initGMap('${fn:length(units)}');							
 										// ]]>
 									</h:outputText>
 									<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == false}">
@@ -113,7 +113,7 @@
 								
 								<script type="text/javascript" charset="utf-8" defer="defer">
 									<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == true}">
-										<ui:repeat value="${coordinateUnits}" var="theUnit">
+										<ui:repeat value="${units}" var="theUnit">
 								           	<h:outputText rendered="${theUnit.wgs84Lat!=0.0}">
 											// <![CDATA[
 												showAddressByCoordinates('${fn:trim(theUnit.hsaIdentity)}', '${theUnit.wgs84Lat}', '${theUnit.wgs84Long}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '${theUnit.distanceToTarget}', 'false', map);
