@@ -43,6 +43,7 @@ public final class PhoneNumber implements Serializable, Comparable<PhoneNumber>,
   // Define all two- and three digit area codes. Any area code not defined in
   // the set is supposed to be a four digit area code.
   static {
+    LOCAL_AREA_CODES.add("010");
     LOCAL_AREA_CODES.add("011");
     LOCAL_AREA_CODES.add("013");
     LOCAL_AREA_CODES.add("016");
