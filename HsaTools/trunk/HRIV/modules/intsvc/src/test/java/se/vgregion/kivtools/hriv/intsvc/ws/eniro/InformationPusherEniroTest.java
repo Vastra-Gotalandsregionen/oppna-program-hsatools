@@ -19,7 +19,8 @@
 
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -46,15 +47,17 @@ import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.EniroOrganisationBuilder;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition.UnitType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroConfigurationVGR;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.UnitFetcherVGR;
 import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.util.StringUtil;
 import se.vgregion.kivtools.util.dom.DocumentHelper;
 
 public class InformationPusherEniroTest {
-  private InformationPusherEniro informationPusher = new InformationPusherEniro();;
-  private FtpClientMock mockFtpClient = new FtpClientMock();
-  private LdapTemplateMock ldapTemplateMock = new LdapTemplateMock();
-  private EmptyLdapTemplate emptyLdapTemplate = new EmptyLdapTemplate();
+  private final InformationPusherEniro informationPusher = new InformationPusherEniro();;
+  private final FtpClientMock mockFtpClient = new FtpClientMock();
+  private final LdapTemplateMock ldapTemplateMock = new LdapTemplateMock();
+  private final EmptyLdapTemplate emptyLdapTemplate = new EmptyLdapTemplate();
   private static LogFactoryMock logFactoryMock;
 
   @BeforeClass
@@ -69,11 +72,10 @@ public class InformationPusherEniroTest {
     eniroOrganisationBuilder.setCareCenter("Vårdcentral");
     eniroOrganisationBuilder.setOtherCare("Övrig primärvård");
 
-    informationPusher.setLdapTemplate(ldapTemplateMock);
-    informationPusher.setFtpClient(mockFtpClient);
-    informationPusher.setEniroOrganisationBuilder(eniroOrganisationBuilder);
-    informationPusher.setAllowedUnitBusinessClassificationCodes(new String[] { "1", "2" });
-    informationPusher.setOtherCareTypeBusinessCodes(new String[] { "3", "4" });
+    this.informationPusher.setUnitFetcher(new UnitFetcherVGR(this.ldapTemplateMock, new String[] { "1", "2" }, new String[] { "3", "4" }));
+    this.informationPusher.setFtpClient(this.mockFtpClient);
+    this.informationPusher.setEniroOrganisationBuilder(eniroOrganisationBuilder);
+    this.informationPusher.setEniroConfiguration(new EniroConfigurationVGR());
   }
 
   @AfterClass
@@ -83,8 +85,8 @@ public class InformationPusherEniroTest {
 
   @Test
   public void testDoService() throws XPathExpressionException {
-    informationPusher.doService();
-    String fileContent = mockFtpClient.getFileContent("Vastra Gotalandsregionen Goteborg");
+    this.informationPusher.doService();
+    String fileContent = this.mockFtpClient.getFileContent("Vastra Gotalandsregionen Goteborg");
     Document document = DocumentHelper.getDocumentFromString(fileContent);
 
     XPath xPath = XPathFactory.newInstance().newXPath();
@@ -96,21 +98,21 @@ public class InformationPusherEniroTest {
     nodes = (NodeList) expression.evaluate(document, XPathConstants.NODESET);
     assertEquals(2, nodes.getLength());
 
-    fileContent = mockFtpClient.getFileContent("Vastra Gotalandsregionen Boras");
+    fileContent = this.mockFtpClient.getFileContent("Vastra Gotalandsregionen Boras");
     document = DocumentHelper.getDocumentFromString(fileContent);
 
     expression = xPath.compile("//Organization/Unit[child::Locality[text() = 'Borås']]");
     nodes = (NodeList) expression.evaluate(document, XPathConstants.NODESET);
     assertEquals(2, nodes.getLength());
 
-    fileContent = mockFtpClient.getFileContent("Vastra Gotalandsregionen Uddevalla");
+    fileContent = this.mockFtpClient.getFileContent("Vastra Gotalandsregionen Uddevalla");
     document = DocumentHelper.getDocumentFromString(fileContent);
 
     expression = xPath.compile("//Organization/Unit[child::Locality[text() = 'Uddevalla']]");
     nodes = (NodeList) expression.evaluate(document, XPathConstants.NODESET);
     assertEquals(2, nodes.getLength());
 
-    fileContent = mockFtpClient.getFileContent("Vastra Gotalandsregionen Skovde");
+    fileContent = this.mockFtpClient.getFileContent("Vastra Gotalandsregionen Skovde");
     document = DocumentHelper.getDocumentFromString(fileContent);
 
     expression = xPath.compile("//Organization/Unit[child::Locality[text() = 'Skövde']]");
@@ -122,15 +124,15 @@ public class InformationPusherEniroTest {
 
   @Test
   public void testExceptionHandling() {
-    mockFtpClient.returnValue = false;
-    informationPusher.doService();
+    this.mockFtpClient.returnValue = false;
+    this.informationPusher.doService();
     assertEquals("Unit details pusher: Completed with failure.\n", logFactoryMock.getError(true));
   }
 
   @Test
   public void countryIdAndNameOfOrganisationIsPopulated() throws XPathExpressionException {
-    informationPusher.doService();
-    String fileContent = mockFtpClient.getFileContent("Vastra Gotalandsregionen Goteborg");
+    this.informationPusher.doService();
+    String fileContent = this.mockFtpClient.getFileContent("Vastra Gotalandsregionen Goteborg");
     Document document = DocumentHelper.getDocumentFromString(fileContent);
 
     XPath xPath = XPathFactory.newInstance().newXPath();
@@ -149,8 +151,8 @@ public class InformationPusherEniroTest {
 
   @Test
   public void emptyTagsAreNotCreated() throws XPathExpressionException {
-    informationPusher.doService();
-    String fileContent = mockFtpClient.getFileContent("Vastra Gotalandsregionen Goteborg");
+    this.informationPusher.doService();
+    String fileContent = this.mockFtpClient.getFileContent("Vastra Gotalandsregionen Goteborg");
     Document document = DocumentHelper.getDocumentFromString(fileContent);
 
     XPath xPath = XPathFactory.newInstance().newXPath();
@@ -161,10 +163,10 @@ public class InformationPusherEniroTest {
 
   @Test
   public void noFileIsSentIfNoUnitsAreFound() {
-    informationPusher.setLdapTemplate(emptyLdapTemplate);
+    this.informationPusher.setUnitFetcher(new UnitFetcherVGR(this.emptyLdapTemplate, new String[] { "1", "2" }, new String[] { "3", "4" }));
 
-    informationPusher.doService();
-    String fileContent = mockFtpClient.getFileContent("Vastra Gotalandsregionen Goteborg");
+    this.informationPusher.doService();
+    String fileContent = this.mockFtpClient.getFileContent("Vastra Gotalandsregionen Goteborg");
     assertNull("fileContent", fileContent);
   }
 
@@ -187,7 +189,7 @@ public class InformationPusherEniroTest {
   // Mocks
 
   private static class FtpClientMock implements FtpClient {
-    private Map<String, String> fileContent = new HashMap<String, String>();
+    private final Map<String, String> fileContent = new HashMap<String, String>();
     private boolean returnValue = true;
 
     @Override
@@ -203,7 +205,7 @@ public class InformationPusherEniroTest {
 
   private static class LdapTemplateMock extends se.vgregion.kivtools.mocks.ldap.LdapTemplateMock {
     @Override
-    public List search(String base, String filter, int searchScope, ContextMapper mapper) {
+    public List<?> search(String base, String filter, int searchScope, ContextMapper mapper) {
       assertEquals(SearchControls.SUBTREE_SCOPE, searchScope);
       List<UnitComposition> unitslist = Arrays.asList(createUnit("unit1", "unit1-id", "ou=unit1,ou=org,o=VGR", UnitType.CARE_CENTER, null),
           createUnit("unit2", "unit2-id", "ou=unit2,ou=unit1,ou=org,o=VGR", UnitType.OTHER_CARE, "Göteborg"));
@@ -214,7 +216,7 @@ public class InformationPusherEniroTest {
 
   private static class EmptyLdapTemplate extends se.vgregion.kivtools.mocks.ldap.LdapTemplateMock {
     @Override
-    public List search(String base, String filter, int searchScope, ContextMapper mapper) {
+    public List<?> search(String base, String filter, int searchScope, ContextMapper mapper) {
       return Collections.emptyList();
     }
   }

@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.hriv.intsvc.ldap.eniro;
+package se.vgregion.kivtools.hriv.intsvc.ldap.eniro.vgr;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +34,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextOperations;
 
+import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition.UnitType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.AddressType.GeoCoordinates;
@@ -51,14 +52,14 @@ import se.vgregion.kivtools.util.StringUtil;
  * @author David Bennehult & Joakim Olsson
  * 
  */
-public class EniroUnitMapper implements ContextMapper {
+public class EniroUnitMapperVGR implements ContextMapper {
   private List<String> nonCareCenter;
 
   /**
    * 
    * @param businessClassificationCodes for select non care centers.
    */
-  public EniroUnitMapper(List<String> businessClassificationCodes) {
+  public EniroUnitMapperVGR(List<String> businessClassificationCodes) {
     this.nonCareCenter = businessClassificationCodes;
   }
 

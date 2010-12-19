@@ -71,14 +71,20 @@
 		<property name="otherCare" value="${otherCareLabel}" />
 	</bean>
 
+	<bean id="eniroConfig" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroConfigurationVGR" />
+	
+	<bean id="unitFetcher" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.UnitFetcherVGR">
+		<constructor-arg ref="ldapTemplate" />
+		<constructor-arg value="${allowedUnitBusinessClassificationCodes}" />
+		<constructor-arg value="${businessCodesForOtherCareTypes}" />
+	</bean>
+
 	<bean id="Push_Eniro"
 		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro">
+		<property name="unitFetcher" ref="unitFetcher" />
 		<property name="ftpClient" ref="Transfer_ftp" />
-		<property name="ldapTemplate" ref="ldapTemplate" />
-		<property name="allowedUnitBusinessClassificationCodes"
-			value="${allowedUnitBusinessClassificationCodes}" />
-		<property name="otherCareTypeBusinessCodes" value="${businessCodesForOtherCareTypes}" />
 		<property name="eniroOrganisationBuilder" ref="eniroOrganisationBuilder" />
+		<property name="eniroConfiguration" ref="eniroConfig" />
 	</bean>
 
 	<bean id="jobDetailUnitDetailsPusher"
