@@ -41,9 +41,9 @@ import org.springframework.ldap.filter.Filter;
 import org.springframework.ldap.filter.OrFilter;
 
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.EniroOrganisationBuilder;
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.EniroUnitMapper;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.KivLdapFilterHelper;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
+import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.vgr.EniroUnitMapperVGR;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Organization;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
 import se.vgregion.kivtools.mocks.LogFactoryMock;
@@ -160,7 +160,7 @@ public class OrganisationPrinterTest {
     }
     orBusinessCodes.or(healthcareTypeFilter);
     andFilter.and(orBusinessCodes);
-    EniroUnitMapper eniroUnitMapper = new EniroUnitMapper(Arrays.asList("1519", "1413", "1505", "1504", "1411", "1121", "1516", "1109", "1402", "150", "1507", "1413", "1402", "1403"));
+    EniroUnitMapperVGR eniroUnitMapper = new EniroUnitMapperVGR(Arrays.asList("1519", "1413", "1505", "1504", "1411", "1121", "1516", "1109", "1402", "150", "1507", "1413", "1402", "1403"));
     @SuppressWarnings("unchecked")
     List<UnitComposition> unitsList = ldapTemplate.search("", andFilter.encode(), SearchControls.SUBTREE_SCOPE, eniroUnitMapper);
     return unitsList;

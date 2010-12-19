@@ -26,6 +26,7 @@ import org.springframework.ldap.core.LdapTemplate;
 
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClient;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.UnitFetcherVGR;
 
 public class LdapEniroIntergrationTest {
 
@@ -38,13 +39,13 @@ public class LdapEniroIntergrationTest {
     LdapTemplate ldapTemplate = (LdapTemplate) applicationContext.getBean("ldapTemplateOrganisation");
     InformationPusherEniro informationPusherEniro = new InformationPusherEniro();
     ldapTemplate.afterPropertiesSet();
-    informationPusherEniro.setLdapTemplate(ldapTemplate);
-    ftpClientMock clientMock = new LdapEniroIntergrationTest().new ftpClientMock();
+    informationPusherEniro.setUnitFetcher(new UnitFetcherVGR(ldapTemplate, null, null));
+    FtpClientMock clientMock = new LdapEniroIntergrationTest().new FtpClientMock();
     informationPusherEniro.setFtpClient(clientMock);
     informationPusherEniro.doService();
   }
 
-  class ftpClientMock implements FtpClient {
+  class FtpClientMock implements FtpClient {
 
     String fileContent;
 

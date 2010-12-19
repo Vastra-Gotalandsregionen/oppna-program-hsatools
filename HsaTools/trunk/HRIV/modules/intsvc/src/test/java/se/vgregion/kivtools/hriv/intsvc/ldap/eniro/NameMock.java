@@ -24,11 +24,11 @@ import java.util.Enumeration;
 import javax.naming.InvalidNameException;
 import javax.naming.Name;
 
-class NameMock implements Name {
+public class NameMock implements Name {
 
   String value;
 
-  NameMock(String value) {
+  public NameMock(String value) {
     this.value = value;
   }
 
@@ -114,6 +114,6 @@ class NameMock implements Name {
 
   @Override
   public String toString() {
-    return value;
+    return this.value;
   }
 }
