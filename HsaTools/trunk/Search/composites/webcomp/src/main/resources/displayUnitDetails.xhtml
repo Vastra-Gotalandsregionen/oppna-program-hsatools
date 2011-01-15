@@ -57,14 +57,14 @@
 						<div class="tab">
 							<div class="tab-hd"><h3>Extern beskrivning</h3></div>
 								<div class="tab-bd">
-									<div class="description">
+									<div class="external-description">
 										<h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 0}">
-											<div name="description-body-short">
+											<div id="external-description-body-short">
 												<h:outputText value="${fn:substring(unit.concatenatedDescription, 0, 400)}..." rendered="${fn:length(unit.concatenatedDescription) gt 400}" />
 												<h:outputText value="${unit.concatenatedDescription}" rendered="${fn:length(unit.concatenatedDescription) lt 401}" />
 											</div>
 											
-											<div name="description-body-long" style="display: none;">
+											<div id="external-description-body-long" style="display: none;">
 												<h:outputText value="${unit.concatenatedDescription}" />
 											</div>
 										</h:outputText>
@@ -73,12 +73,12 @@
 											<span class="warning">Fältet "beskrivning" är tomt!</span>
 					                    </h:outputText>  
 						             	
-										<div name="description-extend">
+										<div id="external-description-extend">
 							               	<h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 400}">
-												<div name="description-toggle-area" />
+												<div id="external-description-toggle-area" />
 												<script type="text/javascript" charset="utf-8">
-													// <![CDATA[]
-														drawToggleDescription();
+													// <![CDATA[
+														drawToggleDescription("external-description");
 													// ]]>
 												</script>
 											</h:outputText>
@@ -90,16 +90,16 @@
 					<!-- Show tab with internal information -->
 					<h:outputText rendered="${fn:length(unit.internalConcatenatedDescription) gt 0}">
 						<div class="tab">
-							<div class="tab-hd"><h3>Intern beskrivning</h3></div>
+							<div class="tab-hd" style="border-bottom: 1px solid #DDD;"><h3>Intern beskrivning</h3></div>
 								<div class="tab-bd">
-									<div class="description">
+									<div class="internal-description">
 										<h:outputText rendered="${fn:length(unit.internalConcatenatedDescription) gt 0}">
-											<div name="description-body-short">
+											<div id="internal-description-body-short">
 												<h:outputText value="${fn:substring(unit.internalConcatenatedDescription, 0, 400)}..." rendered="${fn:length(unit.internalConcatenatedDescription) gt 400}" />
 												<h:outputText value="${unit.internalConcatenatedDescription}" rendered="${fn:length(unit.internalConcatenatedDescription) lt 401}" />
 											</div>
 											
-											<div name="description-body-long" style="display: none;">
+											<div id="internal-description-body-long" style="display: none;">
 												<h:outputText value="${unit.internalConcatenatedDescription}" />
 											</div>
 										</h:outputText>
@@ -108,12 +108,12 @@
 											<span class="warning">Fältet "beskrivning" är tomt!</span>
 					                    </h:outputText>  
 						             	
-										<div name="description-extend">
+										<div id="internal-description-extend">
 							               	<h:outputText rendered="${fn:length(unit.internalConcatenatedDescription) gt 400}">
-												<div name="description-toggle-area" />
+												<div id="internal-description-toggle-area" />
 												<script type="text/javascript" charset="utf-8">
-													// <![CDATA[]
-														drawToggleDescription();
+													// <![CDATA[
+														drawToggleDescription("internal-description");
 													// ]]>
 												</script>
 											</h:outputText>
