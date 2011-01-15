@@ -40,7 +40,7 @@ import se.vgregion.kivtools.util.time.TimeUtil.DateTimeFormat;
 public class EmploymentRepository {
   // Get LDAP entries that have hsaEndDate greater or equal current date and hsaStartDate less or equal current
   // date.
-  private static final String ALL_EMPLOYMENT_FILTER = "(&(objectclass=vgrAnstallning)(|(!(hsaEndDate=*))(hsaEndDate>=%1$s))(|(hsaStartDate<=%1$s)(!(hsaStartDate=*))))";
+  private static final String ALL_EMPLOYMENT_FILTER = "(&(objectclass=vgrAnstallning)(|(!(hsaEndDate=*))(hsaEndDate>=%1$s))(|(hsaStartDate<=%2$s)(!(hsaStartDate=*))))";
 
   // private LdapConnectionPool theConnectionPool;
   private CodeTablesService codeTablesService;
@@ -79,8 +79,8 @@ public class EmploymentRepository {
    */
   private String generateLDAPFilter() {
     String zuluTime = TimeUtil.getCurrentTimeFormatted(DateTimeFormat.ZULU_TIME);
-    String zuluTimeResetTime = zuluTime.substring(0, 8).concat("000000Z");
-    String filterString = String.format(ALL_EMPLOYMENT_FILTER, zuluTimeResetTime);
-    return filterString;
+    String zuluTimeStartTime = zuluTime.substring(0, 8).concat("000000Z");
+    String zuluTimeEndTime = zuluTime.substring(0, 8).concat("235959Z");
+    return String.format(ALL_EMPLOYMENT_FILTER, zuluTimeEndTime, zuluTimeStartTime);
   }
 }
