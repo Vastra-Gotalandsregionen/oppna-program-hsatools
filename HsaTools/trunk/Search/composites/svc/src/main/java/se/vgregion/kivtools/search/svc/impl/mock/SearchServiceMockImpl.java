@@ -227,6 +227,7 @@ public class SearchServiceMockImpl implements SearchService {
     u.setHsaIdentity("ABC001");
     u.setLocality("Göteborg");
     u.addDescription(description);
+    u.addInternalDescription(description);
     u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
     u.setHsaManagementText("Offentlig vårdgivare");
     u.setHsaVisitingRuleAge("0-60");
@@ -250,6 +251,7 @@ public class SearchServiceMockImpl implements SearchService {
     u.setName("Sahlgrenska Sjukhuset");
     u.setLocality("Göteborg");
     u.addDescription(description);
+    u.addInternalDescription(description);
     u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
     u.setHsaManagementText("Offentlig vårdgivare");
     u.setHsaVisitingRuleAge("0-60");
@@ -273,6 +275,7 @@ public class SearchServiceMockImpl implements SearchService {
     u.setName("Uddevalla vårdcentral");
     u.setLocality("Uddevalla");
     u.addDescription(description);
+    u.addInternalDescription(description);
     u.setVgrTempInfo("20090108-20990118 temporary information");
     u.setVgrRefInfo("Hänvisning till baksidan");
     u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));

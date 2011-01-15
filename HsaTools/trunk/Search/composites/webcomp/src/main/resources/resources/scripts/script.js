@@ -34,26 +34,25 @@ function changeStyleClass(container, classname) {
 	container.className = classname;
 }
 
-function toggleExtendDescription() {
-	var elements = document.getElementsByName("description-body-long");
+function toggleExtendDescription(base) {
+	var element = document.getElementById(base + "-body-long");
 
-	for ( var i = 0; i < elements.length; i++) {
-		if (elements[i].style.display == 'none') {
-			document.getElementsByName("toggle-extend-description-link-span")[i].innerHTML = "Minimera beskrivning av mottagning";
-			document.getElementsByName("description-toggle-image")[i].src = "resources/images/bullet_toggle_minus.png";
-			document.getElementsByName("description-body-long")[i].style.display = "block";
-			document.getElementsByName("description-body-short")[i].style.display = "none";
+	if (element != undefined) {
+		if (element.style.display == 'none') {
+			document.getElementById(base + "-toggle-extend-link-span").innerHTML = "Minimera beskrivning av mottagning";
+			document.getElementById(base + "-toggle-image").src = "resources/images/bullet_toggle_minus.png";
+			document.getElementById(base + "-body-long").style.display = "block";
+			document.getElementById(base + "-body-short").style.display = "none";
 		} else {
-			document.getElementsByName("description-toggle-image")[i].src = "resources/images/bullet_toggle_plus.png";
-			document.getElementsByName("toggle-extend-description-link-span")[i].innerHTML = "Utöka beskrivning av mottagning";
-			document.getElementsByName("description-body-short")[i].style.display = "block";
-			document.getElementsByName("description-body-long")[i].style.display = "none";
+			document.getElementById(base + "-toggle-image").src = "resources/images/bullet_toggle_plus.png";
+			document.getElementById(base + "-toggle-extend-link-span").innerHTML = "Utöka beskrivning av mottagning";
+			document.getElementById(base + "-body-short").style.display = "block";
+			document.getElementById(base + "-body-long").style.display = "none";
 		}
 	}
 }
 
 function toggleAdvancedSearch() {
-
 	var advancedPersonSearch = document.getElementById("advanced_search");
 	if (advancedPersonSearch.style.display == "none" || advancedPersonSearch.style.display == '') {
 		 advancedPersonSearch.style.display = "block";

@@ -150,11 +150,10 @@ function highlightMatch(full, snippet, matchindex) {
 			+ full.substring(matchindex + snippet.length);
 }
 
-function drawToggleDescription() {
-	var e = document.getElementsByName("description-toggle-area");
-	for ( var i = 0; i < e.length; i++) {
-		if (e[i].innerHTML != null)
-			e[i].innerHTML = '<a href="#" class="url" onclick="toggleExtendDescription();"><img name="description-toggle-image" alt="" src="resources/images/bullet_toggle_plus.png"/><span name="toggle-extend-description-link-span">Utöka beskrivning om mottagning</span></a>';
+function drawToggleDescription(base) {
+	var e = document.getElementById(base + "-toggle-area");
+	if (e.innerHTML != null) {
+		e.innerHTML = '<a href="#" class="url" onclick="toggleExtendDescription(\'' + base + '\');"><img id="' + base + '-toggle-image" alt="" src="resources/images/bullet_toggle_plus.png"/><span id="' + base + '-toggle-extend-link-span">Utöka beskrivning om mottagning</span></a>';
 	}
 }
 
