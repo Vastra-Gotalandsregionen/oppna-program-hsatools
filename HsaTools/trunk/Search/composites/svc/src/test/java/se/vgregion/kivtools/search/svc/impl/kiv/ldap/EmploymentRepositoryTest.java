@@ -19,7 +19,8 @@
 
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Calendar;
 
@@ -40,16 +41,16 @@ import se.vgregion.kivtools.util.time.TimeUtil;
 public class EmploymentRepositoryTest {
   private static final DN TEST_DN = DN.createDNFromString("cn=nipet10,ou=Personal,o=VGR");
   private final EmploymentRepository employmentRepository = new EmploymentRepository();
-  private LdapTemplateMock ldapTemplateMock = new LdapTemplateMock();
-  private final CodeTablesServiceImpl codeTablesService = new CodeTablesServiceImpl(ldapTemplateMock);
-  private final String expectedFilter = "(&(objectclass=vgrAnstallning)(|(!(hsaEndDate=*))(hsaEndDate>=20090101000000Z))(|(hsaStartDate<=20090101000000Z)(!(hsaStartDate=*))))";
+  private final LdapTemplateMock ldapTemplateMock = new LdapTemplateMock();
+  private final CodeTablesServiceImpl codeTablesService = new CodeTablesServiceImpl(this.ldapTemplateMock);
+  private final String expectedFilter = "(&(objectclass=vgrAnstallning)(|(!(hsaEndDate=*))(hsaEndDate>=20090101235959Z))(|(hsaStartDate<=20090101000000Z)(!(hsaStartDate=*))))";
 
   @Before
   public void setUp() {
-    employmentRepository.setCodeTablesService(codeTablesService);
-    employmentRepository.setLdapTemplate(ldapTemplateMock);
+    this.employmentRepository.setCodeTablesService(this.codeTablesService);
+    this.employmentRepository.setLdapTemplate(this.ldapTemplateMock);
 
-    setupTimeSource();
+    this.setupTimeSource();
   }
 
   @After
@@ -65,12 +66,12 @@ public class EmploymentRepositoryTest {
         Calendar cal = Calendar.getInstance();
         cal.set(2009, 0, 1, 0, 0, 0);
         cal.set(Calendar.MILLISECOND, 0);
-        millis = cal.getTimeInMillis();
+        this.millis = cal.getTimeInMillis();
       }
 
       @Override
       public long millis() {
-        return millis;
+        return this.millis;
       }
     });
   }
@@ -80,7 +81,7 @@ public class EmploymentRepositoryTest {
     SikSearchResultList<Employment> employments = this.employmentRepository.getEmployments(TEST_DN);
     assertNotNull(employments);
     assertEquals(0, employments.size());
-    ldapTemplateMock.assertSearchFilter(expectedFilter);
+    this.ldapTemplateMock.assertSearchFilter(this.expectedFilter);
   }
 
   @Test
@@ -88,9 +89,9 @@ public class EmploymentRepositoryTest {
     DirContextOperationsMock responsibleEditor = new DirContextOperationsMock();
     responsibleEditor.addAttributeValue("hsaIdentity", "user1");
     responsibleEditor.addAttributeValue("cn", "nipet10,ou=Personal,o=VGR");
-    ldapTemplateMock.addDirContextOperationForSearch(responsibleEditor);
+    this.ldapTemplateMock.addDirContextOperationForSearch(responsibleEditor);
     SikSearchResultList<Employment> employments = this.employmentRepository.getEmployments(TEST_DN);
-    ldapTemplateMock.assertSearchFilter(expectedFilter);
+    this.ldapTemplateMock.assertSearchFilter(this.expectedFilter);
     assertNotNull(employments);
     assertEquals(1, employments.size());
   }
