@@ -171,7 +171,22 @@ public class PersonRepository {
   }
 
   private SikSearchResultList<Person> searchPersons(String searchFilter, int searchScope, int maxResult) throws KivException {
+    SikSearchResultList<Person> result = this.performPersonSearch(searchFilter, searchScope);
+    result = this.sortAndTrimPersonSearchResult(maxResult, result);
+    return result;
+  }
 
+  private SikSearchResultList<Person> sortAndTrimPersonSearchResult(int maxResult, SikSearchResultList<Person> result) {
+    Collections.sort(result, new PersonNameComparator());
+    int resultCount = result.size();
+    if (result.size() > maxResult && maxResult != 0) {
+      result = new SikSearchResultList<Person>(result.subList(0, maxResult));
+    }
+    result.setTotalNumberOfFoundItems(resultCount);
+    return result;
+  }
+
+  private SikSearchResultList<Person> performPersonSearch(String searchFilter, int searchScope) {
     SearchControls searchControls = new SearchControls();
     searchControls.setCountLimit(0);
     searchControls.setSearchScope(searchScope);
@@ -187,20 +202,10 @@ public class PersonRepository {
     } else {
       result = new SikSearchResultList<Person>(persons);
     }
-
-    // Sort list
-    Collections.sort(result, new PersonNameComparator());
-    int resultCount = result.size();
-    if (result.size() > maxResult && maxResult != 0) {
-      result = new SikSearchResultList<Person>(result.subList(0, maxResult));
-    }
-    result.setTotalNumberOfFoundItems(resultCount);
-
     return result;
   }
 
-  protected Filter getPersonDNsByEmployment(String searchFilter, int searchScope, int maxResult) throws KivException {
-    OrFilter filter = new OrFilter();
+  private List<String> getPersonDNsByEmployment(String searchFilter, int searchScope, int maxResult) throws KivException {
 
     ContextMapper contextMapper = new ContextMapper() {
       @Override
@@ -220,10 +225,7 @@ public class PersonRepository {
     // Since the mapper return a String we are certain that the cast to List<String> is ok
     @SuppressWarnings("unchecked")
     List<String> personDNs = this.ldapTemplate.search(PERSON_SEARCH_BASE, searchFilter, contextMapper);
-    for (String dn : personDNs) {
-      filter.or(new EqualsFilter("vgr-id", dn.replace(CN_EQUALS, "")));
-    }
-    return filter;
+    return personDNs;
   }
 
   private String createSearchPersonsFilterVgrId(String vgrId) throws KivException {
@@ -308,22 +310,46 @@ public class PersonRepository {
    * @throws KivException If there is a problem during the search.
    */
   public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
-    Filter employmentFilter = null;
+    List<String> personDNs = new ArrayList<String>();
+    if (this.isEmploymentSearch(person)) {
+      personDNs = this.getPersonDNsByEmployment(this.generateFreeTextSearchEmploymentFilter(person).encode(), SearchControls.SUBTREE_SCOPE, Integer.MAX_VALUE);
 
-    if (!StringUtil.isEmpty(person.getEmploymentTitle()) || !StringUtil.isEmpty(person.getEmploymentPosition()) || !StringUtil.isEmpty(person.getPhone())
-        || !StringUtil.isEmpty(person.getDescription())) {
-      employmentFilter = this.getPersonDNsByEmployment(this.generateFreeTextSearchEmploymentFilter(person).encode(), SearchControls.SUBTREE_SCOPE, Integer.MAX_VALUE);
-      if (StringUtil.isEmpty(employmentFilter.encode())) {
+      if (personDNs.isEmpty()) {
         return new SikSearchResultList<Person>();
       }
     }
 
+    final SikSearchResultList<Person> result = new SikSearchResultList<Person>();
+
     AndFilter searchPersonFilter = this.generateFreeTextSearchPersonFilter(person);
-    if (employmentFilter != null) {
-      searchPersonFilter.and(employmentFilter);
+    if (!personDNs.isEmpty()) {
+      while (!personDNs.isEmpty()) {
+        int splitElement = Math.min(100, personDNs.size());
+        Filter employmentFilter = this.createEmploymentFilter(personDNs.subList(0, splitElement));
+        personDNs = personDNs.subList(splitElement, personDNs.size());
+        AndFilter filter = new AndFilter();
+        filter.and(searchPersonFilter);
+        filter.and(employmentFilter);
+        result.addAll(this.performPersonSearch(filter.encode(), SearchControls.SUBTREE_SCOPE));
+      }
+    } else {
+      result.addAll(this.performPersonSearch(searchPersonFilter.encode(), SearchControls.SUBTREE_SCOPE));
     }
 
-    return this.searchPersons(searchPersonFilter.encode(), SearchControls.SUBTREE_SCOPE, maxResult);
+    return this.sortAndTrimPersonSearchResult(maxResult, result);
+  }
+
+  private Filter createEmploymentFilter(List<String> personDNs) {
+    OrFilter filter = new OrFilter();
+    for (String dn : personDNs) {
+      filter.or(new EqualsFilter("vgr-id", dn.replace(CN_EQUALS, "")));
+    }
+    return filter;
+  }
+
+  private boolean isEmploymentSearch(SearchPersonCriterions person) {
+    return !StringUtil.isEmpty(person.getEmploymentTitle()) || !StringUtil.isEmpty(person.getEmploymentPosition()) || !StringUtil.isEmpty(person.getPhone())
+        || !StringUtil.isEmpty(person.getDescription());
   }
 
   private Filter generateFreeTextSearchEmploymentFilter(SearchPersonCriterions person) {
@@ -390,14 +416,14 @@ public class PersonRepository {
 
     if (!StringUtil.isEmpty(person.getGivenName())) {
       OrFilter firstNameFilter = new OrFilter();
-      firstNameFilter.or(createSearchFilter(LDAPPersonAttributes.GIVEN_NAME.toString(), person.getGivenName()));
-      firstNameFilter.or(createSearchFilter("hsaNickName", person.getGivenName()));
+      firstNameFilter.or(this.createSearchFilter(LDAPPersonAttributes.GIVEN_NAME.toString(), person.getGivenName()));
+      firstNameFilter.or(this.createSearchFilter("hsaNickName", person.getGivenName()));
       userFilter.and(firstNameFilter);
     }
     if (!StringUtil.isEmpty(person.getSurname())) {
       OrFilter surnameFilter = new OrFilter();
-      surnameFilter.or(createSearchFilter(LDAPPersonAttributes.SURNAME.toString(), person.getSurname()));
-      surnameFilter.or(createSearchFilter("hsaMiddleName", person.getSurname()));
+      surnameFilter.or(this.createSearchFilter(LDAPPersonAttributes.SURNAME.toString(), person.getSurname()));
+      surnameFilter.or(this.createSearchFilter("hsaMiddleName", person.getSurname()));
       userFilter.and(surnameFilter);
     }
     if (!StringUtil.isEmpty(person.getUserId())) {
