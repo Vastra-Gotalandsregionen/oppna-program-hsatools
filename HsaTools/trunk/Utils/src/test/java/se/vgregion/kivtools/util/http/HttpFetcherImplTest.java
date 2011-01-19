@@ -19,12 +19,12 @@
 
 package se.vgregion.kivtools.util.http;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import se.vgregion.kivtools.util.http.HttpFetcherImpl;
 
 public class HttpFetcherImplTest {
 
@@ -32,26 +32,26 @@ public class HttpFetcherImplTest {
 
   @Before
   public void setUp() {
-    fetcher = new HttpFetcherImpl();
+    this.fetcher = new HttpFetcherImpl();
   }
 
   @Test
   public void testMalformedUrl() {
-    String result = fetcher.fetchUrl("abc.defxxx");
+    String result = this.fetcher.fetchUrl("abc.defxxx");
     assertNotNull(result);
     assertEquals("", result);
   }
 
   @Test
   public void testUnknownURL() {
-    String result = fetcher.fetchUrl("http://xyz.yadda.yadda.se");
+    String result = this.fetcher.fetchUrl("http://xyz.yadda.yadda.se");
     assertNotNull(result);
     assertEquals("", result);
   }
 
   @Test
   public void testSuccessfulUrl() {
-    String result = fetcher.fetchUrl("http://www.google.com");
+    String result = this.fetcher.fetchUrl("http://www.google.com");
     assertNotNull(result);
     assertTrue(result.length() > 0);
     assertTrue(result.indexOf("google") != -1);
@@ -59,7 +59,7 @@ public class HttpFetcherImplTest {
 
   @Test
   public void testSuccessfulSecureUrl() {
-    String result = fetcher.fetchUrl("https://internetbank.swedbank.se/bviPrivat/privat?ns=1");
+    String result = this.fetcher.fetchUrl("https://internetbank.swedbank.se/idp/portal");
     assertNotNull(result);
     assertTrue(result.length() > 0);
     assertTrue(result.indexOf("swedbank") != -1);
