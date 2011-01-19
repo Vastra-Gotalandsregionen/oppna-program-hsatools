@@ -115,6 +115,9 @@
 						<xs:element name="visitingRules" type="xs:string" minOccurs="0" />
 						<xs:element name="mvkEnable" type="xs:boolean" />
 						<xs:element name="mvkServices" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="vardvalParticipant" type="xs:boolean" />
+						<xs:element name="municipalityCode" type="xs:string" minOccurs="0" />
+						<xs:element name="businessClassificationCode" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>

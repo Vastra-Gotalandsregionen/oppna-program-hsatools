@@ -42,6 +42,7 @@ public class SitemapUnitMapper extends AbstractSitemapMapper {
 
     result.setHsaIdentity(unit.getHsaIdentity());
     result.setName(unit.getName());
+    result.setMunicipalityCode(unit.getHsaMunicipalityCode());
     result.setMunicipalityName(unit.getHsaMunicipalityName());
     result.setTelephoneTime(StringUtil.concatenate(getWeekdayTimeStrings(unit.getHsaTelephoneTime())));
     result.setVisitingHours(StringUtil.concatenate(getWeekdayTimeStrings(unit.getHsaSurgeryHours())));
@@ -59,7 +60,7 @@ public class SitemapUnitMapper extends AbstractSitemapMapper {
     mapPhoneNumberIfNotNull(unit.getPagerTelephoneNumber(), "Minicall", TelephoneType.OTHER, result.getTelephone());
     mapPhoneNumberIfNotNull(unit.getHsaTextPhoneNumber(), "Texttelefon", TelephoneType.FIXED, result.getTelephone());
     mapPhoneNumberIfNotNull(unit.getMobileTelephoneNumber(), "Mobil", TelephoneType.MOBILE, result.getTelephone());
-    //mapPhoneNumberIfNotNull(unit.getHsaSmsTelephoneNumber(), "SMS", TelephoneType.MOBILE, result.getTelephone());
+    // mapPhoneNumberIfNotNull(unit.getHsaSmsTelephoneNumber(), "SMS", TelephoneType.MOBILE, result.getTelephone());
     mapPhoneNumberIfNotNull(unit.getFacsimileTelephoneNumber(), "Fax", TelephoneType.FAX, result.getTelephone());
 
     mapEAliasIfNotNull(unit.getLabeledURI(), "Hemsida", EAliasType.URL, result.getEAlias());
@@ -76,6 +77,11 @@ public class SitemapUnitMapper extends AbstractSitemapMapper {
 
     result.setMvkEnable(unit.getMvkCaseTypes().size() > 0);
     result.getMvkServices().addAll(unit.getMvkCaseTypes());
+
+    result.setVardvalParticipant(unit.isVgrVardVal());
+    if (unit.getBusinessClassificationCode() != null) {
+      result.getBusinessClassificationCode().addAll(unit.getBusinessClassificationCode());
+    }
 
     return result;
   }
