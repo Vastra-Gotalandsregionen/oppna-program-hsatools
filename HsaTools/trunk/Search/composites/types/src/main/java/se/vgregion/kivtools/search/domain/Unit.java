@@ -1354,6 +1354,10 @@ public class Unit implements Serializable, Comparable<Unit> {
     return this.hsaBusinessClassificationCode;
   }
 
+  public String getBusinessClassificationCodes() {
+    return StringUtil.concatenate(this.hsaBusinessClassificationCode);
+  }
+
   public void setHsaBusinessClassificationCode(List<String> hsaBusinessClassificationCode) {
     this.hsaBusinessClassificationCode = hsaBusinessClassificationCode;
   }
@@ -1569,11 +1573,11 @@ public class Unit implements Serializable, Comparable<Unit> {
   }
 
   public String getHsaResponsibleHealthCareProvider() {
-    return hsaResponsibleHealthCareProvider;
+    return this.hsaResponsibleHealthCareProvider;
   }
 
   public List<String> getHsaHealthCareUnitMembers() {
-    return hsaHealthCareUnitMembers;
+    return this.hsaHealthCareUnitMembers;
   }
 
   public void addHsaHealthCareUnitMembers(List<String> hsaHealthCareUnitMembers) {

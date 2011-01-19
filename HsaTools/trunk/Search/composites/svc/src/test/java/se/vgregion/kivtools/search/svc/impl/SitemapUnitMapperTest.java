@@ -79,6 +79,13 @@ public class SitemapUnitMapperTest {
   }
 
   @Test
+  public void municipalityCodeIsMapped() {
+    Unit unit = this.builder.municipalityCode("1401").build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertEquals("municipality code", "1401", result.getMunicipalityCode());
+  }
+
+  @Test
   public void internalDescriptionIsMapped() {
     Unit unit = this.builder.internalDescription("internal 1").internalDescription("internal 2").build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
@@ -358,6 +365,20 @@ public class SitemapUnitMapperTest {
     assertEquals("mvk services", "[casetype 1, casetype 2]", result.getMvkServices().toString());
   }
 
+  @Test
+  public void vardvalParticipantIsMapped() {
+    Unit unit = this.builder.vardval(true).build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertTrue("vardval participant", result.isVardvalParticipant());
+  }
+
+  @Test
+  public void businessClassificationCodesAreMapped() {
+    Unit unit = this.builder.businessClassificationCode("1012").businessClassificationCode("1402").build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertEquals("business classification codes", "[1012, 1402]", result.getBusinessClassificationCode().toString());
+  }
+
   private Address createAddress(String... addressLines) {
     return AddressHelper.convertToAddress(Arrays.asList(addressLines));
   }
@@ -377,7 +398,6 @@ public class SitemapUnitMapperTest {
     private PhoneNumber pagerNumber;
     private PhoneNumber textTelephoneNumber;
     private PhoneNumber mobilePhoneNumber;
-    private PhoneNumber smsPhoneNumber;
     private PhoneNumber faxNumber;
     private final List<PhoneNumber> directPhoneNumbers = new ArrayList<PhoneNumber>();
     private String labeledUri;
@@ -396,12 +416,16 @@ public class SitemapUnitMapperTest {
     private final List<WeekdayTime> dropInHours = new ArrayList<WeekdayTime>();
     private final List<String> mvkCaseTypes = new ArrayList<String>();
     private String visitingRules;
+    private boolean vardval;
+    private String municipalityCode;
+    private final List<String> businessClassificationCodes = new ArrayList<String>();
 
     public Unit build() {
       Unit unit = new Unit();
 
       unit.setHsaIdentity(this.hsaIdentity);
       unit.setName(this.name);
+      unit.setHsaMunicipalityCode(this.municipalityCode);
       unit.setHsaMunicipalityName(this.municipality);
       unit.addHsaTelephoneTimes(this.telephoneTime);
       unit.addHsaDropInHours(this.dropInHours);
@@ -419,7 +443,7 @@ public class SitemapUnitMapperTest {
       unit.setPagerTelephoneNumber(this.pagerNumber);
       unit.setHsaTextPhoneNumber(this.textTelephoneNumber);
       unit.setMobileTelephoneNumber(this.mobilePhoneNumber);
-      //unit.setHsaSmsTelephoneNumber(this.smsPhoneNumber);
+      // unit.setHsaSmsTelephoneNumber(this.smsPhoneNumber);
       unit.setFacsimileTelephoneNumber(this.faxNumber);
       unit.addHsaTelephoneNumber(this.directPhoneNumbers);
       if (this.labeledUri != null) {
@@ -442,7 +466,20 @@ public class SitemapUnitMapperTest {
         unit.addMvkCaseType(mvkCaseType);
       }
 
+      unit.setVgrVardVal(this.vardval);
+      unit.setHsaBusinessClassificationCode(this.businessClassificationCodes);
+
       return unit;
+    }
+
+    public UnitBuilder municipalityCode(String municipalityCode) {
+      this.municipalityCode = municipalityCode;
+      return this;
+    }
+
+    public UnitBuilder vardval(boolean vardval) {
+      this.vardval = vardval;
+      return this;
     }
 
     public UnitBuilder visitingRules(String visitingRules) {
@@ -452,6 +489,11 @@ public class SitemapUnitMapperTest {
 
     public UnitBuilder mvkCaseType(String mvkCaseType) {
       this.mvkCaseTypes.add(mvkCaseType);
+      return this;
+    }
+
+    public UnitBuilder businessClassificationCode(String businessClassificationCode) {
+      this.businessClassificationCodes.add(businessClassificationCode);
       return this;
     }
 
@@ -529,11 +571,6 @@ public class SitemapUnitMapperTest {
 
     public UnitBuilder mobilePhoneNumber(PhoneNumber phoneNumber) {
       this.mobilePhoneNumber = phoneNumber;
-      return this;
-    }
-
-    public UnitBuilder smsPhoneNumber(PhoneNumber phoneNumber) {
-      this.smsPhoneNumber = phoneNumber;
       return this;
     }
 
