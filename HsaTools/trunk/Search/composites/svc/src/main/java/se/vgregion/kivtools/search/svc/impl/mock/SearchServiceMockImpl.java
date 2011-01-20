@@ -226,6 +226,9 @@ public class SearchServiceMockImpl implements SearchService {
     u.setName("VGR IT");
     u.setHsaIdentity("ABC001");
     u.setLocality("Göteborg");
+    u.setHsaMunicipalityCode("1401");
+    u.setVgrVardVal(false);
+    u.setHsaBusinessClassificationCode(Arrays.asList("1102", "1812"));
     u.addDescription(description);
     u.addInternalDescription(description);
     u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
@@ -250,6 +253,9 @@ public class SearchServiceMockImpl implements SearchService {
     u.setHsaIdentity("ABC002");
     u.setName("Sahlgrenska Sjukhuset");
     u.setLocality("Göteborg");
+    u.setHsaMunicipalityCode("1405");
+    u.setVgrVardVal(true);
+    u.setHsaBusinessClassificationCode(Arrays.asList("1211", "1310"));
     u.addDescription(description);
     u.addInternalDescription(description);
     u.setDn(DN.createDNFromString("ou=Akutmottagning,ou=Verksamhet Akutmottagning,ou=Område 2,ou=Sahlgrenska Universitetssjukhuset,ou=Org,o=vgr"));
@@ -274,6 +280,9 @@ public class SearchServiceMockImpl implements SearchService {
     u.setHsaIdentity("SE2321000131-E000000000420");
     u.setName("Uddevalla vårdcentral");
     u.setLocality("Uddevalla");
+    u.setHsaMunicipalityCode("1443");
+    u.setVgrVardVal(true);
+    u.setHsaBusinessClassificationCode(Arrays.asList("1102", "1812"));
     u.addDescription(description);
     u.addInternalDescription(description);
     u.setVgrTempInfo("20090108-20990118 temporary information");
@@ -299,7 +308,6 @@ public class SearchServiceMockImpl implements SearchService {
   }
 
   private void initHealthcareTypes(Unit u) {
-    u.setVgrVardVal(true);
     HealthcareType healthcareType = new HealthcareType();
     healthcareType.setDisplayName("Vårdcentral");
     u.addHealthcareType(healthcareType);
