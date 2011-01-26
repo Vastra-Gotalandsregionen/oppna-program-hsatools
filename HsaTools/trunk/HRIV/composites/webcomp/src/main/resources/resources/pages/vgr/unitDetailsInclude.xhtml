@@ -359,15 +359,15 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
                                 	</h:outputText>
                                 </table>
                                 <script type="text/javascript" charset="utf-8">
-                                    // <![CDATA[]
-                                    drawDirectionsTableRows('${unit.name}', '${unit.wgs84Lat}', '${unit.wgs84Long}', '${fn:trim(unit.hsaStreetAddress.street)}', '${fn:trim(unit.hsaStreetAddress.city)}');
+                                    // <![CDATA[
+                                    // drawDirectionsTableRows('${unit.name}', '${unit.wgs84Lat}', '${unit.wgs84Long}', '${fn:trim(unit.hsaStreetAddress.street)}', '${fn:trim(unit.hsaStreetAddress.city)}');
                                     // ]]>
                                 </script>
                             </div>
 
 							<h:outputText rendered="${unit.wgs84Lat!=0.0}">
 	                            <div>
-	                            	<a class="url" href="#" id="showMapPopupButton" onClick="showMapInPopup('${unit.wgs84Long}', '${unit.wgs84Lat}', '${fn:trim(unit.name)}','${fn:trim(unit.hsaPublicTelephoneNumber[0])}', '${fn:trim(unit.caretypeCustomized)}', '${msg.telephone}', '${msg.showDetails}', '${unit.hsaIdentity}');"><img src="resources/images/zoom.gif" alt="Visa stor karta"/>Visa stor karta</a>
+	                            	<a class="url" href="#" id="showMapPopupButton" onclick="showMapInPopup('${unit.wgs84Long}', '${unit.wgs84Lat}', '${fn:trim(unit.name)}','${fn:trim(unit.hsaPublicTelephoneNumber[0])}', '${fn:trim(unit.caretypeCustomized)}', '${msg.telephone}', '${msg.showDetails}', '${unit.hsaIdentity}');"><img src="resources/images/zoom.gif" alt="Visa stor karta"/>Visa stor karta</a>
 	                            </div>
 	                            <div id="map-right-of-address-div" class="clear">
 	                            </div>
