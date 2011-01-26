@@ -306,8 +306,9 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
 	                                    </h:outputText>
                                     </tr>
                                 </h:outputText>
-                                <h:outputText rendered="${unit.hsaRouteConcatenated != '' or Search_SettingsContainer.testingMode}">
-	                                    <tr>
+                                <h:outputText rendered="${unit.hsaRouteConcatenated != '' or unit.wgs84Lat!=0.0 or fn:length(unit.hsaStreetAddress.street) gt 0 or Search_SettingsContainer.testingMode}">
+                                    <tr>
+	                                	<h:outputText rendered="${unit.hsaRouteConcatenated != '' or Search_SettingsContainer.testingMode}">
 	                                        <th class="leftcol" rowspan="3">
 	                                            <span class="grey-header">${msg.routeDescription}</span>
 	                                        </th>
@@ -317,26 +318,33 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
 	                                                <span class="warning">hsaRoute ${msg.missing}</span>
 	                                            </h:outputText>
 	                                        </td>
-                                	        <h:outputText rendered="${unit.wgs84Lat!=0.0 or fn:length(unit.hsaStreetAddress.street) gt 0 or Search_SettingsContainer.testingMode}">
-		                                        <th class="leftcol">
-		                                            <span class="grey-header">${msg.findRoute}</span>
-		                                        </th>
-		                                        <td class="directions-right-col">
-		                                            <ui:repeat value="${Search_SettingsContainer.findRouteLinksArray}" var="link">
-		                                                <h:outputText rendered="${link.toParamName != '' and link.fromParamName != ''}">
-		                                                    <a href="${link.href}?${link.fromParamName}=&amp;${link.toParamName}=${Search_VasttrafikSearchService.getStopIdByAddress(fn:trim(unit.hsaStreetAddress.street), fn:trim(unit.hsaMunicipalityName))}" class="url">${link.name}</a><br/>
-		                                                </h:outputText>
-		                                                
-		                                                <h:outputText rendered="${link.toParamName != '' and link.fromParamName == ''}">
-		                                                    <a href="${link.href}?${link.toParamName}=${fn:trim(unit.hsaStreetAddress.street)}" class="url">${link.name}</a><br/>
-		                                                </h:outputText>
-		                            
-		                                                <h:outputText rendered="${link.toParamName == ''}">
-		                                                    <a href="${link.href}" class="url">${link.name}</a><br/>
-		                                                </h:outputText>
-		                                            </ui:repeat>
-		                                        </td>
-		                                	</h:outputText>
+	                                	</h:outputText>
+	                                	<h:outputText rendered="${unit.hsaRouteConcatenated == '' or Search_SettingsContainer.testingMode}">
+	                                        <th class="leftcol" rowspan="3">
+	                                        </th>
+	                                        <td class="directions-right-col paragraph" rowspan="3">
+	                                        </td>
+	                                	</h:outputText>
+                               	        <h:outputText rendered="${unit.wgs84Lat!=0.0 or fn:length(unit.hsaStreetAddress.street) gt 0 or Search_SettingsContainer.testingMode}">
+	                                        <th class="leftcol">
+	                                            <span class="grey-header">${msg.findRoute}</span>
+	                                        </th>
+	                                        <td class="directions-right-col">
+	                                            <ui:repeat value="${Search_SettingsContainer.findRouteLinksArray}" var="link">
+	                                                <h:outputText rendered="${link.toParamName != '' and link.fromParamName != ''}">
+	                                                    <a href="${link.href}?${link.fromParamName}=&amp;${link.toParamName}=${Search_VasttrafikSearchService.getStopIdByAddress(fn:trim(unit.hsaStreetAddress.street), fn:trim(unit.hsaMunicipalityName))}" class="url">${link.name}</a><br/>
+	                                                </h:outputText>
+	                                                
+	                                                <h:outputText rendered="${link.toParamName != '' and link.fromParamName == ''}">
+	                                                    <a href="${link.href}?${link.toParamName}=${fn:trim(unit.hsaStreetAddress.street)}" class="url">${link.name}</a><br/>
+	                                                </h:outputText>
+	                            
+	                                                <h:outputText rendered="${link.toParamName == ''}">
+	                                                    <a href="${link.href}" class="url">${link.name}</a><br/>
+	                                                </h:outputText>
+	                                            </ui:repeat>
+	                                        </td>
+	                                	</h:outputText>
 	                                    </tr>
                                 	</h:outputText>
                                 	<h:outputText rendered="${unit.wgs84Lat!=0.0 or fn:length(unit.hsaStreetAddress.street) gt 0 or Search_SettingsContainer.testingMode}">
