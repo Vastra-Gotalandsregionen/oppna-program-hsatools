@@ -19,7 +19,6 @@
 
 -->
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <h:outputText rendered="true" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -105,7 +104,7 @@
 												<h:outputText rendered="${package.hasVisibleCriterias() == 'true'}">
 													<ul class="accessibilityBlockItem">
 														<li>${package.name}<br/>
-														&nbsp;<ui:repeat value="${package.images}" var="image">
+														&#160;<ui:repeat value="${package.images}" var="image">
 															<h:outputText rendered="${image.urlLarge != null}">
 																<img src="${image.urlLarge}" alt="${image.shortDescription}" /><br/>
 																${image.longDescription}<br/><br/>
@@ -146,11 +145,11 @@
 												<h:outputText rendered="${package.hasVisibleCriterias() == 'true'}">
 													<ul class="accessibilityBlockItem">
 														<li>${package.name}<br/>
-														&nbsp;<ui:repeat value="${package.notetexts}" var="note">
+														&#160;<ui:repeat value="${package.notetexts}" var="note">
 															<h:outputText value="${note}"/>
 															<br/>
 														</ui:repeat><br/>
-														&nbsp;<ui:repeat value="${package.images}" var="image">
+														&#160;<ui:repeat value="${package.images}" var="image">
 															<h:outputText rendered="${image.urlLarge != null}">
 																<img src="${image.urlLarge}" alt="${image.shortDescription}" /><br/>
 																${image.longDescription}<br/><br/>
