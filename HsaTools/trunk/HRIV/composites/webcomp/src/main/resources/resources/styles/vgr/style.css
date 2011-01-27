@@ -252,6 +252,10 @@ h3.fn {
 	width: 400px;
 }
 
+div.adr {
+	display: none;
+}
+
 #description-toggle-area {
 }
 
