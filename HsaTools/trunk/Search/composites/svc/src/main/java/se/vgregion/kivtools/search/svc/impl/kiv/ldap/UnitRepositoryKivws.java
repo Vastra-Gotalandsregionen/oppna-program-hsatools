@@ -69,12 +69,15 @@ public class UnitRepositoryKivws extends UnitRepository {
   private SearchService searchService;
 
   private static final String OPPENVARD = "Öppenvård";
+  private static final String SLUTENVARD = "Slutenvård";
   private static final String HEMSJUKVARD = "Hemsjukvård";
 
+  @Override
   public void setSearchService(SearchService searchService) {
     this.searchService = searchService;
   }
 
+  @Override
   public void setCodeTablesService(CodeTablesService codeTablesService) {
     this.codeTablesService = codeTablesService;
   }
@@ -90,12 +93,13 @@ public class UnitRepositoryKivws extends UnitRepository {
    * @return - a list of found units.
    * @throws KivException If an error occur.
    */
+  @Override
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxResult, Comparator<Unit> sortOrder, boolean onlyPublicUnits) throws KivException {
     String searchFilterOU = this.createAdvancedSearchFilter(unit, onlyPublicUnits, false);
     String searchFilterCN = this.createAdvancedSearchFilter(unit, onlyPublicUnits, true);
 
-    List<Unit> searchOUresult = searchService.searchUnits(this.getSearchBase(), searchFilterOU, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
-    List<Unit> searchCNResult = searchService.searchFunctionUnits(this.getSearchBase(), searchFilterCN, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
+    List<Unit> searchOUresult = this.searchService.searchUnits(this.getSearchBase(), searchFilterOU, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
+    List<Unit> searchCNResult = this.searchService.searchFunctionUnits(this.getSearchBase(), searchFilterCN, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
     searchOUresult.addAll(searchCNResult);
     SikSearchResultList<Unit> units = this.cleanAndSortResult(searchOUresult, sortOrder);
 
@@ -136,6 +140,7 @@ public class UnitRepositoryKivws extends UnitRepository {
    * 
    * @param units
    */
+  @Override
   protected void removeUnallowedUnits(SikSearchResultList<Unit> units) {
 
     // Get all health care types that are unfiltered
@@ -188,17 +193,18 @@ public class UnitRepositoryKivws extends UnitRepository {
    * @return List of found units.
    * @throws KivException .
    */
+  @Override
   public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions searchUnitCriterions, int maxResult) throws KivException {
     String searchFilterOU = this.createSearchFilter(searchUnitCriterions, false);
     String searchFilterCN = this.createSearchFilter(searchUnitCriterions, true);
 
-    List<Unit> searchResultForOuUnits = searchService.searchUnits(this.getSearchBase(), searchFilterOU, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
-    List<Unit> searchResultForCnUnits = searchService.searchFunctionUnits(this.getSearchBase(), searchFilterCN, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
+    List<Unit> searchResultForOuUnits = this.searchService.searchUnits(this.getSearchBase(), searchFilterOU, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
+    List<Unit> searchResultForCnUnits = this.searchService.searchFunctionUnits(this.getSearchBase(), searchFilterCN, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
     searchResultForOuUnits.addAll(searchResultForCnUnits);
 
     SikSearchResultList<Unit> result = this.cleanAndSortResult(searchResultForOuUnits, new UnitNameComparator());
     // Make sure that only a subset is returned
-    return getMaxResultList(maxResult, result);
+    return this.getMaxResultList(maxResult, result);
   }
 
   private SikSearchResultList<Unit> getMaxResultList(int maxResult, SikSearchResultList<Unit> result) {
@@ -215,6 +221,7 @@ public class UnitRepositoryKivws extends UnitRepository {
    * @return The unit with the given hsa id.
    * @throws KivException .
    */
+  @Override
   public Unit getUnitByHsaId(String hsaId) throws KivException {
     String searchFilter = "(hsaIdentity=" + hsaId + ")";
     return this.searchUnit(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilter);
@@ -227,11 +234,13 @@ public class UnitRepositoryKivws extends UnitRepository {
    * @return The unit with the given hsa id.
    * @throws KivException .
    */
+  @Override
   public Unit getUnitByHsaIdAndHasNotCareTypeInpatient(String hsaId) throws KivException {
     String searchFilterString = null;
     List<String> andFilterList = new ArrayList<String>();
     List<String> careTypes = new ArrayList<String>();
     careTypes.add(OPPENVARD);
+    careTypes.add(SLUTENVARD);
     careTypes.add(HEMSJUKVARD);
     Filter careTypesFilterList = this.generateCareTypeFilterFromList(KivwsCodeTableName.CARE_TYPE, LDAPUnitAttributes.CARE_TYPE, careTypes);
 
@@ -248,10 +257,11 @@ public class UnitRepositoryKivws extends UnitRepository {
    * @return The unit with the given dn.
    * @throws KivException .
    */
+  @Override
   public Unit getUnitByDN(DN dn) throws KivException {
     Unit u = null;
     DistinguishedName distinguishedName = new DistinguishedName(dn.escape().toString());
-    u = (Unit) searchService.lookupUnit(distinguishedName, ATTRIBUTES);
+    u = this.searchService.lookupUnit(distinguishedName, ATTRIBUTES);
     return u;
   }
 
@@ -261,6 +271,7 @@ public class UnitRepositoryKivws extends UnitRepository {
    * @return List of hsa ids.
    * @throws KivException .
    */
+  @Override
   public List<String> getAllUnitsHsaIdentity() throws KivException {
     return this.getAllUnitsHsaIdentity(false);
   }
@@ -272,11 +283,12 @@ public class UnitRepositoryKivws extends UnitRepository {
    * @return List of found units.
    * @throws KivException .
    */
+  @Override
   public List<String> getAllUnitsHsaIdentity(boolean onlyPublicUnits) throws KivException {
     String searchFilter = this.createAllUnitsFilter(onlyPublicUnits);
 
     // Since SingleAttributeMapper return a String we are certain that the cast to List<String> is ok
-    List<String> result = searchService.searchSingleAttribute(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, Arrays.asList("hsaIdentity"), UnitLdapAttributes.HSA_IDENTITY);
+    List<String> result = this.searchService.searchSingleAttribute(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, Arrays.asList("hsaIdentity"), UnitLdapAttributes.HSA_IDENTITY);
     return result;
   }
 
@@ -286,10 +298,11 @@ public class UnitRepositoryKivws extends UnitRepository {
    * @param onlyPublicUnits Only select units from search that should be displayed to the public.
    * @return A list of units.
    */
+  @Override
   public List<Unit> getAllUnits(boolean onlyPublicUnits) {
     String searchFilter = this.createAllUnitsFilter(onlyPublicUnits);
 
-    List<Unit> result = searchService.searchUnits(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
+    List<Unit> result = this.searchService.searchUnits(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
     return result;
   }
 
@@ -311,8 +324,8 @@ public class UnitRepositoryKivws extends UnitRepository {
 
   private Unit searchUnit(DistinguishedName searchBase, int searchScope, String searchFilter) throws KivException {
     // Since UnitMapper return Units we are certain that the suppression is ok
-    List<Unit> result = searchService.searchUnits(searchBase, searchFilter, searchScope, ATTRIBUTES);
-    List<Unit> resultFunctions = searchService.searchFunctionUnits(searchBase, searchFilter, searchScope, ATTRIBUTES);
+    List<Unit> result = this.searchService.searchUnits(searchBase, searchFilter, searchScope, ATTRIBUTES);
+    List<Unit> resultFunctions = this.searchService.searchFunctionUnits(searchBase, searchFilter, searchScope, ATTRIBUTES);
     result.addAll(resultFunctions);
     if (result.size() == 0) {
       throw new KivNoDataFoundException("Error getting unit from server");
@@ -411,6 +424,7 @@ public class UnitRepositoryKivws extends UnitRepository {
     return result;
   }
 
+  @Override
   String createUnitSearchFilter(SearchUnitCriterions searchUnitCriterions) {
     List<String> filterList = new ArrayList<String>();
 
@@ -435,8 +449,8 @@ public class UnitRepositoryKivws extends UnitRepository {
       andFilter.and(this.createSearchFilter("vgrAnsvarsnummer", searchUnitCriterions.getLiableCode()));
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getBusinessClassificationName())) {
-      Filter orFilter = this.generateOrFilterFromList(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, LDAPUnitAttributes.BUSINESS_CLASSIFICATION_CODE, searchUnitCriterions
-          .getBusinessClassificationName());
+      Filter orFilter = this.generateOrFilterFromList(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, LDAPUnitAttributes.BUSINESS_CLASSIFICATION_CODE,
+          searchUnitCriterions.getBusinessClassificationName());
       andFilter.and(orFilter);
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getCareTypeName())) {
@@ -489,6 +503,7 @@ public class UnitRepositoryKivws extends UnitRepository {
     return orFilter;
   }
 
+  @Override
   String createAdvancedUnitSearchFilter(Unit unit) {
     List<String> filterList = new ArrayList<String>();
 
@@ -507,7 +522,12 @@ public class UnitRepositoryKivws extends UnitRepository {
 
     filterList = new ArrayList<String>();
     this.addSearchFilter(filterList, Constants.LDAP_PROPERTY_UNIT_NAME, unit.getName());
-    this.addSearchFilter(filterList, "hsaBusinessClassificationCode", unit.getName());
+    if (!StringUtil.isEmpty(unit.getName())) {
+      List<String> matchingHsaBusinessClassificationCodes = this.codeTablesService.getCodeFromTextValue(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, unit.getName());
+      for (String matchingHsaBusinessClassificationCode : matchingHsaBusinessClassificationCodes) {
+        this.addSearchFilter(filterList, "hsaBusinessClassificationCode", matchingHsaBusinessClassificationCode);
+      }
+    }
     String unitNameOrBusinessClassificationCode = this.makeOr(filterList);
 
     filterList = new ArrayList<String>();
@@ -612,6 +632,7 @@ public class UnitRepositoryKivws extends UnitRepository {
     return temp;
   }
 
+  @Override
   OrFilter buildAddressSearch(String searchField, String searchValue) {
     OrFilter orFilter = new OrFilter();
     for (int i = 0; i < 12; i += 2) {
@@ -694,18 +715,19 @@ public class UnitRepositoryKivws extends UnitRepository {
    * @return A list of subunits for current unit.
    * @throws KivException If something goes wrong doing search.
    */
+  @Override
   public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxResult) throws KivException {
     SikSearchResultList<Unit> subUnits = null;
 
     DistinguishedName parentDn = new DistinguishedName(parentUnit.getDn().toString());
 
     // Since UnitMapper return a Unit we are certain that the cast to List<Unit> is ok
-    List<Unit> searchOU = searchService.searchUnits(parentDn, "(ou=*)", SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
-    List<Unit> searchCN = searchService.searchFunctionUnits(parentDn, "(cn=*)", SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
+    List<Unit> searchOU = this.searchService.searchUnits(parentDn, "(ou=*)", SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
+    List<Unit> searchCN = this.searchService.searchFunctionUnits(parentDn, "(cn=*)", SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
     searchOU.addAll(searchCN);
     subUnits = this.cleanAndSortResult(searchOU, null);
     this.removeUnitParentFromList(parentUnit, subUnits);
-    getMaxResultList(maxResult, subUnits);
+    this.getMaxResultList(maxResult, subUnits);
     return subUnits;
   }
 
@@ -716,16 +738,17 @@ public class UnitRepositoryKivws extends UnitRepository {
    * @return A list the first level of subunits for current unit.
    * @throws KivException If something goes wrong doing search.
    */
+  @Override
   public SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException {
     SikSearchResultList<Unit> subUnits = null;
 
     DistinguishedName parentDn = new DistinguishedName(parentUnit.getDn().toString());
 
     // Since UnitMapper return a Unit we are certain that the cast to List<Unit> is ok
-    List<Unit> search = searchService.searchUnits(parentDn, "(ou=*)", SearchControls.ONELEVEL_SCOPE, ATTRIBUTES);
+    List<Unit> search = this.searchService.searchUnits(parentDn, "(ou=*)", SearchControls.ONELEVEL_SCOPE, ATTRIBUTES);
     subUnits = this.cleanAndSortResult(search, null);
     this.removeUnitParentFromList(parentUnit, subUnits);
-    getMaxResultList(subUnits.size(), subUnits);
+    this.getMaxResultList(subUnits.size(), subUnits);
     return subUnits;
   }
 
@@ -739,10 +762,12 @@ public class UnitRepositoryKivws extends UnitRepository {
     }
   }
 
+  @Override
   protected DistinguishedName getSearchBase() {
     return KIV_SEARCH_BASE;
   }
 
+  @Override
   public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException {
     Unit unit = this.getUnitByHsaId(hsaId);
     List<String> administratorVgrIds = new ArrayList<String>();
