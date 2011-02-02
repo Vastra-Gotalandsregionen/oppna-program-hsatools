@@ -22,7 +22,8 @@
 <h:outputText rendered="true" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 			<div class="search-result">
 				<h1 class="hriv-header-no-margin">${msg.accessibilityInfo} ${msg.for} ${unit.name}</h1>
 				
@@ -103,8 +104,12 @@
 											<ui:repeat value="${block.packages}" var="package">
 												<h:outputText rendered="${package.hasVisibleCriterias() == 'true'}">
 													<ul class="accessibilityBlockItem">
-														<li>${package.name}<br/>
-														&#160;<ui:repeat value="${package.images}" var="image">
+														<li>${package.name}
+														<h:outputText rendered="${fn:length(package.images) gt 0}">
+														<br/>
+														&#160;
+														</h:outputText>
+														<ui:repeat value="${package.images}" var="image">
 															<h:outputText rendered="${image.urlLarge != null}">
 																<img src="${image.urlLarge}" alt="${image.shortDescription}" /><br/>
 																${image.longDescription}<br/><br/>
