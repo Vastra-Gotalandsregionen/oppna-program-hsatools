@@ -49,6 +49,7 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
+import se.vgregion.kivtools.search.svc.impl.mock.CodeTableServiceMock;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 import se.vgregion.kivtools.search.util.DisplayValueTranslator;
 import se.vgregion.kivtools.util.time.TimeSource;
@@ -56,13 +57,14 @@ import se.vgregion.kivtools.util.time.TimeUtil;
 
 public class UnitRepositoryKivwsTest {
   private UnitRepositoryKivws unitRepository;
-  private LdapTemplateMock ldapTemplateMock = new LdapTemplateMock();
+  private final LdapTemplateMock ldapTemplateMock = new LdapTemplateMock();
   private SpringLdapSearchService springLdapSearchService;
   private SearchServiceMock searchServiceMock;
+  private CodeTableServiceMock codeTablesService;
 
   @Before
   public void setUp() throws Exception {
-    setupTimeSource();
+    this.setupTimeSource();
     // Instantiate HealthcareTypeConditionHelper
     HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper() {
       {
@@ -73,9 +75,12 @@ public class UnitRepositoryKivwsTest {
 
     DisplayValueTranslator displayValueTranslator = new DisplayValueTranslator();
     displayValueTranslator.setTranslationMap(new HashMap<String, String>());
-    unitRepository = new UnitRepositoryKivws();
-    searchServiceMock = new SearchServiceMock();
-    unitRepository.setSearchService(searchServiceMock);
+    this.unitRepository = new UnitRepositoryKivws();
+    this.searchServiceMock = new SearchServiceMock();
+    this.unitRepository.setSearchService(this.searchServiceMock);
+    this.codeTablesService = new CodeTableServiceMock();
+    this.codeTablesService.addListToMap(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, Arrays.asList("1501"));
+    this.unitRepository.setCodeTablesService(this.codeTablesService);
   }
 
   @After
@@ -95,12 +100,12 @@ public class UnitRepositoryKivwsTest {
         Calendar cal = Calendar.getInstance();
         cal.set(2009, 0, 1, 0, 0, 0);
         cal.set(Calendar.MILLISECOND, 0);
-        millis = cal.getTimeInMillis();
+        this.millis = cal.getTimeInMillis();
       }
 
       @Override
       public long millis() {
-        return millis;
+        return this.millis;
       }
     });
   }
@@ -114,9 +119,9 @@ public class UnitRepositoryKivwsTest {
     String expectedFilterOU = "(&(ou=*unitName*)(|(hsaMunicipalityName=*municipalityName*)(|(hsaPostalAddress=*municipalityName*$*$*$*$*$*)(hsaPostalAddress=*$*municipalityName*$*$*$*$*)(hsaPostalAddress=*$*$*municipalityName*$*$*$*)(hsaPostalAddress=*$*$*$*municipalityName*$*$*)(hsaPostalAddress=*$*$*$*$*municipalityName*$*)(hsaPostalAddress=*$*$*$*$*$*municipalityName*))(|(hsaStreetAddress=*municipalityName*$*$*$*$*$*)(hsaStreetAddress=*$*municipalityName*$*$*$*$*)(hsaStreetAddress=*$*$*municipalityName*$*$*$*)(hsaStreetAddress=*$*$*$*municipalityName*$*$*)(hsaStreetAddress=*$*$*$*$*municipalityName*$*)(hsaStreetAddress=*$*$*$*$*$*municipalityName*))))";
     String expectedFilterCN = "(&(cn=*unitName*)(|(hsaMunicipalityName=*municipalityName*)(|(hsaPostalAddress=*municipalityName*$*$*$*$*$*)(hsaPostalAddress=*$*municipalityName*$*$*$*$*)(hsaPostalAddress=*$*$*municipalityName*$*$*$*)(hsaPostalAddress=*$*$*$*municipalityName*$*$*)(hsaPostalAddress=*$*$*$*$*municipalityName*$*)(hsaPostalAddress=*$*$*$*$*$*municipalityName*))(|(hsaStreetAddress=*municipalityName*$*$*$*$*$*)(hsaStreetAddress=*$*municipalityName*$*$*$*$*)(hsaStreetAddress=*$*$*municipalityName*$*$*$*)(hsaStreetAddress=*$*$*$*municipalityName*$*$*)(hsaStreetAddress=*$*$*$*$*municipalityName*$*)(hsaStreetAddress=*$*$*$*$*$*municipalityName*))))";
 
-    unitRepository.searchUnits(searchUnitCriterions, 0);
-    assertEquals(expectedFilterOU, searchServiceMock.filterOU);
-    assertEquals(expectedFilterCN, searchServiceMock.filterCN);
+    this.unitRepository.searchUnits(searchUnitCriterions, 0);
+    assertEquals(expectedFilterOU, this.searchServiceMock.filterOU);
+    assertEquals(expectedFilterCN, this.searchServiceMock.filterCN);
   }
 
   @Test
@@ -129,9 +134,9 @@ public class UnitRepositoryKivwsTest {
     String expectedFilterOU = "(&(ou=unitName)(|(hsaMunicipalityName=municipalityName)(|(hsaPostalAddress=municipalityName$*$*$*$*$*)(hsaPostalAddress=*$municipalityName$*$*$*$*)(hsaPostalAddress=*$*$municipalityName$*$*$*)(hsaPostalAddress=*$*$*$municipalityName$*$*)(hsaPostalAddress=*$*$*$*$municipalityName$*)(hsaPostalAddress=*$*$*$*$*$municipalityName))(|(hsaStreetAddress=municipalityName$*$*$*$*$*)(hsaStreetAddress=*$municipalityName$*$*$*$*)(hsaStreetAddress=*$*$municipalityName$*$*$*)(hsaStreetAddress=*$*$*$municipalityName$*$*)(hsaStreetAddress=*$*$*$*$municipalityName$*)(hsaStreetAddress=*$*$*$*$*$municipalityName))))";
     String expectedFilterCN = "(&(cn=unitName)(|(hsaMunicipalityName=municipalityName)(|(hsaPostalAddress=municipalityName$*$*$*$*$*)(hsaPostalAddress=*$municipalityName$*$*$*$*)(hsaPostalAddress=*$*$municipalityName$*$*$*)(hsaPostalAddress=*$*$*$municipalityName$*$*)(hsaPostalAddress=*$*$*$*$municipalityName$*)(hsaPostalAddress=*$*$*$*$*$municipalityName))(|(hsaStreetAddress=municipalityName$*$*$*$*$*)(hsaStreetAddress=*$municipalityName$*$*$*$*)(hsaStreetAddress=*$*$municipalityName$*$*$*)(hsaStreetAddress=*$*$*$municipalityName$*$*)(hsaStreetAddress=*$*$*$*$municipalityName$*)(hsaStreetAddress=*$*$*$*$*$municipalityName))))";
 
-    unitRepository.searchUnits(searchUnitCriterions, 0);
-    assertEquals(expectedFilterOU, searchServiceMock.filterOU);
-    assertEquals(expectedFilterCN, searchServiceMock.filterCN);
+    this.unitRepository.searchUnits(searchUnitCriterions, 0);
+    assertEquals(expectedFilterOU, this.searchServiceMock.filterOU);
+    assertEquals(expectedFilterCN, this.searchServiceMock.filterCN);
   }
 
   @Test
@@ -150,14 +155,14 @@ public class UnitRepositoryKivwsTest {
     codeTableMock.values.put(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "1505");
     codeTableMock.values.put(KivwsCodeTableName.CARE_TYPE, "01");
 
-    unitRepository.setCodeTablesService(codeTableMock);
+    this.unitRepository.setCodeTablesService(codeTableMock);
     String expectedFilterOU = "(&(vgrAO3kod=01)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1505)(vgrCareType=01))";
     String expectedFilterCN = "(&(vgrAO3kod=01)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1505)(vgrCareType=01))";
 
-    unitRepository.searchUnits(searchUnitCriterions, 0);
+    this.unitRepository.searchUnits(searchUnitCriterions, 0);
 
-    assertEquals(expectedFilterOU, searchServiceMock.filterOU);
-    assertEquals(expectedFilterCN, searchServiceMock.filterCN);
+    assertEquals(expectedFilterOU, this.searchServiceMock.filterOU);
+    assertEquals(expectedFilterCN, this.searchServiceMock.filterCN);
 
     codeTableMock.values.remove(CodeTableName.HSA_BUSINESSCLASSIFICATION_CODE);
 
@@ -167,10 +172,10 @@ public class UnitRepositoryKivwsTest {
     expectedFilterOU = "(hsaBusinessClassificationCode=1505)";
     expectedFilterCN = "(hsaBusinessClassificationCode=1505)";
 
-    unitRepository.searchUnits(searchUnitCriterions, 0);
+    this.unitRepository.searchUnits(searchUnitCriterions, 0);
 
-    assertEquals(expectedFilterOU, searchServiceMock.filterOU);
-    assertEquals(expectedFilterCN, searchServiceMock.filterCN);
+    assertEquals(expectedFilterOU, this.searchServiceMock.filterOU);
+    assertEquals(expectedFilterCN, this.searchServiceMock.filterCN);
   }
 
   @Test
@@ -237,15 +242,15 @@ public class UnitRepositoryKivwsTest {
       }
     };
 
-    unitRepository.setSearchService(searchService);
+    this.unitRepository.setSearchService(searchService);
     // No hsaEndDate set, ie unit should be returned.
-    SikSearchResultList<Unit> resultList = unitRepository.searchAdvancedUnits(new Unit(), 4, null, true);
+    SikSearchResultList<Unit> resultList = this.unitRepository.searchAdvancedUnits(new Unit(), 4, null, true);
     assertNotNull("Result should not be null!", resultList);
     assertEquals(2, resultList.size());
 
     // hsaEndDate set to a "past date", ie unit should NOT be returned.
     resultUnit2.setHsaEndDate(TimeUtil.parseStringToZuluTime("20081231235959Z"));
-    resultList = unitRepository.searchAdvancedUnits(new Unit(), 1, null, true);
+    resultList = this.unitRepository.searchAdvancedUnits(new Unit(), 1, null, true);
     assertEquals(1, resultList.size());
     assertNotSame(resultUnit2, resultList.get(0));
   }
@@ -264,13 +269,13 @@ public class UnitRepositoryKivwsTest {
     searchUnit.setVgrVardVal(true);
 
     int maxResults = 10;
-    unitRepository.searchAdvancedUnits(searchUnit, maxResults, new UnitNameComparator(), false);
+    this.unitRepository.searchAdvancedUnits(searchUnit, maxResults, new UnitNameComparator(), false);
 
-    String correctExpectedValueOU = "(&(|(ou=*unitName*)(hsaBusinessClassificationCode=*unitName*))(|(hsaMunicipalityName=*Göteborg*)(hsaMunicipalityCode=*10032*)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))(hsaIdentity=*hsaId*1*)(&(|(conditionKey=value1)(conditionKey=value2))))";
-    String correctExpectedValueCN = "(&(|(cn=*unitName*)(hsaBusinessClassificationCode=*unitName*))(|(hsaMunicipalityName=*Göteborg*)(hsaMunicipalityCode=*10032*)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))(hsaIdentity=*hsaId*1*)(&(|(conditionKey=value1)(conditionKey=value2))))";
+    String correctExpectedValueOU = "(&(|(ou=*unitName*)(hsaBusinessClassificationCode=*1501*))(|(hsaMunicipalityName=*Göteborg*)(hsaMunicipalityCode=*10032*)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))(hsaIdentity=*hsaId*1*)(&(|(conditionKey=value1)(conditionKey=value2))))";
+    String correctExpectedValueCN = "(&(|(cn=*unitName*)(hsaBusinessClassificationCode=*1501*))(|(hsaMunicipalityName=*Göteborg*)(hsaMunicipalityCode=*10032*)(|(hsaPostalAddress=*Göteborg*$*$*$*$*$*)(hsaPostalAddress=*$*Göteborg*$*$*$*$*)(hsaPostalAddress=*$*$*Göteborg*$*$*$*)(hsaPostalAddress=*$*$*$*Göteborg*$*$*)(hsaPostalAddress=*$*$*$*$*Göteborg*$*)(hsaPostalAddress=*$*$*$*$*$*Göteborg*))(|(hsaStreetAddress=*Göteborg*$*$*$*$*$*)(hsaStreetAddress=*$*Göteborg*$*$*$*$*)(hsaStreetAddress=*$*$*Göteborg*$*$*$*)(hsaStreetAddress=*$*$*$*Göteborg*$*$*)(hsaStreetAddress=*$*$*$*$*Göteborg*$*)(hsaStreetAddress=*$*$*$*$*$*Göteborg*)))(hsaIdentity=*hsaId*1*)(&(|(conditionKey=value1)(conditionKey=value2))))";
 
-    assertEquals(correctExpectedValueOU, searchServiceMock.filterOU);
-    assertEquals(correctExpectedValueCN, searchServiceMock.filterCN);
+    assertEquals(correctExpectedValueOU, this.searchServiceMock.filterOU);
+    assertEquals(correctExpectedValueCN, this.searchServiceMock.filterCN);
   }
 
   @Test
@@ -286,25 +291,25 @@ public class UnitRepositoryKivwsTest {
 
     CodeTableMock codeTableMock = new CodeTableMock();
     codeTableMock.values.put(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, "3");
-    unitRepository.setCodeTablesService(codeTableMock);
+    this.unitRepository.setCodeTablesService(codeTableMock);
 
-    unitRepository.searchUnits(searchUnitCriterions, 10);
+    this.unitRepository.searchUnits(searchUnitCriterions, 10);
 
     String expectedFilterOU = "(&(hsaIdentity=*SE2321000131*E000000000110*)(ou=*resultUnit*)(hsaBusinessClassificationCode=3))";
     String expectedFilterCN = "(&(hsaIdentity=*SE2321000131*E000000000110*)(cn=*resultUnit*)(hsaBusinessClassificationCode=3))";
 
-    assertEquals(expectedFilterOU, searchServiceMock.filterOU);
-    assertEquals(expectedFilterCN, searchServiceMock.filterCN);
+    assertEquals(expectedFilterOU, this.searchServiceMock.filterOU);
+    assertEquals(expectedFilterCN, this.searchServiceMock.filterCN);
 
-    assertEquals(expectedFilterOU, searchServiceMock.filterOU);
-    assertEquals(expectedFilterCN, searchServiceMock.filterCN);
+    assertEquals(expectedFilterOU, this.searchServiceMock.filterOU);
+    assertEquals(expectedFilterCN, this.searchServiceMock.filterCN);
   }
 
   @Test
   public void testBuildAddressSearch() {
     String correctResult = "(|(hsaPostalAddress=*uddevalla*$*$*$*$*$*)(hsaPostalAddress=*$*uddevalla*$*$*$*$*)(hsaPostalAddress=*$*$*uddevalla*$*$*$*)(hsaPostalAddress=*$*$*$*uddevalla*$*$*)"
         + "(hsaPostalAddress=*$*$*$*$*uddevalla*$*)(hsaPostalAddress=*$*$*$*$*$*uddevalla*))";
-    Filter temp = unitRepository.buildAddressSearch("hsaPostalAddress", "*uddevalla*");
+    Filter temp = this.unitRepository.buildAddressSearch("hsaPostalAddress", "*uddevalla*");
     assertEquals(correctResult, temp.encode());
   }
 
@@ -312,7 +317,7 @@ public class UnitRepositoryKivwsTest {
   public void testBuildAddressSearchExactMatch() {
     String correctResult = "(|(hsaPostalAddress=uddevalla$*$*$*$*$*)(hsaPostalAddress=*$uddevalla$*$*$*$*)(hsaPostalAddress=*$*$uddevalla$*$*$*)(hsaPostalAddress=*$*$*$uddevalla$*$*)"
         + "(hsaPostalAddress=*$*$*$*$uddevalla$*)(hsaPostalAddress=*$*$*$*$*$uddevalla))";
-    Filter temp = unitRepository.buildAddressSearch("hsaPostalAddress", "uddevalla");
+    Filter temp = this.unitRepository.buildAddressSearch("hsaPostalAddress", "uddevalla");
     assertEquals(correctResult, temp.encode());
   }
 
@@ -325,8 +330,8 @@ public class UnitRepositoryKivwsTest {
     SearchUnitCriterions searchUnitCriterions = new SearchUnitCriterions();
     searchUnitCriterions.setUnitName("barn- och ungdoms");
     searchUnitCriterions.setLocation("Borås");
-    String createSearchFilter = unitRepository.createSearchFilter(searchUnitCriterions, false);
-    String createSearchFilterCN = unitRepository.createSearchFilter(searchUnitCriterions, true);
+    String createSearchFilter = this.unitRepository.createSearchFilter(searchUnitCriterions, false);
+    String createSearchFilterCN = this.unitRepository.createSearchFilter(searchUnitCriterions, true);
     assertEquals(expectedOU, createSearchFilter);
     assertEquals(expectedCN, createSearchFilterCN);
   }
@@ -336,14 +341,14 @@ public class UnitRepositoryKivwsTest {
    */
   @Test
   public void testcreateAdvancedSearchFilter1() {
-    String expectedOU = "(&(|(ou=*barn**och*ungdomsvård*)(hsaBusinessClassificationCode=*barn**och*ungdomsvård*))(|(hsaMunicipalityCode=*1490*)))";
-    String expectedCN = "(&(|(cn=*barn**och*ungdomsvård*)(hsaBusinessClassificationCode=*barn**och*ungdomsvård*))(|(hsaMunicipalityCode=*1490*)))";
+    String expectedOU = "(&(|(ou=*barn**och*ungdomsvård*)(hsaBusinessClassificationCode=*1501*))(|(hsaMunicipalityCode=*1490*)))";
+    String expectedCN = "(&(|(cn=*barn**och*ungdomsvård*)(hsaBusinessClassificationCode=*1501*))(|(hsaMunicipalityCode=*1490*)))";
 
     Unit unit = new Unit();
     unit.setName("barn- och ungdomsvård");
     unit.setHsaMunicipalityCode("1490");
-    String resultOU = unitRepository.createAdvancedSearchFilter(unit, false, false);
-    String resultCN = unitRepository.createAdvancedSearchFilter(unit, false, true);
+    String resultOU = this.unitRepository.createAdvancedSearchFilter(unit, false, false);
+    String resultCN = this.unitRepository.createAdvancedSearchFilter(unit, false, true);
     assertEquals(expectedOU, resultOU);
     assertEquals(expectedCN, resultCN);
   }
@@ -363,8 +368,8 @@ public class UnitRepositoryKivwsTest {
     conditions.put("hsaBusinessClassificationCode", "1540");
     ht.setConditions(conditions);
     unit.addHealthcareType(ht);
-    String resultOU = unitRepository.createAdvancedSearchFilter(unit, false, false);
-    String resultCN = unitRepository.createAdvancedSearchFilter(unit, false, true);
+    String resultOU = this.unitRepository.createAdvancedSearchFilter(unit, false, false);
+    String resultCN = this.unitRepository.createAdvancedSearchFilter(unit, false, true);
     assertEquals(expectedOU, resultOU);
     assertEquals(expectedCN, resultCN);
   }
@@ -372,13 +377,13 @@ public class UnitRepositoryKivwsTest {
   @Test
   public void testcreateAdvancedSearchFilter3() {
     // TODO: Should not contain the first and condition.
-    String expectedOU = "(&(|(ou=*ambulans*)(hsaBusinessClassificationCode=*ambulans*)))";
-    String expectedCN = "(&(|(cn=*ambulans*)(hsaBusinessClassificationCode=*ambulans*)))";
+    String expectedOU = "(&(|(ou=*ambulans*)(hsaBusinessClassificationCode=*1501*)))";
+    String expectedCN = "(&(|(cn=*ambulans*)(hsaBusinessClassificationCode=*1501*)))";
 
     Unit unit = new Unit();
     unit.setName("ambulans");
-    String resultOU = unitRepository.createAdvancedSearchFilter(unit, false, false);
-    String resultCN = unitRepository.createAdvancedSearchFilter(unit, false, true);
+    String resultOU = this.unitRepository.createAdvancedSearchFilter(unit, false, false);
+    String resultCN = this.unitRepository.createAdvancedSearchFilter(unit, false, true);
     assertEquals(expectedOU, resultOU);
     assertEquals(expectedCN, resultCN);
   }
@@ -392,29 +397,29 @@ public class UnitRepositoryKivwsTest {
     Unit parentUnit = new Unit();
     parentUnit.setHsaIdentity("parent");
     parentUnit.setDn(DN.createDNFromString(base));
-    unitRepository.getSubUnits(parentUnit, 3);
+    this.unitRepository.getSubUnits(parentUnit, 3);
 
-    assertEquals(base, searchServiceMock.baseCN.toString());
-    assertEquals(base, searchServiceMock.baseOU.toString());
-    assertEquals(filterOU, searchServiceMock.filterOU);
-    assertEquals(filterCN, searchServiceMock.filterCN);
+    assertEquals(base, this.searchServiceMock.baseCN.toString());
+    assertEquals(base, this.searchServiceMock.baseOU.toString());
+    assertEquals(filterOU, this.searchServiceMock.filterOU);
+    assertEquals(filterCN, this.searchServiceMock.filterCN);
   }
 
   @Test
   public void testGetUnitByHsaId() throws KivException {
     String expectedFilter = "(hsaIdentity=abc-123)";
-    unitRepository.getUnitByHsaId("abc-123");
-    assertEquals(expectedFilter, searchServiceMock.filterOU);
-    assertEquals(expectedFilter, searchServiceMock.filterCN);
+    this.unitRepository.getUnitByHsaId("abc-123");
+    assertEquals(expectedFilter, this.searchServiceMock.filterOU);
+    assertEquals(expectedFilter, this.searchServiceMock.filterCN);
   }
 
   @Test
   public void testGetAllUnitsHsaIdentity() throws KivException {
     String expectedOU = "(&(|(vgrCareType=01)(vgrCareType=03)))";
     String expectedCN = "(&(|(vgrCareType=01)(vgrCareType=03)))";
-    unitRepository.getAllUnitsHsaIdentity();
-    assertEquals(expectedOU, searchServiceMock.filterOU);
-    assertEquals(expectedCN, searchServiceMock.filterCN);
+    this.unitRepository.getAllUnitsHsaIdentity();
+    assertEquals(expectedOU, this.searchServiceMock.filterOU);
+    assertEquals(expectedCN, this.searchServiceMock.filterCN);
   }
 
   @Test
@@ -422,9 +427,9 @@ public class UnitRepositoryKivwsTest {
     String expectedOU = "(&(hsaDestinationIndicator=03)(|(vgrCareType=01)(vgrCareType=03)))";
     String expectedCN = "(&(hsaDestinationIndicator=03)(|(vgrCareType=01)(vgrCareType=03)))";
 
-    unitRepository.getAllUnitsHsaIdentity(true);
-    assertEquals(expectedOU, searchServiceMock.filterOU);
-    assertEquals(expectedCN, searchServiceMock.filterCN);
+    this.unitRepository.getAllUnitsHsaIdentity(true);
+    assertEquals(expectedOU, this.searchServiceMock.filterOU);
+    assertEquals(expectedCN, this.searchServiceMock.filterCN);
   }
 
   @Test
@@ -450,10 +455,10 @@ public class UnitRepositoryKivwsTest {
     unit4.setHsaBusinessClassificationCode(Arrays.asList("1"));
     unit4.setVgrAnsvarsnummer(Arrays.asList("12345"));
 
-    searchServiceMock.resultList.add(unit1);
-    searchServiceMock.resultList.add(unit2);
-    searchServiceMock.resultList.add(unit3);
-    searchServiceMock.resultList.add(unit4);
+    this.searchServiceMock.resultList.add(unit1);
+    this.searchServiceMock.resultList.add(unit2);
+    this.searchServiceMock.resultList.add(unit3);
+    this.searchServiceMock.resultList.add(unit4);
 
     Unit searchUnit = new Unit();
     searchUnit.setName("unitName");
@@ -465,7 +470,7 @@ public class UnitRepositoryKivwsTest {
 
     int maxResults = 10;
     UnitNameComparator sortOrder = new UnitNameComparator();
-    SikSearchResultList<Unit> units = unitRepository.searchAdvancedUnits(searchUnit, maxResults, sortOrder, true);
+    SikSearchResultList<Unit> units = this.unitRepository.searchAdvancedUnits(searchUnit, maxResults, sortOrder, true);
     assertNotNull(units);
     assertEquals(3, units.size());
     assertEquals(3, units.getTotalNumberOfFoundItems());
@@ -474,27 +479,27 @@ public class UnitRepositoryKivwsTest {
   // TODO: Cannot put two different care types 01 and 03 to the list. Correct query should be (&(hsaIdentity=abc-123)(|(vgrCareType=01)(vgrCareType=03)))
   @Test
   public void testGetUnitByHsaIdHasNotCareTypeInpatient() throws KivException {
-    String expectedOU = "(&(hsaIdentity=abc-123)(|(vgrCareType=01)(vgrCareType=01)))";
-    String expectedCN = "(&(hsaIdentity=abc-123)(|(vgrCareType=01)(vgrCareType=01)))";
+    String expectedOU = "(&(hsaIdentity=abc-123)(|(vgrCareType=01)(vgrCareType=01)(vgrCareType=01)))";
+    String expectedCN = "(&(hsaIdentity=abc-123)(|(vgrCareType=01)(vgrCareType=01)(vgrCareType=01)))";
 
     CodeTableMock codeTableMock = new CodeTableMock();
     codeTableMock.values.put(KivwsCodeTableName.CARE_TYPE, "01");
-    unitRepository.setCodeTablesService(codeTableMock);
-    unitRepository.getUnitByHsaIdAndHasNotCareTypeInpatient("abc-123");
+    this.unitRepository.setCodeTablesService(codeTableMock);
+    this.unitRepository.getUnitByHsaIdAndHasNotCareTypeInpatient("abc-123");
 
-    assertEquals(expectedOU, searchServiceMock.filterOU);
-    assertEquals(expectedCN, searchServiceMock.filterCN);
+    assertEquals(expectedOU, this.searchServiceMock.filterOU);
+    assertEquals(expectedCN, this.searchServiceMock.filterCN);
   }
 
   private class CodeTableMock implements CodeTablesService {
 
-    private Map<KivwsCodeTableName, String> values = new HashMap<KivwsCodeTableName, String>();
+    private final Map<KivwsCodeTableName, String> values = new HashMap<KivwsCodeTableName, String>();
 
     @Override
     public List<String> getCodeFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
       List<String> codes = new ArrayList<String>();
-      if (values.containsKey(codeTableName)) {
-        codes = Arrays.asList(values.get(codeTableName));
+      if (this.values.containsKey(codeTableName)) {
+        codes = Arrays.asList(this.values.get(codeTableName));
       }
       return codes;
     }
@@ -521,12 +526,12 @@ public class UnitRepositoryKivwsTest {
     private String filterCN;
     private Name baseOU;
     private Name baseCN;
-    private List<Unit> resultList = new ArrayList<Unit>();
+    private final List<Unit> resultList = new ArrayList<Unit>();
 
     {
       Unit unit = new Unit();
       unit.setHsaIdentity("test");
-      resultList.add(unit);
+      this.resultList.add(unit);
     }
 
     @Override
@@ -545,14 +550,14 @@ public class UnitRepositoryKivwsTest {
     public List<Unit> searchUnits(Name base, String filter, int searchScope, List<String> attrs) {
       this.baseOU = base;
       this.filterOU = filter;
-      return resultList;
+      return this.resultList;
     }
 
     @Override
     public List<Unit> searchFunctionUnits(Name base, String filter, int searchScope, List<String> attrs) {
       this.baseCN = base;
       this.filterCN = filter;
-      return resultList;
+      return this.resultList;
     }
 
   }

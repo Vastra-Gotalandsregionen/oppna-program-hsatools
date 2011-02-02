@@ -129,8 +129,8 @@ public class HealthcareTypeConditionVGRTest {
 
     healthcareType = this.helper.getHealthcareTypeByName("Psykiatri");
     assertNotNull(healthcareType);
-    assertEquals("1004,1020,1024,1027,1139,1412,1604,1605,1607,1609,1611,1614,1615,1616,1617,1618,1619", healthcareType.getConditions().get(
-        KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE.toString()));
+    assertEquals("1004,1020,1024,1027,1139,1412,1604,1605,1607,1609,1611,1614,1615,1616,1617,1618,1619",
+        healthcareType.getConditions().get(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE.toString()));
     assertFalse(healthcareType.isFiltered());
     assertEquals(Integer.valueOf(12), healthcareType.getIndex());
 
@@ -172,7 +172,7 @@ public class HealthcareTypeConditionVGRTest {
 
     healthcareType = this.helper.getHealthcareTypeByName("Övriga mottagningar");
     assertNotNull(healthcareType);
-    assertEquals("1103,1104,1113,1133,1338,1343,1502,1513,1514,1515,1606,2103", healthcareType.getConditions().get(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE.toString()));
+    assertEquals("1103,1104,1113,1133,1338,1343,1502,1506,1513,1514,1515,1606,2103", healthcareType.getConditions().get(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE.toString()));
     assertNull("vgrAO3kod", healthcareType.getConditions().get(KivwsCodeTableName.VGR_AO3_CODE.toString()));
     assertFalse(healthcareType.isFiltered());
     assertEquals(Integer.valueOf(19), healthcareType.getIndex());

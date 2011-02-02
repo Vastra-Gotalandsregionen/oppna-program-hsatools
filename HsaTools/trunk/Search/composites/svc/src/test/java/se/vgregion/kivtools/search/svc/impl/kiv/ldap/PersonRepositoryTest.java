@@ -47,11 +47,11 @@ import se.vgregion.kivtools.mocks.ldap.LdapTemplateMock;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
-import se.vgregion.kivtools.search.domain.values.CodeTableNameInterface;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
+import se.vgregion.kivtools.search.svc.impl.mock.CodeTableServiceMock;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.util.time.TimeSource;
 import se.vgregion.kivtools.util.time.TimeUtil;
@@ -334,35 +334,6 @@ public class PersonRepositoryTest {
       }
     };
     TimeUtil.setTimeSource(timeSource);
-  }
-
-  class CodeTableServiceMock implements CodeTablesService {
-
-    private final Map<CodeTableName, List<String>> codeTables = new HashMap<CodeTableName, List<String>>();
-
-    public void addListToMap(CodeTableName key, List<String> list) {
-      this.codeTables.put(key, list);
-    }
-
-    @Override
-    public List<String> getCodeFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
-      return this.codeTables.get(codeTableName);
-    }
-
-    @Override
-    public String getValueFromCode(CodeTableNameInterface codeTableName, String string) {
-      return null;
-    }
-
-    @Override
-    public List<String> getValuesFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
-      return null;
-    }
-
-    @Override
-    public List<String> getAllValuesItemsFromCodeTable(String codeTableName) {
-      return null;
-    }
   }
 
   class MockLdapTemplate extends LdapTemplate {

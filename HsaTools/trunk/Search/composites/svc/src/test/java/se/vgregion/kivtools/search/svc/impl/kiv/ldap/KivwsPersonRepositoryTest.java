@@ -25,9 +25,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.naming.Name;
 import javax.naming.directory.SearchControls;
@@ -40,10 +38,9 @@ import org.springframework.ldap.core.LdapTemplate;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
-import se.vgregion.kivtools.search.domain.values.CodeTableNameInterface;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
-import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
+import se.vgregion.kivtools.search.svc.impl.mock.CodeTableServiceMock;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService;
 import se.vgregion.kivtools.util.time.TimeSource;
@@ -58,17 +55,17 @@ public class KivwsPersonRepositoryTest {
 
   @Before
   public void setUp() throws Exception {
-    kivwsPersonRepository = new KivwsPersonRepository();
-    kivwsPersonRepository.setUnitFkField("vgrOrgRel");
-    ldapTemplateMock = new LdapTemplateMock();
-    kivwsPersonRepository.setLdapTemplate(ldapTemplateMock);
-    codeTableServiceMock = new CodeTableServiceMock();
-    codeTableServiceMock.addListToMap(CodeTableName.HSA_SPECIALITY_CODE, Arrays.asList("specialityCode"));
-    codeTableServiceMock.addListToMap(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, Arrays.asList("languageCode"));
-    codeTableServiceMock.addListToMap(CodeTableName.HSA_TITLE, Arrays.asList("profGroup"));
-    codeTableServiceMock.addListToMap(CodeTableName.VGR_AO3_CODE, Arrays.asList("administration1,administration2".split(",")));
-    codeTableServiceMock.addListToMap(CodeTableName.PA_TITLE_CODE, Arrays.asList("employmentTitle", "Kurator"));
-    kivwsPersonRepository.setCodeTablesService(codeTableServiceMock);
+    this.kivwsPersonRepository = new KivwsPersonRepository();
+    this.kivwsPersonRepository.setUnitFkField("vgrOrgRel");
+    this.ldapTemplateMock = new LdapTemplateMock();
+    this.kivwsPersonRepository.setLdapTemplate(this.ldapTemplateMock);
+    this.codeTableServiceMock = new se.vgregion.kivtools.search.svc.impl.mock.CodeTableServiceMock();
+    this.codeTableServiceMock.addListToMap(CodeTableName.HSA_SPECIALITY_CODE, Arrays.asList("specialityCode"));
+    this.codeTableServiceMock.addListToMap(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, Arrays.asList("languageCode"));
+    this.codeTableServiceMock.addListToMap(CodeTableName.HSA_TITLE, Arrays.asList("profGroup"));
+    this.codeTableServiceMock.addListToMap(CodeTableName.VGR_AO3_CODE, Arrays.asList("administration1,administration2".split(",")));
+    this.codeTableServiceMock.addListToMap(CodeTableName.PA_TITLE_CODE, Arrays.asList("employmentTitle", "Kurator"));
+    this.kivwsPersonRepository.setCodeTablesService(this.codeTableServiceMock);
     KivwsFactoryBean kivwsFactoryBean = new KivwsFactoryBean();
   }
 
@@ -76,37 +73,37 @@ public class KivwsPersonRepositoryTest {
   public void testSearchPersonsStringInt() throws KivException {
     String expectedFilter = "(vgr-id=*anders*)";
     String expectedBase = "ou=Personal,o=vgr";
-    SikSearchResultList<Person> searchPersonsResult = kivwsPersonRepository.searchPersons("anders", 2);
-    assertEquals(expectedBase, ldapTemplateMock.base.get(0));
-    assertEquals(expectedFilter, ldapTemplateMock.filter.get(0));
+    SikSearchResultList<Person> searchPersonsResult = this.kivwsPersonRepository.searchPersons("anders", 2);
+    assertEquals(expectedBase, this.ldapTemplateMock.base.get(0));
+    assertEquals(expectedFilter, this.ldapTemplateMock.filter.get(0));
   }
 
   @Test
   public void testGetPersonByVgrId() throws KivException {
     String expectedFilter = "(cn=andav)";
     String expectedBase = "cn=andav,ou=Personal,o=vgr";
-    Person personByVgrId = kivwsPersonRepository.getPersonByVgrId("andav");
-    assertEquals(expectedBase, ldapTemplateMock.base.get(0));
-    assertEquals(expectedFilter, ldapTemplateMock.filter.get(0));
+    Person personByVgrId = this.kivwsPersonRepository.getPersonByVgrId("andav");
+    assertEquals(expectedBase, this.ldapTemplateMock.base.get(0));
+    assertEquals(expectedFilter, this.ldapTemplateMock.filter.get(0));
   }
 
   @Test
   public void testGetAllPersonsVgrId() throws KivException {
     String expectedFilter = "(vgr-id=*)";
     String expectedBase = "ou=Personal,o=vgr";
-    List<String> allPersonsVgrId = kivwsPersonRepository.getAllPersonsVgrId();
-    assertEquals(expectedBase, ldapTemplateMock.base.get(0));
-    assertEquals(expectedFilter, ldapTemplateMock.filter.get(0));
+    List<String> allPersonsVgrId = this.kivwsPersonRepository.getAllPersonsVgrId();
+    assertEquals(expectedBase, this.ldapTemplateMock.base.get(0));
+    assertEquals(expectedFilter, this.ldapTemplateMock.filter.get(0));
   }
 
   @Test
   public void testGetAllPersons() throws KivException {
     String expectedFilter = "(vgr-id=*)";
     String expectedBase = "ou=Personal,o=vgr";
-    List<Person> allPersons = kivwsPersonRepository.getAllPersons();
-    assertEquals(expectedBase, ldapTemplateMock.base.get(0));
-    assertEquals(expectedFilter, ldapTemplateMock.filter.get(0));
-    assertEquals(2, ldapTemplateMock.searchScope);
+    List<Person> allPersons = this.kivwsPersonRepository.getAllPersons();
+    assertEquals(expectedBase, this.ldapTemplateMock.base.get(0));
+    assertEquals(expectedFilter, this.ldapTemplateMock.filter.get(0));
+    assertEquals(2, this.ldapTemplateMock.searchScope);
   }
 
   @Test
@@ -120,9 +117,9 @@ public class KivwsPersonRepositoryTest {
     Unit unit2 = new Unit();
     unit2.setHsaIdentity("unit2");
 
-    SikSearchResultList<Person> personsForUnits = kivwsPersonRepository.getPersonsForUnits(Arrays.asList(unit1, unit2), 2);
-    assertEquals(expectedBase, ldapTemplateMock.base.get(0));
-    assertEquals(expectedFilter, ldapTemplateMock.filter.get(0));
+    SikSearchResultList<Person> personsForUnits = this.kivwsPersonRepository.getPersonsForUnits(Arrays.asList(unit1, unit2), 2);
+    assertEquals(expectedBase, this.ldapTemplateMock.base.get(0));
+    assertEquals(expectedFilter, this.ldapTemplateMock.filter.get(0));
   }
 
   @Test
@@ -138,7 +135,7 @@ public class KivwsPersonRepositoryTest {
     String expectedFilter1 = "(&(hsaStartDate<=20100915155815Z)(|(!(hsaEndDate=*))(hsaEndDate>=20100915155815Z))(title=*SystemDev*)(|(hsaTelephoneNumber=*123456*)(mobileTelephoneNumber=*123456*)(hsaInternalPagerNumber=*123456*)(pagerTelephoneNumber=*123456*)(hsaTextPhoneNumber=*123456*)(hsaPublicTelephoneNumber=*123456*)(facsimileTelephoneNumber=*123456*)(hsaSedfSwitchboardTelephoneNo=*123456*))(description=*desc*)(paTitleCode=Consultant))";
     String expectedFilter2 = "(&(|(givenName=*David*)(hsaNickName=*David*))(|(sn=*Bennehult*)(hsaMiddleName=*Bennehult*))(vgr-id=*userId*)(hsaSpecialityCode=specialityCode)(!(vgrSecrMark=J))(vgr-id=test, ou=Personal, o=vgr))";
     String expectedBase = "ou=Personal,o=vgr";
-    codeTableServiceMock.addListToMap(CodeTableName.PA_TITLE_CODE, Arrays.asList("Consultant"));
+    this.codeTableServiceMock.addListToMap(CodeTableName.PA_TITLE_CODE, Arrays.asList("Consultant"));
 
     SearchPersonCriterions searchPersonCriterions = new SearchPersonCriterions();
     searchPersonCriterions.setUserId("userId");
@@ -150,17 +147,17 @@ public class KivwsPersonRepositoryTest {
     searchPersonCriterions.setDescription("desc");
     searchPersonCriterions.setSpecialityArea("specialityCode");
 
-    SikSearchResultList<Person> searchPersons = kivwsPersonRepository.searchPersons(searchPersonCriterions, 1);
-    assertEquals(expectedBase, ldapTemplateMock.base.get(0));
-    assertEquals(expectedFilter1, ldapTemplateMock.filter.get(0));
-    assertEquals(expectedFilter2, ldapTemplateMock.filter.get(1));
+    SikSearchResultList<Person> searchPersons = this.kivwsPersonRepository.searchPersons(searchPersonCriterions, 1);
+    assertEquals(expectedBase, this.ldapTemplateMock.base.get(0));
+    assertEquals(expectedFilter1, this.ldapTemplateMock.filter.get(0));
+    assertEquals(expectedFilter2, this.ldapTemplateMock.filter.get(1));
 
   }
 
   class LdapTemplateMock extends LdapTemplate {
 
-    private List<String> base = new ArrayList<String>();
-    private List<String> filter = new ArrayList<String>();
+    private final List<String> base = new ArrayList<String>();
+    private final List<String> filter = new ArrayList<String>();
     private int searchScope;
 
     @Override
@@ -193,34 +190,4 @@ public class KivwsPersonRepositoryTest {
       return Arrays.asList("cn=test, ou=Personal, o=vgr");
     }
   }
-
-  class CodeTableServiceMock implements CodeTablesService {
-
-    private Map<CodeTableName, List<String>> codeTables = new HashMap<CodeTableName, List<String>>();
-
-    public void addListToMap(CodeTableName key, List<String> list) {
-      codeTables.put(key, list);
-    }
-
-    @Override
-    public List<String> getCodeFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
-      return codeTables.get(codeTableName);
-    }
-
-    @Override
-    public String getValueFromCode(CodeTableNameInterface codeTableName, String string) {
-      return null;
-    }
-
-    @Override
-    public List<String> getValuesFromTextValue(CodeTableNameInterface codeTableName, String textValue) {
-      return null;
-    }
-
-    @Override
-    public List<String> getAllValuesItemsFromCodeTable(String codeTableName) {
-      return null;
-    }
-  }
-
 }
