@@ -50,6 +50,8 @@
 		<property name="captchaValidator" ref="captchaValidator" />
 	</bean>
 	
+	<bean id="unitSearchStrategy" class="se.vgregion.kivtools.hriv.presentation.UnitSearchStrategyLTHImpl"/>
+	
 	<bean id="sitemapGenerator" class="se.vgregion.kivtools.search.svc.ExternalSitemapGenerator" />
 	
 	<bean id="sitemapSupportBean" class="se.vgregion.kivtools.search.svc.SitemapSupportBean">

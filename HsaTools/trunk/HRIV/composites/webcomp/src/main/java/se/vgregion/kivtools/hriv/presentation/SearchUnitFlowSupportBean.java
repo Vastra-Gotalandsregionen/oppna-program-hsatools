@@ -31,10 +31,6 @@ import se.vgregion.kivtools.hriv.presentation.comparators.UnitCareTypeNameCompar
 import se.vgregion.kivtools.hriv.presentation.forms.DisplayCloseUnitsSimpleForm;
 import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.search.domain.Unit;
-import se.vgregion.kivtools.search.domain.values.Address;
-import se.vgregion.kivtools.search.domain.values.AddressHelper;
-import se.vgregion.kivtools.search.domain.values.HealthcareType;
-import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
@@ -54,7 +50,6 @@ import se.vgregion.kivtools.util.StringUtil;
  * @author Jonas Liljenfeldt, Know IT
  */
 public class SearchUnitFlowSupportBean implements Serializable {
-
   private static final String CLASS_NAME = SearchUnitFlowSupportBean.class.getName();
   private static final long serialVersionUID = 1L;
 
@@ -62,6 +57,7 @@ public class SearchUnitFlowSupportBean implements Serializable {
 
   private SearchService searchService;
   private UnitCacheServiceImpl unitCacheService;
+  private UnitSearchStrategy unitSearchStrategy;
 
   private int pageSize;
   private int maxSearchResult;
@@ -79,8 +75,8 @@ public class SearchUnitFlowSupportBean implements Serializable {
     this.unitCacheService = unitCacheService;
   }
 
-  public void setOnlyPublicUnits(boolean onlyPublicUnits) {
-    this.onlyPublicUnits = onlyPublicUnits;
+  public void setUnitSearchStrategy(UnitSearchStrategy unitSearchStrategy) {
+    this.unitSearchStrategy = unitSearchStrategy;
   }
 
   /**
@@ -99,6 +95,10 @@ public class SearchUnitFlowSupportBean implements Serializable {
    */
   public void setMeters(int meters) {
     this.meters = meters;
+  }
+
+  public void setOnlyPublicUnits(boolean onlyPublicUnits) {
+    this.onlyPublicUnits = onlyPublicUnits;
   }
 
   /**
@@ -166,27 +166,13 @@ public class SearchUnitFlowSupportBean implements Serializable {
       SikSearchResultList<Unit> list = new SikSearchResultList<Unit>();
 
       if (!theForm.isEmpty()) {
-        Unit u = this.mapSearchCriteriaToUnit(theForm);
-
         Comparator<Unit> sortOrder = this.evaluateSortOrder(theForm);
         int effectiveMaxSearchResult = this.maxSearchResult;
         if ("true".equals(theForm.getShowAll())) {
           effectiveMaxSearchResult = Integer.MAX_VALUE;
         }
-        list = this.searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, this.onlyPublicUnits);
 
-        // No hits with complete criterions. Try again but with cleaned unit name this time
-        if (list.size() == 0 && !StringUtil.isEmpty(theForm.getUnitName())) {
-          u.setName(this.cleanUnitName(theForm.getUnitName()));
-          list = this.searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, this.onlyPublicUnits);
-        }
-
-        // Still no hits. Try again but with only the cleaned unit name this time if the user forgot to remove any care type or municipality selection.
-        if (list.size() == 0 && this.lessSpecifiedSearchPossible(theForm)) {
-          u = new Unit();
-          u.setName(this.cleanUnitName(theForm.getUnitName()));
-          list = this.searchService.searchAdvancedUnits(u, effectiveMaxSearchResult, sortOrder, this.onlyPublicUnits);
-        }
+        list = this.unitSearchStrategy.performSearch(theForm, sortOrder, effectiveMaxSearchResult, this.searchService, this.onlyPublicUnits);
       }
 
       // stop measurement
@@ -205,37 +191,6 @@ public class SearchUnitFlowSupportBean implements Serializable {
       this.logger.debug(e.getMessage(), e);
       return new SikSearchResultList<Unit>();
     }
-  }
-
-  /**
-   * Checks if it's possible to perform a less specified search by analysing the search criterions.
-   * 
-   * @param theForm The form-instance containing the search criterions.
-   * @return True if a less specified search is possible, otherwise false.
-   */
-  private boolean lessSpecifiedSearchPossible(UnitSearchSimpleForm theForm) {
-    boolean result = false;
-
-    // A less specified search is possible
-
-    // If any of healthcare type and municipality was filled
-    result |= !StringUtil.isEmpty(theForm.getHealthcareType());
-    result |= !StringUtil.isEmpty(theForm.getMunicipality());
-
-    // And unit name was filled
-    result &= !StringUtil.isEmpty(theForm.getUnitName());
-
-    return result;
-  }
-
-  private String cleanUnitName(String unitName) {
-    String cleanedName = unitName;
-    int lastComma = cleanedName.lastIndexOf(",");
-    if (lastComma != -1) {
-      cleanedName = cleanedName.substring(0, lastComma);
-    }
-
-    return cleanedName;
   }
 
   /**
@@ -333,51 +288,6 @@ public class SearchUnitFlowSupportBean implements Serializable {
       }
     }
     return PagedSearchMetaDataHelper.buildPagedSearchMetaData(unitHsaIdList, this.pageSize);
-  }
-
-  private Unit mapSearchCriteriaToUnit(UnitSearchSimpleForm theForm) {
-    this.logger.debug(CLASS_NAME + ".mapSearchCriteriaToUnit(...)");
-    Unit unit = new Unit();
-
-    // unit name
-    unit.setName(theForm.getUnitName());
-    // hsaStreetAddress
-    List<String> list = new ArrayList<String>();
-    list.add(theForm.getMunicipality());
-    unit.setHsaStreetAddress(AddressHelper.convertToAddress(list));
-
-    List<String> hsaBusinessClassificationCode = new ArrayList<String>();
-    hsaBusinessClassificationCode.add(theForm.getUnitName());
-    unit.setHsaBusinessClassificationCode(hsaBusinessClassificationCode);
-
-    // hsaPostalAddress
-    list = new ArrayList<String>();
-    list.add(theForm.getMunicipality());
-    Address adress = new Address();
-    // we stuff in the text in the additionalInfo
-    adress.setAdditionalInfo(list);
-    unit.setHsaPostalAddress(adress);
-
-    // hsaMunicipalityCode
-    unit.setHsaMunicipalityCode(theForm.getMunicipality());
-
-    // Assign health care types
-    Integer healthcareTypeIndex;
-    try {
-      healthcareTypeIndex = Integer.parseInt(theForm.getHealthcareType());
-    } catch (NumberFormatException nfe) {
-      // No health care type was chosen.
-      healthcareTypeIndex = null;
-    }
-    if (healthcareTypeIndex != null) {
-      HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
-      HealthcareType ht = htch.getHealthcareTypeByIndex(healthcareTypeIndex);
-      if (ht != null) {
-        unit.addHealthcareType(ht);
-      }
-    }
-
-    return unit;
   }
 
   /**
