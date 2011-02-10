@@ -21,30 +21,34 @@ package se.vgregion.kivtools.hriv.presentation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import se.vgregion.kivtools.hriv.presentation.comparators.UnitCareTypeNameComparator;
 import se.vgregion.kivtools.hriv.presentation.forms.DisplayCloseUnitsSimpleForm;
 import se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm;
 import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.search.domain.Unit;
-import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
-import se.vgregion.kivtools.search.domain.values.MunicipalityHelper;
+import se.vgregion.kivtools.search.exceptions.IncorrectUserInputException;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.exceptions.KivNoDataFoundException;
 import se.vgregion.kivtools.search.exceptions.NoConnectionToServerException;
 import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
+import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.cache.CacheLoader;
 import se.vgregion.kivtools.search.svc.cache.UnitCache;
+import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
 import se.vgregion.kivtools.search.svc.impl.cache.UnitCacheServiceImpl;
 
 public class SearchUnitFlowSupportBeanTest {
@@ -53,6 +57,7 @@ public class SearchUnitFlowSupportBeanTest {
   private final SearchUnitFlowSupportBean bean = new SearchUnitFlowSupportBean();
   private UnitSearchSimpleForm form;
   private DisplayCloseUnitsSimpleForm displayCloseUnitsSimpleForm;
+  private final UnitSearchStrategyMock unitSearchStrategy = new UnitSearchStrategyMock();
 
   @BeforeClass
   public static void setupClass() {
@@ -68,144 +73,104 @@ public class SearchUnitFlowSupportBeanTest {
   public void setUp() throws Exception {
     this.bean.setSearchService(this.searchService);
     this.bean.setUnitCacheService(this.unitCacheService);
-    this.bean.setUnitSearchStrategy(new UnitSearchStrategyVGRImpl());
-
-    MunicipalityHelper municipalityHelper = new MunicipalityHelper();
-    municipalityHelper.setImplResourcePath("se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-municipalities");
-    HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper() {
-      {
-        resetInternalCache();
-      }
-    };
-    healthcareTypeConditionHelper.setImplResourcePath("se.vgregion.kivtools.search.svc.impl.kiv.ldap.search-composite-svc-healthcare-type-conditions");
+    this.bean.setUnitSearchStrategy(this.unitSearchStrategy);
 
     this.form = new UnitSearchSimpleForm();
     this.displayCloseUnitsSimpleForm = new DisplayCloseUnitsSimpleForm();
   }
 
-  @After
-  public void tearDown() {
-    new HealthcareTypeConditionHelper() {
-      {
-        resetInternalCache();
-      }
-    };
+  @Test(expected = NullPointerException.class)
+  public void cleanSearchSimpleFormThrowsNullPointerExceptionOnNullInput() {
+    this.bean.cleanSearchSimpleForm(null);
   }
 
   @Test
-  public void testCleanSearchSimpleForm() {
-    try {
-      this.bean.cleanSearchSimpleForm(null);
-      fail("NullPointerException expected");
-    } catch (NullPointerException e) {
-      // Expected exception
-    }
-
+  public void cleanSearchSimpleFormCleansUnitNameInForm() {
     this.form.setUnitName("DEF");
     this.bean.cleanSearchSimpleForm(this.form);
     assertEquals("", this.form.getUnitName());
   }
 
-  @Test
-  public void testDoSearch() throws Exception {
-    try {
-      this.bean.doSearch(null);
-      fail("NullPointerException expected");
-    } catch (NullPointerException e) {
-      // Expected exception
-    }
+  @Test(expected = NullPointerException.class)
+  public void doSearchThrowsNullPointerExceptionForNullInput() throws Exception {
+    this.bean.doSearch(null);
+  }
 
-    try {
-      this.bean.doSearch(this.form);
-      fail("KivNoDataFoundException expected");
-    } catch (KivNoDataFoundException e) {
-      // Expected exception
-    }
-
-    this.form.setUnitName("DEF");
-    this.form.setHealthcareType("0");
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    try {
-      this.bean.doSearch(this.form);
-      fail("KivNoDataFoundException expected");
-    } catch (KivNoDataFoundException e) {
-      // Expected exception
-    }
-
-    Unit unit = new Unit();
-    unit.setHsaIdentity("ABC-123");
-    SikSearchResultList<Unit> searchResult = new SikSearchResultList<Unit>();
-    searchResult.add(unit);
-    this.searchService.addSearchAdvancedUnitsSearchResult(searchResult);
-    // 18 == Vårdcentral
-    this.form.setHealthcareType("18");
-    SikSearchResultList<Unit> result = this.bean.doSearch(this.form);
-    assertNotNull(result);
-    assertEquals(1, result.size());
-
-    this.searchService.addExceptionToThrow(new NoConnectionToServerException());
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    try {
-      this.bean.doSearch(this.form);
-      fail("NoConnectionToServerException expected");
-    } catch (NoConnectionToServerException e) {
-      // Expected exception
-    }
-
-    this.searchService.clearExceptionsToThrow();
-
-    this.form.setShowAll("true");
-    this.searchService.addSearchAdvancedUnitsSearchResult(searchResult);
+  @Test(expected = KivNoDataFoundException.class)
+  public void doSearchThrowsKivNoDataFoundExceptionForEmptyForm() throws Exception {
     this.bean.doSearch(this.form);
-    this.searchService.assertMaxSearchResults(Integer.MAX_VALUE);
+    assertSame("form", this.form, this.unitSearchStrategy.form);
   }
 
   @Test
-  public void testDoSearchNoHitsFirstSearch() throws KivException {
+  public void doSearchCallsUnitSearchStrategyWithSearchForm() throws Exception {
     this.form.setUnitName("DEF");
     this.form.setHealthcareType("0");
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    Unit unit = new Unit();
-    unit.setHsaIdentity("ABC-123");
-    SikSearchResultList<Unit> searchResult = new SikSearchResultList<Unit>();
-    searchResult.add(unit);
-    this.searchService.addSearchAdvancedUnitsSearchResult(searchResult);
-    SikSearchResultList<Unit> result = this.bean.doSearch(this.form);
-    assertNotNull(result);
-    assertEquals(1, result.size());
-
-    this.form.setHealthcareType("");
-    this.form.setMunicipality("1480");
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    this.searchService.addSearchAdvancedUnitsSearchResult(searchResult);
-    result = this.bean.doSearch(this.form);
-    assertEquals(1, result.size());
-
-    this.form.setUnitName("");
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    try {
-      result = this.bean.doSearch(this.form);
-      fail("KivException expected");
-    } catch (KivException e) {
-      // Expected exception
-    }
+    this.bean.doSearch(this.form);
+    assertSame("form", this.form, this.unitSearchStrategy.form);
   }
 
   @Test
-  public void testDoSearchUnitNameCleaned() throws KivException {
-    this.form.setUnitName("Vårdcentralen Angered, Angered");
-    Unit unit = new Unit();
-    unit.setHsaIdentity("ABC-123");
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    SikSearchResultList<Unit> searchResult = new SikSearchResultList<Unit>();
-    searchResult.add(unit);
-    this.searchService.addSearchAdvancedUnitsSearchResult(searchResult);
+  public void doSearchPassesMaxSearchResultToUnitSearchStrategy() throws Exception {
+    this.bean.setMaxSearchResult(3);
+    this.form.setUnitName("a");
+    this.bean.doSearch(this.form);
+    assertEquals("max search result", 3, this.unitSearchStrategy.effectiveMaxSearchResult);
+  }
+
+  @Test
+  public void doSearchPassesIntegerMaxValueAsMaxSearchResultIfShowAllIsSet() throws Exception {
+    this.form.setShowAll("true");
+    this.form.setUnitName("a");
+    this.bean.doSearch(this.form);
+    assertEquals("max search result", Integer.MAX_VALUE, this.unitSearchStrategy.effectiveMaxSearchResult);
+  }
+
+  @Test(expected = NoConnectionToServerException.class)
+  public void doSearchDoesNotCatchNoConnectionToServerException() throws Exception {
+    this.unitSearchStrategy.setExceptionToThrow(new NoConnectionToServerException());
+    this.form.setUnitName("a");
+    this.bean.doSearch(this.form);
+  }
+
+  @Test(expected = KivNoDataFoundException.class)
+  public void doSearchDoesNotCatchKivNoDataFoundException() throws Exception {
+    this.unitSearchStrategy.setExceptionToThrow(new KivNoDataFoundException());
+    this.form.setUnitName("a");
+    this.bean.doSearch(this.form);
+  }
+
+  @Test
+  public void doSearchCatchesOtherKindsOfKivExceptionAndReturnEmptyList() throws Exception {
+    this.unitSearchStrategy.setExceptionToThrow(new IncorrectUserInputException());
+    this.form.setUnitName("a");
     SikSearchResultList<Unit> result = this.bean.doSearch(this.form);
-    assertNotNull(result);
-    assertEquals(1, result.size());
-    this.searchService.assertUnitCriterionName("Vårdcentralen Angered");
+    assertNotNull("result", result);
+    assertEquals("result count", 0, result.size());
+  }
+
+  @Test
+  public void doSearchDoesNotCallUnitSearchStrategyIfAnInvalidSortOrderIsSpecified() throws Exception {
+    this.form.setUnitName("ABC");
+    this.form.setSortOrder("XYZ");
+    this.bean.doSearch(this.form);
+    assertNull("form", this.unitSearchStrategy.form);
+  }
+
+  @Test
+  public void doSearchPassesAUnitNameComparatorToUnitSearchStrategyForUnitNameSortOrder() throws Exception {
+    this.form.setUnitName("ABC");
+    this.form.setSortOrder("UNIT_NAME");
+    this.bean.doSearch(this.form);
+    assertEquals("form", UnitNameComparator.class, this.unitSearchStrategy.sortOrder.getClass());
+  }
+
+  @Test
+  public void doSearchPassesAUnitCareTypeNameComparatorToUnitSearchStrategyForCareTypeSortOrder() throws Exception {
+    this.form.setUnitName("ABC");
+    this.form.setSortOrder("CARE_TYPE_NAME");
+    this.bean.doSearch(this.form);
+    assertEquals("form", UnitCareTypeNameComparator.class, this.unitSearchStrategy.sortOrder.getClass());
   }
 
   @Test
@@ -305,35 +270,6 @@ public class SearchUnitFlowSupportBeanTest {
   }
 
   @Test
-  public void testSetMaxSearchResults() throws Exception {
-    this.bean.setMaxSearchResult(3);
-
-    this.form.setUnitName("a");
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    try {
-      this.bean.doSearch(this.form);
-      fail("KivNoDataFoundException expected");
-    } catch (KivNoDataFoundException e) {
-      // Expected exception
-    }
-
-    this.searchService.assertMaxSearchResults(3);
-
-    this.bean.setMaxSearchResult(5);
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    try {
-      this.bean.doSearch(this.form);
-      fail("KivNoDataFoundException expected");
-    } catch (KivNoDataFoundException e) {
-      // Expected exception
-    }
-
-    this.searchService.assertMaxSearchResults(5);
-  }
-
-  @Test
   public void testSetPageSize() throws KivNoDataFoundException {
     this.bean.setPageSize(3);
 
@@ -358,36 +294,6 @@ public class SearchUnitFlowSupportBeanTest {
     assertNotNull(result);
     // 1 result per page == 3 page metadata
     assertEquals(3, result.size());
-  }
-
-  @Test
-  public void testEvaluateSortOrder() throws KivException {
-    this.form.setUnitName("ABC");
-
-    this.form.setSortOrder("XYZ");
-    SikSearchResultList<Unit> result = this.bean.doSearch(this.form);
-    assertNotNull(result);
-    assertEquals(0, result.size());
-
-    this.form.setSortOrder("UNIT_NAME");
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    try {
-      this.bean.doSearch(this.form);
-      fail("KivNoDataFoundException expected");
-    } catch (KivNoDataFoundException e) {
-      // Expected exception
-    }
-
-    this.form.setSortOrder("CARE_TYPE_NAME");
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    this.searchService.addSearchAdvancedUnitsSearchResult(new SikSearchResultList<Unit>());
-    try {
-      this.bean.doSearch(this.form);
-      fail("KivNoDataFoundException expected");
-    } catch (KivNoDataFoundException e) {
-      // Expected exception
-    }
   }
 
   @Test
@@ -426,6 +332,33 @@ public class SearchUnitFlowSupportBeanTest {
     closeUnits = this.bean.getCloseUnits(this.displayCloseUnitsSimpleForm);
     assertNotNull(closeUnits);
     assertEquals(0, closeUnits.size());
+  }
+
+  private static class UnitSearchStrategyMock implements UnitSearchStrategy {
+    private UnitSearchSimpleForm form;
+    private int effectiveMaxSearchResult;
+    private KivException exceptionToThrow;
+    private Comparator<Unit> sortOrder;
+
+    @Override
+    public SikSearchResultList<Unit> performSearch(UnitSearchSimpleForm theForm, Comparator<Unit> sortOrder, int effectiveMaxSearchResult, SearchService searchService, boolean onlyPublicUnits)
+        throws KivException {
+      this.form = theForm;
+      this.sortOrder = sortOrder;
+      this.effectiveMaxSearchResult = effectiveMaxSearchResult;
+
+      if (this.exceptionToThrow != null) {
+        throw this.exceptionToThrow;
+      }
+
+      SikSearchResultList<Unit> result = new SikSearchResultList<Unit>();
+      result.add(new Unit());
+      return result;
+    }
+
+    public void setExceptionToThrow(KivException exceptionToThrow) {
+      this.exceptionToThrow = exceptionToThrow;
+    }
   }
 
   private static class UnitCacheLoaderMock implements CacheLoader<UnitCache> {

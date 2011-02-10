@@ -41,16 +41,16 @@ public class SearchServiceMock implements SearchService {
   private int maxSearchResults = -1;
 
   private SikSearchResultList<Person> persons = new SikSearchResultList<Person>();
-  private Map<String, SikSearchResultList<Employment>> employments = new HashMap<String, SikSearchResultList<Employment>>();
-  private Map<String, Unit> units = new HashMap<String, Unit>();
-  private Map<String, SikSearchResultList<Person>> personsForUnit = new HashMap<String, SikSearchResultList<Person>>();
-  private List<KivException> exceptionsToThrow = new ArrayList<KivException>();
+  private final Map<String, SikSearchResultList<Employment>> employments = new HashMap<String, SikSearchResultList<Employment>>();
+  private final Map<String, Unit> units = new HashMap<String, Unit>();
+  private final Map<String, SikSearchResultList<Person>> personsForUnit = new HashMap<String, SikSearchResultList<Person>>();
+  private final List<KivException> exceptionsToThrow = new ArrayList<KivException>();
   private List<String> allPersonsId = Collections.emptyList();
   private List<String> allUnitsId = Collections.emptyList();
-  private List<SikSearchResultList<Unit>> searchAdvancedUnitsSearchResults = new ArrayList<SikSearchResultList<Unit>>();
-  private int searchAdvancedUnitsCallCount;
+  private final List<SikSearchResultList<Unit>> searchAdvancedUnitsSearchResults = new ArrayList<SikSearchResultList<Unit>>();
+  int searchAdvancedUnitsCallCount;
   private int exceptionCallCount;
-  private Unit unitCriterion;
+  Unit unitCriterion;
 
   public void setPersons(SikSearchResultList<Person> persons) {
     this.persons = persons;
@@ -61,11 +61,11 @@ public class SearchServiceMock implements SearchService {
   }
 
   public void addUnit(Unit unit) {
-    units.put(unit.getHsaIdentity(), unit);
+    this.units.put(unit.getHsaIdentity(), unit);
   }
 
   public void addPersonsForUnit(Unit unit, SikSearchResultList<Person> persons) {
-    personsForUnit.put(unit.getHsaIdentity(), persons);
+    this.personsForUnit.put(unit.getHsaIdentity(), persons);
   }
 
   public void setAllPersonsId(List<String> allPersonsId) {
@@ -90,13 +90,13 @@ public class SearchServiceMock implements SearchService {
   }
 
   private void throwExceptionIfApplicable() throws KivException {
-    if (exceptionsToThrow.size() > 0) {
-      if (exceptionsToThrow.size() == 1) {
-        throw exceptionsToThrow.get(0);
+    if (this.exceptionsToThrow.size() > 0) {
+      if (this.exceptionsToThrow.size() == 1) {
+        throw this.exceptionsToThrow.get(0);
       } else {
-        exceptionCallCount++;
-        if (exceptionCallCount <= exceptionsToThrow.size() && exceptionsToThrow.get(exceptionCallCount - 1) != null) {
-          throw exceptionsToThrow.get(exceptionCallCount - 1);
+        this.exceptionCallCount++;
+        if (this.exceptionCallCount <= this.exceptionsToThrow.size() && this.exceptionsToThrow.get(this.exceptionCallCount - 1) != null) {
+          throw this.exceptionsToThrow.get(this.exceptionCallCount - 1);
         }
       }
     }
@@ -109,8 +109,8 @@ public class SearchServiceMock implements SearchService {
   @Override
   public SikSearchResultList<Employment> getEmployments(String personDn) throws KivException {
     SikSearchResultList<Employment> result;
-    if (employments.containsKey(personDn)) {
-      result = employments.get(personDn);
+    if (this.employments.containsKey(personDn)) {
+      result = this.employments.get(personDn);
     } else {
       result = new SikSearchResultList<Employment>();
     }
@@ -119,13 +119,13 @@ public class SearchServiceMock implements SearchService {
 
   @Override
   public Unit getUnitByHsaId(String hsaId) throws KivException {
-    throwExceptionIfApplicable();
-    return units.get(hsaId);
+    this.throwExceptionIfApplicable();
+    return this.units.get(hsaId);
   }
 
   @Override
   public SikSearchResultList<Unit> getSubUnits(Unit parentUnit, int maxSearchResult) throws KivException {
-    throwExceptionIfApplicable();
+    this.throwExceptionIfApplicable();
     return new SikSearchResultList<Unit>();
   }
 
@@ -135,8 +135,8 @@ public class SearchServiceMock implements SearchService {
     if (units != null) {
       for (Unit unit : units) {
 
-        if (personsForUnit.containsKey(unit.getHsaIdentity())) {
-          result.addAll(personsForUnit.get(unit.getHsaIdentity()));
+        if (this.personsForUnit.containsKey(unit.getHsaIdentity())) {
+          result.addAll(this.personsForUnit.get(unit.getHsaIdentity()));
         }
       }
     }
@@ -155,13 +155,13 @@ public class SearchServiceMock implements SearchService {
 
   @Override
   public List<String> getAllPersonsId() throws KivException {
-    throwExceptionIfApplicable();
+    this.throwExceptionIfApplicable();
     return this.allPersonsId;
   }
 
   @Override
   public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions unit, int maxSearchResult) throws KivException {
-    throwExceptionIfApplicable();
+    this.throwExceptionIfApplicable();
     this.maxSearchResults = maxSearchResult;
     return new SikSearchResultList<Unit>(this.units.values());
   }
@@ -172,23 +172,23 @@ public class SearchServiceMock implements SearchService {
 
   @Override
   public List<String> getAllUnitsHsaIdentity() throws KivException {
-    throwExceptionIfApplicable();
+    this.throwExceptionIfApplicable();
     return this.allUnitsId;
   }
 
   @Override
   public SikSearchResultList<Unit> searchAdvancedUnits(Unit unit, int maxSearchResult, Comparator<Unit> sortOrder, boolean onlyPublicUnits) throws KivException {
     this.searchAdvancedUnitsCallCount++;
-    throwExceptionIfApplicable();
+    this.throwExceptionIfApplicable();
     this.maxSearchResults = maxSearchResult;
     this.unitCriterion = unit;
     // return new SikSearchResultList<Unit>(this.units.values());
-    return this.searchAdvancedUnitsSearchResults.get(searchAdvancedUnitsCallCount - 1);
+    return this.searchAdvancedUnitsSearchResults.get(this.searchAdvancedUnitsCallCount - 1);
   }
 
   @Override
   public List<String> getAllUnitsHsaIdentity(boolean onlyPublicUnits) throws KivException {
-    throwExceptionIfApplicable();
+    this.throwExceptionIfApplicable();
     return this.allUnitsId;
   }
 
