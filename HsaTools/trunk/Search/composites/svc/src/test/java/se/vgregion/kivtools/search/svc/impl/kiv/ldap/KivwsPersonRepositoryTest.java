@@ -42,7 +42,7 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.impl.mock.CodeTableServiceMock;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
-import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebServiceImplPortType;
 import se.vgregion.kivtools.util.time.TimeSource;
 import se.vgregion.kivtools.util.time.TimeUtil;
 
@@ -51,7 +51,7 @@ public class KivwsPersonRepositoryTest {
   private KivwsPersonRepository kivwsPersonRepository;
   private LdapTemplateMock ldapTemplateMock;
   private CodeTableServiceMock codeTableServiceMock;
-  private VGRegionWebService vgRegionWebService;
+  private VGRegionWebServiceImplPortType vgRegionWebService;
 
   @Before
   public void setUp() throws Exception {

@@ -32,7 +32,7 @@ import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.KivwsCodeNameTableMapper;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRException_Exception;
-import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebServiceImplPortType;
 
 /**
  * Class that handles code from a webservice.
@@ -41,16 +41,16 @@ import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService;
  */
 public class KivwsCodeTablesServiceImpl implements CodeTablesService {
 
-  private Map<KivwsCodeTableName, Map<String, String>> codeTables = new ConcurrentHashMap<KivwsCodeTableName, Map<String, String>>();
+  private final Map<KivwsCodeTableName, Map<String, String>> codeTables = new ConcurrentHashMap<KivwsCodeTableName, Map<String, String>>();
 
-  private final VGRegionWebService vgregionWebService;
+  private final VGRegionWebServiceImplPortType vgregionWebService;
 
   /**
    * Constructs a new KivwsCodeTablesServiceImpl.
    * 
    * @param vgregionWebService The VGR web service to use.
    */
-  public KivwsCodeTablesServiceImpl(VGRegionWebService vgregionWebService) {
+  public KivwsCodeTablesServiceImpl(VGRegionWebServiceImplPortType vgregionWebService) {
     this.vgregionWebService = vgregionWebService;
   }
 
@@ -58,10 +58,10 @@ public class KivwsCodeTablesServiceImpl implements CodeTablesService {
    * Initializes the code table service.
    */
   public void init() {
-    codeTables.clear();
+    this.codeTables.clear();
     for (KivwsCodeTableName codeTableName : KivwsCodeTableName.values()) {
       try {
-        populateCodeTablesMap(codeTableName);
+        this.populateCodeTablesMap(codeTableName);
       } catch (KivException e) {
         throw new RuntimeException(e.getMessage());
       }
@@ -72,9 +72,9 @@ public class KivwsCodeTablesServiceImpl implements CodeTablesService {
     KivwsCodeNameTableMapper codeTableMapper = new KivwsCodeNameTableMapper();
     try {
       String codeNameString = codeTableName.toString();
-      String2StringMap attributeCodesAndCleartexts = vgregionWebService.getAttributeCodesAndCleartexts(codeNameString);
+      String2StringMap attributeCodesAndCleartexts = this.vgregionWebService.getAttributeCodesAndCleartexts(codeNameString);
       codeTableMapper.mapFromContext(attributeCodesAndCleartexts);
-      codeTables.put(codeTableName, codeTableMapper.getCodeTableContent());
+      this.codeTables.put(codeTableName, codeTableMapper.getCodeTableContent());
     } catch (VGRException_Exception e) {
       throw new KivException(e.getMessage());
     }
@@ -91,7 +91,7 @@ public class KivwsCodeTablesServiceImpl implements CodeTablesService {
       throw new RuntimeException("Object codeTableName is not a type of KivwsCodeTableName");
     }
 
-    Map<String, String> chosenCodeTable = codeTables.get(kivwsCodeTableName);
+    Map<String, String> chosenCodeTable = this.codeTables.get(kivwsCodeTableName);
     String value = "";
     if (chosenCodeTable != null) {
       value = chosenCodeTable.get(code);
@@ -112,7 +112,7 @@ public class KivwsCodeTablesServiceImpl implements CodeTablesService {
 
     String stringToMatch = textValue.toLowerCase();
     List<String> codes = new ArrayList<String>();
-    Map<String, String> chosenCodeTable = codeTables.get(kivwsCodeTableName);
+    Map<String, String> chosenCodeTable = this.codeTables.get(kivwsCodeTableName);
     for (Entry<String, String> entry : chosenCodeTable.entrySet()) {
       if (entry.getValue().toLowerCase().contains(stringToMatch)) {
         codes.add(entry.getKey());
@@ -133,7 +133,7 @@ public class KivwsCodeTablesServiceImpl implements CodeTablesService {
 
     String stringToMatch = textValue.toLowerCase();
     List<String> values = new ArrayList<String>();
-    Map<String, String> chosenCodeTable = codeTables.get(kivwsCodeTableName);
+    Map<String, String> chosenCodeTable = this.codeTables.get(kivwsCodeTableName);
     for (String value : chosenCodeTable.values()) {
       if (value.toLowerCase().contains(stringToMatch)) {
         values.add(value);
@@ -144,7 +144,7 @@ public class KivwsCodeTablesServiceImpl implements CodeTablesService {
 
   @Override
   public List<String> getAllValuesItemsFromCodeTable(String codeTable) {
-    return new ArrayList<String>(codeTables.get(KivwsCodeTableName.valueOf(codeTable)).values());
+    return new ArrayList<String>(this.codeTables.get(KivwsCodeTableName.valueOf(codeTable)).values());
   }
 
 }

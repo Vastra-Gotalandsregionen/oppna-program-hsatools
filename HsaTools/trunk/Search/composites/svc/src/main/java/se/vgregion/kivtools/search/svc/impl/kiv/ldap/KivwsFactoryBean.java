@@ -20,13 +20,14 @@
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
 import java.net.Authenticator;
+import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.util.Properties;
 
 import javax.xml.ws.BindingProvider;
 
-import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService;
-import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService_Service;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebServiceImpl;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebServiceImplPortType;
 
 public class KivwsFactoryBean {
 
@@ -36,22 +37,23 @@ public class KivwsFactoryBean {
     this.properties = properties;
   }
 
-  public VGRegionWebService createWebService() {
-   
-    // This will set login for basic http auth used in webservice 
+  public VGRegionWebServiceImplPortType createWebService() throws MalformedURLException {
+
+    // This will set login for basic http auth used in webservice
     Authenticator.setDefault(new Authenticator() {
       @Override
       protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication(properties.getProperty("hsatools.search.svc.kivws.username"), properties.getProperty("hsatools.search.svc.kivws.password").toCharArray());
+        return new PasswordAuthentication(KivwsFactoryBean.this.properties.getProperty("hsatools.search.svc.kivws.username"), KivwsFactoryBean.this.properties.getProperty(
+            "hsatools.search.svc.kivws.password").toCharArray());
       }
     });
-    
-    VGRegionWebService_Service vgRegionWebServiceService = new VGRegionWebService_Service();
-    VGRegionWebService vgRegionWebServiceImplPort = vgRegionWebServiceService.getVGRegionWebServiceImplPort();
+
+    VGRegionWebServiceImpl vgRegionWebServiceService = new VGRegionWebServiceImpl();
+    VGRegionWebServiceImplPortType vgRegionWebServiceImplPort = vgRegionWebServiceService.getVGRegionWebServiceImplPort();
     // Setup username and password authentication for webservice.
     BindingProvider bindingProvider = (BindingProvider) vgRegionWebServiceImplPort;
-    bindingProvider.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, properties.getProperty("hsatools.search.svc.kivws.username"));
-    bindingProvider.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, properties.getProperty("hsatools.search.svc.kivws.password"));
+    bindingProvider.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, this.properties.getProperty("hsatools.search.svc.kivws.username"));
+    bindingProvider.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, this.properties.getProperty("hsatools.search.svc.kivws.password"));
     return vgRegionWebServiceImplPort;
   }
 
