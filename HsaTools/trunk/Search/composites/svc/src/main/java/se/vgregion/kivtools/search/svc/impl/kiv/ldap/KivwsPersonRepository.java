@@ -51,7 +51,7 @@ import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.comparators.PersonNameComparator;
 import se.vgregion.kivtools.search.svc.impl.SingleAttributeMapper;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
-import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebServiceImplPortType;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.util.StringUtil;
 import se.vgregion.kivtools.util.time.TimeUtil;
@@ -69,9 +69,9 @@ public class KivwsPersonRepository {
   private String unitFkField;
   private CodeTablesService codeTablesService;
   private static final String CN_EQUALS = "cn=";
-  private VGRegionWebService vgRegionWebService;
+  private VGRegionWebServiceImplPortType vgRegionWebService;
 
-  public void setVgRegionWebService(VGRegionWebService vgRegionWebService) {
+  public void setVgRegionWebService(VGRegionWebServiceImplPortType vgRegionWebService) {
     this.vgRegionWebService = vgRegionWebService;
   }
 

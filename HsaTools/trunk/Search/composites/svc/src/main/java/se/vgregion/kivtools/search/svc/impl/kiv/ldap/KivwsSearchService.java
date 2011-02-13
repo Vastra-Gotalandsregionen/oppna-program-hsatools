@@ -34,12 +34,12 @@ import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfUnit;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.Function;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRException_Exception;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionDirectory;
-import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebService;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebServiceImplPortType;
 import se.vgregion.kivtools.util.Arguments;
 
 public class KivwsSearchService implements SearchService {
 
-  private VGRegionWebService vgregionWebService;
+  private VGRegionWebServiceImplPortType vgregionWebService;
   private KivwsUnitMapper kivwsUnitMapper;
   private final Log logger = LogFactory.getLog(KivwsSearchService.class);
 
@@ -47,7 +47,7 @@ public class KivwsSearchService implements SearchService {
     this.kivwsUnitMapper = kivwsUnitMapper;
   }
 
-  public void setVgregionWebService(VGRegionWebService vgregionWebService) {
+  public void setVgregionWebService(VGRegionWebServiceImplPortType vgregionWebService) {
     this.vgregionWebService = vgregionWebService;
   }
 
@@ -62,10 +62,10 @@ public class KivwsSearchService implements SearchService {
 
     try {
       String filter = "(" + name.get(name.size() - 1) + ")";
-      ArrayOfUnit searchUnit = vgregionWebService.searchUnit(filter, arrayOfString, VGRegionDirectory.KIV, null, null);
-      unit = mapKivwsUnitToUnit(searchUnit).get(0);
+      ArrayOfUnit searchUnit = this.vgregionWebService.searchUnit(filter, arrayOfString, VGRegionDirectory.KIV, null, null);
+      unit = this.mapKivwsUnitToUnit(searchUnit).get(0);
     } catch (VGRException_Exception e) {
-      logger.error(e.getMessage(), e);
+      this.logger.error(e.getMessage(), e);
       unit = new Unit();
     }
 
@@ -78,10 +78,10 @@ public class KivwsSearchService implements SearchService {
     ArrayOfString arrayOfString = new ArrayOfString();
     arrayOfString.getString().addAll(attrs);
     try {
-      ArrayOfFunction searchFunction = vgregionWebService.searchFunction(filter, arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(searchScope));
+      ArrayOfFunction searchFunction = this.vgregionWebService.searchFunction(filter, arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(searchScope));
       resultUnits.addAll(this.mapKivwsUnits(searchFunction));
     } catch (VGRException_Exception e) {
-      logger.error(e.getMessage(), e);
+      this.logger.error(e.getMessage(), e);
     }
     return resultUnits;
   }
@@ -94,8 +94,8 @@ public class KivwsSearchService implements SearchService {
     arrayOfString.getString().addAll(attrs);
     try {
       // Get all functions and map.
-      ArrayOfFunction searchFunction = vgregionWebService.searchFunction(filter, arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(searchScope));
-      ArrayOfUnit searchUnits = vgregionWebService.searchUnit(filter, arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(searchScope));
+      ArrayOfFunction searchFunction = this.vgregionWebService.searchFunction(filter, arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(searchScope));
+      ArrayOfUnit searchUnits = this.vgregionWebService.searchUnit(filter, arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(searchScope));
       List<Function> functions = searchFunction.getFunction();
       List<se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit> units = searchUnits.getUnit();
 
@@ -107,7 +107,7 @@ public class KivwsSearchService implements SearchService {
         result.add(singleAttributeMaper.mapFromContext(unit));
       }
     } catch (VGRException_Exception e) {
-      logger.error(e.getMessage(), e);
+      this.logger.error(e.getMessage(), e);
     }
 
     return result;
@@ -120,10 +120,10 @@ public class KivwsSearchService implements SearchService {
     arrayOfString.getString().addAll(attrs);
 
     try {
-      ArrayOfUnit searchUnit = vgregionWebService.searchUnit(filter, arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(searchScope));
-      result = mapKivwsUnits(searchUnit);
+      ArrayOfUnit searchUnit = this.vgregionWebService.searchUnit(filter, arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(searchScope));
+      result = this.mapKivwsUnits(searchUnit);
     } catch (VGRException_Exception e) {
-      logger.error(e.getMessage(), e);
+      this.logger.error(e.getMessage(), e);
       result = new ArrayList<Unit>();
     }
     return result;
@@ -132,9 +132,9 @@ public class KivwsSearchService implements SearchService {
   private List<Unit> mapKivwsUnits(Object object) {
     List<Unit> result = null;
     if (object instanceof ArrayOfFunction) {
-      result = mapKivwsUnitFunctionToUnit((ArrayOfFunction) object);
+      result = this.mapKivwsUnitFunctionToUnit((ArrayOfFunction) object);
     } else {
-      result = mapKivwsUnitToUnit((ArrayOfUnit) object);
+      result = this.mapKivwsUnitToUnit((ArrayOfUnit) object);
     }
     return result;
   }
@@ -143,7 +143,7 @@ public class KivwsSearchService implements SearchService {
     List<se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit> unit = arrayOfUnit.getUnit();
     List<Unit> result = new ArrayList<Unit>();
     for (se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit kivwsUnit : unit) {
-      result.add(kivwsUnitMapper.mapFromContext(kivwsUnit));
+      result.add(this.kivwsUnitMapper.mapFromContext(kivwsUnit));
     }
     return result;
   }
@@ -152,7 +152,7 @@ public class KivwsSearchService implements SearchService {
     List<Unit> result = new ArrayList<Unit>();
     List<Function> function = arrayOfFunction.getFunction();
     for (Function function2 : function) {
-      result.add(kivwsUnitMapper.mapFromContext(function2));
+      result.add(this.kivwsUnitMapper.mapFromContext(function2));
     }
     return result;
   }
