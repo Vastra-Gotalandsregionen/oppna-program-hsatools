@@ -148,6 +148,7 @@
       <xsd:import namespace="http://cxf.apache.org/arrays"/>
       <xsd:import namespace="http://objects.ws.vgregion.se"/>
       <xsd:import namespace="http://constants.ws.vgregion.se"/>
+      <xsd:import namespace="http://exceptions.ws.vgregion.se"/>
       <xsd:complexType name="string2stringMap">
         <xsd:sequence>
           <xsd:element maxOccurs="unbounded" minOccurs="0" name="entry">
