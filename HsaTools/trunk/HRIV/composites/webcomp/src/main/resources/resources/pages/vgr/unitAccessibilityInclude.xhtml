@@ -115,15 +115,18 @@
 																${image.longDescription}<br/><br/>
 															</h:outputText>
 														</ui:repeat> </li>
-														<ul jsfc="ui:repeat" value="${package.criterias}"
-														var="criteria" class="accessibilityCriteriaItem">
+														<ui:repeat value="${package.criterias}" var="criteria">
 															<h:outputText rendered="${criteria.show==true}">
-																<li>${criteria.description}</li>
-																<ul jsfc="ui:repeat" value="${criteria.additionalCriterias}" var="additionalCriteria">
-																	<li>${additionalCriteria}</li>
+																<ul class="accessibilityCriteriaItem">
+																	<li>${criteria.description}</li>
+																	<ui:repeat value="${criteria.additionalCriterias}" var="additionalCriteria">
+																		<ul>
+																			<li>${additionalCriteria}</li>
+																		</ul>
+																	</ui:repeat>
 																</ul>
 															</h:outputText>
-														</ul>
+														</ui:repeat>
 													</ul>
 												</h:outputText>
 											</ui:repeat>
