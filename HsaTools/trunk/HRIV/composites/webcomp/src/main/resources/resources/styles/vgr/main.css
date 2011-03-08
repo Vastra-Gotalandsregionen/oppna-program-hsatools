@@ -83,7 +83,7 @@ a { color:#9c132f; }
 #nav li { float:left; border-right:1px solid #c2c2c2; }
 #nav li.first { border-left: 1px solid #c2c2c2; }
 #nav li:hover {  }
-#nav li a { float:left; color:#444; text-decoration:none; font-weight:bold; font-size:1em; line-height:42px; padding:0 10px; border-left: 1px solid #fff; border-right: 1px solid #fff; color:#5c5c5c; }
+#nav li a { float:left; color:#444; text-decoration:none; font-weight:bold; font-size:1em; line-height:42px; padding:0 25px; border-left: 1px solid #fff; border-right: 1px solid #fff; color:#5c5c5c; }
 #nav li.sel { background: url(../../images/vgr/nav-tab-sel.png) repeat-x 0 0; border-bottom:4px solid #9c132f;}
 #nav li.sel a { padding:0 10px; line-height:41px; color:#2c2c2c; }
 
