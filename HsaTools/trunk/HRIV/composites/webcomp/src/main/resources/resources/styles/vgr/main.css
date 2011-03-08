@@ -244,17 +244,6 @@ ul.rss li a:hover { text-decoration: underline; color: #9C132F;}
 }
 
 /*** Navigation  ***/
-#nav { clear:both; margin:0 0 1em; overflow:hidden; }
-#nav ul { list-style-type:none; overflow:hidden;  }
-#nav li { float:left; border-right:1px solid #c2c2c2; }
-#nav li.first { border-left: 1px solid #c2c2c2; }
-#nav li:hover {  }
-#nav li a { float:left; color:#444; text-decoration:none; font-weight:bold; font-size:1em; line-height:42px; padding:0 10px; border-left: 1px solid #fff; border-right: 1px solid #fff; color:#5c5c5c; }
-#nav li.sel { background: url(../../images/vgr/nav-tab-sel.png) repeat-x 0 0; border-bottom:4px solid #9c132f;}
-#nav li.sel a { padding:0 10px; line-height:41px; color:#2c2c2c; }
-
-
-
 #navigation { clear:both; margin:0 0 1em; }
 #navigation #menu-rounded-lft { background: url(../../images/vgr/sprite.png) no-repeat -32px -118px; height:46px; width:17px; float:left; }
 #navigation #menu-rounded-rt { background: url(../../images/vgr/sprite.png) no-repeat -49px -118px; height:46px; width:17px; float: right; }
