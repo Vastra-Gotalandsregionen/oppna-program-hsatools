@@ -96,7 +96,7 @@
 								<h:outputText rendered="${block.hasVisiblePackages() == 'true'}">
 									<ul class="accessibilityInfoItem">
 										<script type="text/javascript" charset="utf-8">
-											// <![CDATA[]
+											// <![CDATA[
 												writeImage('${block.id}', '${block.name}');
 											// ]]>
 										</script>
@@ -105,16 +105,15 @@
 												<h:outputText rendered="${package.hasVisibleCriterias() == 'true'}">
 													<ul class="accessibilityBlockItem">
 														<li>${package.name}
-														<h:outputText rendered="${fn:length(package.images) gt 0}">
-														<br/>
-														&#160;
-														</h:outputText>
-														<ui:repeat value="${package.images}" var="image">
-															<h:outputText rendered="${image.urlLarge != null}">
-																<img src="${image.urlLarge}" alt="${image.shortDescription}" /><br/>
-																${image.longDescription}<br/><br/>
+															<h:outputText rendered="${fn:length(package.images) gt 0}">
 															</h:outputText>
-														</ui:repeat> </li>
+															<ui:repeat value="${package.images}" var="image">
+																<h:outputText rendered="${image.urlLarge != null}">
+																	<img src="${image.urlLarge}" alt="${image.shortDescription}" class="accessibilityBlockImage"/>
+																	<span class="accessibilityBlockImageDesc">${image.longDescription}</span>
+																</h:outputText>
+															</ui:repeat>
+														</li>
 														<ui:repeat value="${package.criterias}" var="criteria">
 															<h:outputText rendered="${criteria.show==true}">
 																<ul class="accessibilityCriteriaItem">
@@ -144,7 +143,7 @@
 								<h:outputText rendered="${block.hasVisiblePackages() == 'true'}">
 									<ul class="accessibilityInfoItem">
 										<script type="text/javascript" charset="utf-8">
-											// <![CDATA[]
+											// <![CDATA[
 												writeImage('${block.id}', '${block.name}');
 											// ]]>
 										</script>
@@ -152,26 +151,29 @@
 											<ui:repeat value="${block.packages}" var="package">
 												<h:outputText rendered="${package.hasVisibleCriterias() == 'true'}">
 													<ul class="accessibilityBlockItem">
-														<li>${package.name}<br/>
-														&#160;<ui:repeat value="${package.notetexts}" var="note">
-															<h:outputText value="${note}"/>
-															<br/>
-														</ui:repeat><br/>
-														&#160;<ui:repeat value="${package.images}" var="image">
-															<h:outputText rendered="${image.urlLarge != null}">
-																<img src="${image.urlLarge}" alt="${image.shortDescription}" /><br/>
-																${image.longDescription}<br/><br/>
-															</h:outputText>
-														</ui:repeat> </li>
-														<ul jsfc="ui:repeat" value="${package.criterias}"
-														var="criteria" class="accessibilityCriteriaItem">
+														<li>${package.name}
+															<ui:repeat value="${package.notetexts}" var="note">
+																<span class="accessibilityBlockItemNote"><h:outputText value="${note}"/></span>
+															</ui:repeat>
+															<ui:repeat value="${package.images}" var="image">
+																<h:outputText rendered="${image.urlLarge != null}">
+																	<img src="${image.urlLarge}" alt="${image.shortDescription}" class="accessibilityBlockImage"/>
+																	<span class="accessibilityBlockImageDesc">${image.longDescription}</span>
+																</h:outputText>
+															</ui:repeat>
+														</li>
+														<ui:repeat value="${package.criterias}" var="criteria">
 															<h:outputText rendered="${criteria.show==true}">
-																<li>${criteria.description}</li>
-																<ul jsfc="ui:repeat" value="${criteria.additionalCriterias}" var="additionalCriteria">
-																	<li>${additionalCriteria}</li>
+																<ul class="accessibilityCriteriaItem">
+																	<li>${criteria.description}</li>
+																	<ui:repeat value="${criteria.additionalCriterias}" var="additionalCriteria">
+																		<ul>
+																			<li>${additionalCriteria}</li>
+																		</ul>
+																	</ui:repeat>
 																</ul>
 															</h:outputText>
-														</ul>
+														</ui:repeat>
 													</ul>
 												</h:outputText>
 											</ui:repeat>
@@ -185,7 +187,7 @@
 						<h:outputText rendered="${unit.accessibilityInformation != null}">
 							<div id="acc-info-toggle">
 								<script type="text/javascript" charset="utf-8">
-								// <![CDATA[]
+								// <![CDATA[
 									drawAccInfoToggleButton('${msgLocalized.showHeadlines}', '${msgLocalized.showAllInfo}', '${msgLocalized.toTop}');
 								// ]]>
 								</script>
@@ -195,7 +197,7 @@
 					</div>
 					
 					<script type="text/javascript" charset="utf-8">
-						// <![CDATA[]
+						// <![CDATA[
 							setJsEnabledAccInfo();
 						// ]]>
 					</script>
