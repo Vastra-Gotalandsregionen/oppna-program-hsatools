@@ -133,6 +133,7 @@ h3.fn {
 
 #boxmiddle ul.accessibilityBlockItem {
 	list-style: disc;
+	margin-left: 2em;
 }
 
 #boxmiddle ul.accessibilityCriteriaItem {
@@ -164,6 +165,11 @@ h3.fn {
 
 #boxmiddle ul.accessibilityCriteriaItem ul li {
 	list-style: square;
+}
+
+.accessibilityBlockImage, .accessibilityBlockImageDesc, .accessibilityBlockItemNote {
+	display:block;
+	clear: both;
 }
 
 .borderless-container table {
