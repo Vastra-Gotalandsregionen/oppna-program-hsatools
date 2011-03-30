@@ -95,24 +95,24 @@
 							<ui:repeat value="${businessObject.blocks}" var="block">
 								<h:outputText rendered="${block.hasVisiblePackages() == 'true'}">
 									<ul class="accessibilityInfoItem">
-										<script type="text/javascript" charset="utf-8">
-											// <![CDATA[
-												writeImage('${block.id}', '${block.name}');
-											// ]]>
-										</script>
+										<img src="resources/images/icoPlus.gif" id="icon_${block.id}" onclick="toggleAccessibilityItem('${block.id}');" align="left"/>
+										<li onclick="toggleAccessibilityItem('${block.id}');">${block.name}</li>
 										<div class="accessibilityItemShowable" id="${block.id}">
 											<ui:repeat value="${block.packages}" var="package">
 												<h:outputText rendered="${package.hasVisibleCriterias() == 'true'}">
 													<ul class="accessibilityBlockItem">
 														<li>${package.name}
-															<h:outputText rendered="${fn:length(package.images) gt 0}">
-															</h:outputText>
-															<ui:repeat value="${package.images}" var="image">
-																<h:outputText rendered="${image.urlLarge != null}">
-																	<img src="${image.urlLarge}" alt="${image.shortDescription}" class="accessibilityBlockImage"/>
-																	<span class="accessibilityBlockImageDesc">${image.longDescription}</span>
-																</h:outputText>
+															<ui:repeat value="${package.notetexts}" var="note">
+																<span class="accessibilityBlockItemNote"><h:outputText value="${note}"/></span>
 															</ui:repeat>
+															<h:outputText rendered="${fn:length(package.images) gt 0}">
+																<ui:repeat value="${package.images}" var="image">
+																	<h:outputText rendered="${image.urlLarge != null}">
+																		<img src="${image.urlLarge}" alt="${image.shortDescription}" class="accessibilityBlockImage"/>
+																		<span class="accessibilityBlockImageDesc">${image.longDescription}</span>
+																	</h:outputText>
+																</ui:repeat>
+															</h:outputText>
 														</li>
 														<ui:repeat value="${package.criterias}" var="criteria">
 															<h:outputText rendered="${criteria.show==true}">
@@ -142,11 +142,8 @@
 							<ui:repeat value="${subObject.blocks}" var="block">
 								<h:outputText rendered="${block.hasVisiblePackages() == 'true'}">
 									<ul class="accessibilityInfoItem">
-										<script type="text/javascript" charset="utf-8">
-											// <![CDATA[
-												writeImage('${block.id}', '${block.name}');
-											// ]]>
-										</script>
+										<img src="resources/images/icoPlus.gif" id="icon_${block.id}" onclick="toggleAccessibilityItem('${block.id}');" align="left"/>
+										<li onclick="toggleAccessibilityItem('${block.id}');">${block.name}</li>
 										<div class="accessibilityItemShowable" id="${block.id}">
 											<ui:repeat value="${block.packages}" var="package">
 												<h:outputText rendered="${package.hasVisibleCriterias() == 'true'}">

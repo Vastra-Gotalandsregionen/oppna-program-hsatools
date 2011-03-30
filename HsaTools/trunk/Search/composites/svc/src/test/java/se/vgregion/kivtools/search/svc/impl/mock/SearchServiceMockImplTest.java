@@ -64,7 +64,7 @@ public class SearchServiceMockImplTest {
   public void testGetUnitByHsaId() throws KivException {
     Unit unit = this.searchService.getUnitByHsaId("ABC001");
     assertEquals("VGR IT", unit.getName());
-    unit = this.searchService.getUnitByHsaId("ABC002");
+    unit = this.searchService.getUnitByHsaId("SE2321000131-E000000007190");
     assertEquals("Sahlgrenska Sjukhuset", unit.getName());
     unit = this.searchService.getUnitByHsaId("SE2321000131-E000000000420");
     assertEquals("Uddevalla vårdcentral", unit.getName());
@@ -99,8 +99,8 @@ public class SearchServiceMockImplTest {
     List<String> allUnitsHsaIdentity = this.searchService.getAllUnitsHsaIdentity();
     assertEquals(3, allUnitsHsaIdentity.size());
     assertTrue(allUnitsHsaIdentity.contains("ABC001"));
-    assertTrue(allUnitsHsaIdentity.contains("ABC002"));
-    assertTrue(allUnitsHsaIdentity.contains("ABC003"));
+    assertTrue(allUnitsHsaIdentity.contains("SE2321000131-E000000007190"));
+    assertTrue(allUnitsHsaIdentity.contains("SE2321000131-E000000000420"));
   }
 
   @Test
@@ -120,8 +120,8 @@ public class SearchServiceMockImplTest {
     List<String> allUnitsHsaIdentity = this.searchService.getAllUnitsHsaIdentity(false);
     assertEquals(3, allUnitsHsaIdentity.size());
     assertTrue(allUnitsHsaIdentity.contains("ABC001"));
-    assertTrue(allUnitsHsaIdentity.contains("ABC002"));
-    assertTrue(allUnitsHsaIdentity.contains("ABC003"));
+    assertTrue(allUnitsHsaIdentity.contains("SE2321000131-E000000007190"));
+    assertTrue(allUnitsHsaIdentity.contains("SE2321000131-E000000000420"));
   }
 
   @Test

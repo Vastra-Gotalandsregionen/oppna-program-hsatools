@@ -148,8 +148,8 @@ public class SearchServiceMockImpl implements SearchService {
   public List<String> getAllUnitsHsaIdentity() throws KivException {
     List<String> result = new ArrayList<String>();
     result.add("ABC001");
-    result.add("ABC002");
-    result.add("ABC003");
+    result.add("SE2321000131-E000000007190");
+    result.add("SE2321000131-E000000000420");
     return result;
   }
 
@@ -250,7 +250,7 @@ public class SearchServiceMockImpl implements SearchService {
     list.add(u);
 
     u = new Unit();
-    u.setHsaIdentity("ABC002");
+    u.setHsaIdentity("SE2321000131-E000000007190");
     u.setName("Sahlgrenska Sjukhuset");
     u.setLocality("Göteborg");
     u.setHsaMunicipalityCode("1405");
