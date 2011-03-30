@@ -308,13 +308,18 @@ public class UnitTest {
     assertEquals("012345678901234567-", this.unit.getVgrTempInfo());
     this.unit.setVgrTempInfo("aaaabbcc-ddddeeff temp temp");
     assertEquals("aaaabbcc-ddddeeff temp temp", this.unit.getVgrTempInfo());
-    this.unit.setVgrTempInfo("20090108-temp temp temp temp");
-    assertEquals("20090108-temp temp temp temp", this.unit.getVgrTempInfo());
-    assertEquals(format.parse("20090101"), this.unit.getVgrTempInfoStart());
-    assertEquals("temp temp temp", this.unit.getVgrTempInfoBody());
     this.unit.setVgrTempInfo("20090108-20090118 temp temp temp");
     assertEquals("20090108-20090118 temp temp temp", this.unit.getVgrTempInfo());
     assertEquals(format.parse("20090119"), this.unit.getVgrTempInfoEnd());
+    assertEquals("temp temp temp", this.unit.getVgrTempInfoBody());
+  }
+
+  @Test
+  public void startDateOfTemporaryInformationShouldBeSetToTheProvidedDate() throws Exception {
+    DateFormat format = new SimpleDateFormat("yyyyMMdd");
+    this.unit.setVgrTempInfo("20090108-temp temp temp temp");
+    assertEquals("20090108-temp temp temp temp", this.unit.getVgrTempInfo());
+    assertEquals(format.parse("20090108"), this.unit.getVgrTempInfoStart());
     assertEquals("temp temp temp", this.unit.getVgrTempInfoBody());
   }
 
