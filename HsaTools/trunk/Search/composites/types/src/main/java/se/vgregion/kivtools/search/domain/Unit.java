@@ -816,7 +816,7 @@ public class Unit implements Serializable, Comparable<Unit> {
         Calendar cal = new GregorianCalendar();
         cal.setTime(startDate);
         // Start showing one week
-        cal.add(Calendar.DAY_OF_YEAR, -7);
+        // cal.add(Calendar.DAY_OF_YEAR, -7);
         // earlier
         this.setVgrTempInfoStart(cal.getTime());
       } catch (ParseException e) {
