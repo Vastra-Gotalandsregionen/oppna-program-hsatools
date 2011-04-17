@@ -62,6 +62,13 @@ public class UnitRepositoryTest {
   }
 
   @Test
+  public void searchBaseIsRegionHalland() throws Exception {
+    SearchUnitCriterions searchUnitCriterions = new SearchUnitCriterions();
+    this.unitRepository.searchUnits(searchUnitCriterions, 0);
+    assertEquals("search base", "ou=Region Halland,dc=lthallandhsa,dc=se", this.ldapTemplate.getBase());
+  }
+
+  @Test
   public void testSearchUnit() throws KivException {
     SearchUnitCriterions searchUnitCriterions = new SearchUnitCriterions();
     searchUnitCriterions.setUnitId("\"abc-123\"");
