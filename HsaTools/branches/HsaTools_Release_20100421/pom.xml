@@ -25,6 +25,7 @@
 
   <!-- common library versions -->
   <properties>
+  	<javg.version>1.2</javg.version>
     <spring.fw.version>2.5.6</spring.fw.version>
     <apache.cxf.version>2.1.2</apache.cxf.version>
     <maven.profilename>VGR</maven.profilename>

@@ -59,7 +59,7 @@ public class HttpFetcherImplTest {
 
   @Test
   public void testSuccessfulSecureUrl() {
-    String result = fetcher.fetchUrl("https://internetbank.swedbank.se/bviPrivat/privat?ns=1");
+    String result = fetcher.fetchUrl("https://internetbank.swedbank.se/idp/portal");
     assertNotNull(result);
     assertTrue(result.length() > 0);
     assertTrue(result.indexOf("swedbank") != -1);
