@@ -22,7 +22,7 @@
 <h:outputText xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
-    	xmlns:ui="http://java.sun.com/jsf/facelets"
+			xmlns:ui="http://java.sun.com/jsf/facelets"
 		rendered="true">
 	<!--  Search units widget start (dont remove this comment) -->
 	<div class="box-hd">
@@ -30,7 +30,7 @@
 			<h2>${msg.searchUnit}</h2>
 		</div>
 	</div>
-    <form name="searchUnitForm" id="searchUnitForm" class="search-form" method="get" action="http://hitta.vgregion.se/search.xhtml" onsubmit="if (document.getElementById('unitName').value == '${msg.defaultSearchUnitName}') { document.getElementById('unitName').value = ''; }">
+	<form name="searchUnitForm" id="searchUnitForm" class="search-form" method="get" action="http://hitta.vgregion.se/search.xhtml" onsubmit="if (document.getElementById('unitName').value == '${msg.defaultSearchUnitName}') { document.getElementById('unitName').value = ''; }">
 		<div class="box-bd box-overflow">
 			<div class="box-bd-inner">
 				<div class="box-bd-inner-content">
@@ -55,49 +55,56 @@
 						</div>
 						<p>
 							<label for="municipality">${msg.whereCare}</label>
-				            <select id="municipality" name="facet7_kommun" class="select" value="${unitSearchSimpleForm.municipality}">
-				                <option value="">${msg.searchformMunicipality}</option>
-				                <ui:repeat value="${unitSearchSimpleForm.municipalityItems}" var="item">
-					                <option value="${item.label}">${item.label}</option>
-				                </ui:repeat>
-				            </select>
-				        </p>
-		
-						<p>
-			            	<ui:repeat value="${unitSearchSimpleForm.resultTypeItems}" var="item">
-				            	<span class="radio">
-				            		<h:outputText rendered="${item.value == unitSearchSimpleForm.resultType}">
-					                	<input id="resultTypeList" type="radio" checked="checked" name="resultType" value="${item.value}"/>
-				            		</h:outputText>
-				            		<h:outputText rendered="${item.value != unitSearchSimpleForm.resultType}">
-						                <input id="resultTypeList" type="radio" name="resultType" value="${item.value}"/>
-				            		</h:outputText>
-				            	</span>
-				            	<label for="resultTypeList" class="inline">${item.label}</label>
-			            	</ui:repeat>
-				        </p>
-			        </div>
-		
-			        <div>
+										<select id="municipality" name="facet7_kommun" class="select" value="${unitSearchSimpleForm.municipality}">
+												<option>${msg.searchformMunicipality}</option>
+												<ui:repeat value="${unitSearchSimpleForm.municipalityItems}" var="item">
+													<option value="${item.label}">${item.label}</option>
+												</ui:repeat>
+										</select>
+								</p>
+								<p>
+										<span class="radio">
+											<h:outputText rendered="${'list' == unitSearchSimpleForm.resultType || '1' == unitSearchSimpleForm.resultType}">
+													<input id="resultTypeList" type="radio" checked="checked" name="resultview" value="list"/>
+											</h:outputText>
+											<h:outputText rendered="${'list' != unitSearchSimpleForm.resultType and '1' != unitSearchSimpleForm.resultType}">
+													<input id="resultTypeList" type="radio" name="resultview" value="list"/>
+											</h:outputText>
+										</span>
+										<label for="resultTypeList" class="inline">Lista</label>
+										<span class="radio">
+											<h:outputText rendered="${'map' == unitSearchSimpleForm.resultType}">
+													<input id="resultTypeList" type="radio" checked="checked" name="resultview" value="map"/>
+											</h:outputText>
+											<h:outputText rendered="${'map' != unitSearchSimpleForm.resultType}">
+													<input id="resultTypeList" type="radio" name="resultview" value="map"/>
+											</h:outputText>
+										</span>
+										<label for="resultTypeList" class="inline">Karta</label>
+								</p>
+							</div>
+
+							<div>
 						<input type="hidden" name="filter" value="scope:VGRegionvardportalenhittavard" />
 						<input type="hidden" name="scoped" value="true" />	
-			            <input type="hidden" name="noHeader" value="${param.noHeader}" />
-			            <input type="hidden" name="resultOnly" value="${param.resultOnly}" />
-			            <input id="sortOrder" name="sortOrder" type="hidden" jsfc="h:inputHidden" value="${unitSearchSimpleForm.sortOrder}" />
+									<input type="hidden" name="noHeader" value="${param.noHeader}" />
+									<input type="hidden" name="resultOnly" value="${param.resultOnly}" />
+									<input id="sortOrder" name="sortOrder" type="hidden" jsfc="h:inputHidden" value="${unitSearchSimpleForm.sortOrder}" />
 						<div class="btn">
-				            <input type="submit" id="submitButton" class="standardButton" value="${msg.find}" />
-				        </div>
+										<input type="submit" id="submitButton" class="standardButton" value="${msg.find}" />
+								</div>
 						<div class="btn-end"></div>
 						<div class="clear"></div>
-			        </div>
-			     </div>
+							</div>
+					 </div>
 			</div>
 		</div>
-    </form>
+	</form>
 	<!--  Search units widget end (dont remove this comment) -->
 	<script type="text/javascript" charset="utf-8">
 	// <![CDATA[
-	        initAutocompleter();
+		initAutocompleter();
+		document.getElementById('municipality').options[0].value = '';
 	// ]]>
 	</script>
 

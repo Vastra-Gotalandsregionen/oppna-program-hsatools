@@ -61,12 +61,9 @@
             <link rel="stylesheet" type="text/css" href="resources/styles/print.css" media="print" />
         </h:outputText>
 
-		<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.8.1/build/container/assets/container.css" />
-        <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/autocomplete/assets/skins/sam/autocomplete.css" />
+		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.3.0/build/cssfonts/fonts-min.css" />
         <link rel="stylesheet" type="text/css" href="resources/scripts/vgr/eniro/MapAPI-1.2/css/MapAPI.css"/>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/yahoo-dom-event/yahoo-dom-event.js" />
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/datasource/datasource-min.js" />
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/autocomplete/autocomplete-min.js" />
+        <script type="text/javascript" src="http://yui.yahooapis.com/3.3.0/build/yui/yui-min.js" />
         <script type="text/javascript" src="resources/scripts/utilities.js" />
         <script type="text/javascript" src="resources/scripts/script.js" />
         <script type="text/javascript" src="resources/scripts/widget.js" />
@@ -80,11 +77,8 @@
         
         <link rel="Shortcut Icon" type="image/ico" href="${Search_SettingsContainer.favIcon}" />
         
-		<script src="https://ajax.googleapis.com/ajax/libs/yui/2.8.1/build/animation/animation-min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/yui/2.8.1/build/container/container-min.js"></script>
-
     </head>
-    <body onload="if (document.getElementById('unitName').value == '') {document.getElementById('unitName').value = '${msg.defaultSearchUnitName}';}" onunload="GUnload()" class="yui-skin-sam">
+    <body onload="if (document.getElementById('unitName').value == '') {document.getElementById('unitName').value = '${msg.defaultSearchUnitName}';}" onunload="GUnload()" class="yui-skin-sam yui3-skin-sam">
 
         <!-- Could not specify dynamic attribute where resource bundle was specified in settings file -->
         <ui:include src="${Search_SettingsContainer.resourceBundleInclude}" />
