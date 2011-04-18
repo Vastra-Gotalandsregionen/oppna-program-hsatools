@@ -30,7 +30,7 @@
 			<h2>${msg.searchUnit}</h2>
 		</div>
 	</div>
-    <form name="searchUnitForm" id="searchUnitForm" class="search-form" method="get" action="HRIV.Search.searchunit-flow.flow" onsubmit="if (document.getElementById('unitName').value == '${msg.defaultSearchUnitName}') { document.getElementById('unitName').value = ''; }">
+    <form name="searchUnitForm" id="searchUnitForm" class="search-form" method="get" action="http://hitta.vgregion.se/search.xhtml" onsubmit="if (document.getElementById('unitName').value == '${msg.defaultSearchUnitName}') { document.getElementById('unitName').value = ''; }">
 		<div class="box-bd box-overflow">
 			<div class="box-bd-inner">
 				<div class="box-bd-inner-content">
@@ -38,8 +38,7 @@
 						<div class="autocomplete_container yui-ac">
 							<p>
 								<label for="unitName">${msg.unitName}</label>
-								<input id="unitName" type="text" name="unitName" jsfc="h:inputText" 
-									value="${unitSearchSimpleForm.unitName}" class="input"
+								<input id="unitName" type="text" name="q" value="${unitSearchSimpleForm.unitName}" class="input"
 									onfocus="if (this.value == '${msg.defaultSearchUnitName}') { this.value = ''; }" onblur="if (this.value == '') { this.value = '${msg.defaultSearchUnitName}';}" />
 							</p>
 							<div id="acIndicator" style="display: none; margin-bottom: -0.5em;">
@@ -54,17 +53,17 @@
 								</div>
 							</div>
 						</div>
-	
 						<p>
 							<label for="municipality">${msg.whereCare}</label>
-				            <h:selectOneMenu id="municipality" name="municipality" class="select" value="${unitSearchSimpleForm.municipality}">
-				                <f:selectItem itemValue="" itemLabel="${msg.searchformMunicipality}" />
-				                <f:selectItems value="${unitSearchSimpleForm.municipalityItems}" />
-				            </h:selectOneMenu>
+				            <select id="municipality" name="facet7_kommun" class="select" value="${unitSearchSimpleForm.municipality}">
+				                <option value="">${msg.searchformMunicipality}</option>
+				                <ui:repeat value="${unitSearchSimpleForm.municipalityItems}" var="item">
+					                <option value="${item.label}">${item.label}</option>
+				                </ui:repeat>
+				            </select>
 				        </p>
 		
 						<p>
-							
 			            	<ui:repeat value="${unitSearchSimpleForm.resultTypeItems}" var="item">
 				            	<span class="radio">
 				            		<h:outputText rendered="${item.value == unitSearchSimpleForm.resultType}">
@@ -80,6 +79,8 @@
 			        </div>
 		
 			        <div>
+						<input type="hidden" name="filter" value="scope:VGRegionvardportalenhittavard" />
+						<input type="hidden" name="scoped" value="true" />	
 			            <input type="hidden" name="noHeader" value="${param.noHeader}" />
 			            <input type="hidden" name="resultOnly" value="${param.resultOnly}" />
 			            <input id="sortOrder" name="sortOrder" type="hidden" jsfc="h:inputHidden" value="${unitSearchSimpleForm.sortOrder}" />

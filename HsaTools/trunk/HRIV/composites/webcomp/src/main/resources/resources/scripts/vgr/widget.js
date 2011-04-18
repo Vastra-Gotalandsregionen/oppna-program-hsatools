@@ -189,9 +189,9 @@ function getDirections(to, from) {
 
 // yui autocompletion
 function initAutocompleter() {
-	var myDS = new YAHOO.util.XHRDataSource("suggestions");
+	var myDS = new YAHOO.util.XHRDataSource("http://hitta.vgregion.se/fwqc/complete.do");
 	myDS.responseType = YAHOO.util.XHRDataSource.TYPE_XML;
-	myDS.scriptQueryAppend = "output=xml";
+	myDS.scriptQueryAppend = "filter=scope:VGRegionvardportalenhittavard&format=opensearch";
 	myDS.responseSchema = {
 		resultNode : 'unit',
 		fields : [ 'description', 'id', 'uri' ]

@@ -43,7 +43,7 @@ public class UnitSearchSimpleForm implements Serializable {
   private String resultType = "1";
   private String sortOrder = "UNIT_NAME";
   private String showAll;
-  private SelectItem[] resultTypeItems = new SelectItem[] { new SelectItem("1", "Lista"), new SelectItem("2", "Karta") };
+  private final SelectItem[] resultTypeItems = new SelectItem[] { new SelectItem("1", "Lista"), new SelectItem("2", "Karta") };
 
   private SelectItem[] healthcareTypeItems;
   private SelectItem[] municipalityItems;
@@ -55,9 +55,9 @@ public class UnitSearchSimpleForm implements Serializable {
       String value = htc.getIndex().toString();
       htcTempList.add(new SelectItem(value, htc.getDisplayName()));
     }
-    healthcareTypeItems = new SelectItem[htcTempList.size()];
+    this.healthcareTypeItems = new SelectItem[htcTempList.size()];
     for (int i = 0; i < htcTempList.size(); i++) {
-      healthcareTypeItems[i] = htcTempList.get(i);
+      this.healthcareTypeItems[i] = htcTempList.get(i);
     }
 
     List<Municipality> municipalityList = new MunicipalityHelper().getAllMunicipalities();
@@ -65,18 +65,18 @@ public class UnitSearchSimpleForm implements Serializable {
     for (Municipality m : municipalityList) {
       mTempList.add(new SelectItem(m.getMunicipalityCode(), m.getMunicipalityName()));
     }
-    municipalityItems = new SelectItem[mTempList.size()];
+    this.municipalityItems = new SelectItem[mTempList.size()];
     for (int i = 0; i < mTempList.size(); i++) {
-      municipalityItems[i] = mTempList.get(i);
+      this.municipalityItems[i] = mTempList.get(i);
     }
   }
 
   public SelectItem[] getMunicipalityItems() {
-    return municipalityItems;
+    return this.municipalityItems;
   }
 
   public String getUnitName() {
-    return unitName;
+    return this.unitName;
   }
 
   /**
@@ -91,7 +91,7 @@ public class UnitSearchSimpleForm implements Serializable {
   }
 
   public String getMunicipality() {
-    return municipality;
+    return this.municipality;
   }
 
   /**
@@ -113,15 +113,15 @@ public class UnitSearchSimpleForm implements Serializable {
   public boolean isEmpty() {
     boolean empty = true;
 
-    empty &= StringUtil.isEmpty(unitName);
-    empty &= StringUtil.isEmpty(municipality);
-    empty &= StringUtil.isEmpty(healthcareType);
+    empty &= StringUtil.isEmpty(this.unitName);
+    empty &= StringUtil.isEmpty(this.municipality);
+    empty &= StringUtil.isEmpty(this.healthcareType);
 
     return empty;
   }
 
   public String getHealthcareType() {
-    return healthcareType;
+    return this.healthcareType;
   }
 
   /**
@@ -136,7 +136,7 @@ public class UnitSearchSimpleForm implements Serializable {
   }
 
   public String getResultType() {
-    return resultType;
+    return this.resultType;
   }
 
   /**
@@ -151,11 +151,11 @@ public class UnitSearchSimpleForm implements Serializable {
   }
 
   public SelectItem[] getResultTypeItems() {
-    return resultTypeItems;
+    return this.resultTypeItems;
   }
 
   public String getSortOrder() {
-    return sortOrder;
+    return this.sortOrder;
   }
 
   /**
@@ -170,7 +170,7 @@ public class UnitSearchSimpleForm implements Serializable {
   }
 
   public SelectItem[] getHealthcareTypeItems() {
-    return healthcareTypeItems;
+    return this.healthcareTypeItems;
   }
 
   public void setShowAll(String showAll) {
@@ -178,6 +178,6 @@ public class UnitSearchSimpleForm implements Serializable {
   }
 
   public String getShowAll() {
-    return showAll;
+    return this.showAll;
   }
 }
