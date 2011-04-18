@@ -189,73 +189,15 @@ function getDirections(to, from) {
 
 // yui autocompletion
 function initAutocompleter() {
-	var myDS = new YAHOO.util.XHRDataSource("http://hitta.vgregion.se/fwqc/complete.do");
-	myDS.responseType = YAHOO.util.XHRDataSource.TYPE_XML;
-	myDS.scriptQueryAppend = "filter=scope:VGRegionvardportalenhittavard&format=opensearch";
-	myDS.responseSchema = {
-		resultNode : 'unit',
-		fields : [ 'description', 'id', 'uri' ]
-	};
-
-	var myAutoComp = new YAHOO.widget.AutoComplete("unitName",
-			"autocomplete_choices", myDS);
-	myAutoComp.resultTypeList = false;
-	myAutoComp.formatResult = function(oResultData, sQuery, sResultMatch) {
-		var query = sQuery.toLowerCase();
-		var description = sResultMatch;
-		var descriptionMatchIndex = description.toLowerCase().indexOf(query);
-		var displayDescription;
-
-		if (descriptionMatchIndex > -1) {
-			displayDescription = highlightMatch(description, query,
-					descriptionMatchIndex);
-		}
-		return displayDescription;
-	}
-
-	myAutoComp.autoHighlight = false;
-	myAutoComp.minQueryLength = 2;
-	myAutoComp.maxResultsDisplayed = 50;
-	myAutoComp.typeAhead = true;
-	myAutoComp.useIFrame = true;
-
-	// Go directly to unit page when selecting
-	var itemSelectHandler = function(sType, aArgs) {
-		var oMyAcInstance = aArgs[0];
-		var selectedItem = aArgs[1]; // the <li> element selected in the
-										// suggestion container
-		var oData = aArgs[2]; // object literal of data for the result
-		var hsaId = oData.id;
-		if (hsaId != '') {
-			document.location = "visaenhet?hsaidentity=" + hsaId;
-		}
-	};
-	myAutoComp.itemSelectEvent.subscribe(itemSelectHandler);
-
-	var workingHandler = function(oSelf, sQuery, aResults) {
-		document.getElementById('acIndicator').style.display = 'inline';
-		document.getElementById('healthcare-selection').style.padding = "0";
-	};
-
-	var readyHandler = function(oSelf) {
-		document.getElementById('acIndicator').style.display = 'none';
-		document.getElementById('healthcare-selection').style.padding = "2em 0 0 0";
-	};
-
-	var returnHandler = function(sType, aArgs) {
-		// Do not spin when we can not find a match.
-		var oAutoComp2 = aArgs[0];
-		var sQuery = aArgs[1];
-		var aResults = aArgs[2];
-		if (aResults.length == 0) {
-			document.getElementById('acIndicator').style.display = 'none';
-			document.getElementById('healthcare-selection').style.padding = "2em 0 0 0";
-		}
-	}
-
-	myAutoComp.dataRequestEvent.subscribe(workingHandler);
-	myAutoComp.containerExpandEvent.subscribe(readyHandler);
-	myAutoComp.dataReturnEvent.subscribe(returnHandler);
+	YUI().use("autocomplete", "autocomplete-highlighters", function (Y) {
+		  Y.one('#unitName').plug(Y.Plugin.AutoComplete, {
+			minQueryLength: 2,
+			maxResults: 50,
+		    resultHighlighter: 'phraseMatch',
+		    resultListLocator: function(response) { return response[1]; },
+		    source: 'http://hitta.vgregion.se/fwqc/complete.do?q={query}&callback={callback}'
+		  });
+		});
 }
 
 // Helper function for the formatter
