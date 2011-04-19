@@ -66,3 +66,15 @@ iPhone App Version 0.1 2010-11-01: JSON - [http://code.google.com/p/json-framewo
 I backend ligger det en REST Webservice som hämtar information om vårdeheter som finns i Västra Götalandsregion från Webservicen KIV (Katalog i väst). Webservicen KIV använder SOAP (Simple Object Access Protocol) vid utbyte av information och transporteras via https (Hypertext Transfer Protocol Secure). Detta innebär att kommunikationen med Webservicen KIV är kryterad, sker via SSL (Secure Sockets Layer)) och KIV Webservicen använder ett SITHS certifikat som klienten måste vara betrott för att handskakningen ska vara möjligt. Kommunikationen mellan mobilapplikationen och REST Webservicen sker via http och tillämpar JSON (JavaScript Object Notation) vid informationsutbyte.
 
 Följande adresser anrops från mobilapplikationen för att hämta information om vårdenheter:
+
+== Stagingserver ==
+|| *End-point* || *Returnerar* || *Beskrivning* ||
+|| [http://hittavard.vgregion.se/hriv-mobile-ws/getEmergencyUnits.json] || Lista med JSON-objekter || Hämtar information för alla akutmottagningar som finns i Västra Götalandsregion ||
+|| [http://hittavard.vgregion.se/hriv-mobile-ws/getCareUnits.json] || Lista med JSON-objekter || Hämtar information för alla vårdcentraler som finns i Västra Götalandsregion ||
+|| [http://hittavard.vgregion.se/hriv-mobile-ws/getDutyUnits.json] || Lista med JSON-objekter || Hämtar information för alla jourcentraler som finns i Västra Götalandsregion ||
+
+== Produktionsserver ==
+|| *End-point* || *Returnerar* || *Beskrivning* ||
+|| [http://tycktill.vgregion.se/hriv-mobile-ws/getEmergencyUnits.json] || Lista med JSON-objekter || Hämtar information för alla akutmottagningar som finns i Västra Götalandsregion ||
+|| [http://tycktill.vgregion.se/hriv-mobile-ws/getCareUnits.json] || Lista med JSON-objekter || Hämtar information för alla vårdcentraler som finns i Västra Götalandsregion ||
+|| [http://tycktill.vgregion.se/hriv-mobile-ws/getDutyUnits.json] || Lista med JSON-objekter || Hämtar information för alla jourcentraler som finns i Västra Götalandsregion ||
