@@ -80,12 +80,10 @@ public class InformationPusherEniro implements InformationPusher {
     boolean success = true;
 
     // Get units that belongs to the organization.
-    List<UnitComposition> units = this.unitFetcher.fetchUnits(config.getMunicipalities());
+    List<UnitComposition> units = this.unitFetcher.fetchUnits(config.getMunicipalities(), config.getLocality());
     if (!units.isEmpty()) {
-      this.updateUnitsWithLocality(units, config.getLocality());
-
       // Generate organization tree object.
-      Organization organization = this.eniroOrganisationBuilder.generateOrganisation(units);
+      Organization organization = this.eniroOrganisationBuilder.generateOrganisation(units, config.getLocality());
       organization.setId(config.getOrganizationid());
       organization.setName(config.getOrganizationName());
 
@@ -96,18 +94,6 @@ public class InformationPusherEniro implements InformationPusher {
     }
 
     return success;
-  }
-
-  /**
-   * Updates all units in the provided list with the provided locality.
-   * 
-   * @param units The list of units to update with locality.
-   * @param locality The locality to set on the units.
-   */
-  private void updateUnitsWithLocality(List<UnitComposition> units, String locality) {
-    for (UnitComposition unitComposition : units) {
-      unitComposition.getEniroUnit().setLocality(locality);
-    }
   }
 
   private boolean sendFileToFtpServer(String generatedUnitDetailsXmlFile, final String basename, final String suffix) {

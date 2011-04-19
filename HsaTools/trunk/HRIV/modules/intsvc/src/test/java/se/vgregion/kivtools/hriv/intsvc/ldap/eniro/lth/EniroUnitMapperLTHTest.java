@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +31,8 @@ import org.junit.Test;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.NameMock;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
+import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Hours;
+import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneHours;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
 import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
@@ -43,7 +45,7 @@ public class EniroUnitMapperLTHTest {
 
   @Before
   public void setup() {
-    this.eniroUnitMapper = new EniroUnitMapperLTH(Arrays.asList("1"));
+    this.eniroUnitMapper = new EniroUnitMapperLTH("Region Halland");
     this.dirContextOperationsMock = new DirContextOperationsMock();
     this.setAttributeMocks();
   }
@@ -98,7 +100,7 @@ public class EniroUnitMapperLTHTest {
   }
 
   @Test
-  public void telephoneNumbersAreFormattedRatherThanHsaStandard() {
+  public void telephoneNumbersAreReturnedAsAreaCodeAndSubscriberNumberRatherThanHsaStandard() {
     this.dirContextOperationsMock.addAttributeValue("lthTelephoneNumber", "+46313450700");
     this.dirContextOperationsMock.addAttributeValue("telephoneHours", "1-5#08:00#18:00");
 
@@ -110,9 +112,58 @@ public class EniroUnitMapperLTHTest {
 
       if (info instanceof TelephoneType) {
         TelephoneType telephoneType = (TelephoneType) info;
-        assertEquals("031 - 345 07 00", telephoneType.getTelephoneNumber().get(0));
+        assertEquals("area code", "031", telephoneType.getAreaCode().get(0));
+        assertEquals("subscriber number", "345 07 00", telephoneType.getTelephoneNumber().get(0));
       }
     }
+  }
+
+  @Test
+  public void telephoneHoursAreReturnedSortedByDayAndHour() {
+    this.dirContextOperationsMock.addAttributeValue("lthTelephoneNumber", "+46313450700");
+    this.dirContextOperationsMock.addAttributeValue("telephoneHours", new String[] { "1-5#08:00#18:00", "1#07:00#09:00", "2#10:00#12:00", "1-5#08:00#17:00", "1-4#08:00#18:00" });
+
+    UnitComposition unitComposition = (UnitComposition) this.eniroUnitMapper.mapFromContext(this.dirContextOperationsMock);
+
+    for (Object info : unitComposition.getEniroUnit().getTextOrImageOrAddress()) {
+      // Make sure that no address is created.
+      assertFalse(info instanceof Address);
+
+      if (info instanceof TelephoneType) {
+        TelephoneType telephoneType = (TelephoneType) info;
+        List<TelephoneHours> telephoneHours = telephoneType.getTelephoneHours();
+        assertEquals("telephone hours count", 5, telephoneHours.size());
+        assertEquals("telephone hours 1", "1¤1¤2000-01-20T07:00:00Z¤2000-01-20T09:00:00Z", this.format(telephoneHours.get(0)));
+        assertEquals("telephone hours 2", "1¤4¤2000-01-20T08:00:00Z¤2000-01-20T18:00:00Z", this.format(telephoneHours.get(1)));
+        assertEquals("telephone hours 3", "1¤5¤2000-01-20T08:00:00Z¤2000-01-20T17:00:00Z", this.format(telephoneHours.get(2)));
+        assertEquals("telephone hours 4", "1¤5¤2000-01-20T08:00:00Z¤2000-01-20T18:00:00Z", this.format(telephoneHours.get(3)));
+        assertEquals("telephone hours 5", "2¤2¤2000-01-20T10:00:00Z¤2000-01-20T12:00:00Z", this.format(telephoneHours.get(4)));
+      }
+    }
+  }
+
+  @Test
+  public void visitingHoursAreReturnedSortedByDayAndHour() {
+    this.dirContextOperationsMock.addAttributeValue("surgeryHours", new String[] { "1-5#08:00#18:00", "1#07:00#09:00", "2#10:00#12:00", "1-5#08:00#17:00", "1-4#08:00#18:00" });
+    this.dirContextOperationsMock.addAttributeValue("street", this.ldapAddressValue);
+
+    UnitComposition unitComposition = (UnitComposition) this.eniroUnitMapper.mapFromContext(this.dirContextOperationsMock);
+    Address address = (Address) unitComposition.getEniroUnit().getTextOrImageOrAddress().get(0);
+    List<Hours> visitingHours = address.getHours();
+    assertEquals("visiting hours count", 5, visitingHours.size());
+    assertEquals("visiting hours 1", "1¤1¤2000-01-20T07:00:00Z¤2000-01-20T09:00:00Z", this.format(visitingHours.get(0)));
+    assertEquals("visiting hours 2", "1¤4¤2000-01-20T08:00:00Z¤2000-01-20T18:00:00Z", this.format(visitingHours.get(1)));
+    assertEquals("visiting hours 3", "1¤5¤2000-01-20T08:00:00Z¤2000-01-20T17:00:00Z", this.format(visitingHours.get(2)));
+    assertEquals("visiting hours 4", "1¤5¤2000-01-20T08:00:00Z¤2000-01-20T18:00:00Z", this.format(visitingHours.get(3)));
+    assertEquals("visiting hours 5", "2¤2¤2000-01-20T10:00:00Z¤2000-01-20T12:00:00Z", this.format(visitingHours.get(4)));
+  }
+
+  private String format(Hours hours) {
+    return hours.getDayFrom() + "¤" + hours.getDayTo() + "¤" + hours.getTimeFrom() + "¤" + hours.getTimeTo();
+  }
+
+  private String format(TelephoneHours telephoneHours) {
+    return telephoneHours.getDayFrom() + "¤" + telephoneHours.getDayTo() + "¤" + telephoneHours.getTimeFrom() + "¤" + telephoneHours.getTimeTo();
   }
 
   private void setAttributeMocks() {

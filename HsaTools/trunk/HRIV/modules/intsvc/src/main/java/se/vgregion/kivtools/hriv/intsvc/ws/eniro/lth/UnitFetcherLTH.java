@@ -19,7 +19,6 @@
 
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro.lth;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,20 +42,19 @@ import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 public class UnitFetcherLTH implements UnitFetcher {
   private final LdapTemplate ldapTemplate;
   private final String[] allowedUnitBusinessClassificationCodes;
-  private final String[] otherCareTypeBusinessCodes;
   private final Log logger = LogFactory.getLog(this.getClass());
 
-  public UnitFetcherLTH(LdapTemplate ldapTemplate, String[] allowedUnitBusinessClassificationCodes, String[] otherCareTypeBusinessCodes) {
+  public UnitFetcherLTH(LdapTemplate ldapTemplate, String[] allowedUnitBusinessClassificationCodes) {
     this.ldapTemplate = ldapTemplate;
     this.allowedUnitBusinessClassificationCodes = allowedUnitBusinessClassificationCodes;
-    this.otherCareTypeBusinessCodes = otherCareTypeBusinessCodes;
   }
 
   @Override
-  public List<UnitComposition> fetchUnits(List<String> municipalities) {
+  public List<UnitComposition> fetchUnits(List<String> municipalities, String locality) {
     HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper();
     Filter healthcareTypeFilter = KivLdapFilterHelper.createHealthcareTypeFilter(healthcareTypeConditionHelper.getAllHealthcareTypes());
     AndFilter andFilter = new AndFilter();
+    andFilter.and(new EqualsFilter("hsaDestinationIndicator", "03"));
     andFilter.and(this.createMunicipalityFilter(municipalities));
     OrFilter orBusinessCodes = new OrFilter();
     for (String businessCode : this.allowedUnitBusinessClassificationCodes) {
@@ -64,7 +62,7 @@ public class UnitFetcherLTH implements UnitFetcher {
     }
     orBusinessCodes.or(healthcareTypeFilter);
     andFilter.and(orBusinessCodes);
-    EniroUnitMapperLTH eniroUnitMapper = new EniroUnitMapperLTH(Arrays.asList(this.otherCareTypeBusinessCodes));
+    EniroUnitMapperLTH eniroUnitMapper = new EniroUnitMapperLTH(locality);
     this.logger.warn(andFilter.encode());
     @SuppressWarnings("unchecked")
     List<UnitComposition> unitsList = this.ldapTemplate.search("OU=Landstinget Halland,DC=lthallandhsa,DC=se", andFilter.encode(), SearchControls.SUBTREE_SCOPE, eniroUnitMapper);

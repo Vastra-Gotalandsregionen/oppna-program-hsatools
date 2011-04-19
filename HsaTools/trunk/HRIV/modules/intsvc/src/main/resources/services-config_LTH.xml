@@ -75,7 +75,6 @@
 	<bean id="unitFetcher" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.lth.UnitFetcherLTH">
 		<constructor-arg ref="ldapTemplateLTH" />
 		<constructor-arg value="${allowedUnitBusinessClassificationCodes}" />
-		<constructor-arg value="${businessCodesForOtherCareTypes}" />
 	</bean>
 
 	<bean id="Push_Eniro"

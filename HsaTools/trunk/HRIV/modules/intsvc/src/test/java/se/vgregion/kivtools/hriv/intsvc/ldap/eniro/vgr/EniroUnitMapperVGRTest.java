@@ -19,7 +19,9 @@
 
 package se.vgregion.kivtools.hriv.intsvc.ldap.eniro.vgr;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Arrays;
 
@@ -28,7 +30,6 @@ import org.junit.Test;
 
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.NameMock;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.vgr.EniroUnitMapperVGR;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
@@ -38,18 +39,18 @@ public class EniroUnitMapperVGRTest {
 
   private EniroUnitMapperVGR eniroUnitMapper;
   private DirContextOperationsMock dirContextOperationsMock;
-  private String ldapAddressValue = "Smörslottsgatan 1$416 85 Göteborg$Centralkliniken, plan 2$Östra sjukhuset";
+  private final String ldapAddressValue = "Smörslottsgatan 1$416 85 Göteborg$Centralkliniken, plan 2$Östra sjukhuset";
 
   @Before
   public void setup() {
-    eniroUnitMapper = new EniroUnitMapperVGR(Arrays.asList("1"));
-    dirContextOperationsMock = new DirContextOperationsMock();
-    setAttributeMocks();
+    this.eniroUnitMapper = new EniroUnitMapperVGR("Uddevalla", Arrays.asList("1"));
+    this.dirContextOperationsMock = new DirContextOperationsMock();
+    this.setAttributeMocks();
   }
 
   @Test
   public void testMapFromContext() {
-    UnitComposition unitComposition = (UnitComposition) eniroUnitMapper.mapFromContext(dirContextOperationsMock);
+    UnitComposition unitComposition = (UnitComposition) this.eniroUnitMapper.mapFromContext(this.dirContextOperationsMock);
     assertNotNull(unitComposition);
     assertEquals("id1", unitComposition.getEniroUnit().getId());
     assertEquals("name", unitComposition.getEniroUnit().getName());
@@ -69,11 +70,11 @@ public class EniroUnitMapperVGRTest {
   @Test
   public void testMapCn() {
     // Test function unit with cn instead of ou.
-    dirContextOperationsMock.setAttributeValue("ou", null);
-    dirContextOperationsMock.addAttributeValue("cn", "name");
-    dirContextOperationsMock.addAttributeValue("hsaStreetAddress", ldapAddressValue);
-    dirContextOperationsMock.addAttributeValue("hsaGeographicalCoordinates", "X: 6414080, Y: 1276736");
-    UnitComposition unitComposition = (UnitComposition) eniroUnitMapper.mapFromContext(dirContextOperationsMock);
+    this.dirContextOperationsMock.setAttributeValue("ou", null);
+    this.dirContextOperationsMock.addAttributeValue("cn", "name");
+    this.dirContextOperationsMock.addAttributeValue("hsaStreetAddress", this.ldapAddressValue);
+    this.dirContextOperationsMock.addAttributeValue("hsaGeographicalCoordinates", "X: 6414080, Y: 1276736");
+    UnitComposition unitComposition = (UnitComposition) this.eniroUnitMapper.mapFromContext(this.dirContextOperationsMock);
     assertNotNull(unitComposition);
     Address address = (Address) unitComposition.getEniroUnit().getTextOrImageOrAddress().get(0);
     assertEquals("Smörslottsgatan", address.getStreetName());
@@ -88,9 +89,9 @@ public class EniroUnitMapperVGRTest {
   @Test
   public void testMapNullValues() {
     // Test null values
-    dirContextOperationsMock = new DirContextOperationsMock();
-    dirContextOperationsMock.setDn(new NameMock("dn"));
-    UnitComposition unitComposition = (UnitComposition) eniroUnitMapper.mapFromContext(dirContextOperationsMock);
+    this.dirContextOperationsMock = new DirContextOperationsMock();
+    this.dirContextOperationsMock.setDn(new NameMock("dn"));
+    UnitComposition unitComposition = (UnitComposition) this.eniroUnitMapper.mapFromContext(this.dirContextOperationsMock);
     assertNotNull(unitComposition);
     assertEquals(1, unitComposition.getEniroUnit().getTextOrImageOrAddress().size());
 
@@ -98,10 +99,10 @@ public class EniroUnitMapperVGRTest {
 
   @Test
   public void telephoneNumbersAreFormattedRatherThanHsaStandard() {
-    dirContextOperationsMock.addAttributeValue("hsaPublicTelephoneNumber", "+46313450700");
-    dirContextOperationsMock.addAttributeValue("hsaTelephoneTime", "1-5#08:00#18:00");
+    this.dirContextOperationsMock.addAttributeValue("hsaPublicTelephoneNumber", "+46313450700");
+    this.dirContextOperationsMock.addAttributeValue("hsaTelephoneTime", "1-5#08:00#18:00");
 
-    UnitComposition unitComposition = (UnitComposition) eniroUnitMapper.mapFromContext(dirContextOperationsMock);
+    UnitComposition unitComposition = (UnitComposition) this.eniroUnitMapper.mapFromContext(this.dirContextOperationsMock);
 
     for (Object info : unitComposition.getEniroUnit().getTextOrImageOrAddress()) {
       // Make sure that no address is created.
@@ -115,14 +116,14 @@ public class EniroUnitMapperVGRTest {
   }
 
   private void setAttributeMocks() {
-    dirContextOperationsMock.addAttributeValue("createTimeStamp", "20090118094127Z");
-    dirContextOperationsMock.addAttributeValue("vgrModifyTimestamp", "20090318094127Z");
-    dirContextOperationsMock.setDn(new NameMock("dn"));
-    dirContextOperationsMock.addAttributeValue("hsaIdentity", "id1");
-    dirContextOperationsMock.addAttributeValue("ou", "name");
-    dirContextOperationsMock.addAttributeValue("hsaSurgeryHours", "1#08:00#19:00$2-5#08:00#17:00");
-    dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1");
-    dirContextOperationsMock.addAttributeValue("l", "locality");
-    dirContextOperationsMock.addAttributeValue("hsaRoute", "Nedför backen$Till höger vid stenen$In under bron");
+    this.dirContextOperationsMock.addAttributeValue("createTimeStamp", "20090118094127Z");
+    this.dirContextOperationsMock.addAttributeValue("vgrModifyTimestamp", "20090318094127Z");
+    this.dirContextOperationsMock.setDn(new NameMock("dn"));
+    this.dirContextOperationsMock.addAttributeValue("hsaIdentity", "id1");
+    this.dirContextOperationsMock.addAttributeValue("ou", "name");
+    this.dirContextOperationsMock.addAttributeValue("hsaSurgeryHours", "1#08:00#19:00$2-5#08:00#17:00");
+    this.dirContextOperationsMock.addAttributeValue("hsaBusinessClassificationCode", "1");
+    this.dirContextOperationsMock.addAttributeValue("l", "locality");
+    this.dirContextOperationsMock.addAttributeValue("hsaRoute", "Nedför backen$Till höger vid stenen$In under bron");
   }
 }

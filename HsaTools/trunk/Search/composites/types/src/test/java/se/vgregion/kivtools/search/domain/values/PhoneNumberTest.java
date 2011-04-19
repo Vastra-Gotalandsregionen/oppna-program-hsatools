@@ -21,6 +21,7 @@ package se.vgregion.kivtools.search.domain.values;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -65,5 +66,25 @@ public class PhoneNumberTest {
     PhoneNumber result = PhoneNumber.createPhoneNumber("+46104733140").getFormattedPhoneNumber();
     assertNotNull("formatted phone number", result);
     assertEquals("result phone number", "010 - 473 31 40", result.toString());
+  }
+
+  @Test
+  public void getAreaCodeReturnNullForNonFormattedNumbers() {
+    assertNull("area code", PhoneNumber.createPhoneNumber("+46104733140").getAreaCode());
+  }
+
+  @Test
+  public void getAreaCodeReturnTheAreaCodeForFormattedNumbers() {
+    assertEquals("area code", "010", PhoneNumber.createPhoneNumber("+46104733140").getFormattedPhoneNumber().getAreaCode());
+  }
+
+  @Test
+  public void getSubscriberNumberReturnNullForNonFormattedNumbers() {
+    assertNull("subscriber number", PhoneNumber.createPhoneNumber("+46104733140").getSubscriberNumber());
+  }
+
+  @Test
+  public void getSubscriberNumberReturnTheFormattedSubscriberNumberForFormattedNumbers() {
+    assertEquals("subscriber number", "473 31 40", PhoneNumber.createPhoneNumber("+46104733140").getFormattedPhoneNumber().getSubscriberNumber());
   }
 }

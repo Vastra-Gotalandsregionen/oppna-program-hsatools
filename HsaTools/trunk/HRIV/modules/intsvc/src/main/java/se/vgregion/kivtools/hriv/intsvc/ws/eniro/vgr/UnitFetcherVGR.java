@@ -50,7 +50,7 @@ public class UnitFetcherVGR implements UnitFetcher {
   }
 
   @Override
-  public List<UnitComposition> fetchUnits(List<String> municipalities) {
+  public List<UnitComposition> fetchUnits(List<String> municipalities, String locality) {
     HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper();
     Filter healthcareTypeFilter = KivLdapFilterHelper.createHealthcareTypeFilter(healthcareTypeConditionHelper.getAllHealthcareTypes());
     AndFilter andFilter = new AndFilter();
@@ -61,7 +61,7 @@ public class UnitFetcherVGR implements UnitFetcher {
     }
     orBusinessCodes.or(healthcareTypeFilter);
     andFilter.and(orBusinessCodes);
-    EniroUnitMapperVGR eniroUnitMapper = new EniroUnitMapperVGR(Arrays.asList(this.otherCareTypeBusinessCodes));
+    EniroUnitMapperVGR eniroUnitMapper = new EniroUnitMapperVGR(locality, Arrays.asList(this.otherCareTypeBusinessCodes));
     @SuppressWarnings("unchecked")
     List<UnitComposition> unitsList = this.ldapTemplate.search("", andFilter.encode(), SearchControls.SUBTREE_SCOPE, eniroUnitMapper);
     this.setParentIdsForUnits(unitsList);
