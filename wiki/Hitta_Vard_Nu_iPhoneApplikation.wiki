@@ -1,4 +1,4 @@
-Dokumentation till iPhone applikationen Hitta Vård Nu
+#Dokumentation till iPhone applikationen Hitta Vård Nu.
 
 = Introduktion =
 Hitta Rätt i Vården (HRIV) Mobile Application är en applikation som hjälper vårdsökanden att hitta vårdenheter över hela Västra Götalands Regionen. Applikationen tar hänsyn till vårdsökandens position och tid på dygnet. Applikationen hjälper även vårdsökanden att komma i kontakt med aktuell vårdenhet via telefon och webbsida.
