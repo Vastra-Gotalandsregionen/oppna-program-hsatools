@@ -41,11 +41,28 @@ Parsar och strukturerar data i JSON format.
 iPhone App Version 0.1 2010-11-01: JSON - [http://code.google.com/p/json-framework/]
 
 = Modulöversikt =
+|| *Modul* || *Beskrivning* ||
+|| Constants.h || Globala konstanter. ||
+|| CurrentUnitInformation.h || Globalt objekt vilket håller vilken vårdenhet som är aktiv. ||
+|| HRIVIPhoneAppDelegate.h || Hanterar navigation och GPS funktionalitet. ||
+|| UnitDataProvider.h || Ingår i Singleton mönstret. Hanterar kommunikation med webbservice. (REST format). ||
+|| MultipleStringObject.h || Wrapper object för att hantera text till knapparna i DetailViewController.h. ||
+|| AreaAnnotation.h || Annotation till kartan. Visar enheterna på kartan. ||
+|| CareUnit.h || Domänobjekt för alla typer av vårdenhet. ||
+|| DetailViewController.h || Kontrollerklass för vyn DetailvyController.xib. Hanterar detaljvyn för en vårdenhet. ||
+|| MapViewController.h || Kontrollerklass för vyn MapViewController.xib. Hanterar både kartvyn och listvyn med en segmented kontroller. ||
+|| SelectionViewController.h || Kontrollerklass för selectionView.xib. Första vyn där vårdenhetsval görs. ||
+|| MainView.xib || Laddar SelectionView.xib. Kontrollerklassen är HRIVIPhoneAppDelegate.h. ||
+|| FactoryProvider.h || Singleton klass för att ladda aktiv vårdenhet. ||
 
+= Bygga HRIV Mobile Application - iPhone Version =
+  # Öppna HRIVIPhoneApp.xcodeproj i xCode 
+  # Compilera och Bygg
+  # Välj:
+    # iPhone Simulator
+    # Din iPhone
 
-= Details =
+= REST Webservice / Backend =
+I backend ligger det en REST Webservice som hämtar information om vårdeheter som finns i Västra Götalandsregion från Webservicen KIV (Katalog i väst). Webservicen KIV använder SOAP (Simple Object Access Protocol) vid utbyte av information och transporteras via https (Hypertext Transfer Protocol Secure). Detta innebär att kommunikationen med Webservicen KIV är kryterad, sker via SSL (Secure Sockets Layer)) och KIV Webservicen använder ett SITHS certifikat som klienten måste vara betrott för att handskakningen ska vara möjligt. Kommunikationen mellan mobilapplikationen och REST Webservicen sker via http och tillämpar JSON (JavaScript Object Notation) vid informationsutbyte.
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Följande adresser anrops från mobilapplikationen för att hämta information om vårdenheter:
