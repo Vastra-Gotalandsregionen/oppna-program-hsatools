@@ -23,6 +23,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import se.vgregion.kivtools.util.time.TimeUtil;
+import se.vgregion.kivtools.util.time.TimeUtil.DateTimeFormat;
+
 public class FileClientImpl implements FtpClient {
   private final String directory;
 
@@ -33,7 +36,7 @@ public class FileClientImpl implements FtpClient {
   @Override
   public boolean sendFile(String fileContent, String basename, String suffix) {
     try {
-      FileWriter writer = new FileWriter(this.directory + File.separator + basename + "." + suffix);
+      FileWriter writer = new FileWriter(this.directory + File.separator + basename + "-" + TimeUtil.getCurrentTimeFormatted(DateTimeFormat.SCIENTIFIC_TIME) + "." + suffix);
       writer.write(fileContent);
       writer.close();
     } catch (IOException e) {
