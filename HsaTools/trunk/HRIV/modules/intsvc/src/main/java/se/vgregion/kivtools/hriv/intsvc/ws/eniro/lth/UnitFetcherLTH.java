@@ -65,7 +65,7 @@ public class UnitFetcherLTH implements UnitFetcher {
     EniroUnitMapperLTH eniroUnitMapper = new EniroUnitMapperLTH(locality);
     this.logger.warn(andFilter.encode());
     @SuppressWarnings("unchecked")
-    List<UnitComposition> unitsList = this.ldapTemplate.search("OU=Landstinget Halland,DC=lthallandhsa,DC=se", andFilter.encode(), SearchControls.SUBTREE_SCOPE, eniroUnitMapper);
+    List<UnitComposition> unitsList = this.ldapTemplate.search("OU=Region Halland,DC=lthallandhsa,DC=se", andFilter.encode(), SearchControls.SUBTREE_SCOPE, eniroUnitMapper);
     this.setParentIdsForUnits(unitsList);
     return unitsList;
   }
