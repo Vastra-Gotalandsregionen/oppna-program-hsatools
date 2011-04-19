@@ -25,7 +25,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Required;
 
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.EniroOrganisationBuilder;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.utils.XmlMarshaller;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Organization;

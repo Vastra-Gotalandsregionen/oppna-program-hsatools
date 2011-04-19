@@ -30,7 +30,7 @@ public class EniroConfigurationLTH implements EniroConfiguration {
   @Override
   public List<AreaConfig> getConfiguration() {
     List<AreaConfig> config = new ArrayList<AreaConfig>();
-    config.add(new AreaConfig("232100-0115 LTH", "Landstinget Halland", "Halland", Arrays.asList("1382", "1380", "1315", "1384", "1381", "1383"), "Landstinget Halland"));
+    config.add(new AreaConfig("232100-0115 LTH", "Landstinget Halland", "Halland", Arrays.asList("1382", "1380", "1315", "1384", "1381", "1383"), "Region Halland"));
     return config;
   }
 }
