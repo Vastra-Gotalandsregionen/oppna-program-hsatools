@@ -60,7 +60,9 @@
 		<property name="port" value="21" />
 	</bean>
 
-	<bean id="Transfer_tmpfile" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FileClientImpl" />
+	<bean id="Transfer_tmpfile" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FileClientImpl">
+		<constructor-arg value="${eniro.file.path}" />
+	</bean>
 	
 	<bean id="fileUtil" class="se.vgregion.kivtools.util.file.FileUtilImpl" />
 

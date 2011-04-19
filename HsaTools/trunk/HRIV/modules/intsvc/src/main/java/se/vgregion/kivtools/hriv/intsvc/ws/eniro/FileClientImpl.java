@@ -19,15 +19,21 @@
 
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileClientImpl implements FtpClient {
+  private final String directory;
+
+  public FileClientImpl(final String directory) {
+    this.directory = directory;
+  }
 
   @Override
   public boolean sendFile(String fileContent, String basename, String suffix) {
     try {
-      FileWriter writer = new FileWriter("/tmp/" + basename + "." + suffix);
+      FileWriter writer = new FileWriter(this.directory + File.separator + basename + "." + suffix);
       writer.write(fileContent);
       writer.close();
     } catch (IOException e) {
