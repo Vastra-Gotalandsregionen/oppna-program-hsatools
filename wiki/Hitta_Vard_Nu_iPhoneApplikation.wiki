@@ -1,0 +1,25 @@
+Dokumentation till iPhone applikationen Hitta Vård Nu
+
+= Introduktion =
+Hitta Rätt i Vården (HRIV) Mobile Application är en applikation som hjälper vårdsökanden att hitta vårdenheter över hela Västra Götalands Regionen. Applikationen tar hänsyn till vårdsökandens position och tid på dygnet. Applikationen hjälper även vårdsökanden att komma i kontakt med aktuell vårdenhet via telefon och webbsida.
+
+Informationen i applikationen hämtas från en webbservice som i sin tur läser från KIV.
+
+= Version =
+|| *Dokumentversion* || *App Version* || *Författare* || *Datum* || *Beskrivning* ||
+|| 0,1 || 0,1 || CT || 2010-11-19 || Första version av dokumentet. ||
+|| 0,11 || 0,1 || CT || 2011-03-23 || Uppdaterat webservice end-point adress. ||
+
+= Kontaktinformation =
+|| *Namn* || *Roll/Funktion* || *Företag/organisation* || *Telefon* || *E-post* ||
+|| CT || iOS Apputvecklare || Know IT Göteborg AB || - || -  ||
+|| TE || Leveransansvarig || Know IT Göteborg AB || - || - ||
+|| AK || Beställare || Västra Götalands Regionen || - || - ||
+|| NN || iOS Apputvecklare || Know IT Göteborg AB || - || - ||
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
