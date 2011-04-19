@@ -37,18 +37,23 @@ import se.vgregion.kivtools.util.StringUtil;
 
 public class UnitFetcherLTHTest {
   private final LdapTemplateMock ldapTemplate = new LdapTemplateMock();
-  private final UnitFetcherLTH unitFetcher = new UnitFetcherLTH(this.ldapTemplate, new String[] { "1", "2" }, new String[] { "3", "4" });
+  private final UnitFetcherLTH unitFetcher = new UnitFetcherLTH(this.ldapTemplate, new String[] { "1", "2" });
 
   @Test
   public void unitsAreReturnedFromFetchUnits() {
-    List<UnitComposition> units = this.unitFetcher.fetchUnits(Arrays.asList("1010", "1012"));
+    List<UnitComposition> units = this.unitFetcher.fetchUnits(Arrays.asList("1010", "1012"), "Region Halland");
     assertNotNull("units", units);
     assertEquals("unit count", 2, units.size());
+    assertEquals("search filter", "(&(hsaDestinationIndicator=03)(|(municipalityCode=1010)(municipalityCode=1012))(|(businessClassificationCode=1)(businessClassificationCode=2)))",
+        this.ldapTemplate.filter);
   }
 
   private static class LdapTemplateMock extends se.vgregion.kivtools.mocks.ldap.LdapTemplateMock {
+    private String filter;
+
     @Override
     public List<?> search(String base, String filter, int searchScope, ContextMapper mapper) {
+      this.filter = filter;
       assertEquals(SearchControls.SUBTREE_SCOPE, searchScope);
       List<UnitComposition> unitslist = Arrays.asList(createUnit("unit1", "unit1-id", "ou=unit1,ou=org,o=VGR", UnitType.CARE_CENTER, null),
           createUnit("unit2", "unit2-id", "ou=unit2,ou=unit1,ou=org,o=VGR", UnitType.OTHER_CARE, "Göteborg"));

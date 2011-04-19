@@ -39,6 +39,8 @@ public final class PhoneNumber implements Serializable, Comparable<PhoneNumber>,
   private static final Set<String> LOCAL_AREA_CODES = new HashSet<String>();
 
   private final String phoneNumber;
+  private final String areaCode;
+  private final String subscriberNumber;
 
   // Define all two- and three digit area codes. Any area code not defined in
   // the set is supposed to be a four digit area code.
@@ -74,6 +76,14 @@ public final class PhoneNumber implements Serializable, Comparable<PhoneNumber>,
    */
   private PhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
+    this.areaCode = null;
+    this.subscriberNumber = null;
+  }
+
+  public PhoneNumber(String areaCode, String subscriberNumber) {
+    this.phoneNumber = areaCode + " - " + subscriberNumber;
+    this.areaCode = areaCode;
+    this.subscriberNumber = subscriberNumber;
   }
 
   public String getPhoneNumber() {
@@ -110,12 +120,11 @@ public final class PhoneNumber implements Serializable, Comparable<PhoneNumber>,
   }
 
   /**
-   * Konverterar LDAP-lagrade telefonnummer s� de blir mer l�ttl�sta. Fr�n katalogformat till presentationsformat.
+   * Konverterar LDAP-lagrade telefonnummer så de blir mer lättlästa. Från katalogformat till presentationsformat.
    * 
-   * @return String med konverterat v�rde
+   * @return String med konverterat värde
    */
   public PhoneNumber getFormattedPhoneNumber() {
-
     // Make a local copy so that we don't change the original phone number
     String strPhoneNumber = this.phoneNumber;
 
@@ -138,42 +147,49 @@ public final class PhoneNumber implements Serializable, Comparable<PhoneNumber>,
     if (strPhoneNumber.length() < 7) {
       result = new PhoneNumber(this.phoneNumber);
     } else {
-      String areaCode;
-      // Split phone number correctly after area code
-      if (LOCAL_AREA_CODES.contains(strPhoneNumber.substring(0, 2))) {
-        // Two-digit area code
-        areaCode = strPhoneNumber.substring(0, 2);
-        strPhoneNumber = strPhoneNumber.substring(2);
-      } else if (LOCAL_AREA_CODES.contains(strPhoneNumber.substring(0, 3))) {
-        // Three-digit area code
-        areaCode = strPhoneNumber.substring(0, 3);
-        strPhoneNumber = strPhoneNumber.substring(3);
-      } else {
-        // Four-digit area code
-        areaCode = strPhoneNumber.substring(0, 4);
-        strPhoneNumber = strPhoneNumber.substring(4);
-      }
+      String areaCode = this.getAreaCode(strPhoneNumber);
+      strPhoneNumber = strPhoneNumber.substring(areaCode.length());
 
       if (strPhoneNumber.length() > 3) {
-        String tempNumber = "";
-        for (int i = strPhoneNumber.length(); i > 0; i -= 2) {
-          String head = strPhoneNumber.substring(0, i - 2);
-          String tail = strPhoneNumber.substring(i - 2, i);
-
-          tempNumber = " " + tail + tempNumber;
-          if (head.length() == 3) {
-            tempNumber = head + tempNumber;
-            break;
-          }
-        }
-
-        result = new PhoneNumber(areaCode + " - " + tempNumber.trim());
+        String tempNumber = this.formatSubscriberNumber(strPhoneNumber);
+        result = new PhoneNumber(areaCode, tempNumber.trim());
       } else {
         result = new PhoneNumber(this.phoneNumber);
       }
     }
 
     return result;
+  }
+
+  private String formatSubscriberNumber(String strPhoneNumber) {
+    String tempNumber = "";
+    for (int i = strPhoneNumber.length(); i > 0; i -= 2) {
+      String head = strPhoneNumber.substring(0, i - 2);
+      String tail = strPhoneNumber.substring(i - 2, i);
+
+      tempNumber = " " + tail + tempNumber;
+      if (head.length() == 3) {
+        tempNumber = head + tempNumber;
+        break;
+      }
+    }
+    return tempNumber;
+  }
+
+  private String getAreaCode(String strPhoneNumber) {
+    final String areaCode;
+    // Split phone number correctly after area code
+    if (LOCAL_AREA_CODES.contains(strPhoneNumber.substring(0, 2))) {
+      // Two-digit area code
+      areaCode = strPhoneNumber.substring(0, 2);
+    } else if (LOCAL_AREA_CODES.contains(strPhoneNumber.substring(0, 3))) {
+      // Three-digit area code
+      areaCode = strPhoneNumber.substring(0, 3);
+    } else {
+      // Four-digit area code
+      areaCode = strPhoneNumber.substring(0, 4);
+    }
+    return areaCode;
   }
 
   @Override
@@ -189,5 +205,13 @@ public final class PhoneNumber implements Serializable, Comparable<PhoneNumber>,
   @Override
   public int compareTo(PhoneNumber anotherPhoneNumber) {
     return this.getFormattedPhoneNumber().compareTo(anotherPhoneNumber.getFormattedPhoneNumber());
+  }
+
+  public String getAreaCode() {
+    return this.areaCode;
+  }
+
+  public String getSubscriberNumber() {
+    return this.subscriberNumber;
   }
 }

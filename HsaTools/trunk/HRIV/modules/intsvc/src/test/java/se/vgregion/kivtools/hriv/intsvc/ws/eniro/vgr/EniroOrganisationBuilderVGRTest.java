@@ -17,9 +17,10 @@
  *
  */
 
-package se.vgregion.kivtools.hriv.intsvc.ldap.eniro;
+package se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,9 +29,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Organization;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
-import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroOrganisationBuilderVGR;
 
 public class EniroOrganisationBuilderVGRTest {
 
@@ -39,23 +40,23 @@ public class EniroOrganisationBuilderVGRTest {
 
   @Before
   public void setup() {
-    eniroOrganisationBuilder = new EniroOrganisationBuilderVGR();
-    eniroOrganisationBuilder.setRootUnits(Arrays.asList("ou=root1"));
-    eniroOrganisationBuilder.setCareCenter("Vårdcentraler");
-    eniroOrganisationBuilder.setOtherCare("Övrig primärvård");
-    populateLdapSearchList();
+    this.eniroOrganisationBuilder = new EniroOrganisationBuilderVGR();
+    this.eniroOrganisationBuilder.setRootUnits(Arrays.asList("ou=root1"));
+    this.eniroOrganisationBuilder.setCareCenter("Vårdcentraler");
+    this.eniroOrganisationBuilder.setOtherCare("Övrig primärvård");
+    this.populateLdapSearchList();
   }
 
   private void populateLdapSearchList() {
-    ldapSearchResult = new ArrayList<UnitComposition>();
-    ldapSearchResult.add(createUnit("root1", UnitComposition.UnitType.CARE_CENTER, "ou=root1"));
-    ldapSearchResult.add(createUnit("rootLeaf", UnitComposition.UnitType.CARE_CENTER, "ou=rootLeaf,ou=root1"));
-    ldapSearchResult.add(createUnit("subUnit1", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit1,ou=PVO Unit2,ou=Primärvård x"));
-    ldapSearchResult.add(createUnit("subUnit2", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit2,ou=PVO Unit2,ou=Primärvård x"));
-    ldapSearchResult.add(createUnit("subUnit3", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit3,ou=PVO Unit2,ou=Primärvård x"));
-    ldapSearchResult.add(createUnit("subUnit4", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit4,ou=Unit3,ou=Primärvård x"));
-    ldapSearchResult.add(createUnit("subUnit5", UnitComposition.UnitType.OTHER_CARE, "ou=subUnit5,ou=Unit3,ou=Primärvård x"));
-    ldapSearchResult.add(createUnit("subUnit6", UnitComposition.UnitType.OTHER_CARE, "ou=subUnit6,ou=Folktandvården,ou=Primärvård x"));
+    this.ldapSearchResult = new ArrayList<UnitComposition>();
+    this.ldapSearchResult.add(this.createUnit("root1", UnitComposition.UnitType.CARE_CENTER, "ou=root1"));
+    this.ldapSearchResult.add(this.createUnit("rootLeaf", UnitComposition.UnitType.CARE_CENTER, "ou=rootLeaf,ou=root1"));
+    this.ldapSearchResult.add(this.createUnit("subUnit1", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit1,ou=PVO Unit2,ou=Primärvård x"));
+    this.ldapSearchResult.add(this.createUnit("subUnit2", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit2,ou=PVO Unit2,ou=Primärvård x"));
+    this.ldapSearchResult.add(this.createUnit("subUnit3", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit3,ou=PVO Unit2,ou=Primärvård x"));
+    this.ldapSearchResult.add(this.createUnit("subUnit4", UnitComposition.UnitType.CARE_CENTER, "ou=subUnit4,ou=Unit3,ou=Primärvård x"));
+    this.ldapSearchResult.add(this.createUnit("subUnit5", UnitComposition.UnitType.OTHER_CARE, "ou=subUnit5,ou=Unit3,ou=Primärvård x"));
+    this.ldapSearchResult.add(this.createUnit("subUnit6", UnitComposition.UnitType.OTHER_CARE, "ou=subUnit6,ou=Folktandvården,ou=Primärvård x"));
   }
 
   private UnitComposition createUnit(String unitId, UnitComposition.UnitType careType, String dn) {
@@ -68,16 +69,16 @@ public class EniroOrganisationBuilderVGRTest {
 
   @Test
   public void testBuildOrganisation() {
-    Organization organisation = eniroOrganisationBuilder.generateOrganisation(ldapSearchResult);
+    Organization organisation = this.eniroOrganisationBuilder.generateOrganisation(this.ldapSearchResult, "Borås");
     // Should contain root1 unit and markerUnit1.
     assertEquals(3, organisation.getUnit().size());
     assertEquals(2, organisation.getUnit().get(0).getUnit().size());
-    assertUnits(organisation.getUnit(), "Vardcentraler", "Ovrig_primarvard", "root1");
+    this.assertUnits(organisation.getUnit(), "Vardcentraler", "Ovrig_primarvard", "root1");
     List<Unit> subUnits = new ArrayList<Unit>();
     subUnits.addAll(organisation.getUnit().get(0).getUnit());
     subUnits.addAll(organisation.getUnit().get(1).getUnit());
     subUnits.addAll(organisation.getUnit().get(2).getUnit());
-    assertUnits(subUnits, "Unit2", "Unit3", "subUnit5", "subUnit6", "rootLeaf");
+    this.assertUnits(subUnits, "Unit2", "Unit3", "subUnit5", "subUnit6", "rootLeaf");
   }
 
   private void assertUnits(List<Unit> units, String... expectedUnitIds) {

@@ -53,13 +53,16 @@ import se.vgregion.kivtools.util.StringUtil;
  * 
  */
 public class EniroUnitMapperVGR implements ContextMapper {
-  private List<String> nonCareCenter;
+  private final List<String> nonCareCenter;
+  private final String locality;
 
   /**
    * 
+   * @param locality The locality to set on the found units.
    * @param businessClassificationCodes for select non care centers.
    */
-  public EniroUnitMapperVGR(List<String> businessClassificationCodes) {
+  public EniroUnitMapperVGR(String locality, List<String> businessClassificationCodes) {
+    this.locality = locality;
     this.nonCareCenter = businessClassificationCodes;
   }
 
@@ -116,22 +119,23 @@ public class EniroUnitMapperVGR implements ContextMapper {
     UnitComposition unitComposition = new UnitComposition();
     DirContextOperationsHelper context = new DirContextOperationsHelper((DirContextOperations) ctx);
     // Set meta data
-    setMetaAttributes(unitComposition, context);
+    this.setMetaAttributes(unitComposition, context);
     // Fill unit with data.
     Unit unit = unitComposition.getEniroUnit();
     unit.setId(context.getString("hsaIdentity"));
-    unit.setName(getUnitName(context));
+    unit.setName(this.getUnitName(context));
     unit.setRoute(StringUtil.concatenate(context.getStrings("hsaRoute")));
+    unit.setLocality(this.locality);
 
-    Address address = generateAddress(context);
+    Address address = this.generateAddress(context);
     if (address != null) {
       unit.getTextOrImageOrAddress().add(address);
     }
-    TelephoneType telephone = getPublicTelephoneType(context);
+    TelephoneType telephone = this.getPublicTelephoneType(context);
     if (telephone != null) {
       unit.getTextOrImageOrAddress().add(telephone);
     }
-    unit.getTextOrImageOrAddress().add(createBusinessClassification(context.getString("hsaBusinessClassificationCode")));
+    unit.getTextOrImageOrAddress().add(this.createBusinessClassification(context.getString("hsaBusinessClassificationCode")));
     return unitComposition;
   }
 
@@ -170,13 +174,13 @@ public class EniroUnitMapperVGR implements ContextMapper {
   private Address generateAddress(DirContextOperationsHelper context) {
     Address address = null;
     if (context.hasAttribute("hsaStreetAddress")) {
-      address = createBaseAddress(context.getString("hsaStreetAddress"));
+      address = this.createBaseAddress(context.getString("hsaStreetAddress"));
       HourConverter hourConverter = new HourConverter(HOURS_TYPE.VISIT.value, context.getStrings("hsaSurgeryHours"));
       address.getHours().addAll(hourConverter.getResult());
       // Set address type
       address.setType(ADDRESS_TYPE.VISIT.value);
       // Get geoCoordinates
-      address.setGeoCoordinates(generateGeoCoordinatesObject(context.getString("hsaGeographicalCoordinates")));
+      address.setGeoCoordinates(this.generateGeoCoordinatesObject(context.getString("hsaGeographicalCoordinates")));
     }
     return address;
   }
@@ -199,7 +203,7 @@ public class EniroUnitMapperVGR implements ContextMapper {
     // unitComposition.setModifyTimePoint(createTimePoint(dirContextOperations.getStringAttribute("vgrModifyTimestamp")));
     unitComposition.setDn(context.getDnString());
     String bsCode = context.getString("hsaBusinessClassificationCode");
-    if (nonCareCenter.contains(bsCode)) {
+    if (this.nonCareCenter.contains(bsCode)) {
       unitComposition.setCareType(UnitType.OTHER_CARE);
     } else {
       unitComposition.setCareType(UnitType.CARE_CENTER);
@@ -261,7 +265,7 @@ public class EniroUnitMapperVGR implements ContextMapper {
     List<T> getResult() {
       List<T> hoursList = new ArrayList<T>();
 
-      for (String value : values) {
+      for (String value : this.values) {
         if (!StringUtil.isEmpty(value)) {
           String[] hoursInfo = value.split("#");
 
@@ -276,7 +280,7 @@ public class EniroUnitMapperVGR implements ContextMapper {
             }
             String timeFrom = hoursInfo[1];
             String timeTo = hoursInfo[2];
-            hoursList.add(buildResultEntry(type, dayFrom, dayTo, timeFrom, timeTo));
+            hoursList.add(this.buildResultEntry(this.type, dayFrom, dayTo, timeFrom, timeTo));
           }
         }
       }
@@ -300,7 +304,7 @@ public class EniroUnitMapperVGR implements ContextMapper {
    * Implementation of AbstractHourConverter which generates Hours-objects.
    */
   private static class HourConverter extends AbstractHourConverter<Hours> {
-    private Log logger = LogFactory.getLog(this.getClass());
+    private final Log logger = LogFactory.getLog(this.getClass());
 
     HourConverter(String type, List<String> values) {
       super(type, values);
@@ -319,7 +323,7 @@ public class EniroUnitMapperVGR implements ContextMapper {
         hours.setTimeFrom(fromTimeGreg);
         hours.setTimeTo(toTimeGreg);
       } catch (DatatypeConfigurationException e) {
-        logger.fatal("Unable to get a DatatypeFactory instance", e);
+        this.logger.fatal("Unable to get a DatatypeFactory instance", e);
       }
       return hours;
     }
@@ -329,7 +333,7 @@ public class EniroUnitMapperVGR implements ContextMapper {
    * Implementation of AbstractHourConverter which generates TelephoneHours-objects.
    */
   private static class TelephoneHourConverter extends AbstractHourConverter<TelephoneHours> {
-    private Log logger = LogFactory.getLog(this.getClass());
+    private final Log logger = LogFactory.getLog(this.getClass());
 
     TelephoneHourConverter(String type, List<String> values) {
       super(type, values);
@@ -348,7 +352,7 @@ public class EniroUnitMapperVGR implements ContextMapper {
         hours.setTimeFrom(fromTimeGreg);
         hours.setTimeTo(toTimeGreg);
       } catch (DatatypeConfigurationException e) {
-        logger.fatal("Unable to get a DatatypeFactory instance", e);
+        this.logger.fatal("Unable to get a DatatypeFactory instance", e);
       }
       return hours;
     }

@@ -21,6 +21,8 @@ package se.vgregion.kivtools.hriv.intsvc.ldap.eniro.lth;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,13 +56,25 @@ import se.vgregion.kivtools.util.StringUtil;
  */
 public class EniroUnitMapperLTH implements ContextMapper {
   private final List<String> nonCareCenter;
+  private final String locality;
 
   /**
    * 
+   * @param locality The locality to set on the found units.
    * @param businessClassificationCodes for select non care centers.
    */
-  public EniroUnitMapperLTH(List<String> businessClassificationCodes) {
-    this.nonCareCenter = businessClassificationCodes;
+  public EniroUnitMapperLTH(String locality) {
+    this.locality = locality;
+    this.nonCareCenter = Arrays.asList("1000", "1001", "1002", "1003", "1004", "1005", "1006", "1007", "1008", "1009", "1010", "1011", "1012", "1013", "1014", "1015", "1016", "1017", "1018", "1019",
+        "1020", "1021", "1022", "1023", "1024", "1025", "1026", "1027", "1028", "1100", "1101", "1102", "1103", "1104", "1105", "1106", "1107", "1108", "1109", "1110", "1111", "1112", "1113", "1114",
+        "1115", "1116", "1117", "1118", "1119", "1120", "1121", "1122", "1123", "1124", "1125", "1126", "1127", "1128", "1129", "1130", "1131", "1132", "1133", "1134", "1136", "1137", "1138", "1139",
+        "1202", "1203", "1204", "1205", "1206", "1207", "1208", "1209", "1210", "1211", "1212", "1213", "1214", "1215", "1216", "1217", "1218", "1219", "1220", "1221", "1222", "1223", "1224", "1227",
+        "1228", "1229", "1230", "1231", "1232", "1302", "1303", "1304", "1306", "1307", "1308", "1310", "1311", "1312", "1313", "1314", "1315", "1316", "1317", "1318", "1319", "1320", "1321", "1322",
+        "1323", "1324", "1325", "1326", "1327", "1328", "1329", "1330", "1331", "1332", "1333", "1334", "1335", "1336", "1337", "1338", "1339", "1340", "1341", "1342", "1343", "1400", "1402", "1403",
+        "1404", "1405", "1406", "1407", "1408", "1409", "1410", "1411", "1412", "1413", "1414", "1500", "1504", "1505", "1506", "1507", "1509", "1512", "1513", "1514", "1515", "1518", "1519", "1600",
+        "1603", "1604", "1605", "1606", "1607", "1608", "1609", "1611", "1614", "1615", "1616", "1617", "1618", "1619", "1702", "1703", "1704", "1705", "1706", "1707", "1708", "1709", "1710", "1711",
+        "1712", "1713", "1714", "1715", "1716", "1717", "1718", "1719", "1800", "1801", "1802", "1804", "1807", "1808", "1810", "1812", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008",
+        "2009", "2010", "2011", "2012", "2016", "2017", "2018", "2019", "2020", "2021", "2102", "2103", "2106", "2107", "2108", "2202", "2203", "2204", "2205");
   }
 
   /**
@@ -122,6 +136,7 @@ public class EniroUnitMapperLTH implements ContextMapper {
     unit.setId(context.getString("hsaIdentity"));
     unit.setName(this.getUnitName(context));
     unit.setRoute(StringUtil.concatenate(context.getStrings("route")));
+    unit.setLocality(this.locality);
 
     Address address = this.generateAddress(context);
     if (address != null) {
@@ -157,10 +172,11 @@ public class EniroUnitMapperLTH implements ContextMapper {
     TelephoneType telephoneType = null;
 
     if (!StringUtil.isEmpty(publicTelephoneNumber)) {
-      PhoneNumber phoneNumber = PhoneNumber.createPhoneNumber(publicTelephoneNumber);
+      PhoneNumber phoneNumber = PhoneNumber.createPhoneNumber(publicTelephoneNumber).getFormattedPhoneNumber();
       telephoneType = new TelephoneType();
       telephoneType.setType(PHONE_TYPE.FIXED.value);
-      telephoneType.getTelephoneNumber().add(phoneNumber.getFormattedPhoneNumber().toString());
+      telephoneType.getAreaCode().add(phoneNumber.getAreaCode());
+      telephoneType.getTelephoneNumber().add(phoneNumber.getSubscriberNumber());
       TelephoneHourConverter telephoneHourConverter = new TelephoneHourConverter(TELEPHONE_HOURS_TYPE.PHONEOPEN.value, context.getStrings("telephoneHours"));
       telephoneType.getTelephoneHours().addAll(telephoneHourConverter.getResult());
     }
@@ -253,10 +269,12 @@ public class EniroUnitMapperLTH implements ContextMapper {
   private abstract static class AbstractHourConverter<T> {
     private final String type;
     private final List<String> values;
+    private final Comparator<T> comparator;
 
-    AbstractHourConverter(final String type, final List<String> values) {
+    AbstractHourConverter(final String type, final List<String> values, Comparator<T> comparator) {
       this.type = type;
       this.values = values;
+      this.comparator = comparator;
     }
 
     List<T> getResult() {
@@ -281,6 +299,7 @@ public class EniroUnitMapperLTH implements ContextMapper {
           }
         }
       }
+      Collections.sort(hoursList, this.comparator);
       return hoursList;
     }
 
@@ -304,7 +323,7 @@ public class EniroUnitMapperLTH implements ContextMapper {
     private final Log logger = LogFactory.getLog(this.getClass());
 
     HourConverter(String type, List<String> values) {
-      super(type, values);
+      super(type, values, new HourComparator());
     }
 
     @Override
@@ -324,6 +343,17 @@ public class EniroUnitMapperLTH implements ContextMapper {
       }
       return hours;
     }
+
+    private static class HourComparator implements Comparator<Hours> {
+      @Override
+      public int compare(Hours o1, Hours o2) {
+        int result = o1.getDayFrom().compareTo(o2.getDayFrom()) * 1000;
+        result += o1.getDayTo().compareTo(o2.getDayTo()) * 100;
+        result += o1.getTimeFrom().compare(o2.getTimeFrom()) * 10;
+        result += o1.getTimeTo().compare(o2.getTimeTo());
+        return result;
+      }
+    }
   }
 
   /**
@@ -333,7 +363,7 @@ public class EniroUnitMapperLTH implements ContextMapper {
     private final Log logger = LogFactory.getLog(this.getClass());
 
     TelephoneHourConverter(String type, List<String> values) {
-      super(type, values);
+      super(type, values, new TelephoneHourComparator());
     }
 
     @Override
@@ -352,6 +382,17 @@ public class EniroUnitMapperLTH implements ContextMapper {
         this.logger.fatal("Unable to get a DatatypeFactory instance", e);
       }
       return hours;
+    }
+
+    private static class TelephoneHourComparator implements Comparator<TelephoneHours> {
+      @Override
+      public int compare(TelephoneHours o1, TelephoneHours o2) {
+        int result = o1.getDayFrom().compareTo(o2.getDayFrom()) * 1000;
+        result += o1.getDayTo().compareTo(o2.getDayTo()) * 100;
+        result += o1.getTimeFrom().compare(o2.getTimeFrom()) * 10;
+        result += o1.getTimeTo().compare(o2.getTimeTo());
+        return result;
+      }
     }
   }
 }

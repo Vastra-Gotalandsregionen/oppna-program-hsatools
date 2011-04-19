@@ -19,7 +19,8 @@
 
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -69,20 +70,20 @@ public class OrganisationPrinterTest {
 
   @Before
   public void setup() {
-    organisationPrinter = new OrganisationPrinter();
-    stringWriter = new StringWriter();
+    this.organisationPrinter = new OrganisationPrinter();
+    this.stringWriter = new StringWriter();
   }
 
   @Test
   public void testPrintOrganisation() {
-    organisationPrinter.printOrganisation(createOrganisation(), stringWriter);
-    assertTrue(!StringUtil.isEmpty(stringWriter.toString()));
-    System.out.println(stringWriter.toString());
+    this.organisationPrinter.printOrganisation(this.createOrganisation(), this.stringWriter);
+    assertTrue(!StringUtil.isEmpty(this.stringWriter.toString()));
+    System.out.println(this.stringWriter.toString());
   }
 
   @Test
   public void testIOExceptionHandling() {
-    organisationPrinter.printOrganisation(createOrganisation(), new WriterExceptionMock());
+    this.organisationPrinter.printOrganisation(this.createOrganisation(), new WriterExceptionMock());
     assertEquals("Failed to write out content\nFailed to write out content\n", logFactoryMock.getError(true));
   }
 
@@ -128,11 +129,11 @@ public class OrganisationPrinterTest {
     eniroOrganisationBuilder.setCareCenter("Vårdcentral");
     eniroOrganisationBuilder.setOtherCare("Övrig primärvård");
     eniroOrganisationBuilder.setRootUnits(Arrays.asList("ou=Sahlgrenska Universitetssjukhuset"));
-    Organization generateOrganisation = eniroOrganisationBuilder.generateOrganisation(getUnitsFromLdap(getLdapTemplate()));
-    organisationPrinter = new OrganisationPrinter();
-    stringWriter = new StringWriter();
-    organisationPrinter.printOrganisation(generateOrganisation, stringWriter);
-    System.out.println(stringWriter.toString());
+    Organization generateOrganisation = eniroOrganisationBuilder.generateOrganisation(this.getUnitsFromLdap(this.getLdapTemplate()), "Uddevalla");
+    this.organisationPrinter = new OrganisationPrinter();
+    this.stringWriter = new StringWriter();
+    this.organisationPrinter.printOrganisation(generateOrganisation, this.stringWriter);
+    System.out.println(this.stringWriter.toString());
   }
 
   private LdapTemplate getLdapTemplate() throws Exception {
@@ -155,12 +156,13 @@ public class OrganisationPrinterTest {
     AndFilter andFilter = new AndFilter();
     andFilter.and(new EqualsFilter("hsaMunicipalityCode", 1480));
     OrFilter orBusinessCodes = new OrFilter();
-    for (String businessCode : allowedUnitBusinessClassificationCodes) {
+    for (String businessCode : this.allowedUnitBusinessClassificationCodes) {
       orBusinessCodes.or(new EqualsFilter("hsaBusinessClassificationCode", businessCode));
     }
     orBusinessCodes.or(healthcareTypeFilter);
     andFilter.and(orBusinessCodes);
-    EniroUnitMapperVGR eniroUnitMapper = new EniroUnitMapperVGR(Arrays.asList("1519", "1413", "1505", "1504", "1411", "1121", "1516", "1109", "1402", "150", "1507", "1413", "1402", "1403"));
+    EniroUnitMapperVGR eniroUnitMapper = new EniroUnitMapperVGR("Göteborg",
+        Arrays.asList("1519", "1413", "1505", "1504", "1411", "1121", "1516", "1109", "1402", "150", "1507", "1413", "1402", "1403"));
     @SuppressWarnings("unchecked")
     List<UnitComposition> unitsList = ldapTemplate.search("", andFilter.encode(), SearchControls.SUBTREE_SCOPE, eniroUnitMapper);
     return unitsList;
