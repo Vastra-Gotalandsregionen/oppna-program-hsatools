@@ -65,10 +65,9 @@
 	<bean id="fileUtil" class="se.vgregion.kivtools.util.file.FileUtilImpl" />
 
 	<bean id="eniroOrganisationBuilder"
-		class="se.vgregion.kivtools.hriv.intsvc.ldap.eniro.EniroOrganisationBuilder">
-		<property name="rootUnits" value="${rootUnitsToInclude}" />
-		<property name="careCenter" value="${careCenterLabel}" />
-		<property name="otherCare" value="${otherCareLabel}" />
+		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.lth.EniroOrganisationBuilderLTH">
+		<constructor-arg value="${careCenterLabel}" />
+		<constructor-arg value="${otherCareLabel}" />
 	</bean>
 
 	<bean id="eniroConfig" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.lth.EniroConfigurationLTH" />

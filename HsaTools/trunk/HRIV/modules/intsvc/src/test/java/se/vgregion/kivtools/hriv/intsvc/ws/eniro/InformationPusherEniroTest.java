@@ -43,11 +43,11 @@ import org.springframework.ldap.core.ContextMapper;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.EniroOrganisationBuilder;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition.UnitType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroConfigurationVGR;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroOrganisationBuilderVGR;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.UnitFetcherVGR;
 import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.util.StringUtil;
@@ -67,7 +67,7 @@ public class InformationPusherEniroTest {
 
   @Before
   public void setUp() throws Exception {
-    EniroOrganisationBuilder eniroOrganisationBuilder = new EniroOrganisationBuilder();
+    EniroOrganisationBuilderVGR eniroOrganisationBuilder = new EniroOrganisationBuilderVGR();
     eniroOrganisationBuilder.setRootUnits(Arrays.asList(""));
     eniroOrganisationBuilder.setCareCenter("Vårdcentral");
     eniroOrganisationBuilder.setOtherCare("Övrig primärvård");

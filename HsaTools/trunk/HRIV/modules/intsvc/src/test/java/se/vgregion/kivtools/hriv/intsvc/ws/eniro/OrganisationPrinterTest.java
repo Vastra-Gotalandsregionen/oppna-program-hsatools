@@ -40,12 +40,12 @@ import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.Filter;
 import org.springframework.ldap.filter.OrFilter;
 
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.EniroOrganisationBuilder;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.KivLdapFilterHelper;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.vgr.EniroUnitMapperVGR;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Organization;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroOrganisationBuilderVGR;
 import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.util.StringUtil;
@@ -124,7 +124,7 @@ public class OrganisationPrinterTest {
   }
 
   public void printOutRealOrganisation() throws Exception {
-    EniroOrganisationBuilder eniroOrganisationBuilder = new EniroOrganisationBuilder();
+    EniroOrganisationBuilderVGR eniroOrganisationBuilder = new EniroOrganisationBuilderVGR();
     eniroOrganisationBuilder.setCareCenter("Vårdcentral");
     eniroOrganisationBuilder.setOtherCare("Övrig primärvård");
     eniroOrganisationBuilder.setRootUnits(Arrays.asList("ou=Sahlgrenska Universitetssjukhuset"));

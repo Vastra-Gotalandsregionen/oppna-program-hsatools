@@ -30,15 +30,16 @@ import org.junit.Test;
 
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Organization;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroOrganisationBuilderVGR;
 
-public class EniroOrganisationBuilderTest {
+public class EniroOrganisationBuilderVGRTest {
 
-  private EniroOrganisationBuilder eniroOrganisationBuilder;
+  private EniroOrganisationBuilderVGR eniroOrganisationBuilder;
   private List<UnitComposition> ldapSearchResult;
 
   @Before
   public void setup() {
-    eniroOrganisationBuilder = new EniroOrganisationBuilder();
+    eniroOrganisationBuilder = new EniroOrganisationBuilderVGR();
     eniroOrganisationBuilder.setRootUnits(Arrays.asList("ou=root1"));
     eniroOrganisationBuilder.setCareCenter("Vårdcentraler");
     eniroOrganisationBuilder.setOtherCare("Övrig primärvård");

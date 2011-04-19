@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.hriv.intsvc.ldap.eniro;
+package se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,11 +25,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.springframework.ldap.core.DistinguishedName;
 
+import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition.UnitType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Organization;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.EniroOrganisationBuilder;
 import se.vgregion.kivtools.util.StringUtil;
 
 /**
@@ -37,12 +38,12 @@ import se.vgregion.kivtools.util.StringUtil;
  * @author David Bennehult & Joakim Olsson
  * 
  */
-public class EniroOrganisationBuilder {
+public class EniroOrganisationBuilderVGR extends EniroOrganisationBuilder {
   private List<String> rootUnitDns;
   private String careCenter;
   private String otherCare;
-  private Map<String, Unit> otherCareUnits = new HashMap<String, Unit>();
-  private Map<String, Unit> careCenterUnits = new HashMap<String, Unit>();
+  private final Map<String, Unit> otherCareUnits = new HashMap<String, Unit>();
+  private final Map<String, Unit> careCenterUnits = new HashMap<String, Unit>();
 
   public void setCareCenter(String careCenter) {
     this.careCenter = careCenter;
@@ -67,6 +68,7 @@ public class EniroOrganisationBuilder {
    * @param unitCompositions The list of UnitCompositions to base the organization tree on.
    * @return A populated Organization-instance.
    */
+  @Override
   public Organization generateOrganisation(List<UnitComposition> unitCompositions) {
     Map<String, Map<String, List<Unit>>> subunits = new HashMap<String, Map<String, List<Unit>>>();
     Map<String, Map<String, List<Unit>>> rootUnitsChildren = new HashMap<String, Map<String, List<Unit>>>();
@@ -80,23 +82,23 @@ public class EniroOrganisationBuilder {
     for (UnitComposition unitComposition : unitCompositions) {
       String unitParentDn = unitComposition.getParentDn();
 
-      if (rootUnitDns.contains(unitParentDn)) {
+      if (this.rootUnitDns.contains(unitParentDn)) {
         // Current unit is a leaf to a root unit
-        List<Unit> childrenUnits = getSubunitsList(rootUnitsChildren, unitComposition.getEniroUnit().getLocality(), unitComposition.getParentDn());
+        List<Unit> childrenUnits = this.getSubunitsList(rootUnitsChildren, unitComposition.getEniroUnit().getLocality(), unitComposition.getParentDn());
         childrenUnits.add(unitComposition.getEniroUnit());
-      } else if (rootUnitDns.contains(unitComposition.getDn()) || StringUtil.isEmpty(unitParentDn)) {
+      } else if (this.rootUnitDns.contains(unitComposition.getDn()) || StringUtil.isEmpty(unitParentDn)) {
         // Current unit is a root unit.
         rootunits.put(unitComposition.getDn(), unitComposition.getEniroUnit());
       } else {
-        String parentOu = getUnitOuString(unitParentDn);
+        String parentOu = this.getUnitOuString(unitParentDn);
         // Check if unit should be added to careCenterUnit or otherCareUnit.
         if (unitComposition.getCareType() == UnitType.CARE_CENTER) {
           // Current unit is a leaf to unit of type "careCenter".
-          List<Unit> list = getSubunitsList(subunits, unitComposition.getEniroUnit().getLocality(), parentOu);
+          List<Unit> list = this.getSubunitsList(subunits, unitComposition.getEniroUnit().getLocality(), parentOu);
           list.add(unitComposition.getEniroUnit());
         } else if (unitComposition.getCareType() == UnitType.OTHER_CARE) {
           // Current unit is a leaf to unit of typ "otherCare".
-          getOtherCareUnit(unitComposition.getEniroUnit().getLocality(), organization).getUnit().add(unitComposition.getEniroUnit());
+          this.getOtherCareUnit(unitComposition.getEniroUnit().getLocality(), organization).getUnit().add(unitComposition.getEniroUnit());
         }
         // else {
         // // Current unit couldn't be put under any unit type.
@@ -109,12 +111,12 @@ public class EniroOrganisationBuilder {
     for (Entry<String, Map<String, List<Unit>>> localityUnits : subunits.entrySet()) {
       for (Entry<String, List<Unit>> units : localityUnits.getValue().entrySet()) {
         Unit localityUnit = new Unit();
-        String cleanedDnString = cleanDnString(units.getKey());
+        String cleanedDnString = this.cleanDnString(units.getKey());
         localityUnit.setName(cleanedDnString);
         localityUnit.setId(cleanedDnString);
         localityUnit.setLocality(units.getValue().get(0).getLocality());
         localityUnit.getUnit().addAll(units.getValue());
-        getCareCenterUnit(units.getValue().get(0).getLocality(), organization).getUnit().add(localityUnit);
+        this.getCareCenterUnit(units.getValue().get(0).getLocality(), organization).getUnit().add(localityUnit);
       }
     }
 
@@ -137,8 +139,8 @@ public class EniroOrganisationBuilder {
     Unit otherCareUnit = this.otherCareUnits.get(locality);
     if (otherCareUnit == null) {
       otherCareUnit = new Unit();
-      otherCareUnit.setName(otherCare);
-      otherCareUnit.setId(replaceSpecialCharacters(otherCare));
+      otherCareUnit.setName(this.otherCare);
+      otherCareUnit.setId(this.replaceSpecialCharacters(this.otherCare));
       otherCareUnit.setLocality(locality);
       this.otherCareUnits.put(locality, otherCareUnit);
       organization.getUnit().add(otherCareUnit);
@@ -151,22 +153,14 @@ public class EniroOrganisationBuilder {
     Unit careCenterUnit = this.careCenterUnits.get(locality);
     if (careCenterUnit == null) {
       careCenterUnit = new Unit();
-      careCenterUnit.setName(careCenter);
-      careCenterUnit.setId(replaceSpecialCharacters(careCenter));
+      careCenterUnit.setName(this.careCenter);
+      careCenterUnit.setId(this.replaceSpecialCharacters(this.careCenter));
       careCenterUnit.setLocality(locality);
       this.careCenterUnits.put(locality, careCenterUnit);
       organization.getUnit().add(careCenterUnit);
     }
 
     return careCenterUnit;
-  }
-
-  private String getUnitOuString(String unitDn) {
-    String parentOu = "";
-    if (!StringUtil.isEmpty(unitDn)) {
-      parentOu = new DistinguishedName(unitDn).removeLast().toString();
-    }
-    return parentOu;
   }
 
   private String cleanDnString(String dn) {
@@ -194,32 +188,5 @@ public class EniroOrganisationBuilder {
       localityUnits.put(parentOu, list);
     }
     return list;
-  }
-
-  private String replaceSpecialCharacters(String input) {
-    String result = input;
-
-    // å
-    result = result.replace("\u00E5", "a");
-
-    // ä
-    result = result.replace("\u00E4", "a");
-
-    // ö
-    result = result.replace("\u00F6", "o");
-
-    // Å
-    result = result.replace("\u00C5", "A");
-
-    // Ä
-    result = result.replace("\u00C4", "A");
-
-    // Ö
-    result = result.replace("\u00D6", "O");
-
-    // Space
-    result = result.replace(" ", "_");
-
-    return result;
   }
 }
