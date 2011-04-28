@@ -182,8 +182,8 @@
 		<property name="jobDetail" ref="sitemapCacheReload" />
 		<!-- 5 minutes so unitCacheReload has completed -->
 		<property name="startDelay" value="300000" />
-		<!-- repeat every 24 hours -->
-		<property name="repeatInterval" value="86400000" />
+		<!-- repeat every 8 hours -->
+		<property name="repeatInterval" value="28800000" />
 	</bean>
 
 	<bean id="unitCacheLoader" class="se.vgregion.kivtools.search.svc.impl.cache.UnitCacheLoaderImpl">
