@@ -22,6 +22,7 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -423,11 +424,23 @@ public class UnitRepositoryKivwsTest {
   }
 
   @Test
-  public void testGetAllUnitsOnlyPublicUnits() throws KivException {
+  public void testGetAllUnitsHsaIdentityOnlyPublicUnits() throws KivException {
     String expectedOU = "(&(hsaDestinationIndicator=03)(|(vgrCareType=01)(vgrCareType=03)))";
     String expectedCN = "(&(hsaDestinationIndicator=03)(|(vgrCareType=01)(vgrCareType=03)))";
 
     this.unitRepository.getAllUnitsHsaIdentity(true);
+    assertEquals(expectedOU, this.searchServiceMock.filterOU);
+    assertEquals(expectedCN, this.searchServiceMock.filterCN);
+  }
+
+  @Test
+  public void testGetAllUnitsOnlyPublicUnits() throws KivException {
+    String expectedOU = "(&(hsaDestinationIndicator=03)(|(vgrCareType=01)(vgrCareType=03)))";
+    String expectedCN = "(&(hsaDestinationIndicator=03)(|(vgrCareType=01)(vgrCareType=03)))";
+
+    this.unitRepository.getAllUnits(true);
+    assertTrue("unit search", this.searchServiceMock.unitsSearched);
+    assertTrue("function search", this.searchServiceMock.functionsSearched);
     assertEquals(expectedOU, this.searchServiceMock.filterOU);
     assertEquals(expectedCN, this.searchServiceMock.filterCN);
   }
@@ -521,7 +534,8 @@ public class UnitRepositoryKivwsTest {
   }
 
   class SearchServiceMock implements SearchService {
-
+    private boolean unitsSearched;
+    private boolean functionsSearched;
     private String filterOU;
     private String filterCN;
     private Name baseOU;
@@ -548,6 +562,7 @@ public class UnitRepositoryKivwsTest {
 
     @Override
     public List<Unit> searchUnits(Name base, String filter, int searchScope, List<String> attrs) {
+      this.unitsSearched = true;
       this.baseOU = base;
       this.filterOU = filter;
       return this.resultList;
@@ -555,6 +570,7 @@ public class UnitRepositoryKivwsTest {
 
     @Override
     public List<Unit> searchFunctionUnits(Name base, String filter, int searchScope, List<String> attrs) {
+      this.functionsSearched = true;
       this.baseCN = base;
       this.filterCN = filter;
       return this.resultList;
