@@ -175,7 +175,7 @@
 						</goals>
 						<configuration>
 							<wsdlDirectory>${basedir}/../schema/src/main/resources/wsdl/</wsdlDirectory>
-							<wsdlLocation>https://kivws.vgregion.se:10110/services?wsdl</wsdlLocation>
+							<wsdlLocation>https://kivws.vgregion.se:10020/services?wsdl</wsdlLocation>
 							<wsdlFiles>
 								<wsdlFile>kivws.wsdl</wsdlFile>
 							</wsdlFiles>
