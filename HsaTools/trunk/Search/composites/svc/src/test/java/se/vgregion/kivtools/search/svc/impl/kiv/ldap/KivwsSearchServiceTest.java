@@ -36,6 +36,7 @@ import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfAnyType;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfDeletedObject;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfDeliveryPoint;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfFunction;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfPerson;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfResource;
@@ -354,6 +355,26 @@ public class KivwsSearchServiceTest {
       if (this.throwException) {
         throw new VGRException_Exception(message, new VGRException());
       }
+    }
+
+    @Override
+    public ArrayOfString getSearchAttributesForDeliveryPoint() throws VGRException_Exception {
+      return null;
+    }
+
+    @Override
+    public ArrayOfDeletedObject getDeletedEmployees(String timestamp) throws VGRException_Exception {
+      return null;
+    }
+
+    @Override
+    public ArrayOfString getReturnAttributesForDeliveryPoint() throws VGRException_Exception {
+      return null;
+    }
+
+    @Override
+    public ArrayOfDeliveryPoint searchDeliveryPoint(String filter, ArrayOfString attributes) throws VGRException_Exception {
+      return null;
     }
   }
 }
