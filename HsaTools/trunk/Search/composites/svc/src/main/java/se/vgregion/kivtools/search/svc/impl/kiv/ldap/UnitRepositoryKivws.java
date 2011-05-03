@@ -302,7 +302,9 @@ public class UnitRepositoryKivws extends UnitRepository {
   public List<Unit> getAllUnits(boolean onlyPublicUnits) {
     String searchFilter = this.createAllUnitsFilter(onlyPublicUnits);
 
-    List<Unit> result = this.searchService.searchUnits(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
+    List<Unit> result = new ArrayList<Unit>();
+    result.addAll(this.searchService.searchUnits(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES));
+    result.addAll(this.searchService.searchFunctionUnits(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES));
     return result;
   }
 
