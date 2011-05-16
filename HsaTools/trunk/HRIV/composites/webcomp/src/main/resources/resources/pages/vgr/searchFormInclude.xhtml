@@ -55,48 +55,49 @@
 						</div>
 						<p>
 							<label for="municipality">${msg.whereCare}</label>
-										<select id="municipality" name="facet7_kommun" class="select" value="${unitSearchSimpleForm.municipality}">
-												<option>${msg.searchformMunicipality}</option>
-												<ui:repeat value="${unitSearchSimpleForm.municipalityItems}" var="item">
-													<option value="${item.label}">${item.label}</option>
-												</ui:repeat>
-										</select>
-								</p>
-								<p>
-										<span class="radio">
-											<h:outputText rendered="${'list' == unitSearchSimpleForm.resultType || '1' == unitSearchSimpleForm.resultType}">
-													<input id="resultTypeList" type="radio" checked="checked" name="resultview" value="list"/>
-											</h:outputText>
-											<h:outputText rendered="${'list' != unitSearchSimpleForm.resultType and '1' != unitSearchSimpleForm.resultType}">
-													<input id="resultTypeList" type="radio" name="resultview" value="list"/>
-											</h:outputText>
-										</span>
-										<label for="resultTypeList" class="inline">Lista</label>
-										<span class="radio">
-											<h:outputText rendered="${'map' == unitSearchSimpleForm.resultType}">
-													<input id="resultTypeList" type="radio" checked="checked" name="resultview" value="map"/>
-											</h:outputText>
-											<h:outputText rendered="${'map' != unitSearchSimpleForm.resultType}">
-													<input id="resultTypeList" type="radio" name="resultview" value="map"/>
-											</h:outputText>
-										</span>
-										<label for="resultTypeList" class="inline">Karta</label>
-								</p>
-							</div>
+							<select id="municipality" name="facet7_kommun" class="select" value="${unitSearchSimpleForm.municipality}">
+								<option>${msg.searchformMunicipality}</option>
+								<ui:repeat value="${unitSearchSimpleForm.municipalityItems}" var="item">
+									<option value="${item.label}">${item.label}</option>
+								</ui:repeat>
+							</select>
+						</p>
+						<p>
+							<span class="radio">
+								<h:outputText rendered="${'list' == unitSearchSimpleForm.resultType || '1' == unitSearchSimpleForm.resultType}">
+									<input id="resultTypeList" type="radio" checked="checked" name="resultview" value="list"/>
+								</h:outputText>
+								<h:outputText rendered="${'list' != unitSearchSimpleForm.resultType and '1' != unitSearchSimpleForm.resultType}">
+									<input id="resultTypeList" type="radio" name="resultview" value="list"/>
+								</h:outputText>
+							</span>
+							<label for="resultTypeList" class="inline">Lista</label>
+							<span class="radio">
+								<h:outputText rendered="${'map' == unitSearchSimpleForm.resultType}">
+									<input id="resultTypeList" type="radio" checked="checked" name="resultview" value="map"/>
+								</h:outputText>
+								<h:outputText rendered="${'map' != unitSearchSimpleForm.resultType}">
+									<input id="resultTypeList" type="radio" name="resultview" value="map"/>
+								</h:outputText>
+							</span>
+							<label for="resultTypeList" class="inline">Karta</label>
+						</p>
+					</div>
 
-							<div>
+					<div>
 						<input type="hidden" name="filter" value="scope:VGRegionvardportalenhittavard" />
-						<input type="hidden" name="scoped" value="true" />	
-									<input type="hidden" name="noHeader" value="${param.noHeader}" />
-									<input type="hidden" name="resultOnly" value="${param.resultOnly}" />
-									<input id="sortOrder" name="sortOrder" type="hidden" jsfc="h:inputHidden" value="${unitSearchSimpleForm.sortOrder}" />
+						<input type="hidden" name="scoped" value="true" />
+						<input type="hidden" name="allSearch" value="true" />
+						<input type="hidden" name="noHeader" value="${param.noHeader}" />
+						<input type="hidden" name="resultOnly" value="${param.resultOnly}" />
+						<input id="sortOrder" name="sortOrder" type="hidden" value="${unitSearchSimpleForm.sortOrder}" />
 						<div class="btn">
-										<input type="submit" id="submitButton" class="standardButton" value="${msg.find}" />
-								</div>
+							<input type="submit" id="submitButton" class="standardButton" value="${msg.find}" />
+						</div>
 						<div class="btn-end"></div>
 						<div class="clear"></div>
-							</div>
-					 </div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</form>
