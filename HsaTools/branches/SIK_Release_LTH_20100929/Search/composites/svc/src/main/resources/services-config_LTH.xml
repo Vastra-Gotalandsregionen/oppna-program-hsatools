@@ -62,7 +62,7 @@
 	</bean>
 
 	<bean id="springMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="engerix.lthalland.se" />
+		<property name="host" value="rhmail.lthalland.se" />
 	</bean>
 	
 	<!-- Use this in production. Change in errorReportingService-bean. -->
