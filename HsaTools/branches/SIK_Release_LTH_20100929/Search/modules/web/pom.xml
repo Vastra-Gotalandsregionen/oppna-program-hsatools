@@ -44,6 +44,7 @@
 		<dependency>
 			<groupId>se.vgregion.javg</groupId>
 			<artifactId>javg-rt-support</artifactId>
+			<version>${javg.version}</version>
 		</dependency>
 
 		<dependency>
