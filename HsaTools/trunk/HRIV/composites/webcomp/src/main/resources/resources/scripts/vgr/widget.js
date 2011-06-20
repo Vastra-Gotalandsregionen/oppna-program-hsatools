@@ -195,7 +195,7 @@ function initAutocompleter() {
 			maxResults: 50,
 		    resultHighlighter: 'phraseMatch',
 		    resultListLocator: function(response) { return response[1]; },
-		    source: 'http://hitta.vgregion.se/fwqc/complete.do?format=opensearch&q={query}&filter=scope:VGRegionvardportalenhittavard&callback={callback}'
+		    source: 'http://hitta.vgregion.se/fwqc/complete.do?q={query}&c=VGRegionvardportalenhittavard&format=opensearch&callback={callback}'
 		  });
 		});
 }
