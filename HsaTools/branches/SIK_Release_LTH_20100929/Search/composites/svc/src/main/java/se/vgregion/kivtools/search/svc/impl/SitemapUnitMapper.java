@@ -60,6 +60,7 @@ public class SitemapUnitMapper extends AbstractSitemapMapper {
     if (StringUtils.isNotBlank(unit.getHsaVpwInformation2())) {
       result.getTemporaryInformation().add(unit.getHsaVpwInformation2());
     }
+    result.setLocality(unit.getLocality());
 
     result.getTelephone().addAll(mapPhoneNumbers(unit.getHsaPublicTelephoneNumber(), "Telefon", TelephoneType.FIXED));
     result.getTelephone().addAll(mapPhoneNumbers(unit.getHsaTelephoneNumber(), "Direkttelefon", TelephoneType.FIXED));

@@ -150,6 +150,14 @@ public class SitemapPersonMapperTest {
   }
 
   @Test
+  public void employmentLocalityIsMapped() {
+    Employment employment = this.employmentBuilder.locality("Halmstad").build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
+    assertEquals("employment locality", "Halmstad", result.getEmployment().get(0).getLocality());
+  }
+
+  @Test
   public void publicTelephoneNumberIsMapped() {
     Employment employment = this.employmentBuilder.publicTelephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
     Person person = this.personBuilder.employment(employment).build();
@@ -382,6 +390,7 @@ public class SitemapPersonMapperTest {
     private Address streetAddress;
     private Address internalAddress;
     private Address postalAddress;
+    private String locality;
 
     public Employment build() {
       Employment employment = new Employment();
@@ -408,8 +417,14 @@ public class SitemapPersonMapperTest {
       employment.setHsaSedfDeliveryAddress(this.deliveryAddress);
       employment.setHsaSedfInvoiceAddress(this.invoiceAddress);
       employment.setHsaConsigneeAddress(this.consigneeAddress);
+      employment.setLocality(this.locality);
 
       return employment;
+    }
+
+    public EmploymentBuilder locality(String locality) {
+      this.locality = locality;
+      return this;
     }
 
     public EmploymentBuilder consigneeAddress(Address address) {

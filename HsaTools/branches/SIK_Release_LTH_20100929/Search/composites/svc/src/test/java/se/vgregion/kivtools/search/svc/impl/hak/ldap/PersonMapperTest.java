@@ -97,9 +97,22 @@ public class PersonMapperTest {
     assertTrue(person.getEmployments().get(0).isPrimaryEmployment());
   }
 
+  @Test
+  public void localityAttributeIsMappedToLocalityAtEmployment() {
+    this.addPersonAttributes();
+    this.addEmploymentAttributes();
+
+    this.mapper.mapFromContext(this.dirContextOperations);
+
+    Person person = this.mapper.getFirstPerson();
+
+    assertEquals("locality", "Halmstad", person.getEmployments().get(0).getLocality());
+  }
+
   private void addEmploymentAttributes() {
     this.dirContextOperations.addAttributeValue("cn", TEST);
     this.dirContextOperations.addAttributeValue("ou", TEST);
+    this.dirContextOperations.addAttributeValue("l", "Halmstad");
     this.dirContextOperations.addAttributeValue("hsaIdentity", TEST);
     this.dirContextOperations.addAttributeValue("street", TEST);
     this.dirContextOperations.addAttributeValue("hsaInternalAddress", TEST);

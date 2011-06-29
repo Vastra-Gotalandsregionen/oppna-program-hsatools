@@ -85,6 +85,7 @@
 			<xs:element name="telephone" type="TelephoneNumber" minOccurs="0" maxOccurs="unbounded" />
 			<xs:element name="telephoneTime" type="xs:string" minOccurs="0" />
 			<xs:element name="address" type="Address" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="locality" type="xs:string" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -117,6 +118,7 @@
 						<xs:element name="mvkServices" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 						<xs:element name="altText" type="xs:string" minOccurs="0" />
 						<xs:element name="about" type="xs:string" minOccurs="0" />
+						<xs:element name="locality" type="xs:string" minOccurs="0" />
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
