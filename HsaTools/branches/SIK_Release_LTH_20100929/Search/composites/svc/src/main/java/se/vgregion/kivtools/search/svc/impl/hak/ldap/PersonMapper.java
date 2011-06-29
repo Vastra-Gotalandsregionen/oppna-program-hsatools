@@ -58,8 +58,8 @@ public class PersonMapper implements ContextMapper {
     DirContextOperationsHelper context = new DirContextOperationsHelper((DirContextOperations) ctx);
     String regionName = context.getString("regionName");
 
-    if (regionNameMap.containsKey(regionName)) {
-      person = regionNameMap.get(regionName);
+    if (this.regionNameMap.containsKey(regionName)) {
+      person = this.regionNameMap.get(regionName);
     } else {
       person = new Person();
       person.setEmployments(new ArrayList<Employment>());
@@ -122,6 +122,11 @@ public class PersonMapper implements ContextMapper {
       // hsaPersonPrescriptionCode
       person.setHsaPersonPrescriptionCode(context.getString("hsaPersonPrescriptionCode"));
 
+      // Alt-text (hsaAltText)
+      person.setHsaAltText(context.getString("hsaAltText"));
+      // Befattning (paTitleName)
+      person.setPaTitleName(context.getString("paTitleName"));
+
       // Anställningsperiod
       String startDateString = context.getString("hsaStartDate");
       String endDateString = context.getString("hsaEndDate");
@@ -133,13 +138,13 @@ public class PersonMapper implements ContextMapper {
         person.setProfileImagePresent(true);
       }
 
-      regionNameMap.put(person.getVgrId(), person);
-      persons.add(person);
+      this.regionNameMap.put(person.getVgrId(), person);
+      this.persons.add(person);
     }
 
     List<Employment> employments = person.getEmployments();
     employments.add(extractEmployment(context));
-    Collections.sort(employments, employmentComparator);
+    Collections.sort(employments, this.employmentComparator);
 
     // Always return null since mapper collects all persons
     return null;
@@ -196,15 +201,15 @@ public class PersonMapper implements ContextMapper {
   public Person getFirstPerson() {
     Person person = null;
 
-    if (persons.size() > 0) {
-      person = persons.get(0);
+    if (this.persons.size() > 0) {
+      person = this.persons.get(0);
     }
 
     return person;
   }
 
   public List<Person> getPersons() {
-    return Collections.unmodifiableList(persons);
+    return Collections.unmodifiableList(this.persons);
   }
 
   /**
