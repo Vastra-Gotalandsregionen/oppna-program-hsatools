@@ -17,7 +17,10 @@
  */
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,20 +47,20 @@ public class UnitMapperTest {
   private static final String TEST_TIMESTAMP2 = "20100217120102";
 
   private final UnitMapper mapper = new UnitMapper();
-  private DirContextOperationsMock dirContextOperations = new DirContextOperationsMock();
-  private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  private final DirContextOperationsMock dirContextOperations = new DirContextOperationsMock();
+  private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
   @Before
   public void setUp() {
-    addUnitAttributes();
+    this.addUnitAttributes();
   }
 
   @Test
   public void mapPopulatedContextReturnPopulatedUnit() {
-    Unit unit = mapper.mapFromContext(dirContextOperations);
+    Unit unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertEquals(EXPECTED_LIST_RESULT, unit.getBusinessClassificationCode().toString());
     assertEquals(TEST, unit.getName());
-    assertEquals(EXPECTED_DATE_TIME, dateFormat.format(unit.getCreateTimestamp().asJavaUtilDate()));
+    assertEquals(EXPECTED_DATE_TIME, this.dateFormat.format(unit.getCreateTimestamp().asJavaUtilDate()));
     assertEquals(EXPECTED_LIST_RESULT, unit.getDescription().toString());
     assertEquals(EXPECTED_HOURS, unit.getHsaDropInHours().get(0).getDisplayValue());
     assertEquals(TEST, unit.getFacsimileTelephoneNumber().getPhoneNumber());
@@ -105,19 +108,20 @@ public class UnitMapperTest {
     assertEquals(EXPECTED_LIST_RESULT, unit.getVgrAnsvarsnummer().toString());
     assertEquals(TEST, unit.getCareType());
     assertEquals(TEST, unit.getVgrInternalSedfInvoiceAddress());
-    assertEquals(EXPECTED_DATE_TIME2, dateFormat.format(unit.getModifyTimestamp().asJavaUtilDate()));
-    assertEquals(TEST, unit.getVgrRefInfo());
-    assertEquals(TEST, unit.getVgrTempInfo());
+    assertEquals(EXPECTED_DATE_TIME2, this.dateFormat.format(unit.getModifyTimestamp().asJavaUtilDate()));
     assertEquals("Landsting/Region", unit.getHsaManagementText());
     assertEquals(TEST, unit.getName());
     assertEquals("cn=Nina Kanin,ou=abc,ou=def", unit.getManagerDN());
     assertEquals("Nina Kanin", unit.getManager());
+    assertEquals("alternativ text", unit.getHsaAltText());
+    assertEquals("mer om", unit.getHsaVpwInformation1());
+    assertEquals("tillfällig info", unit.getHsaVpwInformation2());
   }
 
   @Test
   public void validGeoCoordinatesArePopulatedCorrectly() throws KivException {
-    dirContextOperations.addAttributeValue("geographicalCoordinates", "X: 1234567, Y: 1234567");
-    Unit unit = mapper.mapFromContext(dirContextOperations);
+    this.dirContextOperations.addAttributeValue("geographicalCoordinates", "X: 1234567, Y: 1234567");
+    Unit unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertEquals(1234567, unit.getRt90X());
     assertEquals(1234567, unit.getRt90Y());
     assertEquals(11.159754999084681, unit.getWgs84Lat(), 0.0);
@@ -126,52 +130,52 @@ public class UnitMapperTest {
 
   @Test
   public void noManagerDNResultInNoManagerPopulated() throws KivException {
-    dirContextOperations.addAttributeValue("managerDN", "");
-    Unit unit = mapper.mapFromContext(dirContextOperations);
+    this.dirContextOperations.addAttributeValue("managerDN", "");
+    Unit unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertEquals("", unit.getManagerDN());
     assertNull(unit.getManager());
   }
 
   @Test
   public void otherManagementDescriptionsAreMappedCorrectly() throws KivException {
-    dirContextOperations.addAttributeValue("management", TEST);
-    Unit unit = mapper.mapFromContext(dirContextOperations);
+    this.dirContextOperations.addAttributeValue("management", TEST);
+    Unit unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertNull(unit.getHsaManagementText());
-    dirContextOperations.addAttributeValue("management", "2");
-    unit = mapper.mapFromContext(dirContextOperations);
+    this.dirContextOperations.addAttributeValue("management", "2");
+    unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertEquals("Kommun", unit.getHsaManagementText());
-    dirContextOperations.addAttributeValue("management", "3");
-    unit = mapper.mapFromContext(dirContextOperations);
+    this.dirContextOperations.addAttributeValue("management", "3");
+    unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertEquals("Statlig", unit.getHsaManagementText());
-    dirContextOperations.addAttributeValue("management", "4");
-    unit = mapper.mapFromContext(dirContextOperations);
+    this.dirContextOperations.addAttributeValue("management", "4");
+    unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertEquals("Privat, v\u00E5rdavtal", unit.getHsaManagementText());
-    dirContextOperations.addAttributeValue("management", "5");
-    unit = mapper.mapFromContext(dirContextOperations);
+    this.dirContextOperations.addAttributeValue("management", "5");
+    unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertEquals("Privat, enl lag om l\u00E4karv\u00E5rdsers\u00E4ttning", unit.getHsaManagementText());
-    dirContextOperations.addAttributeValue("management", "6");
-    unit = mapper.mapFromContext(dirContextOperations);
+    this.dirContextOperations.addAttributeValue("management", "6");
+    unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertEquals("Privat, utan offentlig finansiering", unit.getHsaManagementText());
-    dirContextOperations.addAttributeValue("management", "7");
-    unit = mapper.mapFromContext(dirContextOperations);
+    this.dirContextOperations.addAttributeValue("management", "7");
+    unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertEquals("Kommunf\u00F6rbund/Kommunalf\u00F6rbund", unit.getHsaManagementText());
-    dirContextOperations.addAttributeValue("management", "9");
-    unit = mapper.mapFromContext(dirContextOperations);
+    this.dirContextOperations.addAttributeValue("management", "9");
+    unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertEquals("\u00D6vrigt", unit.getHsaManagementText());
   }
 
   @Test
   public void cnIsUsedForUnitNameIfOuIsEmpty() throws KivException {
-    dirContextOperations.addAttributeValue("ou", "");
-    Unit unit = mapper.mapFromContext(dirContextOperations);
+    this.dirContextOperations.addAttributeValue("ou", "");
+    Unit unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertEquals("Unit cn", unit.getName());
   }
 
   @Test
   public void hsaDestinationIndicatorMapsAllValues() {
-    dirContextOperations.addAttributeValue("hsaDestinationIndicator", new String[] { "01", "03" });
+    this.dirContextOperations.addAttributeValue("hsaDestinationIndicator", new String[] { "01", "03" });
 
-    Unit unit = mapper.mapFromContext(dirContextOperations);
+    Unit unit = this.mapper.mapFromContext(this.dirContextOperations);
     List<String> hsaDestinationIndicator = unit.getHsaDestinationIndicator();
     assertEquals("hsaDestinationIndicator", 2, hsaDestinationIndicator.size());
     assertTrue("01 is not mapped", hsaDestinationIndicator.contains("01"));
@@ -180,77 +184,78 @@ public class UnitMapperTest {
 
   @Test
   public void isShowAgeIntervalReturnFalseIfUnitIsAvailableForAllAges() {
-    dirContextOperations.addAttributeValue("hsaVisitingRuleAge", "00-99");
-    Unit unit = mapper.mapFromContext(dirContextOperations);
+    this.dirContextOperations.addAttributeValue("hsaVisitingRuleAge", "00-99");
+    Unit unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertFalse("show age interval", unit.isShowAgeInterval());
   }
 
   @Test
   public void isShowAgeIntervalReturnTrueForValidAgeRange() {
-    dirContextOperations.addAttributeValue("hsaVisitingRuleAge", "18-24");
-    Unit unit = mapper.mapFromContext(dirContextOperations);
+    this.dirContextOperations.addAttributeValue("hsaVisitingRuleAge", "18-24");
+    Unit unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertTrue("show age interval", unit.isShowAgeInterval());
   }
 
   private void addUnitAttributes() {
-    dirContextOperations.setDn(DistinguishedName.immutableDistinguishedName("ou=Vårdcentralen Halmstad,ou=Landstinget Halland"));
-    dirContextOperations.addAttributeValue("businessClassificationCode", TEST);
-    dirContextOperations.addAttributeValue("cn", CN);
-    dirContextOperations.addAttributeValue("createTimeStamp", TEST_TIMESTAMP);
-    dirContextOperations.addAttributeValue("description", TEST);
-    dirContextOperations.addAttributeValue("dropInHours", TEST_TIME);
-    dirContextOperations.addAttributeValue("facsimileTelephoneNumber", TEST);
-    dirContextOperations.addAttributeValue("geographicalCoordinates", RT90_COORDS);
-    dirContextOperations.addAttributeValue("hsaAdministrationForm", TEST);
-    dirContextOperations.addAttributeValue("hsaAdministrationFormText", TEST);
-    dirContextOperations.addAttributeValue("hsaCountyCode", TEST);
-    dirContextOperations.addAttributeValue("hsaCountyName", TEST);
-    dirContextOperations.addAttributeValue("hsaIdentity", TEST);
-    dirContextOperations.addAttributeValue("hsaInternalAddress", TEST);
-    dirContextOperations.addAttributeValue("hsaInternalPagerNumber", TEST);
-    dirContextOperations.addAttributeValue("hsaManagementCode", TEST);
-    dirContextOperations.addAttributeValue("hsaManagementName", TEST);
-    dirContextOperations.addAttributeValue("hsaMunicipalitySectionCode", TEST);
-    dirContextOperations.addAttributeValue("hsaMunicipalitySectionName", TEST);
-    dirContextOperations.addAttributeValue("postalAddress", TEST);
-    dirContextOperations.addAttributeValue("hsaDeliveryAddress", TEST);
-    dirContextOperations.addAttributeValue("hsaInvoiceAddress", TEST);
-    dirContextOperations.addAttributeValue("hsaConsigneeAddress", TEST);
-    dirContextOperations.addAttributeValue("hsaSmsTelephoneNumber", TEST);
-    dirContextOperations.addAttributeValue("hsaSwitchboardNumber", TEST);
-    dirContextOperations.addAttributeValue("hsaTextPhoneNumber", TEST);
-    dirContextOperations.addAttributeValue("hsaTelephoneNumber", "hsaTelephoneNumber");
-    dirContextOperations.addAttributeValue("hsaUnitPrescriptionCode", TEST);
-    dirContextOperations.addAttributeValue("hsaVisitingRuleAge", TEST);
-    dirContextOperations.addAttributeValue("hsaVisitingRules", TEST);
-    dirContextOperations.addAttributeValue("l", TEST);
-    dirContextOperations.addAttributeValue("labeledURI", TEST);
-    dirContextOperations.addAttributeValue("mail", TEST);
-    dirContextOperations.addAttributeValue("management", "1");
-    dirContextOperations.addAttributeValue("mobile", TEST);
-    dirContextOperations.addAttributeValue("municipalityCode", TEST);
-    dirContextOperations.addAttributeValue("municipalityName", TEST);
-    dirContextOperations.addAttributeValue("objectClass", TEST);
-    dirContextOperations.addAttributeValue("ouShort", TEST);
-    dirContextOperations.addAttributeValue("ou", TEST);
-    dirContextOperations.addAttributeValue("pager", TEST);
-    dirContextOperations.addAttributeValue("postalAddress", TEST);
-    dirContextOperations.addAttributeValue("postalCode", TEST);
-    dirContextOperations.addAttributeValue("route", TEST);
-    dirContextOperations.addAttributeValue("street", TEST);
-    dirContextOperations.addAttributeValue("surgeryHours", TEST_TIME);
-    dirContextOperations.addAttributeValue("telephoneHours", TEST_TIME);
-    dirContextOperations.addAttributeValue("lthTelephoneNumber", "telephoneNumber");
-    dirContextOperations.addAttributeValue("vgrAO3kod", TEST);
-    dirContextOperations.addAttributeValue("vgrAnsvarsnummer", TEST);
-    dirContextOperations.addAttributeValue("careType", TEST);
-    dirContextOperations.addAttributeValue("vgrEanCode", TEST);
-    dirContextOperations.addAttributeValue("vgrEdiCode", TEST);
-    dirContextOperations.addAttributeValue("vgrInternalSedfInvoiceAddress", TEST);
-    dirContextOperations.addAttributeValue("whenChanged", TEST_TIMESTAMP2);
-    dirContextOperations.addAttributeValue("whenCreated", TEST_TIMESTAMP);
-    dirContextOperations.addAttributeValue("vgrRefInfo", TEST);
-    dirContextOperations.addAttributeValue("vgrTempInfo", TEST);
-    dirContextOperations.addAttributeValue("managerDN", "cn=Nina Kanin,ou=abc,ou=def");
+    this.dirContextOperations.setDn(DistinguishedName.immutableDistinguishedName("ou=Vårdcentralen Halmstad,ou=Landstinget Halland"));
+    this.dirContextOperations.addAttributeValue("businessClassificationCode", TEST);
+    this.dirContextOperations.addAttributeValue("cn", CN);
+    this.dirContextOperations.addAttributeValue("createTimeStamp", TEST_TIMESTAMP);
+    this.dirContextOperations.addAttributeValue("description", TEST);
+    this.dirContextOperations.addAttributeValue("dropInHours", TEST_TIME);
+    this.dirContextOperations.addAttributeValue("facsimileTelephoneNumber", TEST);
+    this.dirContextOperations.addAttributeValue("geographicalCoordinates", RT90_COORDS);
+    this.dirContextOperations.addAttributeValue("hsaAdministrationForm", TEST);
+    this.dirContextOperations.addAttributeValue("hsaAdministrationFormText", TEST);
+    this.dirContextOperations.addAttributeValue("hsaCountyCode", TEST);
+    this.dirContextOperations.addAttributeValue("hsaCountyName", TEST);
+    this.dirContextOperations.addAttributeValue("hsaIdentity", TEST);
+    this.dirContextOperations.addAttributeValue("hsaInternalAddress", TEST);
+    this.dirContextOperations.addAttributeValue("hsaInternalPagerNumber", TEST);
+    this.dirContextOperations.addAttributeValue("hsaManagementCode", TEST);
+    this.dirContextOperations.addAttributeValue("hsaManagementName", TEST);
+    this.dirContextOperations.addAttributeValue("hsaMunicipalitySectionCode", TEST);
+    this.dirContextOperations.addAttributeValue("hsaMunicipalitySectionName", TEST);
+    this.dirContextOperations.addAttributeValue("postalAddress", TEST);
+    this.dirContextOperations.addAttributeValue("hsaDeliveryAddress", TEST);
+    this.dirContextOperations.addAttributeValue("hsaInvoiceAddress", TEST);
+    this.dirContextOperations.addAttributeValue("hsaConsigneeAddress", TEST);
+    this.dirContextOperations.addAttributeValue("hsaSmsTelephoneNumber", TEST);
+    this.dirContextOperations.addAttributeValue("hsaSwitchboardNumber", TEST);
+    this.dirContextOperations.addAttributeValue("hsaTextPhoneNumber", TEST);
+    this.dirContextOperations.addAttributeValue("hsaTelephoneNumber", "hsaTelephoneNumber");
+    this.dirContextOperations.addAttributeValue("hsaUnitPrescriptionCode", TEST);
+    this.dirContextOperations.addAttributeValue("hsaVisitingRuleAge", TEST);
+    this.dirContextOperations.addAttributeValue("hsaVisitingRules", TEST);
+    this.dirContextOperations.addAttributeValue("l", TEST);
+    this.dirContextOperations.addAttributeValue("labeledURI", TEST);
+    this.dirContextOperations.addAttributeValue("mail", TEST);
+    this.dirContextOperations.addAttributeValue("management", "1");
+    this.dirContextOperations.addAttributeValue("mobile", TEST);
+    this.dirContextOperations.addAttributeValue("municipalityCode", TEST);
+    this.dirContextOperations.addAttributeValue("municipalityName", TEST);
+    this.dirContextOperations.addAttributeValue("objectClass", TEST);
+    this.dirContextOperations.addAttributeValue("ouShort", TEST);
+    this.dirContextOperations.addAttributeValue("ou", TEST);
+    this.dirContextOperations.addAttributeValue("pager", TEST);
+    this.dirContextOperations.addAttributeValue("postalAddress", TEST);
+    this.dirContextOperations.addAttributeValue("postalCode", TEST);
+    this.dirContextOperations.addAttributeValue("route", TEST);
+    this.dirContextOperations.addAttributeValue("street", TEST);
+    this.dirContextOperations.addAttributeValue("surgeryHours", TEST_TIME);
+    this.dirContextOperations.addAttributeValue("telephoneHours", TEST_TIME);
+    this.dirContextOperations.addAttributeValue("lthTelephoneNumber", "telephoneNumber");
+    this.dirContextOperations.addAttributeValue("vgrAO3kod", TEST);
+    this.dirContextOperations.addAttributeValue("vgrAnsvarsnummer", TEST);
+    this.dirContextOperations.addAttributeValue("careType", TEST);
+    this.dirContextOperations.addAttributeValue("vgrEanCode", TEST);
+    this.dirContextOperations.addAttributeValue("vgrEdiCode", TEST);
+    this.dirContextOperations.addAttributeValue("vgrInternalSedfInvoiceAddress", TEST);
+    this.dirContextOperations.addAttributeValue("whenChanged", TEST_TIMESTAMP2);
+    this.dirContextOperations.addAttributeValue("whenCreated", TEST_TIMESTAMP);
+    this.dirContextOperations.addAttributeValue("managerDN", "cn=Nina Kanin,ou=abc,ou=def");
+    this.dirContextOperations.addAttributeValue("hsaAltText", "alternativ text");
+    this.dirContextOperations.addAttributeValue("hsaVpwInformation1", "mer om");
+    this.dirContextOperations.addAttributeValue("hsaVpwInformation2", "tillfällig info");
   }
 }
