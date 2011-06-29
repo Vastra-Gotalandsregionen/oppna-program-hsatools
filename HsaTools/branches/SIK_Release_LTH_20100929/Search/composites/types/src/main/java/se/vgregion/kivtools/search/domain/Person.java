@@ -94,6 +94,8 @@ public class Person implements Serializable {
   private TimePoint modifyTimestamp;
   private List<String> vgrAdminTypes;
   private List<String> vgrManagedObjects;
+  private String paTitleName;
+  private String hsaAltText;
 
   public String getDn() {
     return this.dn;
@@ -372,6 +374,22 @@ public class Person implements Serializable {
   }
 
   public List<String> getVgrManagedObjects() {
-    return vgrManagedObjects;
+    return this.vgrManagedObjects;
+  }
+
+  public void setPaTitleName(String paTitleName) {
+    this.paTitleName = paTitleName;
+  }
+
+  public String getPaTitleName() {
+    return this.paTitleName;
+  }
+
+  public void setHsaAltText(String hsaAltText) {
+    this.hsaAltText = hsaAltText;
+  }
+
+  public String getHsaAltText() {
+    return this.hsaAltText;
   }
 }

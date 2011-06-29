@@ -369,6 +369,28 @@ public class SitemapUnitMapperTest {
     assertEquals("mvk services", "[casetype 1, casetype 2]", result.getMvkServices().toString());
   }
 
+  @Test
+  public void hsaAltTextIsMapped() {
+    Unit unit = this.builder.hsaAltText("alternativ text").build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertEquals("alt text", "alternativ text", result.getAltText());
+  }
+
+  @Test
+  public void hsaVpwInformation1IsMapped() {
+    Unit unit = this.builder.hsaVpwInformation1("mer om").build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertEquals("about", "mer om", result.getAbout());
+  }
+
+  @Test
+  public void hsaVpwInformation2IsMapped() {
+    Unit unit = this.builder.hsaVpwInformation2("tillfällig info").build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertEquals("temporary information size", 1, result.getTemporaryInformation().size());
+    assertEquals("temporary information", "tillfällig info", result.getTemporaryInformation().get(0));
+  }
+
   private Address createAddress(String... addressLines) {
     return AddressHelper.convertToAddress(Arrays.asList(addressLines));
   }
@@ -407,6 +429,9 @@ public class SitemapUnitMapperTest {
     private final List<WeekdayTime> dropInHours = new ArrayList<WeekdayTime>();
     private final List<String> mvkCaseTypes = new ArrayList<String>();
     private String visitingRules;
+    private String hsaAltText;
+    private String hsaVpwInformation1;
+    private String hsaVpwInformation2;
 
     public Unit build() {
       Unit unit = new Unit();
@@ -443,6 +468,9 @@ public class SitemapUnitMapperTest {
       unit.setHsaSedfDeliveryAddress(this.deliveryAddress);
       unit.setHsaSedfInvoiceAddress(this.invoiceAddress);
       unit.setHsaConsigneeAddress(this.consigneeAddress);
+      unit.setHsaAltText(this.hsaAltText);
+      unit.setHsaVpwInformation1(this.hsaVpwInformation1);
+      unit.setHsaVpwInformation2(this.hsaVpwInformation2);
 
       unit.setRt90X(this.rt90x);
       unit.setRt90Y(this.rt90y);
@@ -454,6 +482,21 @@ public class SitemapUnitMapperTest {
       }
 
       return unit;
+    }
+
+    public UnitBuilder hsaVpwInformation2(String hsaVpwInformation2) {
+      this.hsaVpwInformation2 = hsaVpwInformation2;
+      return this;
+    }
+
+    public UnitBuilder hsaVpwInformation1(String hsaVpwInformation1) {
+      this.hsaVpwInformation1 = hsaVpwInformation1;
+      return this;
+    }
+
+    public UnitBuilder hsaAltText(String hsaAltText) {
+      this.hsaAltText = hsaAltText;
+      return this;
     }
 
     public UnitBuilder visitingRules(String visitingRules) {

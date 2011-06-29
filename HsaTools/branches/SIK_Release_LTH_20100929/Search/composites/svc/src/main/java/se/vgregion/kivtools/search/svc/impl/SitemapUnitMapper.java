@@ -17,6 +17,8 @@
  */
 package se.vgregion.kivtools.search.svc.impl;
 
+import org.apache.commons.lang.StringUtils;
+
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.svc.sitemap.Address.GeoCoordinates;
 import se.vgregion.kivtools.svc.sitemap.AddressType;
@@ -48,9 +50,16 @@ public class SitemapUnitMapper extends AbstractSitemapMapper {
     result.setDropInHours(StringUtil.concatenate(getWeekdayTimeStrings(unit.getHsaDropInHours())));
     result.getInternalDescription().addAll(unit.getInternalDescription());
     result.getExternalDescription().addAll(unit.getDescription());
-    result.getTemporaryInformation().add(unit.getVgrTempInfoBody());
+    if (StringUtils.isNotBlank(unit.getVgrTempInfoBody())) {
+      result.getTemporaryInformation().add(unit.getVgrTempInfoBody());
+    }
     result.getReferralInformation().add(unit.getVgrRefInfo());
     result.setVisitingRules(unit.getHsaVisitingRules());
+    result.setAltText(unit.getHsaAltText());
+    result.setAbout(unit.getHsaVpwInformation1());
+    if (StringUtils.isNotBlank(unit.getHsaVpwInformation2())) {
+      result.getTemporaryInformation().add(unit.getHsaVpwInformation2());
+    }
 
     result.getTelephone().addAll(mapPhoneNumbers(unit.getHsaPublicTelephoneNumber(), "Telefon", TelephoneType.FIXED));
     result.getTelephone().addAll(mapPhoneNumbers(unit.getHsaTelephoneNumber(), "Direkttelefon", TelephoneType.FIXED));
