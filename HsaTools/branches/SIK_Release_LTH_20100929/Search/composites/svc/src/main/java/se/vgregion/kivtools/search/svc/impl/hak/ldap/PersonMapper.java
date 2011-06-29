@@ -155,6 +155,7 @@ public class PersonMapper implements ContextMapper {
 
     employment.setCn(context.getString("cn"));
     employment.setOu(context.getString("ou"));
+    employment.setLocality(context.getString("l"));
     employment.setHsaPersonIdentityNumber(context.getString("hsaIdentity"));
     employment.setHsaStreetAddress(AddressHelper.convertToAddress(context.getStrings("street")));
     employment.setHsaInternalAddress(AddressHelper.convertToAddress(context.getStrings("hsaInternalAddress")));

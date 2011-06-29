@@ -81,6 +81,7 @@ public class SitemapPersonMapper extends AbstractSitemapMapper {
       }
     }
     result.setDescription(StringUtil.concatenate(employment.getDescription()));
+    result.setLocality(employment.getLocality());
 
     result.getTelephone().addAll(mapPhoneNumbers(employment.getHsaTelephoneNumbers(), "Direkttelefon", TelephoneType.FIXED));
     mapPhoneNumberIfNotNull(employment.getHsaPublicTelephoneNumber(), "Telefon", TelephoneType.FIXED, result.getTelephone());

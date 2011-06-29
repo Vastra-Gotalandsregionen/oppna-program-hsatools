@@ -391,6 +391,13 @@ public class SitemapUnitMapperTest {
     assertEquals("temporary information", "tillfällig info", result.getTemporaryInformation().get(0));
   }
 
+  @Test
+  public void localityIsMapped() {
+    Unit unit = this.builder.locality("Halmstad").build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertEquals("locality", "Halmstad", result.getLocality());
+  }
+
   private Address createAddress(String... addressLines) {
     return AddressHelper.convertToAddress(Arrays.asList(addressLines));
   }
@@ -432,6 +439,7 @@ public class SitemapUnitMapperTest {
     private String hsaAltText;
     private String hsaVpwInformation1;
     private String hsaVpwInformation2;
+    private String locality;
 
     public Unit build() {
       Unit unit = new Unit();
@@ -471,6 +479,7 @@ public class SitemapUnitMapperTest {
       unit.setHsaAltText(this.hsaAltText);
       unit.setHsaVpwInformation1(this.hsaVpwInformation1);
       unit.setHsaVpwInformation2(this.hsaVpwInformation2);
+      unit.setLocality(this.locality);
 
       unit.setRt90X(this.rt90x);
       unit.setRt90Y(this.rt90y);
@@ -482,6 +491,11 @@ public class SitemapUnitMapperTest {
       }
 
       return unit;
+    }
+
+    public UnitBuilder locality(String locality) {
+      this.locality = locality;
+      return this;
     }
 
     public UnitBuilder hsaVpwInformation2(String hsaVpwInformation2) {
