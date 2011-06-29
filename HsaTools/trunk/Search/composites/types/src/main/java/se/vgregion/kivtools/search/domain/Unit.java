@@ -214,6 +214,9 @@ public class Unit implements Serializable, Comparable<Unit> {
   private String internalWebsite;
   private String contractCode;
   private String visitingRuleReferral;
+  private String hsaAltText;
+  private String hsaVpwInformation1;
+  private String hsaVpwInformation2;
 
   private String hsaResponsibleHealthCareProvider;
   private final List<String> hsaHealthCareUnitMembers = new ArrayList<String>();
@@ -1584,5 +1587,29 @@ public class Unit implements Serializable, Comparable<Unit> {
     if (hsaHealthCareUnitMembers != null) {
       this.hsaHealthCareUnitMembers.addAll(hsaHealthCareUnitMembers);
     }
+  }
+
+  public void setHsaAltText(String hsaAltText) {
+    this.hsaAltText = hsaAltText;
+  }
+
+  public String getHsaAltText() {
+    return this.hsaAltText;
+  }
+
+  public void setHsaVpwInformation1(String hsaVpwInformation1) {
+    this.hsaVpwInformation1 = hsaVpwInformation1;
+  }
+
+  public String getHsaVpwInformation1() {
+    return this.hsaVpwInformation1;
+  }
+
+  public void setHsaVpwInformation2(String hsaVpwInformation2) {
+    this.hsaVpwInformation2 = hsaVpwInformation2;
+  }
+
+  public String getHsaVpwInformation2() {
+    return this.hsaVpwInformation2;
   }
 }

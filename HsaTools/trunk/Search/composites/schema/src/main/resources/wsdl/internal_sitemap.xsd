@@ -85,6 +85,7 @@
 			<xs:element name="telephone" type="TelephoneNumber" minOccurs="0" maxOccurs="unbounded" />
 			<xs:element name="telephoneTime" type="xs:string" minOccurs="0" />
 			<xs:element name="address" type="Address" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="locality" type="xs:string" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -118,6 +119,9 @@
 						<xs:element name="vardvalParticipant" type="xs:boolean" />
 						<xs:element name="municipalityCode" type="xs:string" minOccurs="0" />
 						<xs:element name="businessClassificationCode" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="altText" type="xs:string" minOccurs="0" />
+						<xs:element name="about" type="xs:string" minOccurs="0" />
+						<xs:element name="locality" type="xs:string" minOccurs="0" />
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -138,6 +142,8 @@
 						<xs:element name="speciality" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 						<xs:element name="employment" type="Employment" minOccurs="0" maxOccurs="unbounded" />
 						<xs:element name="eAlias" type="E-Alias" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="altText" type="xs:string" minOccurs="0" />
+						<xs:element name="titleName" type="xs:string" minOccurs="0" />
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>

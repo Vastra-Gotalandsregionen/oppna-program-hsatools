@@ -49,6 +49,8 @@ public class SitemapPersonMapper extends AbstractSitemapMapper {
     result.setSurname(person.getSn());
     result.setUserId(person.getVgrId());
     result.setTitle(person.getHsaTitle());
+    result.setAltText(person.getHsaAltText());
+    result.setTitleName(person.getPaTitleName());
 
     mapEAliasIfNotNull(person.getMail(), "E-post", EAliasType.E_MAIL, result.getEAlias());
 
@@ -79,6 +81,7 @@ public class SitemapPersonMapper extends AbstractSitemapMapper {
       }
     }
     result.setDescription(StringUtil.concatenate(employment.getDescription()));
+    result.setLocality(employment.getLocality());
 
     result.getTelephone().addAll(mapPhoneNumbers(employment.getHsaTelephoneNumbers(), "Direkttelefon", TelephoneType.FIXED));
     mapPhoneNumberIfNotNull(employment.getHsaPublicTelephoneNumber(), "Telefon", TelephoneType.FIXED, result.getTelephone());

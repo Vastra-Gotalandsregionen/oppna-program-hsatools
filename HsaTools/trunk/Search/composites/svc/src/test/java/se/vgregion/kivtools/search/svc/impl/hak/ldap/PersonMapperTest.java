@@ -17,7 +17,10 @@
  */
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.springframework.ldap.core.DistinguishedName;
@@ -33,15 +36,15 @@ public class PersonMapperTest {
   private static final String EXPECTED_LIST_RESULT = "[" + TEST + "]";
 
   private final PersonMapper mapper = new PersonMapper();
-  private DirContextOperationsMock dirContextOperations = new DirContextOperationsMock();
+  private final DirContextOperationsMock dirContextOperations = new DirContextOperationsMock();
 
   @Test
   public void mapPopulatedContextReturnPopulatedPerson() {
-    addPersonAttributes();
+    this.addPersonAttributes();
 
-    mapper.mapFromContext(dirContextOperations);
+    this.mapper.mapFromContext(this.dirContextOperations);
 
-    Person person = mapper.getFirstPerson();
+    Person person = this.mapper.getFirstPerson();
     assertEquals("cn", TEST, person.getCn());
     assertEquals("region name", TEST, person.getVgrId());
     assertEquals("person identity number", TEST, person.getHsaPersonIdentityNumber());
@@ -59,6 +62,8 @@ public class PersonMapperTest {
     assertEquals("knowledge code", EXPECTED_LIST_RESULT, person.getHsaLanguageKnowledgeCode().toString());
     assertEquals("knowledge test", EXPECTED_LIST_RESULT, person.getHsaLanguageKnowledgeText().toString());
     assertEquals("title", "Leg. psykolog, IT-Arkitekt", person.getHsaTitle());
+    assertEquals("paTitleName", "IT-Ansvarig", person.getPaTitleName());
+    assertEquals("altText", "alternativ text", person.getHsaAltText());
     assertEquals("prescription code", TEST, person.getHsaPersonPrescriptionCode());
     assertNotNull("employment period", person.getEmploymentPeriod());
     assertFalse("profile image present", person.isProfileImagePresent());
@@ -66,110 +71,125 @@ public class PersonMapperTest {
 
   @Test
   public void testReconsituteProfileImagePresent() {
-    addPersonAttributes();
-    dirContextOperations.addAttributeValue("jpegPhoto", TEST);
+    this.addPersonAttributes();
+    this.dirContextOperations.addAttributeValue("jpegPhoto", TEST);
 
-    mapper.mapFromContext(dirContextOperations);
+    this.mapper.mapFromContext(this.dirContextOperations);
 
-    Person person = mapper.getFirstPerson();
+    Person person = this.mapper.getFirstPerson();
     assertTrue(person.isProfileImagePresent());
   }
 
   @Test
   public void mapPopulatedEmploymentAttributesReturnPersonWithEmployment() {
-    addPersonAttributes();
-    addEmploymentAttributes();
+    this.addPersonAttributes();
+    this.addEmploymentAttributes();
 
-    mapper.mapFromContext(dirContextOperations);
+    this.mapper.mapFromContext(this.dirContextOperations);
 
-    addOtherEmploymentAttributes();
-    mapper.mapFromContext(dirContextOperations);
+    this.addOtherEmploymentAttributes();
+    this.mapper.mapFromContext(this.dirContextOperations);
 
-    Person person = mapper.getFirstPerson();
+    Person person = this.mapper.getFirstPerson();
     assertNotNull(person.getEmployments());
     assertEquals(2, person.getEmployments().size());
 
     assertTrue(person.getEmployments().get(0).isPrimaryEmployment());
   }
 
+  @Test
+  public void localityAttributeIsMappedToLocalityAtEmployment() {
+    this.addPersonAttributes();
+    this.addEmploymentAttributes();
+
+    this.mapper.mapFromContext(this.dirContextOperations);
+
+    Person person = this.mapper.getFirstPerson();
+
+    assertEquals("locality", "Halmstad", person.getEmployments().get(0).getLocality());
+  }
+
   private void addEmploymentAttributes() {
-    dirContextOperations.addAttributeValue("cn", TEST);
-    dirContextOperations.addAttributeValue("ou", TEST);
-    dirContextOperations.addAttributeValue("hsaIdentity", TEST);
-    dirContextOperations.addAttributeValue("street", TEST);
-    dirContextOperations.addAttributeValue("hsaInternalAddress", TEST);
-    dirContextOperations.addAttributeValue("postalAddress", TEST);
-    dirContextOperations.addAttributeValue("hsaDeliveryAddress", TEST);
-    dirContextOperations.addAttributeValue("hsaInvoiceAddress", TEST);
-    dirContextOperations.addAttributeValue("hsaConsigneeAddress", TEST);
-    dirContextOperations.addAttributeValue("facsimileTelephoneNumber", TEST);
-    dirContextOperations.addAttributeValue("labeledUri", TEST);
-    dirContextOperations.addAttributeValue("title", TEST);
-    dirContextOperations.addAttributeValue("description", TEST);
-    dirContextOperations.addAttributeValue("hsaSwitchboardNumber", TEST);
-    dirContextOperations.addAttributeValue("company", TEST);
-    dirContextOperations.addAttributeValue("telephoneNumber", TEST);
-    dirContextOperations.addAttributeValue("hsaTelephoneNumber", TEST);
-    dirContextOperations.addAttributeValue("mobile", TEST);
-    dirContextOperations.addAttributeValue("hsaInternalPagerNumber", TEST);
-    dirContextOperations.addAttributeValue("pager", TEST);
-    dirContextOperations.addAttributeValue("hsaTextPhoneNumber", TEST);
-    dirContextOperations.addAttributeValue("whenCreated", "20091109104650.0Z");
-    dirContextOperations.addAttributeValue("telephoneHours", TEST_TIME);
-    dirContextOperations.addAttributeValue("distinguishedName", TEST_DN);
-    dirContextOperations.addAttributeValue("postalCode", TEST);
+    this.dirContextOperations.addAttributeValue("cn", TEST);
+    this.dirContextOperations.addAttributeValue("ou", TEST);
+    this.dirContextOperations.addAttributeValue("l", "Halmstad");
+    this.dirContextOperations.addAttributeValue("hsaIdentity", TEST);
+    this.dirContextOperations.addAttributeValue("street", TEST);
+    this.dirContextOperations.addAttributeValue("hsaInternalAddress", TEST);
+    this.dirContextOperations.addAttributeValue("postalAddress", TEST);
+    this.dirContextOperations.addAttributeValue("hsaDeliveryAddress", TEST);
+    this.dirContextOperations.addAttributeValue("hsaInvoiceAddress", TEST);
+    this.dirContextOperations.addAttributeValue("hsaConsigneeAddress", TEST);
+    this.dirContextOperations.addAttributeValue("facsimileTelephoneNumber", TEST);
+    this.dirContextOperations.addAttributeValue("labeledUri", TEST);
+    this.dirContextOperations.addAttributeValue("title", TEST);
+    this.dirContextOperations.addAttributeValue("description", TEST);
+    this.dirContextOperations.addAttributeValue("hsaSwitchboardNumber", TEST);
+    this.dirContextOperations.addAttributeValue("company", TEST);
+    this.dirContextOperations.addAttributeValue("telephoneNumber", TEST);
+    this.dirContextOperations.addAttributeValue("hsaTelephoneNumber", TEST);
+    this.dirContextOperations.addAttributeValue("mobile", TEST);
+    this.dirContextOperations.addAttributeValue("hsaInternalPagerNumber", TEST);
+    this.dirContextOperations.addAttributeValue("pager", TEST);
+    this.dirContextOperations.addAttributeValue("hsaTextPhoneNumber", TEST);
+    this.dirContextOperations.addAttributeValue("whenCreated", "20091109104650.0Z");
+    this.dirContextOperations.addAttributeValue("telephoneHours", TEST_TIME);
+    this.dirContextOperations.addAttributeValue("distinguishedName", TEST_DN);
+    this.dirContextOperations.addAttributeValue("postalCode", TEST);
   }
 
   private void addOtherEmploymentAttributes() {
-    dirContextOperations.addAttributeValue("cn", TEST2);
-    dirContextOperations.addAttributeValue("ou", TEST2);
-    dirContextOperations.addAttributeValue("hsaIdentity", TEST2);
-    dirContextOperations.addAttributeValue("street", TEST2);
-    dirContextOperations.addAttributeValue("hsaInternalAddress", TEST2);
-    dirContextOperations.addAttributeValue("postalAddress", TEST2);
-    dirContextOperations.addAttributeValue("hsaDeliveryAddress", TEST2);
-    dirContextOperations.addAttributeValue("hsaInvoiceAddress", TEST2);
-    dirContextOperations.addAttributeValue("hsaConsigneeAddress", TEST2);
-    dirContextOperations.addAttributeValue("facsimileTelephoneNumber", TEST2);
-    dirContextOperations.addAttributeValue("labeledUri", TEST2);
-    dirContextOperations.addAttributeValue("title", TEST2);
-    dirContextOperations.addAttributeValue("description", TEST2);
-    dirContextOperations.addAttributeValue("hsaSwitchboardNumber", TEST2);
-    dirContextOperations.addAttributeValue("company", TEST2);
-    dirContextOperations.addAttributeValue("telephoneNumber", TEST2);
-    dirContextOperations.addAttributeValue("hsaTelephoneNumber", TEST2);
-    dirContextOperations.addAttributeValue("mobile", TEST2);
-    dirContextOperations.addAttributeValue("hsaInternalPagerNumber", TEST2);
-    dirContextOperations.addAttributeValue("pager", TEST2);
-    dirContextOperations.addAttributeValue("hsaTextPhoneNumber", TEST2);
-    dirContextOperations.addAttributeValue("whenCreated", "20091109104650.0Z");
-    dirContextOperations.addAttributeValue("whenChanged", "20100224082302.0Z");
-    dirContextOperations.addAttributeValue("telephoneHours", TEST_TIME);
-    dirContextOperations.addAttributeValue("distinguishedName", TEST_DN);
-    dirContextOperations.addAttributeValue("postalCode", TEST2);
-    dirContextOperations.addAttributeValue("mainNode", "Ja");
+    this.dirContextOperations.addAttributeValue("cn", TEST2);
+    this.dirContextOperations.addAttributeValue("ou", TEST2);
+    this.dirContextOperations.addAttributeValue("hsaIdentity", TEST2);
+    this.dirContextOperations.addAttributeValue("street", TEST2);
+    this.dirContextOperations.addAttributeValue("hsaInternalAddress", TEST2);
+    this.dirContextOperations.addAttributeValue("postalAddress", TEST2);
+    this.dirContextOperations.addAttributeValue("hsaDeliveryAddress", TEST2);
+    this.dirContextOperations.addAttributeValue("hsaInvoiceAddress", TEST2);
+    this.dirContextOperations.addAttributeValue("hsaConsigneeAddress", TEST2);
+    this.dirContextOperations.addAttributeValue("facsimileTelephoneNumber", TEST2);
+    this.dirContextOperations.addAttributeValue("labeledUri", TEST2);
+    this.dirContextOperations.addAttributeValue("title", TEST2);
+    this.dirContextOperations.addAttributeValue("description", TEST2);
+    this.dirContextOperations.addAttributeValue("hsaSwitchboardNumber", TEST2);
+    this.dirContextOperations.addAttributeValue("company", TEST2);
+    this.dirContextOperations.addAttributeValue("telephoneNumber", TEST2);
+    this.dirContextOperations.addAttributeValue("hsaTelephoneNumber", TEST2);
+    this.dirContextOperations.addAttributeValue("mobile", TEST2);
+    this.dirContextOperations.addAttributeValue("hsaInternalPagerNumber", TEST2);
+    this.dirContextOperations.addAttributeValue("pager", TEST2);
+    this.dirContextOperations.addAttributeValue("hsaTextPhoneNumber", TEST2);
+    this.dirContextOperations.addAttributeValue("whenCreated", "20091109104650.0Z");
+    this.dirContextOperations.addAttributeValue("whenChanged", "20100224082302.0Z");
+    this.dirContextOperations.addAttributeValue("telephoneHours", TEST_TIME);
+    this.dirContextOperations.addAttributeValue("distinguishedName", TEST_DN);
+    this.dirContextOperations.addAttributeValue("postalCode", TEST2);
+    this.dirContextOperations.addAttributeValue("mainNode", "Ja");
   }
 
   private void addPersonAttributes() {
-    dirContextOperations.setDn(DistinguishedName.immutableDistinguishedName(TEST_DN));
-    dirContextOperations.addAttributeValue("distinguishedName", TEST_DN);
-    dirContextOperations.addAttributeValue("cn", TEST);
-    dirContextOperations.addAttributeValue("regionName", TEST);
-    dirContextOperations.addAttributeValue("personalIdentityNumber", TEST);
-    dirContextOperations.addAttributeValue("givenName", TEST);
-    dirContextOperations.addAttributeValue("sn", TEST);
-    dirContextOperations.addAttributeValue("middleName", TEST);
-    dirContextOperations.addAttributeValue("nickname", TEST);
-    dirContextOperations.addAttributeValue("fullName", TEST);
-    dirContextOperations.addAttributeValue("hsaIdentity", TEST);
-    dirContextOperations.addAttributeValue("mail", TEST);
-    dirContextOperations.addAttributeValue("specialityName", TEST);
-    dirContextOperations.addAttributeValue("hsaSpecialityCode", TEST);
-    dirContextOperations.addAttributeValue("hsaLanguageKnowledgeCode", TEST);
-    dirContextOperations.addAttributeValue("hsaLanguageKnowledgeText", TEST);
-    dirContextOperations.addAttributeValue("hsaTitle", "Leg. psykolog$IT-Arkitekt");
-    dirContextOperations.addAttributeValue("hsaPersonPrescriptionCode", TEST);
-    dirContextOperations.addAttributeValue("hsaStartDate", TEST);
-    dirContextOperations.addAttributeValue("hsaEndDate", TEST);
+    this.dirContextOperations.setDn(DistinguishedName.immutableDistinguishedName(TEST_DN));
+    this.dirContextOperations.addAttributeValue("distinguishedName", TEST_DN);
+    this.dirContextOperations.addAttributeValue("cn", TEST);
+    this.dirContextOperations.addAttributeValue("regionName", TEST);
+    this.dirContextOperations.addAttributeValue("personalIdentityNumber", TEST);
+    this.dirContextOperations.addAttributeValue("givenName", TEST);
+    this.dirContextOperations.addAttributeValue("sn", TEST);
+    this.dirContextOperations.addAttributeValue("middleName", TEST);
+    this.dirContextOperations.addAttributeValue("nickname", TEST);
+    this.dirContextOperations.addAttributeValue("fullName", TEST);
+    this.dirContextOperations.addAttributeValue("hsaIdentity", TEST);
+    this.dirContextOperations.addAttributeValue("mail", TEST);
+    this.dirContextOperations.addAttributeValue("specialityName", TEST);
+    this.dirContextOperations.addAttributeValue("hsaSpecialityCode", TEST);
+    this.dirContextOperations.addAttributeValue("hsaLanguageKnowledgeCode", TEST);
+    this.dirContextOperations.addAttributeValue("hsaLanguageKnowledgeText", TEST);
+    this.dirContextOperations.addAttributeValue("hsaTitle", "Leg. psykolog$IT-Arkitekt");
+    this.dirContextOperations.addAttributeValue("hsaPersonPrescriptionCode", TEST);
+    this.dirContextOperations.addAttributeValue("hsaStartDate", TEST);
+    this.dirContextOperations.addAttributeValue("hsaEndDate", TEST);
+    this.dirContextOperations.addAttributeValue("paTitleName", "IT-Ansvarig");
+    this.dirContextOperations.addAttributeValue("hsaAltText", "alternativ text");
   }
 }

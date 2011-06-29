@@ -17,7 +17,9 @@
  */
 package se.vgregion.kivtools.search.svc.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +53,7 @@ public class SitemapPersonMapperTest {
     Unit unit = new Unit();
     unit.setHsaIdentity("abc-123");
     unit.setDn(DN.createDNFromString("ou=Tandreglering Halmstad,ou=lthalland.se,o=lth"));
-    unitCache.add(unit);
+    this.unitCache.add(unit);
   }
 
   @Test
@@ -61,97 +63,105 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void hsaIdentityIsMapped() {
-    Person person = personBuilder.hsaIdentity("abc-123").build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Person person = this.personBuilder.hsaIdentity("abc-123").build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("hsaIdentity", "abc-123", result.getHsaIdentity());
   }
 
   @Test
   public void givenNameIsMapped() {
-    Person person = personBuilder.givenName("Karl").build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Person person = this.personBuilder.givenName("Karl").build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("given name", "Karl", result.getGivenName());
   }
 
   @Test
   public void nickNameIsMapped() {
-    Person person = personBuilder.nickName("Kalle").build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Person person = this.personBuilder.nickName("Kalle").build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("nick name", "Kalle", result.getNickName());
   }
 
   @Test
   public void middleNameIsMapped() {
-    Person person = personBuilder.middleName("Johansson").build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Person person = this.personBuilder.middleName("Johansson").build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("middle name", "Johansson", result.getMiddleName());
   }
 
   @Test
   public void surnameIsMapped() {
-    Person person = personBuilder.surname("Silfverstråle").build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Person person = this.personBuilder.surname("Silfverstråle").build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("surname", "Silfverstråle", result.getSurname());
   }
 
   @Test
   public void userIdIsMapped() {
-    Person person = personBuilder.userId("abc123").build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Person person = this.personBuilder.userId("abc123").build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("user id", "abc123", result.getUserId());
   }
 
   @Test
   public void titleIsMapped() {
-    Person person = personBuilder.title("Läkare").build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Person person = this.personBuilder.title("Läkare").build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("title", "Läkare", result.getTitle());
   }
 
   @Test
   public void specialityIsMapped() {
-    Person person = personBuilder.speciality("Fotsvamp").speciality("Visdomständer").build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Person person = this.personBuilder.speciality("Fotsvamp").speciality("Visdomständer").build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("speciality", 2, result.getSpeciality().size());
   }
 
   @Test
   public void employmentsAreMapped() {
-    Employment employment = employmentBuilder.build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("employments", 1, result.getEmployment().size());
   }
 
   @Test
   public void employmentTitleIsMapped() {
-    Employment employment = employmentBuilder.title("Systemarkitekt").build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.title("Systemarkitekt").build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("employment title", "Systemarkitekt", result.getEmployment().get(0).getTitle());
   }
 
   @Test
   public void employmentUnitIdentityIsMapped() {
-    Employment employment = employmentBuilder.unitDn("ou=Tandreglering Halmstad,ou=lthalland.se,o=lth").build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.unitDn("ou=Tandreglering Halmstad,ou=lthalland.se,o=lth").build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("employment unit identity", "abc-123", result.getEmployment().get(0).getUnitIdentity());
   }
 
   @Test
   public void employmentDescriptionIsMapped() {
-    Employment employment = employmentBuilder.description("Övergripande ansvar för systemdesign m.m.").description("Kodslav").build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.description("Övergripande ansvar för systemdesign m.m.").description("Kodslav").build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("employment title", "Övergripande ansvar för systemdesign m.m., Kodslav", result.getEmployment().get(0).getDescription());
   }
 
   @Test
+  public void employmentLocalityIsMapped() {
+    Employment employment = this.employmentBuilder.locality("Halmstad").build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
+    assertEquals("employment locality", "Halmstad", result.getEmployment().get(0).getLocality());
+  }
+
+  @Test
   public void publicTelephoneNumberIsMapped() {
-    Employment employment = employmentBuilder.publicTelephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.publicTelephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     List<TelephoneNumber> telephone = result.getEmployment().get(0).getTelephone();
     assertEquals("public telephone number", 1, telephone.size());
     assertEquals("first label", "Telefon", telephone.get(0).getLabel());
@@ -162,9 +172,9 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void directPhoneNumberIsMapped() {
-    Employment employment = employmentBuilder.telephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).telephoneNumber(PhoneNumber.createPhoneNumber("0340-67890")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.telephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).telephoneNumber(PhoneNumber.createPhoneNumber("0340-67890")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     List<TelephoneNumber> telephone = result.getEmployment().get(0).getTelephone();
     assertEquals("direct phone number", 2, telephone.size());
     assertEquals("first label", "Direkttelefon", telephone.get(0).getLabel());
@@ -179,9 +189,9 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void switchboardTelephoneNumberIsMapped() {
-    Employment employment = employmentBuilder.switchboardTelephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.switchboardTelephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     List<TelephoneNumber> telephone = result.getEmployment().get(0).getTelephone();
     assertEquals("switchboard telephone number", 1, telephone.size());
     assertEquals("label", "Växel", telephone.get(0).getLabel());
@@ -192,9 +202,9 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void internalPagerNumberIsMapped() {
-    Employment employment = employmentBuilder.internalPagerNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.internalPagerNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     List<TelephoneNumber> telephone = result.getEmployment().get(0).getTelephone();
     assertEquals("internal pager number", 1, telephone.size());
     assertEquals("label", "Personsökare", telephone.get(0).getLabel());
@@ -205,9 +215,9 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void pagerNumberIsMapped() {
-    Employment employment = employmentBuilder.pagerNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.pagerNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     List<TelephoneNumber> telephone = result.getEmployment().get(0).getTelephone();
     assertEquals("pager number", 1, telephone.size());
     assertEquals("label", "Minicall", telephone.get(0).getLabel());
@@ -218,9 +228,9 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void textTelephoneNumberIsMapped() {
-    Employment employment = employmentBuilder.textTelephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.textTelephoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     List<TelephoneNumber> telephone = result.getEmployment().get(0).getTelephone();
     assertEquals("text telephone number", 1, telephone.size());
     assertEquals("label", "Texttelefon", telephone.get(0).getLabel());
@@ -231,9 +241,9 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void mobilePhoneNumberIsMapped() {
-    Employment employment = employmentBuilder.mobilePhoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.mobilePhoneNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     List<TelephoneNumber> telephone = result.getEmployment().get(0).getTelephone();
     assertEquals("mobile phone number", 1, telephone.size());
     assertEquals("label", "Mobil", telephone.get(0).getLabel());
@@ -244,9 +254,9 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void faxNumberIsMapped() {
-    Employment employment = employmentBuilder.faxNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.faxNumber(PhoneNumber.createPhoneNumber("0300-12345")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     List<TelephoneNumber> telephone = result.getEmployment().get(0).getTelephone();
     assertEquals("fax number", 1, telephone.size());
     assertEquals("label", "Fax", telephone.get(0).getLabel());
@@ -257,17 +267,17 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void telephoneTimesAreMapped() throws InvalidFormatException {
-    Employment employment = employmentBuilder.telephoneTime(new WeekdayTime("1-4#08:30#10:00")).telephoneTime(new WeekdayTime("5-5#08:00#11:00")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.telephoneTime(new WeekdayTime("1-4#08:30#10:00")).telephoneTime(new WeekdayTime("5-5#08:00#11:00")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("telephone time", "Måndag-Torsdag 08:30-10:00, Fredag 08:00-11:00", result.getEmployment().get(0).getTelephoneTime());
   }
 
   @Test
   public void postalAddressIsMapped() {
-    Employment employment = employmentBuilder.postalAddress(createAddress("Storgatan 1", "412 63", "Göteborg")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.postalAddress(this.createAddress("Storgatan 1", "412 63", "Göteborg")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("address", 1, result.getEmployment().get(0).getAddress().size());
     se.vgregion.kivtools.svc.sitemap.Address address = result.getEmployment().get(0).getAddress().get(0);
     assertEquals("label", "Postadress", address.getLabel());
@@ -280,9 +290,9 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void internalAddressIsMapped() {
-    Employment employment = employmentBuilder.internalAddress(createAddress("Storgatan 1", "412 63", "Göteborg")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.internalAddress(this.createAddress("Storgatan 1", "412 63", "Göteborg")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("address", 1, result.getEmployment().get(0).getAddress().size());
     se.vgregion.kivtools.svc.sitemap.Address address = result.getEmployment().get(0).getAddress().get(0);
     assertEquals("label", "Intern adress", address.getLabel());
@@ -291,9 +301,9 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void streetAddressIsMapped() {
-    Employment employment = employmentBuilder.streetAddress(createAddress("Storgatan 1", "412 63", "Göteborg")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.streetAddress(this.createAddress("Storgatan 1", "412 63", "Göteborg")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("address", 1, result.getEmployment().get(0).getAddress().size());
     se.vgregion.kivtools.svc.sitemap.Address address = result.getEmployment().get(0).getAddress().get(0);
     assertEquals("label", "Besöksadress", address.getLabel());
@@ -302,9 +312,9 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void deliveryAddressIsMapped() {
-    Employment employment = employmentBuilder.deliveryAddress(createAddress("Storgatan 1", "412 63", "Göteborg")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.deliveryAddress(this.createAddress("Storgatan 1", "412 63", "Göteborg")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("address", 1, result.getEmployment().get(0).getAddress().size());
     se.vgregion.kivtools.svc.sitemap.Address address = result.getEmployment().get(0).getAddress().get(0);
     assertEquals("label", "Leveransadress", address.getLabel());
@@ -313,9 +323,9 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void invoiceAddressIsMapped() {
-    Employment employment = employmentBuilder.invoiceAddress(createAddress("Storgatan 1", "412 63", "Göteborg")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.invoiceAddress(this.createAddress("Storgatan 1", "412 63", "Göteborg")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("address", 1, result.getEmployment().get(0).getAddress().size());
     se.vgregion.kivtools.svc.sitemap.Address address = result.getEmployment().get(0).getAddress().get(0);
     assertEquals("label", "Fakturaadress", address.getLabel());
@@ -324,9 +334,9 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void consigneeAddressIsMapped() {
-    Employment employment = employmentBuilder.consigneeAddress(createAddress("Storgatan 1", "412 63", "Göteborg")).build();
-    Person person = personBuilder.employment(employment).build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Employment employment = this.employmentBuilder.consigneeAddress(this.createAddress("Storgatan 1", "412 63", "Göteborg")).build();
+    Person person = this.personBuilder.employment(employment).build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("address", 1, result.getEmployment().get(0).getAddress().size());
     se.vgregion.kivtools.svc.sitemap.Address address = result.getEmployment().get(0).getAddress().get(0);
     assertEquals("label", "Godsadress", address.getLabel());
@@ -335,12 +345,26 @@ public class SitemapPersonMapperTest {
 
   @Test
   public void emailIsMapped() {
-    Person person = personBuilder.email("kalle.kula@lthalland.se").build();
-    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, unitCache);
+    Person person = this.personBuilder.email("kalle.kula@lthalland.se").build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
     assertEquals("ealias", 1, result.getEAlias().size());
     assertEquals("alias", "kalle.kula@lthalland.se", result.getEAlias().get(0).getAlias());
     assertEquals("label", "E-post", result.getEAlias().get(0).getLabel());
     assertEquals("type", EAliasType.E_MAIL, result.getEAlias().get(0).getType());
+  }
+
+  @Test
+  public void hsaAltTextIsMapped() {
+    Person person = this.personBuilder.hsaAltText("alternativ text").build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
+    assertEquals("altText", "alternativ text", result.getAltText());
+  }
+
+  @Test
+  public void paTitleNameIsMapped() {
+    Person person = this.personBuilder.paTitleName("IT-ansvarig").build();
+    se.vgregion.kivtools.svc.sitemap.Person result = SitemapPersonMapper.map(person, this.unitCache);
+    assertEquals("titleName", "IT-ansvarig", result.getTitleName());
   }
 
   private Address createAddress(String... addressLines) {
@@ -359,41 +383,48 @@ public class SitemapPersonMapperTest {
     private PhoneNumber textTelephoneNumber;
     private PhoneNumber mobilePhoneNumber;
     private PhoneNumber faxNumber;
-    private List<WeekdayTime> telephoneTime = new ArrayList<WeekdayTime>();
+    private final List<WeekdayTime> telephoneTime = new ArrayList<WeekdayTime>();
     private Address consigneeAddress;
     private Address invoiceAddress;
     private Address deliveryAddress;
     private Address streetAddress;
     private Address internalAddress;
     private Address postalAddress;
+    private String locality;
 
     public Employment build() {
       Employment employment = new Employment();
 
-      employment.setTitle(title);
-      if (unitDn != null) {
-        employment.setVgrStrukturPerson(DN.createDNFromString(unitDn));
+      employment.setTitle(this.title);
+      if (this.unitDn != null) {
+        employment.setVgrStrukturPerson(DN.createDNFromString(this.unitDn));
       }
-      employment.setDescription(description);
+      employment.setDescription(this.description);
 
-      employment.setHsaPublicTelephoneNumber(publicTelephoneNumber);
-      employment.addHsaTelephoneNumbers(telephoneNumber);
-      employment.setHsaSedfSwitchboardTelephoneNo(switchboardTelephoneNumber);
-      employment.setHsaInternalPagerNumber(internalPagerNumber);
-      employment.setPagerTelephoneNumber(pagerNumber);
-      employment.setHsaTextPhoneNumber(textTelephoneNumber);
-      employment.setMobileTelephoneNumber(mobilePhoneNumber);
-      employment.setFacsimileTelephoneNumber(faxNumber);
-      employment.addHsaTelephoneTime(telephoneTime);
+      employment.setHsaPublicTelephoneNumber(this.publicTelephoneNumber);
+      employment.addHsaTelephoneNumbers(this.telephoneNumber);
+      employment.setHsaSedfSwitchboardTelephoneNo(this.switchboardTelephoneNumber);
+      employment.setHsaInternalPagerNumber(this.internalPagerNumber);
+      employment.setPagerTelephoneNumber(this.pagerNumber);
+      employment.setHsaTextPhoneNumber(this.textTelephoneNumber);
+      employment.setMobileTelephoneNumber(this.mobilePhoneNumber);
+      employment.setFacsimileTelephoneNumber(this.faxNumber);
+      employment.addHsaTelephoneTime(this.telephoneTime);
 
-      employment.setHsaPostalAddress(postalAddress);
-      employment.setHsaInternalAddress(internalAddress);
-      employment.setHsaStreetAddress(streetAddress);
-      employment.setHsaSedfDeliveryAddress(deliveryAddress);
-      employment.setHsaSedfInvoiceAddress(invoiceAddress);
-      employment.setHsaConsigneeAddress(consigneeAddress);
+      employment.setHsaPostalAddress(this.postalAddress);
+      employment.setHsaInternalAddress(this.internalAddress);
+      employment.setHsaStreetAddress(this.streetAddress);
+      employment.setHsaSedfDeliveryAddress(this.deliveryAddress);
+      employment.setHsaSedfInvoiceAddress(this.invoiceAddress);
+      employment.setHsaConsigneeAddress(this.consigneeAddress);
+      employment.setLocality(this.locality);
 
       return employment;
+    }
+
+    public EmploymentBuilder locality(String locality) {
+      this.locality = locality;
+      return this;
     }
 
     public EmploymentBuilder consigneeAddress(Address address) {
@@ -504,22 +535,36 @@ public class SitemapPersonMapperTest {
     private List<String> speciality;
     private List<Employment> employments;
     private String email;
+    private String hsaAltText;
+    private String paTitleName;
 
     public Person build() {
       Person person = new Person();
 
-      person.setHsaIdentity(hsaIdentity);
-      person.setGivenName(givenName);
-      person.setHsaNickName(nickName);
-      person.setHsaMiddleName(middleName);
-      person.setSn(surname);
-      person.setVgrId(userId);
-      person.setHsaTitle(title);
-      person.setHsaSpecialityName(speciality);
-      person.setEmployments(employments);
-      person.setMail(email);
+      person.setHsaIdentity(this.hsaIdentity);
+      person.setGivenName(this.givenName);
+      person.setHsaNickName(this.nickName);
+      person.setHsaMiddleName(this.middleName);
+      person.setSn(this.surname);
+      person.setVgrId(this.userId);
+      person.setHsaTitle(this.title);
+      person.setHsaSpecialityName(this.speciality);
+      person.setEmployments(this.employments);
+      person.setMail(this.email);
+      person.setHsaAltText(this.hsaAltText);
+      person.setPaTitleName(this.paTitleName);
 
       return person;
+    }
+
+    public PersonBuilder paTitleName(String paTitleName) {
+      this.paTitleName = paTitleName;
+      return this;
+    }
+
+    public PersonBuilder hsaAltText(String hsaAltText) {
+      this.hsaAltText = hsaAltText;
+      return this;
     }
 
     public PersonBuilder email(String email) {

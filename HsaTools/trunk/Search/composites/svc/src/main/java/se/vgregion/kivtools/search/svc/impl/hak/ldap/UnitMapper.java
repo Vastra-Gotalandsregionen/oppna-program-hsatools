@@ -115,9 +115,12 @@ public class UnitMapper implements ContextMapper {
     unit.setHsaVisitingRules(context.getString("hsaVisitingRules"));
     unit.setHsaVisitingRuleAge(context.getString("hsaVisitingRuleAge"));
 
-    // Temporary information
-    unit.setVgrTempInfo(context.getString("vgrTempInfo"));
-    unit.setVgrRefInfo(context.getString("vgrRefInfo"));
+    // Alt-text (hsaAltText)
+    unit.setHsaAltText(context.getString("hsaAltText"));
+    // Mer om (hsaVpwInformation1)
+    unit.setHsaVpwInformation1(context.getString("hsaVpwInformation1"));
+    // Tillfällig information (hsaVpwInformation2)
+    unit.setHsaVpwInformation2(context.getString("hsaVpwInformation2"));
 
     // Drifts- & juridisk formkod
     unit.setHsaAdministrationForm(context.getString("hsaAdministrationForm"));
@@ -147,7 +150,7 @@ public class UnitMapper implements ContextMapper {
     unit.addHealthcareTypes(healthcareTypes);
 
     // Show age interval?
-    unit.setShowAgeInterval(shouldAgeIntervalBeDisplayed(unit));
+    unit.setShowAgeInterval(this.shouldAgeIntervalBeDisplayed(unit));
     // We always show visiting rules
     unit.setShowVisitingRules(true);
 
