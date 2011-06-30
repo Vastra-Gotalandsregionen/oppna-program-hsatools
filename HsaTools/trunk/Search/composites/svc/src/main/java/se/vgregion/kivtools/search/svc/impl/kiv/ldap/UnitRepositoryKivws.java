@@ -309,19 +309,13 @@ public class UnitRepositoryKivws extends UnitRepository {
   }
 
   private String createAllUnitsFilter(boolean onlyPublicUnits) {
-    String searchFilter = "";
 
     List<String> filterList = new ArrayList<String>();
     if (onlyPublicUnits) {
       filterList.add("(hsaDestinationIndicator=03)");
     }
 
-    // Gets unit which has careType Öppenvård and Hemsjukvård
-    filterList.add("(|(vgrCareType=01)(vgrCareType=03))");
-
-    filterList.add(searchFilter);
-    searchFilter = this.makeAnd(filterList);
-    return searchFilter;
+    return this.makeAnd(filterList);
   }
 
   private Unit searchUnit(DistinguishedName searchBase, int searchScope, String searchFilter) throws KivException {

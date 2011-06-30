@@ -416,8 +416,8 @@ public class UnitRepositoryKivwsTest {
 
   @Test
   public void testGetAllUnitsHsaIdentity() throws KivException {
-    String expectedOU = "(&(|(vgrCareType=01)(vgrCareType=03)))";
-    String expectedCN = "(&(|(vgrCareType=01)(vgrCareType=03)))";
+    String expectedOU = "";
+    String expectedCN = "";
     this.unitRepository.getAllUnitsHsaIdentity();
     assertEquals(expectedOU, this.searchServiceMock.filterOU);
     assertEquals(expectedCN, this.searchServiceMock.filterCN);
@@ -425,8 +425,8 @@ public class UnitRepositoryKivwsTest {
 
   @Test
   public void testGetAllUnitsHsaIdentityOnlyPublicUnits() throws KivException {
-    String expectedOU = "(&(hsaDestinationIndicator=03)(|(vgrCareType=01)(vgrCareType=03)))";
-    String expectedCN = "(&(hsaDestinationIndicator=03)(|(vgrCareType=01)(vgrCareType=03)))";
+    String expectedOU = "(&(hsaDestinationIndicator=03))";
+    String expectedCN = "(&(hsaDestinationIndicator=03))";
 
     this.unitRepository.getAllUnitsHsaIdentity(true);
     assertEquals(expectedOU, this.searchServiceMock.filterOU);
@@ -435,8 +435,8 @@ public class UnitRepositoryKivwsTest {
 
   @Test
   public void testGetAllUnitsOnlyPublicUnits() throws KivException {
-    String expectedOU = "(&(hsaDestinationIndicator=03)(|(vgrCareType=01)(vgrCareType=03)))";
-    String expectedCN = "(&(hsaDestinationIndicator=03)(|(vgrCareType=01)(vgrCareType=03)))";
+    String expectedOU = "(&(hsaDestinationIndicator=03))";
+    String expectedCN = "(&(hsaDestinationIndicator=03))";
 
     this.unitRepository.getAllUnits(true);
     assertTrue("unit search", this.searchServiceMock.unitsSearched);
