@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import se.vgregion.kivtools.search.domain.util.Evaluator;
 import se.vgregion.kivtools.util.StringUtil;
 
@@ -35,6 +37,7 @@ import se.vgregion.kivtools.util.StringUtil;
 
 public class AddressHelper implements Serializable {
   private static final long serialVersionUID = 1L;
+  private static final Logger LOG = Logger.getLogger(AddressHelper.class);
 
   // to any special address info
   private static final List<String> VALID_STREET_SUFFIX = new LinkedList<String>();
@@ -119,11 +122,10 @@ public class AddressHelper implements Serializable {
           address.setAdditionalInfo(additionalInfo);
         } else {
           // not an ok mapping we can´t rip out enough information
-          address = new Address();
-          address.setAdditionalInfo(addressList);
+          address = createNewUnparsedAddress(addressList);
         }
       } else {
-        address.setAdditionalInfo(addressList);
+        address = createNewUnparsedAddress(addressList);
       }
     }
     return address;
@@ -462,6 +464,7 @@ public class AddressHelper implements Serializable {
   }
 
   private static Address createNewUnparsedAddress(List<String> origAddressList) {
+    LOG.debug("Unable to parse address: " + origAddressList.toString());
     Address address = new Address();
     address.setAdditionalInfo(origAddressList);
     return address;
