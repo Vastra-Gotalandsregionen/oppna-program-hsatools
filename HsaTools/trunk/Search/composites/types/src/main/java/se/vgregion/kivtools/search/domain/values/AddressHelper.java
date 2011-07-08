@@ -122,10 +122,10 @@ public class AddressHelper implements Serializable {
           address.setAdditionalInfo(additionalInfo);
         } else {
           // not an ok mapping we can´t rip out enough information
-          address = createNewUnparsedAddress(addressList);
+          address = createNewUnparsedAddress(addressList, "postal");
         }
       } else {
-        address = createNewUnparsedAddress(addressList);
+        address = createNewUnparsedAddress(addressList, "postal");
       }
     }
     return address;
@@ -188,7 +188,7 @@ public class AddressHelper implements Serializable {
 
       if (size <= 1) {
         // no evaluation
-        address = createNewUnparsedAddress(origAddressRows);
+        address = createNewUnparsedAddress(origAddressRows, "street");
       } else {
         // 1. rip out the street
         // *********************
@@ -197,7 +197,7 @@ public class AddressHelper implements Serializable {
         int streetRow = findStreet(tempAdressList);
         if (streetRow == -1) {
           // if there was no street we can´t do it
-          address = createNewUnparsedAddress(origAddressRows);
+          address = createNewUnparsedAddress(origAddressRows, "street");
         } else {
           // Street was found, set it in address and remove from list of adress lines.
           String street = tempAdressList.get(streetRow);
@@ -231,7 +231,7 @@ public class AddressHelper implements Serializable {
 
             if (!foundCity) {
               // if there was no city found
-              address = createNewUnparsedAddress(origAddressRows);
+              address = createNewUnparsedAddress(origAddressRows, "street");
             }
           }
 
@@ -463,8 +463,8 @@ public class AddressHelper implements Serializable {
     return result;
   }
 
-  private static Address createNewUnparsedAddress(List<String> origAddressList) {
-    LOG.debug("Unable to parse address: " + origAddressList.toString());
+  private static Address createNewUnparsedAddress(List<String> origAddressList, String type) {
+    LOG.debug("Unable to parse " + type + "-address: " + StringUtil.concatenate(origAddressList, "$"));
     Address address = new Address();
     address.setAdditionalInfo(origAddressList);
     return address;
