@@ -19,7 +19,9 @@
 
 package se.vgregion.kivtools.search.domain.values;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,5 +172,30 @@ public class AddressHelperTest {
     Address address = AddressHelper.convertToStreetAddress(origAddress);
     assertNotNull("address", address);
     assertEquals("street", "Kungsportsavenyn 31-35", address.getStreet());
+  }
+
+  @Test
+  public void addressWithOnlyExceptionedStreetUsesExceptionedStreetAsTheStreetRow() {
+    List<String> origAddress = new ArrayList<String>();
+    origAddress.add(EXCEPTIONED_STREET);
+    origAddress.add(ZIPCODE_CITY);
+    Address address = AddressHelper.convertToStreetAddress(origAddress);
+    assertNotNull("An address should have been created", address);
+    assertEquals("Unexpected value for street", EXCEPTIONED_STREET, address.getStreet());
+    assertEquals("Unexpected value for zipcode", ZIPCODE, address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", CITY, address.getCity());
+  }
+
+  @Test
+  public void addressFromSahlgrenskaIsConsideredAValidAddress() {
+    List<String> origAddress = new ArrayList<String>();
+    origAddress.add("Gröna stråket 4");
+    origAddress.add("413 45");
+    origAddress.add("Göteborg");
+    Address address = AddressHelper.convertToStreetAddress(origAddress);
+    assertNotNull("An address should have been created", address);
+    assertEquals("Unexpected value for street", "Gröna stråket 4", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "413 45", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Göteborg", address.getCity());
   }
 }
