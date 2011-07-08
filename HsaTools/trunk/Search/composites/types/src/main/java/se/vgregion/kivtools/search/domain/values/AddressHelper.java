@@ -68,40 +68,6 @@ public class AddressHelper implements Serializable {
   }
 
   /**
-   * Helper-method to check if a string contains street information.
-   * 
-   * @param text The string to check.
-   * @return True if the provided string contains street information, otherwise false.
-   */
-  private static boolean isStreet(String text) {
-    boolean result = false;
-
-    result |= containsListWord(text, VALID_STREET_SUFFIX);
-    result &= !containsListWord(text, EXCEPTIONED_STREET_SUFFIX);
-
-    return result;
-  }
-
-  /**
-   * Helper-method to check if a string contains any of the words in the provided list of words.
-   * 
-   * @param text The string to check.
-   * @param words The list of words to check against.
-   * @return True if the string contains any of the words in the provided list, otherwise false.
-   */
-  private static boolean containsListWord(String text, List<String> words) {
-    boolean result = false;
-
-    if (!StringUtil.isEmpty(text)) {
-      for (String word : words) {
-        result |= text.toLowerCase().contains(word);
-      }
-    }
-
-    return result;
-  }
-
-  /**
    * Convert a List of Strings (containing an address to an Address object).
    * 
    * @param addressList The list of strings to populate the Address object with.
@@ -176,25 +142,6 @@ public class AddressHelper implements Serializable {
     System.out.println("Additional Info:" + address.getAdditionalInfoToString());
   }
 
-  private static Address createNewUnparsedAddress(List<String> origAddressList) {
-    Address address = new Address();
-    address.setAdditionalInfo(origAddressList);
-    return address;
-  }
-
-  private static boolean isStreetMoreThanOnce(List<String> adressList) {
-    String temp = "";
-    int size = adressList.size();
-    int foundStreet = 0;
-    for (int row = size - 1; row >= 0; row--) {
-      temp = adressList.get(row);
-      if (AddressHelper.isStreet(temp)) {
-        foundStreet++;
-      }
-    }
-    return foundStreet > 1;
-  }
-
   /**
    * Convert a List of Strings (containing an address to an Address object). The entry can look like:
    * 
@@ -221,79 +168,72 @@ public class AddressHelper implements Serializable {
    * Plan 10
    * </pre>
    * 
-   * @param origAddressList The list of strings which the address is built from.
+   * @param origAddressRows The strings which the address is built from.
    * @return A populated Address-object.
    */
-  public static Address convertToStreetAddress(List<String> origAddressList) {
+  public static Address convertToStreetAddress(List<String> origAddressRows) {
     Address address = new Address();
     boolean foundCity = false;
     boolean foundZipCode = false;
-    boolean foundStreet = false;
+    String zipCode = null;
+    String city = null;
 
-    if (!Evaluator.isEmpty(origAddressList)) {
-
+    if (!Evaluator.isEmpty(origAddressRows)) {
       // let´s make a copy to handle this case
-      List<String> tempAdressList = new ArrayList<String>(origAddressList);
+      List<String> tempAdressList = new ArrayList<String>(origAddressRows);
 
       int size = tempAdressList.size();
 
       if (size <= 1) {
         // no evaluation
-        address = createNewUnparsedAddress(origAddressList);
+        address = createNewUnparsedAddress(origAddressRows);
       } else {
         // 1. rip out the street
         // *********************
         // this is a quite tricky one since sometimes the street name is a part of additional information
         // so first check if street address exists twice
-        if (isStreetMoreThanOnce(tempAdressList)) {
-          // we have street name in two different locations we give up
-          address = createNewUnparsedAddress(origAddressList);
+        int streetRow = findStreet(tempAdressList);
+        if (streetRow == -1) {
+          // if there was no street we can´t do it
+          address = createNewUnparsedAddress(origAddressRows);
         } else {
-          int streetRow = findStreet(tempAdressList);
+          // Street was found, set it in address and remove from list of adress lines.
+          String street = tempAdressList.get(streetRow);
+          tempAdressList.remove(streetRow);
 
-          if (streetRow == -1) {
-            // if there was no street we can´t do it
-            address = createNewUnparsedAddress(origAddressList);
-          } else {
-            // Street was found, set it in address and remove from list of adress lines.
-            foundStreet = true;
-            String street = tempAdressList.get(streetRow);
-            address.setStreet(street);
-            tempAdressList.remove(streetRow);
+          size = tempAdressList.size();
 
-            size = tempAdressList.size();
+          // 2. rip out postal code (always 5 characters)
+          // *******************************************
+          if (!isZipAndCityInSeperateRowsUpdateAddress(tempAdressList, address)) {
+            int zipRow = findZipAndCity(tempAdressList);
 
-            // 2. rip out postal code (always 5 characters)
-            // *******************************************
-            if (!isZipAndCityInSeperateRowsUpdateAddress(tempAdressList, address)) {
-              int zipRow = findZipAndCity(tempAdressList);
+            if (zipRow != -1) {
+              // Zip and city found
+              foundZipCode = true;
+              String zipAndCity = tempAdressList.get(zipRow);
+              zipCode = getZipcode(zipAndCity);
+              city = getCity(zipAndCity);
+              foundCity = !StringUtil.isEmpty(city);
 
-              if (zipRow != -1) {
-                // Zip and city found
-                foundZipCode = true;
-                String zipAndCity = tempAdressList.get(zipRow);
-                String zipCode = getZipcode(zipAndCity);
-                address.setZipCode(new ZipCode(zipCode));
-
-                String city = getCity(zipAndCity);
-                address.setCity(city);
-                foundCity = !StringUtil.isEmpty(city);
-
-                if (foundZipCode) {
-                  // ok remove this row
-                  tempAdressList.remove(zipRow);
-                  if (foundCity) {
-                    address.setAdditionalInfo(tempAdressList);
-                  }
+              if (foundZipCode) {
+                // ok remove this row
+                tempAdressList.remove(zipRow);
+                if (foundCity) {
+                  address.setAdditionalInfo(tempAdressList);
                 }
               }
+              address.setZipCode(new ZipCode(zipCode));
+              address.setCity(city);
+            }
 
-              if (!foundStreet || !foundCity) {
-                // if there was no street or no city found
-                address = createNewUnparsedAddress(origAddressList);
-              }
+            if (!foundCity) {
+              // if there was no city found
+              address = createNewUnparsedAddress(origAddressRows);
             }
           }
+
+          address.setStreet(street);
         }
       }
     }
@@ -389,9 +329,7 @@ public class AddressHelper implements Serializable {
     if (tempCity.length() > ZIPCODE_LENGTH) {
       tempCity = tempCity.substring(ZIPCODE_LENGTH + 1);
 
-      int position;
-      position = getCityPosition(tempCity);
-      tempCity = tempCity.substring(position);
+      tempCity = tempCity.replaceAll("^[0-9\\s]+", "");
       if (!StringUtil.isEmpty(tempCity)) {
         city = tempCity;
       }
@@ -465,41 +403,67 @@ public class AddressHelper implements Serializable {
    * @return The index of the row in the provided list of strings that is the street address.
    */
   private static int findStreet(List<String> addressList) {
+    List<Integer> foundRows = getRowsMatchingValidStreetSuffixes(addressList);
+
     int foundRow = -1;
 
-    String temp = "";
-    for (int row = addressList.size() - 1; row >= 0; row--) {
-      temp = addressList.get(row);
-      if (AddressHelper.isStreet(temp)) {
-        foundRow = row;
-        break;
-      }
+    if (foundRows.size() == 1) {
+      foundRow = foundRows.get(0);
+    } else if (foundRows.size() > 1) {
+      foundRow = getStreetRowAfterExceptionedStreetSuffixesAreFiltered(addressList, foundRows);
     }
 
     return foundRow;
   }
 
-  /**
-   * Helper-method to find the position within the provided string where the city starts.
-   * 
-   * @param zipAndCity The string containing both zip and city.
-   * @return The position in the provided string where the city starts.
-   */
-  private static int getCityPosition(String zipAndCity) {
-    int position = 0;
-    boolean leadingDigits = true;
-    for (int i = 0; i < zipAndCity.length() && leadingDigits; i++) {
-      String c = zipAndCity.substring(i, i + 1);
-      if (StringUtil.isEmpty(c)) {
-        position++;
-        continue;
-      }
-      if (StringUtil.isInteger(c)) {
-        position++;
-      } else {
-        leadingDigits = false;
+  private static int getStreetRowAfterExceptionedStreetSuffixesAreFiltered(List<String> addressList, List<Integer> foundRows) {
+    int foundRow = -1;
+    for (Integer row : foundRows) {
+      if (!containsListWord(addressList.get(row), EXCEPTIONED_STREET_SUFFIX)) {
+        if (foundRow == -1) {
+          foundRow = row;
+        } else {
+          foundRow = -1;
+          break;
+        }
       }
     }
-    return position;
+    return foundRow;
+  }
+
+  private static List<Integer> getRowsMatchingValidStreetSuffixes(List<String> addressList) {
+    List<Integer> foundRows = new ArrayList<Integer>();
+
+    for (int row = addressList.size() - 1; row >= 0; row--) {
+      if (AddressHelper.containsListWord(addressList.get(row), VALID_STREET_SUFFIX)) {
+        foundRows.add(row);
+      }
+    }
+    return foundRows;
+  }
+
+  /**
+   * Helper-method to check if a string contains any of the words in the provided list of words.
+   * 
+   * @param text The string to check.
+   * @param words The list of words to check against.
+   * @return True if the string contains any of the words in the provided list, otherwise false.
+   */
+  private static boolean containsListWord(String text, List<String> words) {
+    boolean result = false;
+
+    if (!StringUtil.isEmpty(text)) {
+      for (String word : words) {
+        result |= text.toLowerCase().contains(word);
+      }
+    }
+
+    return result;
+  }
+
+  private static Address createNewUnparsedAddress(List<String> origAddressList) {
+    Address address = new Address();
+    address.setAdditionalInfo(origAddressList);
+    return address;
   }
 }
