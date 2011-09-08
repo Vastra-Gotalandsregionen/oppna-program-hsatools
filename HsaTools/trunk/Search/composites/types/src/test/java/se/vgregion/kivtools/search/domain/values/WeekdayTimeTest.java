@@ -80,6 +80,7 @@ public class WeekdayTimeTest {
     List<String> saveValues = new ArrayList<String>();
     saveValues.add("1-7#00:00#24:00");
     saveValues.add("1-7#00:00#00:00");
+    saveValues.add("1-7#00:00#23:59");
     List<WeekdayTime> weekdayTimeList = WeekdayTime.createWeekdayTimeList(saveValues);
     for (WeekdayTime weekdayTime : weekdayTimeList) {
       assertEquals("Dygnet runt", weekdayTime.getDisplayValue());
@@ -87,7 +88,6 @@ public class WeekdayTimeTest {
   }
 
   @Test
-  @Ignore("Ignored until user story for handling additional info is created and approved")
   public void additionalInfoDoesNotBreakProcessing() throws InvalidFormatException {
     WeekdayTime weekdayTime = new WeekdayTime("1-5#08:00#12:00#Udda veckor");
     assertNotNull("weekday time", weekdayTime);
