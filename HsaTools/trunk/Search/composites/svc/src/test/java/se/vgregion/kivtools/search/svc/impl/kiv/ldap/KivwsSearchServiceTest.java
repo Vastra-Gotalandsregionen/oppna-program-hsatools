@@ -118,6 +118,12 @@ public class KivwsSearchServiceTest {
   }
 
   @Test
+  public void testSearchFunctionUnitsHandleEmptyString() {
+    this.kivwsSearchService.searchFunctionUnits(this.base, "", 2, Arrays.asList("attr1", "attr2"));
+    assertEquals("(cn=*)",this.vgRegionWebServiceMock.filter);
+  }
+
+  @Test
   public void testSearchSingleAttribute() {
     List<String> result = this.kivwsSearchService.searchSingleAttribute(this.base, "ou=test", 2, Arrays.asList("attr1", "attr2"), "hsaIdentity");
     assertEquals(2, result.size());
@@ -138,6 +144,12 @@ public class KivwsSearchServiceTest {
     assertEquals(this.vgRegionWebServiceMock.base, this.base.toString());
     assertEquals(this.vgRegionWebServiceMock.searchScope, "2");
     assertEquals(this.vgRegionWebServiceMock.vgRegionDirectory, VGRegionDirectory.KIV);
+  }
+
+  @Test
+  public void testSearchUnitsHandleEmptyString() {
+    this.kivwsSearchService.searchUnits(this.base, "", 2, Arrays.asList("attr1", "attr2"));
+    assertEquals("(ou=*)",this.vgRegionWebServiceMock.filter);
   }
 
   class KivwsMapperMock extends KivwsUnitMapper {

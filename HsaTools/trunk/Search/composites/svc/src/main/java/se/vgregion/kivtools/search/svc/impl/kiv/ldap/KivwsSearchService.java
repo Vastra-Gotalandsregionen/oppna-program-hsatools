@@ -24,6 +24,7 @@ import java.util.List;
 
 import javax.naming.Name;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -78,7 +79,7 @@ public class KivwsSearchService implements SearchService {
     ArrayOfString arrayOfString = new ArrayOfString();
     arrayOfString.getString().addAll(attrs);
     try {
-      ArrayOfFunction searchFunction = this.vgregionWebService.searchFunction(filter, arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(searchScope));
+      ArrayOfFunction searchFunction = this.vgregionWebService.searchFunction(StringUtils.defaultIfEmpty(filter, "(cn=*)"), arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(searchScope));
       resultUnits.addAll(this.mapKivwsUnits(searchFunction));
     } catch (VGRException_Exception e) {
       this.logger.error(e.getMessage(), e);
@@ -120,7 +121,7 @@ public class KivwsSearchService implements SearchService {
     arrayOfString.getString().addAll(attrs);
 
     try {
-      ArrayOfUnit searchUnit = this.vgregionWebService.searchUnit(filter, arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(searchScope));
+      ArrayOfUnit searchUnit = this.vgregionWebService.searchUnit(StringUtils.defaultIfEmpty(filter, "(ou=*)"), arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(searchScope));
       result = this.mapKivwsUnits(searchUnit);
     } catch (VGRException_Exception e) {
       this.logger.error(e.getMessage(), e);
