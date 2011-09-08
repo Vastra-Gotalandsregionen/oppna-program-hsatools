@@ -29,6 +29,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -802,53 +804,35 @@ public class Unit implements Serializable, Comparable<Unit> {
    */
   public void setVgrTempInfo(String vgrTempInfo) {
     this.vgrTempInfo = vgrTempInfo;
-    if ("".equals(vgrTempInfo) || !vgrTempInfo.contains("-") || vgrTempInfo.length() < 19) {
+    if ("".equals(vgrTempInfo) || vgrTempInfo.length() < 19) {
       return;
     }
-    /*
-     * Split to vgrTempInfoStart, vgrTempInfoEnd and vgrTempInfoBody vgrTempInfo format: YYYYMMDD-YYYYMMDD Message
-     */
-
-    // Start date
-    String[] temp = vgrTempInfo.split("-");
-    if (temp.length > 1) {
-      String startDateString = temp[0];
-      SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-      try {
-        Date startDate = df.parse(startDateString);
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(startDate);
-        // Start showing one week
-        // cal.add(Calendar.DAY_OF_YEAR, -7);
-        // earlier
-        this.setVgrTempInfoStart(cal.getTime());
-      } catch (ParseException e) {
-        // KIV validates this field. Nothing we can do if it is incorrect.
-        LOG.error("Unable to parse provided startdate as a date", e);
-      }
-    } else {
-      return;
+    
+    Pattern pattern = Pattern.compile("^(\\d{8})[;-](\\d{8})[; ](.*)$");
+    
+    Matcher matcher = pattern.matcher(vgrTempInfo);
+    
+    if (matcher.matches()){
+    	 SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+    	 try {
+    		 Date startDate = df.parse(matcher.group(1));
+    	        Calendar cal = new GregorianCalendar();
+    	        cal.setTime(startDate);
+    		 this.setVgrTempInfoStart(
+			cal.getTime());
+    		 Date endDate = df.parse(matcher.group(2));
+    		 cal.setTime(endDate);
+    		 // Stop showing the day after
+    	        cal.add(Calendar.DAY_OF_YEAR, 1);
+			this.setVgrTempInfoEnd(
+    					cal.getTime());
+    		 this.setVgrTempInfoBody(matcher.group(3));
+		} catch (ParseException e) {
+			// KIV validates this field. Nothing we can do if it is incorrect.
+	        LOG.error("Unable to parse provided startdate as a date", e);
+		}
     }
-
-    // End date
-    temp = temp[1].split(" ");
-    if (temp.length > 1) {
-      String endDateString = temp[0];
-      SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-      try {
-        Date endDate = df.parse(endDateString);
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(endDate);
-        // Stop showing the day after
-        cal.add(Calendar.DAY_OF_YEAR, 1);
-        this.setVgrTempInfoEnd(cal.getTime());
-      } catch (ParseException e) {
-        // KIV validates this field. Nothing we can do if it is incorrect.
-        LOG.error("Unable to parse provided enddate as a date", e);
-      }
-      // Message
-      this.setVgrTempInfoBody(vgrTempInfo.substring(vgrTempInfo.indexOf(" ") + 1));
-    }
+    
   }
 
   public Date getVgrTempInfoStart() {

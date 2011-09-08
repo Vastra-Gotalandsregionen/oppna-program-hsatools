@@ -320,9 +320,19 @@ public class UnitTest {
   @Test
   public void startDateOfTemporaryInformationShouldBeSetToTheProvidedDate() throws Exception {
     DateFormat format = new SimpleDateFormat("yyyyMMdd");
-    this.unit.setVgrTempInfo("20090108-temp temp temp temp");
-    assertEquals("20090108-temp temp temp temp", this.unit.getVgrTempInfo());
+    this.unit.setVgrTempInfo("20090108-20100502 temp temp temp");
+    assertEquals("20090108-20100502 temp temp temp", this.unit.getVgrTempInfo());
     assertEquals(format.parse("20090108"), this.unit.getVgrTempInfoStart());
+    assertEquals("temp temp temp", this.unit.getVgrTempInfoBody());
+  }
+  
+  @Test
+  public void temporaryInformationHandlesHsaStandardFormat() throws Exception {
+    DateFormat format = new SimpleDateFormat("yyyyMMdd");
+    this.unit.setVgrTempInfo("20090108;20110302;temp temp temp");
+    assertEquals("20090108;20110302;temp temp temp", this.unit.getVgrTempInfo());
+    assertEquals(format.parse("20090108"), this.unit.getVgrTempInfoStart());
+    assertEquals(format.parse("20110303"), this.unit.getVgrTempInfoEnd());
     assertEquals("temp temp temp", this.unit.getVgrTempInfoBody());
   }
 
