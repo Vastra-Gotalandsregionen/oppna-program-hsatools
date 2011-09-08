@@ -109,7 +109,7 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
     this(0, 0, 0, 0, 0, 0);
 
     String[] splits = saveValue.split("#");
-    if (3 == splits.length) {
+    if (isValidStringFormat(splits)) {
       String[] daySplits = splits[0].split("-");
 
       if (2 == daySplits.length) {
@@ -140,6 +140,10 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
     }
 
   }
+
+private boolean isValidStringFormat(String[] splits) {
+	return 3 == splits.length || 4 == splits.length;
+}
 
   /**
    * Skapar en nytt tidsintervall.
@@ -244,7 +248,7 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
   public String getDisplayValue() {
 
     // If open all the time, return "Dygnet runt"
-    if (endDay == 7 && (endHour == 24 || endHour == 00) && endMin == 0 && endMin == 0 && startDay == 1 && startHour == 0 && startMin == 0) {
+    if (startsOnMondayMidnight() && endsOnSunday() && endsOnMidnight()) {
       return "Dygnet runt";
     }
 
@@ -268,6 +272,18 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
     return returnString;
 
   }
+
+private boolean endsOnMidnight() {
+	return ((endHour == 24 && endMin == 0) || (endHour == 00  && endMin == 0) || (endHour == 23 && endMin == 59));
+}
+
+private boolean endsOnSunday() {
+	return endDay == 7;
+}
+
+private boolean startsOnMondayMidnight() {
+	return startDay == 1 && startHour == 0 && startMin == 0;
+}
 
   /**
    * Hämtar kod för slut-veckodag. {@link Parse#getDayName(int)}.
