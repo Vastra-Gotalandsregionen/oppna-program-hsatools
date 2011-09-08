@@ -31,6 +31,7 @@ Generation time : 2007-10-09 10:07:02 CEST
 		<groupId>HsaTools</groupId>
 		<artifactId>HsaTools-Search</artifactId>
 		<version>1.2-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
