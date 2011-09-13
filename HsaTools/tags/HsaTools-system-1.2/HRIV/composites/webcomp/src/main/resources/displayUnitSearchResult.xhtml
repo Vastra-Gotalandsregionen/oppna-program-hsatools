@@ -1,0 +1,190 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<ui:composition template="/template.xhtml">
+
+	<ui:define name="MetaDataContainer">
+		<title>${Search_SettingsContainer.searchResultTitle}</title>
+		<meta name="keywords" content="Hitta-rätt-i-vården, HRIV, sök, organisation, enhet, telefonnummer, adress" /> 		
+		<meta name="DC.title" content="Hitta rätt i vården" /> 
+		<meta name="resource-type" content="organisation" />
+		<meta name="DC.description" content="Hitta-rätt-i-vården hjälper dig att att hitta information om mottagningar" /> 
+		<meta name="description" content="Hitta-rätt-i-vården hjälper dig att att hitta information om mottagningar" />
+		<meta name="DC.subject" content="Hitta-rätt-i-vården, sök, organisation, enhet, mottagning, telefonnummer, adress, ort" />
+		<h:outputText rendered="${fn:trim(rootCauseException.message) != ''}">
+		<meta name="ROBOTS" content="NOINDEX,NOFOLLOW" />
+		</h:outputText>
+		<h:outputText rendered="${fn:trim(rootCauseException.message) == ''}">
+		<meta name="robots" content="ALL" /> 
+		</h:outputText>
+	</ui:define>
+
+	<ui:define name="HrivCaptions">
+		<div id="hits-type-caption">
+			<div id="type-caption">
+				<h:outputText rendered="${(displayCloseUnitsSimpleForm.searchFlag == true and fn:length(units) gt 0) or (displayCloseUnitsSimpleForm.searchFlag == false and fn:length(units) gt 0)}">
+					<h:outputText rendered="${Search_SettingsContainer.usePrinting==true and unitSearchSimpleForm.resultType gt 1}">
+						<script type="text/javascript" charset="utf-8">
+							// <![CDATA[
+								drawPrintLabel('map-div');
+							// ]]>
+						</script>
+					</h:outputText>
+				</h:outputText>
+			</div>
+		</div>	
+	</ui:define>
+
+	<ui:define name="MainContainer">
+	
+		<div id="search-result-caption">
+			<div id="search-result-caption-text">
+				<h1 class="structural">${msg.searchResult}</h1>
+				<h:outputText rendered="${fn:trim(rootCauseException.message) != ''}">
+					<div id="error-reporting-container">
+						${rootCauseException.message}
+					</div>
+				</h:outputText>
+				<h:outputText rendered="${fn:length(units) gt 0 or displayCloseUnitsSimpleForm.searchFlag == true}">
+					<div id="about-searchinformation-container">
+						<h2><strong><h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == true}">${fn:length(units)}</h:outputText>
+						<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == false}">${units.getTotalNumberOfFoundItems()}</h:outputText></strong> ${msg.hits}</h2>
+					</div>
+				</h:outputText>
+				<h:outputText rendered="${fn:trim(rootCauseException.message) == '' and units.getTotalNumberOfFoundItems() >= Search_MaxSearchResult and 'true' != unitSearchSimpleForm.showAll}">
+					<div id="error-reporting-container">
+						${msg.firstHits1} ${Search_MaxSearchResult} ${msg.firstHits2}.<br/>
+						<h:outputLink value="${facesContext.externalContext.request.requestURL}?${facesContext.externalContext.request.queryString}&amp;showAll=true" styleClass="url">${msg.showAll}</h:outputLink>
+					</div>
+				</h:outputText>
+			</div>
+			<ui:include src="${Search_SettingsContainer.unitSearchResultSortOrderInclude}" />
+		</div>
+
+		<div id="print-area">
+			<div class="search-result">
+				<h:outputText rendered="${fn:length(units) gt 0 or fn:length(units) gt 0}">
+					<h:outputText rendered="${unitSearchSimpleForm.resultType gt 1}">
+						<div id="search-result-container-map">
+							<div id="spinner-div" class="spin-div">
+								<div class="spin-div-text">
+									<h:outputText value="${msg.generatingMap}" />
+								</div>
+							</div>
+							<div id="map-div">
+								<script type="text/javascript" charset="utf-8">
+									<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == true}">
+										// <![CDATA[
+										var map = initGMap('${fn:length(units)}');							
+										// ]]>
+									</h:outputText>
+									<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == false}">
+										// <![CDATA[
+										var map = initGMap('${fn:length(units)}');							
+										// ]]>
+									</h:outputText>
+								</script>
+								
+								<script type="text/javascript" charset="utf-8" defer="defer">
+									<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == true}">
+										<ui:repeat value="${units}" var="theUnit">
+								           	<h:outputText rendered="${theUnit.wgs84Lat!=0.0}">
+											// <![CDATA[
+												showAddressByCoordinates('${fn:trim(theUnit.hsaIdentity)}', '${theUnit.wgs84Lat}', '${theUnit.wgs84Long}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '${theUnit.distanceToTarget}', 'false', map);
+											// ]]>
+											</h:outputText>			
+					        			   	<h:outputText rendered="${theUnit.wgs84Lat==0.0 and Search_SettingsContainer.fallbackOnAddressForMap==true}">
+								           		<ui:repeat value="${theUnit.hsaStreetAddress}" var="address">
+							           				<h:outputText rendered="${fn:length(address.street) gt 0}">
+													// <![CDATA[
+				     									showAddress('${fn:trim(theUnit.hsaIdentity)}', '${fn:trim(address.street)},${fn:trim(address.city)}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '${theUnit.distanceToTarget}', 'false', map);
+													// ]]>
+													</h:outputText>
+												</ui:repeat>
+											</h:outputText>		
+										</ui:repeat>
+									</h:outputText>
+							
+									<h:outputText rendered="${displayCloseUnitsSimpleForm.searchFlag == false}">
+										<ui:repeat value="${units}" var="theUnit">
+								           	<h:outputText rendered="${theUnit.wgs84Lat!=0.0}">
+											// <![CDATA[
+												showAddressByCoordinates('${fn:trim(theUnit.hsaIdentity)}', '${theUnit.wgs84Lat}', '${theUnit.wgs84Long}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '', 'false', map);
+											// ]]>
+											</h:outputText>
+													
+					        			   	<h:outputText rendered="${theUnit.wgs84Lat==0.0 and Search_SettingsContainer.fallbackOnAddressForMap==true}">
+					        			   	
+								           		<ui:repeat value="${theUnit.hsaStreetAddress}" var="address">
+							           				<h:outputText rendered="${fn:length(address.street) gt 0}">
+													// <![CDATA[
+				     									showAddress('${fn:trim(theUnit.hsaIdentity)}', '${fn:trim(address.street)},${fn:trim(address.city)}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '', 'false', map);
+													// ]]>
+													</h:outputText>
+												</ui:repeat>
+											</h:outputText>			
+										</ui:repeat>
+							
+									</h:outputText>
+								</script>
+								<script type="text/javascript" charset="utf-8">
+									// <![CDATA[
+										adjustMapVisibility();
+									// ]]>
+								</script>
+							</div>
+							
+							<h:outputText rendered="${Search_SettingsContainer.useShowCloseUnits == 'true'}">
+								<br/>${msg.showUnitsCloseToAddress} ${Search_SettingsContainer.distanceToUnits} m): 
+								<form id="closeUnitsForm" onsubmit="return closeUnitsFormValidate(document.forms['closeUnitsForm'].elements[0].value);" method="get">
+									<input type="text" name="address" id="address" value="${displayCloseUnitsSimpleForm.address}" size="20" onclick="this.focus();this.select();" />
+									<input type="hidden" id="resultType" name="resultType" value="2" />
+									<input type="hidden" id="_flowId" name="_flowId" value="HRIV.Search.searchunit-flow" />
+									<input type="submit" id="submitButton" value="${msg.showUnits}" />
+								</form>
+								
+								<noscript>
+									<p>${msg.mapNeedsJavaScript}.</p>
+								</noscript>
+							</h:outputText>
+						</div>						
+					</h:outputText>
+	
+					<h:outputText rendered="${unitSearchSimpleForm.resultType lt 2}">
+						<ul id="search-result-container">
+							<ui:repeat value="${units}" var="theUnit">
+								<ui:include src="${Search_SettingsContainer.unitSearchResultSingleUnitInclude}" />
+							</ui:repeat>
+						</ul>
+					</h:outputText>
+				</h:outputText>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition></div>
