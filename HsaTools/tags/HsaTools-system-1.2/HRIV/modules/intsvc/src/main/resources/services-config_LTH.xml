@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<bean id="mvkClient" class="se.vgregion.kivtools.search.util.MvkClient">
+		<constructor-arg ref="httpFetcher"/>
+		<constructor-arg value="01d52494-7497-4a5f-9b49-7f7ea64e624d"/>
+		<constructor-arg value="https://kontakt.vardguiden.se/vg/veconfig.nsf/dispveInfo?readform"/>
+	</bean>
+
+	<bean id="Commons_FtpsClient" class="org.apache.commons.net.ftp.FTPSClient" />
+	<bean id="Commons_FtpClient" class="org.apache.commons.net.ftp.FTPClient" />
+	<bean id="jsch" class="com.jcraft.jsch.JSch" />
+
+	<!--	<bean id="Transfer_ftp"-->
+	<!--
+		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.SftpClientImpl">
+	-->
+	<!--		<property name="jsch" ref="jsch" />-->
+	<!--
+		<property name="ftpDestinationFileName" value="vgrUnitsTest.xml" />
+	-->
+	<!--		<property name="hostname" value="hostname" />-->
+	<!--		<property name="username" value="username" />-->
+	<!--		<property name="password" value="password" />-->
+	<!--		<property name="port" value="22" />-->
+	<!--	</bean>-->
+
+	<bean id="Transfer_ftp" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClientImpl">
+		<property name="ftpclient" ref="Commons_FtpClient" />
+		<property name="hostname" value="${eniroHostname}" />
+		<property name="username" value="${eniroUser}" />
+		<property name="password" value="${eniroPassword}" />
+		<property name="port" value="21" />
+	</bean>
+
+	<bean id="Transfer_tmpfile" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FileClientImpl">
+		<constructor-arg value="${eniro.file.path}" />
+	</bean>
+	
+	<bean id="fileUtil" class="se.vgregion.kivtools.util.file.FileUtilImpl" />
+
+	<bean id="eniroOrganisationBuilder"
+		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.lth.EniroOrganisationBuilderLTH">
+		<constructor-arg value="${careCenterLabel}" />
+		<constructor-arg value="${otherCareLabel}" />
+	</bean>
+
+	<bean id="eniroConfig" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.lth.EniroConfigurationLTH" />
+	
+	<bean id="unitFetcher" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.lth.UnitFetcherLTH">
+		<constructor-arg ref="ldapTemplateLTH" />
+		<constructor-arg value="${allowedUnitBusinessClassificationCodes}" />
+	</bean>
+
+	<bean id="Push_Eniro"
+		class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro">
+		<property name="unitFetcher" ref="unitFetcher" />
+		<property name="ftpClient" ref="Transfer_tmpfile" />
+		<property name="eniroOrganisationBuilder" ref="eniroOrganisationBuilder" />
+		<property name="eniroConfiguration" ref="eniroConfig" />
+	</bean>
+
+	<bean id="jobDetailUnitDetailsPusher"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="Push_Eniro" />
+		<property name="targetMethod" value="doService" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="simpleTriggerUnitDetailsPusher" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="jobDetailUnitDetailsPusher" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 24 hours -->
+		<!--		<property name="repeatInterval" value="120000" />-->
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="startupDelay" value="10" />
+		<property name="triggers">
+			<list>
+				<ref bean="simpleTriggerUnitDetailsPusher" />
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:ldap_LTH.properties</value>
+				<value>classpath:security_LTH.properties</value>
+				<value>classpath:eniroSettings.properties</value>
+				<value>classpath:eniroLoginSettings.properties</value>
+			</list>
+		</property>
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+</beans>
