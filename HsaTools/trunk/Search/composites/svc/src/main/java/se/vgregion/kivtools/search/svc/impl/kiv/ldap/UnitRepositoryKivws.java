@@ -456,13 +456,14 @@ public class UnitRepositoryKivws extends UnitRepository {
     // create or criteria
     if (!StringUtil.isEmpty(searchUnitCriterions.getLocation())) {
       OrFilter orMunicipalityAndAddresses = new OrFilter();
-      OrFilter orMunicipalityName = new OrFilter();
-      orMunicipalityName.or(this.createSearchFilter("hsaMunicipalityName", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation())));
+      //OrFilter orMunicipalityName = new OrFilter();
+      //orMunicipalityName.or(this.createSearchFilter("hsaMunicipalityName", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation())));
       // Create or criteria a bit special...
       OrFilter orPostalAddress = this.createAddressSearchFilter(filterList, "hsaPostalAddress", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation()));
       // Create or criteria
       OrFilter orStreetAddress = this.createAddressSearchFilter(filterList, "hsaStreetAddress", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation()));
-      orMunicipalityAndAddresses.or(orMunicipalityName).or(orPostalAddress).or(orStreetAddress);
+      //orMunicipalityAndAddresses.or(orMunicipalityName).or(orPostalAddress).or(orStreetAddress);
+      orMunicipalityAndAddresses.or(orPostalAddress).or(orStreetAddress);
       andFilter.and(orMunicipalityAndAddresses);
     }
 
