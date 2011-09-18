@@ -62,46 +62,46 @@ public class PersonMapper implements ContextMapper {
     person.setCn(dirContext.getString("cn"));
 
     // vgr-id samma v�rde som cn (e.g. rogul999)
-    person.setVgrId(dirContext.getString(LDAPPersonAttributes.USER_ID.toString()));
+    person.setVgrId(dirContext.getString(PersonSearchAttributes.USER_ID.toString()));
 
     // Person-id (e.g. 196712085983)
-    person.setHsaPersonIdentityNumber(dirContext.getString(LDAPPersonAttributes.PERSON_IDENTITY_NUMBER.toString()));
+    person.setHsaPersonIdentityNumber(dirContext.getString(PersonSearchAttributes.PERSON_IDENTITY_NUMBER.toString()));
 
     // tilltalsnamn (e.g. Christina)
-    person.setGivenName(dirContext.getString(LDAPPersonAttributes.GIVEN_NAME.toString()));
+    person.setGivenName(dirContext.getString(PersonSearchAttributes.GIVEN_NAME.toString()));
 
     // efternamn (e.g. Svensson)
-    person.setSn(dirContext.getString(LDAPPersonAttributes.SURNAME.toString()));
+    person.setSn(dirContext.getString(PersonSearchAttributes.SURNAME.toString()));
 
     // Mellannamn (e.g. Anna)
-    person.setHsaMiddleName(dirContext.getString(LDAPPersonAttributes.MIDDLE_NAME.toString()));
+    person.setHsaMiddleName(dirContext.getString(PersonSearchAttributes.MIDDLE_NAME.toString()));
 
     // Initialer (e.g. K R)
-    person.setInitials(dirContext.getString(LDAPPersonAttributes.INITIALS.toString()));
+    person.setInitials(dirContext.getString(PersonSearchAttributes.INITIALS.toString()));
 
     // Smeknamn (e.g. Rolle)
-    person.setHsaNickName(dirContext.getString(LDAPPersonAttributes.NICK_NAME.toString()));
+    person.setHsaNickName(dirContext.getString(PersonSearchAttributes.NICK_NAME.toString()));
 
     // Fullst�ndigt Namn (e.g. Christina Svensson)
-    person.setFullName(dirContext.getString(LDAPPersonAttributes.FULL_NAME.toString()));
+    person.setFullName(dirContext.getString(PersonSearchAttributes.FULL_NAME.toString()));
 
     // A list of dn�s to Units where this person is employed e.g ou=Sandl�dan,ou=Org,o=VGR
-    person.setVgrStrukturPersonDN(dirContext.getStrings(LDAPPersonAttributes.STRUCTURE_PERSON_DN.toString()));
+    person.setVgrStrukturPersonDN(dirContext.getStrings(PersonSearchAttributes.STRUCTURE_PERSON_DN.toString()));
 
     // A list of HsaIdentities to the Units where the person is employed e.g. SE2321000131-E000000000101
-    person.setVgrOrgRel(dirContext.getStrings(LDAPPersonAttributes.VGR_ORG_REL.toString()));
+    person.setVgrOrgRel(dirContext.getStrings(PersonSearchAttributes.VGR_ORG_REL.toString()));
 
     // Anst�llningsform (e.g. 1)
-    person.setVgrAnstform(dirContext.getStrings(LDAPPersonAttributes.VGR_ANST_FORM.toString()));
+    person.setVgrAnstform(dirContext.getStrings(PersonSearchAttributes.VGR_ANST_FORM.toString()));
 
     // HSA identitet (e.g. SE2321000131-P000000101458)
-    person.setHsaIdentity(dirContext.getString(LDAPPersonAttributes.HSA_IDENTITY.toString()));
+    person.setHsaIdentity(dirContext.getString(PersonSearchAttributes.HSA_IDENTITY.toString()));
 
     // E-postadress (e.g. jessica.isegran@vgregion.se)
-    person.setMail(dirContext.getString(LDAPPersonAttributes.E_MAIL.toString()));
+    person.setMail(dirContext.getString(PersonSearchAttributes.E_MAIL.toString()));
 
     // Specialitetskod e.g. 1024 , 1032
-    List<String> hsaSpecialityCode = dirContext.getStrings(LDAPPersonAttributes.SPECIALITY_AREA_CODE.toString());
+    List<String> hsaSpecialityCode = dirContext.getStrings(PersonSearchAttributes.SPECIALITY_AREA_CODE.toString());
     person.setHsaSpecialityCode(hsaSpecialityCode);
 
     List<String> hsaSpecialityName = translateCodeTables(hsaSpecialityCode, CodeTableName.HSA_SPECIALITY_CODE, codeTablesService);
@@ -109,13 +109,13 @@ public class PersonMapper implements ContextMapper {
     person.setHsaSpecialityName(hsaSpecialityName);
 
     // Ansvarsomr�des kod e.g. 602, 785
-    person.setVgrAO3kod(dirContext.getStrings(LDAPPersonAttributes.ADMINISTRATION.toString()));
+    person.setVgrAO3kod(dirContext.getStrings(PersonSearchAttributes.ADMINISTRATION.toString()));
 
     // Ansvarsnumer e.g. 1, 2
-    person.setVgrAnsvarsnummer(dirContext.getStrings(LDAPPersonAttributes.VGR_ANSVARSNUMMER.toString()));
+    person.setVgrAnsvarsnummer(dirContext.getStrings(PersonSearchAttributes.VGR_ANSVARSNUMMER.toString()));
 
     // List of Languages that the person speaks e.g. PL, RO
-    List<String> hsaLanguageKnowledgeCode = dirContext.getStrings(LDAPPersonAttributes.LANGUAGE_KNOWLEDGE_CODE.toString());
+    List<String> hsaLanguageKnowledgeCode = dirContext.getStrings(PersonSearchAttributes.LANGUAGE_KNOWLEDGE_CODE.toString());
     person.setHsaLanguageKnowledgeCode(hsaLanguageKnowledgeCode);
 
     List<String> hsaLanguageKnowledgeText = translateCodeTables(hsaLanguageKnowledgeCode, CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, codeTablesService);
@@ -123,20 +123,20 @@ public class PersonMapper implements ContextMapper {
     person.setHsaLanguageKnowledgeText(hsaLanguageKnowledgeText);
 
     // Legitimerade Yrkesgrupper e.g Biomedicinsk analytiker
-    person.setHsaTitle(dirContext.getString(LDAPPersonAttributes.PROFESSION.toString()));
+    person.setHsaTitle(dirContext.getString(PersonSearchAttributes.PROFESSION.toString()));
 
     // hsaPersonPrescriptionCode
-    person.setHsaPersonPrescriptionCode(dirContext.getString(LDAPPersonAttributes.HSA_PERSON_PRESCRIPTION_CODE.toString()));
+    person.setHsaPersonPrescriptionCode(dirContext.getString(PersonSearchAttributes.HSA_PERSON_PRESCRIPTION_CODE.toString()));
 
     // Anst�llningsperiod
-    person.setEmploymentPeriod(parseDateTime(dirContext.getString(LDAPPersonAttributes.HSA_START_DATE.toString())), parseDateTime(dirContext.getString(LDAPPersonAttributes.HSA_END_DATE.toString())));
+    person.setEmploymentPeriod(parseDateTime(dirContext.getString(PersonSearchAttributes.HSA_START_DATE.toString())), parseDateTime(dirContext.getString(PersonSearchAttributes.HSA_END_DATE.toString())));
 
-    person.setCreateTimestamp(parseDateTime(dirContext.getString(LDAPPersonAttributes.CREATE_TIMESTAMP.toString())));
-    person.setModifyTimestamp(parseDateTime(dirContext.getString(LDAPPersonAttributes.MODIFY_TIMESTAMP.toString())));
+    person.setCreateTimestamp(parseDateTime(dirContext.getString(PersonSearchAttributes.CREATE_TIMESTAMP.toString())));
+    person.setModifyTimestamp(parseDateTime(dirContext.getString(PersonSearchAttributes.MODIFY_TIMESTAMP.toString())));
 
-    person.setVgrAdminTypes(dirContext.getStrings(LDAPPersonAttributes.VGR_ADMIN_TYPE.toString()));
+    person.setVgrAdminTypes(dirContext.getStrings(PersonSearchAttributes.VGR_ADMIN_TYPE.toString()));
 
-    person.setVgrManagedObjects(dirContext.getStrings(LDAPPersonAttributes.VGR_MANAGED_OBJECTS.toString()));
+    person.setVgrManagedObjects(dirContext.getStrings(PersonSearchAttributes.VGR_MANAGED_OBJECTS.toString()));
 
     return person;
   }

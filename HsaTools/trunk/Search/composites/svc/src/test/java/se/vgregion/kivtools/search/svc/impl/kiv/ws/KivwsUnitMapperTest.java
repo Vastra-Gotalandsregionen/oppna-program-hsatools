@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
+package se.vgregion.kivtools.search.svc.impl.kiv.ws;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -32,7 +32,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.ldap.core.DirContextAdapter;
 
 import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitMapper;
+import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitMapperTest;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitMapperTest.CodeTablesServiceMock;
+import se.vgregion.kivtools.search.svc.impl.kiv.ws.KivwsUnitMapper;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfFunction;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfUnit;
 import se.vgregion.kivtools.search.util.DisplayValueTranslator;

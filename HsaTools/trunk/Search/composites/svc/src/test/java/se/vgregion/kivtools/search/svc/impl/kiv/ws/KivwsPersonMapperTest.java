@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
+package se.vgregion.kivtools.search.svc.impl.kiv.ws;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
+import se.vgregion.kivtools.search.svc.impl.kiv.ws.KivwsPersonMapper;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfPerson;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.Person;
 

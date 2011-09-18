@@ -29,7 +29,7 @@ import se.vgregion.kivtools.search.domain.values.CodeTableNameInterface;
 import se.vgregion.kivtools.search.domain.values.KivwsCodeTableName;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.KivwsCodeNameTableMapper;
+import se.vgregion.kivtools.search.svc.impl.kiv.ws.KivwsCodeNameTableMapper;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRException_Exception;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebServiceImplPortType;

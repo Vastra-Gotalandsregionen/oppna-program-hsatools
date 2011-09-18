@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
 import se.vgregion.kivtools.search.domain.values.KivwsCodeTableName;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.KivwsCodeNameTableMapper;
+import se.vgregion.kivtools.search.svc.impl.kiv.ws.KivwsCodeNameTableMapper;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap;
 
 import com.thoughtworks.xstream.XStream;

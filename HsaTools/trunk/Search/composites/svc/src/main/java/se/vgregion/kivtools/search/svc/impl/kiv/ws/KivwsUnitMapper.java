@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
+package se.vgregion.kivtools.search.svc.impl.kiv.ws;
 
 import geo.google.datamodel.GeoAltitude;
 import geo.google.datamodel.GeoCoordinate;
@@ -135,7 +135,7 @@ public class KivwsUnitMapper implements ContextMapper {
     unit.setHsaVisitingRules(attributeHelper.getSingleValue(KivwsAttributes.HSA_VISITING_RULES));
     unit.setHsaPatientVisitingRules(attributeHelper.getSingleValue(KivwsAttributes.HSA_PATIENT_VISITING_RULES));
     unit.addInternalDescription(attributeHelper.getMultiValue(KivwsAttributes.VGR_INTERNAL_DESCRIPTION));
-    unit.setIsUnit((ctx instanceof se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit));
+    unit.setIsUnit(ctx instanceof se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit);
 
     String labeledURI = attributeHelper.getSingleValue(KivwsAttributes.LABELED_URI);
     labeledURI = this.fixURI(labeledURI);
@@ -312,18 +312,5 @@ public class KivwsUnitMapper implements ContextMapper {
       }
       return returnValue;
     }
-
-    // Create list with each address field in new index.
-    // private List<String> getAddressValue(String key) {
-    // List<String> returnValue = new ArrayList<String>();
-    // if (ldapAttributes.containsKey(key)) {
-    // List<Object> list = ldapAttributes.get(key);
-    // for (Object object : list) {
-    // String tmp = (String) object;
-    // returnValue.add(tmp);
-    // }
-    // }
-    // return returnValue;
-    // }
   }
 }

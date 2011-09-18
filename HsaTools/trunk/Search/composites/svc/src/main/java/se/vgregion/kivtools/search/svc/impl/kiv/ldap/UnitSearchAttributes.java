@@ -24,7 +24,7 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
  * 
  * @author David Bennehult
  */
-public enum LDAPUnitAttributes {
+public enum UnitSearchAttributes {
   /** Unit id. */
   UNIT_ID("hsaIdentity"),
   /** Unit name. */
@@ -40,7 +40,7 @@ public enum LDAPUnitAttributes {
 
   private String value;
 
-  private LDAPUnitAttributes(String value) {
+  private UnitSearchAttributes(String value) {
     this.value = value;
   }
 

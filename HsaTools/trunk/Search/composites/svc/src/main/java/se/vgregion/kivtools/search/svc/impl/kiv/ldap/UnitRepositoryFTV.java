@@ -24,7 +24,7 @@ import org.springframework.ldap.core.DistinguishedName;
 /**
  * Implementation of the UnitRepository for Folktandvården.
  */
-public class UnitRepositoryFTV extends UnitRepository {
+public class UnitRepositoryFTV extends BaseUnitRepository {
   private static final DistinguishedName KIV_SEARCH_BASE = new DistinguishedName("ou=Folktandvården Västra Götaland,ou=Org,o=vgr");
 
   /**

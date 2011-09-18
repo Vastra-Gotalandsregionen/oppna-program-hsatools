@@ -369,24 +369,24 @@ public class PersonRepository {
 
     // Add title to employmentFilter instead of andFilter since it's an employment attribute
     if (!StringUtil.isEmpty(person.getEmploymentTitle())) {
-      employmentFilter.and(new LikeFilter(LDAPPersonAttributes.EMPLOYMENT_TITLE.toString(), "*" + person.getEmploymentTitle() + "*"));
+      employmentFilter.and(new LikeFilter(PersonSearchAttributes.EMPLOYMENT_TITLE.toString(), "*" + person.getEmploymentTitle() + "*"));
     }
 
     if (!StringUtil.isEmpty(person.getPhone())) {
       OrFilter phonesFilter = new OrFilter();
-      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.HSA_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
-      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.MOBILE_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
-      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.HSA_INTERNAL_PAGER_NUMBER.toString(), "*" + person.getPhone() + "*"));
-      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.PAGER_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
-      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.HSA_TEXT_PHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
-      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.HSA_PUBLIC_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
-      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.FACSIMILE_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
-      phonesFilter.or(new LikeFilter(LDAPEmploymentAttributes.HSA_SEDF_SWITCHBOARD_TELEPHONE.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(EmploymentSearchAttributes.HSA_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(EmploymentSearchAttributes.MOBILE_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(EmploymentSearchAttributes.HSA_INTERNAL_PAGER_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(EmploymentSearchAttributes.PAGER_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(EmploymentSearchAttributes.HSA_TEXT_PHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(EmploymentSearchAttributes.HSA_PUBLIC_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(EmploymentSearchAttributes.FACSIMILE_TELEPHONE_NUMBER.toString(), "*" + person.getPhone() + "*"));
+      phonesFilter.or(new LikeFilter(EmploymentSearchAttributes.HSA_SEDF_SWITCHBOARD_TELEPHONE.toString(), "*" + person.getPhone() + "*"));
       employmentFilter.and(phonesFilter);
     }
 
     if (!StringUtil.isEmpty(person.getDescription())) {
-      employmentFilter.and(new LikeFilter(LDAPEmploymentAttributes.DESCRIPTION.toString(), "*" + person.getDescription() + "*"));
+      employmentFilter.and(new LikeFilter(EmploymentSearchAttributes.DESCRIPTION.toString(), "*" + person.getDescription() + "*"));
     }
 
     if (!StringUtil.isEmpty(person.getEmploymentPosition())) {
@@ -400,11 +400,11 @@ public class PersonRepository {
     OrFilter employmentPositionFilter = new OrFilter();
     if (paTitleCodeList != null && paTitleCodeList.size() > 0) {
       for (String code : paTitleCodeList) {
-        employmentPositionFilter.or(new LikeFilter(LDAPEmploymentAttributes.PA_TITLE_CODE.toString(), code));
+        employmentPositionFilter.or(new LikeFilter(EmploymentSearchAttributes.PA_TITLE_CODE.toString(), code));
       }
       employmentFilter.and(employmentPositionFilter);
     } else {
-      employmentPositionFilter.or(new LikeFilter(LDAPEmploymentAttributes.PA_TITLE_CODE.toString(), "NO_VALID_CODE_TABLE_CODE_FOUND"));
+      employmentPositionFilter.or(new LikeFilter(EmploymentSearchAttributes.PA_TITLE_CODE.toString(), "NO_VALID_CODE_TABLE_CODE_FOUND"));
       employmentFilter.and(employmentPositionFilter);
     }
 
@@ -416,36 +416,36 @@ public class PersonRepository {
 
     if (!StringUtil.isEmpty(person.getGivenName())) {
       OrFilter firstNameFilter = new OrFilter();
-      firstNameFilter.or(this.createSearchFilter(LDAPPersonAttributes.GIVEN_NAME.toString(), person.getGivenName()));
+      firstNameFilter.or(this.createSearchFilter(PersonSearchAttributes.GIVEN_NAME.toString(), person.getGivenName()));
       firstNameFilter.or(this.createSearchFilter("hsaNickName", person.getGivenName()));
       userFilter.and(firstNameFilter);
     }
     if (!StringUtil.isEmpty(person.getSurname())) {
       OrFilter surnameFilter = new OrFilter();
-      surnameFilter.or(this.createSearchFilter(LDAPPersonAttributes.SURNAME.toString(), person.getSurname()));
+      surnameFilter.or(this.createSearchFilter(PersonSearchAttributes.SURNAME.toString(), person.getSurname()));
       surnameFilter.or(this.createSearchFilter("hsaMiddleName", person.getSurname()));
       userFilter.and(surnameFilter);
     }
     if (!StringUtil.isEmpty(person.getUserId())) {
-      userFilter.and(new LikeFilter(LDAPPersonAttributes.USER_ID.toString(), "*" + person.getUserId() + "*"));
+      userFilter.and(new LikeFilter(PersonSearchAttributes.USER_ID.toString(), "*" + person.getUserId() + "*"));
     }
     if (!StringUtil.isEmpty(person.getEmployedAtUnit())) {
-      userFilter.and(new LikeFilter(LDAPPersonAttributes.EMPLOYED_AT_UNIT.toString(), "*" + person.getEmployedAtUnit() + "*"));
+      userFilter.and(new LikeFilter(PersonSearchAttributes.EMPLOYED_AT_UNIT.toString(), "*" + person.getEmployedAtUnit() + "*"));
     }
     if (!StringUtil.isEmpty(person.getSpecialityArea())) {
-      userFilter.and(this.generateOrFilterFromList(CodeTableName.HSA_SPECIALITY_CODE, LDAPPersonAttributes.SPECIALITY_AREA_CODE, person.getSpecialityArea()));
+      userFilter.and(this.generateOrFilterFromList(CodeTableName.HSA_SPECIALITY_CODE, PersonSearchAttributes.SPECIALITY_AREA_CODE, person.getSpecialityArea()));
     }
     if (!StringUtil.isEmpty(person.getProfession())) {
-      userFilter.and(this.generateOrFilterFromList(CodeTableName.HSA_TITLE, LDAPPersonAttributes.PROFESSION, person.getProfession()));
+      userFilter.and(this.generateOrFilterFromList(CodeTableName.HSA_TITLE, PersonSearchAttributes.PROFESSION, person.getProfession()));
     }
     if (!StringUtil.isEmpty(person.getEmail())) {
-      userFilter.and(new LikeFilter(LDAPPersonAttributes.E_MAIL.toString(), "*" + person.getEmail() + "*"));
+      userFilter.and(new LikeFilter(PersonSearchAttributes.E_MAIL.toString(), "*" + person.getEmail() + "*"));
     }
     if (!StringUtil.isEmpty(person.getLanguageKnowledge())) {
-      userFilter.and(this.generateOrFilterFromList(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, LDAPPersonAttributes.LANGUAGE_KNOWLEDGE_CODE, person.getLanguageKnowledge()));
+      userFilter.and(this.generateOrFilterFromList(CodeTableName.HSA_LANGUAGE_KNOWLEDGE_CODE, PersonSearchAttributes.LANGUAGE_KNOWLEDGE_CODE, person.getLanguageKnowledge()));
     }
     if (!StringUtil.isEmpty(person.getAdministration())) {
-      userFilter.and(this.generateOrFilterFromList(CodeTableName.VGR_AO3_CODE, LDAPPersonAttributes.ADMINISTRATION, person.getAdministration()));
+      userFilter.and(this.generateOrFilterFromList(CodeTableName.VGR_AO3_CODE, PersonSearchAttributes.ADMINISTRATION, person.getAdministration()));
     }
 
     userFilter.and(new NotFilter(new EqualsFilter("vgrSecrMark", "J")));
@@ -479,7 +479,7 @@ public class PersonRepository {
     return filter;
   }
 
-  private Filter generateOrFilterFromList(CodeTableName codeTableName, LDAPPersonAttributes criterion, String criterionValue) {
+  private Filter generateOrFilterFromList(CodeTableName codeTableName, PersonSearchAttributes criterion, String criterionValue) {
     List<String> codeFromTextValues = this.codeTablesService.getCodeFromTextValue(codeTableName, criterionValue);
     OrFilter orFilter = new OrFilter();
     if (codeFromTextValues.size() > 0) {
