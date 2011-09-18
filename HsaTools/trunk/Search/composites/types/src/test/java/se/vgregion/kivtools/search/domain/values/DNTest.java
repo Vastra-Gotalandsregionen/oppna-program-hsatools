@@ -19,14 +19,17 @@
 
 package se.vgregion.kivtools.search.domain.values;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Test;
-
-import se.vgregion.kivtools.search.domain.values.DN;
 
 public class DNTest {
 
@@ -66,6 +69,13 @@ public class DNTest {
     assertEquals("cn=a,ou=a,dc=a,o=a", dn.escape().toString());
     dn = DN.createDNFromString("cn=a\\,b,ou=a\\,b,dc=a\\,b,o=a");
     assertEquals("cn=a\\,b,ou=a\\,b,dc=a\\,b,o=a", dn.escape().toString());
+  }
+
+  @Test
+  public void plusSignIsEscaped() {
+    DN dn = DN.createDNFromString("cn=Jourcentral\\, Kungsportsakuten Kungsportsläkarna\\, Läkarhuset \\+7,ou=Läkarhuset \\+7\\, Vårdcentralen,ou=Privata vårdgivare,ou=Org,o=VGR");
+    String escaped = dn.escape().toString();
+    assertEquals("cn=Jourcentral\\, Kungsportsakuten Kungsportsläkarna\\, Läkarhuset \\+7,ou=Läkarhuset \\+7\\, Vårdcentralen,ou=Privata vårdgivare,ou=Org,o=VGR", escaped);
   }
 
   @Test

@@ -20,7 +20,6 @@
 package se.vgregion.kivtools.hriv.intsvc.ldap.eniro.vgr;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,8 +30,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.ldap.core.ContextMapper;
-import org.springframework.ldap.core.DirContextOperations;
 
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition.UnitType;
@@ -43,16 +40,15 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneHours;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
-import se.vgregion.kivtools.search.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.domain.values.PhoneNumber;
-import se.vgregion.kivtools.search.svc.ldap.DirContextOperationsHelper;
+import se.vgregion.kivtools.search.domain.values.WeekdayTime;
 import se.vgregion.kivtools.util.StringUtil;
 
 /**
  * @author David Bennehult & Joakim Olsson
  * 
  */
-public class EniroUnitMapperVGR implements ContextMapper {
+public class EniroUnitMapperVGR {
   private final List<String> nonCareCenter;
   private final String locality;
 
@@ -114,73 +110,66 @@ public class EniroUnitMapperVGR implements ContextMapper {
     }
   }
 
-  @Override
-  public Object mapFromContext(Object ctx) {
+  public UnitComposition map(se.vgregion.kivtools.search.domain.Unit source) {
     UnitComposition unitComposition = new UnitComposition();
-    DirContextOperationsHelper context = new DirContextOperationsHelper((DirContextOperations) ctx);
     // Set meta data
-    this.setMetaAttributes(unitComposition, context);
+    this.setMetaAttributes(unitComposition, source);
     // Fill unit with data.
     Unit unit = unitComposition.getEniroUnit();
-    unit.setId(context.getString("hsaIdentity"));
-    unit.setName(this.getUnitName(context));
-    unit.setRoute(StringUtil.concatenate(context.getStrings("hsaRoute")));
+    unit.setId(source.getHsaIdentity());
+    unit.setName(source.getName());
+    unit.setRoute(StringUtil.concatenate(source.getHsaRoute()));
     unit.setLocality(this.locality);
 
-    Address address = this.generateAddress(context);
+    Address address = this.generateAddress(source);
     if (address != null) {
       unit.getTextOrImageOrAddress().add(address);
     }
-    TelephoneType telephone = this.getPublicTelephoneType(context);
+    TelephoneType telephone = this.getPublicTelephoneType(source);
     if (telephone != null) {
       unit.getTextOrImageOrAddress().add(telephone);
     }
-    unit.getTextOrImageOrAddress().add(this.createBusinessClassification(context.getString("hsaBusinessClassificationCode")));
+    if (source.getHsaBusinessClassificationCode() != null) {
+      for (String code : source.getHsaBusinessClassificationCode()) {
+        unit.getTextOrImageOrAddress().add(this.createBusinessClassification(code));
+      }
+    }
     return unitComposition;
   }
 
-  private BusinessClassification createBusinessClassification(String businesClassificationCode) {
+  private BusinessClassification createBusinessClassification(String code) {
     BusinessClassification businesClassification = new BusinessClassification();
-    businesClassification.setBCCode(businesClassificationCode);
+    businesClassification.setBCCode(code);
     // TODO: implement functionality for getting bsName
     businesClassification.setBCName("");
     return businesClassification;
   }
 
-  private String getUnitName(DirContextOperationsHelper context) {
-    String name = context.getString("ou");
-    // Is a function, name is the cn attribute instead.
-    if (StringUtil.isEmpty(name)) {
-      name = context.getString("cn");
-    }
-    return name;
-  }
-
-  private TelephoneType getPublicTelephoneType(DirContextOperationsHelper context) {
-    String publicTelephoneNumber = context.getString("hsaPublicTelephoneNumber");
+  private TelephoneType getPublicTelephoneType(se.vgregion.kivtools.search.domain.Unit source) {
+    List<PhoneNumber> publicTelephoneNumber = source.getHsaPublicTelephoneNumber();
     TelephoneType telephoneType = null;
 
-    if (!StringUtil.isEmpty(publicTelephoneNumber)) {
-      PhoneNumber phoneNumber = PhoneNumber.createPhoneNumber(publicTelephoneNumber);
+    if (publicTelephoneNumber != null && !publicTelephoneNumber.isEmpty()) {
+      PhoneNumber phoneNumber = publicTelephoneNumber.get(0);
       telephoneType = new TelephoneType();
       telephoneType.setType(PHONE_TYPE.FIXED.value);
-      telephoneType.getTelephoneNumber().add(phoneNumber.getFormattedPhoneNumber().toString());
-      TelephoneHourConverter telephoneHourConverter = new TelephoneHourConverter(TELEPHONE_HOURS_TYPE.PHONEOPEN.value, context.getStrings("hsaTelephoneTime"));
+      telephoneType.setTelephoneNumber(phoneNumber.getFormattedPhoneNumber().toString());
+      TelephoneHourConverter telephoneHourConverter = new TelephoneHourConverter(TELEPHONE_HOURS_TYPE.PHONEOPEN.value, source.getHsaTelephoneTime());
       telephoneType.getTelephoneHours().addAll(telephoneHourConverter.getResult());
     }
     return telephoneType;
   }
 
-  private Address generateAddress(DirContextOperationsHelper context) {
+  private Address generateAddress(se.vgregion.kivtools.search.domain.Unit source) {
     Address address = null;
-    if (context.hasAttribute("hsaStreetAddress")) {
-      address = this.createBaseAddress(context.getString("hsaStreetAddress"));
-      HourConverter hourConverter = new HourConverter(HOURS_TYPE.VISIT.value, context.getStrings("hsaSurgeryHours"));
+    if (source.getHsaStreetAddressIsValid()) {
+      address = this.createBaseAddress(source.getHsaStreetAddress());
+      HourConverter hourConverter = new HourConverter(HOURS_TYPE.VISIT.value, source.getHsaSurgeryHours());
       address.getHours().addAll(hourConverter.getResult());
       // Set address type
       address.setType(ADDRESS_TYPE.VISIT.value);
       // Get geoCoordinates
-      address.setGeoCoordinates(this.generateGeoCoordinatesObject(context.getString("hsaGeographicalCoordinates")));
+      address.setGeoCoordinates(this.generateGeoCoordinatesObject(source.getHsaGeographicalCoordinates()));
     }
     return address;
   }
@@ -197,44 +186,34 @@ public class EniroUnitMapperVGR implements ContextMapper {
     return geoCoordinates;
   }
 
-  private void setMetaAttributes(UnitComposition unitComposition, DirContextOperationsHelper context) {
-    // Not used at the moment (2009-10-02)
-    // unitComposition.setCreateTimePoint(createTimePoint(dirContextOperations.getStringAttribute("createTimeStamp")));
-    // unitComposition.setModifyTimePoint(createTimePoint(dirContextOperations.getStringAttribute("vgrModifyTimestamp")));
-    unitComposition.setDn(context.getDnString());
-    String bsCode = context.getString("hsaBusinessClassificationCode");
-    if (this.nonCareCenter.contains(bsCode)) {
-      unitComposition.setCareType(UnitType.OTHER_CARE);
-    } else {
-      unitComposition.setCareType(UnitType.CARE_CENTER);
+  private void setMetaAttributes(UnitComposition unitComposition, se.vgregion.kivtools.search.domain.Unit source) {
+    unitComposition.setDn(source.getDn().toString());
+    List<String> bsCodes = source.getHsaBusinessClassificationCode();
+    if (bsCodes != null) {
+      for (String bsCode : bsCodes) {
+        if (this.nonCareCenter.contains(bsCode)) {
+          unitComposition.setCareType(UnitType.OTHER_CARE);
+          break;
+        } else {
+          unitComposition.setCareType(UnitType.CARE_CENTER);
+        }
+      }
     }
   }
 
-  // Not used at the moment (2009-10-02)
-  // private TimePoint createTimePoint(String dateValue) {
-  // TimePoint timePoint = null;
-  // if (dateValue != null && dateValue.length() > 0) {
-  // timePoint = TimePoint.parseFrom(dateValue, "yyyyMMddHHmmss", TimeZone.getDefault());
-  // }
-  // return timePoint;
-  // }
-
-  private Address createBaseAddress(String hsaAddress) {
+  private Address createBaseAddress(se.vgregion.kivtools.search.domain.values.Address source) {
     Address address = null;
-    if (hsaAddress != null) {
-      String[] addressFields = hsaAddress.split("\\$");
-      se.vgregion.kivtools.search.domain.values.Address streetAddress = AddressHelper.convertToStreetAddress(Arrays.asList(addressFields));
-
+    if (source != null) {
       address = new Address();
-      address.setStreetName(streetAddress.getStreet());
-      address.getPostCode().add(streetAddress.getZipCode().getFormattedZipCode().getZipCode());
-      address.setCity(streetAddress.getCity());
+      address.setStreetName(source.getStreet());
+      address.setPostCode(source.getZipCode().getFormattedZipCode().getZipCode());
+      address.setCity(source.getCity());
 
       // Take out street name and street number.
       Pattern patternStreetName = Pattern.compile("\\D+");
-      Matcher matcherStreetName = patternStreetName.matcher(streetAddress.getStreet());
+      Matcher matcherStreetName = patternStreetName.matcher(source.getStreet());
       Pattern patternStreetNb = Pattern.compile("\\d+\\w*");
-      Matcher matcherStreetNb = patternStreetNb.matcher(streetAddress.getStreet());
+      Matcher matcherStreetNb = patternStreetNb.matcher(source.getStreet());
 
       if (matcherStreetName.find()) {
         String streetName = matcherStreetName.group().trim();
@@ -255,36 +234,28 @@ public class EniroUnitMapperVGR implements ContextMapper {
    */
   private abstract static class AbstractHourConverter<T> {
     private final String type;
-    private final List<String> values;
+    private final List<WeekdayTime> values;
 
-    AbstractHourConverter(final String type, final List<String> values) {
+    AbstractHourConverter(final String type, final List<WeekdayTime> list) {
       this.type = type;
-      this.values = values;
+      this.values = list;
     }
 
     List<T> getResult() {
       List<T> hoursList = new ArrayList<T>();
 
-      for (String value : this.values) {
-        if (!StringUtil.isEmpty(value)) {
-          String[] hoursInfo = value.split("#");
-
-          if (hoursInfo.length == 3) {
-            String[] dayFromAndTo = hoursInfo[0].split("-");
-            String dayFrom = dayFromAndTo[0];
-            String dayTo;
-            if (dayFromAndTo.length > 1) {
-              dayTo = dayFromAndTo[1];
-            } else {
-              dayTo = dayFromAndTo[0];
-            }
-            String timeFrom = hoursInfo[1];
-            String timeTo = hoursInfo[2];
-            hoursList.add(this.buildResultEntry(this.type, dayFrom, dayTo, timeFrom, timeTo));
-          }
-        }
+      for (WeekdayTime value : this.values) {
+        String dayFrom = String.valueOf(value.getStartDay());
+        String dayTo = String.valueOf(value.getEndDay());
+        String timeFrom = this.formatTime(value.getStartHour(), value.getStartMin());
+        String timeTo = this.formatTime(value.getEndHour(), value.getEndMin());
+        hoursList.add(this.buildResultEntry(this.type, dayFrom, dayTo, timeFrom, timeTo));
       }
       return hoursList;
+    }
+
+    private String formatTime(int hour, int minute) {
+      return String.format("%02d:%02d", hour, minute);
     }
 
     /**
@@ -306,8 +277,8 @@ public class EniroUnitMapperVGR implements ContextMapper {
   private static class HourConverter extends AbstractHourConverter<Hours> {
     private final Log logger = LogFactory.getLog(this.getClass());
 
-    HourConverter(String type, List<String> values) {
-      super(type, values);
+    HourConverter(String type, List<WeekdayTime> list) {
+      super(type, list);
     }
 
     @Override
@@ -335,8 +306,8 @@ public class EniroUnitMapperVGR implements ContextMapper {
   private static class TelephoneHourConverter extends AbstractHourConverter<TelephoneHours> {
     private final Log logger = LogFactory.getLog(this.getClass());
 
-    TelephoneHourConverter(String type, List<String> values) {
-      super(type, values);
+    TelephoneHourConverter(String type, List<WeekdayTime> list) {
+      super(type, list);
     }
 
     @Override

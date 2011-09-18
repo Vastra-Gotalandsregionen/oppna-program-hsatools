@@ -73,7 +73,7 @@ public class EniroOrganisationBuilderVGR extends EniroOrganisationBuilder {
     HashMap<String, Unit> rootunits = new HashMap<String, Unit>();
 
     Organization organization = new Organization();
-    organization.setLoadType("Full");
+    organization.setLoadType("External");
     organization.setType("Municipality");
     organization.setCountry("SE");
 

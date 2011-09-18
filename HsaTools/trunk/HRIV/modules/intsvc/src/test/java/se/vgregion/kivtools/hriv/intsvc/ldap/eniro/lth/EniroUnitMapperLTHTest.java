@@ -81,7 +81,7 @@ public class EniroUnitMapperLTHTest {
     Address address = (Address) unitComposition.getEniroUnit().getTextOrImageOrAddress().get(0);
     assertEquals("Smörslottsgatan", address.getStreetName());
     assertEquals("1", address.getStreetNumber());
-    assertEquals("416 85", address.getPostCode().get(0));
+    assertEquals("416 85", address.getPostCode());
     assertEquals("Göteborg", address.getCity());
     assertEquals("Nedför backen, Till höger vid stenen, In under bron", unitComposition.getEniroUnit().getRoute());
     assertEquals("visit", address.getType());
@@ -113,7 +113,7 @@ public class EniroUnitMapperLTHTest {
       if (info instanceof TelephoneType) {
         TelephoneType telephoneType = (TelephoneType) info;
         assertEquals("area code", "031", telephoneType.getAreaCode().get(0));
-        assertEquals("subscriber number", "345 07 00", telephoneType.getTelephoneNumber().get(0));
+        assertEquals("subscriber number", "345 07 00", telephoneType.getTelephoneNumber());
       }
     }
   }

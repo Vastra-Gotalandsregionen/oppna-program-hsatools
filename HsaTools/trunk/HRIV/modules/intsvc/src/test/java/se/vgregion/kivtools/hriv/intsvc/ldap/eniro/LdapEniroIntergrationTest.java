@@ -27,6 +27,7 @@ import org.springframework.ldap.core.LdapTemplate;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.FtpClient;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.InformationPusherEniro;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.UnitFetcherVGR;
+import se.vgregion.kivtools.search.svc.SearchService;
 
 public class LdapEniroIntergrationTest {
 
@@ -39,7 +40,8 @@ public class LdapEniroIntergrationTest {
     LdapTemplate ldapTemplate = (LdapTemplate) applicationContext.getBean("ldapTemplateOrganisation");
     InformationPusherEniro informationPusherEniro = new InformationPusherEniro();
     ldapTemplate.afterPropertiesSet();
-    informationPusherEniro.setUnitFetcher(new UnitFetcherVGR(ldapTemplate, null, null));
+    SearchService searchService = null;
+    informationPusherEniro.setUnitFetcher(new UnitFetcherVGR(searchService, null, null));
     FtpClientMock clientMock = new LdapEniroIntergrationTest().new FtpClientMock();
     informationPusherEniro.setFtpClient(clientMock);
     informationPusherEniro.doService();

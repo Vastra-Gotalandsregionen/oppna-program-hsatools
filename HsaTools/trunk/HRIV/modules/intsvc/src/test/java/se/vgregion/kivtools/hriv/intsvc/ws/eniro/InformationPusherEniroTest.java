@@ -22,13 +22,12 @@ package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.naming.directory.SearchControls;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -39,7 +38,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.ldap.core.ContextMapper;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -48,7 +46,6 @@ import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition.UnitType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroConfigurationVGR;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroOrganisationBuilderVGR;
-import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.UnitFetcherVGR;
 import se.vgregion.kivtools.mocks.LogFactoryMock;
 import se.vgregion.kivtools.util.StringUtil;
 import se.vgregion.kivtools.util.dom.DocumentHelper;
@@ -56,8 +53,7 @@ import se.vgregion.kivtools.util.dom.DocumentHelper;
 public class InformationPusherEniroTest {
   private final InformationPusherEniro informationPusher = new InformationPusherEniro();;
   private final FtpClientMock mockFtpClient = new FtpClientMock();
-  private final LdapTemplateMock ldapTemplateMock = new LdapTemplateMock();
-  private final EmptyLdapTemplate emptyLdapTemplate = new EmptyLdapTemplate();
+  private final UnitFetcherMock unitFetcher = new UnitFetcherMock();
   private static LogFactoryMock logFactoryMock;
 
   @BeforeClass
@@ -72,7 +68,10 @@ public class InformationPusherEniroTest {
     eniroOrganisationBuilder.setCareCenter("Vårdcentral");
     eniroOrganisationBuilder.setOtherCare("Övrig primärvård");
 
-    this.informationPusher.setUnitFetcher(new UnitFetcherVGR(this.ldapTemplateMock, new String[] { "1", "2" }, new String[] { "3", "4" }));
+    this.unitFetcher.units = Arrays.asList(createUnit("unit1", "unit1-id", "ou=unit1,ou=org,o=VGR", UnitType.CARE_CENTER, null),
+        createUnit("unit2", "unit2-id", "ou=unit2,ou=unit1,ou=org,o=VGR", UnitType.OTHER_CARE, "Göteborg"));
+
+    this.informationPusher.setUnitFetcher(this.unitFetcher);
     this.informationPusher.setFtpClient(this.mockFtpClient);
     this.informationPusher.setEniroOrganisationBuilder(eniroOrganisationBuilder);
     this.informationPusher.setEniroConfiguration(new EniroConfigurationVGR());
@@ -125,6 +124,9 @@ public class InformationPusherEniroTest {
   @Test
   public void testExceptionHandling() {
     this.mockFtpClient.returnValue = false;
+    this.unitFetcher.units = Arrays.asList(createUnit("unit1", "unit1-id", "ou=unit1,ou=org,o=VGR", UnitType.CARE_CENTER, null),
+        createUnit("unit2", "unit2-id", "ou=unit2,ou=unit1,ou=org,o=VGR", UnitType.OTHER_CARE, "Göteborg"));
+
     this.informationPusher.doService();
     assertEquals("Unit details pusher: Completed with failure.\n", logFactoryMock.getError(true));
   }
@@ -163,8 +165,7 @@ public class InformationPusherEniroTest {
 
   @Test
   public void noFileIsSentIfNoUnitsAreFound() {
-    this.informationPusher.setUnitFetcher(new UnitFetcherVGR(this.emptyLdapTemplate, new String[] { "1", "2" }, new String[] { "3", "4" }));
-
+    this.unitFetcher.units = new ArrayList<UnitComposition>();
     this.informationPusher.doService();
     String fileContent = this.mockFtpClient.getFileContent("Vastra Gotalandsregionen Goteborg");
     assertNull("fileContent", fileContent);
@@ -203,21 +204,12 @@ public class InformationPusherEniroTest {
     }
   }
 
-  private static class LdapTemplateMock extends se.vgregion.kivtools.mocks.ldap.LdapTemplateMock {
-    @Override
-    public List<?> search(String base, String filter, int searchScope, ContextMapper mapper) {
-      assertEquals(SearchControls.SUBTREE_SCOPE, searchScope);
-      List<UnitComposition> unitslist = Arrays.asList(createUnit("unit1", "unit1-id", "ou=unit1,ou=org,o=VGR", UnitType.CARE_CENTER, null),
-          createUnit("unit2", "unit2-id", "ou=unit2,ou=unit1,ou=org,o=VGR", UnitType.OTHER_CARE, "Göteborg"));
+  private static class UnitFetcherMock implements UnitFetcher {
+    private List<UnitComposition> units = new ArrayList<UnitComposition>();
 
-      return unitslist;
-    }
-  }
-
-  private static class EmptyLdapTemplate extends se.vgregion.kivtools.mocks.ldap.LdapTemplateMock {
     @Override
-    public List<?> search(String base, String filter, int searchScope, ContextMapper mapper) {
-      return Collections.emptyList();
+    public List<UnitComposition> fetchUnits(List<String> municipalities, String locality) {
+      return this.units;
     }
   }
 }

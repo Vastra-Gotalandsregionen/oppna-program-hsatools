@@ -40,12 +40,12 @@ public class UnitComposition {
     CARE_CENTER, OTHER_CARE;
   }
 
-  private Unit eniroUnit = new Unit();
+  private final Unit eniroUnit = new Unit();
   private String dn;
   private UnitType careType;
 
   public UnitType getCareType() {
-    return careType;
+    return this.careType;
   }
 
   public void setCareType(UnitType careType) {
@@ -53,11 +53,11 @@ public class UnitComposition {
   }
 
   public Unit getEniroUnit() {
-    return eniroUnit;
+    return this.eniroUnit;
   }
 
   public String getDn() {
-    return dn;
+    return this.dn;
   }
 
   public void setDn(String dn) {
@@ -71,8 +71,8 @@ public class UnitComposition {
    */
   public String getParentDn() {
     String value = "";
-    if (!StringUtil.isEmpty(dn)) {
-      DistinguishedName distinguishedName = new DistinguishedName(dn);
+    if (!StringUtil.isEmpty(this.dn)) {
+      DistinguishedName distinguishedName = new DistinguishedName(this.dn);
       distinguishedName.removeLast();
       value = distinguishedName.toString();
     }
