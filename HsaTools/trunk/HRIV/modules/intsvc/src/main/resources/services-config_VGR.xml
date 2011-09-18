@@ -62,6 +62,11 @@
 		<property name="port" value="21" />
 	</bean>
 
+<!-- 	<bean id="Transfer_tmpfile" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.FileClientImpl"> -->
+<!-- 		<constructor-arg value="/tmp" /> -->
+<!-- 	</bean> -->
+	
+
 	<bean id="fileUtil" class="se.vgregion.kivtools.util.file.FileUtilImpl" />
 
 	<bean id="eniroOrganisationBuilder"
@@ -74,7 +79,7 @@
 	<bean id="eniroConfig" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroConfigurationVGR" />
 	
 	<bean id="unitFetcher" class="se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.UnitFetcherVGR">
-		<constructor-arg ref="ldapTemplate" />
+		<constructor-arg ref="Search_SearchService" />
 		<constructor-arg value="${allowedUnitBusinessClassificationCodes}" />
 		<constructor-arg value="${businessCodesForOtherCareTypes}" />
 	</bean>

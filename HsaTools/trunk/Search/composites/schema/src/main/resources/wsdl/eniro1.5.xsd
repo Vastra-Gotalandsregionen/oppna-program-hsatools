@@ -1,26 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-
-    Copyright 2010 Västra Götalandsregionen
-
-      This library is free software; you can redistribute it and/or modify
-      it under the terms of version 2.1 of the GNU Lesser General Public
-      License as published by the Free Software Foundation.
-
-      This library is distributed in the hope that it will be useful,
-      but WITHOUT ANY WARRANTY; without even the implied warranty of
-      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-      GNU Lesser General Public License for more details.
-
-      You should have received a copy of the GNU Lesser General Public
-      License along with this library; if not, write to the
-      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
-      Boston, MA 02111-1307  USA
-
-
--->
-
-<!-- edited with XMLSpy v2007 (http://www.altova.com) by Fredric Larsson (Eniro Sweden AB) -->
+<!-- edited with XMLSpy v2008 rel. 2 sp2 (http://www.altova.com) by PEvseev (EMBRACE) -->
 <!-- Version: 1.3 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified">
 	<xs:element name="Organization">
@@ -67,6 +46,7 @@
 					<xs:restriction base="xs:string">
 						<xs:enumeration value="Full"/>
 						<xs:enumeration value="Increment"/>
+						<xs:enumeration value="External"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -143,7 +123,7 @@
 					<xs:documentation>Post box number or name.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="PostCode" type="xs:NMTOKENS" minOccurs="0">
+			<xs:element name="PostCode" type="xs:string" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Post/zip code as a number.</xs:documentation>
 				</xs:annotation>
@@ -197,7 +177,7 @@
 					<xs:documentation>Area code if applicable</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="TelephoneNumber" type="xs:NMTOKENS">
+			<xs:element name="TelephoneNumber" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>The number</xs:documentation>
 				</xs:annotation>

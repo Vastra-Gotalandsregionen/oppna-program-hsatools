@@ -176,7 +176,7 @@ public class EniroUnitMapperLTH implements ContextMapper {
       telephoneType = new TelephoneType();
       telephoneType.setType(PHONE_TYPE.FIXED.value);
       telephoneType.getAreaCode().add(phoneNumber.getAreaCode());
-      telephoneType.getTelephoneNumber().add(phoneNumber.getSubscriberNumber());
+      telephoneType.setTelephoneNumber(phoneNumber.getSubscriberNumber());
       TelephoneHourConverter telephoneHourConverter = new TelephoneHourConverter(TELEPHONE_HOURS_TYPE.PHONEOPEN.value, context.getStrings("telephoneHours"));
       telephoneType.getTelephoneHours().addAll(telephoneHourConverter.getResult());
     }
@@ -240,7 +240,7 @@ public class EniroUnitMapperLTH implements ContextMapper {
 
       address = new Address();
       address.setStreetName(streetAddress.getStreet());
-      address.getPostCode().add(streetAddress.getZipCode().getFormattedZipCode().getZipCode());
+      address.setPostCode(streetAddress.getZipCode().getFormattedZipCode().getZipCode());
       address.setCity(streetAddress.getCity());
 
       // Take out street name and street number.

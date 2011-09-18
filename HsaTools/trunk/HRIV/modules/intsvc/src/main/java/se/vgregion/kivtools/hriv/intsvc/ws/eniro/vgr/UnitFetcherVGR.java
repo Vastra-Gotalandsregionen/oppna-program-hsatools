@@ -19,62 +19,76 @@
 
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.naming.directory.SearchControls;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.ldap.BadLdapGrammarException;
 
-import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.ldap.filter.AndFilter;
-import org.springframework.ldap.filter.EqualsFilter;
-import org.springframework.ldap.filter.Filter;
-import org.springframework.ldap.filter.OrFilter;
-
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.KivLdapFilterHelper;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.vgr.EniroUnitMapperVGR;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitFetcher;
-import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.exceptions.KivException;
+import se.vgregion.kivtools.search.svc.SearchService;
 
 public class UnitFetcherVGR implements UnitFetcher {
-  private final LdapTemplate ldapTemplate;
+  private final Log logger = LogFactory.getLog(this.getClass());
+  private final SearchService searchService;
   private final String[] allowedUnitBusinessClassificationCodes;
   private final String[] otherCareTypeBusinessCodes;
 
-  public UnitFetcherVGR(LdapTemplate ldapTemplate, String[] allowedUnitBusinessClassificationCodes, String[] otherCareTypeBusinessCodes) {
-    this.ldapTemplate = ldapTemplate;
+  public UnitFetcherVGR(SearchService searchService, String[] allowedUnitBusinessClassificationCodes, String[] otherCareTypeBusinessCodes) {
+    this.searchService = searchService;
     this.allowedUnitBusinessClassificationCodes = allowedUnitBusinessClassificationCodes;
     this.otherCareTypeBusinessCodes = otherCareTypeBusinessCodes;
   }
 
   @Override
   public List<UnitComposition> fetchUnits(List<String> municipalities, String locality) {
-    HealthcareTypeConditionHelper healthcareTypeConditionHelper = new HealthcareTypeConditionHelper();
-    Filter healthcareTypeFilter = KivLdapFilterHelper.createHealthcareTypeFilter(healthcareTypeConditionHelper.getAllHealthcareTypes());
-    AndFilter andFilter = new AndFilter();
-    andFilter.and(this.createMunicipalityFilter(municipalities));
-    OrFilter orBusinessCodes = new OrFilter();
-    for (String businessCode : this.allowedUnitBusinessClassificationCodes) {
-      orBusinessCodes.or(new EqualsFilter("hsaBusinessClassificationCode", businessCode));
+    try {
+      List<Unit> allUnits = this.searchService.getAllUnits(true);
+      List<Unit> filteredUnits = this.filterUnits(allUnits, municipalities, Arrays.asList(this.allowedUnitBusinessClassificationCodes));
+
+      List<UnitComposition> unitsList = this.mapUnits(filteredUnits, locality);
+      this.setParentIdsForUnits(unitsList);
+      return unitsList;
+    } catch (KivException e) {
+      throw new RuntimeException("Unable to fetch units", e);
     }
-    orBusinessCodes.or(healthcareTypeFilter);
-    andFilter.and(orBusinessCodes);
-    EniroUnitMapperVGR eniroUnitMapper = new EniroUnitMapperVGR(locality, Arrays.asList(this.otherCareTypeBusinessCodes));
-    @SuppressWarnings("unchecked")
-    List<UnitComposition> unitsList = this.ldapTemplate.search("", andFilter.encode(), SearchControls.SUBTREE_SCOPE, eniroUnitMapper);
-    this.setParentIdsForUnits(unitsList);
-    return unitsList;
   }
 
-  private Filter createMunicipalityFilter(List<String> municipalityCodes) {
-    OrFilter filter = new OrFilter();
+  private List<UnitComposition> mapUnits(List<Unit> filteredUnits, String locality) {
+    EniroUnitMapperVGR eniroUnitMapper = new EniroUnitMapperVGR(locality, Arrays.asList(this.otherCareTypeBusinessCodes));
+    List<UnitComposition> mappedUnits = new ArrayList<UnitComposition>();
 
-    for (String municipalityCode : municipalityCodes) {
-      filter.or(new EqualsFilter("hsaMunicipalityCode", municipalityCode));
+    for (Unit unit : filteredUnits) {
+      mappedUnits.add(eniroUnitMapper.map(unit));
     }
-    return filter;
+    return mappedUnits;
+  }
+
+  private List<Unit> filterUnits(List<Unit> allUnits, List<String> municipalities, List<String> businessClassificationCodes) {
+    List<Unit> filteredUnits = new ArrayList<Unit>();
+    for (Unit unit : allUnits) {
+      if (municipalities.contains(unit.getHsaMunicipalityCode()) && this.hasAnyBusinessClassificationCode(businessClassificationCodes, unit.getHsaBusinessClassificationCode())) {
+        filteredUnits.add(unit);
+      }
+    }
+    return filteredUnits;
+  }
+
+  private boolean hasAnyBusinessClassificationCode(List<String> businessClassificationCodes, List<String> unitBusinessClassificationCode) {
+    for (String code : unitBusinessClassificationCode) {
+      if (businessClassificationCodes.contains(code)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private void setParentIdsForUnits(List<UnitComposition> compositions) {
@@ -83,9 +97,14 @@ public class UnitFetcherVGR implements UnitFetcher {
       unitsMap.put(unitComposition.getDn(), unitComposition);
     }
     for (UnitComposition unitComposition : compositions) {
-      UnitComposition parentUnit = unitsMap.get(unitComposition.getParentDn());
-      if (parentUnit != null) {
-        unitComposition.getEniroUnit().setParentUnitId(parentUnit.getEniroUnit().getId());
+      try {
+        UnitComposition parentUnit = unitsMap.get(unitComposition.getParentDn());
+        if (parentUnit != null) {
+          unitComposition.getEniroUnit().setParentUnitId(parentUnit.getEniroUnit().getId());
+        }
+      } catch (BadLdapGrammarException e) {
+        this.logger.debug(unitComposition.getDn());
+        throw e;
       }
     }
   }
