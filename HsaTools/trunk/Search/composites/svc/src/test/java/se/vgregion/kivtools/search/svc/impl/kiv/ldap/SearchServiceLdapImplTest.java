@@ -19,7 +19,7 @@
 
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,49 +32,47 @@ import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 
 public class SearchServiceLdapImplTest {
-
   private SearchServiceLdapImpl searchServiceLdapImpl;
   private PersonRepositoryMock personRepository;
   private UnitRepositoryMock unitRepository;
 
   @Before
   public void setUp() throws Exception {
-    searchServiceLdapImpl = new SearchServiceLdapImpl();
-    personRepository = new PersonRepositoryMock();
-    unitRepository = new UnitRepositoryMock();
-    searchServiceLdapImpl.setPersonRepository(personRepository);
-    searchServiceLdapImpl.setUnitRepository(unitRepository);
+    this.searchServiceLdapImpl = new SearchServiceLdapImpl();
+    this.personRepository = new PersonRepositoryMock();
+    this.unitRepository = new UnitRepositoryMock();
+    this.searchServiceLdapImpl.setPersonRepository(this.personRepository);
+    this.searchServiceLdapImpl.setUnitRepository(this.unitRepository);
   }
 
   @Test
   public void testSearchPersons() throws KivException {
-    searchServiceLdapImpl.searchPersons(new SearchPersonCriterions(), 123);
-    assertTrue(personRepository.searchPersonCalled);
+    this.searchServiceLdapImpl.searchPersons(new SearchPersonCriterions(), 123);
+    assertTrue(this.personRepository.searchPersonCalled);
   }
 
   @Test
   public void testSearchUnits() throws KivException {
-    searchServiceLdapImpl.searchUnits(new SearchUnitCriterions(), 123);
-    assertTrue(unitRepository.searchUnitCalled);
+    this.searchServiceLdapImpl.searchUnits(new SearchUnitCriterions(), 123);
+    assertTrue(this.unitRepository.searchUnitCalled);
   }
 
-  class PersonRepositoryMock extends PersonRepository {
-
+  private static class PersonRepositoryMock extends PersonRepository {
     private boolean searchPersonCalled;
 
     @Override
     public SikSearchResultList<Person> searchPersons(SearchPersonCriterions person, int maxResult) throws KivException {
-      searchPersonCalled = true;
+      this.searchPersonCalled = true;
       return null;
     }
   }
-  
-  class UnitRepositoryMock extends UnitRepository {
+
+  private static class UnitRepositoryMock extends BaseUnitRepository {
     private boolean searchUnitCalled;
-    
+
     @Override
     public SikSearchResultList<Unit> searchUnits(SearchUnitCriterions searchUnitCriterions, int maxResult) throws KivException {
-    searchUnitCalled = true;
+      this.searchUnitCalled = true;
       return null;
     }
   }

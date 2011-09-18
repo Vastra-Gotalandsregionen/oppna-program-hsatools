@@ -64,7 +64,7 @@ public class EmploymentRepository {
   public SikSearchResultList<Employment> getEmployments(DN dn) throws KivException {
     SikSearchResultList<Employment> result = new SikSearchResultList<Employment>();
     DistinguishedName distinguishedName = new DistinguishedName(dn.toString());
-    String[] attributes = new String[] { "*", LDAPEmploymentAttributes.MODIFY_TIMESTAMP.toString() };
+    String[] attributes = new String[] { "*", EmploymentSearchAttributes.MODIFY_TIMESTAMP.toString() };
 
     List<Employment> employments = this.ldapTemplate.search(distinguishedName, this.generateLDAPFilter(), SearchControls.ONELEVEL_SCOPE, attributes, new EmploymentMapper(this.codeTablesService));
 

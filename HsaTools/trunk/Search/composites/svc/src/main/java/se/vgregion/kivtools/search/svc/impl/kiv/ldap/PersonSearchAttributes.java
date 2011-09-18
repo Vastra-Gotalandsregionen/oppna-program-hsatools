@@ -24,7 +24,7 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
  * 
  * @author David Bennehult
  */
-public enum LDAPPersonAttributes {
+public enum PersonSearchAttributes {
   /** given name. */
   GIVEN_NAME("givenName"),
   /** Middle name. */
@@ -78,7 +78,7 @@ public enum LDAPPersonAttributes {
 
   private String value;
 
-  private LDAPPersonAttributes(String value) {
+  private PersonSearchAttributes(String value) {
     this.value = value;
   }
 

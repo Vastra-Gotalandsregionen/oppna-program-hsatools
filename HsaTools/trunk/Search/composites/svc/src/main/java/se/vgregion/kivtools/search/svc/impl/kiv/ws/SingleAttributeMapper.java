@@ -17,21 +17,19 @@
  *
  */
 
-package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
+package se.vgregion.kivtools.search.svc.impl.kiv.ws;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.ldap.core.ContextMapper;
-
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.Function;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap.Entry;
 import se.vgregion.kivtools.util.Arguments;
 
-public class SingleAttributeMapper implements ContextMapper {
+public class SingleAttributeMapper {
 
-  private String attributeName;
+  private final String attributeName;
   private Map<String, List<Object>> ldapAttributes;
 
   public SingleAttributeMapper(String attributeName) {
@@ -39,31 +37,30 @@ public class SingleAttributeMapper implements ContextMapper {
     this.attributeName = attributeName;
   }
 
-  @Override
-  public String mapFromContext(Object ctx) {
-    ldapAttributes = new HashMap<String, List<Object>>();
+  public String map(Object functionOrUnit) {
+    this.ldapAttributes = new HashMap<String, List<Object>>();
     List<Entry> attributes = null;
-    if (ctx instanceof Function) {
-      Function kivwsFunction = (Function) ctx;
+    if (functionOrUnit instanceof Function) {
+      Function kivwsFunction = (Function) functionOrUnit;
       attributes = kivwsFunction.getAttributes().getValue().getEntry();
-    } else if (ctx instanceof se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit) {
-      se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit kivwsUnit = (se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit) ctx;
+    } else if (functionOrUnit instanceof se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit) {
+      se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit kivwsUnit = (se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit) functionOrUnit;
       attributes = kivwsUnit.getAttributes().getValue().getEntry();
     } else {
       throw new RuntimeException("Object is not a type of Function or Unit");
     }
 
     for (Entry entry : attributes) {
-      ldapAttributes.put(entry.getKey(), entry.getValue().getAnyType());
+      this.ldapAttributes.put(entry.getKey(), entry.getValue().getAnyType());
     }
 
-    return getSingleValue(attributeName);
+    return this.getSingleValue(this.attributeName);
   }
 
   private String getSingleValue(String key) {
     String returnValue = "";
-    if (ldapAttributes.containsKey(key)) {
-      returnValue = (String) ldapAttributes.get(key).get(0);
+    if (this.ldapAttributes.containsKey(key)) {
+      returnValue = (String) this.ldapAttributes.get(key).get(0);
     }
     return returnValue;
   }

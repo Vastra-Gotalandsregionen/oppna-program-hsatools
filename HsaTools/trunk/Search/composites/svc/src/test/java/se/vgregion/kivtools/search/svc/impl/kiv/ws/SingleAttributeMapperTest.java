@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
+package se.vgregion.kivtools.search.svc.impl.kiv.ws;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -34,6 +34,7 @@ import javax.xml.bind.JAXBElement;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.svc.impl.kiv.ws.SingleAttributeMapper;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfAnyType;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.Function;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ObjectFactory;
@@ -67,23 +68,23 @@ public class SingleAttributeMapperTest {
   }
 
   @Test
-  public void testMapFromContextFunction() {
-    Function function = new Function();
-    function.setAttributes(serverAttributes);
-    String mapFromContext = singleAttributeMapper.mapFromContext(function);
-    assertEquals(expected, mapFromContext);
-  }
+    public void testMapFunction() {
+      Function function = new Function();
+      function.setAttributes(serverAttributes);
+      String mapFromContext = singleAttributeMapper.map(function);
+      assertEquals(expected, mapFromContext);
+    }
 
   @Test
-  public void testMapFromContextUnit() {
-    Unit unit = new Unit();
-    unit.setAttributes(serverAttributes);
-    String mapFromContext = singleAttributeMapper.mapFromContext(unit);
-    assertEquals(expected, mapFromContext);
-  }
+    public void testMapUnit() {
+      Unit unit = new Unit();
+      unit.setAttributes(serverAttributes);
+      String mapFromContext = singleAttributeMapper.map(unit);
+      assertEquals(expected, mapFromContext);
+    }
   
   @Test(expected=RuntimeException.class)
   public void testException() {
-    singleAttributeMapper.mapFromContext("Wrong class type");
+    singleAttributeMapper.map("Wrong class type");
   }
 }

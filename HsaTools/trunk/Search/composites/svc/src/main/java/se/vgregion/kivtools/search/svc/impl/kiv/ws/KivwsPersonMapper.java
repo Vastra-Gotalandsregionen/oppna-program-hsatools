@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
+package se.vgregion.kivtools.search.svc.impl.kiv.ws;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,22 +34,22 @@ import se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap.
 import se.vgregion.kivtools.util.Arguments;
 
 enum KivwsPersonAttributes {
-  cn("cn"), hsaidentity("hsaidentity"), hsatitle("hsatitle"), givenname("givenname"), mail("mail"), sn("sn"), vgrid("vgr-id"), hsanickname("hsanickname"), hsaspecialitycode("hsaspecialitycode"), hsalanguageknowledgecode("hsalanguageknowledgecode"), hsamiddlename("hsamiddlename");
-  
+  cn("cn"), hsaidentity("hsaidentity"), hsatitle("hsatitle"), givenname("givenname"), mail("mail"), sn("sn"), vgrid("vgr-id"), hsanickname("hsanickname"), hsaspecialitycode("hsaspecialitycode"), hsalanguageknowledgecode(
+      "hsalanguageknowledgecode"), hsamiddlename("hsamiddlename");
+
   private KivwsPersonAttributes(String value) {
     this.value = value;
   }
-  
+
   private String value;
 
   @Override
   public String toString() {
-    return value;
+    return this.value;
   }
 }
 
 public class KivwsPersonMapper implements ContextMapper {
-
   private Map<String, List<Object>> attributes;
 
   @Override
@@ -60,38 +60,38 @@ public class KivwsPersonMapper implements ContextMapper {
     se.vgregion.kivtools.search.svc.ws.domain.kivws.Person kivwsPerson = (se.vgregion.kivtools.search.svc.ws.domain.kivws.Person) ctx;
     JAXBElement<String2ArrayOfAnyTypeMap> jaxbElmTmp = kivwsPerson.getAttributes();
     String2ArrayOfAnyTypeMap entries = jaxbElmTmp.getValue();
-    attributes = new HashMap<String, List<Object>>();
+    this.attributes = new HashMap<String, List<Object>>();
 
     for (Entry entry : entries.getEntry()) {
-      attributes.put(entry.getKey(), entry.getValue().getAnyType());
+      this.attributes.put(entry.getKey(), entry.getValue().getAnyType());
     }
-    person.setHsaIdentity(getSingleValue(KivwsPersonAttributes.hsaidentity.toString()));
-    person.setCn(getSingleValue(KivwsPersonAttributes.cn.toString()));
-    person.setHsaTitle(getSingleValue(KivwsPersonAttributes.hsatitle.toString()));
-    person.setGivenName(getSingleValue(KivwsPersonAttributes.givenname.toString()));
-    person.setMail(getSingleValue(KivwsPersonAttributes.mail.toString()));
-    person.setSn(getSingleValue(KivwsPersonAttributes.sn.toString()));
-    person.setVgrId(getSingleValue(KivwsPersonAttributes.vgrid.toString()));
-    person.setHsaNickName(getSingleValue(KivwsPersonAttributes.hsanickname.toString()));
-    person.setHsaSpecialityCode(getMultiValue(KivwsPersonAttributes.hsaspecialitycode.toString()));
-    person.setHsaLanguageKnowledgeCode(getMultiValue(KivwsPersonAttributes.hsalanguageknowledgecode.toString()));
-    person.setHsaMiddleName(getSingleValue(KivwsPersonAttributes.hsamiddlename.toString()));
+    person.setHsaIdentity(this.getSingleValue(KivwsPersonAttributes.hsaidentity.toString()));
+    person.setCn(this.getSingleValue(KivwsPersonAttributes.cn.toString()));
+    person.setHsaTitle(this.getSingleValue(KivwsPersonAttributes.hsatitle.toString()));
+    person.setGivenName(this.getSingleValue(KivwsPersonAttributes.givenname.toString()));
+    person.setMail(this.getSingleValue(KivwsPersonAttributes.mail.toString()));
+    person.setSn(this.getSingleValue(KivwsPersonAttributes.sn.toString()));
+    person.setVgrId(this.getSingleValue(KivwsPersonAttributes.vgrid.toString()));
+    person.setHsaNickName(this.getSingleValue(KivwsPersonAttributes.hsanickname.toString()));
+    person.setHsaSpecialityCode(this.getMultiValue(KivwsPersonAttributes.hsaspecialitycode.toString()));
+    person.setHsaLanguageKnowledgeCode(this.getMultiValue(KivwsPersonAttributes.hsalanguageknowledgecode.toString()));
+    person.setHsaMiddleName(this.getSingleValue(KivwsPersonAttributes.hsamiddlename.toString()));
 
     return person;
   }
 
   private String getSingleValue(String key) {
     String returnValue = "";
-    if (attributes.containsKey(key)) {
-      returnValue = (String) attributes.get(key).get(0);
+    if (this.attributes.containsKey(key)) {
+      returnValue = (String) this.attributes.get(key).get(0);
     }
     return returnValue;
   }
 
   private List<String> getMultiValue(String key) {
     List<String> returnValue = new ArrayList<String>();
-    if (attributes.containsKey(key)) {
-      List<Object> list = attributes.get(key);
+    if (this.attributes.containsKey(key)) {
+      List<Object> list = this.attributes.get(key);
       for (Object object : list) {
         String tmp = (String) object;
         String[] split = tmp.split("\\$");
@@ -102,5 +102,4 @@ public class KivwsPersonMapper implements ContextMapper {
     }
     return returnValue;
   }
-
 }

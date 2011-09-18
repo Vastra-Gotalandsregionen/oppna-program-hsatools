@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
+package se.vgregion.kivtools.search.svc.impl.kiv.ws;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,12 +34,10 @@ import se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap;
  * 
  */
 public class KivwsCodeNameTableMapper implements ContextMapper {
-
   private final Map<String, String> codeTableContent = new HashMap<String, String>();
 
   @Override
   public Object mapFromContext(Object ctx) {
-
     String2StringMap context = null;
     if (ctx instanceof String2StringMap) {
       context = (String2StringMap) ctx;
@@ -50,7 +48,7 @@ public class KivwsCodeNameTableMapper implements ContextMapper {
     List<se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap.Entry> entryList = context.getEntry();
     for (se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap.Entry entry : entryList) {
       if (!entry.getKey().startsWith("* ")) {
-        codeTableContent.put(entry.getKey(), entry.getValue());
+        this.codeTableContent.put(entry.getKey(), entry.getValue());
       }
     }
 
@@ -58,7 +56,6 @@ public class KivwsCodeNameTableMapper implements ContextMapper {
   }
 
   public Map<String, String> getCodeTableContent() {
-    return codeTableContent;
+    return this.codeTableContent;
   }
-
 }

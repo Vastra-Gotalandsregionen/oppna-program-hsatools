@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
+package se.vgregion.kivtools.search.svc.impl.kiv.ws;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -66,7 +66,6 @@ public class KivwsPersonRepositoryTest {
     this.codeTableServiceMock.addListToMap(CodeTableName.VGR_AO3_CODE, Arrays.asList("administration1,administration2".split(",")));
     this.codeTableServiceMock.addListToMap(CodeTableName.PA_TITLE_CODE, Arrays.asList("employmentTitle", "Kurator"));
     this.kivwsPersonRepository.setCodeTablesService(this.codeTableServiceMock);
-    KivwsFactoryBean kivwsFactoryBean = new KivwsFactoryBean();
   }
 
   @Test

@@ -43,44 +43,21 @@
 	<util:properties id="prop"
 		location="classpath:se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties" />
 
- 
 	<bean id="Search_UnitRepository"
-		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepositoryKivws">
-		<property name="codeTablesService" ref="Search_KivwsCodeTablesService" />
-		<property name="searchService" ref="searchServiceKivws" />
+		class="se.vgregion.kivtools.search.svc.impl.kiv.ws.UnitRepositoryKivws">
+		<constructor-arg><bean factory-bean="kivws" factory-method="createWebService" /></constructor-arg>
+		<constructor-arg ref="kivwsUnitMapper" />
+		<constructor-arg ref="Search_KivwsCodeTablesService" />
 	</bean>
 
-	<bean id="searchServiceKivws"
-		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.KivwsSearchService">
-		<property name="kivwsUnitMapper" ref="kivwsUnitMapper" />
-		<property name="vgregionWebService">
-			<bean factory-bean="kivws" factory-method="createWebService" />
-		</property>
-	</bean>
-	
 	<bean id="kivws"
-		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.KivwsFactoryBean">
-		<property name="properties" ref="prop" />
-	</bean>
-
-	<!-- UnitRepository using springladap templates -->
-	
-<!--	<bean id="Search_UnitRepository"-->
-<!--		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository">-->
-<!--		<property name="codeTablesService" ref="Search_CodeTablesService" />-->
-<!--		<property name="searchService" ref="springLdapSearchService" />-->
-<!--	</bean>-->
-<!--	-->
-	
-
-	<bean id="springLdapSearchService"
-		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.SpringLdapSearchService">
-		<property name="ldapTemplate" ref="ldapTemplate" />
-		<property name="unitMapper" ref="unitMapper" />
+		class="se.vgregion.kivtools.search.svc.impl.kiv.ws.KivwsFactoryBean">
+		<constructor-arg value="${hsatools.search.svc.kivws.username}" />
+		<constructor-arg value="${hsatools.search.svc.kivws.password}" />
 	</bean>
 
 	<bean id="kivwsUnitMapper"
-		class="se.vgregion.kivtools.search.svc.impl.kiv.ldap.KivwsUnitMapper">
+		class="se.vgregion.kivtools.search.svc.impl.kiv.ws.KivwsUnitMapper">
 		<constructor-arg ref="Search_KivwsCodeTablesService" />
 		<constructor-arg ref="Search_DisplayValueTranslator" />
 	</bean>

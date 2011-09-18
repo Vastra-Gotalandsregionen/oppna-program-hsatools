@@ -31,7 +31,7 @@ import se.vgregion.kivtools.util.reflection.ReflectionUtil;
 /**
  * Implementation of the UnitRepository for Hitta rätt i Administration for VGR.
  */
-public class UnitRepositoryHRIA extends UnitRepository {
+public class UnitRepositoryHRIA extends BaseUnitRepository {
   @Override
   protected void removeUnallowedUnits(SikSearchResultList<Unit> units) {
 
@@ -40,7 +40,7 @@ public class UnitRepositoryHRIA extends UnitRepository {
     List<HealthcareType> allUnfilteredHealthcareTypes = htch.getAllUnfilteredHealthCareTypes();
 
     for (int j = units.size() - 1; j >= 0; j--) {
-      if (unitMatchesUnfilteredHealtcareType(units.get(j), allUnfilteredHealthcareTypes)) {
+      if (this.unitMatchesUnfilteredHealtcareType(units.get(j), allUnfilteredHealthcareTypes)) {
         units.remove(units.get(j));
       }
     }

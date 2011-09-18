@@ -58,92 +58,92 @@ public class EmploymentMapper implements ContextMapper {
     Employment employment = new Employment();
     DirContextOperationsHelper context = new DirContextOperationsHelper((DirContextOperations) ctx);
 
-    employment.setCn(context.getString(LDAPEmploymentAttributes.CN.toString()));
+    employment.setCn(context.getString(EmploymentSearchAttributes.CN.toString()));
 
     // Organizational Unit Name (e.g. Barn- och ungdomspsykiatrisk mottagning Bor�s)
-    employment.setOu(context.getString(LDAPEmploymentAttributes.OU.toString()));
+    employment.setOu(context.getString(EmploymentSearchAttributes.OU.toString()));
 
     // Person-id (e.g. 196712085983)
-    employment.setHsaPersonIdentityNumber(context.getString(LDAPEmploymentAttributes.HSA_PERSON_IDENTITY_NUMBER.toString()));
+    employment.setHsaPersonIdentityNumber(context.getString(EmploymentSearchAttributes.HSA_PERSON_IDENTITY_NUMBER.toString()));
 
     // HsaIdentitie to the Units where the person is employed e.g. SE2321000131-E000000000101
-    employment.setVgrOrgRel(context.getString(LDAPEmploymentAttributes.VGR_ORG_REL.toString()));
+    employment.setVgrOrgRel(context.getString(EmploymentSearchAttributes.VGR_ORG_REL.toString()));
 
-    employment.setVgrStrukturPerson(DN.createDNFromString(context.getString(LDAPEmploymentAttributes.EMPLOYED_AT_UNIT.toString())));
+    employment.setVgrStrukturPerson(DN.createDNFromString(context.getString(EmploymentSearchAttributes.EMPLOYED_AT_UNIT.toString())));
 
     // Ansvarsnumer e.g. 1, 2
-    employment.setVgrAnsvarsnummer(context.getString(LDAPEmploymentAttributes.VGR_ANSVARS_NUMMER.toString()));
+    employment.setVgrAnsvarsnummer(context.getString(EmploymentSearchAttributes.VGR_ANSVARS_NUMMER.toString()));
 
     // Anst�llningsperiod
-    employment.setEmploymentPeriod(parseDateTime(context.getString(LDAPEmploymentAttributes.HSA_START_DATE.toString())), parseDateTime(context.getString(LDAPEmploymentAttributes.HSA_END_DATE
+    employment.setEmploymentPeriod(parseDateTime(context.getString(EmploymentSearchAttributes.HSA_START_DATE.toString())), parseDateTime(context.getString(EmploymentSearchAttributes.HSA_END_DATE
         .toString())));
 
     // Fakturaadress e.g. S�dra �lvsborgs Sjukhus$L�ne- och fakturaservice $ $ $501 82$Bor�s
-    employment.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress(context.getStrings(LDAPEmploymentAttributes.HSA_SEDF_INVOICE_ADDRESS.toString())));
+    employment.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress(context.getStrings(EmploymentSearchAttributes.HSA_SEDF_INVOICE_ADDRESS.toString())));
 
     // Bes�ksadress e.g. Elinsdalsgatan 8, Bor�s
-    employment.setHsaStreetAddress(AddressHelper.convertToAddress(context.getStrings(LDAPEmploymentAttributes.HSA_STREET_ADDRESS.toString())));
+    employment.setHsaStreetAddress(AddressHelper.convertToAddress(context.getStrings(EmploymentSearchAttributes.HSA_STREET_ADDRESS.toString())));
 
     // Internadress e.g. BUP Elinsdahl, Bor�s
-    employment.setHsaInternalAddress(AddressHelper.convertToAddress(context.getStrings(LDAPEmploymentAttributes.HSA_INTERNAL_ADRESS.toString())));
+    employment.setHsaInternalAddress(AddressHelper.convertToAddress(context.getStrings(EmploymentSearchAttributes.HSA_INTERNAL_ADRESS.toString())));
 
     // Postadress e.g. S�dra �lvsborgs Sjukhus$Barn- och ungdomspsykiatrisk ... $ $ $501 82$Bor�s
-    employment.setHsaPostalAddress(AddressHelper.convertToAddress(context.getStrings(LDAPEmploymentAttributes.HSA_POSTAL_ADDRESS.toString())));
+    employment.setHsaPostalAddress(AddressHelper.convertToAddress(context.getStrings(EmploymentSearchAttributes.HSA_POSTAL_ADDRESS.toString())));
 
     // Leveransadress e.g. S�dra �lvsborgs Sjukhus$Barn- och... $Elinsdalsgatan 8$ $504 33$Bor�s
-    employment.setHsaSedfDeliveryAddress(AddressHelper.convertToAddress(context.getStrings(LDAPEmploymentAttributes.HSA_SEDF_DELIVERY_ADDRESS.toString())));
+    employment.setHsaSedfDeliveryAddress(AddressHelper.convertToAddress(context.getStrings(EmploymentSearchAttributes.HSA_SEDF_DELIVERY_ADDRESS.toString())));
 
     // Faxnummer e.g. +46 33 6164930
-    employment.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(LDAPEmploymentAttributes.FACSIMILE_TELEPHONE_NUMBER.toString())));
+    employment.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(EmploymentSearchAttributes.FACSIMILE_TELEPHONE_NUMBER.toString())));
 
     // postnummer e.g. 416 73
-    employment.setZipCode(new ZipCode(context.getString(LDAPEmploymentAttributes.POSTAL_CODE.toString())));
+    employment.setZipCode(new ZipCode(context.getString(EmploymentSearchAttributes.POSTAL_CODE.toString())));
 
     // hemsida e.g. http://www.vgregion.se/...
-    employment.setLabeledUri(context.getString(LDAPEmploymentAttributes.LABELED_URI.toString()));
+    employment.setLabeledUri(context.getString(EmploymentSearchAttributes.LABELED_URI.toString()));
 
     // e.g. 3
-    employment.setVgrAnstform(context.getString(LDAPEmploymentAttributes.VGR_ANST_FORM.toString()));
+    employment.setVgrAnstform(context.getString(EmploymentSearchAttributes.VGR_ANST_FORM.toString()));
 
     // e.g. Psykolog,leg.
-    employment.setTitle(context.getString(LDAPEmploymentAttributes.EMPLOYMENT_TITLE.toString()));
+    employment.setTitle(context.getString(EmploymentSearchAttributes.EMPLOYMENT_TITLE.toString()));
 
     // e.g. 12
-    employment.setVgrFormansgrupp(context.getString(LDAPEmploymentAttributes.VGR_FORMANS_GRUPP.toString()));
+    employment.setVgrFormansgrupp(context.getString(EmploymentSearchAttributes.VGR_FORMANS_GRUPP.toString()));
 
     // V�xeltelefon e.g. +46 33 6161000
-    employment.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(context.getString(LDAPEmploymentAttributes.HSA_SEDF_SWITCHBOARD_TELEPHONE.toString())));
+    employment.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(context.getString(EmploymentSearchAttributes.HSA_SEDF_SWITCHBOARD_TELEPHONE.toString())));
 
-    employment.setVgrAO3kod(context.getString(LDAPEmploymentAttributes.VGR_AO3_KOD.toString()));
+    employment.setVgrAO3kod(context.getString(EmploymentSearchAttributes.VGR_AO3_KOD.toString()));
 
-    employment.setName(context.getString(LDAPEmploymentAttributes.ORGANIZATIONAL_UNIT_NAME.toString()));
+    employment.setName(context.getString(EmploymentSearchAttributes.ORGANIZATIONAL_UNIT_NAME.toString()));
 
-    employment.addHsaTelephoneNumbers(PhoneNumber.createPhoneNumberList(context.getStrings(LDAPEmploymentAttributes.HSA_TELEPHONE_NUMBER.toString())));
+    employment.addHsaTelephoneNumbers(PhoneNumber.createPhoneNumberList(context.getStrings(EmploymentSearchAttributes.HSA_TELEPHONE_NUMBER.toString())));
 
-    employment.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(LDAPEmploymentAttributes.HSA_PUBLIC_TELEPHONE_NUMBER.toString())));
+    employment.setHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(EmploymentSearchAttributes.HSA_PUBLIC_TELEPHONE_NUMBER.toString())));
 
-    employment.setMobileTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(LDAPEmploymentAttributes.MOBILE_TELEPHONE_NUMBER.toString())));
+    employment.setMobileTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(EmploymentSearchAttributes.MOBILE_TELEPHONE_NUMBER.toString())));
 
-    employment.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(context.getString(LDAPEmploymentAttributes.HSA_INTERNAL_PAGER_NUMBER.toString())));
+    employment.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(context.getString(EmploymentSearchAttributes.HSA_INTERNAL_PAGER_NUMBER.toString())));
 
-    employment.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(LDAPEmploymentAttributes.PAGER_TELEPHONE_NUMBER.toString())));
+    employment.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(context.getString(EmploymentSearchAttributes.PAGER_TELEPHONE_NUMBER.toString())));
 
-    employment.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(context.getString(LDAPEmploymentAttributes.HSA_TEXT_PHONE_NUMBER.toString())));
+    employment.setHsaTextPhoneNumber(PhoneNumber.createPhoneNumber(context.getString(EmploymentSearchAttributes.HSA_TEXT_PHONE_NUMBER.toString())));
 
-    employment.setModifyTimestamp(parseDateTime(context.getString(LDAPEmploymentAttributes.MODIFY_TIMESTAMP.toString())));
+    employment.setModifyTimestamp(parseDateTime(context.getString(EmploymentSearchAttributes.MODIFY_TIMESTAMP.toString())));
 
-    employment.setModifyersName(context.getString(LDAPEmploymentAttributes.MODIFYERS_NAME.toString()));
+    employment.setModifyersName(context.getString(EmploymentSearchAttributes.MODIFYERS_NAME.toString()));
 
-    employment.addHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(context.getStrings(LDAPEmploymentAttributes.HSA_TELEPHONE_TIME.toString())));
+    employment.addHsaTelephoneTime(WeekdayTime.createWeekdayTimeList(context.getStrings(EmploymentSearchAttributes.HSA_TELEPHONE_TIME.toString())));
 
-    employment.setDescription(context.getStrings(LDAPEmploymentAttributes.DESCRIPTION.toString()));
+    employment.setDescription(context.getStrings(EmploymentSearchAttributes.DESCRIPTION.toString()));
 
     // Locality
-    employment.setLocality(context.getString(LDAPEmploymentAttributes.L.toString()));
+    employment.setLocality(context.getString(EmploymentSearchAttributes.L.toString()));
 
-    employment.setHsaManagerCode(context.getString(LDAPEmploymentAttributes.HSA_MANAGER_CODE.toString()));
+    employment.setHsaManagerCode(context.getString(EmploymentSearchAttributes.HSA_MANAGER_CODE.toString()));
 
-    String paTitleCode = context.getString(LDAPEmploymentAttributes.PA_TITLE_CODE.toString());
+    String paTitleCode = context.getString(EmploymentSearchAttributes.PA_TITLE_CODE.toString());
     employment.setPosition(codeTablesService.getValueFromCode(CodeTableName.PA_TITLE_CODE, paTitleCode));
 
     return employment;

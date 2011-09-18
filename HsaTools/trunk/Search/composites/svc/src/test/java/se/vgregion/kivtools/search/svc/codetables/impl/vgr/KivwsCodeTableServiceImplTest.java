@@ -39,7 +39,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import se.vgregion.kivtools.search.domain.values.CodeTableName;
 import se.vgregion.kivtools.search.domain.values.KivwsCodeTableName;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.KivwsFactoryBean;
+import se.vgregion.kivtools.search.svc.impl.kiv.ws.KivwsFactoryBean;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfDeletedObject;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfDeliveryPoint;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfFunction;
@@ -93,10 +93,9 @@ public class KivwsCodeTableServiceImplTest {
   private void writeToFile() throws VGRException_Exception, IOException {
     DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
     Resource resource = defaultResourceLoader.getResource("classpath:se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties");
-    Properties loadAllProperties = PropertiesLoaderUtils.loadProperties(resource);
+    Properties properties = PropertiesLoaderUtils.loadProperties(resource);
 
-    KivwsFactoryBean kivwsFactoryBean = new KivwsFactoryBean();
-    kivwsFactoryBean.setProperties(loadAllProperties);
+    KivwsFactoryBean kivwsFactoryBean = new KivwsFactoryBean(properties.getProperty("hsatools.search.svc.kivws.username"), properties.getProperty("hsatools.search.svc.kivws.password"));
     this.kivWebService = kivwsFactoryBean.createWebService();
 
     KivwsCodeTableName[] values = KivwsCodeTableName.values();
