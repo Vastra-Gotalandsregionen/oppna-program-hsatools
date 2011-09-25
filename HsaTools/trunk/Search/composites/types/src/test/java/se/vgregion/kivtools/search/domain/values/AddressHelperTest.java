@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -197,5 +198,27 @@ public class AddressHelperTest {
     assertEquals("Unexpected value for street", "Gröna stråket 4", address.getStreet());
     assertEquals("Unexpected value for zipcode", "413 45", address.getZipCode().getZipCode());
     assertEquals("Unexpected value for city", "Göteborg", address.getCity());
+  }
+
+  @Test
+  public void validSkovdeAddress() {
+    List<String> source = Arrays.asList("Åsboholmsgatan 6", "405 51", "Borås", "K11 ingången plan 6");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Åsboholmsgatan 6", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "405 51", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Borås", address.getCity());
+  }
+
+  @Test
+  public void validSkovdeAddressWithInvalidCityWord() {
+    List<String> source = Arrays.asList("Fjällgatan 39 nb", "504 61", "Borås", "Entré från busshållsplats");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Fjällgatan 39 nb", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "504 61", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Borås", address.getCity());
   }
 }

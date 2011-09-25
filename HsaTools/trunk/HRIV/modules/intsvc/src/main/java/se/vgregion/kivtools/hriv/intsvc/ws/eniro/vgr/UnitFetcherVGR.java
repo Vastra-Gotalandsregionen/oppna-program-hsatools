@@ -30,7 +30,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.ldap.BadLdapGrammarException;
 
 import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.vgr.EniroUnitMapperVGR;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitFetcher;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;

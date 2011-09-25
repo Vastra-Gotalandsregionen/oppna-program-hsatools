@@ -33,6 +33,7 @@ import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroUnitMapperVGR;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.domain.values.DN;
@@ -125,11 +126,24 @@ public class EniroUnitMapperVGRTest {
 
   @Test
   public void dnIsEscapedSoParentDnIsPossibleToRetrieve() {
-    this.unit.setDn(DN.createDNFromString("cn=Jourcentral\\, Kungsportsakuten Kungsportsläkarna\\, Läkarhuset +7,ou=Läkarhuset +7\\, Vårdcentralen,ou=Privata vårdgivare,ou=Org,o=VGR"));
+    this.unit.setDn(DN.createDNFromString("cn=Jourcentral\\, Kungsportsakuten Kungsportsläkarna\\, Läkarhuset +7,ou=Läkarhuset +7\\, Vårdcentralen,ou=Privata vårdgivare,ou=Org,o=VGR").escape());
 
     UnitComposition unitComposition = this.eniroUnitMapper.map(this.unit);
 
     assertEquals("ou=Läkarhuset \\+7\\, Vårdcentralen,ou=Privata vårdgivare,ou=Org,o=VGR", unitComposition.getParentDn());
+  }
+
+  @Test
+  public void midnightIsMappedAs235959InsteadOf240000() throws Exception {
+    this.unit.setHsaStreetAddress(this.address);
+    this.unit.getHsaSurgeryHours().clear();
+    this.unit.addHsaSurgeryHours(new WeekdayTime("1-1#00:00#24:00"));
+
+    UnitComposition unitComposition = this.eniroUnitMapper.map(this.unit);
+
+    Address address = (Address) unitComposition.getEniroUnit().getTextOrImageOrAddress().get(0);
+    assertEquals("2000-01-20T00:00:00Z", address.getHours().get(0).getTimeFrom().toXMLFormat());
+    assertEquals("2000-01-20T23:59:59Z", address.getHours().get(0).getTimeTo().toXMLFormat());
   }
 
   private void setUnitAttributes() {

@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.hriv.intsvc.ldap.eniro.vgr;
+package se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -255,7 +255,11 @@ public class EniroUnitMapperVGR {
     }
 
     private String formatTime(int hour, int minute) {
-      return String.format("%02d:%02d", hour, minute);
+      if (hour == 24 && minute == 00) {
+        return "23:59:59";
+      } else {
+        return String.format("%02d:%02d:00", hour, minute);
+      }
     }
 
     /**
@@ -289,8 +293,8 @@ public class EniroUnitMapperVGR {
       hours.setDayTo(Integer.valueOf(dayTo));
       try {
         DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
-        XMLGregorianCalendar fromTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeFrom + ":00Z");
-        XMLGregorianCalendar toTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeTo + ":00Z");
+        XMLGregorianCalendar fromTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeFrom + "Z");
+        XMLGregorianCalendar toTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeTo + "Z");
         hours.setTimeFrom(fromTimeGreg);
         hours.setTimeTo(toTimeGreg);
       } catch (DatatypeConfigurationException e) {
@@ -318,8 +322,8 @@ public class EniroUnitMapperVGR {
       hours.setDayTo(Integer.valueOf(dayTo));
       try {
         DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
-        XMLGregorianCalendar fromTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeFrom + ":00Z");
-        XMLGregorianCalendar toTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeTo + ":00Z");
+        XMLGregorianCalendar fromTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeFrom + "Z");
+        XMLGregorianCalendar toTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeTo + "Z");
         hours.setTimeFrom(fromTimeGreg);
         hours.setTimeTo(toTimeGreg);
       } catch (DatatypeConfigurationException e) {
