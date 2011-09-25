@@ -42,6 +42,7 @@ public class AddressHelper implements Serializable {
   // to any special address info
   private static final List<String> VALID_STREET_SUFFIX = new LinkedList<String>();
   private static final List<String> EXCEPTIONED_STREET_SUFFIX = new LinkedList<String>();
+  private static final List<String> INVALID_CITY_WORDS = new LinkedList<String>();
   private static final int ZIPCODE_LENGTH = 5;
 
   // Define all valid street suffix as well as all exceptioned street suffix
@@ -68,6 +69,10 @@ public class AddressHelper implements Serializable {
     EXCEPTIONED_STREET_SUFFIX.add("gr\u00F6na str\u00E5ket");
     EXCEPTIONED_STREET_SUFFIX.add("bl\u00E5 str\u00E5ket");
     EXCEPTIONED_STREET_SUFFIX.add("gula str\u00E5ket");
+    EXCEPTIONED_STREET_SUFFIX.add("ing\u00E5ngen");
+    EXCEPTIONED_STREET_SUFFIX.add("bussh\u00E5llsplats");
+
+    INVALID_CITY_WORDS.add("bussh\u00E5llsplats");
   }
 
   /**
@@ -309,7 +314,7 @@ public class AddressHelper implements Serializable {
     for (int row = addressList.size() - 1; row >= 0; row--) {
       temp = addressList.get(row);
       temp = temp.replaceAll(" ", "");
-      if (StringUtil.containsNoNumbers(temp)) {
+      if (StringUtil.containsNoNumbers(temp) && !containsListWord(temp, INVALID_CITY_WORDS)) {
         foundRow = row;
         break;
       }
