@@ -74,6 +74,7 @@ Följande adresser anrops från mobilapplikationen för att hämta information o
 || [http://hittavard.vgregion.se/hriv-mobile-ws/getEmergencyUnits.json] || Lista med JSON-objekter || Hämtar information för alla akutmottagningar som finns i Västra Götalandsregion ||
 || [http://hittavard.vgregion.se/hriv-mobile-ws/getCareUnits.json] || Lista med JSON-objekter || Hämtar information för alla vårdcentraler som finns i Västra Götalandsregion ||
 || [http://hittavard.vgregion.se/hriv-mobile-ws/getDutyUnits.json] || Lista med JSON-objekter || Hämtar information för alla jourcentraler som finns i Västra Götalandsregion ||
+Get emergency units har ett filter som hindrar felaktigt taggade avdelningar att visas som en aktumottagning i klienter, inklusive iPhone-appen.
 
 == Produktionsserver ==
 || *End-point* || *Returnerar* || *Beskrivning* ||
