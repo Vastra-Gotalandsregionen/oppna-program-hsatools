@@ -9,6 +9,8 @@ Informationen i applikationen hämtas från en webbservice som i sin tur läser 
 || *Dokumentversion* || *App Version* || *Författare* || *Datum* || *Beskrivning* ||
 || 0,1 || 0,1 || CT || 2010-11-19 || Första version av dokumentet. ||
 || 0,11 || 0,1 || CT || 2011-03-23 || Uppdaterat webservice end-point adress. ||
+|| 0,2 || 0,2 || DO || 2011-10-28 || Publicerat version 2.0 av appen med bland annat nya färger. ||
+
 
 = Kontaktinformation =
 || *Namn* || *Roll/Funktion* || *Företag/organisation* || *Telefon* || *E-post* ||
