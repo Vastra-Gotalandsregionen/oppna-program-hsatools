@@ -804,7 +804,8 @@ public class UnitRepositoryKivws implements UnitRepository {
 
     try {
       String filter = "(" + name.get(name.size() - 1) + ")";
-      ArrayOfUnit searchUnit = this.vgregionWebService.searchUnit(filter, arrayOfString, VGRegionDirectory.KIV, null, null);
+      Name base = name.getPrefix(name.size()-1);
+      ArrayOfUnit searchUnit = this.vgregionWebService.searchUnit(filter, arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(SearchControls.ONELEVEL_SCOPE));
       unit = this.mapKivwsUnitToUnit(searchUnit).get(0);
     } catch (VGRException_Exception e) {
       this.logger.error(e.getMessage(), e);
