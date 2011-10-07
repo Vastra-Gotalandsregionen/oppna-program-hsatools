@@ -808,7 +808,7 @@ public class Unit implements Serializable, Comparable<Unit> {
       return;
     }
     
-    Pattern pattern = Pattern.compile("^(\\d{8})[;-](\\d{8})[; ](.*)$");
+    Pattern pattern = Pattern.compile("^;(\\d{8});(\\d{8});(.*)$");
     
     Matcher matcher = pattern.matcher(vgrTempInfo);
     
