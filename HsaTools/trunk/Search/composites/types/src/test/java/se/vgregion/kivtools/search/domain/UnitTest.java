@@ -311,8 +311,8 @@ public class UnitTest {
     assertEquals("012345678901234567-", this.unit.getVgrTempInfo());
     this.unit.setVgrTempInfo("aaaabbcc-ddddeeff temp temp");
     assertEquals("aaaabbcc-ddddeeff temp temp", this.unit.getVgrTempInfo());
-    this.unit.setVgrTempInfo("20090108-20090118 temp temp temp");
-    assertEquals("20090108-20090118 temp temp temp", this.unit.getVgrTempInfo());
+    this.unit.setVgrTempInfo(";20090108;20090118;temp temp temp");
+    assertEquals(";20090108;20090118;temp temp temp", this.unit.getVgrTempInfo());
     assertEquals(format.parse("20090119"), this.unit.getVgrTempInfoEnd());
     assertEquals("temp temp temp", this.unit.getVgrTempInfoBody());
   }
@@ -320,8 +320,8 @@ public class UnitTest {
   @Test
   public void startDateOfTemporaryInformationShouldBeSetToTheProvidedDate() throws Exception {
     DateFormat format = new SimpleDateFormat("yyyyMMdd");
-    this.unit.setVgrTempInfo("20090108-20100502 temp temp temp");
-    assertEquals("20090108-20100502 temp temp temp", this.unit.getVgrTempInfo());
+    this.unit.setVgrTempInfo(";20090108;20100502;temp temp temp");
+    assertEquals(";20090108;20100502;temp temp temp", this.unit.getVgrTempInfo());
     assertEquals(format.parse("20090108"), this.unit.getVgrTempInfoStart());
     assertEquals("temp temp temp", this.unit.getVgrTempInfoBody());
   }
@@ -329,8 +329,8 @@ public class UnitTest {
   @Test
   public void temporaryInformationHandlesHsaStandardFormat() throws Exception {
     DateFormat format = new SimpleDateFormat("yyyyMMdd");
-    this.unit.setVgrTempInfo("20090108;20110302;temp temp temp");
-    assertEquals("20090108;20110302;temp temp temp", this.unit.getVgrTempInfo());
+    this.unit.setVgrTempInfo(";20090108;20110302;temp temp temp");
+    assertEquals(";20090108;20110302;temp temp temp", this.unit.getVgrTempInfo());
     assertEquals(format.parse("20090108"), this.unit.getVgrTempInfoStart());
     assertEquals(format.parse("20110303"), this.unit.getVgrTempInfoEnd());
     assertEquals("temp temp temp", this.unit.getVgrTempInfoBody());
