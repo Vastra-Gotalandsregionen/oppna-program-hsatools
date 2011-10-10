@@ -404,11 +404,11 @@ public class UnitDetailsServiceImplTest {
         switch (i) {
           case 0:
             unit.setHsaMunicipalityName("Götlaborg");
-            unit.setVgrTempInfo("20090701-20091130 Temp info");
+            unit.setVgrTempInfo(";20090701;20091130;Temp info");
             unit.setVgrRefInfo("Ref info");
             break;
           case 1:
-            unit.setVgrTempInfo("20090701-20090830 Temp info");
+            unit.setVgrTempInfo(";20090701;20090830;Temp info");
             unit.setVgrRefInfo("Ref info");
             break;
         }
