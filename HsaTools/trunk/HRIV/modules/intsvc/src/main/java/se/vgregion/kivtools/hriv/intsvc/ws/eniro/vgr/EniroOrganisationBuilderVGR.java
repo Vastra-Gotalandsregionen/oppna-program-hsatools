@@ -74,7 +74,7 @@ public class EniroOrganisationBuilderVGR extends EniroOrganisationBuilder {
 
     Organization organization = new Organization();
     organization.setLoadType("External");
-    organization.setType("Municipality");
+    organization.setType("County Council");
     organization.setCountry("SE");
 
     this.otherCareUnit = this.createUnit(this.otherCare, locality);
