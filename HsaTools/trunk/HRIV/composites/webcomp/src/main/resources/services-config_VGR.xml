@@ -78,8 +78,8 @@
 	<bean id="rssContentCache" class="se.vgregion.kivtools.hriv.presentation.RssContentCache" init-method="reloadRssCache">
 		<property name="nameToUrlMap">
 			<util:map>
-				<entry key="startpage" value="http://vard.vgregion.se/Documents/hittavard_start.htm" />
-				<entry key="caretypes" value="http://vard.vgregion.se/Documents/vardtyper.htm" />
+				<entry key="startpage" value="http://www.1177.se/Bilder/Vastra_Gotaland/hittavard_start.htm" />
+				<entry key="caretypes" value="http://www.1177.se/Bilder/Vastra_Gotaland/vardtyper.htm" />
 			</util:map>
 		</property>
 		<property name="httpFetcher" ref="Display_HttpFetcher" />
