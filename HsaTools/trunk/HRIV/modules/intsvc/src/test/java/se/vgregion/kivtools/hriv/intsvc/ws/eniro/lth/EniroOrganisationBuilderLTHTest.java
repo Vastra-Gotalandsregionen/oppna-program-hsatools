@@ -64,6 +64,7 @@ public class EniroOrganisationBuilderLTHTest {
   @Test
   public void testBuildOrganisation() {
     Organization organisation = this.eniroOrganisationBuilder.generateOrganisation(this.ldapSearchResult, "Halland");
+    assertEquals("County Council", organisation.getType());
     // Should contain root1 unit and markerUnit1.
     assertEquals(1, organisation.getUnit().size());
     this.assertUnits(organisation.getUnit(), "Region_Halland_Toppniva");
