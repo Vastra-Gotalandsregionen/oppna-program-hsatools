@@ -36,6 +36,7 @@ import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitMapper;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitMapperTest;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitMapperTest.CodeTablesServiceMock;
 import se.vgregion.kivtools.search.svc.impl.kiv.ws.KivwsUnitMapper;
+import se.vgregion.kivtools.search.svc.impl.mock.DeliverypointServiceMockImpl;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfFunction;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfUnit;
 import se.vgregion.kivtools.search.util.DisplayValueTranslator;
@@ -73,10 +74,11 @@ public class KivwsUnitMapperTest {
   @Before
   public void setUp() throws Exception {
     CodeTablesServiceMock codeTablesServiceMock = new UnitMapperTest.CodeTablesServiceMock();
+    DeliverypointServiceMockImpl deliverypointService = new DeliverypointServiceMockImpl();
     DisplayValueTranslator displayValueTranslator = new DisplayValueTranslator();
     displayValueTranslator.setTranslationMap(new HashMap<String, String>());
     this.kivLdapMapper = new UnitMapper(codeTablesServiceMock, displayValueTranslator);
-    this.kivwsUnitMapper = new KivwsUnitMapper(codeTablesServiceMock, displayValueTranslator);
+    this.kivwsUnitMapper = new KivwsUnitMapper(codeTablesServiceMock, displayValueTranslator, deliverypointService);
   }
 
   @Test

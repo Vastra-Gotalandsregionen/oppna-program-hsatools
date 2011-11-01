@@ -29,64 +29,77 @@
 			<th id="besoksadress">Besöksadress</th>
 		</tr>
 		<tr class="cols">
-			<td headers="postadress">
-				<div jsfc="ui:repeat" value="${unit.hsaPostalAddress.additionalInfo}" var="additionalInformation">
+			<td headers="postadress" width="33%">
+				<p><div jsfc="ui:repeat" value="${unit.hsaPostalAddress.additionalInfo}" var="additionalInformation">
 					${additionalInformation}
 				</div>
 				<div>${unit.hsaPostalAddress.street}</div>
 				<span>${unit.hsaPostalAddress.zipCode.formattedZipCode}</span>
-				<span>${unit.hsaPostalAddress.city}</span>
+				<span>${unit.hsaPostalAddress.city}</span></p>
 			</td>
 			<td headers="internadress">
-				<div jsfc="ui:repeat" value="${unit.hsaInternalAddress.additionalInfo}" var="additionalInformation">
+				<p><div jsfc="ui:repeat" value="${unit.hsaInternalAddress.additionalInfo}" var="additionalInformation">
 					${additionalInformation}
 				</div>
 				<div>${unit.hsaInternalAddress.street}</div>
 				<span>${unit.hsaInternalAddress.zipCode.formattedZipCode}</span>
-				<span>${unit.hsaInternalAddress.city}</span>
+				<span>${unit.hsaInternalAddress.city}</span></p>
 			</td>
 			<td headers="besoksadress">
-				<div jsfc="ui:repeat" value="${unit.hsaStreetAddress.additionalInfo}" var="additionalInformation">
+				<p><div jsfc="ui:repeat" value="${unit.hsaStreetAddress.additionalInfo}" var="additionalInformation">
 					${additionalInformation}
 				</div>
 				<div>${unit.hsaStreetAddress.street}</div>
 				<span>${unit.hsaStreetAddress.zipCode.formattedZipCode}</span>
-				<span>${unit.hsaStreetAddress.city}</span>
+				<span>${unit.hsaStreetAddress.city}</span></p>
 			</td>
 		</tr>
 		<tr class="cols">
 			<th id="fakturaadress">Fakturaadress</th>
 			<th id="leveransadress">Leveransadress</th>
-			<th id="locality">${msg.locality}</th>
+			<th id="godsadress">Godsadress</th>
 		</tr>
 		<tr class="cols">
-			<td headers="fakturaadress">
-				<div jsfc="ui:repeat" value="${unit.hsaSedfInvoiceAddress.additionalInfo}" var="additionalInformation">
+			<td headers="fakturaadress" width="33%">
+				<p><div jsfc="ui:repeat" value="${unit.hsaSedfInvoiceAddress.additionalInfo}" var="additionalInformation">
 					${additionalInformation}
 				</div>
 				<div>${unit.hsaSedfInvoiceAddress.street}</div>
 				<span>${unit.hsaSedfInvoiceAddress.zipCode.formattedZipCode}</span>
-				<span>${unit.hsaSedfInvoiceAddress.city}</span>
+				<span>${unit.hsaSedfInvoiceAddress.city}</span></p>
 			</td>
 			<td headers="leveransadress">
-				<div jsfc="ui:repeat" value="${unit.hsaSedfDeliveryAddress.additionalInfo}" var="additionalInformation">
-					${additionalInformation}
+				<div jsfc="ui:repeat" value="${unit.deliverypointDeliveryAddress}" var="deliveryAddress">
+					<p><div jsfc="ui:repeat" value="${deliveryAddress.additionalInfo}" var="additionalInformation">
+						${additionalInformation}
+					</div>
+					<div>${deliveryAddress.street}</div>
+					<span>${deliveryAddress.zipCode.formattedZipCode}</span>
+					<span>${deliveryAddress.city}</span></p>
 				</div>
-				<div>${unit.hsaSedfDeliveryAddress.street}</div>
-				<span>${unit.hsaSedfDeliveryAddress.zipCode.formattedZipCode}</span>
-				<span>${unit.hsaSedfDeliveryAddress.city}</span>
 			</td>
-			<td>${unit.locality}</td>
+			<td headers="godsadress">
+				<div jsfc="ui:repeat" value="${unit.deliverypointConsigneeAddress}" var="consigneeAddress">
+					<p><div jsfc="ui:repeat" value="${consigneeAddress.additionalInfo}" var="additionalInformation">
+						${additionalInformation}
+					</div>
+					<div>${consigneeAddress.street}</div>
+					<span>${consigneeAddress.zipCode.formattedZipCode}</span>
+					<span>${consigneeAddress.city}</span></p>
+				</div>
+			</td>
 		</tr>
 		<tr class="cols">
-			<th id="drivingdirections" colspan="3">${msg.drivingDirections} 
+			<th id="locality">${msg.locality}</th>
+			<th id="drivingdirections" colspan="2">${msg.drivingDirections} 
                 <h:outputText rendered="${unit.hsaPostalAddress.hasVcardData}">
                     <a href="http://www.hitta.se/SearchCombi.aspx?var=${unit.hsaPostalAddress.encodedAddress}">${msg.map}</a>
                  </h:outputText>
             </th>
 		</tr>
 		<tr class="cols">
-			<td headers="drivingdirections" colspan="3">
+			<td>${unit.locality}</td>
+			<td headers="drivingdirections" colspan="2">
 				<div jsfc="ui:repeat" value="${unit.hsaRoute}" var="direction">
 					${direction}
 				</div>

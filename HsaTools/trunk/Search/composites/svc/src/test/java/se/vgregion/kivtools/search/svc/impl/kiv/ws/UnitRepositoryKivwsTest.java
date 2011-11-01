@@ -44,6 +44,7 @@ import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
 import se.vgregion.kivtools.search.svc.impl.mock.CodeTableServiceMock;
+import se.vgregion.kivtools.search.svc.impl.mock.DeliverypointServiceMockImpl;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfAnyType;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfDeletedObject;
@@ -74,8 +75,9 @@ public class UnitRepositoryKivwsTest {
   private UnitRepositoryKivws unitRepository;
   private VGRegionWebServiceMock portType;
   private final CodeTableServiceMock codeTablesService = new CodeTableServiceMock();
+  private final DeliverypointServiceMockImpl deliverypointService = new DeliverypointServiceMockImpl();
   private final DisplayValueTranslator displayValueTranslator = new DisplayValueTranslator();
-  private final KivwsUnitMapper mapper = new KivwsUnitMapper(this.codeTablesService, this.displayValueTranslator);
+  private final KivwsUnitMapper mapper = new KivwsUnitMapper(this.codeTablesService, this.displayValueTranslator, this.deliverypointService);
   private final ObjectFactory objectFactory = new ObjectFactory();
   private final LogFactoryMock logFactory = LogFactoryMock.createInstance();
 
