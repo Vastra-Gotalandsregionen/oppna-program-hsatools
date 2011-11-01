@@ -60,6 +60,14 @@
 		class="se.vgregion.kivtools.search.svc.impl.kiv.ws.KivwsUnitMapper">
 		<constructor-arg ref="Search_KivwsCodeTablesService" />
 		<constructor-arg ref="Search_DisplayValueTranslator" />
+		<constructor-arg ref="Search_KivwsDeliverypointService" />
+	</bean>
+
+	<bean id="Search_KivwsDeliverypointService"
+		class="se.vgregion.kivtools.search.svc.impl.kiv.ws.KivwsDeliverypointService">
+		<constructor-arg>
+			<bean factory-bean="kivws" factory-method="createWebService" />
+		</constructor-arg>
 	</bean>
 
 	<bean id="unitMapper"

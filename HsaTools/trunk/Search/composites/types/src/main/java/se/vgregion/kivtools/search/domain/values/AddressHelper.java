@@ -75,6 +75,22 @@ public class AddressHelper implements Serializable {
     INVALID_CITY_WORDS.add("bussh\u00E5llsplats");
   }
 
+  
+  /**
+   * Convert a raw ldap address string to an Address object.
+   * 
+   * @param address - raw ldap address.
+   * @return A populated Address object.
+   */
+  public static Address convertToAddress(String adrstr) {
+	List<String> components = new ArrayList<String>();
+	String[] split = adrstr.split("\\$");
+	for (String string : split) {
+		components.add(string.trim());
+	}
+	return convertToAddress(components);
+  }
+
   /**
    * Convert a List of Strings (containing an address to an Address object).
    * 

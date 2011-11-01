@@ -208,4 +208,11 @@ public class Address implements Serializable, IsEmptyMarker {
   public String getConcatenatedAdditionalInfo() {
     return StringUtil.concatenate(additionalInfo);
   }
+
+  @Override
+  public String toString() {
+	return "Address [street=" + street + ", zipCode=" + zipCode.getZipCode() + ", city="
+				+ city + ", additionalInfo=" + getConcatenatedAdditionalInfo() + "]";
+  }
+  
 }

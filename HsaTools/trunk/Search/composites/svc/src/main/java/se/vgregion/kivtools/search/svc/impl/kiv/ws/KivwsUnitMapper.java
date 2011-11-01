@@ -28,8 +28,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.apache.log4j.Logger;
 import org.springframework.ldap.core.ContextMapper;
 
+import se.vgregion.kivtools.search.domain.Deliverypoint;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.domain.values.DN;
@@ -38,7 +40,9 @@ import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 import se.vgregion.kivtools.search.domain.values.KivwsCodeTableName;
 import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.domain.values.WeekdayTime;
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
+import se.vgregion.kivtools.search.svc.impl.kiv.DeliverypointService;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.Function;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap.Entry;
 import se.vgregion.kivtools.search.util.DisplayValueTranslator;
@@ -55,11 +59,13 @@ import com.domainlanguage.time.TimePoint;
  * Mapp kivws response object to Unit.
  * 
  * @author david bennehult
- * 
+ * @author attra - Added vgrDeliveryPoint stuff
  */
 public class KivwsUnitMapper implements ContextMapper {
   private final CodeTablesService codeTablesService;
   private final DisplayValueTranslator displayValueTranslator;
+  private final DeliverypointService deliveryPointService;
+  private static final Logger LOG = Logger.getLogger(KivwsUnitMapper.class);
 
   /**
    * Constructs a new UnitMapper.
@@ -67,9 +73,10 @@ public class KivwsUnitMapper implements ContextMapper {
    * @param codeTablesService The CodeTablesService to use.
    * @param displayValueTranslator The DisplayValueTranslator to use.
    */
-  public KivwsUnitMapper(CodeTablesService codeTablesService, DisplayValueTranslator displayValueTranslator) {
+  public KivwsUnitMapper(CodeTablesService codeTablesService, DisplayValueTranslator displayValueTranslator,DeliverypointService deliveryPointService) {
     this.codeTablesService = codeTablesService;
     this.displayValueTranslator = displayValueTranslator;
+    this.deliveryPointService = deliveryPointService;
   }
 
   @Override
@@ -183,9 +190,31 @@ public class KivwsUnitMapper implements ContextMapper {
     unit.setHsaResponsibleHealthCareProvider(attributeHelper.getSingleValue(KivwsAttributes.HSA_RESPONSIBLE_HEALTH_CARE_PROVIDER));
     unit.addHsaHealthCareUnitMembers(attributeHelper.getMultiValue(KivwsAttributes.HSA_HEALTH_CARE_UNIT_MEMBER));
     unit.setVgrObjectManagers(attributeHelper.getMultiValue(KivwsAttributes.VGR_OBJECT_MANAGERS));
-
+    
+    this.populateDeliverypointAddresses(unit);
+    
     return unit;
   }
+
+	private void populateDeliverypointAddresses(Unit unit) {
+		try {
+			List<Deliverypoint> unitdeliverypoints = this.deliveryPointService
+					.searchDeliveryPointsForUnit(unit);
+			if(!unitdeliverypoints.isEmpty()){
+				for(Deliverypoint dp : unitdeliverypoints){
+					if(dp.getHsaSedfDeliveryAddress() !=null && !dp.getHsaSedfDeliveryAddress().isEmpty()){
+						unit.addDeliverypointDeliveryAddress(dp.getHsaSedfDeliveryAddress());
+					}
+					if(dp.getHsaConsigneeAddress() != null && !dp.getHsaConsigneeAddress().isEmpty()){
+						unit.addDeliverypointConsigneeAddress(dp.getHsaConsigneeAddress());
+					}
+				}
+			}
+		} catch (KivException e) {
+			LOG.error(e.getMessage());
+		}
+
+	}
 
   private void populateGeoCoordinates(Unit unit, AttributeHelper attributeHelper) {
     // Coordinates

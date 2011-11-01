@@ -115,7 +115,7 @@ public class AddressHelperTest {
 
   @Test
   public void testConvertToAddress() {
-    Address address = AddressHelper.convertToAddress(null);
+    Address address = AddressHelper.convertToAddress((List<String>)null);
     assertNotNull("An empty address should have been created", address);
     assertEquals("Street should be empty", "", address.getStreet());
 
