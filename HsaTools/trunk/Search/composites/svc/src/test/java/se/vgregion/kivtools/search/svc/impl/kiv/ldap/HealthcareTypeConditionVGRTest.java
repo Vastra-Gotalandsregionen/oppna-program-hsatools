@@ -60,7 +60,7 @@ public class HealthcareTypeConditionVGRTest {
     HealthcareType healthcareType = this.helper.getHealthcareTypeByName("Akutmottagning");
     assertNotNull(healthcareType);
     assertEquals("1000,1100,1500,1600,1800,1801,1812", healthcareType.getConditions().get(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE.toString()));
-    assertEquals("01", healthcareType.getConditions().get(KivwsCodeTableName.CARE_TYPE.toString()));
+    assertEquals("01", healthcareType.getConditions().get(KivwsCodeTableName.VGR_CARE_TYPE.toString()));
     assertFalse(healthcareType.isFiltered());
     assertEquals(Integer.valueOf(1), healthcareType.getIndex());
 

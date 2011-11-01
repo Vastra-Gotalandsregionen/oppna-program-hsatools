@@ -127,7 +127,7 @@ public class KivwsCodeTableMapperTest {
 
     kivwsCodeTableMapper.mapFromContext(kivwsVgrCareTypeReadObject);
     kivwsCodeTableMapper.getCodeTableContent();
-    codeTables.put(KivwsCodeTableName.CARE_TYPE, kivwsCodeTableMapper.getCodeTableContent());
+    codeTables.put(KivwsCodeTableName.VGR_CARE_TYPE, kivwsCodeTableMapper.getCodeTableContent());
   }
 
   @Test(expected = RuntimeException.class)

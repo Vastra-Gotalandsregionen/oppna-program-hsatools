@@ -34,7 +34,8 @@
 	<bean id="smsRedirectService"  
 		class="se.vgregion.kivtools.search.sms.SmsRedirectServiceStub" />
 
-	<bean id="sitemapGenerator" class="se.vgregion.kivtools.search.svc.InternalSitemapGenerator" />
+	<!--  <bean id="sitemapGenerator" class="se.vgregion.kivtools.search.svc.InternalSitemapGenerator" /> -->
+	<bean id="sitemapGenerator" class="se.vgregion.kivtools.search.svc.ExternalSitemapGenerator" />
 	
 	<bean id="sitemapSupportBean" class="se.vgregion.kivtools.search.svc.SitemapSupportBean">
 		<constructor-arg ref="sitemapCacheService" />

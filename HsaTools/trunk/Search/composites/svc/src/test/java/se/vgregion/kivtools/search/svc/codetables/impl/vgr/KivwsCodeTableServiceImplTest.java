@@ -179,7 +179,7 @@ public class KivwsCodeTableServiceImplTest {
 
   @Test
   public void vgrCareTypeTest() {
-    List<String> allValuesItemsFromKivwsCodeTable = this.kivwsCodeTablesServiceImpl.getAllValuesItemsFromCodeTable(KivwsCodeTableName.CARE_TYPE.name());
+    List<String> allValuesItemsFromKivwsCodeTable = this.kivwsCodeTablesServiceImpl.getAllValuesItemsFromCodeTable(KivwsCodeTableName.VGR_CARE_TYPE.name());
     assertEquals(3, allValuesItemsFromKivwsCodeTable.size());
 
   }
@@ -340,7 +340,7 @@ public class KivwsCodeTableServiceImplTest {
   @Test
   public void hsaCareTypeCodeFromTextValueTest() {
     String searchString = "Slutenvård";
-    List<String> kivwsCodeFromTextValue = this.kivwsCodeTablesServiceImpl.getCodeFromTextValue(KivwsCodeTableName.CARE_TYPE, searchString);
+    List<String> kivwsCodeFromTextValue = this.kivwsCodeTablesServiceImpl.getCodeFromTextValue(KivwsCodeTableName.VGR_CARE_TYPE, searchString);
     assertEquals("02", kivwsCodeFromTextValue.get(0));
   }
 
@@ -348,7 +348,7 @@ public class KivwsCodeTableServiceImplTest {
   public void hsaCareTypeValueFromCodeTest() {
     String searchString = "02";
     String expectedString = "Slutenvård";
-    String valueFromKivwsCode = this.kivwsCodeTablesServiceImpl.getValueFromCode(KivwsCodeTableName.CARE_TYPE, searchString);
+    String valueFromKivwsCode = this.kivwsCodeTablesServiceImpl.getValueFromCode(KivwsCodeTableName.VGR_CARE_TYPE, searchString);
     assertEquals(expectedString, valueFromKivwsCode);
 
   }

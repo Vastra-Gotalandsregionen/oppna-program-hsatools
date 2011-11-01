@@ -173,7 +173,7 @@ public class UnitRepositoryKivwsTest {
     // Create ldapConnectionMock.
     this.codeTablesService.addListToMap(KivwsCodeTableName.VGR_AO3_CODE, Arrays.asList("01"));
     this.codeTablesService.addListToMap(KivwsCodeTableName.HSA_BUSINESSCLASSIFICATION_CODE, Arrays.asList("1505"));
-    this.codeTablesService.addListToMap(KivwsCodeTableName.CARE_TYPE, Arrays.asList("01"));
+    this.codeTablesService.addListToMap(KivwsCodeTableName.VGR_CARE_TYPE, Arrays.asList("01"));
 
     String expectedFilterOU = "(&(vgrAO3kod=01)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1505)(vgrCareType=01))";
     String expectedFilterCN = "(&(vgrAO3kod=01)(vgrAnsvarsnummer=*1*)(hsaBusinessClassificationCode=1505)(vgrCareType=01))";
@@ -465,7 +465,7 @@ public class UnitRepositoryKivwsTest {
     String expectedOU = "(&(hsaIdentity=abc-123)(|(vgrCareType=01)(vgrCareType=01)(vgrCareType=01)))";
     String expectedCN = "(&(hsaIdentity=abc-123)(|(vgrCareType=01)(vgrCareType=01)(vgrCareType=01)))";
 
-    this.codeTablesService.addListToMap(KivwsCodeTableName.CARE_TYPE, Arrays.asList("01"));
+    this.codeTablesService.addListToMap(KivwsCodeTableName.VGR_CARE_TYPE, Arrays.asList("01"));
     this.unitRepository.getUnitByHsaIdAndHasNotCareTypeInpatient("abc-123");
 
     assertEquals(expectedOU, this.portType.filterOU);

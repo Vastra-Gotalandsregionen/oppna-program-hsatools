@@ -90,7 +90,7 @@
                     <label for="careTypeName">${msg.careType}</label>
                     <select id="careTypeName" name="careTypeName" class="search-input-name-field">
                         <option value=""></option>
-                        <ui:repeat value="${presentationHelper.getSelectItemsFromStrings(Search_CodeTablesService.getAllValuesItemsFromCodeTable('VGR_CARE_TYPE'))}" var="option">
+                        <ui:repeat value="${presentationHelper.getSelectItemsFromStrings(Search_KivwsCodeTablesService.getAllValuesItemsFromCodeTable('VGR_CARE_TYPE'))}" var="option">
                             <h:outputText rendered="${option.value == unitSearchSimpleForm.careTypeName}">
                                 <option value="${option.value}" selected="selected">${option.label}</option>
                             </h:outputText>
