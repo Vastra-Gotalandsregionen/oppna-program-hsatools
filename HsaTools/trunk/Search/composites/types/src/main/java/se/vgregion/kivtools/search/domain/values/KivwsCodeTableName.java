@@ -43,7 +43,7 @@ public enum KivwsCodeTableName implements CodeTableNameInterface {
   /** AO3 code (responsibility area code). */
   VGR_AO3_CODE("vgrao3kod"),
   /** Care type. */
-  CARE_TYPE("vgrcaretype"),
+  VGR_CARE_TYPE("vgrcaretype"),
   /** Language knowledge. */
   HSA_LANGUAGE_KNOWLEDGE_CODE("hsalanguageknowledgecode"),
   /** Employment titles. */

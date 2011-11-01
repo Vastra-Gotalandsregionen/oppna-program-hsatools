@@ -144,7 +144,9 @@ public class KivwsCodeTablesServiceImpl implements CodeTablesService {
 
   @Override
   public List<String> getAllValuesItemsFromCodeTable(String codeTable) {
-    return new ArrayList<String>(this.codeTables.get(KivwsCodeTableName.valueOf(codeTable)).values());
+	ArrayList<String> retval = new ArrayList<String>(this.codeTables.get(KivwsCodeTableName.valueOf(codeTable)).values());
+	return retval;
+	//return new ArrayList<String>(this.codeTables.get(KivwsCodeTableName.valueOf(codeTable)).values());
   }
 
 }

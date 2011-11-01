@@ -301,7 +301,7 @@ public class KivwsUnitMapper implements ContextMapper {
     unit.setVgrAO3kodText(vgrAO3Text);
 
     unit.setCareType(attributeHelper.getSingleValue(KivwsAttributes.VGR_CARE_TYPE));
-    String vgrCareTypeText = this.codeTablesService.getValueFromCode(KivwsCodeTableName.CARE_TYPE, unit.getCareType());
+    String vgrCareTypeText = this.codeTablesService.getValueFromCode(KivwsCodeTableName.VGR_CARE_TYPE, unit.getCareType());
     unit.setCareTypeText(vgrCareTypeText);
 
     unit.setHsaMunicipalityCode(attributeHelper.getSingleValue(KivwsAttributes.HSA_MUNICIPALITY_CODE));

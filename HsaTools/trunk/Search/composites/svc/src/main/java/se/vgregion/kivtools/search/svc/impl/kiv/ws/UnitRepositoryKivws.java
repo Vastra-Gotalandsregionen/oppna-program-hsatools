@@ -254,7 +254,7 @@ public class UnitRepositoryKivws implements UnitRepository {
     careTypes.add(OPPENVARD);
     careTypes.add(SLUTENVARD);
     careTypes.add(HEMSJUKVARD);
-    Filter careTypesFilterList = this.generateCareTypeFilterFromList(KivwsCodeTableName.CARE_TYPE, UnitSearchAttributes.CARE_TYPE, careTypes);
+    Filter careTypesFilterList = this.generateCareTypeFilterFromList(KivwsCodeTableName.VGR_CARE_TYPE, UnitSearchAttributes.CARE_TYPE, careTypes);
 
     andFilterList.add("(hsaIdentity=" + hsaId + ")");
     andFilterList.add(careTypesFilterList.encode());
@@ -460,7 +460,7 @@ public class UnitRepositoryKivws implements UnitRepository {
       andFilter.and(orFilter);
     }
     if (!StringUtil.isEmpty(searchUnitCriterions.getCareTypeName())) {
-      Filter orFilter = this.generateOrFilterFromList(KivwsCodeTableName.CARE_TYPE, UnitSearchAttributes.CARE_TYPE, searchUnitCriterions.getCareTypeName());
+      Filter orFilter = this.generateOrFilterFromList(KivwsCodeTableName.VGR_CARE_TYPE, UnitSearchAttributes.CARE_TYPE, searchUnitCriterions.getCareTypeName());
       andFilter.and(orFilter);
     }
     // create or criteria
