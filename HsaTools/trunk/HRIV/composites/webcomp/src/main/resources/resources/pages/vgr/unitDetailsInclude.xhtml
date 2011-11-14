@@ -27,10 +27,10 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
 
                 <h:outputText rendered="${unit.hsaIdentity != null}">
                     <div id="print-element">
+                    	<!-- Link to redirect to NordicEdge IM not in use -->
                         <h:outputText rendered="${Search_SettingsContainer.showLinkToIM==true and Search_SettingsContainer.linkToIMOnServer==facesContext.externalContext.request.serverName}">
                             <a href="${Search_SettingsContainer.linkToIMBase}${unit.dnBase64}" class="url">${msg.editInIM}</a>&#160;
                         </h:outputText>
-
                         <h:outputText rendered="${Search_SettingsContainer.usePrinting==true}">
                             <script type="text/javascript" charset="utf-8">
                                 // <![CDATA[]
@@ -38,7 +38,7 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
                                 // ]]>
                             </script>
                         </h:outputText>
-                        <h:outputText rendered="${Search_SettingsContainer.useAccessibilityDatabaseIntegration==true and unit.accessibilityDatabaseId != null}">&#160;<a href="${flowExecutionUrl}&amp;_eventId=viewAccessibilityInfoAction&amp;unitId=${unit.hsaIdentity}&amp;javax.faces.ViewState=${flowExecutionContext.key}"><img src="resources/images/disabled.png" alt="Tillgänglighetsinformation" title="Tillgänglighetsinformation"/></a></h:outputText>
+                        <h:outputText rendered="${Search_SettingsContainer.useAccessibilityDatabaseIntegration==true and unit.accessibilityDatabaseId != null}">&#160;<a href="${flowExecutionUrl}&amp;_eventId=viewAccessibilityInfoAction&amp;unitId=${unit.hsaIdentity}&amp;javax.faces.ViewState=${flowExecutionContext.key}"><img src="resources/images/disabled.png" style="vertical-align:middle" alt="Tillgänglighetsinformation" title="Tillgänglighetsinformation"/></a></h:outputText>
                     </div>
                     <div id="print-area">
                         <!--  Display unit widget start (dont remove this comment) -->

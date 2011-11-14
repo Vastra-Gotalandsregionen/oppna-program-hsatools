@@ -268,7 +268,7 @@ function drawDirectionsTableRows(name, wgs84Lat, wgs84Long, street, city) {
 }
 
 function drawPrintLabel(divToPrint) {
-	var output = "<span id=\"labels\"><a href=\"#\" class=\"url\" onclick=\"printElement(\'"
+	var output = "<span style=\"display:inline-block; vertical-align:middle\" id=\"labels\"><a href=\"#\" class=\"url\" onclick=\"printElement(\'"
 			+ divToPrint
 			+ "\');\"> Skriv ut <img src=\"resources/images/printer.png\" alt=\"\" /></a></span>";
 	document.write(output);
