@@ -56,8 +56,8 @@
 			</div>
 		</div>
 	</div>
-	<h:outputText rendered="${Search_SettingsContainer.useTrackingCode == 'true'}">
-			<h:outputText escape="false" rendered="${facesContext.externalContext.request.serverName == Search_SettingsContainer.trackingCodeOnServer}" value="${Search_SettingsContainer.trackingCode}" />
+	<h:outputText rendered="${Search_SettingsContainer.settings.useTrackingCode == 'true'}">
+			<h:outputText escape="false" rendered="${facesContext.externalContext.request.serverName == Search_SettingsContainer.settings.trackingCodeOnServer}" value="${Search_SettingsContainer.settings.trackingCode}" />
 	</h:outputText>
 </body>
 </html>

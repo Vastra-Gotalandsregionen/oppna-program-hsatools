@@ -36,9 +36,6 @@
 		scope="prototype">
 		<constructor-arg index="0"
 			value="classpath:resources/settings/lth/sik-composite-webcomp.properties" />
-		<property name="useTrackingCode" value="#{google.useTrackingCode}" />
-		<property name="trackingCodeOnServer" value="#{google.trackingCodeOnServer}" />
-		<property name="trackingCode" value="#{google.trackingCode}" />
 	</bean>
 
 	<bean id="userEventService"
