@@ -198,6 +198,11 @@
 					<xs:enumeration value="fixed"/>
 					<xs:enumeration value="fax"/>
 					<xs:enumeration value="switch"/>
+					<xs:enumeration value="voicemail"/>
+					<xs:enumeration value="reception"/>
+					<xs:enumeration value="office"/>
+					<xs:enumeration value="booking"/>
+					<xs:enumeration value="counceling"/>
 					<xs:enumeration value="other"/>
 				</xs:restriction>
 			</xs:simpleType>
@@ -492,9 +497,12 @@
 			<xs:attribute name="Type" use="optional" default="phoneopen">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
+						<xs:enumeration value="open"/>
 						<xs:enumeration value="phoneopen"/>
 						<xs:enumeration value="phone"/>
 						<xs:enumeration value="voicemail"/>
+						<xs:enumeration value="close"/>
+						<xs:enumeration value="lunch"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -531,6 +539,7 @@
 						<xs:enumeration value="visit"/>
 						<xs:enumeration value="dropin"/>
 						<xs:enumeration value="close"/>
+						<xs:enumeration value="lunch"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>

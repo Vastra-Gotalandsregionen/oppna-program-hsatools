@@ -42,7 +42,7 @@ import se.vgregion.kivtools.util.StringUtil;
  * @author Joakim Olsson
  */
 public class HttpFetcherImpl implements HttpFetcher {
-  private Log logger = LogFactory.getLog(this.getClass());
+  private final Log logger = LogFactory.getLog(this.getClass());
 
   /**
    * {@inheritDoc}
@@ -63,7 +63,7 @@ public class HttpFetcherImpl implements HttpFetcher {
           ((HttpsURLConnection) urlConnection).setHostnameVerifier(new NiceHostnameVerifier());
         }
 
-        String charset = getCharsetFromContentType(urlConnection.getContentType(), "UTF-8");
+        String charset = this.getCharsetFromContentType(urlConnection.getContentType(), "UTF-8");
 
         int responseCode = urlConnection.getResponseCode();
         if (responseCode == 200 || responseCode == 201) {
@@ -82,12 +82,12 @@ public class HttpFetcherImpl implements HttpFetcher {
 
         result = writer.toString();
       } catch (IOException e) {
-        logger.error("Error when retrieving response", e);
+        this.logger.error("Error when retrieving response", e);
       } finally {
         urlConnection.disconnect();
       }
     } catch (MalformedURLException e) {
-      logger.error("URL no good: " + urlToFetch);
+      this.logger.error("URL no good: " + urlToFetch);
     }
 
     return result;
@@ -115,7 +115,7 @@ public class HttpFetcherImpl implements HttpFetcher {
       }
     }
 
-    return charset;
+    return charset.replaceAll("\"", "");
   }
 
   /**
@@ -125,6 +125,7 @@ public class HttpFetcherImpl implements HttpFetcher {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean verify(String hostname, SSLSession session) {
       return true;
     }

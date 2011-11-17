@@ -331,10 +331,6 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
 	                                        </th>
 	                                        <td class="directions-right-col">
 	                                            <ui:repeat value="${Search_SettingsContainer.findRouteLinksArray}" var="link">
-	                                                <h:outputText rendered="${link.toParamName != '' and link.fromParamName != ''}">
-	                                                    <a href="${link.href}?${link.fromParamName}=&amp;${link.toParamName}=${Search_VasttrafikSearchService.getStopIdByAddress(fn:trim(unit.hsaStreetAddress.street), fn:trim(unit.hsaMunicipalityName))}" class="url">${link.name}</a><br/>
-	                                                </h:outputText>
-	                                                
 	                                                <h:outputText rendered="${link.toParamName != '' and link.fromParamName == ''}">
 	                                                    <a href="${link.href}?${link.toParamName}=${fn:trim(unit.hsaStreetAddress.street)}" class="url">${link.name}</a><br/>
 	                                                </h:outputText>
@@ -343,6 +339,7 @@ xmlns:ui="http://java.sun.com/jsf/facelets">
 	                                                    <a href="${link.href}" class="url">${link.name}</a><br/>
 	                                                </h:outputText>
 	                                            </ui:repeat>
+	                                        	<a href="http://reseplanerare.vasttrafik.se/bin/query.exe/sn?ZID=A=16@O=${fn:trim(unit.hsaStreetAddress.street)},%20${fn:trim(unit.hsaStreetAddress.zipCode)}%20${fn:trim(unit.hsaMunicipalityName)}@X=${unit.wgs84LongE6}@Y=${unit.wgs84LatE6}&amp;start=1&amp;L=vs_vasttrafik" class="url">Västtrafik (vasttrafik.se)</a><br/>
 	                                        </td>
 	                                	</h:outputText>
 	                                    </tr>
