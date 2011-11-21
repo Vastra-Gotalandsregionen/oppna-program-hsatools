@@ -1,0 +1,81 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="MetaDataContainer">
+            <h:outputText rendered="${unit.hsaIdentity != null}">
+                <title>${unit.name} - ${Search_SettingsContainer.title}</title>
+            </h:outputText>
+            <h:outputText rendered="${unit.hsaIdentity == null}">
+                <title>${Search_SettingsContainer.title}</title>
+            </h:outputText>
+            <meta name="resource-type" content="organisation" />
+            <meta name="keywords" content="Hitta-rätt-i-vården, HRIV, sök, organisation, enhet, telefonnummer, adress, ${unit.name}" />
+            <meta name="date" content="${presentationHelper.formatDateTime(unit.createTimestamp)}" />
+            <meta name="creation-date" content="${presentationHelper.formatDateTime(unit.createTimestamp)}" />
+            <meta name="last-modified" content="${presentationHelper.formatDateTime(unit.modifyTimestamp)}" />
+            <meta name="revised" content="${presentationHelper.formatDateTime(unit.modifyTimestamp)}" />
+            <meta name="DC.title" content="${unit.name} - Hitta rätt i vården" />
+            <meta name="DC.subject" content="Hitta-rätt-i-vården, sök, organisation, enhet, mottagning, telefonnummer, adress, ort, ${unit.name}, ${unit.locality}, ${unit.hsaMunicipalityName}" />
+            <h:outputText rendered="${unit.concatenatedDescription == ''}">
+                <meta name="DC.description" content="${unit.name}, ${unit.caretypeCustomized} i ${unit.locality} (${unit.hsaMunicipalityName}). Telefonnummer: ${unit.hsaPublicTelephoneNumber[0].formattedPhoneNumber}" />
+                <meta name="description" content="${unit.name}, ${unit.caretypeCustomized} i ${unit.locality} (${unit.hsaMunicipalityName}). Telefonnummer: ${unit.hsaPublicTelephoneNumber[0].formattedPhoneNumber}" />
+            </h:outputText>
+            <h:outputText rendered="${unit.concatenatedDescription != ''}">
+                <meta name="DC.description" content="${unit.concatenatedDescription}" />
+                <meta name="description" content="${unit.concatenatedDescription}" />
+            </h:outputText>
+            <h:outputText rendered="${unit.wgs84Lat!=0.0 and unit.wgs84Long!=0.0}">
+                <meta name="geo.position" content="${unit.wgs84LatRounded} ;${unit.wgs84LongRounded}"/>
+            </h:outputText>
+            <meta name="geo.country" content="SE" />
+            <meta name="geo.region" content="${Search_SettingsContainer.geoRegion}" />
+            <meta name="geo.placename" lang="sv-SE" content="${unit.hsaMunicipalityName}"/>
+            
+            <meta name="vardvalParticipant" lang="sv-SE" content="${unit.vgrVardVal}"/>
+            <meta name="municipalityCode" lang="sv-SE" content="${unit.hsaMunicipalityCode}"/>
+            <meta name="businessClassificationCodes" lang="sv-SE" content="${unit.businessClassificationCodes}"/>
+            <meta name="businessType" lang="sv-SE" content="${unit.hsaBusinessType}"/>
+
+            <h:outputText rendered="${unit.hsaIdentity == null}">
+                <meta name="ROBOTS" content="NOINDEX,NOFOLLOW" />
+            </h:outputText>
+            <h:outputText rendered="${unit.hsaIdentity != null}">
+                <meta name="robots" content="ALL" />
+            </h:outputText>
+        </ui:define>
+
+        <ui:define name="HRIVCaptions">
+        </ui:define>
+
+        <ui:define name="MainContainer">
+			<ui:include src="${Search_SettingsContainer.unitDetailsInclude}" />
+        </ui:define>
+
+    </ui:composition></div>

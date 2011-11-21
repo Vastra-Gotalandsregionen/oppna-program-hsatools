@@ -1,0 +1,44 @@
+/**
+ * Copyright 2010 Västra Götalandsregionen
+ *
+ *   This library is free software; you can redistribute it and/or modify
+ *   it under the terms of version 2.1 of the GNU Lesser General Public
+ *   License as published by the Free Software Foundation.
+ *
+ *   This library is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public
+ *   License along with this library; if not, write to the
+ *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ *   Boston, MA 02111-1307  USA
+ *
+ */
+
+@charset "utf-8";
+/* CSS Document */
+
+body { font-family:"Times New Roman", Times, serif; width:550px;}
+
+h1 {font-size:24px;}
+h2 { font-size:19px;font-weight:bold;color:#000;}
+h3 {font-size:17px;font-weight:bold;color:#000;}
+h4 {font-size:15px;font-weight:bold;color:#333;}
+p, li {font-size:13px;}
+
+.yui-g {background:#fff;}
+
+div#leftinside, #hd, div#rightinside, .chapterNavigation, #breadcrumb, .printicon { display:none; visibility:hidden;}
+
+
+
+#footerbar { background:#fff; color:000;font-size:13px;}
+.footercontent img { display:block;}
+#ft span { font-size:13px;}
+#ft img {padding:10px;}
+
+div #main-webbis img { width:200px;}
+
+.searchfield, .editwebbis { display:none; visibility:hidden;}

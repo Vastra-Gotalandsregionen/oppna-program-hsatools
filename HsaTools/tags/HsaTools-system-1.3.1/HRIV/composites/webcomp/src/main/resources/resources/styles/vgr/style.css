@@ -1,0 +1,320 @@
+/**
+ * Copyright 2010 Västra Götalandsregionen
+ *
+ *   This library is free software; you can redistribute it and/or modify
+ *   it under the terms of version 2.1 of the GNU Lesser General Public
+ *   License as published by the Free Software Foundation.
+ *
+ *   This library is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public
+ *   License along with this library; if not, write to the
+ *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ *   Boston, MA 02111-1307  USA
+ *
+ */
+
+.structural {
+	left: -9999px;
+	position: absolute;
+}
+
+.yui-ge div.first {
+	border-right: 1px solid white;
+}
+
+.search-result td, .search-result th {
+	vertical-align: baseline;
+}
+
+.borderless-no-width-limit {
+	width: 100%;
+}
+
+.search-result h1.hriv-header-no-margin {
+	float: none;
+}
+
+#centercontent #search-result-container {
+	margin: 0em 2em 0em 0em;
+	padding: 0em;
+	list-style: none;
+	list-style-type: none;
+	width: 100%;
+}
+
+#search-result-caption {
+	padding: 0.5em;
+	float: left;
+	width: 49.6em;
+}
+
+#boxmiddle ul#search-result-container li {
+	margin: 0 0 0.5em;
+	padding: 1em 1em 1em 1em;
+	border: 0.1em solid #bcbcbc;
+}
+
+#boxmiddle ul#search-result-container li.selected-item {
+	padding: 0.65em 0.65em 1.1em 1.1em;
+	border: 0.5em solid #F3F1F2;
+	border-width: 0.5em 0.5em 0 0;
+	background: url(../../images/vgr/selected_search_Item_bg.gif) no-repeat bottom
+		left;
+}
+
+h3.fn {
+	display: block;
+	font-size: 1.3em;
+	padding-bottom: 0em;
+	font-weight: normal;
+}
+
+#centercontent ul li h3.fn a, #boxmiddle p a {
+	color: #9C132F;
+}
+
+.hits-header {
+	color: #666;
+	font-size: 1em;
+	padding-bottom: 0em;
+	font-weight: bold;
+}
+
+.vcard td.tel .type,.vcard .tel .type,.adr-container .type {
+	display: none;
+}
+
+.vcard .heading {
+	font-size: 1.25em;
+	font-weight: bold;
+}
+
+.rightaligned {
+	text-align: right;	
+}
+
+.search-result .borderless th,.search-result .borderless td {
+	border-width: 0em;
+	padding: 0.25em;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.summary {
+	clear: both;
+	margin-bottom: 0.1em;
+}
+
+.summary h1 {
+/*	font-size: 2.4em;*/
+	color: #333;
+	float: none;
+}
+
+#boxmiddle #accessibilityInfo {
+	font-size: 1.2em;
+}
+
+#boxmiddle ul.accessibilityInfoItem,#boxmiddle ul.accessibilityBlockItem,#boxmiddle ul.accessibilityCriteriaItem {
+	margin-bottom: 0.2em;
+	padding: 0px;
+	width: 100%;
+}
+
+#boxmiddle ul.accessibilityInfoItem {
+	list-style: none;
+}
+
+#boxmiddle ul.accessibilityBlockItem {
+	list-style: disc;
+	margin-left: 2em;
+}
+
+#boxmiddle ul.accessibilityCriteriaItem {
+	list-style: circle;
+	margin-left: 1em;
+}
+
+#boxmiddle ul.accessibilityCriteriaItem ul {
+	list-style: square;
+}
+
+#boxmiddle ul.accessibilityInfoItem li,#boxmiddle ul.accessibilityBlockItem li,#boxmiddle ul.accessibilityCriteriaItem li {
+	border: 0px;
+	list-style-image: none;
+	display: list-item;
+}
+
+#boxmiddle ul.accessibilityInfoItem li {
+	list-style: none;
+}
+
+#boxmiddle ul.accessibilityBlockItem li {
+	list-style: disc;
+}
+
+#boxmiddle ul.accessibilityCriteriaItem li {
+	list-style: circle;
+}
+
+#boxmiddle ul.accessibilityCriteriaItem ul li {
+	list-style: square;
+}
+
+.accessibilityBlockImage, .accessibilityBlockImageDesc, .accessibilityBlockItemNote {
+	display:block;
+	clear: both;
+}
+
+.borderless-container table {
+	border: 0;
+	width: 70%;
+}
+
+#startpage-image-holder {
+	float: right;
+}
+
+.vardval-participant {
+	text-align: right;
+	padding: 2px;
+	float: left;
+}
+
+.vardval-participant-searchresult {
+	text-align: right;
+	padding: 2px;
+	float: right;
+	clear: right;
+}
+
+#print-element {
+	padding-top: 0.5em;
+	text-align: right;
+	color: #2A6344;
+	width: 58em;
+	float:right;
+}
+
+.warning {
+	color: red;
+}
+
+#description-header, #tempinfo-header, #refinfo-header, #patientvisitingrules-header, #visitingrules-header, #mvk-header {
+	padding: 1em;
+}
+
+#tempinfo-body, #refinfo-body, #patientvisitingrules-body, #visitingrules-body {
+	padding: 0.25em;
+	float: left;
+	margin-bottom:0.5em;
+}
+
+#description-body, mvk-body {
+	padding: 0.25em;
+	float: left;
+	margin-bottom:1.5em;
+}
+
+.unit-details-header {
+	margin-top: 1em;
+	font-size: 1em;
+	clear: both;
+}
+
+.directions-right-col {
+	width: 16em;
+}
+
+#search-result-container-map {
+	float: left;
+}
+
+#map-div {
+	width: 55em;
+	height: 40em;
+}
+
+#map-div-container #map-div {
+/*	float: right;*/
+	width: 28em;
+	visibility: hidden;
+}
+
+/* Used when generating map */
+.spin-div {
+	background: #fff url('../../images/spinner.gif') no-repeat center center;
+	width: 400px;
+	height: 100px;
+}
+
+.spin-div-text {
+	text-align: center;
+	width: 400px;
+}
+
+div.adr {
+	display: none;
+}
+
+#description-toggle-area {
+}
+
+#description-toggle-image {
+	border:none;
+}
+#toggle-extend-description-link-span {
+}
+
+#description-body-short, #description-body-long {
+	border-bottom:solid 1px #9C132F;
+}
+
+#description-extend {
+	margin:0; float:left;
+}
+#description-extend img {
+	border:none;
+	margin:0;
+	padding:0;
+	margin-left:275px;
+}
+#description-extend a {
+	text-decoration:none;
+	margin:0;
+	padding:0;
+	float:left;
+	outline:none;
+	width:100px;
+}
+
+#map {
+	text-align: right;
+}
+
+#map-right-of-address-div {
+	border: 1px solid #ccc;
+	height: 549px;
+	width: 549px;
+}
+
+/* Popup for map */
+#eniroMapPopup.yui-panel .hd {
+	background-color:#cdcdcd;
+	border-color: #cdcdcd;
+}
+	
+#eniroMapPopup.yui-panel {
+	border-color: #cdcdcd;
+}
+
+#panelBody{
+	height: 600px;
+	width: 792px;
+}
