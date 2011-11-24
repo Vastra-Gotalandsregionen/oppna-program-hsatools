@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.ldap.core.DistinguishedName;
 
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Organization;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
 import se.vgregion.kivtools.util.StringUtil;

@@ -30,9 +30,9 @@ import javax.naming.directory.SearchControls;
 import org.junit.Test;
 import org.springframework.ldap.core.ContextMapper;
 
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition.UnitType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition.UnitType;
 import se.vgregion.kivtools.util.StringUtil;
 
 public class UnitFetcherLTHTest {

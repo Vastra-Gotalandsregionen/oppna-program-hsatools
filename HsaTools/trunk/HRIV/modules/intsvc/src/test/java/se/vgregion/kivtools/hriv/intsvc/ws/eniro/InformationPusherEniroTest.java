@@ -41,9 +41,8 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition.UnitType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition.UnitType;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroConfigurationVGR;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroOrganisationBuilderVGR;
 import se.vgregion.kivtools.mocks.LogFactoryMock;

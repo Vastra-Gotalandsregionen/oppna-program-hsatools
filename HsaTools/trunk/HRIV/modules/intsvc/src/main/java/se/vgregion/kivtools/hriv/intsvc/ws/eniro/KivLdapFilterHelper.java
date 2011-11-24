@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.hriv.intsvc.ldap.eniro;
+package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
 import java.util.List;
 import java.util.Set;
