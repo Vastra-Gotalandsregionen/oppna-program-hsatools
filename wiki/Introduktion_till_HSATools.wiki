@@ -48,6 +48,8 @@ Flödet när en användare vill byta vårdcentral ser ut såhär:
   * Efter lyckad signering anropas metoden setVardval i vårdvalssystemet med den valda enheten samt signeringsresultatet
   * En sida med information om ny aktuell registrering visas
 
+Den drivande java-klassen här är: http://code.google.com/p/oppna-program-hsatools/source/browse/HsaTools/trunk/HRIV/composites/webcomp/src/main/java/se/vgregion/kivtools/hriv/presentation/RegisterOnUnitController.java
+
 ==Mina vårdkontakter==
 Mina vårdkontakter är en extern e-tjänst för att kommunicera med vald vårdenhet. Med e-tjänsten Mina vårdkontakter (http://www.minavardkontakter.se) kan du till exempel beställa tid, av- och omboka tid, förnya recept eller be mottagningen kontakta dig.
 
