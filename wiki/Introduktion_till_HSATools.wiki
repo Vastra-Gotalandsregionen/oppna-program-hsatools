@@ -1,0 +1,112 @@
+=Innehåll=
+<wiki:toc max_depth="3" />
+
+=Introduktion=
+HSATools är en familj av applikationer som alla presenterar information från en HSA-datakälla (se http://www.carelink.se/tjanster/hsa/ för information om HSA).
+
+Applikationerna i familjen är Sök i KIV (SIK), Hitta rätt i vården (HRIV) och Integration Service (!IntSvc). Se information nedan om vad varje applikation tillhandahåller för funktionalitet.
+
+HSATools är implementerat som JavaEE-applikationer och kan köras på allt från Tomcat eller Jetty till IBM !WebSphere.
+
+=Systemöversikt=
+TODO: Länk till bild här
+
+=Sök i KIV (SIK)=
+Sök i KIV är en intranät-applikation som gör det möjligt att söka och presentera information om enheter och personer ifrån HSA-datakällan.
+
+Katalog i Väst (KIV) är Västra Götalandsregionens HSA-datakälla. Det är en LDAP-katalog men den har dessutom ett webservice-gränssnitt (SOAP).
+
+=Hitta rätt i vården (HRIV)=
+Hitta rätt i vården är en publik webapplikation som ger användarna möjlighet att söka och presentera information om vårdenheter inom Västra Götalandsregionen.
+
+Informationen som presenteras förädlas i vissa fall med information från andra system (se Integration med andra system nedan).
+
+=Integration Service (!IntSvc)=
+Integration Service tillhandahåller i dagsläget:
+  * Webservice (SOAP) för att hämta enhetsdetaljer. Används från EPI-server för att förädla information om enheter på bland annat Sahlgrenska.
+  * REST-service för att hämta namn-information för ett givet vgrId (användarnamn inom Västra Götalandsregionen). Denna används i dagsläget av indexeringen till sökmotorn som används av Västra Götalandsregionen.
+  * Export-tjänst för kataloginformation till Eniro. Startas med hjälp av en Quarz-timer en gång per dygn.
+
+=Integration med andra system=
+HSATools integrerar med flera andra system för att kunna tillhandahålla ytterligare tjänster till användarna eller skicka information till andra system.
+
+==Vårdvalstjänsten==
+Med hjälp av integrationen med externa tjänsten vårdval kan medborgare i Västra Götalandsregionen själv lista sig till en vald vårdcentral på nätet.
+
+Tjänsten kan bara användas om man har e-legitimation, eftersom det krävs att man kan logga in på en säker sida med hjälp av sin e-legitimation. 
+
+Där kan användaren sedan lista sig till den vårdcentral som han/hon har sökt upp på HRIV sidan.
+
+Flödet när en användare vill byta vårdcentral ser ut såhär:
+  * Användaren klickar på Välj/byt till denna vårdcentral på en enhets kontaktkort
+  * Användaren skickas till en sida som är skyddad av WebSEAL som hanterar inloggning via e-legitimation
+  * Efter lyckad inloggning hämtas användarens namn från en LDAP-katalog med hjälp av användarens personnummer
+  * Användarens aktuella vårdval hämtas från vårdvalssystemet med hjälp av metoden getVardval
+  * En sida visas där användarens aktuella vårdval presenteras och han/hon ombeds konfirmera det önskade nya vårdvalet
+  * När användaren konfirmerar sitt val skickas registreringstexten till Signicats signeringstjänst via metoden registerDocument
+  * Användaren skickas till Signicats signeringssida tillsammans med en targetUrl dit användaren styrs efter signeringen
+  * Efter lyckad signering anropas metoden setVardval i vårdvalssystemet med den valda enheten samt signeringsresultatet
+  * En sida med information om ny aktuell registrering visas
+
+==Mina vårdkontakter==
+Mina vårdkontakter är en extern e-tjänst för att kommunicera med vald vårdenhet. Med e-tjänsten Mina vårdkontakter (http://www.minavardkontakter.se) kan du till exempel beställa tid, av- och omboka tid, förnya recept eller be mottagningen kontakta dig.
+
+Varje mottagning bestämmer vilka ärenden man kan utföra hos dem.
+
+I Hitta rätt i vården visas en länk till Mina vårdkontakter ifall vårdenheten finns där.
+
+I !UnitDetails-webservicen i Integration Service samt i den interna sitemap:en i SIK visas vilka ärendetyper som är aktuella för enheten.
+
+==Tillgänglighetsdatabasen==
+Tillgänglighetsdatabasen är en extern tjänst som en vårdenhet kan vara kopplad till. Tjänsten visar tillgänglighetsinformation för den valda vårdenheten. Tjänsten är en REST-tjänst och består av två anrop.
+
+För att hämta vårdenhetens unika id (TDBId) i Tillgänglighetsdatabasen används anropet http://tdb.episerverhotell.net/webservices/tdbdataservice.asmx/GetTDBId tillsammans med parametern HSAId innehållande vårdenhetens ”hsa identity”.
+
+För att hämta tillgänglighetsinformation för vårdenheten används anropet http://tdb.episerverhotell.net/webservices/tdbdataservice.asmx/GetFacility tillsammans med parametern langId som är siffra för vilket språk informationen skall visas för och parametern facilityId som är vårdenhetens unika id (TDBId) i Tillgänglighetsdatabasen.
+
+Informationen från det andra anropet presenteras sedan på Hitta rätt i vården (bilderna på sidan hämtas direkt från Tillgänglighetsdatabasen via vanliga HTTP-anrop).
+
+==Eniros karttjänst==
+För att kunna visa vald vårdenhet på karta för användaren används Eniros kartfunktion.
+
+==Eniros katalogtjänst==
+Integration Service exporterar dagligen information om vårdenheter till Eniro för att på så sätt föda Eniros Kommun och Landstings-del i katalogerna. Exporten sker i form av en XML-fil som laddas upp på Eniros FTP-server.
+
+=Konfiguration=
+Konfigurationen för applikationerna finns i några stycken filer.
+==search-composite-svc-connection.properties==
+Detta är en generell fill som används av alla applikationer i familjen. Den hittas i modulen !HsaTools-Search-composite-svc under src/main/resources/se/vgregion/kivtools/search/svc/impl/kiv/ldap och innehåller information som behövs för att koppla upp mot HSA-datakällen.
+
+Om HSA-datakällan är en LDAP-katalog används följande:
+||hsatools.search.svc.ldap.ldaphost||server:port||
+||hsatools.search.svc.ldap.logindn||DN för inloggning||
+||hsatools.search.svc.ldap.password||lösen för ovanstående DN||
+||hsatools.search.svc.ldap.maxConn||max antal samtidiga kopplingar till datakällan||
+||hsatools.search.svc.ldap.base||sök-bas för LDAP-katalogen||
+
+Om HSA-datakällan är en KIV-webservice används följande:
+||hsatools.search.svc.kivws.username||användarnamn||
+||hsatools.search.svc.kivws.password||lösen||
+
+==sik-composite-webcomp.properties==
+Denna filen används av Sök i KIV. Den hittas i modulen !HsaTools-Search-composite-webcomp under src/main/resources/resources/settings/vgr och innehåller information om tracking-koder för “page-tracking” samt var vissa inkluderade sidor i applikationen hittas.
+
+==hriv-composite-webcomp.properties==
+Denna filen används av Hitta rätt i vården. Den hittas i modulen !HsaTools-HRIV-composite-webcomp under src/main/resources/se/vgregion/kivtools/hriv/presentation/kiv och innehåller bland annat inställningar för integrationerna mot Tillgänglighetsdatabasen och Mina vårdkontakter, tracking-koder för “page-tracking” samt var vissa inkluderade sidor i applikationen hittas.
+===Tillgänglighetsdatabasen===
+||hsatools.hriv.webcomp.useAccessibilityDatabaseIntegration||true/false||
+||hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetIdUrl||grund-URL för att hitta TDBId för en vårdenhet t.ex. http://tdb.episerverhotell.net/webservices/tdbdataservice.asmx/GetTDBId?HSAId= denna kommer sedan att fyllas på med den valda vårdenhetens hsa identity||
+||hsatools.hriv.webcomp.accessibilityDatabaseIntegrationGetInfoUrl||grund-URL för att hämta tillgänglighetsinformation för en given enhet och ett givet språk t.ex. http://tdb.episerverhotell.net/webservices/tdbdataservice.asmx/GetFacility?langId= denna kommer att fyllas på med det valda språket samt &facilityId= och det tidigare hämtade TDBId't||
+
+===Mina vårdkontakter===
+||hsatools.hriv.webcomp.useMvk||true/false||
+||hsatools.hriv.webcomp.mvkGuid||GUID för anropande applikation||
+||hsatools.hriv.webcomp.mvkUrlBeforeHsaidAndGuidParams||grund-URL för att hämta information om vilka ärendetyper som är tillgängliga för den valda vårdenheten https://kontakt.vardguiden.se/vg/veconfig.nsf/dispveInfo?readform denna kommer sedan att fyllas på med &hsaid=<enhetens hsa identity>&guid=<GUID från konfiguration>||
+||hsatools.hriv.webcomp.mvkLoginUrl||Adress för att logga in mot Mina vårdkontakter. Detta är den adress som länkas till från vårdenhetens kontaktkort. T.ex. https://kontakt.vardguiden.se/vg/ilogin.nsf/?Login||
+
+=Sätta upp sin lokala utvecklingsmiljö=
+Se http://code.google.com/p/oppna-program-hsatools/wiki/HRIV_committers
+
+=Deployment / Release=
+För driftsättning, se http://code.google.com/p/oppna-program-hsatools/wiki/Driftsattning_HRIV
+För release, se http://code.google.com/p/oppna-program/wiki/Bygganvisningar_Oppna_Program
