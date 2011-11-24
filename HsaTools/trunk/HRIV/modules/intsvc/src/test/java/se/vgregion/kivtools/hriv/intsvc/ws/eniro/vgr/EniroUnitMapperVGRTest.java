@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.hriv.intsvc.ldap.eniro.vgr;
+package se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -29,10 +29,10 @@ import java.util.TimeZone;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroUnitMapperVGR;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.AddressHelper;

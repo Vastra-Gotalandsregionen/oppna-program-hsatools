@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.hriv.intsvc.ldap.eniro;
+package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -26,7 +26,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ldap.BadLdapGrammarException;
 
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition.UnitType;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition.UnitType;
 
 public class UnitCompositionTest {
 

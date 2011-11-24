@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.hriv.intsvc.ldap.eniro.lth;
+package se.vgregion.kivtools.hriv.intsvc.ws.eniro.lth;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,8 +36,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextOperations;
 
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition.UnitType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.AddressType.GeoCoordinates;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Hours;
@@ -45,6 +43,8 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneHours;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition.UnitType;
 import se.vgregion.kivtools.search.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.domain.values.PhoneNumber;
 import se.vgregion.kivtools.search.svc.ldap.DirContextOperationsHelper;

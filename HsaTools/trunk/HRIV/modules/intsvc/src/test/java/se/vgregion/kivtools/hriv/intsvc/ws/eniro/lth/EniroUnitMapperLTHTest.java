@@ -17,7 +17,7 @@
  *
  */
 
-package se.vgregion.kivtools.hriv.intsvc.ldap.eniro.lth;
+package se.vgregion.kivtools.hriv.intsvc.ws.eniro.lth;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -28,13 +28,14 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.NameMock;
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Hours;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneHours;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.NameMock;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.lth.EniroUnitMapperLTH;
 import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
 
 public class EniroUnitMapperLTHTest {

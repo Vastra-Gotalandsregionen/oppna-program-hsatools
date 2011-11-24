@@ -21,7 +21,6 @@ package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
 import java.util.List;
 
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 
 public interface UnitFetcher {
   List<UnitComposition> fetchUnits(List<String> municipalities, String locality);

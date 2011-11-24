@@ -33,9 +33,8 @@ import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.Filter;
 import org.springframework.ldap.filter.OrFilter;
 
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.KivLdapFilterHelper;
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.lth.EniroUnitMapperLTH;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.KivLdapFilterHelper;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitFetcher;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
 

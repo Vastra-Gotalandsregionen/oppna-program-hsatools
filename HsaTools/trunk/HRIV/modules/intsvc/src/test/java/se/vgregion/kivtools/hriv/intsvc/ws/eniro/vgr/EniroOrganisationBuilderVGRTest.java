@@ -29,9 +29,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import se.vgregion.kivtools.hriv.intsvc.ldap.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Organization;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Unit;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition;
 
 public class EniroOrganisationBuilderVGRTest {
 
