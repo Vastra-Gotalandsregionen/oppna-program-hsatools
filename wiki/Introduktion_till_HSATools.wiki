@@ -9,7 +9,7 @@ Applikationerna i familjen är Sök i KIV (SIK), Hitta rätt i vården (HRIV) oc
 HSATools är implementerat som JavaEE-applikationer och kan köras på allt från Tomcat eller Jetty till IBM !WebSphere.
 
 =Systemöversikt=
-TODO: Länk till bild här
+http://oppna-program-hsatools.googlecode.com/svn/wiki/bilder/HsaTools/Systemoversikt.png
 
 =Sök i KIV (SIK)=
 Sök i KIV är en intranät-applikation som gör det möjligt att söka och presentera information om enheter och personer ifrån HSA-datakällan.
