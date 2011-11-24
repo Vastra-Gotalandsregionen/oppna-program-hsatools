@@ -1,5 +1,5 @@
 #summary Introduktion till Hitta rätt i vården-projektet
-#labels HRIV,Featured
+#labels HRIV
 
 <wiki:toc max_depth="3" />
 
