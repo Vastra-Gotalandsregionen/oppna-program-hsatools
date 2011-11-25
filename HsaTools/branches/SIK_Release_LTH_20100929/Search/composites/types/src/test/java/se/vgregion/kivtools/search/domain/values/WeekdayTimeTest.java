@@ -19,12 +19,13 @@
 
 package se.vgregion.kivtools.search.domain.values;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import se.vgregion.kivtools.search.exceptions.InvalidFormatException;
@@ -52,7 +53,7 @@ public class WeekdayTimeTest {
   @Test
   public void testCreateWeekdayTimeList() throws InvalidFormatException {
 
-    List<String> saveValues = new ArrayList();
+    List<String> saveValues = new ArrayList<String>();
     saveValues.add("1-5#13:00#16:30");
     saveValues.add("1-5#08:00#12:00");
     List<WeekdayTime> expResult = new ArrayList<WeekdayTime>();
@@ -87,9 +88,28 @@ public class WeekdayTimeTest {
   }
 
   @Test
-  @Ignore("Ignored until user story for handling additional info is created and approved")
-  public void additionalInfoDoesNotBreakProcessing() throws InvalidFormatException {
+  public void displayValueContainsComment() {
+    List<String> saveValues = new ArrayList<String>();
+    saveValues.add("1-7#07:00#17:00#Udda veckor");
+    List<WeekdayTime> weekdayTimeList = WeekdayTime.createWeekdayTimeList(saveValues);
+    for (WeekdayTime weekdayTime : weekdayTimeList) {
+      assertEquals("Måndag-Söndag 07:00-17:00, Udda veckor", weekdayTime.getDisplayValue());
+    }
+  }
+
+  @Test
+  public void displayValueContainsCommentAlsoForAlwaysOpen() {
+    List<String> saveValues = new ArrayList<String>();
+    saveValues.add("1-7#00:00#24:00#Udda veckor");
+    List<WeekdayTime> weekdayTimeList = WeekdayTime.createWeekdayTimeList(saveValues);
+    for (WeekdayTime weekdayTime : weekdayTimeList) {
+      assertEquals("Dygnet runt, Udda veckor", weekdayTime.getDisplayValue());
+    }
+  }
+
+  @Test
+  public void commentOnWeekdayTimeIsMapped() throws InvalidFormatException {
     WeekdayTime weekdayTime = new WeekdayTime("1-5#08:00#12:00#Udda veckor");
-    assertNotNull("weekday time", weekdayTime);
+    assertEquals("Udda veckor", weekdayTime.getComment());
   }
 }

@@ -224,6 +224,7 @@ public class Unit implements Serializable, Comparable<Unit> {
   private String hsaAltText;
   private String hsaVpwInformation1;
   private String hsaVpwInformation2;
+  private String website1177;
 
   private List<String> vgrObjectManagers = new ArrayList<String>();
 
@@ -1609,4 +1610,11 @@ public class Unit implements Serializable, Comparable<Unit> {
     return this.hsaVpwInformation2;
   }
 
+  public String getWebsite1177() {
+    return this.website1177;
+  }
+
+  public void setWebsite1177(String website1177) {
+    this.website1177 = website1177;
+  }
 }
