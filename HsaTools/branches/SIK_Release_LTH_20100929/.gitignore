@@ -1,0 +1,11 @@
+target
+.settings
+.project
+.classpath
+HRIV/modules/intsvc/src/main/resources/eniroLoginSettings.properties
+HRIV/modules/intsvc/src/main/resources/ldap_LTH.properties
+HRIV/modules/intsvc/src/main/resources/security.properties
+HRIV/modules/intsvc/src/main/resources/security_LTH.properties
+Search/composites/svc/src/main/resources/se/vgregion/kivtools/search/svc/impl/hak/ldap/search-composite-svc-connection.properties
+Search/composites/svc/src/main/resources/se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties
+
