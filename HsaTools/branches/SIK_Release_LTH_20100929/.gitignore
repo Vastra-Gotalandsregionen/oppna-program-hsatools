@@ -8,4 +8,4 @@ HRIV/modules/intsvc/src/main/resources/security.properties
 HRIV/modules/intsvc/src/main/resources/security_LTH.properties
 Search/composites/svc/src/main/resources/se/vgregion/kivtools/search/svc/impl/hak/ldap/search-composite-svc-connection.properties
 Search/composites/svc/src/main/resources/se/vgregion/kivtools/search/svc/impl/kiv/ldap/search-composite-svc-connection.properties
-
+HRIV/modules/web/logs/unparseable_address.log
