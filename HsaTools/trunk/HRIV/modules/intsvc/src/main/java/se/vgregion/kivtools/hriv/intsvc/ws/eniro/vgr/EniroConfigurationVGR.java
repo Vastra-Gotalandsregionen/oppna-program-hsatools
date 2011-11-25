@@ -30,8 +30,8 @@ public class EniroConfigurationVGR implements EniroConfiguration {
   @Override
   public List<AreaConfig> getConfiguration() {
     List<AreaConfig> config = new ArrayList<AreaConfig>();
-    config.add(new AreaConfig("232100-0131 VGR Göteborg", "Västra Götalandsregionen Göteborg", "Göteborg", Arrays
-        .asList("1440", "1480", "1401", "1488", "1441", "1463", "1481", "1402", "1415", "1407"), "Vastra Gotalandsregionen Goteborg"));
+    config.add(new AreaConfig("232100-0131 VGR Göteborg", "Västra Götalandsregionen Göteborg", "Göteborg", Arrays.asList("1440", "1480", "1482", "1401", "1488", "1441", "1463", "1481", "1402",
+        "1415", "1407"), "Vastra Gotalandsregionen Goteborg"));
     config.add(new AreaConfig("232100-0131 VGR Borås", "Västra Götalandsregionen Borås", "Borås", Arrays.asList("1489", "1443", "1490", "1466", "1463", "1465", "1452", "1491", "1442"),
         "Vastra Gotalandsregionen Boras"));
     config.add(new AreaConfig("232100-0131 VGR Uddevalla", "Västra Götalandsregionen Uddevalla", "Uddevalla", Arrays.asList("1460", "1438", "1439", "1462", "1484", "1461", "1430", "1421", "1427",
