@@ -24,6 +24,7 @@
 		<groupId>HsaTools</groupId>
 		<artifactId>HsaTools-Search</artifactId>
 		<version>1.1-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -166,25 +167,6 @@
 							<packageName>se.vgregion.kivtools.search.svc.ws.signicat.signature</packageName>
 							<sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
 							<staleFile>${project.build.directory}/generated-sources/jaxws/stale/.staleFlagSignicat</staleFile>
-						</configuration>
-					</execution>
-
-					<!-- V√§sttrafik -->
-					<execution>
-						<id>3</id>
-						<goals>
-							<goal>wsimport</goal>
-						</goals>
-						<configuration>
-							<wsdlDirectory>${basedir}/../schema/src/main/resources/wsdl/</wsdlDirectory>
-							<wsdlLocation>http://www.vasttrafik.se/External_Services/TravelPlanner.asmx?wsdl</wsdlLocation>
-							<wsdlFiles>
-								<wsdlFile>TravelPlanner.wsdl</wsdlFile>
-							</wsdlFiles>
-							<packageName>se.vgregion.kivtools.search.svc.ws.domain.vasttrafik</packageName>
-							<extension>true</extension>
-							<sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
-							<staleFile>${project.build.directory}/generated-sources/jaxws/stale/.staleFlagVasttrafik</staleFile>
 						</configuration>
 					</execution>
 

@@ -108,12 +108,6 @@
 		</property>
 	</bean>
 	
-	<!--	<bean id="Registration_vardValService"-->
-	<!--
-		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl"
-		/>
-	-->
-
 	<bean id="Registration_vardValService"
 		class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalServiceImpl"
 		init-method="setEndpoint">
