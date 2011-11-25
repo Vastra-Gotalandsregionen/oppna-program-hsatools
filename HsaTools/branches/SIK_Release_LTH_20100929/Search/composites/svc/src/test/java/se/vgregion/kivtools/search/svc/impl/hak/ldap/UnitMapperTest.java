@@ -24,6 +24,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -196,6 +197,20 @@ public class UnitMapperTest {
     this.dirContextOperations.addAttributeValue("hsaVisitingRuleAge", "18-24");
     Unit unit = this.mapper.mapFromContext(this.dirContextOperations);
     assertTrue("show age interval", unit.isShowAgeInterval());
+  }
+
+  @Test
+  public void urlTo1177ForUnitIsMapped() {
+    this.dirContextOperations.addAttributeValue("hsaVpwWebPage", "http://1177.se/unit");
+    Unit unit = this.mapper.mapFromContext(this.dirContextOperations);
+    assertEquals("http://1177.se/unit", unit.getWebsite1177());
+  }
+
+  @Test
+  public void routeIsMapped() {
+    this.dirContextOperations.addAttributeValue("route", new String[] { "Följ gatan rakt fram", "In i gränden" });
+    Unit unit = this.mapper.mapFromContext(this.dirContextOperations);
+    assertEquals(Arrays.asList("Följ gatan rakt fram", "In i gränden"), unit.getHsaRoute());
   }
 
   private void addUnitAttributes() {
