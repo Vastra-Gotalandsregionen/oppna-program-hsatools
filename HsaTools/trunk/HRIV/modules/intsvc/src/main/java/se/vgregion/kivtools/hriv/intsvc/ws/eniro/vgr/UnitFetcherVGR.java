@@ -74,20 +74,11 @@ public class UnitFetcherVGR implements UnitFetcher {
   private List<Unit> filterUnits(List<Unit> allUnits, List<String> municipalities, List<String> businessClassificationCodes) {
     List<Unit> filteredUnits = new ArrayList<Unit>();
     for (Unit unit : allUnits) {
-      if (municipalities.contains(unit.getHsaMunicipalityCode()) && this.hasAnyBusinessClassificationCode(businessClassificationCodes, unit.getHsaBusinessClassificationCode())) {
+      if (municipalities.contains(unit.getHsaMunicipalityCode())) {
         filteredUnits.add(unit);
       }
     }
     return filteredUnits;
-  }
-
-  private boolean hasAnyBusinessClassificationCode(List<String> businessClassificationCodes, List<String> unitBusinessClassificationCode) {
-    for (String code : unitBusinessClassificationCode) {
-      if (businessClassificationCodes.contains(code)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private void setParentIdsForUnits(List<UnitComposition> compositions) {
