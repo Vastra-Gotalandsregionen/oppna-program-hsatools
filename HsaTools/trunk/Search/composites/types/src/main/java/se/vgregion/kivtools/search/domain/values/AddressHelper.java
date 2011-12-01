@@ -62,6 +62,15 @@ public class AddressHelper implements Serializable {
     VALID_STREET_SUFFIX.add("stig");
     VALID_STREET_SUFFIX.add("centrum");
     VALID_STREET_SUFFIX.add("aveny");
+    VALID_STREET_SUFFIX.add("lillek\u00E4rr s\u00F6dra");
+    VALID_STREET_SUFFIX.add("kung\u00E4lvs sjukhus");
+    VALID_STREET_SUFFIX.add("m\u00F6lndals sjukhus");
+    VALID_STREET_SUFFIX.add("g\u00E4rdet");
+    VALID_STREET_SUFFIX.add("jullen 3");
+    VALID_STREET_SUFFIX.add("m\u00f6lnlycke fabriker");
+    VALID_STREET_SUFFIX.add("carlanderska sjukhemmet");
+    VALID_STREET_SUFFIX.add("lilla bommen");
+    VALID_STREET_SUFFIX.add("\u00F6stra sjukhuset");
 
     EXCEPTIONED_STREET_SUFFIX.add("bruna str\u00E5ket");
     EXCEPTIONED_STREET_SUFFIX.add("vita str\u00E5ket");
@@ -71,11 +80,12 @@ public class AddressHelper implements Serializable {
     EXCEPTIONED_STREET_SUFFIX.add("gula str\u00E5ket");
     EXCEPTIONED_STREET_SUFFIX.add("ing\u00E5ngen");
     EXCEPTIONED_STREET_SUFFIX.add("bussh\u00E5llsplats");
+    EXCEPTIONED_STREET_SUFFIX.add("\u00F6stra sjukhuset");
 
     INVALID_CITY_WORDS.add("bussh\u00E5llsplats");
+    INVALID_CITY_WORDS.add("bottenv\u00E5n");
   }
 
-  
   /**
    * Convert a raw ldap address string to an Address object.
    * 
@@ -83,12 +93,12 @@ public class AddressHelper implements Serializable {
    * @return A populated Address object.
    */
   public static Address convertToAddress(String adrstr) {
-	List<String> components = new ArrayList<String>();
-	String[] split = adrstr.split("\\$");
-	for (String string : split) {
-		components.add(string.trim());
-	}
-	return convertToAddress(components);
+    List<String> components = new ArrayList<String>();
+    String[] split = adrstr.split("\\$");
+    for (String string : split) {
+      components.add(string.trim());
+    }
+    return convertToAddress(components);
   }
 
   /**
