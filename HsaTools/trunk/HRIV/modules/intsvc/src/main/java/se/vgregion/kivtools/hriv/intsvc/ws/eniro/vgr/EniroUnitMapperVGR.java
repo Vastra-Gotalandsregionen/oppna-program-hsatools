@@ -189,7 +189,7 @@ public class EniroUnitMapperVGR {
   private void setMetaAttributes(UnitComposition unitComposition, se.vgregion.kivtools.search.domain.Unit source) {
     unitComposition.setDn(source.getDn().toString());
     List<String> bsCodes = source.getHsaBusinessClassificationCode();
-    if (bsCodes != null) {
+    if (bsCodes != null && bsCodes.size() > 0) {
       for (String bsCode : bsCodes) {
         if (this.nonCareCenter.contains(bsCode)) {
           unitComposition.setCareType(UnitType.OTHER_CARE);
@@ -198,6 +198,8 @@ public class EniroUnitMapperVGR {
           unitComposition.setCareType(UnitType.CARE_CENTER);
         }
       }
+    } else {
+      unitComposition.setCareType(UnitType.OTHER_CARE);
     }
   }
 
