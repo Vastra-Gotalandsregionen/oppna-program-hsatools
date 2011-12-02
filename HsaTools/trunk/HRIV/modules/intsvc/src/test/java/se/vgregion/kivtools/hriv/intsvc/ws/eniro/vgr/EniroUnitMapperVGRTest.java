@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TimeZone;
 
@@ -33,7 +34,7 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.Address;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition;
-import se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr.EniroUnitMapperVGR;
+import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition.UnitType;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.domain.values.DN;
@@ -144,6 +145,15 @@ public class EniroUnitMapperVGRTest {
     Address address = (Address) unitComposition.getEniroUnit().getTextOrImageOrAddress().get(0);
     assertEquals("2000-01-20T00:00:00Z", address.getHours().get(0).getTimeFrom().toXMLFormat());
     assertEquals("2000-01-20T23:59:59Z", address.getHours().get(0).getTimeTo().toXMLFormat());
+  }
+
+  @Test
+  public void caretypeIsSetToOtherCareIfNoHsaBusinessClassificationCodesArePresent() {
+    this.unit.setHsaBusinessClassificationCode(new ArrayList<String>());
+
+    UnitComposition unitComposition = this.eniroUnitMapper.map(this.unit);
+
+    assertEquals(UnitType.OTHER_CARE, unitComposition.getCareType());
   }
 
   private void setUnitAttributes() {
