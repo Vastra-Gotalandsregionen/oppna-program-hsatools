@@ -71,6 +71,7 @@ public class AddressHelper implements Serializable {
     VALID_STREET_SUFFIX.add("carlanderska sjukhemmet");
     VALID_STREET_SUFFIX.add("lilla bommen");
     VALID_STREET_SUFFIX.add("\u00F6stra sjukhuset");
+    VALID_STREET_SUFFIX.add("sj\u00F6porten");
 
     EXCEPTIONED_STREET_SUFFIX.add("bruna str\u00E5ket");
     EXCEPTIONED_STREET_SUFFIX.add("vita str\u00E5ket");
@@ -81,9 +82,13 @@ public class AddressHelper implements Serializable {
     EXCEPTIONED_STREET_SUFFIX.add("ing\u00E5ngen");
     EXCEPTIONED_STREET_SUFFIX.add("bussh\u00E5llsplats");
     EXCEPTIONED_STREET_SUFFIX.add("\u00F6stra sjukhuset");
+    EXCEPTIONED_STREET_SUFFIX.add("bl\u00E5 gata");
+    EXCEPTIONED_STREET_SUFFIX.add("v\u00E4nerparken");
 
     INVALID_CITY_WORDS.add("bussh\u00E5llsplats");
     INVALID_CITY_WORDS.add("bottenv\u00E5n");
+    INVALID_CITY_WORDS.add("gata");
+    INVALID_CITY_WORDS.add("v\u00E4nerparken");
   }
 
   /**
