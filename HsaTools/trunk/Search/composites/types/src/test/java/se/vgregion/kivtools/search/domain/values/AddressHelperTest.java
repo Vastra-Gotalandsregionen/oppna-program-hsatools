@@ -65,7 +65,9 @@ public class AddressHelperTest {
     origAddress.add(STREET);
     address = AddressHelper.convertToStreetAddress(origAddress);
     assertNotNull("An address should have been created", address);
-    assertEquals("Unexpected value for additional information", "Storgatan 1412 63 GöteborgStorgatan 1", address.getAdditionalInfoToString());
+    assertEquals("Unexpected value for street", STREET, address.getStreet());
+    assertEquals("Unexpected value for zipcode", ZIPCODE, address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for additional information", "Storgatan 1", address.getAdditionalInfoToString());
 
     origAddress.remove(STREET);
     origAddress.remove(STREET);
@@ -212,6 +214,29 @@ public class AddressHelperTest {
   }
 
   @Test
+  public void validSkovdeAddress2() {
+    List<String> source = Arrays.asList("Badhusgatan 4", "541 30", "Skövde", "Vid parkering krävs parkeringstillstånd som hämtas i receptionen.");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Badhusgatan 4", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "541 30", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Skövde", address.getCity());
+    assertEquals("[Vid parkering krävs parkeringstillstånd som hämtas i receptionen.]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
+  public void validSkovdeAddress3() {
+    List<String> source = Arrays.asList("Knoppaliden 3", "541 47", "Skövde");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Knoppaliden 3", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "541 47", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Skövde", address.getCity());
+  }
+
+  @Test
   public void validSkovdeAddressWithInvalidCityWord() {
     List<String> source = Arrays.asList("Fjällgatan 39 nb", "504 61", "Borås", "Entré från busshållsplats");
 
@@ -245,6 +270,18 @@ public class AddressHelperTest {
   }
 
   @Test
+  public void validKungalvsSjukhusAsAdditionalInfoAddress() {
+    List<String> source = Arrays.asList("Lasarettsgatan", "442 34", "Kungälv", "Plan 4 Kungälvs sjukhus");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Lasarettsgatan", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "442 34", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Kungälv", address.getCity());
+    assertEquals("[Plan 4 Kungälvs sjukhus]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
   public void validMolndalsSjukhusAddress() {
     List<String> source = Arrays.asList("Akutmottagningen, Mölndals Sjukhus", "431 30", "Mölndal");
 
@@ -253,6 +290,18 @@ public class AddressHelperTest {
     assertEquals("Unexpected value for street", "Akutmottagningen, Mölndals Sjukhus", address.getStreet());
     assertEquals("Unexpected value for zipcode", "431 30", address.getZipCode().getZipCode());
     assertEquals("Unexpected value for city", "Mölndal", address.getCity());
+  }
+
+  @Test
+  public void validMolndalsSjukhusAsAdditionalInfoAddress() {
+    List<String> source = Arrays.asList("Biskopsbogatan", "431 80", "Mölndal", "Mölndals sjukhus");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Biskopsbogatan", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "431 80", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Mölndal", address.getCity());
+    assertEquals("[Mölndals sjukhus]", address.getAdditionalInfo().toString());
   }
 
   @Test
@@ -274,6 +323,18 @@ public class AddressHelperTest {
     Address address = AddressHelper.convertToStreetAddress(source);
 
     assertEquals("Unexpected value for street", "Jullen 3", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "444 30", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Stenungsund", address.getCity());
+    assertEquals("[(Bottenvån)]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
+  public void validStenungsundAddress2() {
+    List<String> source = Arrays.asList("Jullen 4", "444 30", "Stenungsund", "(Bottenvån)");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Jullen 4", address.getStreet());
     assertEquals("Unexpected value for zipcode", "444 30", address.getZipCode().getZipCode());
     assertEquals("Unexpected value for city", "Stenungsund", address.getCity());
     assertEquals("[(Bottenvån)]", address.getAdditionalInfo().toString());
@@ -357,5 +418,314 @@ public class AddressHelperTest {
     assertEquals("Unexpected value for zipcode", "462 23", address.getZipCode().getZipCode());
     assertEquals("Unexpected value for city", "Vänersborg", address.getCity());
     assertEquals("[Vänerparken]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
+  public void validUddevallaSjukhusAddress() {
+    List<String> source = Arrays.asList("Uddevalla sjukhus", "ingång U", "451 80", "Uddevalla");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Uddevalla sjukhus", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "451 80", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Uddevalla", address.getCity());
+    assertEquals("[ingång U]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
+  public void validAlingsasAddress() {
+    List<String> source = Arrays.asList("Stråhles Allé 1A", "441 32", "Alingsås");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Stråhles Allé 1A", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "441 32", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Alingsås", address.getCity());
+  }
+
+  @Test
+  public void validAlingsasAddress2() {
+    List<String> source = Arrays.asList("Alingsås lasarett", "441 83", "Alingsås");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Alingsås lasarett", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "441 83", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Alingsås", address.getCity());
+  }
+
+  @Test
+  public void validStyrsoAddress() {
+    List<String> source = Arrays.asList("Vårdcentralen Styrsö", "430 84", "Styrsö");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Vårdcentralen Styrsö", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "430 84", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Styrsö", address.getCity());
+  }
+
+  @Test
+  public void validHamburgsundAddress() {
+    List<String> source = Arrays.asList("Sjökanten", "457 45", "Hamburgsund");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Sjökanten", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "457 45", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Hamburgsund", address.getCity());
+  }
+
+  @Test
+  public void validLjungskileAddress() {
+    List<String> source = Arrays.asList("Hälle Lider 15", "459 32", "Ljungskile");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Hälle Lider 15", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "459 32", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Ljungskile", address.getCity());
+  }
+
+  @Test
+  public void validHovasAddress() {
+    List<String> source = Arrays.asList("Ågrenska Amundön", "436 02", "Hovås");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Ågrenska Amundön", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "436 02", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Hovås", address.getCity());
+  }
+
+  @Test
+  public void validSahlgrenskaAddress() {
+    List<String> source = Arrays.asList("Blå Stråket 6", "413 45", "Göteborg", "Blå Stråket 6, plan 3, Sahlgrenska Sjukhuset");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Blå Stråket 6", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "413 45", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Göteborg", address.getCity());
+    assertEquals("[Blå Stråket 6, plan 3, Sahlgrenska Sjukhuset]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
+  public void validTrollhattanAddress() {
+    List<String> source = Arrays.asList("Lärketorpsvägen", "461 85", "Trollhättan", "Västra gatan Plan 2");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Lärketorpsvägen", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "461 85", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Trollhättan", address.getCity());
+    assertEquals("[Västra gatan Plan 2]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
+  public void validTrollhattanAddress2() {
+    List<String> source = Arrays.asList("Lärketorpsvägen", "461 85", "Trollhättan", "Södra gatan");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Lärketorpsvägen", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "461 85", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Trollhättan", address.getCity());
+    assertEquals("[Södra gatan]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
+  public void validTrollhattanAddress3() {
+    List<String> source = Arrays.asList("Lärketorpsvägen", "461 85", "Trollhättan", "Östra gatan till höger");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Lärketorpsvägen", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "461 85", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Trollhättan", address.getCity());
+    assertEquals("[Östra gatan till höger]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
+  public void validTrollhattanAddress4() {
+    List<String> source = Arrays.asList("Lärketorpsvägen", "461 85", "Trollhättan", "Norra gatan Entréplan");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Lärketorpsvägen", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "461 85", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Trollhättan", address.getCity());
+    assertEquals("[Norra gatan Entréplan]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
+  public void validUddevallaAddress() {
+    List<String> source = Arrays.asList("Fjällvägen 9", "451 80", "Uddevalla", "Sjukhusparken");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Fjällvägen 9", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "451 80", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Uddevalla", address.getCity());
+    assertEquals("[Sjukhusparken]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
+  public void validGoteborgAddress() {
+    List<String> source = Arrays.asList("Skärgårdsgatan 4, vån 4", "414 58", "Göteborg", "Hemsjukvårdsläkarna, Primärvården Centrum");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Skärgårdsgatan 4, vån 4", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "414 58", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Göteborg", address.getCity());
+    assertEquals("[Hemsjukvårdsläkarna, Primärvården Centrum]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
+  public void validLillaEdetAddress() {
+    List<String> source = Arrays.asList("Järnvägsgatan 8", "463 30", "Lilla Edet", "Vårdcentrum");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Järnvägsgatan 8", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "463 30", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Lilla Edet", address.getCity());
+    assertEquals("[Vårdcentrum]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
+  public void validLidkopingAddress() {
+    List<String> source = Arrays.asList("Sjukhuset i Lidköping", "531 85", "Lidköping", "Röntgen entréplan");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Sjukhuset i Lidköping", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "531 85", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Lidköping", address.getCity());
+    assertEquals("[Röntgen entréplan]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
+  public void validLidkopingAddress2() {
+    List<String> source = Arrays.asList("Esplanaden 7", "531 50", "Lidköping");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Esplanaden 7", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "531 50", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Lidköping", address.getCity());
+  }
+
+  @Test
+  public void validBorasAddress() {
+    List<String> source = Arrays.asList("Södra Älvsborgs Sjukhus", "501 82", "Borås", "Ingång 1, plan 3");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Södra Älvsborgs Sjukhus", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "501 82", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Borås", address.getCity());
+    assertEquals("[Ingång 1, plan 3]", address.getAdditionalInfo().toString());
+  }
+
+  @Test
+  public void validBorasAddress2() {
+    List<String> source = Arrays.asList("Hestra Midgård", "502 66", "Borås");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Hestra Midgård", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "502 66", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Borås", address.getCity());
+  }
+
+  @Test
+  public void validSexdregaAddress() {
+    List<String> source = Arrays.asList("Billeberg Eriksgården", "512 91", "Sexdrega");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Billeberg Eriksgården", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "512 91", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Sexdrega", address.getCity());
+  }
+
+  @Test
+  public void validLysekilAddress() {
+    List<String> source = Arrays.asList("Lysekils sjukhus", "453 25", "Lysekil");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Lysekils sjukhus", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "453 25", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Lysekil", address.getCity());
+  }
+
+  @Test
+  public void validJarnaAddress() {
+    List<String> source = Arrays.asList("Ytterjärna", "153 91", "Järna");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Ytterjärna", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "153 91", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Järna", address.getCity());
+  }
+
+  @Test
+  public void validStromstadAddress() {
+    List<String> source = Arrays.asList("Smedjegränd 8", "452 36", "Strömstad");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Smedjegränd 8", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "452 36", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Strömstad", address.getCity());
+  }
+
+  @Test
+  public void validTanumshedeAddress() {
+    List<String> source = Arrays.asList("Hedegården", "457 30", "Tanumshede");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Hedegården", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "457 30", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Tanumshede", address.getCity());
+  }
+
+  @Test
+  public void validGrebbestadAddress() {
+    List<String> source = Arrays.asList("Tanumstrand", "45795", "Grebbestad");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Tanumstrand", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "45795", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Grebbestad", address.getCity());
+  }
+
+  @Test
+  public void validFalkopingAddress() {
+    List<String> source = Arrays.asList("Sjukhuset i Falköping", "521 85", "Falköping");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "Sjukhuset i Falköping", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "521 85", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "Falköping", address.getCity());
+  }
+
+  @Test
+  public void invalidUddevallaAddress() {
+    List<String> source = Arrays.asList("Uddevalla sjukhus, ingång U  451 80 Uddevalla");
+
+    Address address = AddressHelper.convertToStreetAddress(source);
+
+    assertEquals("Unexpected value for street", "", address.getStreet());
+    assertEquals("Unexpected value for zipcode", "", address.getZipCode().getZipCode());
+    assertEquals("Unexpected value for city", "", address.getCity());
+    assertEquals("[Uddevalla sjukhus, ingång U  451 80 Uddevalla]", address.getAdditionalInfo().toString());
   }
 }
