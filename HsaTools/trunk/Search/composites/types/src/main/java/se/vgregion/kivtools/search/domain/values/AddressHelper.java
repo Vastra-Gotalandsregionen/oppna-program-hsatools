@@ -53,6 +53,7 @@ public class AddressHelper implements Serializable {
     VALID_STREET_SUFFIX.add("torg");
     VALID_STREET_SUFFIX.add("park");
     VALID_STREET_SUFFIX.add("leden");
+    VALID_STREET_SUFFIX.add("liden");
     VALID_STREET_SUFFIX.add("str\u00E5ket");
     VALID_STREET_SUFFIX.add("backe");
     VALID_STREET_SUFFIX.add("g\u00E5ngen");
@@ -62,16 +63,35 @@ public class AddressHelper implements Serializable {
     VALID_STREET_SUFFIX.add("stig");
     VALID_STREET_SUFFIX.add("centrum");
     VALID_STREET_SUFFIX.add("aveny");
+    VALID_STREET_SUFFIX.add("allé");
+    VALID_STREET_SUFFIX.add("gr\u00E4nd");
     VALID_STREET_SUFFIX.add("lillek\u00E4rr s\u00F6dra");
     VALID_STREET_SUFFIX.add("kung\u00E4lvs sjukhus");
     VALID_STREET_SUFFIX.add("m\u00F6lndals sjukhus");
     VALID_STREET_SUFFIX.add("g\u00E4rdet");
     VALID_STREET_SUFFIX.add("jullen 3");
+    VALID_STREET_SUFFIX.add("jullen 4");
     VALID_STREET_SUFFIX.add("m\u00f6lnlycke fabriker");
     VALID_STREET_SUFFIX.add("carlanderska sjukhemmet");
     VALID_STREET_SUFFIX.add("lilla bommen");
     VALID_STREET_SUFFIX.add("\u00F6stra sjukhuset");
     VALID_STREET_SUFFIX.add("sj\u00F6porten");
+    VALID_STREET_SUFFIX.add("uddevalla sjukhus");
+    VALID_STREET_SUFFIX.add("lysekils sjukhus");
+    VALID_STREET_SUFFIX.add("v\u00E5rdcentralen styrs\u00F6");
+    VALID_STREET_SUFFIX.add("sj\u00F6kanten");
+    VALID_STREET_SUFFIX.add("h\u00E4lle lider");
+    VALID_STREET_SUFFIX.add("amund\u00F6n");
+    VALID_STREET_SUFFIX.add("sjukhuset i lidk\u00F6ping");
+    VALID_STREET_SUFFIX.add("s\u00F6dra \u00E4lvsborgs sjukhus");
+    VALID_STREET_SUFFIX.add("alings\u00E5s lasarett");
+    VALID_STREET_SUFFIX.add("sjukhuset i falk\u00F6ping");
+    VALID_STREET_SUFFIX.add("hestra midg\u00E5rd");
+    VALID_STREET_SUFFIX.add("billeberg eriksg\u00E5rden");
+    VALID_STREET_SUFFIX.add("ytterj\u00E4rna");
+    VALID_STREET_SUFFIX.add("hedeg\u00E5rden");
+    VALID_STREET_SUFFIX.add("tanumstrand");
+    VALID_STREET_SUFFIX.add("esplanaden");
 
     EXCEPTIONED_STREET_SUFFIX.add("bruna str\u00E5ket");
     EXCEPTIONED_STREET_SUFFIX.add("vita str\u00E5ket");
@@ -82,13 +102,34 @@ public class AddressHelper implements Serializable {
     EXCEPTIONED_STREET_SUFFIX.add("ing\u00E5ngen");
     EXCEPTIONED_STREET_SUFFIX.add("bussh\u00E5llsplats");
     EXCEPTIONED_STREET_SUFFIX.add("\u00F6stra sjukhuset");
+    EXCEPTIONED_STREET_SUFFIX.add("m\u00F6lndals sjukhus");
+    EXCEPTIONED_STREET_SUFFIX.add("kung\u00E4lvs sjukhus");
+    EXCEPTIONED_STREET_SUFFIX.add("uddevalla sjukhus");
+    EXCEPTIONED_STREET_SUFFIX.add("lysekils sjukhus");
     EXCEPTIONED_STREET_SUFFIX.add("bl\u00E5 gata");
     EXCEPTIONED_STREET_SUFFIX.add("v\u00E4nerparken");
+    EXCEPTIONED_STREET_SUFFIX.add("v\u00E4stra gatan");
+    EXCEPTIONED_STREET_SUFFIX.add("s\u00F6dra gatan");
+    EXCEPTIONED_STREET_SUFFIX.add("\u00F6stra gatan");
+    EXCEPTIONED_STREET_SUFFIX.add("norra gatan");
+    EXCEPTIONED_STREET_SUFFIX.add("sjukhusparken");
+    EXCEPTIONED_STREET_SUFFIX.add("hemsjukv\u00E5rdsl\u00E4karna");
+    EXCEPTIONED_STREET_SUFFIX.add("v\u00E5rdcentrum");
+    EXCEPTIONED_STREET_SUFFIX.add("parkeringstillst\u00E5nd");
+    EXCEPTIONED_STREET_SUFFIX.add("sjukhuset i lidk\u00F6ping");
+    EXCEPTIONED_STREET_SUFFIX.add("s\u00F6dra \u00E4lvsborgs sjukhus");
+    EXCEPTIONED_STREET_SUFFIX.add("alings\u00E5s lasarett");
+    EXCEPTIONED_STREET_SUFFIX.add("sjukhuset i falk\u00F6ping");
 
     INVALID_CITY_WORDS.add("bussh\u00E5llsplats");
     INVALID_CITY_WORDS.add("bottenv\u00E5n");
     INVALID_CITY_WORDS.add("gata");
     INVALID_CITY_WORDS.add("v\u00E4nerparken");
+    INVALID_CITY_WORDS.add("sjukhus");
+    INVALID_CITY_WORDS.add("hemsjukv\u00E5rdsl\u00E4karna");
+    INVALID_CITY_WORDS.add("v\u00E5rdcentrum");
+    INVALID_CITY_WORDS.add("parkeringstillst\u00E5nd");
+    INVALID_CITY_WORDS.add("r\u00F6ntgen");
   }
 
   /**
@@ -449,6 +490,10 @@ public class AddressHelper implements Serializable {
       foundRow = foundRows.get(0);
     } else if (foundRows.size() > 1) {
       foundRow = getStreetRowAfterExceptionedStreetSuffixesAreFiltered(addressList, foundRows);
+      // Special handling if all previously found rows have exceptioned words. Lets take the first row.
+      if (foundRow == -1) {
+        foundRow = foundRows.get(foundRows.size() - 1);
+      }
     }
 
     return foundRow;
