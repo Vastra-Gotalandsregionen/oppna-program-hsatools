@@ -76,6 +76,7 @@ public class EniroOrganisationBuilderVGR extends EniroOrganisationBuilder {
     organization.setLoadType("External");
     organization.setType("County Council");
     organization.setCountry("SE");
+    organization.setSwapCoordinates(true);
 
     this.otherCareUnit = this.createUnit(this.otherCare, locality);
     organization.getUnit().add(this.otherCareUnit);
