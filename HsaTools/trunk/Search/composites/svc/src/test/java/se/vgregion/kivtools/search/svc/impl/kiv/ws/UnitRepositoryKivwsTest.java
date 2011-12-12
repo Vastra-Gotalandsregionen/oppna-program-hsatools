@@ -133,8 +133,10 @@ public class UnitRepositoryKivwsTest {
     SearchUnitCriterions searchUnitCriterions = new SearchUnitCriterions();
     searchUnitCriterions.setUnitName("unitName");
     searchUnitCriterions.setLocation("municipalityName");
-    //String expectedFilterOU = "(&(ou=*unitName*)(|(hsaMunicipalityName=*municipalityName*)(|(hsaPostalAddress=*municipalityName*$*$*$*$*$*)(hsaPostalAddress=*$*municipalityName*$*$*$*$*)(hsaPostalAddress=*$*$*municipalityName*$*$*$*)(hsaPostalAddress=*$*$*$*municipalityName*$*$*)(hsaPostalAddress=*$*$*$*$*municipalityName*$*)(hsaPostalAddress=*$*$*$*$*$*municipalityName*))(|(hsaStreetAddress=*municipalityName*$*$*$*$*$*)(hsaStreetAddress=*$*municipalityName*$*$*$*$*)(hsaStreetAddress=*$*$*municipalityName*$*$*$*)(hsaStreetAddress=*$*$*$*municipalityName*$*$*)(hsaStreetAddress=*$*$*$*$*municipalityName*$*)(hsaStreetAddress=*$*$*$*$*$*municipalityName*))))";
-    //String expectedFilterCN = "(&(cn=*unitName*)(|(hsaMunicipalityName=*municipalityName*)(|(hsaPostalAddress=*municipalityName*$*$*$*$*$*)(hsaPostalAddress=*$*municipalityName*$*$*$*$*)(hsaPostalAddress=*$*$*municipalityName*$*$*$*)(hsaPostalAddress=*$*$*$*municipalityName*$*$*)(hsaPostalAddress=*$*$*$*$*municipalityName*$*)(hsaPostalAddress=*$*$*$*$*$*municipalityName*))(|(hsaStreetAddress=*municipalityName*$*$*$*$*$*)(hsaStreetAddress=*$*municipalityName*$*$*$*$*)(hsaStreetAddress=*$*$*municipalityName*$*$*$*)(hsaStreetAddress=*$*$*$*municipalityName*$*$*)(hsaStreetAddress=*$*$*$*$*municipalityName*$*)(hsaStreetAddress=*$*$*$*$*$*municipalityName*))))";
+    // String expectedFilterOU =
+    // "(&(ou=*unitName*)(|(hsaMunicipalityName=*municipalityName*)(|(hsaPostalAddress=*municipalityName*$*$*$*$*$*)(hsaPostalAddress=*$*municipalityName*$*$*$*$*)(hsaPostalAddress=*$*$*municipalityName*$*$*$*)(hsaPostalAddress=*$*$*$*municipalityName*$*$*)(hsaPostalAddress=*$*$*$*$*municipalityName*$*)(hsaPostalAddress=*$*$*$*$*$*municipalityName*))(|(hsaStreetAddress=*municipalityName*$*$*$*$*$*)(hsaStreetAddress=*$*municipalityName*$*$*$*$*)(hsaStreetAddress=*$*$*municipalityName*$*$*$*)(hsaStreetAddress=*$*$*$*municipalityName*$*$*)(hsaStreetAddress=*$*$*$*$*municipalityName*$*)(hsaStreetAddress=*$*$*$*$*$*municipalityName*))))";
+    // String expectedFilterCN =
+    // "(&(cn=*unitName*)(|(hsaMunicipalityName=*municipalityName*)(|(hsaPostalAddress=*municipalityName*$*$*$*$*$*)(hsaPostalAddress=*$*municipalityName*$*$*$*$*)(hsaPostalAddress=*$*$*municipalityName*$*$*$*)(hsaPostalAddress=*$*$*$*municipalityName*$*$*)(hsaPostalAddress=*$*$*$*$*municipalityName*$*)(hsaPostalAddress=*$*$*$*$*$*municipalityName*))(|(hsaStreetAddress=*municipalityName*$*$*$*$*$*)(hsaStreetAddress=*$*municipalityName*$*$*$*$*)(hsaStreetAddress=*$*$*municipalityName*$*$*$*)(hsaStreetAddress=*$*$*$*municipalityName*$*$*)(hsaStreetAddress=*$*$*$*$*municipalityName*$*)(hsaStreetAddress=*$*$*$*$*$*municipalityName*))))";
     String expectedFilterOU = "(&(ou=*unitName*)(|(|(hsaPostalAddress=*municipalityName*$*$*$*$*$*)(hsaPostalAddress=*$*municipalityName*$*$*$*$*)(hsaPostalAddress=*$*$*municipalityName*$*$*$*)(hsaPostalAddress=*$*$*$*municipalityName*$*$*)(hsaPostalAddress=*$*$*$*$*municipalityName*$*)(hsaPostalAddress=*$*$*$*$*$*municipalityName*))(|(hsaStreetAddress=*municipalityName*$*$*$*$*$*)(hsaStreetAddress=*$*municipalityName*$*$*$*$*)(hsaStreetAddress=*$*$*municipalityName*$*$*$*)(hsaStreetAddress=*$*$*$*municipalityName*$*$*)(hsaStreetAddress=*$*$*$*$*municipalityName*$*)(hsaStreetAddress=*$*$*$*$*$*municipalityName*))))";
     String expectedFilterCN = "(&(cn=*unitName*)(|(|(hsaPostalAddress=*municipalityName*$*$*$*$*$*)(hsaPostalAddress=*$*municipalityName*$*$*$*$*)(hsaPostalAddress=*$*$*municipalityName*$*$*$*)(hsaPostalAddress=*$*$*$*municipalityName*$*$*)(hsaPostalAddress=*$*$*$*$*municipalityName*$*)(hsaPostalAddress=*$*$*$*$*$*municipalityName*))(|(hsaStreetAddress=*municipalityName*$*$*$*$*$*)(hsaStreetAddress=*$*municipalityName*$*$*$*$*)(hsaStreetAddress=*$*$*municipalityName*$*$*$*)(hsaStreetAddress=*$*$*$*municipalityName*$*$*)(hsaStreetAddress=*$*$*$*$*municipalityName*$*)(hsaStreetAddress=*$*$*$*$*$*municipalityName*))))";
 
@@ -150,8 +152,10 @@ public class UnitRepositoryKivwsTest {
     searchUnitCriterions.setUnitName("\"unitName\"");
     searchUnitCriterions.setLocation("\"municipalityName\"");
 
-    //String expectedFilterOU = "(&(ou=unitName)(|(hsaMunicipalityName=municipalityName)(|(hsaPostalAddress=municipalityName$*$*$*$*$*)(hsaPostalAddress=*$municipalityName$*$*$*$*)(hsaPostalAddress=*$*$municipalityName$*$*$*)(hsaPostalAddress=*$*$*$municipalityName$*$*)(hsaPostalAddress=*$*$*$*$municipalityName$*)(hsaPostalAddress=*$*$*$*$*$municipalityName))(|(hsaStreetAddress=municipalityName$*$*$*$*$*)(hsaStreetAddress=*$municipalityName$*$*$*$*)(hsaStreetAddress=*$*$municipalityName$*$*$*)(hsaStreetAddress=*$*$*$municipalityName$*$*)(hsaStreetAddress=*$*$*$*$municipalityName$*)(hsaStreetAddress=*$*$*$*$*$municipalityName))))";
-    //String expectedFilterCN = "(&(cn=unitName)(|(hsaMunicipalityName=municipalityName)(|(hsaPostalAddress=municipalityName$*$*$*$*$*)(hsaPostalAddress=*$municipalityName$*$*$*$*)(hsaPostalAddress=*$*$municipalityName$*$*$*)(hsaPostalAddress=*$*$*$municipalityName$*$*)(hsaPostalAddress=*$*$*$*$municipalityName$*)(hsaPostalAddress=*$*$*$*$*$municipalityName))(|(hsaStreetAddress=municipalityName$*$*$*$*$*)(hsaStreetAddress=*$municipalityName$*$*$*$*)(hsaStreetAddress=*$*$municipalityName$*$*$*)(hsaStreetAddress=*$*$*$municipalityName$*$*)(hsaStreetAddress=*$*$*$*$municipalityName$*)(hsaStreetAddress=*$*$*$*$*$municipalityName))))";
+    // String expectedFilterOU =
+    // "(&(ou=unitName)(|(hsaMunicipalityName=municipalityName)(|(hsaPostalAddress=municipalityName$*$*$*$*$*)(hsaPostalAddress=*$municipalityName$*$*$*$*)(hsaPostalAddress=*$*$municipalityName$*$*$*)(hsaPostalAddress=*$*$*$municipalityName$*$*)(hsaPostalAddress=*$*$*$*$municipalityName$*)(hsaPostalAddress=*$*$*$*$*$municipalityName))(|(hsaStreetAddress=municipalityName$*$*$*$*$*)(hsaStreetAddress=*$municipalityName$*$*$*$*)(hsaStreetAddress=*$*$municipalityName$*$*$*)(hsaStreetAddress=*$*$*$municipalityName$*$*)(hsaStreetAddress=*$*$*$*$municipalityName$*)(hsaStreetAddress=*$*$*$*$*$municipalityName))))";
+    // String expectedFilterCN =
+    // "(&(cn=unitName)(|(hsaMunicipalityName=municipalityName)(|(hsaPostalAddress=municipalityName$*$*$*$*$*)(hsaPostalAddress=*$municipalityName$*$*$*$*)(hsaPostalAddress=*$*$municipalityName$*$*$*)(hsaPostalAddress=*$*$*$municipalityName$*$*)(hsaPostalAddress=*$*$*$*$municipalityName$*)(hsaPostalAddress=*$*$*$*$*$municipalityName))(|(hsaStreetAddress=municipalityName$*$*$*$*$*)(hsaStreetAddress=*$municipalityName$*$*$*$*)(hsaStreetAddress=*$*$municipalityName$*$*$*)(hsaStreetAddress=*$*$*$municipalityName$*$*)(hsaStreetAddress=*$*$*$*$municipalityName$*)(hsaStreetAddress=*$*$*$*$*$municipalityName))))";
     String expectedFilterOU = "(&(ou=unitName)(|(|(hsaPostalAddress=municipalityName$*$*$*$*$*)(hsaPostalAddress=*$municipalityName$*$*$*$*)(hsaPostalAddress=*$*$municipalityName$*$*$*)(hsaPostalAddress=*$*$*$municipalityName$*$*)(hsaPostalAddress=*$*$*$*$municipalityName$*)(hsaPostalAddress=*$*$*$*$*$municipalityName))(|(hsaStreetAddress=municipalityName$*$*$*$*$*)(hsaStreetAddress=*$municipalityName$*$*$*$*)(hsaStreetAddress=*$*$municipalityName$*$*$*)(hsaStreetAddress=*$*$*$municipalityName$*$*)(hsaStreetAddress=*$*$*$*$municipalityName$*)(hsaStreetAddress=*$*$*$*$*$municipalityName))))";
     String expectedFilterCN = "(&(cn=unitName)(|(|(hsaPostalAddress=municipalityName$*$*$*$*$*)(hsaPostalAddress=*$municipalityName$*$*$*$*)(hsaPostalAddress=*$*$municipalityName$*$*$*)(hsaPostalAddress=*$*$*$municipalityName$*$*)(hsaPostalAddress=*$*$*$*$municipalityName$*)(hsaPostalAddress=*$*$*$*$*$municipalityName))(|(hsaStreetAddress=municipalityName$*$*$*$*$*)(hsaStreetAddress=*$municipalityName$*$*$*$*)(hsaStreetAddress=*$*$municipalityName$*$*$*)(hsaStreetAddress=*$*$*$municipalityName$*$*)(hsaStreetAddress=*$*$*$*$municipalityName$*)(hsaStreetAddress=*$*$*$*$*$municipalityName))))";
 
@@ -303,8 +307,10 @@ public class UnitRepositoryKivwsTest {
   @Test
   public void testcreateSearchFilter() throws Exception {
 
-    //String expectedOU = "(&(ou=*barn**och*ungdoms*)(|(hsaMunicipalityName=*Borås*)(|(hsaPostalAddress=*Borås*$*$*$*$*$*)(hsaPostalAddress=*$*Borås*$*$*$*$*)(hsaPostalAddress=*$*$*Borås*$*$*$*)(hsaPostalAddress=*$*$*$*Borås*$*$*)(hsaPostalAddress=*$*$*$*$*Borås*$*)(hsaPostalAddress=*$*$*$*$*$*Borås*))(|(hsaStreetAddress=*Borås*$*$*$*$*$*)(hsaStreetAddress=*$*Borås*$*$*$*$*)(hsaStreetAddress=*$*$*Borås*$*$*$*)(hsaStreetAddress=*$*$*$*Borås*$*$*)(hsaStreetAddress=*$*$*$*$*Borås*$*)(hsaStreetAddress=*$*$*$*$*$*Borås*))))";
-    //String expectedCN = "(&(cn=*barn**och*ungdoms*)(|(hsaMunicipalityName=*Borås*)(|(hsaPostalAddress=*Borås*$*$*$*$*$*)(hsaPostalAddress=*$*Borås*$*$*$*$*)(hsaPostalAddress=*$*$*Borås*$*$*$*)(hsaPostalAddress=*$*$*$*Borås*$*$*)(hsaPostalAddress=*$*$*$*$*Borås*$*)(hsaPostalAddress=*$*$*$*$*$*Borås*))(|(hsaStreetAddress=*Borås*$*$*$*$*$*)(hsaStreetAddress=*$*Borås*$*$*$*$*)(hsaStreetAddress=*$*$*Borås*$*$*$*)(hsaStreetAddress=*$*$*$*Borås*$*$*)(hsaStreetAddress=*$*$*$*$*Borås*$*)(hsaStreetAddress=*$*$*$*$*$*Borås*))))";
+    // String expectedOU =
+    // "(&(ou=*barn**och*ungdoms*)(|(hsaMunicipalityName=*Borås*)(|(hsaPostalAddress=*Borås*$*$*$*$*$*)(hsaPostalAddress=*$*Borås*$*$*$*$*)(hsaPostalAddress=*$*$*Borås*$*$*$*)(hsaPostalAddress=*$*$*$*Borås*$*$*)(hsaPostalAddress=*$*$*$*$*Borås*$*)(hsaPostalAddress=*$*$*$*$*$*Borås*))(|(hsaStreetAddress=*Borås*$*$*$*$*$*)(hsaStreetAddress=*$*Borås*$*$*$*$*)(hsaStreetAddress=*$*$*Borås*$*$*$*)(hsaStreetAddress=*$*$*$*Borås*$*$*)(hsaStreetAddress=*$*$*$*$*Borås*$*)(hsaStreetAddress=*$*$*$*$*$*Borås*))))";
+    // String expectedCN =
+    // "(&(cn=*barn**och*ungdoms*)(|(hsaMunicipalityName=*Borås*)(|(hsaPostalAddress=*Borås*$*$*$*$*$*)(hsaPostalAddress=*$*Borås*$*$*$*$*)(hsaPostalAddress=*$*$*Borås*$*$*$*)(hsaPostalAddress=*$*$*$*Borås*$*$*)(hsaPostalAddress=*$*$*$*$*Borås*$*)(hsaPostalAddress=*$*$*$*$*$*Borås*))(|(hsaStreetAddress=*Borås*$*$*$*$*$*)(hsaStreetAddress=*$*Borås*$*$*$*$*)(hsaStreetAddress=*$*$*Borås*$*$*$*)(hsaStreetAddress=*$*$*$*Borås*$*$*)(hsaStreetAddress=*$*$*$*$*Borås*$*)(hsaStreetAddress=*$*$*$*$*$*Borås*))))";
     String expectedOU = "(&(ou=*barn**och*ungdoms*)(|(|(hsaPostalAddress=*Borås*$*$*$*$*$*)(hsaPostalAddress=*$*Borås*$*$*$*$*)(hsaPostalAddress=*$*$*Borås*$*$*$*)(hsaPostalAddress=*$*$*$*Borås*$*$*)(hsaPostalAddress=*$*$*$*$*Borås*$*)(hsaPostalAddress=*$*$*$*$*$*Borås*))(|(hsaStreetAddress=*Borås*$*$*$*$*$*)(hsaStreetAddress=*$*Borås*$*$*$*$*)(hsaStreetAddress=*$*$*Borås*$*$*$*)(hsaStreetAddress=*$*$*$*Borås*$*$*)(hsaStreetAddress=*$*$*$*$*Borås*$*)(hsaStreetAddress=*$*$*$*$*$*Borås*))))";
     String expectedCN = "(&(cn=*barn**och*ungdoms*)(|(|(hsaPostalAddress=*Borås*$*$*$*$*$*)(hsaPostalAddress=*$*Borås*$*$*$*$*)(hsaPostalAddress=*$*$*Borås*$*$*$*)(hsaPostalAddress=*$*$*$*Borås*$*$*)(hsaPostalAddress=*$*$*$*$*Borås*$*)(hsaPostalAddress=*$*$*$*$*$*Borås*))(|(hsaStreetAddress=*Borås*$*$*$*$*$*)(hsaStreetAddress=*$*Borås*$*$*$*$*)(hsaStreetAddress=*$*$*Borås*$*$*$*)(hsaStreetAddress=*$*$*$*Borås*$*$*)(hsaStreetAddress=*$*$*$*$*Borås*$*)(hsaStreetAddress=*$*$*$*$*$*Borås*))))";
 
@@ -396,8 +402,8 @@ public class UnitRepositoryKivwsTest {
 
   @Test
   public void testGetAllUnitsHsaIdentity() throws KivException {
-    String expectedOU = "";
-    String expectedCN = "";
+    String expectedOU = "(&(!(hsaIdentity=*X)))";
+    String expectedCN = "(&(!(hsaIdentity=*X)))";
     this.unitRepository.getAllUnitsHsaIdentity();
     assertEquals(expectedOU, this.portType.filterOU);
     assertEquals(expectedCN, this.portType.filterCN);
@@ -405,8 +411,8 @@ public class UnitRepositoryKivwsTest {
 
   @Test
   public void testGetAllUnitsHsaIdentityOnlyPublicUnits() throws KivException {
-    String expectedOU = "(&(hsaDestinationIndicator=03))";
-    String expectedCN = "(&(hsaDestinationIndicator=03))";
+    String expectedOU = "(&(hsaDestinationIndicator=03)(!(hsaIdentity=*X)))";
+    String expectedCN = "(&(hsaDestinationIndicator=03)(!(hsaIdentity=*X)))";
 
     this.unitRepository.getAllUnitsHsaIdentity(true);
     assertEquals(expectedOU, this.portType.filterOU);
@@ -415,8 +421,8 @@ public class UnitRepositoryKivwsTest {
 
   @Test
   public void testGetAllUnitsOnlyPublicUnits() throws KivException {
-    String expectedOU = "(&(hsaDestinationIndicator=03))";
-    String expectedCN = "(&(hsaDestinationIndicator=03))";
+    String expectedOU = "(&(hsaDestinationIndicator=03)(!(hsaIdentity=*X)))";
+    String expectedCN = "(&(hsaDestinationIndicator=03)(!(hsaIdentity=*X)))";
 
     this.unitRepository.getAllUnits(true);
     assertEquals(expectedOU, this.portType.filterOU);
@@ -425,8 +431,8 @@ public class UnitRepositoryKivwsTest {
 
   @Test
   public void testGetAllUnits() throws KivException {
-    String expectedOU = "(ou=*)";
-    String expectedCN = "(cn=*)";
+    String expectedOU = "(&(!(hsaIdentity=*X)))";
+    String expectedCN = "(&(!(hsaIdentity=*X)))";
 
     this.unitRepository.getAllUnits(false);
     assertEquals(expectedOU, this.portType.filterOU);
