@@ -52,9 +52,9 @@ import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.codetables.CodeTablesService;
 import se.vgregion.kivtools.search.svc.comparators.UnitNameComparator;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.Constants;
-import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitSearchAttributes;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitLdapAttributes;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
+import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitSearchAttributes;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfFunction;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfString;
@@ -325,6 +325,7 @@ public class UnitRepositoryKivws implements UnitRepository {
     if (onlyPublicUnits) {
       filterList.add("(hsaDestinationIndicator=03)");
     }
+    filterList.add("(!(hsaIdentity=*X))");
 
     return this.makeAnd(filterList);
   }
@@ -466,13 +467,13 @@ public class UnitRepositoryKivws implements UnitRepository {
     // create or criteria
     if (!StringUtil.isEmpty(searchUnitCriterions.getLocation())) {
       OrFilter orMunicipalityAndAddresses = new OrFilter();
-      //OrFilter orMunicipalityName = new OrFilter();
-      //orMunicipalityName.or(this.createSearchFilter("hsaMunicipalityName", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation())));
+      // OrFilter orMunicipalityName = new OrFilter();
+      // orMunicipalityName.or(this.createSearchFilter("hsaMunicipalityName", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation())));
       // Create or criteria a bit special...
       OrFilter orPostalAddress = this.createAddressSearchFilter(filterList, "hsaPostalAddress", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation()));
       // Create or criteria
       OrFilter orStreetAddress = this.createAddressSearchFilter(filterList, "hsaStreetAddress", LdapParse.escapeLDAPSearchFilter(searchUnitCriterions.getLocation()));
-      //orMunicipalityAndAddresses.or(orMunicipalityName).or(orPostalAddress).or(orStreetAddress);
+      // orMunicipalityAndAddresses.or(orMunicipalityName).or(orPostalAddress).or(orStreetAddress);
       orMunicipalityAndAddresses.or(orPostalAddress).or(orStreetAddress);
       andFilter.and(orMunicipalityAndAddresses);
     }
@@ -804,7 +805,7 @@ public class UnitRepositoryKivws implements UnitRepository {
 
     try {
       String filter = "(" + name.get(name.size() - 1) + ")";
-      Name base = name.getPrefix(name.size()-1);
+      Name base = name.getPrefix(name.size() - 1);
       ArrayOfUnit searchUnit = this.vgregionWebService.searchUnit(filter, arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(SearchControls.ONELEVEL_SCOPE));
       unit = this.mapKivwsUnitToUnit(searchUnit).get(0);
     } catch (VGRException_Exception e) {
