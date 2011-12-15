@@ -239,6 +239,16 @@ public class SitemapUnitMapperTest {
   }
 
   @Test
+  public void website1177IsMapped() {
+    Unit unit = this.builder.website1177("http://1177.se/unit").build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertEquals("ealias", 1, result.getEAlias().size());
+    assertEquals("alias", "http://1177.se/unit", result.getEAlias().get(0).getAlias());
+    assertEquals("label", "1177-kontaktkortslänk", result.getEAlias().get(0).getLabel());
+    assertEquals("type", EAliasType.URL, result.getEAlias().get(0).getType());
+  }
+
+  @Test
   public void postalAddressIsMapped() {
     Unit unit = this.builder.postalAddress(this.createAddress("Storgatan 1", "412 63", "Göteborg")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
@@ -331,6 +341,13 @@ public class SitemapUnitMapperTest {
   }
 
   @Test
+  public void commentsOnHoursAreMapped() throws Exception {
+    Unit unit = this.builder.visitingHours(new WeekdayTime("1-4#08:30#10:00#Jämna veckor")).visitingHours(new WeekdayTime("5-5#08:00#11:00#Udda veckor")).build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertEquals("visiting hours", "Måndag-Torsdag 08:30-10:00, Jämna veckor, Fredag 08:00-11:00, Udda veckor", result.getVisitingHours());
+  }
+
+  @Test
   public void dropInHoursIsMapped() throws Exception {
     Unit unit = this.builder.dropInHours(new WeekdayTime("1-4#08:30#10:00")).dropInHours(new WeekdayTime("5-5#08:00#11:00")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
@@ -407,6 +424,13 @@ public class SitemapUnitMapperTest {
     assertEquals("locality", "Halmstad", result.getLocality());
   }
 
+  @Test
+  public void routeIsMapped() {
+    Unit unit = this.builder.route(new String[] { "Följ gatan rakt fram ", "In i gränden" }).build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertEquals("route", "Följ gatan rakt fram In i gränden", result.getRoute());
+  }
+
   private Address createAddress(String... addressLines) {
     return AddressHelper.convertToAddress(Arrays.asList(addressLines));
   }
@@ -451,6 +475,8 @@ public class SitemapUnitMapperTest {
     private String hsaVpwInformation1;
     private String hsaVpwInformation2;
     private String locality;
+    private String website1177;
+    private String[] route;
 
     public Unit build() {
       Unit unit = new Unit();
@@ -492,6 +518,10 @@ public class SitemapUnitMapperTest {
       unit.setHsaVpwInformation1(this.hsaVpwInformation1);
       unit.setHsaVpwInformation2(this.hsaVpwInformation2);
       unit.setLocality(this.locality);
+      unit.setWebsite1177(this.website1177);
+      if (this.route != null) {
+        unit.addHsaRoute(Arrays.asList(this.route));
+      }
 
       unit.setRt90X(this.rt90x);
       unit.setRt90Y(this.rt90y);
@@ -515,6 +545,16 @@ public class SitemapUnitMapperTest {
 
     public UnitBuilder vardval(boolean vardval) {
       this.vardval = vardval;
+      return this;
+    }
+
+    public UnitBuilder route(String[] route) {
+      this.route = route;
+      return this;
+    }
+
+    public UnitBuilder website1177(String website1177) {
+      this.website1177 = website1177;
       return this;
     }
 

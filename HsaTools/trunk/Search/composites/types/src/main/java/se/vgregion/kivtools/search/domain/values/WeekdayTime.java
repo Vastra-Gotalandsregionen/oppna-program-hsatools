@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -77,6 +78,7 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
   private int startDay;
   private int startHour;
   private int startMin;
+  private String comment;
 
   /**
    * Skapar en nytt tidsintervall.
@@ -109,7 +111,7 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
     this(0, 0, 0, 0, 0, 0);
 
     String[] splits = saveValue.split("#");
-    if (isValidStringFormat(splits)) {
+    if (this.isValidStringFormat(splits)) {
       String[] daySplits = splits[0].split("-");
 
       if (2 == daySplits.length) {
@@ -135,15 +137,19 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
         throw new InvalidFormatException("Felaktigt antal :");
       }
 
+      if (splits.length == 4) {
+        this.comment = splits[3];
+      }
+
     } else {
       throw new InvalidFormatException("Felaktigt antal #");
     }
 
   }
 
-private boolean isValidStringFormat(String[] splits) {
-	return 3 == splits.length || 4 == splits.length;
-}
+  private boolean isValidStringFormat(String[] splits) {
+    return 3 == splits.length || 4 == splits.length;
+  }
 
   /**
    * Skapar en nytt tidsintervall.
@@ -199,6 +205,7 @@ private boolean isValidStringFormat(String[] splits) {
    * @param other tidsintervallet som skall jämföras
    * @return ett negativt heltal, noll, eller ett positivt heltal om detta tidsintervall är ligger före, är lika med eller ligger efter det specificerade tidsintervallet.
    */
+  @Override
   public int compareTo(WeekdayTime other) {
     return this.getSaveValue().compareTo(other.getSaveValue());
 
@@ -218,7 +225,7 @@ private boolean isValidStringFormat(String[] splits) {
       if (obj == null) {
         equal = false;
       } else {
-        if (getClass() != obj.getClass()) {
+        if (this.getClass() != obj.getClass()) {
           equal = false;
         } else {
           WeekdayTime other = (WeekdayTime) obj;
@@ -246,44 +253,45 @@ private boolean isValidStringFormat(String[] splits) {
    * @return A representation of a time interval that is presentable to a user.
    */
   public String getDisplayValue() {
-
-    // If open all the time, return "Dygnet runt"
-    if (startsOnMondayMidnight() && endsOnSunday() && endsOnMidnight()) {
-      return "Dygnet runt";
-    }
-
     String returnString = "";
-    returnString += WeekdayTime.getDayName(this.getStartDay());
+    // If open all the time, return "Dygnet runt"
+    if (this.startsOnMondayMidnight() && this.endsOnSunday() && this.endsOnMidnight()) {
+      returnString += "Dygnet runt";
+    } else {
+      returnString += WeekdayTime.getDayName(this.getStartDay());
 
-    if (this.getStartDay() != this.getEndDay()) {
-      // om över flera dagar...
-      returnString += "-" + WeekdayTime.getDayName(this.getEndDay());
+      if (this.getStartDay() != this.getEndDay()) {
+        // om över flera dagar...
+        returnString += "-" + WeekdayTime.getDayName(this.getEndDay());
+      }
+
+      returnString += " ";
+      returnString += this.getTwoDigitNumber(this.getStartHour());
+      returnString += ":";
+      returnString += this.getTwoDigitNumber(this.getStartMin());
+      returnString += "-";
+      returnString += this.getTwoDigitNumber(this.getEndHour());
+      returnString += ":";
+      returnString += this.getTwoDigitNumber(this.getEndMin());
     }
-
-    returnString += " ";
-    returnString += this.getTwoDigitNumber(this.getStartHour());
-    returnString += ":";
-    returnString += this.getTwoDigitNumber(this.getStartMin());
-    returnString += "-";
-    returnString += this.getTwoDigitNumber(this.getEndHour());
-    returnString += ":";
-    returnString += this.getTwoDigitNumber(this.getEndMin());
+    if (StringUtils.isNotBlank(this.comment)) {
+      returnString += ", " + this.comment;
+    }
 
     return returnString;
-
   }
 
-private boolean endsOnMidnight() {
-	return ((endHour == 24 && endMin == 0) || (endHour == 00  && endMin == 0) || (endHour == 23 && endMin == 59));
-}
+  private boolean endsOnMidnight() {
+    return this.endHour == 24 && this.endMin == 0 || this.endHour == 00 && this.endMin == 0 || this.endHour == 23 && this.endMin == 59;
+  }
 
-private boolean endsOnSunday() {
-	return endDay == 7;
-}
+  private boolean endsOnSunday() {
+    return this.endDay == 7;
+  }
 
-private boolean startsOnMondayMidnight() {
-	return startDay == 1 && startHour == 0 && startMin == 0;
-}
+  private boolean startsOnMondayMidnight() {
+    return this.startDay == 1 && this.startHour == 0 && this.startMin == 0;
+  }
 
   /**
    * Hämtar kod för slut-veckodag. {@link Parse#getDayName(int)}.
@@ -291,7 +299,7 @@ private boolean startsOnMondayMidnight() {
    * @return kod för slut-veckodag
    */
   public int getEndDay() {
-    return endDay;
+    return this.endDay;
   }
 
   /**
@@ -300,7 +308,7 @@ private boolean startsOnMondayMidnight() {
    * @return sluttidens timmesdel
    */
   public int getEndHour() {
-    return endHour;
+    return this.endHour;
   }
 
   /**
@@ -309,7 +317,7 @@ private boolean startsOnMondayMidnight() {
    * @return sluttidens minutdel
    */
   public int getEndMin() {
-    return endMin;
+    return this.endMin;
   }
 
   /**
@@ -328,7 +336,7 @@ private boolean startsOnMondayMidnight() {
    * @return kod för start-veckodag
    */
   public int getStartDay() {
-    return startDay;
+    return this.startDay;
   }
 
   /**
@@ -337,7 +345,7 @@ private boolean startsOnMondayMidnight() {
    * @return starttidens timmesdel
    */
   public int getStartHour() {
-    return startHour;
+    return this.startHour;
   }
 
   /**
@@ -346,7 +354,11 @@ private boolean startsOnMondayMidnight() {
    * @return starttidens minutdel
    */
   public int getStartMin() {
-    return startMin;
+    return this.startMin;
+  }
+
+  public String getComment() {
+    return this.comment;
   }
 
   /**
@@ -357,7 +369,7 @@ private boolean startsOnMondayMidnight() {
    */
   public void setEndDay(int endDay) throws InvalidFormatException {
     if (MIN_DAY_CODE <= endDay && endDay <= MAX_DAY_CODE) {
-      this.endDay = mapSunday(endDay);
+      this.endDay = this.mapSunday(endDay);
     } else {
       throw new InvalidFormatException("");
     }
@@ -434,7 +446,7 @@ private boolean startsOnMondayMidnight() {
    */
   public void setStartDay(int startDay) throws InvalidFormatException {
     if (MIN_DAY_CODE <= startDay && startDay <= MAX_DAY_CODE) {
-      this.startDay = mapSunday(startDay);
+      this.startDay = this.mapSunday(startDay);
     } else {
       throw new InvalidFormatException("");
     }

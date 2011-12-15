@@ -62,6 +62,7 @@ public class SitemapUnitMapper extends AbstractSitemapMapper {
       result.getTemporaryInformation().add(unit.getHsaVpwInformation2());
     }
     result.setLocality(unit.getLocality());
+    result.setRoute(unit.getHsaRouteConcatenated());
 
     result.getTelephone().addAll(mapPhoneNumbers(unit.getHsaPublicTelephoneNumber(), "Telefon", TelephoneType.FIXED));
     result.getTelephone().addAll(mapPhoneNumbers(unit.getHsaTelephoneNumber(), "Direkttelefon", TelephoneType.FIXED));
@@ -75,6 +76,7 @@ public class SitemapUnitMapper extends AbstractSitemapMapper {
 
     mapEAliasIfNotNull(unit.getLabeledURI(), "Hemsida", EAliasType.URL, result.getEAlias());
     mapEAliasIfNotNull(unit.getMail(), "E-post", EAliasType.E_MAIL, result.getEAlias());
+    mapEAliasIfNotNull(unit.getWebsite1177(), "1177-kontaktkortslänk", EAliasType.URL, result.getEAlias());
 
     GeoCoordinates geoCoordinates = mapGeoCoordinates(unit);
 

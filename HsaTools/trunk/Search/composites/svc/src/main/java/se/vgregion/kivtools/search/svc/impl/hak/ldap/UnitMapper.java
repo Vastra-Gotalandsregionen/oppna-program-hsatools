@@ -122,6 +122,8 @@ public class UnitMapper implements ContextMapper {
     // Tillfällig information (hsaVpwInformation2)
     unit.setHsaVpwInformation2(context.getString("hsaVpwInformation2"));
 
+    unit.setWebsite1177(context.getString("hsaVpwWebPage"));
+
     // Drifts- & juridisk formkod
     unit.setHsaAdministrationForm(context.getString("hsaAdministrationForm"));
 
@@ -140,7 +142,7 @@ public class UnitMapper implements ContextMapper {
 
     unit.setHsaManagementText(getManagementDescription(context.getString("management")));
 
-    if (context.getString("route") != null) {
+    if (context.hasAttribute("route")) {
       unit.addHsaRoute(context.getStrings("route"));
     }
 

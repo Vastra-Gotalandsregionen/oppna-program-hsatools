@@ -122,6 +122,7 @@
 						<xs:element name="altText" type="xs:string" minOccurs="0" />
 						<xs:element name="about" type="xs:string" minOccurs="0" />
 						<xs:element name="locality" type="xs:string" minOccurs="0" />
+						<xs:element name="route" type="xs:string" minOccurs="0" />
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
