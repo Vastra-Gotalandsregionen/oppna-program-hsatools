@@ -64,7 +64,7 @@ public class GeoUtilTest {
     assertNull(wgs84);
 
     address.setStreet("");
-    address.setZipCode(new ZipCode("47293"));
+    address.setZipCode(new ZipCode("1111"));
     wgs84 = this.geoUtil.geocodeToWGS84FromHsaAddress(address, GOOGLE_MAPS_KEY);
     assertNull(wgs84);
 
