@@ -253,32 +253,32 @@ public class WeekdayTime implements Comparable<WeekdayTime>, Serializable {
    * @return A representation of a time interval that is presentable to a user.
    */
   public String getDisplayValue() {
-    String returnString = "";
+    final StringBuilder returnString = new StringBuilder();
     // If open all the time, return "Dygnet runt"
     if (this.startsOnMondayMidnight() && this.endsOnSunday() && this.endsOnMidnight()) {
-      returnString += "Dygnet runt";
+      returnString.append("Dygnet runt");
     } else {
-      returnString += WeekdayTime.getDayName(this.getStartDay());
+      returnString.append(WeekdayTime.getDayName(this.getStartDay()));
 
       if (this.getStartDay() != this.getEndDay()) {
         // om över flera dagar...
-        returnString += "-" + WeekdayTime.getDayName(this.getEndDay());
+        returnString.append("-").append(WeekdayTime.getDayName(this.getEndDay()));
       }
 
-      returnString += " ";
-      returnString += this.getTwoDigitNumber(this.getStartHour());
-      returnString += ":";
-      returnString += this.getTwoDigitNumber(this.getStartMin());
-      returnString += "-";
-      returnString += this.getTwoDigitNumber(this.getEndHour());
-      returnString += ":";
-      returnString += this.getTwoDigitNumber(this.getEndMin());
+      returnString.append(" ");
+      returnString.append(this.getTwoDigitNumber(this.getStartHour()));
+      returnString.append(":");
+      returnString.append(this.getTwoDigitNumber(this.getStartMin()));
+      returnString.append("-");
+      returnString.append(this.getTwoDigitNumber(this.getEndHour()));
+      returnString.append(":");
+      returnString.append(this.getTwoDigitNumber(this.getEndMin()));
     }
     if (StringUtils.isNotBlank(this.comment)) {
-      returnString += ", " + this.comment;
+      returnString.append(" - ").append(this.comment);
     }
 
-    return returnString;
+    return returnString.toString();
   }
 
   private boolean endsOnMidnight() {

@@ -94,7 +94,7 @@ public class WeekdayTimeTest {
     saveValues.add("1-7#07:00#17:00#Udda veckor");
     List<WeekdayTime> weekdayTimeList = WeekdayTime.createWeekdayTimeList(saveValues);
     for (WeekdayTime weekdayTime : weekdayTimeList) {
-      assertEquals("Måndag-Söndag 07:00-17:00, Udda veckor", weekdayTime.getDisplayValue());
+      assertEquals("Måndag-Söndag 07:00-17:00 - Udda veckor", weekdayTime.getDisplayValue());
     }
   }
 
@@ -104,7 +104,7 @@ public class WeekdayTimeTest {
     saveValues.add("1-7#00:00#24:00#Udda veckor");
     List<WeekdayTime> weekdayTimeList = WeekdayTime.createWeekdayTimeList(saveValues);
     for (WeekdayTime weekdayTime : weekdayTimeList) {
-      assertEquals("Dygnet runt, Udda veckor", weekdayTime.getDisplayValue());
+      assertEquals("Dygnet runt - Udda veckor", weekdayTime.getDisplayValue());
     }
   }
 
