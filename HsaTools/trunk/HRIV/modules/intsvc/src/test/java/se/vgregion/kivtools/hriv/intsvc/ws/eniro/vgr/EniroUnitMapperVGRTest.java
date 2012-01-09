@@ -22,9 +22,11 @@ package se.vgregion.kivtools.hriv.intsvc.ws.eniro.vgr;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.TimeZone;
 
 import org.junit.Before;
@@ -123,6 +125,24 @@ public class EniroUnitMapperVGRTest {
         assertEquals("031 - 345 07 00", telephoneType.getTelephoneNumber());
       }
     }
+  }
+
+  @Test
+  public void allPublicTelephoneNumbersAreAddedToUnitComposition() throws Exception {
+    this.unit.addHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("+46313450700"));
+    this.unit.addHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("+46303771010"));
+    this.unit.addHsaTelephoneTime(new WeekdayTime("1-5#08:00#18:00"));
+
+    UnitComposition unitComposition = this.eniroUnitMapper.map(this.unit);
+
+    List<String> expectedPhoneNumbers = new ArrayList<String>(Arrays.asList("031 - 345 07 00", "0303 - 77 10 10"));
+    for (Object info : unitComposition.getEniroUnit().getTextOrImageOrAddress()) {
+      if (info instanceof TelephoneType) {
+        TelephoneType telephoneType = (TelephoneType) info;
+        assertTrue(expectedPhoneNumbers.remove(telephoneType.getTelephoneNumber()));
+      }
+    }
+    assertEquals(0, expectedPhoneNumbers.size());
   }
 
   @Test
