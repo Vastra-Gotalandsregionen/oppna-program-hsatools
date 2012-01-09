@@ -125,10 +125,8 @@ public class EniroUnitMapperVGR {
     if (address != null) {
       unit.getTextOrImageOrAddress().add(address);
     }
-    TelephoneType telephone = this.getPublicTelephoneType(source);
-    if (telephone != null) {
-      unit.getTextOrImageOrAddress().add(telephone);
-    }
+    List<TelephoneType> telephones = this.getPublicTelephoneTypes(source);
+    unit.getTextOrImageOrAddress().addAll(telephones);
     if (source.getHsaBusinessClassificationCode() != null) {
       for (String code : source.getHsaBusinessClassificationCode()) {
         unit.getTextOrImageOrAddress().add(this.createBusinessClassification(code));
@@ -145,19 +143,21 @@ public class EniroUnitMapperVGR {
     return businesClassification;
   }
 
-  private TelephoneType getPublicTelephoneType(se.vgregion.kivtools.search.domain.Unit source) {
+  private List<TelephoneType> getPublicTelephoneTypes(se.vgregion.kivtools.search.domain.Unit source) {
     List<PhoneNumber> publicTelephoneNumber = source.getHsaPublicTelephoneNumber();
-    TelephoneType telephoneType = null;
+    List<TelephoneType> telephoneTypes = new ArrayList<TelephoneType>();
 
     if (publicTelephoneNumber != null && !publicTelephoneNumber.isEmpty()) {
-      PhoneNumber phoneNumber = publicTelephoneNumber.get(0);
-      telephoneType = new TelephoneType();
-      telephoneType.setType(PHONE_TYPE.FIXED.value);
-      telephoneType.setTelephoneNumber(phoneNumber.getFormattedPhoneNumber().toString());
-      TelephoneHourConverter telephoneHourConverter = new TelephoneHourConverter(TELEPHONE_HOURS_TYPE.PHONEOPEN.value, source.getHsaTelephoneTime());
-      telephoneType.getTelephoneHours().addAll(telephoneHourConverter.getResult());
+      for (PhoneNumber phoneNumber : publicTelephoneNumber) {
+        TelephoneType telephoneType = new TelephoneType();
+        telephoneType.setType(PHONE_TYPE.FIXED.value);
+        telephoneType.setTelephoneNumber(phoneNumber.getFormattedPhoneNumber().toString());
+        TelephoneHourConverter telephoneHourConverter = new TelephoneHourConverter(TELEPHONE_HOURS_TYPE.PHONEOPEN.value, source.getHsaTelephoneTime());
+        telephoneType.getTelephoneHours().addAll(telephoneHourConverter.getResult());
+        telephoneTypes.add(telephoneType);
+      }
     }
-    return telephoneType;
+    return telephoneTypes;
   }
 
   private Address generateAddress(se.vgregion.kivtools.search.domain.Unit source) {
