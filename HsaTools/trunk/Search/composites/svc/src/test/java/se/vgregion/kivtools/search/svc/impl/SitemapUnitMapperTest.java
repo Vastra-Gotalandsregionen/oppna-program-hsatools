@@ -344,7 +344,7 @@ public class SitemapUnitMapperTest {
   public void commentsOnHoursAreMapped() throws Exception {
     Unit unit = this.builder.visitingHours(new WeekdayTime("1-4#08:30#10:00#Jämna veckor")).visitingHours(new WeekdayTime("5-5#08:00#11:00#Udda veckor")).build();
     se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
-    assertEquals("visiting hours", "Måndag-Torsdag 08:30-10:00, Jämna veckor, Fredag 08:00-11:00, Udda veckor", result.getVisitingHours());
+    assertEquals("visiting hours", "Måndag-Torsdag 08:30-10:00 - Jämna veckor, Fredag 08:00-11:00 - Udda veckor", result.getVisitingHours());
   }
 
   @Test
