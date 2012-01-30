@@ -1,0 +1,89 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+		<title>${unit.name} - Sök i KIV</title>
+		<meta http-equiv="Content-Language" content="se" /> 
+		<meta http-equiv="expires" content="-1" /> 
+		<meta http-equiv="pragma" content="no-cache" /> 
+		<meta http-equiv="imagetoolbar" content="false" />
+		<meta name="classification" content="Administration" /> 
+		<meta name="distribution" content="VGR" /> 
+		<meta name="rating" content="Safe For Kids" /> 
+		<meta name="doc-type" content="Public" /> 
+		<meta name="doc-class" content="Completed" /> 
+		<meta name="doc-rights" content="Copywritten Work" /> 
+		<meta name="MSSmartTagsPreventParsing" content="true" /> 
+		<meta name="robots" content="ALL" /> 
+		<meta name="language" content="Svenska" /> 
+		<meta name="date" content="${presentationHelper.formatDateTime(unit.createTimestamp)}" /> 
+		<meta name="creation_date" content="${presentationHelper.formatDateTime(unit.createTimestamp)}" /> 
+		<meta name="last-modified" content="${presentationHelper.formatDateTime(unit.modifyTimestamp)}" /> 
+		<meta name="revised" content="${presentationHelper.formatDateTime(unit.modifyTimestamp)}" /> 
+		<meta name="author" content="Västra Götalandsregionen" /> 
+		<meta name="copyright" content="Copyright (c) Västra Götalandsregionen" /> 
+		<meta name="description" content="Sök-i-KIV hjälper dig att att hitta information om personer och enheter som finns i KIV" /> 
+		<meta name="keywords" content="Sök-i-KIV, KIV, sök, ${unit.name}" /> 		
+		<meta name="omnifind" content="sök-i-KIV" /> 
+		<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" /> 
+		<link rel="schema.DCTERMS" href="http://purl.org/dc/terms/" /> 
+		<meta name="DC.identifier" scheme="DCTERMS.URI" content="http://sokikiv.vgregion.se" /> 
+		<meta name="DC.title" content="${unit.name} - Sök i KIV" /> 
+		<meta name="DC.publisher" content="Västra Götalandsregionen" /> 
+		<meta name="DC.subject" content="Sök-i-KIV, KIV, sök, person, organisation, enhet, telefonnummer, adress" /> 
+		<meta name="DC.description" content="Sök-i-KIV hjälper dig att att hitta information om personer och enheter som finns i KIV" /> 
+		<meta name="DC.date.modified" scheme="ISO8601" content="${presentationHelper.formatDateTime(unit.modifyTimestamp)}" /> 
+		<meta name="DC.date.created" scheme="ISO8601" content="${presentationHelper.formatDateTime(unit.createTimestamp)}" /> 
+		<meta name="DC.rights" content="Copyright (c) Västra Götalandsregionen" /> 
+		<meta name="DC.type" scheme="DCTERMS.DCMIType" content="Text" /> 
+		<meta name="DC.language" scheme="DCTERMS.RFC1766" content="sv" /> 
+		<meta name="DC.format" content="text/html; charset=utf-8" /> 
+		<meta name="resource-type" content="organisation" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				
+		<style type="text/css" media="screen,projection">
+			@import 'resources/styles/grids-min.css';
+			@import 'resources/styles/main.css';
+	  		@import 'resources/styles/style.css';
+        	@import 'resources/scripts/assets/tabview.css'; /* Flikvy */
+        	@import 'resources/scripts/assets/border_tabs.css'; /* Flikvy */
+        	@import 'resources/scripts/assets/skins/vgr/border_tabs.css'; /* Flikvy */
+		</style>
+		
+		<!--[if IE]>
+			<link rel="stylesheet" href="resources/styles/ie.css" type="text/css" media="screen" />
+		<![endif]-->
+		<style type="text/css" media="print">
+	  		@import 'resources/styles/print.css';
+		</style>	
+    
+            <!-- Get CSS and javascript for YUI autocomplete. -->
+        <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/autocomplete/assets/skins/sam/autocomplete.css" />
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/yahoo-dom-event/yahoo-dom-event.js" />
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/datasource/datasource-min.js" />
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/autocomplete/autocomplete-min.js" />
+    
+		<script type="text/javascript" src="resources/scripts/utilities.js"></script>
+		<script type="text/javascript" src="resources/scripts/tabview-min.js"></script>
+		<script type="text/javascript" src="resources/scripts/script.js"></script>
+        <script type="text/javascript" src="resources/scripts/widget.js"></script>
+	</head>
