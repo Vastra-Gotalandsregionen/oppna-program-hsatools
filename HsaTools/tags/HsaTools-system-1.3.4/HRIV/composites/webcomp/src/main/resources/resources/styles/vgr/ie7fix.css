@@ -1,0 +1,77 @@
+﻿/**
+ * Copyright 2010 Västra Götalandsregionen
+ *
+ *   This library is free software; you can redistribute it and/or modify
+ *   it under the terms of version 2.1 of the GNU Lesser General Public
+ *   License as published by the Free Software Foundation.
+ *
+ *   This library is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public
+ *   License along with this library; if not, write to the
+ *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ *   Boston, MA 02111-1307  USA
+ *
+ */
+
+.yui-t2 .yui-b { width:250px; } 
+.yui-t2 #yui-main .yui-b { margin-left:250px;} 
+.yui-ge div.first { width:470px; } 
+.yui-ge .yui-u { width:250px; } 
+.box { width: 224px; }
+#yui-main { width:100%; }
+
+#centercontent {
+margin-left:2em;
+width:48em;
+}
+
+
+#print-element {
+width:48em;
+}
+
+.col-inside {
+padding:0em;
+width:17em;
+margin-left:1em;
+}
+
+.rounded-top-lft  {
+width:20px;
+margin-right:-3px;
+}
+.rounded-bot-lft {
+width:20px;
+margin-right:-3px;
+}
+.rounded-bot-center {
+margin:0 14px 0 17px;
+width:auto;
+height:46px;
+}
+
+.rounded-top-center {
+margin:0 14px 0 17px;
+width:auto;
+
+}
+.rounded-bot-rt {
+width:17px;
+margin-left:-3px;
+}
+.rounded-top-rt {
+width:17px;
+margin-left:-3px;
+}
+
+
+.share { 
+margin: 0 0 1em 0; 
+padding:1em 1em 1em; 
+background: #fff url(../../images/share-bg.png) repeat-x 0 100%; 
+border-top:1px solid #c2c2c2; 
+border-bottom:1px solid #c2c2c2;}
