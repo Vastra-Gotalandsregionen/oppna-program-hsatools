@@ -47,6 +47,7 @@ import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition.UnitType;
 import se.vgregion.kivtools.search.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.domain.values.PhoneNumber;
+import se.vgregion.kivtools.search.domain.values.WeekdayTime;
 import se.vgregion.kivtools.search.svc.ldap.DirContextOperationsHelper;
 import se.vgregion.kivtools.util.StringUtil;
 
@@ -177,7 +178,7 @@ public class EniroUnitMapperLTH implements ContextMapper {
       telephoneType.setType(PHONE_TYPE.FIXED.value);
       telephoneType.getAreaCode().add(phoneNumber.getAreaCode());
       telephoneType.setTelephoneNumber(phoneNumber.getSubscriberNumber());
-      TelephoneHourConverter telephoneHourConverter = new TelephoneHourConverter(TELEPHONE_HOURS_TYPE.PHONEOPEN.value, context.getStrings("telephoneHours"));
+      TelephoneHourConverter telephoneHourConverter = new TelephoneHourConverter(TELEPHONE_HOURS_TYPE.PHONEOPEN.value, WeekdayTime.createWeekdayTimeList(context.getStrings("telephoneHours")));
       telephoneType.getTelephoneHours().addAll(telephoneHourConverter.getResult());
     }
     return telephoneType;
@@ -188,7 +189,7 @@ public class EniroUnitMapperLTH implements ContextMapper {
     if (context.hasAttribute("street")) {
       String addressString = context.getString("street") + "$" + context.getString("postalCode") + " " + context.getString("l");
       address = this.createBaseAddress(addressString);
-      HourConverter hourConverter = new HourConverter(HOURS_TYPE.VISIT.value, context.getStrings("surgeryHours"));
+      HourConverter hourConverter = new HourConverter(HOURS_TYPE.VISIT.value, WeekdayTime.createWeekdayTimeList(context.getStrings("surgeryHours")));
       address.getHours().addAll(hourConverter.getResult());
       // Set address type
       address.setType(ADDRESS_TYPE.VISIT.value);
@@ -268,39 +269,35 @@ public class EniroUnitMapperLTH implements ContextMapper {
    */
   private abstract static class AbstractHourConverter<T> {
     private final String type;
-    private final List<String> values;
+    private final List<WeekdayTime> values;
     private final Comparator<T> comparator;
 
-    AbstractHourConverter(final String type, final List<String> values, Comparator<T> comparator) {
+    AbstractHourConverter(final String type, final List<WeekdayTime> list, Comparator<T> comparator) {
       this.type = type;
-      this.values = values;
+      this.values = list;
       this.comparator = comparator;
     }
 
     List<T> getResult() {
       List<T> hoursList = new ArrayList<T>();
 
-      for (String value : this.values) {
-        if (!StringUtil.isEmpty(value)) {
-          String[] hoursInfo = value.split("#");
-
-          if (hoursInfo.length == 3) {
-            String[] dayFromAndTo = hoursInfo[0].split("-");
-            String dayFrom = dayFromAndTo[0];
-            String dayTo;
-            if (dayFromAndTo.length > 1) {
-              dayTo = dayFromAndTo[1];
-            } else {
-              dayTo = dayFromAndTo[0];
-            }
-            String timeFrom = hoursInfo[1];
-            String timeTo = hoursInfo[2];
-            hoursList.add(this.buildResultEntry(this.type, dayFrom, dayTo, timeFrom, timeTo));
-          }
-        }
+      for (WeekdayTime value : this.values) {
+        String dayFrom = String.valueOf(value.getStartDay());
+        String dayTo = String.valueOf(value.getEndDay());
+        String timeFrom = this.formatTime(value.getStartHour(), value.getStartMin());
+        String timeTo = this.formatTime(value.getEndHour(), value.getEndMin());
+        hoursList.add(this.buildResultEntry(this.type, dayFrom, dayTo, timeFrom, timeTo));
       }
       Collections.sort(hoursList, this.comparator);
       return hoursList;
+    }
+
+    private String formatTime(int hour, int minute) {
+      if (hour == 24 && minute == 00) {
+        return "23:59:59";
+      } else {
+        return String.format("%02d:%02d:00", hour, minute);
+      }
     }
 
     /**
@@ -322,7 +319,7 @@ public class EniroUnitMapperLTH implements ContextMapper {
   private static class HourConverter extends AbstractHourConverter<Hours> {
     private final Log logger = LogFactory.getLog(this.getClass());
 
-    HourConverter(String type, List<String> values) {
+    HourConverter(String type, List<WeekdayTime> values) {
       super(type, values, new HourComparator());
     }
 
@@ -334,8 +331,8 @@ public class EniroUnitMapperLTH implements ContextMapper {
       hours.setDayTo(Integer.valueOf(dayTo));
       try {
         DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
-        XMLGregorianCalendar fromTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeFrom + ":00Z");
-        XMLGregorianCalendar toTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeTo + ":00Z");
+        XMLGregorianCalendar fromTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeFrom + "Z");
+        XMLGregorianCalendar toTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeTo + "Z");
         hours.setTimeFrom(fromTimeGreg);
         hours.setTimeTo(toTimeGreg);
       } catch (DatatypeConfigurationException e) {
@@ -362,8 +359,8 @@ public class EniroUnitMapperLTH implements ContextMapper {
   private static class TelephoneHourConverter extends AbstractHourConverter<TelephoneHours> {
     private final Log logger = LogFactory.getLog(this.getClass());
 
-    TelephoneHourConverter(String type, List<String> values) {
-      super(type, values, new TelephoneHourComparator());
+    TelephoneHourConverter(String type, List<WeekdayTime> list) {
+      super(type, list, new TelephoneHourComparator());
     }
 
     @Override
@@ -374,8 +371,8 @@ public class EniroUnitMapperLTH implements ContextMapper {
       hours.setDayTo(Integer.valueOf(dayTo));
       try {
         DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
-        XMLGregorianCalendar fromTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeFrom + ":00Z");
-        XMLGregorianCalendar toTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeTo + ":00Z");
+        XMLGregorianCalendar fromTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeFrom + "Z");
+        XMLGregorianCalendar toTimeGreg = datatypeFactory.newXMLGregorianCalendar("2000-01-20T" + timeTo + "Z");
         hours.setTimeFrom(fromTimeGreg);
         hours.setTimeTo(toTimeGreg);
       } catch (DatatypeConfigurationException e) {
