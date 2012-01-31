@@ -27,7 +27,7 @@ public class EniroOrganisationBuilderLTH extends EniroOrganisationBuilder {
     Map<String, List<Unit>> subunits = new HashMap<String, List<Unit>>();
 
     Organization organization = new Organization();
-    organization.setLoadType("Full");
+    organization.setLoadType("External");
     organization.setType("County Council");
     organization.setCountry("SE");
     organization.setSwapCoordinates(Boolean.TRUE);

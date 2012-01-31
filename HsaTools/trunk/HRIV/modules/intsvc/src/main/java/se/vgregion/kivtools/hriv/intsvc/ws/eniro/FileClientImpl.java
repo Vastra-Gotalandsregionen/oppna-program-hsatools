@@ -20,8 +20,9 @@
 package se.vgregion.kivtools.hriv.intsvc.ws.eniro;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import se.vgregion.kivtools.util.time.TimeUtil;
 import se.vgregion.kivtools.util.time.TimeUtil.DateTimeFormat;
@@ -36,7 +37,8 @@ public class FileClientImpl implements FtpClient {
   @Override
   public boolean sendFile(String fileContent, String basename, String suffix) {
     try {
-      FileWriter writer = new FileWriter(this.directory + File.separator + basename + "-" + TimeUtil.getCurrentTimeFormatted(DateTimeFormat.SCIENTIFIC_TIME) + "." + suffix);
+      String filename = this.directory + File.separator + basename + "-" + TimeUtil.getCurrentTimeFormatted(DateTimeFormat.SCIENTIFIC_TIME) + "." + suffix;
+      OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filename), "UTF-8");
       writer.write(fileContent);
       writer.close();
     } catch (IOException e) {

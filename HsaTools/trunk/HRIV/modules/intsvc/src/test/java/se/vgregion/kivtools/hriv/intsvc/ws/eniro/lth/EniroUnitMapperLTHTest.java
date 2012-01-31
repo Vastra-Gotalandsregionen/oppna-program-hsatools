@@ -35,7 +35,6 @@ import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.TelephoneType;
 import se.vgregion.kivtools.hriv.intsvc.ws.domain.eniro.UnitType.BusinessClassification;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.NameMock;
 import se.vgregion.kivtools.hriv.intsvc.ws.eniro.UnitComposition;
-import se.vgregion.kivtools.hriv.intsvc.ws.eniro.lth.EniroUnitMapperLTH;
 import se.vgregion.kivtools.mocks.ldap.DirContextOperationsMock;
 
 public class EniroUnitMapperLTHTest {
@@ -122,7 +121,7 @@ public class EniroUnitMapperLTHTest {
   @Test
   public void telephoneHoursAreReturnedSortedByDayAndHour() {
     this.dirContextOperationsMock.addAttributeValue("lthTelephoneNumber", "+46313450700");
-    this.dirContextOperationsMock.addAttributeValue("telephoneHours", new String[] { "1-5#08:00#18:00", "1#07:00#09:00", "2#10:00#12:00", "1-5#08:00#17:00", "1-4#08:00#18:00" });
+    this.dirContextOperationsMock.addAttributeValue("telephoneHours", new String[] { "1-5#08:00#18:00", "1-1#07:00#09:00", "2-2#10:00#12:00", "1-5#08:00#17:00", "1-4#08:00#18:00" });
 
     UnitComposition unitComposition = (UnitComposition) this.eniroUnitMapper.mapFromContext(this.dirContextOperationsMock);
 
@@ -145,7 +144,7 @@ public class EniroUnitMapperLTHTest {
 
   @Test
   public void visitingHoursAreReturnedSortedByDayAndHour() {
-    this.dirContextOperationsMock.addAttributeValue("surgeryHours", new String[] { "1-5#08:00#18:00", "1#07:00#09:00", "2#10:00#12:00", "1-5#08:00#17:00", "1-4#08:00#18:00" });
+    this.dirContextOperationsMock.addAttributeValue("surgeryHours", new String[] { "1-5#08:00#18:00", "1-1#07:00#09:00", "2-2#10:00#12:00", "1-5#08:00#17:00", "1-4#08:00#18:00" });
     this.dirContextOperationsMock.addAttributeValue("street", this.ldapAddressValue);
 
     UnitComposition unitComposition = (UnitComposition) this.eniroUnitMapper.mapFromContext(this.dirContextOperationsMock);
@@ -173,7 +172,7 @@ public class EniroUnitMapperLTHTest {
     this.dirContextOperationsMock.setDn(new NameMock("dn"));
     this.dirContextOperationsMock.addAttributeValue("hsaIdentity", "id1");
     this.dirContextOperationsMock.addAttributeValue("ou", "name");
-    this.dirContextOperationsMock.addAttributeValue("surgeryHours", "1#08:00#19:00$2-5#08:00#17:00");
+    this.dirContextOperationsMock.addAttributeValue("surgeryHours", "1-1#08:00#19:00$2-5#08:00#17:00");
     this.dirContextOperationsMock.addAttributeValue("businessClassificationCode", "1");
     this.dirContextOperationsMock.addAttributeValue("l", "locality");
     this.dirContextOperationsMock.addAttributeValue("route", "Nedför backen$Till höger vid stenen$In under bron");
