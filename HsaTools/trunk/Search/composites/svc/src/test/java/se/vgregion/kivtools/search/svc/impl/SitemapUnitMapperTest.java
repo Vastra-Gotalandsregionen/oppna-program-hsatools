@@ -431,6 +431,13 @@ public class SitemapUnitMapperTest {
     assertEquals("route", "Följ gatan rakt fram In i gränden", result.getRoute());
   }
 
+  @Test
+  public void hsaDestinationIndicatorIsMapped() {
+    Unit unit = this.builder.destinationIndicator("03").build();
+    se.vgregion.kivtools.svc.sitemap.Unit result = SitemapUnitMapper.map(unit);
+    assertEquals("destinationIndicator", "[03]", result.getDestinationIndicator().toString());
+  }
+
   private Address createAddress(String... addressLines) {
     return AddressHelper.convertToAddress(Arrays.asList(addressLines));
   }
@@ -477,6 +484,7 @@ public class SitemapUnitMapperTest {
     private String locality;
     private String website1177;
     private String[] route;
+    private String destinationIndicator;
 
     public Unit build() {
       Unit unit = new Unit();
@@ -534,8 +542,13 @@ public class SitemapUnitMapperTest {
 
       unit.setVgrVardVal(this.vardval);
       unit.setHsaBusinessClassificationCode(this.businessClassificationCodes);
-
+      unit.addHsaDestinationIndicator(this.destinationIndicator);
       return unit;
+    }
+
+    public UnitBuilder destinationIndicator(String destinationIndicator) {
+      this.destinationIndicator = destinationIndicator;
+      return this;
     }
 
     public UnitBuilder municipalityCode(String municipalityCode) {

@@ -123,6 +123,7 @@
 						<xs:element name="about" type="xs:string" minOccurs="0" />
 						<xs:element name="locality" type="xs:string" minOccurs="0" />
 						<xs:element name="route" type="xs:string" minOccurs="0" />
+						<xs:element name="destinationIndicator" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>

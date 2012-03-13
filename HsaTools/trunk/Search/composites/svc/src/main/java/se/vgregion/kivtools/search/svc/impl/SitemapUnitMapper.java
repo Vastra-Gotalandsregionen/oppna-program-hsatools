@@ -94,6 +94,9 @@ public class SitemapUnitMapper extends AbstractSitemapMapper {
     if (unit.getBusinessClassificationCode() != null) {
       result.getBusinessClassificationCode().addAll(unit.getBusinessClassificationCode());
     }
+    for (String destinationIndicator : unit.getHsaDestinationIndicator()) {
+      result.getDestinationIndicator().add(destinationIndicator);
+    }
 
     return result;
   }
