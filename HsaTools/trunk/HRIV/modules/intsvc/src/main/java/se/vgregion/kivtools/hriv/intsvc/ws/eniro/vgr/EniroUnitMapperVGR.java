@@ -164,7 +164,7 @@ public class EniroUnitMapperVGR {
     Address address = null;
     if (source.getHsaStreetAddressIsValid()) {
       address = this.createBaseAddress(source.getHsaStreetAddress());
-      HourConverter hourConverter = new HourConverter(HOURS_TYPE.VISIT.value, source.getHsaSurgeryHours());
+      HourConverter hourConverter = new HourConverter(HOURS_TYPE.OPEN.value, source.getHsaSurgeryHours());
       address.getHours().addAll(hourConverter.getResult());
       // Set address type
       address.setType(ADDRESS_TYPE.VISIT.value);
