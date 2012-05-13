@@ -90,7 +90,7 @@ public class DisplayUnitDetailsFlowSupportBean implements Serializable {
     }
 
     if ("true".equals(this.useMvkIntegration)) {
-      this.mvkClient.assignCaseTypes(u);
+      u.setMvkCaseTypes(this.mvkClient.getCaseTypesForUnit(u.getHsaIdentity()));
     }
 
     return u;

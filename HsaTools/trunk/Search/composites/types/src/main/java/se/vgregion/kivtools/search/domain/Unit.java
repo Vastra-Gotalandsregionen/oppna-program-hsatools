@@ -846,7 +846,7 @@ public class Unit implements Serializable, Comparable<Unit> {
       return;
     }
 
-    Pattern pattern = Pattern.compile("^;(\\d{8});(\\d{8});(.*)$",Pattern.DOTALL);
+    Pattern pattern = Pattern.compile("^;(\\d{8});(\\d{8});(.*)$", Pattern.DOTALL);
 
     Matcher matcher = pattern.matcher(vgrTempInfo);
 
@@ -1405,13 +1405,9 @@ public class Unit implements Serializable, Comparable<Unit> {
     this.hsaBusinessClassificationText = hsaBusinessClassificationText;
   }
 
-  /**
-   * Adds a MVK casetype to the unit.
-   * 
-   * @param caseType The casetype to add.
-   */
-  public void addMvkCaseType(String caseType) {
-    this.mvkCaseTypes.add(caseType);
+  public void setMvkCaseTypes(List<String> caseTypes) {
+    this.mvkCaseTypes.clear();
+    this.mvkCaseTypes.addAll(caseTypes);
   }
 
   public List<String> getMvkCaseTypes() {

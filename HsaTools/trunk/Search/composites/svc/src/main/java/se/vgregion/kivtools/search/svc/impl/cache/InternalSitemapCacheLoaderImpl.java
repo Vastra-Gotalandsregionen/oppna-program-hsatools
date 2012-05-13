@@ -113,7 +113,7 @@ public class InternalSitemapCacheLoaderImpl implements CacheLoader<SitemapCache>
     }
 
     for (Unit unit : units) {
-      this.mvkClient.assignCaseTypes(unit);
+      unit.setMvkCaseTypes(this.mvkClient.getCaseTypesForUnit(unit.getHsaIdentity()));
 
       String lastmod = this.getLastModifiedDateTime(unit.getModifyTimestampFormattedInW3CDatetimeFormat(), unit.getCreateTimestampFormattedInW3CDatetimeFormat());
       SitemapEntry entry = new SitemapEntry(this.internalApplicationURL + "/" + "visaenhet?hsaidentity=" + unit.getHsaIdentity(), lastmod, this.changeFrequency);

@@ -240,7 +240,7 @@ public class SearchServiceMockImpl implements SearchService {
     u.setLabeledURI("http://localhost:8180");
     u.setWgs84Lat(57.6696);
     u.setWgs84Long(12.572);
-    u.addMvkCaseType("yadda");
+    u.setMvkCaseTypes(Arrays.asList("yadda"));
     u.addHsaRoute(Arrays.asList("Från riksväg 40, avfart Bollebygd.", "Kör mot Bollebygds centrum och parkera på Gästgivartorget.",
         "Om man går till hörnan vid Systembolaget och står med ryggen mot gamla riksväg 40 ser man Vårdcentralen."));
     this.initHealthcareTypes(u);
@@ -267,7 +267,7 @@ public class SearchServiceMockImpl implements SearchService {
     u.setLabeledURI("http://localhost:8180");
     u.setWgs84Lat(57.6696);
     u.setWgs84Long(12.572);
-    u.addMvkCaseType("yadda");
+    u.setMvkCaseTypes(Arrays.asList("yadda"));
     u.addHsaRoute(Arrays.asList("Från riksväg 40, avfart Bollebygd.", "Kör mot Bollebygds centrum och parkera på Gästgivartorget.",
         "Om man går till hörnan vid Systembolaget och står med ryggen mot gamla riksväg 40 ser man Vårdcentralen."));
     this.initHealthcareTypes(u);
@@ -297,7 +297,7 @@ public class SearchServiceMockImpl implements SearchService {
     u.setWgs84Lat(57.6696);
     u.setWgs84Long(12.572);
     u.setAccessibilityDatabaseId(123);
-    u.addMvkCaseType("yadda");
+    u.setMvkCaseTypes(Arrays.asList("yadda"));
     u.addHsaRoute(Arrays.asList("Från riksväg 40, avfart Bollebygd.", "Kör mot Bollebygds centrum och parkera på Gästgivartorget.",
         "Om man går till hörnan vid Systembolaget och står med ryggen mot gamla riksväg 40 ser man Vårdcentralen."));
     this.initHealthcareTypes(u);

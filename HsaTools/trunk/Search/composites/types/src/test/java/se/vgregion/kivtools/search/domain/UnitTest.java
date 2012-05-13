@@ -325,7 +325,7 @@ public class UnitTest {
     assertEquals(format.parse("20090108"), this.unit.getVgrTempInfoStart());
     assertEquals("temp temp temp", this.unit.getVgrTempInfoBody());
   }
-  
+
   @Test
   public void temporaryInformationHandlesHsaStandardFormat() throws Exception {
     DateFormat format = new SimpleDateFormat("yyyyMMdd");
@@ -350,13 +350,11 @@ public class UnitTest {
   public void temporaryInformationHandlesHsaStandardFormat3() throws Exception {
     DateFormat format = new SimpleDateFormat("yyyyMMdd");
     this.unit.setVgrTempInfo(";20111128;20121231;Tillfällig information\n"
-    		+ "Fr o m 31 oktober startar Granngårdens vct Öppen mottagning till sköterskan mellan kl 10.00-11.00, måndag - fredag. Sjuntorp har öppen mott mån, ons och fredag kl 08.00-09.00. Välkomna\n"
-    		+ "Hänvisning\n"
-    		+ "Vid akuta behov hänvisas till Vård");
+        + "Fr o m 31 oktober startar Granngårdens vct Öppen mottagning till sköterskan mellan kl 10.00-11.00, måndag - fredag. Sjuntorp har öppen mott mån, ons och fredag kl 08.00-09.00. Välkomna\n"
+        + "Hänvisning\n" + "Vid akuta behov hänvisas till Vård");
     String info = "Tillfällig information\n"
-    		+ "Fr o m 31 oktober startar Granngårdens vct Öppen mottagning till sköterskan mellan kl 10.00-11.00, måndag - fredag. Sjuntorp har öppen mott mån, ons och fredag kl 08.00-09.00. Välkomna\n"
-    		+ "Hänvisning\n"
-    		+ "Vid akuta behov hänvisas till Vård";
+        + "Fr o m 31 oktober startar Granngårdens vct Öppen mottagning till sköterskan mellan kl 10.00-11.00, måndag - fredag. Sjuntorp har öppen mott mån, ons och fredag kl 08.00-09.00. Välkomna\n"
+        + "Hänvisning\n" + "Vid akuta behov hänvisas till Vård";
     assertEquals(";20111128;20121231;" + info, this.unit.getVgrTempInfo());
     assertEquals(format.parse("20111128"), this.unit.getVgrTempInfoStart());
     assertEquals(format.parse("20130101"), this.unit.getVgrTempInfoEnd());
@@ -458,7 +456,7 @@ public class UnitTest {
 
   @Test
   public void addMvkCaseTypesAddsTheProvidedStringToMvkCaseTypes() {
-    this.unit.addMvkCaseType(TEST);
+    this.unit.setMvkCaseTypes(Arrays.asList(TEST));
     assertEquals("mvkCaseTypes", 1, this.unit.getMvkCaseTypes().size());
     assertEquals("mvk case type", TEST, this.unit.getMvkCaseTypes().get(0));
   }

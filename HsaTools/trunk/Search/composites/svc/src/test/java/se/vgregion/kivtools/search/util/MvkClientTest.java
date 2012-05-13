@@ -21,7 +21,8 @@ package se.vgregion.kivtools.search.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+
+import java.util.List;
 
 import org.junit.Test;
 
@@ -39,22 +40,15 @@ public class MvkClientTest {
   }
 
   @Test
-  public void testAssignCaseTypes() {
-    try {
-      this.mvkClient.assignCaseTypes(null);
-      fail("NullPointerException expected");
-    } catch (NullPointerException e) {
-      // Expected exception
-    }
-
+  public void testGetCaseTypesForUnit() {
     Unit unit = new Unit();
     unit.setHsaIdentity("ABC-123");
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=ABC-123&guid=uid123", "<xml></xml>");
-    this.mvkClient.assignCaseTypes(unit);
+    this.mvkClient.getCaseTypesForUnit(unit.getHsaIdentity());
     this.httpFetcher.assertUrlsFetched("http://localhost?mvk=1&hsaid=ABC-123&guid=uid123");
 
     this.httpFetcher.addContent("http://localhost?mvk=1&hsaid=ABC-123&guid=uid123", "<?xml version=\"1.0\"?><casetypes><casetype>abc</casetype><casetype>def</casetype></casetypes>");
-    this.mvkClient.assignCaseTypes(unit);
-    assertEquals(2, unit.getMvkCaseTypes().size());
+    List<String> caseTypes = this.mvkClient.getCaseTypesForUnit(unit.getHsaIdentity());
+    assertEquals(2, caseTypes.size());
   }
 }
