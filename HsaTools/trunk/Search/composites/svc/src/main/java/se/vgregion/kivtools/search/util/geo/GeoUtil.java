@@ -60,7 +60,7 @@ public class GeoUtil {
     logger.debug(CLASS_NAME + ".geocodeToRT90()");
 
     int[] rt90Coordinates = null;
-    double[] wgs84Coordinates = geocodeToWGS84FromHsaAddress(hsaStreetAddress, googleKey);
+    double[] wgs84Coordinates = this.geocodeToWGS84FromHsaAddress(hsaStreetAddress, googleKey);
 
     if (wgs84Coordinates != null) {
       // 2.5V is HSA standard
@@ -123,7 +123,7 @@ public class GeoUtil {
       return null;
     }
     String address = hsaStreetAddress.getStreet().trim() + ", " + hsaStreetAddress.getZipCode().getFormattedZipCode().toString().trim() + " " + hsaStreetAddress.getCity().trim() + ", sweden";
-    return geocodeToWGS84FromString(address, googleKey, GeoAddressAccuracy.STREET_LEVEL);
+    return this.geocodeToWGS84FromString(address, googleKey, GeoAddressAccuracy.STREET_LEVEL);
   }
 
   /**
@@ -207,16 +207,16 @@ public class GeoUtil {
    */
   public ArrayList<Unit> getCloseUnits(String address, List<Unit> units, int meters, String googleMapsKey) {
     // Create GeoCoordinate from given address
-    double[] coordinates = geocodeToWGS84FromString(address, googleMapsKey, GeoAddressAccuracy.POST_CODE_LEVEL);
+    double[] coordinates = this.geocodeToWGS84FromString(address, googleMapsKey, GeoAddressAccuracy.POST_CODE_LEVEL);
     ArrayList<Unit> closeUnits = new ArrayList<Unit>();
     if (coordinates == null) {
       // If we could not geocode address, return a list with no units.
       return closeUnits;
     }
-    GeoCoordinate targetCoordinate = getGeoCoordinate(coordinates);
+    GeoCoordinate targetCoordinate = this.getGeoCoordinate(coordinates);
 
     // Calculate distance in miles
-    double milesToTarget = getMilesFromMetres(meters);
+    double milesToTarget = this.getMilesFromMetres(meters);
 
     for (Unit u : units) {
       if (u.getGeoCoordinate() != null) {

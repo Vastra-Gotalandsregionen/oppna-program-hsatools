@@ -191,7 +191,7 @@ public class GeoUtilTest {
 
   @Test
   public void testGetCloseUnits() {
-    ArrayList<Unit> closeUnits = this.geoUtil.getCloseUnits(null, null, 10000, null);
+    ArrayList<Unit> closeUnits = this.geoUtil.getCloseUnits("", null, 10000, null);
     assertNotNull(closeUnits);
     assertEquals(0, closeUnits.size());
 
