@@ -83,7 +83,7 @@ public class UnitDetailsServiceImpl implements UnitDetailsService<Organization> 
         this.log.error("Unable to retrieve unit details.", e);
       }
       if (!StringUtil.isEmpty(unit.getHsaIdentity())) {
-        this.mvkClient.assignCaseTypes(unit);
+        unit.setMvkCaseTypes(this.mvkClient.getCaseTypesForUnit(unit.getHsaIdentity()));
         organization.getUnit().add(this.generateWebServiceUnit(unit));
       }
     }

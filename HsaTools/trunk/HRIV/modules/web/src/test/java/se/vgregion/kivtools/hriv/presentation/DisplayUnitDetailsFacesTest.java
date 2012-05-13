@@ -19,7 +19,9 @@
 
 package se.vgregion.kivtools.hriv.presentation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -47,21 +49,21 @@ public class DisplayUnitDetailsFacesTest extends FacesTesterBase {
 
   @Before
   public void setUp() {
-    this.unit = createPopulatedUnit();
-    this.emptyUnit = createEmptyUnit();
-    settingsBean = new SettingsBean();
+    this.unit = this.createPopulatedUnit();
+    this.emptyUnit = this.createEmptyUnit();
+    this.settingsBean = new SettingsBean();
   }
 
   @Test
   @Ignore("Ignored until a version of FacesTester which supports Unified EL is available in the repositories")
   public void testRenderComplete() {
-    this.addBean("unit", unit);
+    this.addBean("unit", this.unit);
     this.addBean("unitSearchSimpleForm", new UnitSearchSimpleForm());
     this.addBean("presentationHelper", new PresentationHelper());
-    this.addBean("Search_SettingsContainer", settingsBean);
+    this.addBean("Search_SettingsContainer", this.settingsBean);
 
-    settingsBean.setUseMvk("true");
-    settingsBean.setFindRouteLinks("http://vard.vgregion.se/sv/Regler-och-rattigheter/Resa-till-och-fran-varden/::Sjukresa till och från vården::");
+    this.settingsBean.setUseMvk("true");
+    this.settingsBean.setFindRouteLinks("http://vard.vgregion.se/sv/Regler-och-rattigheter/Resa-till-och-fran-varden/::Sjukresa till och från vården::");
 
     Document page = this.renderPage("/displayUnitDetails.xhtml");
 
@@ -122,7 +124,7 @@ public class DisplayUnitDetailsFacesTest extends FacesTesterBase {
   @Test
   @Ignore("Ignored until a version of FacesTester which supports Unified EL is available in the repositories")
   public void testRenderEmptyUnit() {
-    this.addBean("unit", emptyUnit);
+    this.addBean("unit", this.emptyUnit);
     this.addBean("unitSearchSimpleForm", new UnitSearchSimpleForm());
 
     Document page = this.renderPage("/displayUnitDetails.xhtml");
@@ -180,7 +182,7 @@ public class DisplayUnitDetailsFacesTest extends FacesTesterBase {
     unit.addDescription(Arrays.asList("Description"));
 
     unit.addHsaPublicTelephoneNumber(PhoneNumber.createPhoneNumber("031-123456"));
-    unit.addMvkCaseType("casetype");
+    unit.setMvkCaseTypes(Arrays.asList("casetype"));
 
     unit.addHsaTelephoneTimes(WeekdayTime.createWeekdayTimeList(Arrays.asList("4-5#08:00#12:00")));
     unit.setLabeledURI("hittavard.vgregion.se");

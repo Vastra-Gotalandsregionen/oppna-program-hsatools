@@ -19,10 +19,12 @@
 
 package se.vgregion.kivtools.search.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.util.dom.DocumentHelper;
 import se.vgregion.kivtools.util.http.HttpFetcher;
 
@@ -47,9 +49,9 @@ public class MvkClient {
    * 
    * @param unit The unit to assign case types to.
    */
-  public void assignCaseTypes(Unit unit) {
+  public List<String> getCaseTypesForUnit(String hsaIdentity) {
     // Get accessibility info
-    String mvkUrlString = this.mvkUrl + "&hsaid=" + unit.getHsaIdentity() + "&guid=" + this.mvkGuid;
+    String mvkUrlString = this.mvkUrl + "&hsaid=" + hsaIdentity + "&guid=" + this.mvkGuid;
 
     String content = this.httpFetcher.fetchUrl(mvkUrlString);
 
@@ -58,8 +60,10 @@ public class MvkClient {
 
     // Get and assign case types
     NodeList caseTypesNodeList = doc.getElementsByTagName("casetype");
+    List<String> result = new ArrayList<String>();
     for (int i = 0; i < caseTypesNodeList.getLength(); i++) {
-      unit.addMvkCaseType(caseTypesNodeList.item(i).getTextContent());
+      result.add(caseTypesNodeList.item(i).getTextContent());
     }
+    return result;
   }
 }

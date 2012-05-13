@@ -536,9 +536,7 @@ public class SitemapUnitMapperTest {
       unit.setWgs84Lat(this.latitude);
       unit.setWgs84Long(this.longitude);
 
-      for (String mvkCaseType : this.mvkCaseTypes) {
-        unit.addMvkCaseType(mvkCaseType);
-      }
+      unit.setMvkCaseTypes(this.mvkCaseTypes);
 
       unit.setVgrVardVal(this.vardval);
       unit.setHsaBusinessClassificationCode(this.businessClassificationCodes);
