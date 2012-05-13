@@ -94,6 +94,7 @@ public class EniroUnitMapperVGRTest {
     assertEquals("Göteborg", address.getCity());
     assertEquals("Nedför backen, Till höger vid stenen, In under bron", unitComposition.getEniroUnit().getRoute());
     assertEquals("visit", address.getType());
+    assertEquals("open", address.getHours().get(0).getType());
     assertEquals(2, address.getHours().size());
   }
 
