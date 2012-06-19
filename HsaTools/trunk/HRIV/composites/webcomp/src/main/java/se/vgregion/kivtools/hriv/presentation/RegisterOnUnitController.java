@@ -19,11 +19,17 @@
 
 package se.vgregion.kivtools.hriv.presentation;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.soap.SOAPFaultException;
 
@@ -35,7 +41,6 @@ import org.springframework.webflow.core.collection.SharedAttributeMap;
 
 import se.vgregion.kivtools.hriv.presentation.exceptions.VardvalException;
 import se.vgregion.kivtools.hriv.presentation.exceptions.VardvalRegistrationException;
-import se.vgregion.kivtools.hriv.presentation.exceptions.VardvalSigningException;
 import se.vgregion.kivtools.hriv.presentation.types.SigningInformation;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.exceptions.KivException;
@@ -51,6 +56,7 @@ import se.vgregion.kivtools.search.util.EncryptionUtil;
 import se.vgregion.kivtools.util.StringUtil;
 import se.vgregion.kivtools.util.time.TimeUtil;
 import se.vgregion.kivtools.util.time.TimeUtil.DateTimeFormat;
+import se.vgregion.signera.signature._1.SignatureEnvelope;
 
 /**
  * Controller class for the process when a citizen registers on a unit.
@@ -226,6 +232,7 @@ public class RegisterOnUnitController implements Serializable {
    * @param externalContext The JSF external context.
    * @return redirectUrl The url to redirect to.
    */
+  // todo Kan man returnera void här för det räcker väl att flow-filen styr vilken vy som ska visas?
   public String preCommitRegistrationOnUnit(VardvalInfo vardvalInfo, ExternalContext externalContext) {
     String redirectUrl = "";
     String documentText = bundle.getString("registrationDocumentText");
@@ -244,16 +251,85 @@ public class RegisterOnUnitController implements Serializable {
     externalContext.getSessionMap().put("selectedUnitId", vardvalInfo.getSelectedUnitId());
     externalContext.getSessionMap().put("selectedUnitName", vardvalInfo.getSelectedUnitName());
 
+      Map<String, String> vardvalInfoMap = new HashMap<String, String>();
+      vardvalInfoMap.put("mimeType", mimeType);
+      vardvalInfoMap.put("ssn", vardvalInfo.getSsn());
+      vardvalInfoMap.put("name", vardvalInfo.getName());
+      vardvalInfoMap.put("selectedUnitId", vardvalInfo.getSelectedUnitId());
+      vardvalInfoMap.put("selectedUnitName", vardvalInfo.getSelectedUnitName());
+
     String artifact = signatureservice.registerDocument(new String(base64encoded), mimeType, documentDescription);
     externalContext.getSessionMap().put("artifact", artifact);
+
+    externalContext.getApplicationMap().put(vardvalInfo.getSsn(), vardvalInfoMap);
 
     // Construct redirect url
     String targetUrl = externalApplicationURL + "/HRIV.registrationOnUnitPostSign-flow.flow";
 
+//      targetUrl = "http://140.166.208.135:9090/HRIV.registrationOnUnitPostSign-flow.flow"; // todo temp
+      targetUrl = "http://140.166.208.135:9090/HRIV.registrationOnUnitPostbackSign-flow.flow?ssn=" + vardvalInfo.getSsn(); // todo temp todo kryptera ssn
     // Redirect user to Signicat
     redirectUrl = serviceUrl + "&documentArtifact=" + artifact + "&target=" + encodeTargetUrl(targetUrl);
-    return redirectUrl;
+
+//      HttpServletRequest nativeRequest = (HttpServletRequest) externalContext.getNativeRequest();
+//      nativeRequest.setAttribute("tbs", registrationData);
+//      nativeRequest.setAttribute("submitUri", targetUrl);
+
+//      externalContext.requestExternalRedirect("http://140.166.208.135:9090/secure/redirectToSignerService.jsp");
+      externalContext.getRequestMap().put("tbs", registrationData);
+      externalContext.getRequestMap().put("submitUri", targetUrl);
+      return null;//"/secure/redirectToSignerService.jsp";
+//      return redirectUrl;
   }
+
+    // todo Bättre felhantering med felsidor etc.
+    public VardvalInfo postbackSignRegistrationOnUnit(ExternalContext externalContext) throws VardvalException {
+//        ParameterMap requestParameterMap = externalContext.getRequestParameterMap();
+
+        VardvalInfo vardvalInfo;
+
+//        SharedAttributeMap sessionMap = externalContext.getSessionMap();
+        String ssnFromRequest = externalContext.getRequestParameterMap().get("ssn");
+        Map<String, String> vardvalInfoMap = (Map<String, String>) externalContext.getApplicationMap().get(ssnFromRequest);
+        externalContext.getApplicationMap().remove(ssnFromRequest);
+        String ssn = vardvalInfoMap.get("ssn");
+        String selectedUnitId = vardvalInfoMap.get("selectedUnitId");
+        String selectedUnitName = vardvalInfoMap.get("selectedUnitName");
+        String name = vardvalInfoMap.get("name");
+
+        try {
+            ServletInputStream inputStream = ((HttpServletRequest) externalContext.getNativeRequest()).getInputStream();
+//            String signatureEnvelopeString = IOUtils.toString(inputStream);
+
+            JAXBContext jaxbContext = JAXBContext.newInstance(SignatureEnvelope.class);
+            SignatureEnvelope signatureEnvelope = (SignatureEnvelope) jaxbContext.createUnmarshaller()
+                    .unmarshal(inputStream);
+
+            // todo Validera personnummer
+            try {
+                vardvalInfo = vardValService.setVardval(ssn, selectedUnitId, signatureEnvelope.getSignature()
+                        .getBytes());
+                vardvalInfo.setSsn(ssn);
+                vardvalInfo.setName(name);
+                vardvalInfo.setSelectedUnitName(selectedUnitName);
+            } catch (IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage e) {
+                throw new VardvalRegistrationException(e.getMessage());
+            }
+        } catch (JAXBException e1) {
+            throw new VardvalException(e1);
+        } catch (IOException e1) {
+            throw new VardvalException(e1);
+        }
+
+        externalContext.getSessionMap().put("vardValinfo", vardvalInfo);
+        return vardvalInfo;
+//            String signature = signatureEnvelope.getSignature();
+//            String value = signatureEnvelope.getSignatureFormat().value();
+
+//        ((char) inputStream.read())
+
+//        externalContext.requestExternalRedirect("");
+    }
 
   /**
    * Returning from signature service (ie Signicat). Process Saml response and set registration in Vårdval system.
@@ -264,30 +340,41 @@ public class RegisterOnUnitController implements Serializable {
    */
   public VardvalInfo postCommitRegistrationOnUnit(ExternalContext externalContext) throws VardvalException {
 
-    SigningInformation signingInformation = handleSamlResponse(externalContext);
+//    SigningInformation signingInformation = handleSamlResponse(externalContext);
 
-    VardvalInfo vardvalInfo = new VardvalInfo();
+//    VardvalInfo vardvalInfo = new VardvalInfo();
+//
+//    SharedAttributeMap sessionMap = externalContext.getSessionMap();
+//    String ssn = sessionMap.getString("ssn");
+//    String selectedUnitId = sessionMap.getString("selectedUnitId");
+//    String selectedUnitName = sessionMap.getString("selectedUnitName");
+//    String name = sessionMap.getString("name");
 
-    SharedAttributeMap sessionMap = externalContext.getSessionMap();
-    String ssn = sessionMap.getString("ssn");
-    String selectedUnitId = sessionMap.getString("selectedUnitId");
-    String selectedUnitName = sessionMap.getString("selectedUnitName");
-    String name = sessionMap.getString("name");
+      // Set new registration if same ssn etc
+//    if (signingInformation.getNationalId() != null && signingInformation.getNationalId().equals(ssn)) {
+//      try {
+//        vardvalInfo = vardValService.setVardval(ssn, selectedUnitId, signingInformation.getSamlResponse().getBytes());
+//        vardvalInfo.setSsn(ssn);
+//        vardvalInfo.setName(name);
+//        vardvalInfo.setSelectedUnitName(selectedUnitName);
+//      } catch (IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage e) {
+//        throw new VardvalRegistrationException(e.getMessage());
+//      }
+//    } else {
+//      throw new VardvalSigningException();
+//    }
+      VardvalInfo vardvalInfo = new VardvalInfo();
 
-    // Set new registration if same ssn etc
-    if (signingInformation.getNationalId() != null && signingInformation.getNationalId().equals(ssn)) {
-      try {
-        vardvalInfo = vardValService.setVardval(ssn, selectedUnitId, signingInformation.getSamlResponse().getBytes());
-        vardvalInfo.setSsn(ssn);
-        vardvalInfo.setName(name);
-        vardvalInfo.setSelectedUnitName(selectedUnitName);
-      } catch (IVårdvalServiceSetVårdvalVårdvalServiceErrorFaultFaultMessage e) {
-        throw new VardvalRegistrationException(e.getMessage());
-      }
-    } else {
-      throw new VardvalSigningException();
-    }
-    return vardvalInfo;
+      SharedAttributeMap sessionMap = externalContext.getSessionMap();
+      String ssn = sessionMap.getString("ssn");
+      String selectedUnitName = sessionMap.getString("selectedUnitName");
+      String name = sessionMap.getString("name");
+
+      vardvalInfo.setSsn(ssn);
+      vardvalInfo.setName(name);
+      vardvalInfo.setSelectedUnitName(selectedUnitName);
+
+      return vardvalInfo;
   }
 
   private String encodeTargetUrl(String targetUrl) {

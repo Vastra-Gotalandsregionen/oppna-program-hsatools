@@ -38,6 +38,10 @@ public class VardvalException extends Exception {
     super(message);
   }
 
+  public VardvalException(Throwable cause) {
+      super(cause);
+  }
+
   /**
    * Constructs a new VardvalException.
    */
