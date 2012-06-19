@@ -24,47 +24,36 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-	start-state="Display.displayRegistration">
-	
-	<var name="unitSearchSimpleForm" class="se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm" />
+    start-state="Action.postbackChangeRegistration">
+        
+    <var name="unitSearchSimpleForm" class="se.vgregion.kivtools.hriv.presentation.forms.UnitSearchSimpleForm" />
 	<var name="vardvalInfo" class="se.vgregion.kivtools.search.svc.ws.vardval.VardvalInfo" />
-	
-	<input name="hsaidentity" />
-	<input name="ssn" />
-	
-	<!--
-		TODO confirmRegistrationChanges.xhtml should perhaps be protected and
-		put in a secure (/secure) folder?
-	-->
-	<view-state id="Display.displayRegistration" view="/confirmRegistrationChanges.xhtml">
-		<on-render>
-			<evaluate 
-				expression="Controller_registerOnUnit.getUnitRegistrationInformation(externalContext, requestParameters.hsaidentity)"
-				result="flowScope.vardvalInfo" />
-		</on-render>
+
+	<action-state id="Action.postbackChangeRegistration">
+		<!--<evaluate expression="Controller_registerOnUnit.postbackSignRegistrationOnUnit(externalContext)" result="flowScope.vardvalInfo" />-->
+		<evaluate expression="Controller_registerOnUnit.postbackSignRegistrationOnUnit(externalContext)" />
+
+		<transition on="success" to="Redirect.registrationConfirmation" />
+		<!--<transition
+			on-exception="se.vgregion.kivtools.hriv.presentation.exceptions.VardvalSigningException"
+			to="Display.signingError">
+		</transition>
 		<transition
 			on-exception="se.vgregion.kivtools.hriv.presentation.exceptions.VardvalRegistrationException"
 			to="Display.registrationError">
-		</transition>
-		<transition on="doConfirm" to="Action.preChangeRegistration" />
-		<transition on="doCancel" to="Redirect.backToUnit" />
+		</transition>-->
+	</action-state>
+
+	<view-state id="Redirect.registrationConfirmation" view="externalRedirect:http://140.166.208.135:9090/HRIV.registrationOnUnitPostSign-flow.flow">
+	</view-state>
+
+	<!--<view-state id="Display.signingError" view="/signingError.xhtml">
 		<transition on="gotoCaretypes" to="Display.caretypes" />
 		<transition on="gotoStartpage" to="Display.startpage" />
 	</view-state>
-
-	<action-state id="Action.preChangeRegistration">
-		<evaluate expression="Controller_registerOnUnit.preCommitRegistrationOnUnit(flowScope.vardvalInfo, externalContext)" result="flowScope.redirectUrl" />
-		<transition to="Redirect.toSignatureService" />
-	</action-state>
 
 	<view-state id="Display.registrationError" view="/registrationError.xhtml">
 		<transition on="gotoCaretypes" to="Display.caretypes" />
 		<transition on="gotoStartpage" to="Display.startpage" />
-	</view-state>
-
-	<end-state id="Redirect.backToUnit"
-		view="flowRedirect:HRIV.Search.searchunit-flow?hsaidentity=${flowScope.hsaidentity}" />
-
-	<end-state id="Redirect.toSignatureService" view="/redirectToSigningService.xhtml" />
-	<!--<end-state id="Redirect.toSignatureService" view="externalRedirect:${flowScope.redirectUrl}" />-->
+	</view-state>-->
 </flow>
