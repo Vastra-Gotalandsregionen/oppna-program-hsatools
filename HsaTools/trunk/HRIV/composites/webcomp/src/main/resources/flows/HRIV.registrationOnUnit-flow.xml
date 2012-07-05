@@ -32,10 +32,6 @@
 	<input name="hsaidentity" />
 	<input name="ssn" />
 	
-	<!--
-		TODO confirmRegistrationChanges.xhtml should perhaps be protected and
-		put in a secure (/secure) folder?
-	-->
 	<view-state id="Display.displayRegistration" view="/confirmRegistrationChanges.xhtml">
 		<on-render>
 			<evaluate 
@@ -66,5 +62,4 @@
 		view="flowRedirect:HRIV.Search.searchunit-flow?hsaidentity=${flowScope.hsaidentity}" />
 
 	<end-state id="Redirect.toSignatureService" view="/redirectToSigningService.xhtml" />
-	<!--<end-state id="Redirect.toSignatureService" view="externalRedirect:${flowScope.redirectUrl}" />-->
 </flow>
