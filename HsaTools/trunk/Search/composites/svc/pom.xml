@@ -133,7 +133,7 @@
 						</configuration>
 					</execution>
 
-					<!--  Signicat -->
+					<!--  Signicat 
 					<execution>
 						<id>2</id>
 						<goals>
@@ -147,7 +147,7 @@
 							<sourceDestDir>${project.build.directory}/generated-sources/jaxws</sourceDestDir>
 							<staleFile>${project.build.directory}/generated-sources/jaxws/stale/.staleFlagSignicat</staleFile>
 						</configuration>
-					</execution>
+					</execution>-->
 
 					<!-- KIVWS -->
 					<execution>

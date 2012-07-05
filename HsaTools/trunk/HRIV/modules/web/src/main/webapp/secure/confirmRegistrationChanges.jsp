@@ -19,25 +19,43 @@
 
 --%>
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@page import="se.vgregion.kivtools.search.util.EncryptionUtil"%>
 <%@page import="se.vgregion.kivtools.util.StringUtil"%><html>
+<%@page import="java.io.IOException"%>
+<html>
+<%@page import="java.util.Properties"%>
+<html>
+<%@page import="java.io.FileInputStream"%>
+<html>
+
+
+
+
+
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!-- TODO Needs to be configurable, eg via Spring configuration. See WebApplicationContextUtils.getWebApplicationContext(getServletContext()); -->
 <%
-	String ssnFromWebSeal = request.getHeader("iv-user");
-//    ssnFromWebSeal = "19xxmmddnnnn";
-    ssnFromWebSeal = "ett personnummer";
-	String cipherTextStringBase64Encoded = EncryptionUtil.encrypt(ssnFromWebSeal);
-	String cipherTextStringBase64EncodedURLEncoded = StringUtil.urlEncode(cipherTextStringBase64Encoded, "ISO-8859-1");
-	String url = response.encodeRedirectURL("http://140.166.208.135:9090/HRIV.registrationOnUnit-flow.flow?hsaidentity="
-//	String url = response.encodeRedirectURL("http://hittavard.vgregion.se/hriv/HRIV.registrationOnUnit-flow.flow?hsaidentity="
-			+ request.getParameter("hsaidentity") + "&iv-user=" + cipherTextStringBase64EncodedURLEncoded);
-	response.sendRedirect(url);
+    String ssnFromWebSeal = request.getHeader("iv-user");
+
+    System.out.println("iv-user = " + ssnFromWebSeal);
+
+    String cipherTextStringBase64Encoded = EncryptionUtil.encrypt(ssnFromWebSeal);
+    String cipherTextStringBase64EncodedURLEncoded =
+            StringUtil.urlEncode(cipherTextStringBase64Encoded, "ISO-8859-1");
+    String hrivHost = "hittavard.vgregion.se";
+    //String hrivHost = "kivsearch.vgregion.se:8080";
+    
+    String url =
+            response.encodeRedirectURL("http://" + hrivHost
+                    + "/hriv/HRIV.registrationOnUnit-flow.flow?hsaidentity="
+                    + request.getParameter("hsaidentity") + "&iv-user="
+                    + cipherTextStringBase64EncodedURLEncoded);
+    response.sendRedirect(url);
 %>
 </head>
 <body>

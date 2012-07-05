@@ -20,30 +20,93 @@
 -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<div xmlns="http://www.w3.org/1999/xhtml"
-     xmlns:ui="http://java.sun.com/jsf/facelets"
-     xmlns:h="http://java.sun.com/jsf/html"
-        >
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:h="http://java.sun.com/jsf/html"
+>
 
-    <ui:composition template="/template.xhtml">
+  <ui:composition template="/template.xhtml">
 
-        <ui:define name="MetaDataContainer">
-        </ui:define>
+    <ui:define name="MetaDataContainer">
+    </ui:define>
 
-        <ui:define name="HRIVCaptions">
-        </ui:define>
-<!--todo Automat-submitta med javascript. Göm/ta bort submitknappen. -->
-        <ui:define name="MainContainer">
-            <form action="https://signera.vgregion.se/sign/prepare" method="post">
-                <input name="tbs"  value="${tbs}" type="hidden" />
-                <input name="submitUri"  value="${submitUri}" type="hidden" />
-                <input type="submit" value="Signera" />
-            </form>
-            <!-- todo <noscript>...</noscript> -->
-        </ui:define>
+    <ui:define name="HRIVCaptions">
+    </ui:define>
+    <!--todo Automat-submitta med javascript. Göm/ta bort submitknappen. -->
+    <ui:define name="MainContainer">
+      <form id="signform" action="https://signera.vgregion.se/sign/prepare" method="post"
+        accept-charset="ISO-8859-1" enctype="application/x-www-form-urlencoded" class="sign-form"
+      >
+        <fieldset>
+          <legend>e-legitimationer</legend>
+          <ul id="e-leg-types">
 
-    </ui:composition>
+            <li class="e-leg-type"><input id="clientType_BankId" name="clientType" class="radio" type="radio"
+              value="BankId"
+            /><label for="clientType_BankId">BankId</label>
+              <div class="e-leg-type-description">Danske Bank/Östgöta Enskilda Bank, Handelsbanken,
+                Ikanobanken, Länsförsäkringar Bank, Skandiabanken, Sparbanken Finn, Sparbanken Gripen, Swedbank</div>
+            </li>
 
+            <li class="e-leg-type"><input id="clientType_Nordea" name="clientType" class="radio" type="radio"
+              value="Nordea"
+            /><label for="clientType_Nordea">Nordea</label>
+              <div class="e-leg-type-description">Nordea</div>
+            </li>
 
+            <li class="e-leg-type"><input id="clientType_Telia" name="clientType" class="radio" type="radio"
+              value="Telia"
+            /><label for="clientType_Telia">Telia</label>
+              <div class="e-leg-type-description">ICA Banken, Posten, SEB, Skatteverket</div>
+            </li>
 
+            <li class="e-leg-type"><input id="clientType_SITHS" name="clientType" class="radio" type="radio"
+              value="SITHS"
+            /><label for="clientType_SITHS">SITHS</label>
+              <div class="e-leg-type-description">TjänsteId</div>
+            </li>
+          </ul>
+        </fieldset>
+        <fieldset class="submit">
+          <input type="submit" value="Signera" class="submit" />
+        </fieldset>
+        <input name="tbs" value="${tbs}" type="hidden" />
+        <input name="submitUri" value="${submitUri}" type="hidden" />
+        <!--  <input type="hidden" name="ticket" id="ticket" value="${ticket}"/> -->
+      </form>
+
+      <script type="text/javascript"> 
+      $(function(){
+
+    		  $form = $('form#signform');
+    		  
+    		  //Replace radio buttons and label with a submit link
+    		  $('input:radio', $form).each(function(i, radio) {
+    		    var $radio = $(radio);
+    		    var $label = $('label[for=' + $radio.attr('id') + ']')
+    		    $('<a href="#"></a>').append($label.text()).click(onSubmitLinkClick).insertBefore($radio);
+
+    		    $label.hide();
+    		    $radio.hide();
+    		  });
+    		  
+    		  $('input:submit', $form).remove();
+
+    		  function onSubmitLinkClick(e) {
+                  
+                  // Find the sibling radio button of the clicked link and select this radio button
+                  $(this).siblings('input:radio')
+                    .attr('checked', true);
+                  
+    		      $form.submit();
+    		      return false;
+              }
+    
+
+          // $('#signform').submit();
+        });
+      </script>
+
+      <!-- todo <noscript>...</noscript> -->
+    </ui:define>
+  </ui:composition>
 </div>
