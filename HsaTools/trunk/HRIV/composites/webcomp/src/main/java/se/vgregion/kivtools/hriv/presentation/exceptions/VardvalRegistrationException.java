@@ -37,4 +37,13 @@ public class VardvalRegistrationException extends VardvalException {
   public VardvalRegistrationException(String message) {
     super(message);
   }
+
+
+    public VardvalRegistrationException(Throwable cause) {
+        super(cause);
+    }
+
+    public VardvalRegistrationException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

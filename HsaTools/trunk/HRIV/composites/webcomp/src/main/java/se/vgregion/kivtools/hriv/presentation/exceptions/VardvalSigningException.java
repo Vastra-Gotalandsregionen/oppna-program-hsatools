@@ -28,4 +28,16 @@ package se.vgregion.kivtools.hriv.presentation.exceptions;
 public class VardvalSigningException extends VardvalException {
 
   private static final long serialVersionUID = 1L;
+
+    public VardvalSigningException() {
+        super();
+    }
+
+    public VardvalSigningException(String message) {
+        super(message);
+    }
+
+    public VardvalSigningException(Throwable throwable) {
+        super(throwable);
+    }
 }

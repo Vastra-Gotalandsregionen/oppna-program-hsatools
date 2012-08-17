@@ -33,9 +33,9 @@
    <view-state id="Redirect.registrationConfirmation"
     view="externalRedirect:http://hittavard.vgregion.se/hriv/HRIV.registrationOnUnitPostSign-flow.flow">
   </view-state>
-  
+
   <view-state id="Redirect.registrationConfirmationError"
     view="externalRedirect:http://hittavard.vgregion.se/hriv/HRIV.registrationError-flow.flow">
   </view-state>
-  
+
 </flow>

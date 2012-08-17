@@ -51,6 +51,9 @@
 			</bean>
 		</property>
 
+      <property name="ticketUrl"
+                value="https://signera.vgregion.se/service/solveTicket/${ticket.serviceId}"/>
+
 		<!--
 			To change from Test to prod, change test to id in the following urls
 	    -->
