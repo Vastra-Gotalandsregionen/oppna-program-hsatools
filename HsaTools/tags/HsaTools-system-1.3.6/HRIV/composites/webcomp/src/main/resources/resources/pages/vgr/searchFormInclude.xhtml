@@ -1,0 +1,115 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<h:outputText xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+			xmlns:ui="http://java.sun.com/jsf/facelets"
+		rendered="true">
+	<!--  Search units widget start (dont remove this comment) -->
+	<div class="box-hd">
+		<div class="box-hd-inner">
+			<h2>${msg.searchUnit}</h2>
+		</div>
+	</div>
+	<form name="searchUnitForm" id="searchUnitForm" class="search-form" method="get" action="http://hitta.vgregion.se/search.xhtml" onsubmit="if (document.getElementById('unitName').value == '${msg.defaultSearchUnitName}') { document.getElementById('unitName').value = ''; }">
+		<div class="box-bd box-overflow">
+			<div class="box-bd-inner">
+				<div class="box-bd-inner-content">
+					<div class="yui-skin-sam">
+						<div class="autocomplete_container yui-ac">
+							<p>
+								<label for="unitName">${msg.unitName}</label>
+								<input id="unitName" type="text" name="q" value="${unitSearchSimpleForm.unitName}" class="input"
+									onfocus="if (this.value == '${msg.defaultSearchUnitName}') { this.value = ''; }" onblur="if (this.value == '') { this.value = '${msg.defaultSearchUnitName}';}" />
+							</p>
+							<div id="acIndicator" style="display: none; margin-bottom: -0.5em;">
+								<img src="resources/images/spinner.gif" alt="${msg.inProgress}" width="16" height="16" />
+							</div>
+							<div id="autocomplete_outer"><!-- ie6 fix -->
+								<iframe src="javascript:;" class="autocomplete_overlayfix"></iframe>
+								<div id="autocomplete_inner">
+									<div id="autocomplete_boxfix">
+										<div id="autocomplete_choices" class="autocomplete"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p>
+							<label for="municipality">${msg.whereCare}</label>
+							<select id="municipality" name="facet7_kommun" class="select" value="${unitSearchSimpleForm.municipality}">
+								<option>${msg.searchformMunicipality}</option>
+								<ui:repeat value="${unitSearchSimpleForm.municipalityItems}" var="item">
+									<option value="${item.label}">${item.label}</option>
+								</ui:repeat>
+							</select>
+						</p>
+						<p>
+							<span class="radio">
+								<h:outputText rendered="${'list' == unitSearchSimpleForm.resultType || '1' == unitSearchSimpleForm.resultType}">
+									<input id="resultTypeList" type="radio" checked="checked" name="resultview" value="list"/>
+								</h:outputText>
+								<h:outputText rendered="${'list' != unitSearchSimpleForm.resultType and '1' != unitSearchSimpleForm.resultType}">
+									<input id="resultTypeList" type="radio" name="resultview" value="list"/>
+								</h:outputText>
+							</span>
+							<label for="resultTypeList" class="inline">Lista</label>
+							<span class="radio">
+								<h:outputText rendered="${'map' == unitSearchSimpleForm.resultType}">
+									<input id="resultTypeList" type="radio" checked="checked" name="resultview" value="map"/>
+								</h:outputText>
+								<h:outputText rendered="${'map' != unitSearchSimpleForm.resultType}">
+									<input id="resultTypeList" type="radio" name="resultview" value="map"/>
+								</h:outputText>
+							</span>
+							<label for="resultTypeList" class="inline">Karta</label>
+						</p>
+					</div>
+
+					<div>
+						<input type="hidden" name="filter" value="scope:VGRegionvardportalenhittavard" />
+						<input type="hidden" name="scoped" value="true" />
+						<input type="hidden" name="allSearch" value="true" />
+						<input type="hidden" name="noHeader" value="${param.noHeader}" />
+						<input type="hidden" name="resultOnly" value="${param.resultOnly}" />
+						<input id="sortOrder" name="sortOrder" type="hidden" value="${unitSearchSimpleForm.sortOrder}" />
+						<div class="btn">
+							<input type="submit" id="submitButton" class="standardButton" value="${msg.find}" />
+						</div>
+						<div class="btn-end"></div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<!--  Search units widget end (dont remove this comment) -->
+	<script type="text/javascript" charset="utf-8">
+	// <![CDATA[
+		initAutocompleter();
+		document.getElementById('municipality').options[0].value = '';
+	// ]]>
+	</script>
+
+	<div class="box-bot">
+		<div class="box-bot-inner"></div>
+	</div>
+</h:outputText>
