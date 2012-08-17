@@ -42,14 +42,11 @@
 <%
     String ssnFromWebSeal = request.getHeader("iv-user");
 
-    System.out.println("iv-user = " + ssnFromWebSeal);
-
     String cipherTextStringBase64Encoded = EncryptionUtil.encrypt(ssnFromWebSeal);
     String cipherTextStringBase64EncodedURLEncoded =
             StringUtil.urlEncode(cipherTextStringBase64Encoded, "ISO-8859-1");
     String hrivHost = "hittavard.vgregion.se";
-    //String hrivHost = "kivsearch.vgregion.se:8080";
-    
+
     String url =
             response.encodeRedirectURL("http://" + hrivHost
                     + "/hriv/HRIV.registrationOnUnit-flow.flow?hsaidentity="

@@ -25,57 +25,76 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class EncryptionUtilTest {
-  private static final String ENCRYPTED_VALUE = "GQ7WwYfjYMqyJqCRafOTPQ==";
-  private static final String DECRYPTED_VALUE = "DecryptedValue";
-  private static final String KEY = "ACME1234ACME1234QWERT123";
-  private static final String BAD_KEY = "ACM123";
+    private static final String ENCRYPTED_VALUE = "GQ7WwYfjYMqyJqCRafOTPQ";
+//    private static final String ENCRYPTED_VALUE = "GQ7WwYfjYMqyJqCRafOTPQ==";
+    private static final String DECRYPTED_VALUE = "DecryptedValue";
+    private static final String KEY = "ACME1234ACME1234QWERT123";
+    private static final String BAD_KEY = "ACM123";
 
-  @Before
-  public void setup() {
-    System.setProperty(EncryptionUtil.KEY_PROPERTY, KEY);
-  }
+    @Before
+    public void setup() {
+        System.setProperty(EncryptionUtil.KEY_PROPERTY, KEY);
+    }
 
-  @Test
-  public void testInstantiation() {
-    EncryptionUtil encryptionUtil = new EncryptionUtil();
-    assertNotNull(encryptionUtil);
-  }
+    @Test
+    public void testInstantiation() {
+        EncryptionUtil encryptionUtil = new EncryptionUtil();
+        assertNotNull(encryptionUtil);
+    }
 
-  @Test
-  public void testEncryptNullValue() {
-    assertNull("A null-value should be returned for a null input value", EncryptionUtil.encrypt(null));
-  }
+    @Test
+    public void testEncryptNullValue() {
+        assertNull("A null-value should be returned for a null input value", EncryptionUtil.encrypt(null));
+    }
 
-  @Test
-  public void testEncryptNullKey() {
-    System.getProperties().remove(EncryptionUtil.KEY_PROPERTY);
-    assertNull("A null-value should be returned for a null input key", EncryptionUtil.encrypt(DECRYPTED_VALUE));
-  }
+    @Test
+    public void testEncryptNullKey() {
+        System.getProperties().remove(EncryptionUtil.KEY_PROPERTY);
+        assertNull("A null-value should be returned for a null input key", EncryptionUtil.encrypt(DECRYPTED_VALUE));
+    }
 
-  @Test
-  public void testEncrypt() {
-    assertEquals("Unexpected encrypted value", ENCRYPTED_VALUE, EncryptionUtil.encrypt(DECRYPTED_VALUE));
-  }
+    @Test
+    public void testEncrypt() {
+        assertEquals("Unexpected encrypted value", ENCRYPTED_VALUE, EncryptionUtil.encrypt(DECRYPTED_VALUE));
+    }
 
-  @Test
-  public void testDecryptNullValue() {
-    assertNull("A null-value should be returned for a null input value", EncryptionUtil.decrypt(null));
-  }
+    @Test
+    public void testDecryptNullValue() {
+        assertNull("A null-value should be returned for a null input value", EncryptionUtil.decrypt(null));
+    }
 
-  @Test
-  public void testDecryptNullKey() {
-    System.getProperties().remove(EncryptionUtil.KEY_PROPERTY);
-    assertNull("A null-value should be returned for a null input key", EncryptionUtil.decrypt(ENCRYPTED_VALUE));
-  }
+    @Test
+    public void testDecryptNullKey() {
+        System.getProperties().remove(EncryptionUtil.KEY_PROPERTY);
+        assertNull("A null-value should be returned for a null input key", EncryptionUtil.decrypt(ENCRYPTED_VALUE));
+    }
 
-  @Test
-  public void testDecrypt() {
-    assertEquals("Unexpected encrypted value", DECRYPTED_VALUE, EncryptionUtil.decrypt(ENCRYPTED_VALUE));
-  }
+    @Test
+    public void testDecrypt() {
+        assertEquals("Unexpected encrypted value", DECRYPTED_VALUE, EncryptionUtil.decrypt(ENCRYPTED_VALUE));
+        assertEquals("Unexpected encrypted value", DECRYPTED_VALUE, EncryptionUtil.decrypt(ENCRYPTED_VALUE + "=="));
+    }
 
-  @Test(expected = RuntimeException.class)
-  public void encryptThrowsRuntimeExceptionOnBadKey() {
-    System.setProperty(EncryptionUtil.KEY_PROPERTY, BAD_KEY);
-    EncryptionUtil.encrypt(DECRYPTED_VALUE);
-  }
+    @Test(expected = RuntimeException.class)
+    public void encryptThrowsRuntimeExceptionOnBadKey() {
+        System.setProperty(EncryptionUtil.KEY_PROPERTY, BAD_KEY);
+        EncryptionUtil.encrypt(DECRYPTED_VALUE);
+    }
+
+    @Test
+    public void testSign() {
+        String encrypted = EncryptionUtil.encrypt(DECRYPTED_VALUE);
+        String signature = EncryptionUtil.createSignature(encrypted);
+
+        assertTrue(EncryptionUtil.verify(encrypted, signature));
+    }
+
+    @Test
+    public void testSignChangeInput() {
+        String toBeSigned = EncryptionUtil.encrypt("19121212-1212");
+        String signature = EncryptionUtil.createSignature(toBeSigned);
+        toBeSigned = toBeSigned + 'd';
+
+        assertFalse(EncryptionUtil.verify(toBeSigned, signature));
+    }
 }
