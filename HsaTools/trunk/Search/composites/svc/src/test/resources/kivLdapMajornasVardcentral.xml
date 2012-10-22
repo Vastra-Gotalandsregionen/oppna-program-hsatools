@@ -45,7 +45,7 @@
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -56,7 +56,7 @@
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" serialization="custom">
                 <javax.naming.CompositeName>
                   <int>1</int>
@@ -84,7 +84,7 @@
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -95,7 +95,7 @@
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -120,7 +120,7 @@
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -131,7 +131,7 @@
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -154,7 +154,7 @@
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -165,7 +165,7 @@
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -188,7 +188,7 @@
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -199,7 +199,7 @@
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -234,7 +234,7 @@
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -245,7 +245,7 @@
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -268,7 +268,7 @@
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -279,7 +279,7 @@
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -303,7 +303,7 @@ Flexlinjen stanna utanför ingången till Vårdcentralen hållplats 947.</string
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -314,7 +314,7 @@ Flexlinjen stanna utanför ingången till Vårdcentralen hållplats 947.</string
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -337,7 +337,7 @@ Flexlinjen stanna utanför ingången till Vårdcentralen hållplats 947.</string
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -348,7 +348,7 @@ Flexlinjen stanna utanför ingången till Vårdcentralen hållplats 947.</string
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -371,7 +371,7 @@ Flexlinjen stanna utanför ingången till Vårdcentralen hållplats 947.</string
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -382,7 +382,7 @@ Flexlinjen stanna utanför ingången till Vårdcentralen hållplats 947.</string
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -409,7 +409,7 @@ Flexlinjen stanna utanför ingången till Vårdcentralen hållplats 947.</string
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -420,7 +420,7 @@ Flexlinjen stanna utanför ingången till Vårdcentralen hållplats 947.</string
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -443,7 +443,7 @@ Flexlinjen stanna utanför ingången till Vårdcentralen hållplats 947.</string
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -454,7 +454,7 @@ Flexlinjen stanna utanför ingången till Vårdcentralen hållplats 947.</string
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -477,7 +477,7 @@ Flexlinjen stanna utanför ingången till Vårdcentralen hållplats 947.</string
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -488,7 +488,7 @@ Flexlinjen stanna utanför ingången till Vårdcentralen hållplats 947.</string
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -518,7 +518,7 @@ Välkomna!&#xd;
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -529,7 +529,7 @@ Välkomna!&#xd;
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -552,7 +552,7 @@ Välkomna!&#xd;
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -563,7 +563,7 @@ Välkomna!&#xd;
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -587,7 +587,7 @@ Välkomna!&#xd;
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -598,7 +598,7 @@ Välkomna!&#xd;
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -621,7 +621,7 @@ Välkomna!&#xd;
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -632,7 +632,7 @@ Välkomna!&#xd;
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -658,7 +658,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -669,7 +669,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -692,7 +692,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -703,7 +703,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -726,7 +726,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -737,7 +737,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -760,7 +760,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -771,7 +771,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -794,7 +794,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -805,7 +805,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -828,7 +828,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -839,7 +839,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -862,7 +862,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -873,7 +873,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -896,7 +896,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -907,7 +907,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -930,7 +930,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -941,7 +941,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -964,7 +964,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -975,7 +975,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -998,7 +998,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1009,7 +1009,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1032,7 +1032,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1043,7 +1043,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1066,7 +1066,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1077,7 +1077,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1100,7 +1100,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1111,7 +1111,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1134,7 +1134,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1145,7 +1145,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1168,7 +1168,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1179,7 +1179,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1202,7 +1202,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1213,7 +1213,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1236,7 +1236,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1247,7 +1247,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1270,7 +1270,7 @@ Välkomna!</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1281,7 +1281,7 @@ Välkomna!</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1307,7 +1307,7 @@ Lördag-Söndag:   10.</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1318,7 +1318,7 @@ Lördag-Söndag:   10.</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1341,7 +1341,7 @@ Lördag-Söndag:   10.</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1352,7 +1352,7 @@ Lördag-Söndag:   10.</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1376,7 +1376,7 @@ Lördag-Söndag:   10.</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1387,7 +1387,7 @@ Lördag-Söndag:   10.</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1411,7 +1411,7 @@ Lördag-Söndag:   10.</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1422,7 +1422,7 @@ Lördag-Söndag:   10.</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1445,7 +1445,7 @@ Lördag-Söndag:   10.</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1456,7 +1456,7 @@ Lördag-Söndag:   10.</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1479,7 +1479,7 @@ Lördag-Söndag:   10.</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1490,7 +1490,7 @@ Lördag-Söndag:   10.</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1513,7 +1513,7 @@ Lördag-Söndag:   10.</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1524,7 +1524,7 @@ Lördag-Söndag:   10.</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1547,7 +1547,7 @@ Lördag-Söndag:   10.</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1558,7 +1558,7 @@ Lördag-Söndag:   10.</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1581,7 +1581,7 @@ Lördag-Söndag:   10.</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1592,7 +1592,7 @@ Lördag-Söndag:   10.</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1616,7 +1616,7 @@ Lördag-Söndag:   10.</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1627,7 +1627,7 @@ Lördag-Söndag:   10.</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1650,7 +1650,7 @@ Lördag-Söndag:   10.</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1661,7 +1661,7 @@ Lördag-Söndag:   10.</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1684,7 +1684,7 @@ Lördag-Söndag:   10.</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1695,7 +1695,7 @@ Lördag-Söndag:   10.</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
@@ -1718,7 +1718,7 @@ Lördag-Söndag:   10.</string>
                 </entry>
                 <entry>
                   <string>java.naming.provider.url</string>
-                  <string>ldap://kivldap01.vgregion.se:389</string>
+                  <string>ldap://kivmeta03.vgregion.se:389</string>
                 </entry>
                 <entry>
                   <string>java.naming.ldap.version</string>
@@ -1729,7 +1729,7 @@ Lördag-Söndag:   10.</string>
                   <string>org.springframework.ldap.core.support.DefaultDirObjectFactory</string>
                 </entry>
               </baseCtxEnv>
-              <baseCtxURL>ldap://kivldap01.vgregion.se:389/</baseCtxURL>
+              <baseCtxURL>ldap://kivmeta03.vgregion.se:389/</baseCtxURL>
               <rdn class="javax.naming.CompositeName" reference="../../../../com.sun.jndi.ldap.LdapAttribute/com.sun.jndi.ldap.LdapAttribute/default/rdn"/>
             </default>
           </com.sun.jndi.ldap.LdapAttribute>
