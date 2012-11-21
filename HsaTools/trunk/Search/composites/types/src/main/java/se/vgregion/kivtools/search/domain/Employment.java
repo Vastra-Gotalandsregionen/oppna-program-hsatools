@@ -38,6 +38,7 @@ import com.domainlanguage.time.TimePoint;
  * 
  * @author hangy2 , Hans Gyllensten / KnowIT
  * @author Anders Asplund / KnowIT
+ * @author kengu5 /VGR IT
  */
 public class Employment implements Serializable {
 
@@ -65,6 +66,12 @@ public class Employment implements Serializable {
   private String vgrFormansgrupp;
   // Ansvarsområdes kod e.g. 082
   private String vgrAO3kod;
+  // Fr&aumlnvaro, starttid
+  private String vgrAbsenceStartDate;
+  // Fr&aumlvaro, sluttid.
+  private String vgrAbsenceEndDate;
+  //
+  private String vgrAbsence;
   // Beskrivning
   private List<String> description;
 
@@ -76,13 +83,11 @@ public class Employment implements Serializable {
   private DN vgrStrukturPerson;
   // Distinguished Name (e.g. cn=1750935136900000017,cn=annth38,ou=Personal,o=VGR
   private DN dn;
-
   // Time Objects
   // Anställningspreiod(hsaStartDate till hsaEndDate)
   private TimeInterval employmentPeriod;
   // Senast uppdaterad
   private TimePoint modifyTimestamp;
-
   // Address objects
   // Fakturaadress e.g. Södra Älvsborgs Sjukhus$Låne- och fakturaservice $ $ $501 82$Borås
   private Address hsaSedfInvoiceAddress;
@@ -181,6 +186,32 @@ public class Employment implements Serializable {
 
   public void setVgrAnsvarsnummer(String vgrAnsvarsnummer) {
     this.vgrAnsvarsnummer = vgrAnsvarsnummer;
+  }
+
+  public void setVgrAbsence(String vgrAbsence) {
+    this.vgrAbsence = vgrAbsence;
+  }
+
+  public String getVgrAbsence() {
+    return this.vgrAbsence;
+  }
+
+  public void setVgrAbsenceEndDate(String vgrAbsenceEndDate) {
+    this.vgrAbsenceEndDate = vgrAbsenceEndDate;
+  }
+
+  public String getVgrAbsenceEndDate() {
+    // return "getVgrAbsenceEndDate() + test";
+    return this.vgrAbsenceEndDate;
+  }
+
+  public void setVgrAbsenceStartDate(String vgrAbsenceStartDate) {
+    this.vgrAbsenceStartDate = vgrAbsenceStartDate;
+  }
+
+  public String getVgrAbsenceStartDate() {
+    // return "getVgrAbsenceStartDate test";
+    return this.vgrAbsenceStartDate;
   }
 
   public Address getHsaSedfInvoiceAddress() {

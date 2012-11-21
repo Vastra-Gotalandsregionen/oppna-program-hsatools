@@ -83,6 +83,9 @@ public class SitemapPersonMapper extends AbstractSitemapMapper {
     result.setDescription(StringUtil.concatenate(employment.getDescription()));
     result.setLocality(employment.getLocality());
 
+    result.setAbsenceEndDate(employment.getVgrAbsenceEndDate());
+    result.setAbsenceStartDate(employment.getVgrAbsenceStartDate());
+
     result.getTelephone().addAll(mapPhoneNumbers(employment.getHsaTelephoneNumbers(), "Direkttelefon", TelephoneType.FIXED));
     mapPhoneNumberIfNotNull(employment.getHsaPublicTelephoneNumber(), "Telefon", TelephoneType.FIXED, result.getTelephone());
     mapPhoneNumberIfNotNull(employment.getHsaSedfSwitchboardTelephoneNo(), "Växel", TelephoneType.FIXED, result.getTelephone());

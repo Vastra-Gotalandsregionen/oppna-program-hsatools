@@ -39,7 +39,7 @@ public class PersonSearchSimpleForm implements Serializable {
   private String profession;
   private String employmentTitle;
   private String email;
-  private String specialityArea;
+  private String specialityArea; 
   private String languageKnowledge;
   private String phone;
   private String employmentPosition;

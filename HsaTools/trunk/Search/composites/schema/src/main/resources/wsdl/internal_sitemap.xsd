@@ -81,11 +81,20 @@
 		<xs:sequence>
 			<xs:element name="title" type="xs:string" />
 			<xs:element name="unitIdentity" type="xs:string" />
-			<xs:element name="description" type="xs:string" minOccurs="0" />
-			<xs:element name="telephone" type="TelephoneNumber" minOccurs="0" maxOccurs="unbounded" />
-			<xs:element name="telephoneTime" type="xs:string" minOccurs="0" />
-			<xs:element name="address" type="Address" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="description" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="telephone" type="TelephoneNumber"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="telephoneTime" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="address" type="Address" minOccurs="0"
+				maxOccurs="unbounded" />
 			<xs:element name="locality" type="xs:string" minOccurs="0" />
+			<xs:element name="absence" type="xs:string" minOccurs="0" /> 
+			<xs:element name="absenceStartDate" type="xs:string"
+				minOccurs="0">
+			</xs:element>
+			<xs:element name="absenceEndDate" type="xs:string" minOccurs="0"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
