@@ -54,6 +54,12 @@ public enum EmploymentSearchAttributes {
   /** */
   VGR_ORG_REL("vgrOrgRel"),
   /** */
+  /** */ 
+  VGR_ABSENCE_END_DATE("vgrAbsenceEndDate"),
+  /** */                                       
+  VGR_ABSENCE_START_DATE("vgrAbsenceStartDate"),
+  
+  /** */
   VGR_ANSVARS_NUMMER("vgrAnsvarsnummer"),
   /** */
   HSA_START_DATE("hsaStartDate"),

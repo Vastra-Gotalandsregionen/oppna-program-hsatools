@@ -19,6 +19,10 @@
 
 package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
 
 import org.springframework.ldap.core.ContextMapper;
@@ -58,7 +62,7 @@ public class EmploymentMapper implements ContextMapper {
     Employment employment = new Employment();
     DirContextOperationsHelper context = new DirContextOperationsHelper((DirContextOperations) ctx);
 
-    employment.setCn(context.getString(EmploymentSearchAttributes.CN.toString()));
+   employment.setCn(context.getString(EmploymentSearchAttributes.CN.toString()));
 
     // Organizational Unit Name (e.g. Barn- och ungdomspsykiatrisk mottagning Bor�s)
     employment.setOu(context.getString(EmploymentSearchAttributes.OU.toString()));
@@ -74,6 +78,15 @@ public class EmploymentMapper implements ContextMapper {
     // Ansvarsnumer e.g. 1, 2
     employment.setVgrAnsvarsnummer(context.getString(EmploymentSearchAttributes.VGR_ANSVARS_NUMMER.toString()));
 
+    
+    //Fr&aumlvaro, startdatum 
+    
+    employment.setVgrAbsenceStartDate(parseStrDate(context.getString(EmploymentSearchAttributes.VGR_ABSENCE_START_DATE.toString())));
+    
+    //Fr&aumlvaro, Slutdatum
+    employment.setVgrAbsenceEndDate(parseStrDate(context.getString(EmploymentSearchAttributes.VGR_ABSENCE_END_DATE.toString())));
+    
+   
     // Anst�llningsperiod
     employment.setEmploymentPeriod(parseDateTime(context.getString(EmploymentSearchAttributes.HSA_START_DATE.toString())), parseDateTime(context.getString(EmploymentSearchAttributes.HSA_END_DATE
         .toString())));
@@ -157,5 +170,14 @@ public class EmploymentMapper implements ContextMapper {
     }
 
     return result;
+  }
+  private String parseStrDate (String strDate){
+    String pReturnStrDate =""; 
+    String pStrDate = strDate;  
+    if (!StringUtil.isEmpty( pStrDate )){
+      pReturnStrDate =  pStrDate .substring(0,8);
+            
+    }
+    return pReturnStrDate;
   }
 }

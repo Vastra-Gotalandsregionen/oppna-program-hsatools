@@ -45,7 +45,7 @@ public class EmploymentMapperTest {
   public void setUp() throws Exception {
     codeTablesServiceMock = new CodeTablesServiceMock();
     dirContextOperationsMock = new DirContextOperationsMock();
-    dirContextOperationsMock.setDn(new NameMock("ou=Folktandvården Fyrbodal,ou=Folktandvården Västra Götaland,ou=Org,o=vgr"));
+    dirContextOperationsMock.setDn(new NameMock("ou=Folktandv1ården Fyrbodal,ou=Folktandvården Västra Götaland,ou=Org,o=vgr"));
 
     dirContextOperationsMock.addAttributeValue("cn", TEST);
     dirContextOperationsMock.addAttributeValue("ou", TEST);
@@ -81,6 +81,7 @@ public class EmploymentMapperTest {
     dirContextOperationsMock.addAttributeValue("description", TEST);
     dirContextOperationsMock.addAttributeValue("l", TEST);
     dirContextOperationsMock.addAttributeValue("paTitleCode", TEST);
+
   }
 
   @Test
@@ -124,6 +125,7 @@ public class EmploymentMapperTest {
     assertEquals(EXPECTED_LIST_RESULT, employment.getDescription().toString());
     assertEquals(TEST, employment.getLocality());
     assertEquals("Translated " + TEST, employment.getPosition());
+    
   }
 
   class CodeTablesServiceMock implements CodeTablesService {
