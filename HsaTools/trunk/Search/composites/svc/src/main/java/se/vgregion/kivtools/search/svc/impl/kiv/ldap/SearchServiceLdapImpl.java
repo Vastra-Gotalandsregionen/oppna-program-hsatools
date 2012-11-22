@@ -232,4 +232,10 @@ public class SearchServiceLdapImpl implements SearchService {
   public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException {
     return this.unitRepository.getUnitAdministratorVgrIds(hsaId);
   }
+
+  @Override
+  public List<Person> getPersonByVgrManagedObject(String managedObject) throws KivException {
+    return this.personRepository.getPersonByVgrManagedObject(managedObject);
+    //return null;
+  }
 }

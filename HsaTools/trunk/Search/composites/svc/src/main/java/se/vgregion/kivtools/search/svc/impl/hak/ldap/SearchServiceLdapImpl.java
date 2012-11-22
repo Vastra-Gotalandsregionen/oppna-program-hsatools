@@ -242,5 +242,12 @@ public class SearchServiceLdapImpl implements SearchService {
   public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException {
     throw new NotImplementedException("Not used by LTH.");
   }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<Person> getPersonByVgrManagedObject(String string) throws KivException {
+    throw new NotImplementedException("Not used by LTH.");
+  }
 
 }

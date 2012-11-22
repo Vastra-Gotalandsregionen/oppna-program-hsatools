@@ -405,7 +405,10 @@ public class SearchPersonFlowSupportBean implements Serializable {
 
           Set<String> unitAdministratorVgrIds = new HashSet<String>();
           for (Unit unit : units) {
-            unitAdministratorVgrIds.addAll(this.getSearchService().getUnitAdministratorVgrIds(unit.getHsaIdentity()));
+            List<Person> managers = this.getSearchService().getPersonByVgrManagedObject(unit.getDn().toString());
+            for (Person manager : managers) {
+              unitAdministratorVgrIds.add(manager.getVgrId());
+            }
           }
 
           // Admin types that we are interested of
@@ -479,13 +482,16 @@ public class SearchPersonFlowSupportBean implements Serializable {
           for (DN dn : unitDNs) {
             personEmploymentUnits.add(this.getSearchService().getUnitByDN(dn.toString()));
           }
-
+          // -------------------------------
           Set<String> administratorVgrID = new HashSet<String>();
           for (Unit unit : personEmploymentUnits) {
-            administratorVgrID.addAll(this.getSearchService().getUnitAdministratorVgrIds(unit.getHsaIdentity()));
+            List<Person> managers = this.getSearchService().getPersonByVgrManagedObject(unit.getDn().toString());
+            for (Person manager : managers) {
+              administratorVgrID.add(manager.getVgrId());
+            }
           }
-
-          if (administratorVgrID != null && administratorVgrID.size() > 0) {
+            
+         if (administratorVgrID != null && administratorVgrID.size() > 0) {
             // AdminTypes that we are interested of
             List<String> validAdminTypes = new ArrayList<String>();
             validAdminTypes.add("E");

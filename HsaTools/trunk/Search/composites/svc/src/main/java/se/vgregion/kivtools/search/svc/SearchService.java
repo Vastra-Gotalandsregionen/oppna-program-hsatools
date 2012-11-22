@@ -220,4 +220,13 @@ public interface SearchService {
    * @throws KivException
    */
   public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException;
+/**
+ * 
+ * @param managedObject
+ * @return A list of persons
+ * @throws KivException
+ */
+  
+  public List<Person> getPersonByVgrManagedObject(String managedObject) throws KivException;
+
 }

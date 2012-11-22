@@ -234,7 +234,21 @@ public class PersonRepository {
     searchFilter += ")";
     return searchFilter;
   }
-
+  /** 
+   * 
+   * @param managedObject
+   * @return a list of persons
+   * @throws KivException
+   */
+  public SikSearchResultList<Person> getPersonByVgrManagedObject(String managedObject) throws KivException {
+    
+    String searchFilter = "(&(objectclass=vgrUser)";
+    searchFilter += "(vgrManagedObjects="+managedObject+")";
+    searchFilter += ")";
+    
+    return this.searchPersons(searchFilter, SearchControls.SUBTREE_SCOPE, 1000);
+   
+  }
   /**
    * e.g. searchField=givenName searchValue=hans result=(givenName=*hans*)
    * 
