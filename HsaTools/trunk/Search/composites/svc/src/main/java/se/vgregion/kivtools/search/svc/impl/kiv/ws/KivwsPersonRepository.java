@@ -114,7 +114,19 @@ public class KivwsPersonRepository {
     andFilter.and(new EqualsFilter("cn", vgrId));
     return this.searchPerson("cn=" + vgrId + "," + PERSON_SEARCH_BASE.toString(), SearchControls.OBJECT_SCOPE, andFilter.encode());
   }
-
+  /**
+   * Fetch a person by vgr id.
+   * 
+   * @param  managedObject 
+   * @return a list of persons
+   * @throws KivException .
+   */
+  public SikSearchResultList<Person> getPersonByVgrManagedObject(String managedObject) throws KivException {
+    AndFilter andFilter = new AndFilter();
+    String searchFilter = createSearchFilterItem("vgrManagedObjects", managedObject);
+    return this.searchPersons(searchFilter, SearchControls.SUBTREE_SCOPE, 1000);
+   
+  }
   /**
    * Get all vgr id for all persons.
    * 
