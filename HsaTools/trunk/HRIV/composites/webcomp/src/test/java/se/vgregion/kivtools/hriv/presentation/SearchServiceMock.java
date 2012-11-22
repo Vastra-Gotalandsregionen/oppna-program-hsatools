@@ -250,5 +250,9 @@ public class SearchServiceMock implements SearchService {
   }
 
   @Override
+  public List<Person> getPersonByVgrManagedObject(String managedObject) throws KivException {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
 }
