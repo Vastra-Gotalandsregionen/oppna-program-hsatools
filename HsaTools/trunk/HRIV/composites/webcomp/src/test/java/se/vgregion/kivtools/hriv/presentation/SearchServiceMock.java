@@ -248,4 +248,7 @@ public class SearchServiceMock implements SearchService {
   public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException {
     return null;
   }
+
+  @Override
+
 }

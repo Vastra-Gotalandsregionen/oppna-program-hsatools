@@ -410,4 +410,9 @@ public class SearchServiceMockImpl implements SearchService {
   public List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException {
     return null;
   }
+
+  @Override
+  public List<Person> getPersonByVgrManagedObject(String managedObject) throws KivException {
+    return null; 
+  }
 }
