@@ -1,0 +1,223 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<object-stream>
+  <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap>
+    <entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1493</key>
+        <value>Mariestad</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1471</key>
+        <value>Götene</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1490</key>
+        <value>Borås</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1499</key>
+        <value>Falköping</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1440</key>
+        <value>Ale</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1484</key>
+        <value>Lysekil</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1473</key>
+        <value>Töreboda</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1498</key>
+        <value>Tidaholm</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1481</key>
+        <value>Mölndal</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1452</key>
+        <value>Tranemo</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1401</key>
+        <value>Härryda</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1482</key>
+        <value>Kungälv</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1489</key>
+        <value>Alingsås</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1494</key>
+        <value>Lidköping</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1438</key>
+        <value>Dals-Ed</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1443</key>
+        <value>Bollebygd</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1487</key>
+        <value>Vänersborg</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1407</key>
+        <value>Öckerö</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1485</key>
+        <value>Uddevalla</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1463</key>
+        <value>Mark</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1446</key>
+        <value>Karlsborg</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1497</key>
+        <value>Hjo</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1415</key>
+        <value>Stenungsund</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1495</key>
+        <value>Skara</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1462</key>
+        <value>Lilla Edet</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1447</key>
+        <value>Gullspång</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1427</key>
+        <value>Sotenäs</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1442</key>
+        <value>Vårgårda</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1496</key>
+        <value>Skövde</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1430</key>
+        <value>Munkedal</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1486</key>
+        <value>Strömstad</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1445</key>
+        <value>Essunga</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1402</key>
+        <value>Partille</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1460</key>
+        <value>Bengtsfors</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1444</key>
+        <value>Grästorp</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1439</key>
+        <value>Färgelanda</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1472</key>
+        <value>Tibro</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1461</key>
+        <value>Mellerud</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1466</key>
+        <value>Herrljunga</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1488</key>
+        <value>Trollhättan</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1491</key>
+        <value>Ulricehamn</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1480</key>
+        <value>Göteborg</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1419</key>
+        <value>Tjörn</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1421</key>
+        <value>Orust</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1465</key>
+        <value>Svenljunga</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1470</key>
+        <value>Vara</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1492</key>
+        <value>Åmål</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1435</key>
+        <value>Tanum</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>1441</key>
+        <value>Lerum</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+    </entry>
+  </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap>
+</object-stream>
