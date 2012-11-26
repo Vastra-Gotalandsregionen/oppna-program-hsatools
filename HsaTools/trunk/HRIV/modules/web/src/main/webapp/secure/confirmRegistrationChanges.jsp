@@ -48,7 +48,7 @@
     String hrivHost = "hittavard.vgregion.se";
 
     String url =
-            response.encodeRedirectURL("http://" + hrivHost
+            response.encodeRedirectURL("https://" + hrivHost
                     + "/hriv/HRIV.registrationOnUnit-flow.flow?hsaidentity="
                     + request.getParameter("hsaidentity") + "&iv-user="
                     + cipherTextStringBase64EncodedURLEncoded);

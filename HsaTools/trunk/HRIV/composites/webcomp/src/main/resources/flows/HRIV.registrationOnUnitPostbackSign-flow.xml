@@ -31,7 +31,7 @@
   </action-state>
   
    <view-state id="Redirect.registrationConfirmation"
-    view="externalRedirect:http://hittavard.vgregion.se/hriv/HRIV.registrationOnUnitPostSign-flow.flow">
+    view="externalRedirect:https://hittavard.vgregion.se/hriv/HRIV.registrationOnUnitPostSign-flow.flow">
   </view-state>
 
   <view-state id="Redirect.registrationConfirmationError"
