@@ -100,15 +100,13 @@ public class GeoUtilTest {
     rt90 = GeoUtil.parseRT90HsaString("Y:");
     assertNull(rt90);
 
-    try {
-      rt90 = GeoUtil.parseRT90HsaString("X: Y:");
-      fail("StringIndexOutOfBoundsException expected");
-    } catch (StringIndexOutOfBoundsException e) {
-      // Expected exception
-    }
-    assertNull(rt90);
+ 
 
     rt90 = GeoUtil.parseRT90HsaString("X: 1234567, Y: 9876543");
+    assertEquals(1234567, rt90[0]);
+    assertEquals(9876543, rt90[1]);
+    
+    rt90 = GeoUtil.parseRT90HsaString("X:1234567,Y:9876543");
     assertEquals(1234567, rt90[0]);
     assertEquals(9876543, rt90[1]);
   }
