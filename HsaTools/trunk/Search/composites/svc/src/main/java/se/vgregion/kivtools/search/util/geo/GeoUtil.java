@@ -41,6 +41,7 @@ import se.vgregion.kivtools.util.StringUtil;
  * Handles coordinate operations.
  * 
  * @author Jonas Liljenfeldt, Know IT
+ * @author Kengu5, VGR IT
  */
 public class GeoUtil {
 
@@ -132,10 +133,12 @@ public class GeoUtil {
    */
   public static int[] parseRT90HsaString(String rt90String) {
     int[] result = null;
+     
     if (!StringUtil.isEmpty(rt90String)) {
+      rt90String = rt90String.replace(" ", "");
       if (rt90String.indexOf("X:") >= 0 && rt90String.indexOf("Y:") >= 0) {
-        int rt90X = Integer.parseInt(rt90String.substring(3, 10));
-        int rt90Y = Integer.parseInt(rt90String.substring(15));
+        int rt90X = Integer.parseInt(rt90String.substring(2, 9));
+        int rt90Y = Integer.parseInt(rt90String.substring(12));
         result = new int[] { rt90X, rt90Y };
       }
     }
