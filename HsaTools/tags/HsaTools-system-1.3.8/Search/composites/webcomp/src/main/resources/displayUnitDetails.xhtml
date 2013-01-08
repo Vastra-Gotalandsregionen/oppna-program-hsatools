@@ -1,0 +1,139 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<ui:composition template="/template.xhtml">
+
+	<ui:define name="HeadContainer">
+		<ui:include src="${Search_SettingsContainer.settings.unitDetailsHeadInclude}" />	
+	</ui:define>
+
+	<ui:define name="TabContainer">
+		<h2 class="structural">Sök Enhet</h2>
+        <ul class="tab-container clearfix">
+			<li><a href="Search.searchperson-flow.flow">Person</a></li>
+			<li><a href="#" class="active">Enhet</a></li>
+		</ul>
+	</ui:define>
+
+	<ui:define name="HeaderInputFieldContainer">
+		<ui:include src="${Search_SettingsContainer.settings.unitSearchInclude}" />
+	</ui:define>
+
+
+	<ui:define name="MainContainer">
+		<div class="yui-u search-result">
+            <ui:include src="${Search_SettingsContainer.settings.errorReportConfirmInclude}" />
+			<div class="summary">
+				<h2>${unit.name}</h2>
+				<ui:include src="${Search_SettingsContainer.settings.unitDetailsAncestorListInclude}" />
+				<div id="kiv-results">
+				<!-- Show tab with external description -->
+					<h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 0}">
+						<div class="tab">
+							<div class="tab-hd"><h3>Extern beskrivning</h3></div>
+								<div class="tab-bd">
+									<div class="external-description">
+										<h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 0}">
+											<div id="external-description-body-short">
+												<h:outputText value="${fn:substring(unit.concatenatedDescription, 0, 400)}..." rendered="${fn:length(unit.concatenatedDescription) gt 400}" />
+												<h:outputText value="${unit.concatenatedDescription}" rendered="${fn:length(unit.concatenatedDescription) lt 401}" />
+											</div>
+											
+											<div id="external-description-body-long" style="display: none;">
+												<h:outputText value="${unit.concatenatedDescription}" />
+											</div>
+										</h:outputText>
+				
+						               	<h:outputText rendered="${fn:length(unit.concatenatedDescription) lt 1 and Search_SettingsContainer.testingMode==true}">
+											<span class="warning">Fältet "beskrivning" är tomt!</span>
+					                    </h:outputText>  
+						             	
+										<div id="external-description-extend">
+							               	<h:outputText rendered="${fn:length(unit.concatenatedDescription) gt 400}">
+												<div id="external-description-toggle-area" />
+												<script type="text/javascript" charset="utf-8">
+													// <![CDATA[
+														drawToggleDescription("external-description");
+													// ]]>
+												</script>
+											</h:outputText>
+										</div>
+								</div>
+							</div>
+						</div>
+					</h:outputText>
+					<!-- Show tab with internal information -->
+					<h:outputText rendered="${fn:length(unit.internalConcatenatedDescription) gt 0}">
+						<div class="tab">
+							<div class="tab-hd" style="border-bottom: 1px solid #DDD;"><h3>Intern beskrivning</h3></div>
+								<div class="tab-bd">
+									<div class="internal-description">
+										<h:outputText rendered="${fn:length(unit.internalConcatenatedDescription) gt 0}">
+											<div id="internal-description-body-short">
+												<h:outputText value="${fn:substring(unit.internalConcatenatedDescription, 0, 400)}..." rendered="${fn:length(unit.internalConcatenatedDescription) gt 400}" />
+												<h:outputText value="${unit.internalConcatenatedDescription}" rendered="${fn:length(unit.internalConcatenatedDescription) lt 401}" />
+											</div>
+											
+											<div id="internal-description-body-long" style="display: none;">
+												<h:outputText value="${unit.internalConcatenatedDescription}" />
+											</div>
+										</h:outputText>
+				
+						               	<h:outputText rendered="${fn:length(unit.internalConcatenatedDescription) lt 1 and Search_SettingsContainer.testingMode==true}">
+											<span class="warning">Fältet "beskrivning" är tomt!</span>
+					                    </h:outputText>  
+						             	
+										<div id="internal-description-extend">
+							               	<h:outputText rendered="${fn:length(unit.internalConcatenatedDescription) gt 400}">
+												<div id="internal-description-toggle-area" />
+												<script type="text/javascript" charset="utf-8">
+													// <![CDATA[
+														drawToggleDescription("internal-description");
+													// ]]>
+												</script>
+											</h:outputText>
+										</div>
+								</div>
+							</div>
+						</div>
+					</h:outputText>
+				</div>
+				<h:outputText rendered="${unit.isUnit}">
+					<ui:include src="${Search_SettingsContainer.settings.unitDetailsShowOrganisationInclude}" />
+				</h:outputText>
+			</div>
+			<ui:include src="${Search_SettingsContainer.settings.unitDetailsMainInfoInclude}" />
+			<ui:include src="${Search_SettingsContainer.settings.unitDetailsTelephoneInclude}" />
+			<ui:include src="${Search_SettingsContainer.settings.unitDetailsAddressInclude}" />
+			<ui:include src="${Search_SettingsContainer.settings.unitDetailsMiscInfoTableInclude}" />
+            <ui:include src="${Search_SettingsContainer.settings.unitDetailsPatientInfoTableInclude}" />
+            <ui:include src="${Search_SettingsContainer.settings.errorReportFormInclude}" />
+		</div>
+	</ui:define>
+
+</ui:composition></div>
