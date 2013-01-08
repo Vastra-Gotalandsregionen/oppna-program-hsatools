@@ -1,0 +1,40 @@
+/**
+ * Copyright 2010 Västra Götalandsregionen
+ *
+ *   This library is free software; you can redistribute it and/or modify
+ *   it under the terms of version 2.1 of the GNU Lesser General Public
+ *   License as published by the Free Software Foundation.
+ *
+ *   This library is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public
+ *   License along with this library; if not, write to the
+ *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ *   Boston, MA 02111-1307  USA
+ *
+ */
+
+.yui-navset {
+	padding-top:3px;
+	background:transparent;
+}
+
+.yui-navset .yui-nav li a, .yui-navset .yui-content {
+    border:1px solid #ddd;  /* label and content borders */
+	background:transparent;
+}
+.yui-navset .yui-content {border-bottom:none;}
+.yui-navset .yui-nav .selected a,
+.yui-navset .yui-nav a:hover,
+.yui-navset .yui-content {
+    background-color:#eee;
+}
+.yui-navset .yui-content {background-color:#fff;}
+.yui-navset .yui-content table {
+	margin-bottom:0;
+	border-width:1px 0;
+}
+.yui-navset .yui-content .cols td {border-right:none;}
