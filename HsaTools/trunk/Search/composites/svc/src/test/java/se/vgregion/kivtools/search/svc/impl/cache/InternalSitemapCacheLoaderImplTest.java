@@ -29,6 +29,7 @@ import se.vgregion.kivtools.search.svc.cache.SitemapCache;
 import se.vgregion.kivtools.search.svc.impl.cache.InternalSitemapCacheLoaderImpl;
 import se.vgregion.kivtools.search.svc.impl.cache.PersonCacheServiceImpl;
 import se.vgregion.kivtools.search.svc.impl.cache.UnitCacheServiceImpl;
+import se.vgregion.kivtools.search.svc.impl.cache.*;
 import se.vgregion.kivtools.search.util.MvkClient;
 import se.vgregion.kivtools.util.http.HttpFetcher;
 

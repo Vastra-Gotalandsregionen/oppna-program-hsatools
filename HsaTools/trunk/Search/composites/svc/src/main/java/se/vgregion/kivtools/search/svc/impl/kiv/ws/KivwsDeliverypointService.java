@@ -18,6 +18,7 @@ import se.vgregion.kivtools.search.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.impl.kiv.DeliverypointService;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfDeliveryPoint;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfString;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.DeliveryPoint;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap.Entry;
@@ -106,8 +107,10 @@ public class KivwsDeliverypointService implements DeliverypointService {
 	private List<Deliverypoint> searchDeliveryPoint(String filter) throws KivException{
 		List<Deliverypoint> retval = new ArrayList<Deliverypoint>();
 		Deliverypoint deliverypointObject;
+		
 		try {
-			ArrayOfDeliveryPoint searchDeliveryPoints = this.vgregionWebService.searchDeliveryPoint(filter, null);
+		  ArrayOfString attributes = this.vgregionWebService.getReturnAttributesForDeliveryPoint();
+			ArrayOfDeliveryPoint searchDeliveryPoints = this.vgregionWebService.searchDeliveryPoint(filter, attributes);
 			List<DeliveryPoint> deliveryPointsFromWS = searchDeliveryPoints.getDeliveryPoint();
 			for(DeliveryPoint dp : deliveryPointsFromWS) {
 				deliverypointObject = null;

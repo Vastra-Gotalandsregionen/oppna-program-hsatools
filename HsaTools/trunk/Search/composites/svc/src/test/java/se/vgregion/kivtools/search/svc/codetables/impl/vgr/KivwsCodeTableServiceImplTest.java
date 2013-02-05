@@ -548,5 +548,17 @@ public class KivwsCodeTableServiceImplTest {
     public ArrayOfDeliveryPoint searchDeliveryPoint(String filter, ArrayOfString attributes) throws VGRException_Exception {
       return null;
     }
+
+    @Override
+    public ArrayOfDeletedObject getDeletedFunctions(String timestamp) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ArrayOfDeletedObject getDeletedDeliveryPoints(String timestamp) throws VGRException_Exception {
+      // TODO Auto-generated method stub
+      return null;
+    }
   }
 }

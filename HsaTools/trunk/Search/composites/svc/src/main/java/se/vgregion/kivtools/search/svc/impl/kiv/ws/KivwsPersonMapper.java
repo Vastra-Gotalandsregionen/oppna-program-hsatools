@@ -35,7 +35,7 @@ import se.vgregion.kivtools.util.Arguments;
 
 enum KivwsPersonAttributes {
   cn("cn"), hsaidentity("hsaidentity"), hsatitle("hsatitle"), givenname("givenname"), mail("mail"), sn("sn"), vgrid("vgr-id"), hsanickname("hsanickname"), hsaspecialitycode("hsaspecialitycode"), hsalanguageknowledgecode(
-      "hsalanguageknowledgecode"), hsamiddlename("hsamiddlename");
+      "hsalanguageknowledgecode"), hsamiddlename("hsamiddlename"), fullname("fullname");
 
   private KivwsPersonAttributes(String value) {
     this.value = value;
@@ -76,6 +76,7 @@ public class KivwsPersonMapper implements ContextMapper {
     person.setHsaSpecialityCode(this.getMultiValue(KivwsPersonAttributes.hsaspecialitycode.toString()));
     person.setHsaLanguageKnowledgeCode(this.getMultiValue(KivwsPersonAttributes.hsalanguageknowledgecode.toString()));
     person.setHsaMiddleName(this.getSingleValue(KivwsPersonAttributes.hsamiddlename.toString()));
+    person.setFullName(this.getSingleValue(KivwsPersonAttributes.fullname.toString()));
 
     return person;
   }

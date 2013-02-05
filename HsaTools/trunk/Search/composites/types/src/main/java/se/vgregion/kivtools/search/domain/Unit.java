@@ -181,6 +181,8 @@ public class Unit implements Serializable, Comparable<Unit> {
   private String hsaVisitingRules;
   private String hsaVisitingRuleAge;
   private String hsaPatientVisitingRules;
+  private String hsaHealthCareUnitManagerHsaId;
+  private Person hsaHealthCareUnitManagerPerson;
 
   private String vgrTempInfo;
   private String vgrRefInfo;
@@ -1603,6 +1605,21 @@ public class Unit implements Serializable, Comparable<Unit> {
   public String getHsaResponsibleHealthCareProvider() {
     return this.hsaResponsibleHealthCareProvider;
   }
+  public String getHsaHealthCareUnitManagerHsaId() {
+    return hsaHealthCareUnitManagerHsaId;
+  }
+
+  public void setHsaHealthCareUnitManagerHsaId(String hsaHealthCareUnitManager) {
+    this.hsaHealthCareUnitManagerHsaId = hsaHealthCareUnitManager;
+  }
+  public Person getHsaHealthCareUnitManagerPerson() {
+    return hsaHealthCareUnitManagerPerson;
+  }
+
+  public void setHsaHealthCareUnitManagerPerson(Person hsaHealthCareUnitManagerPerson) {
+    this.hsaHealthCareUnitManagerPerson = hsaHealthCareUnitManagerPerson;
+  }
+
 
   public List<String> getHsaHealthCareUnitMembers() {
     return this.hsaHealthCareUnitMembers;
