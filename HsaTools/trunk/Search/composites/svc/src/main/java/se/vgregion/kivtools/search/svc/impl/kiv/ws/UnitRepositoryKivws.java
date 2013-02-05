@@ -41,6 +41,7 @@ import org.springframework.ldap.filter.Filter;
 import org.springframework.ldap.filter.LikeFilter;
 import org.springframework.ldap.filter.OrFilter;
 
+import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
@@ -57,6 +58,7 @@ import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitRepository;
 import se.vgregion.kivtools.search.svc.impl.kiv.ldap.UnitSearchAttributes;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchUnitCriterions;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfFunction;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfPerson;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfString;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.ArrayOfUnit;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.Function;
@@ -85,6 +87,7 @@ public class UnitRepositoryKivws implements UnitRepository {
   private final CodeTablesService codeTablesService;
   private final VGRegionWebServiceImplPortType vgregionWebService;
   private final KivwsUnitMapper kivwsUnitMapper;
+  private final KivwsPersonMapper KivwsPersonMapper;
 
   private static final String OPPENVARD = "Öppenvård";
   private static final String SLUTENVARD = "Slutenvård";
@@ -94,6 +97,7 @@ public class UnitRepositoryKivws implements UnitRepository {
     this.vgregionWebService = vgregionWebService;
     this.kivwsUnitMapper = kivwsUnitMapper;
     this.codeTablesService = codeTablesService;
+    this.KivwsPersonMapper = new KivwsPersonMapper();
   }
 
   /**
@@ -235,8 +239,34 @@ public class UnitRepositoryKivws implements UnitRepository {
    */
   @Override
   public Unit getUnitByHsaId(String hsaId) throws KivException {
+    Unit pUnit; 
     String searchFilter = "(hsaIdentity=" + hsaId + ")";
-    return this.searchUnit(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilter);
+    pUnit = this.searchUnit(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilter);
+    if(pUnit.getHsaHealthCareUnitManagerHsaId().length() > 0 && pUnit.getHsaHealthCareUnitManagerHsaId() !=null){
+      pUnit.setHsaHealthCareUnitManagerPerson(this.getHsaHealthCareUnitManagerByHsaID(pUnit.getHsaHealthCareUnitManagerHsaId()));
+    }
+    return pUnit; 
+  }
+
+  private Person getHsaHealthCareUnitManagerByHsaID(String hsaHealthCareUnitManagerHsaId) {
+    String pSearchFilter = "(hsaIdentity=" + hsaHealthCareUnitManagerHsaId+ ")";
+    ArrayOfString pAttributes;
+
+    List<se.vgregion.kivtools.search.svc.ws.domain.kivws.Person> pPersons = null;
+    Person pPerson = null;
+    try {
+      pAttributes = vgregionWebService.getReturnAttributesForPerson(VGRegionDirectory.KIV);
+      pPersons =   this.vgregionWebService.searchPerson(pSearchFilter, pAttributes,VGRegionDirectory.KIV, "o=vgr", "2").getPerson();
+      
+      for (se.vgregion.kivtools.search.svc.ws.domain.kivws.Person p: pPersons) {
+       pPerson = this.KivwsPersonMapper.mapFromContext(p);
+      }   
+    } catch (VGRException_Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } 
+    
+    return pPerson;
   }
 
   /**

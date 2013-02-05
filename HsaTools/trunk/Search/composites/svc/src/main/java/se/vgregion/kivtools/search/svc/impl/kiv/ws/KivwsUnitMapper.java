@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
 import org.springframework.ldap.core.ContextMapper;
 
 import se.vgregion.kivtools.search.domain.Deliverypoint;
+import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.AddressHelper;
 import se.vgregion.kivtools.search.domain.values.DN;
@@ -101,7 +102,7 @@ public class KivwsUnitMapper implements ContextMapper {
     for (Entry entry : attributes) {
       attributeHelper.add(entry.getKey(), entry.getValue().getAnyType());
     }
-
+    
     unit.setOu(attributeHelper.getSingleValue(KivwsAttributes.OU));
 
     unit.setHsaIdentity(attributeHelper.getSingleValue(KivwsAttributes.HSA_IDENTITY));
@@ -176,6 +177,7 @@ public class KivwsUnitMapper implements ContextMapper {
     }
 
     unit.setHsaBusinessType(attributeHelper.getSingleValue(KivwsAttributes.HSA_BUSINESS_TYPE));
+    unit.setHsaHealthCareUnitManagerHsaId(attributeHelper.getSingleValue(KivwsAttributes.HSA_HEALTH_CARE_UNIT_MANAGER));
 
     this.assignCodeTableValuesToUnit(unit, attributeHelper);
     // As the last step, let HealthcareTypeConditionHelper figure out which
@@ -196,6 +198,7 @@ public class KivwsUnitMapper implements ContextMapper {
     return unit;
   }
 
+  
 	private void populateDeliverypointAddresses(Unit unit) {
 		try {
 			List<Deliverypoint> unitdeliverypoints = this.deliveryPointService

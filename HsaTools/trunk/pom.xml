@@ -501,8 +501,8 @@
   </profiles>
 
   <scm>
-    <developerConnection>scm:svn:https://oppna-program-hsatools.googlecode.com/svn/HsaTools/trunk/</developerConnection>
-    <url>http://oppna-program-hsatools.googlecode.com/svn/HsaTools/trunk/</url>
+    <developerConnection>scm:svn:https://oppna-program-hsatools.googlecode.com/svn/HsaTools/tags/HsaTools-system-1.3.8</developerConnection>
+    <url>http://oppna-program-hsatools.googlecode.com/svn/HsaTools/tags/HsaTools-system-1.3.8</url>
   </scm>
 	
 </project>
