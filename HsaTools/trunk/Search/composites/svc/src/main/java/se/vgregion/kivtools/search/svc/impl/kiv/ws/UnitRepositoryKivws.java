@@ -65,6 +65,7 @@ import se.vgregion.kivtools.search.svc.ws.domain.kivws.Function;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRException_Exception;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionDirectory;
 import se.vgregion.kivtools.search.svc.ws.domain.kivws.VGRegionWebServiceImplPortType;
+import se.vgregion.kivtools.search.svc.ws.domain.kivws.String2ArrayOfAnyTypeMap.Entry;
 import se.vgregion.kivtools.search.util.Formatter;
 import se.vgregion.kivtools.search.util.LdapParse;
 import se.vgregion.kivtools.util.Arguments;
@@ -239,33 +240,106 @@ public class UnitRepositoryKivws implements UnitRepository {
    */
   @Override
   public Unit getUnitByHsaId(String hsaId) throws KivException {
-    Unit pUnit; 
+    Unit pUnit;
     String searchFilter = "(hsaIdentity=" + hsaId + ")";
     pUnit = this.searchUnit(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilter);
-    if(pUnit.getHsaHealthCareUnitManagerHsaId().length() > 0 && pUnit.getHsaHealthCareUnitManagerHsaId() !=null){
+    if (pUnit.getHsaHealthCareUnitManagerHsaId().length() > 0 && pUnit.getHsaHealthCareUnitManagerHsaId() != null) {
       pUnit.setHsaHealthCareUnitManagerPerson(this.getHsaHealthCareUnitManagerByHsaID(pUnit.getHsaHealthCareUnitManagerHsaId()));
     }
-    return pUnit; 
+    if (pUnit.getHsaHealthCareUnitMembers().size() > 0) {
+      pUnit.setHsaHealthCareUnitMembersAsUnit(this.getSimpleUnitsByHsaId(pUnit.getHsaHealthCareUnitMembers()));
+    }
+    return pUnit;
+  }
+
+  /**
+   * Method to get all related helthCareUnitMembers. When using "getunitByHsaId" the search sometimes took over 60 seconds! 
+   * Only used in setHsaHealthCareUnitMembersAsUnit. 
+   *  
+   * @param hsaIds, List<String>
+   * @return List<Unit>, containing Unit and functions with hsaId, name and DN
+   * @throws KivException
+   */
+  public List<Unit> getSimpleUnitsByHsaId(List<String> hsaIds) throws KivException {
+    Unit pUnit = null;
+    String pSearchFilter = "";
+    StringBuilder sb = new StringBuilder();
+    List<Unit> pReturnValues = new ArrayList<Unit>();
+
+    sb.append("(|");
+    for (String hsaId : hsaIds) {
+      sb.append("(hsaIdentity=");
+      sb.append(hsaId);
+      sb.append(")");
+    }
+    sb.append(")");
+    pSearchFilter = sb.toString();
+
+    ArrayOfString pAttributes;
+    try {
+      // Get units
+      pAttributes = this.vgregionWebService.getReturnAttributesForUnit(VGRegionDirectory.KIV);
+      ArrayOfUnit searchUnits = this.vgregionWebService.searchUnit(pSearchFilter, pAttributes, VGRegionDirectory.KIV, "ou=org,o=vgr", "2");
+
+      List<Entry> attributes;
+      for (se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit u : searchUnits.getUnit()) {
+        Unit unit = new Unit();
+        attributes = u.getAttributes().getValue().getEntry();
+        for (Entry entry : attributes) {
+          if (entry.getKey().equals("hsaidentity")) {
+            // Is single value attribute, safe to use .get index 0.
+            unit.setHsaIdentity(entry.getValue().getAnyType().get(0).toString());
+          } else if (entry.getKey().equals("ou")) {
+            // Is single value attribute, safe to use .get index 0.
+            unit.setName(entry.getValue().getAnyType().get(0).toString());
+          }
+        }
+
+        unit.setDn(DN.createDNFromString(u.getDn().getValue()).escape());
+        pReturnValues.add(unit);
+      }
+      // Get functions
+      pAttributes = this.vgregionWebService.getReturnAttributesForFunction(VGRegionDirectory.KIV);
+      ArrayOfFunction searchFunctions = this.vgregionWebService.searchFunction(pSearchFilter, pAttributes, VGRegionDirectory.KIV, "ou=org,o=vgr", "2");
+      for (se.vgregion.kivtools.search.svc.ws.domain.kivws.Function u : searchFunctions.getFunction()) {
+        Unit unit = new Unit();
+        attributes = u.getAttributes().getValue().getEntry();
+        for (Entry entry : attributes) {
+          if (entry.getKey().equals("hsaidentity")) {
+            // Is single value attribute, safe to use .get index 0.
+            unit.setHsaIdentity(entry.getValue().getAnyType().get(0).toString());
+          }
+        }
+        // Function missing ou, parsing name from DN.
+        unit.setName(u.getDn().getValue().substring(3, u.getDn().getValue().indexOf(",")));
+        unit.setDn(DN.createDNFromString(u.getDn().getValue()).escape());
+        pReturnValues.add(unit);
+      }
+    } catch (VGRException_Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return pReturnValues;
   }
 
   private Person getHsaHealthCareUnitManagerByHsaID(String hsaHealthCareUnitManagerHsaId) {
-    String pSearchFilter = "(hsaIdentity=" + hsaHealthCareUnitManagerHsaId+ ")";
+    String pSearchFilter = "(hsaIdentity=" + hsaHealthCareUnitManagerHsaId + ")";
     ArrayOfString pAttributes;
 
     List<se.vgregion.kivtools.search.svc.ws.domain.kivws.Person> pPersons = null;
     Person pPerson = null;
     try {
       pAttributes = vgregionWebService.getReturnAttributesForPerson(VGRegionDirectory.KIV);
-      pPersons =   this.vgregionWebService.searchPerson(pSearchFilter, pAttributes,VGRegionDirectory.KIV, "o=vgr", "2").getPerson();
-      
-      for (se.vgregion.kivtools.search.svc.ws.domain.kivws.Person p: pPersons) {
-       pPerson = this.KivwsPersonMapper.mapFromContext(p);
-      }   
+      pPersons = this.vgregionWebService.searchPerson(pSearchFilter, pAttributes, VGRegionDirectory.KIV, "o=vgr", "2").getPerson();
+
+      for (se.vgregion.kivtools.search.svc.ws.domain.kivws.Person p : pPersons) {
+        pPerson = this.KivwsPersonMapper.mapFromContext(p);
+      }
     } catch (VGRException_Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    } 
-    
+    }
+
     return pPerson;
   }
 

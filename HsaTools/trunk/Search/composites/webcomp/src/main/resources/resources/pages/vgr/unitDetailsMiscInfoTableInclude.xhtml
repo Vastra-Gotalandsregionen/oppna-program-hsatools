@@ -43,24 +43,48 @@
 					<h:outputText
 						rendered="${fn:length(unit.hsaResponsibleHealthCareProvider) gt 0}">${msg.yes}</h:outputText>
 				</td>
-				<th id="main-vardval-klartext">Tillhörande enhet</th>
-				<td headers="main-vardval-klartext">
-					<div jsfc="ui:repeat" value="${unit.hsaHealthCareUnitMembers}"
-						var="healthCareUnitMember">
-						<a href="visaenhet?hsaidentity=${healthCareUnitMember}">
-							${healthCareUnitMember} </a>
+				<h:outputText rendered="${fn:length(unit.hsaResponsibleHealthCareProvider) gt 0}">
+						
+				<th id="hsahealthCareManger">Verksamhetschef</th>
+				<td><a
+					href="visaperson?vgrid=${unit.hsaHealthCareUnitManagerPerson.vgrId}">${unit.hsaHealthCareUnitManagerPerson.fullName}</a>
+				</td>
+				</h:outputText>
+				<h:outputText
+					rendered="${unit.hsaResponsibleHealthCareProvider == null or unit.hsaResponsibleHealthCareProvider == ''}">
+						
+				<th id="hsahealthCareManger"></th>
+				<td></td>
+				</h:outputText>
+
+			</tr>
+			<!-- Copy past -->
+			<h:outputText rendered="${fn:length(unit.hsaResponsibleHealthCareProvider) gt 0}">
+			<tr>
+				
+				<td  Colspan="2" headers="main-vardval-klartext">
+				<div ><b>Tillhörande enheter - namn i klartext</b></div>
+					<div jsfc="ui:repeat"
+						value="${unit.hsaHealthCareUnitMembersAsUnit}"
+						var="hsaHealthCareUnitMemberUnit">
+
+						<a href="visaenhet?hsaidentity=${hsaHealthCareUnitMemberUnit.hsaIdentity}">
+						${hsaHealthCareUnitMemberUnit.name}
+						</a>
+					</div>
+				</td>
+				
+				<td  Colspan="2" headers="main-vardval-klartext">
+				<div ><b>Tillhörande enheter - hsaID</b></div>
+					<div jsfc="ui:repeat"
+						value="${unit.hsaHealthCareUnitMembersAsUnit}"
+						var="hsaHealthCareUnitMemberUnit">
+						<a href="visaenhet?hsaidentity=${hsaHealthCareUnitMemberUnit.hsaIdentity}">
+						${hsaHealthCareUnitMemberUnit.hsaIdentity}
+						</a>
 					</div>
 				</td>
 			</tr>
-			<h:outputText
-				rendered="${fn:length(unit.hsaResponsibleHealthCareProvider) gt 0}">
-				<tr>
-					<th id="hsahealthCareManger">Verksamhetschef</th>
-					<td><a
-						href="visaperson?vgrid=${unit.hsaHealthCareUnitManagerPerson.vgrId}">${unit.hsaHealthCareUnitManagerPerson.fullName}</a></td>
-					<th id="vadSkaVaraHar"></th>
-					<td></td>
-				</tr>
 			</h:outputText>
 			<tr>
 				<th id="main-vardval-klartext">${msg.contractSigningForVGPV}</th>
