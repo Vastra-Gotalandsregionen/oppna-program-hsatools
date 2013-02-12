@@ -230,6 +230,7 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   private String hsaResponsibleHealthCareProvider;
   private final List<String> hsaHealthCareUnitMembers = new ArrayList<String>();
+  private List<Unit> hsaHealthCareUnitMembersAsUnit = new ArrayList<Unit>();
 
   private List<String> vgrObjectManagers = new ArrayList<String>();
 
@@ -1628,6 +1629,14 @@ public class Unit implements Serializable, Comparable<Unit> {
   public void addHsaHealthCareUnitMembers(List<String> hsaHealthCareUnitMembers) {
     if (hsaHealthCareUnitMembers != null) {
       this.hsaHealthCareUnitMembers.addAll(hsaHealthCareUnitMembers);
+    }
+  }
+  public List<Unit> getHsaHealthCareUnitMembersAsUnit() {
+    return hsaHealthCareUnitMembersAsUnit;
+  }
+  public void setHsaHealthCareUnitMembersAsUnit(List<Unit> units){
+    if(units !=null){
+      this.hsaHealthCareUnitMembersAsUnit = units; 
     }
   }
 

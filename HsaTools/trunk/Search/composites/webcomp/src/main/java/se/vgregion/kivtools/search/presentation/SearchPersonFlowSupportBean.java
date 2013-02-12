@@ -40,6 +40,7 @@ import se.vgregion.kivtools.search.presentation.types.PagedSearchMetaData;
 import se.vgregion.kivtools.search.svc.SearchService;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.search.svc.TimeMeasurement;
+import se.vgregion.kivtools.search.svc.comparators.PersonNameComparator;
 import se.vgregion.kivtools.search.svc.comparators.PersonNameWeightedComparator;
 import se.vgregion.kivtools.search.svc.ldap.criterions.SearchPersonCriterions;
 import se.vgregion.kivtools.search.util.LogUtils;
@@ -425,6 +426,9 @@ public class SearchPersonFlowSupportBean implements Serializable {
             }
           }
         }
+       // Sort list 
+        PersonNameComparator pnc = new PersonNameComparator();
+        Collections.sort(persons, pnc);
 
       }
       // stop measurement
