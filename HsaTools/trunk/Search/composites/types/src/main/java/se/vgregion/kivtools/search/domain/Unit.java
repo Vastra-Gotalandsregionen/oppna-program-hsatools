@@ -231,6 +231,16 @@ public class Unit implements Serializable, Comparable<Unit> {
   private String hsaResponsibleHealthCareProvider;
   private final List<String> hsaHealthCareUnitMembers = new ArrayList<String>();
   private List<Unit> hsaHealthCareUnitMembersAsUnit = new ArrayList<Unit>();
+  private String hsaHealthCareMemberOf; 
+
+
+  public String getHsaHealthCareMemberOf() {
+    return hsaHealthCareMemberOf;
+  }
+
+  public void setHsaHealthCareMemberOf(String hsaHealthCareMemberOf) {
+    this.hsaHealthCareMemberOf = hsaHealthCareMemberOf;
+  }
 
   private List<String> vgrObjectManagers = new ArrayList<String>();
 

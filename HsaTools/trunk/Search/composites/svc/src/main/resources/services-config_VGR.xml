@@ -142,13 +142,13 @@
 		<!-- see the example of method invoking job above -->
 		<property name="jobDetail" ref="jobDetailCodeTableCacheUpdate" />
 		<!-- 10 seconds -->
-		<property name="startDelay" value="10000" />
+		<property name="startDelay" value="1000000000" />
 		<!-- repeat every 24 hours -->
 		<property name="repeatInterval" value="86400000" />
 	</bean>
 
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-		<property name="startupDelay" value="10" />
+		<property name="startupDelay" value="100000" />
 		<property name="triggers">
 			<list>
 				<ref bean="simpleTriggerCodeTableCacheUpdate" />

@@ -394,10 +394,11 @@ public class UnitRepositoryKivwsTest {
 
   @Test
   public void testGetUnitByHsaId() throws KivException {
-    String expectedFilter = "(hsaIdentity=abc-123)";
+    String expectedFilterOU = "(hsaHealthCareUnitMember=abc-123)";
+    String expectedFilterCN = "(hsaIdentity=abc-123)";
     this.unitRepository.getUnitByHsaId("abc-123");
-    assertEquals(expectedFilter, this.portType.filterOU);
-    assertEquals(expectedFilter, this.portType.filterCN);
+    assertEquals(expectedFilterOU, this.portType.filterOU);
+    assertEquals(expectedFilterCN , this.portType.filterCN);
   }
 
   @Test
