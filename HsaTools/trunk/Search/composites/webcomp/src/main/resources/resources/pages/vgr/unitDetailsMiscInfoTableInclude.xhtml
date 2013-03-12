@@ -43,48 +43,67 @@
 					<h:outputText
 						rendered="${fn:length(unit.hsaResponsibleHealthCareProvider) gt 0}">${msg.yes}</h:outputText>
 				</td>
-				<h:outputText rendered="${fn:length(unit.hsaResponsibleHealthCareProvider) gt 0}">
-						
-				<th id="hsahealthCareManger">Verksamhetschef</th>
-				<td><a
-					href="visaperson?vgrid=${unit.hsaHealthCareUnitManagerPerson.vgrId}">${unit.hsaHealthCareUnitManagerPerson.fullName}</a>
-				</td>
+				<h:outputText
+					rendered="${fn:length(unit.hsaResponsibleHealthCareProvider) gt 0}">
+
+					<th id="hsahealthCareManger">Verksamhetschef</th>
+					<td><a
+						href="visaperson?vgrid=${unit.hsaHealthCareUnitManagerPerson.vgrId}">${unit.hsaHealthCareUnitManagerPerson.fullName}</a>
+					</td>
 				</h:outputText>
 				<h:outputText
 					rendered="${unit.hsaResponsibleHealthCareProvider == null or unit.hsaResponsibleHealthCareProvider == ''}">
-						
-				<th id="hsahealthCareManger"></th>
-				<td></td>
+
+					<th id="hsahealthCareManger"></th>
+					<td></td>
 				</h:outputText>
 
 			</tr>
-			<!-- Copy past -->
-			<h:outputText rendered="${fn:length(unit.hsaResponsibleHealthCareProvider) gt 0}">
 			<tr>
-				
-				<td  Colspan="2" headers="main-vardval-klartext">
-				<div ><b>Tillhörande enheter - namn i klartext</b></div>
-					<div jsfc="ui:repeat"
-						value="${unit.hsaHealthCareUnitMembersAsUnit}"
-						var="hsaHealthCareUnitMemberUnit">
-
-						<a href="visaenhet?hsaidentity=${hsaHealthCareUnitMemberUnit.hsaIdentity}">
-						${hsaHealthCareUnitMemberUnit.name}
-						</a>
-					</div>
+				<th id="hsaHealthCareMemberOf">Ingår i en Vårdenhet</th>
+				<td headers="main-hsaResponsibleHealthCareProvider"><h:outputText
+						rendered="${unit.hsaHealthCareMemberOf == null or unit.hsaHealthCareMemberOf == ''}">${msg.no}</h:outputText>
+					<h:outputText
+						rendered="${fn:length(unit.hsaHealthCareMemberOf) gt 0}">${msg.yes}</h:outputText>
 				</td>
-				
-				<td  Colspan="2" headers="main-vardval-klartext">
-				<div ><b>Tillhörande enheter - hsaID</b></div>
-					<div jsfc="ui:repeat"
-						value="${unit.hsaHealthCareUnitMembersAsUnit}"
-						var="hsaHealthCareUnitMemberUnit">
-						<a href="visaenhet?hsaidentity=${hsaHealthCareUnitMemberUnit.hsaIdentity}">
-						${hsaHealthCareUnitMemberUnit.hsaIdentity}
-						</a>
-					</div>
-				</td>
+				<th id="hsaHealthCareMemberOf">
+				<h:outputText
+						rendered="${fn:length(unit.hsaHealthCareMemberOf) gt 0}">Vårdenhetens hsaId</h:outputText>
+				</th>
+				<td><a href="visaenhet?hsaidentity=${unit.hsaHealthCareMemberOf}"> ${unit.hsaHealthCareMemberOf}</a></td>
 			</tr>
+			<!-- Copy past -->
+			<h:outputText
+				rendered="${fn:length(unit.hsaResponsibleHealthCareProvider) gt 0}">
+				<tr>
+
+					<td Colspan="2" headers="main-vardval-klartext">
+						<div>
+							<b>Tillhörande enheter - namn i klartext</b>
+						</div>
+						<div jsfc="ui:repeat"
+							value="${unit.hsaHealthCareUnitMembersAsUnit}"
+							var="hsaHealthCareUnitMemberUnit">
+
+							<a
+								href="visaenhet?hsaidentity=${hsaHealthCareUnitMemberUnit.hsaIdentity}">
+								${hsaHealthCareUnitMemberUnit.name} </a>
+						</div>
+					</td>
+
+					<td Colspan="2" headers="main-vardval-klartext">
+						<div>
+							<b>Tillhörande enheter - hsaID</b>
+						</div>
+						<div jsfc="ui:repeat"
+							value="${unit.hsaHealthCareUnitMembersAsUnit}"
+							var="hsaHealthCareUnitMemberUnit">
+							<a
+								href="visaenhet?hsaidentity=${hsaHealthCareUnitMemberUnit.hsaIdentity}">
+								${hsaHealthCareUnitMemberUnit.hsaIdentity} </a>
+						</div>
+					</td>
+				</tr>
 			</h:outputText>
 			<tr>
 				<th id="main-vardval-klartext">${msg.contractSigningForVGPV}</th>

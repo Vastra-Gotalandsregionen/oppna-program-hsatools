@@ -236,7 +236,7 @@ public class UnitRepositoryKivws implements UnitRepository {
    * 
    * @param hsaId The hsa id of the unit.
    * @return The unit with the given hsa id.
-   * @throws KivException .
+   * @throws KivException.
    */
   @Override
   public Unit getUnitByHsaId(String hsaId) throws KivException {
@@ -249,9 +249,34 @@ public class UnitRepositoryKivws implements UnitRepository {
     if (pUnit.getHsaHealthCareUnitMembers().size() > 0) {
       pUnit.setHsaHealthCareUnitMembersAsUnit(this.getSimpleUnitsByHsaId(pUnit.getHsaHealthCareUnitMembers()));
     }
+    pUnit.setHsaHealthCareMemberOf(getHsaIdWhereUnitIsHealthCareMember(hsaId));
+   
     return pUnit;
   }
-
+  /**
+   * Fetch unit hsaId by the hsaHealthCareUnitMembers hsaIDs. 
+   * 
+   * @param hsaId
+   * @return hsaId (string) - On healthCareUnit where unit is a member.
+   * @throws KivException
+   *
+   * This is a slow function, if necessary create a function similar to  "getSimpleUnitsByHsaId". 
+   * Mapping takes ages! (4-5 sec.) 
+   */
+  public String getHsaIdWhereUnitIsHealthCareMember(String hsaId) throws KivException{
+    Unit pUnit;
+    String pRetValue =""; 
+    String searchFilter = "(hsaHealthCareUnitMember=" + hsaId + ")";
+    
+    pUnit = this.searchUnitWithoutRoles(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilter);
+    
+    if (pUnit !=null ){
+      pRetValue = pUnit.getHsaIdentity();
+    }
+   
+    return pRetValue; 
+  }
+  
   /**
    * Method to get all related helthCareUnitMembers. When using "getunitByHsaId" the search sometimes took over 60 seconds! 
    * Only used in setHsaHealthCareUnitMembersAsUnit. 
@@ -444,7 +469,26 @@ public class UnitRepositoryKivws implements UnitRepository {
     }
     return result.get(0);
   }
-
+  /**
+   * 
+   * @param searchBase
+   * @param searchScope
+   * @param searchFilter
+   * @return Unit if exists else <b>null</b>. 
+   * @throws KivException
+   */
+  private Unit searchUnitWithoutRoles(DistinguishedName searchBase, int searchScope, String searchFilter) throws KivException {
+    // Since UnitMapper return Units we are certain that the suppression is ok
+    Unit pRetUnit; 
+    List<Unit> result = this.searchUnits(searchBase, searchFilter, searchScope, ATTRIBUTES);
+    if (result.size() == 0) {
+      pRetUnit = null;
+    } else {
+      pRetUnit = result.get(0);
+    }
+    return pRetUnit;
+  }
+  
   private SikSearchResultList<Unit> cleanAndSortResult(List<Unit> units, Comparator<Unit> sortOrder) {
     // Make sure we don't return duplicates
     Comparator<Unit> sortOrderCurrent = sortOrder;
