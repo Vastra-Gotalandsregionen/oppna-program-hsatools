@@ -98,7 +98,6 @@
 	<view-state id="Display.personDetails" view="/displayPersonDetails.xhtml">
 		<on-entry>
 			<evaluate expression="Display_DisplayPersonDetailsFlowSupportBean.getPersonDetails(flowScope.vgrid, externalContext)" result="flowScope.person" />
-			<evaluate expression="userEventService.retrieveUserEvents(person.givenName, person.sn, person.telephoneNumberOfFirstEmployment, person.mobileNumberOfFirstEmployment)" result="flowScope.userEvents" />
 			<set name="errorReportingForm.dn" value="flowScope.person.dn" />
 			<set name="errorReportingForm.reportText" value="null" />
 			<set name="flowScope.vgrid" value="flowScope.person.vgrId" />
@@ -112,7 +111,6 @@
 	<view-state id="Display.personDetailsByDn" view="/displayPersonDetails.xhtml">
 		<on-entry>
 			<evaluate expression="Display_DisplayPersonDetailsFlowSupportBean.getPersonDetailsByDn(flowScope.personDn, externalContext)" result="flowScope.person" />
-			<evaluate expression="userEventService.retrieveUserEvents(person.givenName, person.sn, person.telephoneNumberOfFirstEmployment, person.mobileNumberOfFirstEmployment)" result="flowScope.userEvents" />
 			<set name="errorReportingForm.dn" value="flowScope.person.dn" />
 			<set name="errorReportingForm.reportText" value="null" />
 			<set name="flowScope.vgrid" value="flowScope.person.vgrId" />
