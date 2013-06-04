@@ -1,6 +1,6 @@
 <!--
 
-    Copyright 2010 Västra Götalandsregionen
+    Copyright 2010 V��stra G��talandsregionen
 
       This library is free software; you can redistribute it and/or modify
       it under the terms of version 2.1 of the GNU Lesser General Public
@@ -31,9 +31,6 @@
 	<ui:repeat value="${person.employments}" var="employment">
 		<div><h:outputText>${employment.title}</h:outputText><h:outputText render="${employment.ou != ''}">, ${employment.ou}</h:outputText></div>	
 	</ui:repeat>
-	<h:outputText rendered="${not empty userEvents}">
-		<a href="#list-activities">Visa dagens aktiviteter</a>
-	</h:outputText>
 	<h:outputText rendered="false">
 		<h:outputText rendered="${person.profileImagePresent}">
 			<h:graphicImage value="image.servlet?dn=${person.dn}" styleClass="profile-image" />
