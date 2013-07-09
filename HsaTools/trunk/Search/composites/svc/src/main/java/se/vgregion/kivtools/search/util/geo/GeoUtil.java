@@ -128,7 +128,7 @@ public class GeoUtil {
   }
 
   /**
-   * @param rt90String HSA formatted RT90 coords: X: 1234567, Y: 1234567.
+   * @param rt90String HSA formatted RT90 coords: X:1234567, Y:1234567.
    * @return An array of RT90 coordinates.
    */
   public static int[] parseRT90HsaString(String rt90String) {
@@ -137,8 +137,8 @@ public class GeoUtil {
     if (!StringUtil.isEmpty(rt90String)) {
       rt90String = rt90String.replace(" ", "");
       if (rt90String.indexOf("X:") >= 0 && rt90String.indexOf("Y:") >= 0) {
-        int rt90X = Integer.parseInt(rt90String.substring(2, 9));
-        int rt90Y = Integer.parseInt(rt90String.substring(12));
+        int rt90X = Integer.parseInt(rt90String.substring(rt90String.indexOf("X:") +2, rt90String.indexOf(",Y:")));
+        int rt90Y = Integer.parseInt(rt90String.substring(rt90String.indexOf("Y:")+2));
         result = new int[] { rt90X, rt90Y };
       }
     }
