@@ -54,16 +54,17 @@ function toggleExtendDescription(base) {
 
 function toggleAdvancedSearch() {
 	var advancedPersonSearch = document.getElementById("advanced_search");
-	if (advancedPersonSearch.style.display == "none" || advancedPersonSearch.style.display == '') {
-		 advancedPersonSearch.style.display = "block";
-		 document.getElementById("advancedLinkText").style.display="none";
-		 document.getElementById("simpleLinkText").style.display="block";
-		 document.getElementById("searchType").value = "advanced";
+	if (advancedPersonSearch.style.display == "none"
+			|| advancedPersonSearch.style.display == '') {
+		advancedPersonSearch.style.display = "block";
+		document.getElementById("advancedLinkText").style.display = "none";
+		document.getElementById("simpleLinkText").style.display = "block";
+		document.getElementById("searchType").value = "advanced";
 	} else {
-		 advancedPersonSearch.style.display = "none";
-		 document.getElementById("advancedLinkText").style.display="block";
-		 document.getElementById("simpleLinkText").style.display="none";
-		 document.getElementById("searchType").value = "simple";
+		advancedPersonSearch.style.display = "none";
+		document.getElementById("advancedLinkText").style.display = "block";
+		document.getElementById("simpleLinkText").style.display = "none";
+		document.getElementById("searchType").value = "simple";
 	}
 	return false;
 }
@@ -78,15 +79,17 @@ function attachEvent() {
 
 	// array can contain object references, element ids, or both
 	var oMainElement = document.getElementById("search-result-container");
-	var arrChildren = oMainElement.getElementsByTagName('li');
-	var oCurrent;
+	if (oMainElement != null) {
+		var arrChildren = oMainElement.getElementsByTagName('li');
+		var oCurrent;
 
-	for ( var i = 0, l = arrChildren.length; i < l; i++) {
-		oCurrent = arrChildren[i];
-		YAHOO.util.Event.addListener(oCurrent, "mouseover", fnCallbackOver,
-				oCurrent);
-		YAHOO.util.Event.addListener(oCurrent, "mouseout", fnCallbackOut,
-				oCurrent);
+		for ( var i = 0, l = arrChildren.length; i < l; i++) {
+			oCurrent = arrChildren[i];
+			YAHOO.util.Event.addListener(oCurrent, "mouseover", fnCallbackOver,
+					oCurrent);
+			YAHOO.util.Event.addListener(oCurrent, "mouseout", fnCallbackOut,
+					oCurrent);
+		}
 	}
 }
 
@@ -177,35 +180,35 @@ function clearInputs() {
 	return false;
 }
 
-function showProgressText(){
+function showProgressText() {
 	var messageDiv = null;
-	var searchResult = null; 
+	var searchResult = null;
 	messageDiv = document.getElementById("messageDiv");
 	searchResult = document.getElementById("search-result-container");
-	
-	if(messageDiv !=null){
-		messageDiv.style.visibility = 'hidden'; 
-	} 
 
-	if(searchResult !=null){
-		searchResult.style.visibility = 'hidden'; 
+	if (messageDiv != null) {
+		messageDiv.style.visibility = 'hidden';
 	}
-	
+
+	if (searchResult != null) {
+		searchResult.style.visibility = 'hidden';
+	}
+
 	// Initialize the temporary Panel to display.
-	var progressBarPanel = new YAHOO.widget.Panel("progressBar",  
-		{ width:"240px", 
-		  height:"50px",
-		  fixedcenter:true, 
-		  close:false, 
-		  draggable:false, 
-		  zindex:914748364,
-		  modal:true,
-		  iframe:true,
-		  visible:false
-		});
+	var progressBarPanel = new YAHOO.widget.Panel("progressBar", {
+		width : "240px",
+		height : "50px",
+		fixedcenter : true,
+		close : false,
+		draggable : false,
+		zindex : 914748364,
+		modal : true,
+		iframe : true,
+		visible : false
+	});
 
 	progressBarPanel.setBody('<h2>Sökning pågår....</h2>');
-	//Needs to render the document for IE 
+	// Needs to render the document for IE
 	progressBarPanel.render(document.body);
-	progressBarPanel.show();		
+	progressBarPanel.show();
 }
