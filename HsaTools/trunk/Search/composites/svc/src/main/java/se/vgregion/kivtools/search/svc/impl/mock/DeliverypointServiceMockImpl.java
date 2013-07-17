@@ -148,4 +148,10 @@ public class DeliverypointServiceMockImpl implements DeliverypointService {
 		
 		return retval;
 	}
+
+	@Override
+	public List<Deliverypoint> getAllDeliverypoints() throws KivException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

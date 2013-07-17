@@ -31,6 +31,7 @@
 		<property name="personRepository" ref="Search_PersonRepository"></property>
 		<property name="unitRepository" ref="Search_UnitRepository"></property>
 		<property name="employmentRepository" ref="Search_EmploymentRepository"></property>
+	  	<property name="deliverypointService" ref="Search_KivwsDeliverypointService" ></property>
 	</bean>
 
 	<bean id="Search_PersonRepository"
