@@ -34,36 +34,38 @@ import se.vgregion.kivtools.util.Arguments;
  * @author Joakim Olsson
  */
 public class UnitCache {
-  private final List<Unit> units = new ArrayList<Unit>();
-  private final Map<String, Unit> unitsByDn = new HashMap<String, Unit>();
+	private final List<Unit> units = new ArrayList<Unit>();
+	private final Map<String, Unit> unitsByDn = new HashMap<String, Unit>();
 
-  public List<Unit> getUnits() {
-    return Collections.unmodifiableList(units);
-  }
+	public List<Unit> getUnits() {
+		return Collections.unmodifiableList(units);
+	}
 
-  /**
-   * Adds a new unit to the cache.
-   * 
-   * @param unit The unit to add to the cache.
-   */
-  public void add(Unit unit) {
-    Arguments.notNull("unit", unit);
+	/**
+	 * Adds a new unit to the cache.
+	 * 
+	 * @param unit
+	 *            The unit to add to the cache.
+	 */
+	public void add(Unit unit) {
+		Arguments.notNull("unit", unit);
 
-    if (!this.units.contains(unit)) {
-      this.units.add(unit);
-      if (unit.getDn() != null) {
-        this.unitsByDn.put(unit.getDn().toString(), unit);
-      }
-    }
-  }
+		if (!this.units.contains(unit)) {
+			this.units.add(unit);
+			if (unit.getDn() != null) {
+				this.unitsByDn.put(unit.getDn().toString(), unit);
+			}
+		}
+	}
 
-  /**
-   * Retrieves a unit from the cache using it's DN-string.
-   * 
-   * @param dnString The DN-string to use to retrieve a unit.
-   * @return the found unit or null if no unit was found.
-   */
-  public Unit getUnitByDnString(String dnString) {
-    return unitsByDn.get(dnString);
-  }
+	/**
+	 * Retrieves a unit from the cache using it's DN-string.
+	 * 
+	 * @param dnString
+	 *            The DN-string to use to retrieve a unit.
+	 * @return the found unit or null if no unit was found.
+	 */
+	public Unit getUnitByDnString(String dnString) {
+		return unitsByDn.get(dnString);
+	}
 }

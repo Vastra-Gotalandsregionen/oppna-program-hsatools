@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import se.vgregion.kivtools.search.domain.Deliverypoint;
 import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
@@ -217,5 +218,11 @@ public class PersonCacheLoaderImplTest {
 
       return null;
     }
+
+	@Override
+	public List<Deliverypoint> getAllDeliverypoints() throws KivException {
+		// TODO Auto-generated method stub
+		return null;
+	}
   }
 }

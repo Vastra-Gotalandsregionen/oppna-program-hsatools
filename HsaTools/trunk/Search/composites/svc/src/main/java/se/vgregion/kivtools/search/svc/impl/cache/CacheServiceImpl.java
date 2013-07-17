@@ -22,6 +22,7 @@ package se.vgregion.kivtools.search.svc.impl.cache;
 import java.util.concurrent.atomic.AtomicReference;
 
 import se.vgregion.kivtools.search.svc.cache.CacheLoader;
+import se.vgregion.kivtools.search.svc.cache.UnitCache;
 
 /**
  * Cache service for various information caching.
@@ -30,7 +31,7 @@ import se.vgregion.kivtools.search.svc.cache.CacheLoader;
  */
 public class CacheServiceImpl<T> {
   private final CacheLoader<T> cacheLoader;
-  private final AtomicReference<T> cache = new AtomicReference<T>();
+  private AtomicReference<T> cache = new AtomicReference<T>();
 
   /**
    * Constructs a new CacheService.
@@ -51,5 +52,8 @@ public class CacheServiceImpl<T> {
 
   public T getCache() {
     return cache.get();
+  }
+  public void setCache(T unitCache){
+	  this.cache.set(unitCache); 
   }
 }

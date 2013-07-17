@@ -40,5 +40,6 @@ public interface DeliverypointService {
 	   * @throws KivException .
 	   */
 	  Deliverypoint findDeliveryPointById(String hsaId) throws KivException;
-
+	  
+	  List<Deliverypoint> getAllDeliverypoints() throws KivException;
 }

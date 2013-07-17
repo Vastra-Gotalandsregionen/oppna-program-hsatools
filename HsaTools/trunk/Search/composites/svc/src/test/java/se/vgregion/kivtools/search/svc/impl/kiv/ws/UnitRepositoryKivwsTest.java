@@ -469,7 +469,7 @@ public class UnitRepositoryKivwsTest {
   // TODO: Cannot put two different care types 01 and 03 to the list. Correct query should be (&(hsaIdentity=abc-123)(|(vgrCareType=01)(vgrCareType=03)))
   @Test
   public void testGetUnitByHsaIdHasNotCareTypeInpatient() throws KivException {
-    String expectedOU = "(&(hsaIdentity=abc-123)(|(vgrCareType=01)(vgrCareType=01)(vgrCareType=01)))";
+    String expectedOU = "(hsaHealthCareUnitMember=abc-123)";
     String expectedCN = "(&(hsaIdentity=abc-123)(|(vgrCareType=01)(vgrCareType=01)(vgrCareType=01)))";
 
     this.codeTablesService.addListToMap(KivwsCodeTableName.VGR_CARE_TYPE, Arrays.asList("01"));
@@ -485,7 +485,7 @@ public class UnitRepositoryKivwsTest {
     Unit unit = this.unitRepository.getUnitByDN(DN.createDNFromString("ou=abc-123,ou=other"));
 
     assertNotNull(unit);
-    assertEquals("(ou=abc-123)", this.portType.filterOU);
+    assertEquals("(hsaHealthCareUnitMember=abc-123)", this.portType.filterOU);
   }
 
   @Test

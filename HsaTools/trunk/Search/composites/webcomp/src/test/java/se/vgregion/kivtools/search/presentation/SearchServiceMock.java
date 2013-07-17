@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import se.vgregion.kivtools.search.domain.Deliverypoint;
 import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
@@ -272,4 +273,10 @@ public class SearchServiceMock implements SearchService {
 
     return null;
   }
+
+@Override
+public List<Deliverypoint> getAllDeliverypoints() throws KivException {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

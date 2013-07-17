@@ -25,6 +25,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import se.vgregion.kivtools.search.domain.Deliverypoint;
 import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
@@ -415,4 +416,10 @@ public class SearchServiceMockImpl implements SearchService {
   public List<Person> getPersonByVgrManagedObject(String managedObject) throws KivException {
     return null; 
   }
+
+@Override
+public List<Deliverypoint> getAllDeliverypoints() throws KivException {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

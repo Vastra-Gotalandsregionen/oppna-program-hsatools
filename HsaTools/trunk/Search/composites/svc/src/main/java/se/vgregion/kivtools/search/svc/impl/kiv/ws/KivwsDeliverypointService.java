@@ -101,6 +101,13 @@ public class KivwsDeliverypointService implements DeliverypointService {
 			String unitHsaid) throws KivException {
 		List<Deliverypoint> result = null;
 		result = this.searchDeliveryPoint("(vgrOrgRel=" + unitHsaid + ")");
+
+		return result;
+	}
+	@Override
+	public List<Deliverypoint> getAllDeliverypoints() throws KivException{
+		List<Deliverypoint> result = null;
+		result = this.searchDeliveryPoint("(cn=*)"); 
 		return result;
 	}
 	

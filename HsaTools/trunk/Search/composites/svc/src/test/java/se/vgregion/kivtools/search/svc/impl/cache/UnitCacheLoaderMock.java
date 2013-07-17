@@ -20,6 +20,7 @@
 package se.vgregion.kivtools.search.svc.impl.cache;
 
 import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.svc.cache.CacheLoader;
 import se.vgregion.kivtools.search.svc.cache.UnitCache;
 
@@ -35,15 +36,16 @@ public class UnitCacheLoaderMock implements CacheLoader<UnitCache> {
   public UnitCache loadCache() {
     UnitCache unitCache = new UnitCache();
 
-    unitCache.add(this.createUnit("ABC-123", "Mölndals Sjukhus", TimePoint.atMidnightGMT(2010, 2, 10), null));
-    unitCache.add(this.createUnit("XYZ-987", "Angereds vårdcentral", TimePoint.atMidnightGMT(2010, 2, 10), TimePoint.atMidnightGMT(2010, 2, 16)));
-    unitCache.add(this.createUnit("JKL-654", "Slottsskogens vårdcentral", TimePoint.atMidnightGMT(2010, 2, 16), TimePoint.atMidnightGMT(2010, 2, 16)));
+    unitCache.add(this.createUnit("ou=test1,ou=org,o=vgr","ABC-123", "Mölndals Sjukhus", TimePoint.atMidnightGMT(2010, 2, 10), null));
+    unitCache.add(this.createUnit("ou=test2,ou=org,o=vgr","XYZ-987", "Angereds vårdcentral", TimePoint.atMidnightGMT(2010, 2, 10), TimePoint.atMidnightGMT(2010, 2, 16)));
+    unitCache.add(this.createUnit("ou=test3,ou=org,o=vgr","JKL-654", "Slottsskogens vårdcentral", TimePoint.atMidnightGMT(2010, 2, 16), TimePoint.atMidnightGMT(2010, 2, 16)));
 
     return unitCache;
   }
 
-  private Unit createUnit(String hsaIdentity, String name, TimePoint createTimestamp, TimePoint modifyTimestamp) {
+  private Unit createUnit(String dn, String hsaIdentity, String name, TimePoint createTimestamp, TimePoint modifyTimestamp) {
     Unit unit = new Unit();
+    unit.setDn(DN.createDNFromString(dn));
     unit.setHsaIdentity(hsaIdentity);
     unit.setName(name);
     unit.setCreateTimestamp(createTimestamp);

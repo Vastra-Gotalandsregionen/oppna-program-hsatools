@@ -19,24 +19,12 @@
 
 package se.vgregion.kivtools.search.svc.cache;
 
-/**
- * Loader for a cache.
- * 
- * @param <T>
- *            The type of cache to load.
- */
-public interface CacheLoader<T> {
-	/**
-	 * Loads the cache from the LDAP directory.
-	 * 
-	 * @return A fully populated cache instance.
-	 */
-	T loadCache();
+public interface DeliverypointCacheLoader {
 
 	/**
-	 * Creates an empty cache.
+	 * Loads the DeliverypointCache from the LDAP directory.
 	 * 
-	 * @return An empty cache.
+	 * @return A fully populated DeliverypointCache instance.
 	 */
-	T createEmptyCache();
+	DeliveryPointCache loadCache();
 }

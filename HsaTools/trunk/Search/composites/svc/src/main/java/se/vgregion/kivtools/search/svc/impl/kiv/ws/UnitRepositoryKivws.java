@@ -388,7 +388,18 @@ public class UnitRepositoryKivws implements UnitRepository {
     andFilterList.add("(hsaIdentity=" + hsaId + ")");
     andFilterList.add(careTypesFilterList.encode());
     searchFilterString = this.makeAnd(andFilterList);
-    return this.searchUnit(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilterString);
+    //return this.searchUnit(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilterString);
+    
+    Unit pUnit = this.searchUnit(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilterString);
+    if (pUnit.getHsaHealthCareUnitManagerHsaId().length() > 0 && pUnit.getHsaHealthCareUnitManagerHsaId() != null) {
+      pUnit.setHsaHealthCareUnitManagerPerson(this.getHsaHealthCareUnitManagerByHsaID(pUnit.getHsaHealthCareUnitManagerHsaId()));
+    }
+    if (pUnit.getHsaHealthCareUnitMembers().size() > 0) {
+      pUnit.setHsaHealthCareUnitMembersAsUnit(this.getSimpleUnitsByHsaId(pUnit.getHsaHealthCareUnitMembers()));
+    }
+    pUnit.setHsaHealthCareMemberOf(getHsaIdWhereUnitIsHealthCareMember(hsaId));
+   
+    return pUnit;
   }
 
   /**
@@ -403,6 +414,15 @@ public class UnitRepositoryKivws implements UnitRepository {
     Unit u = null;
     DistinguishedName distinguishedName = new DistinguishedName(dn.escape().toString());
     u = this.lookupUnit(distinguishedName, ATTRIBUTES);
+       
+    if (u.getHsaHealthCareUnitManagerHsaId().length() > 0 && u.getHsaHealthCareUnitManagerHsaId() != null) {
+      u.setHsaHealthCareUnitManagerPerson(this.getHsaHealthCareUnitManagerByHsaID(u.getHsaHealthCareUnitManagerHsaId()));
+    }
+    if (u.getHsaHealthCareUnitMembers().size() > 0) {
+      u.setHsaHealthCareUnitMembersAsUnit(this.getSimpleUnitsByHsaId(u.getHsaHealthCareUnitMembers()));
+    }
+    u.setHsaHealthCareMemberOf(getHsaIdWhereUnitIsHealthCareMember(u.getHsaIdentity()));
+   
     return u;
   }
 
@@ -441,11 +461,13 @@ public class UnitRepositoryKivws implements UnitRepository {
    */
   @Override
   public List<Unit> getAllUnits(boolean onlyPublicUnits) {
+	this.kivwsUnitMapper.setMapDeliverypoint(false);
     String searchFilter = this.createAllUnitsFilter(onlyPublicUnits);
 
     List<Unit> result = new ArrayList<Unit>();
     result.addAll(this.searchUnits(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES));
     result.addAll(this.searchFunctionUnits(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES));
+    this.kivwsUnitMapper.setMapDeliverypoint(true);
     return result;
   }
 
@@ -1031,9 +1053,12 @@ public class UnitRepositoryKivws implements UnitRepository {
   private List<Unit> mapKivwsUnitToUnit(ArrayOfUnit arrayOfUnit) {
     List<se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit> unit = arrayOfUnit.getUnit();
     List<Unit> result = new ArrayList<Unit>();
+    
     for (se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit kivwsUnit : unit) {
-      result.add(this.kivwsUnitMapper.mapFromContext(kivwsUnit));
+    	result.add(this.kivwsUnitMapper.mapFromContext(kivwsUnit));
+      
     }
+   
     return result;
   }
 

@@ -22,6 +22,7 @@ package se.vgregion.kivtools.search.svc;
 import java.util.Comparator;
 import java.util.List;
 
+import se.vgregion.kivtools.search.domain.Deliverypoint;
 import se.vgregion.kivtools.search.domain.Employment;
 import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
@@ -116,6 +117,10 @@ public interface SearchService {
    */
   public SikSearchResultList<Employment> getEmployments(String personDn) throws KivException;
 
+  
+  
+  public List<Deliverypoint> getAllDeliverypoints() throws KivException;
+  
   /**
    * Returns a list with hsaIdentities of all Units and functions.
    * 
