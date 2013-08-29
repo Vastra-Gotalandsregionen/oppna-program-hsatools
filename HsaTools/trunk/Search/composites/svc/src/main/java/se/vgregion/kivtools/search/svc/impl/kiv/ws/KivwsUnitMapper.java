@@ -71,7 +71,6 @@ public class KivwsUnitMapper implements ContextMapper {
 
 
 
-	private boolean mapDeliverypoint = true;
 
 	/**
 	 * Constructs a new UnitMapper.
@@ -88,192 +87,189 @@ public class KivwsUnitMapper implements ContextMapper {
 		this.displayValueTranslator = displayValueTranslator;
 		this.deliveryPointService = deliveryPointService;
 	}
-	public boolean isMapDeliverypoint() {
-		return mapDeliverypoint;
-	}
-
-	public void setMapDeliverypoint(boolean mapDeliverypoint) {
-		this.mapDeliverypoint = mapDeliverypoint;
-	}
-	@Override
-	public Unit mapFromContext(Object ctx) {
-		Unit unit = new Unit();
-
-		List<Entry> attributes = null;
-		if (ctx instanceof Function) {
-			Function kivwsFunction = (Function) ctx;
-			unit.setDn(DN.createDNFromString(kivwsFunction.getDn().getValue())
-					.escape());
-			attributes = kivwsFunction.getAttributes().getValue().getEntry();
-		} else if (ctx instanceof se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit) {
-			se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit kivwsUnit = (se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit) ctx;
-			unit.setDn(DN.createDNFromString(kivwsUnit.getDn().getValue())
-					.escape());
-			attributes = kivwsUnit.getAttributes().getValue().getEntry();
-		} else {
-			throw new RuntimeException(
-					"Object is not a type of Function or Unit");
-		}
-
-		AttributeHelper attributeHelper = new AttributeHelper();
-
-		for (Entry entry : attributes) {
-			attributeHelper.add(entry.getKey(), entry.getValue().getAnyType());
-		}
-
-		unit.setOu(attributeHelper.getSingleValue(KivwsAttributes.OU));
-
-		unit.setHsaIdentity(attributeHelper
-				.getSingleValue(KivwsAttributes.HSA_IDENTITY));
-		unit.setContractCode(attributeHelper
-				.getSingleValue(KivwsAttributes.VGR_AVTALSKOD));
-
-		String timeStamp = attributeHelper
-				.getSingleValue(KivwsAttributes.CREATE_TIMESTAMP);
-		if (!StringUtil.isEmpty(timeStamp)) {
-			unit.setCreateTimestamp(TimePoint.parseFrom(timeStamp,
-					"yyyyMMddHHmmss", TimeZone.getDefault()));
-		}
-
-		timeStamp = attributeHelper
-				.getSingleValue(KivwsAttributes.VGR_MODIFY_TIMESTAMP);
-		if (!StringUtil.isEmpty(timeStamp)) {
-			unit.setModifyTimestamp(TimePoint.parseFrom(timeStamp,
-					"yyyyMMddHHmmss", TimeZone.getDefault()));
-		}
-		unit.addDescription(attributeHelper
-				.getMultiValue(KivwsAttributes.DESCRIPTION));
-		unit.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(attributeHelper
-				.getSingleValue(KivwsAttributes.FACSIMILE_TELEPHONE_NUMBER)));
-		unit.setHsaCountyCode(attributeHelper
-				.getSingleValue(KivwsAttributes.HSA_COUNTY_CODE));
-		unit.addHsaDropInHours(WeekdayTime
-				.createWeekdayTimeList(attributeHelper
-						.getMultiValue(KivwsAttributes.HSA_DROPIN_HOURS)));
-		unit.setHsaEndDate(TimeUtil.parseStringToZuluTime(attributeHelper
-				.getSingleValue(KivwsAttributes.HSA_END_DATE)));
-		unit.setHsaInternalAddress(AddressHelper
-				.convertToAddress(attributeHelper
-						.getMultiValue(KivwsAttributes.HSA_INTERNAL_ADDRESS)));
-		unit.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(attributeHelper
-				.getSingleValue(KivwsAttributes.PAGER_TELEPHONE_NUMBER)));
-		unit.setHsaPostalAddress(AddressHelper.convertToAddress(attributeHelper
-				.getMultiValue(KivwsAttributes.HSA_POSTAL_ADDRESS)));
-		List<PhoneNumber> createPhoneNumberList = PhoneNumber
-				.createPhoneNumberList(attributeHelper
-						.getMultiValue(KivwsAttributes.HSA_PUBLIC_TELEPHONE_NUMBER));
-		for (PhoneNumber phoneNumber : createPhoneNumberList) {
-			unit.addHsaPublicTelephoneNumber(phoneNumber);
-		}
-		unit.addHsaRoute(attributeHelper
-				.getMultiValue(KivwsAttributes.HSA_ROUTE));
-		unit.setHsaSedfDeliveryAddress(AddressHelper.convertToAddress(attributeHelper
-				.getMultiValue(KivwsAttributes.HSA_SEDF_DELIVERY_ADDRESS)));
-		unit.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress(attributeHelper
-				.getMultiValue(KivwsAttributes.HSA_SEDF_INVOICE_ADDRESS)));
-		unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(attributeHelper
-				.getSingleValue(KivwsAttributes.HSA_SEDF_SWITCHBOARD_TELEPHONE_NO)));
-		unit.setHsaStreetAddress(AddressHelper
-				.convertToStreetAddress(attributeHelper
-						.getMultiValue(KivwsAttributes.HSA_STREET_ADDRESS)));
-		unit.addHsaSurgeryHours(WeekdayTime
-				.createWeekdayTimeList(attributeHelper
-						.getMultiValue(KivwsAttributes.HSA_SURGERY_HOURS)));
-		unit.addHsaTelephoneNumber(PhoneNumber
-				.createPhoneNumberList(attributeHelper
-						.getMultiValue(KivwsAttributes.HSA_TELEPHONE_NUMBER)));
-		unit.addHsaTelephoneTimes(WeekdayTime
-				.createWeekdayTimeList(attributeHelper
-						.getMultiValue(KivwsAttributes.HSA_TELEPHONE_TIME)));
-		unit.setHsaTextPhoneNumber(PhoneNumber
-				.createPhoneNumber(attributeHelper
-						.getSingleValue(KivwsAttributes.HSA_TEXT_PHONE_NUMBER)));
-		unit.setHsaUnitPrescriptionCode(attributeHelper
-				.getSingleValue(KivwsAttributes.HSA_UNIT_PRESCRIPTION_CODE));
-		unit.setHsaVisitingRuleAge(attributeHelper
-				.getSingleValue(KivwsAttributes.HSA_VISITING_RULE_AGE));
-		unit.setHsaVisitingRules(attributeHelper
-				.getSingleValue(KivwsAttributes.HSA_VISITING_RULES));
-		unit.setHsaPatientVisitingRules(attributeHelper
-				.getSingleValue(KivwsAttributes.HSA_PATIENT_VISITING_RULES));
-		unit.addInternalDescription(attributeHelper
-				.getMultiValue(KivwsAttributes.VGR_INTERNAL_DESCRIPTION));
-		unit.setIsUnit(ctx instanceof se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit);
-
-		String labeledURI = attributeHelper
-				.getSingleValue(KivwsAttributes.LABELED_URI);
-		labeledURI = this.fixURI(labeledURI);
-		unit.setLabeledURI(labeledURI);
-
-		String vgrLabeledURI = attributeHelper
-				.getSingleValue(KivwsAttributes.VGR_LABELED_URI);
-		vgrLabeledURI = this.fixURI(vgrLabeledURI);
-		unit.setInternalWebsite(vgrLabeledURI);
-
-		unit.setLocality(attributeHelper.getSingleValue(KivwsAttributes.L));
-		unit.setMail(attributeHelper.getSingleValue(KivwsAttributes.MAIL));
-		unit.setMobileTelephoneNumber(PhoneNumber.createPhoneNumber(attributeHelper
-				.getSingleValue(KivwsAttributes.MOBILE_TELEPHONE_NUMBER)));
-
-		this.populateUnitName(unit, attributeHelper);
-		unit.setObjectClass(attributeHelper
-				.getSingleValue(KivwsAttributes.OBJECT_CLASS));
-
-		unit.setOrganizationalUnitNameShort(attributeHelper
-				.getSingleValue(KivwsAttributes.ORGANIZATIONAL_UNITNAME_SHORT));
-		unit.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(attributeHelper
-				.getSingleValue(KivwsAttributes.PAGER_TELEPHONE_NUMBER)));
-		this.populateGeoCoordinates(unit, attributeHelper);
-		unit.setVgrAnsvarsnummer(attributeHelper
-				.getMultiValue(KivwsAttributes.VGR_ANSVARSNUMMER));
-		unit.setVgrInternalSedfInvoiceAddress(attributeHelper
-				.getSingleValue(KivwsAttributes.VGR_INTERNAL_SEDF_INVOICE_ADDRESS));
-		unit.setVgrTempInfo(attributeHelper
-				.getSingleValue(KivwsAttributes.VGR_TEMP_INFO));
-		unit.setVgrRefInfo(attributeHelper
-				.getSingleValue(KivwsAttributes.VGR_REF_INFO));
-		unit.setVgrVardVal("J".equalsIgnoreCase(attributeHelper
-				.getSingleValue(KivwsAttributes.VGR_VARDVAL)));
-		unit.setVisitingHours(WeekdayTime.createWeekdayTimeList(attributeHelper
-				.getMultiValue(KivwsAttributes.HSA_VISITING_HOURS)));
-		unit.setVisitingRuleReferral(attributeHelper
-				.getSingleValue(KivwsAttributes.HSA_VISITING_RULE_REFERRAL));
-
-		List<String> indicators = attributeHelper
-				.getMultiValue(KivwsAttributes.HSA_DESTINATION_INDICATOR);
-		for (String indicator : indicators) {
-			unit.addHsaDestinationIndicator(indicator);
-		}
-
-		unit.setHsaBusinessType(attributeHelper
-				.getSingleValue(KivwsAttributes.HSA_BUSINESS_TYPE));
-		unit.setHsaHealthCareUnitManagerHsaId(attributeHelper
-				.getSingleValue(KivwsAttributes.HSA_HEALTH_CARE_UNIT_MANAGER));
-
-		this.assignCodeTableValuesToUnit(unit, attributeHelper);
-		// As the last step, let HealthcareTypeConditionHelper figure out which
-		// healthcare type(s) this unit belongs to
-		HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
-		List<HealthcareType> healthcareTypes = htch
-				.getHealthcareTypesForUnit(unit);
-		unit.addHealthcareTypes(healthcareTypes);
-		// Visiting rules and age interval should be shown at all times
-		unit.setShowVisitingRules(true);
-		unit.setShowAgeInterval(true);
-
-		unit.setHsaResponsibleHealthCareProvider(attributeHelper
-				.getSingleValue(KivwsAttributes.HSA_RESPONSIBLE_HEALTH_CARE_PROVIDER));
-		unit.addHsaHealthCareUnitMembers(attributeHelper
-				.getMultiValue(KivwsAttributes.HSA_HEALTH_CARE_UNIT_MEMBER));
-		unit.setVgrObjectManagers(attributeHelper
-				.getMultiValue(KivwsAttributes.VGR_OBJECT_MANAGERS));
-		if (this.isMapDeliverypoint()){
-			this.populateDeliverypointAddresses(unit);
-		}
+  @Override
+  public Unit mapFromContext(Object ctx) {
+    Unit unit = mapFromContext(ctx,true);
 
 		return unit;
 	}
+	public Unit mapFromContext(Object ctx, boolean mapDeliverypoint) {
+    Unit unit = new Unit();
 
+    List<Entry> attributes = null;
+    if (ctx instanceof Function) {
+      Function kivwsFunction = (Function) ctx;
+      unit.setDn(DN.createDNFromString(kivwsFunction.getDn().getValue())
+          .escape());
+      attributes = kivwsFunction.getAttributes().getValue().getEntry();
+    } else if (ctx instanceof se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit) {
+      se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit kivwsUnit = (se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit) ctx;
+      unit.setDn(DN.createDNFromString(kivwsUnit.getDn().getValue())
+          .escape());
+      attributes = kivwsUnit.getAttributes().getValue().getEntry();
+    } else {
+      throw new RuntimeException(
+          "Object is not a type of Function or Unit");
+    }
+
+    AttributeHelper attributeHelper = new AttributeHelper();
+
+    for (Entry entry : attributes) {
+      attributeHelper.add(entry.getKey(), entry.getValue().getAnyType());
+    }
+
+    unit.setOu(attributeHelper.getSingleValue(KivwsAttributes.OU));
+
+    unit.setHsaIdentity(attributeHelper
+        .getSingleValue(KivwsAttributes.HSA_IDENTITY));
+    unit.setContractCode(attributeHelper
+        .getSingleValue(KivwsAttributes.VGR_AVTALSKOD));
+
+    String timeStamp = attributeHelper
+        .getSingleValue(KivwsAttributes.CREATE_TIMESTAMP);
+    if (!StringUtil.isEmpty(timeStamp)) {
+      unit.setCreateTimestamp(TimePoint.parseFrom(timeStamp,
+          "yyyyMMddHHmmss", TimeZone.getDefault()));
+    }
+
+    timeStamp = attributeHelper
+        .getSingleValue(KivwsAttributes.VGR_MODIFY_TIMESTAMP);
+    if (!StringUtil.isEmpty(timeStamp)) {
+      unit.setModifyTimestamp(TimePoint.parseFrom(timeStamp,
+          "yyyyMMddHHmmss", TimeZone.getDefault()));
+    }
+    unit.addDescription(attributeHelper
+        .getMultiValue(KivwsAttributes.DESCRIPTION));
+    unit.setFacsimileTelephoneNumber(PhoneNumber.createPhoneNumber(attributeHelper
+        .getSingleValue(KivwsAttributes.FACSIMILE_TELEPHONE_NUMBER)));
+    unit.setHsaCountyCode(attributeHelper
+        .getSingleValue(KivwsAttributes.HSA_COUNTY_CODE));
+    unit.addHsaDropInHours(WeekdayTime
+        .createWeekdayTimeList(attributeHelper
+            .getMultiValue(KivwsAttributes.HSA_DROPIN_HOURS)));
+    unit.setHsaEndDate(TimeUtil.parseStringToZuluTime(attributeHelper
+        .getSingleValue(KivwsAttributes.HSA_END_DATE)));
+    unit.setHsaInternalAddress(AddressHelper
+        .convertToAddress(attributeHelper
+            .getMultiValue(KivwsAttributes.HSA_INTERNAL_ADDRESS)));
+    unit.setHsaInternalPagerNumber(PhoneNumber.createPhoneNumber(attributeHelper
+        .getSingleValue(KivwsAttributes.PAGER_TELEPHONE_NUMBER)));
+    unit.setHsaPostalAddress(AddressHelper.convertToAddress(attributeHelper
+        .getMultiValue(KivwsAttributes.HSA_POSTAL_ADDRESS)));
+    List<PhoneNumber> createPhoneNumberList = PhoneNumber
+        .createPhoneNumberList(attributeHelper
+            .getMultiValue(KivwsAttributes.HSA_PUBLIC_TELEPHONE_NUMBER));
+    for (PhoneNumber phoneNumber : createPhoneNumberList) {
+      unit.addHsaPublicTelephoneNumber(phoneNumber);
+    }
+    unit.addHsaRoute(attributeHelper
+        .getMultiValue(KivwsAttributes.HSA_ROUTE));
+    unit.setHsaSedfDeliveryAddress(AddressHelper.convertToAddress(attributeHelper
+        .getMultiValue(KivwsAttributes.HSA_SEDF_DELIVERY_ADDRESS)));
+    unit.setHsaSedfInvoiceAddress(AddressHelper.convertToAddress(attributeHelper
+        .getMultiValue(KivwsAttributes.HSA_SEDF_INVOICE_ADDRESS)));
+    unit.setHsaSedfSwitchboardTelephoneNo(PhoneNumber.createPhoneNumber(attributeHelper
+        .getSingleValue(KivwsAttributes.HSA_SEDF_SWITCHBOARD_TELEPHONE_NO)));
+    unit.setHsaStreetAddress(AddressHelper
+        .convertToStreetAddress(attributeHelper
+            .getMultiValue(KivwsAttributes.HSA_STREET_ADDRESS)));
+    unit.addHsaSurgeryHours(WeekdayTime
+        .createWeekdayTimeList(attributeHelper
+            .getMultiValue(KivwsAttributes.HSA_SURGERY_HOURS)));
+    unit.addHsaTelephoneNumber(PhoneNumber
+        .createPhoneNumberList(attributeHelper
+            .getMultiValue(KivwsAttributes.HSA_TELEPHONE_NUMBER)));
+    unit.addHsaTelephoneTimes(WeekdayTime
+        .createWeekdayTimeList(attributeHelper
+            .getMultiValue(KivwsAttributes.HSA_TELEPHONE_TIME)));
+    unit.setHsaTextPhoneNumber(PhoneNumber
+        .createPhoneNumber(attributeHelper
+            .getSingleValue(KivwsAttributes.HSA_TEXT_PHONE_NUMBER)));
+    unit.setHsaUnitPrescriptionCode(attributeHelper
+        .getSingleValue(KivwsAttributes.HSA_UNIT_PRESCRIPTION_CODE));
+    unit.setHsaVisitingRuleAge(attributeHelper
+        .getSingleValue(KivwsAttributes.HSA_VISITING_RULE_AGE));
+    unit.setHsaVisitingRules(attributeHelper
+        .getSingleValue(KivwsAttributes.HSA_VISITING_RULES));
+    unit.setHsaPatientVisitingRules(attributeHelper
+        .getSingleValue(KivwsAttributes.HSA_PATIENT_VISITING_RULES));
+    unit.addInternalDescription(attributeHelper
+        .getMultiValue(KivwsAttributes.VGR_INTERNAL_DESCRIPTION));
+    unit.setIsUnit(ctx instanceof se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit);
+
+    String labeledURI = attributeHelper
+        .getSingleValue(KivwsAttributes.LABELED_URI);
+    labeledURI = this.fixURI(labeledURI);
+    unit.setLabeledURI(labeledURI);
+
+    String vgrLabeledURI = attributeHelper
+        .getSingleValue(KivwsAttributes.VGR_LABELED_URI);
+    vgrLabeledURI = this.fixURI(vgrLabeledURI);
+    unit.setInternalWebsite(vgrLabeledURI);
+
+    unit.setLocality(attributeHelper.getSingleValue(KivwsAttributes.L));
+    unit.setMail(attributeHelper.getSingleValue(KivwsAttributes.MAIL));
+    unit.setMobileTelephoneNumber(PhoneNumber.createPhoneNumber(attributeHelper
+        .getSingleValue(KivwsAttributes.MOBILE_TELEPHONE_NUMBER)));
+
+    this.populateUnitName(unit, attributeHelper);
+    unit.setObjectClass(attributeHelper
+        .getSingleValue(KivwsAttributes.OBJECT_CLASS));
+
+    unit.setOrganizationalUnitNameShort(attributeHelper
+        .getSingleValue(KivwsAttributes.ORGANIZATIONAL_UNITNAME_SHORT));
+    unit.setPagerTelephoneNumber(PhoneNumber.createPhoneNumber(attributeHelper
+        .getSingleValue(KivwsAttributes.PAGER_TELEPHONE_NUMBER)));
+    this.populateGeoCoordinates(unit, attributeHelper);
+    unit.setVgrAnsvarsnummer(attributeHelper
+        .getMultiValue(KivwsAttributes.VGR_ANSVARSNUMMER));
+    unit.setVgrInternalSedfInvoiceAddress(attributeHelper
+        .getSingleValue(KivwsAttributes.VGR_INTERNAL_SEDF_INVOICE_ADDRESS));
+    unit.setVgrTempInfo(attributeHelper
+        .getSingleValue(KivwsAttributes.VGR_TEMP_INFO));
+    unit.setVgrRefInfo(attributeHelper
+        .getSingleValue(KivwsAttributes.VGR_REF_INFO));
+    unit.setVgrVardVal("J".equalsIgnoreCase(attributeHelper
+        .getSingleValue(KivwsAttributes.VGR_VARDVAL)));
+    unit.setVisitingHours(WeekdayTime.createWeekdayTimeList(attributeHelper
+        .getMultiValue(KivwsAttributes.HSA_VISITING_HOURS)));
+    unit.setVisitingRuleReferral(attributeHelper
+        .getSingleValue(KivwsAttributes.HSA_VISITING_RULE_REFERRAL));
+
+    List<String> indicators = attributeHelper
+        .getMultiValue(KivwsAttributes.HSA_DESTINATION_INDICATOR);
+    for (String indicator : indicators) {
+      unit.addHsaDestinationIndicator(indicator);
+    }
+
+    unit.setHsaBusinessType(attributeHelper
+        .getSingleValue(KivwsAttributes.HSA_BUSINESS_TYPE));
+    unit.setHsaHealthCareUnitManagerHsaId(attributeHelper
+        .getSingleValue(KivwsAttributes.HSA_HEALTH_CARE_UNIT_MANAGER));
+
+    this.assignCodeTableValuesToUnit(unit, attributeHelper);
+    // As the last step, let HealthcareTypeConditionHelper figure out which
+    // healthcare type(s) this unit belongs to
+    HealthcareTypeConditionHelper htch = new HealthcareTypeConditionHelper();
+    List<HealthcareType> healthcareTypes = htch
+        .getHealthcareTypesForUnit(unit);
+    unit.addHealthcareTypes(healthcareTypes);
+    // Visiting rules and age interval should be shown at all times
+    unit.setShowVisitingRules(true);
+    unit.setShowAgeInterval(true);
+
+    unit.setHsaResponsibleHealthCareProvider(attributeHelper
+        .getSingleValue(KivwsAttributes.HSA_RESPONSIBLE_HEALTH_CARE_PROVIDER));
+    unit.addHsaHealthCareUnitMembers(attributeHelper
+        .getMultiValue(KivwsAttributes.HSA_HEALTH_CARE_UNIT_MEMBER));
+    unit.setVgrObjectManagers(attributeHelper
+        .getMultiValue(KivwsAttributes.VGR_OBJECT_MANAGERS));
+    if (mapDeliverypoint){
+      this.populateDeliverypointAddresses(unit);
+    }
+
+    return unit;
+  }
 	private void populateDeliverypointAddresses(Unit unit) {
 		try {
 			List<Deliverypoint> unitdeliverypoints = this.deliveryPointService
