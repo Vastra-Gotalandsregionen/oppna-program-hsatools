@@ -117,7 +117,7 @@ public class UnitRepositoryKivws implements UnitRepository {
     String searchFilterOU = this.createAdvancedSearchFilter(unit, onlyPublicUnits, false);
     String searchFilterCN = this.createAdvancedSearchFilter(unit, onlyPublicUnits, true);
 
-    List<Unit> searchOUresult = this.searchUnits(this.getSearchBase(), searchFilterOU, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
+    List<Unit> searchOUresult = this.searchUnits(this.getSearchBase(), searchFilterOU, SearchControls.SUBTREE_SCOPE, ATTRIBUTES,false);
     List<Unit> searchCNResult = this.searchFunctionUnits(this.getSearchBase(), searchFilterCN, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
     searchOUresult.addAll(searchCNResult);
     SikSearchResultList<Unit> units = this.cleanAndSortResult(searchOUresult, sortOrder);
@@ -215,7 +215,7 @@ public class UnitRepositoryKivws implements UnitRepository {
     String searchFilterOU = this.createSearchFilter(searchUnitCriterions, false);
     String searchFilterCN = this.createSearchFilter(searchUnitCriterions, true);
 
-    List<Unit> searchResultForOuUnits = this.searchUnits(this.getSearchBase(), searchFilterOU, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
+    List<Unit> searchResultForOuUnits = this.searchUnits(this.getSearchBase(), searchFilterOU, SearchControls.SUBTREE_SCOPE, ATTRIBUTES,false);
     List<Unit> searchResultForCnUnits = this.searchFunctionUnits(this.getSearchBase(), searchFilterCN, SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
     searchResultForOuUnits.addAll(searchResultForCnUnits);
 
@@ -242,7 +242,7 @@ public class UnitRepositoryKivws implements UnitRepository {
   public Unit getUnitByHsaId(String hsaId) throws KivException {
     Unit pUnit;
     String searchFilter = "(hsaIdentity=" + hsaId + ")";
-    pUnit = this.searchUnit(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilter);
+    pUnit = this.searchUnit(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilter,true);
     if (pUnit.getHsaHealthCareUnitManagerHsaId().length() > 0 && pUnit.getHsaHealthCareUnitManagerHsaId() != null) {
       pUnit.setHsaHealthCareUnitManagerPerson(this.getHsaHealthCareUnitManagerByHsaID(pUnit.getHsaHealthCareUnitManagerHsaId()));
     }
@@ -260,8 +260,6 @@ public class UnitRepositoryKivws implements UnitRepository {
    * @return hsaId (string) - On healthCareUnit where unit is a member.
    * @throws KivException
    *
-   * This is a slow function, if necessary create a function similar to  "getSimpleUnitsByHsaId". 
-   * Mapping takes ages! (4-5 sec.) 
    */
   public String getHsaIdWhereUnitIsHealthCareMember(String hsaId) throws KivException{
     Unit pUnit;
@@ -390,7 +388,7 @@ public class UnitRepositoryKivws implements UnitRepository {
     searchFilterString = this.makeAnd(andFilterList);
     //return this.searchUnit(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilterString);
     
-    Unit pUnit = this.searchUnit(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilterString);
+    Unit pUnit = this.searchUnit(this.getSearchBase(), SearchControls.SUBTREE_SCOPE, searchFilterString,true);
     if (pUnit.getHsaHealthCareUnitManagerHsaId().length() > 0 && pUnit.getHsaHealthCareUnitManagerHsaId() != null) {
       pUnit.setHsaHealthCareUnitManagerPerson(this.getHsaHealthCareUnitManagerByHsaID(pUnit.getHsaHealthCareUnitManagerHsaId()));
     }
@@ -461,13 +459,11 @@ public class UnitRepositoryKivws implements UnitRepository {
    */
   @Override
   public List<Unit> getAllUnits(boolean onlyPublicUnits) {
-	this.kivwsUnitMapper.setMapDeliverypoint(false);
     String searchFilter = this.createAllUnitsFilter(onlyPublicUnits);
 
     List<Unit> result = new ArrayList<Unit>();
-    result.addAll(this.searchUnits(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES));
+    result.addAll(this.searchUnits(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES,false));
     result.addAll(this.searchFunctionUnits(this.getSearchBase(), searchFilter, SearchControls.SUBTREE_SCOPE, ATTRIBUTES));
-    this.kivwsUnitMapper.setMapDeliverypoint(true);
     return result;
   }
 
@@ -481,9 +477,9 @@ public class UnitRepositoryKivws implements UnitRepository {
     return this.makeAnd(filterList);
   }
 
-  private Unit searchUnit(DistinguishedName searchBase, int searchScope, String searchFilter) throws KivException {
+  private Unit searchUnit(DistinguishedName searchBase, int searchScope, String searchFilter,boolean mapDeliverypoint) throws KivException {
     // Since UnitMapper return Units we are certain that the suppression is ok
-    List<Unit> result = this.searchUnits(searchBase, searchFilter, searchScope, ATTRIBUTES);
+    List<Unit> result = this.searchUnits(searchBase, searchFilter, searchScope, ATTRIBUTES,mapDeliverypoint);
     List<Unit> resultFunctions = this.searchFunctionUnits(searchBase, searchFilter, searchScope, ATTRIBUTES);
     result.addAll(resultFunctions);
     if (result.size() == 0) {
@@ -502,7 +498,7 @@ public class UnitRepositoryKivws implements UnitRepository {
   private Unit searchUnitWithoutRoles(DistinguishedName searchBase, int searchScope, String searchFilter) throws KivException {
     // Since UnitMapper return Units we are certain that the suppression is ok
     Unit pRetUnit; 
-    List<Unit> result = this.searchUnits(searchBase, searchFilter, searchScope, ATTRIBUTES);
+    List<Unit> result = this.searchUnits(searchBase, searchFilter, searchScope, ATTRIBUTES,false);
     if (result.size() == 0) {
       pRetUnit = null;
     } else {
@@ -898,7 +894,7 @@ public class UnitRepositoryKivws implements UnitRepository {
     DistinguishedName parentDn = new DistinguishedName(parentUnit.getDn().toString());
 
     // Since UnitMapper return a Unit we are certain that the cast to List<Unit> is ok
-    List<Unit> searchOU = this.searchUnits(parentDn, "(ou=*)", SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
+    List<Unit> searchOU = this.searchUnits(parentDn, "(ou=*)", SearchControls.SUBTREE_SCOPE, ATTRIBUTES,false);
     List<Unit> searchCN = this.searchFunctionUnits(parentDn, "(cn=*)", SearchControls.SUBTREE_SCOPE, ATTRIBUTES);
     searchOU.addAll(searchCN);
     subUnits = this.cleanAndSortResult(searchOU, null);
@@ -921,7 +917,7 @@ public class UnitRepositoryKivws implements UnitRepository {
     DistinguishedName parentDn = new DistinguishedName(parentUnit.getDn().toString());
 
     // Since UnitMapper return a Unit we are certain that the cast to List<Unit> is ok
-    List<Unit> search = this.searchUnits(parentDn, "(ou=*)", SearchControls.ONELEVEL_SCOPE, ATTRIBUTES);
+    List<Unit> search = this.searchUnits(parentDn, "(ou=*)", SearchControls.ONELEVEL_SCOPE, ATTRIBUTES,false);
     subUnits = this.cleanAndSortResult(search, null);
     this.removeUnitParentFromList(parentUnit, subUnits);
     this.getMaxResultList(subUnits.size(), subUnits);
@@ -977,7 +973,7 @@ public class UnitRepositoryKivws implements UnitRepository {
       String filter = "(" + name.get(name.size() - 1) + ")";
       Name base = name.getPrefix(name.size() - 1);
       ArrayOfUnit searchUnit = this.vgregionWebService.searchUnit(filter, arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(SearchControls.ONELEVEL_SCOPE));
-      unit = this.mapKivwsUnitToUnit(searchUnit).get(0);
+      unit = this.mapKivwsUnitToUnit(searchUnit,true).get(0);
     } catch (VGRException_Exception e) {
       this.logger.error(e.getMessage(), e);
       unit = new Unit();
@@ -993,7 +989,7 @@ public class UnitRepositoryKivws implements UnitRepository {
     try {
       ArrayOfFunction searchFunction = this.vgregionWebService.searchFunction(StringUtils.defaultIfEmpty(filter, "(cn=*)"), arrayOfString, VGRegionDirectory.KIV, base.toString(),
           Integer.toString(searchScope));
-      resultUnits.addAll(this.mapKivwsUnits(searchFunction));
+      resultUnits.addAll(this.mapKivwsUnits(searchFunction,false));
     } catch (VGRException_Exception e) {
       this.logger.error(e.getMessage(), e);
     }
@@ -1026,47 +1022,47 @@ public class UnitRepositoryKivws implements UnitRepository {
     return result;
   }
 
-  private List<Unit> searchUnits(Name base, String filter, int searchScope, List<String> attrs) {
+  private List<Unit> searchUnits(Name base, String filter, int searchScope, List<String> attrs, boolean mapDeliverypoints) {
     List<Unit> result = new ArrayList<Unit>();
     ArrayOfString arrayOfString = new ArrayOfString();
     arrayOfString.getString().addAll(attrs);
 
     try {
       ArrayOfUnit searchUnit = this.vgregionWebService.searchUnit(StringUtils.defaultIfEmpty(filter, "(ou=*)"), arrayOfString, VGRegionDirectory.KIV, base.toString(), Integer.toString(searchScope));
-      result = this.mapKivwsUnits(searchUnit);
+      result = this.mapKivwsUnits(searchUnit,mapDeliverypoints);
     } catch (VGRException_Exception e) {
       this.logger.error(e.getMessage(), e);
     }
     return result;
   }
 
-  private List<Unit> mapKivwsUnits(Object object) {
+  private List<Unit> mapKivwsUnits(Object object,boolean mapDeliveryPoint) {
     List<Unit> result = null;
     if (object instanceof ArrayOfFunction) {
-      result = this.mapKivwsUnitFunctionToUnit((ArrayOfFunction) object);
+      result = this.mapKivwsUnitFunctionToUnit((ArrayOfFunction) object, mapDeliveryPoint);
     } else {
-      result = this.mapKivwsUnitToUnit((ArrayOfUnit) object);
+      result = this.mapKivwsUnitToUnit((ArrayOfUnit) object,mapDeliveryPoint);
     }
     return result;
   }
 
-  private List<Unit> mapKivwsUnitToUnit(ArrayOfUnit arrayOfUnit) {
+  private List<Unit> mapKivwsUnitToUnit(ArrayOfUnit arrayOfUnit,boolean mapDeliverypoint) {
     List<se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit> unit = arrayOfUnit.getUnit();
     List<Unit> result = new ArrayList<Unit>();
     
     for (se.vgregion.kivtools.search.svc.ws.domain.kivws.Unit kivwsUnit : unit) {
-    	result.add(this.kivwsUnitMapper.mapFromContext(kivwsUnit));
+    	result.add(this.kivwsUnitMapper.mapFromContext(kivwsUnit,mapDeliverypoint));
       
     }
    
     return result;
   }
 
-  private List<Unit> mapKivwsUnitFunctionToUnit(ArrayOfFunction arrayOfFunction) {
+  private List<Unit> mapKivwsUnitFunctionToUnit(ArrayOfFunction arrayOfFunction,boolean mapDeliverypoint) {
     List<Unit> result = new ArrayList<Unit>();
     List<Function> function = arrayOfFunction.getFunction();
     for (Function function2 : function) {
-      result.add(this.kivwsUnitMapper.mapFromContext(function2));
+      result.add(this.kivwsUnitMapper.mapFromContext(function2,mapDeliverypoint));
     }
     return result;
   }
