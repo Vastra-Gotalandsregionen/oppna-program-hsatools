@@ -1,0 +1,145 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+<script type="text/javascript" src="resources/scripts/utilities.js" />
+<script type="text/javascript" src="resources/scripts/script.js" />
+<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${facesContext.externalContext.requestParameterMap.googleMapsKey}" />
+<script type="text/javascript" src="resources/scripts/widget.js" />
+
+		<div id="search-result-caption">
+			<div id="search-result-caption-text">
+				<h:outputText rendered="${fn:trim(rootCauseException.message) != ''}">
+					<div id="error-reporting-container">
+						${rootCauseException.message}
+					</div>
+				</h:outputText>
+				<h:outputText rendered="${fn:length(units) gt 0}">
+					<div id="about-searchinformation-container">
+						<strong>${fn:length(units)}</strong> ${msg.hits}
+					</div>
+				</h:outputText>
+				<h:outputText rendered="${fn:length(units) >= Search_MaxSearchResult}">
+					<div id="error-reporting-container">
+						${msg.firstHits1} ${Search_MaxSearchResult} ${msg.firstHits2}.
+					</div>
+				</h:outputText>
+			</div>
+		</div>
+
+		<div class="search-result">
+			<h:outputText rendered="${fn:length(units) gt 0}">
+				<ul id="search-result-container-map">
+					<h:outputText rendered="${unitSearchSimpleForm.resultType gt 1}">
+						<div id="print-element">
+							<a href="#" onclick="printElement('map-div');"><img src="resources/images/printer.png" alt=""/> ${msg.printMap}</a>
+						</div>
+					
+						<div id="spinner-div" class="spin-div">
+							<div class="spin-div-text">
+								<h:outputText value="${msg.generatingMap}" />
+							</div>
+						</div>
+						<div id="map-div" style="width: 40em;height: 40em;">
+							<script type="text/javascript" charset="utf-8">
+								// <![CDATA[]
+									initGMap();							
+								// ]]>
+							</script>
+							<script type="text/javascript" charset="utf-8" defer="defer">
+								<ui:repeat value="${units}" var="theUnit">
+						           	<h:outputText rendered="${theUnit.wgs84Lat!=0.0}">
+									// <![CDATA[]
+										showAddressByCoordinates('${fn:trim(theUnit.hsaIdentity)}', '${theUnit.wgs84Lat}', '${theUnit.wgs84Long}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '', map);
+									// ]]>
+									</h:outputText>			
+			        			   	<h:outputText rendered="${theUnit.wgs84Lat==0.0 and Search_SettingsContainer.fallbackOnAddressForMap==true}">
+						           		<ui:repeat value="${theUnit.hsaStreetAddress}" var="address">
+					           				<h:outputText rendered="${fn:length(address.street) gt 0}">
+											// <![CDATA[]
+		     									showAddress('${fn:trim(theUnit.hsaIdentity)}', '${fn:trim(address.street)}, ${fn:trim(address.zipCode.formattedZipCode)}, ${fn:trim(address.city)}', '${fn:trim(theUnit.hsaPublicTelephoneNumber[0])}', '${fn:trim(theUnit.caretypeCustomized)}', '${fn:trim(theUnit.name)}', '', map);
+											// ]]>
+											</h:outputText>
+										</ui:repeat>
+									</h:outputText>			
+								</ui:repeat>	
+							</script>
+							<script type="text/javascript" charset="utf-8">
+								// <![CDATA[]
+									adjustMapVisibility();
+								// ]]>
+							</script>
+						</div>
+					</h:outputText>
+	
+					<ui:repeat value="${units}" var="theUnit" rendered="${unitSearchSimpleForm.resultType lt 2}">
+						<li>
+			                <div class="vcard clearfix" id="hcard-${theUnit.hsaIdentity}">
+			                 	<div class="single-row clearfix">
+		                            	<h3  class="given-name fn org">
+			                            	<a href="visaenhet?hsaidentity=${theUnit.hsaIdentity}&amp;noHeader=${param.noHeader}">
+												${theUnit.name}</a><span class="hits-header">, ${theUnit.hsaMunicipalityName}</span>
+			                            </h3>
+			                 	</div>
+			                    
+		                        <div class="unit-description">
+		                        	<ui:repeat value="${theUnit.description}" var="description">
+		                        		${description}<br/>
+		                        	</ui:repeat>
+					               	<h:outputText rendered="${fn:length(theUnit.concatenatedDescription) lt 1 and Search_SettingsContainer.testingMode==true}">
+										<span class="warning">${msg.missingDescription}</span>
+			                        </h:outputText>  
+	 	                        </div>
+		                        
+		                        <div class="tel-adr-container">
+		                            <div class="adr-container adr">
+			                            <div class="adr-header">${msg.address}</div>
+			                            <abbr class="type" style="display:none;">parcel</abbr>
+			                            <div class="adr-body">
+				                           	<ui:repeat value="${theUnit.hsaStreetAddress}" var="address">
+					                			<div class="street-address">${address.street}</div>
+					                			<span class="postal-code">${address.zipCode.formattedZipCode}</span>
+					                			<span class="locality">${address.city}</span>
+						                	</ui:repeat>
+						                </div>
+			                        </div>
+		                        </div>
+		                        
+								<div class="uncomplete-unit">
+		                    	 	<h:outputText rendered="${Search_SettingsContainer.testingMode==true and !theUnit.contentValidationOk}">
+		                    	 		<img src="resources/images/flag_red.png" alt="${msg.missingInfoOnUnit}"/>
+		                    	 	</h:outputText>
+		                    	</div>
+		                    </div>
+		
+						</li>
+					</ui:repeat>
+				</ul>
+			</h:outputText>
+		</div>
+</div>
