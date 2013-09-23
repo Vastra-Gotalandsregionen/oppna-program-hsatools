@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>se.vgregion.HsaTools</groupId>
 		<artifactId>HsaTools-Search</artifactId>
-		<version>1.3.11-SNAPSHOT</version>
+		<version>1.3.11</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
@@ -229,7 +229,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<ignore />
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -248,7 +248,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<ignore />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
