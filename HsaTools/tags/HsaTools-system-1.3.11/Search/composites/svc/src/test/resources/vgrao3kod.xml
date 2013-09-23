@@ -1,0 +1,279 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<object-stream>
+  <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap>
+    <entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>796</key>
+        <value>Kultur i Väst</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>020</key>
+        <value>Regionstyrelsen (ägarutskott, arkivnämnd, regiongem. förv.org- och verks)</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>760</key>
+        <value>Hälsan &amp; arbetslivet</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>795</key>
+        <value>Göteborgs folkhögskola</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>021</key>
+        <value>Regionfullmäktige</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>775</key>
+        <value>Botaniska trädgården</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>360</key>
+        <value>HSN 1 Norra Bohuslän</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>040</key>
+        <value>Patientnämnd U-a, Borås, Gbg o Mariestad</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>601</key>
+        <value>Primärvården Skaraborg</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>350</key>
+        <value>HSN 6  Mitten Älvsborg</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>50</key>
+        <value>BYT! Krockande Ao3 kod</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>084</key>
+        <value>Kungälvs sjukhus</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>602</key>
+        <value>Primärvården Södra Älvsborg</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>450</key>
+        <value>Regionutvecklingsnämnd (beredning, kansli)</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>400</key>
+        <value>Miljönämnd (beredning, kansli)</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>711</key>
+        <value>Hälso- och Sjukvårdsutskottet</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>52</key>
+        <value>Sötåsen (Naturbruk)</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>603</key>
+        <value>Primärvården Göteborg</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>420</key>
+        <value>Kulturnämnd (beredning, kansli)</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>369</key>
+        <value>HSN 12 Göteborg Nordöstra</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>082</key>
+        <value>SÄS Södra Älvsborgs sjukhus</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>g50</key>
+        <value>Centralt (Naturbruk)</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>510</key>
+        <value>Göteborgsoperan</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>083</key>
+        <value>SKAS Skaraborgs sjukhus</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>57</key>
+        <value>Svenljunga (Naturbruk)</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>340</key>
+        <value>HSN 10 Östra Skaraborg</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>010</key>
+        <value>Moderförvaltning</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>341</key>
+        <value>HSN 9 Västra Skaraborg</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>728</key>
+        <value>Folkhälsokommittén</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>604</key>
+        <value>Primärvården Södra Bohuslän</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>030</key>
+        <value>Revisorskollegiet</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>362</key>
+        <value>HSN 3 Trestad</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>51</key>
+        <value>Uddetorp (Naturbruk)</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>619</key>
+        <value>Folktandvård VGR</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>211</key>
+        <value>Västfastigheter</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>086</key>
+        <value>Alingsås lasarett</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>738</key>
+        <value>Angereds Närsjukhus</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>58</key>
+        <value>Biologiska Yrkeshögskolan i Skara</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>368</key>
+        <value>HSN 11 Göteborg Hisingen</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>180</key>
+        <value>Film i Väst AB</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>792</key>
+        <value>Grebbestads folkhögskola</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>511</key>
+        <value>SICAB</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>372</key>
+        <value>HSN 7 Södra Bohuslän</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>480</key>
+        <value>Gymnasiestyrelse inkl Naturbruk</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>940</key>
+        <value>NU-sjukvården</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>55</key>
+        <value>Nuntorp (Naturbruk)</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>56</key>
+        <value>Strömma (Naturbruk)</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>161</key>
+        <value>Habilitering &amp; Hälsa</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>370</key>
+        <value>HSN 5 Göteborg Centrum Väster</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>793</key>
+        <value>Billströmska folkhögskolan</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>790</key>
+        <value>Dalslands folkhögskola</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>371</key>
+        <value>HSN 4 Mellersta Bohuslän</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>791</key>
+        <value>Fristads folkhögskola</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>53</key>
+        <value>Sparresäter (Naturbruk)</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>605</key>
+        <value>Primärvården Fyrbodal</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>54</key>
+        <value>Dingle (Naturbruk)</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>731</key>
+        <value>Sahlgrenska Universitetssjukhuset</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>750</key>
+        <value>Regionservice</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>361</key>
+        <value>HSN 2  Dalsland</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>085</key>
+        <value>FSS Frölunda specialist sjukhus</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>351</key>
+        <value>HSN 8 Sjuhärad</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>787</key>
+        <value>Västarvet</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+      <se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+        <key>794</key>
+        <value>Vara folkhögskola</value>
+      </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap_-Entry>
+    </entry>
+  </se.vgregion.kivtools.search.svc.ws.domain.kivws.String2StringMap>
+</object-stream>
