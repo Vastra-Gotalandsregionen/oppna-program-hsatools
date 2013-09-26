@@ -24,7 +24,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import geo.google.datamodel.GeoCoordinate;
 
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
@@ -185,7 +184,9 @@ public class UnitTest {
   public void testBasicProperties() throws InvalidFormatException {
     PojoTester.testProperty(this.unit, "vgrVardVal", boolean.class, false, true, false);
     PojoTester.testProperty(this.unit, "distanceToTarget", String.class, null, TEST, TEST2);
-    PojoTester.testProperty(this.unit, "geoCoordinate", GeoCoordinate.class, null, new GeoCoordinate(0, 0, null), new GeoCoordinate(0, 123.0, null));
+  
+    // geoGoogle is  removed! 
+    //  PojoTester.testProperty(this.unit, "geoCoordinate", GeoCoordinate.class, null, new GeoCoordinate(0, 0, null), new GeoCoordinate(0, 123.0, null));
     PojoTester.testProperty(this.unit, "hsaRouteConcatenated", String.class, "", TEST, TEST2);
     PojoTester.testProperty(this.unit, "hsaMunicipalityCode", String.class, null, TEST, TEST2);
     PojoTester.testProperty(this.unit, "hsaMunicipalitySectionName", String.class, null, TEST, TEST2);

@@ -23,8 +23,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
-import geo.google.datamodel.GeoAltitude;
-import geo.google.datamodel.GeoCoordinate;
 
 import java.util.ArrayList;
 
@@ -45,45 +43,7 @@ public class GeoUtilTest {
     this.geoUtil = new GeoUtil();
   }
 
-  @Test
-  public void testGeocodeToWGS84FromHsaAddress() {
-    double[] wgs84 = this.geoUtil.geocodeToWGS84FromHsaAddress(null, null);
-    assertNull(wgs84);
-
-    Address address = new Address();
-    wgs84 = this.geoUtil.geocodeToWGS84FromHsaAddress(address, null);
-    assertNull(wgs84);
-
-    address.setStreet("Kungsgatan 1");
-    address.setCity("Göteborg");
-    wgs84 = this.geoUtil.geocodeToWGS84FromHsaAddress(address, GOOGLE_MAPS_KEY);
-    assertNotNull(wgs84);
-
-    address.setStreet("Dubbelfnuttvägen 123");
-    wgs84 = this.geoUtil.geocodeToWGS84FromHsaAddress(address, GOOGLE_MAPS_KEY);
-    assertNull(wgs84);
-
-    address.setStreet("");
-    address.setZipCode(new ZipCode("1111"));
-    wgs84 = this.geoUtil.geocodeToWGS84FromHsaAddress(address, GOOGLE_MAPS_KEY);
-    assertNull(wgs84);
-
-  }
-
-  @Test
-  public void testGeocodeToRT90() throws Exception {
-    int[] rt90 = this.geoUtil.geocodeToRT90(null, null);
-    assertNull(rt90);
-
-    Address address = new Address();
-    rt90 = this.geoUtil.geocodeToRT90(address, null);
-    assertNull(rt90);
-
-    address.setStreet("Storgatan 1");
-    address.setCity("Göteborg");
-    rt90 = this.geoUtil.geocodeToRT90(address, GOOGLE_MAPS_KEY);
-    assertNotNull(rt90);
-  }
+ 
 
   @Test
   public void testParseRT90HsaString() {
@@ -185,36 +145,5 @@ public class GeoUtilTest {
     assertEquals(45.0, gradeMinSec[0], 0.0);
     assertEquals(7.0, gradeMinSec[1], 0.0);
     assertEquals(28.199999999991405, gradeMinSec[2], 0.0);
-  }
-
-  @Test
-  public void testGetCloseUnits() {
-    ArrayList<Unit> closeUnits = this.geoUtil.getCloseUnits("", null, 10000, null);
-    assertNotNull(closeUnits);
-    assertEquals(0, closeUnits.size());
-
-    try {
-      closeUnits = this.geoUtil.getCloseUnits("Storgatan 1, Göteborg", null, 10000, GOOGLE_MAPS_KEY);
-      fail("NullPointerException expected");
-    } catch (NullPointerException e) {
-      // Expected exception
-    }
-
-    ArrayList<Unit> allUnits = new ArrayList<Unit>();
-    closeUnits = this.geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, GOOGLE_MAPS_KEY);
-    assertEquals(0, closeUnits.size());
-
-    Unit unit = new Unit();
-    allUnits.add(unit);
-    closeUnits = this.geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, GOOGLE_MAPS_KEY);
-    assertEquals(0, closeUnits.size());
-
-    unit.setGeoCoordinate(new GeoCoordinate(2.345, 1.234, new GeoAltitude()));
-    closeUnits = this.geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, GOOGLE_MAPS_KEY);
-    assertEquals(0, closeUnits.size());
-
-    unit.setGeoCoordinate(new GeoCoordinate(11.945, 57.694, new GeoAltitude()));
-    closeUnits = this.geoUtil.getCloseUnits("Storgatan 1, Göteborg", allUnits, 10000, GOOGLE_MAPS_KEY);
-    assertEquals(1, closeUnits.size());
   }
 }

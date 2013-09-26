@@ -17,9 +17,6 @@
  */
 package se.vgregion.kivtools.search.svc.impl.hak.ldap;
 
-import geo.google.datamodel.GeoAltitude;
-import geo.google.datamodel.GeoCoordinate;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
@@ -215,7 +212,9 @@ public class UnitMapper implements ContextMapper {
 
         unit.setWgs84Lat(wgs84Coords[0]);
         unit.setWgs84Long(wgs84Coords[1]);
-        unit.setGeoCoordinate(new GeoCoordinate(wgs84Coords[1], wgs84Coords[0], new GeoAltitude()));
+        
+        //depricated! 
+        //unit.setGeoCoordinate(new GeoCoordinate(wgs84Coords[1], wgs84Coords[0], new GeoAltitude()));
       }
     }
   }

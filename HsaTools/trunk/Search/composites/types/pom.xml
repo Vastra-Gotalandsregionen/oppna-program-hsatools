@@ -45,12 +45,6 @@
 			<artifactId>HsaTools-Utils</artifactId>
 		</dependency>
 
-		<!-- Google Maps Geocoding -->
-		<dependency>
-			<groupId>geoGoogle</groupId>
-			<artifactId>geoGoogle</artifactId>
-		</dependency>
-
 		<!-- Used for Base64 encoding signature -->
 		<dependency>
 			<groupId>commons-codec</groupId>

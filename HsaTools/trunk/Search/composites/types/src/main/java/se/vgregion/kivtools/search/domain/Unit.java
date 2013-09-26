@@ -19,8 +19,6 @@
 
 package se.vgregion.kivtools.search.domain;
 
-import geo.google.datamodel.GeoCoordinate;
-
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -204,7 +202,6 @@ public class Unit implements Serializable, Comparable<Unit> {
   private int rt90X;
   private int rt90Y;
   // Needed for calculation of close units
-  private GeoCoordinate geoCoordinate;
   private String distanceToTarget;
   private final List<String> mvkCaseTypes = new ArrayList<String>();
 
@@ -258,24 +255,6 @@ public class Unit implements Serializable, Comparable<Unit> {
 
   public void setDistanceToTarget(String distanceToTarget) {
     this.distanceToTarget = distanceToTarget;
-  }
-
-  /**
-   * Only used by HAK
-   * 
-   * @return {@link GeoCoordinate}
-   */
-  public GeoCoordinate getGeoCoordinate() {
-    return this.geoCoordinate;
-  }
-
-  /**
-   * Only used by HAK
-   * 
-   * @param geoCoordinate
-   */
-  public void setGeoCoordinate(GeoCoordinate geoCoordinate) {
-    this.geoCoordinate = geoCoordinate;
   }
 
   public String getHsaRouteConcatenated() {
