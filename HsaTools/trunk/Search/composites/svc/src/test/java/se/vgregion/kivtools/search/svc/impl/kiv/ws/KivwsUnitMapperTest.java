@@ -98,11 +98,6 @@ public class KivwsUnitMapperTest {
     this.kivwsUnitMapper.mapFromContext(new String());
   }
 
-  @Test
-  public void geoCoordinateIsSetAlongWithWGS84Coordinates() {
-    Unit kivwsUnitResult = this.kivwsUnitMapper.mapFromContext(kivwsObject.getUnit().get(0));
-    assertNotNull("geoCoordinate", kivwsUnitResult.getGeoCoordinate());
-  }
 
   private void assertResult(Unit kivLdapUnitResult, Unit kivwsUnitResult) {
     assertNotNull(kivLdapUnitResult);
@@ -181,13 +176,7 @@ public class KivwsUnitMapperTest {
     } else if (!kivLdapUnit.getFacsimileTelephoneNumber().equals(kivwsUnit.getFacsimileTelephoneNumber())) {
       return false;
     }
-    if (kivLdapUnit.getGeoCoordinate() == null) {
-      if (kivwsUnit.getGeoCoordinate() != null) {
-        return false;
-      }
-    } else if (!kivLdapUnit.getGeoCoordinate().equals(kivwsUnit.getGeoCoordinate())) {
-      return false;
-    }
+   
     if (kivLdapUnit.getHealthcareTypes() == null) {
       if (kivwsUnit.getHealthcareTypes() != null) {
         return false;

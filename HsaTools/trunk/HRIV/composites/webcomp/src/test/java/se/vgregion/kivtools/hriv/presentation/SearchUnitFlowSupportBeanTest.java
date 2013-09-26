@@ -314,7 +314,13 @@ public class SearchUnitFlowSupportBeanTest {
     assertEquals("DEF-234", this.bean.getGoogleMapsKey());
   }
 
-  @Test
+  
+  //@Test
+  
+  /* 
+   * 
+   * deprecated 
+   *
   public void testGetCloseUnits() {
     ArrayList<Unit> closeUnits = this.bean.getCloseUnits(null);
     assertNotNull(closeUnits);
@@ -333,7 +339,7 @@ public class SearchUnitFlowSupportBeanTest {
     assertNotNull(closeUnits);
     assertEquals(0, closeUnits.size());
   }
-
+ */ 
   private static class UnitSearchStrategyMock implements UnitSearchStrategy {
     private UnitSearchSimpleForm form;
     private int effectiveMaxSearchResult;

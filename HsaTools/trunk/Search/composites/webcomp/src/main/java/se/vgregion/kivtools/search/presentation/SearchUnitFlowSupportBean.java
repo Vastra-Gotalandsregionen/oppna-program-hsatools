@@ -225,44 +225,6 @@ public class SearchUnitFlowSupportBean implements Serializable {
     return result;
   }
 
-  /**
-   * Geocode all units to RT90.
-   * 
-   * @param googleKey Google Maps key.
-   * @return List with units with coordinates.
-   * @throws KivNoDataFoundException If no result was found.
-   */
-  public List<Unit> getAllUnitsGeocoded(String googleKey) throws KivNoDataFoundException {
-    List<String> allUnitsHsaIdentity = this.getAllUnitsHsaIdentity();
-    List<Unit> allUnitsWithPositionInfo = new ArrayList<Unit>();
-    GeoUtil geoUtil = new GeoUtil();
-    try {
-      for (String hsaId : allUnitsHsaIdentity) {
-        // Get coordinates from Google.
-        Unit u = this.getSearchService().getUnitByHsaId(hsaId);
-        if (u != null) {
-          if (u.getHsaStreetAddressIsValid()) {
-            int[] rt90Coordinates = geoUtil.geocodeToRT90(u.getHsaStreetAddress(), googleKey);
-            if (rt90Coordinates != null) {
-              u.setRt90X(rt90Coordinates[0]);
-              u.setRt90Y(rt90Coordinates[1]);
-            } else {
-              u.setRt90X(-1);
-              u.setRt90Y(-1);
-            }
-
-            allUnitsWithPositionInfo.add(u);
-          }
-        }
-      }
-      return allUnitsWithPositionInfo;
-    } catch (KivNoDataFoundException e) {
-      throw e;
-    } catch (KivException e) {
-      LOGGER.error(e);
-      return new ArrayList<Unit>();
-    }
-  }
 
   /**
    * Gets all sub units for the unit with the provided HsaIdentity.

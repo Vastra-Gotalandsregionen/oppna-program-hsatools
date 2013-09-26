@@ -296,7 +296,9 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @param form The form with the address to get close units for.
    * @return A list of Units that is within the distance of the address in the provided form.
    */
-  public SikSearchResultList<Unit> getCloseUnits(DisplayCloseUnitsSimpleForm form) {
+ 
+  //geoGoogle has deprecated
+  /* public SikSearchResultList<Unit> getCloseUnits(DisplayCloseUnitsSimpleForm form) {
     SikSearchResultList<Unit> result = new SikSearchResultList<Unit>();
     List<Unit> units = this.unitCacheService.getCache().getUnits();
     if (units.isEmpty()) {
@@ -311,4 +313,6 @@ public class SearchUnitFlowSupportBean implements Serializable {
 
     return result;
   }
+  
+  */
 }
