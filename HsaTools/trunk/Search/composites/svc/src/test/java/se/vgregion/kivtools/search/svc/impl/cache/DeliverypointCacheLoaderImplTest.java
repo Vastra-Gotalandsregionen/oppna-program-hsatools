@@ -318,6 +318,13 @@ public class DeliverypointCacheLoaderImplTest {
 			
 			return ad;
 		}
+
+		@Override
+		public SikSearchResultList<Person> setUnitOnEmployments(
+				SikSearchResultList<Person> persons) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 		
 	}
 }

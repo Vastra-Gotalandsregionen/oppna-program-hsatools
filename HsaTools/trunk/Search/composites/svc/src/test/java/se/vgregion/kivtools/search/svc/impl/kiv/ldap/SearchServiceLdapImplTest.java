@@ -75,5 +75,19 @@ public class SearchServiceLdapImplTest {
       this.searchUnitCalled = true;
       return null;
     }
+
+	@Override
+	public Unit getUnitByHsaIdtWihoutDeliverypoints(String hsaId)
+			throws KivException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SikSearchResultList<Person> setUnitOnEmployments(
+			SikSearchResultList<Person> persons) {
+			
+		return null;
+	}
   }
 }

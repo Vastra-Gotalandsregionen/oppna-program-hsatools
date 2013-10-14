@@ -279,4 +279,12 @@ public List<Deliverypoint> getAllDeliverypoints() throws KivException {
 	// TODO Auto-generated method stub
 	return null;
 }
+
+@Override
+public SikSearchResultList<Person> setUnitOnEmployments(
+		SikSearchResultList<Person> persons) {
+	// TODO Auto-generated method stub
+	
+return persons;
+}
 }

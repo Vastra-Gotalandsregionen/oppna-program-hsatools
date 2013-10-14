@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
@@ -132,6 +133,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
             list.addDataSourceSearchTime(new TimeMeasurement(empList.getTotalDataSourceSearchTimeInMilliSeconds()));
           }
         }
+        list = this.searchService.setUnitOnEmployments(list);
         // stop measurement
         overAllTime.stop();
 

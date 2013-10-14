@@ -281,4 +281,10 @@ public class SearchServiceLdapImpl implements SearchService {
 		return null;
 	}
 
+	@Override
+	public SikSearchResultList<Person> setUnitOnEmployments(
+			SikSearchResultList<Person> persons) {
+		throw new NotImplementedException("Not used by LTH.");
+	}	
+
 }

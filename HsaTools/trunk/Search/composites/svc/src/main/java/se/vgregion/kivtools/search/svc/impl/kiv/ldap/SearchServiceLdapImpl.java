@@ -138,7 +138,7 @@ public class SearchServiceLdapImpl implements SearchService {
 	 */
 	@Override
 	public Unit getUnitByHsaId(String hsaId) throws KivException {
-		return this.unitRepository.getUnitByHsaId(hsaId);
+		return this.unitRepository.getUnitByHsaIdtWihoutDeliverypoints(hsaId);
 	}
 
 	/**
@@ -184,7 +184,12 @@ public class SearchServiceLdapImpl implements SearchService {
 	public Unit getUnitByDN(String dn) throws KivException {
 		return this.unitRepository.getUnitByDN(DN.createDNFromString(dn));
 	}
-
+	  @Override
+	  public SikSearchResultList<Person> setUnitOnEmployments(SikSearchResultList<Person> persons){
+		 
+		return this.unitRepository.setUnitOnEmployments(persons);
+	 
+	  }
 	/**
 	 * {@inheritDoc}
 	 */

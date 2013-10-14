@@ -3,6 +3,7 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 import java.util.Comparator;
 import java.util.List;
 
+import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.DN;
 import se.vgregion.kivtools.search.exceptions.KivException;
@@ -43,6 +44,17 @@ public interface UnitRepository {
    */
   Unit getUnitByHsaId(String hsaId) throws KivException;
 
+  /**
+   * 
+   * Fech unit by the unit hsa id without deleverypoints 
+   * 
+   * @param hsaId
+   * @return
+   * @throws KivException
+   */
+
+  Unit getUnitByHsaIdtWihoutDeliverypoints(String hsaId) throws KivException;
+  
   /**
    * Fetch unit by the unit hsa id and does not have careType inpatient.
    * 
@@ -105,5 +117,7 @@ public interface UnitRepository {
   SikSearchResultList<Unit> getFirstLevelSubUnits(Unit parentUnit) throws KivException;
 
   List<String> getUnitAdministratorVgrIds(String hsaId) throws KivException;
+
+  SikSearchResultList<Person> setUnitOnEmployments(SikSearchResultList<Person> persons);
 
 }
