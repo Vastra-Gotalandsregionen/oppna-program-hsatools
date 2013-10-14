@@ -22,9 +22,11 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 import java.util.List;
 import java.util.Map;
 
+import se.vgregion.kivtools.search.domain.Person;
 import se.vgregion.kivtools.search.domain.Unit;
 import se.vgregion.kivtools.search.domain.values.HealthcareType;
 import se.vgregion.kivtools.search.domain.values.HealthcareTypeConditionHelper;
+import se.vgregion.kivtools.search.exceptions.KivException;
 import se.vgregion.kivtools.search.svc.SikSearchResultList;
 import se.vgregion.kivtools.util.reflection.ReflectionUtil;
 
@@ -76,4 +78,18 @@ public class UnitRepositoryHRIA extends BaseUnitRepository {
     }
     return found;
   }
+
+@Override
+public Unit getUnitByHsaIdtWihoutDeliverypoints(String hsaId)
+		throws KivException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public SikSearchResultList<Person> setUnitOnEmployments(
+		SikSearchResultList<Person> persons) {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

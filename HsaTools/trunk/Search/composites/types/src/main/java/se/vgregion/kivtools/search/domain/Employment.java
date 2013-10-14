@@ -122,7 +122,10 @@ public class Employment implements Serializable {
   private PhoneNumber hsaSedfSwitchboardTelephoneNo;
   // Telefontid
   private final List<WeekdayTime> hsaTelephoneTime = new ArrayList<WeekdayTime>();
-
+  
+  // Tillhörande enhet från vgrOrgRel. 
+  private Unit connectedUnit;
+  
   private String locality;
 
   private String position;
@@ -130,6 +133,7 @@ public class Employment implements Serializable {
   private boolean primaryEmployment;
 
   private String hsaManagerCode;
+  
 
   public String getCn() {
     return this.cn;
@@ -511,5 +515,11 @@ public class Employment implements Serializable {
 
   public String getHsaManagerCode() {
     return hsaManagerCode;
+  }
+  public Unit getConnectedUnit() {
+	return connectedUnit;
+  }
+  public void setConnectedUnit(Unit connectedUnit) {
+	this.connectedUnit = connectedUnit;
   }
 }

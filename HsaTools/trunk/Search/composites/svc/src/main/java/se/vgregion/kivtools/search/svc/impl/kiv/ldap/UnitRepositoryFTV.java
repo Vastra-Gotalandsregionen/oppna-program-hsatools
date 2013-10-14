@@ -21,6 +21,11 @@ package se.vgregion.kivtools.search.svc.impl.kiv.ldap;
 
 import org.springframework.ldap.core.DistinguishedName;
 
+import se.vgregion.kivtools.search.domain.Person;
+import se.vgregion.kivtools.search.domain.Unit;
+import se.vgregion.kivtools.search.exceptions.KivException;
+import se.vgregion.kivtools.search.svc.SikSearchResultList;
+
 /**
  * Implementation of the UnitRepository for Folktandvården.
  */
@@ -34,4 +39,18 @@ public class UnitRepositoryFTV extends BaseUnitRepository {
   protected DistinguishedName getSearchBase() {
     return UnitRepositoryFTV.KIV_SEARCH_BASE;
   }
+
+@Override
+public Unit getUnitByHsaIdtWihoutDeliverypoints(String hsaId)
+		throws KivException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public SikSearchResultList<Person> setUnitOnEmployments(
+		SikSearchResultList<Person> persons) {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

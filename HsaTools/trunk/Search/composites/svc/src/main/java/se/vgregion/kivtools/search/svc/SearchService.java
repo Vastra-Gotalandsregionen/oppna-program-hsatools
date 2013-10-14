@@ -233,5 +233,12 @@ public interface SearchService {
  */
   
   public List<Person> getPersonByVgrManagedObject(String managedObject) throws KivException;
+/**
+ * 
+ * @param persons
+ * @return SikSearchResultList<Person> 
+ */
+SikSearchResultList<Person> setUnitOnEmployments(
+		SikSearchResultList<Person> persons);
 
 }

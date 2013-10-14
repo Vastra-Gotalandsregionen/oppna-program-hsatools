@@ -18,19 +18,60 @@
 
 
 -->
-<h:outputText rendered="true"
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html">
-	<h:outputText rendered="${fn:trim(employment.hsaPublicTelephoneNumber) != ''}">
+
+<h:outputText rendered="true" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:outputText
+		rendered="${fn:trim(employment.hsaPublicTelephoneNumber) != ''}">
 		<td class="tel"><span class="type">Work</span><span class="value">${employment.hsaPublicTelephoneNumber.formattedPhoneNumber}</span></td>
 	</h:outputText>
-	<h:outputText rendered="${fn:trim(employment.hsaPublicTelephoneNumber) == ''}">
-		<h:outputText rendered="${fn:trim(employment.mobileTelephoneNumber) != ''}">
-			<td class="tel"><span class="type">Work</span><span class="value">${employment.mobileTelephoneNumber.formattedPhoneNumber}</span></td>
+	<h:outputText
+		rendered="${fn:trim(employment.hsaPublicTelephoneNumber) == ''}">
+		<h:outputText
+			rendered="${fn:trim(employment.mobileTelephoneNumber) != ''}">
+			<td class="tel"><span class="type">Work</span><span
+				class="value">${employment.mobileTelephoneNumber.formattedPhoneNumber}</span></td>
 		</h:outputText>
-		<h:outputText rendered="${fn:trim(employment.mobileTelephoneNumber) == ''}">
-			<h:outputText rendered="${fn:trim(employment.hsaSedfSwitchboardTelephoneNo) != ''}">
-				<td class="tel"><span class="type">Work</span><span class="value">${employment.hsaSedfSwitchboardTelephoneNo.formattedPhoneNumber} (växel)</span></td>
+
+		<h:outputText
+			rendered="${fn:trim(employment.mobileTelephoneNumber) == ''}">
+			<h:outputText
+				rendered="${fn:length(employment.connectedUnit.hsaTelephoneNumber) gt 0}">
+				<td class="tel"><span class="type">Work</span><span
+					class="value">
+						<div jsfc="ui:repeat"
+							value="${employment.connectedUnit.hsaTelephoneNumber}"
+							var="number">${number.formattedPhoneNumber}</div>
+				</span></td>
+			</h:outputText>
+			<h:outputText
+				rendered="${fn:length(employment.connectedUnit.hsaTelephoneNumber) eq 0}">
+				<h:outputText
+					rendered="${fn:length(employment.connectedUnit.hsaPublicTelephoneNumber) gt 0}">
+					<td class="tel"><span class="type">Work</span><span
+						class="value">
+							<div jsfc="ui:repeat"
+								value="${employment.connectedUnit.hsaPublicTelephoneNumber}"
+								var="number">${number.formattedPhoneNumber}</div>
+					</span></td>
+				</h:outputText>
+				<h:outputText
+					rendered="${fn:length(employment.connectedUnit.hsaTelephoneNumber) eq 0}">
+					<h:outputText
+						rendered="${fn:length(employment.connectedUnit.hsaPublicTelephoneNumber) eq 0}">
+						<h:outputText
+							rendered="${fn:trim(employment.hsaSedfSwitchboardTelephoneNo) != ''}">
+							<td class="tel"><span class="type">Work</span><span
+								class="value">${employment. - .formattedPhoneNumber}</span></td>
+						</h:outputText>
+						<!-- <h:outputText
+						rendered="${fn:trim(employment.hsaSedfSwitchboardTelephoneNo) == ''}">
+						<td class="tel"><span class="type">Work</span><span
+							class="value">saknar telefon!</span></td>
+					    </h:outputText>-->
+					</h:outputText>
+				</h:outputText>
 			</h:outputText>
 		</h:outputText>
 	</h:outputText>
