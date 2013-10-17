@@ -248,16 +248,18 @@
 	</servlet-mapping>
 	
 	<!-- Used for geocoding for units -->
-	<servlet>
+	<!--  <servlet>
 		<servlet-name>Geocode All Units</servlet-name>
 		<jsp-file>/geocodeAllUnits.jsp</jsp-file>
 		<load-on-startup>1</load-on-startup>
+		
+		
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Geocode All Units</servlet-name>
 		<url-pattern>/geokodaallaenheter</url-pattern>
 	</servlet-mapping>
-	
+	-->
 	<!-- Used for linkgeneration -->
 	<!--    Step 1 Persons -->
 	<servlet>
