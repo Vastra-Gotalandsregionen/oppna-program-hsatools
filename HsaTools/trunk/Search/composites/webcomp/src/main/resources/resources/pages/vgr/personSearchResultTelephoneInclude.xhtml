@@ -42,35 +42,20 @@
 					class="value">
 						<div jsfc="ui:repeat"
 							value="${employment.connectedUnit.hsaTelephoneNumber}"
-							var="number">${number.formattedPhoneNumber}</div>
+							var="number">${number.formattedPhoneNumber} (enhetens telefonnummer)</div>
 				</span></td>
 			</h:outputText>
 			<h:outputText
 				rendered="${fn:length(employment.connectedUnit.hsaTelephoneNumber) eq 0}">
 				<h:outputText
-					rendered="${fn:length(employment.connectedUnit.hsaPublicTelephoneNumber) gt 0}">
+					rendered="${fn:trim(employment.connectedUnit.hsaSedfSwitchboardTelephoneNo) != ''}">
 					<td class="tel"><span class="type">Work</span><span
 						class="value">
 							<div jsfc="ui:repeat"
-								value="${employment.connectedUnit.hsaPublicTelephoneNumber}"
-								var="number">${number.formattedPhoneNumber}</div>
+								value="${employment.connectedUnit.hsaSedfSwitchboardTelephoneNo}"
+								var="number">${number.formattedPhoneNumber} (enhetens växelnummer)
+							</div>
 					</span></td>
-				</h:outputText>
-				<h:outputText
-					rendered="${fn:length(employment.connectedUnit.hsaTelephoneNumber) eq 0}">
-					<h:outputText
-						rendered="${fn:length(employment.connectedUnit.hsaPublicTelephoneNumber) eq 0}">
-						<h:outputText
-							rendered="${fn:trim(employment.hsaSedfSwitchboardTelephoneNo) != ''}">
-							<td class="tel"><span class="type">Work</span><span
-								class="value">${employment.formattedPhoneNumber}</span></td>
-						</h:outputText>
-						<!-- <h:outputText
-						rendered="${fn:trim(employment.hsaSedfSwitchboardTelephoneNo) == ''}">
-						<td class="tel"><span class="type">Work</span><span
-							class="value">saknar telefon!</span></td>
-					    </h:outputText>-->
-					</h:outputText>
 				</h:outputText>
 			</h:outputText>
 		</h:outputText>
