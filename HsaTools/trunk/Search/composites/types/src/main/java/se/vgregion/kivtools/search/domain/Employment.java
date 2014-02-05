@@ -72,6 +72,10 @@ public class Employment implements Serializable {
   private String vgrAbsenceEndDate;
   //
   private String vgrAbsence;
+  
+  //Linjechef
+  private String vgrEmployeeManager;
+  
   // Beskrivning
   private List<String> description;
 
@@ -218,7 +222,15 @@ public class Employment implements Serializable {
     return this.vgrAbsenceStartDate;
   }
 
-  public Address getHsaSedfInvoiceAddress() {
+  public String getVgrEmployeeManager() {
+	return vgrEmployeeManager;
+}
+
+public void setVgrEmployeeManager(String vgrEmployeeManager) {
+	this.vgrEmployeeManager = vgrEmployeeManager;
+}
+
+public Address getHsaSedfInvoiceAddress() {
     return this.hsaSedfInvoiceAddress;
   }
 

@@ -62,6 +62,8 @@ public enum EmploymentSearchAttributes {
   /** */
   VGR_ANSVARS_NUMMER("vgrAnsvarsnummer"),
   /** */
+  VGR_EMPLOYEE_MANAGER("vgrEmployeeManager"),
+  /** */
   HSA_START_DATE("hsaStartDate"),
   /** */
   HSA_END_DATE("hsaEndDate"),

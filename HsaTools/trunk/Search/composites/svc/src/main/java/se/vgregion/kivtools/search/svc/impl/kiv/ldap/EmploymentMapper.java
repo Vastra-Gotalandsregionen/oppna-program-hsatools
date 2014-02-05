@@ -86,6 +86,8 @@ public class EmploymentMapper implements ContextMapper {
     //Fr&aumlvaro, Slutdatum
     employment.setVgrAbsenceEndDate(parseStrDate(context.getString(EmploymentSearchAttributes.VGR_ABSENCE_END_DATE.toString())));
     
+    //Linjechef 
+    employment.setVgrEmployeeManager(context.getString(EmploymentSearchAttributes.VGR_EMPLOYEE_MANAGER.toString()));
    
     // Anst�llningsperiod
     employment.setEmploymentPeriod(parseDateTime(context.getString(EmploymentSearchAttributes.HSA_START_DATE.toString())), parseDateTime(context.getString(EmploymentSearchAttributes.HSA_END_DATE
