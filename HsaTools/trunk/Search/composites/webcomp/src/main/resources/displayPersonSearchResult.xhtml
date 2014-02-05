@@ -108,7 +108,9 @@
 									        <tr>
 									            <th scope="col">${msg.staffCategory}</th>
 									            <th scope="col">${msg.department}</th>
+									            <th scope="col">${msg.employeeManager}</th>
 									            <th scope="col">${msg.administration}</th>
+									           
 									            <th scope="col">${msg.telephone}</th>
 									        </tr>
 								        </thead>
@@ -123,6 +125,7 @@
 				           									</span>
 				           								</a>
 										            </td>
+										     		<ui:include src="${Search_SettingsContainer.settings.personSearchResultEmploymentManagerInclude}" />      
 													<ui:include src="${Search_SettingsContainer.settings.personDetailsAncestorListInclude}" />
 													<ui:include src="${Search_SettingsContainer.settings.personSearchResultTelephoneInclude}" />
 										        </tr>
