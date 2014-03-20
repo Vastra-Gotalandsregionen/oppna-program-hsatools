@@ -361,7 +361,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
           pers.setEmployments(empList);
         }
       }
-
+      persons = this.searchService.setUnitOnEmployments(persons);
       // stop measurement
       overAllTime.stop();
 
