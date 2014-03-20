@@ -65,13 +65,16 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
       if (person.getEmployments() == null) {
         List<Employment> employments = this.searchService.getEmploymentsForPerson(person);
         //Set vgrEmployeeManger -> vgrObjectDisplayName 
-        for (Employment employment:employments ){
-        	String pVgrEmployeeManger = employment.getVgrEmployeeManager(); 
-        	if (pVgrEmployeeManger.length() > 1){
-        		Person pPerson = this.searchService.getPersonById(pVgrEmployeeManger); 	
-        		employment.setVgrEmployeeManagerObjectDisplayName(pPerson.getVgrObjectDisplayName());
-        	}
+        if (employments !=null){
+        	 for (Employment employment:employments ){
+             	String pVgrEmployeeManger = employment.getVgrEmployeeManager(); 
+             	if (pVgrEmployeeManger.length() > 1){
+             		Person pPerson = this.searchService.getPersonById(pVgrEmployeeManger); 	
+             		employment.setVgrEmployeeManagerObjectDisplayName(pPerson.getVgrObjectDisplayName());
+             	}
+             }
         }
+       
         person.setEmployments(employments);
       } else {
     	  for (Employment employment: person.getEmployments()){
