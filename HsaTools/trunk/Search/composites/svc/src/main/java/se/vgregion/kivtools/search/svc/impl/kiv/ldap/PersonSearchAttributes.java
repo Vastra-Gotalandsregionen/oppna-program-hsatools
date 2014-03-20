@@ -74,8 +74,9 @@ public enum PersonSearchAttributes {
   /** vgrAdminType */
   VGR_ADMIN_TYPE("vgrAdminType"),
   /** vgrManagedObjects */
-  VGR_MANAGED_OBJECTS("vgrManagedObjects");
-
+  VGR_MANAGED_OBJECTS("vgrManagedObjects"),
+  /** vgrObjectDisplayName   */
+  VGR_OBJECT_DISPLAY_NAME("vgrObjectDisplayName");
   private String value;
 
   private PersonSearchAttributes(String value) {

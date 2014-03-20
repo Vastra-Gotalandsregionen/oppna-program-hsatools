@@ -96,6 +96,7 @@ public class Person implements Serializable {
   private List<String> vgrManagedObjects;
   private String paTitleName;
   private String hsaAltText;
+  private String vgrObjectDisplayName; 
 
   public String getDn() {
     return this.dn;
@@ -392,4 +393,12 @@ public class Person implements Serializable {
   public String getHsaAltText() {
     return this.hsaAltText;
   }
+
+public String getVgrObjectDisplayName() {
+	return vgrObjectDisplayName;
+}
+
+public void setVgrObjectDisplayName(String vgrObjectDisplayName) {
+	this.vgrObjectDisplayName = vgrObjectDisplayName;
+}
 }

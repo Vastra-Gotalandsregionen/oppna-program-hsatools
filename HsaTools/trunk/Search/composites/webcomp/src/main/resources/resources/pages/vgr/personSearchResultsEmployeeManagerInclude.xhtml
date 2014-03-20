@@ -23,20 +23,29 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
-	
-	<h:outputText rendered="${fn:trim(employment.vgrEmployeeManager) != ''}">
-		<td class="employeeManager">
-			<h:outputText rendered="${fn:contains(employment.vgrEmployeeManager, '*')}" >
+
+	<h:outputText
+		rendered="${fn:trim(employment.vgrEmployeeManager) != ''}">
+		<td class="employeeManager"><h:outputText
+				rendered="${fn:contains(employment.vgrEmployeeManager, '*')}">
 				<span class="value">${employment.vgrEmployeeManager}</span>
+			</h:outputText> 
+			<h:outputText rendered="${not fn:contains(employment.vgrEmployeeManager, '*')}">
+			<span class="value"> 
+				<a href="visaperson?vgrid=${employment.vgrEmployeeManager}"> 
+					<h:outputText rendered="${fn:length(employment.vgrEmployeeManagerObjectDisplayName) gt 1}">
+            			${employment.vgrEmployeeManagerObjectDisplayName}
+            		</h:outputText>
+					<h:outputText rendered="${fn:length(employment.vgrEmployeeManagerObjectDisplayName) lt 1}">
+            			${employment.vgrEmployeeManager}
+            		</h:outputText>
+				</a>
+			</span>
 			</h:outputText>
-			<h:outputText rendered="${not fn:contains(employment.vgrEmployeeManager, '*')}" >
-				<span class="value">
-            		<a href="visaperson?vgrid=${employment.vgrEmployeeManager}">${employment.vgrEmployeeManager}</a>
-				</span>
-			</h:outputText>
-		 </td>	
+		</td>
 	</h:outputText>
-	<h:outputText rendered="${fn:trim(employment.vgrEmployeeManager) == ''}">
+	<h:outputText
+		rendered="${fn:trim(employment.vgrEmployeeManager) == ''}">
 		<td></td>
 	</h:outputText>
 </h:outputText>
