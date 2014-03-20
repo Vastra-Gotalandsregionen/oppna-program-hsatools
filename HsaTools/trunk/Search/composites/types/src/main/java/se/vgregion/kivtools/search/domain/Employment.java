@@ -75,6 +75,9 @@ public class Employment implements Serializable {
   
   //Linjechef
   private String vgrEmployeeManager;
+  //Linjechefens vgrObjectDisplayName, sätts ej i mapper utan sätts vid behov för att undvika onödig rekursion. 
+  private String vgrEmployeeManagerObjectDisplayName; 
+  
   
   // Beskrivning
   private List<String> description;
@@ -228,6 +231,15 @@ public class Employment implements Serializable {
 
 public void setVgrEmployeeManager(String vgrEmployeeManager) {
 	this.vgrEmployeeManager = vgrEmployeeManager;
+}
+
+public String getVgrEmployeeManagerObjectDisplayName() {
+	return vgrEmployeeManagerObjectDisplayName;
+}
+
+public void setVgrEmployeeManagerObjectDisplayName(
+		String vgrEmployeeManagerObjectDisplayName) {
+	this.vgrEmployeeManagerObjectDisplayName = vgrEmployeeManagerObjectDisplayName;
 }
 
 public Address getHsaSedfInvoiceAddress() {

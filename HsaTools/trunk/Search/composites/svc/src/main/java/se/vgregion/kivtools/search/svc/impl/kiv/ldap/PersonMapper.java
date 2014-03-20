@@ -137,7 +137,9 @@ public class PersonMapper implements ContextMapper {
     person.setVgrAdminTypes(dirContext.getStrings(PersonSearchAttributes.VGR_ADMIN_TYPE.toString()));
 
     person.setVgrManagedObjects(dirContext.getStrings(PersonSearchAttributes.VGR_MANAGED_OBJECTS.toString()));
-
+    
+    person.setVgrObjectDisplayName(dirContext.getString(PersonSearchAttributes.VGR_OBJECT_DISPLAY_NAME.toString()));
+    
     return person;
   }
 
