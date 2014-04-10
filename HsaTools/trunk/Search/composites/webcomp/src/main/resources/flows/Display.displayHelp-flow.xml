@@ -18,12 +18,19 @@
 
 
 -->
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="Display.getHelpPage">
+	
+	<input name="pageSize" />
 
-			<div id="logo-container">
-		   		<a href="index.jsp" id="logo"><img src="resources/images/logo.gif" alt="Västra Götalandsregionen - BETA" /></a>
-		    	<ul class="ulmenu">
-		        	<li><a href="http://intra.vgregion.se/vgrtemplates/Start.aspx?id=164835 "><b>-Anmäl fel i innehållet</b></a></li>
-		        	<li><a href="http://intra.vgregion.se/vgrtemplates/form.aspx?id=195378"><b>-Tyck till om Sök-i-KIV</b></a></li>
-		            <li><a href="https://hsahotell.carelink.sjunet.org/anonSearch/jsp/base.html"><b>-Sök i hela Sverige</b></a></li>
-		    	</ul>
-		   	</div>
+	<action-state id="Display.getHelpPage">
+	<evaluate expression="Search_SearchUnitFlowSupportBean.dummy()" result="flowScope.unitPagedSearchMetaData" />
+		<transition on="success" to="Display.showHelp"></transition>
+	</action-state>
+	
+	<end-state id="Display.showHelp" view="/displayHelp.xhtml"/>
+</flow>
+
