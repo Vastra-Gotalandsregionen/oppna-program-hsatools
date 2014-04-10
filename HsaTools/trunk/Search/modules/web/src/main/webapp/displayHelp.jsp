@@ -1,4 +1,4 @@
-<!--
+<%--
 
     Copyright 2010 Västra Götalandsregionen
 
@@ -17,13 +17,18 @@
       Boston, MA 02111-1307  USA
 
 
--->
+--%>
 
-			<div id="logo-container">
-		   		<a href="index.jsp" id="logo"><img src="resources/images/logo.gif" alt="Västra Götalandsregionen - BETA" /></a>
-		    	<ul class="ulmenu">
-		        	<li><a href="http://intra.vgregion.se/vgrtemplates/Start.aspx?id=164835 "><b>-Anmäl fel i innehållet</b></a></li>
-		        	<li><a href="http://intra.vgregion.se/vgrtemplates/form.aspx?id=195378"><b>-Tyck till om Sök-i-KIV</b></a></li>
-		            <li><a href="https://hsahotell.carelink.sjunet.org/anonSearch/jsp/base.html"><b>-Sök i hela Sverige</b></a></li>
-		    	</ul>
-		   	</div>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<% 
+request.getRequestDispatcher("Display.displayHelp-flow.flow").forward(request, response);
+%>
+</head>
+<body>
+</body>
+</html>

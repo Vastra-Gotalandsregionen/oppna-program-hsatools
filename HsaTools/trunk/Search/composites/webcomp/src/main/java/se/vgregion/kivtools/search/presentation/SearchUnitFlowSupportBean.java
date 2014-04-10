@@ -205,8 +205,8 @@ public class SearchUnitFlowSupportBean implements Serializable {
    * @throws KivNoDataFoundException If no result was found.
    */
   public List<PagedSearchMetaData> getAllUnitsPageList(String pageSizeString) throws KivNoDataFoundException {
-    List<PagedSearchMetaData> result;
-    try {
+   List<PagedSearchMetaData> result;
+   try {
       List<String> unitHsaIdList = this.getSearchService().getAllUnitsHsaIdentity();
       if (StringUtil.isInteger(pageSizeString)) {
         int temp = Integer.parseInt(pageSizeString);
@@ -270,5 +270,9 @@ public class SearchUnitFlowSupportBean implements Serializable {
     searchUnitCriterions.setBusinessClassificationName(theForm.getBusinessClassificationName());
     searchUnitCriterions.setCareTypeName(theForm.getCareTypeName());
     return searchUnitCriterions;
+  }
+  
+  public List<PagedSearchMetaData> dummy(){
+	  return null;
   }
 }
