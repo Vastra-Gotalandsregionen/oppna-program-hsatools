@@ -109,7 +109,7 @@ public class SearchPersonFlowSupportBeanTest {
     result = bean.doSearch(form);
     assertNotNull(result);
     assertEquals(0, result.size());
- //   assertEquals("Test\n\r", logFactoryMock.getError(true));
+    assertEquals("Test" +System.getProperty("line.separator"), logFactoryMock.getError(true));
   }
 
   @Test
@@ -130,7 +130,7 @@ public class SearchPersonFlowSupportBeanTest {
 
     searchService.addExceptionToThrow(new KivException("Test"));
     bean.getPersonsForUnitsRecursive(HSA_IDENTITY);
-   // assertEquals("Test\n\r", logFactoryMock.getError(true));
+    assertEquals("Test" + System.getProperty("line.separator"), logFactoryMock.getError(true));
   }
 
   @Test
@@ -178,7 +178,7 @@ public class SearchPersonFlowSupportBeanTest {
     result = bean.getOrganisation(HSA_IDENTITY, null);
     assertNotNull(result);
     assertEquals(0, result.size());
-    //assertEquals("Test\n\r", logFactoryMock.getError(true));
+    assertEquals("Test" + System.getProperty("line.separator"), logFactoryMock.getError(true));
   }
 
   @Test
@@ -200,7 +200,7 @@ public class SearchPersonFlowSupportBeanTest {
     result = bean.getAllPersonsVgrId();
     assertNotNull(result);
     assertEquals(0, result.size());
-   // assertEquals("Dummy exception\n\r", logFactoryMock.getError(true));
+    assertEquals("Dummy exception" +System.getProperty("line.separator") , logFactoryMock.getError(true));
   }
 
   @Test
@@ -208,18 +208,18 @@ public class SearchPersonFlowSupportBeanTest {
     List<String> result = bean.getRangePersonsVgrIdPageList(-1, -1);
     assertNotNull(result);
     assertEquals(0, result.size());
-  // assertEquals("getRangeUnitsPageList(startIndex=-1, endIndex=-1), Error input parameters are wrong (result list size=0r", logFactoryMock.getError(true));
+    assertEquals("getRangeUnitsPageList(startIndex=-1, endIndex=-1), Error input parameters are wrong (result list size=0)" + System.getProperty("line.separator") , logFactoryMock.getError(true));
 
     result = bean.getRangePersonsVgrIdPageList(2, 1);
     assertNotNull(result);
     assertEquals(0, result.size());
-//    assertEquals("getRangeUnitsPageList(startIndex=2, endIndex=1), Error input parameters are wrong (result list size=0)", logFactoryMock.getError(true));
+   assertEquals("getRangeUnitsPageList(startIndex=2, endIndex=1), Error input parameters are wrong (result list size=0)" + System.getProperty("line.separator"), logFactoryMock.getError(true));
 
     result = bean.getRangePersonsVgrIdPageList(0, 0);
     assertNotNull(result);
     assertEquals(0, result.size());
-   // assertEquals("MethodName=se.vgregion.kivtools.search.presentation.SearchPersonFlowSupportBean::getRangeUnitsPageList(startIndex=0, endIndex=0) detected that endIndex > \n\r", logFactoryMock
-     //   .getError(true));
+    assertEquals("MethodName=se.vgregion.kivtools.search.presentation.SearchPersonFlowSupportBean::getRangeUnitsPageList(startIndex=0, endIndex=0) detected that endIndex > " + System.getProperty("line.separator"), logFactoryMock
+       .getError(true));
 
     List<String> allPersonsId = new ArrayList<String>();
     allPersonsId.add("abc-123");
