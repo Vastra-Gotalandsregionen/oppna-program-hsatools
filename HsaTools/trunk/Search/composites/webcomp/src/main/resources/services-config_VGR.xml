@@ -199,7 +199,7 @@
 	</bean>
 
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-		<property name="startupDelay" value="10000000" />
+		<property name="startupDelay" value="10" />
 		<property name="triggers">
 			<list>
 				<ref bean="triggerPersonCacheReload" />
