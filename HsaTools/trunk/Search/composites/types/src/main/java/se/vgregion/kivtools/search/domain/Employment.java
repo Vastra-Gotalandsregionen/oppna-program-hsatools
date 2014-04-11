@@ -141,8 +141,17 @@ public class Employment implements Serializable {
 
   private String hsaManagerCode;
   
+  private String vgrEmploymentDescriptionList;
+ 
+	public String getVgrEmploymentDescriptionList() {
+		return vgrEmploymentDescriptionList;
+	}
+	
+	public void setVgrEmploymentDescriptionList(String vgrEmploymentDescriptionList) {
+		this.vgrEmploymentDescriptionList = vgrEmploymentDescriptionList;
+	}
 
-  public String getCn() {
+public String getCn() {
     return this.cn;
   }
 
