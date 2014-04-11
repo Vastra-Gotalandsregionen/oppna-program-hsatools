@@ -113,11 +113,15 @@
 									            <th scope="col">${msg.employeeManager}</th>
 									            <th scope="col">${msg.administration}</th>
 									            <th scope="col">${msg.telephone}</th>
+									            
+									       		<ui:include src="${Search_SettingsContainer.settings.personSearchResultsVgrEmploymentDescriptionListInclude}" />
 									        </tr>
 								        </thead>
 								        <tbody>
 											<ui:repeat value="${aPerson.employments}" var="employment">
 										        <tr>
+												
+													
 										            <td class="title">${employment.title}</td>
 										            <td class="org">
 				           								<a href="visaenhetdn?dn=${employment.vgrStrukturPerson.unit.urlEncoded}">
@@ -129,6 +133,9 @@
 										            <ui:include src="${Search_SettingsContainer.settings.personSearchResultEmploymentManagerInclude}" />
 													<ui:include src="${Search_SettingsContainer.settings.personDetailsAncestorListInclude}" />
 													<ui:include src="${Search_SettingsContainer.settings.personSearchResultTelephoneInclude}" />
+													<h:outputText rendered="${fn:length(employment.vgrEmploymentDescriptionList) gt 0}">
+														<td class="title">${employment.vgrEmploymentDescriptionList}</td>
+													</h:outputText>
 										        </tr>
 										    </ui:repeat>
 								        </tbody>

@@ -118,8 +118,10 @@ public enum EmploymentSearchAttributes {
   /** hsaManagerCode */
   HSA_MANAGER_CODE("hsaManagerCode"),
   /** */
-  PA_TITLE_CODE("paTitleCode");
-
+  PA_TITLE_CODE("paTitleCode"),
+  
+  VGR_EMPLOYMENT_DESCRIPTION_LIST("vgrEmploymentDescriptionList");
+  
   private String value;
 
   private EmploymentSearchAttributes(String value) {
