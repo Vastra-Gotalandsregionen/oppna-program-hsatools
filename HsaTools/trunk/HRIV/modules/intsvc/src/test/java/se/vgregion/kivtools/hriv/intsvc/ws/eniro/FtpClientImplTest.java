@@ -93,7 +93,7 @@ public class FtpClientImplTest {
   public void testSendFileWithIOException() {
     mockFtpClient.throwIOException = true;
     assertFalse(ftpClientImpl.sendFile("hej", null, null));
-    assertEquals("Error in FtpClient\n", logFactoryMock.getError(true));
+    assertEquals("Error in FtpClient", logFactoryMock.getError(true));
   }
 
   class FtpClientMock extends FTPClient {

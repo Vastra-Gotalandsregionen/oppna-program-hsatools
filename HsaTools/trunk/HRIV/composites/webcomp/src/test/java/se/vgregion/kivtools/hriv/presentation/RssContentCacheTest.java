@@ -145,7 +145,7 @@ public class RssContentCacheTest {
   public void testExceptionHandling() {
     fileUtilMock.setExceptionToThrow(new FileUtilException());
     rssContentCache.reloadRssCache();
-    assertEquals("Could not read RSS Content Cache from file\nCould not write RSS Content Cache to file\n", factory.getError(true));
+    assertEquals("Could not read RSS Content Cache from fileCould not write RSS Content Cache to file", factory.getError(true));
   }
 
   @Test

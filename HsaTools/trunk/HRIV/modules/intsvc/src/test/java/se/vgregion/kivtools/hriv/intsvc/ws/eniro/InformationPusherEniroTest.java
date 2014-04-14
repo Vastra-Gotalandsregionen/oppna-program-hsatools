@@ -83,6 +83,9 @@ public class InformationPusherEniroTest {
 
   @Test
   public void testDoService() throws XPathExpressionException {
+  
+	logFactoryMock.getInfo(true);
+	    
     this.informationPusher.doService();
     String fileContent = this.mockFtpClient.getFileContent("Vastra Gotalandsregionen Goteborg");
     Document document = DocumentHelper.getDocumentFromString(fileContent);
@@ -116,8 +119,8 @@ public class InformationPusherEniroTest {
     expression = xPath.compile("//Organization/Unit[child::Locality[text() = 'Skövde']]");
     nodes = (NodeList) expression.evaluate(document, XPathConstants.NODESET);
     assertEquals(2, nodes.getLength());
-
-    assertEquals("Unit details pusher: Completed with success."+ System.getProperty("line.separator"), logFactoryMock.getInfo(true));
+    
+    assertEquals("Unit details pusher: Completed with success.",logFactoryMock.getInfo(true));
   }
 
   @Test
@@ -127,7 +130,7 @@ public class InformationPusherEniroTest {
         createUnit("unit2", "unit2-id", "ou=unit2,ou=unit1,ou=org,o=VGR", UnitType.OTHER_CARE, "Göteborg"));
 
     this.informationPusher.doService();
-    assertEquals("Unit details pusher: Completed with failure.\n", logFactoryMock.getError(true));
+    assertEquals("Unit details pusher: Completed with failure.", logFactoryMock.getError(true));
   }
 
   @Test

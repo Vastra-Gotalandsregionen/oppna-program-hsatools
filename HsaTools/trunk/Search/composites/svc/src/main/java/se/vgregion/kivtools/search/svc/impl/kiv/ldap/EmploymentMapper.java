@@ -161,7 +161,7 @@ public class EmploymentMapper implements ContextMapper {
     String paTitleCode = context.getString(EmploymentSearchAttributes.PA_TITLE_CODE.toString());
     employment.setPosition(codeTablesService.getValueFromCode(CodeTableName.PA_TITLE_CODE, paTitleCode));
     
-    employment.setVgrEmploymentDescriptionList(context.getString(EmploymentSearchAttributes.VGR_EMPLOYMENT_DESCRIPTION_LIST.toString()));
+    employment.setVgrEmploymentDescriptionList(context.getStrings(EmploymentSearchAttributes.VGR_EMPLOYMENT_DESCRIPTION_LIST.toString()));
 
     return employment;
   }

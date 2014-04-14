@@ -133,9 +133,15 @@
 										            <ui:include src="${Search_SettingsContainer.settings.personSearchResultEmploymentManagerInclude}" />
 													<ui:include src="${Search_SettingsContainer.settings.personDetailsAncestorListInclude}" />
 													<ui:include src="${Search_SettingsContainer.settings.personSearchResultTelephoneInclude}" />
+													
 													<h:outputText rendered="${fn:length(employment.vgrEmploymentDescriptionList) gt 0}">
-														<td class="title">${employment.vgrEmploymentDescriptionList}</td>
+														<td class="title"><ui:repeat value="${employment.vgrEmploymentDescriptionList}" var="employmentDesc">
+																			${employmentDesc}
+																			<br />
+																		  </ui:repeat>
+																		  </td>
 													</h:outputText>
+										        
 										        </tr>
 										    </ui:repeat>
 								        </tbody>

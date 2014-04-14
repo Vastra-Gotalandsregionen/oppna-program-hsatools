@@ -120,6 +120,6 @@ public class SftpClientImplTest {
     sftpClientImpl.setJsch(mockJSch);
 
     assertEquals(false, sftpClientImpl.sendFile(FILE_CONTENT, FTPDESTINATIONFILENAME, "xml"));
-    assertEquals("Error in SftpClient\n", logFactoryMock.getError(true));
+    assertEquals("Error in SftpClient", logFactoryMock.getError(true));
   }
 }
