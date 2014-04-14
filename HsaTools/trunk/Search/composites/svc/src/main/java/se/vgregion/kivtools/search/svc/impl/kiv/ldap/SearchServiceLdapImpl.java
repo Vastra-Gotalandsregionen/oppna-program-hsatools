@@ -127,7 +127,8 @@ public class SearchServiceLdapImpl implements SearchService {
 	public Person getPersonById(String vgrId) throws KivException {
 		Person person = this.personRepository.getPersonByVgrId(vgrId);
 		if (person != null) {
-			person.setEmployments(this.employmentRepository.getEmployments(DN.createDNFromString(person.getDn())));
+			person.setEmployments(this.employmentRepository.getEmployments(DN
+					.createDNFromString(person.getDn())));
 		}
 		return person;
 	}
@@ -137,7 +138,8 @@ public class SearchServiceLdapImpl implements SearchService {
 	 */
 	@Override
 	public Unit getUnitByHsaId(String hsaId) throws KivException {
-		return this.unitRepository.getUnitByHsaIdtWihoutDeliverypoints(hsaId);
+		//return this.unitRepository.getUnitByHsaIdtWihoutDeliverypoints(hsaId);
+		return this.unitRepository.getUnitByHsaId(hsaId);
 	}
 
 	/**
