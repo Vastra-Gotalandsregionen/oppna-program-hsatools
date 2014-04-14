@@ -80,6 +80,6 @@ public class LogoutTest {
     logout.doGet(mockHttpServletRequest, mockHttpServletResponse);
     assertTrue(mockHttpSession.isInvalid());
     assertNull(mockHttpServletResponse.getRedirectedUrl());
-    assertEquals("java.io.IOException: Unable to redirect\n", logFactoryMock.getError(true));
+    assertEquals("java.io.IOException: Unable to redirect", logFactoryMock.getError(true));
   }
 }

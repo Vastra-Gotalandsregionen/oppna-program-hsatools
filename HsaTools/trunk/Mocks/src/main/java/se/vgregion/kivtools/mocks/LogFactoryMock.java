@@ -190,42 +190,43 @@ public class LogFactoryMock extends LogFactory {
 
     @Override
     public void debug(Object message) {
-      debug.append(message).append(System.getProperty("line.separator"));
+      debug.append(message);
+     
     }
 
     @Override
     public void debug(Object message, Throwable t) {
-      debug.append(message).append(System.getProperty("line.separator"));
+      debug.append(message);
     }
 
     @Override
     public void error(Object message) {
-      error.append(message).append(System.getProperty("line.separator"));
+      error.append(message);
     }
 
     @Override
     public void error(Object message, Throwable t) {
-      error.append(message).append(System.getProperty("line.separator"));
+      error.append(message);
     }
 
     @Override
     public void fatal(Object message) {
-      fatal.append(message).append(System.getProperty("line.separator"));
+      fatal.append(message);
     }
 
     @Override
     public void fatal(Object message, Throwable t) {
-      fatal.append(message).append(System.getProperty("line.separator"));
+      fatal.append(message);
     }
 
     @Override
     public void info(Object message) {
-      info.append(message).append(System.getProperty("line.separator"));
+      info.append(message);
     }
 
     @Override
     public void info(Object message, Throwable t) {
-      info.append(message).append(System.getProperty("line.separator"));
+      info.append(message);
     }
 
     @Override
@@ -260,22 +261,22 @@ public class LogFactoryMock extends LogFactory {
 
     @Override
     public void trace(Object message) {
-      trace.append(message).append(System.getProperty("line.separator"));
+      trace.append(message);
     }
 
     @Override
     public void trace(Object message, Throwable t) {
-      trace.append(message).append(System.getProperty("line.separator"));
+      trace.append(message);
     }
 
     @Override
     public void warn(Object message) {
-      warning.append(message).append(System.getProperty("line.separator"));
+      warning.append(message);
     }
 
     @Override
     public void warn(Object message, Throwable t) {
-      warning.append(message).append(System.getProperty("line.separator"));
+      warning.append(message);
     }
   }
 }
