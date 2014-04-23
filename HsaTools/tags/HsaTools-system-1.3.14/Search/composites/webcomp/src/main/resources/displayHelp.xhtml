@@ -1,0 +1,126 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<ui:composition template="/template.xhtml">
+
+	<ui:define name="HeadContainer">
+		<ui:include src="${Search_SettingsContainer.settings.generalHeadInclude}" />
+	</ui:define>
+
+	<ui:define name="TabContainer">
+		<h1 class="structural">Sök Enhet</h1>
+        <ul class="tab-container clearfix">
+			<li>
+				<h:outputText>
+					<a href="Search.searchperson-flow.flow">Person</a>
+				</h:outputText>
+			</li>
+			<li>				
+				<h:outputText>
+					<a href="Search.searchunit-flow.flow">Enhet</a>
+				</h:outputText>
+			</li>
+			<li><a href="displayHelp.jsp" class="active">Hjälp</a></li>
+		</ul>
+	</ui:define>
+
+<!-- 
+	<ui:define name="HeaderInputFieldContainer">
+		<ui:include src="${Search_SettingsContainer.settings.unitSearchInclude}" />
+	</ui:define>
+ -->
+
+	<ui:define name="MainContainer">
+        <div id="messageDiv" class="clearfix">
+			<h:outputText rendered="${fn:trim(rootCauseException.message) != ''}">
+				<h2 id="error-reporting-container">
+					${rootCauseException.message}
+				</h2>
+			</h:outputText>
+			<h:outputText>
+				<div>
+				<h1 >Sökhjälp för Sök-i-Katalog</h1> 
+				I Sök-i-KIV kan du söka på helt ord eller del av ord i de olika sökrutorna. Beroende på vilka fält du söker på får du träff på alla personer, enheter eller vgr-id som innehåller de bokstäver du angett som sökfilter. Om du vill söka mer exakt kan ordet omges av citationstecken. Bokstävernas ordning måste dock överensstämma för att du ska få träff.
+				<br></br><br></br>
+				Det går bra att söka på en eller flera sökrutor. Max 200 träffar visas vid sökning. Tänk på att ju större del av namnet som anges desto färre träffar och vice versa.
+				<br></br><br></br>
+				Det kan också vara bra att veta att vissa personer inte har tilltalsnamn angivet i befolkningsregistret. I de flesta fall får de då det första av förnamnen angivet som tilltalsnamn.
+				<br></br>
+				<br></br>
+				<h1 >Personfliken:</h1> 
+				<i>Tilltalsnamn</i> ger träff på tilltalsnamn och ev. smeknamn (ej övriga förnamn). Smeknamn omges av citationstecken i träffbilden.
+				<br></br><br></br>
+				<i>Efternamn</i> ger träff på efternamn och mellannamn	
+				<br></br>
+				<i>Vgr-id</i> ger träff på enbart vgr-id
+				<br></br>
+				
+				<p><b>Förnamn:</b>Anna | <b>Efternamn:</b> Ström</p>
+				<br></br>
+				Ger träff på: Johanna Bergström, Anna Ström, Agneta Anna Strömberg
+				<br></br><br></br>
+				<b>Förnamn:</b> "Anna | <b>Efternamn:</b> Ström
+				<br></br>
+				Ger träff på: Anna Ström, Agneta "Anna" Strömberg
+				<br></br><br></br>
+				<b>Vgr-id:</b> arjo42
+				<br></br>
+				Ger träff på: barjo42, marjo423, larjo429
+				<br></br><br></br>
+				<b>Vgr-id:</b> "marjo42"
+				<br></br>
+				Ger träff på: marjo42
+				<br></br><br></br>
+				<i>OBS att det även går att kombinera valfria fält tex vgr-id och efternamn!</i>
+				
+				<br></br>
+				<br></br>
+				<h1 >Enhetsfliken:</h1>
+				<i>Enhet</i> ger träff på enhetens namn.
+				<br></br>
+				<i>Var</i> ger träff på enheter där orten är angiven i besökadress, postadress eller kommun.
+				<br></br>
+				<b>Ex:</b>
+				<br></br>
+				<b>Enhet:</b> Avd | <b>Var:</b> Falköping
+				<br></br>	
+				Ger träff på: Avdelning 38, Medicinavdelningen, Kir. avd. (där Falköping är angett i något av adressfälten)
+				<br></br><br></br>
+				<b>Enhet:</b> Vårdcentral | <b>Var:</b> Borås
+				<br></br>		 
+				Ger träff på: Vårdcentral Fristad, Vårdcentralen Boda (där Borås är angett i något av adressfälten)
+				<br></br>		<br></br>
+				<b>Enhet:</b> Ekonomiavd | <b>Var:</b> 531
+				<br></br>
+				Ger träff på: Ekonomiavdelning i Lidköping, (där 531 inleder postadressen till avdelningen)
+				</div>
+			</h:outputText> 
+ 
+		</div>
+	</ui:define>
+	<div id="progressBar"/>
+</ui:composition></div>
