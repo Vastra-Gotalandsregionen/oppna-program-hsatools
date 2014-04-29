@@ -227,7 +227,7 @@ public class KivwsUnitMapper implements ContextMapper {
         .getSingleValue(KivwsAttributes.VGR_TEMP_INFO));
     unit.setVgrRefInfo(attributeHelper
         .getSingleValue(KivwsAttributes.VGR_REF_INFO));
-    unit.setVgrVardVal("J".equalsIgnoreCase(attributeHelper
+    unit.setVgrVardVal("HLM".equalsIgnoreCase(attributeHelper
         .getSingleValue(KivwsAttributes.VGR_VARDVAL)));
     unit.setVisitingHours(WeekdayTime.createWeekdayTimeList(attributeHelper
         .getMultiValue(KivwsAttributes.HSA_VISITING_HOURS)));
