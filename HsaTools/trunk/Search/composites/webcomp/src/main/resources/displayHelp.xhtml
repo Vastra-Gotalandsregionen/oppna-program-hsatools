@@ -30,23 +30,13 @@
 	<ui:define name="HeadContainer">
 		<ui:include src="${Search_SettingsContainer.settings.generalHeadInclude}" />
 	</ui:define>
-
+	
 	<ui:define name="TabContainer">
-		<h1 class="structural">Sök Enhet</h1>
-        <ul class="tab-container clearfix">
-			<li>
-				<h:outputText>
-					<a href="Search.searchperson-flow.flow">Person</a>
-				</h:outputText>
-			</li>
-			<li>				
-				<h:outputText>
-					<a href="Search.searchunit-flow.flow">Enhet</a>
-				</h:outputText>
-			</li>
-			<li><a href="displayHelp.jsp" class="active">Hjälp</a></li>
-		</ul>
-	</ui:define>
+			<ui:include src="/resources/pages/vgr/tabContainerMenuInclude.xhtml" >
+				<ui:param name="context" value="help" />
+			</ui:include>
+	</ui:define>		
+
 
 <!-- 
 	<ui:define name="HeaderInputFieldContainer">

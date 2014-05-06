@@ -1,0 +1,56 @@
+
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<h:outputText rendered="true" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<c:choose>
+		<h:outputText rendered="#{context =='person'}">
+			<h1 class="structural">Sök Person</h1>
+			<ul class="tab-container clearfix">
+				<li><a href="#" class="active">Person</a></li>
+				<li><h:outputText>
+						<a href="Search.searchunit-flow.flow">Enhet</a>
+					</h:outputText></li>
+				<li><a href="displayHelp.jsp">Hjälp</a></li>
+			</ul>
+		</h:outputText>
+		<h:outputText rendered="#{context =='unit'}">
+			<h2 class="structural">Sök Enhet</h2>
+			<ul class="tab-container clearfix">
+				<li><a href="Search.searchperson-flow.flow">Person</a></li>
+				<li><a href="#" class="active">Enhet</a></li>
+				<li><a href="displayHelp.jsp">Hjälp</a></li>
+			</ul>
+		</h:outputText>
+		<h:outputText rendered="${context =='help'}">
+			<h2 class="structural">Hjälp</h2>
+			<ul class="tab-container clearfix">
+				<li><a href="Search.searchperson-flow.flow">Person</a></li>
+				<li><a href="Search.searchunit-flow.flow">Enhet</a></li>
+				<li><a href="#" class="active">Hjälp</a></li>
+			</ul>
+		</h:outputText>
+	</c:choose>
+</h:outputText>
