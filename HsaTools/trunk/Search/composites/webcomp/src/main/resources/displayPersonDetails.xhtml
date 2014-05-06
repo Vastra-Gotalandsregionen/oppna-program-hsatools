@@ -32,29 +32,9 @@
 		</ui:define>
 		
 		<ui:define name="TabContainer">
-			<h2 class="structural">Sök Person</h2>
-	        <ul class="tab-container clearfix">
-				<li><a href="#" class="active">Person</a></li>
-				<li>
-					<h:outputText>
-						<a href="Search.searchunit-flow.flow">Enhet</a>
-					</h:outputText>
-				</li>
-				<li><a href="displayHelp.jsp">Hjälp</a></li>
-			</ul>
-		</ui:define>
-	<ui:define name="TabContainer">
-			<h2 class="structural">Sök Person</h2>
-	        <ul class="tab-container clearfix">
-				<li><a href="#" class="active">Person</a></li>
-				<li>
-					<h:outputText>
-						<a href="Search.searchunit-flow.flow">Enhet</a>
-					</h:outputText>
-				</li>
-				<li><a href="${Search_SettingsContainer.settings.displayHelpInclude}">Hjälp</a></li>
-				
-			</ul>
+			<ui:include src="/resources/pages/vgr/tabContainerMenuInclude.xhtml" >
+				<ui:param name="context" value="person" />
+			</ui:include>
 		</ui:define>
 	
 		<ui:define name="HeaderInputFieldContainer">
