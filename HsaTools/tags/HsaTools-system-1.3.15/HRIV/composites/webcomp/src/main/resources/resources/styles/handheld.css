@@ -1,0 +1,164 @@
+/**
+ * Copyright 2010 Västra Götalandsregionen
+ *
+ *   This library is free software; you can redistribute it and/or modify
+ *   it under the terms of version 2.1 of the GNU Lesser General Public
+ *   License as published by the Free Software Foundation.
+ *
+ *   This library is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public
+ *   License along with this library; if not, write to the
+ *   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ *   Boston, MA 02111-1307  USA
+ *
+ */
+
+/*
+handheld.css: Format for handheld devices
+*/
+
+body {font:1em/1.3 Helvetica, Arial, sans-serif; margin:0; padding:0;}
+
+/*
+=VGR
+*/
+
+.footerholder {margin:20px 0; padding:8px; border-top:1px solid #000;}
+#pageHeader,
+#header .headimageholder,
+#menucontainer,
+#print-element,
+#lyssna,
+.no-handheld {display:none;}
+
+/*
+=Global classes
+*/
+
+/* Easy clearing of floats (see http://positioniseverything.net/easyclearing.html) */
+.cf:after {display:block;clear:both;height:0;visibility:hidden;content:".";}
+.cf {display:inline-block;}
+* html .cf {height:1px;}
+.cf {display:block;}
+
+/*
+=Hide this from handhelds
+*/
+
+#header-sub,
+#nav-main,
+#nav-sub,
+#acc-services,
+#search-column .table-box,
+#map-right-of-address-div,
+#map-div-container,
+#nav-page,
+#breadcrumb,
+#information-container {display:none;}
+
+/*
+=General
+*/
+
+#LogoHolder {padding:8px;}
+
+h1,h2,h3,h4,h5,h6 {font-size:1.2em;}
+h1,h2,h3,h4,h5,h6,p,li,form {margin:0 0 8px 0;}
+h1 {
+	padding:0 8px;
+}
+#header h1 {
+	margin:0;
+	padding:4px 8px;
+	color:#fff;
+	background:#a30030;
+}
+
+#startpage-intro {padding:0 8px;}
+#yui-main #startpage-intro h1,
+#yui-main #startpage-intro h2 {
+	padding:0;
+}
+
+#search-column {
+	padding:8px;
+	background:#eee;
+	border-top:2px solid #bbb;
+}
+#forms-container label {display:block;}
+#search-column label {margin-right:10px;}
+#search-column input,
+#search-column select {margin:0 0 10px 0;}
+#firstText {height:3.5em;}
+#firstText input {width:98%;}
+
+#yui-main {padding-top:8px;}
+#yui-main table {
+	margin-bottom:10px;
+	border-spacing:8px;
+	text-align:left;
+}
+tr {vertical-align:top;}
+#yui-main h1,
+#yui-main h2,
+#yui-main h3,
+#yui-main h4 {border-bottom:1px solid #aaa; padding:0 8px;}
+#description-header,
+#description-body {margin-bottom:10px;}
+#search-result-container {
+	list-style:none;
+	padding:0;
+}
+#search-result-container li {
+	padding:8px;
+	border-bottom:1px solid #aaa
+}
+#search-result-caption {
+	padding:8px 0;
+	border-bottom:1px solid #aaa;
+}
+#search-result-caption-text h1,
+#search-result-caption-text h2 {
+	border:none;
+}
+#search-result-caption-sort {padding:0 8px;}
+#search-result-container li h3 {border:none; padding:0;}
+.tel-header,
+.adr-header {
+	margin-top:5px;
+	font-weight:bold;
+}
+.vcard .type {display:none;}
+.caretype {display:block; margin-bottom:5px; font-style:italic;}
+.vcard {
+	padding:0 8px;
+}
+#yui-main .vcard h1,
+#yui-main .vcard h2,
+#yui-main .vcard h3 {
+	padding:0;
+}
+.vcard table,
+.vcard table th,
+.vcard table td {
+	display:block;
+}
+#autocomplete_choices {
+	background:#fff;
+}
+#autocomplete_choices ul {
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+#autocomplete_choices li {
+	margin:0;
+	padding:3px 4px;
+}
+#autocomplete_choices li.selected {
+	background:#feb;
+}

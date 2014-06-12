@@ -1,0 +1,71 @@
+<!--
+
+    Copyright 2010 Västra Götalandsregionen
+
+      This library is free software; you can redistribute it and/or modify
+      it under the terms of version 2.1 of the GNU Lesser General Public
+      License as published by the Free Software Foundation.
+
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the
+      Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+      Boston, MA 02111-1307  USA
+
+
+-->
+
+<table xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<caption>Anställning - ${employment.title}</caption>
+	<tbody>
+		<tr>
+			<th id="job-organisation-${employment.cn}">Organisation</th>
+			<td headers="job-organisation-${employment.cn}"><h:outputText
+					rendered="${fn:trim(employment.vgrStrukturPerson.unit.isUnitAndAdministrationOnSameLevel) == 'false'}">
+					<a href="visaenhetdn?dn=${employment.vgrStrukturPerson.unit.urlEncoded}">${employment.vgrStrukturPerson.unit.unitName}</a>,
+      				</h:outputText> <ui:repeat value="${employment.vgrStrukturPerson.ancestors}"
+					var="ancestorDn">
+					<a href="visaenhetdn?dn=${ancestorDn.urlEncoded}">${ancestorDn.unitName}</a>, 
+				</ui:repeat> <a
+				href="visaenhetdn?dn=${employment.vgrStrukturPerson.administration.urlEncoded}">${employment.vgrStrukturPerson.administration.unitName}</a>
+			</td>
+		</tr>
+		<tr>
+			<th id="job-beskrivning-${person.vgrId}">Linjechef
+			<a href="vgr/employeeManagerHelp.htm"  onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" >
+			 <img src="resources/images/icon_question_mark.jpg" alt="icon_question_mark" />
+			 </a></th>
+			<ui:include src="${Search_SettingsContainer.settings.personSearchResultEmploymentManagerInclude}" />      
+
+		</tr>
+		<tr>
+			<th id="job-beskrivning-${employment.cn}">Beskrivning</th>
+			<td headers="job-beskrivning-${employment.cn}">
+				<div value="${employment.description}" var="descriptionItem"
+					jsfc="ui:repeat">${descriptionItem}</div>
+			</td>
+		</tr>
+		<tr>
+			<th id="job-position-${employment.cn}">${msg.workIdentification}</th>
+			<td headers="job-position-${employment.cn}">
+				<div>${employment.position}</div>
+			</td>
+		</tr>
+		<tr>
+			<th id="job-position-${employment.cn}">Frånvaro</th>
+			<td headers="job-position-${employment.cn}"><h:outputText
+					rendered="${fn:length(employment.vgrAbsenceStartDate) gt 0}">
+					<div>${employment.vgrAbsenceStartDate} -
+						${employment.vgrAbsenceEndDate}</div>
+				</h:outputText></td>
+
+		</tr>
+
+	</tbody>
+</table>
