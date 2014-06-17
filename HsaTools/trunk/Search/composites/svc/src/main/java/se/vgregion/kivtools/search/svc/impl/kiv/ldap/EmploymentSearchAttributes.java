@@ -120,7 +120,9 @@ public enum EmploymentSearchAttributes {
   /** */
   PA_TITLE_CODE("paTitleCode"),
   
-  VGR_EMPLOYMENT_DESCRIPTION_LIST("vgrEmploymentDescriptionList");
+  VGR_EMPLOYMENT_DESCRIPTION_LIST("vgrEmploymentDescriptionList"),
+  
+  VGR_PRIMARY_EMPL("vgrPrimaryEmpl");
   
   private String value;
 

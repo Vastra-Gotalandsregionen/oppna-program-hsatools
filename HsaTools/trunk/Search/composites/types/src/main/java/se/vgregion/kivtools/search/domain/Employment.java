@@ -142,6 +142,9 @@ public class Employment implements Serializable {
   private String hsaManagerCode;
   
   private List<String> vgrEmploymentDescriptionList;
+  
+  private String vgrPrimaryEmpl; 
+  
  
 	public List<String> getVgrEmploymentDescriptionList() {
 		return vgrEmploymentDescriptionList;
@@ -149,6 +152,14 @@ public class Employment implements Serializable {
 	
 	public void setVgrEmploymentDescriptionList(List<String> vgrEmploymentDescriptionList) {
 		this.vgrEmploymentDescriptionList = vgrEmploymentDescriptionList;
+	}
+
+public String getVgrPrimaryEmpl() {
+		return vgrPrimaryEmpl;
+	}
+
+	public void setVgrPrimaryEmpl(String vgrPrimaryEmpl) {
+		this.vgrPrimaryEmpl = vgrPrimaryEmpl;
 	}
 
 public String getCn() {

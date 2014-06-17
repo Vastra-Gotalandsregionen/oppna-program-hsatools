@@ -20,6 +20,8 @@
 package se.vgregion.kivtools.search.presentation;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -64,6 +66,7 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
       Person person = this.searchService.getPersonById(vgrId);
       if (person.getEmployments() == null) {
         List<Employment> employments = this.searchService.getEmploymentsForPerson(person);
+
         //Set vgrEmployeeManger -> vgrObjectDisplayName 
         if (employments !=null){
         	 for (Employment employment:employments ){
@@ -85,7 +88,17 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
           	}
           }
       }
-      
+      // sort empl, set primarEmpl first in the array. 
+      if (person !=null && person.getEmployments() !=null ) {
+			Collections.sort(person.getEmployments(),
+				new Comparator<Employment>() {
+					@Override
+					public int compare(Employment emp1, Employment emp2) {
+						return emp2.getVgrPrimaryEmpl().length() - emp1.getVgrPrimaryEmpl().length();
+					}
+
+			});
+      }
       return person;
     } catch (KivNoDataFoundException e) {
       if (externalContext.getNativeResponse() instanceof HttpServletResponse) {
