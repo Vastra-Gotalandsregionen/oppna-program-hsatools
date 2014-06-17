@@ -22,6 +22,7 @@ package se.vgregion.kivtools.search.presentation;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
@@ -132,7 +133,10 @@ public class SearchPersonFlowSupportBean implements Serializable {
             // add the datasource time for fetching employments
             list.addDataSourceSearchTime(new TimeMeasurement(empList.getTotalDataSourceSearchTimeInMilliSeconds()));
           }
+          this.sortEmploymentsOnVgrPrimaryEmplValue(pers);
         }
+        
+        
         list = this.searchService.setUnitOnEmployments(list);
         // stop measurement
         overAllTime.stop();
@@ -218,7 +222,9 @@ public class SearchPersonFlowSupportBean implements Serializable {
         for (Person pers : persons) {
           empList = this.getSearchService().getEmployments(pers.getDn());
           pers.setEmployments(empList);
+          this.sortEmploymentsOnVgrPrimaryEmplValue(pers);
         }
+        
       }
 
       // stop measurement
@@ -324,6 +330,11 @@ public class SearchPersonFlowSupportBean implements Serializable {
       // Add parent to list
       subUnits.add(parentUnit);
       persons = this.getSearchService().getPersonsForUnits(subUnits, this.maxSearchResult);
+      if (persons != null){
+    	  for (Person pers: persons){
+    		  this.sortEmploymentsOnVgrPrimaryEmplValue(pers);
+    	  }
+      }
     } catch (KivException e) {
       LOGGER.error(e);
     }
@@ -359,6 +370,7 @@ public class SearchPersonFlowSupportBean implements Serializable {
         for (Person pers : persons) {
           empList = this.getSearchService().getEmployments(pers.getDn());
           pers.setEmployments(empList);
+          this.sortEmploymentsOnVgrPrimaryEmplValue(pers);
         }
       }
       persons = this.searchService.setUnitOnEmployments(persons);
@@ -594,5 +606,23 @@ public class SearchPersonFlowSupportBean implements Serializable {
     }
 
     return ancestors;
+  }
+  /**
+   *
+   * Sort employments, order by has vgrPrimaryEmpl first followed by the rest. 
+   * 
+   * @param person
+   */
+  private void sortEmploymentsOnVgrPrimaryEmplValue(Person pers){
+	   if (pers !=null && pers.getEmployments() !=null ) {
+			Collections.sort(pers.getEmployments(),
+				new Comparator<Employment>() {
+					@Override
+					public int compare(Employment emp1, Employment emp2) {
+						return emp2.getVgrPrimaryEmpl().length() - emp1.getVgrPrimaryEmpl().length();
+					}
+
+			});
+      }
   }
 }

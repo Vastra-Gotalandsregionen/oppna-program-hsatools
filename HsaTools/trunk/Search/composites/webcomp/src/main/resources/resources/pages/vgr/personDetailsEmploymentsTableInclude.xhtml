@@ -28,7 +28,8 @@
 			<th id="job-organisation-${employment.cn}">Organisation</th>
 			<td headers="job-organisation-${employment.cn}"><h:outputText
 					rendered="${fn:trim(employment.vgrStrukturPerson.unit.isUnitAndAdministrationOnSameLevel) == 'false'}">
-					<a href="visaenhetdn?dn=${employment.vgrStrukturPerson.unit.urlEncoded}">${employment.vgrStrukturPerson.unit.unitName}</a>,
+					<a
+						href="visaenhetdn?dn=${employment.vgrStrukturPerson.unit.urlEncoded}">${employment.vgrStrukturPerson.unit.unitName}</a>,
       				</h:outputText> <ui:repeat value="${employment.vgrStrukturPerson.ancestors}"
 					var="ancestorDn">
 					<a href="visaenhetdn?dn=${ancestorDn.urlEncoded}">${ancestorDn.unitName}</a>, 
@@ -37,11 +38,14 @@
 			</td>
 		</tr>
 		<tr>
-			<th id="job-beskrivning-${person.vgrId}">Linjechef
-			<a href="vgr/employeeManagerHelp.htm"  onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" >
-			 <img src="resources/images/icon_question_mark.jpg" alt="icon_question_mark" />
-			 </a></th>
-			<ui:include src="${Search_SettingsContainer.settings.personSearchResultEmploymentManagerInclude}" />      
+			<th id="job-beskrivning-${person.vgrId}">Linjechef <a
+				href="vgr/employeeManagerHelp.htm"
+				onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">
+					<img src="resources/images/icon_question_mark.jpg"
+					alt="icon_question_mark" />
+			</a></th>
+			<ui:include
+				src="${Search_SettingsContainer.settings.personSearchResultEmploymentManagerInclude}" />
 
 		</tr>
 		<tr>
@@ -55,6 +59,19 @@
 			<th id="job-position-${employment.cn}">${msg.workIdentification}</th>
 			<td headers="job-position-${employment.cn}">
 				<div>${employment.position}</div>
+			</td>
+		</tr>
+		<tr>
+			<th id="job-position-${employment.cn}">Primär anställning</th>
+			<td>
+			<div>
+				<h:outputText rendered="${fn:trim(employment.vgrPrimaryEmpl) != ''}">
+				${employment.vgrPrimaryEmpl}
+			</h:outputText>
+				<h:outputText rendered="${fn:trim(employment.vgrPrimaryEmpl) == ''}">
+				Nej
+			</h:outputText>
+			</div>
 			</td>
 		</tr>
 		<tr>

@@ -162,7 +162,9 @@ public class EmploymentMapper implements ContextMapper {
     employment.setPosition(codeTablesService.getValueFromCode(CodeTableName.PA_TITLE_CODE, paTitleCode));
     
     employment.setVgrEmploymentDescriptionList(context.getStrings(EmploymentSearchAttributes.VGR_EMPLOYMENT_DESCRIPTION_LIST.toString()));
-
+    
+    employment.setVgrPrimaryEmpl(getPrimaryEmplText(context.getString(EmploymentSearchAttributes.VGR_PRIMARY_EMPL.toString())));
+    
     return employment;
   }
 
@@ -175,6 +177,19 @@ public class EmploymentMapper implements ContextMapper {
 
     return result;
   }
+  
+  private String getPrimaryEmplText(String primaryEmplValue){
+	  String retVal = primaryEmplValue;
+	  if (primaryEmplValue == null){
+		  retVal = "";
+	  } else if (primaryEmplValue.equals("PRIM")){
+		 retVal = "Manuellt vald";
+	  } else if (primaryEmplValue.endsWith("PRIA")){
+		 retVal = "Automatiskt vald"; 
+	  }
+	  return retVal;
+  }
+  
   private String parseStrDate (String strDate){
     String pReturnStrDate =""; 
     String pStrDate = strDate;  
