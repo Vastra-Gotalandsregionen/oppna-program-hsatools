@@ -71,7 +71,7 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
         if (employments !=null){
         	 for (Employment employment:employments ){
              	String pVgrEmployeeManger = employment.getVgrEmployeeManager(); 
-             	if (pVgrEmployeeManger.length() > 1){
+             	if (pVgrEmployeeManger.length() > 1 && !pVgrEmployeeManger.contains("*")){
              		Person pPerson = this.searchService.getPersonById(pVgrEmployeeManger); 	
              		employment.setVgrEmployeeManagerObjectDisplayName(pPerson.getVgrObjectDisplayName());
              	}
@@ -82,7 +82,7 @@ public class DisplayPersonDetailsFlowSupportBean implements Serializable {
       } else {
     	  for (Employment employment: person.getEmployments()){
           	String pVgrEmployeeManger = employment.getVgrEmployeeManager(); 
-          	if (pVgrEmployeeManger.length() > 1){
+          	if (pVgrEmployeeManger.length() > 1 && !pVgrEmployeeManger.contains("*")){
           		Person pPerson = this.searchService.getPersonById(pVgrEmployeeManger); 	
           		employment.setVgrEmployeeManagerObjectDisplayName(pPerson.getVgrObjectDisplayName());
           	}
