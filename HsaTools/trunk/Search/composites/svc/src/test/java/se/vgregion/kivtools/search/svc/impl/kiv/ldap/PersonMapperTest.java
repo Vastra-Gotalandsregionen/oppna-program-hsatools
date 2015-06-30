@@ -106,7 +106,7 @@ public class PersonMapperTest {
     assertEquals("[" + TEST + "]", person.getVgrAnstform().toString());
     assertEquals(TEST, person.getHsaIdentity());
     assertEquals(TEST, person.getMail());
-    assertEquals("[Translated " + TEST + "]", person.getHsaSpecialityName().toString());
+    assertEquals("[" + TEST + "]", person.getHsaSpecialityName().toString());
     assertEquals("[" + TEST + "]", person.getHsaSpecialityCode().toString());
     assertEquals("[" + TEST + "]", person.getVgrAO3kod().toString());
     assertEquals("[" + TEST + "]", person.getVgrAnsvarsnummer().toString());

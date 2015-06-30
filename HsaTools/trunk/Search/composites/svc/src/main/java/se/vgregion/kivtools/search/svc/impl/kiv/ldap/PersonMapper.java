@@ -104,7 +104,7 @@ public class PersonMapper implements ContextMapper {
     List<String> hsaSpecialityCode = dirContext.getStrings(PersonSearchAttributes.SPECIALITY_AREA_CODE.toString());
     person.setHsaSpecialityCode(hsaSpecialityCode);
 
-    List<String> hsaSpecialityName = translateCodeTables(hsaSpecialityCode, CodeTableName.HSA_SPECIALITY_CODE, codeTablesService);
+    List<String> hsaSpecialityName =dirContext.getStrings(PersonSearchAttributes.HSA_SPECIALITY_NAME.toString());
     // Specialitetskod klartext e.g. Klinisk cytologi , Klinisk patologi
     person.setHsaSpecialityName(hsaSpecialityName);
 
