@@ -47,6 +47,8 @@ public enum PersonSearchAttributes {
   STRUCTURE_PERSON_DN("vgrStrukturPersonDN"),
   /** hsaSpecialityCode. */
   SPECIALITY_AREA_CODE("hsaSpecialityCode"),
+  /** hsaSpecialityName */
+  HSA_SPECIALITY_NAME("hsaSpecialityName"),
   /** user profession. */
   PROFESSION("hsaTitle"),
   /** mail. */
