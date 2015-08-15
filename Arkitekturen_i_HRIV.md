@@ -1,0 +1,41 @@
+# Inledning #
+
+HRIV kan anpassas så att den kan anslutas till olika datakällor genom att [implementera](Sokkomponenten_HsaTools_Search_composite_svc.md) ett [interface](http://code.google.com/p/oppna-program-hsatools/source/browse/HsaTools/trunk/Search/composites/svc/src/main/java/se/vgregion/kivtools/search/svc/SearchService.java). De två befintliga implementationerna ansluter till LDAP-kataloger. Den ena, som ansluter till Hallandskatalogen (HAK), följer HSA-standarden väl. Det är lämpligt att utgå ifrån [denna implementation](http://code.google.com/p/oppna-program-hsatools/source/browse/#svn/HsaTools/trunk/Search/composites/svc/src/main/java/se/vgregion/kivtools/search/svc/impl/hak) för att anpassa HRIV till andra LDAP-kataloger som bygger på HSA-standarden.
+
+# Arkitekturen i HRIV #
+
+Ambitionen under utveckling av HRIV har varit att följa [referensarkitekturen](http://code.google.com/p/oppna-program/wiki/Introduktion_till_RA). HRIV tillhör samma system som Sök i Katalog (SIK), HsaTools, men är en egen [verksamhetskomponent](http://code.google.com/p/oppna-program/wiki/Anvisningar_Beroenden_Mellan_Komponenter).
+
+HRIV presenterar data från HSA-katalogen annorlunda än SIK men föds på data på samma sätt varför HsaTools-Search-composite-svc kan återanvändas.
+
+I praktiken utgörs HRIV av tre enheter som kan utgöra tre projekt i utvecklingsmiljön [Eclipse](http://www.eclipse.org/home/categories/index.php?category=enterprise): HsaTools-HRIV-app, HsaTools-HRIV-composite-webcomp och HsaTools-HRIV-module-web.
+
+Det mesta arbetet sker i HsaTools-HRIV-composite-webcomp, som innehåller det som ska vara gemensamt för alla moduler, samt i modulen HsaTools-HRIV-module-web, den hittills enda modulen, som beskriver webbgränssnittet.
+
+HsaTools-HRIV-app används för att skapa en EAR-fil.
+
+Översiktsbild med exempel från Västra Götaland:<br>
+<img src='http://oppna-program-hsatools.googlecode.com/svn/wiki/bilder/HsaTools/HRIV/hriv_high_level_graph.png' />
+<br>
+Översiktsbild för tjänster som användas i HRIV:<br>
+<img src='http://oppna-program-hsatools.googlecode.com/svn/wiki/bilder/HsaTools/HRIV/HRIV_services.png' />
+
+Beskrivning av de olika tjänsterna:<br>
+
+<b>1.</b>
+Tillgänglighetsdatabasen är en extern tjänst som en vårdenhet kan vara kopplad till. Tjänsten visar tillgänglighetsinformation för den valda vårdenheten. Tjänsten är av typen REST service och består av två anrop.<br>
+För att hämta vårdenehetens unika id i tillgänglighetsdatabasen används anropet<br>
+<a href='http://tdb.episerverhotell.net/webservices/tdbdataservice.asmx/GetTDBId'>http://tdb.episerverhotell.net/webservices/tdbdataservice.asmx/GetTDBId</a> tillsammans med parametern HSAId innehållande vårdenhetens ”hsa identity”.<br>
+<br>
+För att hämta tillgänglighetsinformation för vårdenheten används anropet<br>
+<a href='http://tdb.episerverhotell.net/webservices/tdbdataservice.asmx/GetFacility'>http://tdb.episerverhotell.net/webservices/tdbdataservice.asmx/GetFacility</a> tillsammans med parametern langId som är siffra för vilket språk informationen skall visas för. Och parametern facilityId som är vårdenhetens unika id i tillgänglighetsdatabasen.<br>
+<br>
+<b>2.</b>
+Mina vårdkontakter är en extern e-tjänst för att kommunicera med vald vårdenhet.<br>
+Med e-tjänsten Mina vårdkontakter (www.minavardkontakter.se) kan du till exempel beställa tid, av- och omboka tid, förnya recept eller be mottagningen kontakta dig. Varje mottagning bestämmer vilka ärenden man kan utföra hos dem.<br>
+<br>
+<b>3.</b>
+Vårdval är en tjänst som tillhandahålls av VGR och möjliggör för medborgare i Västra Götaland att lista sig på en vald vårdcentral. Tjänsten kräver att användaren har e-legitimation för att kunna använda sig av tjänsten. Tjänsten vårdval består av en SOAP webservice mot VGR som registrerar användarens vårdval. Vårdaval tjänsten använder även sig av en autentiserings service som tillhandahåls av Signicat (<a href='http://www.signicat.com'>http://www.signicat.com</a>).<br>
+<br>
+<br>
+Läs om <a href='http://code.google.com/p/oppna-program-hsatools/wiki/Sokkomponenten_HsaTools_Search_composite_svc'>sökkomponentanpassningar</a> för en introduktion av de anpassningar som kan göras i HRIV.
