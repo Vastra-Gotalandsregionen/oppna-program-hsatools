@@ -1,48 +1,38 @@
 
 <td id="wikicontent" class="psdescription">
   <p>
-    HsaTools använder Västra Götalandsregionens 
+    HsaTools anvÃ¤nder VÃ¤stra GÃ¶talandsregionens 
     <a href="https://github.com/Vastra-Gotalandsregionen/oppna-program/" rel="nofollow">
       referensarkitektur
     </a>
     . 
   </p>
   <p>
-    HsaTools inkluderar i nuläget Hitta-rätt-i-vården (HRIV) samt Sök-i-katalog (SIK). 
+    HsaTools inkluderar i nulÃ¤get Hitta-rÃ¤tt-i-vÃ¥rden (HRIV) samt SÃ¶k-i-katalog (SIK). 
   </p>
   <p>
-    Läs 
+    LÃ¤s 
     <a href="https://github.com/Vastra-Gotalandsregionen/oppna-program-hsatools/wiki/HRIV_committers" rel="nofollow">
-      starthjälpen
+      starthjÃ¤lpen
     </a>
-     för att komma igång snabbt. 
+     fÃ¶r att komma igÃ¥ng snabbt. 
   </p>
   <p>
-    Läs 
+    LÃ¤s 
     <a href="https://github.com/Vastra-Gotalandsregionen/oppna-program-hsatools/wiki/Arkitekturen_i_HRIV" rel="nofollow">
       arkitekturbeskrivningen
     </a>
-     för en mer detaljerad bild av hur HRIV är uppbyggt. 
+     fÃ¶r en mer detaljerad bild av hur HRIV Ã¤r uppbyggt. 
   </p>
 </td>
 
   <p>
     <tt>
-      oppna-program-icc
-    </tt>
-     ?r en del i V?stra G?talandsregionens satsning p? ?ppen k?llkod inom ramen f?r 
-    <a href="https://github.com/Vastra-Gotalandsregionen//oppna-program">
-      ?ppna Program
-    </a>
-    . 
-  </p>
-  <p>
-    <tt>
       oppna-program-hsatools
     </tt>
-     ?r en del i V?stra G?talandsregionens satsning p? ?ppen k?llkod inom ramen f?r 
+     Ã„r en del i VÃ¤stra G?talandsregionens satsning pÃ¥ Ã¶ppen kÃ¤llkod inom ramen fÃ¶r 
     <a href="https://github.com/Vastra-Gotalandsregionen//oppna-program">
-      ?ppna Program
+      Ã–ppna Program
     </a>
     . 
   </p>
